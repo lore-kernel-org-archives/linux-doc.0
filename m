@@ -1,449 +1,417 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7E337D919
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 08:57:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7FBED7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 09:34:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbfJUI5M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 04:57:12 -0400
-Received: from mga18.intel.com ([134.134.136.126]:58184 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbfJUI5L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Oct 2019 04:57:11 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Oct 2019 01:57:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,323,1566889200"; 
-   d="scan'208";a="348680292"
-Received: from mkarlsso-mobl.ger.corp.intel.com (HELO VM.isw.intel.com) ([10.103.211.41])
-  by orsmga004.jf.intel.com with ESMTP; 21 Oct 2019 01:57:08 -0700
-From:   Magnus Karlsson <magnus.karlsson@intel.com>
-To:     magnus.karlsson@intel.com, bjorn.topel@intel.com, ast@kernel.org,
-        daniel@iogearbox.net, netdev@vger.kernel.org,
-        jonathan.lemon@gmail.com, linux-doc@vger.kernel.org
-Cc:     bpf@vger.kernel.org
-Subject: [PATCH bpf v3] xsk: improve documentation for AF_XDP
-Date:   Mon, 21 Oct 2019 10:57:04 +0200
-Message-Id: <1571648224-16889-1-git-send-email-magnus.karlsson@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727049AbfJUJeL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 05:34:11 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:37001 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbfJUJeK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 05:34:10 -0400
+Received: by mail-qt1-f193.google.com with SMTP id g50so5822476qtb.4;
+        Mon, 21 Oct 2019 02:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8CxkzgTmPkrymJWAPgp0fFXJhTloQdA6b1Ea9fnYKuY=;
+        b=L+kNgEV8QbF5ZsQfyH8RpPoSaKJD31XAaPMxUBqwz7vm3U4fZThVvllEBss6dO+71B
+         7eDZAPqEdGoI5MK40AfCoKSwLW58Xr0+chN1wfo7/e/hhzYsdzDCiE7aTpH/20Npa4Jb
+         z48I2Pc5CcA0JYLW0lDplJfRZjlRhBbXpuom1d4/qE/OSC+Bgw4uA8O2wQBzfoYgw1XV
+         49UrrhsWzuUb98hyfyaWybiJIuWJnWlZaCD/ssyJyXV2fIjLNV6ntC3+RmCNvLPPEKYy
+         /AytOfri4t3KoyV0OZp9Tr6cFCFb3KHo5/gpmqdkUTWdmsjvJbZBVOW74NmbNtvsSEA9
+         0xrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8CxkzgTmPkrymJWAPgp0fFXJhTloQdA6b1Ea9fnYKuY=;
+        b=Ys0tokxXWk+QftpDp+xFuUZ5hc1rs9OZqIMeDVvWvrTQjdnhP0ZBUh1rQriKfrlpxb
+         PwhfvoEJ6UvKK3j+8syjBPl1UI0QzzXF+/mY0Wx17TGYs2cw0N732gJw6KL9jHYVu1QK
+         8PlVrKSLoPnzcbo5v2ARmLMna2XHvmxQNBUUuqDXiMQkWfV5pL+tqCkaPySleYTHMaQf
+         BgXlQzi5usE2z6GxgL3hiusxHKciIzgRd080vc0ilbxpPKe+P/Mc15qR+B83/vcm+XIu
+         Xu9fpxTMrAUPDxakxMZhKhLXCisJ08p/nIXvGScm+b5zZo5SNYoXJEfP4o4eBG/H2PNF
+         KAlA==
+X-Gm-Message-State: APjAAAX++nwiuojWYk/L4yWQt61uXdWI8ODK8jHevq7T1zvG++d6cLcM
+        Xb/g0zfrXizxJ1Lcj6uWjKYf+/GLcS1d+A9ig/c=
+X-Google-Smtp-Source: APXvYqy5XWNX/s45M0McpPWie+MRsqfaR3wgkLI5TwKSG32xUTpsZgc2DzZEd1w7Wm1rgnHd5oZvjh0UI229VE/NC+8=
+X-Received: by 2002:ac8:24d4:: with SMTP id t20mr23895504qtt.114.1571650448518;
+ Mon, 21 Oct 2019 02:34:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1570514544.git.nickhu@andestech.com> <8d86d53e904bece0623cb8969cdc70f782fa2bae.1570514544.git.nickhu@andestech.com>
+In-Reply-To: <8d86d53e904bece0623cb8969cdc70f782fa2bae.1570514544.git.nickhu@andestech.com>
+From:   Greentime Hu <green.hu@gmail.com>
+Date:   Mon, 21 Oct 2019 17:33:31 +0800
+Message-ID: <CAEbi=3fTKqt545tEz6c-RCdKniq2ZxOqvamFpJsbe=D+gpGBcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] riscv: Add KASAN support
+To:     Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime.hu@sifive.com>
+Cc:     alankao@andestech.com, Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, aryabinin@virtuozzo.com,
+        glider@google.com, dvyukov@google.com, corbet@lwn.net,
+        alexios.zavras@intel.com, allison@lohutok.net, Anup.Patel@wdc.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        gregkh@linuxfoundation.org, atish.patra@wdc.com,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added sections on all the bind flags, libbpf, all the setsockopts and
-all the getsockopts. Also updated the document to reflect the latest
-features and to correct some spelling errors.
+Nick Hu <nickhu@andestech.com> =E6=96=BC 2019=E5=B9=B410=E6=9C=888=E6=97=A5=
+ =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=882:17=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> This patch ports the feature Kernel Address SANitizer (KASAN).
+>
+> Note: The start address of shadow memory is at the beginning of kernel
+> space, which is 2^64 - (2^39 / 2) in SV39. The size of the kernel space i=
+s
+> 2^38 bytes so the size of shadow memory should be 2^38 / 8. Thus, the
+> shadow memory would not overlap with the fixmap area.
+>
+> There are currently two limitations in this port,
+>
+> 1. RV64 only: KASAN need large address space for extra shadow memory
+> region.
+>
+> 2. KASAN can't debug the modules since the modules are allocated in VMALL=
+OC
+> area. We mapped the shadow memory, which corresponding to VMALLOC area, t=
+o
+> the kasan_early_shadow_page because we don't have enough physical space f=
+or
+> all the shadow memory corresponding to VMALLOC area.
+>
+> Signed-off-by: Nick Hu <nickhu@andestech.com>
+> ---
+>  arch/riscv/Kconfig                  |   1 +
+>  arch/riscv/include/asm/kasan.h      |  27 ++++++++
+>  arch/riscv/include/asm/pgtable-64.h |   5 ++
+>  arch/riscv/include/asm/string.h     |   9 +++
+>  arch/riscv/kernel/head.S            |   3 +
+>  arch/riscv/kernel/riscv_ksyms.c     |   2 +
+>  arch/riscv/kernel/setup.c           |   5 ++
+>  arch/riscv/kernel/vmlinux.lds.S     |   1 +
+>  arch/riscv/lib/memcpy.S             |   5 +-
+>  arch/riscv/lib/memset.S             |   5 +-
+>  arch/riscv/mm/Makefile              |   6 ++
+>  arch/riscv/mm/kasan_init.c          | 104 ++++++++++++++++++++++++++++
+>  12 files changed, 169 insertions(+), 4 deletions(-)
+>  create mode 100644 arch/riscv/include/asm/kasan.h
+>  create mode 100644 arch/riscv/mm/kasan_init.c
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 8eebbc8860bb..ca2fc8ba8550 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -61,6 +61,7 @@ config RISCV
+>         select SPARSEMEM_STATIC if 32BIT
+>         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
+>         select HAVE_ARCH_MMAP_RND_BITS
+> +       select HAVE_ARCH_KASAN if MMU && 64BIT
+>
+>  config ARCH_MMAP_RND_BITS_MIN
+>         default 18 if 64BIT
+> diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasa=
+n.h
+> new file mode 100644
+> index 000000000000..eb9b1a2f641c
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/kasan.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright (C) 2019 Andes Technology Corporation */
+> +
+> +#ifndef __ASM_KASAN_H
+> +#define __ASM_KASAN_H
+> +
+> +#ifndef __ASSEMBLY__
+> +
+> +#ifdef CONFIG_KASAN
+> +
+> +#include <asm/pgtable.h>
+> +
+> +#define KASAN_SHADOW_SCALE_SHIFT       3
+> +
+> +#define KASAN_SHADOW_SIZE      (UL(1) << (38 - KASAN_SHADOW_SCALE_SHIFT)=
+)
+> +#define KASAN_SHADOW_START     0xffffffc000000000 // 2^64 - 2^38
+> +#define KASAN_SHADOW_END       (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
+> +
+> +#define KASAN_SHADOW_OFFSET    (KASAN_SHADOW_END - (1ULL << \
+> +                                       (64 - KASAN_SHADOW_SCALE_SHIFT)))
+> +
+> +void kasan_init(void);
+> +asmlinkage void kasan_early_init(void);
+> +
+> +#endif
+> +#endif
+> +#endif /* __ASM_KASAN_H */
+> diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm=
+/pgtable-64.h
+> index 7df8daa66cc8..777a1dddb3df 100644
+> --- a/arch/riscv/include/asm/pgtable-64.h
+> +++ b/arch/riscv/include/asm/pgtable-64.h
+> @@ -59,6 +59,11 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
+>         return (unsigned long)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT=
+);
+>  }
+>
+> +static inline struct page *pud_page(pud_t pud)
+> +{
+> +       return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
+> +}
+> +
+>  #define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
+>
+>  static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
+> diff --git a/arch/riscv/include/asm/string.h b/arch/riscv/include/asm/str=
+ing.h
+> index 1b5d44585962..a4451f768826 100644
+> --- a/arch/riscv/include/asm/string.h
+> +++ b/arch/riscv/include/asm/string.h
+> @@ -11,8 +11,17 @@
+>
+>  #define __HAVE_ARCH_MEMSET
+>  extern asmlinkage void *memset(void *, int, size_t);
+> +extern asmlinkage void *__memset(void *, int, size_t);
+>
+>  #define __HAVE_ARCH_MEMCPY
+>  extern asmlinkage void *memcpy(void *, const void *, size_t);
+> +extern asmlinkage void *__memcpy(void *, const void *, size_t);
+>
+> +// For those files which don't want to check by kasan.
+> +#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
+> +
+> +#define memcpy(dst, src, len) __memcpy(dst, src, len)
+> +#define memset(s, c, n) __memset(s, c, n)
+> +
+> +#endif
+>  #endif /* _ASM_RISCV_STRING_H */
+> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+> index 72f89b7590dd..95eca23cd811 100644
+> --- a/arch/riscv/kernel/head.S
+> +++ b/arch/riscv/kernel/head.S
+> @@ -102,6 +102,9 @@ clear_bss_done:
+>         sw zero, TASK_TI_CPU(tp)
+>         la sp, init_thread_union + THREAD_SIZE
+>
+> +#ifdef CONFIG_KASAN
+> +       call kasan_early_init
+> +#endif
+>         /* Start the kernel */
+>         call parse_dtb
+>         tail start_kernel
+> diff --git a/arch/riscv/kernel/riscv_ksyms.c b/arch/riscv/kernel/riscv_ks=
+yms.c
+> index 4800cf703186..376bba7f65ce 100644
+> --- a/arch/riscv/kernel/riscv_ksyms.c
+> +++ b/arch/riscv/kernel/riscv_ksyms.c
+> @@ -14,3 +14,5 @@ EXPORT_SYMBOL(__asm_copy_to_user);
+>  EXPORT_SYMBOL(__asm_copy_from_user);
+>  EXPORT_SYMBOL(memset);
+>  EXPORT_SYMBOL(memcpy);
+> +EXPORT_SYMBOL(__memset);
+> +EXPORT_SYMBOL(__memcpy);
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index a990a6cb184f..41f7eae9bc4d 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -23,6 +23,7 @@
+>  #include <asm/smp.h>
+>  #include <asm/tlbflush.h>
+>  #include <asm/thread_info.h>
+> +#include <asm/kasan.h>
+>
+>  #ifdef CONFIG_DUMMY_CONSOLE
+>  struct screen_info screen_info =3D {
+> @@ -70,6 +71,10 @@ void __init setup_arch(char **cmdline_p)
+>         swiotlb_init(1);
+>  #endif
+>
+> +#ifdef CONFIG_KASAN
+> +       kasan_init();
+> +#endif
+> +
+>  #ifdef CONFIG_SMP
+>         setup_smp();
+>  #endif
+> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.=
+lds.S
+> index 23cd1a9e52a1..97009803ba9f 100644
+> --- a/arch/riscv/kernel/vmlinux.lds.S
+> +++ b/arch/riscv/kernel/vmlinux.lds.S
+> @@ -46,6 +46,7 @@ SECTIONS
+>                 KPROBES_TEXT
+>                 ENTRY_TEXT
+>                 IRQENTRY_TEXT
+> +               SOFTIRQENTRY_TEXT
+>                 *(.fixup)
+>                 _etext =3D .;
+>         }
+> diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
+> index b4c477846e91..51ab716253fa 100644
+> --- a/arch/riscv/lib/memcpy.S
+> +++ b/arch/riscv/lib/memcpy.S
+> @@ -7,7 +7,8 @@
+>  #include <asm/asm.h>
+>
+>  /* void *memcpy(void *, const void *, size_t) */
+> -ENTRY(memcpy)
+> +ENTRY(__memcpy)
+> +WEAK(memcpy)
+>         move t6, a0  /* Preserve return value */
+>
+>         /* Defer to byte-oriented copy for small sizes */
+> @@ -104,4 +105,4 @@ ENTRY(memcpy)
+>         bltu a1, a3, 5b
+>  6:
+>         ret
+> -END(memcpy)
+> +END(__memcpy)
+> diff --git a/arch/riscv/lib/memset.S b/arch/riscv/lib/memset.S
+> index 5a7386b47175..34c5360c6705 100644
+> --- a/arch/riscv/lib/memset.S
+> +++ b/arch/riscv/lib/memset.S
+> @@ -8,7 +8,8 @@
+>  #include <asm/asm.h>
+>
+>  /* void *memset(void *, int, size_t) */
+> -ENTRY(memset)
+> +ENTRY(__memset)
+> +WEAK(memset)
+>         move t0, a0  /* Preserve return value */
+>
+>         /* Defer to byte-oriented fill for small sizes */
+> @@ -109,4 +110,4 @@ ENTRY(memset)
+>         bltu t0, a3, 5b
+>  6:
+>         ret
+> -END(memset)
+> +END(__memset)
+> diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+> index 9d9a17335686..b8a8ca71f86e 100644
+> --- a/arch/riscv/mm/Makefile
+> +++ b/arch/riscv/mm/Makefile
+> @@ -17,3 +17,9 @@ ifeq ($(CONFIG_MMU),y)
+>  obj-$(CONFIG_SMP) +=3D tlbflush.o
+>  endif
+>  obj-$(CONFIG_HUGETLB_PAGE) +=3D hugetlbpage.o
+> +obj-$(CONFIG_KASAN)   +=3D kasan_init.o
+> +
+> +ifdef CONFIG_KASAN
+> +KASAN_SANITIZE_kasan_init.o :=3D n
+> +KASAN_SANITIZE_init.o :=3D n
+> +endif
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> new file mode 100644
+> index 000000000000..c3152768cdbe
+> --- /dev/null
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (C) 2019 Andes Technology Corporation
+> +
+> +#include <linux/pfn.h>
+> +#include <linux/init_task.h>
+> +#include <linux/kasan.h>
+> +#include <linux/kernel.h>
+> +#include <linux/memblock.h>
+> +#include <asm/tlbflush.h>
+> +#include <asm/pgtable.h>
+> +#include <asm/fixmap.h>
+> +
+> +extern pgd_t early_pg_dir[PTRS_PER_PGD];
+> +asmlinkage void __init kasan_early_init(void)
+> +{
+> +       uintptr_t i;
+> +       pgd_t *pgd =3D early_pg_dir + pgd_index(KASAN_SHADOW_START);
+> +
+> +       for (i =3D 0; i < PTRS_PER_PTE; ++i)
+> +               set_pte(kasan_early_shadow_pte + i,
+> +                       mk_pte(virt_to_page(kasan_early_shadow_page),
+> +                       PAGE_KERNEL));
+> +
+> +       for (i =3D 0; i < PTRS_PER_PMD; ++i)
+> +               set_pmd(kasan_early_shadow_pmd + i,
+> +                pfn_pmd(PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pte)=
+),
+> +                       __pgprot(_PAGE_TABLE)));
+> +
+> +       for (i =3D KASAN_SHADOW_START; i < KASAN_SHADOW_END;
+> +            i +=3D PGDIR_SIZE, ++pgd)
+> +               set_pgd(pgd,
+> +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd=
+))),
+> +                       __pgprot(_PAGE_TABLE)));
+> +
+> +       // init for swapper_pg_dir
+> +       pgd =3D pgd_offset_k(KASAN_SHADOW_START);
+> +
+> +       for (i =3D KASAN_SHADOW_START; i < KASAN_SHADOW_END;
+> +            i +=3D PGDIR_SIZE, ++pgd)
+> +               set_pgd(pgd,
+> +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd=
+))),
+> +                       __pgprot(_PAGE_TABLE)));
+> +
+> +       flush_tlb_all();
+> +}
+> +
+> +static void __init populate(void *start, void *end)
+> +{
+> +       unsigned long i;
+> +       unsigned long vaddr =3D (unsigned long)start & PAGE_MASK;
+> +       unsigned long vend =3D PAGE_ALIGN((unsigned long)end);
+> +       unsigned long n_pages =3D (vend - vaddr) / PAGE_SIZE;
+> +       unsigned long n_pmds =3D
+> +               (n_pages % PTRS_PER_PTE) ? n_pages / PTRS_PER_PTE + 1 :
+> +                                               n_pages / PTRS_PER_PTE;
+> +       pgd_t *pgd =3D pgd_offset_k(vaddr);
+> +       pmd_t *pmd =3D memblock_alloc(n_pmds * sizeof(pmd_t), PAGE_SIZE);
+> +       pte_t *pte =3D memblock_alloc(n_pages * sizeof(pte_t), PAGE_SIZE)=
+;
+> +
+> +       for (i =3D 0; i < n_pages; i++) {
+> +               phys_addr_t phys =3D memblock_phys_alloc(PAGE_SIZE, PAGE_=
+SIZE);
+> +
+> +               set_pte(pte + i, pfn_pte(PHYS_PFN(phys), PAGE_KERNEL));
+> +       }
+> +
+> +       for (i =3D 0; i < n_pages; ++pmd, i +=3D PTRS_PER_PTE)
+> +               set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa((uintptr_t)(pte + i)))=
+,
+> +                               __pgprot(_PAGE_TABLE)));
+> +
+> +       for (i =3D vaddr; i < vend; i +=3D PGDIR_SIZE, ++pgd)
+> +               set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(((uintptr_t)pmd))),
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +                               __pgprot(_PAGE_TABLE)));
+> +
 
-v1 -> v2:
-* Updated XDP program with latest BTF map format
-* Added one more FAQ entry
-* Some minor edits and corrections
+Hi Nick,
 
-v2 -> v3:
-* Simplified XDP_SHARED_UMEM example XDP program
+I verify this patch in Qemu and Unleashed board.
+I found it works well if DRAM size is less than 4GB.
+It will get an access fault if the DRAM size is larger than 4GB.
 
-Signed-off-by: Magnus Karlsson <magnus.karlsson@intel.com>
----
- Documentation/networking/af_xdp.rst | 259 ++++++++++++++++++++++++++++++++----
- 1 file changed, 231 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
-index 83f7ae5..1a67c8e 100644
---- a/Documentation/networking/af_xdp.rst
-+++ b/Documentation/networking/af_xdp.rst
-@@ -40,13 +40,13 @@ allocates memory for this UMEM using whatever means it feels is most
- appropriate (malloc, mmap, huge pages, etc). This memory area is then
- registered with the kernel using the new setsockopt XDP_UMEM_REG. The
- UMEM also has two rings: the FILL ring and the COMPLETION ring. The
--fill ring is used by the application to send down addr for the kernel
-+FILL ring is used by the application to send down addr for the kernel
- to fill in with RX packet data. References to these frames will then
- appear in the RX ring once each packet has been received. The
--completion ring, on the other hand, contains frame addr that the
-+COMPLETION ring, on the other hand, contains frame addr that the
- kernel has transmitted completely and can now be used again by user
- space, for either TX or RX. Thus, the frame addrs appearing in the
--completion ring are addrs that were previously transmitted using the
-+COMPLETION ring are addrs that were previously transmitted using the
- TX ring. In summary, the RX and FILL rings are used for the RX path
- and the TX and COMPLETION rings are used for the TX path.
- 
-@@ -91,11 +91,16 @@ Concepts
- ========
- 
- In order to use an AF_XDP socket, a number of associated objects need
--to be setup.
-+to be setup. These objects and their options are explained in the
-+following sections.
- 
--Jonathan Corbet has also written an excellent article on LWN,
--"Accelerating networking with AF_XDP". It can be found at
--https://lwn.net/Articles/750845/.
-+For an overview on how AF_XDP works, you can also take a look at the
-+Linux Plumbers paper from 2018 on the subject:
-+http://vger.kernel.org/lpc_net2018_talks/lpc18_paper_af_xdp_perf-v2.pdf. Do
-+NOT consult the paper from 2017 on "AF_PACKET v4", the first attempt
-+at AF_XDP. Nearly everything changed since then. Jonathan Corbet has
-+also written an excellent article on LWN, "Accelerating networking
-+with AF_XDP". It can be found at https://lwn.net/Articles/750845/.
- 
- UMEM
- ----
-@@ -113,22 +118,22 @@ the next socket B can do this by setting the XDP_SHARED_UMEM flag in
- struct sockaddr_xdp member sxdp_flags, and passing the file descriptor
- of A to struct sockaddr_xdp member sxdp_shared_umem_fd.
- 
--The UMEM has two single-producer/single-consumer rings, that are used
-+The UMEM has two single-producer/single-consumer rings that are used
- to transfer ownership of UMEM frames between the kernel and the
- user-space application.
- 
- Rings
- -----
- 
--There are a four different kind of rings: Fill, Completion, RX and
-+There are a four different kind of rings: FILL, COMPLETION, RX and
- TX. All rings are single-producer/single-consumer, so the user-space
- application need explicit synchronization of multiple
- processes/threads are reading/writing to them.
- 
--The UMEM uses two rings: Fill and Completion. Each socket associated
-+The UMEM uses two rings: FILL and COMPLETION. Each socket associated
- with the UMEM must have an RX queue, TX queue or both. Say, that there
- is a setup with four sockets (all doing TX and RX). Then there will be
--one Fill ring, one Completion ring, four TX rings and four RX rings.
-+one FILL ring, one COMPLETION ring, four TX rings and four RX rings.
- 
- The rings are head(producer)/tail(consumer) based rings. A producer
- writes the data ring at the index pointed out by struct xdp_ring
-@@ -146,7 +151,7 @@ The size of the rings need to be of size power of two.
- UMEM Fill Ring
- ~~~~~~~~~~~~~~
- 
--The Fill ring is used to transfer ownership of UMEM frames from
-+The FILL ring is used to transfer ownership of UMEM frames from
- user-space to kernel-space. The UMEM addrs are passed in the ring. As
- an example, if the UMEM is 64k and each chunk is 4k, then the UMEM has
- 16 chunks and can pass addrs between 0 and 64k.
-@@ -164,8 +169,8 @@ chunks mode, then the incoming addr will be left untouched.
- UMEM Completion Ring
- ~~~~~~~~~~~~~~~~~~~~
- 
--The Completion Ring is used transfer ownership of UMEM frames from
--kernel-space to user-space. Just like the Fill ring, UMEM indicies are
-+The COMPLETION Ring is used transfer ownership of UMEM frames from
-+kernel-space to user-space. Just like the FILL ring, UMEM indices are
- used.
- 
- Frames passed from the kernel to user-space are frames that has been
-@@ -181,7 +186,7 @@ The RX ring is the receiving side of a socket. Each entry in the ring
- is a struct xdp_desc descriptor. The descriptor contains UMEM offset
- (addr) and the length of the data (len).
- 
--If no frames have been passed to kernel via the Fill ring, no
-+If no frames have been passed to kernel via the FILL ring, no
- descriptors will (or can) appear on the RX ring.
- 
- The user application consumes struct xdp_desc descriptors from this
-@@ -199,8 +204,24 @@ be relaxed in the future.
- The user application produces struct xdp_desc descriptors to this
- ring.
- 
-+Libbpf
-+======
-+
-+Libbpf is a helper library for eBPF and XDP that makes using these
-+technologies a lot simpler. It also contains specific helper functions
-+in tools/lib/bpf/xsk.h for facilitating the use of AF_XDP. It
-+contains two types of functions: those that can be used to make the
-+setup of AF_XDP socket easier and ones that can be used in the data
-+plane to access the rings safely and quickly. To see an example on how
-+to use this API, please take a look at the sample application in
-+samples/bpf/xdpsock_usr.c which uses libbpf for both setup and data
-+plane operations.
-+
-+We recommend that you use this library unless you have become a power
-+user. It will make your program a lot simpler.
-+
- XSKMAP / BPF_MAP_TYPE_XSKMAP
------------------------------
-+============================
- 
- On XDP side there is a BPF map type BPF_MAP_TYPE_XSKMAP (XSKMAP) that
- is used in conjunction with bpf_redirect_map() to pass the ingress
-@@ -216,21 +237,184 @@ queue 17. Only the XDP program executing for eth0 and queue 17 will
- successfully pass data to the socket. Please refer to the sample
- application (samples/bpf/) in for an example.
- 
-+Configuration Flags and Socket Options
-+======================================
-+
-+These are the various configuration flags that can be used to control
-+and monitor the behavior of AF_XDP sockets.
-+
-+XDP_COPY and XDP_ZERO_COPY bind flags
-+-------------------------------------
-+
-+When you bind to a socket, the kernel will first try to use zero-copy
-+copy. If zero-copy is not supported, it will fall back on using copy
-+mode, i.e. copying all packets out to user space. But if you would
-+like to force a certain mode, you can use the following flags. If you
-+pass the XDP_COPY flag to the bind call, the kernel will force the
-+socket into copy mode. If it cannot use copy mode, the bind call will
-+fail with an error. Conversely, the XDP_ZERO_COPY flag will force the
-+socket into zero-copy mode or fail.
-+
-+XDP_SHARED_UMEM bind flag
-+-------------------------
-+
-+This flag enables you to bind multiple sockets to the same UMEM, but
-+only if they share the same queue id. In this mode, each socket has
-+their own RX and TX rings, but the UMEM (tied to the fist socket
-+created) only has a single FILL ring and a single COMPLETION
-+ring. To use this mode, create the first socket and bind it in the normal
-+way. Create a second socket and create an RX and a TX ring, or at
-+least one of them, but no FILL or COMPLETION rings as the ones from
-+the first socket will be used. In the bind call, set he
-+XDP_SHARED_UMEM option and provide the initial socket's fd in the
-+sxdp_shared_umem_fd field. You can attach an arbitrary number of extra
-+sockets this way.
-+
-+What socket will then a packet arrive on? This is decided by the XDP
-+program. Put all the sockets in the XSK_MAP and just indicate which
-+index in the array you would like to send each packet to. A simple
-+round-robin example of distributing packets is shown below:
-+
-+.. code-block:: c
-+
-+   #include <linux/bpf.h>
-+   #include "bpf_helpers.h"
-+
-+   #define MAX_SOCKS 16
-+
-+   struct {
-+        __uint(type, BPF_MAP_TYPE_XSKMAP);
-+        __uint(max_entries, MAX_SOCKS);
-+        __uint(key_size, sizeof(int));
-+        __uint(value_size, sizeof(int));
-+   } xsks_map SEC(".maps");
-+
-+   static unsigned int rr;
-+
-+   SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
-+   {
-+	rr = (rr + 1) & (MAX_SOCKS - 1);
-+
-+	return bpf_redirect_map(&xsks_map, rr, 0);
-+   }
-+
-+Note, that since there is only a single set of FILL and COMPLETION
-+rings, and they are single producer, single consumer rings, you need
-+to make sure that multiple processes or threads do not use these rings
-+concurrently. There are no synchronization primitives in the
-+libbpf code that protects multiple users at this point in time.
-+
-+XDP_USE_NEED_WAKEUP bind flag
-+-----------------------------
-+
-+This option adds support for a new flag called need_wakeup that is
-+present in the FILL ring and the TX ring, the rings for which user
-+space is a producer. When this option is set in the bind call, the
-+need_wakeup flag will be set if the kernel needs to be explicitly
-+woken up by a syscall to continue processing packets. If the flag is
-+zero, no syscall is needed.
-+
-+If the flag is set on the FILL ring, the application needs to call
-+poll() to be able to continue to receive packets on the RX ring. This
-+can happen, for example, when the kernel has detected that there are no
-+more buffers on the FILL ring and no buffers left on the RX HW ring of
-+the NIC. In this case, interrupts are turned off as the NIC cannot
-+receive any packets (as there are no buffers to put them in), and the
-+need_wakeup flag is set so that user space can put buffers on the
-+FILL ring and then call poll() so that the kernel driver can put these
-+buffers on the HW ring and start to receive packets.
-+
-+If the flag is set for the TX ring, it means that the application
-+needs to explicitly notify the kernel to send any packets put on the
-+TX ring. This can be accomplished either by a poll() call, as in the
-+RX path, or by calling sendto().
-+
-+An example of how to use this flag can be found in
-+samples/bpf/xdpsock_user.c. An example with the use of libbpf helpers
-+would look like this for the TX path:
-+
-+.. code-block:: c
-+
-+   if (xsk_ring_prod__needs_wakeup(&my_tx_ring))
-+      sendto(xsk_socket__fd(xsk_handle), NULL, 0, MSG_DONTWAIT, NULL, 0);
-+
-+I.e., only use the syscall if the flag is set.
-+
-+We recommend that you always enable this mode as it usually leads to
-+better performance especially if you run the application and the
-+driver on the same core, but also if you use different cores for the
-+application and the kernel driver, as it reduces the number of
-+syscalls needed for the TX path.
-+
-+XDP_{RX|TX|UMEM_FILL|UMEM_COMPLETION}_RING setsockopts
-+------------------------------------------------------
-+
-+These setsockopts sets the number of descriptors that the RX, TX,
-+FILL, and COMPLETION rings respectively should have. It is mandatory
-+to set the size of at least one of the RX and TX rings. If you set
-+both, you will be able to both receive and send traffic from your
-+application, but if you only want to do one of them, you can save
-+resources by only setting up one of them. Both the FILL ring and the
-+COMPLETION ring are mandatory if you have a UMEM tied to your socket,
-+which is the normal case. But if the XDP_SHARED_UMEM flag is used, any
-+socket after the first one does not have a UMEM and should in that
-+case not have any FILL or COMPLETION rings created.
-+
-+XDP_UMEM_REG setsockopt
-+-----------------------
-+
-+This setsockopt registers a UMEM to a socket. This is the area that
-+contain all the buffers that packet can recide in. The call takes a
-+pointer to the beginning of this area and the size of it. Moreover, it
-+also has parameter called chunk_size that is the size that the UMEM is
-+divided into. It can only be 2K or 4K at the moment. If you have an
-+UMEM area that is 128K and a chunk size of 2K, this means that you
-+will be able to hold a maximum of 128K / 2K = 64 packets in your UMEM
-+area and that your largest packet size can be 2K.
-+
-+There is also an option to set the headroom of each single buffer in
-+the UMEM. If you set this to N bytes, it means that the packet will
-+start N bytes into the buffer leaving the first N bytes for the
-+application to use. The final option is the flags field, but it will
-+be dealt with in separate sections for each UMEM flag.
-+
-+XDP_STATISTICS getsockopt
-+-------------------------
-+
-+Gets drop statistics of a socket that can be useful for debug
-+purposes. The supported statistics are shown below:
-+
-+.. code-block:: c
-+
-+   struct xdp_statistics {
-+   	  __u64 rx_dropped; /* Dropped for reasons other than invalid desc */
-+	  __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
-+	  __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
-+   };
-+
-+XDP_OPTIONS getsockopt
-+----------------------
-+
-+Gets options from an XDP socket. The only one supported so far is
-+XDP_OPTIONS_ZEROCOPY which tells you if zero-copy is on or not.
-+
- Usage
- =====
- 
--In order to use AF_XDP sockets there are two parts needed. The
-+In order to use AF_XDP sockets two parts are needed. The
- user-space application and the XDP program. For a complete setup and
- usage example, please refer to the sample application. The user-space
- side is xdpsock_user.c and the XDP side is part of libbpf.
- 
--The XDP code sample included in tools/lib/bpf/xsk.c is the following::
-+The XDP code sample included in tools/lib/bpf/xsk.c is the following:
-+
-+.. code-block:: c
- 
-    SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
-    {
-        int index = ctx->rx_queue_index;
- 
--       // A set entry here means that the correspnding queue_id
-+       // A set entry here means that the corresponding queue_id
-        // has an active AF_XDP socket bound to it.
-        if (bpf_map_lookup_elem(&xsks_map, &index))
-            return bpf_redirect_map(&xsks_map, index, 0);
-@@ -238,7 +422,10 @@ The XDP code sample included in tools/lib/bpf/xsk.c is the following::
-        return XDP_PASS;
-    }
- 
--Naive ring dequeue and enqueue could look like this::
-+A simple but not so performance ring dequeue and enqueue could look
-+like this:
-+
-+.. code-block:: c
- 
-     // struct xdp_rxtx_ring {
-     // 	__u32 *producer;
-@@ -287,17 +474,16 @@ Naive ring dequeue and enqueue could look like this::
-         return 0;
-     }
- 
--
--For a more optimized version, please refer to the sample application.
-+But please use the libbpf functions as they are optimized and ready to
-+use. Will make your life easier.
- 
- Sample application
- ==================
- 
- There is a xdpsock benchmarking/test application included that
--demonstrates how to use AF_XDP sockets with both private and shared
--UMEMs. Say that you would like your UDP traffic from port 4242 to end
--up in queue 16, that we will enable AF_XDP on. Here, we use ethtool
--for this::
-+demonstrates how to use AF_XDP sockets with private UMEMs. Say that
-+you would like your UDP traffic from port 4242 to end up in queue 16,
-+that we will enable AF_XDP on. Here, we use ethtool for this::
- 
-       ethtool -N p3p2 rx-flow-hash udp4 fn
-       ethtool -N p3p2 flow-type udp4 src-port 4242 dst-port 4242 \
-@@ -311,13 +497,18 @@ using::
- For XDP_SKB mode, use the switch "-S" instead of "-N" and all options
- can be displayed with "-h", as usual.
- 
-+This sample application uses libbpf to make the setup and usage of
-+AF_XDP simpler. If you want to know how the raw uapi of AF_XDP is
-+really used to make something more advanced, take a look at the libbpf
-+code in tools/lib/bpf/xsk.[ch].
-+
- FAQ
- =======
- 
- Q: I am not seeing any traffic on the socket. What am I doing wrong?
- 
- A: When a netdev of a physical NIC is initialized, Linux usually
--   allocates one Rx and Tx queue pair per core. So on a 8 core system,
-+   allocates one RX and TX queue pair per core. So on a 8 core system,
-    queue ids 0 to 7 will be allocated, one per core. In the AF_XDP
-    bind call or the xsk_socket__create libbpf function call, you
-    specify a specific queue id to bind to and it is only the traffic
-@@ -343,9 +534,21 @@ A: When a netdev of a physical NIC is initialized, Linux usually
-      sudo ethtool -N <interface> flow-type udp4 src-port 4242 dst-port \
-      4242 action 2
- 
--   A number of other ways are possible all up to the capabilitites of
-+   A number of other ways are possible all up to the capabilities of
-    the NIC you have.
- 
-+Q: Can I use the XSKMAP to implement a switch betwen different umems
-+   in copy mode?
-+
-+A: The short answer is no, that is not supported at the moment. The
-+   XSKMAP can only be used to switch traffic coming in on queue id X
-+   to sockets bound to the same queue id X. The XSKMAP can contain
-+   sockets bound to different queue ids, for example X and Y, but only
-+   traffic goming in from queue id Y can be directed to sockets bound
-+   to the same queue id Y. In zero-copy mode, you should use the
-+   switch, or other distribution mechanism, in your NIC to direct
-+   traffic to the correct queue id and socket.
-+
- Credits
- =======
- 
--- 
-2.7.4
-
+I spend some time to debug this case and I found it hang in the
+following memset().
+It is because the mapping is not created correctly. I check the page
+table creating logic again and I found it always sets the last pmd
+here.
