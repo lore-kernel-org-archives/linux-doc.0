@@ -1,101 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A4CA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 08:12:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 62FE37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 08:43:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbfJUIMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 04:12:19 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45646 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727047AbfJUIMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 04:12:19 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y72so7905729pfb.12;
-        Mon, 21 Oct 2019 01:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=etsl/+EW28YP7d76R/imarsexm4hcF4u8WBkurY4oJk=;
-        b=uSPqSz6wxUqRn3DR/m569DXHAC54oagCBxpkd7+Smz6qoS3curhM524AFf7hx6gRH9
-         XCOFtH39JYfnEwpoG2xqI+wMSYf/vTnt1WAsaI5rBklhKcugXCk8nwc8YsXAQZppV7Ms
-         3AzS2cfOwd1/5UojwML4hFIyV5CY40YrXzY3JvBPKiH1PT1y1in5zjyM/jUXCpznl3Rz
-         QLn9lR3SAoheGN5pf1Qq9kP2aFFer4Ap2a3yO4FMcyk+qYyyb33m1vt1zYnp9430G1yC
-         EqLc0FB7n6WCzliRdp1OUyxuodthvLeIbuAQ/oicFg5Xety3UDoTvwBmbqo7dl3ikzAp
-         Xoxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=etsl/+EW28YP7d76R/imarsexm4hcF4u8WBkurY4oJk=;
-        b=UkaRjzm3uYvbVGiCbQFtvFJPpY++Pbm6jW2H0mtWE/20xRluQ6neYSOq+w93ViVOHp
-         kNoW3X3XeqNJYlZK3WKMYjlGD7Fh1MruCa8aGf6mbAhdSAxMUfjAtq5ioI3mCK+Futik
-         h5r5mR3VyoN7NLcCXoXM9ehUYOHUxav2igtRLas20ZH1QggZqY9EoMYsW8V+ReqZJaIW
-         2QOvWmRZWzfOvzPcXGwCpGIY6HmCOMByDhzR3QXnrNMZ67gySyfDS1CGvkGxxLUZuxDp
-         SPdns4FwIrFTTkbZ07Bm7WgJPxEvWRt76xb3anlE41ZTv/MT9U2GH3o3pwDwBRpTE3Sm
-         UaMw==
-X-Gm-Message-State: APjAAAWwrAYCyvq7zULyD7Z8kvvz6mvX8jWvA7aLkDViAotcYcF8leBh
-        sKrxxU8kGVnPc8ZzXola1XYbGFpq
-X-Google-Smtp-Source: APXvYqz65u7cCrtYEB1HPJs+GDYOpixixLnDyXAlAbH3oDlDsahqTxWyIhyyhH++pwZTH6yKDVUjWg==
-X-Received: by 2002:a63:ff56:: with SMTP id s22mr24047346pgk.44.1571645536842;
-        Mon, 21 Oct 2019 01:12:16 -0700 (PDT)
-Received: from Asurada (c-73-162-191-63.hsd1.ca.comcast.net. [73.162.191.63])
-        by smtp.gmail.com with ESMTPSA id k8sm11943460pgm.14.2019.10.21.01.12.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Oct 2019 01:12:16 -0700 (PDT)
-Date:   Mon, 21 Oct 2019 01:12:12 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (ina3221) Add summation feature support
-Message-ID: <20191021081211.GA5684@Asurada>
-References: <20191016235702.22039-1-nicoleotsuka@gmail.com>
- <20191020163628.GA16363@roeck-us.net>
+        id S1726181AbfJUInI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 04:43:08 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43624 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727127AbfJUInH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Oct 2019 04:43:07 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 711A73AA3629CE784B5A;
+        Mon, 21 Oct 2019 16:43:05 +0800 (CST)
+Received: from [127.0.0.1] (10.74.221.148) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Mon, 21 Oct 2019
+ 16:42:59 +0800
+Subject: Re: [PATCH] docs: block: Remove blk_init_queue related description
+To:     Jonathan Corbet <corbet@lwn.net>
+References: <1571061002-25998-1-git-send-email-zhangshaokun@hisilicon.com>
+ <20191018093920.6fbc8141@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>
+From:   Shaokun Zhang <zhangshaokun@hisilicon.com>
+Message-ID: <4411794b-0bf2-d785-1eb8-5121668a2a1e@hisilicon.com>
+Date:   Mon, 21 Oct 2019 16:42:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191020163628.GA16363@roeck-us.net>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+In-Reply-To: <20191018093920.6fbc8141@lwn.net>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.74.221.148]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 20, 2019 at 09:36:28AM -0700, Guenter Roeck wrote:
-> On Wed, Oct 16, 2019 at 04:57:02PM -0700, Nicolin Chen wrote:
-> > This patch implements the summation feature of INA3221, mainly the
-> > SCC (enabling) and SF (warning flag) bits of MASK_ENABLE register,
-> > INA3221_SHUNT_SUM (summation of shunt voltages) register, and the
-> > INA3221_CRIT_SUM (its critical alert setting) register.
-> > 
-> > Although the summation feature allows user to select which channels
-> > to be added to the result, as an initial support, this patch simply
-> > selects all channels by default, with one only condition: all shunt
-> > resistor values need to be the same. This is because the summation
-> > of current channels can be only accurately calculated, using shunt
-> > voltage sum register, if all shunt resistors are equivalent.
-> > 
-> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> > ---
-> > 
-> > Hi Guenter,
-> > 
-> > I know my previous questions haven't been answered yet, so nodes
-> > for enabling bits aren't decided completely. But this patch only
-> > adds voltage and its current, and we had a conclusion for these
-> > two already last time. So I think we may add them first. Thanks!
-> > 
-> 
-> I don't really like the term "summation", as it is the process of
-> summing things up, not the result. I'll change "summation of" in
-> the documentation to "sum of" and apply the patch.
+Hi Jonathan,
 
-Thank you!
+On 2019/10/18 23:39, Jonathan Corbet wrote:
+> On Mon, 14 Oct 2019 21:50:02 +0800
+> Shaokun Zhang <zhangshaokun@hisilicon.com> wrote:
+> 
+>> blk_init_queue has been removed since commit <a1ce35fa4985>
+>> ("block: remove dead elevator code"), Let's cleanup the description
+>> in the biodoc.rst document.
+>>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Jens Axboe <axboe@kernel.dk>
+>> Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+> 
+> So I applied this, then changed my mind and unapplied it; I think it's the
+> wrong fix.
+> 
+
+Thanks your reply.
+
+Let's to introduce why I hit this: I have a module driver that can works using
+4.19 kernel version, it breaks when I use the 5.3 kernel. While I checked that
+blk_init_queue has been removed by commit <a1ce35fa4985>
+("block: remove dead elevator code"), but there is still something about it in
+this document.
+
+>>  Documentation/block/biodoc.rst | 10 ----------
+>>  1 file changed, 10 deletions(-)
+>>
+>> diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+>> index b964796ec9c7..a19081d88349 100644
+>> --- a/Documentation/block/biodoc.rst
+>> +++ b/Documentation/block/biodoc.rst
+>> @@ -1013,11 +1013,6 @@ request_fn execution which it means that lots of older drivers
+>>  should still be SMP safe. Drivers are free to drop the queue
+>>  lock themselves, if required. Drivers that explicitly used the
+>>  io_request_lock for serialization need to be modified accordingly.
+>> -Usually it's as easy as adding a global lock::
+>> -
+>> -	static DEFINE_SPINLOCK(my_driver_lock);
+>> -
+>> -and passing the address to that lock to blk_init_queue().
+> 
+> This is a section about coping with the removal of the io_request_lock,
+> which happened in 2.5, prior to the git era.  I think it is probably safe
+> to say that there are no relevant drivers that still need to be updated
+> for this particular change.
+> 
+>>  5.2 64 bit sector numbers (sector_t prepares for 64 bit support)
+>>  ----------------------------------------------------------------
+>> @@ -1071,11 +1066,6 @@ right thing to use is bio_endio(bio) instead.
+>>  If the driver is dropping the io_request_lock from its request_fn strategy,
+>>  then it just needs to replace that with q->queue_lock instead.
+>>  
+>> -As described in Sec 1.1, drivers can set max sector size, max segment size
+>> -etc per queue now. Drivers that used to define their own merge functions i
+>> -to handle things like this can now just use the blk_queue_* functions at
+>> -blk_init_queue time.
+>> -
+>>  Drivers no longer have to map a {partition, sector offset} into the
+>>  correct absolute location anymore, this is done by the block layer, so
+>>  where a driver received a request ala this before::
+> 
+> Here, too.  We're talking about teaching drivers how to use bios.
+> 
+> My suggested fix is to just remove both sections from the document
+> entirely; neither is relevant in 2019.
+> 
+> Even better, of course, would be to pass through this document and bring
+> it up to current practice in general; there is certain to be a lot more in
+> need of fixing here.
+> 
+
+I'm not very familiar with bio driver and this document, So is Jens or anyone happy to
+do more fixing about it.
+
+Thanks,
+Shaokun
+
+> Thanks,
+> 
+> jon
+> 
+> .
+> 
+
