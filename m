@@ -1,100 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8E617D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 19:29:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6731A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 21:28:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727953AbfJUT3u convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 15:29:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:57153 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727211AbfJUT3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 15:29:49 -0400
-Received: from mail-qt1-f182.google.com ([209.85.160.182]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MwwqB-1i7Bp90UQN-00yTKm; Mon, 21 Oct 2019 21:29:48 +0200
-Received: by mail-qt1-f182.google.com with SMTP id o25so9463601qtr.5;
-        Mon, 21 Oct 2019 12:29:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAXxG3PwcfRI3eLtJ+5+/ni+CU0R/KBbA+CH2mR93Dr70yh2q6o5
-        HYoj9rKV7RJBlESQY+vIkFofRwVypTXpEG/YFac=
-X-Google-Smtp-Source: APXvYqxjZ7hRce7aTLzsiguJU9kzIisgOu1fuNnnsvsKuS64oRa2BWzO+E2SzpQf094lq5mjR4yUh0g+513/L1lQ7gY=
-X-Received: by 2002:aed:3c67:: with SMTP id u36mr25957878qte.142.1571686186839;
- Mon, 21 Oct 2019 12:29:46 -0700 (PDT)
+        id S1726672AbfJUV2T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 17:28:19 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:54237 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727264AbfJUV2S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 17:28:18 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 96032806A8;
+        Tue, 22 Oct 2019 10:28:15 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1571693295;
+        bh=/9WEDL+fNPGUYcD1D7L8SeMPWVImYAJaQx7z2ohQhEE=;
+        h=From:To:Cc:Subject:Date;
+        b=H7NHbbP6GUyoF08lrnjLonUPXH+RxcN3DUX0TYoVELO/iN50BjToNITiUSnd+rhNk
+         NRgETb4mHZNRuxkI+hBIMBTz59UZznBaGlqHT1i4yh1KFoBeCudyIRU8YqzNM+eRKO
+         lWJJFakhZzIyogTgd+xjrknZ7UFyqOO2PhsaUfZvfwiKDNNXTER4soerECO6DHSHJS
+         RhaIIDyL8WXxC087zJtTBRdbYk4lIAi4yqgdqGcEnGgxrSNGq271k6P5FnIbws0AwU
+         uMjQdn1v1DK1+NaRLf9Fjyt4pKOtpSkoLFF/4TZ5TnIwgTo/cIqRr4FWlwF01FNuhi
+         1CiuOBbtWY0MA==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5dae22ed0000>; Tue, 22 Oct 2019 10:28:15 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
+        by smtp (Postfix) with ESMTP id B688013EEEB;
+        Tue, 22 Oct 2019 10:28:16 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id D9A47280059; Tue, 22 Oct 2019 10:28:10 +1300 (NZDT)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     corbet@lwn.net, willy@infradead.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH] docs/core-api: memory-allocation: mention size helpers
+Date:   Tue, 22 Oct 2019 10:27:47 +1300
+Message-Id: <20191021212751.21300-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191006053916.8849-1-brgl@bgdev.pl> <CAMRc=Me3Q=67fCDrFM38LAGXCd+apJybLYVfyrfwmwYa5L1CmQ@mail.gmail.com>
- <CAK8P3a3tUg4SBtO0xb2GAHfegp23WF4TLymzqFfra2-fGLRO7w@mail.gmail.com> <CAMRc=Me8g2gFiag0UQwuu4UZONcowQw900+MUbGF+4-E0z09Zg@mail.gmail.com>
-In-Reply-To: <CAMRc=Me8g2gFiag0UQwuu4UZONcowQw900+MUbGF+4-E0z09Zg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 21 Oct 2019 21:29:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2mh+Eh+W1GFL2Mi5R3t55SRwWyXW_iBxXB-nBhdCO8LA@mail.gmail.com>
-Message-ID: <CAK8P3a2mh+Eh+W1GFL2Mi5R3t55SRwWyXW_iBxXB-nBhdCO8LA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] drivers: add new variants of devm_platform_ioremap_resource()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:z1euxHiRdhARy27mW0ZCeOjUtQqaADtxQBbiIbswc1h5rWIJCDb
- AzGbjoaXc6kfdylbqmWJskmXCTA2mSziVKpvRaQP/eU1cpiCDgoEq8gWyNr6zhtxWu3hv+k
- KU17nThTf03b+7RUdI06k6KeOYLdPYDqil/+68rFfWVqGKoQZON9DBmXvuKiTVwxrK/MSpG
- 2BjyEzKtGh877wG2d4Kjw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cAUK04/pw78=:+ery2poVEwEVB0Bq1qvzIA
- hZVv6D6mFYFB8n3iQ30yxdLLoKi6rvXZme6AKDUuJUUbiJr+tdPofys3PtZOGEqYKHscHJXPo
- Aym2hvYJZ7U2Rb1YSfS18x70IpD0LbESYXZ9sidwD0chwzsjrYuuSfTsBlNIAgPu64bJ/OoE7
- w6caZsP6xmSa7DrbfqjbE+Q8xpnkZ+Pqc91i0L7eiqny4OZTBj7hJkevcaRhRY7716swyimnG
- S1DHudU9D06GIFFRex4q2jAc3HKShN1BszDv7ZjFAdSHZc8LZJ4NvizAthgvGuUBMN1QgpFa6
- mGJGFX8OPjZ3K9IhD/yaEWWx0mC3DsM0Y5W1loZAOAXlyEjEHYnBum3KlYqApzPOVt18o4X36
- /WkZ/eil0gCpIFrC0bUIDj9Xo0OhB2ARMws5lYenzYASoI9Wd+S4JMb6TaB98OrS1kpoGSj96
- YzpF944VJ+EWQr4dRWEDmvOYC1+Q8nPZRbZnbj+MAMst1YeEFs6YklcFkSqs/zpwvEnCoePfs
- t9hlZnPu6DAaSLTPOVHRl3PRd1FiWep+eFYT4qAVpOKXzkXhEnJrDgUbiw34u8xTTiSuMuA0x
- XNrDzzQDtSrlySGHf0G5uIlzQeV3T1yyt5aIAIjMbI2GwcvhJbV+QY++zlIsO22UqYM6TKsvV
- RY+GhDUUkZ537HsGM+zA3spyBPco4awW4ytdMNgvEXzLJ4F5kpjDvTNnzT97LnVExanjM9lfz
- rVD77eSnN6XbwRObYdjudVW5kcA4t+BfBAMDClOi6y89NdpWE+yW127jqNxZ1ZvSCeWjPe8C+
- rmk+2s3+Z+eXbvDuJ+yYsT6MXB30lGeWMym32qJAp/n/3isZBvnO/zWXvjCWOlUIX4xL+PnIB
- WDjnnGtFphIMKe8B31jQ==
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 6:29 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> pon., 21 paź 2019 o 17:53 Arnd Bergmann <arnd@arndb.de> napisał(a):
-> > On Mon, Oct 21, 2019 at 5:04 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > > gentle ping for this. I noticed that some maintainers are complaining
-> > > about being spammed with patches converting old drivers to using
-> > > devm_platform_ioremap_resource() and there's even a patch removing the
-> > > relevant coccinelle script on the list, but I think for new drivers
-> > > these are still useful. Do you want to pick them up for v5.5 (or at
-> > > all)?
-> >
-> > I think this series is useful and we should merge it. Are there any
-> > remaining dependencies or conflicts with Christoph Hellwig's recent
-> > __ioremap rework? If there are, I would prioritize his work and maybe
-> > delay this one by another merge window, otherwise please add
-> > my Reviewed-by to all patches and resend them for Greg to pick
-> > up (provided he has no objections).
->
-> Is Christoph's work in next? The series doesn't apply cleanly on next,
-> I needed to fix a couple conflicts. What branch should I rebase it on
-> before resending?
+Mention struct_size(), array_size() and array3_size() in the same place
+as kmalloc() and friends.
 
-Not sure, maybe Christoph can comment.
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
+ Documentation/core-api/memory-allocation.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Your patches would best go through the char-misc tree and be based
-on top of that, for Christoph's I think the idea is to have some go
-through the architecture maintainer trees, and have whatever is
-left go through my asm-generic tree.
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation=
+/core-api/memory-allocation.rst
+index e59779aa7615..6a131767becd 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -91,7 +91,9 @@ The most straightforward way to allocate memory is to u=
+se a function
+ from the :c:func:`kmalloc` family. And, to be on the safe side it's
+ best to use routines that set memory to zero, like
+ :c:func:`kzalloc`. If you need to allocate memory for an array, there
+-are :c:func:`kmalloc_array` and :c:func:`kcalloc` helpers.
++are :c:func:`kmalloc_array` and :c:func:`kcalloc` helpers. The helpers
++:c:func:`struct_size`, :c:func:`array_size` and :c:func:`array3_size` ca=
+n be
++used to safely calculate object sizes without overflowing.
+=20
+ The maximal size of a chunk that can be allocated with `kmalloc` is
+ limited. The actual limit depends on the hardware and the kernel
+--=20
+2.23.0
 
-      Arnd
