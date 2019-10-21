@@ -3,109 +3,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6E727D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 02:21:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 653837D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 02:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbfJUCV7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Oct 2019 22:21:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60860 "EHLO
+        id S1726770AbfJUC6P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Oct 2019 22:58:15 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44540 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbfJUCV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 22:21:59 -0400
+        with ESMTP id S1726768AbfJUC6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Oct 2019 22:58:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=7t9iy0ZeTZGloF+pLdKmONwsyKHhXmaNL8ryD9WsF08=; b=oxEYB9AcT+EcX6lyt2W7DmE4G
-        7rerwgzkcC8BHRNXaS65B4fHxZg3BM1alVoihWZPbS5sqm0JJ5gBhQoVM5Sq2Npn1IxCG8D7P6LQ/
-        6HhfFQXMW0QDDTbNx9TGUAcAdwLY3pZn+V1BkPXB+9HT8v7AGivJCochTUQk9I3xIx+Osfb1tPgOK
-        9xgFuo5i81CrCauZKcv/zM1bsTtjz/j+lH+eAboqb+nfZtUGPqaE+FQw/PqJal6Nw5NXIrCURSwAw
-        FndF0sV7pRJxjCnaZah1zxDJyKdkw7rjZ0anX3ew5UHFKfgTCQhK794++qyZURBOL7sWN3dfbyEkf
-        erQlHj1aA==;
-Received: from [2601:1c0:6280:3f0::9ef4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iMNKV-0003fY-Gx; Mon, 21 Oct 2019 02:21:55 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Cc:     Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] docs: admin-guide/perf: fix imx-ddr.rst warnings
-Message-ID: <68650583-bd4b-2b25-b842-a91a9643ce00@infradead.org>
-Date:   Sun, 20 Oct 2019 19:21:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+         bh=bNOfY12uB6OkDBc28u8KRb7H8TREHQs/UdzmM7USCL8=; b=BFiBkZx3blmLyO3y9CNA6KIFq
+        9H7LR1mKsQGhNxemJDsd9ZDbIScnH2r6lVktfbUI7kq+lyF+BiSl3m6F2wPFgfEd+Jda4A/Q2dRuG
+        fgbEokmn7Pw7eFGXSsImVUjbWK3QSVkBDfuH3yJ+aD0g5LiRqdah/BiW3V40soROtdWmRIQsxaR2Q
+        idkWLimE1tsXTZm3pdfx0ZFqJ9AxXjEZG3ipOelH8h0m3OHcwjQ0Y1GUHjPLGuqg29l6KxzzEmCGC
+        WgZNvUg+2j5x8YGa7+CZ+RmnfPnvhf+Ic3mbLflsWKiT3XgvQI2VgtbssxipDTaxXVa267jq6E1t/
+        tIZbIki5g==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iMNtc-0008SR-57; Mon, 21 Oct 2019 02:58:12 +0000
+Date:   Sun, 20 Oct 2019 19:58:12 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, trivial@kernel.org
+Subject: Re: [PATCH] docs/core-api: memory-allocation: fix typo
+Message-ID: <20191021025812.GB9214@bombadil.infradead.org>
+References: <20191021003833.15704-1-chris.packham@alliedtelesis.co.nz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191021003833.15704-1-chris.packham@alliedtelesis.co.nz>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Mon, Oct 21, 2019 at 01:38:32PM +1300, Chris Packham wrote:
+> "on the safe size" should be "on the safe side".
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 
-Fix Sphinx warnings in imx-ddr.rst:
+Yes, it should.  Acked-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Documentation/admin-guide/perf/imx-ddr.rst:21: WARNING: Unexpected indentation.
-Documentation/admin-guide/perf/imx-ddr.rst:34: WARNING: Unexpected indentation.
-Documentation/admin-guide/perf/imx-ddr.rst:40: WARNING: Unexpected indentation.
-Documentation/admin-guide/perf/imx-ddr.rst:45: WARNING: Unexpected indentation.
-Documentation/admin-guide/perf/imx-ddr.rst:52: WARNING: Unexpected indentation.
-
-Fixes: 3724e186fead ("docs/perf: Add documentation for the i.MX8 DDR PMU")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Joakim Zhang <qiangqing.zhang@nxp.com>
-Cc: Will Deacon <will@kernel.org>
----
- Documentation/admin-guide/perf/imx-ddr.rst |   13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
---- lnx-54-rc4.orig/Documentation/admin-guide/perf/imx-ddr.rst
-+++ lnx-54-rc4/Documentation/admin-guide/perf/imx-ddr.rst
-@@ -17,8 +17,8 @@ The "format" directory describes format
- (AXI filtering) fields of the perf_event_attr structure, see /sys/bus/event_source/
- devices/imx8_ddr0/format/. The "events" directory describes the events types
- hardware supported that can be used with perf tool, see /sys/bus/event_source/
--devices/imx8_ddr0/events/.
--  e.g.::
-+devices/imx8_ddr0/events/.  E.g.::
-+
-         perf stat -a -e imx8_ddr0/cycles/ cmd
-         perf stat -a -e imx8_ddr0/read/,imx8_ddr0/write/ cmd
- 
-@@ -31,22 +31,25 @@ in the driver.
-   Filter is defined with two configuration parts:
-   --AXI_ID defines AxID matching value.
-   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
-+
-         0：corresponding bit is masked.
-         1: corresponding bit is not masked, i.e. used to do the matching.
- 
-   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
-   When non-masked bits are matching corresponding AXI_ID bits then counter is
-   incremented. Perf counter is incremented if
-+
-           AxID && AXI_MASKING == AXI_ID && AXI_MASKING
- 
-   This filter doesn't support filter different AXI ID for axid-read and axid-write
--  event at the same time as this filter is shared between counters.
--  e.g.::
-+  event at the same time as this filter is shared between counters.  E.g.::
-+
-         perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
-         perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
- 
-   NOTE: axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
-   it will be reverted in driver automatically. so that the user can just specify
-   axi_id to monitor a specific id, rather than having to specify axi_mask.
--  e.g.::
-+  E.g.::
-+
-         perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
+If you like, you could do a follow-up patch mentioning the use
+of struct_size(), array_size() and array3_size().  I think this
+document is the right place for those.  Their kernel-doc is included in
+driver-api/basics.rst, but referencing those functions in this document
+would draw peoples' attention to them.
 
