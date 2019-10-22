@@ -1,84 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FE7F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 17:00:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B202A7D918
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 17:43:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730432AbfJVRAi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 13:00:38 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47660 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730363AbfJVRAi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Oct 2019 13:00:38 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8268037B;
-        Tue, 22 Oct 2019 17:00:37 +0000 (UTC)
-Date:   Tue, 22 Oct 2019 11:00:36 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vivek Gautam <vivek.gautam@codeaurora.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@pengutronix.de
-Subject: Re: [RFC] docs: add a reset controller chapter to the driver API
- docs
-Message-ID: <20191022110036.5c2edc05@lwn.net>
-In-Reply-To: <20191022164547.22632-1-p.zabel@pengutronix.de>
-References: <20191022164547.22632-1-p.zabel@pengutronix.de>
-Organization: LWN.net
+        id S1725837AbfJVRnF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 13:43:05 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:32900 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731781AbfJVRnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 13:43:02 -0400
+Received: by mail-oi1-f193.google.com with SMTP id a15so14969746oic.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 10:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MHo+bPZ3FyZTrXrvFae5gOHqYffPj0NYcnQ23J1Mtd8=;
+        b=D8bfP3dYb9Xw3Ejz/XW6sJaiJoIzrU0if9m7dseFDXz0GuoQXFZZBSTgbjJU0sjON7
+         CTsIv3bjWf2AvHSPeKOaRXcyEjBAx+URak3jnpv4lulJ/EVuiqqWnNdoWoe554TF/cJ0
+         FU8/9VTLt4e6HnKwcSlzNGR54imzjgAORjvN05VsZdT3aFYiGR+7MO+6zvojPCzmaXQe
+         rqmerCdhyIjHFH+noVK7tj/FkhNO4aAZ0Up4wIhGTOOBiYn85Qd1A+J2olHu9J0wWQTq
+         mFpeecULEnrKhZxONseYGkjQ356U0Iwm1ionhs0PmWk/gwCIyyzyxv1w+qkcqY7dnMsh
+         p2hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MHo+bPZ3FyZTrXrvFae5gOHqYffPj0NYcnQ23J1Mtd8=;
+        b=aItKN6gBUH2TP4BlpFxUlGELnXqNUrOkY/L0LOBZwU0G8942zjn8To5417CTHxLgQ7
+         Kz12Mhyg+gnIZX4/4UlXeTWQ1JotYXO3hGbAM4mSLxa4pRkA+7gPQEEhyblTHXsRFyp+
+         mbAUDwMjPphN6v4cu/KVKp9T8DPgdthDUB7PvmnHGGYI7RyuR5cBIbDfugpWeCEZ72bx
+         PvKuAuglOQS6rMQ+B0w0NNCgOx7wVepyovgi0ZJ6Fs/M2t6R4Pz4K05bq9e73evgJL+x
+         uzulKWRkSJUZyDnSfiHsGawoOp371ZZgw4SOYex7GXOE+s72t6m5fWqWs5OZVdwypxL1
+         VlOQ==
+X-Gm-Message-State: APjAAAVXTPsDGOuDd+T5l01LPZQPEwvTPpY3qGLI1Wtsnmg41YJEUm10
+        ZeyeGWzOYxfjOgq1nvzOK8akqHVKf8MWkoiZLfcpyg==
+X-Google-Smtp-Source: APXvYqxfVwLHQu/nljm2npVYMv0/xxXLHw8hKdDqlhGb7PXQz9eRPAcgKMk0ub1hWAYFfjq7ip3as3hOP5jSlLN4VGw=
+X-Received: by 2002:aca:f492:: with SMTP id s140mr4056153oih.83.1571766180963;
+ Tue, 22 Oct 2019 10:43:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
+ <20191022154858.GA13700@redhat.com>
+In-Reply-To: <20191022154858.GA13700@redhat.com>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 22 Oct 2019 19:42:48 +0200
+Message-ID: <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Oct 2019 18:45:47 +0200
-Philipp Zabel <p.zabel@pengutronix.de> wrote:
+On Tue, 22 Oct 2019 at 17:49, Oleg Nesterov <oleg@redhat.com> wrote:
+>
+> On 10/17, Marco Elver wrote:
+> >
+> > +     /*
+> > +      * Delay this thread, to increase probability of observing a racy
+> > +      * conflicting access.
+> > +      */
+> > +     udelay(get_delay());
+> > +
+> > +     /*
+> > +      * Re-read value, and check if it is as expected; if not, we infer a
+> > +      * racy access.
+> > +      */
+> > +     switch (size) {
+> > +     case 1:
+> > +             is_expected = expect_value._1 == READ_ONCE(*(const u8 *)ptr);
+> > +             break;
+> > +     case 2:
+> > +             is_expected = expect_value._2 == READ_ONCE(*(const u16 *)ptr);
+> > +             break;
+> > +     case 4:
+> > +             is_expected = expect_value._4 == READ_ONCE(*(const u32 *)ptr);
+> > +             break;
+> > +     case 8:
+> > +             is_expected = expect_value._8 == READ_ONCE(*(const u64 *)ptr);
+> > +             break;
+> > +     default:
+> > +             break; /* ignore; we do not diff the values */
+> > +     }
+> > +
+> > +     /* Check if this access raced with another. */
+> > +     if (!remove_watchpoint(watchpoint)) {
+> > +             /*
+> > +              * No need to increment 'race' counter, as the racing thread
+> > +              * already did.
+> > +              */
+> > +             kcsan_report(ptr, size, is_write, smp_processor_id(),
+> > +                          kcsan_report_race_setup);
+> > +     } else if (!is_expected) {
+> > +             /* Inferring a race, since the value should not have changed. */
+> > +             kcsan_counter_inc(kcsan_counter_races_unknown_origin);
+> > +#ifdef CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
+> > +             kcsan_report(ptr, size, is_write, smp_processor_id(),
+> > +                          kcsan_report_race_unknown_origin);
+> > +#endif
+> > +     }
+>
+> Not sure I understand this code...
+>
+> Just for example. Suppose that task->state = TASK_UNINTERRUPTIBLE, this task
+> does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(task)
+> which does the same UNINTERRUPTIBLE -> RUNNING transition.
+>
+> Looks like, this is the "data race" according to kcsan?
 
-> Add initial reset controller API documentation. This is mostly indented
-> to describe the concepts to users of the consumer API, and to tie the
-> kerneldoc comments we already have into the driver API documentation.
-> 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Yes, they are "data races". They are probably not "race conditions" though.
 
-One quick comment...
+This is a fair distinction to make, and we never claimed to find "race
+conditions" only -- race conditions are logic bugs that result in bad
+state due to unexpected interleaving of threads. Data races are more
+subtle, and become relevant at the programming language level.
 
->  Documentation/driver-api/index.rst |   1 +
->  Documentation/driver-api/reset.rst | 217 +++++++++++++++++++++++++++++
->  2 files changed, 218 insertions(+)
->  create mode 100644 Documentation/driver-api/reset.rst
-> 
+In Documentation we summarize: "Informally, two operations conflict if
+they access the same memory location, and at least one of them is a
+write operation. In an execution, two memory operations from different
+threads form a data-race if they conflict, at least one of them is a
+*plain* access (non-atomic), and they are unordered in the
+"happens-before" order according to the LKMM."
 
-[...]
+KCSAN's goal is to find *data races* according to the LKMM.  Some data
+races are race conditions (usually the more interesting bugs) -- but
+not *all* data races are race conditions. Those are what are usually
+referred to as "benign", but they can still become bugs on the wrong
+arch/compiler combination. Hence, the need to annotate these accesses
+with READ_ONCE, WRITE_ONCE or use atomic_t:
+- https://lwn.net/Articles/793253/
+- https://lwn.net/Articles/799218/
 
-> +Shared and exclusive resets
-> +---------------------------
-> +
-> +The reset controller API provides either reference counted deassertion and
-> +assertion or direct, exclusive control.
-> +The distinction between shared and exclusive reset controls is made at the time
-> +the reset control is requested, either via :c:func:`devm_reset_control_get_shared`
-> +or via :c:func:`devm_reset_control_get_exclusive`.
+> Hmm. even the "if (!(p->state & state))" check in try_to_wake_up() can trigger
+> kcsan_report() ?
 
-:c:func: isn't needed anymore, and is actively discouraged - the function
-references will be linked anyway.  So just say function() rather than
-:c:func:`function` everywhere, please.
+We blacklisted sched (KCSAN_SANITIZE := n   in kernel/sched/Makefile),
+so these data races won't actually be reported.
 
 Thanks,
+-- Marco
 
-jon
+> Oleg.
+>
