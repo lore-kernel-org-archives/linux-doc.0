@@ -1,101 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D29FB7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 18:41:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B9E77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 19:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732630AbfJVSlL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 14:41:11 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:42546 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731436AbfJVSlL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 14:41:11 -0400
-Received: by mail-qt1-f193.google.com with SMTP id w14so28272885qto.9
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 11:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bF9K7Bd9BrzzMLmMrrO2HSAwcPu6dNqSFJ59SdGCcdc=;
-        b=hUqrSk3F2J3Z8zY9lRzqLgcqiBlMJq/h0fGcZwZg2lGeEi1NZ6pmv7rS5TI8fveK0c
-         p6Yl+F1AkuwmmT0uOR/eE6hhn3OOlAaQNZlXGuaJ+82hcuzay99N9bCLFpiqVepSDlyC
-         aGhR2902V9sufLYEzDqPMzxj0wd4SeSxBLOlOyz1LlhAa5ue0YVhL2BYxim3uJ8gtPmS
-         l/dRThDyTcBvW870OvDN2BlB+LNwUwbCTy4wucgbxrrP+yigmC348hZUW6hrC6/WBBEQ
-         P+iB/GaYuq2qZaaQ+P9qnH3Rymsrdsa9bua1g/ZsxVfKsjQlLCGht70yJJcd4q6Qr4b0
-         rBZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bF9K7Bd9BrzzMLmMrrO2HSAwcPu6dNqSFJ59SdGCcdc=;
-        b=n05lu7Imrrl/j4OCcu8/OaFoEhLFFdlFNgwh93a19NlaOsjuiN4w3gd1e1q8bOKJAj
-         qNqmRwPvFTZI2ANxVdejiwGIljoSTj/lebsBk+ZOQjGCXodWSOk/OfMku6/DHfqMNzgZ
-         pzt1A6pP5XKP77JbsDiuwdExbIz+497MUlyN9hNSKdcj5RX18mreLFFZXZiPD89T0nIT
-         W4jZQKzuSTtEZfkcDAD1uJv595nADXCpp8pEbtAYQ1d0uAgSYMQzcvqbAtaSN/nBfyY8
-         rfmLk1lyMsHGP83RE6u//TJmDvAN5N20FmDK+BUZ7Zmtx+M/NRnGtf/je8ybDq7vhvGQ
-         XJsw==
-X-Gm-Message-State: APjAAAVdRIVgArdI6Nxi6moGjeAuVpduhW2zSHV86PdGKFj4fNUZdAGA
-        pzdybB27lFHzycxPB1liFkNVQQ==
-X-Google-Smtp-Source: APXvYqxad1u6C2e/cv+Tm8SJFBvz8Mt1xEFYtc9Wnpqiik7XQlAmUbuOzEjnbzLmSEm8ikvwXQ0TEw==
-X-Received: by 2002:ac8:6f27:: with SMTP id i7mr4994566qtv.359.1571769670432;
-        Tue, 22 Oct 2019 11:41:10 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id a190sm11028340qkf.118.2019.10.22.11.41.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 22 Oct 2019 11:41:09 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iMz5h-0002GS-Er; Tue, 22 Oct 2019 15:41:09 -0300
-Date:   Tue, 22 Oct 2019 15:41:09 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     rd.dunlab@gmail.com, Max Gurtovoy <maxg@mellanox.com>
+        id S1732945AbfJVTvt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 15:51:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38970 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731436AbfJVTvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 15:51:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tglp08FPG85hsscttcMSUeJKF5mvx+KUX56tA2YsZbU=; b=qOQv5wI5bFAq0uQ21RGjuGRiX
+        0Nw7Ug/enTjOE4E4ppEHCFzpPDp7ZF0PUmFvwBWdzk1DpralPjMK4Z7xeYKfZzJ2cm4ng2U7EmtnU
+        XbMomBrph7g/QV0wUi49VHBSCP+yphF7LEEWDZWpeDSgE+qvoRUIPQXj/3off/9FccigHFydrmpUo
+        lqOoZhSLETCoDoZ/ewAki2L/LZFuvWkHM70SpQhR1i51K8S/QKHg5znjK+wfOI70l3bypSJsiCcEW
+        HLqQalifQnYHm/+Q+WZC4Y+Yx5v4TS6eyx18RIqpWN28gAAvp6/I3z3EmZT7WQDzoZdUT8ZhUHdqN
+        uifZuJILg==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iN0C4-0002Iv-Vm; Tue, 22 Oct 2019 19:51:49 +0000
+Subject: Re: [PATCH 05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h
+ kernel-doc notation
+To:     Jason Gunthorpe <jgg@ziepe.ca>, rd.dunlab@gmail.com
 Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 00/12] infiniband kernel-doc fixes & driver-api/ chapter
-Message-ID: <20191022184109.GA2155@ziepe.ca>
+        linux-doc@vger.kernel.org
 References: <20191010035239.532908118@gmail.com>
+ <20191010035239.890311169@gmail.com> <20191022175215.GA26528@ziepe.ca>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <e6be1ddd-c32f-4f8a-4528-7393d5997755@infradead.org>
+Date:   Tue, 22 Oct 2019 12:51:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010035239.532908118@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191022175215.GA26528@ziepe.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 08:52:39PM -0700, rd.dunlab@gmail.com wrote:
+On 10/22/19 10:52 AM, Jason Gunthorpe wrote:
+> On Wed, Oct 09, 2019 at 08:52:44PM -0700, rd.dunlab@gmail.com wrote:
+>> Make reserved struct fields "private:" so that they don't need to
+>> be added to the kernel-doc notation. This removes 24 warnings.
 > 
-> This patch series cleans up lots of kernel-doc in drivers/infiniband/
-> and then adds an infiniband.rst file.
+>> +++ linux-next-20191009/drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h
+>> @@ -129,21 +129,31 @@ struct opa_vesw_info {
+>>  	__be16  fabric_id;
+>>  	__be16  vesw_id;
+>>  
+>> +	/* private: */
+>>  	u8      rsvd0[6];
+>> +	/* public: */
+>>  	__be16  def_port_mask;
 > 
-> It also changes a few instances of non-exported functions from kernel-doc
-> notation back to non-kernel-doc comments.
-> 
-> There are still a few kernel-doc and Sphinx warnings that I don't know how
-> to resolve:
-> 
->   ../drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
->   ../drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
+> This seems overly ugly, is there some other way to handle these
+> reserved fields? Maybe wire protocol structures shouldn't be kdoc?
 
-Maybe Max can help?
+I don't know of any other way to handle them with kernel-doc.
+Sure, changing the /** to just /* would be one way to hide the
+warnings.  Either this patch or not having them be kernel-doc
+is needed just to "fix" 24 warnings.
 
->   ../drivers/infiniband/core/verbs.c:2510: WARNING: Unexpected indentation.
->   ../drivers/infiniband/core/verbs.c:2512: WARNING: Block quote ends without a blank line; unexpected unindent.
->   ../drivers/infiniband/core/verbs.c:2544: WARNING: Unexpected indentation.
+-- 
+~Randy
 
-I don't know what to make of these either.
-
-Anyhow, it is an overall improvement, so I applied everything but
-
-[05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h kernel-doc notation
-
-pending some discussion.
-
-Thanks,
-Jason
