@@ -1,141 +1,297 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A04F37D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 15:49:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5F5D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 16:46:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388466AbfJVPtQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 11:49:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31215 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2388425AbfJVPtQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 11:49:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571759354;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=soPvBg70/+oC8uencQegA6z5y64aNbKflTrsxEmRfUE=;
-        b=bp5PmL+R633SlveIxj6b4+pycNt01m+rfqq8xxuo7oZlgSKIzNqfbQKEwhzRHuJZKZgoIc
-        7rgDNokYLXGXI8b7n9zLL+WUYv/1dxyghnWIMjB2tOjee2Qq7KOCmj8DKbJhJ4RXmnhAUH
-        nI4G88EZjgCC8qjD37IOg7rakhUtTwk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-pP--3crAMhSTJdyaJUkLUQ-1; Tue, 22 Oct 2019 11:49:10 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64FA5800D49;
-        Tue, 22 Oct 2019 15:49:06 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 88EE560C57;
-        Tue, 22 Oct 2019 15:48:59 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue, 22 Oct 2019 17:49:06 +0200 (CEST)
-Date:   Tue, 22 Oct 2019 17:48:58 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Marco Elver <elver@google.com>
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
-        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
-        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
-        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
-        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
-        npiggin@gmail.com, paulmck@linux.ibm.com, peterz@infradead.org,
-        tglx@linutronix.de, will@kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20191022154858.GA13700@redhat.com>
-References: <20191017141305.146193-1-elver@google.com>
- <20191017141305.146193-2-elver@google.com>
+        id S1730197AbfJVQqO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 12:46:14 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:48743 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729909AbfJVQqO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 12:46:14 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1iMxIR-0004mh-Uq; Tue, 22 Oct 2019 18:46:11 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Gautam <vivek.gautam@codeaurora.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@pengutronix.de
+Subject: [RFC] docs: add a reset controller chapter to the driver API docs
+Date:   Tue, 22 Oct 2019 18:45:47 +0200
+Message-Id: <20191022164547.22632-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191017141305.146193-2-elver@google.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: pP--3crAMhSTJdyaJUkLUQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/17, Marco Elver wrote:
->
-> +=09/*
-> +=09 * Delay this thread, to increase probability of observing a racy
-> +=09 * conflicting access.
-> +=09 */
-> +=09udelay(get_delay());
-> +
-> +=09/*
-> +=09 * Re-read value, and check if it is as expected; if not, we infer a
-> +=09 * racy access.
-> +=09 */
-> +=09switch (size) {
-> +=09case 1:
-> +=09=09is_expected =3D expect_value._1 =3D=3D READ_ONCE(*(const u8 *)ptr)=
-;
-> +=09=09break;
-> +=09case 2:
-> +=09=09is_expected =3D expect_value._2 =3D=3D READ_ONCE(*(const u16 *)ptr=
-);
-> +=09=09break;
-> +=09case 4:
-> +=09=09is_expected =3D expect_value._4 =3D=3D READ_ONCE(*(const u32 *)ptr=
-);
-> +=09=09break;
-> +=09case 8:
-> +=09=09is_expected =3D expect_value._8 =3D=3D READ_ONCE(*(const u64 *)ptr=
-);
-> +=09=09break;
-> +=09default:
-> +=09=09break; /* ignore; we do not diff the values */
-> +=09}
-> +
-> +=09/* Check if this access raced with another. */
-> +=09if (!remove_watchpoint(watchpoint)) {
-> +=09=09/*
-> +=09=09 * No need to increment 'race' counter, as the racing thread
-> +=09=09 * already did.
-> +=09=09 */
-> +=09=09kcsan_report(ptr, size, is_write, smp_processor_id(),
-> +=09=09=09     kcsan_report_race_setup);
-> +=09} else if (!is_expected) {
-> +=09=09/* Inferring a race, since the value should not have changed. */
-> +=09=09kcsan_counter_inc(kcsan_counter_races_unknown_origin);
-> +#ifdef CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
-> +=09=09kcsan_report(ptr, size, is_write, smp_processor_id(),
-> +=09=09=09     kcsan_report_race_unknown_origin);
-> +#endif
-> +=09}
+Add initial reset controller API documentation. This is mostly indented
+to describe the concepts to users of the consumer API, and to tie the
+kerneldoc comments we already have into the driver API documentation.
 
-Not sure I understand this code...
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ Documentation/driver-api/index.rst |   1 +
+ Documentation/driver-api/reset.rst | 217 +++++++++++++++++++++++++++++
+ 2 files changed, 218 insertions(+)
+ create mode 100644 Documentation/driver-api/reset.rst
 
-Just for example. Suppose that task->state =3D TASK_UNINTERRUPTIBLE, this t=
-ask
-does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(ta=
-sk)
-which does the same UNINTERRUPTIBLE -> RUNNING transition.
-
-Looks like, this is the "data race" according to kcsan?
-
-Hmm. even the "if (!(p->state & state))" check in try_to_wake_up() can trig=
-ger
-kcsan_report() ?
-
-Oleg.
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 38e638abe3eb..0d589829c677 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -29,6 +29,7 @@ available subsections can be seen below.
+    sound
+    frame-buffer
+    regulator
++   reset
+    iio/index
+    input
+    usb/index
+diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+new file mode 100644
+index 000000000000..210ccd97c5f0
+--- /dev/null
++++ b/Documentation/driver-api/reset.rst
+@@ -0,0 +1,217 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++====================
++Reset controller API
++====================
++
++Introduction
++============
++
++Reset controllers are central units that control the reset signals to multiple
++peripherals.
++The reset controller API is split in two parts:
++the `consumer driver interface <#consumer-driver-interface>`__ (`API reference
++<#reset-consumer-api>`__), which allows peripheral drivers to request control
++over their reset input signals, and the `reset controller driver interface
++<#reset-controller-driver-interface>`__ (`API reference
++<#reset-controller-driver-api>`__), which is used by drivers for reset
++controller devices to register their reset controls to provide them to the
++consumers.
++
++While some reset controller hardware units also implement system restart
++functionality, restart handlers are out of scope for the reset controller API.
++
++Glossary
++--------
++
++The reset controller API uses these terms with a specific meaning:
++
++Reset line
++
++    Physical reset line carrying a reset signal from a reset controller
++    hardware unit to a peripheral module.
++
++Reset control
++
++    Control method that determines the state of one or multiple reset lines.
++    Most commonly this is a single bit in reset controller register space that
++    either allows direct control over the physical state of the reset line, or
++    is self-clearing and can be used to trigger a predetermined pulse on the
++    reset line.
++    In more complicated reset controls, a single trigger action can launch a
++    carefully timed sequence of pulses on multiple reset lines.
++
++Reset controller
++
++    A hardware module that provides a number of reset controls to control a
++    number of reset lines.
++
++Reset consumer
++
++    Peripheral module or external IC that is put into reset by the signal on a
++    reset line.
++
++Consumer driver interface
++=========================
++
++This interface offers a similar API to the kernel clock framework.
++Consumer drivers use get and put operations to acquire and release reset
++controls.
++Functions are provided to assert and deassert the controlled reset lines,
++trigger reset pulses, or to query reset line status.
++
++When requesting reset controls, consumers can use symbolic names for their
++reset inputs, which are mapped to an actual reset control on an existing reset
++controller device by the core.
++
++A stub version of this API is provided when the reset controller framework is
++not in use in order to minimise the need to use ifdefs.
++
++Shared and exclusive resets
++---------------------------
++
++The reset controller API provides either reference counted deassertion and
++assertion or direct, exclusive control.
++The distinction between shared and exclusive reset controls is made at the time
++the reset control is requested, either via :c:func:`devm_reset_control_get_shared`
++or via :c:func:`devm_reset_control_get_exclusive`.
++This choice determines the behavior of the API calls made with the reset
++control.
++
++Shared resets behave similarly to clocks in the kernel clock framework.
++They provide reference counted deassertion, where only the first deassert,
++which increments the deassertion reference count to one, and the last assert
++which decrements the deassertion reference count back to zero, have a physical
++effect on the reset line.
++
++Exclusive resets on the other hand guarantee direct control.
++That is, an assert causes the reset line to be asserted immediately, and a
++deassert causes the reset line to be deasserted immediately.
++
++Assertion and deassertion
++-------------------------
++
++Consumer drivers use the :c:func:`reset_control_assert` and
++:c:func:`reset_control_deassert` functions to assert and deassert reset lines.
++For shared reset controls, calls to the two functions must be balanced.
++
++Note that since multiple consumers may be using a shared reset control, there
++is no guarantee that calling reset_control_assert() on a shared reset control
++will actually cause the reset line to be asserted.
++Consumer drivers using shared reset controls should assume that the reset line
++may be kept deasserted at all times.
++The API only guarantees that the reset line can not be asserted as long as any
++consumer has requested it to be deasserted.
++
++Triggering
++----------
++
++Consumer drivers use :c:func:`reset_control_reset` to trigger a reset pulse on
++a self-deasserting reset control.
++In general, these resets can not be shared between multiple consumers, since
++requesting a pulse from any consumer driver will reset all connected
++peripherals.
++The reset controller API allows requesting self-deasserting reset controls as
++shared, but for those only the first trigger request causes an actual pulse to
++be issued on the reset line.
++All further calls to this function have no effect.
++This allows devices that only require an initial reset at any point before the
++driver is probed to share a pulsed reset line.
++
++Querying
++--------
++
++Only some reset controllers support querying the current status of a reset
++line, via :c:func:`reset_control_status`.
++This function which returns a positive non-zero value if the given reset line
++is asserted.
++
++Optional resets
++---------------
++
++Often peripherals require a reset line on some platforms but not on others.
++For this, reset controls can be requested as optional using
++:c:func:`devm_reset_control_get_optional_exclusive` or
++:c:func:`devm_reset_control_get_optional_shared`.
++These functions return a NULL pointer instead of an error when the requested
++reset control is not specified in the device tree.
++Passing a NULL pointer to the reset_control functions causes them to return
++quietly without an error.
++
++Reset control arrays
++--------------------
++
++Some drivers need to assert a bunch of reset lines in no particular order.
++:c:func:`devm_reset_control_array_get` returns an opaque reset control
++handle that can be used to assert, deassert, or trigger all specified reset
++controls at once.
++The reset control API does not guarantee the order in which the individual
++controls therein are handled.
++
++Reset controller driver interface
++=================================
++
++Drivers for reset controller modules provide the functionality necessary to
++assert or deassert reset signals, to trigger a reset pulse on a reset line, or
++to query its current state.
++All functions are optional.
++
++Initialization
++--------------
++
++Drivers fill a struct :c:type:`reset_controller_dev` and register it with
++:c:func:`reset_controller_register` in their probe function. The actual
++functionality is implemented in callback functions via a struct
++:c:type:`reset_control_ops`.
++
++API reference
++=============
++
++The reset controller API is documented here in two parts:
++the `reset consumer API <#reset-consumer-api>`__ and the `reset controller
++driver API <#reset-controller-driver-api>`__.
++
++Reset consumer API
++------------------
++
++Reset consumers can control a reset line using an opaque reset control handle,
++which can be obtained from :c:func:`devm_reset_control_get_exclusive` or
++:c:func:`devm_reset_control_get_shared`.
++Given the reset control, consumers can call :c:func:`reset_control_assert` and
++:c:func:`reset_control_deassert`, trigger a reset pulse using
++:c:func:`reset_control_reset`, or query the reset line status using
++:c:func:`reset_control_status`.
++
++.. kernel-doc:: include/linux/reset.h
++   :internal:
++
++.. kernel-doc:: drivers/reset/core.c
++   :functions: reset_control_reset
++               reset_control_assert
++               reset_control_deassert
++               reset_control_status
++               reset_control_acquire
++               reset_control_release
++               reset_control_put
++               of_reset_control_get_count
++               of_reset_control_array_get
++               devm_reset_control_array_get
++               reset_control_get_count
++
++Reset controller driver API
++---------------------------
++
++Reset controller drivers are supposed to implement the necessary functions in
++a static constant structure :c:type:`reset_control_ops`, allocate and fill out
++a struct :c:type:`reset_controller_dev`, and register it using
++:c:func:`devm_reset_controller_register`.
++
++.. kernel-doc:: include/linux/reset-controller.h
++   :internal:
++
++.. kernel-doc:: drivers/reset/core.c
++   :functions: of_reset_simple_xlate
++               reset_controller_register
++               reset_controller_unregister
++               devm_reset_controller_register
++               reset_controller_add_lookup
+-- 
+2.20.1
 
