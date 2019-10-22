@@ -1,74 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2736E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 19:58:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8FB17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 20:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731806AbfJVT6l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 15:58:41 -0400
-Received: from mail-out.m-online.net ([212.18.0.10]:43800 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731436AbfJVT6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 15:58:41 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 46yPTC2jGpz1rGS1;
-        Tue, 22 Oct 2019 21:58:39 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 46yPTC2T0Bz1qqkG;
-        Tue, 22 Oct 2019 21:58:39 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id 4G7lM95IUvTH; Tue, 22 Oct 2019 21:58:38 +0200 (CEST)
-X-Auth-Info: Q3F6pPVB3LuBbOmN3i9N/jCUoRNR8CaWtbjp8LlS2Ks=
-Received: from sandvich.home (pD9FFA4DF.dip0.t-ipconnect.de [217.255.164.223])
+        id S1732886AbfJVUFm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 16:05:42 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:55531 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727851AbfJVUFm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 16:05:42 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Tue, 22 Oct 2019 21:58:38 +0200 (CEST)
-From:   Harald Seiler <hws@denx.de>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Harald Seiler <hws@denx.de>
-Subject: [PATCH] docs: driver-api: Remove reference to sgi-ioc4
-Date:   Tue, 22 Oct 2019 21:57:48 +0200
-Message-Id: <20191022195747.226104-1-hws@denx.de>
-X-Mailer: git-send-email 2.23.0
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id E9038806A8;
+        Wed, 23 Oct 2019 09:05:39 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1571774739;
+        bh=ZAzrF3c701Q5En7yhnqJaJPDpGkraxfx66BqdRfMHpg=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To;
+        b=IoztEt39IvxMRUjeFnL1s2fX2nu82jD49uVLV96oAzsrdu3rIKKmTHvVEE90tJTq+
+         O+oO9SVkAzhrqmUHkWXXB82/aymNrTlIV4eiw1+lFdwlp7OOxvGEsUpCFqusA65eA0
+         JyiLh6dNAhP24QHiv3s5PNfM3Ow0/p6JH8vM1GNMjsqmkYazLyZmUNuCpLRMUa5Fxn
+         4gIB72nb92CeOaPhW/GhAEH3VoHDpEB9r0LYAjkQzTd3fOup4tHEXeTJOw5quLJZ2V
+         1ox+mBiMwjG3ocoRzkeXCtTgk2ktwGIMhZ5oa4il6kjYv/AqnqwpKzCZsK4xPQGymd
+         Zc2rhB9UatUXA==
+Received: from svr-chch-ex1.atlnz.lc (Not Verified[10.32.16.77]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5daf61130001>; Wed, 23 Oct 2019 09:05:39 +1300
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) with Microsoft SMTP Server
+ (TLS) id 15.0.1156.6; Wed, 23 Oct 2019 09:05:39 +1300
+Received: from svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8]) by
+ svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8%12]) with mapi id
+ 15.00.1156.000; Wed, 23 Oct 2019 09:05:39 +1300
+From:   Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To:     "corbet@lwn.net" <corbet@lwn.net>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs/core-api: memory-allocation: mention size helpers
+Thread-Topic: [PATCH] docs/core-api: memory-allocation: mention size helpers
+Thread-Index: AQHViFZz73VvXhctJkq3urlKh1RGBqdlzAUAgABxhQA=
+Date:   Tue, 22 Oct 2019 20:05:38 +0000
+Message-ID: <ed4a98e3d8c0efe58d888cf8fc6e913b40281f11.camel@alliedtelesis.co.nz>
+References: <20191021212751.21300-1-chris.packham@alliedtelesis.co.nz>
+         <20191022071920.4efff72b@lwn.net>
+In-Reply-To: <20191022071920.4efff72b@lwn.net>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [2001:df5:b000:22:a0a7:2bd4:9fed:473b]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <481BDAA1D53A234A88941CA38DCDD107@atlnz.lc>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit f7bc6e42bf12 ("drivers: remove the SGI SN2 IOC4 base support")
-removed support for SGI SN2 IOC4 and the relevant documentation files.
-Remove a leftover reference in the toctree of the driver-api
-documentation to fix this sphinx error:
-
-    Documentation/driver-api/index.rst:14: WARNING: toctree contains
-        reference to nonexisting document 'driver-api/sgi-ioc4'
-
-Signed-off-by: Harald Seiler <hws@denx.de>
----
- Documentation/driver-api/index.rst | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index c1e1b3f6d419..46d6a165b5a5 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -92,7 +92,6 @@ available subsections can be seen below.
-    pwm
-    rfkill
-    serial/index
--   sgi-ioc4
-    sm501
-    smsc_ece1099
-    switchtec
--- 
-2.23.0
-
+SGkgSm9uLA0KDQpPbiBUdWUsIDIwMTktMTAtMjIgYXQgMDc6MTkgLTA2MDAsIEpvbmF0aGFuIENv
+cmJldCB3cm90ZToNCj4gT24gVHVlLCAyMiBPY3QgMjAxOSAxMDoyNzo0NyArMTMwMA0KPiBDaHJp
+cyBQYWNraGFtIDxjaHJpcy5wYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+IHdyb3RlOg0KPiAN
+Cj4gPiBNZW50aW9uIHN0cnVjdF9zaXplKCksIGFycmF5X3NpemUoKSBhbmQgYXJyYXkzX3NpemUo
+KSBpbiB0aGUgc2FtZSBwbGFjZQ0KPiA+IGFzIGttYWxsb2MoKSBhbmQgZnJpZW5kcy4NCj4gPiAN
+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpcyBQYWNraGFtIDxjaHJpcy5wYWNraGFtQGFsbGllZHRl
+bGVzaXMuY28ubno+DQo+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vY29yZS1hcGkvbWVtb3J5
+LWFsbG9jYXRpb24ucnN0IHwgNCArKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9jb3JlLWFwaS9tZW1vcnktYWxsb2NhdGlvbi5yc3QgYi9Eb2N1bWVudGF0aW9uL2NvcmUtYXBp
+L21lbW9yeS1hbGxvY2F0aW9uLnJzdA0KPiA+IGluZGV4IGU1OTc3OWFhNzYxNS4uNmExMzE3Njdi
+ZWNkIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vY29yZS1hcGkvbWVtb3J5LWFsbG9j
+YXRpb24ucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9tZW1vcnktYWxsb2Nh
+dGlvbi5yc3QNCj4gPiBAQCAtOTEsNyArOTEsOSBAQCBUaGUgbW9zdCBzdHJhaWdodGZvcndhcmQg
+d2F5IHRvIGFsbG9jYXRlIG1lbW9yeSBpcyB0byB1c2UgYSBmdW5jdGlvbg0KPiA+ICBmcm9tIHRo
+ZSA6YzpmdW5jOmBrbWFsbG9jYCBmYW1pbHkuIEFuZCwgdG8gYmUgb24gdGhlIHNhZmUgc2lkZSBp
+dCdzDQo+ID4gIGJlc3QgdG8gdXNlIHJvdXRpbmVzIHRoYXQgc2V0IG1lbW9yeSB0byB6ZXJvLCBs
+aWtlDQo+ID4gIDpjOmZ1bmM6YGt6YWxsb2NgLiBJZiB5b3UgbmVlZCB0byBhbGxvY2F0ZSBtZW1v
+cnkgZm9yIGFuIGFycmF5LCB0aGVyZQ0KPiA+IC1hcmUgOmM6ZnVuYzpga21hbGxvY19hcnJheWAg
+YW5kIDpjOmZ1bmM6YGtjYWxsb2NgIGhlbHBlcnMuDQo+ID4gK2FyZSA6YzpmdW5jOmBrbWFsbG9j
+X2FycmF5YCBhbmQgOmM6ZnVuYzpga2NhbGxvY2AgaGVscGVycy4gVGhlIGhlbHBlcnMNCj4gPiAr
+OmM6ZnVuYzpgc3RydWN0X3NpemVgLCA6YzpmdW5jOmBhcnJheV9zaXplYCBhbmQgOmM6ZnVuYzpg
+YXJyYXkzX3NpemVgIGNhbiBiZQ0KPiA+ICt1c2VkIHRvIHNhZmVseSBjYWxjdWxhdGUgb2JqZWN0
+IHNpemVzIHdpdGhvdXQgb3ZlcmZsb3dpbmcuDQo+IA0KPiBRdWljayBjb21tZW50OiB3ZSBkb24n
+dCBuZWVkIDpjOmZ1bmM6IGFueW1vcmU7IHRoZSBtYXJrdXAgaGFwcGVucyBhbnl3YXkuDQo+IFNv
+IHJhdGhlciB0aGFuIGFkZGluZyBtb3JlIG9mIHRoZW0sIGNvdWxkIEkgYXNrIHlvdSB0byBwbGVh
+c2UgdGFrZSBvdXQgdGhlDQo+IG9uZXMgdGhhdCBhcmUgdGhlcmUgbm93Pw0KDQpTbyBqdXN0IHdp
+dGggYmFja3F1b3RlcyBpLmUuIDpjOmZ1bmM6YGttYWxsb2NgIGJlY29tZXMgYGttYWxsb2NgPw0K
+DQo+IA0KPiBUaGFua3MsDQo+IA0KPiBqb24NCg==
