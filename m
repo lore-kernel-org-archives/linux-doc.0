@@ -1,186 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B202A7D918
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 17:43:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66C4F7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 17:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725837AbfJVRnF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 13:43:05 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:32900 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731781AbfJVRnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 13:43:02 -0400
-Received: by mail-oi1-f193.google.com with SMTP id a15so14969746oic.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 10:43:01 -0700 (PDT)
+        id S1727881AbfJVRwS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 13:52:18 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:39854 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731491AbfJVRwR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 13:52:17 -0400
+Received: by mail-qk1-f195.google.com with SMTP id 4so17080418qki.6
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 10:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MHo+bPZ3FyZTrXrvFae5gOHqYffPj0NYcnQ23J1Mtd8=;
-        b=D8bfP3dYb9Xw3Ejz/XW6sJaiJoIzrU0if9m7dseFDXz0GuoQXFZZBSTgbjJU0sjON7
-         CTsIv3bjWf2AvHSPeKOaRXcyEjBAx+URak3jnpv4lulJ/EVuiqqWnNdoWoe554TF/cJ0
-         FU8/9VTLt4e6HnKwcSlzNGR54imzjgAORjvN05VsZdT3aFYiGR+7MO+6zvojPCzmaXQe
-         rqmerCdhyIjHFH+noVK7tj/FkhNO4aAZ0Up4wIhGTOOBiYn85Qd1A+J2olHu9J0wWQTq
-         mFpeecULEnrKhZxONseYGkjQ356U0Iwm1ionhs0PmWk/gwCIyyzyxv1w+qkcqY7dnMsh
-         p2hw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GYELYeqgb6u2HwVxCCOYQhK7Ymo2hH7WNh8GwwhW5CM=;
+        b=bDQW0HlXdjLizbv/Jl5OdFh6mBReWuDjZMe+gCSA3u4RNvV7nN9T2/RM3shr+8xujA
+         zZDjiLxyVYJviAFaOUvZF+jPmrtJRTj1u8vQQmfQnj/r2wtyobZYgn7FwQgwMAZUMuE/
+         klngz5yv6EfzGEbcf0HlURkIlEHpGdk3X/pFlBhi/lqpOwOjisp6EhjxOaIHtIZIprK1
+         2GMo5+zGQIAfrytcfi/V5VjhA6Cgy0bzr3R9lQEM3L21fwO9p/phFbfKqGfbWAveGUb8
+         6hQ4moWdcQy6KO+PWUktw6+GAY3OXNRLYx9BY3JqwPpu3NTg3YidMkJlq3osyx7AJHI/
+         M+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MHo+bPZ3FyZTrXrvFae5gOHqYffPj0NYcnQ23J1Mtd8=;
-        b=aItKN6gBUH2TP4BlpFxUlGELnXqNUrOkY/L0LOBZwU0G8942zjn8To5417CTHxLgQ7
-         Kz12Mhyg+gnIZX4/4UlXeTWQ1JotYXO3hGbAM4mSLxa4pRkA+7gPQEEhyblTHXsRFyp+
-         mbAUDwMjPphN6v4cu/KVKp9T8DPgdthDUB7PvmnHGGYI7RyuR5cBIbDfugpWeCEZ72bx
-         PvKuAuglOQS6rMQ+B0w0NNCgOx7wVepyovgi0ZJ6Fs/M2t6R4Pz4K05bq9e73evgJL+x
-         uzulKWRkSJUZyDnSfiHsGawoOp371ZZgw4SOYex7GXOE+s72t6m5fWqWs5OZVdwypxL1
-         VlOQ==
-X-Gm-Message-State: APjAAAVXTPsDGOuDd+T5l01LPZQPEwvTPpY3qGLI1Wtsnmg41YJEUm10
-        ZeyeGWzOYxfjOgq1nvzOK8akqHVKf8MWkoiZLfcpyg==
-X-Google-Smtp-Source: APXvYqxfVwLHQu/nljm2npVYMv0/xxXLHw8hKdDqlhGb7PXQz9eRPAcgKMk0ub1hWAYFfjq7ip3as3hOP5jSlLN4VGw=
-X-Received: by 2002:aca:f492:: with SMTP id s140mr4056153oih.83.1571766180963;
- Tue, 22 Oct 2019 10:43:00 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GYELYeqgb6u2HwVxCCOYQhK7Ymo2hH7WNh8GwwhW5CM=;
+        b=WHgp89VOrLOwxkBPSER67isD4God8MEb+ychsdvf553rWUs7xygAQLeh7Dr8Ve/6AX
+         ge/jT/llXDGGkqaE6J0RlRZABTquKunWfESeB7tldcbEAgChfss/ncy94tbunq4n0zmp
+         x0aQ1PkIXtPWlos+v2AiCWlhJpVlpqh+XG0Z7ISNN0BJTHcBlfj3GxEcyJ4FITckpZKS
+         VnVyMKHVxqak3m/c+IkJMxn5kDbG0m/++G90MOiKIhXacnSUjZCopVwvuUdJxA92PaN+
+         YUpBdKQgjLgRMA58WpIpHg66CCIsppbRnXos2viZInrzHdZBMsQQTIMalFC65lB+J707
+         ELNQ==
+X-Gm-Message-State: APjAAAWuhsEfV7RXTQDvnkj07YS+s50yiAZuAO948i1MeZAdVOfmc3U+
+        dYqPdWPQ1s68UOZ7of/B/4Cjdg==
+X-Google-Smtp-Source: APXvYqz7BrDUSkINRnh21r1LtSQAw+f4VqRc40zrgszfx4KX51bI2hxaxDMXGmHX2qXrGIglup0Ejg==
+X-Received: by 2002:a37:7641:: with SMTP id r62mr4225750qkc.496.1571766736887;
+        Tue, 22 Oct 2019 10:52:16 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id k187sm178903qkb.20.2019.10.22.10.52.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 22 Oct 2019 10:52:16 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iMyKO-0006ui-0C; Tue, 22 Oct 2019 14:52:16 -0300
+Date:   Tue, 22 Oct 2019 14:52:15 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     rd.dunlab@gmail.com
+Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h
+ kernel-doc notation
+Message-ID: <20191022175215.GA26528@ziepe.ca>
+References: <20191010035239.532908118@gmail.com>
+ <20191010035239.890311169@gmail.com>
 MIME-Version: 1.0
-References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
- <20191022154858.GA13700@redhat.com>
-In-Reply-To: <20191022154858.GA13700@redhat.com>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 22 Oct 2019 19:42:48 +0200
-Message-ID: <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191010035239.890311169@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Oct 2019 at 17:49, Oleg Nesterov <oleg@redhat.com> wrote:
->
-> On 10/17, Marco Elver wrote:
-> >
-> > +     /*
-> > +      * Delay this thread, to increase probability of observing a racy
-> > +      * conflicting access.
-> > +      */
-> > +     udelay(get_delay());
-> > +
-> > +     /*
-> > +      * Re-read value, and check if it is as expected; if not, we infer a
-> > +      * racy access.
-> > +      */
-> > +     switch (size) {
-> > +     case 1:
-> > +             is_expected = expect_value._1 == READ_ONCE(*(const u8 *)ptr);
-> > +             break;
-> > +     case 2:
-> > +             is_expected = expect_value._2 == READ_ONCE(*(const u16 *)ptr);
-> > +             break;
-> > +     case 4:
-> > +             is_expected = expect_value._4 == READ_ONCE(*(const u32 *)ptr);
-> > +             break;
-> > +     case 8:
-> > +             is_expected = expect_value._8 == READ_ONCE(*(const u64 *)ptr);
-> > +             break;
-> > +     default:
-> > +             break; /* ignore; we do not diff the values */
-> > +     }
-> > +
-> > +     /* Check if this access raced with another. */
-> > +     if (!remove_watchpoint(watchpoint)) {
-> > +             /*
-> > +              * No need to increment 'race' counter, as the racing thread
-> > +              * already did.
-> > +              */
-> > +             kcsan_report(ptr, size, is_write, smp_processor_id(),
-> > +                          kcsan_report_race_setup);
-> > +     } else if (!is_expected) {
-> > +             /* Inferring a race, since the value should not have changed. */
-> > +             kcsan_counter_inc(kcsan_counter_races_unknown_origin);
-> > +#ifdef CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
-> > +             kcsan_report(ptr, size, is_write, smp_processor_id(),
-> > +                          kcsan_report_race_unknown_origin);
-> > +#endif
-> > +     }
->
-> Not sure I understand this code...
->
-> Just for example. Suppose that task->state = TASK_UNINTERRUPTIBLE, this task
-> does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(task)
-> which does the same UNINTERRUPTIBLE -> RUNNING transition.
->
-> Looks like, this is the "data race" according to kcsan?
+On Wed, Oct 09, 2019 at 08:52:44PM -0700, rd.dunlab@gmail.com wrote:
+> Make reserved struct fields "private:" so that they don't need to
+> be added to the kernel-doc notation. This removes 24 warnings.
 
-Yes, they are "data races". They are probably not "race conditions" though.
+> +++ linux-next-20191009/drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h
+> @@ -129,21 +129,31 @@ struct opa_vesw_info {
+>  	__be16  fabric_id;
+>  	__be16  vesw_id;
+>  
+> +	/* private: */
+>  	u8      rsvd0[6];
+> +	/* public: */
+>  	__be16  def_port_mask;
 
-This is a fair distinction to make, and we never claimed to find "race
-conditions" only -- race conditions are logic bugs that result in bad
-state due to unexpected interleaving of threads. Data races are more
-subtle, and become relevant at the programming language level.
+This seems overly ugly, is there some other way to handle these
+reserved fields? Maybe wire protocol structures shouldn't be kdoc?
 
-In Documentation we summarize: "Informally, two operations conflict if
-they access the same memory location, and at least one of them is a
-write operation. In an execution, two memory operations from different
-threads form a data-race if they conflict, at least one of them is a
-*plain* access (non-atomic), and they are unordered in the
-"happens-before" order according to the LKMM."
-
-KCSAN's goal is to find *data races* according to the LKMM.  Some data
-races are race conditions (usually the more interesting bugs) -- but
-not *all* data races are race conditions. Those are what are usually
-referred to as "benign", but they can still become bugs on the wrong
-arch/compiler combination. Hence, the need to annotate these accesses
-with READ_ONCE, WRITE_ONCE or use atomic_t:
-- https://lwn.net/Articles/793253/
-- https://lwn.net/Articles/799218/
-
-> Hmm. even the "if (!(p->state & state))" check in try_to_wake_up() can trigger
-> kcsan_report() ?
-
-We blacklisted sched (KCSAN_SANITIZE := n   in kernel/sched/Makefile),
-so these data races won't actually be reported.
-
-Thanks,
--- Marco
-
-> Oleg.
->
+Jason
