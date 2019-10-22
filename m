@@ -1,397 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BBA07D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 03:32:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA89C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 06:01:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387437AbfJVDcA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 23:32:00 -0400
-Received: from 59-120-53-16.HINET-IP.hinet.net ([59.120.53.16]:31949 "EHLO
-        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730370AbfJVDcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 23:32:00 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id x9M3DoXs081015;
-        Tue, 22 Oct 2019 11:13:50 +0800 (GMT-8)
-        (envelope-from nickhu@andestech.com)
-Received: from andestech.com (10.0.15.65) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Tue, 22 Oct 2019
- 11:30:51 +0800
-Date:   Tue, 22 Oct 2019 11:30:51 +0800
-From:   Nick Hu <nickhu@andestech.com>
-To:     Greentime Hu <green.hu@gmail.com>
-CC:     Greentime Hu <greentime.hu@sifive.com>,
-        Alan Quey-Liang =?utf-8?B?S2FvKOmrmOmtgeiJryk=?= 
-        <alankao@andestech.com>, Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "aryabinin@virtuozzo.com" <aryabinin@virtuozzo.com>,
-        "glider@google.com" <glider@google.com>,
-        "dvyukov@google.com" <dvyukov@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "alexios.zavras@intel.com" <alexios.zavras@intel.com>,
-        "allison@lohutok.net" <allison@lohutok.net>,
-        "Anup.Patel@wdc.com" <Anup.Patel@wdc.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "atish.patra@wdc.com" <atish.patra@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 2/3] riscv: Add KASAN support
-Message-ID: <20191022033051.GB29285@andestech.com>
-References: <cover.1570514544.git.nickhu@andestech.com>
- <8d86d53e904bece0623cb8969cdc70f782fa2bae.1570514544.git.nickhu@andestech.com>
- <CAEbi=3fTKqt545tEz6c-RCdKniq2ZxOqvamFpJsbe=D+gpGBcQ@mail.gmail.com>
+        id S1729133AbfJVGBR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 02:01:17 -0400
+Received: from mout.web.de ([212.227.15.14]:50209 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726569AbfJVGBQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Oct 2019 02:01:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1571724058;
+        bh=acVU5mOSMaCDgB7gHBcOOWdOdcqUAEkvfKW+ViGn8Kc=;
+        h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
+        b=m7snXKDihF4NUOPCEU7s/jKgeUfxGFPIqX72GTQW1L0kr0K3+brqkbZ8rlCMAgre9
+         YmGS85FDzP01NMs8QTfkjqYA66HpXop3rKCeQ+wpCuB0ZwpjmezThG9q1XR6ZFhXBe
+         nP0uULxuB8UV6Xfse6IFsFXYuMiosyM/BnRm27Fk=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.132.150.42]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LaIRi-1hapxk1YLO-00m171; Tue, 22
+ Oct 2019 08:00:58 +0200
+To:     netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, David Ahern <dsahern@gmail.com>,
+        David Miller <davem@davemloft.net>,
+        Josh Hunt <johunt@akamai.com>,
+        Stephen Hemminger <stephen@networkplumber.org>
+References: <20190601.164838.1496580524715275443.davem@davemloft.net>
+Subject: Re: [RFC] ss: Checking selected network ports
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <93483314-22eb-0ed6-70b3-044e6e007a34@web.de>
+Date:   Tue, 22 Oct 2019 08:00:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEbi=3fTKqt545tEz6c-RCdKniq2ZxOqvamFpJsbe=D+gpGBcQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.0.15.65]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com x9M3DoXs081015
+In-Reply-To: <20190601.164838.1496580524715275443.davem@davemloft.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Provags-ID: V03:K1:AtDsWwGMqmyZ6n2xHR/7FuRrDqa18Gwm/9QrkNySyB8KOnDnAJI
+ WQJI33xdCKv9yu7o3J2ZdEbQSijXaC3OwecqXGeI/qOBwSBO2LKQluVTWLobgXjcWHl3q5M
+ V3ckK2VWteuSyfHoo6ufsoN42JiScXhAKzOjqqu0JVD8iiU5J6H5+OdQPv7wE6dpjImsJNm
+ MFNnrRo13gTzMhOlL5hbQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M9nY+nIKi40=:JHcMCW8/HlhjnaW6mYFjdJ
+ ETXbGv7vvcbn7RkxxZ6Gm6rC7OB5mVkEIUSe0Eu/yX1th2GuS7xkslTeHu2nXfA6qzuFKg2NW
+ zOx3JbNRCBoInO0DxhP1aYEp6PUS/+YkE5h1uuIQ6+jOabWqClO1KHNQHK5cMEIHDeB9kUxFk
+ o3rnc8L3pgTR2ys3MvJAygK8JdMA8MqUi9U7OV70DyneRkNgcAH9cEnBllrCsy52pBU1sKOw/
+ uxVlV3Igu/kS6H67i/EqbgabprCz7y0oOHVI+v9NF6LjFCZSebyo92iO4l3H6aDMZQhlFLBUa
+ c9NlRRlZPgtOyX9JLiFIcjBCUSW1eUBFzR+vvNxwvuPX7nLSmwRvP92NQAVFimhb0DJodUftW
+ d9HO84FhLOlv0IvBZALadhm5R68G5xTbi0mXWO5KZHdsSsJ4yST16AjF9FkHJintI7PQVDmVJ
+ bjjTJ1fgVQb0jbX6v9CKR/QuOinxhgxiU2eQiwalyUkX0Dw+2CgWeZL3EMlp6CSmIp49A6SvY
+ A5OjT8SSI2yqtCHfzJw9sSRB0EdbVXwbmFde0oA5GQevTlgZWf2A5/TWjh+l6W6/i1hOEGAdh
+ CGAouYDTKAi38DfMey93+qQk1VbmTTlcNyr+5r51JtfXb/7Yy1JrxJUvwHvyqvnvwznEXB1Fj
+ TvyXI9sxut83Ad8VkLqwEgAeydMUaHED4/gG+KBf5Uab4QQ98ry4STa4KdxqPoel95Zk4lTNI
+ EN4OMRvyWTC9g26iZdS958HzcQv6yPUWM6V/ZjDnSTN29YJA4NnZfl8srTao/h26cAB76fF3C
+ P2lA1ePjyHtnvzltuKyGIW1mVlGyzflbpekEZjRCAE05TyThi7PH2c/1ABr3fcxBJrJfBfgzv
+ 1RAWLMtyQNHMOhV3R6EUcRrzGCReCVQvCTl1DlDOG4eYXsTvT7y/WSruOKwk7PWJHlsX21cUG
+ KcYfqD2Cwg2E/f2iC8OPQY1tviDGe1RyatsDphpQ9K5Y+E3359UxSnhMzSaniGfUQ94oAmf9e
+ t1Td3Rll5TWkUpDkEzd+7xIn+u9Hr/m1PgqJmKY50TThjBR+Fg5h9Gs5S6/riVRsRsvtZyHed
+ YHMnB6+KL5OWoOlXFKOKE0IQZ0CA20vPdyT1gBFgDTZWzYeIQAV2x18YlFMWhEkB/MNSEYW6b
+ Pjz3YjKopphSlTUh6c8cC5K083Ovwgvn/pB7eWnNVjWZ1J5W+ZrCS97WmA3EC05gEjTVGZQ1Y
+ NiU7dlEzGbHPTp1jKktXfe2gSHFwibwjGLh0RuBtoPuPqLcGtRu3VjeiAf50=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 05:33:31PM +0800, Greentime Hu wrote:
-> Nick Hu <nickhu@andestech.com> 於 2019年10月8日 週二 下午2:17寫道：
-> >
-> > This patch ports the feature Kernel Address SANitizer (KASAN).
-> >
-> > Note: The start address of shadow memory is at the beginning of kernel
-> > space, which is 2^64 - (2^39 / 2) in SV39. The size of the kernel space is
-> > 2^38 bytes so the size of shadow memory should be 2^38 / 8. Thus, the
-> > shadow memory would not overlap with the fixmap area.
-> >
-> > There are currently two limitations in this port,
-> >
-> > 1. RV64 only: KASAN need large address space for extra shadow memory
-> > region.
-> >
-> > 2. KASAN can't debug the modules since the modules are allocated in VMALLOC
-> > area. We mapped the shadow memory, which corresponding to VMALLOC area, to
-> > the kasan_early_shadow_page because we don't have enough physical space for
-> > all the shadow memory corresponding to VMALLOC area.
-> >
-> > Signed-off-by: Nick Hu <nickhu@andestech.com>
-> > ---
-> >  arch/riscv/Kconfig                  |   1 +
-> >  arch/riscv/include/asm/kasan.h      |  27 ++++++++
-> >  arch/riscv/include/asm/pgtable-64.h |   5 ++
-> >  arch/riscv/include/asm/string.h     |   9 +++
-> >  arch/riscv/kernel/head.S            |   3 +
-> >  arch/riscv/kernel/riscv_ksyms.c     |   2 +
-> >  arch/riscv/kernel/setup.c           |   5 ++
-> >  arch/riscv/kernel/vmlinux.lds.S     |   1 +
-> >  arch/riscv/lib/memcpy.S             |   5 +-
-> >  arch/riscv/lib/memset.S             |   5 +-
-> >  arch/riscv/mm/Makefile              |   6 ++
-> >  arch/riscv/mm/kasan_init.c          | 104 ++++++++++++++++++++++++++++
-> >  12 files changed, 169 insertions(+), 4 deletions(-)
-> >  create mode 100644 arch/riscv/include/asm/kasan.h
-> >  create mode 100644 arch/riscv/mm/kasan_init.c
-> >
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index 8eebbc8860bb..ca2fc8ba8550 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -61,6 +61,7 @@ config RISCV
-> >         select SPARSEMEM_STATIC if 32BIT
-> >         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
-> >         select HAVE_ARCH_MMAP_RND_BITS
-> > +       select HAVE_ARCH_KASAN if MMU && 64BIT
-> >
-> >  config ARCH_MMAP_RND_BITS_MIN
-> >         default 18 if 64BIT
-> > diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
-> > new file mode 100644
-> > index 000000000000..eb9b1a2f641c
-> > --- /dev/null
-> > +++ b/arch/riscv/include/asm/kasan.h
-> > @@ -0,0 +1,27 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/* Copyright (C) 2019 Andes Technology Corporation */
-> > +
-> > +#ifndef __ASM_KASAN_H
-> > +#define __ASM_KASAN_H
-> > +
-> > +#ifndef __ASSEMBLY__
-> > +
-> > +#ifdef CONFIG_KASAN
-> > +
-> > +#include <asm/pgtable.h>
-> > +
-> > +#define KASAN_SHADOW_SCALE_SHIFT       3
-> > +
-> > +#define KASAN_SHADOW_SIZE      (UL(1) << (38 - KASAN_SHADOW_SCALE_SHIFT))
-> > +#define KASAN_SHADOW_START     0xffffffc000000000 // 2^64 - 2^38
-> > +#define KASAN_SHADOW_END       (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
-> > +
-> > +#define KASAN_SHADOW_OFFSET    (KASAN_SHADOW_END - (1ULL << \
-> > +                                       (64 - KASAN_SHADOW_SCALE_SHIFT)))
-> > +
-> > +void kasan_init(void);
-> > +asmlinkage void kasan_early_init(void);
-> > +
-> > +#endif
-> > +#endif
-> > +#endif /* __ASM_KASAN_H */
-> > diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
-> > index 7df8daa66cc8..777a1dddb3df 100644
-> > --- a/arch/riscv/include/asm/pgtable-64.h
-> > +++ b/arch/riscv/include/asm/pgtable-64.h
-> > @@ -59,6 +59,11 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
-> >         return (unsigned long)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT);
-> >  }
-> >
-> > +static inline struct page *pud_page(pud_t pud)
-> > +{
-> > +       return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
-> > +}
-> > +
-> >  #define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
-> >
-> >  static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
-> > diff --git a/arch/riscv/include/asm/string.h b/arch/riscv/include/asm/string.h
-> > index 1b5d44585962..a4451f768826 100644
-> > --- a/arch/riscv/include/asm/string.h
-> > +++ b/arch/riscv/include/asm/string.h
-> > @@ -11,8 +11,17 @@
-> >
-> >  #define __HAVE_ARCH_MEMSET
-> >  extern asmlinkage void *memset(void *, int, size_t);
-> > +extern asmlinkage void *__memset(void *, int, size_t);
-> >
-> >  #define __HAVE_ARCH_MEMCPY
-> >  extern asmlinkage void *memcpy(void *, const void *, size_t);
-> > +extern asmlinkage void *__memcpy(void *, const void *, size_t);
-> >
-> > +// For those files which don't want to check by kasan.
-> > +#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
-> > +
-> > +#define memcpy(dst, src, len) __memcpy(dst, src, len)
-> > +#define memset(s, c, n) __memset(s, c, n)
-> > +
-> > +#endif
-> >  #endif /* _ASM_RISCV_STRING_H */
-> > diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-> > index 72f89b7590dd..95eca23cd811 100644
-> > --- a/arch/riscv/kernel/head.S
-> > +++ b/arch/riscv/kernel/head.S
-> > @@ -102,6 +102,9 @@ clear_bss_done:
-> >         sw zero, TASK_TI_CPU(tp)
-> >         la sp, init_thread_union + THREAD_SIZE
-> >
-> > +#ifdef CONFIG_KASAN
-> > +       call kasan_early_init
-> > +#endif
-> >         /* Start the kernel */
-> >         call parse_dtb
-> >         tail start_kernel
-> > diff --git a/arch/riscv/kernel/riscv_ksyms.c b/arch/riscv/kernel/riscv_ksyms.c
-> > index 4800cf703186..376bba7f65ce 100644
-> > --- a/arch/riscv/kernel/riscv_ksyms.c
-> > +++ b/arch/riscv/kernel/riscv_ksyms.c
-> > @@ -14,3 +14,5 @@ EXPORT_SYMBOL(__asm_copy_to_user);
-> >  EXPORT_SYMBOL(__asm_copy_from_user);
-> >  EXPORT_SYMBOL(memset);
-> >  EXPORT_SYMBOL(memcpy);
-> > +EXPORT_SYMBOL(__memset);
-> > +EXPORT_SYMBOL(__memcpy);
-> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > index a990a6cb184f..41f7eae9bc4d 100644
-> > --- a/arch/riscv/kernel/setup.c
-> > +++ b/arch/riscv/kernel/setup.c
-> > @@ -23,6 +23,7 @@
-> >  #include <asm/smp.h>
-> >  #include <asm/tlbflush.h>
-> >  #include <asm/thread_info.h>
-> > +#include <asm/kasan.h>
-> >
-> >  #ifdef CONFIG_DUMMY_CONSOLE
-> >  struct screen_info screen_info = {
-> > @@ -70,6 +71,10 @@ void __init setup_arch(char **cmdline_p)
-> >         swiotlb_init(1);
-> >  #endif
-> >
-> > +#ifdef CONFIG_KASAN
-> > +       kasan_init();
-> > +#endif
-> > +
-> >  #ifdef CONFIG_SMP
-> >         setup_smp();
-> >  #endif
-> > diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
-> > index 23cd1a9e52a1..97009803ba9f 100644
-> > --- a/arch/riscv/kernel/vmlinux.lds.S
-> > +++ b/arch/riscv/kernel/vmlinux.lds.S
-> > @@ -46,6 +46,7 @@ SECTIONS
-> >                 KPROBES_TEXT
-> >                 ENTRY_TEXT
-> >                 IRQENTRY_TEXT
-> > +               SOFTIRQENTRY_TEXT
-> >                 *(.fixup)
-> >                 _etext = .;
-> >         }
-> > diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
-> > index b4c477846e91..51ab716253fa 100644
-> > --- a/arch/riscv/lib/memcpy.S
-> > +++ b/arch/riscv/lib/memcpy.S
-> > @@ -7,7 +7,8 @@
-> >  #include <asm/asm.h>
-> >
-> >  /* void *memcpy(void *, const void *, size_t) */
-> > -ENTRY(memcpy)
-> > +ENTRY(__memcpy)
-> > +WEAK(memcpy)
-> >         move t6, a0  /* Preserve return value */
-> >
-> >         /* Defer to byte-oriented copy for small sizes */
-> > @@ -104,4 +105,4 @@ ENTRY(memcpy)
-> >         bltu a1, a3, 5b
-> >  6:
-> >         ret
-> > -END(memcpy)
-> > +END(__memcpy)
-> > diff --git a/arch/riscv/lib/memset.S b/arch/riscv/lib/memset.S
-> > index 5a7386b47175..34c5360c6705 100644
-> > --- a/arch/riscv/lib/memset.S
-> > +++ b/arch/riscv/lib/memset.S
-> > @@ -8,7 +8,8 @@
-> >  #include <asm/asm.h>
-> >
-> >  /* void *memset(void *, int, size_t) */
-> > -ENTRY(memset)
-> > +ENTRY(__memset)
-> > +WEAK(memset)
-> >         move t0, a0  /* Preserve return value */
-> >
-> >         /* Defer to byte-oriented fill for small sizes */
-> > @@ -109,4 +110,4 @@ ENTRY(memset)
-> >         bltu t0, a3, 5b
-> >  6:
-> >         ret
-> > -END(memset)
-> > +END(__memset)
-> > diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
-> > index 9d9a17335686..b8a8ca71f86e 100644
-> > --- a/arch/riscv/mm/Makefile
-> > +++ b/arch/riscv/mm/Makefile
-> > @@ -17,3 +17,9 @@ ifeq ($(CONFIG_MMU),y)
-> >  obj-$(CONFIG_SMP) += tlbflush.o
-> >  endif
-> >  obj-$(CONFIG_HUGETLB_PAGE) += hugetlbpage.o
-> > +obj-$(CONFIG_KASAN)   += kasan_init.o
-> > +
-> > +ifdef CONFIG_KASAN
-> > +KASAN_SANITIZE_kasan_init.o := n
-> > +KASAN_SANITIZE_init.o := n
-> > +endif
-> > diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-> > new file mode 100644
-> > index 000000000000..c3152768cdbe
-> > --- /dev/null
-> > +++ b/arch/riscv/mm/kasan_init.c
-> > @@ -0,0 +1,104 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +// Copyright (C) 2019 Andes Technology Corporation
-> > +
-> > +#include <linux/pfn.h>
-> > +#include <linux/init_task.h>
-> > +#include <linux/kasan.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/memblock.h>
-> > +#include <asm/tlbflush.h>
-> > +#include <asm/pgtable.h>
-> > +#include <asm/fixmap.h>
-> > +
-> > +extern pgd_t early_pg_dir[PTRS_PER_PGD];
-> > +asmlinkage void __init kasan_early_init(void)
-> > +{
-> > +       uintptr_t i;
-> > +       pgd_t *pgd = early_pg_dir + pgd_index(KASAN_SHADOW_START);
-> > +
-> > +       for (i = 0; i < PTRS_PER_PTE; ++i)
-> > +               set_pte(kasan_early_shadow_pte + i,
-> > +                       mk_pte(virt_to_page(kasan_early_shadow_page),
-> > +                       PAGE_KERNEL));
-> > +
-> > +       for (i = 0; i < PTRS_PER_PMD; ++i)
-> > +               set_pmd(kasan_early_shadow_pmd + i,
-> > +                pfn_pmd(PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pte)),
-> > +                       __pgprot(_PAGE_TABLE)));
-> > +
-> > +       for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-> > +            i += PGDIR_SIZE, ++pgd)
-> > +               set_pgd(pgd,
-> > +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd))),
-> > +                       __pgprot(_PAGE_TABLE)));
-> > +
-> > +       // init for swapper_pg_dir
-> > +       pgd = pgd_offset_k(KASAN_SHADOW_START);
-> > +
-> > +       for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-> > +            i += PGDIR_SIZE, ++pgd)
-> > +               set_pgd(pgd,
-> > +                pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd))),
-> > +                       __pgprot(_PAGE_TABLE)));
-> > +
-> > +       flush_tlb_all();
-> > +}
-> > +
-> > +static void __init populate(void *start, void *end)
-> > +{
-> > +       unsigned long i;
-> > +       unsigned long vaddr = (unsigned long)start & PAGE_MASK;
-> > +       unsigned long vend = PAGE_ALIGN((unsigned long)end);
-> > +       unsigned long n_pages = (vend - vaddr) / PAGE_SIZE;
-> > +       unsigned long n_pmds =
-> > +               (n_pages % PTRS_PER_PTE) ? n_pages / PTRS_PER_PTE + 1 :
-> > +                                               n_pages / PTRS_PER_PTE;
-> > +       pgd_t *pgd = pgd_offset_k(vaddr);
-> > +       pmd_t *pmd = memblock_alloc(n_pmds * sizeof(pmd_t), PAGE_SIZE);
-> > +       pte_t *pte = memblock_alloc(n_pages * sizeof(pte_t), PAGE_SIZE);
-> > +
-> > +       for (i = 0; i < n_pages; i++) {
-> > +               phys_addr_t phys = memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
-> > +
-> > +               set_pte(pte + i, pfn_pte(PHYS_PFN(phys), PAGE_KERNEL));
-> > +       }
-> > +
-> > +       for (i = 0; i < n_pages; ++pmd, i += PTRS_PER_PTE)
-> > +               set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa((uintptr_t)(pte + i))),
-> > +                               __pgprot(_PAGE_TABLE)));
-> > +
-> > +       for (i = vaddr; i < vend; i += PGDIR_SIZE, ++pgd)
-> > +               set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(((uintptr_t)pmd))),
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +                               __pgprot(_PAGE_TABLE)));
-> > +
-> 
-> Hi Nick,
-> 
-> I verify this patch in Qemu and Unleashed board.
-> I found it works well if DRAM size is less than 4GB.
-> It will get an access fault if the DRAM size is larger than 4GB.
-> 
-> I spend some time to debug this case and I found it hang in the
-> following memset().
-> It is because the mapping is not created correctly. I check the page
-> table creating logic again and I found it always sets the last pmd
-> here.
-Hi Greentime,
+> If you use netlink operations directly, you can have the kernel filter
+> on various criteria and only get the socket entries you are interested in.
 
-Thanks! I would fix it in v4 patch.
+Do any developers care to take another look at current software design options?
 
-Nick.
+
+> This whole discussion has zero to do with what text format 'ss' outputs.
+
+Is there a need to improve the software documentation any further?
+
+Which programming interface should be used to check the receive queue
+for a single port (without retrieving more network data before)?
+
+Regards,
+Markus
