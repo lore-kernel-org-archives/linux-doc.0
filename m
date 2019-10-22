@@ -1,145 +1,326 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B0487D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 14:06:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5AD57D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 14:11:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387774AbfJVOF6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 10:05:58 -0400
-Received: from mx0b-002ab301.pphosted.com ([148.163.154.99]:46936 "EHLO
-        mx0b-002ab301.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727582AbfJVOF6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 10:05:58 -0400
-Received: from pps.filterd (m0118796.ppops.net [127.0.0.1])
-        by mx0b-002ab301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9MDU3wY025204;
-        Tue, 22 Oct 2019 09:33:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=distech-controls.com; h=from : to :
- cc : subject : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=pps-02182019;
- bh=OHfWqRNrM4KLke+JV4p0Bl6H4azXA0yTUEHl7an7BN0=;
- b=IU3sQgf0ZDRjhjwQHY61aIn9HHfiBPVeoJFMPnHwUYTxuShr2n0P9BhcUFOYToDni6gO
- IrrRzZSyrSPxlw9hdQQOpUq9EWCgnb4IHNH1tESwJPToRAb6+cmfdBLKyEMwH//vu0iF
- jr42t3D48Y3EArxoIvnMQgT+K3LT+3JXJltGTHBL+BZ1pzrWhbVafmUmnhvJ5oN305WX
- DA5hVEIMKp5uA94+vRuqVJ5Dvysr84iCyXMAarGBdzkyrKXpW+4u9ogwakFp5ZGrCWHY
- GxYk9k8kW9xN5aGZDlDGhxNxZiSC1cdLn1W3EmZNkkHheVTdn3GZVKYYyJq3aqevDIQF QQ== 
-Received: from nam03-co1-obe.outbound.protection.outlook.com (mail-co1nam03lp2050.outbound.protection.outlook.com [104.47.40.50])
-        by mx0b-002ab301.pphosted.com with ESMTP id 2vsk6prrgx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 22 Oct 2019 09:33:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J922cr9DGykLm5LdLeg3EwGeNzdn0AjZsjEFiwZtpo6L7bJ4F9KBwPySjJIorgImJczhzqj5eFVFPoPHNDq0zV33JlQYGrp9JZpE+71fuFVSEFtzrJjE7/LuSyJWEGV8cUMPxDVHn6grb4LLSNPuRcPBHbycY6mi/M/mu4y80dkt4rKwOxzVro1qHCeEK2hukgIN7J9kxcTzkd6kAHxsJsSvKfUXVSQdH7GhWG9fqUBkVrL1AhHxpNkAQBPY8CU1Jh7EDYU+jSoGtie90Llti2MrkM/1dc42cPYRnBskFFnPEWyVB9YWWxNg0vhZA7N6HDRrMIJla+e4S6H271T1zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OHfWqRNrM4KLke+JV4p0Bl6H4azXA0yTUEHl7an7BN0=;
- b=SC7M5sibd7jNP6cqTKS/3dqcLE1588CEbw30YpwEY4/TorpbcPUzJnSZc80wyUTgsyuGVpg+s5U0MaOY/FqgrXTa0kZ9aH+8UkQcnNP0K3Bmlg8AaEQQDZaWlI5Kv9asq1lKN5S3fLAUXtDF0NrrmU1FURto4QEfHfY8NBssM6xLYI5hdWc42hV7fEt3b7qnqnv0KlODDjHPKYPqMJsaqyUipNRoVpwESnNAUWyvKHLY+JFvaaX5Glk5AZzJe8OHYISWi444DSJJVyLKMeZ8VdToWHr9y3zI3t2Q5zNBM9hBb+XfVPR43h7OBF1r00IFh4S7WsP0cFFoEkRO/j2znw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=distech-controls.com; dmarc=pass action=none
- header.from=distech-controls.com; dkim=pass header.d=distech-controls.com;
- arc=none
-Received: from BL0PR01MB4835.prod.exchangelabs.com (20.177.147.211) by
- BL0PR01MB4484.prod.exchangelabs.com (20.177.241.143) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.24; Tue, 22 Oct 2019 13:33:17 +0000
-Received: from BL0PR01MB4835.prod.exchangelabs.com
- ([fe80::5c78:d9d4:3906:a553]) by BL0PR01MB4835.prod.exchangelabs.com
- ([fe80::5c78:d9d4:3906:a553%2]) with mapi id 15.20.2347.029; Tue, 22 Oct 2019
- 13:33:17 +0000
-From:   "Tremblay, Eric" <etremblay@distech-controls.com>
-To:     "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v5 0/2] hwmon: Add driver for Texas Instruments TMP512/513
- sensor chips
-Thread-Topic: [PATCH v5 0/2] hwmon: Add driver for Texas Instruments
- TMP512/513 sensor chips
-Thread-Index: AdWI3C769AAu1seTT8uKbML+UcyFaQ==
-Date:   Tue, 22 Oct 2019 13:33:16 +0000
-Message-ID: <BL0PR01MB48352E51CE1F532A92A9142695680@BL0PR01MB4835.prod.exchangelabs.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mib-plugin: true
-x-originating-ip: [207.253.3.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 2f442894-f806-44b4-e9be-08d756f46577
-x-ms-traffictypediagnostic: BL0PR01MB4484:
-x-microsoft-antispam-prvs: <BL0PR01MB4484B902B845133CF506C0C695680@BL0PR01MB4484.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(346002)(136003)(39860400002)(366004)(376002)(189003)(199004)(476003)(14454004)(2201001)(86362001)(33656002)(478600001)(81156014)(8936002)(81166006)(8676002)(66476007)(66556008)(66446008)(66946007)(76116006)(2501003)(66066001)(486006)(64756008)(186003)(25786009)(5660300002)(52536014)(256004)(14444005)(26005)(102836004)(6506007)(71190400001)(305945005)(7736002)(6116002)(4326008)(3846002)(74316002)(6436002)(9686003)(55016002)(2906002)(99286004)(54906003)(71200400001)(316002)(110136005)(7696005);DIR:OUT;SFP:1101;SCL:1;SRVR:BL0PR01MB4484;H:BL0PR01MB4835.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: distech-controls.com does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8OPqR8OP2iQZdCQXkOi3uUfQs96/dVp7ew423HXGVXiVZnJt+OyNJFCc1hQK3BV5YIwBWsCBA5jE5mnyVp+3AcXdwbrjRdVyxJceEnghEilIM3+J65gXt9uT7XSgCLlKQC16B1dYlKRfFMutMyQ4spdXTG05lAF0nhZtMTXQzwlbpefVrIjBw/StyBO5Ba9TPQ2iU5sbFcPPkvn80CHwe1sVJs8lPFXXFDNztj9VO0dNsGlEimRbCe7RncTupEJDNZhUsXy5PuRN3liGGf2V6e4I59oe5SKjsPA/npUW12w2mGUMsgy53GpwxXeWFKUhek2C9XRoi9CCXuReGx6R5/wRHWV8IOdTrtTZE8xFex9R6tp4o6+rph69LwZEYFrjD+0kAmWWEOOLlJBFwfgB5Ht5GxUvi/NsrpyJaMaFPgN5AdnIh6tMFeSU0ZeVqm3r
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1732056AbfJVOLg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 10:11:36 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:53762 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1732055AbfJVOLg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Oct 2019 10:11:36 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97B851764;
+        Tue, 22 Oct 2019 07:11:10 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E6AC3F71A;
+        Tue, 22 Oct 2019 07:11:06 -0700 (PDT)
+Date:   Tue, 22 Oct 2019 15:11:04 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191022141103.GE11583@lakrids.cambridge.arm.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-2-elver@google.com>
 MIME-Version: 1.0
-X-OriginatorOrg: distech-controls.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f442894-f806-44b4-e9be-08d756f46577
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 13:33:16.8342
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: caadbe96-024e-4f67-82ec-fb28ff53d16d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /dc2k4c+WE7QLmp2RCiY5EUXqMcPG2NZ+LXbZt1qRLftUlCInEJPH1zk4n+j954KyV8RUZygeaH0mpMoZXfOQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4484
-X-Proofpoint-Processed: True
-X-Proofpoint-Spam-Details: rule=outbound_spam_notspam policy=outbound_spam score=0 suspectscore=0
- spamscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 lowpriorityscore=0
- clxscore=1011 impostorscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1910220125
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191017141305.146193-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VmVyc2lvbiBmaXZlIG9mIHRoZSBkcml2ZXIgZm9yIFRleGFzIEluc3RydW1lbnRzIFRNUDUxMi81
-MTMgc2Vuc29ycy4NCg0KVGhhbmtzIGFnYWluIGZvciB0aGUgcmV2aWV3Lg0KDQpNYWluIGNoYW5n
-ZXMgZnJvbSB2ZXJzaW9uIDQ6DQoJLSBSZW1vdmUgY29uZmlnX2xvY2sgbXV0ZXgNCgktIFJld3Jp
-dGUgZHQtYmluZGluZ3MgaW4geWFtbA0KDQpNYWluIGNoYW5nZXMgZnJvbSB2ZXJzaW9uIDM6DQoJ
-LSBSZW1vdmUgdG1wNTF4X2NvbmZpZyBzdHJ1Y3R1cmUsIHRoZXJlIHdhcyBubyB1c2VmdWwgc3Rh
-dGljDQoJICBmaWVsZCBpbiB0aGUgc3RydWN0dXJlLiBUaGUgZGF0YSB3YXMgbW92ZWQgdG8gdG1w
-NTF4X2RhdGENCgkgIHN0cnVjdHVyZS4NCgktIFJlbW92ZSBwbGF0Zm9ybSBkYXRhDQoJLSB1c2Ug
-ZGV2aWNlXyBBUEkgaW5zdGVhZCBvZiBvZl9kZXZpY2UgQVBJDQoJLSBVc2UgYXJyYXkgZm9yIG4t
-RmFjdG9yIHZhbHVlcy4NCgktIFNldCBzaHVudCBkZWZhdWx0IHZhbHVlIHRvIDEwMDAgdU9obXMN
-Cg0KTWFpbiBjaGFuZ2VzIGZyb20gdmVyc2lvbiAyOg0KCS0gUmVtb3ZlIHRoZSBuZWNjZXNzaXR5
-IHRvIHByb3ZpZGUgYSBzaHVudC1yZXNpc3RvciB2YWx1ZQ0KCS0gUmVtb3ZlIG1heC1leHBlY3Rl
-ZC1jdXJyZW50LW1hIGNvbmZpZ3VyYXRpb24gYW5kIGFsd2F5cw0KCSAgdXNlIG1heCBwb3NzaWJs
-ZSBjdXJyZW50IGZvciBjYWxpYnJhdGlvbg0KCS0gTWFrZSBzdXJlIGNhbGN1bGF0aW9uIGR1cmlu
-ZyBjYWxpYnJhdGlvbiBjYW4ndCBvdmVyZmxvdw0KCS0gQWRkIHZhbHVlIGNsYW1waW5nIGZvciBE
-VCB2YWx1ZSBhbmQgcnVudGltZSBwYXJhbWV0ZXJzDQoJLSBTdXBwb3J0IG5vbiBEVCBzeXN0ZW0N
-CgktIE1vdmUgaHlzdGVyZXNpcyBmcm9tIERUIHRvIHN0YW5kYXJkIGF0dHJpYnV0ZQ0KDQpNYWlu
-IGNoYW5nZXMgZnJvbSB2ZXJzaW9uIDE6DQoJLSBVc2UgdGhlIHdpdGhfaW5mbyBBUEkgaW5zdGVh
-ZCBvZiBzeXNmcyBhdHRyaWJ1dGVzLg0KCS0gUmVtb3ZlIG5vbi1zdGFuZGFyZCBhdHRyaWJ1dGVz
-IGFuZCByYXcgdmFsdWUuDQoJLSBNb3ZlIHNldHRpbmdzIHRoYXQgd2VyZSBub24tc3RhbmRhcmQg
-YXR0cmlidXRlcyB0bw0KCSAgZGV2aWNlIHRyZWUsIHVwZGF0ZSBkb2N1bWVudGF0aW9uIGFzIHdl
-bGwuDQoJLSBGaXggY29kaW5nIHN0eWxlIGlzc3Vlcw0KDQpFcmljIFRyZW1ibGF5ICgyKToNCiAg
-ZHQtYmluZGluZ3M6IGh3bW9uOiBBZGQgVE1QNTEyLzUxMw0KICBod21vbjogQWRkIGRyaXZlciBm
-b3IgVGV4YXMgSW5zdHJ1bWVudHMgVE1QNTEyLzUxMyBzZW5zb3IgY2hpcHMuDQoNCiAuLi4vZGV2
-aWNldHJlZS9iaW5kaW5ncy9od21vbi90aSx0bXA1MTMueWFtbCAgfCAgOTAgKysNCiBEb2N1bWVu
-dGF0aW9uL2h3bW9uL3RtcDUxMy5yc3QgICAgICAgICAgICAgICAgfCAxMDIgKysrDQogTUFJTlRB
-SU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICsNCiBkcml2ZXJz
-L2h3bW9uL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTAgKw0KIGRyaXZlcnMv
-aHdtb24vTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQogZHJpdmVycy9o
-d21vbi90bXA1MTMuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgNzg2ICsrKysrKysrKysrKysr
-KysrKw0KIDYgZmlsZXMgY2hhbmdlZCwgOTk2IGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAx
-MDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2h3bW9uL3RpLHRtcDUxMy55
-YW1sDQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vaHdtb24vdG1wNTEzLnJzdA0K
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2h3bW9uL3RtcDUxMy5jDQoNCi0tIA0KMi4xNy4x
-DQoNCg==
+Hi Marco,
+
+On Thu, Oct 17, 2019 at 04:12:58PM +0200, Marco Elver wrote:
+> Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
+> kernel space. KCSAN is a sampling watchpoint-based data-race detector.
+> See the included Documentation/dev-tools/kcsan.rst for more details.
+> 
+> This patch adds basic infrastructure, but does not yet enable KCSAN for
+> any architecture.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> v2:
+> * Elaborate comment about instrumentation calls emitted by compilers.
+> * Replace kcsan_check_access(.., {true, false}) with
+>   kcsan_check_{read,write} for improved readability.
+> * Change bug title of race of unknown origin to just say "data-race in".
+> * Refine "Key Properties" in kcsan.rst, and mention observed slow-down.
+> * Add comment about safety of find_watchpoint without user_access_save.
+> * Remove unnecessary preempt_disable/enable and elaborate on comment why
+>   we want to disable interrupts and preemptions.
+> * Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+>   contexts [Suggested by Mark Rutland].
+
+This is generally looking good to me.
+
+I have a few comments below. Those are mostly style and naming things to
+minimize surprise, though I also have a couple of queries (nested vs
+flat atomic regions and the number of watchpoints).
+
+[...]
+
+> diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
+> new file mode 100644
+> index 000000000000..fd5de2ba3a16
+> --- /dev/null
+> +++ b/include/linux/kcsan.h
+> @@ -0,0 +1,108 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _LINUX_KCSAN_H
+> +#define _LINUX_KCSAN_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/kcsan-checks.h>
+> +
+> +#ifdef CONFIG_KCSAN
+> +
+> +/*
+> + * Context for each thread of execution: for tasks, this is stored in
+> + * task_struct, and interrupts access internal per-CPU storage.
+> + */
+> +struct kcsan_ctx {
+> +	int disable; /* disable counter */
+
+Can we call this disable_count? That would match the convention used for
+preempt_count, and make it clear this isn't a boolean.
+
+> +	int atomic_next; /* number of following atomic ops */
+
+I'm a little unclear on why we need this given the begin ... end
+helpers -- isn't knowing that we're in an atomic region sufficient?
+
+> +
+> +	/*
+> +	 * We use separate variables to store if we are in a nestable or flat
+> +	 * atomic region. This helps make sure that an atomic region with
+> +	 * nesting support is not suddenly aborted when a flat region is
+> +	 * contained within. Effectively this allows supporting nesting flat
+> +	 * atomic regions within an outer nestable atomic region. Support for
+> +	 * this is required as there are cases where a seqlock reader critical
+> +	 * section (flat atomic region) is contained within a seqlock writer
+> +	 * critical section (nestable atomic region), and the "mismatching
+> +	 * kcsan_end_atomic()" warning would trigger otherwise.
+> +	 */
+> +	int atomic_region;
+> +	bool atomic_region_flat;
+> +};
+
+I think we need to introduce nestability and flatness first. How about:
+
+	/*
+	 * Some atomic sequences are flat, and cannot contain another
+	 * atomic sequence. Other atomic sequences are nestable, and may
+	 * contain other flat and/or nestable sequences.
+	 *
+	 * For example, a seqlock writer critical section is nestable
+	 * and may contain a seqlock reader critical section, which is
+	 * flat.
+	 *
+	 * To support this we track the depth of nesting, and whether
+	 * the leaf level is flat.
+	 */
+	int atomic_nest_count;
+	bool in_flat_atomic;
+
+That said, I'm not entirely clear on the distinction. Why would nesting
+a reader within another reader not be legitimate?
+
+> +
+> +/**
+> + * kcsan_init - initialize KCSAN runtime
+> + */
+> +void kcsan_init(void);
+> +
+> +/**
+> + * kcsan_disable_current - disable KCSAN for the current context
+> + *
+> + * Supports nesting.
+> + */
+> +void kcsan_disable_current(void);
+> +
+> +/**
+> + * kcsan_enable_current - re-enable KCSAN for the current context
+> + *
+> + * Supports nesting.
+> + */
+> +void kcsan_enable_current(void);
+> +
+> +/**
+> + * kcsan_begin_atomic - use to denote an atomic region
+> + *
+> + * Accesses within the atomic region may appear to race with other accesses but
+> + * should be considered atomic.
+> + *
+> + * @nest true if regions may be nested, or false for flat region
+> + */
+> +void kcsan_begin_atomic(bool nest);
+> +
+> +/**
+> + * kcsan_end_atomic - end atomic region
+> + *
+> + * @nest must match argument to kcsan_begin_atomic().
+> + */
+> +void kcsan_end_atomic(bool nest);
+> +
+
+Similarly to the check_{read,write}() naming, could we get rid of the
+bool argument and split this into separate nestable and flat functions?
+
+That makes it easier to read in-context, e.g.
+
+	kcsan_nestable_atomic_begin();
+	...
+	kcsan_nestable_atomic_end();
+
+... has a more obvious meaning than:
+
+	kcsan_begin_atomic(true);
+	...
+	kcsan_end_atomic(true);
+
+... and putting the begin/end at the end of the name makes it easier to
+spot the matching pair.
+
+[...]
+
+> +static inline bool is_enabled(void)
+> +{
+> +	return READ_ONCE(kcsan_enabled) && get_ctx()->disable == 0;
+> +}
+
+Can we please make this kcsan_is_enabled(), to avoid confusion with
+IS_ENABLED()?
+
+> +static inline unsigned int get_delay(void)
+> +{
+> +	unsigned int max_delay = in_task() ? CONFIG_KCSAN_UDELAY_MAX_TASK :
+> +					     CONFIG_KCSAN_UDELAY_MAX_INTERRUPT;
+> +	return IS_ENABLED(CONFIG_KCSAN_DELAY_RANDOMIZE) ?
+> +		       ((prandom_u32() % max_delay) + 1) :
+> +		       max_delay;
+> +}
+> +
+> +/* === Public interface ===================================================== */
+> +
+> +void __init kcsan_init(void)
+> +{
+> +	BUG_ON(!in_task());
+> +
+> +	kcsan_debugfs_init();
+> +	kcsan_enable_current();
+> +#ifdef CONFIG_KCSAN_EARLY_ENABLE
+> +	/*
+> +	 * We are in the init task, and no other tasks should be running.
+> +	 */
+> +	WRITE_ONCE(kcsan_enabled, true);
+> +#endif
+
+Where possible, please use IS_ENABLED() rather than ifdeffery for
+portions of functions like this, e.g.
+
+	/*
+	 * We are in the init task, and no other tasks should be running.
+	 */
+	if (IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
+		WRITE_ONCE(kcsan_enabled, true);
+
+That makes code a bit easier to read, and ensures that the code always
+gets build coverage, so it's less likely that code changes will
+introduce a build failure when the option is enabled.
+
+[...]
+
+> +#ifdef CONFIG_KCSAN_DEBUG
+> +	kcsan_disable_current();
+> +	pr_err("KCSAN: watching %s, size: %zu, addr: %px [slot: %d, encoded: %lx]\n",
+> +	       is_write ? "write" : "read", size, ptr,
+> +	       watchpoint_slot((unsigned long)ptr),
+> +	       encode_watchpoint((unsigned long)ptr, size, is_write));
+> +	kcsan_enable_current();
+> +#endif
+
+This can use IS_ENABLED(), e.g.
+
+	if (IS_ENABLED(CONFIG_KCSAN_DEBUG)) {
+		kcsan_disable_current();
+		pr_err("KCSAN: watching %s, size: %zu, addr: %px [slot: %d, encoded: %lx]\n",
+		       is_write ? "write" : "read", size, ptr,
+		       watchpoint_slot((unsigned long)ptr),
+		       encode_watchpoint((unsigned long)ptr, size, is_write));
+		kcsan_enable_current();
+	}
+
+[...]
+> +#ifdef CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
+> +		kcsan_report(ptr, size, is_write, smp_processor_id(),
+> +			     kcsan_report_race_unknown_origin);
+> +#endif
+
+This can also use IS_ENABLED().
+
+[...]
+
+> diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
+> new file mode 100644
+> index 000000000000..429479b3041d
+> --- /dev/null
+> +++ b/kernel/kcsan/kcsan.h
+> @@ -0,0 +1,140 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _MM_KCSAN_KCSAN_H
+> +#define _MM_KCSAN_KCSAN_H
+> +
+> +#include <linux/kcsan.h>
+> +
+> +/*
+> + * Total number of watchpoints. An address range maps into a specific slot as
+> + * specified in `encoding.h`. Although larger number of watchpoints may not even
+> + * be usable due to limited thread count, a larger value will improve
+> + * performance due to reducing cache-line contention.
+> + */
+> +#define KCSAN_NUM_WATCHPOINTS 64
+
+Is there any documentation as to how 64 was chosen? It's fine if it's
+arbitrary, but it would be good to know either way.
+
+I wonder if this is something that might need to scale with NR_CPUS (or
+nr_cpus).
+
+> +enum kcsan_counter_id {
+> +	/*
+> +	 * Number of watchpoints currently in use.
+> +	 */
+> +	kcsan_counter_used_watchpoints,
+
+Nit: typically enum values are capitalized (as coding-style.rst says).
+That helps to make it clear each value is a constant rather than a
+variable. Likewise for the other enums here.
+
+Thanks,
+Mark.
