@@ -1,129 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC8B87D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Oct 2019 21:57:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 146FF7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 02:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730203AbfJUV5W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 17:57:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34822 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730069AbfJUV5W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 17:57:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=YU2DLOHwT7aWI8mszLImzfDMV/VLbGd6VmxnoyKfqC4=; b=SS9QwFtrpF9XAU0ol6M9R4yEU
-        bglXeQO6sLZ++j/XrGOYAVi5dHWTG59zOsIqHNPGBdcbxdj42YAEET99Yj2KqTRm5T3lfyX9R1uVZ
-        91VYwOPvMfYwLpeVkaid1vTlmiP4aP1dQIHCI2HpwsNh7rivAVPaYLhEA3hfY38+QN4mZIgPqGOdd
-        uOt9DHh+TWqcrpv6ymxRB4SHtQVaSskEMThhXonNkDLqPYrIzh2D2cmUGg/7X6PR4jeMFbg0pxOE7
-        B/KBx7kubCsKlO9fSCpXg99ekA09Bc+vWiyaz3XaLZtFk/w3yPSbbKlHOeOpVu7Wus7mjhdWsXOeA
-        BwE0NzKpA==;
-Received: from [2601:1c0:6280:3f0::9ef4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iMfg1-00060E-Ea; Mon, 21 Oct 2019 21:57:21 +0000
-Subject: Re: [PATCH 12/12] infiniband: add a Documentation driver-api chapter
- for Infiniband
-To:     Jason Gunthorpe <jgg@ziepe.ca>, kbuild test robot <lkp@intel.com>
-Cc:     rd.dunlab@gmail.com, kbuild-all@01.org, linux-rdma@vger.kernel.org,
-        Doug Ledford <dledford@redhat.com>, linux-doc@vger.kernel.org
-References: <20191010035240.310347906@gmail.com>
- <201910102325.gH3tui1l%lkp@intel.com> <20191021170745.GF25178@ziepe.ca>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0525999e-8982-b0cf-8d98-a1f6c86fa148@infradead.org>
-Date:   Mon, 21 Oct 2019 14:57:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1730625AbfJVCK3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 22:10:29 -0400
+Received: from 59-120-53-16.HINET-IP.hinet.net ([59.120.53.16]:11591 "EHLO
+        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727264AbfJVCK3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 22:10:29 -0400
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+        by ATCSQR.andestech.com with ESMTP id x9M1q10Y068205;
+        Tue, 22 Oct 2019 09:52:01 +0800 (GMT-8)
+        (envelope-from nickhu@andestech.com)
+Received: from andestech.com (10.0.15.65) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Tue, 22 Oct 2019
+ 10:09:00 +0800
+Date:   Tue, 22 Oct 2019 10:09:00 +0800
+From:   Nick Hu <nickhu@andestech.com>
+To:     Paul Walmsley <paul.walmsley@sifive.com>
+CC:     Andrey Ryabinin <aryabinin@virtuozzo.com>, <alankao@andestech.com>,
+        <palmer@sifive.com>, <aou@eecs.berkeley.edu>, <glider@google.com>,
+        <dvyukov@google.com>, <corbet@lwn.net>, <alexios.zavras@intel.com>,
+        <allison@lohutok.net>, <Anup.Patel@wdc.com>, <tglx@linutronix.de>,
+        <gregkh@linuxfoundation.org>, <atish.patra@wdc.com>,
+        <kstewart@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 1/3] kasan: Archs don't check memmove if not support
+ it.
+Message-ID: <20191022020900.GA29285@andestech.com>
+References: <cover.1570514544.git.nickhu@andestech.com>
+ <c9fa9eb25a5c0b1f733494dfd439f056c6e938fd.1570514544.git.nickhu@andestech.com>
+ <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
+ <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
 MIME-Version: 1.0
-In-Reply-To: <20191021170745.GF25178@ziepe.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.0.15.65]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com x9M1q10Y068205
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/21/19 10:07 AM, Jason Gunthorpe wrote:
-> Randy,
+On Thu, Oct 17, 2019 at 07:58:04PM -0700, Paul Walmsley wrote:
+> On Thu, 17 Oct 2019, Andrey Ryabinin wrote:
 > 
-> What do you want to do with this series? Is this error below related
-> needing respin, or just noise?
+> > On 10/8/19 9:11 AM, Nick Hu wrote:
+> > > Skip the memmove checking for those archs who don't support it.
+> >  
+> > The patch is fine but the changelog sounds misleading. We don't skip memmove checking.
+> > If arch don't have memmove than the C implementation from lib/string.c used.
+> > It's instrumented by compiler so it's checked and we simply don't need that KASAN's memmove with
+> > manual checks.
 > 
-> Thanks,
-> Jason
+> Thanks Andrey.  Nick, could you please update the patch description?
+> 
+> - Paul
+>
 
-Hi Jason,
+Thanks! I would update the description in v4 patch.
 
-I certainly would like to see patches 1-11 merged since they do lots of
-cleanups/fixes that I prefer not to be lost.
-If you don't want to merge patch 12, so be it.
-
-My docs build has a total of 8 errors and 173 warnings, so I consider these
-just more noise.  Please note that I am also working on cleaning up lots of
-that noise.
-
-Patches 3 and 7 mention new warnings that I am already aware of.
-
-If you can tell me what the 'all_list' field [below] is/means,
-I'll be glad to add a patch for that.
-
-
-> On Thu, Oct 10, 2019 at 11:45:28PM +0800, kbuild test robot wrote:
->> Hi,
->>
->> Thank you for the patch! Perhaps something to improve:
->>
->> [auto build test WARNING on rdma/for-next]
->> [cannot apply to v5.4-rc2 next-20191010]
->> [if your patch is applied to the wrong git tree, please drop us a note to help
->> improve the system. BTW, we also suggest to use '--base' option to specify the
->> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
->>
->> url:    https://github.com/0day-ci/linux/commits/rd-dunlab-gmail-com/infiniband-kernel-doc-fixes-driver-api-chapter/20191010-220426
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
->> reproduce: make htmldocs
->>
->> If you fix the issue, kindly add following tag
->> Reported-by: kbuild test robot <lkp@intel.com>
->>
->> All warnings (new ones prefixed by >>):
->>
-
-[cutting non-related errors/warnings]
-
->>>> drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
->>>> drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
->>
->> vim +401 drivers/infiniband/ulp/iser/iscsi_iser.h
->>
->> 5587856c9659ac Sagi Grimberg       2013-07-28 @401  
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  402  /**
->> e506e0f630a40d rd.dunlab@gmail.com 2019-10-09  403   * struct iser_fr_pool - connection fast registration pool
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  404   *
->> 2b3bf958103899 Adir Lev            2015-08-06  405   * @list:                list of fastreg descriptors
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  406   * @lock:                protects fmr/fastreg pool
->> 2b3bf958103899 Adir Lev            2015-08-06  407   * @size:                size of the pool
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  408   */
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  409  struct iser_fr_pool {
->> 2b3bf958103899 Adir Lev            2015-08-06  410  	struct list_head        list;
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  411  	spinlock_t              lock;
->> 2b3bf958103899 Adir Lev            2015-08-06  412  	int                     size;
->> ea174c9573b0e0 Sagi Grimberg       2017-02-27  413  	struct list_head        all_list;
->> 385ad87d4b637c Sagi Grimberg       2015-08-06  414  };
->> 385ad87d4b637c Sagi Grimberg       2015-08-06 @415  
->>
->> :::::: The code at line 401 was first introduced by commit
->> :::::: 5587856c9659ac2d6ab201141aa8a5c2ff3be4cd IB/iser: Introduce fast memory registration model (FRWR)
-
-thanks,
--- 
-~Randy
-
+Nick 
