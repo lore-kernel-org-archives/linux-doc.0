@@ -1,91 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66C4F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 17:52:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5285B7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 18:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727881AbfJVRwS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 13:52:18 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:39854 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731491AbfJVRwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 13:52:17 -0400
-Received: by mail-qk1-f195.google.com with SMTP id 4so17080418qki.6
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 10:52:17 -0700 (PDT)
+        id S1732331AbfJVSR4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 14:17:56 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45851 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731957AbfJVSR4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 14:17:56 -0400
+Received: by mail-oi1-f196.google.com with SMTP id o205so15007772oib.12
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 11:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GYELYeqgb6u2HwVxCCOYQhK7Ymo2hH7WNh8GwwhW5CM=;
-        b=bDQW0HlXdjLizbv/Jl5OdFh6mBReWuDjZMe+gCSA3u4RNvV7nN9T2/RM3shr+8xujA
-         zZDjiLxyVYJviAFaOUvZF+jPmrtJRTj1u8vQQmfQnj/r2wtyobZYgn7FwQgwMAZUMuE/
-         klngz5yv6EfzGEbcf0HlURkIlEHpGdk3X/pFlBhi/lqpOwOjisp6EhjxOaIHtIZIprK1
-         2GMo5+zGQIAfrytcfi/V5VjhA6Cgy0bzr3R9lQEM3L21fwO9p/phFbfKqGfbWAveGUb8
-         6hQ4moWdcQy6KO+PWUktw6+GAY3OXNRLYx9BY3JqwPpu3NTg3YidMkJlq3osyx7AJHI/
-         M+OQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WOpu0OseuiXc08mdI69tOPOopIwWTdbk8nIc2lokKaQ=;
+        b=XJgdWmt1Fb01rtimxVs7UGUgg2nNjFELzvqXbKwOR2N0+RlvYp+1STsURqwktcTbn2
+         CYNMx5zkYFWeJy9Pp1crLJpMWkAa9lnFUFosfymwVkAw2Zg93wYs5IZnlIcSzzVhtZF0
+         FUS8z+oUFT8cShOthSahN28+4Ofg9kOnVmr4aZbNmLi3ccowGggxISCVpdu0yGs+4dht
+         HEvSGx4jDzphsM83UtxMqUGmYRC24HTm+icekjZvloyRwMHGGcP1JG6vcTt90amPncwd
+         0BBPZwnc6ueQxoqkD5kc4oeuKHk0+UEm4XXoClIYHx9pYHlHK6zhE2OqzSStqn3lR46/
+         b6Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GYELYeqgb6u2HwVxCCOYQhK7Ymo2hH7WNh8GwwhW5CM=;
-        b=WHgp89VOrLOwxkBPSER67isD4God8MEb+ychsdvf553rWUs7xygAQLeh7Dr8Ve/6AX
-         ge/jT/llXDGGkqaE6J0RlRZABTquKunWfESeB7tldcbEAgChfss/ncy94tbunq4n0zmp
-         x0aQ1PkIXtPWlos+v2AiCWlhJpVlpqh+XG0Z7ISNN0BJTHcBlfj3GxEcyJ4FITckpZKS
-         VnVyMKHVxqak3m/c+IkJMxn5kDbG0m/++G90MOiKIhXacnSUjZCopVwvuUdJxA92PaN+
-         YUpBdKQgjLgRMA58WpIpHg66CCIsppbRnXos2viZInrzHdZBMsQQTIMalFC65lB+J707
-         ELNQ==
-X-Gm-Message-State: APjAAAWuhsEfV7RXTQDvnkj07YS+s50yiAZuAO948i1MeZAdVOfmc3U+
-        dYqPdWPQ1s68UOZ7of/B/4Cjdg==
-X-Google-Smtp-Source: APXvYqz7BrDUSkINRnh21r1LtSQAw+f4VqRc40zrgszfx4KX51bI2hxaxDMXGmHX2qXrGIglup0Ejg==
-X-Received: by 2002:a37:7641:: with SMTP id r62mr4225750qkc.496.1571766736887;
-        Tue, 22 Oct 2019 10:52:16 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id k187sm178903qkb.20.2019.10.22.10.52.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 22 Oct 2019 10:52:16 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iMyKO-0006ui-0C; Tue, 22 Oct 2019 14:52:16 -0300
-Date:   Tue, 22 Oct 2019 14:52:15 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     rd.dunlab@gmail.com
-Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h
- kernel-doc notation
-Message-ID: <20191022175215.GA26528@ziepe.ca>
-References: <20191010035239.532908118@gmail.com>
- <20191010035239.890311169@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WOpu0OseuiXc08mdI69tOPOopIwWTdbk8nIc2lokKaQ=;
+        b=GOOiATvNhxQ7FGZElUjrUInTdIMVJRpZ40TR6yg1cjQp125SDV2Ca/KORI3ncUHsFy
+         Oj+bcRaCPpYbn7UQKx2FPcm28dIDjDc6NNqrJqH1pNSv+9DYPAj/RzFeNFX/9txGudIP
+         f319MzjsagOEYtYzvOvfE7xoE7c60XoYVFx8ecCDuGw1lD3FUjKU2vCifn5/UJGYvU5t
+         VeXtlqp9tKf2kcwMLV/7B7e2jrit+z/hg4/8CU23UFHbQr6/wO3hWRfX6jvF2sgwBuNt
+         RKkm7VQeT+Y8oiLG4HMJUM2GiTO6mnE7RWs8rl0lcR8m5S0HV91V911U8aMPvOq/QagK
+         WY4g==
+X-Gm-Message-State: APjAAAWuQN9z0z1MHMqw5IRud3mBVcUaI0TapYGjdOLb1eY7WQh2IMPG
+        4c/XRVpUJVXASh/MAzEZJj7bi9Ni346n2ni1vj9nCg==
+X-Google-Smtp-Source: APXvYqzX+UBLuSqSX7xu+0iFpX/BMy6QMySPZgTjJ3NU0aDX6ipn2ST8I/CCQJ5VPBJ/kifUvNY+rliR1JaUu8riJKw=
+X-Received: by 2002:a05:6808:4b:: with SMTP id v11mr4195346oic.70.1571768274619;
+ Tue, 22 Oct 2019 11:17:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010035239.890311169@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-8-elver@google.com>
+ <20191022123329.GC11583@lakrids.cambridge.arm.com>
+In-Reply-To: <20191022123329.GC11583@lakrids.cambridge.arm.com>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 22 Oct 2019 20:17:43 +0200
+Message-ID: <CANpmjNOhoyDMFMUz6by3hLtX7aBFk4pXTmzjmWYiq2+z+R5fAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] locking/atomics, kcsan: Add KCSAN instrumentation
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 08:52:44PM -0700, rd.dunlab@gmail.com wrote:
-> Make reserved struct fields "private:" so that they don't need to
-> be added to the kernel-doc notation. This removes 24 warnings.
+On Tue, 22 Oct 2019 at 14:33, Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> On Thu, Oct 17, 2019 at 04:13:04PM +0200, Marco Elver wrote:
+> > This adds KCSAN instrumentation to atomic-instrumented.h.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
+> > v2:
+> > * Use kcsan_check{,_atomic}_{read,write} instead of
+> >   kcsan_check_{access,atomic}.
+> > * Introduce __atomic_check_{read,write} [Suggested by Mark Rutland].
+> > ---
+> >  include/asm-generic/atomic-instrumented.h | 393 +++++++++++-----------
+> >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+> >  2 files changed, 218 insertions(+), 192 deletions(-)
+>
+> The script changes and generated code look fine to me, so FWIW:
+>
+> Reviewed-by: Mark Rutland <mark.rutland@arm.com>
 
-> +++ linux-next-20191009/drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h
-> @@ -129,21 +129,31 @@ struct opa_vesw_info {
->  	__be16  fabric_id;
->  	__be16  vesw_id;
->  
-> +	/* private: */
->  	u8      rsvd0[6];
-> +	/* public: */
->  	__be16  def_port_mask;
+Great, thank you Mark!
 
-This seems overly ugly, is there some other way to handle these
-reserved fields? Maybe wire protocol structures shouldn't be kdoc?
-
-Jason
+> Thanks,
+> Mark.
+>
+> > diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+> > index e09812372b17..8b8b2a6f8d68 100755
+> > --- a/scripts/atomic/gen-atomic-instrumented.sh
+> > +++ b/scripts/atomic/gen-atomic-instrumented.sh
+> > @@ -20,7 +20,7 @@ gen_param_check()
+> >       # We don't write to constant parameters
+> >       [ ${type#c} != ${type} ] && rw="read"
+> >
+> > -     printf "\tkasan_check_${rw}(${name}, sizeof(*${name}));\n"
+> > +     printf "\t__atomic_check_${rw}(${name}, sizeof(*${name}));\n"
+> >  }
+> >
+> >  #gen_param_check(arg...)
+> > @@ -107,7 +107,7 @@ cat <<EOF
+> >  #define ${xchg}(ptr, ...)                                            \\
+> >  ({                                                                   \\
+> >       typeof(ptr) __ai_ptr = (ptr);                                   \\
+> > -     kasan_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));          \\
+> > +     __atomic_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));               \\
+> >       arch_${xchg}(__ai_ptr, __VA_ARGS__);                            \\
+> >  })
+> >  EOF
+> > @@ -148,6 +148,19 @@ cat << EOF
+> >
+> >  #include <linux/build_bug.h>
+> >  #include <linux/kasan-checks.h>
+> > +#include <linux/kcsan-checks.h>
+> > +
+> > +static inline void __atomic_check_read(const volatile void *v, size_t size)
+> > +{
+> > +     kasan_check_read(v, size);
+> > +     kcsan_check_atomic_read(v, size);
+> > +}
+> > +
+> > +static inline void __atomic_check_write(const volatile void *v, size_t size)
+> > +{
+> > +     kasan_check_write(v, size);
+> > +     kcsan_check_atomic_write(v, size);
+> > +}
+> >
+> >  EOF
+> >
+> > --
+> > 2.23.0.866.gb869b98d4c-goog
+> >
