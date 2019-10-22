@@ -1,73 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 146FF7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 02:10:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFCC57D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 02:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730625AbfJVCK3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Oct 2019 22:10:29 -0400
-Received: from 59-120-53-16.HINET-IP.hinet.net ([59.120.53.16]:11591 "EHLO
-        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727264AbfJVCK3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 22:10:29 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id x9M1q10Y068205;
-        Tue, 22 Oct 2019 09:52:01 +0800 (GMT-8)
-        (envelope-from nickhu@andestech.com)
-Received: from andestech.com (10.0.15.65) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Tue, 22 Oct 2019
- 10:09:00 +0800
-Date:   Tue, 22 Oct 2019 10:09:00 +0800
-From:   Nick Hu <nickhu@andestech.com>
-To:     Paul Walmsley <paul.walmsley@sifive.com>
-CC:     Andrey Ryabinin <aryabinin@virtuozzo.com>, <alankao@andestech.com>,
-        <palmer@sifive.com>, <aou@eecs.berkeley.edu>, <glider@google.com>,
-        <dvyukov@google.com>, <corbet@lwn.net>, <alexios.zavras@intel.com>,
-        <allison@lohutok.net>, <Anup.Patel@wdc.com>, <tglx@linutronix.de>,
-        <gregkh@linuxfoundation.org>, <atish.patra@wdc.com>,
-        <kstewart@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 1/3] kasan: Archs don't check memmove if not support
- it.
-Message-ID: <20191022020900.GA29285@andestech.com>
-References: <cover.1570514544.git.nickhu@andestech.com>
- <c9fa9eb25a5c0b1f733494dfd439f056c6e938fd.1570514544.git.nickhu@andestech.com>
- <ba456776-a77f-5306-60ef-c19a4a8b3119@virtuozzo.com>
- <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
+        id S1730494AbfJVC0a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Oct 2019 22:26:30 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33574 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730271AbfJVC0a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Oct 2019 22:26:30 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c184so134275pfb.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2019 19:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jqjDyYINco5zX/3d/HD5i73gQP0vQKo5KvrXR6/+e2c=;
+        b=MFs2Q0eXF9XUrND1F2MJOxBu9xbjhSqOGU6EPkNbeFMZzcJ8ae2p9HucqK9c/SVS+o
+         s9u9XS0jgoNVxI8exvI1ZocmtdKZMFNQr8zzVbkZVLutxGl0ZEt2HEBoHdXIQZreO32m
+         BBhw5YArtVoQltlvAofF/1y+6Z469Vkt3cQflHKgLbzOl3duane7YE2luctwK7ucxpoN
+         6GrN0F42OmDekeSSR8XyJlBStdagHrxed+3gVcr9AIjyeeHZ/mqcbi+U1p19fQpzXO8w
+         KPfNOkWK4sqeHb5/u6m2dletcPwH3uNOXzGt4hjXxnAMEC3W9IU1OPvMe/DDfC2YtQhV
+         VKDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jqjDyYINco5zX/3d/HD5i73gQP0vQKo5KvrXR6/+e2c=;
+        b=fZOOvft2JPeis2qbl6ciXUZwJKAKCQOs3EWWdIPSU1m70e4wOAPYh5vnApiNtujNcC
+         +aES+OBlQ3gxSrPJGEPNkXu7O3kR+hW5CZcnoNvSIE3EFHlXLUI+CXFm6e/yRFl0Tl25
+         s7zR3ffsDUNZM6G6dhAnMNmRKYCU2yp817/aRfZMNH/CNm1ixrEEMdtdIf6XvWuJhqX0
+         2w3pTXushn+nh+vDL+WvUwqQiZe+eAYE2fVcX3WjMke2dncOmHE5cIDFAidl98Ih5Kb7
+         s9mm65qSupjYO3HWQV1kn6rUt90u9Fu/hiJ3E3fVvuDethpV/ewwJ9zmst/I05z91djm
+         BdlQ==
+X-Gm-Message-State: APjAAAVeLQWdph1haiVtaUsPcerajDyU9qPjmFPvX1hYt6hwl4slp9Tz
+        jky8SyOnJlloen2KHHCbrJ6/Lw==
+X-Google-Smtp-Source: APXvYqwVLIBMQXiqD7AfzsiN2dabnPivlCcnteH5RiUBQ7Bm5cIT/ILRYjse8rfnqU0qx22DSZak4A==
+X-Received: by 2002:a62:7a8c:: with SMTP id v134mr1371160pfc.143.1571711189526;
+        Mon, 21 Oct 2019 19:26:29 -0700 (PDT)
+Received: from localhost ([122.172.151.112])
+        by smtp.gmail.com with ESMTPSA id n66sm23792844pfn.90.2019.10.21.19.26.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 21 Oct 2019 19:26:28 -0700 (PDT)
+Date:   Tue, 22 Oct 2019 07:56:25 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: debugfs: Document debugfs helper for
+ unsigned long values
+Message-ID: <20191022022625.dreyswengvmpzeas@vireshk-i7>
+References: <20191021150645.32440-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.9999.1910171957310.3156@viisi.sifive.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.0.15.65]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com x9M1q10Y068205
+In-Reply-To: <20191021150645.32440-1-geert+renesas@glider.be>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 07:58:04PM -0700, Paul Walmsley wrote:
-> On Thu, 17 Oct 2019, Andrey Ryabinin wrote:
+On 21-10-19, 17:06, Geert Uytterhoeven wrote:
+> When debugfs_create_ulong() was added, it was not documented.
 > 
-> > On 10/8/19 9:11 AM, Nick Hu wrote:
-> > > Skip the memmove checking for those archs who don't support it.
-> >  
-> > The patch is fine but the changelog sounds misleading. We don't skip memmove checking.
-> > If arch don't have memmove than the C implementation from lib/string.c used.
-> > It's instrumented by compiler so it's checked and we simply don't need that KASAN's memmove with
-> > manual checks.
+> Fixes: c23fe83138ed7b11 ("debugfs: Add debugfs_create_ulong()")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/filesystems/debugfs.txt | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> Thanks Andrey.  Nick, could you please update the patch description?
-> 
-> - Paul
->
+> diff --git a/Documentation/filesystems/debugfs.txt b/Documentation/filesystems/debugfs.txt
+> index 9e705026ac103b6f..50e8f91f2421ec04 100644
+> --- a/Documentation/filesystems/debugfs.txt
+> +++ b/Documentation/filesystems/debugfs.txt
+> @@ -93,8 +93,8 @@ the following functions can be used instead:
+>  
+>  These functions are useful as long as the developer knows the size of the
+>  value to be exported.  Some types can have different widths on different
+> -architectures, though, complicating the situation somewhat.  There is a
+> -function meant to help out in one special case:
+> +architectures, though, complicating the situation somewhat.  There are
+> +functions meant to help out in such special cases:
+>  
+>      void debugfs_create_size_t(const char *name, umode_t mode,
+>  			       struct dentry *parent, size_t *value);
+> @@ -102,6 +102,12 @@ function meant to help out in one special case:
+>  As might be expected, this function will create a debugfs file to represent
+>  a variable of type size_t.
+>  
+> +Similarly, there is a helper for variables of type unsigned long:
+> +
+> +    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
+> +					struct dentry *parent,
+> +					unsigned long *value);
+> +
+>  Boolean values can be placed in debugfs with:
+>  
+>      struct dentry *debugfs_create_bool(const char *name, umode_t mode,
 
-Thanks! I would update the description in v4 patch.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Nick 
+-- 
+viresh
