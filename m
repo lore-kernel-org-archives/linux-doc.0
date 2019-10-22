@@ -1,98 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FCB27D918
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 08:44:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B56017D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Oct 2019 12:33:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388366AbfJVIoA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 04:44:00 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]:50784 "EHLO
-        mail-wm1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388042AbfJVIn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 04:43:27 -0400
-Received: by mail-wm1-f47.google.com with SMTP id q13so6131143wmj.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2019 01:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A4wzsYdI/UBS/hDiEwuJ9S9NtfpinD6pNSX/pGZnoi0=;
-        b=Msg6F/GxlqK4EM7T+PrzjdhF/JFDQ4NXZ1hU5I/y5yZ/4dJFfBBnblwHelqpqcUYOd
-         PFBHVXpVlIk3IWP5+/fsBS4wkO7+b/nxCT0E6ltu1iy3MJi/G79dZ8YkP0Ny2nWzC1Tp
-         Qb4VIkmH878+v2cOTA3Swa1fepWES/rHu9kBiBcREYPwPwvkkp7dNFXKsWeaW6X3MR0k
-         Dlr5CrZZL5jCYnIT3kV+8O+ZCycLlH6RnxhihfZ0qTf8MRRm1kxBeVzi9JmdAc5DYGum
-         cMW+IwnfT6kUt3FIKQsRgp1nuGUccEmIgcpaW7VKKq4s4uP5B+YHi3DHFQiqewmRENNR
-         oAEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A4wzsYdI/UBS/hDiEwuJ9S9NtfpinD6pNSX/pGZnoi0=;
-        b=iAbXv9SmyiPn7ycW6uAAfEWp1y+f+OKuafjSppWDm8m1XhrWJLZVgOt7aGZeWCgAEU
-         lDco3evD2orAF0wKchDLcMqFmsP954y3CBg1Fs5dcBk6ntoatJRKfRfPOCwe+vtNfEPH
-         xizxU4KEu2g8F2AiQlurwOiKy6+JwCWbTmk4Z7sYDlCMUPIf0dSNiyY50LGV2/1dnfvC
-         V+kMJ142NXAZFghn/fY41vxkYlPPdb/ia1JMNLo1C5kDpQAyCLi1vK3QLVqwEjETcjNR
-         YKPhtF2MmNYVUqDvYCGu3vsOUWjsLrIBMWWmpwaIlm9LnIM07R+2y67G20oBOyP0p3Xr
-         CtUQ==
-X-Gm-Message-State: APjAAAXMGv/YlRgxfUb8Jz7nHpWlmf0Y4R0cEMwzkSrtoQWNfVh4n86s
-        gZK0DSv/bQ8ZwbzAP0/xOgxY6w==
-X-Google-Smtp-Source: APXvYqz1TkesZOhWeSBN/HwWQwxqaB7FjLPheJGtDtKbbjD4OSgqbrYOeUQBZVOE7iQrQzDyw6Xf4g==
-X-Received: by 2002:a1c:2c88:: with SMTP id s130mr2007920wms.66.1571733804304;
-        Tue, 22 Oct 2019 01:43:24 -0700 (PDT)
-Received: from localhost.localdomain (amontpellier-652-1-281-69.w109-210.abo.wanadoo.fr. [109.210.96.69])
-        by smtp.gmail.com with ESMTPSA id q25sm477231wra.3.2019.10.22.01.43.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2019 01:43:23 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [RESEND PATCH v3 1/8] Documentation: devres: add missing entry for devm_platform_ioremap_resource()
-Date:   Tue, 22 Oct 2019 10:43:11 +0200
-Message-Id: <20191022084318.22256-2-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191022084318.22256-1-brgl@bgdev.pl>
-References: <20191022084318.22256-1-brgl@bgdev.pl>
+        id S2389108AbfJVMd6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 08:33:58 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:51226 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S2388512AbfJVMd6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Oct 2019 08:33:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D49D215BF;
+        Tue, 22 Oct 2019 05:33:36 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A5DA3F71F;
+        Tue, 22 Oct 2019 05:33:32 -0700 (PDT)
+Date:   Tue, 22 Oct 2019 13:33:30 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 7/8] locking/atomics, kcsan: Add KCSAN instrumentation
+Message-ID: <20191022123329.GC11583@lakrids.cambridge.arm.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-8-elver@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191017141305.146193-8-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Thu, Oct 17, 2019 at 04:13:04PM +0200, Marco Elver wrote:
+> This adds KCSAN instrumentation to atomic-instrumented.h.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> v2:
+> * Use kcsan_check{,_atomic}_{read,write} instead of
+>   kcsan_check_{access,atomic}.
+> * Introduce __atomic_check_{read,write} [Suggested by Mark Rutland].
+> ---
+>  include/asm-generic/atomic-instrumented.h | 393 +++++++++++-----------
+>  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+>  2 files changed, 218 insertions(+), 192 deletions(-)
 
-devm_platform_ioremap_resource() should be documented in devres.rst.
-Add the missing entry.
+The script changes and generated code look fine to me, so FWIW:
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
----
- Documentation/driver-api/driver-model/devres.rst | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Mark Rutland <mark.rutland@arm.com>
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index a100bef54952..8e3087662daf 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -316,6 +316,7 @@ IOMAP
-   devm_ioremap_nocache()
-   devm_ioremap_wc()
-   devm_ioremap_resource() : checks resource, requests memory region, ioremaps
-+  devm_platform_ioremap_resource() : calls devm_ioremap_resource() for platform device
-   devm_iounmap()
-   pcim_iomap()
-   pcim_iomap_regions()	: do request_region() and iomap() on multiple BARs
--- 
-2.23.0
+Thanks,
+Mark.
 
+> diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+> index e09812372b17..8b8b2a6f8d68 100755
+> --- a/scripts/atomic/gen-atomic-instrumented.sh
+> +++ b/scripts/atomic/gen-atomic-instrumented.sh
+> @@ -20,7 +20,7 @@ gen_param_check()
+>  	# We don't write to constant parameters
+>  	[ ${type#c} != ${type} ] && rw="read"
+>  
+> -	printf "\tkasan_check_${rw}(${name}, sizeof(*${name}));\n"
+> +	printf "\t__atomic_check_${rw}(${name}, sizeof(*${name}));\n"
+>  }
+>  
+>  #gen_param_check(arg...)
+> @@ -107,7 +107,7 @@ cat <<EOF
+>  #define ${xchg}(ptr, ...)						\\
+>  ({									\\
+>  	typeof(ptr) __ai_ptr = (ptr);					\\
+> -	kasan_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));		\\
+> +	__atomic_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));		\\
+>  	arch_${xchg}(__ai_ptr, __VA_ARGS__);				\\
+>  })
+>  EOF
+> @@ -148,6 +148,19 @@ cat << EOF
+>  
+>  #include <linux/build_bug.h>
+>  #include <linux/kasan-checks.h>
+> +#include <linux/kcsan-checks.h>
+> +
+> +static inline void __atomic_check_read(const volatile void *v, size_t size)
+> +{
+> +	kasan_check_read(v, size);
+> +	kcsan_check_atomic_read(v, size);
+> +}
+> +
+> +static inline void __atomic_check_write(const volatile void *v, size_t size)
+> +{
+> +	kasan_check_write(v, size);
+> +	kcsan_check_atomic_write(v, size);
+> +}
+>  
+>  EOF
+>  
+> -- 
+> 2.23.0.866.gb869b98d4c-goog
+> 
