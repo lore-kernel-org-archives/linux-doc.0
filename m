@@ -1,193 +1,266 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4F9C7D981
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 21:45:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 642997D981
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 21:46:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392678AbfJWVpJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 17:45:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23324 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1733202AbfJWVpJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 17:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571867107;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0D4EQ8thGQKRRU/Fz2c1O7VtA1gRTINZXqgRy6HfSuk=;
-        b=TKgRvnNFTNufo2DMYmTcbak0BCvhNDH5lJSnxdMsAgAFDebiaIj58ac278ro+WK41mrqCp
-        LSSidtfp0LrTMVun0yPW1ASD0cmyk/yb1CFx4hQrLsjE4+qZsxdclfX19P7JklSoCWzOkr
-        RjryrQSpR+3nKfluJSUpAnpME3GoCkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-m8GaqF_nOUal1pqA5AbW-g-1; Wed, 23 Oct 2019 17:45:05 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FAFE100550E;
-        Wed, 23 Oct 2019 21:45:03 +0000 (UTC)
-Received: from emilne (unknown [10.18.25.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 401405DA8D;
-        Wed, 23 Oct 2019 21:44:55 +0000 (UTC)
-Message-ID: <6759dfc6c5c721b5060d75e6c5f5a0b1dbb9a80b.camel@redhat.com>
-Subject: Re: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation
- bug
-From:   "Ewan D. Milne" <emilne@redhat.com>
-To:     Michal =?ISO-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>,
-        Hannes Reinecke <hare@suse.de>
-Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Date:   Wed, 23 Oct 2019 17:44:54 -0400
-In-Reply-To: <20191023162313.GE938@kitsune.suse.cz>
-References: <cover.1571834862.git.msuchanek@suse.de>
-         <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
-         <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
-         <20191023162313.GE938@kitsune.suse.cz>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: m8GaqF_nOUal1pqA5AbW-g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        id S2407783AbfJWVqp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 17:46:45 -0400
+Received: from mga06.intel.com ([134.134.136.31]:39636 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407759AbfJWVqo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 17:46:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 14:46:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,222,1569308400"; 
+   d="scan'208";a="196908273"
+Received: from ayamada-mobl1.gar.corp.intel.com (HELO pbossart-mobl3.intel.com) ([10.254.95.208])
+  by fmsmga008.fm.intel.com with ESMTP; 23 Oct 2019 14:46:42 -0700
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
+        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
+        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
+        Bard liao <yung-chuan.liao@linux.intel.com>,
+        Rander Wang <rander.wang@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH 15/18] soundwire: stream: update state machine and add state checks
+Date:   Wed, 23 Oct 2019 16:45:58 -0500
+Message-Id: <20191023214601.883-16-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191023214601.883-1-pierre-louis.bossart@linux.intel.com>
+References: <20191023214601.883-1-pierre-louis.bossart@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-10-23 at 18:23 +0200, Michal Such=C3=A1nek wrote:
-> On Wed, Oct 23, 2019 at 04:13:15PM +0200, Hannes Reinecke wrote:
-> > On 10/23/19 2:52 PM, Michal Suchanek wrote:
-> > > The WMware ESXi cdrom identifies itself as:
-> > > sr 0:0:0:0: [sr0] scsi3-mmc drive: vendor: "NECVMWarVMware SATA CD001=
-.00"
-> > > model: "VMware SATA CD001.00"
-> > > with the following get_capabilities print in sr.c:
-> > >         sr_printk(KERN_INFO, cd,
-> > >                   "scsi3-mmc drive: vendor: \"%s\" model: \"%s\"\n",
-> > >                   cd->device->vendor, cd->device->model);
-> > >=20
-> > > So the model looks like reliable identification while vendor does not=
-.
-> > >=20
-> > > The drive claims to have a tray and claims to be able to close it.
-> > > However, the UI has no notion of a tray - when medium is ejected it i=
-s
-> > > dropped in the floor and the user must select a medium again before t=
-he
-> > > drive can be re-loaded.  On the kernel side the tray_move call to clo=
-se
-> > > the tray succeeds but the drive state does not change as a result of =
-the
-> > > call.
-> > >=20
-> > > The drive does not in fact emulate the tray state. There are two ways=
- to
-> > > get the medium state. One is the SCSI status:
-> > >=20
-> > > Physical drive:
-> > >=20
-> > > Fixed format, current; Sense key: Not Ready
-> > > Additional sense: Medium not present - tray open
-> > > Raw sense data (in hex):
-> > >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 02 00 00
-> > >         00 00
-> > >=20
-> > > Fixed format, current; Sense key: Not Ready
-> > > Additional sense: Medium not present - tray closed
-> > >  Raw sense data (in hex):
-> > >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 01 00 00
-> > >         00 00
-> > >=20
-> > > VMware ESXi:
-> > >=20
-> > > Fixed format, current; Sense key: Not Ready
-> > > Additional sense: Medium not present
-> > >   Info fld=3D0x0 [0]
-> > >  Raw sense data (in hex):
-> > >         f0 00 02 00 00 00 00 0a  00 00 00 00 3a 00 00 00
-> > >         00 00
-> > >=20
-> > > So the tray state is not reported here. Other is medium status which =
-the
-> > > kernel prefers if available. Adding a print here gives:
-> > >=20
-> > > cdrom: get_media_event success: code =3D 0, door_open =3D 1, medium_p=
-resent =3D 0
-> > >=20
-> > > door_open is interpreted as open tray. This is fine so long as tray_m=
-ove
-> > > would close the tray when requested or report an error which never
-> > > happens on VMware ESXi servers (5.5 and 6.5 tested).
-> > >=20
-> > > This is a popular virtualization platform so a workaround is worthwhi=
-le.
-> > >=20
-> > > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> > > ---
-> > >  drivers/scsi/sr.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > >=20
-> > > diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-> > > index 4664fdf75c0f..8090c5bdec09 100644
-> > > --- a/drivers/scsi/sr.c
-> > > +++ b/drivers/scsi/sr.c
-> > > @@ -867,6 +867,7 @@ static void get_capabilities(struct scsi_cd *cd)
-> > >  =09unsigned int ms_len =3D 128;
-> > >  =09int rc, n;
-> > > =20
-> > > +=09static const char *model_vmware =3D "VMware";
-> > >  =09static const char *loadmech[] =3D
-> > >  =09{
-> > >  =09=09"caddy",
-> > > @@ -922,6 +923,11 @@ static void get_capabilities(struct scsi_cd *cd)
-> > >  =09=09  buffer[n + 4] & 0x20 ? "xa/form2 " : "",=09/* can read xa/fr=
-om2 */
-> > >  =09=09  buffer[n + 5] & 0x01 ? "cdda " : "", /* can read audio data =
-*/
-> > >  =09=09  loadmech[buffer[n + 6] >> 5]);
-> > > +=09if (!strncmp(cd->device->model, model_vmware, strlen(model_vmware=
-))) {
-> > > +=09=09buffer[n + 6] &=3D ~(0xff << 5);
-> > > +=09=09sr_printk(KERN_INFO, cd,
-> > > +=09=09=09  "VMware ESXi bug workaround: tray -> caddy\n");
-> > > +=09}
-> > >  =09if ((buffer[n + 6] >> 5) =3D=3D 0)
-> > >  =09=09/* caddy drives can't close tray... */
-> > >  =09=09cd->cdi.mask |=3D CDC_CLOSE_TRAY;
-> > >=20
-> >=20
-> > This looks something which should be handled via a blacklist flag, not
-> > some inline hack which everyone forgets about it...
->=20
-> AFAIK we used to have a blacklist but don't have anymore. So either it
-> has to be resurrected for this one flag or an inline hack should be good
-> enough.
->=20
+The state machine and notes don't accurately explain or allow
+transitions from STREAM_DEPREPARED and STREAM_DISABLED.
 
-I agree with Hannes.  We should have a blacklist flag for this.
-Putting inline code in the sr driver that special cases on a particular
-device model string is not clean.  The "VMware ESXi bug workaround" message
-is not particularly descriptive either.
+Add more explanations and allow for more transitions as a result of a
+trigger_stop(), trigger_suspend() and prepare(), depending on the
+ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
+flags.
 
--Ewan
+Also add basic checks to help debug inconsistent states and illegal
+state machine transitions.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ Documentation/driver-api/soundwire/stream.rst | 63 +++++++++++++------
+ drivers/soundwire/stream.c                    | 38 +++++++++++
+ 2 files changed, 83 insertions(+), 18 deletions(-)
+
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
+index 5351bd2f34a8..9b7418ff8d59 100644
+--- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
+ 	+-----------+     +------------+     +----------+     +----------+
+ 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
+ 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
+-	+-----------+     +------------+     +----------+     +----+-----+
+-	                                                           ^
+-	                                                           |
+-	                                                           |
+-	                                                           v
+-	         +----------+           +------------+        +----+-----+
++	+-----------+     +------------+     +---+--+---+     +----+-----+
++	                                         ^  ^              ^
++				                 |  |              |
++				               __|  |___________   |
++				              |                 |  |
++	                                      v                 |  v
++	         +----------+           +-----+------+        +-+--+-----+
+ 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
+ 	         |  STATE   |           |   STATE    |        |  STATE   |
+ 	         +----------+           +------------+        +----------+
+ 
+-NOTE: State transition between prepare and deprepare is supported in Spec
+-but not in the software (subsystem)
++NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
++``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
++supported at the ALSA/ASoC level. Likewise the transition between
++``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
++INFO_RESUME flag.
+ 
+-NOTE2: Stream state transition checks need to be handled by caller
+-framework, for example ALSA/ASoC. No checks for stream transition exist in
+-SoundWire subsystem.
++NOTE2: The framework implements basic state transition checks, but
++does not e.g. check if a transition from DISABLED to ENABLED is valid
++on a specific platform. Such tests need to be added at the ALSA/ASoC
++level.
+ 
+ Stream State Operations
+ -----------------------
+@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
+ 
+ Prepare state of stream. Operations performed before entering in this state:
+ 
++  (0) Steps 1 and 2 are omitted in the case of a resume operation,
++      where the bus bandwidth is known.
++
+   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
+       are computed based on current stream as well as already active
+       stream(s) on Bus. Re-computation is required to accommodate current
+@@ -270,13 +278,15 @@ Prepare state of stream. Operations performed before entering in this state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_PREPARED``.
+ 
+-Bus implements below API for PREPARE state which needs to be called once per
+-stream. From ASoC DPCM framework, this stream state is linked to
+-.prepare() operation.
++Bus implements below API for PREPARE state which needs to be called
++once per stream. From ASoC DPCM framework, this stream state is linked
++to .prepare() operation. Since the .trigger() operations may not
++follow the .prepare(), a direct transitions from
++``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
+ 
+ .. code-block:: c
+ 
+-  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
++  int sdw_prepare_stream(struct sdw_stream_runtime * stream, bool resume);
+ 
+ 
+ SDW_STREAM_ENABLED
+@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+ 
++When the INFO_PAUSE flag is supported, a direct transition to
++``SDW_STREAM_ENABLED`` is allowed.
++
++For resume operations where ASoC will use the .prepare() callback, the
++stream can transition from ``SDW_STREAM_DISABLED`` to
++``SDW_STREAM_PREPARED``, with all required settings restored but
++without updating the bandwidth and bit allocation.
++
+ .. code-block:: c
+ 
+   int sdw_disable_stream(struct sdw_stream_runtime * stream);
+@@ -353,9 +371,18 @@ state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_DEPREPARED``.
+ 
+-Bus implements below API for DEPREPARED state which needs to be called once
+-per stream. From ASoC DPCM framework, this stream state is linked to
+-.trigger() stop operation.
++Bus implements below API for DEPREPARED state which needs to be called
++once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
++the mapping from this stream state to ALSA/ASoC operation may be
++implementation specific.
++
++When the INFO_PAUSE flag is supported, the stream state is linked to
++the .hw_free() operation - the stream is not deprepared on a
++TRIGGER_STOP.
++
++Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
++state on TRIGGER_STOP, should they require a transition through the
++``SDW_STREAM_PREPARED`` state.
+ 
+ .. code-block:: c
+ 
+diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+index e69f94a8c3a8..0a074d445b8d 100644
+--- a/drivers/soundwire/stream.c
++++ b/drivers/soundwire/stream.c
+@@ -1553,10 +1553,21 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_CONFIGURED &&
++	    stream->state != SDW_STREAM_DEPREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_prepare_stream(stream);
++
+ 	if (ret < 0)
+ 		pr_err("Prepare for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1621,10 +1632,19 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_enable_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("Enable for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1697,10 +1717,18 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_ENABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_disable_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("Disable for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1755,10 +1783,20 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
+ 	}
+ 
+ 	sdw_acquire_bus_lock(stream);
++
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_deprepare_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("De-prepare for stream:%d failed: %d\n", ret, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+-- 
+2.20.1
 
