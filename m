@@ -1,164 +1,224 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8A447D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 02:37:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55A4F7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 03:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389061AbfJWChY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 22:37:24 -0400
-Received: from mail-eopbgr20042.outbound.protection.outlook.com ([40.107.2.42]:3811
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389051AbfJWChY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Oct 2019 22:37:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eQ2bttHNbzcCx5L3NRReJr3i2ELPwvkw9TwBv8LwjVIdMVqDGuC7v3hMv6eCwjJYv9lIXXTEQOcDhMlh4P63qmVFheaAkphjECqTVViClEApcs1RZ/B+UO5F8cHUIc+ptOj9nA+MaFNFD/o8PLmKjaw/nqdNIgsgdC02Tbbwb9bPovF0lIYGtpcXxFCyN02FAbSKUxfuRm7wa5UVBJMFuSEzJypsNvjEZ/f9UOZPk1eE3CeGEOUh2kEvmVSHFFeQzs5vQaJqjmgdO72uUyr9z9ko8U9iCYIEMb1BwYvRCu6YikhJpL/FQ/UjLgd54sXkZbqpyOtuh9vYsIubmEIzqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dh2biVIVfhA03zkXP8icbrosSEithgWaWh6JGKPFRtw=;
- b=gWApdZzDlviFXy+PMBTYTQP92BMOBr0pMbXrcr7xvAjCtUu+YvLqeK8nJDu5zHP4e3k/j56zg5+WAQFGISQb4ADg5f5zWbVI9BtY/7jr6QnzRcYf+5N/Dk2BpbPWVqNB7dBeF+5rG8dqgz5caXA8VEOHYCZgBI+tt+IQ4oBzr2dP5+d4diM9hqhrBKtnclvBDBHcd9xMHT22AYM3dfmr4WkdmdQQSwRA5UwLLh+/q3kAKOJO3o/trWnrdW8QBDgdiIog/wQqUj1ATrIa1LKVekFYFKU9R3Jsexw1stNRg7a0R8X6MpaxI3AodzNGrbigvvhGA6kPbhCT5NVr1xhIbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dh2biVIVfhA03zkXP8icbrosSEithgWaWh6JGKPFRtw=;
- b=d5Lmir6vgOvDH7T7mUqmnGujxKaSjpiyk7yu+gcWv5r631Xjfj529UveuGl1K3qFOaihP2wtuV6Tsg9CqFneG6cH5gvkKWBPe9P9+yudQ23fqXdh2MvYTjY9Sbh4An9cSoE7F51Ri5d1l/Q17ITUINRs6s1W4eUZBx4fYLUaV7o=
-Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com (52.134.72.18) by
- DB3PR0402MB3899.eurprd04.prod.outlook.com (52.134.71.154) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.24; Wed, 23 Oct 2019 02:37:18 +0000
-Received: from DB3PR0402MB3916.eurprd04.prod.outlook.com
- ([fe80::d469:ad51:2bec:19f0]) by DB3PR0402MB3916.eurprd04.prod.outlook.com
- ([fe80::d469:ad51:2bec:19f0%6]) with mapi id 15.20.2367.025; Wed, 23 Oct 2019
- 02:37:18 +0000
-From:   Anson Huang <anson.huang@nxp.com>
-To:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will.deacon@arm.com" <will.deacon@arm.com>,
-        "rui.zhang@intel.com" <rui.zhang@intel.com>,
-        "edubezval@gmail.com" <edubezval@gmail.com>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        Peng Fan <peng.fan@nxp.com>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
-        "olof@lixom.net" <olof@lixom.net>,
-        "jagan@amarulasolutions.com" <jagan@amarulasolutions.com>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        "dinguyen@kernel.org" <dinguyen@kernel.org>,
-        "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
-CC:     dl-linux-imx <linux-imx@nxp.com>
-Subject: RE: [PATCH V15 1/5] dt-bindings: fsl: scu: add thermal binding
-Thread-Topic: [PATCH V15 1/5] dt-bindings: fsl: scu: add thermal binding
-Thread-Index: AQHVJXvnLQPj9qjL2U2LZTWuyBDONqaqeq9ggC7WvJCAjvj14A==
-Date:   Wed, 23 Oct 2019 02:37:18 +0000
-Message-ID: <DB3PR0402MB391666ED47460B81E1C3FEC7F56B0@DB3PR0402MB3916.eurprd04.prod.outlook.com>
-References: <20190618021820.14885-1-Anson.Huang@nxp.com>
- <DB3PR0402MB39162C5B5AF828B127DD871EF5E00@DB3PR0402MB3916.eurprd04.prod.outlook.com>
- <DB3PR0402MB39162EB555CD7AE75D58C582F5C60@DB3PR0402MB3916.eurprd04.prod.outlook.com>
-In-Reply-To: <DB3PR0402MB39162EB555CD7AE75D58C582F5C60@DB3PR0402MB3916.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=anson.huang@nxp.com; 
-x-originating-ip: [119.31.174.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4c98c0b6-bb53-45eb-acbc-08d75761ec43
-x-ms-traffictypediagnostic: DB3PR0402MB3899:|DB3PR0402MB3899:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB3PR0402MB389977405500819AD06631DAF56B0@DB3PR0402MB3899.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 019919A9E4
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(199004)(189003)(305945005)(7736002)(6436002)(14454004)(6506007)(3846002)(55016002)(186003)(446003)(26005)(9686003)(6116002)(99286004)(102836004)(4326008)(66476007)(81166006)(76116006)(64756008)(478600001)(229853002)(52536014)(86362001)(66556008)(8676002)(81156014)(5660300002)(476003)(74316002)(486006)(8936002)(2201001)(66946007)(66446008)(11346002)(256004)(316002)(44832011)(25786009)(2906002)(7416002)(110136005)(71190400001)(71200400001)(7696005)(6246003)(2501003)(76176011)(33656002)(66066001)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DB3PR0402MB3899;H:DB3PR0402MB3916.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sam8MXfDIk2xbu9RlsSvRuVlDoZzysCbFs5Ej3dIS/FADIgPwyvg8JKNLvMUgnu1oJiCIWADm01fSll/Oa/lTXUoh2ct2jHkessGAnDRvkUkI20/5VVWJ3eUu7jrYy4YdWptanrDhYYRKhqltA49eDF3d8eXpIV9VS8tfpDEivXzr9recDWrEEbVVdj9PolBk6O4UvbJNc6k1jeu6Foqv0vJ6myWscow3WZPz6TXQvnyJVjh9dmiq1wN7+GH+mEAKl706ebdqCgjb1duGUaVafoGQa3LjsqtP/qyTy1Y5dH5ABUhKRlQxdvpTXIu+g49m3b9sVmrNzn26m9+JNRTYv+viY4nZvOhN6G4bY6DoNdWIIteV4a9x3EiQLcUfoYaMQaJMSVzULN5DcMLiFmuOs0yCzxxPNPViZZ2UTWIiIJ9AQihndfMb3gs8e3wk4bZ
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1730768AbfJWD5A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Oct 2019 23:57:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35256 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729994AbfJWD5A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 23:57:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=vhnNfgbyvwy7UCyN7x40j7OcT7i5pKApwS9FpVwzmEE=; b=F/02A//E4yisXmCcnOCo5WoJn
+        7LnD8pB7EWXenQI56WuP9oOgjVzfs7Dy7qLDP4T9Y6p1eX4KZJq1nWweGP3ghpN9CMm1WBdP+G2TQ
+        H/puuhvr3MRGWZLdepMOiRNKe46rXd/4g5TLs50sJtKAnq2U0uOYEqqBDjOQA93EcMJ7UsYFerx/z
+        ZmJyrsngkTzZxCaHFhTtiC2Z4VOEqIgqCEddF0anKls34Ubeo8y4vNMYbUl9xKgICGjd+wUj1eDpa
+        omPdObRdXVTl2/k6z4FOuiGdtDpqoyJr2KdYr7EN/AqHmCPjagYYlF3rHnFqBRPwyuU6j4yCsi2KD
+        kL6BqfOUg==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iN7lO-00050V-R5; Wed, 23 Oct 2019 03:56:46 +0000
+Subject: Re: [RFC] docs: add a reset controller chapter to the driver API docs
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Gautam <vivek.gautam@codeaurora.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@pengutronix.de
+References: <20191022164547.22632-1-p.zabel@pengutronix.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <8e964179-4515-33ea-bdc4-f27daa311267@infradead.org>
+Date:   Tue, 22 Oct 2019 20:56:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c98c0b6-bb53-45eb-acbc-08d75761ec43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2019 02:37:18.1857
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UMuLBW6G/PU57RrzReqMrwSH8LI/fVPwhgyv15wYjD7dyZ9nZmJIT7roFaf9pXJsbo3Zr5hwR35vZmgqSQHaaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3899
+In-Reply-To: <20191022164547.22632-1-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UGluZyBhZ2FpbiwgaXQgaGFzIGJlZW4gMyBtb250aHMgcGFzc2VkLg0KDQo+IFN1YmplY3Q6IFJF
-OiBbUEFUQ0ggVjE1IDEvNV0gZHQtYmluZGluZ3M6IGZzbDogc2N1OiBhZGQgdGhlcm1hbCBiaW5k
-aW5nDQo+IA0KPiBQaW5nLi4uDQo+IA0KPiA+IEhpLCBEYW5pZWwvUnVpL0VkdWFyZG8NCj4gPiAJ
-Q291bGQgeW91IHBsZWFzZSB0YWtlIGEgbG9vayBhdCB0aGlzIHBhdGNoIHNlcmllcz8NCj4gPg0K
-PiA+IEFuc29uDQo+ID4NCj4gPiA+IEZyb206IEFuc29uIEh1YW5nIDxBbnNvbi5IdWFuZ0BueHAu
-Y29tPg0KPiA+ID4NCj4gPiA+IE5YUCBpLk1YOFFYUCBpcyBhbiBBUk12OCBTb0Mgd2l0aCBhIENv
-cnRleC1NNCBjb3JlIGluc2lkZSBhcyBzeXN0ZW0NCj4gPiA+IGNvbnRyb2xsZXIsIHRoZSBzeXN0
-ZW0gY29udHJvbGxlciBpcyBpbiBjaGFyZ2Ugb2Ygc3lzdGVtIHBvd2VyLA0KPiA+ID4gY2xvY2sg
-YW5kIHRoZXJtYWwgc2Vuc29ycyBldGMuIG1hbmFnZW1lbnQsIExpbnV4IGtlcm5lbCBoYXMgdG8N
-Cj4gPiA+IGNvbW11bmljYXRlIHdpdGggc3lzdGVtIGNvbnRyb2xsZXIgdmlhIE1VIChtZXNzYWdl
-IHVuaXQpIElQQyB0byBnZXQNCj4gPiA+IHRlbXBlcmF0dXJlIGZyb20gdGhlcm1hbCBzZW5zb3Jz
-LCB0aGlzIHBhdGNoIGFkZHMgYmluZGluZyBkb2MgZm9yDQo+ID4gPiBpLk1YIHN5c3RlbSBjb250
-cm9sbGVyIHRoZXJtYWwgZHJpdmVyLg0KPiA+ID4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEFuc29u
-IEh1YW5nIDxBbnNvbi5IdWFuZ0BueHAuY29tPg0KPiA+ID4gUmV2aWV3ZWQtYnk6IFJvYiBIZXJy
-aW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+ID4gPiBSZXZpZXdlZC1ieTogRG9uZyBBaXNoZW5nIDxh
-aXNoZW5nLmRvbmdAbnhwLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gTm8gY2hhbmdlLg0KPiA+ID4g
-LS0tDQo+ID4gPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZyZWVzY2FsZS9mc2wsc2N1
-LnR4dCAgICAgICAgfCAxNg0KPiA+ICsrKysrKysrKysrKysrKysNCj4gPiA+ICAxIGZpbGUgY2hh
-bmdlZCwgMTYgaW5zZXJ0aW9ucygrKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQNCj4gPiA+IGEv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mcmVlc2NhbGUvZnNsLHNjdS50
-eHQNCj4gPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mcmVlc2Nh
-bGUvZnNsLHNjdS50eHQNCj4gPiA+IGluZGV4IGE1NzVlNDIuLmZjMzg0NGUgMTAwNjQ0DQo+ID4g
-PiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2ZyZWVzY2FsZS9m
-c2wsc2N1LnR4dA0KPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2FybS9mcmVlc2NhbGUvZnNsLHNjdS50eHQNCj4gPiA+IEBAIC0xNTUsNiArMTU1LDE3IEBAIFJl
-cXVpcmVkIHByb3BlcnRpZXM6DQo+ID4gPiAgT3B0aW9uYWwgcHJvcGVydGllczoNCj4gPiA+ICAt
-IHRpbWVvdXQtc2VjOiBjb250YWlucyB0aGUgd2F0Y2hkb2cgdGltZW91dCBpbiBzZWNvbmRzLg0K
-PiA+ID4NCj4gPiA+ICtUaGVybWFsIGJpbmRpbmdzIGJhc2VkIG9uIFNDVSBNZXNzYWdlIFByb3Rv
-Y29sDQo+ID4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiArUmVxdWlyZWQgcHJvcGVydGllczoNCj4g
-PiA+ICstIGNvbXBhdGlibGU6CQkJU2hvdWxkIGJlIDoNCj4gPiA+ICsJCQkJICAiZnNsLGlteDhx
-eHAtc2MtdGhlcm1hbCINCj4gPiA+ICsJCQkJZm9sbG93ZWQgYnkgImZzbCxpbXgtc2MtdGhlcm1h
-bCI7DQo+ID4gPiArDQo+ID4gPiArLSAjdGhlcm1hbC1zZW5zb3ItY2VsbHM6CVNlZQ0KPiA+ID4g
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3RoZXJtYWwvdGhlcm1hbC50eHQNCj4g
-PiA+ICsJCQkJZm9yIGEgZGVzY3JpcHRpb24uDQo+ID4gPiArDQo+ID4gPiAgRXhhbXBsZSAoaW14
-OHF4cCk6DQo+ID4gPiAgLS0tLS0tLS0tLS0tLQ0KPiA+ID4gIGFsaWFzZXMgew0KPiA+ID4gQEAg
-LTIyMiw2ICsyMzMsMTEgQEAgZmlybXdhcmUgew0KPiA+ID4gIAkJCWNvbXBhdGlibGUgPSAiZnNs
-LGlteDhxeHAtc2Mtd2R0IiwgImZzbCxpbXgtc2Mtd2R0IjsNCj4gPiA+ICAJCQl0aW1lb3V0LXNl
-YyA9IDw2MD47DQo+ID4gPiAgCQl9Ow0KPiA+ID4gKw0KPiA+ID4gKwkJdHNlbnM6IHRoZXJtYWwt
-c2Vuc29yIHsNCj4gPiA+ICsJCQljb21wYXRpYmxlID0gImZzbCxpbXg4cXhwLXNjLXRoZXJtYWwi
-LCAiZnNsLGlteC1zYy0NCj4gPiA+IHRoZXJtYWwiOw0KPiA+ID4gKwkJCSN0aGVybWFsLXNlbnNv
-ci1jZWxscyA9IDwxPjsNCj4gPiA+ICsJCX07DQo+ID4gPiAgCX07DQo+ID4gPiAgfTsNCj4gPiA+
-DQo+ID4gPiAtLQ0KPiA+ID4gMi43LjQNCg0K
+On 10/22/19 9:45 AM, Philipp Zabel wrote:
+> Add initial reset controller API documentation. This is mostly indented
+
+                                                                 intended
+
+> to describe the concepts to users of the consumer API, and to tie the
+> kerneldoc comments we already have into the driver API documentation.
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+>  Documentation/driver-api/index.rst |   1 +
+>  Documentation/driver-api/reset.rst | 217 +++++++++++++++++++++++++++++
+>  2 files changed, 218 insertions(+)
+>  create mode 100644 Documentation/driver-api/reset.rst
+> 
+
+
+> diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+> new file mode 100644
+> index 000000000000..210ccd97c5f0
+> --- /dev/null
+> +++ b/Documentation/driver-api/reset.rst
+> @@ -0,0 +1,217 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +====================
+> +Reset controller API
+> +====================
+> +
+> +Introduction
+> +============
+> +
+> +Reset controllers are central units that control the reset signals to multiple
+> +peripherals.
+> +The reset controller API is split in two parts:
+
+                 I prefer            into two parts:
+
+> +the `consumer driver interface <#consumer-driver-interface>`__ (`API reference
+> +<#reset-consumer-api>`__), which allows peripheral drivers to request control
+> +over their reset input signals, and the `reset controller driver interface
+> +<#reset-controller-driver-interface>`__ (`API reference
+> +<#reset-controller-driver-api>`__), which is used by drivers for reset
+> +controller devices to register their reset controls to provide them to the
+> +consumers.
+> +
+> +While some reset controller hardware units also implement system restart
+> +functionality, restart handlers are out of scope for the reset controller API.
+> +
+> +Glossary
+> +--------
+> +
+> +The reset controller API uses these terms with a specific meaning:
+> +
+> +Reset line
+> +
+> +    Physical reset line carrying a reset signal from a reset controller
+> +    hardware unit to a peripheral module.
+> +
+> +Reset control
+> +
+> +    Control method that determines the state of one or multiple reset lines.
+> +    Most commonly this is a single bit in reset controller register space that
+> +    either allows direct control over the physical state of the reset line, or
+> +    is self-clearing and can be used to trigger a predetermined pulse on the
+> +    reset line.
+> +    In more complicated reset controls, a single trigger action can launch a
+> +    carefully timed sequence of pulses on multiple reset lines.
+> +
+> +Reset controller
+> +
+> +    A hardware module that provides a number of reset controls to control a
+> +    number of reset lines.
+> +
+> +Reset consumer
+> +
+> +    Peripheral module or external IC that is put into reset by the signal on a
+> +    reset line.
+> +
+> +Consumer driver interface
+> +=========================
+> +
+> +This interface offers a similar API to the kernel clock framework.
+
+or:
+  This interface provides an API that is similar to the kernel clock framework.
+
+> +Consumer drivers use get and put operations to acquire and release reset
+> +controls.
+> +Functions are provided to assert and deassert the controlled reset lines,
+> +trigger reset pulses, or to query reset line status.
+> +
+> +When requesting reset controls, consumers can use symbolic names for their
+> +reset inputs, which are mapped to an actual reset control on an existing reset
+> +controller device by the core.
+> +
+> +A stub version of this API is provided when the reset controller framework is
+> +not in use in order to minimise the need to use ifdefs.
+> +
+> +Shared and exclusive resets
+> +---------------------------
+
+[snip]
+
+> +
+> +API reference
+> +=============
+> +
+> +The reset controller API is documented here in two parts:
+> +the `reset consumer API <#reset-consumer-api>`__ and the `reset controller
+> +driver API <#reset-controller-driver-api>`__.
+> +
+> +Reset consumer API
+> +------------------
+> +
+> +Reset consumers can control a reset line using an opaque reset control handle,
+> +which can be obtained from :c:func:`devm_reset_control_get_exclusive` or
+> +:c:func:`devm_reset_control_get_shared`.
+> +Given the reset control, consumers can call :c:func:`reset_control_assert` and
+> +:c:func:`reset_control_deassert`, trigger a reset pulse using
+> +:c:func:`reset_control_reset`, or query the reset line status using
+> +:c:func:`reset_control_status`.
+> +
+> +.. kernel-doc:: include/linux/reset.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/reset/core.c
+> +   :functions: reset_control_reset
+> +               reset_control_assert
+> +               reset_control_deassert
+> +               reset_control_status
+> +               reset_control_acquire
+> +               reset_control_release
+> +               reset_control_put
+> +               of_reset_control_get_count
+> +               of_reset_control_array_get
+> +               devm_reset_control_array_get
+> +               reset_control_get_count
+> +
+> +Reset controller driver API
+> +---------------------------
+> +
+> +Reset controller drivers are supposed to implement the necessary functions in
+> +a static constant structure :c:type:`reset_control_ops`, allocate and fill out
+> +a struct :c:type:`reset_controller_dev`, and register it using
+> +:c:func:`devm_reset_controller_register`.
+> +
+> +.. kernel-doc:: include/linux/reset-controller.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/reset/core.c
+> +   :functions: of_reset_simple_xlate
+> +               reset_controller_register
+> +               reset_controller_unregister
+> +               devm_reset_controller_register
+> +               reset_controller_add_lookup
+
+These header and source files cause a number of kernel-doc warnings
+for which I am sending a patch.
+
+thanks.
+-- 
+~Randy
+
