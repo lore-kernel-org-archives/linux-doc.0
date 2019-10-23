@@ -3,77 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 207BD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 11:54:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C95D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 11:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405144AbfJWLyv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 07:54:51 -0400
-Received: from mga18.intel.com ([134.134.136.126]:13649 "EHLO mga18.intel.com"
+        id S2405117AbfJWL4y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 07:56:54 -0400
+Received: from mga05.intel.com ([192.55.52.43]:1121 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732092AbfJWLyv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 07:54:51 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+        id S1733169AbfJWL4x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 07:56:53 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 04:54:50 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 04:56:52 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; 
-   d="scan'208";a="210017354"
-Received: from ddalessa-mobl.amr.corp.intel.com (HELO [10.254.201.232]) ([10.254.201.232])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/AES256-SHA; 23 Oct 2019 04:54:48 -0700
-Subject: Re: [PATCH 00/12] infiniband kernel-doc fixes & driver-api/ chapter
-To:     Jason Gunthorpe <jgg@ziepe.ca>, rd.dunlab@gmail.com,
-        Max Gurtovoy <maxg@mellanox.com>
-Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-References: <20191010035239.532908118@gmail.com>
- <20191022184109.GA2155@ziepe.ca>
-From:   Dennis Dalessandro <dennis.dalessandro@intel.com>
-Message-ID: <52276493-6c27-0bdd-2b3a-6475056dd4f1@intel.com>
-Date:   Wed, 23 Oct 2019 07:54:46 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+   d="scan'208";a="201968405"
+Received: from jsakkine-mobl1.tm.intel.com (HELO localhost) ([10.237.50.121])
+  by orsmga006.jf.intel.com with ESMTP; 23 Oct 2019 04:56:37 -0700
+Date:   Wed, 23 Oct 2019 14:56:37 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
+        Maxim Martynov <maxim@arista.com>,
+        David Ahern <dsahern@gmail.com>,
+        Francesco Ruggeri <fruggeri@arista.com>,
+        Linus =?iso-8859-1?Q?L=FCssing?= <linus.luessing@c0d3.blue>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Feng Tang <feng.tang@intel.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
+Subject: Re: [PATCH] Cleanup: replace prefered with preferred
+Message-ID: <20191023115637.GA23733@linux.intel.com>
+References: <20191022214208.211448-1-salyzyn@android.com>
 MIME-Version: 1.0
-In-Reply-To: <20191022184109.GA2155@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191022214208.211448-1-salyzyn@android.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/22/2019 2:41 PM, Jason Gunthorpe wrote:
-> On Wed, Oct 09, 2019 at 08:52:39PM -0700, rd.dunlab@gmail.com wrote:
->>
->> This patch series cleans up lots of kernel-doc in drivers/infiniband/
->> and then adds an infiniband.rst file.
->>
->> It also changes a few instances of non-exported functions from kernel-doc
->> notation back to non-kernel-doc comments.
->>
->> There are still a few kernel-doc and Sphinx warnings that I don't know how
->> to resolve:
->>
->>    ../drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
->>    ../drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
+On Tue, Oct 22, 2019 at 02:41:45PM -0700, Mark Salyzyn wrote:
+> Replace all occurrences of prefered with preferred to make future
+> checkpatch.pl's happy.  A few places the incorrect spelling is
+> matched with the correct spelling to preserve existing user space API.
 > 
-> Maybe Max can help?
-> 
->>    ../drivers/infiniband/core/verbs.c:2510: WARNING: Unexpected indentation.
->>    ../drivers/infiniband/core/verbs.c:2512: WARNING: Block quote ends without a blank line; unexpected unindent.
->>    ../drivers/infiniband/core/verbs.c:2544: WARNING: Unexpected indentation.
-> 
-> I don't know what to make of these either.
-> 
-> Anyhow, it is an overall improvement, so I applied everything but
-> 
-> [05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h kernel-doc notation
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
 
-Safe to assume the kbuild robot failure [1] is a result of this?
+I'd fix such things when the code is otherwise change and scope this
+patch only to Documentation/. There is no pragmatic benefit of doing
+this for the code.
 
-[1] https://marc.info/?l=linux-rdma&m=157177785916141&w=2
-
--Denny
-
+/Jarkko
