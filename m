@@ -1,137 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5E297D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 06:55:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A81B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 07:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732574AbfJWGzJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 02:55:09 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:38326 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbfJWGzJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 02:55:09 -0400
-Received: by mail-yw1-f67.google.com with SMTP id s6so7113817ywe.5;
-        Tue, 22 Oct 2019 23:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tWMfIewyW2yZnqk9iPz3LngqD0QBboavwiUrFcIU6Tk=;
-        b=ZItP+0oobmwxRWpFscmdU9mtpw5Ngc7+Ab8AeULxE3u2I5by5dse+l/thhFQYJOI5o
-         KNTsWo9qU/mp7tYu8GXzSY/+Cc1E7rl4FQT2awWeV5y8TsFR6YOll5izd7L2Hxj17dli
-         x+LQV/nU6tJmX9KKR4UoJIXkFZd2Pp0BW9HQkuNJuJEtuNJsGPDz4YrRctEuW7Wo4NQ4
-         mlYsZ2feJsgiMR697WQzGmsyWaa9SwhBoTRJkIhV3/lHwOmhiM0eKNaBTxKS7krOKklW
-         IqUtxPA0HFb/pASs89Wb847XvRKiwfO/6dTwqtGeMuzQGibs89yMYZmmT+75ctCNzJWi
-         Ha/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tWMfIewyW2yZnqk9iPz3LngqD0QBboavwiUrFcIU6Tk=;
-        b=DegaDjv2ReQ3rXR3DvCCDa6pY9FWBLaA9FZIQd6dpgyBNaMKJRK1DLmhaa8AFXJZTB
-         gEZXMqJ3oTWm6aFPILj5DCAUvlDAP8SiD0PudBzbl15JXewbaJQ6GcRDAw+nxKuTxNli
-         UvDSN8dXrelq53tHujunYvn7u4xrvFSuW71kgiWHP8djxGAjiNoZTAf+jg32Q3LpeqD4
-         IV1hX7GewzQGMi45bMdY9XvOOU1TCzjRh3AojU9paMxyS45lrpNG5eY0vw27QaIKozcO
-         ti7R9FTBzLZKdyobNzUPS5bGlxhQH15JjrDbjpu36EJWlDXJjqIgeNSYdHUJ30mFi85S
-         KmkQ==
-X-Gm-Message-State: APjAAAUIBAMUW102UX6qeah1nbZj5IXKZjGH29KDVU9zQnbiMP3BLiwC
-        L2Y/25WvoRiaNS5TnGYTbeD8ayBsxh24pYkCa9g=
-X-Google-Smtp-Source: APXvYqyK0RBRSgeWbGn7/LkyjHCNbkCod4NzmBkwYNzSbYnoQBKsqwCBuMw2+GUec7foLcGq8YHoQC9v4cNSmSY2L94=
-X-Received: by 2002:a81:6c58:: with SMTP id h85mr1527436ywc.88.1571813708118;
- Tue, 22 Oct 2019 23:55:08 -0700 (PDT)
+        id S2389902AbfJWH0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 03:26:15 -0400
+Received: from mga01.intel.com ([192.55.52.88]:22048 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389351AbfJWH0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 03:26:14 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 00:26:14 -0700
+X-IronPort-AV: E=Sophos;i="5.68,219,1569308400"; 
+   d="scan'208";a="191747859"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 00:26:10 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, rd.dunlab@gmail.com
+Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h kernel-doc notation
+In-Reply-To: <e6be1ddd-c32f-4f8a-4528-7393d5997755@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191010035239.532908118@gmail.com> <20191010035239.890311169@gmail.com> <20191022175215.GA26528@ziepe.ca> <e6be1ddd-c32f-4f8a-4528-7393d5997755@infradead.org>
+Date:   Wed, 23 Oct 2019 10:26:07 +0300
+Message-ID: <87d0engbxs.fsf@intel.com>
 MIME-Version: 1.0
-References: <20191022204453.97058-1-salyzyn@android.com>
-In-Reply-To: <20191022204453.97058-1-salyzyn@android.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 23 Oct 2019 09:54:57 +0300
-Message-ID: <CAOQ4uxjFqq0zA7V3A9s0h2om7AWY5AT-2sQ4z2G0Vk2gtf1M=w@mail.gmail.com>
-Subject: Re: [PATCH v14 0/5] overlayfs override_creds=off & nested get xattr fix
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 22, 2019 at 11:45 PM Mark Salyzyn <salyzyn@android.com> wrote:
+On Tue, 22 Oct 2019, Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 10/22/19 10:52 AM, Jason Gunthorpe wrote:
+>> On Wed, Oct 09, 2019 at 08:52:44PM -0700, rd.dunlab@gmail.com wrote:
+>>> Make reserved struct fields "private:" so that they don't need to
+>>> be added to the kernel-doc notation. This removes 24 warnings.
+>> 
+>>> +++ linux-next-20191009/drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h
+>>> @@ -129,21 +129,31 @@ struct opa_vesw_info {
+>>>  	__be16  fabric_id;
+>>>  	__be16  vesw_id;
+>>>  
+>>> +	/* private: */
+>>>  	u8      rsvd0[6];
+>>> +	/* public: */
+>>>  	__be16  def_port_mask;
+>> 
+>> This seems overly ugly, is there some other way to handle these
+>> reserved fields? Maybe wire protocol structures shouldn't be kdoc?
 >
-> Patch series:
->
-> Mark Salyzyn (5):
->   Add flags option to get xattr method paired to __vfs_getxattr
->   overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
->   overlayfs: handle XATTR_NOSECURITY flag for get xattr method
->   overlayfs: internal getxattr operations without sepolicy checking
->   overlayfs: override_creds=off option bypass creator_cred
->
-> The first four patches address fundamental security issues that should
-> be solved regardless of the override_creds=off feature.
->
-> The fifth adds the feature depends on these other fixes.
->
-> By default, all access to the upper, lower and work directories is the
-> recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> checked against the caller's credentials.
->
-> If the principles of least privilege are applied for sepolicy, the
-> mounter's credentials might not overlap the credentials of the caller's
-> when accessing the overlayfs filesystem.  For example, a file that a
-> lower DAC privileged caller can execute, is MAC denied to the
-> generally higher DAC privileged mounter, to prevent an attack vector.
->
-> We add the option to turn off override_creds in the mount options; all
-> subsequent operations after mount on the filesystem will be only the
-> caller's credentials.  The module boolean parameter and mount option
-> override_creds is also added as a presence check for this "feature",
-> existence of /sys/module/overlay/parameters/overlay_creds
->
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
->
-> ---
-> v14:
-> - Rejoin, rebase and a few adjustments.
->
-> v13:
-> - Pull out first patch and try to get it in alone feedback, some
->   Acks, and then <crickets> because people forgot why we were doing i.
+> I don't know of any other way to handle them with kernel-doc.
+> Sure, changing the /** to just /* would be one way to hide the
+> warnings.  Either this patch or not having them be kernel-doc
+> is needed just to "fix" 24 warnings.
 
-Mark,
+The currently available options are:
 
-I do not see the first patch on fsdevel
-and I am confused from all the suggested APIs
-I recall Christoph's comment on v8 for not using xattr_gs_args
-and just adding flags to existing get() method.
-I agree to that comment.
+- The patch at hand (private/public comments). Ugly and verbose.
 
-I remember asking - don't remember the answer -
-do you have any testing for this feature?
-I have a WIP branch to run unionmount-testsuite not as root,
-which is a start, but I didn't get to finish the work.
-Let me know if you want to take up this work.
+- Document the structs using regular comments instead of
+  kernel-doc. Might be suitable here, but not a generally useful
+  approach. Loses all format checking and generated documentation.
 
-Thanks,
-Amir.
+- Also document the reserved fields. Ugly and verbose, also in the
+  generated documentation.
+
+Some options that I think might be relatively easy to implement:
+
+- Add struct documentation comment indicator to not complain about
+  missing member documentation. Some special tag in the struct
+  comment. This would also ignore members that actually need to be
+  documented.
+
+- Add support for designating private members in the member
+  documentation, i.e. require the documentation, but omit the members
+  from the generated document. Something like this, with PRIVATE
+  replaced with your favorite bikeshed colors:
+
+  /**
+   * @rsvd0: PRIVATE
+   */
+
+  This could be used either in the struct documentation comment or in
+  the inline member documentation comment. Less ugly than the patch at
+  hand, and arguably a better notation, but still requires documenting
+  the members.
+
+- Add support for a catch-all member documentation comment, for example:
+
+  /**
+   * struct foo - bar
+   * @*: This member is private.
+   */
+
+  Would generate the documentation for the member with the catch-all
+  documentation, which might be a generally useful feature, and would be
+  easy on the source code side. This could be combined with the PRIVATE
+  designation above, practically leading to the same result as the first
+  option but with more flexibility.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
