@@ -3,21 +3,21 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D1AA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:53:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 25A367DC63
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391823AbfJWMxL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 08:53:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49286 "EHLO mx1.suse.de"
+        id S2391894AbfJWMxR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 08:53:17 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49374 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2391001AbfJWMxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 08:53:11 -0400
+        id S2391880AbfJWMxQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 08:53:16 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 475E4B679;
-        Wed, 23 Oct 2019 12:53:09 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id CECD2B67E;
+        Wed, 23 Oct 2019 12:53:14 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     linux-scsi@vger.kernel.org
 Cc:     Michal Suchanek <msuchanek@suse.de>,
@@ -35,9 +35,9 @@ Cc:     Michal Suchanek <msuchanek@suse.de>,
         Bart Van Assche <bvanassche@acm.org>,
         Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 1/8] cdrom: add poll_event_interruptible
-Date:   Wed, 23 Oct 2019 14:52:40 +0200
-Message-Id: <7fc0315de16d99ba29b4ffc565996188d290fac9.1571834862.git.msuchanek@suse.de>
+Subject: [PATCH v2 8/8] scsi: sr: wait for the medium to become ready
+Date:   Wed, 23 Oct 2019 14:52:47 +0200
+Message-Id: <94dc98dc67b1d183d04c338c7978efa0556db6ac.1571834862.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1571834862.git.msuchanek@suse.de>
 References: <cover.1571834862.git.msuchanek@suse.de>
@@ -48,43 +48,98 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add convenience macro for polling an event that does not have a
-waitqueue.
+Use the autoclose IOCLT provided by cdrom driver to wait for drive to
+close in open_finish, and attempt to open once more after the door
+closes.
 
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
- drivers/cdrom/cdrom.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/scsi/sr.c | 54 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 42 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-index ac42ae4651ce..2ad6b73482fe 100644
---- a/drivers/cdrom/cdrom.c
-+++ b/drivers/cdrom/cdrom.c
-@@ -282,10 +282,24 @@
- #include <linux/fcntl.h>
- #include <linux/blkdev.h>
- #include <linux/times.h>
-+#include <linux/delay.h>
- #include <linux/uaccess.h>
-+#include <linux/sched/signal.h>
- #include <scsi/scsi_common.h>
- #include <scsi/scsi_request.h>
+diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
+index 8090c5bdec09..34d9a818b9e0 100644
+--- a/drivers/scsi/sr.c
++++ b/drivers/scsi/sr.c
+@@ -521,29 +521,58 @@ static blk_status_t sr_init_command(struct scsi_cmnd *SCpnt)
+ 	return ret;
+ }
  
-+#define poll_event_interruptible(event, interval) ({ \
-+	int ret = 0; \
-+	while (!(event)) { \
-+		if (signal_pending(current)) { \
-+			ret = -ERESTARTSYS; \
-+			break; \
-+		} \
-+		msleep_interruptible(interval); \
-+	} \
-+	ret; \
-+})
+-static int sr_block_open(struct block_device *bdev, fmode_t mode)
++static int __sr_block_open(struct block_device *bdev, fmode_t mode)
+ {
+-	struct scsi_cd *cd;
+-	struct scsi_device *sdev;
+-	int ret = -ENXIO;
+-
+-	cd = scsi_cd_get(bdev->bd_disk);
+-	if (!cd)
+-		goto out;
++	struct scsi_cd *cd = scsi_cd(bdev->bd_disk);
++	int ret;
+ 
+-	sdev = cd->device;
+-	scsi_autopm_get_device(sdev);
+ 	check_disk_change(bdev);
+ 
+ 	mutex_lock(&sr_mutex);
+ 	ret = cdrom_open(&cd->cdi, bdev, mode);
+ 	mutex_unlock(&sr_mutex);
+ 
++	return ret;
++}
 +
- /* used to tell the module to turn on full debugging messages */
- static bool debug;
- /* default compatibility mode */
++static int sr_block_open(struct block_device *bdev, fmode_t mode)
++{
++	struct scsi_cd *cd = scsi_cd_get(bdev->bd_disk);
++	struct scsi_device *sdev;
++	int ret;
++
++	if (!cd)
++		return -ENXIO;
++
++	sdev = cd->device;
++	scsi_autopm_get_device(sdev);
++	ret = __sr_block_open(bdev, mode);
+ 	scsi_autopm_put_device(sdev);
+-	if (ret)
++
++	if (ret == -ERESTARTSYS)
+ 		scsi_cd_put(cd);
+ 
+-out:
++	return ret;
++}
++
++static int sr_block_open_finish(struct block_device *bdev, fmode_t mode,
++				int ret)
++{
++	struct scsi_cd *cd = scsi_cd(bdev->bd_disk);
++
++	/* wait for drive to get ready */
++	if ((ret == -ENOMEDIUM) && !(mode & FMODE_NDELAY)) {
++		struct scsi_device *sdev = cd->device;
++		/*
++		 * Cannot use sr_block_ioctl because it locks sr_mutex blocking
++		 * out any processes trying to access the drive
++		 */
++		scsi_autopm_get_device(sdev);
++		cdrom_ioctl(&cd->cdi, bdev, mode, CDROM_AUTOCLOSE, 0);
++		ret = __sr_block_open(bdev, mode);
++		scsi_autopm_put_device(sdev);
++	}
++
+ 	return ret;
+ }
+ 
+@@ -639,6 +668,7 @@ static const struct block_device_operations sr_bdops =
+ {
+ 	.owner		= THIS_MODULE,
+ 	.open		= sr_block_open,
++	.open_finish	= sr_block_open_finish,
+ 	.release	= sr_block_release,
+ 	.ioctl		= sr_block_ioctl,
+ 	.check_events	= sr_block_check_events,
 -- 
 2.23.0
 
