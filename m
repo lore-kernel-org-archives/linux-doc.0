@@ -1,195 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 486177D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 13:50:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC6D87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 14:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391914AbfJWNum (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 09:50:42 -0400
-Received: from [217.140.110.172] ([217.140.110.172]:52720 "EHLO foss.arm.com"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S2392090AbfJWNul (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 09:50:41 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FA494A7;
-        Wed, 23 Oct 2019 06:50:17 -0700 (PDT)
-Received: from [10.1.194.43] (e112269-lin.cambridge.arm.com [10.1.194.43])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3E743F71F;
-        Wed, 23 Oct 2019 06:50:15 -0700 (PDT)
-From:   Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v7 00/10] arm64: Stolen time support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org
-References: <20191021152823.14882-1-steven.price@arm.com>
- <f0d79362ab994e269680fba75f913044@www.loen.fr>
-Message-ID: <5b3968d8-9a5a-ee9d-70b3-436dc052dd0a@arm.com>
-Date:   Wed, 23 Oct 2019 14:50:14 +0100
+        id S1732229AbfJWONH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 10:13:07 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:38376 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbfJWONG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 10:13:06 -0400
+Received: by mail-pg1-f195.google.com with SMTP id w3so12233094pgt.5
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2019 07:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=99Meb/NHEeKKNcKVEpi7PqCxKLzU8P8+91Q4MKWh7cI=;
+        b=lf1+OUQSg17r/yrL9lhjMmeTO5DASONcrqjjSGZuqTc8BE+uYEPOuHyZa2AZfnTMdA
+         18yU5/a04N+Bl72T6QW+pDByPxPvZESf3X7iQlLiv8ZgA0UZCeCKnH8JYcuET7UkA2mO
+         uKSqTsby9YseGjPDwhxq5FHy0gWrt6bEWMVWP746cLMFPfnGaZ3bqDHXH5MH89t2/jbR
+         XO3UsLZ7THwebT3ucHj/1Ls4zM/U6/k5RHUJcs9looZxzF1Di1q9A3dWTTRVxXoCpTbq
+         EaD0ngSR2QEeetKPHUG/6yxB8HRtOYglIpjcbojDaFh0bFUL9doMquCNmp7ZyOj+HH4M
+         KJWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=99Meb/NHEeKKNcKVEpi7PqCxKLzU8P8+91Q4MKWh7cI=;
+        b=bfPaejKHfphPKiGeKvpA7bphm7YpFwMNGIgNr/iLvMjiWediOsXyYmp1NwQPsKraaC
+         sZ0vYM3LeQ30TMdah+5a5itBj2EVeCQoL9WZtZcYbYN15ZTE0KJyrK5TfYTn3L9sx2zv
+         engsf9Nw3nNUO20nHdpMSq5xtVQZqlMcavB2AoHsuu8qzZE8eM0d1Fz9auwx5wQgwden
+         7XE38fV0UOfeNQfEfh2jZdHAQV+3uzG02qyKqLEWtnk2c70ux4/TtuHbX60bCMlNjHWI
+         9qGDlP6c23mMGr3as+4HDlzhzwYgAUMi+34SzCA/gR4Iz3ZIfXuZcli7vzjeNbJKcRRe
+         A+Fg==
+X-Gm-Message-State: APjAAAUyaKujq27ooTNxIZZnGoO+yCbcdZ70fvA+1YdVFSFRBvjQWSN9
+        tJZcAAqCsAMA6MABgr3BoWgWxQ==
+X-Google-Smtp-Source: APXvYqxXV6ehSun4jHHdfCA+e8oz0034JMZdHeaJPsB5n71nk/2n4r9au+p2qiLCcxP5Xq6XX+glrQ==
+X-Received: by 2002:aa7:8b16:: with SMTP id f22mr10892476pfd.17.1571839985385;
+        Wed, 23 Oct 2019 07:13:05 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id q13sm25230503pjq.0.2019.10.23.07.13.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2019 07:13:04 -0700 (PDT)
+Subject: Re: [PATCH v14 0/5] overlayfs override_creds=off & nested get xattr
+ fix
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+References: <20191022204453.97058-1-salyzyn@android.com>
+ <CAOQ4uxjFqq0zA7V3A9s0h2om7AWY5AT-2sQ4z2G0Vk2gtf1M=w@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <c0eb1b6e-65f6-9d38-64b9-333f3e82905a@android.com>
+Date:   Wed, 23 Oct 2019 07:13:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <f0d79362ab994e269680fba75f913044@www.loen.fr>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAOQ4uxjFqq0zA7V3A9s0h2om7AWY5AT-2sQ4z2G0Vk2gtf1M=w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/10/2019 13:39, Marc Zyngier wrote:
-> Hi Steven,
-> 
-> On 2019-10-21 16:28, Steven Price wrote:
->> This series add support for paravirtualized time for arm64 guests and
->> KVM hosts following the specification in Arm's document DEN 0057A:
+On 10/22/19 11:54 PM, Amir Goldstein wrote:
+> On Tue, Oct 22, 2019 at 11:45 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>> Patch series:
 >>
->> https://developer.arm.com/docs/den0057/a
+>> Mark Salyzyn (5):
+>>    Add flags option to get xattr method paired to __vfs_getxattr
+>>    overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
+>>    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
+>>    overlayfs: internal getxattr operations without sepolicy checking
+>>    overlayfs: override_creds=off option bypass creator_cred
 >>
->> It implements support for stolen time, allowing the guest to
->> identify time when it is forcibly not executing.
+>> The first four patches address fundamental security issues that should
+>> be solved regardless of the override_creds=off feature.
 >>
->> Note that Live Physical Time (LPT) which was previously part of the
->> above specification has now been removed.
+>> The fifth adds the feature depends on these other fixes.
 >>
->> Also available as a git tree:
->> git://linux-arm.org/linux-sp.git stolen_time/v7
-> 
-> Can you please point me to userspace patches that I could apply to
-> kvmtool? I'd like to give this series a go as part of my normal testing.
+>> By default, all access to the upper, lower and work directories is the
+>> recorded mounter's MAC and DAC credentials.  The incoming accesses are
+>> checked against the caller's credentials.
+>>
+>> If the principles of least privilege are applied for sepolicy, the
+>> mounter's credentials might not overlap the credentials of the caller's
+>> when accessing the overlayfs filesystem.  For example, a file that a
+>> lower DAC privileged caller can execute, is MAC denied to the
+>> generally higher DAC privileged mounter, to prevent an attack vector.
+>>
+>> We add the option to turn off override_creds in the mount options; all
+>> subsequent operations after mount on the filesystem will be only the
+>> caller's credentials.  The module boolean parameter and mount option
+>> override_creds is also added as a presence check for this "feature",
+>> existence of /sys/module/overlay/parameters/overlay_creds
+>>
+>> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+>> Cc: Miklos Szeredi <miklos@szeredi.hu>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Vivek Goyal <vgoyal@redhat.com>
+>> Cc: Eric W. Biederman <ebiederm@xmission.com>
+>> Cc: Amir Goldstein <amir73il@gmail.com>
+>> Cc: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+>> Cc: linux-unionfs@vger.kernel.org
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>>
+>> ---
+>> v14:
+>> - Rejoin, rebase and a few adjustments.
+>>
+>> v13:
+>> - Pull out first patch and try to get it in alone feedback, some
+>>    Acks, and then <crickets> because people forgot why we were doing i.
+> Mark,
+>
+> I do not see the first patch on fsdevel
+> and I am confused from all the suggested APIs
+> I recall Christoph's comment on v8 for not using xattr_gs_args
+> and just adding flags to existing get() method.
+> I agree to that comment.
 
-I don't have a proper patch yet, but the below is what I've been testing
-with (this breaks with kernels without PV-time).
+As already responded, third (?) patch version was like that, gregkh@ 
+said it passed the limit for number of arguments, is looking a bit silly 
+(my paraphrase), and that it should be passed as a structure. Two others 
+agreed. We gained because both set and get use the same structure after 
+this change (this allows a simplified read-modify-write cycle).
 
-Steve
+We will need a quorum on this, 3 (structure) to 2 (flag) now (but really 
+basically between Greg and Christoph?). Coding style issue: Add a flag, 
+or switch to a common xattr argument  structure?
 
-----8<----
-From 8f6540cfbe2842f3ee422c07fbd1f590534cc90a Mon Sep 17 00:00:00 2001
-From: Steven Price <steven.price@arm.com>
-Date: Thu, 8 Nov 2018 13:43:56 +0000
-Subject: [PATCH kvmtool] ARM PV time support
+> I remember asking - don't remember the answer -
+> do you have any testing for this feature?
+Yes, on an unnamed 4.19-based and mainline-based Android and virtual 
+cuttlefish product ... which was critically unworkable without this 
+patch series.
+> I have a WIP branch to run unionmount-testsuite not as root,
+> which is a start, but I didn't get to finish the work.
+> Let me know if you want to take up this work.
+Please refer it in private email to me, no guarantees, my cycles are so 
+sparse right now that it took a month to respin this patch series to 
+upstream. If I can make it test on Android with overlayfs activated, big 
+gain.
+>
+> Thanks,
+> Amir.
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- Makefile                 |  2 +-
- arm/kvm-cpu.c            |  4 ++++
- arm/pvtime.c             | 47 ++++++++++++++++++++++++++++++++++++++++
- include/kvm/arm-pvtime.h |  6 +++++
- 4 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 arm/pvtime.c
- create mode 100644 include/kvm/arm-pvtime.h
-
-diff --git a/Makefile b/Makefile
-index 3862112..a79956b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -158,7 +158,7 @@ endif
- # ARM
- OBJS_ARM_COMMON		:= arm/fdt.o arm/gic.o arm/gicv2m.o arm/ioport.o \
- 			   arm/kvm.o arm/kvm-cpu.o arm/pci.o arm/timer.o \
--			   arm/pmu.o
-+			   arm/pmu.o arm/pvtime.o
- HDRS_ARM_COMMON		:= arm/include
- ifeq ($(ARCH), arm)
- 	DEFINES		+= -DCONFIG_ARM
-diff --git a/arm/kvm-cpu.c b/arm/kvm-cpu.c
-index 7780251..c903b05 100644
---- a/arm/kvm-cpu.c
-+++ b/arm/kvm-cpu.c
-@@ -1,5 +1,6 @@
- #include "kvm/kvm.h"
- #include "kvm/kvm-cpu.h"
-+#include "kvm/arm-pvtime.h"
- 
- static int debug_fd;
- 
-@@ -122,6 +123,9 @@ struct kvm_cpu *kvm_cpu__arch_init(struct kvm *kvm, unsigned long cpu_id)
- 	vcpu->cpu_compatible	= target->compatible;
- 	vcpu->is_running	= true;
- 
-+	if (pvtime_vcpu_init(vcpu))
-+		die("Unable to initialise pvtime");
-+
- 	return vcpu;
- }
- 
-diff --git a/arm/pvtime.c b/arm/pvtime.c
-new file mode 100644
-index 0000000..fc152d3
---- /dev/null
-+++ b/arm/pvtime.c
-@@ -0,0 +1,47 @@
-+#include "kvm/kvm.h"
-+#include "kvm/kvm-cpu.h"
-+#include "kvm/arm-pvtime.h"
-+
-+#define PVTIME_BASE 0x10000000
-+
-+#define KVM_ARM_VCPU_PVTIME_CTRL	2
-+#define   KVM_ARM_VCPU_PVTIME_IPA	0
-+
-+static int pvtime_init(struct kvm *kvm)
-+{
-+	char *mem;
-+	int size = ALIGN(64 * kvm->cfg.nrcpus, PAGE_SIZE);
-+
-+	mem = mmap(NULL, size, PROT_RW, MAP_ANON_NORESERVE, -1, 0);
-+	if (mem == MAP_FAILED)
-+		return -ENOMEM;
-+
-+	if (kvm__register_dev_mem(kvm, PVTIME_BASE, size, mem))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+base_init(pvtime_init);
-+
-+int pvtime_vcpu_init(struct kvm_cpu *vcpu)
-+{
-+	int err;
-+	u64 st_paddr = PVTIME_BASE;
-+
-+	st_paddr += vcpu->cpu_id * 64;
-+
-+	struct kvm_device_attr st_base = {
-+		.group = KVM_ARM_VCPU_PVTIME_CTRL,
-+		.attr = KVM_ARM_VCPU_PVTIME_IPA,
-+		.addr = (u64)&st_paddr
-+	};
-+
-+	err = ioctl(vcpu->vcpu_fd, KVM_SET_DEVICE_ATTR, &st_base);
-+	if (err) {
-+		perror("ioctl st_base failed");
-+		return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/include/kvm/arm-pvtime.h b/include/kvm/arm-pvtime.h
-new file mode 100644
-index 0000000..f5db286
---- /dev/null
-+++ b/include/kvm/arm-pvtime.h
-@@ -0,0 +1,6 @@
-+#ifndef ARM_PVTIME_H
-+#define ARM_PVTIME_H
-+
-+int pvtime_vcpu_init(struct kvm_cpu *vcpu);
-+
-+#endif
--- 
-2.20.1
 
