@@ -1,111 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 357767D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 03:57:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D06937D918
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 06:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733279AbfJWD5H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Oct 2019 23:57:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35266 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729994AbfJWD5H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Oct 2019 23:57:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=pOPhMl13JOcU34vSF+PGWK0TLfdWSZkNf3ZBTG2OMRU=; b=gIfO1rYa8ZZfsCcZ6ldbDmvoU
-        AwQ3f9kl8l+wxNQSXq3t11pxzaZLEVKr2UfkHcktTDCZSzz9LbtU5Xvgk0MZgcyx07RXpmI7EEbBY
-        ttD1D3Eosw2hZwG0Mhc/LQ0u1CijKDeT/FBklOMpyLg5c7rFmd51vXvFxNsMIrfsN+Zw02P+D3i2D
-        2vycJgDoB1p2ABSmp39g045VspQkNOsX/AIyD9Q/0ofSXp8wUxGRImHFFGG0GpTVDxTPWNjelmV1o
-        xd1XKmsLW6eX+Q05rn0tNngScmGCNNa0UF/JVxinn/eDxpPqA9nG+BOKTj6aGrsKjUo6frSR6nQk0
-        hRsAqq/Eg==;
-Received: from [2601:1c0:6280:3f0::9ef4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iN7lj-000523-3f; Wed, 23 Oct 2019 03:57:07 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] reset: fix kernel-doc warnings
-Message-ID: <6e166445-2a3d-dd4d-22ea-3ab77d3d3b11@infradead.org>
-Date:   Tue, 22 Oct 2019 20:57:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1728697AbfJWGRN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 02:17:13 -0400
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:39620 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbfJWGRN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 02:17:13 -0400
+Received: by mail-yb1-f196.google.com with SMTP id z2so5968352ybn.6;
+        Tue, 22 Oct 2019 23:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KLkh02vIJIgxySVp9Q68tYDjyHpgGV6EkLbEdLdfLuI=;
+        b=M8R1L87sFQHU+HG29k8mfHzwK69D6ouADvtEPe+CMRRkYahS7FcvxzrxNoOrAscwPM
+         wjYpwORmHF7Ar2V50TbmeZIw0biYZ3wResEXrDZhdkapWFsqKger13OalQ52b7Q1bRDt
+         a3azbJNkm4eHBmalSyF6EZfYzzQ/rN+4LWxTlM7nSUjMOkE7bW0o0GV3OFSy0ZRHcn5h
+         OiI7OpZD7zky4t51fwtYJJqIwferNmVZBsL4+3nxsf8fpt/khpzv3a/2Q0ImcSmRlnuX
+         A8uabGxrzYdsv1UnmDpjSR4xNrBYN+F7oeWsnl7UTQmhAEycOV0AeHUIkvVS1UGNCQmP
+         FPtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KLkh02vIJIgxySVp9Q68tYDjyHpgGV6EkLbEdLdfLuI=;
+        b=Xxz12TM647iNG1OlUMi478zJhyMFa+lCvEoJJu3SlfejX+3ND7oemyF1z4N3IUm8Sq
+         TCV92J3hBTEMWQeVUBZbyosIe/D47EUtS99rJzOrMpAH4QLNaj8ORbSP8ITweHmKuTgC
+         wVGV1iT+NImhDqMJ0YdFujzaCMI4GYlcc5BSYOpB8/l47q+2uHpGzcLOTqHEYakrTKAT
+         ZJrece3sK8QOINBL/lQuvJryZoGgM3lAONS9VXfFqXzzkl3Q5mWS1OAPr2Ld3EJHoa30
+         yYbKAKOpcEiiaXMkav6UpSiLgzTDy6A9i16O+kvpu52pX0W7HDYmZistISLicuv2rgXB
+         CSOQ==
+X-Gm-Message-State: APjAAAWpKpUwBo9tfh0FJ5HPNaryulBBg44o7N5a91dGwAx/fpw1UtTC
+        l7B6anwFGGkkoG7jglRuKRqMvTjmRWEECR8SHMca5w==
+X-Google-Smtp-Source: APXvYqy4K8MYCexmIJSeNfWLA/Pezbb73cQldLMLRPdlTceKzXGAr2yvmL5j0lucyA05eIW9+O9Q7wuCCpjII2mbMyU=
+X-Received: by 2002:a25:6607:: with SMTP id a7mr5121295ybc.144.1571811432012;
+ Tue, 22 Oct 2019 23:17:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191022204453.97058-1-salyzyn@android.com> <20191022204453.97058-3-salyzyn@android.com>
+In-Reply-To: <20191022204453.97058-3-salyzyn@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 23 Oct 2019 09:17:00 +0300
+Message-ID: <CAOQ4uxgE_HmVFHJ0ZEoTMotnFokD3X-TR-PiO3By84ShbSfS_Q@mail.gmail.com>
+Subject: Re: [PATCH v14 2/5] overlayfs: check CAP_DAC_READ_SEARCH before
+ issuing exportfs_decode_fh
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Tue, Oct 22, 2019 at 11:46 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> Assumption never checked, should fail if the mounter creds are not
+> sufficient.
+>
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kernel-team@android.com
+>
+> ---
+> v11 + v12 +v13 + v14 - rebase
+>
+> v10:
+> - return NULL rather than ERR_PTR(-EPERM)
+> - did _not_ add it ovl_can_decode_fh() because of changes since last
+>   review, suspect needs to be added to ovl_lower_uuid_ok()?
+>
+> v8 + v9:
+> - rebase
+>
+> v7:
+> - This time for realz
+>
+> v6:
+> - rebase
+>
+> v5:
+> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
+>
+> ---
+>  fs/overlayfs/namei.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index e9717c2f7d45..9702f0d5309d 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -161,6 +161,9 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
+>         if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
+>                 return NULL;
+>
+> +       if (!capable(CAP_DAC_READ_SEARCH))
+> +               return NULL;
+> +
 
-Fix kernel-doc warnings discovered in the reset controller API chapter.
-Fixes these warnings:
+Shouldn't this return EPERM?
 
-./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
-./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
-./drivers/reset/core.c:838: warning: Function parameter or member 'node' not described in 'of_reset_control_get_count'
-./include/linux/reset-controller.h:45: warning: Function parameter or member 'con_id' not described in 'reset_control_lookup'
-./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
-./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/reset/core.c             |    4 ++--
- include/linux/reset-controller.h |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
---- linux-next-20191022.orig/drivers/reset/core.c
-+++ linux-next-20191022/drivers/reset/core.c
-@@ -76,7 +76,6 @@ static const char *rcdev_name(struct res
-  * of_reset_simple_xlate - translate reset_spec to the reset line number
-  * @rcdev: a pointer to the reset controller device
-  * @reset_spec: reset line specifier as found in the device tree
-- * @flags: a flags pointer to fill in (optional)
-  *
-  * This simple translation function should be used for reset controllers
-  * with 1:1 mapping, where reset lines can be indexed by number without gaps.
-@@ -823,9 +822,10 @@ int __device_reset(struct device *dev, b
- }
- EXPORT_SYMBOL_GPL(__device_reset);
- 
--/**
-+/*
-  * APIs to manage an array of reset controls.
-  */
-+
- /**
-  * of_reset_control_get_count - Count number of resets available with a device
-  *
---- linux-next-20191022.orig/include/linux/reset-controller.h
-+++ linux-next-20191022/include/linux/reset-controller.h
-@@ -7,7 +7,7 @@
- struct reset_controller_dev;
- 
- /**
-- * struct reset_control_ops
-+ * struct reset_control_ops - reset controller driver callbacks
-  *
-  * @reset: for self-deasserting resets, does all necessary
-  *         things to reset the device
-@@ -33,7 +33,7 @@ struct of_phandle_args;
-  * @provider: name of the reset controller device controlling this reset line
-  * @index: ID of the reset controller in the reset controller device
-  * @dev_id: name of the device associated with this reset line
-- * @con_id name of the reset line (can be NULL)
-+ * @con_id: name of the reset line (can be NULL)
-  */
- struct reset_control_lookup {
- 	struct list_head list;
-
+>         bytes = (fh->len - offsetof(struct ovl_fh, fid));
+>         real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
+>                                   bytes >> 2, (int)fh->type,
+> --
+> 2.23.0.866.gb869b98d4c-goog
+>
