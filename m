@@ -3,21 +3,21 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E9087DE70
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:53:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3B647D91B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:53:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391919AbfJWMx0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 08:53:26 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49442 "EHLO mx1.suse.de"
+        id S2391873AbfJWMxP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 08:53:15 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49390 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2391046AbfJWMxQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 08:53:16 -0400
+        id S2391852AbfJWMxO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 08:53:14 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 0BE11B67D;
-        Wed, 23 Oct 2019 12:53:14 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id 76FE6B67A;
+        Wed, 23 Oct 2019 12:53:12 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     linux-scsi@vger.kernel.org
 Cc:     Michal Suchanek <msuchanek@suse.de>,
@@ -35,9 +35,9 @@ Cc:     Michal Suchanek <msuchanek@suse.de>,
         Bart Van Assche <bvanassche@acm.org>,
         Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation bug
-Date:   Wed, 23 Oct 2019 14:52:46 +0200
-Message-Id: <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
+Subject: [PATCH v2 5/8] docs: cdrom: Add autoclose IOCTL
+Date:   Wed, 23 Oct 2019 14:52:44 +0200
+Message-Id: <50579dae04d209c6fec62388c596d0e459fe56de.1571834862.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1571834862.git.msuchanek@suse.de>
 References: <cover.1571834862.git.msuchanek@suse.de>
@@ -48,89 +48,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The WMware ESXi cdrom identifies itself as:
-sr 0:0:0:0: [sr0] scsi3-mmc drive: vendor: "NECVMWarVMware SATA CD001.00"
-model: "VMware SATA CD001.00"
-with the following get_capabilities print in sr.c:
-        sr_printk(KERN_INFO, cd,
-                  "scsi3-mmc drive: vendor: \"%s\" model: \"%s\"\n",
-                  cd->device->vendor, cd->device->model);
-
-So the model looks like reliable identification while vendor does not.
-
-The drive claims to have a tray and claims to be able to close it.
-However, the UI has no notion of a tray - when medium is ejected it is
-dropped in the floor and the user must select a medium again before the
-drive can be re-loaded.  On the kernel side the tray_move call to close
-the tray succeeds but the drive state does not change as a result of the
-call.
-
-The drive does not in fact emulate the tray state. There are two ways to
-get the medium state. One is the SCSI status:
-
-Physical drive:
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present - tray open
-Raw sense data (in hex):
-        70 00 02 00 00 00 00 0a  00 00 00 00 3a 02 00 00
-        00 00
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present - tray closed
- Raw sense data (in hex):
-        70 00 02 00 00 00 00 0a  00 00 00 00 3a 01 00 00
-        00 00
-
-VMware ESXi:
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present
-  Info fld=0x0 [0]
- Raw sense data (in hex):
-        f0 00 02 00 00 00 00 0a  00 00 00 00 3a 00 00 00
-        00 00
-
-So the tray state is not reported here. Other is medium status which the
-kernel prefers if available. Adding a print here gives:
-
-cdrom: get_media_event success: code = 0, door_open = 1, medium_present = 0
-
-door_open is interpreted as open tray. This is fine so long as tray_move
-would close the tray when requested or report an error which never
-happens on VMware ESXi servers (5.5 and 6.5 tested).
-
-This is a popular virtualization platform so a workaround is worthwhile.
+This IOCTL will be used internally by the sr driver but there is no
+reason to not document it for userspace.
 
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
- drivers/scsi/sr.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/ioctl/cdrom.rst | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 4664fdf75c0f..8090c5bdec09 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -867,6 +867,7 @@ static void get_capabilities(struct scsi_cd *cd)
- 	unsigned int ms_len = 128;
- 	int rc, n;
+diff --git a/Documentation/ioctl/cdrom.rst b/Documentation/ioctl/cdrom.rst
+index 3b4c0506de46..9372ff1b2b47 100644
+--- a/Documentation/ioctl/cdrom.rst
++++ b/Documentation/ioctl/cdrom.rst
+@@ -60,6 +60,7 @@ are as follows:
+ 	CDROM_LOCKDOOR		lock or unlock door
+ 	CDROM_DEBUG		Turn debug messages on/off
+ 	CDROM_GET_CAPABILITY	get capabilities
++	CDROM_AUTOCLOSE 	If autoclose enabled close the tray
+ 	CDROMAUDIOBUFSIZ	set the audio buffer size
+ 	DVD_READ_STRUCT		Read structure
+ 	DVD_WRITE_STRUCT	Write structure
+@@ -1056,6 +1057,30 @@ CDROM_GET_CAPABILITY
  
-+	static const char *model_vmware = "VMware";
- 	static const char *loadmech[] =
- 	{
- 		"caddy",
-@@ -922,6 +923,11 @@ static void get_capabilities(struct scsi_cd *cd)
- 		  buffer[n + 4] & 0x20 ? "xa/form2 " : "",	/* can read xa/from2 */
- 		  buffer[n + 5] & 0x01 ? "cdda " : "", /* can read audio data */
- 		  loadmech[buffer[n + 6] >> 5]);
-+	if (!strncmp(cd->device->model, model_vmware, strlen(model_vmware))) {
-+		buffer[n + 6] &= ~(0xff << 5);
-+		sr_printk(KERN_INFO, cd,
-+			  "VMware ESXi bug workaround: tray -> caddy\n");
-+	}
- 	if ((buffer[n + 6] >> 5) == 0)
- 		/* caddy drives can't close tray... */
- 		cd->cdi.mask |= CDC_CLOSE_TRAY;
+ 
+ 
++CDROM_AUTOCLOSE
++	Close the tray if the device has one, and autoclose is enabled.
++	Wait for drive to become ready.
++
++
++	usage::
++
++	  ioctl(fd, CDROM_AUTOCLOSE, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		The ioctl return value is 0 or an error code.
++
++
++	error return:
++	  - ENOMEDIUM	No medium found or drive error.
++	  - ERESTARTSYS	Received a signal while waiting for drive to become ready.
++
++
++
+ CDROMAUDIOBUFSIZ
+ 	set the audio buffer size
+ 
 -- 
 2.23.0
 
