@@ -1,266 +1,623 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 642997D981
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 21:46:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4BE17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 21:48:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407783AbfJWVqp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 17:46:45 -0400
-Received: from mga06.intel.com ([134.134.136.31]:39636 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407759AbfJWVqo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 17:46:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 14:46:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,222,1569308400"; 
-   d="scan'208";a="196908273"
-Received: from ayamada-mobl1.gar.corp.intel.com (HELO pbossart-mobl3.intel.com) ([10.254.95.208])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Oct 2019 14:46:42 -0700
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     alsa-devel@alsa-project.org
-Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
-        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
-        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
-        Bard liao <yung-chuan.liao@linux.intel.com>,
-        Rander Wang <rander.wang@linux.intel.com>,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
+        id S2390248AbfJWVsq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 17:48:46 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:44717 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389807AbfJWVsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 17:48:46 -0400
+Received: by mail-qk1-f201.google.com with SMTP id x77so21442336qka.11
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2019 14:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=rte1LI7gsEnCpLsjKUPN6sEToMW8HVqJ6tMkdqjGPvE=;
+        b=SHuS14uZQY4CXL776ZVo2zPZBOmK+K6z6XBilMfLb/8ACGUNO2VwiIQZ30EvKskx3a
+         oTxt8Z4otQMlpahbHgwEXJMtp9iGIobg+4vie+FLqlcW0mwM6KHYyiOKrOMaAhmHsrMs
+         O1jntQIgmtK1zBHIaBrD9fgMjbbUa5QXlnkaH7E4kcxKVUeLf2LEOyB30HvtJSJbxM6y
+         d3XVw7o5gEalgH+tTHS839WIoNYS7a/FGiT/jPdZ+o2+t3S4IHfFJsIiGzfbY7S9q3WI
+         //syA4qb3rOTMOCG+gHQQvKY4U9pb0d3idH8gL5hPMUlS7T5r2hBGKmJ+MNwxqmzrQGd
+         hcEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=rte1LI7gsEnCpLsjKUPN6sEToMW8HVqJ6tMkdqjGPvE=;
+        b=c9bSzJOFQ+dvSfiJ8JBz7vdZRU0m9ypRwA7ZATi+0wIrlM7dVFF9EdSSG8UMIYYQ6N
+         8ammqj7wvoV8aCoeVhDJ1KU0kj3gUNt7JfV1djSS188C2ioVFqBXmWqN2QGAa8wPVnJG
+         WqCrp1EF+mGpWVb53bRmOCc6exxQanIwdQjkXk+qFjlYxRPcktvSMLZTCAyvZbccr+nZ
+         wDVRUpmbrwnq4DXb0NWQHbOX+vDg1zmb1oRREFB6q5R/2o0jyiRrIJ6ENZZCcTrGry+R
+         rF8vNVi27s2fWI3nv/6JvzjQO74I5mTl2C2tjV0Eug53SSvLfrzHogAzQ8UAPYbWN/H/
+         SQaA==
+X-Gm-Message-State: APjAAAX6PpFxBdkTAYA/5yTFim3NwPlWOHkJ5/WpMYReytWuNB58/AP6
+        ejISLjrNyLViBXEpXxHXj3zaM9mmhXI=
+X-Google-Smtp-Source: APXvYqzcj/zRpuxYjj19U9tEuR1/HwVQMlgihmfoe8Bozg02yFq4Y5lj+Q81DnmEdw1EvJM8hok5szU0Ojo=
+X-Received: by 2002:a37:66d4:: with SMTP id a203mr11204342qkc.369.1571867324106;
+ Wed, 23 Oct 2019 14:48:44 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 14:48:19 -0700
+Message-Id: <20191023214821.107615-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
+Subject: [PATCH 1/2] f2fs: delete duplicate information on sysfs nodes
+From:   Hridya Valsaraju <hridya@google.com>
+To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH 15/18] soundwire: stream: update state machine and add state checks
-Date:   Wed, 23 Oct 2019 16:45:58 -0500
-Message-Id: <20191023214601.883-16-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191023214601.883-1-pierre-louis.bossart@linux.intel.com>
-References: <20191023214601.883-1-pierre-louis.bossart@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     kernel-team@android.com, Hridya Valsaraju <hridya@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The state machine and notes don't accurately explain or allow
-transitions from STREAM_DEPREPARED and STREAM_DISABLED.
+This patch merges the sysfs node documentation present in
+Documentation/filesystems/f2fs.txt and
+Documentation/ABI/testing/sysfs-fs-f2fs
+and deletes the duplicate information from
+Documentation/filesystems/f2fs.txt. This is to prevent having to update
+both files when a new sysfs node is added for f2fs.
+The patch also makes minor formatting changes to
+Documentation/ABI/testing/sysfs-fs-f2fs.
 
-Add more explanations and allow for more transitions as a result of a
-trigger_stop(), trigger_suspend() and prepare(), depending on the
-ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
-flags.
-
-Also add basic checks to help debug inconsistent states and illegal
-state machine transitions.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
 ---
- Documentation/driver-api/soundwire/stream.rst | 63 +++++++++++++------
- drivers/soundwire/stream.c                    | 38 +++++++++++
- 2 files changed, 83 insertions(+), 18 deletions(-)
+ Documentation/ABI/testing/sysfs-fs-f2fs | 220 ++++++++++++------------
+ Documentation/filesystems/f2fs.txt      | 163 +-----------------
+ 2 files changed, 113 insertions(+), 270 deletions(-)
 
-diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
-index 5351bd2f34a8..9b7418ff8d59 100644
---- a/Documentation/driver-api/soundwire/stream.rst
-+++ b/Documentation/driver-api/soundwire/stream.rst
-@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
- 	+-----------+     +------------+     +----------+     +----------+
- 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
- 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
--	+-----------+     +------------+     +----------+     +----+-----+
--	                                                           ^
--	                                                           |
--	                                                           |
--	                                                           v
--	         +----------+           +------------+        +----+-----+
-+	+-----------+     +------------+     +---+--+---+     +----+-----+
-+	                                         ^  ^              ^
-+				                 |  |              |
-+				               __|  |___________   |
-+				              |                 |  |
-+	                                      v                 |  v
-+	         +----------+           +-----+------+        +-+--+-----+
- 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
- 	         |  STATE   |           |   STATE    |        |  STATE   |
- 	         +----------+           +------------+        +----------+
+diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
+index dca326e0ee3e..8f79a9acefcf 100644
+--- a/Documentation/ABI/testing/sysfs-fs-f2fs
++++ b/Documentation/ABI/testing/sysfs-fs-f2fs
+@@ -1,253 +1,255 @@
+ What:		/sys/fs/f2fs/<disk>/gc_max_sleep_time
+ Date:		July 2013
+ Contact:	"Namjae Jeon" <namjae.jeon@samsung.com>
+-Description:
+-		 Controls the maximun sleep time for gc_thread. Time
+-		 is in milliseconds.
++Description:	Controls the maximum sleep time for gc_thread. Time
++		is in milliseconds.
  
--NOTE: State transition between prepare and deprepare is supported in Spec
--but not in the software (subsystem)
-+NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
-+``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
-+supported at the ALSA/ASoC level. Likewise the transition between
-+``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
-+INFO_RESUME flag.
+ What:		/sys/fs/f2fs/<disk>/gc_min_sleep_time
+ Date:		July 2013
+ Contact:	"Namjae Jeon" <namjae.jeon@samsung.com>
+-Description:
+-		 Controls the minimum sleep time for gc_thread. Time
+-		 is in milliseconds.
++Description:	Controls the minimum sleep time for gc_thread. Time
++		is in milliseconds.
  
--NOTE2: Stream state transition checks need to be handled by caller
--framework, for example ALSA/ASoC. No checks for stream transition exist in
--SoundWire subsystem.
-+NOTE2: The framework implements basic state transition checks, but
-+does not e.g. check if a transition from DISABLED to ENABLED is valid
-+on a specific platform. Such tests need to be added at the ALSA/ASoC
-+level.
+ What:		/sys/fs/f2fs/<disk>/gc_no_gc_sleep_time
+ Date:		July 2013
+ Contact:	"Namjae Jeon" <namjae.jeon@samsung.com>
+-Description:
+-		 Controls the default sleep time for gc_thread. Time
+-		 is in milliseconds.
++Description:	Controls the default sleep time for gc_thread. Time
++		is in milliseconds.
  
- Stream State Operations
- -----------------------
-@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
+ What:		/sys/fs/f2fs/<disk>/gc_idle
+ Date:		July 2013
+ Contact:	"Namjae Jeon" <namjae.jeon@samsung.com>
+-Description:
+-		 Controls the victim selection policy for garbage collection.
++Description:	Controls the victim selection policy for garbage collection.
++		Setting gc_idle = 0(default) will disable this option. Setting
++		gc_idle = 1 will select the Cost Benefit approach & setting
++		gc_idle = 2 will select the greedy approach.
  
- Prepare state of stream. Operations performed before entering in this state:
+ What:		/sys/fs/f2fs/<disk>/reclaim_segments
+ Date:		October 2013
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the issue rate of segment discard commands.
++Description:	This parameter controls the number of prefree segments to be
++		reclaimed. If the number of prefree segments is larger than
++		the number of segments in the proportion to the percentage
++		over total volume size, f2fs tries to conduct checkpoint to
++		reclaim the prefree segments to free segments.
++		By default, 5% over total # of segments.
  
-+  (0) Steps 1 and 2 are omitted in the case of a resume operation,
-+      where the bus bandwidth is known.
+ What:		/sys/fs/f2fs/<disk>/ipu_policy
+ Date:		November 2013
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the in-place-update policy.
++Description:	Controls the in-place-update policy.
++		There are five policies:
++		0x01: F2FS_IPU_FORCE, 0x02: F2FS_IPU_SSR,
++		0x04: F2FS_IPU_UTIL,  0x08: F2FS_IPU_SSR_UTIL,
++		0x10: F2FS_IPU_FSYNC.
+ 
+ What:		/sys/fs/f2fs/<disk>/min_ipu_util
+ Date:		November 2013
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the FS utilization condition for the in-place-update
+-		 policies.
++Description:	Controls the FS utilization condition for the in-place-update
++		policies. It is used by F2FS_IPU_UTIL and F2FS_IPU_SSR_UTIL policies.
+ 
+ What:		/sys/fs/f2fs/<disk>/min_fsync_blocks
+ Date:		September 2014
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the dirty page count condition for the in-place-update
+-		 policies.
++Description:	Controls the dirty page count condition for the in-place-update
++		policies.
+ 
+ What:		/sys/fs/f2fs/<disk>/min_seq_blocks
+ Date:		August 2018
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the dirty page count condition for batched sequential
+-		 writes in ->writepages.
+-
++Description:	Controls the dirty page count condition for batched sequential
++		writes in writepages.
+ 
+ What:		/sys/fs/f2fs/<disk>/min_hot_blocks
+ Date:		March 2017
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the dirty page count condition for redefining hot data.
++Description:	Controls the dirty page count condition for redefining hot data.
+ 
+ What:		/sys/fs/f2fs/<disk>/min_ssr_sections
+ Date:		October 2017
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Controls the fee section threshold to trigger SSR allocation.
++Description:	Controls the free section threshold to trigger SSR allocation.
++		If this is large, SSR mode will be enabled early.
+ 
+ What:		/sys/fs/f2fs/<disk>/max_small_discards
+ Date:		November 2013
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the issue rate of small discard commands.
+-
+-What:          /sys/fs/f2fs/<disk>/discard_granularity
+-Date:          July 2017
+-Contact:       "Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		Controls discard granularity of inner discard thread, inner thread
++Description:	Controls the issue rate of discard commands that consist of small
++		blocks less than 2MB. The candidates to be discarded are cached until
++		checkpoint is triggered, and issued during the checkpoint.
++		By default, it is disabled with 0.
 +
-   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
-       are computed based on current stream as well as already active
-       stream(s) on Bus. Re-computation is required to accommodate current
-@@ -270,13 +278,15 @@ Prepare state of stream. Operations performed before entering in this state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_PREPARED``.
++What:		/sys/fs/f2fs/<disk>/discard_granularity
++Date:		July 2017
++Contact:	"Chao Yu" <yuchao0@huawei.com>
++Description:	Controls discard granularity of inner discard thread. Inner thread
+ 		will not issue discards with size that is smaller than granularity.
+-		The unit size is one block, now only support configuring in range
+-		of [1, 512].
++		The unit size is one block(4KB), now only support configuring
++		in range of [1, 512]. Default value is 4(=16KB).
  
--Bus implements below API for PREPARE state which needs to be called once per
--stream. From ASoC DPCM framework, this stream state is linked to
--.prepare() operation.
-+Bus implements below API for PREPARE state which needs to be called
-+once per stream. From ASoC DPCM framework, this stream state is linked
-+to .prepare() operation. Since the .trigger() operations may not
-+follow the .prepare(), a direct transitions from
-+``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
+-What:          /sys/fs/f2fs/<disk>/umount_discard_timeout
+-Date:          January 2019
+-Contact:       "Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		Set timeout to issue discard commands during umount.
+-		Default: 5 secs
++What:		/sys/fs/f2fs/<disk>/umount_discard_timeout
++Date:		January 2019
++Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
++Description:	Set timeout to issue discard commands during umount.
++	        Default: 5 secs
  
- .. code-block:: c
+ What:		/sys/fs/f2fs/<disk>/max_victim_search
+ Date:		January 2014
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the number of trials to find a victim segment.
++Description:	Controls the number of trials to find a victim segment
++		when conducting SSR and cleaning operations. The default value
++		is 4096 which covers 8GB block address range.
  
--  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
-+  int sdw_prepare_stream(struct sdw_stream_runtime * stream, bool resume);
+ What:		/sys/fs/f2fs/<disk>/migration_granularity
+ Date:		October 2018
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Controls migration granularity of garbage collection on large
+-		 section, it can let GC move partial segment{s} of one section
+-		 in one GC cycle, so that dispersing heavy overhead GC to
+-		 multiple lightweight one.
++Description:	Controls migration granularity of garbage collection on large
++		section, it can let GC move partial segment{s} of one section
++		in one GC cycle, so that dispersing heavy overhead GC to
++		multiple lightweight one.
  
+ What:		/sys/fs/f2fs/<disk>/dir_level
+ Date:		March 2014
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the directory level for large directory.
++Description:	Controls the directory level for large directory. If a
++		directory has a number of files, it can reduce the file lookup
++		latency by increasing this dir_level value. Otherwise, it
++		needs to decrease this value to reduce the space overhead.
++		The default value is 0.
  
- SDW_STREAM_ENABLED
-@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
- per stream. From ASoC DPCM framework, this stream state is linked to
- .trigger() stop operation.
+ What:		/sys/fs/f2fs/<disk>/ram_thresh
+ Date:		March 2014
+ Contact:	"Jaegeuk Kim" <jaegeuk.kim@samsung.com>
+-Description:
+-		 Controls the memory footprint used by f2fs.
++Description:	Controls the memory footprint used by free nids and cached
++		nat entries. By default, 10 is set, which indicates
++		10 MB / 1 GB RAM.
  
-+When the INFO_PAUSE flag is supported, a direct transition to
-+``SDW_STREAM_ENABLED`` is allowed.
+ What:		/sys/fs/f2fs/<disk>/batched_trim_sections
+ Date:		February 2015
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the trimming rate in batch mode.
+-		 <deprecated>
++Description:	Controls the trimming rate in batch mode.
++		<deprecated>
+ 
+ What:		/sys/fs/f2fs/<disk>/cp_interval
+ Date:		October 2015
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the checkpoint timing.
++Description:	Controls the checkpoint timing, set to 60 seconds by default.
+ 
+ What:		/sys/fs/f2fs/<disk>/idle_interval
+ Date:		January 2016
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls the idle timing for all paths other than
+-		 discard and gc path.
++Description:	Controls the idle timing for all paths other than
++		discard and gc path. Set to 5 seconds by default.
+ 
+ What:		/sys/fs/f2fs/<disk>/discard_idle_interval
+ Date:		September 2018
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+ Contact:	"Sahitya Tummala" <stummala@codeaurora.org>
+-Description:
+-		 Controls the idle timing for discard path.
++Description:	Controls the idle timing for discard path.
+ 
+ What:		/sys/fs/f2fs/<disk>/gc_idle_interval
+ Date:		September 2018
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+ Contact:	"Sahitya Tummala" <stummala@codeaurora.org>
+-Description:
+-		 Controls the idle timing for gc path.
++Description:    Controls the idle timing for gc path. Set to 5 seconds by default.
+ 
+ What:		/sys/fs/f2fs/<disk>/iostat_enable
+ Date:		August 2017
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Controls to enable/disable IO stat.
++Description:	Controls to enable/disable IO stat.
+ 
+ What:		/sys/fs/f2fs/<disk>/ra_nid_pages
+ Date:		October 2015
+ Contact:	"Chao Yu" <chao2.yu@samsung.com>
+-Description:
+-		 Controls the count of nid pages to be readaheaded.
++Description:	Controls the count of nid pages to be readaheaded.
++		When building free nids, F2FS reads NAT blocks ahead for
++		speed up. Default is 0.
+ 
+ What:		/sys/fs/f2fs/<disk>/dirty_nats_ratio
+ Date:		January 2016
+ Contact:	"Chao Yu" <chao2.yu@samsung.com>
+-Description:
+-		 Controls dirty nat entries ratio threshold, if current
+-		 ratio exceeds configured threshold, checkpoint will
+-		 be triggered for flushing dirty nat entries.
++Description:	Controls dirty nat entries ratio threshold, if current
++		ratio exceeds configured threshold, checkpoint will
++		be triggered for flushing dirty nat entries.
+ 
+ What:		/sys/fs/f2fs/<disk>/lifetime_write_kbytes
+ Date:		January 2016
+ Contact:	"Shuoran Liu" <liushuoran@huawei.com>
+-Description:
+-		 Shows total written kbytes issued to disk.
++Description:	Shows total written kbytes issued to disk.
+ 
+ What:		/sys/fs/f2fs/<disk>/features
+ Date:		July 2017
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Shows all enabled features in current device.
++Description:	Shows all enabled features in current device.
+ 
+ What:		/sys/fs/f2fs/<disk>/inject_rate
+ Date:		May 2016
+ Contact:	"Sheng Yong" <shengyong1@huawei.com>
+-Description:
+-		 Controls the injection rate.
++Description:	Controls the injection rate of arbitrary faults.
+ 
+ What:		/sys/fs/f2fs/<disk>/inject_type
+ Date:		May 2016
+ Contact:	"Sheng Yong" <shengyong1@huawei.com>
+-Description:
+-		 Controls the injection type.
++Description:	Controls the injection type of arbitrary faults.
 +
-+For resume operations where ASoC will use the .prepare() callback, the
-+stream can transition from ``SDW_STREAM_DISABLED`` to
-+``SDW_STREAM_PREPARED``, with all required settings restored but
-+without updating the bandwidth and bit allocation.
++What:		/sys/fs/f2fs/<disk>/dirty_segments
++Date:		October 2017
++Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
++Description:	Shows the number of dirty segments.
+ 
+ What:		/sys/fs/f2fs/<disk>/reserved_blocks
+ Date:		June 2017
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Controls target reserved blocks in system, the threshold
+-		 is soft, it could exceed current available user space.
++Description:	Controls target reserved blocks in system, the threshold
++		is soft, it could exceed current available user space.
+ 
+ What:		/sys/fs/f2fs/<disk>/current_reserved_blocks
+ Date:		October 2017
+ Contact:	"Yunlong Song" <yunlong.song@huawei.com>
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Shows current reserved blocks in system, it may be temporarily
+-		 smaller than target_reserved_blocks, but will gradually
+-		 increase to target_reserved_blocks when more free blocks are
+-		 freed by user later.
++Description:	Shows current reserved blocks in system, it may be temporarily
++		smaller than target_reserved_blocks, but will gradually
++		increase to target_reserved_blocks when more free blocks are
++		freed by user later.
+ 
+ What:		/sys/fs/f2fs/<disk>/gc_urgent
+ Date:		August 2017
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Do background GC agressively
++Description:	Do background GC agressively when set. When gc_urgent = 1,
++		background thread starts to do GC by given gc_urgent_sleep_time
++		interval. It is set to 0 by default.
+ 
+ What:		/sys/fs/f2fs/<disk>/gc_urgent_sleep_time
+ Date:		August 2017
+ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
+-Description:
+-		 Controls sleep time of GC urgent mode
++Description:	Controls sleep time of GC urgent mode. Set to 500ms by default.
+ 
+ What:		/sys/fs/f2fs/<disk>/readdir_ra
+ Date:		November 2017
+ Contact:	"Sheng Yong" <shengyong1@huawei.com>
+-Description:
+-		 Controls readahead inode block in readdir.
++Description:	Controls readahead inode block in readdir. Enabled by default.
 +
- .. code-block:: c
++What:		/sys/fs/f2fs/<disk>/gc_pin_file_thresh
++Date:		January 2018
++Contact:	Jaegeuk Kim <jaegeuk@kernel.org>
++Description:	This indicates how many GC can be failed for the pinned
++		file. If it exceeds this, F2FS doesn't guarantee its pinning
++		state. 2048 trials is set by default.
  
-   int sdw_disable_stream(struct sdw_stream_runtime * stream);
-@@ -353,9 +371,18 @@ state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_DEPREPARED``.
+ What:		/sys/fs/f2fs/<disk>/extension_list
+ Date:		Feburary 2018
+ Contact:	"Chao Yu" <yuchao0@huawei.com>
+-Description:
+-		 Used to control configure extension list:
+-		 - Query: cat /sys/fs/f2fs/<disk>/extension_list
+-		 - Add: echo '[h/c]extension' > /sys/fs/f2fs/<disk>/extension_list
+-		 - Del: echo '[h/c]!extension' > /sys/fs/f2fs/<disk>/extension_list
+-		 - [h] means add/del hot file extension
+-		 - [c] means add/del cold file extension
++Description:	Used to control configure extension list:
++		- Query: cat /sys/fs/f2fs/<disk>/extension_list
++		- Add: echo '[h/c]extension' > /sys/fs/f2fs/<disk>/extension_list
++		- Del: echo '[h/c]!extension' > /sys/fs/f2fs/<disk>/extension_list
++		- [h] means add/del hot file extension
++		- [c] means add/del cold file extension
  
--Bus implements below API for DEPREPARED state which needs to be called once
--per stream. From ASoC DPCM framework, this stream state is linked to
--.trigger() stop operation.
-+Bus implements below API for DEPREPARED state which needs to be called
-+once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
-+the mapping from this stream state to ALSA/ASoC operation may be
-+implementation specific.
-+
-+When the INFO_PAUSE flag is supported, the stream state is linked to
-+the .hw_free() operation - the stream is not deprepared on a
-+TRIGGER_STOP.
-+
-+Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
-+state on TRIGGER_STOP, should they require a transition through the
-+``SDW_STREAM_PREPARED`` state.
+ What:		/sys/fs/f2fs/<disk>/unusable
+ Date		April 2019
+ Contact:	"Daniel Rosenberg" <drosen@google.com>
+-Description:
+-		If checkpoint=disable, it displays the number of blocks that are unusable.
+-                If checkpoint=enable it displays the enumber of blocks that would be unusable
+-                if checkpoint=disable were to be set.
++Description:	If checkpoint=disable, it displays the number of blocks that are unusable.
++		If checkpoint=enable it displays the enumber of blocks that would be unusable
++		if checkpoint=disable were to be set.
+diff --git a/Documentation/filesystems/f2fs.txt b/Documentation/filesystems/f2fs.txt
+index 496fa28b2492..36db80cca271 100644
+--- a/Documentation/filesystems/f2fs.txt
++++ b/Documentation/filesystems/f2fs.txt
+@@ -250,168 +250,9 @@ SYSFS ENTRIES
+ Information about mounted f2fs file systems can be found in
+ /sys/fs/f2fs.  Each mounted filesystem will have a directory in
+ /sys/fs/f2fs based on its device name (i.e., /sys/fs/f2fs/sda).
+-The files in each per-device directory are shown in table below.
+-
+-Files in /sys/fs/f2fs/<devname>
+-(see also Documentation/ABI/testing/sysfs-fs-f2fs)
+-..............................................................................
+- File                         Content
+-
+- gc_urgent_sleep_time         This parameter controls sleep time for gc_urgent.
+-                              500 ms is set by default. See above gc_urgent.
+-
+- gc_min_sleep_time            This tuning parameter controls the minimum sleep
+-                              time for the garbage collection thread. Time is
+-                              in milliseconds.
+-
+- gc_max_sleep_time            This tuning parameter controls the maximum sleep
+-                              time for the garbage collection thread. Time is
+-                              in milliseconds.
+-
+- gc_no_gc_sleep_time          This tuning parameter controls the default sleep
+-                              time for the garbage collection thread. Time is
+-                              in milliseconds.
+-
+- gc_idle                      This parameter controls the selection of victim
+-                              policy for garbage collection. Setting gc_idle = 0
+-                              (default) will disable this option. Setting
+-                              gc_idle = 1 will select the Cost Benefit approach
+-                              & setting gc_idle = 2 will select the greedy approach.
+-
+- gc_urgent                    This parameter controls triggering background GCs
+-                              urgently or not. Setting gc_urgent = 0 [default]
+-                              makes back to default behavior, while if it is set
+-                              to 1, background thread starts to do GC by given
+-                              gc_urgent_sleep_time interval.
+-
+- reclaim_segments             This parameter controls the number of prefree
+-                              segments to be reclaimed. If the number of prefree
+-			      segments is larger than the number of segments
+-			      in the proportion to the percentage over total
+-			      volume size, f2fs tries to conduct checkpoint to
+-			      reclaim the prefree segments to free segments.
+-			      By default, 5% over total # of segments.
+-
+- max_small_discards	      This parameter controls the number of discard
+-			      commands that consist small blocks less than 2MB.
+-			      The candidates to be discarded are cached until
+-			      checkpoint is triggered, and issued during the
+-			      checkpoint. By default, it is disabled with 0.
+-
+- discard_granularity	      This parameter controls the granularity of discard
+-			      command size. It will issue discard commands iif
+-			      the size is larger than given granularity. Its
+-			      unit size is 4KB, and 4 (=16KB) is set by default.
+-			      The maximum value is 128 (=512KB).
  
- .. code-block:: c
+- reserved_blocks	      This parameter indicates the number of blocks that
+-			      f2fs reserves internally for root.
+-
+- batched_trim_sections	      This parameter controls the number of sections
+-                              to be trimmed out in batch mode when FITRIM
+-                              conducts. 32 sections is set by default.
+-
+- ipu_policy                   This parameter controls the policy of in-place
+-                              updates in f2fs. There are five policies:
+-                               0x01: F2FS_IPU_FORCE, 0x02: F2FS_IPU_SSR,
+-                               0x04: F2FS_IPU_UTIL,  0x08: F2FS_IPU_SSR_UTIL,
+-                               0x10: F2FS_IPU_FSYNC.
+-
+- min_ipu_util                 This parameter controls the threshold to trigger
+-                              in-place-updates. The number indicates percentage
+-                              of the filesystem utilization, and used by
+-                              F2FS_IPU_UTIL and F2FS_IPU_SSR_UTIL policies.
+-
+- min_fsync_blocks             This parameter controls the threshold to trigger
+-                              in-place-updates when F2FS_IPU_FSYNC mode is set.
+-			      The number indicates the number of dirty pages
+-			      when fsync needs to flush on its call path. If
+-			      the number is less than this value, it triggers
+-			      in-place-updates.
+-
+- min_seq_blocks		      This parameter controls the threshold to serialize
+-			      write IOs issued by multiple threads in parallel.
+-
+- min_hot_blocks		      This parameter controls the threshold to allocate
+-			      a hot data log for pending data blocks to write.
+-
+- min_ssr_sections	      This parameter adds the threshold when deciding
+-			      SSR block allocation. If this is large, SSR mode
+-			      will be enabled early.
+-
+- ram_thresh                   This parameter controls the memory footprint used
+-			      by free nids and cached nat entries. By default,
+-			      10 is set, which indicates 10 MB / 1 GB RAM.
+-
+- ra_nid_pages		      When building free nids, F2FS reads NAT blocks
+-			      ahead for speed up. Default is 0.
+-
+- dirty_nats_ratio	      Given dirty ratio of cached nat entries, F2FS
+-			      determines flushing them in background.
+-
+- max_victim_search	      This parameter controls the number of trials to
+-			      find a victim segment when conducting SSR and
+-			      cleaning operations. The default value is 4096
+-			      which covers 8GB block address range.
+-
+- migration_granularity	      For large-sized sections, F2FS can stop GC given
+-			      this granularity instead of reclaiming entire
+-			      section.
+-
+- dir_level                    This parameter controls the directory level to
+-			      support large directory. If a directory has a
+-			      number of files, it can reduce the file lookup
+-			      latency by increasing this dir_level value.
+-			      Otherwise, it needs to decrease this value to
+-			      reduce the space overhead. The default value is 0.
+-
+- cp_interval		      F2FS tries to do checkpoint periodically, 60 secs
+-			      by default.
+-
+- idle_interval		      F2FS detects system is idle, if there's no F2FS
+-			      operations during given interval, 5 secs by
+-			      default.
+-
+- discard_idle_interval	      F2FS detects the discard thread is idle, given
+-			      time interval. Default is 5 secs.
+-
+- gc_idle_interval	      F2FS detects the GC thread is idle, given time
+-			      interval. Default is 5 secs.
+-
+- umount_discard_timeout       When unmounting the disk, F2FS waits for finishing
+-			      queued discard commands which can take huge time.
+-			      This gives time out for it, 5 secs by default.
+-
+- iostat_enable		      This controls to enable/disable iostat in F2FS.
+-
+- readdir_ra		      This enables/disabled readahead of inode blocks
+-			      in readdir, and default is enabled.
+-
+- gc_pin_file_thresh	      This indicates how many GC can be failed for the
+-			      pinned file. If it exceeds this, F2FS doesn't
+-			      guarantee its pinning state. 2048 trials is set
+-			      by default.
+-
+- extension_list		      This enables to change extension_list for hot/cold
+-			      files in runtime.
+-
+- inject_rate		      This controls injection rate of arbitrary faults.
+-
+- inject_type		      This controls injection type of arbitrary faults.
+-
+- dirty_segments 	      This shows # of dirty segments.
+-
+- lifetime_write_kbytes	      This shows # of data written to the disk.
+-
+- features		      This shows current features enabled on F2FS.
+-
+- current_reserved_blocks      This shows # of blocks currently reserved.
+-
+- unusable                     If checkpoint=disable, this shows the number of
+-                              blocks that are unusable.
+-                              If checkpoint=enable it shows the number of blocks
+-                              that would be unusable if checkpoint=disable were
+-                              to be set.
++Documentation for files in /sys/fs/f2fs/<devname> can be found in
++Documentation/ABI/testing/sysfs-fs-f2fs
  
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index e69f94a8c3a8..0a074d445b8d 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1553,10 +1553,21 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_CONFIGURED &&
-+	    stream->state != SDW_STREAM_DEPREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_prepare_stream(stream);
-+
- 	if (ret < 0)
- 		pr_err("Prepare for stream:%s failed: %d\n", stream->name, ret);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1621,10 +1632,19 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_enable_stream(stream);
- 	if (ret < 0)
- 		pr_err("Enable for stream:%s failed: %d\n", stream->name, ret);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1697,10 +1717,18 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_ENABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_disable_stream(stream);
- 	if (ret < 0)
- 		pr_err("Disable for stream:%s failed: %d\n", stream->name, ret);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1755,10 +1783,20 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 	}
- 
- 	sdw_acquire_bus_lock(stream);
-+
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_deprepare_stream(stream);
- 	if (ret < 0)
- 		pr_err("De-prepare for stream:%d failed: %d\n", ret, ret);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
+ ================================================================================
+ USAGE
 -- 
-2.20.1
+2.23.0.866.gb869b98d4c-goog
 
