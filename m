@@ -1,138 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89E067D982
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 15:41:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FCC37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 16:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406874AbfJWPlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 11:41:03 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35612 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406862AbfJWPlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 11:41:03 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 205so13180162pfw.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2019 08:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=TI9rW32nt+i6GyURUSN10bGjthP0EG+xScjnb+pkqac=;
-        b=KBoKx5yOJdWGZz7I1M810keaJ1ZlEuvnt+HTZJAS0UmK0LTUpPmdFTkklfgcGdi73r
-         feMTzV569J5UceysOEInvWeJdRd/ZzonW6Aa3VYlqczCqXy+PY9ipoJvzLD+NWbnZ5rP
-         mW2vwJLR0Vq7sY9XP/QBVZSb/GxJx9fS5CE5Yo07sdXhMNQdYvScXxROVKhe4Esy5Cvd
-         e50H85g6521yumbQVB+PGX8SW/L7QzMUvgyanXK1Toe52me2wt2CIUN9qyd4f938PFQ7
-         rthEsivMBKI4ftQ33yVLiM1NHSBLjKlHtZVEVP38OG7iyjy4z/skVUexYga7/45kjz+T
-         6+ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=TI9rW32nt+i6GyURUSN10bGjthP0EG+xScjnb+pkqac=;
-        b=mLwax1malFxEWGd2DmaLYxdH/rQXpbrYi/P34QSVxdTxPmyO0LTOR8viy/kCY1jJOT
-         TOi0qyQOrzvVKzaW4hmEyK13qpfFGfWElCQ/Rh+jkrEf4+XXiQKKut+Rhcg3azhgcWgr
-         3bcSdWJSNV3pYIgdz9Ie5Z46REcNhjvyzhIyvYOK2U8MJ0oaCz5kqXndKVurX4p+Rt8x
-         yb1X/b5G39Im0CxjCjNy5Rgiw948dOYeWm9V5yWldSfUPiUzkm6wDWG5HWT+s6Wmdd8D
-         MO3KpOKl4npmMPU2ncxrKhf+rC1HC2QpuJRuC6tWPr/2Iiqbz4mM7kDwpSdrzD+2W9+8
-         YCVg==
-X-Gm-Message-State: APjAAAWB3xHgbZ2CogewAaKDdbKo89adJ4aOr7+9nnCD/QDNHFcPstCj
-        8Z5CKY8+AEdeKB4aCw66X3exmQ==
-X-Google-Smtp-Source: APXvYqxpUg0BJf6IgZEek+Avbtx6SaPZVRb4CoPCBRhASaoQxSh7v/tZYoAbFxDTBg5wYPAauGUeIw==
-X-Received: by 2002:a17:90a:e987:: with SMTP id v7mr765373pjy.86.1571845261541;
-        Wed, 23 Oct 2019 08:41:01 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.googlemail.com with ESMTPSA id r18sm28682272pfc.3.2019.10.23.08.40.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2019 08:41:01 -0700 (PDT)
-Subject: Re: [PATCH] Cleanup: replace prefered with preferred
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
-        Maxim Martynov <maxim@arista.com>,
-        David Ahern <dsahern@gmail.com>,
-        Francesco Ruggeri <fruggeri@arista.com>,
-        =?UTF-8?Q?Linus_L=c3=bcssing?= <linus.luessing@c0d3.blue>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Feng Tang <feng.tang@intel.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-References: <20191022214208.211448-1-salyzyn@android.com>
- <20191023115637.GA23733@linux.intel.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
-Date:   Wed, 23 Oct 2019 08:40:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2407216AbfJWQXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 12:23:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44266 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2407111AbfJWQXS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 12:23:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id A4BC9B4AA;
+        Wed, 23 Oct 2019 16:23:15 +0000 (UTC)
+Date:   Wed, 23 Oct 2019 18:23:13 +0200
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Hannes Reinecke <hare@suse.de>
+Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation
+ bug
+Message-ID: <20191023162313.GE938@kitsune.suse.cz>
+References: <cover.1571834862.git.msuchanek@suse.de>
+ <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
+ <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20191023115637.GA23733@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/19 4:56 AM, Jarkko Sakkinen wrote:
-> On Tue, Oct 22, 2019 at 02:41:45PM -0700, Mark Salyzyn wrote:
->> Replace all occurrences of prefered with preferred to make future
->> checkpatch.pl's happy.  A few places the incorrect spelling is
->> matched with the correct spelling to preserve existing user space API.
->>
->> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> I'd fix such things when the code is otherwise change and scope this
-> patch only to Documentation/. There is no pragmatic benefit of doing
-> this for the code.
->
-> /Jarkko
+On Wed, Oct 23, 2019 at 04:13:15PM +0200, Hannes Reinecke wrote:
+> On 10/23/19 2:52 PM, Michal Suchanek wrote:
+> > The WMware ESXi cdrom identifies itself as:
+> > sr 0:0:0:0: [sr0] scsi3-mmc drive: vendor: "NECVMWarVMware SATA CD001.00"
+> > model: "VMware SATA CD001.00"
+> > with the following get_capabilities print in sr.c:
+> >         sr_printk(KERN_INFO, cd,
+> >                   "scsi3-mmc drive: vendor: \"%s\" model: \"%s\"\n",
+> >                   cd->device->vendor, cd->device->model);
+> > 
+> > So the model looks like reliable identification while vendor does not.
+> > 
+> > The drive claims to have a tray and claims to be able to close it.
+> > However, the UI has no notion of a tray - when medium is ejected it is
+> > dropped in the floor and the user must select a medium again before the
+> > drive can be re-loaded.  On the kernel side the tray_move call to close
+> > the tray succeeds but the drive state does not change as a result of the
+> > call.
+> > 
+> > The drive does not in fact emulate the tray state. There are two ways to
+> > get the medium state. One is the SCSI status:
+> > 
+> > Physical drive:
+> > 
+> > Fixed format, current; Sense key: Not Ready
+> > Additional sense: Medium not present - tray open
+> > Raw sense data (in hex):
+> >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 02 00 00
+> >         00 00
+> > 
+> > Fixed format, current; Sense key: Not Ready
+> > Additional sense: Medium not present - tray closed
+> >  Raw sense data (in hex):
+> >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 01 00 00
+> >         00 00
+> > 
+> > VMware ESXi:
+> > 
+> > Fixed format, current; Sense key: Not Ready
+> > Additional sense: Medium not present
+> >   Info fld=0x0 [0]
+> >  Raw sense data (in hex):
+> >         f0 00 02 00 00 00 00 0a  00 00 00 00 3a 00 00 00
+> >         00 00
+> > 
+> > So the tray state is not reported here. Other is medium status which the
+> > kernel prefers if available. Adding a print here gives:
+> > 
+> > cdrom: get_media_event success: code = 0, door_open = 1, medium_present = 0
+> > 
+> > door_open is interpreted as open tray. This is fine so long as tray_move
+> > would close the tray when requested or report an error which never
+> > happens on VMware ESXi servers (5.5 and 6.5 tested).
+> > 
+> > This is a popular virtualization platform so a workaround is worthwhile.
+> > 
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > ---
+> >  drivers/scsi/sr.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
+> > index 4664fdf75c0f..8090c5bdec09 100644
+> > --- a/drivers/scsi/sr.c
+> > +++ b/drivers/scsi/sr.c
+> > @@ -867,6 +867,7 @@ static void get_capabilities(struct scsi_cd *cd)
+> >  	unsigned int ms_len = 128;
+> >  	int rc, n;
+> >  
+> > +	static const char *model_vmware = "VMware";
+> >  	static const char *loadmech[] =
+> >  	{
+> >  		"caddy",
+> > @@ -922,6 +923,11 @@ static void get_capabilities(struct scsi_cd *cd)
+> >  		  buffer[n + 4] & 0x20 ? "xa/form2 " : "",	/* can read xa/from2 */
+> >  		  buffer[n + 5] & 0x01 ? "cdda " : "", /* can read audio data */
+> >  		  loadmech[buffer[n + 6] >> 5]);
+> > +	if (!strncmp(cd->device->model, model_vmware, strlen(model_vmware))) {
+> > +		buffer[n + 6] &= ~(0xff << 5);
+> > +		sr_printk(KERN_INFO, cd,
+> > +			  "VMware ESXi bug workaround: tray -> caddy\n");
+> > +	}
+> >  	if ((buffer[n + 6] >> 5) == 0)
+> >  		/* caddy drives can't close tray... */
+> >  		cd->cdi.mask |= CDC_CLOSE_TRAY;
+> > 
+> This looks something which should be handled via a blacklist flag, not
+> some inline hack which everyone forgets about it...
 
-The pragmatic benefit comes with the use of an ABI/API checker (which is 
-a 'distro' thing, not a top of tree kernel thing) produces its map which 
-is typically required to be co-located in the same tree as the kernel 
-repository. Quite a few ABI/API update checkins result in a 
-checkpatch.pl complaint about the misspelled elements being 
-(re-)recorded due to proximity. We have a separate task to improve how 
-it is tracked in Android to reduce milepost marker changes that result 
-in sweeping changes to the database which would reduce the occurrences.
+AFAIK we used to have a blacklist but don't have anymore. So either it
+has to be resurrected for this one flag or an inline hack should be good
+enough.
 
-I will split this between pure and inert documentation/comments for now, 
-with a followup later for the code portion which understandably is more 
-controversial.
+Thanks
 
-Cleanup is the least appreciated part of kernel maintenance ;-}.
-
-Sincerely -- Mark Salyzyn
-
+Michal
