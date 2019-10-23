@@ -1,80 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB3807D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:39:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D1AA7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 12:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390432AbfJWMjh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 08:39:37 -0400
-Received: from inca-roads.misterjones.org ([213.251.177.50]:60501 "EHLO
-        inca-roads.misterjones.org" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732680AbfJWMjh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 08:39:37 -0400
-Received: from www-data by cheepnis.misterjones.org with local (Exim 4.80)
-        (envelope-from <maz@kernel.org>)
-        id 1iNFv9-0001yJ-KM; Wed, 23 Oct 2019 14:39:23 +0200
-To:     Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v7 00/10] arm64: Stolen time support
-X-PHP-Originating-Script: 0:main.inc
+        id S2391823AbfJWMxL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 08:53:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49286 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2391001AbfJWMxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 08:53:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 475E4B679;
+        Wed, 23 Oct 2019 12:53:09 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     linux-scsi@vger.kernel.org
+Cc:     Michal Suchanek <msuchanek@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 1/8] cdrom: add poll_event_interruptible
+Date:   Wed, 23 Oct 2019 14:52:40 +0200
+Message-Id: <7fc0315de16d99ba29b4ffc565996188d290fac9.1571834862.git.msuchanek@suse.de>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1571834862.git.msuchanek@suse.de>
+References: <cover.1571834862.git.msuchanek@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 23 Oct 2019 13:39:23 +0100
-From:   Marc Zyngier <maz@kernel.org>
-Cc:     Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?Q?Radim_Kr=C4=8Dm=C3=A1?= =?UTF-8?Q?=C5=99?= 
-        <rkrcmar@redhat.com>, Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20191021152823.14882-1-steven.price@arm.com>
-References: <20191021152823.14882-1-steven.price@arm.com>
-Message-ID: <f0d79362ab994e269680fba75f913044@www.loen.fr>
-X-Sender: maz@kernel.org
-User-Agent: Roundcube Webmail/0.7.2
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Rcpt-To: steven.price@arm.com, will@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, catalin.marinas@arm.com, pbonzini@redhat.com, rkrcmar@redhat.com, linux@armlinux.org.uk, james.morse@arm.com, julien.thierry.kdev@gmail.com, suzuki.poulose@arm.com, mark.rutland@arm.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on cheepnis.misterjones.org); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steven,
+Add convenience macro for polling an event that does not have a
+waitqueue.
 
-On 2019-10-21 16:28, Steven Price wrote:
-> This series add support for paravirtualized time for arm64 guests and
-> KVM hosts following the specification in Arm's document DEN 0057A:
->
-> https://developer.arm.com/docs/den0057/a
->
-> It implements support for stolen time, allowing the guest to
-> identify time when it is forcibly not executing.
->
-> Note that Live Physical Time (LPT) which was previously part of the
-> above specification has now been removed.
->
-> Also available as a git tree:
-> git://linux-arm.org/linux-sp.git stolen_time/v7
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+ drivers/cdrom/cdrom.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Can you please point me to userspace patches that I could apply to
-kvmtool? I'd like to give this series a go as part of my normal 
-testing.
-
-Thanks,
-
-         M.
+diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+index ac42ae4651ce..2ad6b73482fe 100644
+--- a/drivers/cdrom/cdrom.c
++++ b/drivers/cdrom/cdrom.c
+@@ -282,10 +282,24 @@
+ #include <linux/fcntl.h>
+ #include <linux/blkdev.h>
+ #include <linux/times.h>
++#include <linux/delay.h>
+ #include <linux/uaccess.h>
++#include <linux/sched/signal.h>
+ #include <scsi/scsi_common.h>
+ #include <scsi/scsi_request.h>
+ 
++#define poll_event_interruptible(event, interval) ({ \
++	int ret = 0; \
++	while (!(event)) { \
++		if (signal_pending(current)) { \
++			ret = -ERESTARTSYS; \
++			break; \
++		} \
++		msleep_interruptible(interval); \
++	} \
++	ret; \
++})
++
+ /* used to tell the module to turn on full debugging messages */
+ static bool debug;
+ /* default compatibility mode */
 -- 
-Jazz is not dead. It just smells funny...
+2.23.0
+
