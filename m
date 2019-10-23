@@ -1,116 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90BE27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 11:27:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 207BD7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 11:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404780AbfJWL1V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 07:27:21 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55078 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732149AbfJWL1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 07:27:21 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g7so2738449wmk.4;
-        Wed, 23 Oct 2019 04:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fb1aYcSbpq+9iaeIeVo4QA9jJ6hhJT83G2zP5+xozbs=;
-        b=LuEjJ4KrhoHTIiiGH1NOFoCM9U0V8AryNd/hjKDnuqr9sxyP4/5VcFSjDgqPX26yyX
-         ZvjcUjAWd0f1J2iMs23WBPsWr9UxC1dqqTRX6RUXpFU0qfZCkbzObSQNpRyoEdLbycuJ
-         53SDQ6yvIEUkgJGRBeQxmgcQMwiZd1DvOsAUMPCDhDnk9d2nROA+P4fhimgc7kSkmub4
-         MrpLurFv3dE82YJP0ExNlmWHBTaN7lPjECkPjceHMcZCZ4czSio4mYLvDaSo9h9RIt2j
-         2CLCTLpa6YOCPEpApEpcK2xkr9AkS+U2RWn1/vkklVs4LkXf47k7ObIW1DarR0ssannk
-         6QJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fb1aYcSbpq+9iaeIeVo4QA9jJ6hhJT83G2zP5+xozbs=;
-        b=YihR6IVPePMnZe4HnV1nh1Ldqn8kg1BZcy/Z3RwJHJJfCDQcPy1/dxPZRb9RaFn7El
-         L6aTuRPCmt2x2MvX1iEMY966Q3nmvApSigARd140K4DVeoJlz/KfN5FGtgLErW+UXOT8
-         g8t6ugIpTnUxijJOHWdBC23HGjG1NXH284kH8xH2uctLQ2E9QtB9OF1KoL64zIumA6an
-         IX/InbZJIkw2WSeO+WYus/Px1Qsh4Epr2z3brJDFNxXENav70a/yi+65NkGSNLegaB3E
-         J/V76KSX5C7je0dIcsQuEVhUBu/P1NxGjOMPnyC4etKASjZTqnCq1Je/NuDY0l3hDFUa
-         QKzg==
-X-Gm-Message-State: APjAAAWHNIE0oMlSYnRUo/jhwkpNmcuZ/eTFYtfWbtz7Pivb3QwP64Pz
-        o7MBmZT/NYHZQrNzZlmI65r6q8TboBI=
-X-Google-Smtp-Source: APXvYqzff6sJKilGEJW39S2vUAbOgiLqQa9sel9inqOQpL5mM8DbqO2+in5jdzxWiqHhD/VXwOUMkQ==
-X-Received: by 2002:a1c:7517:: with SMTP id o23mr7738150wmc.34.1571830038540;
-        Wed, 23 Oct 2019 04:27:18 -0700 (PDT)
-Received: from mail.google.com ([104.238.174.53])
-        by smtp.gmail.com with ESMTPSA id g11sm20566012wmh.45.2019.10.23.04.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2019 04:27:17 -0700 (PDT)
-Date:   Wed, 23 Oct 2019 19:27:11 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <trivial@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: trivial improvement for warning message
-Message-ID: <20191023112709.dpc64xc3g3e7wks3@mail.google.com>
-References: <20191020132323.29658-1-changbin.du@gmail.com>
- <20191021185406.GC9214@bombadil.infradead.org>
+        id S2405144AbfJWLyv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 07:54:51 -0400
+Received: from mga18.intel.com ([134.134.136.126]:13649 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732092AbfJWLyv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Oct 2019 07:54:51 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 04:54:50 -0700
+X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; 
+   d="scan'208";a="210017354"
+Received: from ddalessa-mobl.amr.corp.intel.com (HELO [10.254.201.232]) ([10.254.201.232])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/AES256-SHA; 23 Oct 2019 04:54:48 -0700
+Subject: Re: [PATCH 00/12] infiniband kernel-doc fixes & driver-api/ chapter
+To:     Jason Gunthorpe <jgg@ziepe.ca>, rd.dunlab@gmail.com,
+        Max Gurtovoy <maxg@mellanox.com>
+Cc:     linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+References: <20191010035239.532908118@gmail.com>
+ <20191022184109.GA2155@ziepe.ca>
+From:   Dennis Dalessandro <dennis.dalessandro@intel.com>
+Message-ID: <52276493-6c27-0bdd-2b3a-6475056dd4f1@intel.com>
+Date:   Wed, 23 Oct 2019 07:54:46 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191021185406.GC9214@bombadil.infradead.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191022184109.GA2155@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 11:54:06AM -0700, Matthew Wilcox wrote:
-> On Sun, Oct 20, 2019 at 09:23:23PM +0800, Changbin Du wrote:
-> > The message "Function parameter or member ..." looks weird.
-> > 
-> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > ---
-> >  scripts/kernel-doc | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> > index 81dc91760b23..cd3d2ca52c34 100755
-> > --- a/scripts/kernel-doc
-> > +++ b/scripts/kernel-doc
-> > @@ -1475,8 +1475,13 @@ sub push_parameter($$$$) {
-> >  		$parameterdescs{$param} = $undescribed;
-> >  
-> >  	        if (show_warnings($type, $declaration_name) && $param !~ /\./) {
-> > -			print STDERR
-> > -			      "${file}:$.: warning: Function parameter or member '$param' not described in '$declaration_name'\n";
-> > +			if ($decl_type eq "struct" or $decl_type eq 'union') {
-> > +				print STDERR
-> > +					"${file}:$.: warning: $decl_type member '$param' not described in '$declaration_name'\n";
-> > +			} else {
-> > +				print STDERR
-> > +					"${file}:$.: warning: $decl_type parameter '$param' not described in '$declaration_name'\n";
-> > +			}
-> >  			++$warnings;
+On 10/22/2019 2:41 PM, Jason Gunthorpe wrote:
+> On Wed, Oct 09, 2019 at 08:52:39PM -0700, rd.dunlab@gmail.com wrote:
+>>
+>> This patch series cleans up lots of kernel-doc in drivers/infiniband/
+>> and then adds an infiniband.rst file.
+>>
+>> It also changes a few instances of non-exported functions from kernel-doc
+>> notation back to non-kernel-doc comments.
+>>
+>> There are still a few kernel-doc and Sphinx warnings that I don't know how
+>> to resolve:
+>>
+>>    ../drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
+>>    ../drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
 > 
-> How about instead ...
+> Maybe Max can help?
 > 
-> 		if (show_warnings($type, $declaration_name) && $param !~ /\./) {			if ($decl_type eq "struct")
-> 				$msg = "struct member";
-> 			elif ($decl_type eq "union")
-> 				$msg = "union member";
-> 			else
-> 				$msg = "function parameter";
-> 			print STDERR "${file}:$.: warning: $msg '$param' not described in '$declaration_name'\n";
+>>    ../drivers/infiniband/core/verbs.c:2510: WARNING: Unexpected indentation.
+>>    ../drivers/infiniband/core/verbs.c:2512: WARNING: Block quote ends without a blank line; unexpected unindent.
+>>    ../drivers/infiniband/core/verbs.c:2544: WARNING: Unexpected indentation.
 > 
-> (please excuse my perl, i am not a native speaker)
-This removes some duplicated characters, but need to decalare a extra variable.
-I am okay for both approaches. :)
+> I don't know what to make of these either.
+> 
+> Anyhow, it is an overall improvement, so I applied everything but
+> 
+> [05/12] infiniband: fix ulp/opa_vnic/opa_vnic_encap.h kernel-doc notation
 
--- 
-Cheers,
-Changbin Du
+Safe to assume the kbuild robot failure [1] is a result of this?
+
+[1] https://marc.info/?l=linux-rdma&m=157177785916141&w=2
+
+-Denny
+
