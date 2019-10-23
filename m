@@ -1,150 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FCC37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 16:23:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D725C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Oct 2019 16:24:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407216AbfJWQXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 12:23:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44266 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2407111AbfJWQXS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Oct 2019 12:23:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id A4BC9B4AA;
-        Wed, 23 Oct 2019 16:23:15 +0000 (UTC)
-Date:   Wed, 23 Oct 2019 18:23:13 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Hannes Reinecke <hare@suse.de>
-Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation
- bug
-Message-ID: <20191023162313.GE938@kitsune.suse.cz>
-References: <cover.1571834862.git.msuchanek@suse.de>
- <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
- <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
+        id S2404822AbfJWQYt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 12:24:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24502 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2404866AbfJWQYs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 12:24:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571847887;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eanOm+wc4jMiTMvGZZMqtnxXgjKabvAJwYAPnub5fDU=;
+        b=aRXrGlK6nW9STh26MP1i9tGRoLNhbL30i8GgsZ0Pgs/oDlSj0BkDp/Qtp+j0YrkI1HzF0B
+        YYbH4l+8L85mJKH3kxw4CZWJv9mro3Ez9rDokap2RUHnxcyoUhjoMlfGkSo49RM/YWAZhP
+        NteRVnptFFYq9zOy78qDHJjTgI5cAv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-nn_WxBf4PueDGKR47J5rTQ-1; Wed, 23 Oct 2019 12:24:43 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB51780183D;
+        Wed, 23 Oct 2019 16:24:39 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 364AE6362F;
+        Wed, 23 Oct 2019 16:24:33 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 23 Oct 2019 18:24:39 +0200 (CEST)
+Date:   Wed, 23 Oct 2019 18:24:32 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Marco Elver <elver@google.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191023162432.GC14327@redhat.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-2-elver@google.com>
+ <20191022154858.GA13700@redhat.com>
+ <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: nn_WxBf4PueDGKR47J5rTQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 04:13:15PM +0200, Hannes Reinecke wrote:
-> On 10/23/19 2:52 PM, Michal Suchanek wrote:
-> > The WMware ESXi cdrom identifies itself as:
-> > sr 0:0:0:0: [sr0] scsi3-mmc drive: vendor: "NECVMWarVMware SATA CD001.00"
-> > model: "VMware SATA CD001.00"
-> > with the following get_capabilities print in sr.c:
-> >         sr_printk(KERN_INFO, cd,
-> >                   "scsi3-mmc drive: vendor: \"%s\" model: \"%s\"\n",
-> >                   cd->device->vendor, cd->device->model);
-> > 
-> > So the model looks like reliable identification while vendor does not.
-> > 
-> > The drive claims to have a tray and claims to be able to close it.
-> > However, the UI has no notion of a tray - when medium is ejected it is
-> > dropped in the floor and the user must select a medium again before the
-> > drive can be re-loaded.  On the kernel side the tray_move call to close
-> > the tray succeeds but the drive state does not change as a result of the
-> > call.
-> > 
-> > The drive does not in fact emulate the tray state. There are two ways to
-> > get the medium state. One is the SCSI status:
-> > 
-> > Physical drive:
-> > 
-> > Fixed format, current; Sense key: Not Ready
-> > Additional sense: Medium not present - tray open
-> > Raw sense data (in hex):
-> >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 02 00 00
-> >         00 00
-> > 
-> > Fixed format, current; Sense key: Not Ready
-> > Additional sense: Medium not present - tray closed
-> >  Raw sense data (in hex):
-> >         70 00 02 00 00 00 00 0a  00 00 00 00 3a 01 00 00
-> >         00 00
-> > 
-> > VMware ESXi:
-> > 
-> > Fixed format, current; Sense key: Not Ready
-> > Additional sense: Medium not present
-> >   Info fld=0x0 [0]
-> >  Raw sense data (in hex):
-> >         f0 00 02 00 00 00 00 0a  00 00 00 00 3a 00 00 00
-> >         00 00
-> > 
-> > So the tray state is not reported here. Other is medium status which the
-> > kernel prefers if available. Adding a print here gives:
-> > 
-> > cdrom: get_media_event success: code = 0, door_open = 1, medium_present = 0
-> > 
-> > door_open is interpreted as open tray. This is fine so long as tray_move
-> > would close the tray when requested or report an error which never
-> > happens on VMware ESXi servers (5.5 and 6.5 tested).
-> > 
-> > This is a popular virtualization platform so a workaround is worthwhile.
-> > 
-> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> > ---
-> >  drivers/scsi/sr.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-> > index 4664fdf75c0f..8090c5bdec09 100644
-> > --- a/drivers/scsi/sr.c
-> > +++ b/drivers/scsi/sr.c
-> > @@ -867,6 +867,7 @@ static void get_capabilities(struct scsi_cd *cd)
-> >  	unsigned int ms_len = 128;
-> >  	int rc, n;
-> >  
-> > +	static const char *model_vmware = "VMware";
-> >  	static const char *loadmech[] =
-> >  	{
-> >  		"caddy",
-> > @@ -922,6 +923,11 @@ static void get_capabilities(struct scsi_cd *cd)
-> >  		  buffer[n + 4] & 0x20 ? "xa/form2 " : "",	/* can read xa/from2 */
-> >  		  buffer[n + 5] & 0x01 ? "cdda " : "", /* can read audio data */
-> >  		  loadmech[buffer[n + 6] >> 5]);
-> > +	if (!strncmp(cd->device->model, model_vmware, strlen(model_vmware))) {
-> > +		buffer[n + 6] &= ~(0xff << 5);
-> > +		sr_printk(KERN_INFO, cd,
-> > +			  "VMware ESXi bug workaround: tray -> caddy\n");
-> > +	}
-> >  	if ((buffer[n + 6] >> 5) == 0)
-> >  		/* caddy drives can't close tray... */
-> >  		cd->cdi.mask |= CDC_CLOSE_TRAY;
-> > 
-> This looks something which should be handled via a blacklist flag, not
-> some inline hack which everyone forgets about it...
+On 10/22, Marco Elver wrote:
+>
+> On Tue, 22 Oct 2019 at 17:49, Oleg Nesterov <oleg@redhat.com> wrote:
+> >
+> > Just for example. Suppose that task->state =3D TASK_UNINTERRUPTIBLE, th=
+is task
+> > does __set_current_state(TASK_RUNNING), another CPU does wake_up_proces=
+s(task)
+> > which does the same UNINTERRUPTIBLE -> RUNNING transition.
+> >
+> > Looks like, this is the "data race" according to kcsan?
+>
+> Yes, they are "data races". They are probably not "race conditions" thoug=
+h.
+>
+> This is a fair distinction to make, and we never claimed to find "race
+> conditions" only
 
-AFAIK we used to have a blacklist but don't have anymore. So either it
-has to be resurrected for this one flag or an inline hack should be good
-enough.
+I see, thanks, just wanted to be sure...
 
-Thanks
+> KCSAN's goal is to find *data races* according to the LKMM.  Some data
+> races are race conditions (usually the more interesting bugs) -- but
+> not *all* data races are race conditions. Those are what are usually
+> referred to as "benign", but they can still become bugs on the wrong
+> arch/compiler combination. Hence, the need to annotate these accesses
+> with READ_ONCE, WRITE_ONCE or use atomic_t:
 
-Michal
+Well, if I see READ_ONCE() in the code I want to understand why it was
+used. Is it really needed for correctness or we want to shut up kcsan?
+Say, why should wait_event(wq, *ptr) use READ_ONCE()? Nevermind, please
+forget.
+
+Btw, why __kcsan_check_watchpoint() does user_access_save() before
+try_consume_watchpoint() ?
+
+Oleg.
+
