@@ -1,101 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F6647D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 15:26:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 75CB17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 16:36:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503156AbfJXP0E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 11:26:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58400 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503092AbfJXP0E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 11:26:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BTqk/quYZ0PsikyKSM8B9GWYX1I9kMYV4Oehz8S/Sn0=; b=VvGDl+Z9DRnvhV+J0LRBvrhlw
-        /6BjlEs+PEg3z1OR9FxnlREDa6eCqsYM4wl0/fALby7IY1yPiOOdfphsLoIk0nJ2mPCECrPZSQpCc
-        8Ut7ZY9Hxab5yHfrvcNj0vHf8QwFMn+5IPC3SrREX0uuW7A329qOj2lttjc4h1/HDqAKLs5zg3i2C
-        v6D+aVJfnun54lP8NDQn+FWJ88qmmuKD/ELm9FmYI6yrRD5YFzRXzX5HTvWYpP1fMc4Ex4qrokUjj
-        3VgnKbbVmGbTh0fGFhO/3ZcPy3++KUPz0/RjqGqs+bEYNiKSuYpvn+GDwhY9U3483p4ePsXnT1TFb
-        SaXF+otHQ==;
-Received: from [2601:1c0:6280:3f0::9ef4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iNf00-0008Nj-Ca; Thu, 24 Oct 2019 15:26:04 +0000
-Subject: Re: [PATCH] reset: fix kernel-doc warnings
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <6e166445-2a3d-dd4d-22ea-3ab77d3d3b11@infradead.org>
- <1971768470f06ad1a051b44ed0041de6550964b8.camel@pengutronix.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <aa63055c-c015-0383-02eb-494bfb312f9d@infradead.org>
-Date:   Thu, 24 Oct 2019 08:26:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S2503453AbfJXQgN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 12:36:13 -0400
+Received: from foss.arm.com ([217.140.110.172]:56142 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2503452AbfJXQgI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Oct 2019 12:36:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D418369;
+        Thu, 24 Oct 2019 09:35:52 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 459D93F71F;
+        Thu, 24 Oct 2019 09:35:48 -0700 (PDT)
+Date:   Thu, 24 Oct 2019 17:35:46 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v2 4/8] seqlock, kcsan: Add annotations for KCSAN
+Message-ID: <20191024163545.GI4300@lakrids.cambridge.arm.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-5-elver@google.com>
+ <20191024122801.GD4300@lakrids.cambridge.arm.com>
+ <CANpmjNPFkqOSEcEP475-NeeJnY5pZ44m+bEhtOs8E_xkRKr-TQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1971768470f06ad1a051b44ed0041de6550964b8.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPFkqOSEcEP475-NeeJnY5pZ44m+bEhtOs8E_xkRKr-TQ@mail.gmail.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/24/19 1:47 AM, Philipp Zabel wrote:
-> Hi Randy,
+On Thu, Oct 24, 2019 at 04:17:11PM +0200, Marco Elver wrote:
+> On Thu, 24 Oct 2019 at 14:28, Mark Rutland <mark.rutland@arm.com> wrote:
+> >
+> > On Thu, Oct 17, 2019 at 04:13:01PM +0200, Marco Elver wrote:
+> > > Since seqlocks in the Linux kernel do not require the use of marked
+> > > atomic accesses in critical sections, we teach KCSAN to assume such
+> > > accesses are atomic. KCSAN currently also pretends that writes to
+> > > `sequence` are atomic, although currently plain writes are used (their
+> > > corresponding reads are READ_ONCE).
+> > >
+> > > Further, to avoid false positives in the absence of clear ending of a
+> > > seqlock reader critical section (only when using the raw interface),
+> > > KCSAN assumes a fixed number of accesses after start of a seqlock
+> > > critical section are atomic.
+> >
+> > Do we have many examples where there's not a clear end to a seqlock
+> > sequence? Or are there just a handful?
+> >
+> > If there aren't that many, I wonder if we can make it mandatory to have
+> > an explicit end, or to add some helper for those patterns so that we can
+> > reliably hook them.
 > 
-> thank you for the fixes.
+> In an ideal world, all usage of seqlocks would be via seqlock_t, which
+> follows a somewhat saner usage, where we already do normal begin/end
+> markings -- with subtle exception to readers needing to be flat atomic
+> regions, e.g. because usage like this:
+> - fs/namespace.c:__legitimize_mnt - unbalanced read_seqretry
+> - fs/dcache.c:d_walk - unbalanced need_seqretry
 > 
-> On Tue, 2019-10-22 at 20:57 -0700, Randy Dunlap wrote:
->> From: Randy Dunlap <rdunlap@infradead.org>
->>
->> Fix kernel-doc warnings discovered in the reset controller API chapter.
->> Fixes these warnings:
->>
->> ./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
->> ./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
->> ./drivers/reset/core.c:838: warning: Function parameter or member 'node' not described in 'of_reset_control_get_count'
->> ./include/linux/reset-controller.h:45: warning: Function parameter or member 'con_id' not described in 'reset_control_lookup'
->> ./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
->> ./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> ---
->>  drivers/reset/core.c             |    4 ++--
->>  include/linux/reset-controller.h |    4 ++--
-> [...]
->> @@ -7,7 +7,7 @@
->>  struct reset_controller_dev;
->>  
->>  /**
->> - * struct reset_control_ops
->> + * struct reset_control_ops - reset controller driver callbacks
->>   *
->>   * @reset: for self-deasserting resets, does all necessary
->>   *         things to reset the device
+> But anything directly accessing seqcount_t seems to be unpredictable.
+> Filtering for usage of read_seqcount_retry not following 'do { .. }
+> while (read_seqcount_retry(..));' (although even the ones in while
+> loops aren't necessarily predictable):
 > 
-> This is all that remains when I rebase onto reset/fixes. Ok to apply
-> this and change the commit message to:
+> $ git grep 'read_seqcount_retry' | grep -Ev 'seqlock.h|Doc|\* ' | grep
+> -v 'while ('
+> => about 1/3 of the total read_seqcount_retry usage.
 > 
->   reset: fix reset_control_ops kerneldoc comment
+> Just looking at fs/namei.c, I would conclude that it'd be a pretty
+> daunting task to prescribe and migrate to an interface that forces
+> clear begin/end.
 > 
->   Add a missing short description to the reset_control_ops
->   documentation.
-> 
-> ?
+> Which is why I concluded that for now, it is probably better to make
+> KCSAN play well with the existing code.
 
-Of course.  Go for it.
+Thanks for the detailed explanation, it's very helpful.
 
--- 
-~Randy
+That all sounds reasonable to me -- could you fold some of that into the
+commit message?
 
+Thanks,
+Mark.
