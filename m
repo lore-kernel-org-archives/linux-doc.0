@@ -1,68 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30FB27D92A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 20:30:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C51197D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 20:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727689AbfJXU3E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 16:29:04 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43156 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727415AbfJXU3E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Oct 2019 16:29:04 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1727486AbfJXUvb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 16:51:31 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:59867 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727338AbfJXUvb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 16:51:31 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F2DFC536;
-        Thu, 24 Oct 2019 20:29:03 +0000 (UTC)
-Date:   Thu, 24 Oct 2019 14:29:02 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc:     rppt@linux.ibm.com, willy@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 80251891AA;
+        Fri, 25 Oct 2019 09:51:29 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1571950289;
+        bh=36dRwa4A3dXnVtv62AMlqKd/AOZMMynqclVnGxr8isw=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To;
+        b=ayudw2I37bEQw727kRHvKBEMERS0Gpo/z2IDf2lqxKK872dXJq79qp/GWr4TOWG4T
+         vECIIFEGpNjNNxr1ZyLNnKbDj1pTuGElFLBf34ft44FnxVWBHdylGs+Yqe8jIfKOUA
+         hQ/krNJzEI4d065TdFh24oxmea/h1+TJMeoKxcvis8S52GJNxlzTdkTaR2AdSKei2i
+         zGjDoarL2LBo82JUXeKrRAY3GP0yd/lPYiDdUgzhwxSq88ugkpVTQlhOz6T5YPH/NB
+         ReWVmJMcDRVSclliVWvhdX2wnQ+IwwlQPswL3Hg4pzR2B8lLejC376YN2InDM+JXXr
+         H+HBJxxSei5TA==
+Received: from svr-chch-ex1.atlnz.lc (Not Verified[10.32.16.77]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5db20ed00000>; Fri, 25 Oct 2019 09:51:28 +1300
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) with Microsoft SMTP Server
+ (TLS) id 15.0.1156.6; Fri, 25 Oct 2019 09:51:24 +1300
+Received: from svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8]) by
+ svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8%12]) with mapi id
+ 15.00.1156.000; Fri, 25 Oct 2019 09:51:24 +1300
+From:   Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To:     "corbet@lwn.net" <corbet@lwn.net>
+CC:     "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v3 2/3] docs/core-api: memory-allocation: remove uses of
  c:func:
-Message-ID: <20191024142902.6bd413f6@lwn.net>
-In-Reply-To: <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
+Thread-Topic: [PATCH v3 2/3] docs/core-api: memory-allocation: remove uses of
+ c:func:
+Thread-Index: AQHViqRDYXn+aypHWkCn7i9MADN5nKdpZCEAgAAGP4A=
+Date:   Thu, 24 Oct 2019 20:51:23 +0000
+Message-ID: <1ddbd3045d6a989b32065c0bd5b3a3c0ef525953.camel@alliedtelesis.co.nz>
 References: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
-        <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
-Organization: LWN.net
+         <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
+         <20191024142902.6bd413f6@lwn.net>
+In-Reply-To: <20191024142902.6bd413f6@lwn.net>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [2001:df5:b000:22:254c:490a:57ec:fd27]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <45AC7B2AB981C24CB2FEE40DD3AF56B2@atlnz.lc>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Oct 2019 08:50:15 +1300
-Chris Packham <chris.packham@alliedtelesis.co.nz> wrote:
-
-> These are no longer needed as the documentation build will automatically
-> add the cross references.
-> 
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
-> 
-> Notes:
->     It should be noted that kvmalloc() and kmem_cache_destroy() lack a
->     kerneldoc header, a side-effect of this change is that the :c:func:
->     fallback of making them bold is lost. This is probably best fixed by
->     adding a kerneldoc header to their source.
->     
->     Changes in v2:
->     - new
-> 
->  Documentation/core-api/memory-allocation.rst | 49 +++++++++-----------
->  1 file changed, 23 insertions(+), 26 deletions(-)
-
-This one still doesn't apply; have you verified that you can apply the
-whole series to docs-next?
-
-Thanks,
-
-jon
+SGkgSm9uLA0KDQpPbiBUaHUsIDIwMTktMTAtMjQgYXQgMTQ6MjkgLTA2MDAsIEpvbmF0aGFuIENv
+cmJldCB3cm90ZToNCj4gT24gRnJpLCAyNSBPY3QgMjAxOSAwODo1MDoxNSArMTMwMA0KPiBDaHJp
+cyBQYWNraGFtIDxjaHJpcy5wYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+IHdyb3RlOg0KPiAN
+Cj4gPiBUaGVzZSBhcmUgbm8gbG9uZ2VyIG5lZWRlZCBhcyB0aGUgZG9jdW1lbnRhdGlvbiBidWls
+ZCB3aWxsIGF1dG9tYXRpY2FsbHkNCj4gPiBhZGQgdGhlIGNyb3NzIHJlZmVyZW5jZXMuDQo+ID4g
+DQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0
+ZWxlc2lzLmNvLm56Pg0KPiA+IC0tLQ0KPiA+IA0KPiA+IE5vdGVzOg0KPiA+ICAgICBJdCBzaG91
+bGQgYmUgbm90ZWQgdGhhdCBrdm1hbGxvYygpIGFuZCBrbWVtX2NhY2hlX2Rlc3Ryb3koKSBsYWNr
+IGENCj4gPiAgICAga2VybmVsZG9jIGhlYWRlciwgYSBzaWRlLWVmZmVjdCBvZiB0aGlzIGNoYW5n
+ZSBpcyB0aGF0IHRoZSA6YzpmdW5jOg0KPiA+ICAgICBmYWxsYmFjayBvZiBtYWtpbmcgdGhlbSBi
+b2xkIGlzIGxvc3QuIFRoaXMgaXMgcHJvYmFibHkgYmVzdCBmaXhlZCBieQ0KPiA+ICAgICBhZGRp
+bmcgYSBrZXJuZWxkb2MgaGVhZGVyIHRvIHRoZWlyIHNvdXJjZS4NCj4gPiAgICAgDQo+ID4gICAg
+IENoYW5nZXMgaW4gdjI6DQo+ID4gICAgIC0gbmV3DQo+ID4gDQo+ID4gIERvY3VtZW50YXRpb24v
+Y29yZS1hcGkvbWVtb3J5LWFsbG9jYXRpb24ucnN0IHwgNDkgKysrKysrKysrLS0tLS0tLS0tLS0N
+Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygtKQ0K
+PiANCj4gVGhpcyBvbmUgc3RpbGwgZG9lc24ndCBhcHBseTsgaGF2ZSB5b3UgdmVyaWZpZWQgdGhh
+dCB5b3UgY2FuIGFwcGx5IHRoZQ0KPiB3aG9sZSBzZXJpZXMgdG8gZG9jcy1uZXh0Pw0KDQpJIGNh
+biBzZWUgdGhlIHByb2JsZW0uIEknbGwgcmViYXNlIGFnYWluc3QgZG9jcy1uZXh0IGFuZCBzZW5k
+IGEgdjQuDQoNCldoZW4gSSBkbyBhY3R1YWxseSBnZXQgYSBzZXJpZXMgdGhhdCBhcHBsaWVzIHRv
+IGRvY3MtbmV4dCBpdCdsbA0KY29uZmxpY3Qgd2l0aCA1OWJiNDc5ODVjMWQgKCJtbSwgc2xbYW91
+XWI6IGd1YXJhbnRlZQ0KbmF0dXJhbCBhbGlnbm1lbnQgZm9yIGttYWxsb2MocG93ZXItb2YtdHdv
+KSIpIGluIExpbnVzJ3MgdHJlZS4NCg0KDQoNCj4gDQo+IFRoYW5rcywNCj4gDQo+IGpvbg0K
