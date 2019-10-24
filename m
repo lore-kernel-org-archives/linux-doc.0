@@ -1,151 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CDF267D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 12:49:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0E0C7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 13:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502140AbfJXMtx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 08:49:53 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38304 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502121AbfJXMtx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 08:49:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v9so14663356wrq.5
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2019 05:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/lIuF/ezia5URppvDTy2wPaSCGFyV345zyFYH80xshs=;
-        b=wUmcKdCDLFOU3WI4mQyG72BQ/sCbZK0fVZYTbhauo9LIuuY7z1qZ4wRcJqnvpmPqvp
-         CahvGBvDuixgdWvs4hV6qEBk1DfpK1FZWzClyFY4BjWEPUoeYfspA5cWOXBmiHNRIFmt
-         3gmw0LiwM89BbWtmzMd/AnUGq7JcBEJi+fS31Y65r5BVbANtCa7xqYITgF46y0AzbOIy
-         5G4gIY1haug3bkxoqV8wVCJE5P6PZzrzMbCxWSJS+68E+LtsoEQWmE7Kdo6nn0xIuFgy
-         VsYdRfTtHUEATikf3sbk5DUQB0WFApe77UdbolKjNrgsiFtXWltmt1/Nh3BdndovV1xF
-         NXhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/lIuF/ezia5URppvDTy2wPaSCGFyV345zyFYH80xshs=;
-        b=f0CIQSjMuwWxwEbq2NsyI0iObZk3IHW+54oLUCaJ4aGcqSCepsfHIea9afKPKX7Grl
-         s4naw9Z4a0IxcC1xCqMMpcy4qrLgImicxn1gjdLcchudsia/c9KfOxTHOPnXRXTrc5bH
-         NQNB/bYUFC5tzbN5SwpsDnAmOyus2+8ASAruwCPMp0EHRlxg4UyOW/gKgU20ZyJ2Vo6m
-         YWKZiU2YWzq15uMAvozd5AX8+u7E90DKpC2VsrcVnLt9AloIMFPFlQ4cEZyR836q5qq4
-         Px+H15w9dL+OR/Yc+5ubQVOD2ijTshvk7+0L/RAc6oz3F28hHUM0cHoPxWITRbMrwT4U
-         y5tA==
-X-Gm-Message-State: APjAAAWKozQldmbORBz/2zLFeGQEwS2kePoBnRNHOzsuLyHaRlOkhoFx
-        FV76kwZfjiLDqzVsN97p2z4ZZQ==
-X-Google-Smtp-Source: APXvYqxIH9WOmi7gPvFHrzo4aiX5NyGpmLrtucWDlagj2w4RyVC90DEjmmYMPoBXmSOzfsIqOTMxsw==
-X-Received: by 2002:adf:f90d:: with SMTP id b13mr3617307wrr.316.1571921391452;
-        Thu, 24 Oct 2019 05:49:51 -0700 (PDT)
-Received: from localhost.localdomain (aaubervilliers-681-1-126-126.w90-88.abo.wanadoo.fr. [90.88.7.126])
-        by smtp.gmail.com with ESMTPSA id j22sm29111038wrd.41.2019.10.24.05.49.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 05:49:50 -0700 (PDT)
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-To:     stable@vger.kernel.org
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Will Deacon <will.deacon@arm.com>
-Subject: [PATCH for-stable-4.14 40/48] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Thu, 24 Oct 2019 14:48:25 +0200
-Message-Id: <20191024124833.4158-41-ard.biesheuvel@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191024124833.4158-1-ard.biesheuvel@linaro.org>
-References: <20191024124833.4158-1-ard.biesheuvel@linaro.org>
+        id S2502289AbfJXNM4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 09:12:56 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43422 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393478AbfJXNM4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 09:12:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Ytz4euQ3Q9IiQz4tzDOyqx9l5irsf3dHQZgptwpBWK4=; b=IQ8lRqhl5fUKjdfhzlK2LtcFbT
+        ADtwLGl+3iKxddWBK8Tla9MBG84wPpzPvgJOMdMkgp7fyM1UvasRb742v4912vRIUM0v4ntKXfvrr
+        0FXECfgafbisrvDHiF+eb/hyEdWJCGyvhRFV+YGD5U/tSTegRmptZ9bHLpG1ohFMPrYj/AkKduclU
+        gG6uyXAOCEsXDRjo2wTpFO0EHREP0idSNbpJofcTFCuZtVx5LXYEGsPIs0uUjN7/7tF4jBW71Dp1L
+        OZZf5qqSL2/j0rdyCSCz/32qXI7cnab27HRgxXsLK0Ry73JygnlTWgfguNcMYXUgk12NuQmKgfPre
+        BaVZk9Zw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iNcv8-0004bG-FR; Thu, 24 Oct 2019 13:12:54 +0000
+Date:   Thu, 24 Oct 2019 06:12:54 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+Cc:     Christoph Hellwig <hch@infradead.org>, linux-scsi@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 6/8] bdev: add open_finish.
+Message-ID: <20191024131254.GE2963@bombadil.infradead.org>
+References: <cover.1571834862.git.msuchanek@suse.de>
+ <ea2652294651cbc8549736728c650d16d2fe1808.1571834862.git.msuchanek@suse.de>
+ <20191024022232.GB11485@infradead.org>
+ <20191024085514.GI938@kitsune.suse.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191024085514.GI938@kitsune.suse.cz>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jeremy Linton <jeremy.linton@arm.com>
+On Thu, Oct 24, 2019 at 10:55:14AM +0200, Michal Suchánek wrote:
+> On Wed, Oct 23, 2019 at 07:22:32PM -0700, Christoph Hellwig wrote:
+> > On Wed, Oct 23, 2019 at 02:52:45PM +0200, Michal Suchanek wrote:
+> > > Opening a block device may require a long operation such as waiting for
+> > > the cdrom tray to close. Performing this operation with locks held locks
+> > > out other attempts to open the device. These processes waiting to open
+> > > the device are not killable.
 
-[ Upstream commit e5ce5e7267ddcbe13ab9ead2542524e1b7993e5a ]
-
-There are various reasons, such as benchmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line option to do so.
-
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Will Deacon <will.deacon@arm.com>
-Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 188a7db8501b..5205740ed39b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2745,10 +2745,10 @@
- 			(bounds check bypass). With this option data leaks
- 			are possible in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 86c4f4e51427..5c3f8c712aae 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -181,6 +181,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
-+
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -192,6 +200,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
- 
-+	if (__nospectre_v2) {
-+		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-+		return;
-+	}
-+
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
--- 
-2.20.1
+You can use mutex_lock_killable() to fix that.
 
