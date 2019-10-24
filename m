@@ -1,159 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 089FA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 10:46:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 879E07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 11:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731534AbfJXKqT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 06:46:19 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:36050 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730032AbfJXKqT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 06:46:19 -0400
-Received: by mail-qk1-f193.google.com with SMTP id y189so22964656qkc.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2019 03:46:18 -0700 (PDT)
+        id S2392801AbfJXLCR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 07:02:17 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33134 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730032AbfJXLCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 07:02:17 -0400
+Received: by mail-ot1-f66.google.com with SMTP id u13so1497962ote.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2019 04:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=G11veEDwRRtVECFg7gLtwnqO3RbQT5sno5+UXzVEXSg=;
-        b=ekruNEz5Dsu5+RobqAiVscjSTBrA9KrZTNIcS2Yyis9GeB1DC3JqNwbOBOp9455aDX
-         HfDF+okJhIRqLi3jnn7S9YXZqQUoBo1E9ByUB7xst1rOvwTHjq60BIpKwFD5tosqcgGG
-         0cLiLl8UF5F7PVWqB4H8O8yGIkQlYA0immj93XMhfn9/TM0qnrFlu0gCtbdFeQ7FktQ+
-         zzOKPMouin50Cs4kBWdxP/wbIVAUdpqZB193gFkPFeVfMSQMyKP7rXZG/xx5PkAp3U9r
-         eaPq/Rp9we8jraxJngMOkoYKipDtab4ydftcYq8g+5OYimaUyeKDQ9aGbG2OSGDxyGqY
-         evPg==
+        bh=Wp7j55fCu8VBbV3w6xxbpPhvOdRSu/ha8VU4hcpzHdY=;
+        b=GSxZTUgn5T2HRAlKrADzvv53PhUqCr6HGwWIfZ+q0bFeBI/8il22Kv3vpugrhHlUKc
+         JSd3yXOh4TDUfIqO8JPYXGilp4Vg98FIe9l+pL6F5FO2iW7zWgkU28rHfnrJDKC/RUhT
+         9y7xvvCroceLV28G/DNxI6s3sI/MSBb0LxVcLxj5vL25ilXRyhqWJ+AnuTdwWYD+wKpX
+         O5vqsk+9Nvl/sUnYEZWYKKkmZRx3M69w2mSa0T0GYjtT0TBikdjdIHl9bdIy1avJXFGR
+         mVT16n7Jv0qZPjTSiWzuZVrSqaZmV1oEhg+iVLOxp3SXxbxsxWpuo8R2VJIKx8+2qGRR
+         M+7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=G11veEDwRRtVECFg7gLtwnqO3RbQT5sno5+UXzVEXSg=;
-        b=N3AoHqNYkHaaCyUUV8xHLfIZpuTjJfn1P+0+g4k1DZIdU/U08GvWoHJnkeza11RRsY
-         zsJxHdK3d6gKDl5VqMiIjLujRp7jnbBhHr+lFV8kFI3FleKOmv+ZQCH60K0955ZKhX2y
-         N8BM9wJyDegBJu66D+FY/v/KXh4ewApJHndrNTUuimu0PjZd6YxB0iCBzBWFw7/4CkeI
-         lkowLjFqS9fl6pz73jhLkOt1dbuO0W54ZH/gAu34jeCOllq02c8+Yhg9czDtpl5Jf0xS
-         TTCgqBla1OiKiyHnotdZZieDuTilb1jNZ1j/2BCu1P33/UdAoI+GTEetjfPo7Vufm2yN
-         Xb/Q==
-X-Gm-Message-State: APjAAAUVpi2/G6JqTsR84uvbmmn+Qzxgt26muwmQxg4gWFuBBxWvEi/0
-        +xaqgLqmNwZGQ2lMRIN+UYKqsoiy773S5KyuVvJnDw==
-X-Google-Smtp-Source: APXvYqwo/b+2HVcnyVCcfZFbVXzCjk3hhRNuG9DqvZ0qdvEGSZIWiom+14vAVEWOoaAFprOhB5tUTPjcnRXq/CV42To=
-X-Received: by 2002:a37:bbc5:: with SMTP id l188mr12631714qkf.118.1571913978255;
- Thu, 24 Oct 2019 03:46:18 -0700 (PDT)
+        bh=Wp7j55fCu8VBbV3w6xxbpPhvOdRSu/ha8VU4hcpzHdY=;
+        b=JaxoVpn+N+7clYcCLgWlEEM6uurboaP25YCU01dwB+fnvy+675QKmPRKbuBWwN3XtI
+         t1CEKYgp2G72sYV7MAjOuo+BqF0wtQZYh40FuEFKOf+XMlgQjpA6HYG+2xwJzRpdC0Ln
+         Ew5Q1cegIBm5JbDfGg9Mq3I1fUnPj3nG0lxUpmTcqRARLGLJrti94uLR4PnIVv9FRrzA
+         LU9JM5J/RIEb0CNjGt17dQ+zFOftait1CU7qKqj6sOtpvM1+6DJnTgMFzSEwrhycMVx0
+         ys123ncOU4df1dGfJIMC1E/RjTgtsL8pCpTyIYw3vSLTYvDn9pxZdZBZx6pzu8KB1eFW
+         ijhQ==
+X-Gm-Message-State: APjAAAWNKuRXc3t2xYI/mnG7CsS5alIxE1r43PS2tblSDfTcJcF51WQZ
+        Efme6SdbzDJuO4YJaANQvJf49evvsbgVOF7hNThOEQ==
+X-Google-Smtp-Source: APXvYqzzXJwi5QeAS4Gnmcn5kNWx1bB+mxOrVbyaL3mIhkaZR6F+nFKJsdPfH9bNhx4bqmlmQAfh3F8piEDK6aQ6BY4=
+X-Received: by 2002:a9d:82e:: with SMTP id 43mr8537524oty.23.1571914935893;
+ Thu, 24 Oct 2019 04:02:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191015212004.24748-1-mike.leach@linaro.org> <20191015212004.24748-11-mike.leach@linaro.org>
- <20191018162009.GB12883@xps15> <CANLsYkyYwNv0dApJws+e=M3h6MKqX7triVgY6qy74oOYJe7FMw@mail.gmail.com>
-In-Reply-To: <CANLsYkyYwNv0dApJws+e=M3h6MKqX7triVgY6qy74oOYJe7FMw@mail.gmail.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Thu, 24 Oct 2019 11:46:07 +0100
-Message-ID: <CAJ9a7VgKwZSjh13_f1QgJVAPgt2=1AnC0rm+gYS+=G-c8NWxBg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/11] coresight: docs: Create common sub-directory for
- coresight trace.
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
+ <20191022154858.GA13700@redhat.com> <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
+ <20191023162432.GC14327@redhat.com>
+In-Reply-To: <20191023162432.GC14327@redhat.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 24 Oct 2019 13:02:03 +0200
+Message-ID: <CANpmjNOOT+KR7m8KpETk1czyJLr3TeHsvvejwyuY3JXKr=eajg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jon Corbet <corbet@lwn.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-OK redone with patch09 split, indexes sorted - coresight now has its
-own sub-index.
-v5 to follow with the docs only patches.
-
-Mike
-
-On Fri, 18 Oct 2019 at 18:31, Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
+On Wed, 23 Oct 2019 at 18:24, Oleg Nesterov <oleg@redhat.com> wrote:
 >
-> On Fri, 18 Oct 2019 at 10:20, Mathieu Poirier
-> <mathieu.poirier@linaro.org> wrote:
+> On 10/22, Marco Elver wrote:
 > >
-> > On Tue, Oct 15, 2019 at 10:20:03PM +0100, Mike Leach wrote:
-> > > There are two files in the Documentation/trace directory relating to
-> > > coresight, with more to follow, so create a Documentation/trace/coresight
-> > > directory and move existing files there. Update MAINTAINERS to reference
-> > > this sub-directory rather than the individual files.
+> > On Tue, 22 Oct 2019 at 17:49, Oleg Nesterov <oleg@redhat.com> wrote:
 > > >
-> > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > > ---
-> > >  Documentation/trace/{ => coresight}/coresight-cpu-debug.rst | 0
-> > >  Documentation/trace/{ => coresight}/coresight.rst           | 2 +-
-> > >  Documentation/trace/{ => coresight}/stm.rst                 | 0
-> > >  MAINTAINERS                                                 | 3 +--
-> > >  4 files changed, 2 insertions(+), 3 deletions(-)
-> > >  rename Documentation/trace/{ => coresight}/coresight-cpu-debug.rst (100%)
-> > >  rename Documentation/trace/{ => coresight}/coresight.rst (99%)
-> > >  rename Documentation/trace/{ => coresight}/stm.rst (100%)
+> > > Just for example. Suppose that task->state = TASK_UNINTERRUPTIBLE, this task
+> > > does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(task)
+> > > which does the same UNINTERRUPTIBLE -> RUNNING transition.
 > > >
-> > > diff --git a/Documentation/trace/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
-> > > similarity index 100%
-> > > rename from Documentation/trace/coresight-cpu-debug.rst
-> > > rename to Documentation/trace/coresight/coresight-cpu-debug.rst
-> > > diff --git a/Documentation/trace/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> > > similarity index 99%
-> > > rename from Documentation/trace/coresight.rst
-> > > rename to Documentation/trace/coresight/coresight.rst
-> > > index 72f4b7ef1bad..835e8aa0bf8c 100644
-> > > --- a/Documentation/trace/coresight.rst
-> > > +++ b/Documentation/trace/coresight/coresight.rst
-> > > @@ -493,6 +493,6 @@ Details on how to use the generic STM API can be found here [#second]_.
-> > >
-> > >  .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
-> > >
-> > > -.. [#second] Documentation/trace/stm.rst
-> > > +.. [#second] Documentation/trace/coresight/stm.rst
-> > >
-> > >  .. [#third] https://github.com/Linaro/perf-opencsd
-> > > diff --git a/Documentation/trace/stm.rst b/Documentation/trace/coresight/stm.rst
-> > > similarity index 100%
-> > > rename from Documentation/trace/stm.rst
-> > > rename to Documentation/trace/coresight/stm.rst
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 296de2b51c83..f903160b507c 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -1608,8 +1608,7 @@ R:      Suzuki K Poulose <suzuki.poulose@arm.com>
-> > >  L:   linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> > >  S:   Maintained
-> > >  F:   drivers/hwtracing/coresight/*
-> > > -F:   Documentation/trace/coresight.rst
-> > > -F:   Documentation/trace/coresight-cpu-debug.rst
-> > > +F:   Documentation/trace/coresight/*
-> > >  F:   Documentation/devicetree/bindings/arm/coresight.txt
-> > >  F:   Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt
-> > >  F:   Documentation/ABI/testing/sysfs-bus-coresight-devices-*
+> > > Looks like, this is the "data race" according to kcsan?
 > >
-> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
->
-> I'm taking that back - please remove mentions of coresight files in
-> Documentation/trace/index.rst.
->
-> Since you do have to respin, please split patch 09.  And now that I
-> have applied all the other patches, your next revision should be a
-> documentation set.
->
-> Thanks,
-> Mathieu
+> > Yes, they are "data races". They are probably not "race conditions" though.
 > >
-> > > --
-> > > 2.17.1
-> > >
+> > This is a fair distinction to make, and we never claimed to find "race
+> > conditions" only
+>
+> I see, thanks, just wanted to be sure...
+>
+> > KCSAN's goal is to find *data races* according to the LKMM.  Some data
+> > races are race conditions (usually the more interesting bugs) -- but
+> > not *all* data races are race conditions. Those are what are usually
+> > referred to as "benign", but they can still become bugs on the wrong
+> > arch/compiler combination. Hence, the need to annotate these accesses
+> > with READ_ONCE, WRITE_ONCE or use atomic_t:
+>
+> Well, if I see READ_ONCE() in the code I want to understand why it was
+> used. Is it really needed for correctness or we want to shut up kcsan?
+> Say, why should wait_event(wq, *ptr) use READ_ONCE()? Nevermind, please
+> forget.
+>
+> Btw, why __kcsan_check_watchpoint() does user_access_save() before
+> try_consume_watchpoint() ?
 
+Instrumentation is added in UACCESS regions. Since we do not access
+user-memory, we do user_access_save to ensure everything is safe
+(otherwise objtool complains that we do calls to non-whitelisted
+functions). I will try to optimize this a bit, but we can't avoid it.
 
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+> Oleg.
+>
