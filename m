@@ -1,218 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2949F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 12:28:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CDF267D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 12:49:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbfJXM2Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 08:28:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:49806 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726360AbfJXM2Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Oct 2019 08:28:25 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E39F1B57;
-        Thu, 24 Oct 2019 05:28:08 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A58543F71A;
-        Thu, 24 Oct 2019 05:28:04 -0700 (PDT)
-Date:   Thu, 24 Oct 2019 13:28:02 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Marco Elver <elver@google.com>
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
-        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
-        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
-        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
-        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
-        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
-        will@kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 4/8] seqlock, kcsan: Add annotations for KCSAN
-Message-ID: <20191024122801.GD4300@lakrids.cambridge.arm.com>
-References: <20191017141305.146193-1-elver@google.com>
- <20191017141305.146193-5-elver@google.com>
+        id S2502140AbfJXMtx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 08:49:53 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38304 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502121AbfJXMtx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 08:49:53 -0400
+Received: by mail-wr1-f65.google.com with SMTP id v9so14663356wrq.5
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2019 05:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/lIuF/ezia5URppvDTy2wPaSCGFyV345zyFYH80xshs=;
+        b=wUmcKdCDLFOU3WI4mQyG72BQ/sCbZK0fVZYTbhauo9LIuuY7z1qZ4wRcJqnvpmPqvp
+         CahvGBvDuixgdWvs4hV6qEBk1DfpK1FZWzClyFY4BjWEPUoeYfspA5cWOXBmiHNRIFmt
+         3gmw0LiwM89BbWtmzMd/AnUGq7JcBEJi+fS31Y65r5BVbANtCa7xqYITgF46y0AzbOIy
+         5G4gIY1haug3bkxoqV8wVCJE5P6PZzrzMbCxWSJS+68E+LtsoEQWmE7Kdo6nn0xIuFgy
+         VsYdRfTtHUEATikf3sbk5DUQB0WFApe77UdbolKjNrgsiFtXWltmt1/Nh3BdndovV1xF
+         NXhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/lIuF/ezia5URppvDTy2wPaSCGFyV345zyFYH80xshs=;
+        b=f0CIQSjMuwWxwEbq2NsyI0iObZk3IHW+54oLUCaJ4aGcqSCepsfHIea9afKPKX7Grl
+         s4naw9Z4a0IxcC1xCqMMpcy4qrLgImicxn1gjdLcchudsia/c9KfOxTHOPnXRXTrc5bH
+         NQNB/bYUFC5tzbN5SwpsDnAmOyus2+8ASAruwCPMp0EHRlxg4UyOW/gKgU20ZyJ2Vo6m
+         YWKZiU2YWzq15uMAvozd5AX8+u7E90DKpC2VsrcVnLt9AloIMFPFlQ4cEZyR836q5qq4
+         Px+H15w9dL+OR/Yc+5ubQVOD2ijTshvk7+0L/RAc6oz3F28hHUM0cHoPxWITRbMrwT4U
+         y5tA==
+X-Gm-Message-State: APjAAAWKozQldmbORBz/2zLFeGQEwS2kePoBnRNHOzsuLyHaRlOkhoFx
+        FV76kwZfjiLDqzVsN97p2z4ZZQ==
+X-Google-Smtp-Source: APXvYqxIH9WOmi7gPvFHrzo4aiX5NyGpmLrtucWDlagj2w4RyVC90DEjmmYMPoBXmSOzfsIqOTMxsw==
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr3617307wrr.316.1571921391452;
+        Thu, 24 Oct 2019 05:49:51 -0700 (PDT)
+Received: from localhost.localdomain (aaubervilliers-681-1-126-126.w90-88.abo.wanadoo.fr. [90.88.7.126])
+        by smtp.gmail.com with ESMTPSA id j22sm29111038wrd.41.2019.10.24.05.49.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2019 05:49:50 -0700 (PDT)
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+To:     stable@vger.kernel.org
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Will Deacon <will.deacon@arm.com>
+Subject: [PATCH for-stable-4.14 40/48] arm64: Provide a command line to disable spectre_v2 mitigation
+Date:   Thu, 24 Oct 2019 14:48:25 +0200
+Message-Id: <20191024124833.4158-41-ard.biesheuvel@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191024124833.4158-1-ard.biesheuvel@linaro.org>
+References: <20191024124833.4158-1-ard.biesheuvel@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191017141305.146193-5-elver@google.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 04:13:01PM +0200, Marco Elver wrote:
-> Since seqlocks in the Linux kernel do not require the use of marked
-> atomic accesses in critical sections, we teach KCSAN to assume such
-> accesses are atomic. KCSAN currently also pretends that writes to
-> `sequence` are atomic, although currently plain writes are used (their
-> corresponding reads are READ_ONCE).
-> 
-> Further, to avoid false positives in the absence of clear ending of a
-> seqlock reader critical section (only when using the raw interface),
-> KCSAN assumes a fixed number of accesses after start of a seqlock
-> critical section are atomic.
+From: Jeremy Linton <jeremy.linton@arm.com>
 
-Do we have many examples where there's not a clear end to a seqlock
-sequence? Or are there just a handful?
+[ Upstream commit e5ce5e7267ddcbe13ab9ead2542524e1b7993e5a ]
 
-If there aren't that many, I wonder if we can make it mandatory to have
-an explicit end, or to add some helper for those patterns so that we can
-reliably hook them.
+There are various reasons, such as benchmarking, to disable spectrev2
+mitigation on a machine. Provide a command-line option to do so.
 
-Thanks,
-Mark.
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+ arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->  include/linux/seqlock.h | 44 +++++++++++++++++++++++++++++++++++++----
->  1 file changed, 40 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index bcf4cf26b8c8..1e425831a7ed 100644
-> --- a/include/linux/seqlock.h
-> +++ b/include/linux/seqlock.h
-> @@ -37,8 +37,24 @@
->  #include <linux/preempt.h>
->  #include <linux/lockdep.h>
->  #include <linux/compiler.h>
-> +#include <linux/kcsan.h>
->  #include <asm/processor.h>
->  
-> +/*
-> + * The seqlock interface does not prescribe a precise sequence of read
-> + * begin/retry/end. For readers, typically there is a call to
-> + * read_seqcount_begin() and read_seqcount_retry(), however, there are more
-> + * esoteric cases which do not follow this pattern.
-> + *
-> + * As a consequence, we take the following best-effort approach for *raw* usage
-> + * of seqlocks under KCSAN: upon beginning a seq-reader critical section,
-> + * pessimistically mark then next KCSAN_SEQLOCK_REGION_MAX memory accesses as
-> + * atomics; if there is a matching read_seqcount_retry() call, no following
-> + * memory operations are considered atomic. Non-raw usage of seqlocks is not
-> + * affected.
-> + */
-> +#define KCSAN_SEQLOCK_REGION_MAX 1000
-> +
->  /*
->   * Version using sequence counter only.
->   * This can be used when code has its own mutex protecting the
-> @@ -115,6 +131,7 @@ static inline unsigned __read_seqcount_begin(const seqcount_t *s)
->  		cpu_relax();
->  		goto repeat;
->  	}
-> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
->  	return ret;
->  }
->  
-> @@ -131,6 +148,7 @@ static inline unsigned raw_read_seqcount(const seqcount_t *s)
->  {
->  	unsigned ret = READ_ONCE(s->sequence);
->  	smp_rmb();
-> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
->  	return ret;
->  }
->  
-> @@ -183,6 +201,7 @@ static inline unsigned raw_seqcount_begin(const seqcount_t *s)
->  {
->  	unsigned ret = READ_ONCE(s->sequence);
->  	smp_rmb();
-> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
->  	return ret & ~1;
->  }
->  
-> @@ -202,7 +221,8 @@ static inline unsigned raw_seqcount_begin(const seqcount_t *s)
->   */
->  static inline int __read_seqcount_retry(const seqcount_t *s, unsigned start)
->  {
-> -	return unlikely(s->sequence != start);
-> +	kcsan_atomic_next(0);
-> +	return unlikely(READ_ONCE(s->sequence) != start);
->  }
->  
->  /**
-> @@ -225,6 +245,7 @@ static inline int read_seqcount_retry(const seqcount_t *s, unsigned start)
->  
->  static inline void raw_write_seqcount_begin(seqcount_t *s)
->  {
-> +	kcsan_begin_atomic(true);
->  	s->sequence++;
->  	smp_wmb();
->  }
-> @@ -233,6 +254,7 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
->  {
->  	smp_wmb();
->  	s->sequence++;
-> +	kcsan_end_atomic(true);
->  }
->  
->  /**
-> @@ -262,18 +284,20 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
->   *
->   *      void write(void)
->   *      {
-> - *              Y = true;
-> + *              WRITE_ONCE(Y, true);
->   *
->   *              raw_write_seqcount_barrier(seq);
->   *
-> - *              X = false;
-> + *              WRITE_ONCE(X, false);
->   *      }
->   */
->  static inline void raw_write_seqcount_barrier(seqcount_t *s)
->  {
-> +	kcsan_begin_atomic(true);
->  	s->sequence++;
->  	smp_wmb();
->  	s->sequence++;
-> +	kcsan_end_atomic(true);
->  }
->  
->  static inline int raw_read_seqcount_latch(seqcount_t *s)
-> @@ -398,7 +422,9 @@ static inline void write_seqcount_end(seqcount_t *s)
->  static inline void write_seqcount_invalidate(seqcount_t *s)
->  {
->  	smp_wmb();
-> +	kcsan_begin_atomic(true);
->  	s->sequence+=2;
-> +	kcsan_end_atomic(true);
->  }
->  
->  typedef struct {
-> @@ -430,11 +456,21 @@ typedef struct {
->   */
->  static inline unsigned read_seqbegin(const seqlock_t *sl)
->  {
-> -	return read_seqcount_begin(&sl->seqcount);
-> +	unsigned ret = read_seqcount_begin(&sl->seqcount);
-> +
-> +	kcsan_atomic_next(0);  /* non-raw usage, assume closing read_seqretry */
-> +	kcsan_begin_atomic(false);
-> +	return ret;
->  }
->  
->  static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
->  {
-> +	/*
-> +	 * Assume not nested: read_seqretry may be called multiple times when
-> +	 * completing read critical section.
-> +	 */
-> +	kcsan_end_atomic(false);
-> +
->  	return read_seqcount_retry(&sl->seqcount, start);
->  }
->  
-> -- 
-> 2.23.0.866.gb869b98d4c-goog
-> 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 188a7db8501b..5205740ed39b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2745,10 +2745,10 @@
+ 			(bounds check bypass). With this option data leaks
+ 			are possible in the system.
+ 
+-	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
+-			(indirect branch prediction) vulnerability. System may
+-			allow data leaks with this option, which is equivalent
+-			to spectre_v2=off.
++	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
++			the Spectre variant 2 (indirect branch prediction)
++			vulnerability. System may allow data leaks with this
++			option.
+ 
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 86c4f4e51427..5c3f8c712aae 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -181,6 +181,14 @@ static void qcom_link_stack_sanitization(void)
+ 		     : "=&r" (tmp));
+ }
+ 
++static bool __nospectre_v2;
++static int __init parse_nospectre_v2(char *str)
++{
++	__nospectre_v2 = true;
++	return 0;
++}
++early_param("nospectre_v2", parse_nospectre_v2);
++
+ static void
+ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ {
+@@ -192,6 +200,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+ 		return;
+ 
++	if (__nospectre_v2) {
++		pr_info_once("spectrev2 mitigation disabled by command line option\n");
++		return;
++	}
++
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return;
+ 
+-- 
+2.20.1
+
