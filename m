@@ -1,103 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,T_HK_NAME_FM_MR_MRS autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDAB57D92A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 10:11:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 29B6D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 10:33:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391757AbfJXKLR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 06:11:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56916 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2390611AbfJXKLQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Oct 2019 06:11:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 89A03B68C;
-        Thu, 24 Oct 2019 10:11:14 +0000 (UTC)
-Date:   Thu, 24 Oct 2019 12:11:12 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Hannes Reinecke <hare@suse.de>
-Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation
- bug
-Message-ID: <20191024101112.GK938@kitsune.suse.cz>
-References: <cover.1571834862.git.msuchanek@suse.de>
- <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
- <08f1e291-0196-2402-1947-c0cdaaf534da@suse.de>
- <20191023162313.GE938@kitsune.suse.cz>
- <2bc50e71-6129-a482-00bd-0425b486ce07@suse.de>
- <20191024085631.GJ938@kitsune.suse.cz>
- <15c972ea-5b3a-487f-7be5-a62d780896da@suse.de>
+        id S2407894AbfJXKdj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 06:33:39 -0400
+Received: from mta147.atlashoster.net ([5.39.37.51]:37305 "EHLO rajiweb.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407882AbfJXKdj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Oct 2019 06:33:39 -0400
+X-Greylist: delayed 3427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Oct 2019 06:33:38 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=noudeu.com;
+         s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=eW4oia9U94AZzYr70xneAWl7LFkhnhsIxwR0Ug4GFC0=; b=O6AgD3qmgJppiUOR5hYh4et0bS
+        SFWAGw1EQ9S3BDvHhSt0peKy6Y8+KV0bXk70mkcSyUt+bdyWQIKTZg13K7FkN2XFMnRA5fVwsmjDt
+        Vs4kWs9EIhkR+vwSv4gzeozA+k5YaYH+wyDw3R0t2R3nILbsncVuf2cCRQYXG2be4UKFRb8V2KJi7
+        jnfGVz45r1uQJTBN+R/LYW9Do0lCQKmzUsRDl4HpgL/vxQqpMFByALe9E8V/TIPNOpUiXsDRT1zBL
+        E6j8ZHaQFj0YVEBe6CeGS3x8EtMpzuLyx3k3fCGC2Wi79ongVwEQNTtnW9/ITM2diEUrDvfR+agpd
+        z9Nn2TGQ==;
+Received: from [::1] (port=49738 helo=hosting.atlashoster.net)
+        by hosting.atlashoster.net with esmtpa (Exim 4.92)
+        (envelope-from <andrewkabore1@gmail.com>)
+        id 1iNZXZ-0007Om-NJ; Thu, 24 Oct 2019 11:36:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <15c972ea-5b3a-487f-7be5-a62d780896da@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 24 Oct 2019 11:36:21 +0200
+From:   Mr Andrew Kabore <andrewkabore1@gmail.com>
+To:     undisclosed-recipients:;
+Subject: Greetings
+Reply-To: mrandrewkabore@naver.com
+Mail-Reply-To: mrandrewkabore@naver.com
+Message-ID: <2d05a0def75ecdf459784ab460685740@gmail.com>
+X-Sender: andrewkabore1@gmail.com
+User-Agent: Roundcube Webmail/1.3.8
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hosting.atlashoster.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - gmail.com
+X-Get-Message-Sender-Via: hosting.atlashoster.net: authenticated_id: contact@noudeu.com
+X-Authenticated-Sender: hosting.atlashoster.net: contact@noudeu.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 24, 2019 at 11:41:38AM +0200, Hannes Reinecke wrote:
-> On 10/24/19 10:56 AM, Michal Suchánek wrote:
-> > On Thu, Oct 24, 2019 at 07:46:57AM +0200, Hannes Reinecke wrote:
-> >> On 10/23/19 6:23 PM, Michal Suchánek wrote:
-> >>> On Wed, Oct 23, 2019 at 04:13:15PM +0200, Hannes Reinecke wrote:
-> [ .. ]>>>> This looks something which should be handled via a blacklist
-> flag, not
-> >>>> some inline hack which everyone forgets about it...
-> >>>
-> >>> AFAIK we used to have a blacklist but don't have anymore. So either it
-> >>> has to be resurrected for this one flag or an inline hack should be good
-> >>> enough.
-> >>>
-> >> But we do have one for generic scsi; cf drivers/scsi/scsi_devinfo.c.
-> >> And this pretty much falls into the category of SCSI quirks, so I'd
-> >> prefer have it hooked into that.
-> > 
-> > But generic scsi does not know about cdrom trays, does it?
-> > 
-> No, just about 'flags'. What you _do_ with those flags is up to you.
-> Or, rather, the driver.
-> Just define a 'tray detection broken' flag, and evaluate it in sr.c.
-> 
-> Where is the problem with that?
 
-And how do you set the flag?
 
-The blacklist lists exact manufacturer and model while this rule only
-depends on model because manufacturer is bogus. Also the blacklist
-itself is deprecated:
-
-/*
- * scsi_static_device_list: deprecated list of devices that require
- * settings that differ from the default, includes black-listed (broken)
- * devices. The entries here are added to the tail of scsi_dev_info_list
- * via scsi_dev_info_list_init.
- *
- * Do not add to this list, use the command line or proc interface to add
- * to the scsi_dev_info_list. This table will eventually go away.
- */
-
-Thanks
-
-Michal
+-- 
+Hello dear, I need your assistance to transfer money sum of $usd35 
+million, Get back to me for more details.
+Mr. Andrew
