@@ -1,84 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 676117D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 02:24:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 566807D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 03:02:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408215AbfJXCYG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Oct 2019 22:24:06 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43270 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406400AbfJXCYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 22:24:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jqaSnMivMbTcu9ltBfVGub27KNjYSIvA9j9EeZ25Gtg=; b=HbQ4E4NyaoU4b4xncTnHvaoM7
-        dD9y4Rv90jjsduTfR5TIPaHkB1q1bvoTtoI+JOhZX2sRvtxUlf6wo/r+yhOU2mcIpfG6YAbBRIgsw
-        4SxXGr42k+1CZV0K8jNKrOEuOH4gfoSKrhXB+uQSTZwCOoON9nY8483Mj0w98gsJl9neXq2S/Xqpf
-        2tg8f5H65x/ExvuTcZmniU+dD6t6rtUoH6W/PyXFt854zeDeei8tP3PHjQrkiW6AJORaSusgwHosq
-        a2mPgpjRABGj5PriHE3PonP73iPD1cssVaSZZEIOJ4nAYd5T2cIDRuYJyx3FY80qNFnqw61Mr5ETl
-        jZnmC9/OQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iNSnG-0004h2-AQ; Thu, 24 Oct 2019 02:24:06 +0000
-Date:   Wed, 23 Oct 2019 19:24:06 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Michal Suchanek <msuchanek@suse.de>
-Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] scsi: sr: wait for the medium to become ready
-Message-ID: <20191024022406.GD11485@infradead.org>
-References: <cover.1571834862.git.msuchanek@suse.de>
- <94dc98dc67b1d183d04c338c7978efa0556db6ac.1571834862.git.msuchanek@suse.de>
+        id S2406494AbfJXDCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Oct 2019 23:02:43 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:58797 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406516AbfJXDCm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Oct 2019 23:02:42 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 54A74806A8;
+        Thu, 24 Oct 2019 16:02:39 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1571886159;
+        bh=bcR01ip7IVRZdB2jx0X5ZSOXTyf/0QyKPLOZ2KZEnFA=;
+        h=From:To:Cc:Subject:Date;
+        b=sfiCYFCsxyoZSW8CYJVObswJNren62/sOaXA9o31XNd4fskszACZdy1A8G9S4w2+J
+         DDhhc7rX5WNHrDwajonKtqX7UZWqW1Nzz5gIJMymDrOREx1mekcLdVyAVTJ3EkY82l
+         97F5dcshXTmEYqVqayN9dGGoUvS5srjlzVuvPliyts3OcHiS5O9wtsQeu528Ir1Ox9
+         K8Jbate0cd75hiF+0lPV1adUMd7gnf1RHN/CQGBqn/NolWHPQ9mI7HwmlxcWztLDjh
+         gHU7aCiXXG5+dS5U36RsOb0UyGtBH9qo89AwLwpaBKJX6A/f3Ur+HeunnkHGOvEFNO
+         UoJaHymT1nFwg==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5db1144d0000>; Thu, 24 Oct 2019 16:02:38 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
+        by smtp (Postfix) with ESMTP id 6C09013EF6D;
+        Thu, 24 Oct 2019 16:02:41 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id 3A0F528005C; Thu, 24 Oct 2019 16:02:37 +1300 (NZDT)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     frowand.list@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net
+Cc:     devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>
+Subject: [RESEND PATCH] of: Documentation: Correct return value from of_overlay_fdt_apply
+Date:   Thu, 24 Oct 2019 16:02:29 +1300
+Message-Id: <20191024030230.8275-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94dc98dc67b1d183d04c338c7978efa0556db6ac.1571834862.git.msuchanek@suse.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 02:52:47PM +0200, Michal Suchanek wrote:
-> +static int sr_block_open_finish(struct block_device *bdev, fmode_t mode,
-> +				int ret)
-> +{
-> +	struct scsi_cd *cd = scsi_cd(bdev->bd_disk);
-> +
-> +	/* wait for drive to get ready */
-> +	if ((ret == -ENOMEDIUM) && !(mode & FMODE_NDELAY)) {
-> +		struct scsi_device *sdev = cd->device;
-> +		/*
-> +		 * Cannot use sr_block_ioctl because it locks sr_mutex blocking
-> +		 * out any processes trying to access the drive
-> +		 */
-> +		scsi_autopm_get_device(sdev);
-> +		cdrom_ioctl(&cd->cdi, bdev, mode, CDROM_AUTOCLOSE, 0);
-> +		ret = __sr_block_open(bdev, mode);
-> +		scsi_autopm_put_device(sdev);
+The return from of_overlay_fdt_apply() just indicates success or fail.
+The cookie is returned via reference.
 
-Ioctls should never be used from kernel space.  We have a few leftovers,
-but we need to get rid of that and not add more.
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
+Just going over some old branches and saw this hadn't been picked up. I w=
+onder
+if it got caught between maintainers.
+
+Review from Frank:
+https://lore.kernel.org/lkml/9bb707be-9cb3-dffc-303f-ee7025090ba9@gmail.c=
+om/
+
+ Documentation/devicetree/overlay-notes.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation/d=
+evicetree/overlay-notes.txt
+index 725fb8d255c1..62f2003d6205 100644
+--- a/Documentation/devicetree/overlay-notes.txt
++++ b/Documentation/devicetree/overlay-notes.txt
+@@ -88,7 +88,8 @@ Overlay in-kernel API
+ The API is quite easy to use.
+=20
+ 1. Call of_overlay_fdt_apply() to create and apply an overlay changeset.=
+ The
+-return value is an error or a cookie identifying this overlay.
++return indicates success or failure. A a cookie identifying this overlay=
+ is
++returned via reference on success.
+=20
+ 2. Call of_overlay_remove() to remove and cleanup the overlay changeset
+ previously created via the call to of_overlay_fdt_apply(). Removal of an
+--=20
+2.23.0
+
