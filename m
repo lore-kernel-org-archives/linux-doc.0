@@ -5,25 +5,25 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9011F7D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 08:18:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66BCE7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 08:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbfJXISU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 04:18:20 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:44605 "EHLO
+        id S2438163AbfJXInk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 04:43:40 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:36761 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726395AbfJXISU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 04:18:20 -0400
+        with ESMTP id S1727079AbfJXInj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 04:43:39 -0400
 Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1iNYK2-0000XE-Qr; Thu, 24 Oct 2019 10:18:18 +0200
-Message-ID: <d3c9bbc44167009f647772e38168a51d2def36d5.camel@pengutronix.de>
+        id 1iNYiY-0003Gf-LS; Thu, 24 Oct 2019 10:43:38 +0200
+Message-ID: <cba736f135f150d685ab4efee625d69aa800d1c8.camel@pengutronix.de>
 Subject: Re: [RFC] docs: add a reset controller chapter to the driver API
  docs
 From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Vivek Gautam <vivek.gautam@codeaurora.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -34,10 +34,10 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Thierry Reding <treding@nvidia.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Lee Jones <lee.jones@linaro.org>, kernel@pengutronix.de
-Date:   Thu, 24 Oct 2019 10:18:14 +0200
-In-Reply-To: <20191022110036.5c2edc05@lwn.net>
+Date:   Thu, 24 Oct 2019 10:43:36 +0200
+In-Reply-To: <8e964179-4515-33ea-bdc4-f27daa311267@infradead.org>
 References: <20191022164547.22632-1-p.zabel@pengutronix.de>
-         <20191022110036.5c2edc05@lwn.net>
+         <8e964179-4515-33ea-bdc4-f27daa311267@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
@@ -51,42 +51,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+Hi Randy,
 
-On Tue, 2019-10-22 at 11:00 -0600, Jonathan Corbet wrote:
-> On Tue, 22 Oct 2019 18:45:47 +0200
-> Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> 
+thank you for the corrections!
+
+On Tue, 2019-10-22 at 20:56 -0700, Randy Dunlap wrote:
+> On 10/22/19 9:45 AM, Philipp Zabel wrote:
 > > Add initial reset controller API documentation. This is mostly indented
-> > to describe the concepts to users of the consumer API, and to tie the
-> > kerneldoc comments we already have into the driver API documentation.
-> > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 > 
-> One quick comment...
-> 
-> >  Documentation/driver-api/index.rst |   1 +
-> >  Documentation/driver-api/reset.rst | 217 +++++++++++++++++++++++++++++
-> >  2 files changed, 218 insertions(+)
-> >  create mode 100644 Documentation/driver-api/reset.rst
-> > 
-> 
-> [...]
-> 
-> > +Shared and exclusive resets
-> > +---------------------------
-> > +
-> > +The reset controller API provides either reference counted deassertion and
-> > +assertion or direct, exclusive control.
-> > +The distinction between shared and exclusive reset controls is made at the time
-> > +the reset control is requested, either via :c:func:`devm_reset_control_get_shared`
-> > +or via :c:func:`devm_reset_control_get_exclusive`.
-> 
-> :c:func: isn't needed anymore, and is actively discouraged - the function
-> references will be linked anyway.  So just say function() rather than
-> :c:func:`function` everywhere, please.
+>                                                                  intended
 
-That is great, thank you! I'll change them all in the next version.
+:) Makes me smile every time.
+
+[...]
+> > +====================
+> > +Reset controller API
+> > +====================
+> > +
+> > +Introduction
+> > +============
+> > +
+> > +Reset controllers are central units that control the reset signals to multiple
+> > +peripherals.
+> > +The reset controller API is split in two parts:
+> 
+>                  I prefer            into two parts:
+
+Ok. I think this might have come from "split in half".
+
+[...]
+> > +Consumer driver interface
+> > +=========================
+> > +
+> > +This interface offers a similar API to the kernel clock framework.
+> 
+> or:
+>   This interface provides an API that is similar to the kernel clock framework.
+
+Yes, this is better as well. I'll change all three in the next version.
+
+[...]
+> > +.. kernel-doc:: drivers/reset/core.c
+> > +   :functions: of_reset_simple_xlate
+> > +               reset_controller_register
+> > +               reset_controller_unregister
+> > +               devm_reset_controller_register
+> > +               reset_controller_add_lookup
+> 
+> These header and source files cause a number of kernel-doc warnings
+> for which I am sending a patch.
+
+Thank you, I have already sent fixes for the build warnings.
+In hindsight, they probably should have been included as a series.
 
 regards
 Philipp
