@@ -1,55 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 951F97DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 20:16:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30FB27D92A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 20:30:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfJXUQb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 16:16:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35756 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725958AbfJXUQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 16:16:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3hTyeN9xmnC/Yhvndz3wJnR6k4/3+2nRERhWgX7Ke30=; b=FZxmLY5GViBzQY4rQFc6SofwP
-        OHI09ws/PdZcw8ujlRy4h1oHWD0amPAnqKVbEibFkhprvd0q0dOTxltklCWKFib/O2qTssCIx6GhQ
-        40cEt/hbAcxnov6Pd/P56QHxO4sqYCJW/usqdEgk//M/P178VrHpatlVmKRjVN7/iteoylbICVeQL
-        fyhcpsrmmAgxFX697ItpvX78FZ8HMA7e8eJCgk2Lf8tcxwC7P5+oM0gMdG2ymBq95jkCdYOFQeRGx
-        1V1AQWFUslewS9b2ZsxsD/iCvPIYz4Ngn0oBCHMf8lz5uO152x9faqfAXOP8sfc8Ju5wjsc3R6/In
-        nz6BI8sDQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iNjX2-0002Xr-5R; Thu, 24 Oct 2019 20:16:28 +0000
-Date:   Thu, 24 Oct 2019 13:16:28 -0700
-From:   Matthew Wilcox <willy@infradead.org>
+        id S1727689AbfJXU3E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 16:29:04 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43156 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727415AbfJXU3E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Oct 2019 16:29:04 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F2DFC536;
+        Thu, 24 Oct 2019 20:29:03 +0000 (UTC)
+Date:   Thu, 24 Oct 2019 14:29:02 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc:     corbet@lwn.net, rppt@linux.ibm.com, linux-doc@vger.kernel.org,
+Cc:     rppt@linux.ibm.com, willy@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] docs/core-api: memory-allocation: minor cleanups
-Message-ID: <20191024201628.GL2963@bombadil.infradead.org>
+Subject: Re: [PATCH v3 2/3] docs/core-api: memory-allocation: remove uses of
+ c:func:
+Message-ID: <20191024142902.6bd413f6@lwn.net>
+In-Reply-To: <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
 References: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
+        <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 08:50:13AM +1300, Chris Packham wrote:
-> Clean up some formatting and add references to helpers for calculating sizes
-> safely.
+On Fri, 25 Oct 2019 08:50:15 +1300
+Chris Packham <chris.packham@alliedtelesis.co.nz> wrote:
 
-For the whole series:
+> These are no longer needed as the documentation build will automatically
+> add the cross references.
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> ---
+> 
+> Notes:
+>     It should be noted that kvmalloc() and kmem_cache_destroy() lack a
+>     kerneldoc header, a side-effect of this change is that the :c:func:
+>     fallback of making them bold is lost. This is probably best fixed by
+>     adding a kerneldoc header to their source.
+>     
+>     Changes in v2:
+>     - new
+> 
+>  Documentation/core-api/memory-allocation.rst | 49 +++++++++-----------
+>  1 file changed, 23 insertions(+), 26 deletions(-)
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+This one still doesn't apply; have you verified that you can apply the
+whole series to docs-next?
+
+Thanks,
+
+jon
