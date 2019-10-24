@@ -1,95 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F5AF7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 19:40:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 327717D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 19:50:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392718AbfJXTjj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 15:39:39 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:59706 "EHLO
-        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387655AbfJXTji (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 15:39:38 -0400
-Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 2883A891AA;
-        Fri, 25 Oct 2019 08:39:37 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1571945977;
-        bh=PZD/J8Qr7amc/LAo8dKJPS+luUzJRzJ/OETQD4LtPjg=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To;
-        b=A0TLMPDstcrt0k1fxldnyJb9gaoH4/Y4MTWD129lSLAduQ840uTqH5xrh2+xI0EpA
-         42eWouO5xeo0DaHfhgayoGvESMrAJSJAdmaXGd4Frd/a3EeTIKR3ombXAoJJp9HOq3
-         BMntGwNilQUpJ/ZWGHAgoaMX4VOwH3ayfru4e/1YKWlV1G33/8Pm1heAKmFxIJNdVp
-         doajcYt/b5tLQ9rdku176sXMcWxvth/HWkf7bi+heP6SWkRoxQOcaV86Anc0JwhXsh
-         0+Sl3Kho3q8A5o+IeMUt8QmO751kkv9bx29Te81p6grCUEwUoqE+e96c/a4IIoFtuv
-         zRl2Cmn1lwuWA==
-Received: from svr-chch-ex1.atlnz.lc (Not Verified[10.32.16.77]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5db1fdf80001>; Fri, 25 Oct 2019 08:39:36 +1300
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) with Microsoft SMTP Server
- (TLS) id 15.0.1156.6; Fri, 25 Oct 2019 08:39:36 +1300
-Received: from svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8]) by
- svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8%12]) with mapi id
- 15.00.1156.000; Fri, 25 Oct 2019 08:39:36 +1300
-From:   Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To:     "corbet@lwn.net" <corbet@lwn.net>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+        id S2437147AbfJXTt7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 15:49:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41720 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437127AbfJXTt7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 15:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=qOGOspI8Yp77UR3I2ZyXpP3n8duCcwhHM+XycuF+ITA=; b=gFfI4mK3vxFR5+ZE+1FRgfWgS
+        FH1exvuK7nhQwFyEXoIp3RvDO13yc8MYshtgiNUVBi2K6H7oDhq7OmT+DFhFITrtOjoKVxI3gF2ri
+        +NuOOVBlSKc7uozcSq13/kqJjdytV3VAEFl34iQsnuNWlpGTPJQn0zM0sna1HhFspZRgIbGLgV9A3
+        aKhvWgkdxFvKje4zG5YnSzV0YX420w27S2tfduEVgcL0OeSp7hmMDUuua5dlT6FD/nsuUSRA3Qc3n
+        rFValBFSHIEX80Mq0QfnAUIPG6lsAq3vaC6sMggXQXdVQvImi+si+ziv/UHqhoL9POO66D6+/KDD7
+        6IdUawPNA==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iNj7O-0006Sb-49; Thu, 24 Oct 2019 19:49:58 +0000
 Subject: Re: [PATCH v2 1/2] docs/core-api: memory-allocation: remove uses of
  c:func:
-Thread-Topic: [PATCH v2 1/2] docs/core-api: memory-allocation: remove uses of
- c:func:
-Thread-Index: AQHViR27xRtV35bqBUiFGlgZof0yOqdpPjqAgAAbJQA=
-Date:   Thu, 24 Oct 2019 19:39:36 +0000
-Message-ID: <d053a8dc8e08b5b3ff4f2f4ff5b7c6ce4c3e773f.camel@alliedtelesis.co.nz>
+To:     Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 References: <20191022211438.3938-1-chris.packham@alliedtelesis.co.nz>
-         <20191022211438.3938-2-chris.packham@alliedtelesis.co.nz>
-         <20191024120227.0bd1ae92@lwn.net>
-In-Reply-To: <20191024120227.0bd1ae92@lwn.net>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [2001:df5:b000:22:254c:490a:57ec:fd27]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <206A6BC4A272EA4496E9DBF8A2576C41@atlnz.lc>
-Content-Transfer-Encoding: base64
+ <20191022211438.3938-2-chris.packham@alliedtelesis.co.nz>
+ <20191024120227.0bd1ae92@lwn.net>
+ <d053a8dc8e08b5b3ff4f2f4ff5b7c6ce4c3e773f.camel@alliedtelesis.co.nz>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d5c282bd-42b7-7019-9964-30dc21ed0282@infradead.org>
+Date:   Thu, 24 Oct 2019 12:49:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <d053a8dc8e08b5b3ff4f2f4ff5b7c6ce4c3e773f.camel@alliedtelesis.co.nz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgSm9uLA0KDQpPbiBUaHUsIDIwMTktMTAtMjQgYXQgMTI6MDIgLTA2MDAsIEpvbmF0aGFuIENv
-cmJldCB3cm90ZToNCj4gT24gV2VkLCAyMyBPY3QgMjAxOSAxMDoxNDozNyArMTMwMA0KPiBDaHJp
-cyBQYWNraGFtIDxjaHJpcy5wYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+IHdyb3RlOg0KPiAN
-Cj4gPiBUaGVzZSBhcmUgbm8gbG9uZ2VyIG5lZWRlZCBhcyB0aGUgZG9jdW1lbnRhdGlvbiBidWls
-ZCB3aWxsIGF1dG9tYXRpY2FsbHkNCj4gPiBhZGQgdGhlIGNyb3NzIHJlZmVyZW5jZXMuDQo+ID4g
-DQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0
-ZWxlc2lzLmNvLm56Pg0KPiA+IC0tLQ0KPiA+IA0KPiA+IE5vdGVzOg0KPiA+ICAgICBJdCBzaG91
-bGQgYmUgbm90ZWQgdGhhdCBrdm1hbGxvYygpIGFuZCBrbWVtX2NhY2hlX2Rlc3Ryb3koKSBsYWNr
-IGENCj4gPiAgICAga2VybmVsZG9jIGhlYWRlciwgYSBzaWRlLWVmZmVjdCBvZiB0aGlzIGNoYW5n
-ZSBpcyB0aGF0IHRoZSA6YzpmdW5jOg0KPiA+ICAgICBmYWxsYmFjayBvZiBtYWtpbmcgdGhlbSBi
-b2xkIGlzIGxvc3QuIFRoaXMgaXMgcHJvYmFibHkgYmVzdCBmaXhlZCBieQ0KPiA+ICAgICBhZGRp
-bmcgYSBrZXJuZWxkb2MgaGVhZGVyIHRvIHRoZWlyIHNvdXJjZS4NCj4gPiAgICAgDQo+ID4gICAg
-IENoYW5nZXMgaW4gdjI6DQo+ID4gICAgIC0gbmV3DQo+ID4gDQo+ID4gIERvY3VtZW50YXRpb24v
-Y29yZS1hcGkvbWVtb3J5LWFsbG9jYXRpb24ucnN0IHwgNDkgKysrKysrKysrLS0tLS0tLS0tLS0N
-Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygtKQ0K
-PiANCj4gU28gSSBjYW4ndCBnZXQgdGhpcyBwYXRjaCB0byBhcHBseSwgYW5kIEkgY2FuJ3QgZXZl
-biBmaWd1cmUgb3V0IHdoeS4gIElmDQo+IHlvdSB0YWtlIHRoZSBwYXRjaCBmcm9tIHRoZSBsaXN0
-LCBjYW4geW91IGFwcGx5IGl0IHRvIGEgZG9jcy1uZXh0IChvcg0KPiBtYWlubGluZSkgYnJhbmNo
-Pw0KPiANCg0KSSB0aGluayBpdCBtaWdodCBiZSBkZXBlbmRlbnQgb24gbXkgb3RoZXIgdHlwbyBm
-aXggcGF0Y2hbMV0uIEknbGwNCnJlYmFzZSB0byB2NS40LXJjNCBhbmQgc2VuZCBhcyBhIHNlcmll
-cyBvZiAzLiBTb3JyeSBmb3IgdGhlIGhhc3NsZS4NCg0KLS0NClsxXSANCmh0dHBzOi8vbG9yZS5r
-ZXJuZWwub3JnL2xrbWwvMjAxOTEwMjEwMDM4MzMuMTU3MDQtMS1jaHJpcy5wYWNraGFtQGFsbGll
-ZHRlbGVzaXMuY28ubnovDQoNCg0KPiBUaGFua3MsDQo+IA0KPiBqb24NCg==
+On 10/24/19 12:39 PM, Chris Packham wrote:
+> Hi Jon,
+> 
+> On Thu, 2019-10-24 at 12:02 -0600, Jonathan Corbet wrote:
+>> On Wed, 23 Oct 2019 10:14:37 +1300
+>> Chris Packham <chris.packham@alliedtelesis.co.nz> wrote:
+>>
+>>> These are no longer needed as the documentation build will automatically
+>>> add the cross references.
+>>>
+>>> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+>>> ---
+>>>
+>>>  Documentation/core-api/memory-allocation.rst | 49 +++++++++-----------
+>>>  1 file changed, 23 insertions(+), 26 deletions(-)
+>>
+>> So I can't get this patch to apply, and I can't even figure out why.  If
+>> you take the patch from the list, can you apply it to a docs-next (or
+>> mainline) branch?
+>>
+> 
+> I think it might be dependent on my other typo fix patch[1]. I'll
+> rebase to v5.4-rc4 and send as a series of 3. Sorry for the hassle.
+> 
+> --
+> [1] 
+> https://lore.kernel.org/lkml/20191021003833.15704-1-chris.packham@alliedtelesis.co.nz/
+> 
+> 
+>> Thanks,
+>>
+>> jon
+
+patch tells me:
+patch: **** malformed patch at line 84: -:c:func:`kmem_cache_destroy`.
+
+-- 
+~Randy
+
