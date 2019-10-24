@@ -3,86 +3,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C93A57D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 08:48:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5B097D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Oct 2019 08:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730442AbfJXIsD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 04:48:03 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:34267 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730201AbfJXIsB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 04:48:01 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iNYmk-0003b1-Qz; Thu, 24 Oct 2019 10:47:58 +0200
-Message-ID: <1971768470f06ad1a051b44ed0041de6550964b8.camel@pengutronix.de>
-Subject: Re: [PATCH] reset: fix kernel-doc warnings
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Date:   Thu, 24 Oct 2019 10:47:58 +0200
-In-Reply-To: <6e166445-2a3d-dd4d-22ea-3ab77d3d3b11@infradead.org>
-References: <6e166445-2a3d-dd4d-22ea-3ab77d3d3b11@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        id S1730201AbfJXIuS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Oct 2019 04:50:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51128 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729514AbfJXIuS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Oct 2019 04:50:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E726EB087;
+        Thu, 24 Oct 2019 08:50:15 +0000 (UTC)
+Date:   Thu, 24 Oct 2019 10:50:14 +0200
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] cdrom: factor out common open_for_* code
+Message-ID: <20191024085014.GF938@kitsune.suse.cz>
+References: <cover.1571834862.git.msuchanek@suse.de>
+ <da032629db4a770a5f98ff400b91b44873cbdf46.1571834862.git.msuchanek@suse.de>
+ <20191024021958.GA11485@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191024021958.GA11485@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
-
-thank you for the fixes.
-
-On Tue, 2019-10-22 at 20:57 -0700, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
+On Wed, Oct 23, 2019 at 07:19:58PM -0700, Christoph Hellwig wrote:
+> >  static
+> > -int open_for_data(struct cdrom_device_info *cdi)
+> > +int open_for_common(struct cdrom_device_info *cdi, tracktype *tracks)
 > 
-> Fix kernel-doc warnings discovered in the reset controller API chapter.
-> Fixes these warnings:
+> Please fix the coding style.  static never should be on a line of its
+> own..
+
+That's fine.
+
 > 
-> ./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
-> ./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
-> ./drivers/reset/core.c:838: warning: Function parameter or member 'node' not described in 'of_reset_control_get_count'
-> ./include/linux/reset-controller.h:45: warning: Function parameter or member 'con_id' not described in 'reset_control_lookup'
-> ./drivers/reset/core.c:86: warning: Excess function parameter 'flags' description in 'of_reset_simple_xlate'
-> ./drivers/reset/core.c:830: warning: Incorrect use of kernel-doc format:  * of_reset_control_get_count - Count number of resets available with a device
+> >  			} else {
+> >  				cd_dbg(CD_OPEN, "bummer. this drive can't close the tray.\n");
+> > -				ret=-ENOMEDIUM;
+> > -				goto clean_up_and_return;
+> > +				return -ENOMEDIUM;
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/reset/core.c             |    4 ++--
->  include/linux/reset-controller.h |    4 ++--
-[...]
-> @@ -7,7 +7,7 @@
->  struct reset_controller_dev;
->  
->  /**
-> - * struct reset_control_ops
-> + * struct reset_control_ops - reset controller driver callbacks
->   *
->   * @reset: for self-deasserting resets, does all necessary
->   *         things to reset the device
+> Can you revert the polarity of the if opening the block before and
+> return early for the -ENOMEDIUM case to save on leven of indentation?
 
-This is all that remains when I rebase onto reset/fixes. Ok to apply
-this and change the commit message to:
+Then I will get complaints I do unrelated changes and it's hard to
+review. The code gets removed later anyway.
 
-  reset: fix reset_control_ops kerneldoc comment
+Thanks
 
-  Add a missing short description to the reset_control_ops
-  documentation.
-
-?
-
-regards
-Philipp
-
+Michal
