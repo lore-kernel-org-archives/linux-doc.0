@@ -3,27 +3,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 102867D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:08:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A6B07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:09:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503502AbfJYLIv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 07:08:51 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:55460 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503225AbfJYLIt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 07:08:49 -0400
+        id S2503275AbfJYLIr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 07:08:47 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:36576 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2503139AbfJYLIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 07:08:47 -0400
 Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id Hn8b2100H5USYZQ01n8b1k; Fri, 25 Oct 2019 13:08:46 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id Hn8b210045USYZQ01n8bm6; Fri, 25 Oct 2019 13:08:46 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iNxSN-0003rD-Co; Fri, 25 Oct 2019 13:08:35 +0200
+        id 1iNxSM-0003rD-VJ; Fri, 25 Oct 2019 13:08:34 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iNw6A-0006mu-Kc; Fri, 25 Oct 2019 11:41:34 +0200
+        id 1iNw6A-0006n4-NF; Fri, 25 Oct 2019 11:41:34 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,9 +39,9 @@ Cc:     linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
         linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/7] mac80211: Use debugfs_create_xul() helper
-Date:   Fri, 25 Oct 2019 11:41:25 +0200
-Message-Id: <20191025094130.26033-3-geert+renesas@glider.be>
+Subject: [PATCH v2 5/7] mmc: atmel-mci: Remove superfluous cast in debugfs_create_u32() call
+Date:   Fri, 25 Oct 2019 11:41:28 +0200
+Message-Id: <20191025094130.26033-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191025094130.26033-1-geert+renesas@glider.be>
 References: <20191025094130.26033-1-geert+renesas@glider.be>
@@ -50,52 +50,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the new debugfs_create_xul() helper instead of open-coding the same
-operation.
+"atmel_mci.state" is an enum, which is compatible with u32, so there is
+no need to cast its address, preventing further compiler checks.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
 v2:
-  - No changes.
+  - Add Acked-by.
 ---
- net/mac80211/debugfs_sta.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ drivers/mmc/host/atmel-mci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/mac80211/debugfs_sta.c b/net/mac80211/debugfs_sta.c
-index c8ad20c28c438dab..ca34dcdac8c0bd4d 100644
---- a/net/mac80211/debugfs_sta.c
-+++ b/net/mac80211/debugfs_sta.c
-@@ -928,12 +928,7 @@ STA_OPS(he_capa);
- 		sta->debugfs_dir, sta, &sta_ ##name## _ops);
+diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
+index ef2eb9e7c75a32a1..34c992d875298932 100644
+--- a/drivers/mmc/host/atmel-mci.c
++++ b/drivers/mmc/host/atmel-mci.c
+@@ -583,7 +583,7 @@ static void atmci_init_debugfs(struct atmel_mci_slot *slot)
  
- #define DEBUGFS_ADD_COUNTER(name, field)				\
--	if (sizeof(sta->field) == sizeof(u32))				\
--		debugfs_create_u32(#name, 0400, sta->debugfs_dir,	\
--			(u32 *) &sta->field);				\
--	else								\
--		debugfs_create_u64(#name, 0400, sta->debugfs_dir,	\
--			(u64 *) &sta->field);
-+	debugfs_create_ulong(#name, 0400, sta->debugfs_dir, &sta->field);
- 
- void ieee80211_sta_debugfs_add(struct sta_info *sta)
- {
-@@ -978,14 +973,8 @@ void ieee80211_sta_debugfs_add(struct sta_info *sta)
- 				    NL80211_EXT_FEATURE_AIRTIME_FAIRNESS))
- 		DEBUGFS_ADD(airtime);
- 
--	if (sizeof(sta->driver_buffered_tids) == sizeof(u32))
--		debugfs_create_x32("driver_buffered_tids", 0400,
--				   sta->debugfs_dir,
--				   (u32 *)&sta->driver_buffered_tids);
--	else
--		debugfs_create_x64("driver_buffered_tids", 0400,
--				   sta->debugfs_dir,
--				   (u64 *)&sta->driver_buffered_tids);
-+	debugfs_create_xul("driver_buffered_tids", 0400, sta->debugfs_dir,
-+			   &sta->driver_buffered_tids);
- 
- 	drv_sta_add_debugfs(local, sdata, &sta->sta, sta->debugfs_dir);
- }
+ 	debugfs_create_file("regs", S_IRUSR, root, host, &atmci_regs_fops);
+ 	debugfs_create_file("req", S_IRUSR, root, slot, &atmci_req_fops);
+-	debugfs_create_u32("state", S_IRUSR, root, (u32 *)&host->state);
++	debugfs_create_u32("state", S_IRUSR, root, &host->state);
+ 	debugfs_create_xul("pending_events", S_IRUSR, root,
+ 			   &host->pending_events);
+ 	debugfs_create_xul("completed_events", S_IRUSR, root,
 -- 
 2.17.1
 
