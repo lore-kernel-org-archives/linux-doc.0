@@ -3,83 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4624D7D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:11:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9DEB97D919
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439592AbfJYLKo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 07:10:44 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:34284 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502681AbfJYLIp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 07:08:45 -0400
-Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id Hn8b2100B5USYZQ01n8bdK; Fri, 25 Oct 2019 13:08:43 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iNxSN-0003rD-9j; Fri, 25 Oct 2019 13:08:35 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iNw6A-0006mw-LI; Fri, 25 Oct 2019 11:41:34 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 3/7] net: caif: Fix debugfs on 64-bit platforms
-Date:   Fri, 25 Oct 2019 11:41:26 +0200
-Message-Id: <20191025094130.26033-4-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191025094130.26033-1-geert+renesas@glider.be>
-References: <20191025094130.26033-1-geert+renesas@glider.be>
+        id S2409261AbfJYLVv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 07:21:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56812 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726352AbfJYLVv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Oct 2019 07:21:51 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 396CDB227;
+        Fri, 25 Oct 2019 11:21:49 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     linux-scsi@vger.kernel.org
+Cc:     Michal Suchanek <msuchanek@suse.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Ewan D. Milne" <emilne@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3 1/7] cdrom: add poll_event_interruptible
+Date:   Fri, 25 Oct 2019 13:21:38 +0200
+Message-Id: <0a5ab9c86120851692aaa4390ee85ab9b2f86a8a.1572002144.git.msuchanek@suse.de>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1572002144.git.msuchanek@suse.de>
+References: <cover.1572002144.git.msuchanek@suse.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"ser_device.state" is "unsigned long", i.e. 32-bit or 64-bit, depending
-on the platform.  Hence casting its address to "u32 *", and calling
-debugfs_create_x32() breaks operation on 64-bit platforms.
+Add convenience macro for polling an event that does not have a
+waitqueue.
 
-Fix this by using the new debugfs_create_xul() helper instead.
-
-Fixes: 9b27105b4a44c54b ("net-caif-driver: add CAIF serial driver (ldisc)")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
-v2:
-  - No changes.
----
- drivers/net/caif/caif_serial.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/cdrom/cdrom.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
-index 40b079162804fb0c..bd40b114d6cd7214 100644
---- a/drivers/net/caif/caif_serial.c
-+++ b/drivers/net/caif/caif_serial.c
-@@ -102,8 +102,8 @@ static inline void debugfs_init(struct ser_device *ser, struct tty_struct *tty)
- 	debugfs_create_blob("last_rx_msg", 0400, ser->debugfs_tty_dir,
- 			    &ser->rx_blob);
+diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+index ac42ae4651ce..2ad6b73482fe 100644
+--- a/drivers/cdrom/cdrom.c
++++ b/drivers/cdrom/cdrom.c
+@@ -282,10 +282,24 @@
+ #include <linux/fcntl.h>
+ #include <linux/blkdev.h>
+ #include <linux/times.h>
++#include <linux/delay.h>
+ #include <linux/uaccess.h>
++#include <linux/sched/signal.h>
+ #include <scsi/scsi_common.h>
+ #include <scsi/scsi_request.h>
  
--	debugfs_create_x32("ser_state", 0400, ser->debugfs_tty_dir,
--			   (u32 *)&ser->state);
-+	debugfs_create_xul("ser_state", 0400, ser->debugfs_tty_dir,
-+			   &ser->state);
- 
- 	debugfs_create_x8("tty_status", 0400, ser->debugfs_tty_dir,
- 			  &ser->tty_status);
++#define poll_event_interruptible(event, interval) ({ \
++	int ret = 0; \
++	while (!(event)) { \
++		if (signal_pending(current)) { \
++			ret = -ERESTARTSYS; \
++			break; \
++		} \
++		msleep_interruptible(interval); \
++	} \
++	ret; \
++})
++
+ /* used to tell the module to turn on full debugging messages */
+ static bool debug;
+ /* default compatibility mode */
 -- 
-2.17.1
+2.23.0
 
