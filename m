@@ -1,65 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 765097D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 15:57:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BE3627D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 18:23:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388846AbfJYP5O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 11:57:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:42634 "EHLO foss.arm.com"
+        id S1730712AbfJYSX0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 14:23:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33464 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388136AbfJYP5O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Oct 2019 11:57:14 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C30B328;
-        Fri, 25 Oct 2019 08:57:13 -0700 (PDT)
-Received: from C02TF0J2HF1T.local (C02TF0J2HF1T.cambridge.arm.com [10.1.26.186])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78F003F71A;
-        Fri, 25 Oct 2019 08:57:10 -0700 (PDT)
-Date:   Fri, 25 Oct 2019 16:57:08 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Steven Price <steven.price@arm.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Suzuki K Pouloze <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>
-Subject: Re: [PATCH v7 10/10] arm64: Retrieve stolen time as paravirtualized
- guest
-Message-ID: <20191025155708.GB999@C02TF0J2HF1T.local>
-References: <20191021152823.14882-1-steven.price@arm.com>
- <20191021152823.14882-11-steven.price@arm.com>
+        id S1727978AbfJYSX0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Oct 2019 14:23:26 -0400
+Received: from localhost (unknown [104.132.0.81])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 04A8321D7F;
+        Fri, 25 Oct 2019 18:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572027806;
+        bh=lLUWKlQSw6cbzfOx3ssw4CYUi+NPKxNn4RqhHEiesBU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ucTsJj1G3pBPc/qY/XwGEJUUh6jlAWOHfUj3edhnIoMnHpchOhy1PrE7ozqZTNFii
+         JTGEvWlaWo4sxjaoyB07fYuu+AZCqVvtdgm1tOJNpypBYY6GN3yLkYtSxNkllWAr2X
+         pVWj/FbNRXHX87yF94rTpuuwbWIJprwsOSpzNBN4=
+Date:   Fri, 25 Oct 2019 11:23:25 -0700
+From:   Jaegeuk Kim <jaegeuk@kernel.org>
+To:     Chao Yu <yuchao0@huawei.com>
+Cc:     Hridya Valsaraju <hridya@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH 1/2] f2fs: delete duplicate information on sysfs nodes
+Message-ID: <20191025182325.GC24183@jaegeuk-macbookpro.roam.corp.google.com>
+References: <20191023214821.107615-1-hridya@google.com>
+ <edc52873-b40d-5047-dba0-d693548eb16d@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191021152823.14882-11-steven.price@arm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <edc52873-b40d-5047-dba0-d693548eb16d@huawei.com>
+User-Agent: Mutt/1.8.2 (2017-04-18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 04:28:23PM +0100, Steven Price wrote:
-> Enable paravirtualization features when running under a hypervisor
-> supporting the PV_TIME_ST hypercall.
+On 10/24, Chao Yu wrote:
+> On 2019/10/24 5:48, Hridya Valsaraju wrote:
+> > This patch merges the sysfs node documentation present in
+> > Documentation/filesystems/f2fs.txt and
+> > Documentation/ABI/testing/sysfs-fs-f2fs
+> > and deletes the duplicate information from
+> > Documentation/filesystems/f2fs.txt. This is to prevent having to update
+> > both files when a new sysfs node is added for f2fs.
+> > The patch also makes minor formatting changes to
+> > Documentation/ABI/testing/sysfs-fs-f2fs.
 > 
-> For each (v)CPU, we ask the hypervisor for the location of a shared
-> page which the hypervisor will use to report stolen time to us. We set
-> pv_time_ops to the stolen time function which simply reads the stolen
-> value from the shared page for a VCPU. We guarantee single-copy
-> atomicity using READ_ONCE which means we can also read the stolen
-> time for another VCPU than the currently running one while it is
-> potentially being updated by the hypervisor.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
+> Jaegeuk, any particular reason to add duplicated description on f2fs.txt previously?
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Not at all, thus, I asked Hridya to consolidate them. :P
+
+> 
+> Thanks,
