@@ -1,190 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44EC07D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 09:00:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D45D7D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 09:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726124AbfJYJAX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 05:00:23 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:36311 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392171AbfJYJAX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 05:00:23 -0400
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tip-bot2@linutronix.de>)
-        id 1iNvRw-0003GO-UW; Fri, 25 Oct 2019 11:00:01 +0200
-Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 6E9AE1C0086;
-        Fri, 25 Oct 2019 11:00:00 +0200 (CEST)
-Date:   Fri, 25 Oct 2019 09:00:00 -0000
-From:   "tip-bot2 for Borislav Petkov" <tip-bot2@linutronix.de>
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: x86/asm] x86/ftrace: Get rid of function_hook
-Cc:     Borislav Petkov <bp@suse.de>, Jiri Slaby <jslaby@suse.cz>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>
-In-Reply-To: <20191018124800.0a7006bb@gandalf.local.home>
-References: <20191018124800.0a7006bb@gandalf.local.home>
+        id S2393304AbfJYJmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 05:42:23 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:43918 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2393261AbfJYJmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 05:42:22 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9P9fFW7024039;
+        Fri, 25 Oct 2019 11:42:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=RPoKrF7AEx817/OL2i41RS5qsNRlWR+xIJ3AH01ejFY=;
+ b=pfsPbadakRJV5PyG6pRbA2K2NermqenA9qN6oXX6bptKViweoSp/VjN+QV081EWnRw6w
+ Jte0Y9xn3Dknfl062yqM7DvVN4bDr2/XsNVvrsOxG8d2isoCPNjp9A4uVJiKPgNqoz8h
+ ZgRqSBFeqZevTD8M/Ps0UldPO52xFlhSsYjaZfVTMmzjjOi4yjgab8kXUXy02iZpM2Bw
+ 26LKNZt8C7sRrnBTowaJB61uX5yWWShLTGFHHJ0QS/pgK/s9RXwuzRURzbb0M6I59WCL
+ UKMgI4cHN/7ccJupJ4qTOEvgPrikqw4dD4V25yabvrZ9kKXPIxARYgdmYgIAHwfwoa0Q tQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2vt9s4exhj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 25 Oct 2019 11:42:08 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 74850100039;
+        Fri, 25 Oct 2019 11:42:06 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 65A392BF6A3;
+        Fri, 25 Oct 2019 11:42:06 +0200 (CEST)
+Received: from lmecxl0912.lme.st.com (10.75.127.44) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 25 Oct
+ 2019 11:42:05 +0200
+Subject: Re: [PATCH] Documentation: add link to stm32mp157 docs
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Gerald BAEZA <gerald.baeza@st.com>
+CC:     "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <1566908347-92201-1-git-send-email-gerald.baeza@st.com>
+ <20190827074825.64a28e88@lwn.net>
+ <5257eff7-418b-8e94-1ced-30718dd3f5dc@st.com>
+ <8d097a0486e94257952600bf6d20975d@SFHDAG5NODE1.st.com>
+ <20191007093208.757554b0@lwn.net>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <433bfc27-14cd-cf19-8460-7fd5230aaa55@st.com>
+Date:   Fri, 25 Oct 2019 11:42:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Message-ID: <157199400012.29376.15138755769283504073.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191007093208.757554b0@lwn.net>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-25_05:2019-10-23,2019-10-25 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following commit has been merged into the x86/asm branch of tip:
+Hi Jonathan
 
-Commit-ID:     0f42c1ad44d437f75b840b572376fd538fbb9643
-Gitweb:        https://git.kernel.org/tip/0f42c1ad44d437f75b840b572376fd538fbb9643
-Author:        Borislav Petkov <bp@suse.de>
-AuthorDate:    Mon, 21 Oct 2019 17:18:23 +02:00
-Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Fri, 25 Oct 2019 10:52:22 +02:00
+On 10/7/19 5:32 PM, Jonathan Corbet wrote:
+> On Thu, 3 Oct 2019 10:05:46 +0000
+> Gerald BAEZA <gerald.baeza@st.com> wrote:
+> 
+>>>> Adding the URL is a fine idea.  But you don't need the extra syntax to
+>>>> create a link if you're not going to actually make a link out of it.
+>>>> So I'd take the ".. _STM32MP157:" part out and life will be good.
+>>>>   
+>>>
+>>> We also did it for older stm32 product. Idea was to not have the "full"
+>>> address but just a shortcut of the link when html file is read. It maybe makes
+>>> no sens ? (if yes we will have to update older stm32 overview :))
+>>
+>> Example in https://www.kernel.org/doc/html/latest/arm/stm32/stm32h743-overview.html
+>>
+>> Do you agree to continue like this ?
+> 
+> If you actually use the reference then it's OK, I guess; in the posted
+> document that wasn't happening.  I still think it might be a bit more
+> straightforward to just put the URL; that will make the plain-text file a
+> little more readable.  In the end, though, it's up to you, go with
+> whichever you prefer.
+> 
 
-x86/ftrace: Get rid of function_hook
+Do you take this patch or do I have to add it in my STM32 pull request ?
 
-History lesson courtesy of Steve:
+Thanks in advance
+Alex
 
-"When ftrace first was introduced to the kernel, it used gcc's
-mcount profiling mechanism. The mcount mechanism would add a call to
-"mcount" at the start of every function but after the stack frame was
-set up. Later, in gcc 4.6, gcc introduced -mfentry, that would create a
-call to "__fentry__" instead of "mcount", before the stack frame was
-set up. In order to handle both cases, ftrace defined a macro
-"function_hook" that would be either "mcount" or "__fentry__" depending
-on which one was being used.
 
-The Linux kernel no longer supports the "mcount" method, thus there's
-no reason to keep the "function_hook" define around. Simply use
-"__fentry__", as there is no ambiguity to the name anymore."
-
-Drop it everywhere.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Acked-by: Jiri Slaby <jslaby@suse.cz>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: x86@kernel.org
-Link: http://lkml.kernel.org/r/20191018124800.0a7006bb@gandalf.local.home
----
- Documentation/asm-annotations.rst |  4 ++--
- arch/x86/kernel/ftrace_32.S       |  8 +++-----
- arch/x86/kernel/ftrace_64.S       | 13 ++++++-------
- 3 files changed, 11 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/asm-annotations.rst b/Documentation/asm-annotations.rst
-index 29ccd6e..f55c2bb 100644
---- a/Documentation/asm-annotations.rst
-+++ b/Documentation/asm-annotations.rst
-@@ -117,9 +117,9 @@ This section covers ``SYM_FUNC_*`` and ``SYM_CODE_*`` enumerated above.
-   So in most cases, developers should write something like in the following
-   example, having some asm instructions in between the macros, of course::
- 
--    SYM_FUNC_START(function_hook)
-+    SYM_FUNC_START(memset)
-         ... asm insns ...
--    SYM_FUNC_END(function_hook)
-+    SYM_FUNC_END(memset)
- 
-   In fact, this kind of annotation corresponds to the now deprecated ``ENTRY``
-   and ``ENDPROC`` macros.
-diff --git a/arch/x86/kernel/ftrace_32.S b/arch/x86/kernel/ftrace_32.S
-index 8ed1f5d..e8a9f83 100644
---- a/arch/x86/kernel/ftrace_32.S
-+++ b/arch/x86/kernel/ftrace_32.S
-@@ -12,18 +12,16 @@
- #include <asm/frame.h>
- #include <asm/asm-offsets.h>
- 
--# define function_hook	__fentry__
--EXPORT_SYMBOL(__fentry__)
--
- #ifdef CONFIG_FRAME_POINTER
- # define MCOUNT_FRAME			1	/* using frame = true  */
- #else
- # define MCOUNT_FRAME			0	/* using frame = false */
- #endif
- 
--SYM_FUNC_START(function_hook)
-+SYM_FUNC_START(__fentry__)
- 	ret
--SYM_FUNC_END(function_hook)
-+SYM_FUNC_END(__fentry__)
-+EXPORT_SYMBOL(__fentry__)
- 
- SYM_CODE_START(ftrace_caller)
- 
-diff --git a/arch/x86/kernel/ftrace_64.S b/arch/x86/kernel/ftrace_64.S
-index 69c8d1b..6e8961c 100644
---- a/arch/x86/kernel/ftrace_64.S
-+++ b/arch/x86/kernel/ftrace_64.S
-@@ -14,9 +14,6 @@
- 	.code64
- 	.section .entry.text, "ax"
- 
--# define function_hook	__fentry__
--EXPORT_SYMBOL(__fentry__)
--
- #ifdef CONFIG_FRAME_POINTER
- /* Save parent and function stack frames (rip and rbp) */
- #  define MCOUNT_FRAME_SIZE	(8+16*2)
-@@ -132,9 +129,10 @@ EXPORT_SYMBOL(__fentry__)
- 
- #ifdef CONFIG_DYNAMIC_FTRACE
- 
--SYM_FUNC_START(function_hook)
-+SYM_FUNC_START(__fentry__)
- 	retq
--SYM_FUNC_END(function_hook)
-+SYM_FUNC_END(__fentry__)
-+EXPORT_SYMBOL(__fentry__)
- 
- SYM_FUNC_START(ftrace_caller)
- 	/* save_mcount_regs fills in first two parameters */
-@@ -248,7 +246,7 @@ SYM_FUNC_END(ftrace_regs_caller)
- 
- #else /* ! CONFIG_DYNAMIC_FTRACE */
- 
--SYM_FUNC_START(function_hook)
-+SYM_FUNC_START(__fentry__)
- 	cmpq $ftrace_stub, ftrace_trace_function
- 	jnz trace
- 
-@@ -279,7 +277,8 @@ trace:
- 	restore_mcount_regs
- 
- 	jmp fgraph_trace
--SYM_FUNC_END(function_hook)
-+SYM_FUNC_END(__fentry__)
-+EXPORT_SYMBOL(__fentry__)
- #endif /* CONFIG_DYNAMIC_FTRACE */
- 
- #ifdef CONFIG_FUNCTION_GRAPH_TRACER
+> Thanks,
+> 
+> jon
+> 
