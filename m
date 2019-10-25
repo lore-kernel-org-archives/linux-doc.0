@@ -5,19 +5,19 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2263C7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:22:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 546A47DD29
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410310AbfJYLV6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 07:21:58 -0400
+        id S2410002AbfJYLVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 07:21:53 -0400
 Received: from mx2.suse.de ([195.135.220.15]:56864 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2410084AbfJYLV4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Oct 2019 07:21:56 -0400
+        id S1726352AbfJYLVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Oct 2019 07:21:53 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9B25CB227;
-        Fri, 25 Oct 2019 11:21:53 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id 02277B286;
+        Fri, 25 Oct 2019 11:21:51 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     linux-scsi@vger.kernel.org
 Cc:     Michal Suchanek <msuchanek@suse.de>,
@@ -38,9 +38,9 @@ Cc:     Michal Suchanek <msuchanek@suse.de>,
         Bart Van Assche <bvanassche@acm.org>,
         Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 6/7] scsi: blacklist: add VMware ESXi cdrom - broken tray emulation.
-Date:   Fri, 25 Oct 2019 13:21:43 +0200
-Message-Id: <bfcc558abc2d8c82a5853591dbf4426f3f4fc39c.1572002144.git.msuchanek@suse.de>
+Subject: [PATCH v3 3/7] cdrom: wait for the tray to close
+Date:   Fri, 25 Oct 2019 13:21:40 +0200
+Message-Id: <08202208cb9876d2d96454e6fdd89b022a0be978.1572002144.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1572002144.git.msuchanek@suse.de>
 References: <cover.1572002144.git.msuchanek@suse.de>
@@ -51,154 +51,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The WMware ESXi cdrom identifies itself as:
-sr 0:0:0:0: [sr0] scsi3-mmc drive: vendor: "NECVMWarVMware SATA CD001.00"
-model: "VMware SATA CD001.00"
-with the following get_capabilities print in sr.c:
-        sr_printk(KERN_INFO, cd,
-                  "scsi3-mmc drive: vendor: \"%s\" model: \"%s\"\n",
-                  cd->device->vendor, cd->device->model);
+The scsi command to close the tray only starts the motor and does not
+wait for the tray to close. Wait until the state chages from TRAY_OPEN
+so users do not race with the tray closing.
 
-The model looks like reliable identification while vendor does not.
+This looks like inifinte wait but unless the drive is broken it either
+closes the tray shortly or reports an error when it detects the tray is
+blocked. At worst the wait can be interrupted by the user.
 
-The drive claims to have a tray and claims to be able to close it.
-However, the UI has no notion of a tray - when medium is ejected it is
-dropped in the floor and the user must select a medium again before the
-drive can be re-loaded.  On the kernel side the tray_move call to close
-the tray succeeds but the drive state does not change as a result of the
-call.
-
-The drive does not in fact emulate the tray state. There are two ways to
-get the medium state. One is the SCSI status:
-
-Physical drive:
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present - tray open
-Raw sense data (in hex):
-        70 00 02 00 00 00 00 0a  00 00 00 00 3a 02 00 00
-        00 00
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present - tray closed
- Raw sense data (in hex):
-        70 00 02 00 00 00 00 0a  00 00 00 00 3a 01 00 00
-        00 00
-
-VMware ESXi:
-
-Fixed format, current; Sense key: Not Ready
-Additional sense: Medium not present
-  Info fld=0x0 [0]
- Raw sense data (in hex):
-        f0 00 02 00 00 00 00 0a  00 00 00 00 3a 00 00 00
-        00 00
-
-So the tray state is not reported here. Other is medium status which the
-kernel prefers if available. Adding a print here gives:
-
-cdrom: get_media_event success: code = 0, door_open = 1, medium_present = 0
-
-door_open is interpreted as open tray. This is fine so long as tray_move
-would close the tray when requested or report an error which never
-happens on VMware ESXi servers (5.5 and 6.5 tested).
-
-This is a popular virtualization platform so a workaround is worthwhile.
+Also wait for the drive to become ready once the tray closes.
 
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
-v2: new patch
-v3: change into a blacklist flag - needs testing it still matches, will
-try to patch qemu to provide same ID string
+v2:
+ - check drive_status exists before using it
+ - rename tray_close -> cdrom_tray_close
+ - also wait for drive to become ready after tray closes
+ - do not wait in cdrom_ioctl_closetray
 ---
- drivers/scsi/scsi_devinfo.c | 15 +++++++++------
- drivers/scsi/sr.c           |  6 ++++++
- include/scsi/scsi_devinfo.h |  7 ++++++-
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ drivers/cdrom/cdrom.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
-index df14597752ec..f5f51ec527aa 100644
---- a/drivers/scsi/scsi_devinfo.c
-+++ b/drivers/scsi/scsi_devinfo.c
-@@ -252,6 +252,7 @@ static struct {
- 	{"TOSHIBA", "CD-ROM", NULL, BLIST_ISROM},
- 	{"Traxdata", "CDR4120", NULL, BLIST_NOLUN},	/* locks up */
- 	{"USB2.0", "SMARTMEDIA/XD", NULL, BLIST_FORCELUN | BLIST_INQUIRY_36},
-+	{"VMware", "VMware", NULL, BLIST_NO_MATCH_VENDOR | BLIST_NO_TRAY},
- 	{"WangDAT", "Model 2600", "01.7", BLIST_SELECT_NO_ATN},
- 	{"WangDAT", "Model 3200", "02.2", BLIST_SELECT_NO_ATN},
- 	{"WangDAT", "Model 1300", "02.4", BLIST_SELECT_NO_ATN},
-@@ -454,10 +455,11 @@ static struct scsi_dev_info_list *scsi_dev_info_list_find(const char *vendor,
- 			/*
- 			 * vendor strings must be an exact match
- 			 */
--			if (vmax != strnlen(devinfo->vendor,
--					    sizeof(devinfo->vendor)) ||
--			    memcmp(devinfo->vendor, vskip, vmax))
--				continue;
-+			if (!devinfo->flags & BLIST_NO_MATCH_VENDOR)
-+				if (vmax != strnlen(devinfo->vendor,
-+						    sizeof(devinfo->vendor)) ||
-+				    memcmp(devinfo->vendor, vskip, vmax))
-+					continue;
+diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+index 87db82489bf8..27f4fce22781 100644
+--- a/drivers/cdrom/cdrom.c
++++ b/drivers/cdrom/cdrom.c
+@@ -1045,6 +1045,18 @@ static void cdrom_count_tracks(struct cdrom_device_info *cdi, tracktype *tracks)
+ 	       tracks->cdi, tracks->xa);
+ }
  
- 			/*
- 			 * @model specifies the full string, and
-@@ -468,8 +470,9 @@ static struct scsi_dev_info_list *scsi_dev_info_list_find(const char *vendor,
- 				continue;
- 			return devinfo;
- 		} else {
--			if (!memcmp(devinfo->vendor, vendor,
--				    sizeof(devinfo->vendor)) &&
-+			if ((!memcmp(devinfo->vendor, vendor,
-+				    sizeof(devinfo->vendor))
-+			       || (devinfo->flags & BLIST_NO_MATCH_VENDOR)) &&
- 			    !memcmp(devinfo->model, model,
- 				    sizeof(devinfo->model)))
- 				return devinfo;
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 4664fdf75c0f..07c319494bf4 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -58,6 +58,7 @@
- #include <scsi/scsi_eh.h>
- #include <scsi/scsi_host.h>
- #include <scsi/scsi_ioctl.h>	/* For the door lock/unlock commands */
-+#include <scsi/scsi_devinfo.h>
- 
- #include "scsi_logging.h"
- #include "sr.h"
-@@ -922,6 +923,11 @@ static void get_capabilities(struct scsi_cd *cd)
- 		  buffer[n + 4] & 0x20 ? "xa/form2 " : "",	/* can read xa/from2 */
- 		  buffer[n + 5] & 0x01 ? "cdda " : "", /* can read audio data */
- 		  loadmech[buffer[n + 6] >> 5]);
-+	if (cd->device->sdev_bflags & BLIST_NO_TRAY) {
-+		buffer[n + 6] &= ~(0xff << 5);
-+		sr_printk(KERN_INFO, cd,
-+			  "Tray emulation bug workaround: tray -> caddy\n");
-+	}
- 	if ((buffer[n + 6] >> 5) == 0)
- 		/* caddy drives can't close tray... */
- 		cd->cdi.mask |= CDC_CLOSE_TRAY;
-diff --git a/include/scsi/scsi_devinfo.h b/include/scsi/scsi_devinfo.h
-index 3fdb322d4c4b..17ea96936cc6 100644
---- a/include/scsi/scsi_devinfo.h
-+++ b/include/scsi/scsi_devinfo.h
-@@ -67,8 +67,13 @@
- #define BLIST_RETRY_ITF		((__force blist_flags_t)(1ULL << 32))
- /* Always retry ABORTED_COMMAND with ASC 0xc1 */
- #define BLIST_RETRY_ASC_C1	((__force blist_flags_t)(1ULL << 33))
-+/* Device reports to have a tray but it cannot be operated reliably */
-+#define BLIST_NO_TRAY		((__force blist_flags_t)(1ULL << 34))
-+/* Vendor string is bogus */
-+#define BLIST_NO_MATCH_VENDOR	((__force blist_flags_t)(1ULL << 35))
- 
--#define __BLIST_LAST_USED BLIST_RETRY_ASC_C1
++static int cdrom_tray_close(struct cdrom_device_info *cdi)
++{
++	int ret;
 +
-+#define __BLIST_LAST_USED BLIST_NO_MATCH_VENDOR
- 
- #define __BLIST_HIGH_UNUSED (~(__BLIST_LAST_USED | \
- 			       (__force blist_flags_t) \
++	ret = cdi->ops->tray_move(cdi, 0);
++	if (ret || !cdi->ops->drive_status)
++		return ret;
++
++	return poll_event_interruptible(CDS_TRAY_OPEN !=
++			cdi->ops->drive_status(cdi, CDSL_CURRENT), 500);
++}
++
+ static int open_for_common(struct cdrom_device_info *cdi, tracktype *tracks)
+ {
+ 	int ret;
+@@ -1062,7 +1074,9 @@ static int open_for_common(struct cdrom_device_info *cdi, tracktype *tracks)
+ 			if (CDROM_CAN(CDC_CLOSE_TRAY) &&
+ 			    cdi->options & CDO_AUTO_CLOSE) {
+ 				cd_dbg(CD_OPEN, "trying to close the tray\n");
+-				ret=cdo->tray_move(cdi,0);
++				ret = cdrom_tray_close(cdi);
++				if (ret == -ERESTARTSYS)
++					return ret;
+ 				if (ret) {
+ 					cd_dbg(CD_OPEN, "bummer. tried to close the tray but failed.\n");
+ 					/* Ignore the error from the low
+@@ -1085,6 +1099,15 @@ static int open_for_common(struct cdrom_device_info *cdi, tracktype *tracks)
+ 			}
+ 			cd_dbg(CD_OPEN, "the tray is now closed\n");
+ 		}
++		/* the door should be closed now, check for the disc */
++		if (ret == CDS_DRIVE_NOT_READY) {
++			int poll_res = poll_event_interruptible(
++				CDS_DRIVE_NOT_READY !=
++				(ret = cdo->drive_status(cdi, CDSL_CURRENT)),
++				500);
++			if (poll_res == -ERESTARTSYS)
++				return poll_res;
++		}
+ 		if (ret != CDS_DISC_OK)
+ 			return -ENOMEDIUM;
+ 	}
 -- 
 2.23.0
 
