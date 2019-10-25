@@ -1,73 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D2957D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 02:39:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36DC97D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 06:58:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390357AbfJYCjJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Oct 2019 22:39:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41440 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728416AbfJYCjJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Oct 2019 22:39:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sVL72IEnASGUFIun+CE72v94BxJjKdJ1NDcm7LwViSw=; b=dL3ngCsLRac53SA2YNqk+ZHSH5
-        /c+2xQjru/wv3o1K9PFWtdRc+BJWDT9L7Fm9GRiDQAvV8vRB45MnBE750UHjij1PwEf5tBSG6e2l6
-        /Tg+3oFNXeFsCALow9InwXg4UdprbSzoxL9wjNSbCrnjbAmFmgmARliJ5PP9Jt0n/5Lce4uHz3Jyw
-        CiSgP7n/s3xVb/xPTWpl4uXywI0WOyvsRKTMCzYi1sYssZ9fSAOxRKrbVtReTgSMO3XPm5SSlBtRO
-        lMWsTttycMSw5WoLF9mldBrdK2PQgzz2zsjxcXDnBh3fA7M1eejwnHXPwp/77YQh95XZdnWeMrKi/
-        ZuW4lIFA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iNpVM-0003py-Ui; Fri, 25 Oct 2019 02:39:08 +0000
-Date:   Thu, 24 Oct 2019 19:39:08 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-Cc:     Christoph Hellwig <hch@infradead.org>, linux-scsi@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] cdrom: factor out common open_for_* code
-Message-ID: <20191025023908.GB14108@infradead.org>
-References: <cover.1571834862.git.msuchanek@suse.de>
- <da032629db4a770a5f98ff400b91b44873cbdf46.1571834862.git.msuchanek@suse.de>
- <20191024021958.GA11485@infradead.org>
- <20191024085014.GF938@kitsune.suse.cz>
+        id S1733098AbfJYG6E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 02:58:04 -0400
+Received: from mga12.intel.com ([192.55.52.136]:27447 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727595AbfJYG6E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Oct 2019 02:58:04 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 23:58:03 -0700
+X-IronPort-AV: E=Sophos;i="5.68,227,1569308400"; 
+   d="scan'208";a="192446754"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 23:57:52 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Changbin Du <changbin.du@gmail.com>
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] kernel-doc: rename the kernel-doc directive 'functions' to 'identifiers'
+In-Reply-To: <20191024121940.1d6a64df@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191020131717.28990-1-changbin.du@gmail.com> <20191024121940.1d6a64df@lwn.net>
+Date:   Fri, 25 Oct 2019 09:57:48 +0300
+Message-ID: <87woctb9cj.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191024085014.GF938@kitsune.suse.cz>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 24, 2019 at 10:50:14AM +0200, Michal Suchánek wrote:
-> Then I will get complaints I do unrelated changes and it's hard to
-> review. The code gets removed later anyway.
+On Thu, 24 Oct 2019, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Sun, 20 Oct 2019 21:17:17 +0800
+> Changbin Du <changbin.du@gmail.com> wrote:
+>
+>> The 'functions' directive is not only for functions, but also works for
+>> structs/unions. So the name is misleading. This patch renames it to
+>> 'identifiers', which specific the functions/types to be included in
+>> documentation. We keep the old name as an alias of the new one before
+>> all documentation are updated.
+>> 
+>> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+>
+> So I think this is basically OK, but I have one more request...
+>
+> [...]
+>
+>> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+>> index 1159405cb920..0689f9c37f1e 100644
+>> --- a/Documentation/sphinx/kerneldoc.py
+>> +++ b/Documentation/sphinx/kerneldoc.py
+>> @@ -59,9 +59,10 @@ class KernelDocDirective(Directive):
+>>      optional_arguments = 4
+>>      option_spec = {
+>>          'doc': directives.unchanged_required,
+>> -        'functions': directives.unchanged,
+>>          'export': directives.unchanged,
+>>          'internal': directives.unchanged,
+>> +        'identifiers': directives.unchanged,
+>> +        'functions': directives.unchanged,  # alias of 'identifiers'
+>>      }
+>>      has_content = False
+>>  
+>> @@ -71,6 +72,7 @@ class KernelDocDirective(Directive):
+>>  
+>>          filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+>>          export_file_patterns = []
+>> +        identifiers = None
+>>  
+>>          # Tell sphinx of the dependency
+>>          env.note_dependency(os.path.abspath(filename))
+>> @@ -86,19 +88,22 @@ class KernelDocDirective(Directive):
+>>              export_file_patterns = str(self.options.get('internal')).split()
+>>          elif 'doc' in self.options:
+>>              cmd += ['-function', str(self.options.get('doc'))]
+>> +        elif 'identifiers' in self.options:
+>> +            identifiers = self.options.get('identifiers').split()
+>>          elif 'functions' in self.options:
+>> -            functions = self.options.get('functions').split()
+>> -            if functions:
+>> -                for f in functions:
+>> -                    cmd += ['-function', f]
+>> -            else:
+>> -                cmd += ['-no-doc-sections']
+>> +            identifiers = self.options.get('functions').split()
+>
+> Rather than do this, can you just change the elif line to read:
+>
+>     elif ('identifiers' in self.options) or ('functions' in self.options):
+>
+> ...then leave the rest of the code intact?  It keeps the logic together,
+> and avoids the confusing distinction between identifiers=='' and
+> identifiers==None .
 
-If you refactor you you pretty much have a card blanche for the
-refactored code and the direct surroundings.
+I think the problem is you still need to distinguish between the two for
+the get('functions') part.
+
+One option is to rename 'functions' to 'identifiers' in the above block,
+and put something like this above the whole if ladder (untested):
+
+        # backward compat
+        if 'functions' in self.options:
+            if 'identifiers' in self.options:
+                kernellog.warn(env.app, "fail")
+            else:
+                self.options.set('identifiers', self.options.get('functions'))
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
