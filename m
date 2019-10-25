@@ -5,189 +5,116 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2D2D7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:22:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC1687D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 11:52:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410235AbfJYLVy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 07:21:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56914 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2410162AbfJYLVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Oct 2019 07:21:53 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D4E01B294;
-        Fri, 25 Oct 2019 11:21:51 +0000 (UTC)
-From:   Michal Suchanek <msuchanek@suse.de>
-To:     linux-scsi@vger.kernel.org
-Cc:     Michal Suchanek <msuchanek@suse.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Ewan D. Milne" <emilne@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "J. Bruce Fields" <bfields@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 4/7] cdrom: export autoclose logic as a separate function
-Date:   Fri, 25 Oct 2019 13:21:41 +0200
-Message-Id: <f978b2dfe998e0ace660b1b871db42b3f53708d5.1572002144.git.msuchanek@suse.de>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1572002144.git.msuchanek@suse.de>
-References: <cover.1572002144.git.msuchanek@suse.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726463AbfJYLwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 07:52:40 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:40076 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727786AbfJYLwk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 07:52:40 -0400
+Received: from ramsan ([84.195.182.253])
+        by laurent.telenet-ops.be with bizsmtp
+        id Hnsc2100N5USYZQ01nsc2s; Fri, 25 Oct 2019 13:52:37 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iNy8y-0004EC-Fz; Fri, 25 Oct 2019 13:52:36 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iNy8y-0002VS-DX; Fri, 25 Oct 2019 13:52:36 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] kconfig: Wrap long "make help" text lines
+Date:   Fri, 25 Oct 2019 13:52:32 +0200
+Message-Id: <20191025115232.9592-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This allows the sr driver to call it without blocking other processes
-accessing the device. This solves a issue with process waiting in open()
-on broken drive to close the tray blocking out all access to the device,
-including nonblocking access to determine drive status.
+Some "make help" text lines extend beyond 80 characters.
+Wrap them before an opening parenthesis, or before 80 characters.
 
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2: new patch
-v3:
- - change IOCTL to export
- - fix the logic about reporting cdroms inability to close tray
----
- drivers/cdrom/cdrom.c | 87 +++++++++++++++++++++++++------------------
- include/linux/cdrom.h |  1 +
- 2 files changed, 52 insertions(+), 36 deletions(-)
+This is v2 of "[PATCH] kconfig: Wrap long "make help" text line for
+xenconfig ".
 
-diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-index 27f4fce22781..a494f44fcf1f 100644
---- a/drivers/cdrom/cdrom.c
-+++ b/drivers/cdrom/cdrom.c
-@@ -1070,46 +1070,16 @@ static int open_for_common(struct cdrom_device_info *cdi, tracktype *tracks)
- 		cd_dbg(CD_OPEN, "drive_status=%d\n", ret);
- 		if (ret == CDS_TRAY_OPEN) {
- 			cd_dbg(CD_OPEN, "the tray is open...\n");
--			/* can/may i close it? */
--			if (CDROM_CAN(CDC_CLOSE_TRAY) &&
--			    cdi->options & CDO_AUTO_CLOSE) {
--				cd_dbg(CD_OPEN, "trying to close the tray\n");
--				ret = cdrom_tray_close(cdi);
--				if (ret == -ERESTARTSYS)
--					return ret;
--				if (ret) {
--					cd_dbg(CD_OPEN, "bummer. tried to close the tray but failed.\n");
--					/* Ignore the error from the low
--					level driver.  We don't care why it
--					couldn't close the tray.  We only care 
--					that there is no disc in the drive, 
--					since that is the _REAL_ problem here.*/
--					return -ENOMEDIUM;
--				}
--			} else {
--				cd_dbg(CD_OPEN, "bummer. this drive can't close the tray.\n");
--				return -ENOMEDIUM;
--			}
--			/* Ok, the door should be closed now.. Check again */
--			ret = cdo->drive_status(cdi, CDSL_CURRENT);
--			if ((ret == CDS_NO_DISC) || (ret==CDS_TRAY_OPEN)) {
--				cd_dbg(CD_OPEN, "bummer. the tray is still not closed.\n");
--				cd_dbg(CD_OPEN, "tray might not contain a medium\n");
--				return -ENOMEDIUM;
--			}
--			cd_dbg(CD_OPEN, "the tray is now closed\n");
-+			return -ENOMEDIUM;
- 		}
--		/* the door should be closed now, check for the disc */
- 		if (ret == CDS_DRIVE_NOT_READY) {
--			int poll_res = poll_event_interruptible(
--				CDS_DRIVE_NOT_READY !=
--				(ret = cdo->drive_status(cdi, CDSL_CURRENT)),
--				500);
--			if (poll_res == -ERESTARTSYS)
--				return poll_res;
-+			cd_dbg(CD_OPEN, "the drive is not ready...\n");
-+			return -ENOMEDIUM;
- 		}
--		if (ret != CDS_DISC_OK)
-+		if (ret != CDS_DISC_OK) {
-+			cd_dbg(CD_OPEN, "drive returned status %i...\n", ret);
- 			return -ENOMEDIUM;
-+		}
- 	}
- 	cdrom_count_tracks(cdi, tracks);
- 	if (tracks->error == CDS_NO_DISC) {
-@@ -2351,6 +2321,51 @@ static int cdrom_ioctl_closetray(struct cdrom_device_info *cdi)
- 	return cdi->ops->tray_move(cdi, 0);
- }
+v2:
+  - Fix more recent offenders.
+---
+ Documentation/Makefile   | 6 ++++--
+ Makefile                 | 3 ++-
+ scripts/Makefile.package | 3 ++-
+ scripts/kconfig/Makefile | 3 ++-
+ 4 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508bc6a4..0c5185187dad0b68 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -128,8 +128,10 @@ dochelp:
+ 	@echo  '  pdfdocs         - PDF'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+-	@echo  '  linkcheckdocs   - check for broken external links (will connect to external hosts)'
+-	@echo  '  refcheckdocs    - check for references to non-existing files under Documentation'
++	@echo  '  linkcheckdocs   - check for broken external links'
++	@echo  '                    (will connect to external hosts)'
++	@echo  '  refcheckdocs    - check for references to non-existing files under'
++	@echo  '                    Documentation'
+ 	@echo  '  cleandocs       - clean all generated files'
+ 	@echo
+ 	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
+diff --git a/Makefile b/Makefile
+index 5475cdb6d57d4117..5a1ef8db2cec69f6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1523,7 +1523,8 @@ help:
+ 	@echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
+ 	@echo  '  make V=2   [targets] 2 => give reason for rebuild of target'
+ 	@echo  '  make O=dir [targets] Locate all output files in "dir", including .config'
+-	@echo  '  make C=1   [targets] Check re-compiled c source with $$CHECK (sparse by default)'
++	@echo  '  make C=1   [targets] Check re-compiled c source with $$CHECK'
++	@echo  '                       (sparse by default)'
+ 	@echo  '  make C=2   [targets] Force check of all c source with $$CHECK'
+ 	@echo  '  make RECORDMCOUNT_WARN=1 [targets] Warn about ignored mcount sections'
+ 	@echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3 where'
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 56eadcc48d46de54..ee9b368dfcf37736 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -146,7 +146,8 @@ help:
+ 	@echo '  binrpm-pkg          - Build only the binary kernel RPM package'
+ 	@echo '  deb-pkg             - Build both source and binary deb kernel packages'
+ 	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
+-	@echo '  snap-pkg            - Build only the binary kernel snap package (will connect to external hosts)'
++	@echo '  snap-pkg            - Build only the binary kernel snap package'
++	@echo '                        (will connect to external hosts)'
+ 	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
+ 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
+ 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index ef2f2336c46960df..a7d130b9306e8876 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -137,7 +137,8 @@ help:
+ 	@echo  '  olddefconfig	  - Same as oldconfig but sets new symbols to their'
+ 	@echo  '                    default value without prompting'
+ 	@echo  '  kvmconfig	  - Enable additional options for kvm guest kernel support'
+-	@echo  '  xenconfig       - Enable additional options for xen dom0 and guest kernel support'
++	@echo  '  xenconfig       - Enable additional options for xen dom0 and guest kernel'
++	@echo  '                    support'
+ 	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
+ 	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and pytest)'
  
-+int cdrom_autoclose(struct cdrom_device_info *cdi)
-+{
-+	const struct cdrom_device_ops *cdo = cdi->ops;
-+	int ret;
-+
-+	cd_dbg(CD_OPEN, "entering cdrom_autoclose\n");
-+	if (!cdo->drive_status)
-+		return -ENXIO;
-+
-+	ret = cdo->drive_status(cdi, CDSL_CURRENT);
-+	cd_dbg(CD_OPEN, "drive_status=%d\n", ret);
-+
-+	if (ret == CDS_TRAY_OPEN)
-+		if(CDROM_CAN(CDC_CLOSE_TRAY)) {
-+			if (!(cdi->options & CDO_AUTO_CLOSE))
-+				return -ENOMEDIUM;
-+			cd_dbg(CD_OPEN, "trying to close the tray...\n");
-+			ret = cdrom_tray_close(cdi);
-+			if (ret == -ERESTARTSYS)
-+				return ret;
-+			if (ret) {
-+				cd_dbg(CD_OPEN, "bummer. tried to close the tray but failed.\n");
-+				return -ENOMEDIUM;
-+			}
-+			ret = cdo->drive_status(cdi, CDSL_CURRENT);
-+		} else {
-+			cd_dbg(CD_OPEN, "bummer. this drive can't close the tray.\n");
-+			return -ENOMEDIUM;
-+		}
-+	if (ret == CDS_DRIVE_NOT_READY) {
-+		int poll_res;
-+
-+		cd_dbg(CD_OPEN, "waiting for drive to become ready...\n");
-+		poll_res = poll_event_interruptible(CDS_DRIVE_NOT_READY !=
-+			(ret = cdo->drive_status(cdi, CDSL_CURRENT)), 50);
-+		if (poll_res == -ERESTARTSYS)
-+			return poll_res;
-+	}
-+	if (ret != CDS_DISC_OK)
-+		return -ENOMEDIUM;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cdrom_autoclose);
-+
- static int cdrom_ioctl_eject_sw(struct cdrom_device_info *cdi,
- 		unsigned long arg)
- {
-diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
-index 528271c60018..ea0415ba9f9d 100644
---- a/include/linux/cdrom.h
-+++ b/include/linux/cdrom.h
-@@ -126,6 +126,7 @@ extern void init_cdrom_command(struct packet_command *cgc,
- 			       void *buffer, int len, int type);
- extern int cdrom_dummy_generic_packet(struct cdrom_device_info *cdi,
- 				      struct packet_command *cgc);
-+int cdrom_autoclose(struct cdrom_device_info *cdi);
- 
- /* The SCSI spec says there could be 256 slots. */
- #define CDROM_MAX_SLOTS	256
 -- 
-2.23.0
+2.17.1
 
