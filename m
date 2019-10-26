@@ -5,168 +5,72 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C63F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Oct 2019 20:26:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D8977D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 01:40:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728404AbfJYU0o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Oct 2019 16:26:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22810 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728378AbfJYU0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Oct 2019 16:26:44 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9PKQgXI117442
-        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2019 16:26:43 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2vv64eucby-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2019 16:26:43 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Fri, 25 Oct 2019 21:26:41 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 25 Oct 2019 21:26:38 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9PKQbYV43057426
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 25 Oct 2019 20:26:38 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DF2C511C050;
-        Fri, 25 Oct 2019 20:26:37 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 446F611C052;
-        Fri, 25 Oct 2019 20:26:37 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.205.37])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 25 Oct 2019 20:26:37 +0000 (GMT)
-Date:   Fri, 25 Oct 2019 23:26:35 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc:     corbet@lwn.net, willy@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] docs/core-api: memory-allocation: remove uses of
- c:func:
-References: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
- <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
+        id S1725955AbfJZBkJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Oct 2019 21:40:09 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:34232 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725899AbfJZBkJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Oct 2019 21:40:09 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id C28C73ADE1FA7A9539E2;
+        Sat, 26 Oct 2019 09:40:07 +0800 (CST)
+Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server (TLS) id 14.3.439.0; Sat, 26 Oct
+ 2019 09:40:03 +0800
+Subject: Re: [PATCH 1/2] f2fs: delete duplicate information on sysfs nodes
+To:     Jaegeuk Kim <jaegeuk@kernel.org>
+CC:     Hridya Valsaraju <hridya@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kernel-team@android.com>
+References: <20191023214821.107615-1-hridya@google.com>
+ <edc52873-b40d-5047-dba0-d693548eb16d@huawei.com>
+ <20191025182325.GC24183@jaegeuk-macbookpro.roam.corp.google.com>
+From:   Chao Yu <yuchao0@huawei.com>
+Message-ID: <6d09b590-053f-98ad-e628-2c352d989f01@huawei.com>
+Date:   Sat, 26 Oct 2019 09:40:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191024195016.11054-3-chris.packham@alliedtelesis.co.nz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19102520-0016-0000-0000-000002BDA562
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102520-0017-0000-0000-0000331EF0B4
-Message-Id: <20191025202634.GD8710@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-25_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910250187
+In-Reply-To: <20191025182325.GC24183@jaegeuk-macbookpro.roam.corp.google.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.134.22.195]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 08:50:15AM +1300, Chris Packham wrote:
-> These are no longer needed as the documentation build will automatically
-> add the cross references.
+On 2019/10/26 2:23, Jaegeuk Kim wrote:
+> On 10/24, Chao Yu wrote:
+>> On 2019/10/24 5:48, Hridya Valsaraju wrote:
+>>> This patch merges the sysfs node documentation present in
+>>> Documentation/filesystems/f2fs.txt and
+>>> Documentation/ABI/testing/sysfs-fs-f2fs
+>>> and deletes the duplicate information from
+>>> Documentation/filesystems/f2fs.txt. This is to prevent having to update
+>>> both files when a new sysfs node is added for f2fs.
+>>> The patch also makes minor formatting changes to
+>>> Documentation/ABI/testing/sysfs-fs-f2fs.
+>>
+>> Jaegeuk, any particular reason to add duplicated description on f2fs.txt previously?
 > 
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
-> 
-> Notes:
->     It should be noted that kvmalloc() and kmem_cache_destroy() lack a
->     kerneldoc header, a side-effect of this change is that the :c:func:
->     fallback of making them bold is lost. This is probably best fixed by
->     adding a kerneldoc header to their source.
+> Not at all, thus, I asked Hridya to consolidate them. :P
 
-You are more than welcome to add them ;-)
-     
->     Changes in v2:
->     - new
-> 
->  Documentation/core-api/memory-allocation.rst | 49 +++++++++-----------
->  1 file changed, 23 insertions(+), 26 deletions(-)
-> 
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index dcf851b4520f..e47d48655085 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -88,10 +88,10 @@ Selecting memory allocator
->  ==========================
->  
->  The most straightforward way to allocate memory is to use a function
-> -from the :c:func:`kmalloc` family. And, to be on the safe side it's
-> -best to use routines that set memory to zero, like
-> -:c:func:`kzalloc`. If you need to allocate memory for an array, there
-> -are :c:func:`kmalloc_array` and :c:func:`kcalloc` helpers.
-> +from the kmalloc() family. And, to be on the safe side it's best to use
-> +routines that set memory to zero, like kzalloc(). If you need to
-> +allocate memory for an array, there are kmalloc_array() and kcalloc()
-> +helpers.
->  
->  The maximal size of a chunk that can be allocated with `kmalloc` is
->  limited. The actual limit depends on the hardware and the kernel
-> @@ -102,29 +102,26 @@ The address of a chunk allocated with `kmalloc` is aligned to at least
->  ARCH_KMALLOC_MINALIGN bytes.  For sizes which are a power of two, the
->  alignment is also guaranteed to be at least the respective size.
->  
-> -For large allocations you can use :c:func:`vmalloc` and
-> -:c:func:`vzalloc`, or directly request pages from the page
-> -allocator. The memory allocated by `vmalloc` and related functions is
-> -not physically contiguous.
-> +For large allocations you can use vmalloc() and vzalloc(), or directly
-> +request pages from the page allocator. The memory allocated by `vmalloc`
-> +and related functions is not physically contiguous.
->  
->  If you are not sure whether the allocation size is too large for
-> -`kmalloc`, it is possible to use :c:func:`kvmalloc` and its
-> -derivatives. It will try to allocate memory with `kmalloc` and if the
-> -allocation fails it will be retried with `vmalloc`. There are
-> -restrictions on which GFP flags can be used with `kvmalloc`; please
-> -see :c:func:`kvmalloc_node` reference documentation. Note that
-> -`kvmalloc` may return memory that is not physically contiguous.
-> +`kmalloc`, it is possible to use kvmalloc() and its derivatives. It will
-> +try to allocate memory with `kmalloc` and if the allocation fails it
-> +will be retried with `vmalloc`. There are restrictions on which GFP
-> +flags can be used with `kvmalloc`; please see kvmalloc_node() reference
-> +documentation. Note that `kvmalloc` may return memory that is not
-> +physically contiguous.
->  
->  If you need to allocate many identical objects you can use the slab
-> -cache allocator. The cache should be set up with
-> -:c:func:`kmem_cache_create` or :c:func:`kmem_cache_create_usercopy`
-> -before it can be used. The second function should be used if a part of
-> -the cache might be copied to the userspace.  After the cache is
-> -created :c:func:`kmem_cache_alloc` and its convenience wrappers can
-> -allocate memory from that cache.
-> -
-> -When the allocated memory is no longer needed it must be freed. You
-> -can use :c:func:`kvfree` for the memory allocated with `kmalloc`,
-> -`vmalloc` and `kvmalloc`. The slab caches should be freed with
-> -:c:func:`kmem_cache_free`. And don't forget to destroy the cache with
-> -:c:func:`kmem_cache_destroy`.
-> +cache allocator. The cache should be set up with kmem_cache_create() or
-> +kmem_cache_create_usercopy() before it can be used. The second function
-> +should be used if a part of the cache might be copied to the userspace.
-> +After the cache is created kmem_cache_alloc() and its convenience
-> +wrappers can allocate memory from that cache.
-> +
-> +When the allocated memory is no longer needed it must be freed. You can
-> +use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
-> +`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
-> +don't forget to destroy the cache with kmem_cache_destroy().
-> -- 
-> 2.23.0
-> 
+Alright...
 
--- 
-Sincerely yours,
-Mike.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
+Thanks,
+
+> 
+>>
+>> Thanks,
+> .
+> 
