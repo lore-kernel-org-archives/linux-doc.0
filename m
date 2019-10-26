@@ -6,96 +6,95 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31FDD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 19:55:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 051077D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 20:26:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbfJZTz6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Oct 2019 15:55:58 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46684 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726342AbfJZTz6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Oct 2019 15:55:58 -0400
-Received: by mail-pl1-f196.google.com with SMTP id q21so3227690plr.13;
-        Sat, 26 Oct 2019 12:55:57 -0700 (PDT)
+        id S1726442AbfJZU0u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 26 Oct 2019 16:26:50 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34647 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbfJZU0u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Oct 2019 16:26:50 -0400
+Received: by mail-lf1-f67.google.com with SMTP id f5so4825007lfp.1
+        for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2019 13:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=MkzEl1t+VJR5731togH5vyJCMp2aTYclRaMcZX4VR7E=;
-        b=UBTyUjfFK287qETQ4VMBRVH6vXR7FWahDWc5pkpEDGYFHXyiunLExsxXWD5H4wLZN5
-         xwe5VbomkdfWyW5U58W18HuqWavutsdsw5Z8jhpuwQZ6czGxKq1UlsSv2g8ljEW4wc2g
-         uV40v5ajElxcpLLO5CGcY+kP2WRAFviU7OL0dIZhHeqPNl3qNY93C0VTXfTyoWLXv7bo
-         WDxzDAKaDTEFD9lfFmdawcHvsPBW6csqBxJMsGZ2jjKn9lpfC4G4+L1iCkBWrHbkH10Z
-         NoL16ONLqTOyC/QLU14asB0KxieoT8Nx+xpqQiMQ+WFyg5499KL3PhoLiY8Q+1dLMaSI
-         QOIA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CqibNRa8NCQJCIfLIcBtLYRS0eXP+x++0ovWjgGaG+8=;
+        b=vDGYxLzsoRGqDQ0r1aCbvVS1Y1PCWQTNTChLokd4dvNzm5aurPiNgKjDVQ6mTv5H/q
+         WMhhgRVScd3iK49iH+Ibj0R/XN8Z+18ZjZqK6tP27EeWCU1jWdEM3f5c6j/iwZ7kWbbq
+         DmRsgjThcLGXso9z3J4NNyHuZbkIHe8KkfpRZ/1xznRwrZLTV8rP077nQ1kqvc/rqK5y
+         Z6o7/SKWkGkppLm9S5501xYx7ChqnCt5FzDZIxoHJoQ36cvVpyxy+8AKVj+JJsDC69Ml
+         gFUeEBg2y7VQQFmdCoE/sSHCkhUoZFSqeBSjzJeuTAu7Z0Y7Kw4Db9jN9KSeeFoxUTEf
+         tPSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=MkzEl1t+VJR5731togH5vyJCMp2aTYclRaMcZX4VR7E=;
-        b=pf036SUD8ipqdSuYKnX8z7tQA06hnyg3aZOCZGWTa0UBwVkgpaIsfP1nEUwkZLthCX
-         YBZr2zwjUMfY37VnAeA2i4tqQnO86Ey0LUY/nuBAjFXgsN6UIPyoWb3MAcvkeiVa7I+e
-         vjceRbHmu07fHO0QBtD6WsLA6iRn5A7/fSwmk8R1z0zVa72TKI734NdHi4Wldhi0FsAw
-         182l76qlO10wCqgzRmgDLIL3qMRLsZlGIZoY1FwtFVUp1sEaiGC6CGY34hT5K6irb7Wk
-         API9eE4jZtnf0dbns9Xi0F1LjMWwRukbbMQ4rQtSdJ0xwQagWKKwemkis1uADflfM4o/
-         j7iA==
-X-Gm-Message-State: APjAAAUmH5QX+V9Ns9RdE4+Ke/KrSfPTjrq2VvWeuLJ3+dtqOyruvuEk
-        q+Ppf7xDd45KXad/VdTCYlk=
-X-Google-Smtp-Source: APXvYqxyJ468qOGZECo7TokvLMGUdvPKsmcOplGcvbCIhCpRij+550PPQaNMoZxjKAG7lyZ06JTcDg==
-X-Received: by 2002:a17:902:8305:: with SMTP id bd5mr11043039plb.184.1572119757257;
-        Sat, 26 Oct 2019 12:55:57 -0700 (PDT)
-Received: from aap-ubuntu (c-73-202-31-227.hsd1.ca.comcast.net. [73.202.31.227])
-        by smtp.gmail.com with ESMTPSA id d14sm7513407pfh.36.2019.10.26.12.55.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 26 Oct 2019 12:55:56 -0700 (PDT)
-Date:   Sat, 26 Oct 2019 12:55:54 -0700
-From:   Andre Azevedo <andre.azevedo@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andre Azevedo <andre.azevedo@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org
-Subject: [PATCH] Documentation/scheduler: fix links in sched-stats
-Message-ID: <20191026195554.GA30903@aap-ubuntu>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CqibNRa8NCQJCIfLIcBtLYRS0eXP+x++0ovWjgGaG+8=;
+        b=B9hoiw7e1kT94x93MRu0BvMgLAuxwD75lkGarvhbeGD6y359d0QxaK8lxXhYB6A5bS
+         blK5nhN20EY23WS1WFaMRwjf9CWMIGoHqC3uFzvkILBh+wYhztg6XZ15do3E+4xWuiGX
+         bepjvBOQqSO966IcvlIq8Kv0Mf9gucc2CR3s2yu/2jEJ16WNcZts7wHzttIR2MPoAKks
+         NutZBIW/bKV2QXP4wATwMhtuisPodawnXo7y8a2grMfz3d3rpMQe7lwTngxQhjith0AK
+         sda4shz/I3idTlEmUMMbTUSfhGfKo5Wu2i68Ww2PUXd8AaWfZtnhnPoLmkGWBD2d7k98
+         eoMQ==
+X-Gm-Message-State: APjAAAV52mH50cv15EFimJYdZ9J5tqEZQ8KLYQBOjdL5u/2EAT/Qp4s7
+        UFWF6psG7pgA0ZuWGuNVyruLnhg8ZpQ=
+X-Google-Smtp-Source: APXvYqzicRBbGQCjfXCf+Ju4S2YgCq5lZM7QCriuqaYImw08oK6ax5oEo+g5bBNxpM47V9yWgIG4jw==
+X-Received: by 2002:a19:c204:: with SMTP id l4mr5781952lfc.163.1572121606803;
+        Sat, 26 Oct 2019 13:26:46 -0700 (PDT)
+Received: from localhost.localdomain (h-98-128-228-153.NA.cust.bahnhof.se. [98.128.228.153])
+        by smtp.gmail.com with ESMTPSA id d27sm3477053lfb.3.2019.10.26.13.26.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Oct 2019 13:26:46 -0700 (PDT)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     mike.leach@linaro.org
+Cc:     corbet@lwn.net, coresight@lists.linaro.org,
+        gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, mathieu.poirier@linaro.org,
+        suzuki.poulose@arm.com,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] coresight: etm4x: Fix BMVAL misuse
+Date:   Sat, 26 Oct 2019 22:26:33 +0200
+Message-Id: <20191026202633.835854-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190829213321.4092-4-mike.leach@linaro.org>
+References: <20190829213321.4092-4-mike.leach@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The rain.com domain recently moved to pdxhosts.com, making the scheduler
-documentation point to broken links. Fix the links in the scheduler
-documentation.
+The second argument should be the lsb and the third argument should be
+the msb.
 
-CC: Rick Lindsley <ricklind@linux.vnet.ibm.com>
-Signed-off-by: Andre Azevedo <andre.azevedo@gmail.com>
+Fixes: 62ab9bce3bc7 ("coresight: etm4x: Add missing API to set EL match on address filters")
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
- Documentation/scheduler/sched-stats.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Spotted while trying to get compile time checking that the order of the
+arguments to GENMASK macro is correct (BMVAL uses GENMASK).
 
-diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
-index 0cb0aa714545..dd9b99a025f7 100644
---- a/Documentation/scheduler/sched-stats.rst
-+++ b/Documentation/scheduler/sched-stats.rst
-@@ -28,7 +28,7 @@ of these will need to start with a baseline observation and then calculate
- the change in the counters at each subsequent observation.  A perl script
- which does this for many of the fields is available at
+I have only compile tested the patch.
+
+ drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+index 3fc12ac44270..ce41482431f9 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+@@ -1246,7 +1246,7 @@ static ssize_t addr_exlevel_s_ns_show(struct device *dev,
  
--    http://eaglet.rain.com/rick/linux/schedstat/
-+    http://eaglet.pdxhosts.com/rick/linux/schedstat/
- 
- Note that any such script will necessarily be version-specific, as the main
- reason to change versions is changes in the output format.  For those wishing
-@@ -164,4 +164,4 @@ report on how well a particular process or set of processes is faring
- under the scheduler's policies.  A simple version of such a program is
- available at
- 
--    http://eaglet.rain.com/rick/linux/schedstat/v12/latency.c
-+    http://eaglet.pdxhosts.com/rick/linux/schedstat/v12/latency.c
+ 	spin_lock(&drvdata->spinlock);
+ 	idx = config->addr_idx;
+-	val = BMVAL(config->addr_acc[idx], 14, 8);
++	val = BMVAL(config->addr_acc[idx], 8, 14);
+ 	spin_unlock(&drvdata->spinlock);
+ 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
+ }
 -- 
-2.17.1
+2.23.0
 
