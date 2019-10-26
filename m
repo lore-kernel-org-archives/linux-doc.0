@@ -1,117 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 879AF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 15:12:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31FDD7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 19:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfJZPML (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Oct 2019 11:12:11 -0400
-Received: from mail-eopbgr10060.outbound.protection.outlook.com ([40.107.1.60]:24834
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726162AbfJZPMK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 26 Oct 2019 11:12:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z7lLn+kUtushUtWUpZZWx8EhIKyWQo+En2hef6x0p2X7i7QUfE1Sggi6YAENhYOt3LrtWne44QpQtN+AzGrYlGQF10JKDRLNar8TzKFxkdQU2gs9MLsy/UY8HAUcMJFVdJ/eVRdDokxdgcxf64npxtM4IEfC85bUKXVjLFXR9Z29LCtNC+Z4EvklxnxZTqwZiZPiNO/Y8r2GOwewjKApoTo2npkdvmimwzdI3nJGrlwv0Z+mnDoOWjOeQFda9x99Iw+rU4LqlaSh2VFbxQvUnwyJxW7N5Pyeqgo7fUuVJJOyniVPdc2sm+LcQJ0fPKdLnYkEmBTGO9e0kSXSKrqh/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aCGbLO7M6fnOvT13Ot9PQtWTiv8UzSSO1FBMKLX37h8=;
- b=Z+MFUA+xtWfBW1VTQ8rdU2jwXfCaMGKqTX/Pu7piqzrqn3mHjUXVDOlrFWNghpTmix/w+WO5KoECdeYypj/mARRuo9QYUQeZHCREToeWm70M5HgRgMtOJUsIKqeRtcnK/zWydG5LiooJl98kf/BXPePSuZrQMyCLXpSfOC6PZo/QWuoH2MiHOcoCOdeDav2YTsKHsCPf/wV853nQN9cM0oOPCUhe2L61cfrVloAn4S9u4gzRkRQPZxitNG0aWEa3ZYcNzW652JE/OxdL6OQspYqyA0eMHE6tLpKX2PwaqF5XNzcbEHDS9B/oYZzOvYzhEvcI/mJDiHufATBp3nFLrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aCGbLO7M6fnOvT13Ot9PQtWTiv8UzSSO1FBMKLX37h8=;
- b=XJ8vQZt9CRDOuKhSXGT7vn7pUk4tmggLgjN20myXmMzNLwn9FuSDbnHGpvZOqM076PT5JFV2OjwpQBeiGCJEbWSrKJWQyUZVZpxU8xOzn96jxf42QLxGRHqTed94w+mZ7t8MR1KMQfo2CRHRIhNkHWx38lBzeSTGOlsxmLPiZmo=
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com (10.175.20.18) by
- VI1PR0402MB3518.eurprd04.prod.outlook.com (52.134.2.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Sat, 26 Oct 2019 15:12:05 +0000
-Received: from VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::d0fc:54d4:86f4:b1d2]) by VI1PR0402MB2863.eurprd04.prod.outlook.com
- ([fe80::d0fc:54d4:86f4:b1d2%7]) with mapi id 15.20.2367.031; Sat, 26 Oct 2019
- 15:12:05 +0000
-From:   Stefan-gabriel Mirea <stefan-gabriel.mirea@nxp.com>
-To:     Shawn Guo <shawnguo@kernel.org>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>, Leo Li <leoyang.li@nxp.com>,
-        "jslaby@suse.com" <jslaby@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v7 0/5] Add initial support for S32V234-EVB
-Thread-Topic: [PATCH v7 0/5] Add initial support for S32V234-EVB
-Thread-Index: AQHVjA+6DRrQT5jBKkWqimjcJbupCg==
-Date:   Sat, 26 Oct 2019 15:12:05 +0000
-Message-ID: <VI1PR0402MB2863F1A4B2C0A389429BB50ADF640@VI1PR0402MB2863.eurprd04.prod.outlook.com>
-References: <1571230107-8493-1-git-send-email-stefan-gabriel.mirea@nxp.com>
- <20191016131728.GA56859@kroah.com>
- <VI1PR0402MB28630943CC0820644D26919CDF920@VI1PR0402MB2863.eurprd04.prod.outlook.com>
- <20191026132657.GO14401@dragon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=stefan-gabriel.mirea@nxp.com; 
-x-originating-ip: [188.25.212.111]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: debecda2-60ef-4446-bb89-08d75a26dcef
-x-ms-traffictypediagnostic: VI1PR0402MB3518:|VI1PR0402MB3518:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR0402MB35184F26A9A0598324CC79FCDF640@VI1PR0402MB3518.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 0202D21D2F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(366004)(376002)(396003)(39860400002)(346002)(199004)(189003)(86362001)(76176011)(102836004)(7696005)(186003)(76116006)(66066001)(66476007)(6506007)(53546011)(25786009)(3846002)(6116002)(81166006)(81156014)(446003)(486006)(476003)(66946007)(256004)(14454004)(8936002)(8676002)(26005)(64756008)(66446008)(478600001)(305945005)(7736002)(74316002)(6246003)(7416002)(55016002)(54906003)(99286004)(6436002)(33656002)(229853002)(66556008)(316002)(6916009)(52536014)(5660300002)(2906002)(71190400001)(71200400001)(9686003)(14444005)(4326008)(4744005);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3518;H:VI1PR0402MB2863.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wamUzJ5DhxLcyprgtoCemlklTFvMU0yzIEDwDfVzXUcOcOGCRsIlGG0+Ua4a5hIgGsQpcbQoQfOVKIZm6uP8JgxLub5i/vtwbw3rYxgrHE4+IoWtiGTch3ujc25Qs72ikOe1KMZB/CegoLcvLzOhG8vxhhr5UY12kHkxYlwgxbmoEGG3aKfLY726uRjvhnFAXl4QQ7gAmI2hROiIgPqovoxxhEBULnu1xFtkHtCbiCHjuz+Nd9g2/+EI3mXsf+v97JUHjlWoLQA8yOVyOpW45AOBy8MRCfJAjR/3bmAAH0JMBSc1k2GCWlvv94774xDwpmcGLGCfHb/ldqnydNdRKDkotbJCzQTtcOusPbgnUxVKmH2RSeqwxc/r3Wmb0cvDV1qXOs0VDXBS6W0cf6p8zmg/uEayzs9mk0Jn3UQC1UTOcXs7q9LNbqCPQXFawcDK
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726350AbfJZTz6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 26 Oct 2019 15:55:58 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46684 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726342AbfJZTz6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Oct 2019 15:55:58 -0400
+Received: by mail-pl1-f196.google.com with SMTP id q21so3227690plr.13;
+        Sat, 26 Oct 2019 12:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=MkzEl1t+VJR5731togH5vyJCMp2aTYclRaMcZX4VR7E=;
+        b=UBTyUjfFK287qETQ4VMBRVH6vXR7FWahDWc5pkpEDGYFHXyiunLExsxXWD5H4wLZN5
+         xwe5VbomkdfWyW5U58W18HuqWavutsdsw5Z8jhpuwQZ6czGxKq1UlsSv2g8ljEW4wc2g
+         uV40v5ajElxcpLLO5CGcY+kP2WRAFviU7OL0dIZhHeqPNl3qNY93C0VTXfTyoWLXv7bo
+         WDxzDAKaDTEFD9lfFmdawcHvsPBW6csqBxJMsGZ2jjKn9lpfC4G4+L1iCkBWrHbkH10Z
+         NoL16ONLqTOyC/QLU14asB0KxieoT8Nx+xpqQiMQ+WFyg5499KL3PhoLiY8Q+1dLMaSI
+         QOIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=MkzEl1t+VJR5731togH5vyJCMp2aTYclRaMcZX4VR7E=;
+        b=pf036SUD8ipqdSuYKnX8z7tQA06hnyg3aZOCZGWTa0UBwVkgpaIsfP1nEUwkZLthCX
+         YBZr2zwjUMfY37VnAeA2i4tqQnO86Ey0LUY/nuBAjFXgsN6UIPyoWb3MAcvkeiVa7I+e
+         vjceRbHmu07fHO0QBtD6WsLA6iRn5A7/fSwmk8R1z0zVa72TKI734NdHi4Wldhi0FsAw
+         182l76qlO10wCqgzRmgDLIL3qMRLsZlGIZoY1FwtFVUp1sEaiGC6CGY34hT5K6irb7Wk
+         API9eE4jZtnf0dbns9Xi0F1LjMWwRukbbMQ4rQtSdJ0xwQagWKKwemkis1uADflfM4o/
+         j7iA==
+X-Gm-Message-State: APjAAAUmH5QX+V9Ns9RdE4+Ke/KrSfPTjrq2VvWeuLJ3+dtqOyruvuEk
+        q+Ppf7xDd45KXad/VdTCYlk=
+X-Google-Smtp-Source: APXvYqxyJ468qOGZECo7TokvLMGUdvPKsmcOplGcvbCIhCpRij+550PPQaNMoZxjKAG7lyZ06JTcDg==
+X-Received: by 2002:a17:902:8305:: with SMTP id bd5mr11043039plb.184.1572119757257;
+        Sat, 26 Oct 2019 12:55:57 -0700 (PDT)
+Received: from aap-ubuntu (c-73-202-31-227.hsd1.ca.comcast.net. [73.202.31.227])
+        by smtp.gmail.com with ESMTPSA id d14sm7513407pfh.36.2019.10.26.12.55.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 26 Oct 2019 12:55:56 -0700 (PDT)
+Date:   Sat, 26 Oct 2019 12:55:54 -0700
+From:   Andre Azevedo <andre.azevedo@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andre Azevedo <andre.azevedo@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org
+Subject: [PATCH] Documentation/scheduler: fix links in sched-stats
+Message-ID: <20191026195554.GA30903@aap-ubuntu>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: debecda2-60ef-4446-bb89-08d75a26dcef
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2019 15:12:05.6900
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /51MeCl4L0wAAFwRwqAjBKAlg/qBsA4OGnk42yRKpqSnGSzHF4W2we9DOUMOOZ/wQo/GiCYI0bfRHrh38EOpNl9MlLClaTe5YjkUo0rMEog=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3518
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Shawn,=0A=
-=0A=
-On 10/26/2019 4:27 PM, Shawn Guo wrote:=0A=
-> =0A=
-> Sorry, no.  It happens occasionally that non-fixing patches are merged=0A=
-> during -rc time, mostly because they are supposed to land mainline=0A=
-> during merge window, but missed the window for some reason, like=0A=
-> subsystem maintainers did not send pull request to Linus in time.=0A=
-> Also the patches are only taken in early -rc like rc2.=0A=
-> =0A=
-=0A=
-Okay, thank you for your clarification!=0A=
-=0A=
-Regards,=0A=
-Stefan=0A=
+The rain.com domain recently moved to pdxhosts.com, making the scheduler
+documentation point to broken links. Fix the links in the scheduler
+documentation.
+
+CC: Rick Lindsley <ricklind@linux.vnet.ibm.com>
+Signed-off-by: Andre Azevedo <andre.azevedo@gmail.com>
+---
+ Documentation/scheduler/sched-stats.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
+index 0cb0aa714545..dd9b99a025f7 100644
+--- a/Documentation/scheduler/sched-stats.rst
++++ b/Documentation/scheduler/sched-stats.rst
+@@ -28,7 +28,7 @@ of these will need to start with a baseline observation and then calculate
+ the change in the counters at each subsequent observation.  A perl script
+ which does this for many of the fields is available at
+ 
+-    http://eaglet.rain.com/rick/linux/schedstat/
++    http://eaglet.pdxhosts.com/rick/linux/schedstat/
+ 
+ Note that any such script will necessarily be version-specific, as the main
+ reason to change versions is changes in the output format.  For those wishing
+@@ -164,4 +164,4 @@ report on how well a particular process or set of processes is faring
+ under the scheduler's policies.  A simple version of such a program is
+ available at
+ 
+-    http://eaglet.rain.com/rick/linux/schedstat/v12/latency.c
++    http://eaglet.pdxhosts.com/rick/linux/schedstat/v12/latency.c
+-- 
+2.17.1
+
