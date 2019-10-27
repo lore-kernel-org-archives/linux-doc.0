@@ -4,97 +4,102 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 051077D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Oct 2019 20:26:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 735307D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 Oct 2019 07:25:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfJZU0u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Oct 2019 16:26:50 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34647 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbfJZU0u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Oct 2019 16:26:50 -0400
-Received: by mail-lf1-f67.google.com with SMTP id f5so4825007lfp.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2019 13:26:47 -0700 (PDT)
+        id S1726079AbfJ0HZF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 27 Oct 2019 03:25:05 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:44777 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbfJ0HZE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Oct 2019 03:25:04 -0400
+Received: by mail-yb1-f195.google.com with SMTP id w5so2693365ybs.11;
+        Sun, 27 Oct 2019 00:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CqibNRa8NCQJCIfLIcBtLYRS0eXP+x++0ovWjgGaG+8=;
-        b=vDGYxLzsoRGqDQ0r1aCbvVS1Y1PCWQTNTChLokd4dvNzm5aurPiNgKjDVQ6mTv5H/q
-         WMhhgRVScd3iK49iH+Ibj0R/XN8Z+18ZjZqK6tP27EeWCU1jWdEM3f5c6j/iwZ7kWbbq
-         DmRsgjThcLGXso9z3J4NNyHuZbkIHe8KkfpRZ/1xznRwrZLTV8rP077nQ1kqvc/rqK5y
-         Z6o7/SKWkGkppLm9S5501xYx7ChqnCt5FzDZIxoHJoQ36cvVpyxy+8AKVj+JJsDC69Ml
-         gFUeEBg2y7VQQFmdCoE/sSHCkhUoZFSqeBSjzJeuTAu7Z0Y7Kw4Db9jN9KSeeFoxUTEf
-         tPSg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0++xSMUHY1b2ynJOJZbzscLl9Hvq7kC0p6PzVZGLpt8=;
+        b=O7JXupgbuixvTKzsH5NgxAZt1uCox/bzNuYd8FmjhOkZSEBiqrZP9TyI8XMRDHt4c7
+         KSUx8PND/3A/JrM78+k0s9EIqkx+svlB/VhbU7bfKQcQ2ZfMZk02v8RqvOn0mhMd8pBB
+         wEp/qHZWWlBFPBuHvsWi4DVOPWWh53lMxXAG1aHJPl6TnhvCag8NYO9qBm2VR4KMSjMc
+         st8PaeaJbLQyEZdWA7hvwZNQd/Lg9Xfs+kcVzxRR/nHjAoKwI3u7Oz1FBj0WXRqH1N76
+         WvFwl6tSakaOAV5D6g42Rtf+EDfFAvUFX7GO9ONyGpaROSEQZkgcIm2g5Ld5Wugx+ocA
+         CrQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CqibNRa8NCQJCIfLIcBtLYRS0eXP+x++0ovWjgGaG+8=;
-        b=B9hoiw7e1kT94x93MRu0BvMgLAuxwD75lkGarvhbeGD6y359d0QxaK8lxXhYB6A5bS
-         blK5nhN20EY23WS1WFaMRwjf9CWMIGoHqC3uFzvkILBh+wYhztg6XZ15do3E+4xWuiGX
-         bepjvBOQqSO966IcvlIq8Kv0Mf9gucc2CR3s2yu/2jEJ16WNcZts7wHzttIR2MPoAKks
-         NutZBIW/bKV2QXP4wATwMhtuisPodawnXo7y8a2grMfz3d3rpMQe7lwTngxQhjith0AK
-         sda4shz/I3idTlEmUMMbTUSfhGfKo5Wu2i68Ww2PUXd8AaWfZtnhnPoLmkGWBD2d7k98
-         eoMQ==
-X-Gm-Message-State: APjAAAV52mH50cv15EFimJYdZ9J5tqEZQ8KLYQBOjdL5u/2EAT/Qp4s7
-        UFWF6psG7pgA0ZuWGuNVyruLnhg8ZpQ=
-X-Google-Smtp-Source: APXvYqzicRBbGQCjfXCf+Ju4S2YgCq5lZM7QCriuqaYImw08oK6ax5oEo+g5bBNxpM47V9yWgIG4jw==
-X-Received: by 2002:a19:c204:: with SMTP id l4mr5781952lfc.163.1572121606803;
-        Sat, 26 Oct 2019 13:26:46 -0700 (PDT)
-Received: from localhost.localdomain (h-98-128-228-153.NA.cust.bahnhof.se. [98.128.228.153])
-        by smtp.gmail.com with ESMTPSA id d27sm3477053lfb.3.2019.10.26.13.26.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2019 13:26:46 -0700 (PDT)
-From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To:     mike.leach@linaro.org
-Cc:     corbet@lwn.net, coresight@lists.linaro.org,
-        gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, mathieu.poirier@linaro.org,
-        suzuki.poulose@arm.com,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] coresight: etm4x: Fix BMVAL misuse
-Date:   Sat, 26 Oct 2019 22:26:33 +0200
-Message-Id: <20191026202633.835854-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190829213321.4092-4-mike.leach@linaro.org>
-References: <20190829213321.4092-4-mike.leach@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0++xSMUHY1b2ynJOJZbzscLl9Hvq7kC0p6PzVZGLpt8=;
+        b=hhFetzG3xD7tpZQuw8Q6AETDtFCOsZO3XAyWWudIrgXrAyVj9z1qaG7wCdXb/Sg6++
+         U70QSR6+APHldMNDKERdEinvCnPYf7sbqIZdLABefE9K68YVJstvaEIoi0Dxd8BBmQGw
+         UytKn4JX9M1l2n1vgC67r3f6h+q1FrlF/9ObWuRAnC0LV1aciLDgQlqEWBHXrQrOmk30
+         2lu3urtHMYTDQyTiGN1hN8beJqpzlWdToVJdaIjWrkYmPDkhva/157DWw74j6MDyB5Iy
+         0bybfxBmkXx6Xwny0nZttokldvB6pOZvCVbY5pCtx0U/4KRhZipGtlygybb68uhH6Gox
+         NN6Q==
+X-Gm-Message-State: APjAAAWkOUnE+7VXvPFfyT76DgJRON9mIMxjqpw4gz0SJhW6Clssgmp5
+        sK7enp6hj3Y/GOhKGT2jouB4q2lxz+Qz7919s1U=
+X-Google-Smtp-Source: APXvYqyYhy4CH/Z7Nlg815OS/2z91s5DQvSZba10DJ00L5dfJlIE3NIpMH0a/LD0StWNrh9UDnpk8alGvxMvThdluKM=
+X-Received: by 2002:a25:1444:: with SMTP id 65mr9107267ybu.132.1572161103775;
+ Sun, 27 Oct 2019 00:25:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191022204453.97058-1-salyzyn@android.com> <20191022204453.97058-3-salyzyn@android.com>
+ <CAJfpegsCzwXF5fD1oA+XMrPQ7u8URsXRGOOHkB=ON7fLnd_gFQ@mail.gmail.com>
+In-Reply-To: <CAJfpegsCzwXF5fD1oA+XMrPQ7u8URsXRGOOHkB=ON7fLnd_gFQ@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Sun, 27 Oct 2019 09:24:52 +0200
+Message-ID: <CAOQ4uxh_K=p7z+qbkjSf_+hhVsw9xBuNc61dYnpkHFVUfxJaCw@mail.gmail.com>
+Subject: Re: [PATCH v14 2/5] overlayfs: check CAP_DAC_READ_SEARCH before
+ issuing exportfs_decode_fh
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The second argument should be the lsb and the third argument should be
-the msb.
++ ebiederm and nfsd folks
 
-Fixes: 62ab9bce3bc7 ("coresight: etm4x: Add missing API to set EL match on address filters")
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
-Spotted while trying to get compile time checking that the order of the
-arguments to GENMASK macro is correct (BMVAL uses GENMASK).
+On Wed, Oct 23, 2019 at 11:08 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>
+>
+>
+> On Tue, Oct 22, 2019 at 10:46 PM Mark Salyzyn <salyzyn@android.com> wrote:
+> >
+> > Assumption never checked, should fail if the mounter creds are not
+> > sufficient.
+>
+> A bit more explanation would be nice.  Like a pointer to the explanation given in the open_by_handle_at(2) code where this check was presumably taken from.
+>
 
-I have only compile tested the patch.
+Well, it's not that simple (TM).
+If you are considering unprivileged overlay mounts, then this should be
+ns_capable() check, even though open_by_handle_at(2) does not
+currently allow userspace nfsd to decode file handles.
 
- drivers/hwtracing/coresight/coresight-etm4x-sysfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Unlike open_by_handle_at(2), overlayfs (currently) never exposes file
+data via decoded origin fh. AFAIK, it only exposes the origin st_ino
+st_dev and some nlink related accounting.
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-index 3fc12ac44270..ce41482431f9 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-@@ -1246,7 +1246,7 @@ static ssize_t addr_exlevel_s_ns_show(struct device *dev,
- 
- 	spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
--	val = BMVAL(config->addr_acc[idx], 14, 8);
-+	val = BMVAL(config->addr_acc[idx], 8, 14);
- 	spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
--- 
-2.23.0
+I have been trying to understand from code if nfsd exports are allowed
+from non privileged containers and couldn't figure it out (?).
+If non privileged container is allowed to export nosubtreecheck export
+then non privileged container root can already decode file handles...
 
+Thanks,
+Amir.
