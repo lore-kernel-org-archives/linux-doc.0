@@ -1,540 +1,204 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 441E47E2D1
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 21:08:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D8807D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 21:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728282AbfJ1VHr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 17:07:47 -0400
-Received: from mga11.intel.com ([192.55.52.93]:6161 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390224AbfJ1VHb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Oct 2019 17:07:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 14:07:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,241,1569308400"; 
-   d="scan'208";a="224760235"
-Received: from shrehore-mobl1.ti.intel.com (HELO localhost) ([10.251.82.5])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2019 14:07:20 -0700
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     akpm@linux-foundation.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
-        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
-        cedric.xing@intel.com, puiterwijk@redhat.com,
-        linux-doc@vger.kernel.org,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: [PATCH v23 23/24] docs: x86/sgx: Document microarchitecture
-Date:   Mon, 28 Oct 2019 23:03:23 +0200
-Message-Id: <20191028210324.12475-24-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191028210324.12475-1-jarkko.sakkinen@linux.intel.com>
-References: <20191028210324.12475-1-jarkko.sakkinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=a
-Content-Transfer-Encoding: 8bit
+        id S1731866AbfJ1VoI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 17:44:08 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42230 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730592AbfJ1VoI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 17:44:08 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 21so7836831pfj.9;
+        Mon, 28 Oct 2019 14:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=drfMRjPwU02ASI4D8UPPiRYEp0GQr7RmuUSXzOJ1M7c=;
+        b=Na/pRE3OIbMvOU5Volk0BYefi+jBZUfF4rzcDoqfVGzl4K2s0TVoZleBlNrJ5KuDID
+         8TQrHao/fBEgJOQyZHPyC16TNS/P4HeERIeymPCbIWVXPvfDfIJdh4f//ixuZSnE1My5
+         QAcgtngX9mQQReaS+9pAeOA0zkn9swASNPOPY5j1zMf11hp9c25f3VhowuSsYXvc1QOS
+         5DiEfLzgKfgpzDOV03RGhHff8lha/yzPDlkvrHxvZ0VAKGLp6++h5ih7KD32BBmjGDOF
+         47na+6tLBIey1QH9Qnbwub48NVQM7WhRVIv47FK/Wi6PpDHt/SGahMy+DGke+igaesJM
+         XZXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=drfMRjPwU02ASI4D8UPPiRYEp0GQr7RmuUSXzOJ1M7c=;
+        b=krwFqVzPQZJeBd09gGqA3Dms1BOKGiolEeu/J8fAqICrhYSfpFy5GJBV/4CusYXbWO
+         dEWZYty0c/JYDcVeP45TwnkLGyNdBzCiryP33rKyHIfAKCQU1tSJ2IEqONYTOkcCo240
+         RKlPtWD7TLvvub9JO+dir3YoMhPQ9v1C7dvxvOZqmZinZMbHzVr8JPBtShAbe7Uka+b+
+         EaUYF26CtYLyMazSXHL6uwgwE9AU6AUspTncDU/0Zc1lkGgiOx7aZm4naXeXaxmJlhZO
+         kBRa1BOtAexr+1sD5kqav1NCN1FyndDmsw0+GkkvqaygNI1wLgZiDurBZUxnLf9tevoc
+         qH1Q==
+X-Gm-Message-State: APjAAAXdVCY7DSUBGq0/eE3MbA9cGnqmuOVEuNgTwx8Uz81R6ev8rd90
+        RAvkbUJkj/J+A7RSyioAnRkbgQmhAZ4=
+X-Google-Smtp-Source: APXvYqwLPAL5HbcRKZvVZt2XxMfc6yX6k45Zo9pjgV++L6/nE9p6IGd9f9PIWWYsu5p/nVlN1KtQsA==
+X-Received: by 2002:a17:90a:dd43:: with SMTP id u3mr1866546pjv.130.1572299047213;
+        Mon, 28 Oct 2019 14:44:07 -0700 (PDT)
+Received: from madhuparna-HP-Notebook.nitk.ac.in ([2402:3a80:539:24ac:ac7b:1049:baaf:a6f9])
+        by smtp.gmail.com with ESMTPSA id t1sm1693013pgp.9.2019.10.28.14.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2019 14:44:06 -0700 (PDT)
+From:   madhuparnabhowmik04@gmail.com
+To:     paulmck@kernel.org, joel@joelfernandes.org, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, rcu@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Subject: [PATCH] Documentation: RCU: NMI-RCU: Converted NMI-RCU.txt to NMI-RCU.rst.
+Date:   Tue, 29 Oct 2019 03:12:52 +0530
+Message-Id: <20191028214252.17580-1-madhuparnabhowmik04@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-Document microarchitectural features of Intel SGX relevant to the
-kernel.
+This patch converts NMI-RCU from txt to rst format.
+Also adds NMI-RCU in the index.rst file.
 
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Co-developed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 ---
- Documentation/x86/index.rst              |   1 +
- Documentation/x86/sgx/1.Architecture.rst | 431 +++++++++++++++++++++++
- Documentation/x86/sgx/index.rst          |  16 +
- 3 files changed, 448 insertions(+)
- create mode 100644 Documentation/x86/sgx/1.Architecture.rst
- create mode 100644 Documentation/x86/sgx/index.rst
+ .../RCU/{NMI-RCU.txt => NMI-RCU.rst}          | 53 ++++++++++---------
+ Documentation/RCU/index.rst                   |  1 +
+ 2 files changed, 29 insertions(+), 25 deletions(-)
+ rename Documentation/RCU/{NMI-RCU.txt => NMI-RCU.rst} (73%)
 
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index af64c4bb4447..f3f3ba45de35 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -30,3 +30,4 @@ x86-specific Documentation
-    usb-legacy-support
-    i386/index
-    x86_64/index
-+   sgx/index
-diff --git a/Documentation/x86/sgx/1.Architecture.rst b/Documentation/x86/sgx/1.Architecture.rst
-new file mode 100644
-index 000000000000..a4de6c610231
---- /dev/null
-+++ b/Documentation/x86/sgx/1.Architecture.rst
-@@ -0,0 +1,431 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+Architecture
-+============
-+
-+Introduction
-+============
-+
-+SGX is a set of instructions and mechanisms that enable ring 3 applications to
-+set aside private regions of code and data for the purpose of establishing and
-+running enclaves.  An enclave is a secure entity whose private memory can only
-+be accessed by code running within the enclave.  Accesses from outside the
-+enclave, including software running at a higher privilege level and other
-+enclaves, are disallowed by hardware.
-+
-+SGX also provides for local and remote attestation.  `Attestation`_ allows an
-+enclave to attest its identity, that it has not been tampered with, that it is
-+running on a genuine platform with Intel SGX enabled, and the security
-+properties of the platform on which it is running.
-+
-+You can determine if your CPU supports SGX by querying ``/proc/cpuinfo``:
-+
-+	``cat /proc/cpuinfo | grep sgx``
-+
-+
-+Enclave Page Cache
-+==================
-+
-+SGX utilizes an Enclave Page Cache (EPC) to store pages that are associated
-+with an enclave.  The EPC is secure storage whose exact physical implementation
-+is micro-architecture specific (see `EPC Implemenations`_).  Similar to normal
-+system memory, the EPC is managed by privileged software using conventional
-+paging mechanisms, e.g. the kernel can grant/deny access to EPC memory by
-+manipulating a process' page tables, and can swap pages in/out of the EPC in
-+order to oversubscribe the EPC.
-+
-+Unlikely regular memory, hardware prevents arbitrary insertion, eviction,
-+deletion, access, etc... to/from the EPC.  Software must instead use dedicated
-+`SGX instructions`_ to operate on the EPC, which enables the processor to
-+provide SGX's security guarantees by enforcing various restrictions and
-+behaviors, e.g. limits concurrent accesses to EPC pages and ensures proper TLB
-+flushing when moving pages in/out of the EPC.
-+
-+Accesses to EPC pages are allowed if and only if the access is classified as an
-+"enclave access".  There are two categories of allowed enclave accesses: direct
-+and indirect.  Direct enclave accesses are generated if and only the processor
-+is executing in Enclave Mode (see `Enclave execution`_).  Indirect enclave
-+accesses are generated by various ENCL{S,U,V} functions, many of which can be
-+executed outside of Enclave Mode.
-+
-+Non-enclave accesses to the EPC result in undefined behavior.  Conversely,
-+enclave accesses to non-EPC memory result in a page fault (#PF)[1]_.  Page
-+faults due to invalid enclave accesses set the PF_SGX flag (bit 15) in the page
-+fault error code[2]_.
-+
-+Although all EPC implementations will undoubtedly encrypt the EPC itself, all
-+all EPC code/data is stored unencrypted in the processor's caches.  I.e. SGX
-+relies on the aforementioned mechanisms to protect an enclave's secrets while
-+they are resident in the cache.
-+
-+Note, EPC pages are always 4KB sized and aligned.  Software can map EPC using
-+using large pages, but the processor always operates on a 4KB granularity when
-+working with EPC pages.
-+
-+
-+SGX instructions
-+================
-+
-+SGX introduces three new instructions, ENCLS, ENCLU and ENCLV, for Supervisor,
-+User and Virtualization respectively.  ENCL{S,U,V} are umbrella instructions,
-+using a single opcode as the front end to a variety of SGX functions.  The leaf
-+function to execute is specified via %eax, with %rbx, %rcx and %rdx optionally
-+used for leaf-specific purposes.
-+
-+Note that supervisor software, i.e. the kernel, creates and manages enclaves,
-+but only user-level software can execute/enter an enclave.
-+
-+ENCLS Leafs
-+-----------
-+
-+ - ECREATE: create an enclave
-+ - EADD: add page to an uninitialized enclave
-+ - EAUG: add page to an initialized enclave
-+ - EEXTEND: extended the measurement of an (uninitialized) enclave
-+ - EINIT: verify and initialize enclave
-+ - EDBG{RD,WR}: read/write from/to a debug enclave’s memory
-+ - EMODPR: restrict an EPC page’s permissions
-+ - EMODT: modify an EPC page’s type
-+ - EBLOCK: mark a page as blocked in EPCM
-+ - ETRACK{C}: activate blocking tracing
-+ - EWB: write back page from EPC to regular memory
-+ - ELD{B,U}{C}: load page in {un}blocked state from system memory to EPC
-+ - EPA: add version array (use to track evicted EPC pages)
-+ - EREMOVE: remove a page from EPC
-+ - ERDINFO: retrieve info about an EPC page from EPCM
-+
-+ENCLU Leafs
-+-----------
-+ - EENTER: enter an enclave
-+ - ERESUME: resume execution of an interrupted enclave
-+ - EEXIT: exit an enclave
-+ - EGETKEY: retrieve a cryptographic key from the processor
-+ - EREPORT: generate a cryptographic report describing an enclave
-+ - EMODPE: extend an EPC page's permissions
-+ - EACCEPT: accept changes to an EPC page
-+ - EACCEPTCOPY: copy an existing EPC page to an uninitialized EPC page
-+
-+ENCLV Leafs
-+-----------
-+ - E{DEC,INC}VIRTCHILD: {dec,inc}rement SECS virtual refcount
-+ - ESETCONTEXT: set SECS’ context pointer
-+
-+
-+EPC page types
-+==============
-+
-+All pages in the EPC have an explicit page type identifying the type of page.
-+The type of page affects the page's accessibility, concurrency requirements,
-+lifecycle, etc...
-+
-+SGX Enclave Control Structure (SECS)
-+    An enclave is defined and referenced by an SGX Enclave Control Structure.
-+    When creating an enclave (via ECREATE), software provides a source SECS for
-+    the enclave, which is copied into a target EPC page.  The source SECS
-+    contains security and measurement information, as well as attributes and
-+    properties of the enclave.  Once the SECS is copied into the EPC, it's used
-+    by the processor to store enclave metadata, e.g. the number of EPC pages
-+    associated with the enclave, and is no longer directly accessible by
-+    software.
-+
-+Regular (REG)
-+    Regular EPC pages contain the code and data of an enclave.  Code and data
-+    pages can be added to an uninitialized enclave (prior to EINIT) via EADD.
-+    Post EINIT, pages can be added to an enclave via EAUG.  Pages added via
-+    EAUG must be explicitly accepted by the enclave via EACCEPT or EACCEPTCOPY.
-+
-+Thread Control Structure (TCS)
-+    Thread Control Structure pages define the entry points to an enclave and
-+    track the execution state of an enclave thread.  A TCS can only be used by
-+    a single logical CPU at any given time, but otherwise has no attachment to
-+    any particular logical CPU.  Like regular pages, TCS pages are added to
-+    enclaves via EADD and EINIT.
-+
-+Version Array (VA)
-+   Version Array pages contain 512 slots, each of which can contain a version
-+   number for a page evicted from the EPC.  A version number is a unique 8-byte
-+   value that is fed into the MAC computation used to verify the contents of an
-+   evicted page when reloading said page into the EPC.  VA pages are the only
-+   page type not directly associated with an enclave, and are allocated in the
-+   EPC via EPA.   Note that VA pages can also be evicted from the EPC, but
-+   doing so requires another VA page/slot to hold the version number of the VA
-+   page being evicted.
-+
-+Trim (TRIM)
-+   The Trim page type indicates that a page has been trimmed from the enclave’s
-+   address space and is no longer accessible to enclave software, i.e. is about
-+   to be removed from the enclave (via EREMOVE).  Removing pages from a running
-+   enclaves requires the enclave to explicit accept the removal (via EACCEPT).
-+   The intermediate Trim type allows software to batch deallocation operations
-+   to improve efficiency, e.g. minimize transitions between userspace, enclave
-+   and kernel.
-+
-+
-+Enclave Page Cache Map
-+======================
-+
-+The processor tracks EPC pages via the Enclave Page Cache Map (EPCM).  The EPCM
-+is a processor-managed structure that enforces access restrictions to EPC pages
-+in addition to the software-managed page tables.  The EPCM contains one entry
-+per EPC page, and although the details are implementation specific, all
-+implementations contain the following architectural information:
-+
-+ - The status of EPC page with respect to validity and accessibility.
-+ - An SECS identifier of the enclave to which the page belongs.
-+ - The type of page: regular, SECS, TCS, VA or TRIM
-+ - The linear address through which the enclave is allowed to access the page.
-+ - The specified read/write/execute permissions on that page.
-+
-+Access violations, e.g. insufficient permissions or incorrect linear address,
-+detected via the EPCM result in a page fault (#PF)[1]_ exception being signaled
-+by the processor.  Page faults due to EPCM violations set the PF_SGX flag
-+(bit 15) in the page fault error code[2]_.
-+
-+The EPCM is consulted if and only if walking the software-managed page tables,
-+i.e. the kernel's page tables, succeeds.  I.e. the effective permissions for an
-+EPC page are a logical AND of the kernel's page tables and the corresponding
-+EPCM entry.  This allows the kernel to make its page tables more restrictive
-+without triggering an EPCM violation, e.g. it may mark an entry as not-present
-+prior to evicting a page from the EPC.
-+
-+**IMPORTANT** For all intents and purposes the SGX architecture allows the
-+processor to invalidate all EPCM entries at will, i.e. requires that software
-+be prepared to handle an EPCM fault at any time.  Most processors are expected
-+to implement the EPC{M} as a subset of system DRAM that is encrypted with an
-+ephemeral key, i.e. a key that is randomly generated at processor reset.  As a
-+result of using an ephemeral key, the contents of the EPC{M} are lost when the
-+processor is powered down as part of an S3 transition or when a virtual machine
-+is live migrated to a new physical system.
-+
-+
-+Enclave initialization
-+======================
-+
-+Because software cannot directly access the EPC except when executing in an
-+enclave, an enclave must be built using ENCLS functions (ECREATE and EADD) as
-+opposed to simply copying the enclave from the filesystem to memory.  Once an
-+enclave is built, it must be initialized (via EINIT) before userspace can enter
-+the enclave and begin `Enclave execution`_.
-+
-+During the enclave build process, two "measurements", i.e. SHA-256 hashes, are
-+taken of the enclave: MRENCLAVE and MRSIGNER.  MRENCLAVE measures the enclave's
-+contents,  e.g. code/data explicitly added to the measurement (via EEXTEND), as
-+well as metadata from the enclave's build process, e.g. pages offsets (relative
-+to the enclave's base) and page permissions of all pages added to the enclave
-+(via EADD).  MRENCLAVE is initialized by ECREATE and finalized by EINIT.
-+MRSIGNER is simply the SHA-256 hash of the public key used to sign the enclave.
-+
-+EINIT accepts two parameters in addition to the SECS of the target enclave: an
-+Enclave Signature Struct (SIGSTRUCT) and an EINIT token (EINITTOKEN).
-+SIGSTRUCT is a structure created and signed by the enclave's developer.  Among
-+other fields, SIGSTRUCT contains the expected MRENCLAVE of the enclave and the
-+MRSIGNER of the enclave.  SIGSTRUCT's MRENCLAVE is used by the processor to
-+verify that the enclave was properly built (at runtime), and its SIGSTRUCT is
-+copied to the SECS upon successful EINIT.  EINITTOKEN is an optional parameter
-+that is consumed as part of `Launch Control`_.
-+
-+
-+Enclave execution
-+=================
-+
-+Enclaves execute in a bespoke sub-mode of ring 3, appropriately named Enclave
-+Mode.  Enclave Mode changes behavior in key ways to support SGX's security
-+guarantees and to reduce the probability of unintentional disclosure of
-+sensitive data.
-+
-+A notable cornerstone of Enclave Mode is the Enclave Linear Range (ELRANGE).
-+An enclave is associated with one, and only one, contiguous linear address
-+range, its ELRANGE.  The ELRANGE is specified via the SIZE and BASEADDR fields
-+in the SECS (provided to ECREATE).  The processor queries the active enclave's
-+ELRANGE to differentiate enclave and non-enclave accesses, i.e. accesses that
-+originate in Enclave Mode *and* whose linear address falls within ELRANGE are
-+considered (direct) enclave accesses.  Note, the processor also generates
-+(indirect) enclave accesses when executing ENCL* instructions, which may occur
-+outside of Enclave Mode, e.g. when copying the SECS to its target EPC page
-+during ECREATE.
-+
-+Enclave Mode changes include, but are not limited to:
-+
-+ - Permits direct software access to EPC pages owned by the enclave
-+ - Ensures enclave accesses map to the EPC (EPCM violation, i.e. #PF w/ PF_SGX)
-+ - Prevents executing code outside the enclave's ELRANGE (#GP fault)
-+ - Changes the behavior of exceptions/events
-+ - Causes many instructions to become illegal, i.e. generate an exception
-+ - Supresses all instruction breakpoints*
-+ - Suppresses data breakpoints within enclave's ELRANGE*
-+
-+ * For non-debug enclaves.
-+
-+Transitions to/from Enclave Mode have semantics that are a lovely blend of
-+SYSCALL, SYSRET and VM-Exit.  In normal execution, entering and exiting Enclave
-+Mode can only be done through EENTER and EEXIT respectively.  EENTER+EEXIT is
-+analogous to SYSCALL+SYSRET, e.g. EENTER/SYSCALL load RCX with the next RIP and
-+EEXIT/SYSRET load RIP from R{B,C}X, and EENTER can only jump to a predefined
-+location controlled by the enclave/kernel.
-+
-+But when an exception, interrupt, VM-Exit, etc... occurs, enclave transitions
-+behave more like VM-Exit and VMRESUME.  To maintain the black box nature of the
-+enclave, the processor automatically switches register context when any of the
-+aforementioned events occur (the SDM refers to such events as Enclave Exiting
-+Events (EEE)).
-+
-+To handle an EEE, the processor performs an Asynchronous Enclave Exits (AEX).
-+Note, although exceptions and traps are synchronous from a processor execution
-+perspective, the are asynchronous from the enclave's perspective as the enclave
-+is not provided an opportunity to save/fuzz state prior to exiting the enclave.
-+On an AEX, the processor exits the enclave to a predefined %rip called the
-+Asynchronous Exiting Pointer (AEP).  The AEP is specified at enclave entry (via
-+EENTER/ERESUME) and saved into the associated TCS, similar to how a hypervisor
-+specifies the VM-Exit target (via VMCS.HOST_RIP at VMLAUNCH/VMRESUME), i.e. the
-+the AEP is an exit location controlled by the enclave's untrusted runtime.
-+
-+On an AEX, the processor fully exits the enclave prior to vectoring the event,
-+i.e. from the event handler's perspective the event occurred at the AEP.  Thus,
-+IRET/RSM/VMRESUME (from the event handler) returns control to the enclave's
-+untrusted runtime, which can take appropriate action, e.g. immediately ERESUME
-+the enclave on interrupts, forward expected exceptions to the enclave, restart
-+the enclave on fatal exceptions, and so on and so forth.
-+
-+To preserve the enclave's state across AEX events, the processor automatically
-+saves architectural into a State Save Area (SSA).  Because SGX supports nested
-+AEX events, e.g. the untrusted runtime can re-EENTER the enclave after an AEX,
-+which can in turn trigger an AEX, the TCS holds a pointer to a stack of SSA
-+frames (as opposed to a single SSA), an index to the current SSA frame and the
-+total number of available frames.  When an AEX occurs, the processor saves the
-+architectural state into the TCS's current SSA frame.  The untrusted runtime
-+can then pop the last SSA frame (off the TCS's stack) via ERESUME, i.e. restart
-+the enclave after the AEX is handled.
-+
-+
-+Launch Control
-+==============
-+
-+SGX provides a set of controls, referred to as Launch Control, that governs the
-+initialization of enclaves.  The processor internally stores a SHA-256 hash of
-+a 3072-bit RSA public key, i.e. a MRSIGNER, often referred to as the "LE pubkey
-+hash".  The LE pubkey hash is used during EINIT to prevent launching an enclave
-+without proper authorization.  In order for EINIT to succeed, the enclave's
-+MRSIGNER (from SIGSTRUCT) *or* the MRSIGNER of the enclave's EINITTOKEN must
-+match the LE pubkey hash.
-+
-+An EINITTOKEN can only be created by a so called Launch Enclave (LE).  A LE is
-+an enclave with SECS.ATTRIBUTES.EINITTOKEN_KEY=1, which grants it access to the
-+EINITTOKEN_KEY (retrieved via EGETKEY).  EINITTOKENs provide a ready-built
-+mechanism for userspace to bless enclaves without requiring additional kernel
-+infrastructure.
-+
-+Processors that support SGX Launch Control Configuration, enumerated by the
-+SGX_LC flag (bit 30 in CPUID 0x7.0x0.ECX), expose the LE pubkey hash as a set
-+of four MSRs, aptly named IA32_SGXLEPUBKEYHASH[0-3].  The reset value of the
-+MSRs is an internally defined (Intel) key (processors that don't support
-+SGX_LC also use an internally defined key, it's just not exposed to software).
-+
-+While the IA32_SGXLEPUBKEYHASH MSRs are readable on any platform that supports
-+SGX_LC, the MSRs are only writable if the IA32_FEATURE_CONTROL is locked with
-+bit 17 ("SGX Launch Control Enable" per the SDM, or more accurately "SGX LE
-+pubkey hash writable") set to '1'.  Note, the MSRs are also writable prior to
-+`SGX activation`_.
-+
-+Note, while "Launch Control Configuration" is the official feature name used by
-+the Intel SDM, other documentation may use the term "Flexible Launch Control",
-+or even simply "Launch Control".  Colloquially, the vast majority of usage of
-+the term "Launch Control" is synonymous with "Launch Control Configuration".
-+
-+
-+EPC oversubscription
-+====================
-+
-+SGX supports the concept of EPC oversubscription.  Analogous to swapping system
-+DRAM to disk, enclave pages can be swapped from the EPC to memory, and later
-+reloaded from memory to the EPC.  But because the kernel is untrusted, swapping
-+pages in/out of the EPC has specialized requirements:
-+
-+  - The kernel cannot directly access EPC memory, i.e. cannot copy data to/from
-+    the EPC.
-+  - The kernel must "prove" to hardware that there are no valid TLB entries for
-+    said page prior to eviction (a stale TLB entry would allow an attacker to
-+    bypass SGX access controls).
-+  - When loading a page back into the EPC, hardware must be able to verify
-+    the integrity and freshness of the data.
-+  - When loading an enclave page, e.g. regular and TCS pages, hardware must be
-+    able to associate the page with an SECS, i.e. refcount an enclaves pages.
-+
-+To satisfy the above requirements, the CPU provides dedicated ENCLS functions
-+to support paging data in/out of the EPC:
-+
-+  - EBLOCK: Mark a page as blocked in the EPC Map (EPCM).  Attempting to access
-+    a blocked page that misses the TLB will fault.
-+  - ETRACK: Activate TLB tracking.  Hardware verifies that all translations for
-+    pages marked as "blocked" have been flushed from the TLB.
-+  - EPA:    Add Version Array page to the EPC (see `EPC page types`_)
-+  - EWB:    Write back a page from EPC to memory, e.g. RAM.  Software must
-+    supply a VA slot, memory to hold the Paging Crypto Metadata (PCMD) of the
-+    page and obviously backing for the evicted page.
-+  - ELD*:   Load a page in {un}blocked state from memory to EPC.
-+
-+Swapped EPC pages are {de,en}crypted on their way in/out of the EPC, e.g. EWB
-+encrypts and ELDU decrypts.  The version number (stored in a VA page) and PCMD
-+structure associated with an evicted EPC page seal a page (prevent undetected
-+modification) and ensure its freshness (prevent rollback to a stale version of
-+the page) while the page resides in unprotected storage, e.g. memory or disk.
-+
-+
-+Attestation
-+===========
-+
-+SGX provides mechanisms that allow software to implement what Intel refers to
-+as Local Attestation (used by enclaves running on a the same physical platform
-+to securely identify one another) and Remote Attestation (a process by which an
-+enclave attests itself to a remote entity in order to gain the trust of said
-+entity).
-+
-+The details of Local Attestation and Remote Attestation are far beyond the
-+scope of this document.  Please see Intel's Software Developer's Manual and/or
-+use your search engine of choice to learn more about SGX's attestation
-+capabilities.
-+
-+
-+EPC Implemenations
-+==================
-+
-+PRM with MEE
-+--------------
-+
-+Initial hardware support for SGX implements the EPC by reserving a chunk of
-+system DRAM, referred to as Processor Reserved Memory (PRM).   A percentage of
-+PRM is consumed by the processor to implement the EPCM, with the remainder of
-+PRM being exposed to software as the EPC.  PRM is configured by firmware via
-+dedicated PRM Range Registers (PRMRRs).   The PRMRRs are locked  which are locked as part of SGX activation, i.e.
-+resizing the PRM, and thus EPC, requires rebooting the system.
-+
-+An autonomous hardware unit called the Memory Encryption Engine (MEE) protects
-+the confidentiality, integrity, and freshness of the PRM, e.g. {de,en}crypts
-+data as it is read/written from/to DRAM to provide confidentiality.
-+
-+
-+SGX activation
-+==============
-+
-+Before SGX can be fully enabled, e.g. via FEATURE_CONTROL, the platform must
-+undergo explicit SGX activation.  SGX activation is a mechanism by which the
-+processor verifies and locks the platform configuration set by pre-boot
-+firmware, e.g. to ensure it satisfies SGX's security requirements.  Before
-+SGX is activated (and its configuration locked), firmware can modify the
-+PRMRRs, e.g. to set the base/size of the PRM and thus EPC, and can also write
-+the SGX_LEPUBKEYHASH MSRs.  Notably, the latter allows pre-boot firmware to
-+lock the SGX_LEPUBKEYHASH MSRs to a non-Intel value by writing the MSRs and
-+locking MSR_IA32_FEATURE_CONTROL without setting the "SGX LE pubkey hash
-+writable" flag, i.e. making the SGX_LEPUBKEYHASH MSRs readonly.
-+
-+
-+Footnotes
-+=========
-+
-+.. [1] All processors that do not support the SGX2 ISA take an errata and
-+       signal #GP(0) instead of #PF(PF_SGX) when vectoring EPCM violations and
-+       faults due to enclave-accesses to non-EPC memory.
-+
-+.. [2] Note that despite being vectored as a #PF, a #PF with PF_SGX has nothing
-+       to do with conventional paging.
-+
-diff --git a/Documentation/x86/sgx/index.rst b/Documentation/x86/sgx/index.rst
-new file mode 100644
-index 000000000000..c5dfef62e612
---- /dev/null
-+++ b/Documentation/x86/sgx/index.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================
-+Software Guard Extensions
-+=========================
-+
-+Intel(R) SGX is a set of architectural extensions that enables applications to
-+establish secure containers, a.k.a. enclaves.  SGX enclaves provide security
-+guarantees such as integrity and confidentiality, even when running on a system
-+where privileged software, e.g. kernel, hypervisor, etc... is untrusted and
-+potentially malicious.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   1.Architecture
+diff --git a/Documentation/RCU/NMI-RCU.txt b/Documentation/RCU/NMI-RCU.rst
+similarity index 73%
+rename from Documentation/RCU/NMI-RCU.txt
+rename to Documentation/RCU/NMI-RCU.rst
+index 881353fd5bff..da5861f6a433 100644
+--- a/Documentation/RCU/NMI-RCU.txt
++++ b/Documentation/RCU/NMI-RCU.rst
+@@ -1,4 +1,7 @@
++.. _NMI_rcu_doc:
++
+ Using RCU to Protect Dynamic NMI Handlers
++=========================================
+ 
+ 
+ Although RCU is usually used to protect read-mostly data structures,
+@@ -9,7 +12,7 @@ work in "arch/x86/oprofile/nmi_timer_int.c" and in
+ "arch/x86/kernel/traps.c".
+ 
+ The relevant pieces of code are listed below, each followed by a
+-brief explanation.
++brief explanation.::
+ 
+ 	static int dummy_nmi_callback(struct pt_regs *regs, int cpu)
+ 	{
+@@ -18,12 +21,12 @@ brief explanation.
+ 
+ The dummy_nmi_callback() function is a "dummy" NMI handler that does
+ nothing, but returns zero, thus saying that it did nothing, allowing
+-the NMI handler to take the default machine-specific action.
++the NMI handler to take the default machine-specific action.::
+ 
+ 	static nmi_callback_t nmi_callback = dummy_nmi_callback;
+ 
+ This nmi_callback variable is a global function pointer to the current
+-NMI handler.
++NMI handler.::
+ 
+ 	void do_nmi(struct pt_regs * regs, long error_code)
+ 	{
+@@ -53,11 +56,12 @@ anyway.  However, in practice it is a good documentation aid, particularly
+ for anyone attempting to do something similar on Alpha or on systems
+ with aggressive optimizing compilers.
+ 
+-Quick Quiz:  Why might the rcu_dereference_sched() be necessary on Alpha,
+-	     given that the code referenced by the pointer is read-only?
++Quick Quiz:
++		Why might the rcu_dereference_sched() be necessary on Alpha, given that the code referenced by the pointer is read-only?
+ 
++:ref:`Answer to Quick Quiz <answer_quick_quiz_NMI>`
+ 
+-Back to the discussion of NMI and RCU...
++Back to the discussion of NMI and RCU...::
+ 
+ 	void set_nmi_callback(nmi_callback_t callback)
+ 	{
+@@ -68,7 +72,7 @@ The set_nmi_callback() function registers an NMI handler.  Note that any
+ data that is to be used by the callback must be initialized up -before-
+ the call to set_nmi_callback().  On architectures that do not order
+ writes, the rcu_assign_pointer() ensures that the NMI handler sees the
+-initialized values.
++initialized values::
+ 
+ 	void unset_nmi_callback(void)
+ 	{
+@@ -82,7 +86,7 @@ up any data structures used by the old NMI handler until execution
+ of it completes on all other CPUs.
+ 
+ One way to accomplish this is via synchronize_rcu(), perhaps as
+-follows:
++follows::
+ 
+ 	unset_nmi_callback();
+ 	synchronize_rcu();
+@@ -98,24 +102,23 @@ to free up the handler's data as soon as synchronize_rcu() returns.
+ Important note: for this to work, the architecture in question must
+ invoke nmi_enter() and nmi_exit() on NMI entry and exit, respectively.
+ 
++.. _answer_quick_quiz_NMI:
+ 
+-Answer to Quick Quiz
+-
+-	Why might the rcu_dereference_sched() be necessary on Alpha, given
+-	that the code referenced by the pointer is read-only?
++Answer to Quick Quiz:
++	Why might the rcu_dereference_sched() be necessary on Alpha, given that the code referenced by the pointer is read-only?
+ 
+-	Answer: The caller to set_nmi_callback() might well have
+-		initialized some data that is to be used by the new NMI
+-		handler.  In this case, the rcu_dereference_sched() would
+-		be needed, because otherwise a CPU that received an NMI
+-		just after the new handler was set might see the pointer
+-		to the new NMI handler, but the old pre-initialized
+-		version of the handler's data.
++	The caller to set_nmi_callback() might well have
++	initialized some data that is to be used by the new NMI
++	handler.  In this case, the rcu_dereference_sched() would
++	be needed, because otherwise a CPU that received an NMI
++	just after the new handler was set might see the pointer
++	to the new NMI handler, but the old pre-initialized
++	version of the handler's data.
+ 
+-		This same sad story can happen on other CPUs when using
+-		a compiler with aggressive pointer-value speculation
+-		optimizations.
++	This same sad story can happen on other CPUs when using
++	a compiler with aggressive pointer-value speculation
++	optimizations.
+ 
+-		More important, the rcu_dereference_sched() makes it
+-		clear to someone reading the code that the pointer is
+-		being protected by RCU-sched.
++	More important, the rcu_dereference_sched() makes it
++	clear to someone reading the code that the pointer is
++	being protected by RCU-sched.
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index 8d20d44f8fd4..627128c230dc 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -10,6 +10,7 @@ RCU concepts
+    arrayRCU
+    rcu
+    listRCU
++   NMI-RCU
+    UP
+ 
+    Design/Memory-Ordering/Tree-RCU-Memory-Ordering
 -- 
-2.20.1
+2.17.1
 
