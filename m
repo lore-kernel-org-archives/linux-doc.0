@@ -1,65 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C343E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 21:55:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 99C127D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 23:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731104AbfJ1VzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 17:55:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56558 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729738AbfJ1VzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Oct 2019 17:55:17 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E44B821479;
-        Mon, 28 Oct 2019 21:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572299716;
-        bh=Rc95UNWyxGNZm3HxfC9xIsJjTnLTSIuz9wUtAFykboU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QHFCPZDBqR5Z8FzqCKu6QIEzbXI8bIcVg41IW5SWRRLue8d6vpsqlJlicuWXCK0Xc
-         CDMoSbAfrAx1Sd5Ib6KsblBiqBCCYnBk/jdOEUDvJxU+Of44Cu8POhYgKslXOFpS5T
-         rdta4Ep8cCxOgSYm8C0CBTcdYnVAmlGjr0uiArMY=
-Date:   Mon, 28 Oct 2019 21:55:11 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jayachandran Chandrasekharan Nair <jnair@marvell.com>,
-        Robert Richter <rrichter@marvell.com>,
-        Jan Glauber <jglauber@marvell.com>,
-        "gklkml16@gmail.com" <gklkml16@gmail.com>
-Subject: Re: [PATCH v6 0/2] Add CCPI2 PMU support
-Message-ID: <20191028215510.GA8532@willie-the-truck>
-References: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571218608-15933-1-git-send-email-gkulkarni@marvell.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727628AbfJ1XtX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 19:49:23 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43867 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfJ1XtX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 19:49:23 -0400
+Received: by mail-pg1-f195.google.com with SMTP id l24so8112903pgh.10;
+        Mon, 28 Oct 2019 16:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=GidVpWtOgdh1MdJmqQ31diCsiIYL+x3ynRwwdRDWZ4I=;
+        b=DBl3frT0ObPftCDPLVdvCNA6f+eWU7L8xYXrNAINA/2539RvUUfmqQgUJedEVcVouy
+         v4C0+sPLaigYvhInXnMK5IqiQAJcP6Jrpq2ag33xGAQUA84BnWJEJrI8xLXKBjyRGtZ3
+         KQyzVzFOZPbbs3BCay/FkH5LJD2QzhlNlfYq3CF6azGtnD0IdnvEo2042Pyy6hk2BcDq
+         vsT5trLoKW94gdvLJyyw9NzIMyLPEOn1t9qI1fIEs0BKWiNnZGAAux4D5C/Lel+wPc8j
+         Mo8haqFdd9N2v3zYPSs52W5SD8ba/N27C/MsVQIXS+wytfC7KIxXVXitzBIweesQD91B
+         emqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GidVpWtOgdh1MdJmqQ31diCsiIYL+x3ynRwwdRDWZ4I=;
+        b=MLk0FC+VBpsXPOlL0ct9L2ZgUNxgf8ajN9Fmxk1PtTh4VWKVtEIC5ONrCdkuAJjmmX
+         Xoq2JIp20hRfRgkQMRsc6SLZ266Z6eX2abOhV/l5vGHO/IO7CNr1oxXVgn8qloCunkDh
+         oRE/fYXHWCBy5x8QDVjMH5n53z2n8ujSDT4vbo+K8+UgJFpNuUd4bFKlOmta8Ok7+RRE
+         8k9xgXPiNYfWEkdwdMJnFfhgaosqSstSiycZ4r/6olXv6m/Fqs7fouSmn+rK24iU6Zkr
+         xHxPB8WLjbh1q55dNLOVTEBbWdSYSpSUmkPX5YfOW4UU+wPA51Z/3rVvZeGqi6Jqy+J4
+         4K/w==
+X-Gm-Message-State: APjAAAWhsiIF2gWdokiJyYUgTvXzE68XcUCtuC8gMypL/GfXcnUu9TP9
+        gNADJXZXjwW0EfEE+Mq8MH4=
+X-Google-Smtp-Source: APXvYqynSqN7vgOSHKrN2zdo25WkKaEcjhBS0gaz95C8JDomUkLpk8/7aZyMrw8hSpL3sL/vv6+XiA==
+X-Received: by 2002:a17:90a:5aa3:: with SMTP id n32mr2384540pji.97.1572306562137;
+        Mon, 28 Oct 2019 16:49:22 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com ([2620:10d:c090:200::2:c0c7])
+        by smtp.gmail.com with ESMTPSA id d4sm597119pjs.9.2019.10.28.16.49.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2019 16:49:21 -0700 (PDT)
+From:   rentao.bupt@gmail.com
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, taoren@fb.com
+Cc:     Tao Ren <rentao.bupt@gmail.com>
+Subject: [PATCH 0/3] hwmon: (pmbus) add driver for BEL PFE1100 and PFE3000
+Date:   Mon, 28 Oct 2019 16:49:01 -0700
+Message-Id: <20191028234904.12441-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 09:36:57AM +0000, Ganapatrao Prabhakerrao Kulkarni wrote:
-> Add Cavium Coherent Processor Interconnect (CCPI2) PMU
-> support in ThunderX2 Uncore driver.
-> 
-> v6:
-> 	Rebased to 5.4-rc1
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Thanks, this looks good to me so I'll queue it up for 5.5.
+The patch series adds "bel-pfe" pmbus driver which supports hardware
+monitoring for BEL PFE1100 and PFE3000 power supplies.
 
-Will
+There are total 3 patches:
+  - patch #1 adds the initial version of bel-pfe driver which supports
+    BEL PFE1100 power supply.
+  - patch #2 adds BEL PFE3000 support into bel-pfe driver.
+  - patch #3 adds documentation for PFE1100 and PFE3000 chips.
+
+The driver has been tested on Facebook Wedge40 BMC (with PFE1100) and
+Facebook CMM BMC (with PFE3000).
+
+Tao Ren (3):
+  hwmon: (pmbus) add BEL PFE1100 power supply driver
+  hwmon: (pmbus) add BEL PFE3000 power supply driver
+  docs: hwmon: Document bel-pfe pmbus driver
+
+ Documentation/hwmon/bel-pfe.rst | 112 +++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig     |   9 +++
+ drivers/hwmon/pmbus/Makefile    |   1 +
+ drivers/hwmon/pmbus/bel-pfe.c   | 131 ++++++++++++++++++++++++++++++++
+ 4 files changed, 253 insertions(+)
+ create mode 100644 Documentation/hwmon/bel-pfe.rst
+ create mode 100644 drivers/hwmon/pmbus/bel-pfe.c
+
+-- 
+2.17.1
+
