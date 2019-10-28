@@ -1,112 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63FD37D918
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 13:05:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22D677D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 13:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730163AbfJ1NFV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 09:05:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46766 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726816AbfJ1NFU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 09:05:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572267920;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=R0Q7AIh4fXeUIo8N1ZgebBUMzEXLld5IiUHisAWSmb0=;
-        b=QYzW9F0MmLKo95sNbErdzjSjYJi55DenhuTuGrQOStauFae9Vj3W/LVPPoYnawoGLQSA8f
-        swdSV4+sqfyKzWCdzrxXYCwa9hkh+r5NTrFY92vngghWPohjRT4Gk2dLBlYB64qYquhIgk
-        GvNAc1ffqW5LmlVD8EjVKMRWBr49d54=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-U7w4YiiiO-WRm13a9j7BBQ-1; Mon, 28 Oct 2019 09:05:18 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F14E7185A79B
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2019 13:05:17 +0000 (UTC)
-Received: from slave.localdomain.com (unknown [10.64.193.217])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3669921449AB;
-        Mon, 28 Oct 2019 13:05:17 +0000 (UTC)
-From:   Masatake YAMATO <yamato@redhat.com>
-To:     linux-doc@vger.kernel.org
-Cc:     yamato@redhat.com
-Subject: [PATCH 2/2] docs: sysctl: delete the description about inode-max
-Date:   Mon, 28 Oct 2019 22:05:02 +0900
-Message-Id: <20191028130502.26262-2-yamato@redhat.com>
-In-Reply-To: <20191028130502.26262-1-yamato@redhat.com>
-References: <20191028130502.26262-1-yamato@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MC-Unique: U7w4YiiiO-WRm13a9j7BBQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+        id S1729134AbfJ1NPo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 09:15:44 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59160 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726508AbfJ1NPo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Oct 2019 09:15:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D6165AE0C;
+        Mon, 28 Oct 2019 13:15:42 +0000 (UTC)
+Date:   Mon, 28 Oct 2019 14:15:42 +0100
+Message-ID: <s5ho8y1au4h.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     Navid Emamdoost <emamd001@umn.edu>, alsa-devel@alsa-project.org,
+        Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Kangjie Lu <kjlu@umn.edu>, Stephen McCamant <smccaman@umn.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [alsa-devel] ALSA: korg1212: Checking exception handling in snd_korg1212_create()
+In-Reply-To: <ec3647df-0e54-4aaa-7ec7-b3dec0fa1965@web.de>
+References: <s5hmudlmldk.wl-tiwai@suse.de>
+        <ec3647df-0e54-4aaa-7ec7-b3dec0fa1965@web.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The code for inode-max was deleted long time ago
-(< Linux-2.6.12-rc2).
+On Mon, 28 Oct 2019 10:00:21 +0100,
+Markus Elfring wrote:
+> 
+> > The code path is after snd_device_new() which has its own destructor callback.
+> 
+> Thanks for your reminder.
+> 
+> Can the properties of this programming interface be documented also together
+> with the function declaration for the safer handling of ALSA components?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/sound/kernel-api/writing-an-alsa-driver.rst?id=d6d5df1db6e9d7f8f76d2911707f7d5877251b02#n567
 
-Signed-off-by: Masatake YAMATO <yamato@redhat.com>
----
- Documentation/admin-guide/sysctl/fs.rst | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+I can think of only adding some comment at each point mentioning that
+the resource will be managed by the device destructor.
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-=
-guide/sysctl/fs.rst
-index 596f84a1748d..5a99e37b5000 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -33,7 +33,6 @@ Currently, these files are in /proc/sys/fs:
- - dquot-nr
- - file-max
- - file-nr
--- inode-max
- - inode-nr
- - inode-state
- - nr_open
-@@ -136,18 +135,12 @@ enough for most machines. Actual limit depends on RLI=
-MIT_NOFILE
- resource limit.
-=20
-=20
--inode-max, inode-nr & inode-state
-+inode-nr & inode-state
- ---------------------------------
-=20
- As with file handles, the kernel allocates the inode structures
- dynamically, but can't free them yet.
-=20
--The value in inode-max denotes the maximum number of inode
--handlers. This value should be 3-4 times larger than the value
--in file-max, since stdin, stdout and network sockets also
--need an inode struct to handle them. When you regularly run
--out of inodes, you need to increase this value.
--
- The file inode-nr contains the first two items from
- inode-state, so we'll skip to that file...
-=20
-@@ -156,8 +149,7 @@ The actual numbers are, in order of appearance, nr_inod=
-es
- and nr_free_inodes.
-=20
- Nr_inodes stands for the number of inodes the system has
--allocated, this can be slightly more than inode-max because
--Linux allocates them one pageful at a time.
-+allocated.
-=20
- Nr_free_inodes represents the number of free inodes.
-=20
---=20
-2.17.2
+> Can any more API information help to improve automatic source code analysis
+> around similar functions?
 
+If anything we can add, let me know.
+
+
+Takashi
