@@ -1,154 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 739427D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 09:24:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 004DC7D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 13:05:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbfJ1JYc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 05:24:32 -0400
-Received: from mga14.intel.com ([192.55.52.115]:42059 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728194AbfJ1JYb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Oct 2019 05:24:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 02:24:30 -0700
-X-IronPort-AV: E=Sophos;i="5.68,239,1569308400"; 
-   d="scan'208";a="193204146"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 02:24:25 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Changbin Du <changbin.du@gmail.com>, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-crypto@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] kernel-doc: rename the kernel-doc directive 'functions' to 'identifiers'
-In-Reply-To: <20191025144802.uixg2crhw6h7gghq@mail.google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191020131717.28990-1-changbin.du@gmail.com> <20191024121940.1d6a64df@lwn.net> <87woctb9cj.fsf@intel.com> <20191025144802.uixg2crhw6h7gghq@mail.google.com>
-Date:   Mon, 28 Oct 2019 11:24:22 +0200
-Message-ID: <87v9s99q9l.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1730040AbfJ1NFT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 09:05:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23286 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726816AbfJ1NFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 09:05:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572267918;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=UoJnlVL6iUFYAedpqgcBRuvzbcqQJ5OMnOvE+mu68sc=;
+        b=bpOuMUELjQWZ+rTlmzsEeoHQMnRiZ8cWGZfqYAjDlZ9AQPDOzG8EhOtEteK6RTT8Z4KuKJ
+        /L9mtl1ejuTqXV++0ClrKZu0PBmnHld2lo+/cJ2kkMmyA7s1Hd9KdX4478YXGfxCscMTuU
+        JyrMm9/9R/u8FRHPRJODKlg2Hx2ENXU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-NQrmsAeePoqjlgjrrF4I4A-1; Mon, 28 Oct 2019 09:05:16 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE1E2867455
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2019 13:05:15 +0000 (UTC)
+Received: from slave.localdomain.com (unknown [10.64.193.217])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 116DB21449AB;
+        Mon, 28 Oct 2019 13:05:14 +0000 (UTC)
+From:   Masatake YAMATO <yamato@redhat.com>
+To:     linux-doc@vger.kernel.org
+Cc:     yamato@redhat.com
+Subject: [PATCH 1/2] docs: sysctl: update description for inode-state
+Date:   Mon, 28 Oct 2019 22:05:01 +0900
+Message-Id: <20191028130502.26262-1-yamato@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MC-Unique: NQrmsAeePoqjlgjrrF4I4A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Oct 2019, Changbin Du <changbin.du@gmail.com> wrote:
-> On Fri, Oct 25, 2019 at 09:57:48AM +0300, Jani Nikula wrote:
->> On Thu, 24 Oct 2019, Jonathan Corbet <corbet@lwn.net> wrote:
->> > On Sun, 20 Oct 2019 21:17:17 +0800
->> > Changbin Du <changbin.du@gmail.com> wrote:
->> >
->> >> The 'functions' directive is not only for functions, but also works for
->> >> structs/unions. So the name is misleading. This patch renames it to
->> >> 'identifiers', which specific the functions/types to be included in
->> >> documentation. We keep the old name as an alias of the new one before
->> >> all documentation are updated.
->> >> 
->> >> Signed-off-by: Changbin Du <changbin.du@gmail.com>
->> >
->> > So I think this is basically OK, but I have one more request...
->> >
->> > [...]
->> >
->> >> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
->> >> index 1159405cb920..0689f9c37f1e 100644
->> >> --- a/Documentation/sphinx/kerneldoc.py
->> >> +++ b/Documentation/sphinx/kerneldoc.py
->> >> @@ -59,9 +59,10 @@ class KernelDocDirective(Directive):
->> >>      optional_arguments = 4
->> >>      option_spec = {
->> >>          'doc': directives.unchanged_required,
->> >> -        'functions': directives.unchanged,
->> >>          'export': directives.unchanged,
->> >>          'internal': directives.unchanged,
->> >> +        'identifiers': directives.unchanged,
->> >> +        'functions': directives.unchanged,  # alias of 'identifiers'
->> >>      }
->> >>      has_content = False
->> >>  
->> >> @@ -71,6 +72,7 @@ class KernelDocDirective(Directive):
->> >>  
->> >>          filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
->> >>          export_file_patterns = []
->> >> +        identifiers = None
->> >>  
->> >>          # Tell sphinx of the dependency
->> >>          env.note_dependency(os.path.abspath(filename))
->> >> @@ -86,19 +88,22 @@ class KernelDocDirective(Directive):
->> >>              export_file_patterns = str(self.options.get('internal')).split()
->> >>          elif 'doc' in self.options:
->> >>              cmd += ['-function', str(self.options.get('doc'))]
->> >> +        elif 'identifiers' in self.options:
->> >> +            identifiers = self.options.get('identifiers').split()
->> >>          elif 'functions' in self.options:
->> >> -            functions = self.options.get('functions').split()
->> >> -            if functions:
->> >> -                for f in functions:
->> >> -                    cmd += ['-function', f]
->> >> -            else:
->> >> -                cmd += ['-no-doc-sections']
->> >> +            identifiers = self.options.get('functions').split()
->> >
->> > Rather than do this, can you just change the elif line to read:
->> >
->> >     elif ('identifiers' in self.options) or ('functions' in self.options):
->> >
->> > ...then leave the rest of the code intact?  It keeps the logic together,
->> > and avoids the confusing distinction between identifiers=='' and
->> > identifiers==None .
->> 
->> I think the problem is you still need to distinguish between the two for
->> the get('functions') part.
->> 
->> One option is to rename 'functions' to 'identifiers' in the above block,
->> and put something like this above the whole if ladder (untested):
->> 
->>         # backward compat
->>         if 'functions' in self.options:
->>             if 'identifiers' in self.options:
->>                 kernellog.warn(env.app, "fail")
-> This will miss the content of 'functions' directive if both exist in
-> same doc.
+The third field of inode-state is dummy (=3D=3D 0).
+Update the description about the actual fields and
+dummies.
 
-Did you not notice your patch does the same, except silently, while this
-would produce a warning? Which one is less surprising?
+Signed-off-by: Masatake YAMATO <yamato@redhat.com>
+---
+ Documentation/admin-guide/sysctl/fs.rst | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
->
->>             else:
->>                 self.options.set('identifiers', self.options.get('functions'))
->> 
->> BR,
->> Jani.
->>
-> After comparing, I still perfer my original code which is simpler. :)
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-=
+guide/sysctl/fs.rst
+index 2a45119e3331..596f84a1748d 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -151,18 +151,15 @@ out of inodes, you need to increase this value.
+ The file inode-nr contains the first two items from
+ inode-state, so we'll skip to that file...
+=20
+-Inode-state contains three actual numbers and four dummies.
+-The actual numbers are, in order of appearance, nr_inodes,
+-nr_free_inodes and preshrink.
++Inode-state contains two actual numbers and five dummies.
++The actual numbers are, in order of appearance, nr_inodes
++and nr_free_inodes.
+=20
+ Nr_inodes stands for the number of inodes the system has
+ allocated, this can be slightly more than inode-max because
+ Linux allocates them one pageful at a time.
+=20
+-Nr_free_inodes represents the number of free inodes (?) and
+-preshrink is nonzero when the nr_inodes > inode-max and the
+-system needs to prune the inode list instead of allocating
+-more.
++Nr_free_inodes represents the number of free inodes.
+=20
+=20
+ overflowgid & overflowuid
+--=20
+2.17.2
 
-But is it, really? I agree with Jon about the distinction between None
-and '' being confusing.
-
-
-BR,
-Jani.
-
-
-
->
->> 
->> -- 
->> Jani Nikula, Intel Open Source Graphics Center
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
