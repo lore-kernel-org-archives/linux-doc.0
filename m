@@ -4,87 +4,119 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D82D77DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 06:07:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBDDF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 07:01:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731635AbfJ1GH3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 02:07:29 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44499 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731716AbfJ1GHZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 02:07:25 -0400
-Received: by mail-pl1-f193.google.com with SMTP id q16so4813908pll.11;
-        Sun, 27 Oct 2019 23:07:25 -0700 (PDT)
+        id S1728839AbfJ1HBv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 03:01:51 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:35126 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726182AbfJ1HBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 03:01:51 -0400
+Received: by mail-qt1-f195.google.com with SMTP id l3so2651962qtp.2;
+        Mon, 28 Oct 2019 00:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=N3AnrnW8m8clFq9XuX9N6KUkxKYhGl3KT2G9TPIKHEM=;
-        b=bT52vDaGBuwdvyDqaSD1/IYjhM9gTx5GKu0rpFGpTnEp+vUUEry3qL26DvF4gTll+C
-         Tsg6NIxfTMU8UPtxYojqJlAet/oJktqwY9hMv/NDujzqn4f9kiDSME3+3Y5hsnAZS8LH
-         b96WrKIg58YXA5n6e3vcYIbyRDeSKZ0L2Ueus/iaZ2zqkrsVtUx4BWc40Kh+ilZ4/LNZ
-         EHGZjbFwgKMJDf4C1WMnZJvA9ZFBV9yCqGpVsiTi/9XlEinuePMUleGRp0TX/bTtKGZR
-         at4sGrNQYyv/v9eiv0dUdUzNvwDMCVD0p2bAAbiJ5bcTyZQFuRRYux5r5cjpnTLJKQcZ
-         z2fg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=B8JVLFtcc9aWg+tsverFb6TLrQIPxF39zUE7VKNDhoI=;
+        b=hx7QfTuEid1Hcj9TC3rALkWx+Gku6XnXWmunhXazNO71XEThreP9UWB8Bbni20gYiM
+         sEkQUdjWgoiI7PAdzADqeTbaJQyGZFXJVnSmWMm/RXJ6lqqiQKtAdjTPw7vkmG3j7LtP
+         0XvfwbTK0m2QKX3LHUgqxDvmEK30kijN7fm2IYP5qloO/XJJW9dwQxAcm837u18moSd5
+         Tosf26t4ivUB2P4ACk8BPI2ezXkAUGMwAr48Pc2+hqdGVVEk8XtGwUK+basUtTCTNqi4
+         EQza5taJZUTXnWSASmu5uDmURdnonkMDQXIhakgP97IqoVztrIelaMPK+gWTwQLlt28g
+         e7XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=N3AnrnW8m8clFq9XuX9N6KUkxKYhGl3KT2G9TPIKHEM=;
-        b=pRc47WoXAgvhq2dvxWUadAteefh1aYHeiuNIMlnx7HRZL9XB2WbWrIIAYFk+6AKdGT
-         Vp0z2L6FIbpxRUwwnZiMstadnbGDW4lEVfTI7E8Uy2xDpgjqNd4VYLPmVsW9lqs+TrDc
-         lwmXzIEhxR6BXAJh9FZjWxP1JPJQZ4A5g0o7s/I90OwVlSBZQAhEryooGTI0psd9+ot4
-         rZJtm/RC8pjVNSo7CiA5A2Vhf7p/sbliBihKu1qBee4KQxeCK7BMXpFTsdzcgrl6qiTr
-         Tk4ZTclS39i8LW0n/O8i4SAmF6povxovY71HOuz/F1Ib9utha55TuAQqnnZ7MVzKasHR
-         aU+w==
-X-Gm-Message-State: APjAAAUewOKAVeyYLaK88d82EMhSLtvlDR351DQWr+3me+pJzzF2bUCx
-        jQycC6ldHumFJu4q6QXStq8=
-X-Google-Smtp-Source: APXvYqzUSnrIvw+xmNvs6HOdzZLoYxHxyluQ5VYTuyR6cYdBdKLk+sZRLjYcH4wWEmk0/9YY5QsZZw==
-X-Received: by 2002:a17:902:347:: with SMTP id 65mr16901116pld.161.1572242844300;
-        Sun, 27 Oct 2019 23:07:24 -0700 (PDT)
-Received: from madhuparna-HP-Notebook.nitk.ac.in ([2402:3a80:539:cf3b:393e:2dcf:24de:b4fb])
-        by smtp.gmail.com with ESMTPSA id 70sm746781pfw.160.2019.10.27.23.07.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2019 23:07:23 -0700 (PDT)
-From:   madhuparnabhowmik04@gmail.com
-To:     corbet@lwn.net, mchehab+samsung@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: [PATCH] Documentation: driver-api: index: Removed non-existing document driver-api/sgi-ioc4 from the toctree.
-Date:   Mon, 28 Oct 2019 11:37:10 +0530
-Message-Id: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=B8JVLFtcc9aWg+tsverFb6TLrQIPxF39zUE7VKNDhoI=;
+        b=NB7yPxi5TlntLHLcjUVWlkcdZi9dZTP8j/ALIei2QUIJTLvNW/p4nVDd4FNRKIAccd
+         zDh917kto9AXhoawwXyYdQtbgyBD6p1yMY2Pj/OdKuI30vhq1M8rL3YTOFPES36LRVAz
+         IBdSalaJADLUU62SIhHk/dph87IjXc7j8afIUipom8r3oOr1aOu4u+sg0OUTr/LgdpBE
+         ZrJjj9jNIw2fO84ZyVefez7hGBj+xB7Etd5v955uIeTEb6XiI0Wpd1+wPn4QuJLpzTO1
+         UdxhaQKGWcw7g9DGTGfS+P+qrq0WvQo3JE3q2HDGBMeyvzsaS+O5afDFv9vgf2/P7Y4Z
+         UOfQ==
+X-Gm-Message-State: APjAAAXgqc5++ZX/87boFB71Z2hBPN/dbpyjrhxf84fmdEpXFarp8DGU
+        RulI3FDcdEWJZ7918moEp7labPAufIr2s4MtTDc=
+X-Google-Smtp-Source: APXvYqx2RYAkGHTJdZoVZBWsqyraT9MFsCxp3j+m5VBkKsDI1NziE3k2TjQbNslMx3rA0R2JsmQoQxMDbxfR3cIGwkA=
+X-Received: by 2002:ac8:542:: with SMTP id c2mr16290854qth.338.1572246110227;
+ Mon, 28 Oct 2019 00:01:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191028024101.26655-1-nickhu@andestech.com>
+In-Reply-To: <20191028024101.26655-1-nickhu@andestech.com>
+From:   Greentime Hu <green.hu@gmail.com>
+Date:   Mon, 28 Oct 2019 15:01:14 +0800
+Message-ID: <CAEbi=3cs1h4pOU9TcP3JCp921Jj4qYiGtqWCkJ2VKby0YFbbXg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] KASAN support for RISC-V
+To:     Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime.hu@sifive.com>
+Cc:     aryabinin@virtuozzo.com, Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        gregkh@linuxfoundation.org, alankao@andestech.com,
+        Anup.Patel@wdc.com, atish.patra@wdc.com,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Nick Hu <nickhu@andestech.com> =E6=96=BC 2019=E5=B9=B410=E6=9C=8828=E6=97=
+=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=8810:41=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> KASAN is an important runtime memory debugging feature in linux kernel wh=
+ich can
+> detect use-after-free and out-of-bounds problems.
+>
+> Changes in v2:
+>   - Remove the porting of memmove and exclude the check instead.
+>   - Fix some code noted by Christoph Hellwig
+>
+> Changes in v3:
+>   - Update the KASAN documentation to mention that riscv is supported.
+>
+> Changes in v4:
+>   - Correct the commit log
+>   - Fix the bug reported by Greentime Hu
+>
+> Nick Hu (3):
+>   kasan: No KASAN's memmove check if archs don't have it.
+>   riscv: Add KASAN support
+>   kasan: Add riscv to KASAN documentation.
+>
+>  Documentation/dev-tools/kasan.rst   |   4 +-
+>  arch/riscv/Kconfig                  |   1 +
+>  arch/riscv/include/asm/kasan.h      |  27 ++++++++
+>  arch/riscv/include/asm/pgtable-64.h |   5 ++
+>  arch/riscv/include/asm/string.h     |   9 +++
+>  arch/riscv/kernel/head.S            |   3 +
+>  arch/riscv/kernel/riscv_ksyms.c     |   2 +
+>  arch/riscv/kernel/setup.c           |   5 ++
+>  arch/riscv/kernel/vmlinux.lds.S     |   1 +
+>  arch/riscv/lib/memcpy.S             |   5 +-
+>  arch/riscv/lib/memset.S             |   5 +-
+>  arch/riscv/mm/Makefile              |   6 ++
+>  arch/riscv/mm/kasan_init.c          | 104 ++++++++++++++++++++++++++++
+>  mm/kasan/common.c                   |   2 +
+>  14 files changed, 173 insertions(+), 6 deletions(-)
+>  create mode 100644 arch/riscv/include/asm/kasan.h
+>  create mode 100644 arch/riscv/mm/kasan_init.c
+>
+Hi Nick,
 
-This patches fixes the WARNING: toctree contains reference
-to nonexisting document u'driver-api/sgi-ioc4'by removing
-it from the toctree in the index.rst file.
+I have tested KASAN feature with test_kasan.ko based on commit
+cd9e72b80090a8cd7d84a47a30a06fa92ff277d1 (tag: riscv/for-v5.4-rc3) and
+it passed in Qemu and Unleashed board.
+Thank you for fixing the bug. :)
 
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
----
- Documentation/driver-api/index.rst | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 38e638abe3eb..6d46ceeb62c4 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -93,7 +93,6 @@ available subsections can be seen below.
-    pwm
-    rfkill
-    serial/index
--   sgi-ioc4
-    sm501
-    smsc_ece1099
-    switchtec
--- 
-2.17.1
-
+Tested-by: Greentime Hu <greentime.hu@sifive.com>
