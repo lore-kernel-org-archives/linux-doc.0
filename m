@@ -7,56 +7,55 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAA057D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 15:20:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49DE67D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 15:25:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731176AbfJ1PTz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 11:19:55 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45661 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730149AbfJ1PTz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 11:19:55 -0400
-Received: by mail-pl1-f196.google.com with SMTP id y24so5711223plr.12;
-        Mon, 28 Oct 2019 08:19:53 -0700 (PDT)
+        id S1727828AbfJ1PZC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 11:25:02 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37705 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726789AbfJ1PZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 11:25:01 -0400
+Received: by mail-pf1-f194.google.com with SMTP id u9so2369552pfn.4;
+        Mon, 28 Oct 2019 08:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=Y5HapZnby+jyqPlPKCmmD1uZdwYPEqf/I0zhoDbSqdE=;
-        b=pit86DQrHLHcPW+IaWOpF5Q1YGkUJQQofm3PHHK+/6cozH3AGBQ9dBZg75b60WxPQV
-         AEcZ95OpnuuwG09kNyzgVsDppHsDIpGsBg3yCHeGQ7nnToDdma6IMRv7fOPpCC26qOFz
-         DGgbbD/83h/RndSa/xKKwKyQ2OVNQsKOeW+GIOL4YF7mrH1R0xYL+WUJhnwZhnlON0YY
-         a9yyjvAyQW4nuWxB9cGW4keFDDfRMd+LlboAhXNTUiOs+94CTCT/I4imahM2xOl38o4b
-         q/vmhor4lfPdU4ImyUf7Od58aQHgII5AKZyIP6FTisKY//sURPzLIqkVTpQHg/ivgUaU
-         R0cQ==
+        bh=pL2Y/Napl6xRtES8uxsPO4Id7Om/+VG/4N+uJFv9jeU=;
+        b=QngVd56bCF3awkXja0+4u23UGHljYZp+veoLXhE5fBAhNDlZ5j6rFPLuyU+XvJDSw2
+         zPGZSxQPVvaofcptT9Lbw82nA65AhUnRhPXS9m6okpPS1KtCu4K9hwGMr1ZyLYin0jWZ
+         cVpCL1DFlX3RHKvnes+Q7FwrF+zhr3foaTgkhk4zSO1SeNYEdGHA1vrSVFAjQ3FY3Et8
+         8dVQY9SIEsovfoZzmG6s1wGr4Bd1YTzddnVkJcsekfggOEgttJjw73U+udEO01qPR3gF
+         +xwUKIgkioQY0UHjs98IDi+COfScDwNQbxak7mpISHPPqETOt/3jxW71U6UnzUgQ1mod
+         N3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Y5HapZnby+jyqPlPKCmmD1uZdwYPEqf/I0zhoDbSqdE=;
-        b=JEE1Vaf9jNBNWvOuVTKIhOUZ0gpmIe2c8b/dk1MfFN0jislc87Sf4JDmouXpi8Vw/p
-         Jo7vJvWvmxuodXpxIjPFaKTN6EZOClR1ywkGnZxwpYHrK2KTTVTbCrTEPXQmPSNnmJRG
-         Za8iqlpkyPqMRu91CiZHRYLAG86sLa3lAIr4Xe03dYrQNL3dTL8nWJEeZYYQS03LRG2z
-         Rl5WKoP5DgozgGx0TBF6fCAWdp1Bhd1dBKHMV4EzVaoZqv8uVSU8/kSLeO9p/QsNQrTv
-         7lKTyVPK7y5XCGxrsEWGnv45UGjssVe2lR9xdDqNDt9fX8MCzAmAU1KMnUnNcaak/nhO
-         Dmqw==
-X-Gm-Message-State: APjAAAUPxo7F3QHh6ZRxSgOA3CSVxIZiAZFAgMF7nqHGyQIn0pxf3wZT
-        S5rveogxxA3E89PxDULfCW5gvk7L
-X-Google-Smtp-Source: APXvYqz/qPZxoEoqjtjh3D3T3Ocbjc4GSVeld18Am5kZixE3i0NSPmDnUsQxPpaVV0J2yI+G/w5PbQ==
-X-Received: by 2002:a17:902:b116:: with SMTP id q22mr19353634plr.201.1572275992639;
-        Mon, 28 Oct 2019 08:19:52 -0700 (PDT)
+        bh=pL2Y/Napl6xRtES8uxsPO4Id7Om/+VG/4N+uJFv9jeU=;
+        b=MvSh/CropdxZQ/BxBkzsFm+AdPQc4Ji5ADg2r6RfG7ya4RYnw5hWGw+0yCc6SUbyzh
+         1E5U3qCVy7a/HXVu9shZ0T4QjffppeQjyjA0i6jBHaLKpXPHe3484vn3Ql7m0imaEa7s
+         DJGJK3k9lelnCSwNN395Q+71OASjvbZb9XioxDDqKxB+JBDzuF7ZtW7l2gFQ1BALQ0Yh
+         3+dehGYUd8FAkrf1ke3a9VKdajF+uXIoc43OqYOtNjaeZdynwIZ31TbS59dwIIvFL0lP
+         Nn5DZ1uphu7vCbtotqWuqk95Z7r5YzabpquM52rEjmk/Fc9vrKINdKFoNOt0wHEn2/2b
+         byHA==
+X-Gm-Message-State: APjAAAXa9DNnqVTpFmeCpitjSqcGhENqIpZRaRfwA2MwR8bjfiajeuFe
+        w0OpGQA9piSg8jm87dEkqCg=
+X-Google-Smtp-Source: APXvYqxouyzNm6f/ekIsibuoJxCA9z/lYenaWWg2c48z768Wjkey77dRgkBqRfYg4UMU9OoMmENmkA==
+X-Received: by 2002:a17:90a:4804:: with SMTP id a4mr693067pjh.102.1572276300287;
+        Mon, 28 Oct 2019 08:25:00 -0700 (PDT)
 Received: from madhuparna-HP-Notebook.nitk.ac.in ([2402:3a80:51e:687:393e:2dcf:24de:b4fb])
-        by smtp.gmail.com with ESMTPSA id v3sm2786467pfn.171.2019.10.28.08.19.48
+        by smtp.gmail.com with ESMTPSA id j25sm10691763pfi.113.2019.10.28.08.24.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 08:19:52 -0700 (PDT)
+        Mon, 28 Oct 2019 08:24:59 -0700 (PDT)
 From:   madhuparnabhowmik04@gmail.com
 To:     paulmck@kernel.org, joel@joelfernandes.org, corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, rcu@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>,
-        Madhuparna Bhowmik <madhuparnbhowmik04@gmail.com>
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 Subject: [PATCH 2/2] Documentation: RCU: Converted arrayRCU.txt to arrayRCU.rst.
-Date:   Mon, 28 Oct 2019 20:49:36 +0530
-Message-Id: <20191028151936.27016-1-madhuparnabhowmik04@gmail.com>
+Date:   Mon, 28 Oct 2019 20:54:49 +0530
+Message-Id: <20191028152449.27264-1-madhuparnabhowmik04@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -68,7 +67,6 @@ From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 This patch converts arrayRCU from txt to rst format.
 arrayRCU.rst is also added in the index.rst file.
 
-Signed-off-by: Madhuparna Bhowmik <madhuparnbhowmik04@gmail.com>
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 ---
  .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 ++++++++++++++----
