@@ -1,169 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B09C77D981
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 21:00:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 185397E2CD
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 21:08:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730030AbfJ1VAQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 17:00:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45084 "EHLO mail.kernel.org"
+        id S2391197AbfJ1VHk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 17:07:40 -0400
+Received: from mga01.intel.com ([192.55.52.88]:42989 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729449AbfJ1VAP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Oct 2019 17:00:15 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95BD4218BA;
-        Mon, 28 Oct 2019 21:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572296414;
-        bh=wwm/g/IquAE4Y9gTiClWk0zw3UhnWwDbyNiv8CPDbcU=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Rk7M/peu0QxJ1PXDReaKjGE0RrFqATy/j3UFbJm/CyHM1Z4IZsiMDqKghZwcDHpHL
-         nQrR0WRfxd6UhDgt3PeierO8WZKgTho9OOMW+Ls6a+EoUpLSn7rKGW4N+BRRcMXfY2
-         Eng1/e2fIjzpLWWSlcpcPtZ4+1qKLEmVfzizZuWg=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 618BF3522C0D; Mon, 28 Oct 2019 14:00:14 -0700 (PDT)
-Date:   Mon, 28 Oct 2019 14:00:14 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     madhuparnabhowmik04@gmail.com
-Cc:     paulmck@kernel.org, joel@joelfernandes.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Documentation: RCU: arrayRCU: Converted arrayRCU.txt to
- arrayRCU.rst
-Message-ID: <20191028210014.GD20975@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191028202417.13095-1-madhuparnabhowmik04@gmail.com>
+        id S2404060AbfJ1VHj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Oct 2019 17:07:39 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 14:07:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,241,1569308400"; 
+   d="scan'208";a="224760299"
+Received: from shrehore-mobl1.ti.intel.com (HELO localhost) ([10.251.82.5])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2019 14:07:31 -0700
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-sgx@vger.kernel.org
+Cc:     akpm@linux-foundation.org, dave.hansen@intel.com,
+        sean.j.christopherson@intel.com, nhorman@redhat.com,
+        npmccallum@redhat.com, serge.ayoun@intel.com,
+        shay.katz-zamir@intel.com, haitao.huang@intel.com,
+        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
+        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
+        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
+        cedric.xing@intel.com, puiterwijk@redhat.com,
+        linux-doc@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Subject: [PATCH v23 24/24] docs: x86/sgx: Document kernel internals
+Date:   Mon, 28 Oct 2019 23:03:24 +0200
+Message-Id: <20191028210324.12475-25-jarkko.sakkinen@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191028210324.12475-1-jarkko.sakkinen@linux.intel.com>
+References: <20191028210324.12475-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191028202417.13095-1-madhuparnabhowmik04@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 01:54:17AM +0530, madhuparnabhowmik04@gmail.com wrote:
-> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> 
-> This patch converts arrayRCU from txt to rst format.
-> arrayRCU.rst is also added in the index.rst file.
-> 
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Much better, thank you!
+Document some of the more tricky parts of the kernel implementation
+internals.
 
-I queued this with a small but important change called out below.
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Co-developed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+---
+ Documentation/x86/sgx/2.Kernel-internals.rst | 78 ++++++++++++++++++++
+ Documentation/x86/sgx/index.rst              |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 Documentation/x86/sgx/2.Kernel-internals.rst
 
-> ---
->  .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 +++++++++++++-----
->  Documentation/RCU/index.rst                    |  1 +
->  2 files changed, 14 insertions(+), 5 deletions(-)
->  rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (91%)
-> 
-> diff --git a/Documentation/RCU/arrayRCU.txt b/Documentation/RCU/arrayRCU.rst
-> similarity index 91%
-> rename from Documentation/RCU/arrayRCU.txt
-> rename to Documentation/RCU/arrayRCU.rst
-> index f05a9afb2c39..ed5ae24b196e 100644
-> --- a/Documentation/RCU/arrayRCU.txt
-> +++ b/Documentation/RCU/arrayRCU.rst
-> @@ -1,5 +1,7 @@
-> -Using RCU to Protect Read-Mostly Arrays
-> +.. _array_rcu_doc:
->  
-> +Using RCU to Protect Read-Mostly Arrays
-> +=======================================
->  
->  Although RCU is more commonly used to protect linked lists, it can
->  also be used to protect arrays.  Three situations are as follows:
-> @@ -26,6 +28,7 @@ described in the following sections.
->  
->  
->  Situation 1: Hash Tables
-> +------------------------
->  
->  Hash tables are often implemented as an array, where each array entry
->  has a linked-list hash chain.  Each hash chain can be protected by RCU
-> @@ -34,6 +37,7 @@ to other array-of-list situations, such as radix trees.
->  
->  
->  Situation 2: Static Arrays
-> +--------------------------
->  
->  Static arrays, where the data (rather than a pointer to the data) is
->  located in each array element, and where the array is never resized,
-> @@ -41,11 +45,13 @@ have not been used with RCU.  Rik van Riel recommends using seqlock in
->  this situation, which would also have minimal read-side overhead as long
->  as updates are rare.
->  
-> -Quick Quiz:  Why is it so important that updates be rare when
-> -	     using seqlock?
-> +Quick Quiz:  
+diff --git a/Documentation/x86/sgx/2.Kernel-internals.rst b/Documentation/x86/sgx/2.Kernel-internals.rst
+new file mode 100644
+index 000000000000..7bfd5cb19b8e
+--- /dev/null
++++ b/Documentation/x86/sgx/2.Kernel-internals.rst
+@@ -0,0 +1,78 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================
++Kernel Internals
++================
++
++CPU configuration
++=================
++
++Because SGX has an ever evolving and expanding feature set, it's possible for
++a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
++e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
++*not* support such a heterogeneous system configuration, nor does it even
++attempt to play nice in the face of a misconfigured system.  With the exception
++of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
++CPUs have a configuration that is identical to the boot CPU.
++
++EPC management
++==============
++
++Because the kernel can't arbitrarily read EPC memory or share RO backing pages
++between enclaves, traditional memory models such as CoW and fork() do not work
++with enclaves.  In other words, the architectural rules of EPC force it to be
++treated as MAP_SHARED at all times.
++
++The inability to employ traditional memory models also means that EPC memory
++must be isolated from normal memory pools, e.g. attempting to use EPC memory
++for normal mappings would result in faults and/or perceived data corruption.
++Furthermore, EPC is not enumerated as normal memory, e.g. BIOS enumerates
++EPC as reserved memory in the e820 tables, or not at all.  As a result, EPC
++memory is directly managed by the SGX subsystem, e.g. SGX employs VM_PFNMAP to
++manually insert/zap/swap page table entries, and exposes EPC to userspace via
++a well known device, /dev/sgx/enclave.
++
++The net effect is that all enclave VMAs must be MAP_SHARED and are backed by
++a single file, /dev/sgx/enclave.
++
++EPC oversubscription
++====================
++
++SGX allows to have larger enclaves the than amount of available EPC by providing
++a subset of leaf instructions for swapping EPC pages to the system memory. The
++details of these instructions are discussed in the architecture document. Due to
++the unique requirements for swapping EPC pages, and because EPC pages do not
++have associated page structures, management of the EPC is not handled by the
++standard memory subsystem.
++
++SGX directly handles swapping of EPC pages, including a thread to initiate the
++reclaiming process and a rudimentary LRU mechanism. When the amount of free EPC
++pages goes below a low watermark the swapping thread starts reclaiming pages.
++The pages that have not been recently accessed (i.e. do not have the A bit set)
++are selected as victim pages. Each enclave holds an shmem file as a backing
++storage for reclaimed pages.
++
++Launch Control
++==============
++
++The current kernel implementation supports only writable MSRs. The launch is
++performed by setting the MSRs to the hash of the public key modulus of the
++enclave signer and a token with the valid bit set to zero.
++
++If the MSRs were read-only, the platform would need to provide a launch enclave
++(LE), which would be signed with the key matching the MSRs. The LE creates
++cryptographic tokens for other enclaves that they can pass together with their
++signature to the ENCLS(EINIT) opcode, which is used to initialize enclaves.
++
++Provisioning
++============
++
++The use of provisioning must be controlled because it allows to get access to
++the provisioning keys to attest to a remote party that the software is running
++inside a legitimate enclave. This could be used by a malware network to ensure
++that its nodes are running inside legitimate enclaves.
++
++The driver introduces a special device file /dev/sgx/provision and a special
++ioctl SGX_IOC_ENCLAVE_SET_ATTRIBUTE to accomplish this. A file descriptor
++pointing to /dev/sgx/provision is passed to ioctl from which kernel authorizes
++the PROVISION_KEY attribute to the enclave.
+diff --git a/Documentation/x86/sgx/index.rst b/Documentation/x86/sgx/index.rst
+index c5dfef62e612..5d660e83d984 100644
+--- a/Documentation/x86/sgx/index.rst
++++ b/Documentation/x86/sgx/index.rst
+@@ -14,3 +14,4 @@ potentially malicious.
+    :maxdepth: 1
+ 
+    1.Architecture
++   2.Kernel-internals
+-- 
+2.20.1
 
-The above line added trailing whitespace.  I removed it for you, but
-please check for this on future submissions.  ;-)
-
-							Thanx, Paul
-
-> +		Why is it so important that updates be rare when using seqlock?
->  
-> +:ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
->  
->  Situation 3: Resizeable Arrays
-> +------------------------------
->  
->  Use of RCU for resizeable arrays is demonstrated by the grow_ary()
->  function formerly used by the System V IPC code.  The array is used
-> @@ -60,7 +66,7 @@ the remainder of the new, updates the ids->entries pointer to point to
->  the new array, and invokes ipc_rcu_putref() to free up the old array.
->  Note that rcu_assign_pointer() is used to update the ids->entries pointer,
->  which includes any memory barriers required on whatever architecture
-> -you are running on.
-> +you are running on.::
->  
->  	static int grow_ary(struct ipc_ids* ids, int newsize)
->  	{
-> @@ -112,7 +118,7 @@ a simple check suffices.  The pointer to the structure corresponding
->  to the desired IPC object is placed in "out", with NULL indicating
->  a non-existent entry.  After acquiring "out->lock", the "out->deleted"
->  flag indicates whether the IPC object is in the process of being
-> -deleted, and, if not, the pointer is returned.
-> +deleted, and, if not, the pointer is returned.::
->  
->  	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
->  	{
-> @@ -144,8 +150,10 @@ deleted, and, if not, the pointer is returned.
->  		return out;
->  	}
->  
-> +.. _answer_quick_quiz_seqlock:
->  
->  Answer to Quick Quiz:
-> +	Why is it so important that updates be rare when using seqlock?
->  
->  	The reason that it is important that updates be rare when
->  	using seqlock is that frequent updates can livelock readers.
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index 5c99185710fa..8d20d44f8fd4 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -7,6 +7,7 @@ RCU concepts
->  .. toctree::
->     :maxdepth: 3
->  
-> +   arrayRCU
->     rcu
->     listRCU
->     UP
-> -- 
-> 2.17.1
-> 
