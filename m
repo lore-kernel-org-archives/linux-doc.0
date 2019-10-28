@@ -3,112 +3,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DFC27D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 16:08:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A26D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Oct 2019 16:27:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390797AbfJ1QIK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Oct 2019 12:08:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52830 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727957AbfJ1QIK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Oct 2019 12:08:10 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9SFsZ2m124217
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2019 12:08:08 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2vx2xm9h8q-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2019 12:08:08 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <jwi@linux.ibm.com>;
-        Mon, 28 Oct 2019 16:08:06 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 28 Oct 2019 16:08:03 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9SG7TWW37290408
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 28 Oct 2019 16:07:29 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E8F6C52065;
-        Mon, 28 Oct 2019 16:08:02 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A7D4352051;
-        Mon, 28 Oct 2019 16:08:02 +0000 (GMT)
-From:   Julian Wiedmann <jwi@linux.ibm.com>
-To:     David Miller <davem@davemloft.net>
-Cc:     <netdev@vger.kernel.org>, Julian Wiedmann <jwi@linux.ibm.com>,
-        Jarod Wilson <jarod@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH net-next] Documentation: net-sysfs: describe missing statistics
-Date:   Mon, 28 Oct 2019 17:08:00 +0100
-X-Mailer: git-send-email 2.17.1
-X-TM-AS-GCONF: 00
-x-cbid: 19102816-4275-0000-0000-0000037880A9
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102816-4276-0000-0000-0000388BB441
-Message-Id: <20191028160800.69707-1-jwi@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-28_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910280160
+        id S1732535AbfJ1Q1S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Oct 2019 12:27:18 -0400
+Received: from fieldses.org ([173.255.197.46]:34636 "EHLO fieldses.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732424AbfJ1Q1S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Oct 2019 12:27:18 -0400
+Received: by fieldses.org (Postfix, from userid 2815)
+        id E2C0F1510; Mon, 28 Oct 2019 12:27:17 -0400 (EDT)
+Date:   Mon, 28 Oct 2019 12:27:17 -0400
+From:   "J. Bruce Fields" <bfields@fieldses.org>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        Mark Salyzyn <salyzyn@android.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH v14 2/5] overlayfs: check CAP_DAC_READ_SEARCH before
+ issuing exportfs_decode_fh
+Message-ID: <20191028162717.GB5339@fieldses.org>
+References: <20191022204453.97058-1-salyzyn@android.com>
+ <20191022204453.97058-3-salyzyn@android.com>
+ <CAJfpegsCzwXF5fD1oA+XMrPQ7u8URsXRGOOHkB=ON7fLnd_gFQ@mail.gmail.com>
+ <CAOQ4uxh_K=p7z+qbkjSf_+hhVsw9xBuNc61dYnpkHFVUfxJaCw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxh_K=p7z+qbkjSf_+hhVsw9xBuNc61dYnpkHFVUfxJaCw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sync the ABI description with the interface statistics that are currently
-available through sysfs.
+On Sun, Oct 27, 2019 at 09:24:52AM +0200, Amir Goldstein wrote:
+> Well, it's not that simple (TM).
+> If you are considering unprivileged overlay mounts, then this should be
+> ns_capable() check, even though open_by_handle_at(2) does not
+> currently allow userspace nfsd to decode file handles.
+> 
+> Unlike open_by_handle_at(2), overlayfs (currently) never exposes file
+> data via decoded origin fh. AFAIK, it only exposes the origin st_ino
+> st_dev and some nlink related accounting.
+> 
+> I have been trying to understand from code if nfsd exports are allowed
+> from non privileged containers and couldn't figure it out (?).
+> If non privileged container is allowed to export nosubtreecheck export
+> then non privileged container root can already decode file handles...
 
-CC: Jarod Wilson <jarod@redhat.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
-Signed-off-by: Julian Wiedmann <jwi@linux.ibm.com>
----
- .../ABI/testing/sysfs-class-net-statistics       | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+I don't see any special checks in nfsctl_transaction_write() or
+write_threads().  I guess it's just depending on the (0600) file
+permissions.  I'm vague on how file permissions work in containers.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-net-statistics b/Documentation/ABI/testing/sysfs-class-net-statistics
-index 397118de7b5e..55db27815361 100644
---- a/Documentation/ABI/testing/sysfs-class-net-statistics
-+++ b/Documentation/ABI/testing/sysfs-class-net-statistics
-@@ -51,6 +51,14 @@ Description:
- 		packet processing. See the network driver for the exact
- 		meaning of this value.
- 
-+What:		/sys/class/<iface>/statistics/rx_errors
-+Date:		April 2005
-+KernelVersion:	2.6.12
-+Contact:	netdev@vger.kernel.org
-+Description:
-+		Indicates the number of receive errors on this network device.
-+		See the network driver for the exact meaning of this value.
-+
- What:		/sys/class/<iface>/statistics/rx_fifo_errors
- Date:		April 2005
- KernelVersion:	2.6.12
-@@ -88,6 +96,14 @@ Description:
- 		due to lack of capacity in the receive side. See the network
- 		driver for the exact meaning of this value.
- 
-+What:		/sys/class/<iface>/statistics/rx_nohandler
-+Date:		February 2016
-+KernelVersion:	4.6
-+Contact:	netdev@vger.kernel.org
-+Description:
-+		Indicates the number of received packets that were dropped on
-+		an inactive device by the network core.
-+
- What:		/sys/class/<iface>/statistics/rx_over_errors
- Date:		April 2005
- KernelVersion:	2.6.12
--- 
-2.17.1
+The issue with filehandles is that they allow you to bypass directory
+lookup permissions.  Keeping a file private by denying permission to
+look it up doesn't sound like a good idea to me, honestly, but it does
+work on local posix filesystems, so we don't want to break that.
 
+Filehandles are generally pretty easy to guess, and can't be revoked, so
+we're more worried about using them (with open_by_handle_at()) than
+reading them (with name_to_handle_at()), but we try to prevent the
+latter as well.
+
+--b.
