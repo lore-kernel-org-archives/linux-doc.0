@@ -1,135 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 963527DD29
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:02:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 882CB7D918
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729350AbfJ2UBu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 16:01:50 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:45064 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbfJ2UBu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:01:50 -0400
-Received: by mail-io1-f67.google.com with SMTP id s17so9073953iol.12;
-        Tue, 29 Oct 2019 13:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z4hr0FMxfA+kYkgm3Ro1D5BbnteVX2yo0/0yuGrjRdA=;
-        b=X3sbd4OeC6FrppO2Pg9wCkdRUI39oEJdQ5xobYASHaOm4HesmYJUMjOyJAhRipuYJM
-         atctOwga15+8JWc/HVovyN2m62TFr8c5jEo8pc8b1cjjuB2T7HBKX5vF4cmXBAYG/5qZ
-         FBjO+3udauyMc1aui3GghRNXt7a+cDSgmKvtkKR1sUA5JGsC4Yd14iInGkLVZxrQODdS
-         sJWqjwy7So4b5V4D8EwtHaXYS4pzXPXOH/AIT/MlAApxYlnD7SKKQe/8gf6Sik3+ZsKi
-         gRtEGtvbgPnZ7mwyDSYVBk4GPLp5UAlk6ct2pzcWfrUljmTv64jW43tSxmsyda8Q3Roz
-         5cMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z4hr0FMxfA+kYkgm3Ro1D5BbnteVX2yo0/0yuGrjRdA=;
-        b=Py98NmrpLbkQ8lBPy4I+4ILIDdQQFNcis3f9Jqw0j+biZ5BxBBjxoDniWakHJzMZVA
-         KnOo0FRZWTBKCisoGh/qo2CzY6MVgWYIUbGkCWinsjMNy7q1U1H9lqZlV3LoZ387Odq1
-         eqNzIJUKL6nmBS4VayiHuk9OiXPOxb6pDKtSdNjF9M5SXJpddpR7JGqumK3MmXfhEAO2
-         PpxXIB0CL6avE5oE+8x4s8i8PHk2nU3fLGN/vBwlnJuMcw5SlWV4WxDUEwt5uTjFSij0
-         drdWOhyu+btIy/xEFmmfDeUKENpDI+A3bGgVqpXa4FehdU+yp1zJr/vZ+vMWixWxhq1H
-         SbRw==
-X-Gm-Message-State: APjAAAViX+m/pM01G7w+s0t90Ysb61wX4xXnAMGgwPLBD8Y62I4d3uVW
-        SFSpdCAs1tH6quvjmMH3Rjc=
-X-Google-Smtp-Source: APXvYqyMz+67RLhk7pF+qzmwP5hCboAVMJ8/07pniVOZwFDC7MWPvU60FwI6qHGFlmhU/9kyw/yBxw==
-X-Received: by 2002:a6b:5503:: with SMTP id j3mr5643169iob.151.1572379309543;
-        Tue, 29 Oct 2019 13:01:49 -0700 (PDT)
-Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id l24sm3615ioh.6.2019.10.29.13.01.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 13:01:48 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
-Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 16/16] dyndbg: allow inverted-flag-chars in modflags
-Date:   Tue, 29 Oct 2019 14:01:42 -0600
-Message-Id: <20191029200143.10421-1-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        id S1725959AbfJ2UKS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 16:10:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56574 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725922AbfJ2UKS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:10:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=nc7bEdR1NmpD3hIU6RwdoUbYatCVvAaB4mjOO9zrdHI=; b=gzJEMKWaArDZvnXnt66OduUih
+        SFp/amCaujtg8MnXiUr1klZJ9/2d8teQtivvKEIZpoELkUqfWOW3sPHZTy72fjft4ceEtEf+kVCTD
+        omnPyYvQxrE/Od3MpuWDlukUpDtDoseD0r8j7X+Z/PXDQDVBG/w6pftm5QErKv0Xh+431cjNUE+LV
+        zcGR+eBrhLMJ0/dEETa5E/d8G1K6waGrHn15CQ8LaB9v1bMjLPeRQtk+D9Y3XUg6iLh9UxkcNZCjp
+        ku6XG9O5g/7o6LX97g6vVJtn3V0/pCS2C7kDDCeZoJhAYfkkCLspgrJ0vpIQDQtRDwxbIpjJ/aala
+        w8gdp/C2A==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iPXon-0005lq-Ft; Tue, 29 Oct 2019 20:10:17 +0000
+Subject: Re: Sphinx parallel build errors
+To:     Markus Heiser <markus.heiser@darmarit.de>,
+        Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <dc19a670-7e8e-04e5-667d-578c2dd3754e@infradead.org>
+ <201910091929.0C058BB@keescook> <20191010124832.23bc4362@lwn.net>
+ <c6263597-e9d0-5a1f-effd-d1706c24e666@infradead.org>
+ <8305ffe2-51ba-eb4b-4d44-2defe45aa68f@infradead.org>
+ <20191027121729.59c1d539@lwn.net>
+ <c0be66ed-eb97-bc19-5bdb-0ef8903c3709@infradead.org>
+ <20191027160507.6d7be266@coco.lan> <201910281205.DD5B74F@keescook>
+ <205d5664-88b9-36d4-75f3-67b51884bbda@darmarit.de>
+ <c0f0af19-0a77-8640-0152-7558aa367752@infradead.org>
+ <f6df7edc-74bf-74b3-1dcd-203d74d0787e@darmarit.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5c7c968d-800f-7d29-e52e-e163ffe2dc8c@infradead.org>
+Date:   Tue, 29 Oct 2019 13:10:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <f6df7edc-74bf-74b3-1dcd-203d74d0787e@darmarit.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend flags modifications to allow [PFMLT_XYZ] inverted flags.
-This allows control-queries like:
+On 10/29/19 12:57 PM, Markus Heiser wrote:
+> Am 29.10.19 um 20:41 schrieb Randy Dunlap:
+>>> In the past I run sphinx builds on a small 4GB VM (2cpu) without any problems.
+>>> (nowadays) 16 CPU, 16 GB PC with sphinx-build the max load of my whole PC is
+>>> about 5GB (*more CPUs need more mem*).
+>>>
+>>> @Randy you said the build machine hase 8GB .. and how much CPUs?
+>>
+>> 4.
+>>
+> 
+>>>> Randy, are you able to just use -j2 or similar with your builds to avoid
+>>>> this?
+>>
+>> No, sometimes even -j1 fails with oom-killer. >
+>>> @Randy: my first questions are:
+>>>
+>>> - cpu / mem?
+>>> - are OOM-kills when building target htmldocs, pdfdocs or ..?
+>>
+>> htmldocs
+>>
+>>> - which py & sphinx version are used? Reference installation see 'virtualenv'
+>>>    in [1]
+>>
+>> Python 2.7.14
+>> sphinx-build 1.7.6
+> 
+> Seems nothing special in your environment .. its strange to me.
+> 
+> Installing new sphinx-doc will not help, you are fighting with some
+> other problems.  Hoped that I can help, but realize that I don't have
+> a clue what it is / sorry.
 
-  #> Q () { echo file inode.c $* > control } # to type less
-  #> Q -P	# same as +p
-  #> Q +X	# same as -x
-  #> Q xyz-P	# same as xyz+p
+No problem.  Thanks for looking.
 
-This allows flags in a callsite to be simultaneously set and cleared,
-while still starting with the current flagstate (with +- ops).
-Generally, you chose -p or +p 1st, then set or clear flags
-accordingly.
-
-  # enable print on callsites with 'xy'; and re-mark with just 'z'
-  #> Q xy+pXYz
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- Documentation/admin-guide/dynamic-debug-howto.rst | 8 +++++---
- lib/dynamic_debug.c                               | 6 ++++--
- 2 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 5404e23eeac8..493e74a14bdd 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -250,9 +250,11 @@ only callsites with x&y cleared.
- 
- Flagsets cannot contain ``xX`` etc, a flag cannot be true and false.
- 
--modflags containing upper-case flags is reserved/undefined for now.
--inverted-flags are currently ignored, usage gets trickier if given
--``-pXy``, it should leave x set.
-+modflags may contain upper-case flags also, using these lets you
-+invert the flag setting implied by the OP; '-pX' means disable
-+printing, and mark that callsite with usr-x flag to create a group,
-+for optional further manipulation.  Generally, '+p' and '-p' is your
-+main choice, and use of inverted flags in modflags is rare.
- 
- Notes::
- 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index f1ff7e30753e..4e14fc588b4d 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -474,15 +474,17 @@ static int ddebug_parse_flags(const char *str,
- 
- 	/* calculate final mods: flags, mask based upon op */
- 	switch (op) {
-+		unsigned int tmp;
- 	case '=':
- 		mods->mask = 0;
- 		break;
- 	case '+':
--		mods->mask = ~0U;
-+		mods->mask = ~mods->mask;
- 		break;
- 	case '-':
-+		tmp = mods->mask;
- 		mods->mask = ~mods->flags;
--		mods->flags = 0;
-+		mods->flags = tmp;
- 		break;
- 	}
- 
 -- 
-2.21.0
+~Randy
 
