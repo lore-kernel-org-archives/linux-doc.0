@@ -6,58 +6,57 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C28D7DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:01:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 75DAC7DE7B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbfJ2UAS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 16:00:18 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:33705 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbfJ2UAR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:00:17 -0400
-Received: by mail-io1-f66.google.com with SMTP id n17so3104080ioa.0;
-        Tue, 29 Oct 2019 13:00:16 -0700 (PDT)
+        id S1727381AbfJ2UAz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 16:00:55 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:42124 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbfJ2UAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:00:55 -0400
+Received: by mail-io1-f65.google.com with SMTP id k1so7208659iom.9;
+        Tue, 29 Oct 2019 13:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XFtN+XGvbR1I6A3qEJqZM9z+JSUPPupQU7FJEjlcOXU=;
-        b=JR0vw0hbABPx+plRSJz53fHZYUuZWTk8x9Ldf8KysVTFsqAdiLX5uJclKbxOrENE1g
-         ep4egRhA43e4I41wtOAZnVzpZZ571NfsusYWFfT2J/zYBa3lH0T4UmLZWCYRcI+MxsNJ
-         aOmVc1Cxe2dtHba9THbRElcuj4PYfhy97dr2W7qYK7Q/6QYSvxCg2fwtWtqHZBKWmpyF
-         Eu70sAcN7VRfGZ8Bzq2uOBHoiPXK1m5akC293s7wCfw/Myw7zauakKhKHk3eT7zD342Z
-         Ww8rStz+26KaU9L0l0n3+FsTxZ7vfN4z2rZH3DrgiZBS4xLJ9T28FDuXeZa+CP7jlHGm
-         8Hvw==
+        bh=kvArWGhaU3mTjk6yI7cEpfbsp4jj50oWV3j4D4Y3qm4=;
+        b=ZPew8o4v1dMjAZcJzqogz3r9chMp7On4fSf54JrX+aKyfqNuT2yeN/pCksOIpOKemD
+         HRPXg9yb77KrAnw7zn5uUKpHPbhGVBXxP060iim/NzyBrA5hwjRak19EnCm/RZ5SCHLv
+         CTfLJqpPchduxuLcNviu+BR0A34doL+TZteVYjetCiNDI886umK4im4rU7dcEiCj6Bv3
+         uKef+HG4wmkhd/Oy0htACWPaVNDir+5KjDKb6Gp/+GCNggffs01+NkM/FkXwhWYVaV1J
+         HwWnkLQ3Fh5ZVMCU5rtBuGWyom2iUUqDMz4fSKB73wUHG1lxy3af2BkixDul0DJN5Qzh
+         /38w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XFtN+XGvbR1I6A3qEJqZM9z+JSUPPupQU7FJEjlcOXU=;
-        b=dEViGdBeqwWzxb0k1guYu4SOMe4SY6dbpicjXbSM5OMVHjRfi4THoeHI4begW9LHtg
-         mk4rVSdYKS5hcGA0MrZJFComCas4dXYHMtH7LTX0y7Ezbsfx3IzNfA4tKvPdXSZLfOSx
-         ju6M69S3jriEGw7FVACzpiVYeuajhX8ERFyzFcQnr8jKyGnNrs7TijtrJiCtvCf82G3M
-         cVzYKciSHo3PcK0Nv3jVyS/yeTxh0uEX6SwlTka09qi+RBmsedu+bQkptgTi5EWnR/M1
-         w5RvlS4/5kkJn5L2sAnjEAKhL/X9ENlKPmpcQwqWRDU3+ZSS152SAiw0BQiKfDYMYxh0
-         gVug==
-X-Gm-Message-State: APjAAAW9ChvLcOi/VHE9rkJ5TIU7XAHX07q+SGcsKHY1qhkA62KUwtpD
-        WdHI9sXAyhT9jwv1CNWLWBPmmgzmZas=
-X-Google-Smtp-Source: APXvYqytZC735/YDLLdQj1rP8iMwjXHtXvM9JN0dpSLnDJtr39J5ZpCT/eVDRirnkaX5JYzzbPHFXg==
-X-Received: by 2002:a6b:b486:: with SMTP id d128mr5670385iof.47.1572379213067;
-        Tue, 29 Oct 2019 13:00:13 -0700 (PDT)
+        bh=kvArWGhaU3mTjk6yI7cEpfbsp4jj50oWV3j4D4Y3qm4=;
+        b=NOBTpjL/ol5qB6Gqjd3rwsjAP/4RKlVJEwdR3xameh1E9gl4P7p9oaCuYXwM2BYwFs
+         1vERhKGsKKNSTc1+tBs6NSXhjMNamPbEMhKRTMHw5n03+R0GKykXOcWeMKhSOvq9LiX1
+         Tg6QtKrM94UDXF3bSSExf4AITInXA+YNHMmPOY0ojSt2mQ7joI2zUyEqdWDzFqyX+Pyx
+         E+XSKFxDo/FCKqzqnVA3a9DbaIx+YmORyFIwb6S/UcfIaOg5C4xWpHeVOYi9udQidNaO
+         jR7C/rZ66a2s67vRMXEHZnrNrwMra85vKjb87jXXUOo5SALmZ3xk3AZalgfUNVOZuR3v
+         Cjlw==
+X-Gm-Message-State: APjAAAWP/UCTcMhKIAsfhEtWPvCaAew1ThaSLy4YTmnvsfwDZnZq55lT
+        Rxi4Uy80iZ9kx2R6oq9Zk0c=
+X-Google-Smtp-Source: APXvYqwxssFkdTlSpTyssBdzhfnyKrnZjQygMWzcc3BHxQ89dfb4ScfcLZWK5vON/R5CR1VKqFxrTA==
+X-Received: by 2002:a5e:8f0b:: with SMTP id c11mr6050547iok.102.1572379254167;
+        Tue, 29 Oct 2019 13:00:54 -0700 (PDT)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id v14sm420iob.59.2019.10.29.13.00.09
+        by smtp.googlemail.com with ESMTPSA id t23sm2117ioc.26.2019.10.29.13.00.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 13:00:10 -0700 (PDT)
+        Tue, 29 Oct 2019 13:00:53 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
         Jim Cromie <jim.cromie@gmail.com>,
-        clang-built-linux@googlegroups.com,
         Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 01/16] dyndbg: drop trim_prefix, obsoleted by __FILE__s relative path
-Date:   Tue, 29 Oct 2019 14:00:00 -0600
-Message-Id: <20191029200001.9640-1-jim.cromie@gmail.com>
+Subject: [PATCH 09/16] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
+Date:   Tue, 29 Oct 2019 14:00:46 -0600
+Message-Id: <20191029200047.10037-1-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,131 +65,99 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Regarding:
-commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
-commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
+Accept these additional query forms:
 
-2nd commit broke dynamic-debug's "file $fullpath" query form, but
-nobody noticed because 1st commit trimmed prefixes from control-file
-output, so the click-copy-pasting of fullpaths into new queries had
-ceased; that query form became unused.
+   echo "file $filestr +_" > control
 
-So remove the function and callers; its purpose was to strip the
-prefix from __FILE__, which is now gone.  Further, there is no loss of
-query selectivity, and no real value in iteratively trimming ^/\w+
-prefix and testing for a match.
+       path/to/file.c:100	# as from control, column 1
+       path/to/file.c:1-100	# or any legal line-range
+       path/to/file.c:func_A	# as from an editor/browser
+       path/to/file.c:drm_\*	# wildcards still work
+       path/to/file.c:*_foo	# lead wildcard too
 
-Also drop "file $fullpath" from docs, and tweak example to cite column
-1 of control-file as valid "file $input".
-
-cc: clang-built-linux@googlegroups.com
-
-I built one clang-kernel a while ago to see if this patch broke
-things, it did not, but I may have messed up something.
+1st 2 examples are treated as line-ranges, 3,4 are treated as func's
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
- lib/dynamic_debug.c                           | 19 +++----------------
- 2 files changed, 12 insertions(+), 26 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
+ lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 252e5ef324e5..e011f8907116 100644
+index e011f8907116..689a30316589 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -62,10 +62,10 @@ statements via::
+@@ -156,6 +156,7 @@ func
+     of each callsite.  Example::
  
-   nullarbor:~ # cat <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-+  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
-+  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
-+  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
-+  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-   ...
- 
- 
-@@ -85,7 +85,7 @@ the debug statement callsites with any non-default flags::
- 
-   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
-+  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
- 
- Command Language Reference
- ==========================
-@@ -158,13 +158,12 @@ func
  	func svc_tcp_accept
++	func *recv*		# in rfcomm, bluetooth, ping, tcp
  
  file
--    The given string is compared against either the full pathname, the
--    src-root relative pathname, or the basename of the source file of
--    each callsite.  Examples::
-+    The given string is compared against either the src-root relative
-+    pathname, or the basename of the source file of each callsite.
-+    Examples::
+     The given string is compared against either the src-root relative
+@@ -164,6 +165,9 @@ file
  
  	file svcsock.c
--	file kernel/freezer.c
--	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
-+	file kernel/freezer.c	# ie column 1 of control file
+ 	file kernel/freezer.c	# ie column 1 of control file
++	file drivers/usb/*	# all callsites under it
++	file inode.c:start_*	# parse :tail as a func (above)
++	file inode.c:1-100	# parse :tail as a line-range (above)
  
  module
      The given string is compared against the module name
+@@ -173,6 +177,7 @@ module
+ 
+ 	module sunrpc
+ 	module nfsd
++	module drm*	# both drm, drm_kms_helper
+ 
+ format
+     The given string is searched for in the dynamic debug format
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index c60409138e13..ba35199edd9c 100644
+index 2d0aad5af972..1b65821162e5 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -67,17 +67,6 @@ static LIST_HEAD(ddebug_tables);
- static int verbose;
- module_param(verbose, int, 0644);
- 
--/* Return the path relative to source root */
--static inline const char *trim_prefix(const char *path)
--{
--	int skip = strlen(__FILE__) - strlen("lib/dynamic_debug.c");
--
--	if (strncmp(path, __FILE__, skip))
--		skip = 0; /* prefix mismatch, don't skip */
--
--	return path + skip;
--}
--
- static struct { unsigned flag:8; char opt_char; } opt_array[] = {
- 	{ _DPRINTK_FLAGS_PRINT, 'p' },
- 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
-@@ -162,9 +151,7 @@ static int ddebug_change(const struct ddebug_query *query,
- 			if (query->filename &&
- 			    !match_wildcard(query->filename, dp->filename) &&
- 			    !match_wildcard(query->filename,
--					   kbasename(dp->filename)) &&
--			    !match_wildcard(query->filename,
--					   trim_prefix(dp->filename)))
-+					    kbasename(dp->filename)))
- 				continue;
- 
- 			/* match against the function */
-@@ -199,7 +186,7 @@ static int ddebug_change(const struct ddebug_query *query,
- #endif
- 			dp->flags = newflags;
- 			vpr_info("changed %s:%d [%s]%s =%s\n",
--				 trim_prefix(dp->filename), dp->lineno,
-+				 dp->filename, dp->lineno,
- 				 dt->mod_name, dp->function,
- 				 ddebug_describe_flags(dp, flagbuf,
- 						       sizeof(flagbuf)));
-@@ -827,7 +814,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+@@ -307,6 +307,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
+ 	} else {
+ 		query->last_lineno = query->first_lineno;
  	}
++	vpr_info("parsed line %d-%d\n", query->first_lineno,
++		 query->last_lineno);
+ 	return 0;
+ }
+ 	
+@@ -343,6 +345,7 @@ static int ddebug_parse_query(char *words[], int nwords,
+ {
+ 	unsigned int i;
+ 	int rc = 0;
++	char *fline;
  
- 	seq_printf(m, "%s:%u [%s]%s =%s \"",
--		   trim_prefix(dp->filename), dp->lineno,
-+		   dp->filename, dp->lineno,
- 		   iter->table->mod_name, dp->function,
- 		   ddebug_describe_flags(dp, flagsbuf, sizeof(flagsbuf)));
- 	seq_escape(m, dp->format, "\t\r\n\"");
+ 	/* check we have an even number of words */
+ 	if (nwords % 2 != 0) {
+@@ -359,7 +362,22 @@ static int ddebug_parse_query(char *words[], int nwords,
+ 		if (!strcmp(words[i], "func")) {
+ 			rc = check_set(&query->function, words[i+1], "func");
+ 		} else if (!strcmp(words[i], "file")) {
+-			rc = check_set(&query->filename, words[i+1], "file");
++			if (check_set(&query->filename, words[i+1], "file"))
++				return -EINVAL;
++
++			/* tail :$info is function or line-range */
++			fline = strchr(query->filename, ':');
++			if (!fline)
++				break;
++			*fline++ = '\0';
++			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
++				/* take as function name */
++				if (check_set(&query->function, fline, "func"))
++					return -EINVAL;
++			} else
++				if (parse_linerange(query, fline))
++					return -EINVAL;
++
+ 		} else if (!strcmp(words[i], "module")) {
+ 			rc = check_set(&query->module, words[i+1], "module");
+ 		} else if (!strcmp(words[i], "format")) {
 -- 
 2.21.0
 
