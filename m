@@ -1,64 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2A057D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 10:46:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C2377D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 10:58:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbfJ2Kq2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 06:46:28 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44294 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726175AbfJ2Kq2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Oct 2019 06:46:28 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 92E534FA;
-        Tue, 29 Oct 2019 10:46:26 +0000 (UTC)
-Date:   Tue, 29 Oct 2019 04:46:22 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc:     rppt@linux.ibm.com, willy@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] docs/core-api: memory-allocation: minor cleanups
-Message-ID: <20191029044622.1f465a6d@lwn.net>
-In-Reply-To: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
-References: <20191024195016.11054-1-chris.packham@alliedtelesis.co.nz>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726184AbfJ2K6e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 06:58:34 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51281 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbfJ2K6e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 06:58:34 -0400
+Received: by mail-wm1-f66.google.com with SMTP id q70so2057345wme.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2019 03:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZjGwkh0cbenMQuHQv0e6VyAjAyf6cn4GEktc9y7mIVo=;
+        b=Z5k/Bw76iZIRzQquIwCWRPsWqro/fntSp3jiRq9sQ8osHo6Q5gNdjQmHperI7Hsrw5
+         UReAobtRNUuBo5vBt/Jzp1LEPaoE1+Qw4k2YsPDLrPV0zLt3H/1Uzk0PJyeF2Y7mXDom
+         JDhHb497uuBlYNkvM/VOICBsiQCU0FqczJGXJPUSnz04Ko6D+lI91McRZRdLlz/h7xSq
+         2vxxrFKcFkLH/5/2rgdYkaFN5mbaqE2FgvDihHwSKmIMxRyfT/Up+azgKH4e5q/Rbak3
+         IkLU9HtYgfCI3AepuI2RsME3/zE66ElMm8aX++9CQFNuj8yIXtE5pqoxPMKUMIIW3Crg
+         CCdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZjGwkh0cbenMQuHQv0e6VyAjAyf6cn4GEktc9y7mIVo=;
+        b=pVGsMMpS1rbZ4DaJD7P4hTJ6QxwJwFhk9MU7sSbFkV4rin4/X1l/pbndAstwgesSdD
+         MHPvrsa8zZKYP126/DP09n/j4WNv//sV3L8xBeH1UV8ZDcte2W4/A9yf6IyD7RuIwQT6
+         8ynTMPdbMqWI17nxgQnOzmMkR0HwN389PBLyI8EyELOKtwLyWEYnIl2nm299gMzWj7Nx
+         cfNwcZcgAXbz3AhhMyeKEU51x5w0Hb35L4NmJUw7GkbNdkw2TGZBAQTjKzW6+qWwm6Xx
+         g6ajNr0zTeIzH+1mEqirK6WkTKk33OkvZJj5QeBlMVMf5BoEUYpudLFD9r6Yx2IBt+5a
+         MVmw==
+X-Gm-Message-State: APjAAAXhILgitZf3eK2z2N1v3Ki5DFEShsXwWnGhNwJu4sgsqacld4Dd
+        6tA/55rxagyhxYQYLUhnHQvBjXmYSQgFWVg1KMhB/H0o
+X-Google-Smtp-Source: APXvYqxQWqzmg0NCxmJEePG+7QKJFzoXsECdF+ETmacOmqCarK5rUb+s9sgWl//M4SrkWc4F+9B+QrpLnajQij7w+W0=
+X-Received: by 2002:a1c:a9cb:: with SMTP id s194mr3755329wme.92.1572346712496;
+ Tue, 29 Oct 2019 03:58:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <CAODfWeEohxJYW1w9g5u8G7RV+OKDqycWw0uEEqRoTQCVvfvKjw@mail.gmail.com>
+ <CAODfWeH67_ZfO7yrrQ+EcFgXd8stA23y6hUtimhzEbXvWmjhbw@mail.gmail.com> <20191029032130.444c6fce@lwn.net>
+In-Reply-To: <20191029032130.444c6fce@lwn.net>
+From:   =?UTF-8?B?SMOpY3RvciBPcsOzbiBNYXJ0w61uZXo=?= 
+        <hector.oron@gmail.com>
+Date:   Tue, 29 Oct 2019 11:58:21 +0100
+Message-ID: <CAODfWeF_xAhQJvRSBiDBQco8OG0kaH69eD=VbxBjB2fnPAXWnA@mail.gmail.com>
+Subject: Re: [PATCH] doc: fix warnings for unused files in toctree
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Oct 2019 08:50:13 +1300
-Chris Packham <chris.packham@alliedtelesis.co.nz> wrote:
+Hello Jonathan,
 
-> Clean up some formatting and add references to helpers for calculating sizes
-> safely.
-> 
-> This series is based of v5.4-rc4.
-> 
-> There was a merge conflict with commit 59bb47985c1d ("mm, sl[aou]b: guarantee
-> natural alignment for kmalloc(power-of-two)") and the c:func: patch is
-> dependent on the typo fix. The former was resolved with a rebase, the latter by
-> actually sending it as part of the series.
-> 
-> Chris Packham (3):
->   docs/core-api: memory-allocation: fix typo
->   docs/core-api: memory-allocation: remove uses of c:func:
->   docs/core-api: memory-allocation: mention size helpers
-> 
->  Documentation/core-api/memory-allocation.rst | 50 ++++++++++----------
->  1 file changed, 24 insertions(+), 26 deletions(-)
+Missatge de Jonathan Corbet <corbet@lwn.net> del dia dt., 29 d=E2=80=99oct.
+2019 a les 10:21:
 
-OK, this series is (finally) applied, thanks for your patience...
+>  - Please send patches inline, rather than as attachments; that makes
+>    them much easier to review.
 
-jon
+Sure, I need to fix my SMTP git configuration.
+
+>  - Please work against docs-next and look at the history of what you are
+>    working on. For example:
+
+Where do I find the docs-next tree?
+
+> If you could please review the rest of your patch and resubmit against
+> docs-next, I would appreciate it.
+
+I will do. Thanks for your review and hints!
+
+Regards,
+--=20
+ H=C3=A9ctor Or=C3=B3n  -.. . -... .. .- -.   -.. . ...- . .-.. --- .--. . =
+.-.
