@@ -1,164 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC81B7D918
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 17:12:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B21B07D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 17:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403773AbfJ2RM2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 13:12:28 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:38062 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390597AbfJ2RM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 13:12:28 -0400
-Received: by mail-lf1-f66.google.com with SMTP id q28so11124541lfa.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2019 10:12:26 -0700 (PDT)
+        id S1726070AbfJ2Rx3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 13:53:29 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44308 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbfJ2Rx3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 13:53:29 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q26so6461319pfn.11;
+        Tue, 29 Oct 2019 10:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RJj2qY+wWadbp/frvkYUfZeoO8SyUDjf00hUMJMOl7o=;
-        b=lWtSj2dAww3gvfuDK3RYsh/OlRzFTAkge7Sj3Ryz5YhurvSdFtXA5hzU2G9RdDPSUt
-         wSuthKyHG3i2blExm1jDoTkCg1BqMPVj8iHAXKR+HlgQSqBDcgoQ17H/dIlRVgSkQZnb
-         wbSStVGmy9SfehbZqzlTQbBjK7V5jn54YcgZ8chvO+IkBjNwv9NwCOjtRR3lDneGzf8U
-         bvUEJxqNu4e5G1zGIvklYFFQWUJ6Z9QrsSTrkSSbQrZj+Z4kedlRS9LzBIVAVfyoMs3S
-         dgNrhad2rT/sKT2epekUJBrJT4Pss2XYy2neyrOCjojAPb8gjSug3DmVlwHwssQ7eOkR
-         dzOg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Ffur91RJ45WjuF1j0OoXHAk+x+fTfAOAes4m/hZK27s=;
+        b=LesI+bsj7gvcEjArf5uNLUIadhJKPkB7a2DHCoUXVRF2MFmCEhJpIwP3IAU+urpWtn
+         xD3YUgBiEjbnXZyigx+GNd3BjVNmLRNQq9Zzid88aEkgV9EugLZ7kEunTqJYYCeyoQ0o
+         UVhGGni694g7tuWFrtQIeuNqHz8s3AUtquD16jg8jFdvOBMfvb37BJHKlbgu8mwDn0qp
+         /UJXr20qdE6wNZ7P5l9+5PNlNIGKyN8Yj4volXp8viAxiC0ILXuVFxW26ssRQIuFXhHw
+         lv4Z7/E2S57gn8WaxLWpHvhaHOJjyCYyvo54R7Ln1vxxS2Hok2FgB/RE28fndollfDEr
+         n7/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RJj2qY+wWadbp/frvkYUfZeoO8SyUDjf00hUMJMOl7o=;
-        b=kZRxBGlCkbi8Em8ZnIrs+b8Dk6UlvAeljZ6iVdcK3Oy6kKQeMckhKK6K+7pi4TP1cY
-         PD31mbRaYsjeZ0b3d6v3LTl6p42kXRUnGHVBSzn2j9AxJehgvpItBKY5EQ++wcEQiIC/
-         I20WAVLkUpNLkFcUCORqVGVy0lCNlLCivNNoucOZRKBkbTHYgudArE7AtT0uqASYd6Lj
-         6+Ue7jaQYE9eH/F77kxKxTQlASSSu9YgFM8ziSUDNpkXxJMaNNsja2uBi0m97CzBQAxq
-         /QNk3+7vgbmEDEvUxwMZ2UXKn8CtnAtPYBZS/AKPu7Qr6nJUVBiPwGrfQCxuUKAca40X
-         WnHQ==
-X-Gm-Message-State: APjAAAVrMQLZ9MWa5MQ171qv+88o02cxfn5bLIg8IsYOfGux6oyEm3E3
-        O2maBPLZXiik0rwPUsFl+vGQsw==
-X-Google-Smtp-Source: APXvYqzvww1Km84Vyks1zXg7FGvX0slqjz6NHlTnlhfFO5LDoV2zyC5m2lOrxdQKGcNdpemCORO0UQ==
-X-Received: by 2002:a19:ec02:: with SMTP id b2mr3100657lfa.121.1572369145424;
-        Tue, 29 Oct 2019 10:12:25 -0700 (PDT)
-Received: from jkicinski-Precision-T1700.netronome.com ([66.60.152.14])
-        by smtp.gmail.com with ESMTPSA id e9sm6577492ljo.71.2019.10.29.10.12.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 Oct 2019 10:12:24 -0700 (PDT)
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Simon Horman <simon.horman@netronome.com>
-Subject: [PATCH net] Documentation: netdev-FAQ: make all questions into headings
-Date:   Tue, 29 Oct 2019 10:12:15 -0700
-Message-Id: <20191029171215.6861-1-jakub.kicinski@netronome.com>
-X-Mailer: git-send-email 2.23.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Ffur91RJ45WjuF1j0OoXHAk+x+fTfAOAes4m/hZK27s=;
+        b=f5xZFiPM1yD47v0s4GW7+hYBENa4NO1uRcg19q4xFmYlw+i16g02Jhw94jfX1IenHh
+         T9p/Zg6yDkybyy+wmn0cvoEZ0m2EuWoSw0GAyQRo7vz3oh0j6jxTQ4sM3IgGZk7pZxvb
+         DjYznGw7MudhxKhwnUpfruclMB7onM+OVpE/LqF1EPQaMJhA3r3Xo2Nd5w1v7ExpUmtJ
+         TJAmkhrg73iQSXbe1gY80EnHsblCU/WyL4iVCdDnuP43ZNR7AThLO6YeKWMpLP9C6Hks
+         4i/au27X6bqj3SWx9lIbilgljfbEogOZyFo69AujXHVsyTKB/i+ig/U1YC8pl89tORp8
+         dDGw==
+X-Gm-Message-State: APjAAAXQ7y+8UcAu3SUYdRtxclN03ZdCgGq5eFxnElBl4mn17MkEUrw+
+        wimRXmZhI54oW7zwaU6zlCy8jX5Myn0=
+X-Google-Smtp-Source: APXvYqxq0GYNvu9R00b6ROGRfOUhpnAhlbfvib2ce+Fqczk+mWH4aICoCM9V0q57ILXcEQqjN4GTEw==
+X-Received: by 2002:a62:6546:: with SMTP id z67mr29041352pfb.32.1572371605773;
+        Tue, 29 Oct 2019 10:53:25 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91 ([2620:10d:c090:200::1:3a3e])
+        by smtp.gmail.com with ESMTPSA id h66sm8041831pfg.23.2019.10.29.10.53.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 29 Oct 2019 10:53:25 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 10:53:17 -0700
+From:   Tao Ren <rentao.bupt@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        taoren@fb.com
+Subject: Re: [PATCH 1/3] hwmon: (pmbus) add BEL PFE1100 power supply driver
+Message-ID: <20191029175316.GA26890@taoren-ubuntu-R90MNF91>
+References: <20191028234904.12441-1-rentao.bupt@gmail.com>
+ <20191028234904.12441-2-rentao.bupt@gmail.com>
+ <20191029124255.GA23349@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191029124255.GA23349@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make sure all questions are headings. Some questions are
-currently on multiple lines, and the continuation lines
-appear as part of the answer when rendered. One question
-was also missing an underline completely.
+On Tue, Oct 29, 2019 at 05:42:55AM -0700, Guenter Roeck wrote:
+> On Mon, Oct 28, 2019 at 04:49:02PM -0700, rentao.bupt@gmail.com wrote:
+> > From: Tao Ren <rentao.bupt@gmail.com>
+> > 
+> > Add the driver to support BEL PFE1100 which is 1100 Wat AC to DC power
+> > supply. The chip has only 1 page.
+> > 
+> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> 
+> Please combine with the next patch.
 
-Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
-Reviewed-by: Simon Horman <simon.horman@netronome.com>
----
- Documentation/networking/netdev-FAQ.rst | 35 +++++++++----------------
- 1 file changed, 13 insertions(+), 22 deletions(-)
+Sure. Will combine the 2 patches in v2.
 
-diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/networking/netdev-FAQ.rst
-index 642fa963be3c..633d558743b2 100644
---- a/Documentation/networking/netdev-FAQ.rst
-+++ b/Documentation/networking/netdev-FAQ.rst
-@@ -82,7 +82,7 @@ focus for ``net`` is on stabilization and bug fixes.
- Finally, the vX.Y gets released, and the whole cycle starts over.
- 
- Q: So where are we now in this cycle?
--
-+-------------------------------------
- Load the mainline (Linus) page here:
- 
-   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-@@ -105,9 +105,8 @@ in the above is just the subject text of the outgoing e-mail, and you
- can manually change it yourself with whatever MUA you are comfortable
- with.
- 
--Q: I sent a patch and I'm wondering what happened to it?
----------------------------------------------------------
--Q: How can I tell whether it got merged?
-+Q: I sent a patch and I'm wondering what happened to it? How can I tell whether it got merged?
-+----------------------------------------------------------------------------------------------
- A: Start by looking at the main patchworks queue for netdev:
- 
-   http://patchwork.ozlabs.org/project/netdev/list/
-@@ -122,10 +121,8 @@ A: Generally speaking, the patches get triaged quickly (in less than
- patch is a good way to ensure your patch is ignored or pushed to the
- bottom of the priority list.
- 
--Q: I submitted multiple versions of the patch series
------------------------------------------------------
--Q: should I directly update patchwork for the previous versions of these
--patch series?
-+Q: I submitted multiple versions of the patch series should I directly update patchwork for the previous versions of these patch series?
-+----------------------------------------------------------------------------------------------------------------------------------------
- A: No, please don't interfere with the patch status on patchwork, leave
- it to the maintainer to figure out what is the most recent and current
- version that should be applied. If there is any doubt, the maintainer
-@@ -169,10 +166,8 @@ simply clone the repo, and then git grep the mainline commit ID, e.g.
-   releases/3.9.8/ipv6-fix-possible-crashes-in-ip6_cork_release.patch
-   stable/stable-queue$
- 
--Q: I see a network patch and I think it should be backported to stable.
-------------------------------------------------------------------------
--Q: Should I request it via stable@vger.kernel.org like the references in
--the kernel's Documentation/process/stable-kernel-rules.rst file say?
-+Q: I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- A: No, not for networking.  Check the stable queues as per above first
- to see if it is already queued.  If not, then send a mail to netdev,
- listing the upstream commit ID and why you think it should be a stable
-@@ -190,10 +185,8 @@ mainline, the better the odds that it is an OK candidate for stable.  So
- scrambling to request a commit be added the day after it appears should
- be avoided.
- 
--Q: I have created a network patch and I think it should be backported to stable.
----------------------------------------------------------------------------------
--Q: Should I add a Cc: stable@vger.kernel.org like the references in the
--kernel's Documentation/ directory say?
-+Q: I have created a network patch and I think it should be backported to stable. Should I add a Cc: stable@vger.kernel.org like the references in the kernel's Documentation/ directory say?
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- A: No.  See above answer.  In short, if you think it really belongs in
- stable, then ensure you write a decent commit log that describes who
- gets impacted by the bug fix and how it manifests itself, and when the
-@@ -231,15 +224,13 @@ Q: Is the comment style convention different for the networking content?
-    * another line of text
-    */
- 
--Q: I am working in existing code that has the former comment style and not the latter.
----------------------------------------------------------------------------------------
--Q: Should I submit new code in the former style or the latter?
-+Q: I am working in existing code that has the former comment style and not the latter. Should I submit new code in the former style or the latter?
-+--------------------------------------------------------------------------------------------------------------------------------------------------
- A: Make it the latter style, so that eventually all code in the domain
- of netdev is of this format.
- 
--Q: I found a bug that might have possible security implications or similar.
-----------------------------------------------------------------------------
--Q: Should I mail the main netdev maintainer off-list?**
-+Q: I found a bug that might have possible security implications or similar. Should I mail the main netdev maintainer off-list?
-+------------------------------------------------------------------------------------------------------------------------------
- A: No. The current netdev maintainer has consistently requested that
- people use the mailing lists and not reach out directly.  If you aren't
- OK with that, then perhaps consider mailing security@kernel.org or
--- 
-2.23.0
+> > ---
+> >  drivers/hwmon/pmbus/Kconfig   |  9 +++++
+> >  drivers/hwmon/pmbus/Makefile  |  1 +
+> >  drivers/hwmon/pmbus/bel-pfe.c | 68 +++++++++++++++++++++++++++++++++++
+> >  3 files changed, 78 insertions(+)
+> >  create mode 100644 drivers/hwmon/pmbus/bel-pfe.c
+> > 
+> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> > index d62d69bb7e49..59859979571d 100644
+> > --- a/drivers/hwmon/pmbus/Kconfig
+> > +++ b/drivers/hwmon/pmbus/Kconfig
+> > @@ -36,6 +36,15 @@ config SENSORS_ADM1275
+> >  	  This driver can also be built as a module. If so, the module will
+> >  	  be called adm1275.
+> >  
+> > +config SENSORS_BEL_PFE
+> > +	tristate "Bel PFE Compatible Power Supplies"
+> > +	help
+> > +	  If you say yes here you get hardware monitoring support for BEL
+> > +	  PFE1100 and PFE3000 Power Supplies.
+> > +
+> > +	  This driver can also be built as a module. If so, the module will
+> > +	  be called bel-pfe.
+> > +
+> >  config SENSORS_IBM_CFFPS
+> >  	tristate "IBM Common Form Factor Power Supply"
+> >  	depends on LEDS_CLASS
+> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> > index 03bacfcfd660..3f8c1014938b 100644
+> > --- a/drivers/hwmon/pmbus/Makefile
+> > +++ b/drivers/hwmon/pmbus/Makefile
+> > @@ -6,6 +6,7 @@
+> >  obj-$(CONFIG_PMBUS)		+= pmbus_core.o
+> >  obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+> >  obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+> > +obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
+> >  obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+> >  obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+> >  obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+> > diff --git a/drivers/hwmon/pmbus/bel-pfe.c b/drivers/hwmon/pmbus/bel-pfe.c
+> > new file mode 100644
+> > index 000000000000..117f9af21bf3
+> > --- /dev/null
+> > +++ b/drivers/hwmon/pmbus/bel-pfe.c
+> > @@ -0,0 +1,68 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Hardware monitoring driver for BEL PFE family power supplies.
+> > + *
+> > + * Copyright (c) 2019 Facebook Inc.
+> > + */
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/init.h>
+> > +#include <linux/err.h>
+> > +#include <linux/i2c.h>
+> 
+> Alphabetic include file order, please.
 
+Got it. Will take care of it in v2.
+ 
+> > +#include "pmbus.h"
+> > +
+> > +enum chips {pfe1100};
+> > +
+> > +static struct pmbus_driver_info pfe_driver_info[] = {
+> > +	[pfe1100] = {
+> > +		.pages = 1,
+> > +		.format[PSC_VOLTAGE_IN] = linear,
+> > +		.format[PSC_VOLTAGE_OUT] = linear,
+> > +		.format[PSC_CURRENT_IN] = linear,
+> > +		.format[PSC_CURRENT_OUT] = linear,
+> > +		.format[PSC_POWER] = linear,
+> > +		.format[PSC_TEMPERATURE] = linear,
+> > +		.format[PSC_FAN] = linear,
+> > +
+> > +		.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> > +			   PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> > +			   PMBUS_HAVE_POUT |
+> > +			   PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
+> > +			   PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT |
+> > +			   PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
+> > +			   PMBUS_HAVE_STATUS_TEMP |
+> > +			   PMBUS_HAVE_FAN12,
+> > +	},
+> > +};
+> > +
+> > +static int pfe_pmbus_probe(struct i2c_client *client,
+> > +			   const struct i2c_device_id *id)
+> > +{
+> > +	int model;
+> > +
+> > +	model = (int)id->driver_data;
+> > +	return pmbus_do_probe(client, id, &pfe_driver_info[model]);
+> > +}
+> > +
+> > +static const struct i2c_device_id pfe_device_id[] = {
+> > +	{"pfe1100", pfe1100},
+> > +	{}
+> > +};
+> > +
+> > +MODULE_DEVICE_TABLE(i2c, pfe_device_id);
+> > +
+> > +static struct i2c_driver pfe_pmbus_driver = {
+> > +	.driver = {
+> > +		   .name = "bel-pfe",
+> > +	},
+> > +	.probe = pfe_pmbus_probe,
+> > +	.remove = pmbus_do_remove,
+> > +	.id_table = pfe_device_id,
+> > +};
+> > +
+> > +module_i2c_driver(pfe_pmbus_driver);
+> > +
+> > +MODULE_AUTHOR("Tao Ren <rentao.bupt@gmail.com>");
+> > +MODULE_DESCRIPTION("PMBus driver for BEL PFE Family Power Supplies");
+> > +MODULE_LICENSE("GPL");
