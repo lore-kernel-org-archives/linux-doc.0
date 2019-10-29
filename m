@@ -1,179 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC7BD7DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 14:44:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5F5C27D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 15:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389531AbfJ2On4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 10:43:56 -0400
-Received: from ms.lwn.net ([45.79.88.28]:45098 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388712AbfJ2On4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Oct 2019 10:43:56 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BC2282B4;
-        Tue, 29 Oct 2019 14:43:54 +0000 (UTC)
-Date:   Tue, 29 Oct 2019 08:43:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     hector.oron@gmail.com
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: fix warnings for unused files in toctree
-Message-ID: <20191029084349.509d360b@lwn.net>
-In-Reply-To: <20191029134445.28323-1-hector.oron@gmail.com>
-References: <20191029134445.28323-1-hector.oron@gmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2389701AbfJ2PFC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 11:05:02 -0400
+Received: from mx0a-002ab301.pphosted.com ([148.163.150.161]:2857 "EHLO
+        mx0a-002ab301.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389387AbfJ2PFB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 11:05:01 -0400
+Received: from pps.filterd (m0118789.ppops.net [127.0.0.1])
+        by mx0a-002ab301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9TEjSA8026000;
+        Tue, 29 Oct 2019 11:04:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=distech-controls.com; h=from : to :
+ cc : subject : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pps-02182019;
+ bh=3zG4fVZSjDwWnP5OdW+qb6CpsyaL9dShru2QfhyHN5w=;
+ b=tJg5UNEjYr/o+E140mGb1dpEXZKaKK3wGTMwUuSAafS06Tosh2WZ21MkOpt9epSBBNEh
+ sYppmbGaY3imdMavc9zej/rhcXmMoJImMcS0mEjTOHwhMWQsLDh7M4akAIH/u1bw8Jbg
+ fyn5qzsKLLALkDQqUw3cKQbguXxD/GK+H9gHsYXoAvZfK75x3eFUmFz6IjiZ0ovhZawz
+ pHqrJPtBhmuE19lmBSNeb5tGO8fEmnW070E6rkRNCYg2j70gDQjcZCsi0tP/TfOpalJ8
+ 2uQIqCAAPHHXriIe1XeQnnmk1ikhFPG/IAHUW8m2lHmxro8bmqM+KhsUre4SIjXoLLoA PQ== 
+Received: from nam01-sn1-obe.outbound.protection.outlook.com (mail-sn1nam01lp2055.outbound.protection.outlook.com [104.47.32.55])
+        by mx0a-002ab301.pphosted.com with ESMTP id 2vx3vu12p3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 29 Oct 2019 11:04:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YrITuMJDtUyjRgYJOzDh2/RPFz9QZ+BzXatdz0gTfpjA5xlJEKinxHrsDIumGz+rG5fkDp6Sn5uTSXleBJefxywIHlo9tDlq7THvtj7Qc2vz2EotSKwA6+gVDKsTOvPjFiqeFSJA0+UmEGXuKouObhpeFptXWV6pVvm8Zli+xN7NHQ+yc4Ckq6N94pkKcdJPs0cGxU0WXe+Duiw1xyFj+7atwnJVAOx21SX1iHgVzFyJHn1nb6U5qVLA7kI8a6FdRQqCsVOqL2V9h4tS7KCR8jizLMurJNj9IuBDpgHcAIAtSdXd/pRrAzBmjQmK5vBifQbCEmIpQ0Rpn6ir+HximQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3zG4fVZSjDwWnP5OdW+qb6CpsyaL9dShru2QfhyHN5w=;
+ b=VeNfAyk0oFDQ2tkXZLIJh4mc2641rszsxYptEdVCozmV6oNR2JZDEG1lmHkTPSgfPQPJs+fDYgeQewM+Oj1Fv2k/0dHdwopKhaHbvH73ruK55hgaVsCD6R69a12a59mBufNTdn7rjXBKuOBiKW7GuyBQUlmXF2Dkwis/OiQs5Wygxnmk3fNEXj/sI8RYgW2FzPq4MIk8HF3bwWNAqyEb0lm5h1/RzEEaRxsZrgCJL8gbzthZUgzev83L2jy9DWEcYaRQSt+0iVRsiojgNgVvkfb8xzkSh9K71cRwG66J8wClp0Te2RMIiIebdiF6EDnHtbHW80YK4ZTq5pzLifmZAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=distech-controls.com; dmarc=pass action=none
+ header.from=distech-controls.com; dkim=pass header.d=distech-controls.com;
+ arc=none
+Received: from DM6PR01MB4844.prod.exchangelabs.com (20.177.219.29) by
+ DM6PR01MB3883.prod.exchangelabs.com (20.176.72.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.20; Tue, 29 Oct 2019 15:04:23 +0000
+Received: from DM6PR01MB4844.prod.exchangelabs.com
+ ([fe80::a05a:a956:3538:51a8]) by DM6PR01MB4844.prod.exchangelabs.com
+ ([fe80::a05a:a956:3538:51a8%6]) with mapi id 15.20.2387.025; Tue, 29 Oct 2019
+ 15:04:23 +0000
+From:   "Tremblay, Eric" <etremblay@distech-controls.com>
+To:     "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v6 0/2] hwmon: Add driver for Texas Instruments TMP512/513
+ sensor chips
+Thread-Topic: [PATCH v6 0/2] hwmon: Add driver for Texas Instruments
+ TMP512/513 sensor chips
+Thread-Index: AdWOaZVTjHP79FTQQ9m5o2b29+XQjA==
+Date:   Tue, 29 Oct 2019 15:04:23 +0000
+Message-ID: <DM6PR01MB4844FAE9F161D08EDB128BE295610@DM6PR01MB4844.prod.exchangelabs.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mib-plugin: true
+x-originating-ip: [207.253.3.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 50b887b2-3996-45b8-c21a-08d75c8148e0
+x-ms-traffictypediagnostic: DM6PR01MB3883:
+x-microsoft-antispam-prvs: <DM6PR01MB38834FE4719209EB4056A56095610@DM6PR01MB3883.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0205EDCD76
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(39860400002)(376002)(396003)(346002)(136003)(199004)(189003)(14454004)(478600001)(71190400001)(74316002)(2201001)(66066001)(76116006)(64756008)(66556008)(6116002)(3846002)(54906003)(52536014)(86362001)(5660300002)(7696005)(71200400001)(66446008)(305945005)(81156014)(81166006)(7736002)(33656002)(8676002)(25786009)(8936002)(2501003)(186003)(256004)(2906002)(66476007)(4326008)(6506007)(102836004)(476003)(486006)(26005)(316002)(110136005)(6436002)(9686003)(14444005)(55016002)(66946007)(99286004);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR01MB3883;H:DM6PR01MB4844.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: distech-controls.com does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VS04IGu5B+73mu9lLgOm1iaFSFT69gmovUePrM/hn53RhCJ+evwel08LY0a7Vvv5UiIDIpp5GItQwLZngP87vSdeScgQBMzQOGiBK1EVMmNJJw+33jSRIMVjMzgEuLxCKorbR/s0Hhg4yZYtT3v6THslMpRgHElAzdNOjd/lo9CuwHBCZJ+Xb0H5FaYs1TKTHltg9sJD4wHlt7cstXNQyXDOVfWau1UXxeso/1+OPieLDvm2vq27HdgR92VaPLnFrV9i4JvvQEawSJsdGBKdNBkPpCJJ7ql4AMqzd5n4iegJkqR9CUyniX/4R/tSW1hwbcTNBMh75r/XG+U+FEdiTaJ0tuXKtQW41jCXTyK/ieZ+2XfRIBMUEfHGeS6zvKR69bt+mxPFVds9g6Qs/aERIiy6LgRsH5vRIPvCAXtOzxiZsIWQqcLPq6HqGUkfr2Oa
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: distech-controls.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50b887b2-3996-45b8-c21a-08d75c8148e0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 15:04:23.8361
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: caadbe96-024e-4f67-82ec-fb28ff53d16d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D+evjGk0+WRVfWBulCis/Kl8zJRGCfZ2UpiRggAgwboRAHto2SiTVM6uoX+BHaT4WYQw4DlgFIErgqGgcJshjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB3883
+X-Proofpoint-Processed: True
+X-Proofpoint-Spam-Details: rule=outbound_spam_notspam policy=outbound_spam score=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 phishscore=0 malwarescore=0 spamscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910290141
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Oct 2019 14:44:45 +0100
-hector.oron@gmail.com wrote:
+Version six of the driver for Texas Instruments TMP512/513 sensors.
 
-> From: Héctor Orón Martínez <hector.oron@gmail.com>
-> 
-> There are a bunch of warnings for missing files in the toctree,
-> and there are files that have been removed.
-> 
-> The following change fix those warnings.
-> 
-> Signed-off-by: Héctor Orón Martínez <hector.oron@gmail.com>
-> ---
->  Documentation/admin-guide/device-mapper/index.rst | 1 +
->  Documentation/admin-guide/perf/index.rst          | 1 +
->  Documentation/gpu/i915.rst                        | 9 ---------
->  Documentation/misc-devices/index.rst              | 1 -
->  Documentation/usb/index.rst                       | 2 --
->  Documentation/usb/text_files.rst                  | 6 ------
->  6 files changed, 2 insertions(+), 18 deletions(-)
+Except for the renaming of the shunt-resistor-micro-ohms property,
+the changes are only in the binding documentation.
 
-OK, we're getting closer, but there are still some learning opportunites
-here...:)  The first of these is that it would be best to split these into
-independent patches so that they can be considered separately; we'll see
-why.
+Thanks
 
-> diff --git a/Documentation/admin-guide/device-mapper/index.rst b/Documentation/admin-guide/device-mapper/index.rst
-> index 4872fb6d2952..2545e4eaf6e5 100644
-> --- a/Documentation/admin-guide/device-mapper/index.rst
-> +++ b/Documentation/admin-guide/device-mapper/index.rst
-> @@ -20,6 +20,7 @@ Device Mapper
->      dm-service-time
->      dm-uevent
->      dm-zoned
-> +    dm-clone
->      era
->      kcopyd
->      linear
+Main changes from version 5:
+	- Use shunt-resistor-micro-ohms standard property
+	- Fix alignment between 'enum' and 'default' in dt-bindings
 
-This one is good.
+Main changes from version 4:
+	- Remove config_lock mutex
+	- Rewrite dt-bindings in yaml
 
-> diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-> index 47c99f40cc16..0795994865e0 100644
-> --- a/Documentation/admin-guide/perf/index.rst
-> +++ b/Documentation/admin-guide/perf/index.rst
-> @@ -15,3 +15,4 @@ Performance monitor support
->     xgene-pmu
->     arm_dsu_pmu
->     thunderx2-pmu
-> +   imx-ddr
+Main changes from version 3:
+	- Remove tmp51x_config structure, there was no useful static
+	  field in the structure. The data was moved to tmp51x_data
+	  structure.
+	- Remove platform data
+	- use device_ API instead of of_device API
+	- Use array for n-Factor values.
+	- Set shunt default value to 1000 uOhms
 
-This one is already fixed in docs-next.
+Main changes from version 2:
+	- Remove the neccessity to provide a shunt-resistor value
+	- Remove max-expected-current-ma configuration and always
+	  use max possible current for calibration
+	- Make sure calculation during calibration can't overflow
+	- Add value clamping for DT value and runtime parameters
+	- Support non DT system
+	- Move hysteresis from DT to standard attribute
 
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 3415255ad3dc..7d1f65612856 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -358,15 +358,6 @@ Batchbuffer Parsing
->  .. kernel-doc:: drivers/gpu/drm/i915/i915_cmd_parser.c
->     :internal:
->  
-> -Batchbuffer Pools
-> ------------------
-> -
-> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_batch_pool.c
-> -   :doc: batch pool
-> -
-> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_batch_pool.c
-> -   :internal:
-> -
->  User Batchbuffer Execution
->  --------------------------
+Main changes from version 1:
+	- Use the with_info API instead of sysfs attributes.
+	- Remove non-standard attributes and raw value.
+	- Move settings that were non-standard attributes to
+	  device tree, update documentation as well.
+	- Fix coding style issues
 
-This one, instead, is fixed in the DRM tree; you would have seen that had
-you looked in linux-next.  That's one of the challenges of the docs
-"subsystem" - it gets touched from all over.
+Eric Tremblay (2):
+  dt-bindings: hwmon: Add TMP512/513
+  hwmon: Add driver for Texas Instruments TMP512/513 sensor chips.
 
-> diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-> index f11c5daeada5..a57f92dfe49a 100644
-> --- a/Documentation/misc-devices/index.rst
-> +++ b/Documentation/misc-devices/index.rst
-> @@ -20,4 +20,3 @@ fit into other categories.
->     isl29003
->     lis3lv02d
->     max6875
-> -   xilinx_sdfec
+ .../devicetree/bindings/hwmon/ti,tmp513.yaml  |  88 ++
+ Documentation/hwmon/tmp513.rst                | 102 +++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tmp513.c                        | 785 ++++++++++++++++++
+ 6 files changed, 993 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+ create mode 100644 Documentation/hwmon/tmp513.rst
+ create mode 100644 drivers/hwmon/tmp513.c
 
-The correct fix here was to add the missing document; that was done in
-docs-next a couple of weeks or so ago.
+--=20
+2.17.1
 
-> diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-> index e55386a4abfb..36b6ebd9a9d9 100644
-> --- a/Documentation/usb/index.rst
-> +++ b/Documentation/usb/index.rst
-> @@ -22,11 +22,9 @@ USB support
->      misc_usbsevseg
->      mtouchusb
->      ohci
-> -    rio
->      usbip_protocol
->      usbmon
->      usb-serial
-> -    wusb-design-overview
->  
->      usb-help
->      text_files
-
-This one seems good.  But it's always worth doing a bit of digging to
-figure out how something came to be...in this case, the rio driver was
-deleted and wusbcore went into staging:
-
-	015664d15270 USB: rio500: Remove Rio 500 kernel driver
-	71ed79b0e4be USB: Move wusbcore and UWB to staging as it is obsolete
-
-Submitting those separately with Fixes: tags would be good.
-
-> diff --git a/Documentation/usb/text_files.rst b/Documentation/usb/text_files.rst
-> index 6a8d3fcf64b6..1c18c05c3920 100644
-> --- a/Documentation/usb/text_files.rst
-> +++ b/Documentation/usb/text_files.rst
-> @@ -16,12 +16,6 @@ USB devfs drop permissions source
->  .. literalinclude:: usbdevfs-drop-permissions.c
->      :language: c
->  
-> -WUSB command line script to manipulate auth credentials
-> --------------------------------------------------------
-> -
-> -.. literalinclude:: wusb-cbaf
-> -   :language: shell
-> -
->  Credits
->  -------
-
-This goes with the wusb change as well.
-
-I do appreciate your working to make the documentation better, sorry it can
-be so painful to get started...
-
-Thanks,
-
-jon
