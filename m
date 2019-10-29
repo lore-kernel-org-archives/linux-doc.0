@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75DAC7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:01:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17AB07D981
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 20:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfJ2UAz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 16:00:55 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:42124 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727518AbfJ2UAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:00:55 -0400
-Received: by mail-io1-f65.google.com with SMTP id k1so7208659iom.9;
-        Tue, 29 Oct 2019 13:00:54 -0700 (PDT)
+        id S1728986AbfJ2UBa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 16:01:30 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:35271 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbfJ2UBa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 16:01:30 -0400
+Received: by mail-io1-f66.google.com with SMTP id h9so16258735ioh.2;
+        Tue, 29 Oct 2019 13:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kvArWGhaU3mTjk6yI7cEpfbsp4jj50oWV3j4D4Y3qm4=;
-        b=ZPew8o4v1dMjAZcJzqogz3r9chMp7On4fSf54JrX+aKyfqNuT2yeN/pCksOIpOKemD
-         HRPXg9yb77KrAnw7zn5uUKpHPbhGVBXxP060iim/NzyBrA5hwjRak19EnCm/RZ5SCHLv
-         CTfLJqpPchduxuLcNviu+BR0A34doL+TZteVYjetCiNDI886umK4im4rU7dcEiCj6Bv3
-         uKef+HG4wmkhd/Oy0htACWPaVNDir+5KjDKb6Gp/+GCNggffs01+NkM/FkXwhWYVaV1J
-         HwWnkLQ3Fh5ZVMCU5rtBuGWyom2iUUqDMz4fSKB73wUHG1lxy3af2BkixDul0DJN5Qzh
-         /38w==
+        bh=3fMpmkb6Q3Bm8xhrhOXX6nQC6H6neaOxwC8CKMBthM8=;
+        b=APyoryN6M0zLCXg7NCF7cOgSlOFe5/k6MkHmSEvDG4PhyTRi8NaJXSpWWnU1i3ORnL
+         Vp+EeqDevgbxq0PQtzbFme0XHIzCoXX+6/hac2d9SQuSlYssp+zhlfSdBFeiD81K1zgg
+         jLDhUm5RalCO92asrfpUAMNwkZxmenjp6y65Q0n1Yc682pXKbzxW94iZWJ/ga+vl8fW4
+         r6HqWgaEVeUIiUw5lGUnuUxFIwMHDf9T3omTfAlylsv9TntjInB+dNFAVg3UaHBePzI7
+         FncqFtxkKHbVy2cSIRjypx4Emvblq1CoWyyWEu5PJMqw0/bSJu7ee67JB6WxERVfiK8m
+         Mu1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kvArWGhaU3mTjk6yI7cEpfbsp4jj50oWV3j4D4Y3qm4=;
-        b=NOBTpjL/ol5qB6Gqjd3rwsjAP/4RKlVJEwdR3xameh1E9gl4P7p9oaCuYXwM2BYwFs
-         1vERhKGsKKNSTc1+tBs6NSXhjMNamPbEMhKRTMHw5n03+R0GKykXOcWeMKhSOvq9LiX1
-         Tg6QtKrM94UDXF3bSSExf4AITInXA+YNHMmPOY0ojSt2mQ7joI2zUyEqdWDzFqyX+Pyx
-         E+XSKFxDo/FCKqzqnVA3a9DbaIx+YmORyFIwb6S/UcfIaOg5C4xWpHeVOYi9udQidNaO
-         jR7C/rZ66a2s67vRMXEHZnrNrwMra85vKjb87jXXUOo5SALmZ3xk3AZalgfUNVOZuR3v
-         Cjlw==
-X-Gm-Message-State: APjAAAWP/UCTcMhKIAsfhEtWPvCaAew1ThaSLy4YTmnvsfwDZnZq55lT
-        Rxi4Uy80iZ9kx2R6oq9Zk0c=
-X-Google-Smtp-Source: APXvYqwxssFkdTlSpTyssBdzhfnyKrnZjQygMWzcc3BHxQ89dfb4ScfcLZWK5vON/R5CR1VKqFxrTA==
-X-Received: by 2002:a5e:8f0b:: with SMTP id c11mr6050547iok.102.1572379254167;
-        Tue, 29 Oct 2019 13:00:54 -0700 (PDT)
+        bh=3fMpmkb6Q3Bm8xhrhOXX6nQC6H6neaOxwC8CKMBthM8=;
+        b=tNh04+AlNVMHVPLUscw4M9fl+51PhqgQhldrEzPEp8QQhDXedvjikuAwyZb43bD2iD
+         BWXeIIhFsy0TDl5cT3Pnh7I2z5h93TEO+eoorblYOTmwXQEm/ryYOXPETVjHuKeA82W9
+         Dt5SGvE9nUw6RsezaMRjgh8iTrXC1XNH9Yz7G6eXwy4FctpErVPSUOwoGcBeUKGbtg/Z
+         ZnwxyUlCqidcEqWzz6Ki2CPBRPGUG2fEW/bkS+YJEEgDtSHT7kqJvEbLYLdMInLX753q
+         ylXBgwXRXdRe7n1tojL5yhOzt5SOm4x6MswS1U9VxoEybZd8jM9kJvr5wqL91v4UdI4u
+         8Prw==
+X-Gm-Message-State: APjAAAUNT1vSFTWnLyAvXDaR+IYji+P+b/3ERxQ7zKe0N4mHhFoSjPBZ
+        TbeDphLLal0fGS6NE842oR4=
+X-Google-Smtp-Source: APXvYqxQ1FHqGO126uIAmuSle8b1H2fT14BYgTqF44NQfFKIHD2kAcnqkDmA1zqlzILW9TQToI4dQg==
+X-Received: by 2002:a02:330e:: with SMTP id c14mr25098762jae.5.1572379289408;
+        Tue, 29 Oct 2019 13:01:29 -0700 (PDT)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id t23sm2117ioc.26.2019.10.29.13.00.52
+        by smtp.googlemail.com with ESMTPSA id l2sm1073804ilc.34.2019.10.29.13.01.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 13:00:53 -0700 (PDT)
+        Tue, 29 Oct 2019 13:01:28 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
         Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 09/16] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-Date:   Tue, 29 Oct 2019 14:00:46 -0600
-Message-Id: <20191029200047.10037-1-jim.cromie@gmail.com>
+Subject: [PATCH 13/16] dyndbg: extend ddebug_parse_flags to accept optional filter-flags
+Date:   Tue, 29 Oct 2019 14:01:05 -0600
+Message-Id: <20191029200107.10253-1-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,99 +65,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Accept these additional query forms:
-
-   echo "file $filestr +_" > control
-
-       path/to/file.c:100	# as from control, column 1
-       path/to/file.c:1-100	# or any legal line-range
-       path/to/file.c:func_A	# as from an editor/browser
-       path/to/file.c:drm_\*	# wildcards still work
-       path/to/file.c:*_foo	# lead wildcard too
-
-1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+change ddebug_parse_flags to accept /^ filterflags? OP modflags /x, as
+well as the currently accepted /^ OP modflags /.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
- lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 18 +++++++----
+ lib/dynamic_debug.c                           | 30 ++++++++++---------
+ 2 files changed, 28 insertions(+), 20 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index e011f8907116..689a30316589 100644
+index 689a30316589..cdc45dcb3e0c 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -156,6 +156,7 @@ func
-     of each callsite.  Example::
+@@ -209,13 +209,19 @@ line
+ 	line -1605          // the 1605 lines from line 1 to line 1605
+ 	line 1600-          // all lines from line 1600 to the end of the file
  
- 	func svc_tcp_accept
-+	func *recv*		# in rfcomm, bluetooth, ping, tcp
+-The flags specification comprises a change operation followed
+-by one or more flag characters.  The change operation is one
+-of the characters::
++Flags Specification::
  
- file
-     The given string is compared against either the src-root relative
-@@ -164,6 +165,9 @@ file
+-  -    remove the given flags
+-  +    add the given flags
+-  =    set the flags to the given flags
++  flagspec	::= filterflags? OP modflags
++  filterflags	::= flagset
++  modflags	::= flagset
++  flagset	::= ([pfmlt_xyz] | [PFMLT_XYZ])+
++  OP		::= [-+=]
++
++OP: modify callsites per following flagset::
++
++  -    remove the following flags
++  +    add the following flags
++  =    set the flags to the following flags
  
- 	file svcsock.c
- 	file kernel/freezer.c	# ie column 1 of control file
-+	file drivers/usb/*	# all callsites under it
-+	file inode.c:start_*	# parse :tail as a func (above)
-+	file inode.c:1-100	# parse :tail as a line-range (above)
+ The flags are::
  
- module
-     The given string is compared against the module name
-@@ -173,6 +177,7 @@ module
- 
- 	module sunrpc
- 	module nfsd
-+	module drm*	# both drm, drm_kms_helper
- 
- format
-     The given string is searched for in the dynamic debug format
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 2d0aad5af972..1b65821162e5 100644
+index 173b28250bd6..c6273fabe52c 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -307,6 +307,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
- 	} else {
- 		query->last_lineno = query->first_lineno;
- 	}
-+	vpr_info("parsed line %d-%d\n", query->first_lineno,
-+		 query->last_lineno);
- 	return 0;
+@@ -426,34 +426,36 @@ static int ddebug_read_flags(const char *str, struct flagsettings *f)
  }
- 	
-@@ -343,6 +345,7 @@ static int ddebug_parse_query(char *words[], int nwords,
- {
- 	unsigned int i;
- 	int rc = 0;
-+	char *fline;
  
- 	/* check we have an even number of words */
- 	if (nwords % 2 != 0) {
-@@ -359,7 +362,22 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (!strcmp(words[i], "func")) {
- 			rc = check_set(&query->function, words[i+1], "func");
- 		} else if (!strcmp(words[i], "file")) {
--			rc = check_set(&query->filename, words[i+1], "file");
-+			if (check_set(&query->filename, words[i+1], "file"))
-+				return -EINVAL;
+ /*
+- * Parse `str' as a flags specification, format [-+=][p]+.
+- * Sets up *maskp and *flagsp to be used when changing the
+- * flags fields of matched _ddebug's.  Returns 0 on success
+- * or <0 on error.
++ * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
++ * Fills flagsettings provided.  Returns 0 on success or <0 on error.
+  */
+-
+ static int ddebug_parse_flags(const char *str,
+ 			      struct flagsettings *mods,
+ 			      struct flagsettings *filter)
+ {
+ 	int op;
++	char *opp = strpbrk(str, "-+=");
+ 
+-	switch (*str) {
+-	case '+':
+-	case '-':
+-	case '=':
+-		op = *str++;
+-		break;
+-	default:
+-		pr_err("bad flag-op %c, at start of %s\n", *str, str);
++	if (!opp) {
++		pr_err("no OP given in %s\n", str);
+ 		return -EINVAL;
+ 	}
++	op = *opp;
+ 	vpr_info("op='%c'\n", op);
+ 
++	if (opp != str) {
++		/* filterflags precedes OP, grab it */
++		*opp++ = '\0';
++		if (ddebug_read_flags(str, filter))
++			return -EINVAL;
++		str = opp;
++	} else
++		str++;
 +
-+			/* tail :$info is function or line-range */
-+			fline = strchr(query->filename, ':');
-+			if (!fline)
-+				break;
-+			*fline++ = '\0';
-+			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
-+				/* take as function name */
-+				if (check_set(&query->function, fline, "func"))
-+					return -EINVAL;
-+			} else
-+				if (parse_linerange(query, fline))
-+					return -EINVAL;
-+
- 		} else if (!strcmp(words[i], "module")) {
- 			rc = check_set(&query->module, words[i+1], "module");
- 		} else if (!strcmp(words[i], "format")) {
+ 	if (ddebug_read_flags(str, mods))
+ 		return -EINVAL;
+ 
+-	/* calculate final flags, mask based upon op */
++	/* calculate final mods: flags, mask based upon op */
+ 	switch (op) {
+ 	case '=':
+ 		mods->mask = 0;
 -- 
 2.21.0
 
