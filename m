@@ -1,85 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 426E87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 16:09:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC81B7D918
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Oct 2019 17:12:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390200AbfJ2QJo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Oct 2019 12:09:44 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:32829 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390165AbfJ2QJo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 12:09:44 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c184so9930560pfb.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2019 09:09:42 -0700 (PDT)
+        id S2403773AbfJ2RM2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Oct 2019 13:12:28 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:38062 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390597AbfJ2RM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Oct 2019 13:12:28 -0400
+Received: by mail-lf1-f66.google.com with SMTP id q28so11124541lfa.5
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2019 10:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=41WzDpMSF4wbakSnRAo+F6FO20ZCJck01ia2byYk9RE=;
-        b=lCZKBM4xRqcH05OrkSTKu+yOzb2ojbnVj4gdoRG+7mfJ2W3YlVR1hUf31TFfnv8fBq
-         Jr0DhbupUr1lVfvpEGUdpkA6WSJru4M7lV0HT0FimK+EgTa2ungw8Yb6cDaTo3TPjqLP
-         7bf1Ly53KJGXVc/z1s2jpH+8eaRYmVZaXKAIU=
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RJj2qY+wWadbp/frvkYUfZeoO8SyUDjf00hUMJMOl7o=;
+        b=lWtSj2dAww3gvfuDK3RYsh/OlRzFTAkge7Sj3Ryz5YhurvSdFtXA5hzU2G9RdDPSUt
+         wSuthKyHG3i2blExm1jDoTkCg1BqMPVj8iHAXKR+HlgQSqBDcgoQ17H/dIlRVgSkQZnb
+         wbSStVGmy9SfehbZqzlTQbBjK7V5jn54YcgZ8chvO+IkBjNwv9NwCOjtRR3lDneGzf8U
+         bvUEJxqNu4e5G1zGIvklYFFQWUJ6Z9QrsSTrkSSbQrZj+Z4kedlRS9LzBIVAVfyoMs3S
+         dgNrhad2rT/sKT2epekUJBrJT4Pss2XYy2neyrOCjojAPb8gjSug3DmVlwHwssQ7eOkR
+         dzOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=41WzDpMSF4wbakSnRAo+F6FO20ZCJck01ia2byYk9RE=;
-        b=Z+FhrPJQ64C8qjefWAnNHe8NsPLBQ3yx24xAAXlM/pTH66dwLz7K7HFWtUtbt05w2N
-         ZuHuqxo01m52IofGyqE4FRCukHtHX8cfJnNRloQVE32iaqgwVnXGWMpd8yNI6zZjVNV6
-         MRQ5cVZr1ytlKlBl3sz+GXUhYjKR9ImnWx+VZFjCX9O0Kgxwb0CBvHvlI2NrDNypxpiB
-         YC7x6ez45ovxDLeI716UBwGCKNj18OqIbLwlhWOJQVToWm9uQNvafKCqAzPTaggDv43Q
-         G6CzE0JNcvIYPtZuTY9nPD2BeOm0CTCBQ3uKddJ8e/iEsrEh18XrNYdR/H9JvRui2HMJ
-         d7dw==
-X-Gm-Message-State: APjAAAUyXe0vhZlHPLgiCjdKVoS5qENA3XIOhxwv53nxN5JHCmgBtP4K
-        H/IVrva8qKrIOvOAwjevqwn4gQ==
-X-Google-Smtp-Source: APXvYqyoWdsYlzBLmI+26xS7OncfBbjI6+KPvDnbNa/dWk7WULh9MQxEN7UwEfVD1FQeoJl5goUORw==
-X-Received: by 2002:a17:90a:25aa:: with SMTP id k39mr7631594pje.123.1572365382553;
-        Tue, 29 Oct 2019 09:09:42 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 74sm1901758pfv.66.2019.10.29.09.09.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 09:09:41 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 09:09:40 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: Sphinx parallel build errors
-Message-ID: <201910290908.DA0B31031@keescook>
-References: <dc19a670-7e8e-04e5-667d-578c2dd3754e@infradead.org>
- <201910091929.0C058BB@keescook>
- <20191010124832.23bc4362@lwn.net>
- <c6263597-e9d0-5a1f-effd-d1706c24e666@infradead.org>
- <8305ffe2-51ba-eb4b-4d44-2defe45aa68f@infradead.org>
- <20191027121729.59c1d539@lwn.net>
- <c0be66ed-eb97-bc19-5bdb-0ef8903c3709@infradead.org>
- <20191027160507.6d7be266@coco.lan>
- <201910281205.DD5B74F@keescook>
- <205d5664-88b9-36d4-75f3-67b51884bbda@darmarit.de>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RJj2qY+wWadbp/frvkYUfZeoO8SyUDjf00hUMJMOl7o=;
+        b=kZRxBGlCkbi8Em8ZnIrs+b8Dk6UlvAeljZ6iVdcK3Oy6kKQeMckhKK6K+7pi4TP1cY
+         PD31mbRaYsjeZ0b3d6v3LTl6p42kXRUnGHVBSzn2j9AxJehgvpItBKY5EQ++wcEQiIC/
+         I20WAVLkUpNLkFcUCORqVGVy0lCNlLCivNNoucOZRKBkbTHYgudArE7AtT0uqASYd6Lj
+         6+Ue7jaQYE9eH/F77kxKxTQlASSSu9YgFM8ziSUDNpkXxJMaNNsja2uBi0m97CzBQAxq
+         /QNk3+7vgbmEDEvUxwMZ2UXKn8CtnAtPYBZS/AKPu7Qr6nJUVBiPwGrfQCxuUKAca40X
+         WnHQ==
+X-Gm-Message-State: APjAAAVrMQLZ9MWa5MQ171qv+88o02cxfn5bLIg8IsYOfGux6oyEm3E3
+        O2maBPLZXiik0rwPUsFl+vGQsw==
+X-Google-Smtp-Source: APXvYqzvww1Km84Vyks1zXg7FGvX0slqjz6NHlTnlhfFO5LDoV2zyC5m2lOrxdQKGcNdpemCORO0UQ==
+X-Received: by 2002:a19:ec02:: with SMTP id b2mr3100657lfa.121.1572369145424;
+        Tue, 29 Oct 2019 10:12:25 -0700 (PDT)
+Received: from jkicinski-Precision-T1700.netronome.com ([66.60.152.14])
+        by smtp.gmail.com with ESMTPSA id e9sm6577492ljo.71.2019.10.29.10.12.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 Oct 2019 10:12:24 -0700 (PDT)
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Simon Horman <simon.horman@netronome.com>
+Subject: [PATCH net] Documentation: netdev-FAQ: make all questions into headings
+Date:   Tue, 29 Oct 2019 10:12:15 -0700
+Message-Id: <20191029171215.6861-1-jakub.kicinski@netronome.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <205d5664-88b9-36d4-75f3-67b51884bbda@darmarit.de>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 09:16:06AM +0100, Markus Heiser wrote:
-> @Kees: why did you mentioning MAINTAINERS parsing .. did you observe anything
-> strange?
+Make sure all questions are headings. Some questions are
+currently on multiple lines, and the continuation lines
+appear as part of the answer when rendered. One question
+was also missing an underline completely.
 
-No, nothing strange exactly, but it was another change that happened
-around the same time and is a pretty large parse. So I was wondering if
-adding it might have tipped the scale.
+Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+Reviewed-by: Simon Horman <simon.horman@netronome.com>
+---
+ Documentation/networking/netdev-FAQ.rst | 35 +++++++++----------------
+ 1 file changed, 13 insertions(+), 22 deletions(-)
 
+diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/networking/netdev-FAQ.rst
+index 642fa963be3c..633d558743b2 100644
+--- a/Documentation/networking/netdev-FAQ.rst
++++ b/Documentation/networking/netdev-FAQ.rst
+@@ -82,7 +82,7 @@ focus for ``net`` is on stabilization and bug fixes.
+ Finally, the vX.Y gets released, and the whole cycle starts over.
+ 
+ Q: So where are we now in this cycle?
+-
++-------------------------------------
+ Load the mainline (Linus) page here:
+ 
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+@@ -105,9 +105,8 @@ in the above is just the subject text of the outgoing e-mail, and you
+ can manually change it yourself with whatever MUA you are comfortable
+ with.
+ 
+-Q: I sent a patch and I'm wondering what happened to it?
+---------------------------------------------------------
+-Q: How can I tell whether it got merged?
++Q: I sent a patch and I'm wondering what happened to it? How can I tell whether it got merged?
++----------------------------------------------------------------------------------------------
+ A: Start by looking at the main patchworks queue for netdev:
+ 
+   http://patchwork.ozlabs.org/project/netdev/list/
+@@ -122,10 +121,8 @@ A: Generally speaking, the patches get triaged quickly (in less than
+ patch is a good way to ensure your patch is ignored or pushed to the
+ bottom of the priority list.
+ 
+-Q: I submitted multiple versions of the patch series
+-----------------------------------------------------
+-Q: should I directly update patchwork for the previous versions of these
+-patch series?
++Q: I submitted multiple versions of the patch series should I directly update patchwork for the previous versions of these patch series?
++----------------------------------------------------------------------------------------------------------------------------------------
+ A: No, please don't interfere with the patch status on patchwork, leave
+ it to the maintainer to figure out what is the most recent and current
+ version that should be applied. If there is any doubt, the maintainer
+@@ -169,10 +166,8 @@ simply clone the repo, and then git grep the mainline commit ID, e.g.
+   releases/3.9.8/ipv6-fix-possible-crashes-in-ip6_cork_release.patch
+   stable/stable-queue$
+ 
+-Q: I see a network patch and I think it should be backported to stable.
+------------------------------------------------------------------------
+-Q: Should I request it via stable@vger.kernel.org like the references in
+-the kernel's Documentation/process/stable-kernel-rules.rst file say?
++Q: I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ A: No, not for networking.  Check the stable queues as per above first
+ to see if it is already queued.  If not, then send a mail to netdev,
+ listing the upstream commit ID and why you think it should be a stable
+@@ -190,10 +185,8 @@ mainline, the better the odds that it is an OK candidate for stable.  So
+ scrambling to request a commit be added the day after it appears should
+ be avoided.
+ 
+-Q: I have created a network patch and I think it should be backported to stable.
+---------------------------------------------------------------------------------
+-Q: Should I add a Cc: stable@vger.kernel.org like the references in the
+-kernel's Documentation/ directory say?
++Q: I have created a network patch and I think it should be backported to stable. Should I add a Cc: stable@vger.kernel.org like the references in the kernel's Documentation/ directory say?
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ A: No.  See above answer.  In short, if you think it really belongs in
+ stable, then ensure you write a decent commit log that describes who
+ gets impacted by the bug fix and how it manifests itself, and when the
+@@ -231,15 +224,13 @@ Q: Is the comment style convention different for the networking content?
+    * another line of text
+    */
+ 
+-Q: I am working in existing code that has the former comment style and not the latter.
+---------------------------------------------------------------------------------------
+-Q: Should I submit new code in the former style or the latter?
++Q: I am working in existing code that has the former comment style and not the latter. Should I submit new code in the former style or the latter?
++--------------------------------------------------------------------------------------------------------------------------------------------------
+ A: Make it the latter style, so that eventually all code in the domain
+ of netdev is of this format.
+ 
+-Q: I found a bug that might have possible security implications or similar.
+----------------------------------------------------------------------------
+-Q: Should I mail the main netdev maintainer off-list?**
++Q: I found a bug that might have possible security implications or similar. Should I mail the main netdev maintainer off-list?
++------------------------------------------------------------------------------------------------------------------------------
+ A: No. The current netdev maintainer has consistently requested that
+ people use the mailing lists and not reach out directly.  If you aren't
+ OK with that, then perhaps consider mailing security@kernel.org or
 -- 
-Kees Cook
+2.23.0
+
