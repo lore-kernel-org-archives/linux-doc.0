@@ -1,117 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A556B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 16:52:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 072AC7D917
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 17:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727041AbfJ3Qwv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Oct 2019 12:52:51 -0400
-Received: from sonic301-22.consmr.mail.gq1.yahoo.com ([98.137.64.148]:45536
-        "EHLO sonic301-22.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726640AbfJ3Qwv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 12:52:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1572454370; bh=a1fHgbV2gsxc/qTJLuC1KwVssDo9JDASf8CqQzhRyLw=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject; b=JMrxoNWpHUiKCqDZGaK7+Kr3SjAtQ3FoMe/j2V9s+egnqEC7yN1RzgMzwMFMBzIfBdz+71E49tTN1QIwFUDv+cduuAhWca4F3dk/J1BUpPGbYbbpjmtX4G9CSJOQv4PeVvR0vZj4JwGVFaI1elFIAEOJ8mPPoOAOJMJuT+f43WPnbj/b9dCO2XnZ0A4iZUVk+7G744ugnDl5JgnLKV9PhdjVH4QX0RekXfLq/Xq4Chf4H7MFVtKe9nueYlfiayUuAvKRoMXXusmRBRsmMfU1A0oxryQ/4GHI5Zlt0cpiLl/yjsYuXVyzMjWSyllJdO2TM0+Rcjh7UJ82BxkbqpqtBw==
-X-YMail-OSG: xAMhXSYVM1mVFgtK0BldmKPUfzfYfyQA7hXB0tqZ1buoDcpRFjK1KOkXE2vDdku
- mS0_DTHl7uNhwfTABLCGEqL0IzWLVKrf4CUovUZqk_NWxgKv_DlmP1XifeCvCZF2LpzqOhcTJGLG
- Dm0nzWMyRflAODUEl3e1bTwZYU0gufWn0iiy6Mtgdbpk0qdOPePbPvw5N3tN7DdpZWo07zh6BO1y
- TjwZehv6xDg0ar1LvNVUVE5Vibo0FLKAkatJ3mudnOArjxx9NmenrkXhs0OgrW06HjLVB1cA4YcS
- dB3oZTncNajnuHRwgAtKhqUa7K9Dx2ccbwRZExzSkpx105I8Tp2CVVSxKoKt2MBUJj82GCpdkjcn
- DIye3PaZol8nQqKL7Du8XlYaxAcvsFT3SQaqoLsskRtHgspkORXw1V3_lRGMcac0_Rekl7Erv1J9
- 3CMm8Q3WuUb7iR7j6nyUNIABWH1yGQpCl.jQPLqq6f6qV0DYOxE6My06TxLwFRtYYtfDe7JhrM9j
- 25FLduRwdsIrD4KgiYcPWYYJoNFQf.BeFOgwv3o2cifm.cfBTc79EF.3oTdqIoe1JWVYYO0IH0A1
- qCSKEjKY0JucuM587EMpbHcqy8JNQO5QmN.T1QVJMkwizewftDr7gUb_PjbRDNSf0WzV3M69WlW1
- _CWKDPVagVJoKK6s2XF53muDbOUBeUgHtQzqAb3pXh5g3QqrLDLMrQ0fBjAoXknjMOICQsd9M2dB
- pLc.N8I8_AWdHq8cSRkD2CeG4EnCn8LcVg3WWCgu8XAVk14.y2OxNAv2lLJfEgD3nrS26a.jPx7n
- nwfm_9QWYpFLaa8TscbhLuaE4i5sizemvJdP01KTo8pTOr7z4CfEyuOgBdd50xVXe1ITLt_EnlnC
- PMZ6IcUhcsrnhWafvutq7ok7dm53F2W.OijwDHLFVLLoAXUbogEjmQo0NbP2GM4e__KItwdj70Xl
- YmioWc0K_w5kfxl7gc8BwHi.srO_qIWrt.jx7aXZlIQot0JHYGoydcghy15YQSOQPABZUG9FU5vk
- CMpwhvECKPzeXTMEWiWfg7c.isOMiHeo9Ut7tfP.45DFVu1X8EER3C.OSa9PjucAfi_x_9wLKFms
- khTO7eFSl1b5AeD.N.c9WXtTT5K2Xxlua04EWhh0jE5LFtPvBW9Heq7BaXqculhHYF.6GeTC0UrF
- rWR.0_ZRCe.EoZWHFtbzMMLRQW2.jbk4lB.3vf8BawbgJLTKbVf1Gy8EOTzL.ESFrVqX8RyHZX_s
- uKB.XmOE0VuIVL_7FOO8LgMjaWoRqUvoK0sPvriMxHLt3fORBmxUscWrrcsIhNbjOiZVLB84aX88
- jkCrYESXAJHZgynhHlaZ2sgKfG11MaPuSP8aTkufW7h8zg3aX4.wBJNRH7nAvgtiQa3Fzpg5bw2t
- e2a49yjXnEg--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.gq1.yahoo.com with HTTP; Wed, 30 Oct 2019 16:52:50 +0000
-Received: by smtp408.mail.ir2.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 39a6ce8385eb3b927ad40666caf4f5e7;
-          Wed, 30 Oct 2019 16:52:46 +0000 (UTC)
-Date:   Thu, 31 Oct 2019 00:52:39 +0800
-From:   Gao Xiang <hsiangkao@aol.com>
-To:     Jaegeuk Kim <jaegeuk@kernel.org>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Gao Xiang <gaoxiang25@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [f2fs-dev] [PATCH] f2fs: bio_alloc should never fail
-Message-ID: <20191030165226.GC3953@hsiangkao-HP-ZHAN-66-Pro-G1>
-References: <20191030035518.65477-1-gaoxiang25@huawei.com>
- <20aa40bd-280d-d223-9f73-d9ed7dbe4f29@huawei.com>
- <20191030091542.GA24976@architecture4>
- <19a417e6-8f0e-564e-bc36-59bfc883ec16@huawei.com>
- <20191030104345.GB170703@architecture4>
- <20191030151444.GC16197@mit.edu>
- <20191030155020.GA3953@hsiangkao-HP-ZHAN-66-Pro-G1>
- <20191030162243.GA18729@mit.edu>
- <20191030163313.GB34056@jaegeuk-macbookpro.roam.corp.google.com>
+        id S1726695AbfJ3RCd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Oct 2019 13:02:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54248 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726619AbfJ3RCd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Oct 2019 13:02:33 -0400
+Received: from linux-8ccs (unknown [92.117.144.115])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 751B220650;
+        Wed, 30 Oct 2019 17:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572454951;
+        bh=aBt9Q8NfOQlfzMtFVoThOg7ZO26NQB6l/hLoSz7abqY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SdIGr98K1FC3u4CQ7m7TiKXLyvBADuk3ieXByyZ6Kf6eFhlf6hylsMdLgW6T/6lVi
+         XUA3zJCmag9Gx5GYIaaE7KdZIxNz/RSYTxqxaEdfRfYmOCpGnoVsMUcnRL0QogNfns
+         xLbZpQSCw5CV0KZ4TyzObbnNnhDBCs27ytFEbpFc=
+Date:   Wed, 30 Oct 2019 18:02:25 +0100
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] scripts/nsdeps: support nsdeps for external module
+ builds
+Message-ID: <20191030170225.GB13413@linux-8ccs>
+References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
+ <20191029123809.29301-4-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20191030163313.GB34056@jaegeuk-macbookpro.roam.corp.google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailer: WebService/1.1.14593 hermes Apache-HttpAsyncClient/4.1.4 (Java/1.8.0_181)
+In-Reply-To: <20191029123809.29301-4-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 09:33:13AM -0700, Jaegeuk Kim wrote:
-> On 10/30, Theodore Y. Ts'o wrote:
-> > On Wed, Oct 30, 2019 at 11:50:37PM +0800, Gao Xiang wrote:
-> > > 
-> > > So I'm curious about the original issue in commit 740432f83560
-> > > ("f2fs: handle failed bio allocation"). Since f2fs manages multiple write
-> > > bios with its internal fio but it seems the commit is not helpful to
-> > > resolve potential mempool deadlock (I'm confused since no calltrace,
-> > > maybe I'm wrong)...
-> > 
-> > Two possibilities come to mind.  (a) It may be that on older kernels
-> > (when f2fs is backported to older Board Support Package kernels from
-> > the SOC vendors) didn't have the bio_alloc() guarantee, so it was
-> > necessary on older kernels, but not on upstream, or (b) it wasn't
-> > *actually* possible for bio_alloc() to fail and someone added the
-> > error handling in 740432f83560 out of paranoia.
-> 
-> Yup, I was checking old device kernels but just stopped digging it out.
-> Instead, I hesitate to apply this patch since I can't get why we need to
-> get rid of this code for clean-up purpose. This may be able to bring
-> some hassles when backporting to android/device kernels.
++++ Masahiro Yamada [29/10/19 21:38 +0900]:
+>Apparently, scripts/nsdeps is written to take care of only in-tree
+>modules. Perhaps, this is not a bug, but just a design. At least,
+>Documentation/core-api/symbol-namespaces.rst focuses on in-tree modules:
+>
+>  Again, `make nsdeps` will eventually add the missing namespace imports for
+>  in-tree modules::
+>  ^^^^^^^
+>
+>Having said that, I already saw at least two people trying nsdeps for
+>external module builds. So, it would be nice to support it.
+>
+>Reported-by: Steve French <smfrench@gmail.com>
+>Reported-by: Jessica Yu <jeyu@kernel.org>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Yes, got you concern. As I said in other patches for many times, since
-you're the maintainer of f2fs, it's all up to you (I'm not paranoia).
-However, I think there are 2 valid reasons:
+I can confirm that this fixes nsdeps for external modules for me.
 
- 1) As a newbie of Linux filesystem. When I study or work on f2fs,
-    and I saw these misleading code, I think I will produce similar
-    code in the future (not everyone refers comments above bio_alloc),
-    so such usage will spread (since one could refer some sample code
-    from exist code);
+Tested-by: Jessica Yu <jeyu@kernel.org>
+Acked-by: Jessica Yu <jeyu@kernel.org>
 
- 2) Since it's upstream, I personally think appropriate cleanup is ok (anyway
-    it kills net 20+ line dead code), and this patch I think isn't so harmful
-    for backporting.
+Thanks!
 
-Thanks,
-Gao Xiang
-
-> 
-> > 
-> > (Hence my suggestion that in the ext4 version of the patch, we add a
-> > code comment justifying why there was no error checking, to make it
-> > clear that this was a deliberate choice.  :-)
-> > 
-> > 						- Ted
+>---
+>
+> Documentation/core-api/symbol-namespaces.rst |  3 +++
+> Makefile                                     |  1 +
+> scripts/Makefile.modpost                     |  2 +-
+> scripts/nsdeps                               | 10 ++++++++--
+> 4 files changed, 13 insertions(+), 3 deletions(-)
+>
+>diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+>index 982ed7b568ac..9b76337f6756 100644
+>--- a/Documentation/core-api/symbol-namespaces.rst
+>+++ b/Documentation/core-api/symbol-namespaces.rst
+>@@ -152,3 +152,6 @@ in-tree modules::
+> 	- notice the warning of modpost telling about a missing import
+> 	- run `make nsdeps` to add the import to the correct code location
+>
+>+You can also run nsdeps for external module builds. A typical usage is::
+>+
+>+	$ make -C <path_to_kernel_src> M=$PWD nsdeps
+>diff --git a/Makefile b/Makefile
+>index 1e3f307bd49b..780a65493866 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -1007,6 +1007,7 @@ endif
+> PHONY += prepare0
+>
+> export MODORDER := $(extmod-prefix)modules.order
+>+export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
+>
+> ifeq ($(KBUILD_EXTMOD),)
+> core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+>diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+>index da37128c3f9f..8359f8af5ee6 100644
+>--- a/scripts/Makefile.modpost
+>+++ b/scripts/Makefile.modpost
+>@@ -66,7 +66,7 @@ __modpost:
+> else
+>
+> MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
+>-	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)
+>+	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))
+>
+> ifeq ($(KBUILD_EXTMOD),)
+> MODPOST += $(wildcard vmlinux)
+>diff --git a/scripts/nsdeps b/scripts/nsdeps
+>index 08db427a7fe5..3b8a9e173ebf 100644
+>--- a/scripts/nsdeps
+>+++ b/scripts/nsdeps
+>@@ -21,6 +21,12 @@ if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
+> 	exit 1
+> fi
+>
+>+if [ "$KBUILD_EXTMOD" ]; then
+>+	src_prefix=
+>+else
+>+	src_prefix=$srctree/
+>+fi
+>+
+> generate_deps_for_ns() {
+> 	$SPATCH --very-quiet --in-place --sp-file \
+> 		$srctree/scripts/coccinelle/misc/add_namespace.cocci -D ns=$1 $2
+>@@ -32,7 +38,7 @@ generate_deps() {
+> 	local namespaces="$*"
+> 	local mod_source_files=`cat $mod.mod | sed -n 1p                      \
+> 					      | sed -e 's/\.o/\.c/g'           \
+>-					      | sed "s|[^ ]* *|${srctree}/&|g"`
+>+					     | sed "s|[^ ]* *|${src_prefix}&|g"`
+> 	for ns in $namespaces; do
+> 		echo "Adding namespace $ns to module $mod.ko."
+> 		generate_deps_for_ns $ns $mod_source_files
+>@@ -54,4 +60,4 @@ generate_deps() {
+> while read line
+> do
+> 	generate_deps $line
+>-done < modules.nsdeps
+>+done < $MODULES_NSDEPS
+>-- 
+>2.17.1
+>
