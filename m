@@ -1,117 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0470A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 15:50:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D70B77D918
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 16:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727633AbfJ3Puv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Oct 2019 11:50:51 -0400
-Received: from sonic308-55.consmr.mail.gq1.yahoo.com ([98.137.68.31]:43160
-        "EHLO sonic308-55.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727628AbfJ3Puv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 11:50:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1572450650; bh=tlzW+EHXjriGMcNx2q7rBODiO5QJOtbDYR9mIItAx7c=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject; b=PxRXFHyq1BwiPdfBCGkKlBIYlzsV/0JFMaOvTMvltrSJynguwBjBs7AkNjF+0/9tc97g3hhMCH/YXfA4n8rnZCm09eIomwM+iC4V+nUs7Pp+1KoWWCUWAkKM89LZBOwfetEXoQYH9haIJbFDq3emBaM7br9SdLUZGZVAo+CTeq4QbbUrJ8fBGFOzE1h9b3xy6o+H2NjaCZLd+qiqnsikTXSRQVpHUCZga3N4+Bdd17FCbbwCsDfJ6ZZoq5Lxm4n+/TWPib+Re/tW/LbqBGXN2cyZv0XOSofNp4QCBpA5JpI1Z3J5nwWmWvNccsJjm3B3FnyMed5agi1tRAoHtvIChQ==
-X-YMail-OSG: HIJd13kVM1k4sA98h6t_XGpmpEp2jWNj1U_XV4n9OX8AN520dD71uJ8PHv13D_2
- omE8WRCjHn2967vQv6JzS0UQvmrmTABhtz6ArxefHcIfykBA8jAEENwHE8KAOALswyI6xDB04TWw
- xMPOXBf374r6q35M60hA93Y0HJGpQY.alMyw6IG4Xn8rGK7hs8sC1kBz.jBJ8yQHYPN7qcbE.9WA
- hH.s3tJQM6M8ACyYaL2xKXG6iZ_1JkVUAaJSBTSiFpijnnAliKPJX2Rj4QIShn6aqLwaJOWk21vj
- 1wVoKWoOJlq.CqsKW_nl4VwVwA6.Um2Whv7JJ4d8_N3l4MkHWbKX9ztRdYjbdq7RepB7Wi1KPA1z
- R2orOR3UY_cxKJALXVe6h7b2XxmzlVMzbHWmvq8wrUXchPz0SYrbFsC.2gCLV3jNcJHzwZsTIFkO
- yK4eiFSoIOc0KgoMWxbzdFYJmIuWgHkI8ECvE7OXPSOH16aOm7MFUIbjEyZNGkXhrlaZZl4rrjj9
- r3eJkJDhL98V_zFDSqG_lMbTf6mNh9KcdENQUmTeIrfTqSqy8GoeTvR1qeXRG8KFu.ww9_ogRZjz
- 0kf3mcqo42r05UCCwsGep.4zdIUmryoimEOz6Zd0bdND3jslLc5_1Y8ADEfwJzfyTd34XqVS5L3Z
- bOwX2xusZjxw4w17.rnBBHXLmr5prGlcu5.UssPW4NXC.lkwUN39Q3GTIas1VGO8Xbo56YDnvyAX
- DeJc6Tj_EqzdW.YVfBLrYct2lqEIBpIhl9puQ0Oksx9F5RiQ1y_xRgd_SqGlj6b4vcECOrZ4my1r
- v9.ca5Br_axLga54rozxFcp7fIXqo5gIwFK_ek2fLTnvWGWV.EWcG.ggyshNL9b6LM_fXHbZdMjT
- S_A0qQV2QvWBnY8GAjatPCNxgae4Hd8Iauw8Xqia7qfoZIf2J_dhqazdSyeHSGRD7fX80x7lp7O1
- D7EO33CSUhEllw7EUu8Zi9a6rTDLbrLaAGFdwaedVb_7J_5K.9jyFKt7vARtP4ybn7U2Qn_wr.zv
- 8hHxG69aQSusZpFtKIDCoICNsPZKbbw_RPI32wmSvnGBFBH0fsGNANC9bAobaM623daFV1GOCamV
- f8XfQ21vn1mkUsR6RCVNwMuHxlSSB44jYQsnwhtc33zSX29N9wlpo54zbXoj.aELxlrPC7YhaJu1
- YlLlVO6DgLja30t54lFBbj6V1j5k6EcBDQ1XLqC0aNoI0rXtZQRYBPL4kNdW2R5E5rRrr8nIUrdV
- .akd01OnBIOijzH9Hy_GSuDLg6i0scWI7MokVOSHS5Ll_fdrx2xQz.rFA9fGeWaAkMgxDSs8wHWr
- R8LZxzmW34m0mgMDRWVEFwpgh55_JjkHl2ONqcZMpN7WEOMGgOgiHJ2qQcsZzrwiO.80SS0zYA6E
- -
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.gq1.yahoo.com with HTTP; Wed, 30 Oct 2019 15:50:50 +0000
-Received: by smtp419.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID ecf34bf87d460b3002b31f8cc4759825;
-          Wed, 30 Oct 2019 15:50:47 +0000 (UTC)
-Date:   Wed, 30 Oct 2019 23:50:37 +0800
-From:   Gao Xiang <hsiangkao@aol.com>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Gao Xiang <gaoxiang25@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: Re: [f2fs-dev] [PATCH] f2fs: bio_alloc should never fail
-Message-ID: <20191030155020.GA3953@hsiangkao-HP-ZHAN-66-Pro-G1>
-References: <20191030035518.65477-1-gaoxiang25@huawei.com>
- <20aa40bd-280d-d223-9f73-d9ed7dbe4f29@huawei.com>
- <20191030091542.GA24976@architecture4>
- <19a417e6-8f0e-564e-bc36-59bfc883ec16@huawei.com>
- <20191030104345.GB170703@architecture4>
- <20191030151444.GC16197@mit.edu>
+        id S1727252AbfJ3QC5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Oct 2019 12:02:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37619 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726800AbfJ3QC5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 12:02:57 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p1so1778247pgi.4
+        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2019 09:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=VoUHDBkMmd0HSBoZsz/ANMDge7dtZlxy+cPZi/mFFJY=;
+        b=Kwx+ej5rUUdH05bGpgZpyIashKuG83SmcQrnDsm+0lkzjNj+a/z/2AYj955t9lDk5J
+         wM9pSqdj/pjkJ/9fqeY9vJA4+RepNJgc0XpETFOyHjZO784yLooJUr0S5S0azRi1xVCK
+         2npjQfJ7X7m5p+lT7hDQY7pxd7Hua4CD2zHNc1ilftvalB1GC9rxo0gSKg0jCBdKBn72
+         OTh7uP80F4rVatHRyeUPyZLMukEb62PvTqWNWARYt5PlbtxBy047yW0RiVnUHkzfbCml
+         0A9j5I62awVLtlW+2u7tjzfUrlwNFmqhQFW354VvHwHwdWDOJT7OZ7P21G5h7AJcmnFp
+         jKTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=VoUHDBkMmd0HSBoZsz/ANMDge7dtZlxy+cPZi/mFFJY=;
+        b=o7Fr0X8euIhhNZ8WUdVg+JgIqxI+N5B6QjdDbiJm3oj0z4Kcr9lwD9z4BSeJRV0DzC
+         DzU+xjHa6O4GfMX3c/L+Hk1CSR2q6i3KyW1LTyJo5rFBWUhIBm0sCkzfFijXEGC8u3Oy
+         gvWJemf2LdxtVlhmTWNk22dIYPb6F1e7Cus1uuIGUVnvC8upJG4cCjwYdk9T/S4N6Ccj
+         x8VsL1mfgMH+jnYA5N0oeyn653wP86/PA4RopLQPAFIW3JxYVLsmGR65XZ3XII/aKVQ4
+         ++hWOsA+UjnRZxg0/ZwEV0F3Pi1kgA6xPuJLbqNmdqNXbOPl/BOlhodumqa+RSbu4mi0
+         h2Aw==
+X-Gm-Message-State: APjAAAVWs5//jiWgsOPjM2zn0AX8iXSQvIlkVYyBYDsRWBxhc+FZda5j
+        tn1t27qzrR9LRJhKlUdkRoXpwA==
+X-Google-Smtp-Source: APXvYqwKh2sNDkMWVEr8EZeiQYcDxBUIyGbXfa1wOACGtQkqflx1gjxVl6QWK3rDAjeFaaWgdy3PMg==
+X-Received: by 2002:a17:90a:db47:: with SMTP id u7mr14678517pjx.3.1572451376075;
+        Wed, 30 Oct 2019 09:02:56 -0700 (PDT)
+Received: from cakuba.hsd1.ca.comcast.net (c-73-202-202-92.hsd1.ca.comcast.net. [73.202.202.92])
+        by smtp.gmail.com with ESMTPSA id 3sm366984pfh.45.2019.10.30.09.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2019 09:02:55 -0700 (PDT)
+Date:   Wed, 30 Oct 2019 09:02:52 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
+        Simon Horman <simon.horman@netronome.com>
+Subject: Re: [PATCH net] Documentation: netdev-FAQ: make all questions into
+ headings
+Message-ID: <20191030090252.7eedec35@cakuba.hsd1.ca.comcast.net>
+In-Reply-To: <20191030024430.719c73be@lwn.net>
+References: <20191029171215.6861-1-jakub.kicinski@netronome.com>
+        <20191030024430.719c73be@lwn.net>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191030151444.GC16197@mit.edu>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailer: WebService/1.1.14593 hermes Apache-HttpAsyncClient/4.1.4 (Java/1.8.0_181)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ted,
-
-On Wed, Oct 30, 2019 at 11:14:45AM -0400, Theodore Y. Ts'o wrote:
-> On Wed, Oct 30, 2019 at 06:43:45PM +0800, Gao Xiang wrote:
-> > > You're right, in low memory scenario, allocation with bioset will be faster, as
-> > > you mentioned offline, maybe we can add/use a priviate bioset like btrfs did
-> > > rather than using global one, however, we'd better check how deadlock happen
-> > > with a bioset mempool first ...
-> > 
-> > Okay, hope to get hints from Jaegeuk and redo this patch then...
+On Wed, 30 Oct 2019 02:44:30 -0600, Jonathan Corbet wrote:
+> On Tue, 29 Oct 2019 10:12:15 -0700
+> Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+> > -Q: I see a network patch and I think it should be backported to stable.
+> > ------------------------------------------------------------------------
+> > -Q: Should I request it via stable@vger.kernel.org like the references in
+> > -the kernel's Documentation/process/stable-kernel-rules.rst file say?
+> > +Q: I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
+> > +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 > 
-> It's not at all clear to me that using a private bioset is a good idea
-> for f2fs.  That just means you're allocating a separate chunk of
-> memory just for f2fs, as opposed to using the global pool.  That's an
-> additional chunk of non-swapable kernel memory that's not going to be
-> available, in *addition* to the global mempool.  
-> 
-> Also, who else would you be contending for space with the global
-> mempool?  It's not like an mobile handset is going to have other users
-> of the global bio mempool.
-> 
-> On a low-end mobile handset, memory is at a premium, so wasting memory
-> to no good effect isn't going to be a great idea.
+> I don't think that making these massive heading lines actually improves the
+> experience - for readers of either the plain-text or formatted docs.  If
+> you really want to create headings, the heading here should be "Stable
+> backports" or some such with the question appearing below.  But do the
+> questions really need to be headings?
 
-Thanks for your reply. I agree with your idea.
+I agree that this is suboptimal. I couldn't come up with a better way
+of handling this. I think consistently formatting all questions in one
+way and answers in another make the document far easier to interpret.
+I had hard time follow the current formatting:
 
-Actually I think after this version patch is applied, all are the same
-as the previous status (whether some deadlock or not).
+https://www.kernel.org/doc/html/latest/networking/netdev-FAQ.html#q-i-have-created-a-network-patch-and-i-think-it-should-be-backported-to-stable
 
-So I'm curious about the original issue in commit 740432f83560
-("f2fs: handle failed bio allocation"). Since f2fs manages multiple write
-bios with its internal fio but it seems the commit is not helpful to
-resolve potential mempool deadlock (I'm confused since no calltrace,
-maybe I'm wrong)...
-
-I think it should be gotten clear first and think how to do next..
-(I tend not to add another private bioset since it's unshareable as you
- said as well...)
-
-Thanks,
-Gao Xiang
-
-> 
-> Regards,
-> 
-> 						- Ted
-> 
->
- 
+Is there a more appropriate form of emphasis we could use here? Even
+if we add independent headings questions should remain emphasised
+_somehow_ I reckon..
