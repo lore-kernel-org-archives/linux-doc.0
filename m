@@ -3,197 +3,333 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1FA8E7D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 19:02:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22F187D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 20:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726272AbfJ3TCe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Oct 2019 15:02:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44050 "EHLO mail.kernel.org"
+        id S1726384AbfJ3ULi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Oct 2019 16:11:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726261AbfJ3TCa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Oct 2019 15:02:30 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        id S1726269AbfJ3ULi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Oct 2019 16:11:38 -0400
+Received: from linux-8ccs (unknown [92.117.144.115])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 18F9E20659;
-        Wed, 30 Oct 2019 19:02:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5069720650;
+        Wed, 30 Oct 2019 20:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572462148;
-        bh=+38YM8UwTn3h5SiOhEnqRmj1g6UwoAQkEny6ADnAC2g=;
+        s=default; t=1572466296;
+        bh=fYNg2uPUmC97M1FRlx78nN1TvRwX0gv7SPs17Dc9Fo8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nwkttn5SwTfS+1q2HWx6QJVDTYOCBvf2EjiRsXaYaIFS8vvQAzvYv6MkCGYIbUhD/
-         CnS987j70vJ43qeaabhjXanWTeQRdyv4ykISU3401Kpc1FqlsxgpyWa25Bx76QvaR7
-         99+flFPnlIgN8xxk4c/F8D6jd3ly1bzzQeyJo1qs=
-Date:   Wed, 30 Oct 2019 12:02:26 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Gwendal Grignou <gwendal@chromium.org>, Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>, apronin@chromium.org,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        b=m6se2yb5mOsj6qTGDes9L00wnk6VmdMP4fQ48m9LOir2oi/PGfWQGhpuZGGN/SIh7
+         D2MXFy3VbBMe18T178UzZ5DGQYBz6YgxmAkjcZ3s1EsUg1lbvI2ydon+BGdvsTyM5X
+         A97F0z3ruwtg8BEbz2msc3ZRxDbIzy7OhX0RBzgk=
+Date:   Wed, 30 Oct 2019 21:11:28 +0100
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-Message-ID: <20191030190226.GD693@sol.localdomain>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>, Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>, apronin@chromium.org,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain>
- <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] modpost: dump missing namespaces into a single
+ modules.nsdeps file
+Message-ID: <20191030201127.GC13413@linux-8ccs>
+References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
+ <20191029123809.29301-3-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191029123809.29301-3-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 10:51:20AM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Oct 30, 2019 at 10:38 AM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > Hi Douglas,
-> >
-> > On Wed, Oct 30, 2019 at 10:06:25AM -0700, Douglas Anderson wrote:
-> > > This reverts commit 0642ea2409f3 ("ext4 crypto: fix to check feature
-> > > status before get policy").
-> > >
-> > > The commit made a clear and documented ABI change that is not backward
-> > > compatible.  There exists userspace code [1] that relied on the old
-> > > behavior and is now broken.
-> > >
-> > > While we could entertain the idea of updating the userspace code to
-> > > handle the ABI change, it's my understanding that in general ABI
-> > > changes that break userspace are frowned upon (to put it nicely).
-> > >
-> > > NOTE: if we for some reason do decide to entertain the idea of
-> > > allowing the ABI change and updating userspace, I'd appreciate any
-> > > help on how we should make the change.  Specifically the old code
-> > > relied on the different return values to differentiate between
-> > > "KeyState::NO_KEY" and "KeyState::NOT_SUPPORTED".  I'm no expert on
-> > > the ext4 encryption APIs (I just ended up here tracking down the
-> > > regression [2]) so I'd need a bit of handholding from someone.
-> > >
-> > > [1] https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/cryptohome/dircrypto_util.cc#73
-> > > [2] https://crbug.com/1018265
-> > >
-> > > Fixes: 0642ea2409f3 ("ext4 crypto: fix to check feature status before get policy")
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > >
-> > >  Documentation/filesystems/fscrypt.rst | 3 +--
-> > >  fs/ext4/ioctl.c                       | 2 --
-> > >  2 files changed, 1 insertion(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-> > > index 8a0700af9596..4289c29d7c5a 100644
-> > > --- a/Documentation/filesystems/fscrypt.rst
-> > > +++ b/Documentation/filesystems/fscrypt.rst
-> > > @@ -562,8 +562,7 @@ FS_IOC_GET_ENCRYPTION_POLICY_EX can fail with the following errors:
-> > >    or this kernel is too old to support FS_IOC_GET_ENCRYPTION_POLICY_EX
-> > >    (try FS_IOC_GET_ENCRYPTION_POLICY instead)
-> > >  - ``EOPNOTSUPP``: the kernel was not configured with encryption
-> > > -  support for this filesystem, or the filesystem superblock has not
-> > > -  had encryption enabled on it
-> > > +  support for this filesystem
-> > >  - ``EOVERFLOW``: the file is encrypted and uses a recognized
-> > >    encryption policy version, but the policy struct does not fit into
-> > >    the provided buffer
-> > > diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
-> > > index 0b7f316fd30f..13d97fb797b4 100644
-> > > --- a/fs/ext4/ioctl.c
-> > > +++ b/fs/ext4/ioctl.c
-> > > @@ -1181,8 +1181,6 @@ long ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> > >  #endif
-> > >       }
-> > >       case EXT4_IOC_GET_ENCRYPTION_POLICY:
-> > > -             if (!ext4_has_feature_encrypt(sb))
-> > > -                     return -EOPNOTSUPP;
-> > >               return fscrypt_ioctl_get_policy(filp, (void __user *)arg);
-> > >
-> >
-> > Thanks for reporting this.  Can you elaborate on exactly why returning
-> > EOPNOTSUPP breaks things in the Chrome OS code?  Since encryption is indeed not
-> > supported, why isn't "KeyState::NOT_SUPPORTED" correct?
-> 
-> I guess all I know is from the cryptohome source code I sent a link
-> to, which I'm not a super expert in.  Did you get a chance to take a
-> look at that?  As far as I can tell the code is doing something like
-> this:
-> 
-> 1. If I see EOPNOTSUPP then this must be a kernel without ext4 crypto.
-> Fallback to using the old-style ecryptfs.
-> 
-> 2. If I see ENODATA then this is a kernel with ext4 crypto but there's
-> no key yet.  We should set a key and (if necessarily) enable crypto on
-> the filesystem.
-> 
-> 3. If I see no error then we're already good.
-> 
-> > Note that the state after this revert will be:
-> >
-> > - FS_IOC_GET_ENCRYPTION_POLICY on ext4 => ENODATA
-> > - FS_IOC_GET_ENCRYPTION_POLICY on f2fs => EOPNOTSUPP
-> > - FS_IOC_GET_ENCRYPTION_POLICY_EX on ext4 => EOPNOTSUPP
-> > - FS_IOC_GET_ENCRYPTION_POLICY_EX on f2fs => EOPNOTSUPP
-> >
-> > So if this code change is made, the documentation would need to be updated to
-> > explain that the error code from FS_IOC_GET_ENCRYPTION_POLICY is
-> > filesystem-specific (which we'd really like to avoid...), and that
-> > FS_IOC_GET_ENCRYPTION_POLICY_EX handles this case differently.  Or else the
-> > other three would need to be changed to ENODATA -- which for
-> > FS_IOC_GET_ENCRYPTION_POLICY on f2fs would be an ABI break in its own right,
-> > though it's possible that no one would notice.
-> >
-> > Is your proposal to keep the error filesystem-specific for now?
-> 
-> I guess I'd have to leave it up to the people who know this better.
-> Mostly I just saw this as an ABI change breaking userspace which to me
-> means revert.  I have very little background here to make good
-> decisions about the right way to move forward.
-> 
++++ Masahiro Yamada [29/10/19 21:38 +0900]:
+>The modpost, with the -d option given, generates per-module .ns_deps
+>files.
+>
+>Kbuild generates per-module .mod files to carry module information.
+>This is convenient because Make handles multiple jobs when the -j
+>option is given.
+>
+>On the other hand, the modpost always runs as a single thread.
+>I do not see a strong reason to produce separate .ns_deps files.
+>
+>This commit changes the modpost to generate just one file,
+>modules.nsdeps, each line of which has the following format:
+>
+>  <module_name>: <list of missing namespaces>
+>
+>Please note it contains *missing* namespaces instead of required ones.
+>So, modules.nsdeps is empty if the namespace dependency is all good.
+>
+>This will work more efficiently because spatch will no longer process
+>already imported namespaces. I removed the '(if needed)' from the
+>nsdeps log since spatch is invoked only when needed.
 
-Okay, that makes sense -- cryptohome assumes that ENODATA means the kernel
-supports encryption, even if the encrypt ext4 feature flag isn't set yet.
+This is a nice optimization! :-)
 
-The way it's really supposed to work (IMO) is that all fscrypt ioctls
-consistently return EOPNOTSUPP if the feature is off, and then if userspace
-really needs to know if encryption can nevertheless still be enabled and used on
-the filesystem, it can check for the presence of
-/sys/fs/ext4/features/encryption (or /sys/fs/f2fs/features/encryption).  Or the
-feature flag can just be set by configuration before any of the fscrypt ioctls
-are attempted (this is what Android does).
+>This also solved the stale .ns_deps files problem reported by
+>Jessica Yu:
+>
+>  https://lkml.org/lkml/2019/10/28/467
 
-I guess we're stuck with the existing ext4 FS_IOC_GET_ENCRYPTION_POLICY behavior
-though, so we need to take this revert for 5.4.
+Tested-by: Jessica Yu <jeyu@kernel.org>
+Acked-by: Jessica Yu <jeyu@kernel.org>
 
-For 5.5 I think we should try to make things slightly more sane by removing the
-same check from f2fs and fixing the documentation, so that at least each ioctl
-will behave consistently across filesystems and be correctly documented.
+Thanks for the fix!
 
-Ted, Jaegeuk, Chao, do you agree?
-
-- Eric
+>While I was here, I improved the modpost code a little more;
+>I freed ns_deps_bus.p because buf_write() allocates memory.
+>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>---
+>
+> .gitignore               |  2 +-
+> Documentation/dontdiff   |  1 +
+> Makefile                 |  4 ++--
+> scripts/Makefile.modpost |  2 +-
+> scripts/mod/modpost.c    | 44 +++++++++++++++++-----------------------
+> scripts/mod/modpost.h    |  4 ++--
+> scripts/nsdeps           | 21 +++++++++----------
+> 7 files changed, 36 insertions(+), 42 deletions(-)
+>
+>diff --git a/.gitignore b/.gitignore
+>index 70580bdd352c..72ef86a5570d 100644
+>--- a/.gitignore
+>+++ b/.gitignore
+>@@ -32,7 +32,6 @@
+> *.lzo
+> *.mod
+> *.mod.c
+>-*.ns_deps
+> *.o
+> *.o.*
+> *.patch
+>@@ -61,6 +60,7 @@ modules.order
+> /System.map
+> /Module.markers
+> /modules.builtin.modinfo
+>+/modules.nsdeps
+>
+> #
+> # RPM spec file (make rpm-pkg)
+>diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+>index 9f4392876099..72fc2e9e2b63 100644
+>--- a/Documentation/dontdiff
+>+++ b/Documentation/dontdiff
+>@@ -179,6 +179,7 @@ mkutf8data
+> modpost
+> modules.builtin
+> modules.builtin.modinfo
+>+modules.nsdeps
+> modules.order
+> modversions.h*
+> nconf
+>diff --git a/Makefile b/Makefile
+>index 0ef897fd9cfd..1e3f307bd49b 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -1356,7 +1356,7 @@ endif # CONFIG_MODULES
+>
+> # Directories & files removed with 'make clean'
+> CLEAN_DIRS  += include/ksym
+>-CLEAN_FILES += modules.builtin.modinfo
+>+CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
+>
+> # Directories & files removed with 'make mrproper'
+> MRPROPER_DIRS  += include/config include/generated          \
+>@@ -1660,7 +1660,7 @@ clean: $(clean-dirs)
+> 		-o -name '*.ko.*' \
+> 		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+> 		-o -name '*.dwo' -o -name '*.lst' \
+>-		-o -name '*.su' -o -name '*.mod' -o -name '*.ns_deps' \
+>+		-o -name '*.su' -o -name '*.mod' \
+> 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+> 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
+> 		-o -name '*.asn1.[ch]' \
+>diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+>index c9757b20b048..da37128c3f9f 100644
+>--- a/scripts/Makefile.modpost
+>+++ b/scripts/Makefile.modpost
+>@@ -66,7 +66,7 @@ __modpost:
+> else
+>
+> MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
+>-	$(if $(KBUILD_NSDEPS),-d)
+>+	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)
+>
+> ifeq ($(KBUILD_EXTMOD),)
+> MODPOST += $(wildcard vmlinux)
+>diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>index dcd90d563ce8..f7425f5d4ab0 100644
+>--- a/scripts/mod/modpost.c
+>+++ b/scripts/mod/modpost.c
+>@@ -38,8 +38,6 @@ static int sec_mismatch_count = 0;
+> static int sec_mismatch_fatal = 0;
+> /* ignore missing files */
+> static int ignore_missing_files;
+>-/* write namespace dependencies */
+>-static int write_namespace_deps;
+>
+> enum export {
+> 	export_plain,      export_unused,     export_gpl,
+>@@ -2217,14 +2215,11 @@ static int check_exports(struct module *mod)
+> 		else
+> 			basename = mod->name;
+>
+>-		if (exp->namespace) {
+>-			add_namespace(&mod->required_namespaces,
+>-				      exp->namespace);
+>-
+>-			if (!module_imports_namespace(mod, exp->namespace)) {
+>-				warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
+>-				     basename, exp->name, exp->namespace);
+>-			}
+>+		if (exp->namespace &&
+>+		    !module_imports_namespace(mod, exp->namespace)) {
+>+			warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
+>+			     basename, exp->name, exp->namespace);
+>+			add_namespace(&mod->missing_namespaces, exp->namespace);
+> 		}
+>
+> 		if (!mod->gpl_compatible)
+>@@ -2525,29 +2520,27 @@ static void write_dump(const char *fname)
+> 	free(buf.p);
+> }
+>
+>-static void write_namespace_deps_files(void)
+>+static void write_namespace_deps_files(const char *fname)
+> {
+> 	struct module *mod;
+> 	struct namespace_list *ns;
+> 	struct buffer ns_deps_buf = {};
+>
+> 	for (mod = modules; mod; mod = mod->next) {
+>-		char fname[PATH_MAX];
+>
+>-		if (mod->skip)
+>+		if (mod->skip || !mod->missing_namespaces)
+> 			continue;
+>
+>-		ns_deps_buf.pos = 0;
+>+		buf_printf(&ns_deps_buf, "%s.ko:", mod->name);
+>
+>-		for (ns = mod->required_namespaces; ns; ns = ns->next)
+>-			buf_printf(&ns_deps_buf, "%s\n", ns->namespace);
+>+		for (ns = mod->missing_namespaces; ns; ns = ns->next)
+>+			buf_printf(&ns_deps_buf, " %s", ns->namespace);
+>
+>-		if (ns_deps_buf.pos == 0)
+>-			continue;
+>-
+>-		sprintf(fname, "%s.ns_deps", mod->name);
+>-		write_if_changed(&ns_deps_buf, fname);
+>+		buf_printf(&ns_deps_buf, "\n");
+> 	}
+>+
+>+	write_if_changed(&ns_deps_buf, fname);
+>+	free(ns_deps_buf.p);
+> }
+>
+> struct ext_sym_list {
+>@@ -2560,6 +2553,7 @@ int main(int argc, char **argv)
+> 	struct module *mod;
+> 	struct buffer buf = { };
+> 	char *kernel_read = NULL;
+>+	char *missing_namespace_deps = NULL;
+> 	char *dump_write = NULL, *files_source = NULL;
+> 	int opt;
+> 	int err;
+>@@ -2567,7 +2561,7 @@ int main(int argc, char **argv)
+> 	struct ext_sym_list *extsym_iter;
+> 	struct ext_sym_list *extsym_start = NULL;
+>
+>-	while ((opt = getopt(argc, argv, "i:e:mnsT:o:awEd")) != -1) {
+>+	while ((opt = getopt(argc, argv, "i:e:mnsT:o:awEd:")) != -1) {
+> 		switch (opt) {
+> 		case 'i':
+> 			kernel_read = optarg;
+>@@ -2606,7 +2600,7 @@ int main(int argc, char **argv)
+> 			sec_mismatch_fatal = 1;
+> 			break;
+> 		case 'd':
+>-			write_namespace_deps = 1;
+>+			missing_namespace_deps = optarg;
+> 			break;
+> 		default:
+> 			exit(1);
+>@@ -2654,8 +2648,8 @@ int main(int argc, char **argv)
+> 		write_if_changed(&buf, fname);
+> 	}
+>
+>-	if (write_namespace_deps)
+>-		write_namespace_deps_files();
+>+	if (missing_namespace_deps)
+>+		write_namespace_deps_files(missing_namespace_deps);
+>
+> 	if (dump_write)
+> 		write_dump(dump_write);
+>diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+>index ad271bc6c313..fe6652535e4b 100644
+>--- a/scripts/mod/modpost.h
+>+++ b/scripts/mod/modpost.h
+>@@ -126,8 +126,8 @@ struct module {
+> 	struct buffer dev_table_buf;
+> 	char	     srcversion[25];
+> 	int is_dot_o;
+>-	// Required namespace dependencies
+>-	struct namespace_list *required_namespaces;
+>+	// Missing namespace dependencies
+>+	struct namespace_list *missing_namespaces;
+> 	// Actual imported namespaces
+> 	struct namespace_list *imported_namespaces;
+> };
+>diff --git a/scripts/nsdeps b/scripts/nsdeps
+>index dda6fbac016e..08db427a7fe5 100644
+>--- a/scripts/nsdeps
+>+++ b/scripts/nsdeps
+>@@ -27,15 +27,14 @@ generate_deps_for_ns() {
+> }
+>
+> generate_deps() {
+>-	local mod_name=`basename $@ .ko`
+>-	local mod_file=`echo $@ | sed -e 's/\.ko/\.mod/'`
+>-	local ns_deps_file=`echo $@ | sed -e 's/\.ko/\.ns_deps/'`
+>-	if [ ! -f "$ns_deps_file" ]; then return; fi
+>-	local mod_source_files=`cat $mod_file | sed -n 1p                      \
+>+	local mod=${1%.ko:}
+>+	shift
+>+	local namespaces="$*"
+>+	local mod_source_files=`cat $mod.mod | sed -n 1p                      \
+> 					      | sed -e 's/\.o/\.c/g'           \
+> 					      | sed "s|[^ ]* *|${srctree}/&|g"`
+>-	for ns in `cat $ns_deps_file`; do
+>-		echo "Adding namespace $ns to module $mod_name (if needed)."
+>+	for ns in $namespaces; do
+>+		echo "Adding namespace $ns to module $mod.ko."
+> 		generate_deps_for_ns $ns $mod_source_files
+> 		# sort the imports
+> 		for source_file in $mod_source_files; do
+>@@ -52,7 +51,7 @@ generate_deps() {
+> 	done
+> }
+>
+>-for f in `cat $objtree/modules.order`; do
+>-	generate_deps $f
+>-done
+>-
+>+while read line
+>+do
+>+	generate_deps $line
+>+done < modules.nsdeps
+>-- 
+>2.17.1
+>
