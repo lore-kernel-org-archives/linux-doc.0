@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD5B77D923
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 22:49:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E0C77D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 22:50:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727701AbfJ3Wtv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Oct 2019 18:49:51 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:5281 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727695AbfJ3Wtu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 18:49:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dba13920001>; Wed, 30 Oct 2019 15:49:54 -0700
+        id S1727741AbfJ3Wt6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Oct 2019 18:49:58 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:1459 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727731AbfJ3Wt4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 18:49:56 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dba13950000>; Wed, 30 Oct 2019 15:49:57 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 30 Oct 2019 15:49:47 -0700
+  Wed, 30 Oct 2019 15:49:51 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 30 Oct 2019 15:49:47 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Wed, 30 Oct 2019 15:49:51 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Oct
- 2019 22:49:47 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 30 Oct 2019 22:49:45 +0000
+ 2019 22:49:50 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 30 Oct 2019 22:49:49 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dba13880001>; Wed, 30 Oct 2019 15:49:45 -0700
+        id <B5dba138c0001>; Wed, 30 Oct 2019 15:49:49 -0700
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -61,9 +61,9 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
         John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH 10/19] fs/io_uring: set FOLL_PIN via pin_user_pages()
-Date:   Wed, 30 Oct 2019 15:49:21 -0700
-Message-ID: <20191030224930.3990755-11-jhubbard@nvidia.com>
+Subject: [PATCH 13/19] media/v4l2-core: pin_longterm_pages (FOLL_PIN) and put_user_page() conversion
+Date:   Wed, 30 Oct 2019 15:49:24 -0700
+Message-ID: <20191030224930.3990755-14-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191030224930.3990755-1-jhubbard@nvidia.com>
 References: <20191030224930.3990755-1-jhubbard@nvidia.com>
@@ -72,48 +72,70 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572475794; bh=bbL8FR4bzETk+x2+h29SWzIPj5uQjRkW4dL7+03upow=;
+        t=1572475797; bh=liO76MrwJT5y5IUfrUHPe1ML08BZFmwb/vxBRrGctqM=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=kR+tPouBYC0ki827JDMeuNTByE9oIS5IDkovYzuvxCfKraeRE1xhbD+GOuKjda4Em
-         wTplOT5bMiWa8BiaEHL3DKSpG8hqxFlrmCesFeMnbUYq9P1VfB5Aknw2LfXHZadx61
-         XIn5Hk9/d25I2iGTdlvgsBAJtZ42RCNbPATO9yzUrOBld+IU2VDQsYVK6KL9TsCU6a
-         YxhKY4Qm/Nq4yZ1x82Ms8dt1DPfBsg0RcS/BQFOIl5tkHUes2ShpUz9fJI0YZorwvG
-         K9BJvrNgryOUaUnfVnmo/oNPgkf3tG6AdeuQiOhCRbBpph8T9Ytab2k7nIUs3cE6Z5
-         zqKFG6B2aYtEA==
+        b=n/jU6RrW0ZjttNabcpGwQPPab1gIeZFpT4fnLGvVm243QsafiVbh9DI2+2S4wRLXV
+         muZvRf/8uBCxVsC+mzS9tiK6baXFDniJzFsfdLPJcrW9n74Tt2fvUV/p3gtTXpB/mV
+         tvZO4ZDCmJbUhjlTXXb3QYEDe1CQZAWnPCmuKToxabj6E+MYjYQozWYENsHdKPq6A7
+         L546SbyRShX9dmy+dRTwnDa6eyRVCLbCMk5HVM8PUGjOk3PV94wUozgY11xDMrcKrH
+         PDcINmVzC2eOVqxsHyv4UF+YTfsp0jwhRmqltzQUSz2iYiUp2Sax48itEzhx5AdORO
+         bd9OAN2qf8zWw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert fs/io_uring to use the new pin_user_pages() call, which sets
-FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-tracking of pinned pages, and therefore for any code that calls
-put_user_page().
+1. Change v4l2 from get_user_pages(FOLL_LONGTERM), to
+pin_longterm_pages(), which sets both FOLL_LONGTERM and FOLL_PIN.
 
+2. Because all FOLL_PIN-acquired pages must be released via
+put_user_page(), also convert the put_page() call over to
+put_user_pages_dirty_lock().
+
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- fs/io_uring.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/videobuf-dma-sg.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/fs/io_uring.c b/fs/io_uring.c
-index a30c4f622cb3..d3924b1760eb 100644
---- a/fs/io_uring.c
-+++ b/fs/io_uring.c
-@@ -3431,9 +3431,8 @@ static int io_sqe_buffer_register(struct io_ring_ctx =
-*ctx, void __user *arg,
+diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2=
+-core/videobuf-dma-sg.c
+index 28262190c3ab..9b9c5b37bf59 100644
+--- a/drivers/media/v4l2-core/videobuf-dma-sg.c
++++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
+@@ -183,12 +183,12 @@ static int videobuf_dma_init_user_locked(struct video=
+buf_dmabuf *dma,
+ 	dprintk(1, "init user [0x%lx+0x%lx =3D> %d pages]\n",
+ 		data, size, dma->nr_pages);
 =20
- 		ret =3D 0;
- 		down_read(&current->mm->mmap_sem);
--		pret =3D get_user_pages(ubuf, nr_pages,
--				      FOLL_WRITE | FOLL_LONGTERM,
--				      pages, vmas);
-+		pret =3D pin_longterm_pages(ubuf, nr_pages, FOLL_WRITE, pages,
-+					  vmas);
- 		if (pret =3D=3D nr_pages) {
- 			/* don't support file backed memory */
- 			for (j =3D 0; j < nr_pages; j++) {
+-	err =3D get_user_pages(data & PAGE_MASK, dma->nr_pages,
+-			     flags | FOLL_LONGTERM, dma->pages, NULL);
++	err =3D pin_longterm_pages(data & PAGE_MASK, dma->nr_pages,
++				 flags, dma->pages, NULL);
+=20
+ 	if (err !=3D dma->nr_pages) {
+ 		dma->nr_pages =3D (err >=3D 0) ? err : 0;
+-		dprintk(1, "get_user_pages: err=3D%d [%d]\n", err,
++		dprintk(1, "pin_longterm_pages: err=3D%d [%d]\n", err,
+ 			dma->nr_pages);
+ 		return err < 0 ? err : -EINVAL;
+ 	}
+@@ -349,11 +349,8 @@ int videobuf_dma_free(struct videobuf_dmabuf *dma)
+ 	BUG_ON(dma->sglen);
+=20
+ 	if (dma->pages) {
+-		for (i =3D 0; i < dma->nr_pages; i++) {
+-			if (dma->direction =3D=3D DMA_FROM_DEVICE)
+-				set_page_dirty_lock(dma->pages[i]);
+-			put_page(dma->pages[i]);
+-		}
++		put_user_pages_dirty_lock(dma->pages, dma->nr_pages,
++					  dma->direction =3D=3D DMA_FROM_DEVICE);
+ 		kfree(dma->pages);
+ 		dma->pages =3D NULL;
+ 	}
 --=20
 2.23.0
 
