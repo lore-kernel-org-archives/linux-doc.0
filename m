@@ -1,96 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D70B77D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 16:02:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCF777D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Oct 2019 16:23:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727252AbfJ3QC5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Oct 2019 12:02:57 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37619 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726800AbfJ3QC5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 12:02:57 -0400
-Received: by mail-pg1-f194.google.com with SMTP id p1so1778247pgi.4
-        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2019 09:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=VoUHDBkMmd0HSBoZsz/ANMDge7dtZlxy+cPZi/mFFJY=;
-        b=Kwx+ej5rUUdH05bGpgZpyIashKuG83SmcQrnDsm+0lkzjNj+a/z/2AYj955t9lDk5J
-         wM9pSqdj/pjkJ/9fqeY9vJA4+RepNJgc0XpETFOyHjZO784yLooJUr0S5S0azRi1xVCK
-         2npjQfJ7X7m5p+lT7hDQY7pxd7Hua4CD2zHNc1ilftvalB1GC9rxo0gSKg0jCBdKBn72
-         OTh7uP80F4rVatHRyeUPyZLMukEb62PvTqWNWARYt5PlbtxBy047yW0RiVnUHkzfbCml
-         0A9j5I62awVLtlW+2u7tjzfUrlwNFmqhQFW354VvHwHwdWDOJT7OZ7P21G5h7AJcmnFp
-         jKTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=VoUHDBkMmd0HSBoZsz/ANMDge7dtZlxy+cPZi/mFFJY=;
-        b=o7Fr0X8euIhhNZ8WUdVg+JgIqxI+N5B6QjdDbiJm3oj0z4Kcr9lwD9z4BSeJRV0DzC
-         DzU+xjHa6O4GfMX3c/L+Hk1CSR2q6i3KyW1LTyJo5rFBWUhIBm0sCkzfFijXEGC8u3Oy
-         gvWJemf2LdxtVlhmTWNk22dIYPb6F1e7Cus1uuIGUVnvC8upJG4cCjwYdk9T/S4N6Ccj
-         x8VsL1mfgMH+jnYA5N0oeyn653wP86/PA4RopLQPAFIW3JxYVLsmGR65XZ3XII/aKVQ4
-         ++hWOsA+UjnRZxg0/ZwEV0F3Pi1kgA6xPuJLbqNmdqNXbOPl/BOlhodumqa+RSbu4mi0
-         h2Aw==
-X-Gm-Message-State: APjAAAVWs5//jiWgsOPjM2zn0AX8iXSQvIlkVYyBYDsRWBxhc+FZda5j
-        tn1t27qzrR9LRJhKlUdkRoXpwA==
-X-Google-Smtp-Source: APXvYqwKh2sNDkMWVEr8EZeiQYcDxBUIyGbXfa1wOACGtQkqflx1gjxVl6QWK3rDAjeFaaWgdy3PMg==
-X-Received: by 2002:a17:90a:db47:: with SMTP id u7mr14678517pjx.3.1572451376075;
-        Wed, 30 Oct 2019 09:02:56 -0700 (PDT)
-Received: from cakuba.hsd1.ca.comcast.net (c-73-202-202-92.hsd1.ca.comcast.net. [73.202.202.92])
-        by smtp.gmail.com with ESMTPSA id 3sm366984pfh.45.2019.10.30.09.02.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 09:02:55 -0700 (PDT)
-Date:   Wed, 30 Oct 2019 09:02:52 -0700
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        Simon Horman <simon.horman@netronome.com>
-Subject: Re: [PATCH net] Documentation: netdev-FAQ: make all questions into
- headings
-Message-ID: <20191030090252.7eedec35@cakuba.hsd1.ca.comcast.net>
-In-Reply-To: <20191030024430.719c73be@lwn.net>
-References: <20191029171215.6861-1-jakub.kicinski@netronome.com>
-        <20191030024430.719c73be@lwn.net>
-Organization: Netronome Systems, Ltd.
+        id S1726900AbfJ3QXJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Oct 2019 12:23:09 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41030 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726665AbfJ3QXJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Oct 2019 12:23:09 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-98.corp.google.com [104.133.0.98] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x9UGMhhq017904
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Oct 2019 12:22:44 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 2C3B8420456; Wed, 30 Oct 2019 12:22:43 -0400 (EDT)
+Date:   Wed, 30 Oct 2019 12:22:43 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Gao Xiang <hsiangkao@aol.com>
+Cc:     Gao Xiang <gaoxiang25@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: Re: [f2fs-dev] [PATCH] f2fs: bio_alloc should never fail
+Message-ID: <20191030162243.GA18729@mit.edu>
+References: <20191030035518.65477-1-gaoxiang25@huawei.com>
+ <20aa40bd-280d-d223-9f73-d9ed7dbe4f29@huawei.com>
+ <20191030091542.GA24976@architecture4>
+ <19a417e6-8f0e-564e-bc36-59bfc883ec16@huawei.com>
+ <20191030104345.GB170703@architecture4>
+ <20191030151444.GC16197@mit.edu>
+ <20191030155020.GA3953@hsiangkao-HP-ZHAN-66-Pro-G1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191030155020.GA3953@hsiangkao-HP-ZHAN-66-Pro-G1>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Oct 2019 02:44:30 -0600, Jonathan Corbet wrote:
-> On Tue, 29 Oct 2019 10:12:15 -0700
-> Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
-> > -Q: I see a network patch and I think it should be backported to stable.
-> > ------------------------------------------------------------------------
-> > -Q: Should I request it via stable@vger.kernel.org like the references in
-> > -the kernel's Documentation/process/stable-kernel-rules.rst file say?
-> > +Q: I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
-> > +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+On Wed, Oct 30, 2019 at 11:50:37PM +0800, Gao Xiang wrote:
 > 
-> I don't think that making these massive heading lines actually improves the
-> experience - for readers of either the plain-text or formatted docs.  If
-> you really want to create headings, the heading here should be "Stable
-> backports" or some such with the question appearing below.  But do the
-> questions really need to be headings?
+> So I'm curious about the original issue in commit 740432f83560
+> ("f2fs: handle failed bio allocation"). Since f2fs manages multiple write
+> bios with its internal fio but it seems the commit is not helpful to
+> resolve potential mempool deadlock (I'm confused since no calltrace,
+> maybe I'm wrong)...
 
-I agree that this is suboptimal. I couldn't come up with a better way
-of handling this. I think consistently formatting all questions in one
-way and answers in another make the document far easier to interpret.
-I had hard time follow the current formatting:
+Two possibilities come to mind.  (a) It may be that on older kernels
+(when f2fs is backported to older Board Support Package kernels from
+the SOC vendors) didn't have the bio_alloc() guarantee, so it was
+necessary on older kernels, but not on upstream, or (b) it wasn't
+*actually* possible for bio_alloc() to fail and someone added the
+error handling in 740432f83560 out of paranoia.
 
-https://www.kernel.org/doc/html/latest/networking/netdev-FAQ.html#q-i-have-created-a-network-patch-and-i-think-it-should-be-backported-to-stable
+(Hence my suggestion that in the ext4 version of the patch, we add a
+code comment justifying why there was no error checking, to make it
+clear that this was a deliberate choice.  :-)
 
-Is there a more appropriate form of emphasis we could use here? Even
-if we add independent headings questions should remain emphasised
-_somehow_ I reckon..
+						- Ted
