@@ -6,54 +6,54 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E8987D910
+	by archive.lwn.net (Postfix) with ESMTP id 404C87D923
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 17:58:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729127AbfJaR6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726602AbfJaR6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 31 Oct 2019 13:58:39 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:34011 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbfJaR6j (ORCPT
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:35550 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729117AbfJaR6j (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 13:58:39 -0400
-Received: by mail-pg1-f193.google.com with SMTP id e4so4542098pgs.1
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 10:58:39 -0700 (PDT)
+Received: by mail-pg1-f195.google.com with SMTP id c8so4540848pgb.2
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 10:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NdEpwlKLBgKBcXE2fFCtVpGdvVkjrw2sI0goqWCkBdA=;
-        b=S1s4ZBDp6uqMHkVpEGnCdWM8Si7bOQukbUsBYHkmhp42sGnfVQUfBqIhbUrZv8/1Bd
-         GIPNkDZRN8H2f1dZKKmqB+rzvOwpXGJHC6nQUEkRHPJhGdUa+yfME+7PZSa/gx0aK1Eh
-         6TMgI+npdwcCV9RXyX4JrFetgRz9/Uvo5mEm9iVdvha5adtZ7/glQTzdaKySToFqwHIR
-         8a1+U2w54ZDu/BPtiMtKgc9QqjqG4DMO35Fj/jWk0i8TUZNTQVH0lxHpxNxc1k2Ednu6
-         vqZ9GN9sz3a0gPxRdzFq7uSrrPWpb/dxLWlVNhuFCXaDCVaYvp2hhFpXyxCpd/rD+8nE
-         /8Mg==
+        bh=/ws48OPfYIJsP3hLi0od0xxVO+NdaAYQZFQkL5nisiM=;
+        b=ATidlEjEqD00UPJarL+ncmaSsGAlcuIP8YB2LTb+0EVSJWNqesZQj6dFeAV7iSzX91
+         BvzrjMRoTBs2lfTwKEYXe1AaDvKWhphMavrmAx2ZYd0y/qHStcqHTKuY9klBNyRDp0j3
+         q2YmpFczqJajz69+imTNDU0LtX4QTyHZXLV6dtzD+Ya50UY7DaX8YXNtRWGQaBopGBsx
+         s8AtgTZTQZnO7FZ+f7A9fbcxsCQUnsTIY5Ba3i+Gxs/cfmQvb7hxQu035hpAq+jaakyJ
+         4Vo1yK6PH210LLJPYdll0hlBzeYvNDkd3//aqYIpb++z5Xwas2SMkC0E0aBx9AUuY7Rx
+         Sbnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NdEpwlKLBgKBcXE2fFCtVpGdvVkjrw2sI0goqWCkBdA=;
-        b=Akg5jb7z1UjzE6jZZX/ImWjugwR5MU+1VTuHMUAsltzmJtLEhRRrewbakVijr4f2gC
-         OaLTnfecSjmUgA+/prZvE3AmoVeifBlW1sD6EbC584k7r+pBE2hdTFTTYzg75RQWYQRo
-         AKNSzA3QX0qRgnJpFCrZ10s/1NoSFgIrVbhQZyQ+kZ06JsLWgwQSR1/ZeF8JrdRNwIyE
-         y/w/PuUD6x9pJuVGo5Jlm3eeCKsTfLuNZ1ST7uN/Eplalul60nMObt78t3Pt53kIctTm
-         ADM9k73K28L0qY7Yair8OzHHfpjFaGx+L+89jPGBKqVcgn+1xGllBZA39YBKFPYC7QMe
-         Zgbg==
-X-Gm-Message-State: APjAAAUsBsVj0NGl7v1g8u/IUv9dSA2B5hLtfFP/+OK0yO5MzP7YRs5u
-        1Hqh6sQdn5w/InugjsoiXcB85g==
-X-Google-Smtp-Source: APXvYqwd3FlgdzgAYcA2WWKMKif4l8T22wIogkRw7QM8/8o0Cj9nXkWHvBlseKOwuTl7PoNVsM3lhQ==
-X-Received: by 2002:a17:90a:9306:: with SMTP id p6mr9028719pjo.68.1572544718745;
-        Thu, 31 Oct 2019 10:58:38 -0700 (PDT)
+        bh=/ws48OPfYIJsP3hLi0od0xxVO+NdaAYQZFQkL5nisiM=;
+        b=NNFu74wJWpZtiLyc9NnDFgVJbf1ov5Sjdk0zQ1vGQLvfRacRYlkB1CMtA5Ch8rbiyy
+         Ty4JGp6tomsMmQplOzlK29v7cgXUjGKaCah4E3qIObUc8YgyApKPzV3jYsbdDVnzyEYJ
+         yWeS2aoOuEbMLv3RVrbl2g7uAPZpef92U/R1typNIZ0oO3vgpLmNl/WneF33TZlE1LmS
+         jbjp+M0fJMdxkVelqLZxH958aDxcmy9AXXuQDkZv1J/UN+phz5VCiZlNZdXvKzSOQnL3
+         cyYDy9zZ8PhYONNCQUVQPL+cPbr9HF70Ig13h4qRWalYi/0ERqSRnY5SMeYCSTdcRjWU
+         rkyw==
+X-Gm-Message-State: APjAAAWrgkLB0s/Y3P/Yey8e7NoTQPM44/Ndoman1+IzXoDTg/MAENnI
+        82G0u5l3NFhxf/9dTVSfSklUCw==
+X-Google-Smtp-Source: APXvYqxQs8ZQ5Ruv/C9/lnpJ42h8VwAa6x+pIpe8aXf0grM0GwA7KunaMBdVfcWHB/0EeZDApjFciA==
+X-Received: by 2002:a63:65c6:: with SMTP id z189mr7889040pgb.433.1572544717693;
+        Thu, 31 Oct 2019 10:58:37 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id c6sm4382210pfj.59.2019.10.31.10.58.37
+        by smtp.gmail.com with ESMTPSA id c6sm4382210pfj.59.2019.10.31.10.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2019 10:58:38 -0700 (PDT)
+        Thu, 31 Oct 2019 10:58:37 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     corbet@lwn.net
 Cc:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 3/4] coresight: docs: Create common sub-directory for coresight trace.
-Date:   Thu, 31 Oct 2019 11:58:33 -0600
-Message-Id: <20191031175834.17548-4-mathieu.poirier@linaro.org>
+Subject: [PATCH 2/4] coresight: etm4x: docs: Update ABI doc for new sysfs etm4 attributes
+Date:   Thu, 31 Oct 2019 11:58:32 -0600
+Message-Id: <20191031175834.17548-3-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191031175834.17548-1-mathieu.poirier@linaro.org>
 References: <20191031175834.17548-1-mathieu.poirier@linaro.org>
@@ -64,87 +64,74 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mike Leach <mike.leach@linaro.org>
 
-There are two files in the Documentation/trace directory relating to
-coresight, with more to follow, so create a Documentation/trace/coresight
-directory and move existing files there. Fixup index to reference
-new location.
-
-Update MAINTAINERS to reference this sub-directory rather than the
-individual files.
+This updates the ABI document to reflect recent additions to the ETM4.X
+driver sysfs interface.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
+[Updated Date and KernelVersion fields]
 Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- .../trace/{ => coresight}/coresight-cpu-debug.rst        | 0
- Documentation/trace/{ => coresight}/coresight.rst        | 2 +-
- Documentation/trace/coresight/index.rst                  | 9 +++++++++
- Documentation/trace/index.rst                            | 3 +--
- MAINTAINERS                                              | 3 +--
- 5 files changed, 12 insertions(+), 5 deletions(-)
- rename Documentation/trace/{ => coresight}/coresight-cpu-debug.rst (100%)
- rename Documentation/trace/{ => coresight}/coresight.rst (99%)
- create mode 100644 Documentation/trace/coresight/index.rst
+ .../testing/sysfs-bus-coresight-devices-etm4x | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/Documentation/trace/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
-similarity index 100%
-rename from Documentation/trace/coresight-cpu-debug.rst
-rename to Documentation/trace/coresight/coresight-cpu-debug.rst
-diff --git a/Documentation/trace/coresight.rst b/Documentation/trace/coresight/coresight.rst
-similarity index 99%
-rename from Documentation/trace/coresight.rst
-rename to Documentation/trace/coresight/coresight.rst
-index 72f4b7ef1bad..a566719f8e7e 100644
---- a/Documentation/trace/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -489,7 +489,7 @@ interface provided for that purpose by the generic STM API::
-     crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/stm0
-     root@genericarmv8:~#
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+index 9290010e973e..614874e2cf53 100644
+--- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+@@ -282,6 +282,53 @@ Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
+ Description:	(RW) Mask for all 8 virtual machine ID comparator value
+ 		registers (if implemented).
  
--Details on how to use the generic STM API can be found here [#second]_.
-+Details on how to use the generic STM API can be found here:- :doc:`../stm` [#second]_.
- 
- .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
- 
-diff --git a/Documentation/trace/coresight/index.rst b/Documentation/trace/coresight/index.rst
-new file mode 100644
-index 000000000000..8d31b155a87c
---- /dev/null
-+++ b/Documentation/trace/coresight/index.rst
-@@ -0,0 +1,9 @@
-+==============================
-+CoreSight - ARM Hardware Trace
-+==============================
++What:		/sys/bus/coresight/devices/etm<N>/addr_exlevel_s_ns
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(RW) Set the Exception Level matching bits for secure and
++		non-secure exception levels.
 +
-+.. toctree::
-+   :maxdepth: 2
-+   :glob:
++What:		/sys/bus/coresight/devices/etm<N>/vinst_pe_cmp_start_stop
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(RW) Access the start stop control register for PE input
++		comparators.
 +
-+   *
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index b7891cb1ab4d..04acd277c5f6 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -23,5 +23,4 @@ Linux Tracing Technologies
-    intel_th
-    stm
-    sys-t
--   coresight
--   coresight-cpu-debug
-+   coresight/index
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 296de2b51c83..f903160b507c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1608,8 +1608,7 @@ R:	Suzuki K Poulose <suzuki.poulose@arm.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	drivers/hwtracing/coresight/*
--F:	Documentation/trace/coresight.rst
--F:	Documentation/trace/coresight-cpu-debug.rst
-+F:	Documentation/trace/coresight/*
- F:	Documentation/devicetree/bindings/arm/coresight.txt
- F:	Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt
- F:	Documentation/ABI/testing/sysfs-bus-coresight-devices-*
++What:		/sys/bus/coresight/devices/etm<N>/addr_cmp_view
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(R) Print the current settings for the selected address
++		comparator.
++
++What:		/sys/bus/coresight/devices/etm<N>/sshot_idx
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(RW) Select the single shot control register to access.
++
++What:		/sys/bus/coresight/devices/etm<N>/sshot_ctrl
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(RW) Access the selected single shot control register.
++
++What:		/sys/bus/coresight/devices/etm<N>/sshot_status
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(R) Print the current value of the selected single shot
++		status register.
++
++What:		/sys/bus/coresight/devices/etm<N>/sshot_pe_ctrl
++Date:		December 2019
++KernelVersion:	5.5
++Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
++Description:	(RW) Access the selected single show PE comparator control
++		register.
++
+ What:		/sys/bus/coresight/devices/etm<N>/mgmt/trcoslsr
+ Date:		April 2015
+ KernelVersion:	4.01
 -- 
 2.17.1
 
