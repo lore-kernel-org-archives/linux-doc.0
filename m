@@ -1,229 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B6877D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 11:54:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D83D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 13:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfJaLyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 07:54:09 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:49976 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfJaLyJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 07:54:09 -0400
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x9VBs2aB001029;
-        Thu, 31 Oct 2019 20:54:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x9VBs2aB001029
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1572522843;
-        bh=m93XGxKPbCurKlKFk3bu8jhuKGv0fLdi65T0vmL+qQg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=y562YAlrVc0kdR5gsAkGhkYbZNSVU7042vHgwarApJ+msGR4gF6hrZxQ6Z45Ctxgw
-         Tj7Lc1A8xdsriGCBBqepXRQmgoKGKpBE0jH7rZlJaOO4Kb1YsV8LCjgb3iVKo1nABz
-         lJMpUwId/LhlNyY46AkZFFmEonQ61lrLuxBxVOrs4QYy1hI7UNdmzx3eHkHXeMznhB
-         DHbTxeOff+Yyaa/GFYUlvcJXOLA5JJ+2HEGehPgCsKERdFNxbNbL6q3PKlNO1KvqmT
-         U1YACh4tVxbMoLkyptIRJXkVkxtRoCi6WFLBZE7l7s66z5cKKErBdj99nOqgdBETLg
-         jijuPhrjNECPg==
-X-Nifty-SrcIP: [209.85.221.181]
-Received: by mail-vk1-f181.google.com with SMTP id k19so1294589vke.10;
-        Thu, 31 Oct 2019 04:54:02 -0700 (PDT)
-X-Gm-Message-State: APjAAAU+Exl5uThigefE7snqbu9sODjvStc0bvQArIFkdhFf0tjUarcr
-        7YEtD29Dp/WHZPftpJc0IPA0lhcK1n1vo8XbIEg=
-X-Google-Smtp-Source: APXvYqw9ZcRAr8ugDfLbOckJz9YBD5IgemzVYx/4Xa8WAM8apy1Wi1ubfXQJw9i8kuSCfEXiAWoYmh7iJljYAF6zzy8=
-X-Received: by 2002:a1f:7387:: with SMTP id o129mr2279206vkc.73.1572522841286;
- Thu, 31 Oct 2019 04:54:01 -0700 (PDT)
+        id S1727592AbfJaNvK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 09:51:10 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52904 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727511AbfJaNvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 09:51:10 -0400
+Received: by mail-wm1-f66.google.com with SMTP id p21so6021550wmg.2;
+        Thu, 31 Oct 2019 06:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gAclQFwXxT+EpCdR+7raEwTaxKHzgavsPREsM1zGn+U=;
+        b=idnQhtYQ3TBs6KRPEkfaDxAhsWnSbcQiblhWd/rUqCaholJb+Y6Q4/pGjTG3wgXy1P
+         40455Viwd3gxYt+PaByLrYdbujjRrwE6wSqw6ib1JZnsIJGSovtnxPn+I4tiL+vxp6ru
+         aCdFGQpzKNpKMx6C4EPSylCqtT2fhgJ4FH2TNd4AP6XuSpXi3YKYPH946q3VOhrO5XhI
+         KxSALsOS8wHCNu42BPwgvyYl1+Ju72i7yPUNb1V7wUce/jqdOtN0BFgyKHwRik2dFsGz
+         n9e3eC840rv8hyhOlyIBR1W4IPf4ghXMi/9D/PSA4o51ERYxrDKAwDCk5ZfPR5Es1dku
+         GbKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gAclQFwXxT+EpCdR+7raEwTaxKHzgavsPREsM1zGn+U=;
+        b=G5m4MW6w7cHfWpsOH8OzL5RYlFoLTXWnjOqsXAxTG6u/9ZQnV0xYQoa024G2JQYqGC
+         caI+ENAMl1Sze1UGQW6pT7AIBVaweJkrwMFrQeqzuNPlG5U/nNALIxaGnNMWlhw1RNHF
+         K5MJz0/LxezFF7iQLbxLcpAu3zGP46zXyK2fvnXbk7nyuk1I6g6oWZfoO/CAmxuszYiN
+         blxWqY0l1T037unm2IPMbzOXmgMvsLVuhvZ1U68guZXNx6EJSEeiOrnhayuxhgGWe/lN
+         I7DbwkwoFpmLPipts+2Q+cji9r06bjS8mp22FiQNkZrASM0Jf7jL2iaSei9zfAWjELZf
+         ahqg==
+X-Gm-Message-State: APjAAAX6//v0FQj3ZcEN+/5vhD7QjniplT/oeIp82u/zRAM8a4t5oGHl
+        GN48E/IWvZweAgWkRx2E/5BigO3nmtQ=
+X-Google-Smtp-Source: APXvYqznGvYQ+XQnAoy7o1i04CIKW2qqDDwcXhCWnjOonccojJ1bEGmlN+Ww8nI8BXSRkwxeB+pFOg==
+X-Received: by 2002:a1c:41c1:: with SMTP id o184mr5185694wma.57.1572529866293;
+        Thu, 31 Oct 2019 06:51:06 -0700 (PDT)
+Received: from mail.google.com ([104.238.174.53])
+        by smtp.gmail.com with ESMTPSA id b62sm3541546wmc.13.2019.10.31.06.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2019 06:51:05 -0700 (PDT)
+Date:   Thu, 31 Oct 2019 21:50:54 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] kernel-doc: rename the kernel-doc directive
+ 'functions' to 'identifiers'
+Message-ID: <20191031135052.tl63uzhdgcpcqwj5@mail.google.com>
+References: <20191020131717.28990-1-changbin.du@gmail.com>
+ <20191024121940.1d6a64df@lwn.net>
+ <87woctb9cj.fsf@intel.com>
+ <20191025144802.uixg2crhw6h7gghq@mail.google.com>
+ <87v9s99q9l.fsf@intel.com>
+ <20191029003120.llve32crfw63ovpw@mail.google.com>
+ <20191029020027.516a6bce@lwn.net>
 MIME-Version: 1.0
-References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
- <20191029123809.29301-3-yamada.masahiro@socionext.com> <20191031112044.GC2177@linux-8ccs>
-In-Reply-To: <20191031112044.GC2177@linux-8ccs>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 31 Oct 2019 20:53:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASCmSUuqLyJhZW+3yrGk1KTPxA-_0x86N=Y7A5psCVUSg@mail.gmail.com>
-Message-ID: <CAK7LNASCmSUuqLyJhZW+3yrGk1KTPxA-_0x86N=Y7A5psCVUSg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] modpost: dump missing namespaces into a single
- modules.nsdeps file
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthias Maennich <maennich@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191029020027.516a6bce@lwn.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 8:20 PM Jessica Yu <jeyu@kernel.org> wrote:
+On Tue, Oct 29, 2019 at 02:00:27AM -0600, Jonathan Corbet wrote:
+> On Tue, 29 Oct 2019 08:31:22 +0800
+> Changbin Du <changbin.du@gmail.com> wrote:
+> 
+> > Here python is different from C. Both empty string and None are False in python.
+> > Note such condition is common in python.
+> 
+> Treating both as a False value is reasonably common.  Treating them
+> elsewhere in the same code block as separate values is less
+> so; that's the part I would prefer to avoid.
 >
-> +++ Masahiro Yamada [29/10/19 21:38 +0900]:
-> >The modpost, with the -d option given, generates per-module .ns_deps
-> >files.
-> >
-> >Kbuild generates per-module .mod files to carry module information.
-> >This is convenient because Make handles multiple jobs when the -j
-> >option is given.
-> >
-> >On the other hand, the modpost always runs as a single thread.
-> >I do not see a strong reason to produce separate .ns_deps files.
-> >
-> >This commit changes the modpost to generate just one file,
-> >modules.nsdeps, each line of which has the following format:
-> >
-> >  <module_name>: <list of missing namespaces>
-> >
-> >Please note it contains *missing* namespaces instead of required ones.
-> >So, modules.nsdeps is empty if the namespace dependency is all good.
-> >
-> >This will work more efficiently because spatch will no longer process
-> >already imported namespaces. I removed the '(if needed)' from the
-> >nsdeps log since spatch is invoked only when needed.
-> >
-> >This also solved the stale .ns_deps files problem reported by
-> >Jessica Yu:
-> >
-> >  https://lkml.org/lkml/2019/10/28/467
-> >
-> >While I was here, I improved the modpost code a little more;
-> >I freed ns_deps_bus.p because buf_write() allocates memory.
-> >
-> >Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> >---
-> >
-> > .gitignore               |  2 +-
-> > Documentation/dontdiff   |  1 +
-> > Makefile                 |  4 ++--
-> > scripts/Makefile.modpost |  2 +-
-> > scripts/mod/modpost.c    | 44 +++++++++++++++++-----------------------
-> > scripts/mod/modpost.h    |  4 ++--
-> > scripts/nsdeps           | 21 +++++++++----------
-> > 7 files changed, 36 insertions(+), 42 deletions(-)
-> >
-> >diff --git a/.gitignore b/.gitignore
-> >index 70580bdd352c..72ef86a5570d 100644
-> >--- a/.gitignore
-> >+++ b/.gitignore
-> >@@ -32,7 +32,6 @@
-> > *.lzo
-> > *.mod
-> > *.mod.c
-> >-*.ns_deps
-> > *.o
-> > *.o.*
-> > *.patch
-> >@@ -61,6 +60,7 @@ modules.order
-> > /System.map
-> > /Module.markers
-> > /modules.builtin.modinfo
-> >+/modules.nsdeps
-> >
-> > #
-> > # RPM spec file (make rpm-pkg)
-> >diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-> >index 9f4392876099..72fc2e9e2b63 100644
-> >--- a/Documentation/dontdiff
-> >+++ b/Documentation/dontdiff
-> >@@ -179,6 +179,7 @@ mkutf8data
-> > modpost
-> > modules.builtin
-> > modules.builtin.modinfo
-> >+modules.nsdeps
-> > modules.order
-> > modversions.h*
-> > nconf
-> >diff --git a/Makefile b/Makefile
-> >index 0ef897fd9cfd..1e3f307bd49b 100644
-> >--- a/Makefile
-> >+++ b/Makefile
-> >@@ -1356,7 +1356,7 @@ endif # CONFIG_MODULES
-> >
-> > # Directories & files removed with 'make clean'
-> > CLEAN_DIRS  += include/ksym
-> >-CLEAN_FILES += modules.builtin.modinfo
-> >+CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
->
-> Hmm, I tried to run `make -C path/to/kernel/src M=$(PWD) clean` for a test
-> external module, but it didn't remove modules.nsdeps for me. I declared a
-> MODULE namespace for testing purposes.
->
-> $ make
-> make -C /dev/shm/linux M=/tmp/ppyu/test-module
-> make[1]: Entering directory '/dev/shm/linux'
->   AR      /tmp/ppyu/test-module/built-in.a
->   CC [M]  /tmp/ppyu/test-module/test1.o
->   CC [M]  /tmp/ppyu/test-module/test2.o
->   LD [M]  /tmp/ppyu/test-module/test.o
->   Building modules, stage 2.
->   MODPOST 1 modules
-> WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
->   CC [M]  /tmp/ppyu/test-module/test.mod.o
->   LD [M]  /tmp/ppyu/test-module/test.ko
-> make[1]: Leaving directory '/dev/shm/linux'
->
-> Then I make nsdeps:
->
-> make -C /dev/shm/linux M=/tmp/ppyu/test-module nsdeps
-> make[1]: Entering directory '/dev/shm/linux'
->   Building modules, stage 2.
->   MODPOST 1 modules
-> WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
-> Adding namespace MODULE to module /tmp/ppyu/test-module/test.ko.
-> --- /tmp/ppyu/test-module/test1.c
-> +++ /tmp/cocci-output-3696-c1f8b3-test1.c
-> @@ -38,3 +38,4 @@ static void __exit hello_cleanup(void)
->  module_init(hello_init);
->  module_exit(hello_cleanup);
->  MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS(MODULE);
-> make[1]: Leaving directory '/dev/shm/linux'
-> $ cat modules.nsdeps
-> /tmp/ppyu/test-module/test.ko: MODULE
->
-> Looks good so far, then I try make clean:
->
-> $ make clean
-> make -C /dev/shm/linux M=/tmp/ppyu/test-module clean
-> make[1]: Entering directory '/dev/shm/linux'
->   CLEAN   /tmp/ppyu/test-module/Module.symvers
-> make[1]: Leaving directory '/dev/shm/linux'
-> $ ls
-> Makefile  modules.nsdeps  test1.c  test2.c
->
-> But modules.nsdeps is still there.
->
+ok, please check update in v3.
 
-Good catch!
-
-I forgot to take care of it for external module builds.
-
-The following should work. I will fold it in 3/4.
-
-
-
-
-diff --git a/Makefile b/Makefile
-index 79be70bf2899..6035702803eb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1619,7 +1619,7 @@ _emodinst_post: _emodinst_
-        $(call cmd,depmod)
-
- clean-dirs := $(KBUILD_EXTMOD)
--clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers
-+clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers
-$(KBUILD_EXTMOD)/modules.nsdeps
-
- PHONY += /
- /:
-
-
+> Thanks,
+> 
+> jon
 
 -- 
-Best Regards
-Masahiro Yamada
+Cheers,
+Changbin Du
