@@ -2,174 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A67277D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 13:52:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B8A37D919
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 13:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727732AbfJaNw6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 09:52:58 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:36953 "EHLO
-        mail-wm1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727511AbfJaNw6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 09:52:58 -0400
-Received: by mail-wm1-f53.google.com with SMTP id q130so5989827wme.2;
-        Thu, 31 Oct 2019 06:52:55 -0700 (PDT)
+        id S1727774AbfJaN7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 09:59:33 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44174 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727771AbfJaN7d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 09:59:33 -0400
+Received: by mail-pg1-f196.google.com with SMTP id e10so4098497pgd.11
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 06:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Vi0yZSx1Lco5Hwdo0pJ66ma188kEsC572xx00JXapM=;
-        b=KrVgbkImc5E5SbO9CepXmFbXlttT7+anaqi6oyANUDoTHO4Tlk0srADEJvLOSp/iGE
-         6CjiQlV4BJyB9q5boslqLc6FYfVOZGCam/UTkcmCgTp/RhhJKM159qFY7gj+1DihBRwo
-         zDmlMb7SL5bkkEHKL9/lMHwFg1stKbxy31XHwffkVoUzULHrwlYq5jhZfsuRJxeQxAaO
-         plAXfrIU/ju7bNqgW9hLhyO6nb7MGlDmAcGo4v5APebPPxnzeoMzNPIeDTnY2Ubb/SXE
-         IDdiZ3oC9i6Z6AhMnE5/t4N9MgQee/Vj7Vm4/xSfigbykLJ/yb58eUbWZpT2Insub5vN
-         LZvQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=FInjRudIZ1nBXyYRthwNUoyrlLqGhK39QJ4i7rNkC2w=;
+        b=q5NzzfdyvqU9FJ8L/8YVWhVw3zm/TD9+GmoDJBcQbO9fthEhMN0aA0zr1Jrn1Pe7Xv
+         3yxVpV1aCIy2BlbrmcRSI52doE+NBDvyhqGBcl545OAR+xdAP/8XKGa9aYsXyxpC6c4r
+         u/dLASdI5rFuj8KWg0Vg1ucxIfzi2SA6p0SEDwT5MaAY46LtvSjOArYaKC/ICMwgAn7L
+         5yuRCDkCXiEplKpIc1i196ovUMs+7c/jfyoF8FuXwJS2nhJb0Wx7IK586+yvbVU7V+hM
+         Z6T46N/XjF+k5fnSVRUiPTy/WMYlR9bd07WIAjbDF892AolQA4/q3VfGdCWxQIZ0w7m6
+         3cgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Vi0yZSx1Lco5Hwdo0pJ66ma188kEsC572xx00JXapM=;
-        b=Ax9Wq4Nla0abXTfvurUnx4C0eSqTUit5qEy902gXLqbSD0/7SnZpL/80c1C3XdcbJD
-         oZY8GKyOq2moShn1Ztuvi0hh/W293xSiPfVn8w2EICKqUddMWsNX6LUsY0Kbr9ZQiPHs
-         MtEXERhPeEL41rz/6eDRa7TD4HjrW2Pd6QKCJLMMirRGBozsB3j5EDHeJVUsLTmLedPC
-         WYYEx/dGq0PzJfpHgDMMcUPmRvjtD6lDo5rxGM3BtY0Yyf5t6tuV135lk02k2MjKg0A+
-         CiIg+LzsIycEEBzMEDENMo7sv9oTs9VNWV9qH+KHtIf1iSJWr0zUNzmf7jQaA8AZpSM9
-         /f9A==
-X-Gm-Message-State: APjAAAWkb/yBM7+IoJbl1M/v1lpbD2NHQvJU3kWRIhGubDsnTYizbIHJ
-        k2Ri5LBaM9CSic6N+ERRpMQ=
-X-Google-Smtp-Source: APXvYqxKusZVXVc8qGqkgM9KheV0aq/A0DEMQRz3SuWCyOqGZpHs58y4IRPSHcY9wfo0n7sLCC66GQ==
-X-Received: by 2002:a05:600c:2551:: with SMTP id e17mr5618470wma.51.1572529975101;
-        Thu, 31 Oct 2019 06:52:55 -0700 (PDT)
-Received: from localhost.localdomain ([104.238.174.53])
-        by smtp.gmail.com with ESMTPSA id n3sm4036112wrr.50.2019.10.31.06.52.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2019 06:52:54 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jiri Kosina <trivial@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v3] kernel-doc: rename the kernel-doc directive 'functions' to 'identifiers'
-Date:   Thu, 31 Oct 2019 21:52:45 +0800
-Message-Id: <20191031135245.7984-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FInjRudIZ1nBXyYRthwNUoyrlLqGhK39QJ4i7rNkC2w=;
+        b=Qn0+ub7fmsYiGRkjn3IfNKO7pyPQS7KIDFGqJIm/sK5tZXtPvlJ50aclqGaANqfAeV
+         mnYVVkr5L/6MYjd7xkj6KsLq4U1dc+9FI4Wdv5bhihGLyEpuXqRiVp6k+qweWpMy5t4b
+         /ikzJPlOCV5tXpKbmvVm1b/Cs/Gx1TfGaWmhdpNfk4f9f52SiSje0KbaFDorTyY6bVUR
+         z8TJ4U1O4+TC0IOkywDh59rrYFPzp+ebbeR+ZqCPmzRpWM2wxNvopgkxtZRp73emkruZ
+         t2Mn3I7vYNhuragj58Ymbs84QlpQzWUvwhI96hpNILEiHLK8sKfzJP7ZJuWcVG/mT+QU
+         wxVw==
+X-Gm-Message-State: APjAAAWGwkjL7SWjLj78aWfTyntK9BiggpHMDdOw8CmLrVC8U+rSkACz
+        CZKWbPsUl8VuQqkrtTRPMJb1Ig==
+X-Google-Smtp-Source: APXvYqzSpyD3GqbjVXKqKIxqLX3kf+eG/s3lqHhViq0jkE0RgoF86gbfk8pNgZ03UDv+V7aDn7oogg==
+X-Received: by 2002:aa7:8817:: with SMTP id c23mr7024726pfo.162.1572530371532;
+        Thu, 31 Oct 2019 06:59:31 -0700 (PDT)
+Received: from localhost.localdomain ([117.252.69.143])
+        by smtp.gmail.com with ESMTPSA id i16sm3522441pfa.184.2019.10.31.06.59.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 31 Oct 2019 06:59:30 -0700 (PDT)
+From:   Sumit Garg <sumit.garg@linaro.org>
+To:     jens.wiklander@linaro.org, jarkko.sakkinen@linux.intel.com,
+        dhowells@redhat.com
+Cc:     corbet@lwn.net, jejb@linux.ibm.com, zohar@linux.ibm.com,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
+        stuart.yoder@arm.com, janne.karhunen@gmail.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        tee-dev@lists.linaro.org, Sumit Garg <sumit.garg@linaro.org>
+Subject: [Patch v3 0/7] Introduce TEE based Trusted Keys support
+Date:   Thu, 31 Oct 2019 19:28:36 +0530
+Message-Id: <1572530323-14802-1-git-send-email-sumit.garg@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 'functions' directive is not only for functions, but also works for
-structs/unions. So the name is misleading. This patch renames it to
-'identifiers', which specific the functions/types to be included in
-documentation. We keep the old name as an alias of the new one before
-all documentation are updated.
+Add support for TEE based trusted keys where TEE provides the functionality
+to seal and unseal trusted keys using hardware unique key. Also, this is
+an alternative in case platform doesn't possess a TPM device.
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
+This series also adds some TEE features like:
 
----
-v2:
-  o use 'identifiers' as the new directive name.
----
- Documentation/doc-guide/kernel-doc.rst | 29 ++++++++++++++------------
- Documentation/sphinx/kerneldoc.py      | 17 +++++++++------
- 2 files changed, 27 insertions(+), 19 deletions(-)
+Patch #1, #2 enables support for registered kernel shared memory with TEE.
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 192c36af39e2..fff6604631ea 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -476,6 +476,22 @@ internal: *[source-pattern ...]*
-     .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-        :internal:
- 
-+identifiers: *[ function/type ...]*
-+  Include documentation for each *function* and *type* in *source*.
-+  If no *function* is specified, the documentation for all functions
-+  and types in the *source* will be included.
-+
-+  Examples::
-+
-+    .. kernel-doc:: lib/bitmap.c
-+       :identifiers: bitmap_parselist bitmap_parselist_user
-+
-+    .. kernel-doc:: lib/idr.c
-+       :identifiers:
-+
-+functions: *[ function/type ...]*
-+  This is an alias of the 'identifiers' directive and deprecated.
-+
- doc: *title*
-   Include documentation for the ``DOC:`` paragraph identified by *title* in
-   *source*. Spaces are allowed in *title*; do not quote the *title*. The *title*
-@@ -488,19 +504,6 @@ doc: *title*
-     .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-        :doc: High Definition Audio over HDMI and Display Port
- 
--functions: *[ function ...]*
--  Include documentation for each *function* in *source*.
--  If no *function* is specified, the documentation for all functions
--  and types in the *source* will be included.
--
--  Examples::
--
--    .. kernel-doc:: lib/bitmap.c
--       :functions: bitmap_parselist bitmap_parselist_user
--
--    .. kernel-doc:: lib/idr.c
--       :functions:
--
- Without options, the kernel-doc directive includes all documentation comments
- from the source file.
- 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index 1159405cb920..4bcbd6ae01cd 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -59,9 +59,10 @@ class KernelDocDirective(Directive):
-     optional_arguments = 4
-     option_spec = {
-         'doc': directives.unchanged_required,
--        'functions': directives.unchanged,
-         'export': directives.unchanged,
-         'internal': directives.unchanged,
-+        'identifiers': directives.unchanged,
-+        'functions': directives.unchanged,
-     }
-     has_content = False
- 
-@@ -77,6 +78,10 @@ class KernelDocDirective(Directive):
- 
-         tab_width = self.options.get('tab-width', self.state.document.settings.tab_width)
- 
-+        # 'function' is an alias of 'identifiers'
-+        if 'functions' in self.options:
-+            self.options['identifiers'] = self.options.get('functions')
-+
-         # FIXME: make this nicer and more robust against errors
-         if 'export' in self.options:
-             cmd += ['-export']
-@@ -86,11 +91,11 @@ class KernelDocDirective(Directive):
-             export_file_patterns = str(self.options.get('internal')).split()
-         elif 'doc' in self.options:
-             cmd += ['-function', str(self.options.get('doc'))]
--        elif 'functions' in self.options:
--            functions = self.options.get('functions').split()
--            if functions:
--                for f in functions:
--                    cmd += ['-function', f]
-+        elif 'identifiers' in self.options:
-+            identifiers = self.options.get('identifiers').split()
-+            if identifiers:
-+                for i in identifiers:
-+                    cmd += ['-function', i]
-             else:
-                 cmd += ['-no-doc-sections']
- 
+Patch #3 enables support for private kernel login method required for
+cases like trusted keys where we don't wan't user-space to directly access
+TEE service to retrieve trusted key contents.
+
+Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
+
+This patch-set has been tested with OP-TEE based pseudo TA which can be
+found here [1].
+
+[1] https://github.com/OP-TEE/optee_os/pull/3082
+
+Changes in v3:
+1. Update patch #2 to support registration of multiple kernel pages.
+2. Incoporate dependency patch #4 in this patch-set:
+   https://patchwork.kernel.org/patch/11091435/
+3. Rebased to latest tpmdd-master.
+
+Changes in v2:
+1. Add reviewed-by tags for patch #1 and #2.
+2. Incorporate comments from Jens for patch #3.
+3. Switch to use generic trusted keys framework.
+
+Sumit Garg (7):
+  tee: optee: allow kernel pages to register as shm
+  tee: enable support to register kernel memory
+  tee: add private login method for kernel clients
+  KEYS: trusted: Add generic trusted keys framework
+  KEYS: trusted: Introduce TEE based Trusted Keys
+  doc: keys: Document usage of TEE based Trusted Keys
+  MAINTAINERS: Add entry for TEE based Trusted Keys
+
+ Documentation/security/keys/index.rst       |   1 +
+ Documentation/security/keys/tee-trusted.rst |  93 ++++++++
+ MAINTAINERS                                 |   9 +
+ drivers/tee/optee/call.c                    |   7 +
+ drivers/tee/tee_core.c                      |   6 +
+ drivers/tee/tee_shm.c                       |  26 ++-
+ include/keys/trusted-type.h                 |  48 ++++
+ include/keys/trusted_tee.h                  |  66 ++++++
+ include/keys/trusted_tpm.h                  |  15 --
+ include/linux/tee_drv.h                     |   1 +
+ include/uapi/linux/tee.h                    |   8 +
+ security/keys/Kconfig                       |   3 +
+ security/keys/trusted-keys/Makefile         |   2 +
+ security/keys/trusted-keys/trusted_common.c | 346 ++++++++++++++++++++++++++++
+ security/keys/trusted-keys/trusted_tee.c    | 282 +++++++++++++++++++++++
+ security/keys/trusted-keys/trusted_tpm1.c   | 345 +++++----------------------
+ 16 files changed, 954 insertions(+), 304 deletions(-)
+ create mode 100644 Documentation/security/keys/tee-trusted.rst
+ create mode 100644 include/keys/trusted_tee.h
+ create mode 100644 security/keys/trusted-keys/trusted_common.c
+ create mode 100644 security/keys/trusted-keys/trusted_tee.c
+
 -- 
-2.20.1
+2.7.4
 
