@@ -1,132 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8BFD37D92A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 17:52:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B50F7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 17:58:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729142AbfJaRwg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 13:52:36 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:35435 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbfJaRwe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 13:52:34 -0400
-Received: by mail-il1-f194.google.com with SMTP id p8so6185222ilp.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 10:52:34 -0700 (PDT)
+        id S1728837AbfJaR6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 13:58:37 -0400
+Received: from mail-pl1-f181.google.com ([209.85.214.181]:36662 "EHLO
+        mail-pl1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726602AbfJaR6h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 13:58:37 -0400
+Received: by mail-pl1-f181.google.com with SMTP id g9so3025557plp.3
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 10:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mxV+2q76TOXqdkYGmWgrFX3noerT+2XT5stD2pDGxy4=;
-        b=D6C1yVuRrDhf4QkrhECxb4poSSgofQd6d8y3lwuDnDDo8D10nO6Ax5FRjL4ps/cBH2
-         kibSwzCfBDl1f7CMhlXY1kciz6oFkW7LsIrytUSfdoT6ANPyz6PU14U40ImfzEl2fu5d
-         06UoCcfFhGpPMpgbOenFHbl2nIwNSPRnbySfc=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=6p3ywuf53bWKWHHevh50Ml2LimZ6glMYZNKbDrC4v98=;
+        b=xGa98NdAYxbOq1ug4ttwQ2UNql6OhxIR673aHidRoHDIIHWQUwTcZWgj8+jGeyqIFQ
+         bECFpsqNA+CGCGX2wxZyBdnY50QYUx6yXDdGgDTtsiStsWvVDKBlXAQobcx5xzWG6f+g
+         aOfoF0AP2iYNgFTdE8EmhYJgPh6Jcv17O4mPGJPFE1T8QayL2Cz1xcYUfSiEvSvPRHvR
+         QEJIpCrgCK3MaNTxVM5tzYFCTfoz+Q6jtfu4ZudDDOEdbDBMU/u2tyutv3Y8s7xAOe9s
+         XIDXRKukLWJTN58uEMmnUtuwddeUQN0EtgY+xQds0/HMia7JsUqUY8YPBmVzWEne527d
+         LKtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mxV+2q76TOXqdkYGmWgrFX3noerT+2XT5stD2pDGxy4=;
-        b=UemwEEbYJP6iL2hbXSFh7qVbMC+JoXvD1qMq3VWFzLgvj3UtQBD6QYGcBysx23K1kg
-         necT9+bYv2B+ygnbZfp9VWC+AnK6o7XtsBDYAE53jTtkK6wbI6pOeFdnk80syl6kL9Vd
-         Emkda1u2p1Ka5MdJzCaP/nqC5eP7UB1UozHfszmtvf+y2TBpMo/J9as+B2sa5ginp0D+
-         kuw/BPRaV1A8IZN9V+slZ60uxxFT9X/SdkuxPhIa29XnIjYkUkc968tL3i342ssPnYoV
-         i385ruqcCQHJr2ndS0CMt6AauYPYjFV845wn3A0T5C5beHSliXfatDc4zuvkRPdQgLfH
-         J6cg==
-X-Gm-Message-State: APjAAAXpZyiQU7tzFY2nMLmK1LAtvcRjJr69qR+e8JEoTzWbiQutZH30
-        zqC+8H/o0vTrxNa5ZZvXqiK4o4QVdpM=
-X-Google-Smtp-Source: APXvYqw5dxo19DtRzv3G7Q2vGvQfzVHKVcwxJ+V3RWlYEw+EF1T9Y1OymsRihU71tuq9Tq3MyI3aYQ==
-X-Received: by 2002:a92:91d3:: with SMTP id e80mr7961709ill.77.1572544353770;
-        Thu, 31 Oct 2019 10:52:33 -0700 (PDT)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com. [209.85.166.178])
-        by smtp.gmail.com with ESMTPSA id t13sm473506ilg.67.2019.10.31.10.52.32
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2019 10:52:33 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id d83so6167844ilk.7
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 10:52:32 -0700 (PDT)
-X-Received: by 2002:a92:ba1b:: with SMTP id o27mr7815343ili.269.1572544351933;
- Thu, 31 Oct 2019 10:52:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain> <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
- <20191030190226.GD693@sol.localdomain> <20191030205745.GA216218@sol.localdomain>
- <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 31 Oct 2019 10:52:19 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com>
-Message-ID: <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com>
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Gwendal Grignou <gwendal@chromium.org>, Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>, apronin@chromium.org,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6p3ywuf53bWKWHHevh50Ml2LimZ6glMYZNKbDrC4v98=;
+        b=oZktiRRDv9sEACgQJ6U+tj+KjWQ9WjRHzJVI2L/G4FFShWPlGlWsrZnYwgzgpl2rFZ
+         Al7Ct/4gJB3BATKC6UhO+qiwhTxRi08kx3WtP840Egq/H+0IvvlOACeGezoj/SxuxmBE
+         MrXuRa/ht66zoeC7ay3Ofwm2IwoIzMnNbfXKIi9djIPUuNm/CnfrkByHgBYc0Yj8UoLW
+         U85kD5grujGVK/7pVMskjyDdythJEFQroRxfOMeD5UbaxLULsbS9Q9KitcD4juRJroWd
+         zOBfL7uWsBJWldtVY220QZ2JFLLCVsmEmx7RriVCS0zIyo8wGJyfQRTsNlr8foiqIP6c
+         xoxA==
+X-Gm-Message-State: APjAAAXtG121Yx1sE+56Z2hks3cF22VsFYVDHvZ2bnol82P3DKq65xYb
+        FANfo0T6aM/ZPmrFNAIwK8NqSV67ZJY=
+X-Google-Smtp-Source: APXvYqwFB7XQpl+UDQ+wRv3z6CI9YpJNwLDniZXRi7Ul1eD7/eRyBjKjIopFI2DToJqBeWyilRkgpw==
+X-Received: by 2002:a17:902:9691:: with SMTP id n17mr2163167plp.12.1572544715475;
+        Thu, 31 Oct 2019 10:58:35 -0700 (PDT)
+Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id c6sm4382210pfj.59.2019.10.31.10.58.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2019 10:58:35 -0700 (PDT)
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     corbet@lwn.net
+Cc:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 0/4] coresight: Documentation: next v5.4-rc5 
+Date:   Thu, 31 Oct 2019 11:58:30 -0600
+Message-Id: <20191031175834.17548-1-mathieu.poirier@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Good day Jonathan,
 
-On Wed, Oct 30, 2019 at 2:59 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Wed, Oct 30, 2019 at 1:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > FWIW, from reading the Chrome OS code, I think the code you linked to isn't
-> > where the breakage actually is.  I think it's actually at
-> > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/chromeos-common-script/share/chromeos-common.sh#375
-> > ... where an init script is using the error message printed by 'e4crypt
-> > get_policy' to decide whether to add -O encrypt to the filesystem or not.
-> >
-> > It really should check instead:
-> >
-> >         [ -e /sys/fs/ext4/features/encryption ]
->
-> OK, I filed <https://crbug.com/1019939> and CCed all the people listed
-> in the cryptohome "OWNERS" file.  Hopefully one of them can pick this
-> up as a general cleanup.  Thanks!
+Please consider the following patches for inclusion in the next merge window.
 
-Just to follow-up: I did a quick test here to see if I could fix
-"chromeos-common.sh" as you suggested.  Then I got rid of the Revert
-and tried to login.  No joy.
+Thanks,
+Mathieu
 
-Digging a little deeper, the ext4_dir_encryption_supported() function
-is called in two places:
-* chromeos-install
-* chromeos_startup
+Mike Leach (4):
+  coresight: etm4x: docs: Update ABI doc for new sysfs name scheme.
+  coresight: etm4x: docs: Update ABI doc for new sysfs etm4 attributes
+  coresight: docs: Create common sub-directory for coresight trace.
+  coresight: etm4x: docs: Adds detailed document for programming etm4x.
 
-In my test case I had a machine that I'd already logged into (on a
-previous kernel version) and I was trying to log into it a second
-time.  Thus there's no way that chromeos-install could be involved.
-Looking at chromeos_startup:
+ .../testing/sysfs-bus-coresight-devices-etm4x | 183 ++--
+ .../{ => coresight}/coresight-cpu-debug.rst   |   0
+ .../coresight/coresight-etm4x-reference.rst   | 798 ++++++++++++++++++
+ .../trace/{ => coresight}/coresight.rst       |   2 +-
+ Documentation/trace/coresight/index.rst       |   9 +
+ Documentation/trace/index.rst                 |   3 +-
+ MAINTAINERS                                   |   3 +-
+ 7 files changed, 925 insertions(+), 73 deletions(-)
+ rename Documentation/trace/{ => coresight}/coresight-cpu-debug.rst (100%)
+ create mode 100644 Documentation/trace/coresight/coresight-etm4x-reference.rst
+ rename Documentation/trace/{ => coresight}/coresight.rst (99%)
+ create mode 100644 Documentation/trace/coresight/index.rst
 
-https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/init/chromeos_startup
+-- 
+2.17.1
 
-...the function is only used for setting up the "encrypted stateful"
-partition.  That wasn't where my failure was.  My failure was with
-logging in AKA with cryptohome.  Thus I think it's plausible that my
-original commit message pointing at cryptohome may have been correct.
-It's possible that there were _also_ problems with encrypted stateful
-that I wasn't noticing, but if so they were not the only problems.
-
-It still may be wise to make Chrome OS use different tests, but it
-might not be quite as simple as hoped...
-
--Doug
