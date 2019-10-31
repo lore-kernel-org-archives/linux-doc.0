@@ -1,132 +1,476 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 293D77DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 22:01:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A1767D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 22:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbfJaWBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 18:01:14 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:14553 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728345AbfJaWBN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 18:01:13 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dbb59aa0000>; Thu, 31 Oct 2019 15:01:14 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 31 Oct 2019 15:01:08 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 31 Oct 2019 15:01:08 -0700
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 31 Oct
- 2019 22:01:07 +0000
-Subject: Re: [PATCH 02/19] mm/gup: factor out duplicate code from four
- routines
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-3-jhubbard@nvidia.com>
- <20191031183549.GC14771@iweiny-DESK2.sc.intel.com>
- <75b557f7-24b2-740c-2640-2f914d131600@nvidia.com>
- <20191031210954.GE14771@iweiny-DESK2.sc.intel.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <5cb84804-be12-82e8-11d8-7e593fd05619@nvidia.com>
-Date:   Thu, 31 Oct 2019 15:01:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727817AbfJaWym (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 18:54:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58772 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbfJaWyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Oct 2019 18:54:41 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C755D20862;
+        Thu, 31 Oct 2019 22:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572562479;
+        bh=wEulxgNW/7CyH5BrsaBX7NmTPAducRV5SCNqlJg+R88=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=cYH+7YE3Iasx8gEl4lczDjFyjjIOHW/5ZO1foJkCohzE5tIwv8oKQPomcN+wqS94i
+         OdqugzjGBt4LZnGGA5axJ+PY3NMPE8iXNfQljzpUu+EkXhrgVD4VtBDBy+4O56dRJH
+         FGQM4MifRjf7X0SJMgurBBrEZs2m3BRsbXOcyWc4=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 8834F3520B06; Thu, 31 Oct 2019 15:54:39 -0700 (PDT)
+Date:   Thu, 31 Oct 2019 15:54:39 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, madhuparnabhowmik04@gmail.com
+Subject: Re: [PATCH] Doc: convert whatisRCU.txt to rst
+Message-ID: <20191031225439.GD20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191030233128.14997-1-tranmanphong@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191031210954.GE14771@iweiny-DESK2.sc.intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572559274; bh=St3Rf/REgq/1do28NhYtGJF/+ie61nX3HJRKUe+Kv+8=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ikqeCXUqsTwoQB5CbB+62UgGOxuiKLZDrBsuVMEaD9IjjDxXb09OkVp8xOPRF5wct
-         ee5DhXFx3ncNZEuTcZeSOQivxIJokuWUNeY+2vtv3ZOkk1HWJjkj1h2EH0AXlwb+WX
-         k+12VWYeIpYnIAMc/9Jx/3qdPSGK+huRjsgTXXwezXTbb/FzDozYDlQdAsy+QX8f3z
-         guPaB2LcynNr/sr3xHEr7wV68E214NkgY5BRukBI2Kt+YqGU/HP5jxWqLsbWsS/eGt
-         xEDw4hf53LcGHOIM9YJEHjAqS/wG8o7OePI2ydIId+OliMRlMyINElUiwkTZonGlbb
-         If9KlbJQJnB+Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191030233128.14997-1-tranmanphong@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/31/19 2:09 PM, Ira Weiny wrote:
-> On Thu, Oct 31, 2019 at 11:43:37AM -0700, John Hubbard wrote:
->> On 10/31/19 11:35 AM, Ira Weiny wrote:
->>> On Wed, Oct 30, 2019 at 03:49:13PM -0700, John Hubbard wrote:
->> ...
->>>> +
->>>> +static int __huge_pt_done(struct page *head, int nr_recorded_pages, int *nr)
->>>> +{
->>>> +	*nr += nr_recorded_pages;
->>>> +	SetPageReferenced(head);
->>>> +	return 1;
->>>
->>> When will this return anything but 1?
->>>
->>
->> Never, but it saves a line at all four call sites, by having it return like that.
->>
->> I could see how maybe people would prefer to just have it be a void function,
->> and return 1 directly at the call sites. Since this was a lower line count I
->> thought maybe it would be slightly better, but it's hard to say really.
+On Thu, Oct 31, 2019 at 06:31:28AM +0700, Phong Tran wrote:
+> Sync the format with current state of kernel documentation.
+> This change base on rcu-dev branch
+> what changed:
+> - Format bullet lists
+> - Add literal blocks
 > 
-> It is a NIT perhaps but I feel like the signature of a function should stand on
-> it's own.  What this does is mix the meaning of this function with those
-> calling it.  Which IMO is not good style.
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+
+Queued and pushed with updated subject line and commit log, thank you!
+
+Could you and Madhuparna please review and test each other's
+.rst-conversion patches?
+
+							Thanx, Paul
+
+> ---
+>  Documentation/RCU/index.rst                   |   1 +
+>  .../RCU/{whatisRCU.txt => whatisRCU.rst}      | 150 +++++++++++-------
+>  2 files changed, 90 insertions(+), 61 deletions(-)
+>  rename Documentation/RCU/{whatisRCU.txt => whatisRCU.rst} (91%)
 > 
-> We can see what others say.
+> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+> index 627128c230dc..b9b11481c727 100644
+> --- a/Documentation/RCU/index.rst
+> +++ b/Documentation/RCU/index.rst
+> @@ -8,6 +8,7 @@ RCU concepts
+>     :maxdepth: 3
+>  
+>     arrayRCU
+> +   whatisRCU
+>     rcu
+>     listRCU
+>     NMI-RCU
+> diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.rst
+> similarity index 91%
+> rename from Documentation/RCU/whatisRCU.txt
+> rename to Documentation/RCU/whatisRCU.rst
+> index 58ba05c4d97f..70d0e4c21917 100644
+> --- a/Documentation/RCU/whatisRCU.txt
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -1,15 +1,18 @@
+> +.. _rcu_doc:
+> +
+>  What is RCU?  --  "Read, Copy, Update"
+> +======================================
+>  
+>  Please note that the "What is RCU?" LWN series is an excellent place
+>  to start learning about RCU:
+>  
+> -1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
+> -2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
+> -3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
+> -4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
+> -	2010 Big API Table           http://lwn.net/Articles/419086/
+> -5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
+> -	2014 Big API Table           http://lwn.net/Articles/609973/
+> +| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
+> +| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
+> +| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
+> +| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
+> +| 	2010 Big API Table           http://lwn.net/Articles/419086/
+> +| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
+> +|	2014 Big API Table           http://lwn.net/Articles/609973/
+>  
+>  
+>  What is RCU?
+> @@ -51,6 +54,7 @@ never need this document anyway.  ;-)
+>  
+>  
+>  1.  RCU OVERVIEW
+> +----------------
+>  
+>  The basic idea behind RCU is to split updates into "removal" and
+>  "reclamation" phases.  The removal phase removes references to data items
+> @@ -118,6 +122,7 @@ Read on to learn about how RCU's API makes this easy.
+>  
+>  
+>  2.  WHAT IS RCU'S CORE API?
+> +---------------------------
+>  
+>  The core RCU API is quite small:
+>  
+> @@ -166,7 +171,7 @@ synchronize_rcu()
+>  	read-side critical sections on all CPUs have completed.
+>  	Note that synchronize_rcu() will -not- necessarily wait for
+>  	any subsequent RCU read-side critical sections to complete.
+> -	For example, consider the following sequence of events:
+> +	For example, consider the following sequence of events::
+>  
+>  	         CPU 0                  CPU 1                 CPU 2
+>  	     ----------------- ------------------------- ---------------
+> @@ -248,13 +253,13 @@ rcu_dereference()
+>  
+>  	Common coding practice uses rcu_dereference() to copy an
+>  	RCU-protected pointer to a local variable, then dereferences
+> -	this local variable, for example as follows:
+> +	this local variable, for example as follows::
+>  
+>  		p = rcu_dereference(head.next);
+>  		return p->data;
+>  
+>  	However, in this case, one could just as easily combine these
+> -	into one statement:
+> +	into one statement::
+>  
+>  		return rcu_dereference(head.next)->data;
+>  
+> @@ -267,7 +272,7 @@ rcu_dereference()
+>  
+>  	Note that the value returned by rcu_dereference() is valid
+>  	only within the enclosing RCU read-side critical section [1].
+> -	For example, the following is -not- legal:
+> +	For example, the following is -not- legal::
+>  
+>  		rcu_read_lock();
+>  		p = rcu_dereference(head.next);
+> @@ -315,6 +320,7 @@ rcu_dereference()
+>  
+>  The following diagram shows how each API communicates among the
+>  reader, updater, and reclaimer.
+> +::
+>  
+>  
+>  	    rcu_assign_pointer()
+> @@ -377,10 +383,12 @@ for specialized uses, but are relatively uncommon.
+>  
+>  
+>  3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+> +-----------------------------------------------
+>  
+>  This section shows a simple use of the core RCU API to protect a
+>  global pointer to a dynamically allocated structure.  More-typical
+>  uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
+> +::
+>  
+>  	struct foo {
+>  		int a;
+> @@ -467,13 +475,14 @@ arrayRCU.txt, and NMI-RCU.txt.
+>  
+>  
+>  4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+> +--------------------------------------------
+>  
+>  In the example above, foo_update_a() blocks until a grace period elapses.
+>  This is quite simple, but in some cases one cannot afford to wait so
+>  long -- there might be other high-priority work to be done.
+>  
+>  In such cases, one uses call_rcu() rather than synchronize_rcu().
+> -The call_rcu() API is as follows:
+> +The call_rcu() API is as follows::
+>  
+>  	void call_rcu(struct rcu_head * head,
+>  		      void (*func)(struct rcu_head *head));
+> @@ -481,7 +490,7 @@ The call_rcu() API is as follows:
+>  This function invokes func(head) after a grace period has elapsed.
+>  This invocation might happen from either softirq or process context,
+>  so the function is not permitted to block.  The foo struct needs to
+> -have an rcu_head structure added, perhaps as follows:
+> +have an rcu_head structure added, perhaps as follows::
+>  
+>  	struct foo {
+>  		int a;
+> @@ -490,7 +499,7 @@ have an rcu_head structure added, perhaps as follows:
+>  		struct rcu_head rcu;
+>  	};
+>  
+> -The foo_update_a() function might then be written as follows:
+> +The foo_update_a() function might then be written as follows::
+>  
+>  	/*
+>  	 * Create a new struct foo that is the same as the one currently
+> @@ -520,7 +529,7 @@ The foo_update_a() function might then be written as follows:
+>  		call_rcu(&old_fp->rcu, foo_reclaim);
+>  	}
+>  
+> -The foo_reclaim() function might appear as follows:
+> +The foo_reclaim() function might appear as follows::
+>  
+>  	void foo_reclaim(struct rcu_head *rp)
+>  	{
+> @@ -552,7 +561,7 @@ o	Use call_rcu() -after- removing a data element from an
+>  
+>  If the callback for call_rcu() is not doing anything more than calling
+>  kfree() on the structure, you can use kfree_rcu() instead of call_rcu()
+> -to avoid having to write your own callback:
+> +to avoid having to write your own callback::
+>  
+>  	kfree_rcu(old_fp, rcu);
+>  
+> @@ -560,6 +569,7 @@ Again, see checklist.txt for additional rules governing the use of RCU.
+>  
+>  
+>  5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+> +------------------------------------------------
+>  
+>  One of the nice things about RCU is that it has extremely simple "toy"
+>  implementations that are a good first step towards understanding the
+> @@ -591,7 +601,7 @@ you allow nested rcu_read_lock() calls, you can deadlock.
+>  However, it is probably the easiest implementation to relate to, so is
+>  a good starting point.
+>  
+> -It is extremely simple:
+> +It is extremely simple::
+>  
+>  	static DEFINE_RWLOCK(rcu_gp_mutex);
+>  
+> @@ -614,7 +624,7 @@ It is extremely simple:
+>  
+>  [You can ignore rcu_assign_pointer() and rcu_dereference() without missing
+>  much.  But here are simplified versions anyway.  And whatever you do,
+> -don't forget about them when submitting patches making use of RCU!]
+> +don't forget about them when submitting patches making use of RCU!]::
+>  
+>  	#define rcu_assign_pointer(p, v) \
+>  	({ \
+> @@ -659,6 +669,7 @@ This section presents a "toy" RCU implementation that is based on
+>  on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
+>  kernels.  The definitions of rcu_dereference() and rcu_assign_pointer()
+>  are the same as those shown in the preceding section, so they are omitted.
+> +::
+>  
+>  	void rcu_read_lock(void) { }
+>  
+> @@ -707,10 +718,12 @@ Quick Quiz #3:  If it is illegal to block in an RCU read-side
+>  
+>  
+>  6.  ANALOGY WITH READER-WRITER LOCKING
+> +--------------------------------------
+>  
+>  Although RCU can be used in many different ways, a very common use of
+>  RCU is analogous to reader-writer locking.  The following unified
+>  diff shows how closely related RCU and reader-writer locking can be.
+> +::
+>  
+>  	@@ -5,5 +5,5 @@ struct el {
+>  	 	int data;
+> @@ -762,7 +775,7 @@ diff shows how closely related RCU and reader-writer locking can be.
+>  		return 0;
+>  	 }
+>  
+> -Or, for those who prefer a side-by-side listing:
+> +Or, for those who prefer a side-by-side listing::
+>  
+>   1 struct el {                          1 struct el {
+>   2   struct list_head list;             2   struct list_head list;
+> @@ -774,40 +787,44 @@ Or, for those who prefer a side-by-side listing:
+>   8 rwlock_t listmutex;                  8 spinlock_t listmutex;
+>   9 struct el head;                      9 struct el head;
+>  
+> - 1 int search(long key, int *result)    1 int search(long key, int *result)
+> - 2 {                                    2 {
+> - 3   struct list_head *lp;              3   struct list_head *lp;
+> - 4   struct el *p;                      4   struct el *p;
+> - 5                                      5
+> - 6   read_lock(&listmutex);             6   rcu_read_lock();
+> - 7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p, head, lp) {
+> - 8     if (p->key == key) {             8     if (p->key == key) {
+> - 9       *result = p->data;             9       *result = p->data;
+> -10       read_unlock(&listmutex);      10       rcu_read_unlock();
+> -11       return 1;                     11       return 1;
+> -12     }                               12     }
+> -13   }                                 13   }
+> -14   read_unlock(&listmutex);          14   rcu_read_unlock();
+> -15   return 0;                         15   return 0;
+> -16 }                                   16 }
+> -
+> - 1 int delete(long key)                 1 int delete(long key)
+> - 2 {                                    2 {
+> - 3   struct el *p;                      3   struct el *p;
+> - 4                                      4
+> - 5   write_lock(&listmutex);            5   spin_lock(&listmutex);
+> - 6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head, lp) {
+> - 7     if (p->key == key) {             7     if (p->key == key) {
+> - 8       list_del(&p->list);            8       list_del_rcu(&p->list);
+> - 9       write_unlock(&listmutex);      9       spin_unlock(&listmutex);
+> -                                       10       synchronize_rcu();
+> -10       kfree(p);                     11       kfree(p);
+> -11       return 1;                     12       return 1;
+> -12     }                               13     }
+> -13   }                                 14   }
+> -14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
+> -15   return 0;                         16   return 0;
+> -16 }                                   17 }
+> +::
+> +
+> +  1 int search(long key, int *result)    1 int search(long key, int *result)
+> +  2 {                                    2 {
+> +  3   struct list_head *lp;              3   struct list_head *lp;
+> +  4   struct el *p;                      4   struct el *p;
+> +  5                                      5
+> +  6   read_lock(&listmutex);             6   rcu_read_lock();
+> +  7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p, head, lp) {
+> +  8     if (p->key == key) {             8     if (p->key == key) {
+> +  9       *result = p->data;             9       *result = p->data;
+> + 10       read_unlock(&listmutex);      10       rcu_read_unlock();
+> + 11       return 1;                     11       return 1;
+> + 12     }                               12     }
+> + 13   }                                 13   }
+> + 14   read_unlock(&listmutex);          14   rcu_read_unlock();
+> + 15   return 0;                         15   return 0;
+> + 16 }                                   16 }
+> +
+> +::
+> +
+> +  1 int delete(long key)                 1 int delete(long key)
+> +  2 {                                    2 {
+> +  3   struct el *p;                      3   struct el *p;
+> +  4                                      4
+> +  5   write_lock(&listmutex);            5   spin_lock(&listmutex);
+> +  6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head, lp) {
+> +  7     if (p->key == key) {             7     if (p->key == key) {
+> +  8       list_del(&p->list);            8       list_del_rcu(&p->list);
+> +  9       write_unlock(&listmutex);      9       spin_unlock(&listmutex);
+> +                                        10       synchronize_rcu();
+> + 10       kfree(p);                     11       kfree(p);
+> + 11       return 1;                     12       return 1;
+> + 12     }                               13     }
+> + 13   }                                 14   }
+> + 14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
+> + 15   return 0;                         16   return 0;
+> + 16 }                                   17 }
+>  
+>  Either way, the differences are quite small.  Read-side locking moves
+>  to rcu_read_lock() and rcu_read_unlock, update-side locking moves from
+> @@ -827,13 +844,14 @@ be used in place of synchronize_rcu().
+>  
+>  
+>  7.  FULL LIST OF RCU APIs
+> +-------------------------
+>  
+>  The RCU APIs are documented in docbook-format header comments in the
+>  Linux-kernel source code, but it helps to have a full list of the
+>  APIs, since there does not appear to be a way to categorize them
+>  in docbook.  Here is the list, by category.
+>  
+> -RCU list traversal:
+> +RCU list traversal::
+>  
+>  	list_entry_rcu
+>  	list_first_entry_rcu
+> @@ -854,7 +872,7 @@ RCU list traversal:
+>  	hlist_bl_first_rcu
+>  	hlist_bl_for_each_entry_rcu
+>  
+> -RCU pointer/list update:
+> +RCU pointer/list udate::
+>  
+>  	rcu_assign_pointer
+>  	list_add_rcu
+> @@ -876,7 +894,9 @@ RCU pointer/list update:
+>  	hlist_bl_del_rcu
+>  	hlist_bl_set_first_rcu
+>  
+> -RCU:	Critical sections	Grace period		Barrier
+> +RCU::
+> +
+> +	Critical sections	Grace period		Barrier
+>  
+>  	rcu_read_lock		synchronize_net		rcu_barrier
+>  	rcu_read_unlock		synchronize_rcu
+> @@ -885,7 +905,9 @@ RCU:	Critical sections	Grace period		Barrier
+>  	rcu_dereference_check	kfree_rcu
+>  	rcu_dereference_protected
+>  
+> -bh:	Critical sections	Grace period		Barrier
+> +bh::
+> +
+> +	Critical sections	Grace period		Barrier
+>  
+>  	rcu_read_lock_bh	call_rcu		rcu_barrier
+>  	rcu_read_unlock_bh	synchronize_rcu
+> @@ -896,7 +918,9 @@ bh:	Critical sections	Grace period		Barrier
+>  	rcu_dereference_bh_protected
+>  	rcu_read_lock_bh_held
+>  
+> -sched:	Critical sections	Grace period		Barrier
+> +sched::
+> +
+> +	Critical sections	Grace period		Barrier
+>  
+>  	rcu_read_lock_sched	call_rcu		rcu_barrier
+>  	rcu_read_unlock_sched	synchronize_rcu
+> @@ -910,7 +934,9 @@ sched:	Critical sections	Grace period		Barrier
+>  	rcu_read_lock_sched_held
+>  
+>  
+> -SRCU:	Critical sections	Grace period		Barrier
+> +SRCU::
+> +
+> +	Critical sections	Grace period		Barrier
+>  
+>  	srcu_read_lock		call_srcu		srcu_barrier
+>  	srcu_read_unlock	synchronize_srcu
+> @@ -918,13 +944,14 @@ SRCU:	Critical sections	Grace period		Barrier
+>  	srcu_dereference_check
+>  	srcu_read_lock_held
+>  
+> -SRCU:	Initialization/cleanup
+> +SRCU: Initialization/cleanup::
+> +
+>  	DEFINE_SRCU
+>  	DEFINE_STATIC_SRCU
+>  	init_srcu_struct
+>  	cleanup_srcu_struct
+>  
+> -All:  lockdep-checked RCU-protected pointer access
+> +All: lockdep-checked RCU-protected pointer access::
+>  
+>  	rcu_access_pointer
+>  	rcu_dereference_raw
+> @@ -976,6 +1003,7 @@ the right tool for your job.
+>  
+>  
+>  8.  ANSWERS TO QUICK QUIZZES
+> +----------------------------
+>  
+>  Quick Quiz #1:	Why is this argument naive?  How could a deadlock
+>  		occur when using this algorithm in a real-world Linux
+> -- 
+> 2.20.1
 > 
-
-Sure. I'll plan on changing it to a void return type, then, unless someone else
-pipes up.
-
-
-thanks,
-
-John Hubbard
-NVIDIA
