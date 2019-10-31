@@ -1,108 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A667B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 08:12:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9DD077D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Oct 2019 11:20:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbfJaIM1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 04:12:27 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:40803 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726776AbfJaIM1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 04:12:27 -0400
-Received: by mail-io1-f67.google.com with SMTP id p6so5688023iod.7
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2019 01:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rOCUGAkw41wVs89+EhO5yewU1a4RTtYYZqQvXNtrcs0=;
-        b=GR9/xp6H+4NBpu+XucDM5RhhleRHZ/B36we0Tx9iqC0S9iWspFCAyw35gLfklGkCwD
-         VwXz2x3iqgf4+egjISYf6W4F1r5LHTnnNd/hl1pMf8CaAnU4gK7E6d0ypCSt47LXJq4B
-         lDPLtGzh4baJj4iXZDxDNVz2fvlhG0F01/GAcbza8d1rnx7s6+Vj/KXMJlM6ZYxPnhTP
-         MxyiRodNGpY4zXxB+D6KALdMtbKmAPWUmeHKpKvU+IiLpSTjBRh+E1PxjRFu73Ud6nmI
-         3So3HJcb5HBwkKEYIhk9Bk6KTaoEkz53UcPNUlbq0SWQdCpYXw05aKhxhrn+zlm5JWX/
-         9AMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rOCUGAkw41wVs89+EhO5yewU1a4RTtYYZqQvXNtrcs0=;
-        b=AT4KagKXruyQNyA7A/ZB9jZJoCYuW4zHzcI7qitaRi+cH9MSpXo83hrrsBNtkjpjZL
-         PV4sESk+VkdCqq5W4AFH3M9xa79VkDdocaUEZmDzaxJT2so++HNoApMzVplKXeQ/FxL0
-         8o+8rR079MlvzAggtmb78EgAISOxc18XddEANQPeN1wY5ae8SxdMzjPN5I9O1fUaTpBI
-         yxF0Mx1aQbCo5RCd/2Pe1ea0GLmCmxdk96/xFYIrSgGPPesQfoYuYjcesNxKxUf/mg3u
-         +adqqOmfK6COL3vQsTqBatWhUqLO+gEA+/oTKfUQeU9ZrN0gFsWk7rlUsJwT7BqP/MjA
-         YD1g==
-X-Gm-Message-State: APjAAAXmKsHVR6L2VJVu5OG3ZeAovizUxLkg2KsUU/pz1C8rXgqwvPmO
-        +42V1J7IDOIGFR+Q0l33F4eexhuUtbu056OLmoNC9w==
-X-Google-Smtp-Source: APXvYqzCS2TeB4sqdrLijb5Y1d6jjSdnZ6MQdPlO/+Ixz45cbwTzvFNMP7rQQMznswokntR4fKoTP6lgkkSuzK7nlgY=
-X-Received: by 2002:a02:742a:: with SMTP id o42mr2364jac.24.1572509546182;
- Thu, 31 Oct 2019 01:12:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191006053916.8849-1-brgl@bgdev.pl> <CAMRc=Me3Q=67fCDrFM38LAGXCd+apJybLYVfyrfwmwYa5L1CmQ@mail.gmail.com>
- <CAK8P3a3tUg4SBtO0xb2GAHfegp23WF4TLymzqFfra2-fGLRO7w@mail.gmail.com>
- <CAMRc=Me8g2gFiag0UQwuu4UZONcowQw900+MUbGF+4-E0z09Zg@mail.gmail.com>
- <CAK8P3a2mh+Eh+W1GFL2Mi5R3t55SRwWyXW_iBxXB-nBhdCO8LA@mail.gmail.com>
- <20191030213555.GA25515@infradead.org> <CAMpxmJXOANjxZgTcReRmd6TGaUKNi=8Cxwj4K69aRY=bF3jDiw@mail.gmail.com>
-In-Reply-To: <CAMpxmJXOANjxZgTcReRmd6TGaUKNi=8Cxwj4K69aRY=bF3jDiw@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 31 Oct 2019 09:12:15 +0100
-Message-ID: <CAMRc=MeYe4X1zXAnsK_cAYfcAE-t3X0nW7+NbsVtsBU4f+C_KA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] drivers: add new variants of devm_platform_ioremap_resource()
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        id S1726377AbfJaLUu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 07:20:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58088 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbfJaLUu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Oct 2019 07:20:50 -0400
+Received: from linux-8ccs (nat.nue.novell.com [195.135.221.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6DF172083E;
+        Thu, 31 Oct 2019 11:20:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572520849;
+        bh=qbolzit8+ocGRc2S2uV5k+K0AQ6gemV7AMG6LItKXnk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m34ftpbVQHRxvCAB4kilR0Bv3E8ebc3JxfR/lVCOGeCt0K/D6lvtYypRFelK3JvQ8
+         vEkt17hBi+iyPGDs2Y83C/ffUeqV6ZUzR8DMFQAxm2lJQziUA3HsPTaVUrA7/w3wK9
+         5loT+3QxvoFVOotYQqtI3r0DCL6wjlx1/+WybhTE=
+Date:   Thu, 31 Oct 2019 12:20:44 +0100
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] modpost: dump missing namespaces into a single
+ modules.nsdeps file
+Message-ID: <20191031112044.GC2177@linux-8ccs>
+References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
+ <20191029123809.29301-3-yamada.masahiro@socionext.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20191029123809.29301-3-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-czw., 31 pa=C5=BA 2019 o 07:41 Bartosz Golaszewski
-<bgolaszewski@baylibre.com> napisa=C5=82(a):
++++ Masahiro Yamada [29/10/19 21:38 +0900]:
+>The modpost, with the -d option given, generates per-module .ns_deps
+>files.
 >
-> =C5=9Br., 30 pa=C5=BA 2019 o 22:35 Christoph Hellwig <hch@infradead.org> =
-napisa=C5=82(a):
-> >
-> > On Mon, Oct 21, 2019 at 09:29:30PM +0200, Arnd Bergmann wrote:
-> > > > Is Christoph's work in next? The series doesn't apply cleanly on ne=
-xt,
-> > > > I needed to fix a couple conflicts. What branch should I rebase it =
-on
-> > > > before resending?
-> > >
-> > > Not sure, maybe Christoph can comment.
-> > >
-> > > Your patches would best go through the char-misc tree and be based
-> > > on top of that, for Christoph's I think the idea is to have some go
-> > > through the architecture maintainer trees, and have whatever is
-> > > left go through my asm-generic tree.
-> >
-> > Actually I thought of just doing an ioremap tree for this merge window.
-> >
-> > What kind of changes does Bartosz have?  I'm kinda missing the context
-> > here.
+>Kbuild generates per-module .mod files to carry module information.
+>This is convenient because Make handles multiple jobs when the -j
+>option is given.
 >
-> Just the series you've responded to here, but I don't think it should
-> conflict with your changes (not very much anyway).
+>On the other hand, the modpost always runs as a single thread.
+>I do not see a strong reason to produce separate .ns_deps files.
 >
-> Greg: can this be picked up into char-misc?
+>This commit changes the modpost to generate just one file,
+>modules.nsdeps, each line of which has the following format:
 >
-> Bart
+>  <module_name>: <list of missing namespaces>
+>
+>Please note it contains *missing* namespaces instead of required ones.
+>So, modules.nsdeps is empty if the namespace dependency is all good.
+>
+>This will work more efficiently because spatch will no longer process
+>already imported namespaces. I removed the '(if needed)' from the
+>nsdeps log since spatch is invoked only when needed.
+>
+>This also solved the stale .ns_deps files problem reported by
+>Jessica Yu:
+>
+>  https://lkml.org/lkml/2019/10/28/467
+>
+>While I was here, I improved the modpost code a little more;
+>I freed ns_deps_bus.p because buf_write() allocates memory.
+>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>---
+>
+> .gitignore               |  2 +-
+> Documentation/dontdiff   |  1 +
+> Makefile                 |  4 ++--
+> scripts/Makefile.modpost |  2 +-
+> scripts/mod/modpost.c    | 44 +++++++++++++++++-----------------------
+> scripts/mod/modpost.h    |  4 ++--
+> scripts/nsdeps           | 21 +++++++++----------
+> 7 files changed, 36 insertions(+), 42 deletions(-)
+>
+>diff --git a/.gitignore b/.gitignore
+>index 70580bdd352c..72ef86a5570d 100644
+>--- a/.gitignore
+>+++ b/.gitignore
+>@@ -32,7 +32,6 @@
+> *.lzo
+> *.mod
+> *.mod.c
+>-*.ns_deps
+> *.o
+> *.o.*
+> *.patch
+>@@ -61,6 +60,7 @@ modules.order
+> /System.map
+> /Module.markers
+> /modules.builtin.modinfo
+>+/modules.nsdeps
+>
+> #
+> # RPM spec file (make rpm-pkg)
+>diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+>index 9f4392876099..72fc2e9e2b63 100644
+>--- a/Documentation/dontdiff
+>+++ b/Documentation/dontdiff
+>@@ -179,6 +179,7 @@ mkutf8data
+> modpost
+> modules.builtin
+> modules.builtin.modinfo
+>+modules.nsdeps
+> modules.order
+> modversions.h*
+> nconf
+>diff --git a/Makefile b/Makefile
+>index 0ef897fd9cfd..1e3f307bd49b 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -1356,7 +1356,7 @@ endif # CONFIG_MODULES
+>
+> # Directories & files removed with 'make clean'
+> CLEAN_DIRS  += include/ksym
+>-CLEAN_FILES += modules.builtin.modinfo
+>+CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
 
-I refer of course to the re-sent version rebased on top of char-misc.
+Hmm, I tried to run `make -C path/to/kernel/src M=$(PWD) clean` for a test
+external module, but it didn't remove modules.nsdeps for me. I declared a
+MODULE namespace for testing purposes.
 
-Bart
+$ make 
+make -C /dev/shm/linux M=/tmp/ppyu/test-module 
+make[1]: Entering directory '/dev/shm/linux'
+  AR      /tmp/ppyu/test-module/built-in.a
+  CC [M]  /tmp/ppyu/test-module/test1.o
+  CC [M]  /tmp/ppyu/test-module/test2.o
+  LD [M]  /tmp/ppyu/test-module/test.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
+  CC [M]  /tmp/ppyu/test-module/test.mod.o
+  LD [M]  /tmp/ppyu/test-module/test.ko
+make[1]: Leaving directory '/dev/shm/linux'
+
+Then I make nsdeps:
+
+make -C /dev/shm/linux M=/tmp/ppyu/test-module nsdeps
+make[1]: Entering directory '/dev/shm/linux'
+  Building modules, stage 2.
+  MODPOST 1 modules
+WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
+Adding namespace MODULE to module /tmp/ppyu/test-module/test.ko.
+--- /tmp/ppyu/test-module/test1.c
++++ /tmp/cocci-output-3696-c1f8b3-test1.c
+@@ -38,3 +38,4 @@ static void __exit hello_cleanup(void)
+ module_init(hello_init);
+ module_exit(hello_cleanup);
+ MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS(MODULE);
+make[1]: Leaving directory '/dev/shm/linux'
+$ cat modules.nsdeps
+/tmp/ppyu/test-module/test.ko: MODULE
+
+Looks good so far, then I try make clean:
+
+$ make clean
+make -C /dev/shm/linux M=/tmp/ppyu/test-module clean
+make[1]: Entering directory '/dev/shm/linux'
+  CLEAN   /tmp/ppyu/test-module/Module.symvers
+make[1]: Leaving directory '/dev/shm/linux'
+$ ls
+Makefile  modules.nsdeps  test1.c  test2.c
+
+But modules.nsdeps is still there.
+
