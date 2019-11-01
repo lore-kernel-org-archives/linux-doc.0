@@ -1,117 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C3487D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 00:48:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 573337D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 01:19:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728659AbfKAAsr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Oct 2019 20:48:47 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10301 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727516AbfKAAsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 20:48:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dbb80eb0000>; Thu, 31 Oct 2019 17:48:43 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 31 Oct 2019 17:48:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 31 Oct 2019 17:48:37 -0700
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 1 Nov
- 2019 00:48:36 +0000
-Subject: Re: [PATCH 19/19] Documentation/vm: add pin_user_pages.rst
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-20-jhubbard@nvidia.com>
- <20191031234922.GM14771@iweiny-DESK2.sc.intel.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <8f92713c-7df8-9463-93f2-40967eba27b5@nvidia.com>
-Date:   Thu, 31 Oct 2019 17:48:36 -0700
+        id S1727389AbfKABTy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Oct 2019 21:19:54 -0400
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:43968 "EHLO
+        mail-pf1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726540AbfKABTy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Oct 2019 21:19:54 -0400
+Received: by mail-pf1-f174.google.com with SMTP id 3so5806602pfb.10;
+        Thu, 31 Oct 2019 18:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gQaBGQ6PomMMk6fICSsyptPitn6QlkrChUjI1902+xo=;
+        b=u8NXEsaGgUEedGaGvrG/+WqP+c+dZnr/iumQ15t1Oq2TL1IEWa/pHJCDzYT118O4jM
+         9ZEfhkcub8E6GGSjZqswlJfi8V4sRDkWoXyRWgCIK3S2cKm8gA6mIFSsgtfcQuQTG9Kp
+         2u5obrg1aV+6LbZ4eAcrCWWEmWQg3PfRTpV/izqxgnFxvxfd8k7/+08hvLngqeULqCHv
+         oo4cQg6AaVVYyjhS59KLK6Jq5lGPzZPCNoiin1CGQfUYYnrBhDmfdJO/lIZLYRCt//7a
+         pyV2axp9fOsAh6PF6IqkQIAjsBM5+2ZypTLs8fqrVIMOht5ZKNP1kByHdKaRvHCdoP6E
+         KwVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gQaBGQ6PomMMk6fICSsyptPitn6QlkrChUjI1902+xo=;
+        b=MqgpBH+ilR48hUbrXgA+yhpY35S4RcK4USYvoasNbLAqbi3M0YoCXgzxY5JXUSMsLV
+         jM0iIb3S9ATfpoCk+fsEm/KPvOGpWaY1LuQtnqIl76FBncl6kDLFfDl0/Yi/Rli3pgX6
+         As2jWWkdV3SjozrnJ0cepzYbLiY7Uk2DrttiBQOWfwZyeLqAY30DLSUhzZCmVxBthLSe
+         KSwh84x957r/f1tfkKsC7zP//AvUAaYtzrzn7e8piAbRGbCb3glSlb8ArLv9d0fyCITa
+         WsCFQgJ8MzWPsw3j3BJVnEj5lo/+S8L+Xffwgt+l5F0XsBNRnGTKFGkQQaJ3VsgPgM/J
+         P8vw==
+X-Gm-Message-State: APjAAAUUZelbPRoZAS5MRsQH+RDMwkD4TF9zvVnvCWxhLvMHlr6idp5r
+        AwrqoA2DvOq9Z2UtPXEc1Ak=
+X-Google-Smtp-Source: APXvYqwYz4F5vpSLUpbLeO/wZSv5XQJUO7I8nuhMNYna4xdDshdiMOGFW+JpQQeyI85Q6YWGH7zp+g==
+X-Received: by 2002:a65:4907:: with SMTP id p7mr10286770pgs.429.1572571193557;
+        Thu, 31 Oct 2019 18:19:53 -0700 (PDT)
+Received: from [192.168.1.149] ([42.116.121.151])
+        by smtp.gmail.com with ESMTPSA id d14sm4292916pgm.59.2019.10.31.18.19.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Oct 2019 18:19:52 -0700 (PDT)
+Cc:     tranmanphong@gmail.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH] Doc: convert whatisRCU.txt to rst
+To:     paulmck@kernel.org, madhuparnabhowmik04@gmail.com
+References: <20191030233128.14997-1-tranmanphong@gmail.com>
+ <20191031225439.GD20975@paulmck-ThinkPad-P72>
+From:   Phong Tran <tranmanphong@gmail.com>
+Message-ID: <35bb2f18-791a-caf3-957d-01e43a4b3afc@gmail.com>
+Date:   Fri, 1 Nov 2019 08:17:36 +0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191031234922.GM14771@iweiny-DESK2.sc.intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191031225439.GD20975@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572569323; bh=5RHzCGcb3FFZzaA/uQgYrgLcorAAk8gLyrsrWdqCg0c=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=jb4OmT2UIK+29Kq6gyh3/B0GMYEYeQey6Q7av8aHODFF7iM3g87GXz+0+crrEhDuP
-         ES91FHKZ2TRd6nelEsvX1Ees+632xFVXWCQcNiNfBlThFOHS+Mq1DZ+VJ6HtPA43u6
-         Ynb5UhoXiX2+2DJcjRCsgJU7otXcWVOJr09yZe43vdQrzd13x1b0cKY4hBXDGaRMUL
-         j+EkbcXcmrT2jSkaz6YzKoEolu/+k4osy9BAQew7kbxk+1/wC4eflk8358pt5RFQn7
-         yh6waII5ieUtayl8B5UKc7eHNJXPir5mjj/cq3SpudLXylqcwjl1IrKdwtTrjKlzPg
-         OjOeqmfrEDTrQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/31/19 4:49 PM, Ira Weiny wrote:
-> On Wed, Oct 30, 2019 at 03:49:30PM -0700, John Hubbard wrote:
-...
->> +TODO: There is also a special case when the pages are DAX pages: in addition to
->> +the above flags, the caller needs something like a layout lease on the
->> +associated file. This is yet to be implemented. When it is implemented, it's
->> +expected that the lease will be a prerequisite to setting FOLL_LONGTERM.
-> 
-> For now we probably want to leave this note out until we figure out how this is
-> going to work.  Best to say something like:
-> 
-> Some pages, such as DAX pages, can't be pinned with longterm pins and will
-> fail.
+Hi Paul,
+On 11/1/19 5:54 AM, Paul E. McKenney wrote:
+> Could you and Madhuparna please review and test each other's
+> .rst-conversion patches?
 > 
 
-OK, I have this wording queued up for the v2 patch:
-
-NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
-because DAX pages do not have a separate page cache, and so "pinning" implies
-locking down file system blocks, which is not (yet) supported in that way.
-
+It's fine.
+pull and "make SPHINXDIRS="RCU" htmldocs pdfdocs" rcu dev branch
+without error or warning.
 
 thanks,
-
-John Hubbard
-NVIDIA
+Phong.
