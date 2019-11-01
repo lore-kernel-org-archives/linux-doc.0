@@ -1,156 +1,252 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 433AB7D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 13:32:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8EA807D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 14:04:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbfKANcT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 09:32:19 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:39952 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727216AbfKANcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 09:32:19 -0400
-Received: by mail-yw1-f65.google.com with SMTP id a67so3472248ywg.7
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 06:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sIZwoSrU60azkju4XlI+xHq6n0ne1xWv7n1NGMPGr4Q=;
-        b=NM8Ga8Hqnp8YUqkz1Huiro6k8teFHd041XtBeYc+Ya1GKfoTW8wtTa5320HyfTx7rs
-         ev7ncEyqpJyIouMHVJA0ek6rI/99vnGXVojZD3zJgPS+/RINUhJa8x/Wjse7coSJGDFL
-         Kd+MzCVqIarPT98omr9ob+2N52k+0IPD89iU1D4D3xcizwoU2TzITjgNAiaPY9bx2qhk
-         1ytTybKexviQ3hI4p0Fp0dPqiL2jyyBG2+nxm+kXaZbqg5dfI/4MvoXZ6/hS8M9HQ5Vk
-         EQcDv8rHP1RuZDL+kPZa18q6AYTCP4MiZCU6A1fBNdzAVaNwUVRsnDgBih47qRT2G45u
-         m0qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sIZwoSrU60azkju4XlI+xHq6n0ne1xWv7n1NGMPGr4Q=;
-        b=YV3R7mxbVhcjwMsWZdlhJBlLI+Q6tar+6b35T3EWXmxJhSK8a5PsNPnUWVi9h0PUND
-         6md1iTyzfpSSF0iadgE2u6dhQWcYNk5a2OxcwvfylCIGJVKob5AHcBENiUSo2PE6yqLF
-         CQVWJtSB6lKf0Uz05w5/hXsjVBFFiMioFNfwMh1ZM20M7IzOYq4Ds0cNNHvnOwFLGXg+
-         6q1HQ91mGuXJJcSnk709LJL/HZU2NLM9slmM7Z+asxLqWGPH1gkf11BxHWqtM77AkxIi
-         PWgFOU4KXGY7vIFLSnNTaIwJ31wafgLPaEBWN5gMZXmN/0X93GovVfMf+HGfcHuAJ+bn
-         v8Jg==
-X-Gm-Message-State: APjAAAWWEcuVv3Huw9pwFdUDcVcWwVUITPZxuKHGp0NlgeIKxilvGs+t
-        1EmquMaQqauEel+u7kINTcl34XQshIEli1FScWGDlA==
-X-Google-Smtp-Source: APXvYqzyWIQ58WDy4QVlh+4flLK1JIVIkiZK2lzx8SHEsEX/KtyBRcjNp3P7bwbxQfGmLusYD0py4wwrMtjR50NGH9k=
-X-Received: by 2002:a81:8486:: with SMTP id u128mr8278300ywf.337.1572615136623;
- Fri, 01 Nov 2019 06:32:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain> <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
- <20191030190226.GD693@sol.localdomain> <20191030205745.GA216218@sol.localdomain>
- <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
- <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com> <20191101043620.GA703@sol.localdomain>
-In-Reply-To: <20191101043620.GA703@sol.localdomain>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Fri, 1 Nov 2019 06:32:05 -0700
-Message-ID: <CABXOdTf=x_LGExsBUnqEvT4t=OAp3e3YjpEDCGdeQnKR=5=D5A@mail.gmail.com>
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Andrey Pronin <apronin@chromium.org>,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        id S1727707AbfKAOE7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 10:04:59 -0400
+Received: from mga18.intel.com ([134.134.136.126]:57541 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726789AbfKAOE7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Nov 2019 10:04:59 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Nov 2019 07:04:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,255,1569308400"; 
+   d="scan'208";a="194668434"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.197]) ([10.237.72.197])
+  by orsmga008.jf.intel.com with ESMTP; 01 Nov 2019 07:04:37 -0700
+Subject: Re: [PATCH v7 27/27] x86/cet/shstk: Add Shadow Stack instructions to
+ opcode map
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        linux-ext4 <linux-ext4@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-28-yu-cheng.yu@intel.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <93e915b9-975d-9876-8f89-8b6f2bc4586e@intel.com>
+Date:   Fri, 1 Nov 2019 16:03:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20190606200646.3951-28-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 9:36 PM Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Thu, Oct 31, 2019 at 10:52:19AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Wed, Oct 30, 2019 at 2:59 PM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Wed, Oct 30, 2019 at 1:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > > >
-> > > > FWIW, from reading the Chrome OS code, I think the code you linked to isn't
-> > > > where the breakage actually is.  I think it's actually at
-> > > > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/chromeos-common-script/share/chromeos-common.sh#375
-> > > > ... where an init script is using the error message printed by 'e4crypt
-> > > > get_policy' to decide whether to add -O encrypt to the filesystem or not.
-> > > >
-> > > > It really should check instead:
-> > > >
-> > > >         [ -e /sys/fs/ext4/features/encryption ]
-> > >
-> > > OK, I filed <https://crbug.com/1019939> and CCed all the people listed
-> > > in the cryptohome "OWNERS" file.  Hopefully one of them can pick this
-> > > up as a general cleanup.  Thanks!
-> >
-> > Just to follow-up: I did a quick test here to see if I could fix
-> > "chromeos-common.sh" as you suggested.  Then I got rid of the Revert
-> > and tried to login.  No joy.
-> >
-> > Digging a little deeper, the ext4_dir_encryption_supported() function
-> > is called in two places:
-> > * chromeos-install
-> > * chromeos_startup
-> >
-> > In my test case I had a machine that I'd already logged into (on a
-> > previous kernel version) and I was trying to log into it a second
-> > time.  Thus there's no way that chromeos-install could be involved.
-> > Looking at chromeos_startup:
-> >
-> > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/init/chromeos_startup
-> >
-> > ...the function is only used for setting up the "encrypted stateful"
-> > partition.  That wasn't where my failure was.  My failure was with
-> > logging in AKA with cryptohome.  Thus I think it's plausible that my
-> > original commit message pointing at cryptohome may have been correct.
-> > It's possible that there were _also_ problems with encrypted stateful
-> > that I wasn't noticing, but if so they were not the only problems.
-> >
-> > It still may be wise to make Chrome OS use different tests, but it
-> > might not be quite as simple as hoped...
-> >
->
-> Ah, I think I found it:
->
-> https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/2cbdedd5eca0a57d9596671a99da5fab8e60722b/sys-apps/upstart/files/upstart-1.2-dircrypto.patch
->
-> The init process does EXT4_IOC_GET_ENCRYPTION_POLICY on /, and if the error is
-> EOPNOTSUPP, it skips creating the "dircrypto" keyring.  So then cryptohome can't
-> add keys later.  (Note the error message you got, "Error adding dircrypto key".)
->
+On 6/06/19 11:06 PM, Yu-cheng Yu wrote:
+> Add the following shadow stack management instructions.
+> 
+> INCSSP:
+>     Increment shadow stack pointer by the steps specified.
+> 
+> RDSSP:
+>     Read SSP register into a GPR.
+> 
+> SAVEPREVSSP:
+>     Use "prev ssp" token at top of current shadow stack to
+>     create a "restore token" on previous shadow stack.
+> 
+> RSTORSSP:
+>     Restore from a "restore token" pointed by a GPR to SSP.
+> 
+> WRSS:
+>     Write to kernel-mode shadow stack (kernel-mode instruction).
+> 
+> WRUSS:
+>     Write to user-mode shadow stack (kernel-mode instruction).
+> 
+> SETSSBSY:
+>     Verify the "supervisor token" pointed by IA32_PL0_SSP MSR,
+>     if valid, set the token to busy, and set SSP to the value
+>     of IA32_PL0_SSP MSR.
+> 
+> CLRSSBSY:
+>     Verify the "supervisor token" pointed by a GPR, if valid,
+>     clear the busy bit from the token.
 
-Good catch. I'll try replacing that with a check for the sysfs flag
-and see if that does the trick.
+Does the notrack prefix also need to be catered for somehow?
 
-Guenter
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/lib/x86-opcode-map.txt               | 26 +++++++++++++------
+>  tools/objtool/arch/x86/lib/x86-opcode-map.txt | 26 +++++++++++++------
+>  2 files changed, 36 insertions(+), 16 deletions(-)
+> 
+> diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+> index e0b85930dd77..c5e825d44766 100644
+> --- a/arch/x86/lib/x86-opcode-map.txt
+> +++ b/arch/x86/lib/x86-opcode-map.txt
+> @@ -366,7 +366,7 @@ AVXcode: 1
+>  1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+>  1c:
+>  1d:
+> -1e:
+> +1e: RDSSP Rd (F3),REX.W
+>  1f: NOP Ev
+>  # 0x0f 0x20-0x2f
+>  20: MOV Rd,Cd
+> @@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+>  ff: UD0
+>  EndTable
+>  
+> -Table: 3-byte opcode 1 (0x0f 0x38)
+> +Table: 3-byte opcode 1 (0x0f 0x01)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xe7
+> +e8: SETSSBSY (f3)
+> +e9:
+> +ea: SAVEPREVSSP (f3)
+> +# Skip 0xeb-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 2 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+>  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+>  f2: ANDN Gy,By,Ey (v)
+>  f3: Grp17 (1A)
+> -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+> -f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
+> +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
+> +f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
 
-> So it looks like the kernel patch broke both that and
-> ext4_dir_encryption_supported().
->
-> I don't see how it could have broken cryptohome by itself, since AFAICS
-> cryptohome only uses EXT4_IOC_GET_ENCRYPTION_POLICY on the partition which is
-> supposed to have the 'encrypt' feature set.
->
-> - Eric
+AFAICT WRSS does not have 66 prefix
+
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x3a)
+> +Table: 3-byte opcode 3 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
+> @@ -948,7 +958,7 @@ GrpTable: Grp7
+>  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+>  3: LIDT Ms
+>  4: SMSW Mw/Rv
+> -5: rdpkru (110),(11B) | wrpkru (111),(11B)
+> +5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+>  6: LMSW Ew
+>  7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+>  EndTable
+> @@ -1019,8 +1029,8 @@ GrpTable: Grp15
+>  2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+>  3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+>  4: XSAVE | ptwrite Ey (F3),(11B)
+> -5: XRSTOR | lfence (11B)
+> -6: XSAVEOPT | clwb (66) | mfence (11B)
+> +5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
+> +6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+>  7: clflush | clflushopt (66) | sfence (11B)
+>  EndTable
+>  
+> diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> index e0b85930dd77..c5e825d44766 100644
+> --- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> +++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> @@ -366,7 +366,7 @@ AVXcode: 1
+>  1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+>  1c:
+>  1d:
+> -1e:
+> +1e: RDSSP Rd (F3),REX.W
+>  1f: NOP Ev
+>  # 0x0f 0x20-0x2f
+>  20: MOV Rd,Cd
+> @@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+>  ff: UD0
+>  EndTable
+>  
+> -Table: 3-byte opcode 1 (0x0f 0x38)
+> +Table: 3-byte opcode 1 (0x0f 0x01)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xe7
+> +e8: SETSSBSY (f3)
+> +e9:
+> +ea: SAVEPREVSSP (f3)
+> +# Skip 0xeb-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 2 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+>  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+>  f2: ANDN Gy,By,Ey (v)
+>  f3: Grp17 (1A)
+> -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+> -f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
+> +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
+> +f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x3a)
+> +Table: 3-byte opcode 3 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
+> @@ -948,7 +958,7 @@ GrpTable: Grp7
+>  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+>  3: LIDT Ms
+>  4: SMSW Mw/Rv
+> -5: rdpkru (110),(11B) | wrpkru (111),(11B)
+> +5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+>  6: LMSW Ew
+>  7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+>  EndTable
+> @@ -1019,8 +1029,8 @@ GrpTable: Grp15
+>  2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+>  3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+>  4: XSAVE | ptwrite Ey (F3),(11B)
+> -5: XRSTOR | lfence (11B)
+> -6: XSAVEOPT | clwb (66) | mfence (11B)
+> +5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
+> +6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+>  7: clflush | clflushopt (66) | sfence (11B)
+>  EndTable
+>  
+> 
+
