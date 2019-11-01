@@ -3,140 +3,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 480C47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 04:36:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 178A17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 07:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbfKAEgY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 00:36:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55878 "EHLO mail.kernel.org"
+        id S1729825AbfKAHxK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 03:53:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726230AbfKAEgY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Nov 2019 00:36:24 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        id S1726921AbfKAHxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Nov 2019 03:53:10 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33E9F208CB;
-        Fri,  1 Nov 2019 04:36:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 88CDC2080F;
+        Fri,  1 Nov 2019 07:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572582982;
-        bh=IApEQ8cOoKKUT4dlrwrwKT0dtfSlZL/Pzu10k24ZQzo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EPJo+iUYSOqSex//thgdLs5Lz5fKD2heNME2eDIPq9ybb2bN3iorTFtTCutulnndZ
-         GALoNt31mGtWx7JHv//z8oAk/4SnyW6T5d92TEs8gtkAEAsggCpORJV8DeRVcn23AX
-         Ap6bUAuvPnP8SZyau9kBl/CTa8RGicnMSnBfjD6Q=
-Date:   Thu, 31 Oct 2019 21:36:20 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Gwendal Grignou <gwendal@chromium.org>, Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>, apronin@chromium.org,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-Message-ID: <20191101043620.GA703@sol.localdomain>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>, Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>, apronin@chromium.org,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain>
- <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
- <20191030190226.GD693@sol.localdomain>
- <20191030205745.GA216218@sol.localdomain>
- <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
- <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com>
+        s=default; t=1572594789;
+        bh=VXpWqY01SDpgB8O1tjrELEhTWmvnU/VWql3TetZxFMY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=qHz7eIoZKQmC0/Rha3kHXDK1mg18t4hyHvyH7bfHnIxuQnZfum3oj5nhs6tULtSQN
+         OL/ixtmbI0iRXe3plF5EbKVdWBF9vf/Iec5Qc4WFcv993SqV8rQKfyP60Cre4PqoYY
+         hXUBxvgoQcB/CacmFA2PZAxw+BixqbAOVKIgIvpw=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 55A1635207E6; Fri,  1 Nov 2019 00:53:09 -0700 (PDT)
+Date:   Fri, 1 Nov 2019 00:53:09 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     madhuparnabhowmik04@gmail.com, josh@joshtriplett.org,
+        rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
+        jiangshanlai@gmail.com, joel@joelfernandes.org, corbet@lwn.net,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH] Doc: convert whatisRCU.txt to rst
+Message-ID: <20191101075309.GH20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191030233128.14997-1-tranmanphong@gmail.com>
+ <20191031225439.GD20975@paulmck-ThinkPad-P72>
+ <35bb2f18-791a-caf3-957d-01e43a4b3afc@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <35bb2f18-791a-caf3-957d-01e43a4b3afc@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 10:52:19AM -0700, Doug Anderson wrote:
-> Hi,
+On Fri, Nov 01, 2019 at 08:17:36AM +0700, Phong Tran wrote:
+> Hi Paul,
+> On 11/1/19 5:54 AM, Paul E. McKenney wrote:
+> > Could you and Madhuparna please review and test each other's
+> > .rst-conversion patches?
 > 
-> On Wed, Oct 30, 2019 at 2:59 PM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Wed, Oct 30, 2019 at 1:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > FWIW, from reading the Chrome OS code, I think the code you linked to isn't
-> > > where the breakage actually is.  I think it's actually at
-> > > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/chromeos-common-script/share/chromeos-common.sh#375
-> > > ... where an init script is using the error message printed by 'e4crypt
-> > > get_policy' to decide whether to add -O encrypt to the filesystem or not.
-> > >
-> > > It really should check instead:
-> > >
-> > >         [ -e /sys/fs/ext4/features/encryption ]
-> >
-> > OK, I filed <https://crbug.com/1019939> and CCed all the people listed
-> > in the cryptohome "OWNERS" file.  Hopefully one of them can pick this
-> > up as a general cleanup.  Thanks!
-> 
-> Just to follow-up: I did a quick test here to see if I could fix
-> "chromeos-common.sh" as you suggested.  Then I got rid of the Revert
-> and tried to login.  No joy.
-> 
-> Digging a little deeper, the ext4_dir_encryption_supported() function
-> is called in two places:
-> * chromeos-install
-> * chromeos_startup
-> 
-> In my test case I had a machine that I'd already logged into (on a
-> previous kernel version) and I was trying to log into it a second
-> time.  Thus there's no way that chromeos-install could be involved.
-> Looking at chromeos_startup:
-> 
-> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/init/chromeos_startup
-> 
-> ...the function is only used for setting up the "encrypted stateful"
-> partition.  That wasn't where my failure was.  My failure was with
-> logging in AKA with cryptohome.  Thus I think it's plausible that my
-> original commit message pointing at cryptohome may have been correct.
-> It's possible that there were _also_ problems with encrypted stateful
-> that I wasn't noticing, but if so they were not the only problems.
-> 
-> It still may be wise to make Chrome OS use different tests, but it
-> might not be quite as simple as hoped...
-> 
+> It's fine.
+> pull and "make SPHINXDIRS="RCU" htmldocs pdfdocs" rcu dev branch
+> without error or warning.
 
-Ah, I think I found it:
+Very good, thank you!
 
-https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/2cbdedd5eca0a57d9596671a99da5fab8e60722b/sys-apps/upstart/files/upstart-1.2-dircrypto.patch
+Once you have done that (or if you have already done that) and have
+verified that the resulting .html and .pdf files for the changed portions
+look good, you can respond with a Tested-by tag, which has "Tested-by:",
+your name, and your email within "<" and ">".  For example, commit
+127068abe85b ("i2c: qcom-geni: Disable DMA processing on the Lenovo Yoga
+C630") has this:
 
-The init process does EXT4_IOC_GET_ENCRYPTION_POLICY on /, and if the error is
-EOPNOTSUPP, it skips creating the "dircrypto" keyring.  So then cryptohome can't
-add keys later.  (Note the error message you got, "Error adding dircrypto key".)
+Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-So it looks like the kernel patch broke both that and
-ext4_dir_encryption_supported().
+After you review the code, for example, by checking either the patch or the
+resulting .rst file, you can respond with a very similar Reviewed-by tag.
+Which allows you to get a start on participating in the code-review
+process.
 
-I don't see how it could have broken cryptohome by itself, since AFAICS
-cryptohome only uses EXT4_IOC_GET_ENCRYPTION_POLICY on the partition which is
-supposed to have the 'encrypt' feature set.
-
-- Eric
+							Thanx, Paul
