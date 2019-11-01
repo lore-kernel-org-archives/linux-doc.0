@@ -1,158 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 303717DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 18:18:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C75EE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 19:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727029AbfKASSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 14:18:02 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:41448 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbfKASSB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 14:18:01 -0400
-Received: by mail-yb1-f194.google.com with SMTP id b2so4229388ybr.8
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 11:17:59 -0700 (PDT)
+        id S1727659AbfKAT27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 15:28:59 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40723 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727600AbfKAT26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 15:28:58 -0400
+Received: by mail-wm1-f66.google.com with SMTP id w9so9974318wmm.5
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 12:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K1dOhbDvlz+VXkT92swPjrnBtSngUC8vWTfrXwwNhyY=;
-        b=CLO5Qm/PlPPjpWrndTxBcyLtDMn89fyBXHpnWCS+nH1k4WHVUnqU8ZK4hXdXEUA+fe
-         yzFHMHp8geEjZm/iQfH5Vx4Vyavb1HFA8BIQDZkPCodULlTm1UR7qPd2F3P02uahDFGM
-         lRC1/Fg0B2tWwvqbhgJdzUJ6CqGyqBjPKZG0WUq31dRZ+Cf2GRNn9d5StDnhkVkHXORk
-         Im3rlB1ClPvVVALs0auqckzKgNds0CIZZC49294cGrDtsrMm8DVIVcJu59EeUCCC1TDK
-         POBWVCuhJp13dxhIGFRSJdyJE8u7aErOjlx3iXWcff0MMRyph0H3cnDyP0DzVyshrIty
-         JJJg==
+        d=kragniz.eu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4Mutma0I285HLAM6Sw5PmtAvnBP2OZbW46A3J1dY9kk=;
+        b=TGRoCxKACJ9VtmiTGZQHEaYEdxpZQOpr/Q2KzvtQoVIJMdZqdG5NtWy3ZhNQyoIlWL
+         rUCsxm3aeT62XLB1CWUyTKX/z2ChTvUZ6BfGjDCFBhZMkOCcnLnoJHIgcCdUHKvgqiXn
+         F6+3ChT8uGSArJQlizjjRlF/C8sN/OZq4Nrsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K1dOhbDvlz+VXkT92swPjrnBtSngUC8vWTfrXwwNhyY=;
-        b=iJEsphmZmNZBnlelm2RrWaMaGHptDeEwo5wuRRmlFf3+JaaJBdxXK6l9iKzo2L0j8u
-         L21jtuDbpqL/qcRBytNtpfslchowMnVZSSMNpfJvEEp+VSYmCd8ygZLRzC7x7ZQONGDN
-         9v/hhkVY6/2EL66t7Daj3JZGRjz8qBqFo1KWeiSbdv1So+ZDMoZNCojmJdb27kSCgjZv
-         r3fLqD2qzIgpER8PTy/DvgZLxDm49eHPxk/0cAvmxNHZBuZaX8A9QpsoNbIFGjmLRsSX
-         U4UoJVry9ZJUrX4tk3DGXiLSWsQ4xmNfhxjl/DyZ12feUcgY6mET+Uf2Z3JznXQpxuWa
-         peUg==
-X-Gm-Message-State: APjAAAVG/ybKrUjULCERMjM6fHGMyVLLlWIGO7f++rb+zJiZHQjCTqqX
-        C1vL6701i7cDtiyIhAd/bN6maEHRoffonEmnR2ODUw==
-X-Google-Smtp-Source: APXvYqxo0mSU502NSpYWvdOeGh//uDeakjnxwpfotuR+Ml3IAbrPchH2s+feB5U1ZnKWNyEMuck/yacSnujP2IInM5w=
-X-Received: by 2002:a25:cf8c:: with SMTP id f134mr10567617ybg.45.1572632278924;
- Fri, 01 Nov 2019 11:17:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4Mutma0I285HLAM6Sw5PmtAvnBP2OZbW46A3J1dY9kk=;
+        b=fbhWb5hl7Q0mUbCVRIWZJU9JytIRKoweKH5bSnbatCdUzzx5H37Fdo4Dg2qo9wWguZ
+         ZpYODCBjLOy2pwjGF/dvYWbpupKhbFVzUxuFFsrwoE6Xuh1dn8wFwhxpF5Ev4o2dVJ7I
+         3DukxkW6PwkAM+jLYpwop7pRVl35MTjY8HxYfkChNof7JdUzi6xx1sQi2W/yvE8qglHT
+         NLN0eTWhBOHRFp6BPJzflFTCNNkszSPpvIg8jKDShvdTGA3E5dz2FCyIXswNxmvpBPKN
+         uRsSfpu28A6qQ6hNHpfSf3vOt1h8ahyFj5FHiNHEr7ucIlZrN8LoL3DeYAqSGy3Z0/+v
+         HRRQ==
+X-Gm-Message-State: APjAAAVXkAPTcLJVNSH46a6EUx/Mb1AKa7dvziW5PTbTGMbm6Wpq5ApV
+        bErlKscwESMxPnjSYThqq9G8/SzLnc0=
+X-Google-Smtp-Source: APXvYqzLIKewNStvLv8a4CM24iYDjlSWZc7mf3HWJvdAslTWYLuXcXhtD9k/sua9kX7hD0Tu22Zn/g==
+X-Received: by 2002:a7b:cb03:: with SMTP id u3mr11509610wmj.126.1572636535053;
+        Fri, 01 Nov 2019 12:28:55 -0700 (PDT)
+Received: from localhost.localdomain ([2.31.167.245])
+        by smtp.gmail.com with ESMTPSA id a8sm9786395wme.11.2019.11.01.12.28.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2019 12:28:54 -0700 (PDT)
+From:   Louis Taylor <louis@kragniz.eu>
+To:     georgi.djakov@linaro.org
+Cc:     corbet@lwn.net, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Louis Taylor <louis@kragniz.eu>
+Subject: [PATCH] docs: driver-api: make interconnect title quieter
+Date:   Fri,  1 Nov 2019 19:33:14 +0000
+Message-Id: <20191101193314.67994-1-louis@kragniz.eu>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain> <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
- <20191030190226.GD693@sol.localdomain> <20191030205745.GA216218@sol.localdomain>
- <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
- <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com> <20191101043620.GA703@sol.localdomain>
-In-Reply-To: <20191101043620.GA703@sol.localdomain>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Fri, 1 Nov 2019 11:17:47 -0700
-Message-ID: <CABXOdTddU2Kn8hJyofAC9eofZHAA4ddBhjNXc8GwC5dm3beMZA@mail.gmail.com>
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Andrey Pronin <apronin@chromium.org>,
-        linux-doc@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        linux-ext4 <linux-ext4@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 9:36 PM Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Thu, Oct 31, 2019 at 10:52:19AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Wed, Oct 30, 2019 at 2:59 PM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Wed, Oct 30, 2019 at 1:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > > >
-> > > > FWIW, from reading the Chrome OS code, I think the code you linked to isn't
-> > > > where the breakage actually is.  I think it's actually at
-> > > > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/chromeos-common-script/share/chromeos-common.sh#375
-> > > > ... where an init script is using the error message printed by 'e4crypt
-> > > > get_policy' to decide whether to add -O encrypt to the filesystem or not.
-> > > >
-> > > > It really should check instead:
-> > > >
-> > > >         [ -e /sys/fs/ext4/features/encryption ]
-> > >
-> > > OK, I filed <https://crbug.com/1019939> and CCed all the people listed
-> > > in the cryptohome "OWNERS" file.  Hopefully one of them can pick this
-> > > up as a general cleanup.  Thanks!
-> >
-> > Just to follow-up: I did a quick test here to see if I could fix
-> > "chromeos-common.sh" as you suggested.  Then I got rid of the Revert
-> > and tried to login.  No joy.
-> >
-> > Digging a little deeper, the ext4_dir_encryption_supported() function
-> > is called in two places:
-> > * chromeos-install
-> > * chromeos_startup
-> >
-> > In my test case I had a machine that I'd already logged into (on a
-> > previous kernel version) and I was trying to log into it a second
-> > time.  Thus there's no way that chromeos-install could be involved.
-> > Looking at chromeos_startup:
-> >
-> > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/init/chromeos_startup
-> >
-> > ...the function is only used for setting up the "encrypted stateful"
-> > partition.  That wasn't where my failure was.  My failure was with
-> > logging in AKA with cryptohome.  Thus I think it's plausible that my
-> > original commit message pointing at cryptohome may have been correct.
-> > It's possible that there were _also_ problems with encrypted stateful
-> > that I wasn't noticing, but if so they were not the only problems.
-> >
-> > It still may be wise to make Chrome OS use different tests, but it
-> > might not be quite as simple as hoped...
-> >
->
-> Ah, I think I found it:
->
-> https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/2cbdedd5eca0a57d9596671a99da5fab8e60722b/sys-apps/upstart/files/upstart-1.2-dircrypto.patch
->
-> The init process does EXT4_IOC_GET_ENCRYPTION_POLICY on /, and if the error is
-> EOPNOTSUPP, it skips creating the "dircrypto" keyring.  So then cryptohome can't
-> add keys later.  (Note the error message you got, "Error adding dircrypto key".)
->
-> So it looks like the kernel patch broke both that and
-> ext4_dir_encryption_supported().
->
+This makes it consistent with the other headings in the Linux driver
+implementer's API guide.
 
-ext4_dir_encryption_supported() was already changed to use the sysfs
-file, and changing the upstart code to check the sysfs file does
-indeed fix the problem for good. I'll do some more tests and push the
-necessary changes into our code base if I don't hit some other issue.
+Signed-off-by: Louis Taylor <louis@kragniz.eu>
+---
+ Documentation/driver-api/interconnect.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I don't see how it could have broken cryptohome by itself, since AFAICS
-> cryptohome only uses EXT4_IOC_GET_ENCRYPTION_POLICY on the partition which is
-> supposed to have the 'encrypt' feature set.
->
-Yes, indeed it seems as if that is unrelated.
+diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
+index c3e004893796..cdeb5825f314 100644
+--- a/Documentation/driver-api/interconnect.rst
++++ b/Documentation/driver-api/interconnect.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ =====================================
+-GENERIC SYSTEM INTERCONNECT SUBSYSTEM
++Generic System Interconnect Subsystem
+ =====================================
+ 
+ Introduction
+-- 
+2.23.0
 
-Guenter
