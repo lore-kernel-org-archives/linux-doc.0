@@ -1,87 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C75EE7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 19:29:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A60067D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 20:20:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727659AbfKAT27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 15:28:59 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40723 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbfKAT26 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 15:28:58 -0400
-Received: by mail-wm1-f66.google.com with SMTP id w9so9974318wmm.5
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 12:28:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kragniz.eu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Mutma0I285HLAM6Sw5PmtAvnBP2OZbW46A3J1dY9kk=;
-        b=TGRoCxKACJ9VtmiTGZQHEaYEdxpZQOpr/Q2KzvtQoVIJMdZqdG5NtWy3ZhNQyoIlWL
-         rUCsxm3aeT62XLB1CWUyTKX/z2ChTvUZ6BfGjDCFBhZMkOCcnLnoJHIgcCdUHKvgqiXn
-         F6+3ChT8uGSArJQlizjjRlF/C8sN/OZq4Nrsk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Mutma0I285HLAM6Sw5PmtAvnBP2OZbW46A3J1dY9kk=;
-        b=fbhWb5hl7Q0mUbCVRIWZJU9JytIRKoweKH5bSnbatCdUzzx5H37Fdo4Dg2qo9wWguZ
-         ZpYODCBjLOy2pwjGF/dvYWbpupKhbFVzUxuFFsrwoE6Xuh1dn8wFwhxpF5Ev4o2dVJ7I
-         3DukxkW6PwkAM+jLYpwop7pRVl35MTjY8HxYfkChNof7JdUzi6xx1sQi2W/yvE8qglHT
-         NLN0eTWhBOHRFp6BPJzflFTCNNkszSPpvIg8jKDShvdTGA3E5dz2FCyIXswNxmvpBPKN
-         uRsSfpu28A6qQ6hNHpfSf3vOt1h8ahyFj5FHiNHEr7ucIlZrN8LoL3DeYAqSGy3Z0/+v
-         HRRQ==
-X-Gm-Message-State: APjAAAVXkAPTcLJVNSH46a6EUx/Mb1AKa7dvziW5PTbTGMbm6Wpq5ApV
-        bErlKscwESMxPnjSYThqq9G8/SzLnc0=
-X-Google-Smtp-Source: APXvYqzLIKewNStvLv8a4CM24iYDjlSWZc7mf3HWJvdAslTWYLuXcXhtD9k/sua9kX7hD0Tu22Zn/g==
-X-Received: by 2002:a7b:cb03:: with SMTP id u3mr11509610wmj.126.1572636535053;
-        Fri, 01 Nov 2019 12:28:55 -0700 (PDT)
-Received: from localhost.localdomain ([2.31.167.245])
-        by smtp.gmail.com with ESMTPSA id a8sm9786395wme.11.2019.11.01.12.28.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2019 12:28:54 -0700 (PDT)
-From:   Louis Taylor <louis@kragniz.eu>
-To:     georgi.djakov@linaro.org
-Cc:     corbet@lwn.net, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Louis Taylor <louis@kragniz.eu>
-Subject: [PATCH] docs: driver-api: make interconnect title quieter
-Date:   Fri,  1 Nov 2019 19:33:14 +0000
-Message-Id: <20191101193314.67994-1-louis@kragniz.eu>
-X-Mailer: git-send-email 2.23.0
+        id S1727603AbfKAUUH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 16:20:07 -0400
+Received: from mga11.intel.com ([192.55.52.93]:55656 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726477AbfKAUUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Nov 2019 16:20:07 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Nov 2019 13:20:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,256,1569308400"; 
+   d="scan'208";a="226138430"
+Received: from bklaps-mobl.ger.corp.intel.com (HELO localhost) ([10.252.27.20])
+  by fmsmga004.fm.intel.com with ESMTP; 01 Nov 2019 13:19:58 -0700
+Date:   Fri, 1 Nov 2019 22:19:57 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jens Wiklander <jens.wiklander@linaro.org>, dhowells@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>, jejb@linux.ibm.com,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Stuart Yoder <stuart.yoder@arm.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Subject: Re: [Patch v3 6/7] doc: keys: Document usage of TEE based Trusted
+ Keys
+Message-ID: <20191101201957.GA8369@linux.intel.com>
+References: <1572530323-14802-1-git-send-email-sumit.garg@linaro.org>
+ <1572530323-14802-7-git-send-email-sumit.garg@linaro.org>
+ <20191031214745.GG10507@linux.intel.com>
+ <CAFA6WYMkE928v-v76gGtWmsS0PwRp-OHUtkS0+Ts4V6x0AKBqQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYMkE928v-v76gGtWmsS0PwRp-OHUtkS0+Ts4V6x0AKBqQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This makes it consistent with the other headings in the Linux driver
-implementer's API guide.
-
-Signed-off-by: Louis Taylor <louis@kragniz.eu>
----
- Documentation/driver-api/interconnect.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
-index c3e004893796..cdeb5825f314 100644
---- a/Documentation/driver-api/interconnect.rst
-+++ b/Documentation/driver-api/interconnect.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
+On Fri, Nov 01, 2019 at 03:04:18PM +0530, Sumit Garg wrote:
  
- =====================================
--GENERIC SYSTEM INTERCONNECT SUBSYSTEM
-+Generic System Interconnect Subsystem
- =====================================
- 
- Introduction
--- 
-2.23.0
+> Isn't this statement contradicting with your earlier statement
+> regarding the right order would be to complete TEE patches review
+> first and then come up with documentation here [2]?
+> 
+> [1] https://lore.kernel.org/linux-integrity/1568025601.4614.253.camel@linux.ibm.com/
+> [2] https://lore.kernel.org/linux-integrity/20190909163643.qxmzpcggi567hmhv@linux.intel.com/
 
+With the intersecting issues, namely key generation and conflicting
+keyctl parameters, that was not a well considered statement.
+
+/Jarkko
