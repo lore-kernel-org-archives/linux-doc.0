@@ -1,166 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA7A97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 17:28:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 303717DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 18:18:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727909AbfKAR27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 13:28:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727207AbfKAR27 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Nov 2019 13:28:59 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 539D62085B;
-        Fri,  1 Nov 2019 17:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572629337;
-        bh=m02R3EnPw9HBK/yXEyfNbqhE61yOKQTOoNAaAEoR/Gk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2qDebQSS7mENXOUn9hv2TqOTWqQRgqiHFhwkM+1ALr14M42QYl5GXSdhetj/+RkYb
-         T/wGe+xO/pj4RHWtB+LmtZBZ8Spnkggoa83J0JCy1qsgzdw6jJsdnaZKOZuisqMLFH
-         MdvA/QV78Sp0FTsyeMo3TE2ejfHYxgR7m8uAMzzk=
-Date:   Fri, 1 Nov 2019 17:28:51 +0000
-From:   Will Deacon <will@kernel.org>
-To:     "qi.fuli@fujitsu.com" <qi.fuli@fujitsu.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Itaru Kitayama <itaru.kitayama@gmail.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        Jon Masters <jcm@jonmasters.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "indou.takao@fujitsu.com" <indou.takao@fujitsu.com>,
-        "maeda.naoaki@fujitsu.com" <maeda.naoaki@fujitsu.com>,
-        "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
-        "tokamoto@jp.fujitsu.com" <tokamoto@jp.fujitsu.com>
-Subject: Re: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
- instruction within the same inner shareable domain
-Message-ID: <20191101172851.GC3983@willie-the-truck>
-References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
- <93009dbd-b31c-7364-86d2-21f0fac36676@jp.fujitsu.com>
+        id S1727029AbfKASSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 14:18:02 -0400
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:41448 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbfKASSB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 14:18:01 -0400
+Received: by mail-yb1-f194.google.com with SMTP id b2so4229388ybr.8
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 11:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K1dOhbDvlz+VXkT92swPjrnBtSngUC8vWTfrXwwNhyY=;
+        b=CLO5Qm/PlPPjpWrndTxBcyLtDMn89fyBXHpnWCS+nH1k4WHVUnqU8ZK4hXdXEUA+fe
+         yzFHMHp8geEjZm/iQfH5Vx4Vyavb1HFA8BIQDZkPCodULlTm1UR7qPd2F3P02uahDFGM
+         lRC1/Fg0B2tWwvqbhgJdzUJ6CqGyqBjPKZG0WUq31dRZ+Cf2GRNn9d5StDnhkVkHXORk
+         Im3rlB1ClPvVVALs0auqckzKgNds0CIZZC49294cGrDtsrMm8DVIVcJu59EeUCCC1TDK
+         POBWVCuhJp13dxhIGFRSJdyJE8u7aErOjlx3iXWcff0MMRyph0H3cnDyP0DzVyshrIty
+         JJJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K1dOhbDvlz+VXkT92swPjrnBtSngUC8vWTfrXwwNhyY=;
+        b=iJEsphmZmNZBnlelm2RrWaMaGHptDeEwo5wuRRmlFf3+JaaJBdxXK6l9iKzo2L0j8u
+         L21jtuDbpqL/qcRBytNtpfslchowMnVZSSMNpfJvEEp+VSYmCd8ygZLRzC7x7ZQONGDN
+         9v/hhkVY6/2EL66t7Daj3JZGRjz8qBqFo1KWeiSbdv1So+ZDMoZNCojmJdb27kSCgjZv
+         r3fLqD2qzIgpER8PTy/DvgZLxDm49eHPxk/0cAvmxNHZBuZaX8A9QpsoNbIFGjmLRsSX
+         U4UoJVry9ZJUrX4tk3DGXiLSWsQ4xmNfhxjl/DyZ12feUcgY6mET+Uf2Z3JznXQpxuWa
+         peUg==
+X-Gm-Message-State: APjAAAVG/ybKrUjULCERMjM6fHGMyVLLlWIGO7f++rb+zJiZHQjCTqqX
+        C1vL6701i7cDtiyIhAd/bN6maEHRoffonEmnR2ODUw==
+X-Google-Smtp-Source: APXvYqxo0mSU502NSpYWvdOeGh//uDeakjnxwpfotuR+Ml3IAbrPchH2s+feB5U1ZnKWNyEMuck/yacSnujP2IInM5w=
+X-Received: by 2002:a25:cf8c:: with SMTP id f134mr10567617ybg.45.1572632278924;
+ Fri, 01 Nov 2019 11:17:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93009dbd-b31c-7364-86d2-21f0fac36676@jp.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
+ <20191030173758.GC693@sol.localdomain> <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
+ <20191030190226.GD693@sol.localdomain> <20191030205745.GA216218@sol.localdomain>
+ <CAD=FV=X6Q3QZaND-tfYr9mf-KYMeKFmJDca3ee-i9roWj+GHsQ@mail.gmail.com>
+ <CAD=FV=URZX4t-TB2Ne8y5ZfeBGoyhsPZhcncQ0yPe3cRXi=1gw@mail.gmail.com> <20191101043620.GA703@sol.localdomain>
+In-Reply-To: <20191101043620.GA703@sol.localdomain>
+From:   Guenter Roeck <groeck@google.com>
+Date:   Fri, 1 Nov 2019 11:17:47 -0700
+Message-ID: <CABXOdTddU2Kn8hJyofAC9eofZHAA4ddBhjNXc8GwC5dm3beMZA@mail.gmail.com>
+Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
+ get policy"
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Doug Anderson <dianders@chromium.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Chao Yu <chao@kernel.org>,
+        Ryo Hashimoto <hashimoto@chromium.org>,
+        Vadim Sukhomlinov <sukhomlinov@google.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Andrey Pronin <apronin@chromium.org>,
+        linux-doc@vger.kernel.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        linux-ext4 <linux-ext4@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Oct 31, 2019 at 9:36 PM Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> On Thu, Oct 31, 2019 at 10:52:19AM -0700, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Wed, Oct 30, 2019 at 2:59 PM Doug Anderson <dianders@chromium.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Wed, Oct 30, 2019 at 1:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> > > >
+> > > > FWIW, from reading the Chrome OS code, I think the code you linked to isn't
+> > > > where the breakage actually is.  I think it's actually at
+> > > > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/chromeos-common-script/share/chromeos-common.sh#375
+> > > > ... where an init script is using the error message printed by 'e4crypt
+> > > > get_policy' to decide whether to add -O encrypt to the filesystem or not.
+> > > >
+> > > > It really should check instead:
+> > > >
+> > > >         [ -e /sys/fs/ext4/features/encryption ]
+> > >
+> > > OK, I filed <https://crbug.com/1019939> and CCed all the people listed
+> > > in the cryptohome "OWNERS" file.  Hopefully one of them can pick this
+> > > up as a general cleanup.  Thanks!
+> >
+> > Just to follow-up: I did a quick test here to see if I could fix
+> > "chromeos-common.sh" as you suggested.  Then I got rid of the Revert
+> > and tried to login.  No joy.
+> >
+> > Digging a little deeper, the ext4_dir_encryption_supported() function
+> > is called in two places:
+> > * chromeos-install
+> > * chromeos_startup
+> >
+> > In my test case I had a machine that I'd already logged into (on a
+> > previous kernel version) and I was trying to log into it a second
+> > time.  Thus there's no way that chromeos-install could be involved.
+> > Looking at chromeos_startup:
+> >
+> > https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/init/chromeos_startup
+> >
+> > ...the function is only used for setting up the "encrypted stateful"
+> > partition.  That wasn't where my failure was.  My failure was with
+> > logging in AKA with cryptohome.  Thus I think it's plausible that my
+> > original commit message pointing at cryptohome may have been correct.
+> > It's possible that there were _also_ problems with encrypted stateful
+> > that I wasn't noticing, but if so they were not the only problems.
+> >
+> > It still may be wise to make Chrome OS use different tests, but it
+> > might not be quite as simple as hoped...
+> >
+>
+> Ah, I think I found it:
+>
+> https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/2cbdedd5eca0a57d9596671a99da5fab8e60722b/sys-apps/upstart/files/upstart-1.2-dircrypto.patch
+>
+> The init process does EXT4_IOC_GET_ENCRYPTION_POLICY on /, and if the error is
+> EOPNOTSUPP, it skips creating the "dircrypto" keyring.  So then cryptohome can't
+> add keys later.  (Note the error message you got, "Error adding dircrypto key".)
+>
+> So it looks like the kernel patch broke both that and
+> ext4_dir_encryption_supported().
+>
 
-[please note that my email address has changed and the old one doesn't work
- any more]
+ext4_dir_encryption_supported() was already changed to use the sysfs
+file, and changing the upstart code to check the sysfs file does
+indeed fix the problem for good. I'll do some more tests and push the
+necessary changes into our code base if I don't hit some other issue.
 
-On Fri, Nov 01, 2019 at 09:56:05AM +0000, qi.fuli@fujitsu.com wrote:
-> First of all thanks for the comments for the patch.
-> 
-> I'm still struggling with this problem to find out the solution.
-> As a result of an investigation on this problem, after all, I think it 
-> is necessary to improve TLB flush mechanism of the kernel to fix this 
-> problem completely.
-> 
-> So, I'd like to restart a discussion. At first, I summarize this problem 
-> to recall what was the problem and then I want to discuss how to fix it.
-> 
-> Summary of the problem:
-> A few months ago I proposed patches to solve a performance problem due 
-> to TLB flush.[1]
-> 
-> A problem is that TLB flush on a core affects all other cores even if 
-> all other cores do not need actual flush, and it causes performance 
-> degradation.
-> 
-> In this thread, I explained that:
-> * I found a performance problem which is caused by TLBI-is instruction.
-> * The problem occurs like this:
->   1) On a core, OS tries to flush TLB using TLBI-is instruction
->   2) TLBI-is instruction causes a broadcast to all other cores, and
->   each core received hard-wired signal
->   3) Each core check if there are TLB entries which have the specified 
-> ASID/VA
+> I don't see how it could have broken cryptohome by itself, since AFAICS
+> cryptohome only uses EXT4_IOC_GET_ENCRYPTION_POLICY on the partition which is
+> supposed to have the 'encrypt' feature set.
+>
+Yes, indeed it seems as if that is unrelated.
 
-For those following along at home, my understanding is that this "check"
-effectively stalls the pipeline as though it is being performed in software.
-
-Some questions:
-
-Does this mean a malicious virtual machine can effectively DoS the system?
-What about a malicious application calling mprotect()?
-
-Do all broadcast TLBI instructions cause this expensive check, or are
-some significantly slower than others?
-
->   4) This check causes performance degradation
-> * We ran FWQ[2] and detected OS jitter due to this problem, this noise
->   is serious for HPC usage.
-> 
-> The noise means here a difference between maximum time and minimum time 
-> which the same work takes.
-> 
-> How to fix:
-> I think the cause is TLB flush by TLBI-is because the instruction 
-> affects cores that are not related to its flush.
-
-Does broadcast I-cache maintenance cause the same problem?
-
-> So the previous patch I posted is
-> * Use mm_cpumask in mm_struct to find appropriate CPUs for TLB flush
-> * Exec TLBI instead of TLBI-is only to CPUs specified by mm_cpumask
->   (This is the same behavior as arm32 and x86)
-> 
-> And after the discussion about this patch, I got the following comments.
-> 1) This patch switches the behavior (original flush by TLBI-is and new 
-> flush by TLBI) by boot parameter, this implementation is not acceptable 
-> due to bad maintainability.
-> 2) Even if this patch fixes this problem, it may cause another 
-> performance problem.
-> 
-> I'd like to start over the implementation by considering these points.
-> For the second comment above, I will run a benchmark test to analyze the 
-> impact on performance.
-> Please let me know if there are other points I should take into 
-> consideration.
-
-I think it's worth bearing in mind that I have little sympathy for the
-problem that you are seeing. As far as I can tell, you've done the
-following:
-
-  1. You designed a CPU micro-architecture that stalls whenever it receives
-     a TLB invalidation request.
-
-  2. You integrated said CPU design into a system where broadcast TLB
-     invalidation is not filtered and therefore stalls every CPU every
-     time that /any/ TLB invalidation is broadcast.
-
-  3. You deployed a mixture of Linux and jitter-sensitive software on
-     this system, and now you're failing to meet your performance
-     requirements.
-
-Have I got that right?
-
-If so, given that your CPU design isn't widely available, nobody else
-appears to have made this mistake and jitter hasn't been reported as an
-issue for any other systems, it's very unlikely that we're going to make
-invasive upstream kernel changes to support you. I'm sorry, but all I can
-suggest is that you check that your micro-architecture and performance
-requirements are aligned with the design of Linux *before* building another
-machine like this in future.
-
-I hate to be blunt, but I also don't want to waste your time.
-
-Thanks,
-
-Will
+Guenter
