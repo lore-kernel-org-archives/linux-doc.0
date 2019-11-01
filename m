@@ -1,110 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4EB907D918
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 16:21:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA7A97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 17:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbfKAQUn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 12:20:43 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33547 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbfKAQUm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 12:20:42 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y127so7632084lfc.0;
-        Fri, 01 Nov 2019 09:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kDxL/9y811Z5nJM6Y5gJFSYgQI7x3MvaiflUEhpC+a4=;
-        b=TzLMxhHTQ83j1KiZCts5nJ0fFYQ6I7amj6HjTJ1W8tF/mxgqsv8yFgHXeONrx9bspH
-         DsPISG3I/Lof0f8vEHpEPeZikhCFl2LwE4UZ95B6OJ6Mcct2PklaUJY0Onjkj7F32X+P
-         nSGI/IEmoChrva++IhyLaRaFArG6v0Nbn+nzg8a7yteLL8inGp2H1vgNugXu5qjhWpXJ
-         RO6iYg0NTJtGAr/idELataxJXINKBvwvxMyzCrh+CaVhYHzsbmCti7zqP+fBEvhDhS+N
-         PNuCwchiwlUuIwL8iGMYXYeaVYqWclhgCfANAo97bYkq6K84iTBkoopDg0DY33S5dY6y
-         jlAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kDxL/9y811Z5nJM6Y5gJFSYgQI7x3MvaiflUEhpC+a4=;
-        b=iYUlUr/fSqZjWH8/Zw5v8XboNaVVcVtIyIiI6U7Cioi4sCa8OaMn1kUA3SF6gWouHf
-         XpC8+9tlhkY6Z6hxr0QK3X5+8KkrqKTi3bi4/kTLmsdtQ2NGbwNud705YP3wor9Jlu4K
-         PxKc3qEhVxhnYSx7E4h+IHRTvgJyj6N1HZGxgfNZpCys8D8a4mjL4piYl/KDUbHT78VG
-         8QTqlTQTvmcqX+BNpqWFWXY05TIQD7dUaoFHSMfibC4wsr5vIcevG4SvCgydvR4Qa/sO
-         PNQiHvQFWi0E/D0tyQQC6UQm4aHbSYxfnnfTSon9rch0zWRXSmzqbWkN1BBUNBNZSve2
-         eeIg==
-X-Gm-Message-State: APjAAAWcgGb/LPviSO7uzSKPZotv5zKqA9Kbr6v7riGUJKGOs+IWL/ky
-        NUToq9ZXshqc2/M8LhSLbibdxyI+X+65FRFBPgM=
-X-Google-Smtp-Source: APXvYqyBHGDySk0Vd6YhzSIKHg7CaAhmCpinTscezOyZG7qrbnFNJA+Fb2gFjeXKcD8zNnP4KkekqFNN3Rr0OmGdePg=
-X-Received: by 2002:ac2:4919:: with SMTP id n25mr2371545lfi.58.1572625240350;
- Fri, 01 Nov 2019 09:20:40 -0700 (PDT)
+        id S1727909AbfKAR27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 13:28:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40750 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727207AbfKAR27 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Nov 2019 13:28:59 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 539D62085B;
+        Fri,  1 Nov 2019 17:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572629337;
+        bh=m02R3EnPw9HBK/yXEyfNbqhE61yOKQTOoNAaAEoR/Gk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2qDebQSS7mENXOUn9hv2TqOTWqQRgqiHFhwkM+1ALr14M42QYl5GXSdhetj/+RkYb
+         T/wGe+xO/pj4RHWtB+LmtZBZ8Spnkggoa83J0JCy1qsgzdw6jJsdnaZKOZuisqMLFH
+         MdvA/QV78Sp0FTsyeMo3TE2ejfHYxgR7m8uAMzzk=
+Date:   Fri, 1 Nov 2019 17:28:51 +0000
+From:   Will Deacon <will@kernel.org>
+To:     "qi.fuli@fujitsu.com" <qi.fuli@fujitsu.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Itaru Kitayama <itaru.kitayama@gmail.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        Jon Masters <jcm@jonmasters.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "indou.takao@fujitsu.com" <indou.takao@fujitsu.com>,
+        "maeda.naoaki@fujitsu.com" <maeda.naoaki@fujitsu.com>,
+        "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
+        "tokamoto@jp.fujitsu.com" <tokamoto@jp.fujitsu.com>
+Subject: Re: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
+ instruction within the same inner shareable domain
+Message-ID: <20191101172851.GC3983@willie-the-truck>
+References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
+ <93009dbd-b31c-7364-86d2-21f0fac36676@jp.fujitsu.com>
 MIME-Version: 1.0
-References: <20191029200001.9640-1-jim.cromie@gmail.com> <07db7036-b46f-c157-5737-e3d96c808f14@rasmusvillemoes.dk>
-In-Reply-To: <07db7036-b46f-c157-5737-e3d96c808f14@rasmusvillemoes.dk>
-From:   jim.cromie@gmail.com
-Date:   Fri, 1 Nov 2019 10:20:14 -0600
-Message-ID: <CAJfuBxyE8Ju5S2bM28LSqULZzX6eFqDKJGVsRXP0Qhi6n+Y0kQ@mail.gmail.com>
-Subject: Re: [PATCH 01/16] dyndbg: drop trim_prefix, obsoleted by __FILE__s
- relative path
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Jason Baron <jbaron@akamai.com>,
-        LKML <linux-kernel@vger.kernel.org>, Greg KH <greg@kroah.com>,
-        clang-built-linux@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93009dbd-b31c-7364-86d2-21f0fac36676@jp.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cool, thanks!
+Hi,
 
+[please note that my email address has changed and the old one doesn't work
+ any more]
 
-On Wed, Oct 30, 2019 at 3:20 PM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
->
-> On 29/10/2019 21.00, Jim Cromie wrote:
-> > Regarding:
-> > commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
-> > commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
-> >
-> > 2nd commit broke dynamic-debug's "file $fullpath" query form, but
-> > nobody noticed because 1st commit trimmed prefixes from control-file
-> > output, so the click-copy-pasting of fullpaths into new queries had
-> > ceased; that query form became unused.
-> >
-> > So remove the function and callers; its purpose was to strip the
-> > prefix from __FILE__, which is now gone.
->
-> I agree with the intent, but I wonder if this is premature. I mean, the
-> -fmacro-prefix-map is only for gcc 8+, so this ends up printing the full
-> paths when the compiler is just a little old (and the kernel was built
-> out-of-tree).
->
-> I don't think keeping the current workaround for a year or two more
-> should hurt; when int skip = strlen(__FILE__) -
-> strlen("lib/dynamic_debug.c"); evaluates to 0 (in-tree build, or build
-> with new enough gcc), I'm pretty sure gcc optimizes the rest of the
-> function away (it should know that strncmp(x, y, 0) gives 0, and even if
-> it didn't, the conditional assigns 0 to skip which it already is, so gcc
-> just needs to know that strncmp() is pure).
->
-> >
-> > Also drop "file $fullpath" from docs, and tweak example to cite column
-> > 1 of control-file as valid "file $input".
->
-> That part certainly makes sense, since the $fullpath hasn't actually
-> been in the control file for a long time.
->
-> Rasmus
->
+On Fri, Nov 01, 2019 at 09:56:05AM +0000, qi.fuli@fujitsu.com wrote:
+> First of all thanks for the comments for the patch.
+> 
+> I'm still struggling with this problem to find out the solution.
+> As a result of an investigation on this problem, after all, I think it 
+> is necessary to improve TLB flush mechanism of the kernel to fix this 
+> problem completely.
+> 
+> So, I'd like to restart a discussion. At first, I summarize this problem 
+> to recall what was the problem and then I want to discuss how to fix it.
+> 
+> Summary of the problem:
+> A few months ago I proposed patches to solve a performance problem due 
+> to TLB flush.[1]
+> 
+> A problem is that TLB flush on a core affects all other cores even if 
+> all other cores do not need actual flush, and it causes performance 
+> degradation.
+> 
+> In this thread, I explained that:
+> * I found a performance problem which is caused by TLBI-is instruction.
+> * The problem occurs like this:
+>   1) On a core, OS tries to flush TLB using TLBI-is instruction
+>   2) TLBI-is instruction causes a broadcast to all other cores, and
+>   each core received hard-wired signal
+>   3) Each core check if there are TLB entries which have the specified 
+> ASID/VA
 
+For those following along at home, my understanding is that this "check"
+effectively stalls the pipeline as though it is being performed in software.
 
-I agree.  Ive split the patch, am keeping the doc change.
+Some questions:
+
+Does this mean a malicious virtual machine can effectively DoS the system?
+What about a malicious application calling mprotect()?
+
+Do all broadcast TLBI instructions cause this expensive check, or are
+some significantly slower than others?
+
+>   4) This check causes performance degradation
+> * We ran FWQ[2] and detected OS jitter due to this problem, this noise
+>   is serious for HPC usage.
+> 
+> The noise means here a difference between maximum time and minimum time 
+> which the same work takes.
+> 
+> How to fix:
+> I think the cause is TLB flush by TLBI-is because the instruction 
+> affects cores that are not related to its flush.
+
+Does broadcast I-cache maintenance cause the same problem?
+
+> So the previous patch I posted is
+> * Use mm_cpumask in mm_struct to find appropriate CPUs for TLB flush
+> * Exec TLBI instead of TLBI-is only to CPUs specified by mm_cpumask
+>   (This is the same behavior as arm32 and x86)
+> 
+> And after the discussion about this patch, I got the following comments.
+> 1) This patch switches the behavior (original flush by TLBI-is and new 
+> flush by TLBI) by boot parameter, this implementation is not acceptable 
+> due to bad maintainability.
+> 2) Even if this patch fixes this problem, it may cause another 
+> performance problem.
+> 
+> I'd like to start over the implementation by considering these points.
+> For the second comment above, I will run a benchmark test to analyze the 
+> impact on performance.
+> Please let me know if there are other points I should take into 
+> consideration.
+
+I think it's worth bearing in mind that I have little sympathy for the
+problem that you are seeing. As far as I can tell, you've done the
+following:
+
+  1. You designed a CPU micro-architecture that stalls whenever it receives
+     a TLB invalidation request.
+
+  2. You integrated said CPU design into a system where broadcast TLB
+     invalidation is not filtered and therefore stalls every CPU every
+     time that /any/ TLB invalidation is broadcast.
+
+  3. You deployed a mixture of Linux and jitter-sensitive software on
+     this system, and now you're failing to meet your performance
+     requirements.
+
+Have I got that right?
+
+If so, given that your CPU design isn't widely available, nobody else
+appears to have made this mistake and jitter hasn't been reported as an
+issue for any other systems, it's very unlikely that we're going to make
+invasive upstream kernel changes to support you. I'm sorry, but all I can
+suggest is that you check that your micro-architecture and performance
+requirements are aligned with the design of Linux *before* building another
+machine like this in future.
+
+I hate to be blunt, but I also don't want to waste your time.
+
+Thanks,
+
+Will
