@@ -1,159 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35B7E7DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 14:30:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 200047D923
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 14:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfKAO17 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 10:27:59 -0400
-Received: from mga05.intel.com ([192.55.52.43]:9673 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726658AbfKAO17 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Nov 2019 10:27:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Nov 2019 07:27:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,255,1569308400"; 
-   d="scan'208";a="375578378"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by orsmga005.jf.intel.com with ESMTP; 01 Nov 2019 07:27:57 -0700
-Message-ID: <221c36d6646ea9f88d208dc02494872a34d8b61f.camel@intel.com>
-Subject: Re: [PATCH v7 27/27] x86/cet/shstk: Add Shadow Stack instructions
- to opcode map
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Adrian Hunter <adrian.hunter@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1727562AbfKAOts (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 10:49:48 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:46132 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727555AbfKAOtq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 10:49:46 -0400
+Received: by mail-il1-f195.google.com with SMTP id m16so8850333iln.13
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 07:49:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OvG/qWeSbh1TxLgtmArlVNDYsoALFmkQsSm7UaGBE/U=;
+        b=I8fTjuu/6Ne32KB3TzlkLHNc34FVVQHy/sTVoKvVYeIrGIs/zEWpPkdT4X2FTYZjfJ
+         UM4GFAou96icNjK1AVI5vEOtitRVjbXgZfqaanuntVF/vhTirkZT/9E+CWJUq7E2TQj0
+         StXEuMWcR5zlKYK8R7EGKhYIJ+Gb4ciY1IEMBuLWPRJg6NDyeWhuiAg3JUaKBbPDkQbL
+         sElozNdk4t7DFMJr/2GTc4DXhCqAVsopLQpS5jb3DWebvxakkqFHF/FpNq1kpaMflaeM
+         i/d5Nr3Kf7lOCXzSXk2CZXk0I+pfGJSDm0die6SS7xUqTydNbrFVI18tKwuFsQOAi/MB
+         kf9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OvG/qWeSbh1TxLgtmArlVNDYsoALFmkQsSm7UaGBE/U=;
+        b=sTnEJpbzTcMGzdXmEZOgWqZMR5qQuf9tVYnp/3q5u1Y+wB3Y1khqu/SLeDuCXVdpQo
+         a0s7oUJ6TxoobWwt0joey7GrbvvyDVjeHtCzA/f5Btp5yIazTCOc7NNBnt2HVrW/FkI9
+         wdyPxnKmTd/KVqzOCVx3N2ldjN3eEjuCkXtYYXSNnFWpjTexUfgkErbjEPGxpfY6/N4K
+         ZbFnkqTCpCqUN9eE0o9x/Wg3XcCvBUGEXdWd/z39jm2Wu/Qecy0hwlc5DI6iObfYuOM+
+         mobnY1Xyi5W9eBmJbK3YDN0orPL4QPIVLQ2JqoJdhjF/0rZtb21CJqAsshTaj3EpusMV
+         1VnQ==
+X-Gm-Message-State: APjAAAUAzykIFoKjx76u5eIbGfeU6Is1bC3Hct0u/uFpQg/LPSLf5zu/
+        TRCWrafSMulWRgqylzR8erb+Ew==
+X-Google-Smtp-Source: APXvYqxr+bs1ScRWYKeCxmeXCSlj6Q4Lr6KXKYyS2zYjKblHkVBUMc7IPKJ+YzvkERiHaP9xr0/5Lg==
+X-Received: by 2002:a92:5d8f:: with SMTP id e15mr13331860ilg.173.1572619783709;
+        Fri, 01 Nov 2019 07:49:43 -0700 (PDT)
+Received: from [192.168.1.159] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id f73sm1107827ild.59.2019.11.01.07.49.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 01 Nov 2019 07:49:42 -0700 (PDT)
+Subject: Re: [PATCH 10/19] fs/io_uring: set FOLL_PIN via pin_user_pages()
+To:     John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Fri, 01 Nov 2019 07:17:45 -0700
-In-Reply-To: <93e915b9-975d-9876-8f89-8b6f2bc4586e@intel.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
-         <20190606200646.3951-28-yu-cheng.yu@intel.com>
-         <93e915b9-975d-9876-8f89-8b6f2bc4586e@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-11-jhubbard@nvidia.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <979ba2a3-ee04-fb12-204d-1b68c7b6e141@kernel.dk>
+Date:   Fri, 1 Nov 2019 08:49:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191030224930.3990755-11-jhubbard@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-11-01 at 16:03 +0200, Adrian Hunter wrote:
-> On 6/06/19 11:06 PM, Yu-cheng Yu wrote:
-> > Add the following shadow stack management instructions.
-> > 
-> > INCSSP:
-> >     Increment shadow stack pointer by the steps specified.
-> > 
-> > RDSSP:
-> >     Read SSP register into a GPR.
-> > 
-> > SAVEPREVSSP:
-> >     Use "prev ssp" token at top of current shadow stack to
-> >     create a "restore token" on previous shadow stack.
-> > 
-> > RSTORSSP:
-> >     Restore from a "restore token" pointed by a GPR to SSP.
-> > 
-> > WRSS:
-> >     Write to kernel-mode shadow stack (kernel-mode instruction).
-> > 
-> > WRUSS:
-> >     Write to user-mode shadow stack (kernel-mode instruction).
-> > 
-> > SETSSBSY:
-> >     Verify the "supervisor token" pointed by IA32_PL0_SSP MSR,
-> >     if valid, set the token to busy, and set SSP to the value
-> >     of IA32_PL0_SSP MSR.
-> > 
-> > CLRSSBSY:
-> >     Verify the "supervisor token" pointed by a GPR, if valid,
-> >     clear the busy bit from the token.
-> 
-> Does the notrack prefix also need to be catered for somehow?
+On 10/30/19 4:49 PM, John Hubbard wrote:
+> Convert fs/io_uring to use the new pin_user_pages() call, which sets
+> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+> tracking of pinned pages, and therefore for any code that calls
+> put_user_page().
 
-Yes, I will fix it.
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-> 
-> > 
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  arch/x86/lib/x86-opcode-map.txt               | 26 +++++++++++++------
-> >  tools/objtool/arch/x86/lib/x86-opcode-map.txt | 26 +++++++++++++------
-> >  2 files changed, 36 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-> > index e0b85930dd77..c5e825d44766 100644
-> > --- a/arch/x86/lib/x86-opcode-map.txt
-> > +++ b/arch/x86/lib/x86-opcode-map.txt
-> > @@ -366,7 +366,7 @@ AVXcode: 1
-> >  1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
-> >  1c:
-> >  1d:
-> > -1e:
-> > +1e: RDSSP Rd (F3),REX.W
-> >  1f: NOP Ev
-> >  # 0x0f 0x20-0x2f
-> >  20: MOV Rd,Cd
-> > @@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
-> >  ff: UD0
-> >  EndTable
-> >  
-> > -Table: 3-byte opcode 1 (0x0f 0x38)
-> > +Table: 3-byte opcode 1 (0x0f 0x01)
-> > +Referrer:
-> > +AVXcode:
-> > +# Skip 0x00-0xe7
-> > +e8: SETSSBSY (f3)
-> > +e9:
-> > +ea: SAVEPREVSSP (f3)
-> > +# Skip 0xeb-0xff
-> > +EndTable
-> > +
-> > +Table: 3-byte opcode 2 (0x0f 0x38)
-> >  Referrer: 3-byte escape 1
-> >  AVXcode: 2
-> >  # 0x0f 0x38 0x00-0x0f
-> > @@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
-> >  f2: ANDN Gy,By,Ey (v)
-> >  f3: Grp17 (1A)
-> > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
-> > -f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
-> > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> > +f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
-> 
-> AFAICT WRSS does not have 66 prefix
+-- 
+Jens Axboe
 
-I will check.
-
-Thanks,
-Yu-cheng
