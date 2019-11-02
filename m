@@ -1,208 +1,266 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E4627D910
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Nov 2019 15:31:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEB077D910
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Nov 2019 16:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfKBPbS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Nov 2019 11:31:18 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:43627 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbfKBPbS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Nov 2019 11:31:18 -0400
-Received: by mail-pg1-f193.google.com with SMTP id l24so8308362pgh.10;
-        Sat, 02 Nov 2019 08:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=6SMiS6mgXXdUrJczi5rxbHURmOIbfDYKt9jnZjMxdUM=;
-        b=ljIIfMR9UU1LQGDy+T0m4/GOZpNG+pfMu1Z466VWG+4CGbgpsK1cIn1oKgpqamJ7hA
-         Sb+GqdxMDT1TiHbcIOs7LFeFwWEmg1Xvbe5EsESRa8AykJ8+QFr6mi1OrUGg9FZuQlGB
-         w0EZQNBd+r3yyxWvBDXuJUlkMBoKqfioosy4w93MmigoAwG00fRYB9/MrMV51cyGX5FV
-         qlK/zyfTQHmu7fPtzwTOwwEiUV50nXfBXLFYDKyJgj8CdsEyjTA9y4fY+RHjSyJz8kzE
-         4lbdv3hBoDM0nkr/k4RwfKRHd5UVrbRA1ytAAp4BIvtSLSG24UMaaXQU3klhJ57OuWCP
-         2ErQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=6SMiS6mgXXdUrJczi5rxbHURmOIbfDYKt9jnZjMxdUM=;
-        b=siJ1rdE2t85WLQqpDke461v3G3N8BM6Zi5vrlOZ3sFTenb2pyTnx/xaUe9FqAqHhxB
-         jSZVHIzLff7galvls69lqdGVVeDcsdzEPiDfrVcwbUJQWDs4fKuJ35fkuMUSbmv4It+c
-         Tu+jerSWOY+iIEmK2KyL5XNk8IqMnZL+AbidESasBmM4RJ8VrasjJK1odDs9bTqLgqW8
-         81jnXct3l6EfyWFSKbS71qlcGo6aEMQbYYnDAr8APxwRqp7dyB12p/lVQXCXyTyJbJpB
-         Wp3AmAKdGtdOu1AXRhCfqOppOw5LYaTM54qT+fZa9ysDqFlj3GEPjqqMCHXiNE31TxTx
-         2KRQ==
-X-Gm-Message-State: APjAAAXORcIEhNlTP/R3PzGDTdmrx7dHN/3QxWxpJY/9v+V3en+wmViH
-        emHG+FWed+QQDZVsBSCqdiA=
-X-Google-Smtp-Source: APXvYqzzUiL8O/6XsZumWEGTrVbVXgZ9kPtXzC3z+zvYJ4g4uGthum08g9EKlHQCIKkYCILeDTZiYw==
-X-Received: by 2002:a62:ce85:: with SMTP id y127mr18172312pfg.24.1572708676949;
-        Sat, 02 Nov 2019 08:31:16 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id k24sm9753324pgl.6.2019.11.02.08.31.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 02 Nov 2019 08:31:16 -0700 (PDT)
-Date:   Sat, 2 Nov 2019 08:31:15 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     rentao.bupt@gmail.com
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        taoren@fb.com
-Subject: Re: [PATCH v2 2/2] docs: hwmon: Document bel-pfe pmbus driver
-Message-ID: <20191102153115.GA5205@roeck-us.net>
-References: <20191029182054.32279-1-rentao.bupt@gmail.com>
- <20191029182054.32279-3-rentao.bupt@gmail.com>
+        id S1726450AbfKBQS1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Nov 2019 12:18:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47946 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726387AbfKBQS1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 2 Nov 2019 12:18:27 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [65.158.186.218])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DAA842084D;
+        Sat,  2 Nov 2019 16:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572711505;
+        bh=n/vOOmRhhGpI87ptfX62Dhb0xDsS6+L8sMPLL5amXfU=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=UlNT3XnaE1lxKroKNyptS3OoL+lWu0mSthymudMaT2GerFVPbOVNPFvjG0f3SrL9y
+         108YrtORwBJt+amm+LGyx7pTrB7hL2cWcca8dYywb+HUZmZjs+NbEtQjDTEJSmuoIj
+         vNmNHYOU/G19Finc5vx074DOtwshHAxEmvE+O+fQ=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 426BB35204A2; Sat,  2 Nov 2019 09:18:25 -0700 (PDT)
+Date:   Sat, 2 Nov 2019 09:18:25 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net,
+        madhuparnabhowmik04@gmail.com, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH] Doc: Improve format for whatisRCU.rst
+Message-ID: <20191102161825.GR20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191102115517.6378-1-tranmanphong@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191029182054.32279-3-rentao.bupt@gmail.com>
+In-Reply-To: <20191102115517.6378-1-tranmanphong@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 11:20:54AM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
+On Sat, Nov 02, 2019 at 06:55:17PM +0700, Phong Tran wrote:
+> Adding crossreference target for some headers, answer of quizzes
 > 
-> Add documentation for bel-pfe pmbus driver which supports BEL PFE1100 and
-> PFE3000 power supplies.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 
-Applied after adding bel-pfe to index.rst.
+I have queued this, thank you!
 
-Thanks,
-Guenter
+Once Madhuparna reviews/tests, I will merge it into your earlier version.
+
+							Thanx, Paul
 
 > ---
->  No change in v2.
+>  Documentation/RCU/whatisRCU.rst | 73 +++++++++++++++++++++++----------
+>  1 file changed, 52 insertions(+), 21 deletions(-)
 > 
->  Documentation/hwmon/bel-pfe.rst | 112 ++++++++++++++++++++++++++++++++
->  1 file changed, 112 insertions(+)
->  create mode 100644 Documentation/hwmon/bel-pfe.rst
+> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> index 70d0e4c21917..ae40c8bcc56c 100644
+> --- a/Documentation/RCU/whatisRCU.rst
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -1,4 +1,4 @@
+> -.. _rcu_doc:
+> +.. _whatisrcu_doc:
+>  
+>  What is RCU?  --  "Read, Copy, Update"
+>  ======================================
+> @@ -27,14 +27,21 @@ the experience has been that different people must take different paths
+>  to arrive at an understanding of RCU.  This document provides several
+>  different paths, as follows:
+>  
+> -1.	RCU OVERVIEW
+> -2.	WHAT IS RCU'S CORE API?
+> -3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+> -4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+> -5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+> -6.	ANALOGY WITH READER-WRITER LOCKING
+> -7.	FULL LIST OF RCU APIs
+> -8.	ANSWERS TO QUICK QUIZZES
+> +:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
+> +
+> +:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
+> +
+> +:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
+> +
+> +:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
+> +
+> +:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
+> +
+> +:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
+> +
+> +:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
+> +
+> +:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
+>  
+>  People who prefer starting with a conceptual overview should focus on
+>  Section 1, though most readers will profit by reading this section at
+> @@ -52,6 +59,7 @@ everything, feel free to read the whole thing -- but if you are really
+>  that type of person, you have perused the source code and will therefore
+>  never need this document anyway.  ;-)
+>  
+> +.. _1_whatisRCU:
+>  
+>  1.  RCU OVERVIEW
+>  ----------------
+> @@ -120,6 +128,7 @@ So how the heck can a reclaimer tell when a reader is done, given
+>  that readers are not doing any sort of synchronization operations???
+>  Read on to learn about how RCU's API makes this easy.
+>  
+> +.. _2_whatisRCU:
+>  
+>  2.  WHAT IS RCU'S CORE API?
+>  ---------------------------
+> @@ -381,13 +390,15 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
+>  Again, most uses will be of (a).  The (b) and (c) cases are important
+>  for specialized uses, but are relatively uncommon.
+>  
+> +.. _3_whatisRCU:
+>  
+>  3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+>  -----------------------------------------------
+>  
+>  This section shows a simple use of the core RCU API to protect a
+>  global pointer to a dynamically allocated structure.  More-typical
+> -uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
+> +uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
+> +:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
+>  ::
+>  
+>  	struct foo {
+> @@ -470,9 +481,11 @@ o	Use synchronize_rcu() -after- removing a data element from an
+>  	data item.
+>  
+>  See checklist.txt for additional rules to follow when using RCU.
+> -And again, more-typical uses of RCU may be found in listRCU.txt,
+> -arrayRCU.txt, and NMI-RCU.txt.
+> +And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
+> +<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
+> +<NMI_rcu_doc>`.
+>  
+> +.. _4_whatisRCU:
+>  
+>  4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+>  --------------------------------------------
+> @@ -567,6 +580,7 @@ to avoid having to write your own callback::
+>  
+>  Again, see checklist.txt for additional rules governing the use of RCU.
+>  
+> +.. _5_whatisRCU:
+>  
+>  5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+>  ------------------------------------------------
+> @@ -657,10 +671,12 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+>  But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+>  so there can be no deadlock cycle.
+>  
+> -Quick Quiz #1:	Why is this argument naive?  How could a deadlock
+> +Quick Quiz #1:
+> +		Why is this argument naive?  How could a deadlock
+>  		occur when using this algorithm in a real-world Linux
+>  		kernel?  How could this deadlock be avoided?
+>  
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+>  
+>  5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+>  
+> @@ -709,13 +725,20 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+>  that there are no RCU read-side critical sections holding a reference
+>  to that data item, so we can safely reclaim it.
+>  
+> -Quick Quiz #2:	Give an example where Classic RCU's read-side
+> +Quick Quiz #2:
+> +		Give an example where Classic RCU's read-side
+>  		overhead is -negative-.
+>  
+> -Quick Quiz #3:  If it is illegal to block in an RCU read-side
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+> +
+> +Quick Quiz #3:
+> +		If it is illegal to block in an RCU read-side
+>  		critical section, what the heck do you do in
+>  		PREEMPT_RT, where normal spinlocks can block???
+>  
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+> +
+> +.. _6_whatisRCU:
+>  
+>  6.  ANALOGY WITH READER-WRITER LOCKING
+>  --------------------------------------
+> @@ -842,6 +865,7 @@ delete() can now block.  If this is a problem, there is a callback-based
+>  mechanism that never blocks, namely call_rcu() or kfree_rcu(), that can
+>  be used in place of synchronize_rcu().
+>  
+> +.. _7_whatisRCU:
+>  
+>  7.  FULL LIST OF RCU APIs
+>  -------------------------
+> @@ -1001,16 +1025,19 @@ g.	Otherwise, use RCU.
+>  Of course, this all assumes that you have determined that RCU is in fact
+>  the right tool for your job.
+>  
+> +.. _8_whatisRCU:
+>  
+>  8.  ANSWERS TO QUICK QUIZZES
+>  ----------------------------
+>  
+> -Quick Quiz #1:	Why is this argument naive?  How could a deadlock
+> +Quick Quiz #1:
+> +		Why is this argument naive?  How could a deadlock
+>  		occur when using this algorithm in a real-world Linux
+>  		kernel?  [Referring to the lock-based "toy" RCU
+>  		algorithm.]
+>  
+> -Answer:		Consider the following sequence of events:
+> +Answer:
+> +		Consider the following sequence of events:
+>  
+>  		1.	CPU 0 acquires some unrelated lock, call it
+>  			"problematic_lock", disabling irq via
+> @@ -1049,10 +1076,12 @@ Answer:		Consider the following sequence of events:
+>  		approach where tasks in RCU read-side critical sections
+>  		cannot be blocked by tasks executing synchronize_rcu().
+>  
+> -Quick Quiz #2:	Give an example where Classic RCU's read-side
+> +Quick Quiz #2:
+> +		Give an example where Classic RCU's read-side
+>  		overhead is -negative-.
+>  
+> -Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+> +Answer:
+> +		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+>  		kernel where a routing table is used by process-context
+>  		code, but can be updated by irq-context code (for example,
+>  		by an "ICMP REDIRECT" packet).	The usual way of handling
+> @@ -1074,11 +1103,13 @@ Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+>  		even the theoretical possibility of negative overhead for
+>  		a synchronization primitive is a bit unexpected.  ;-)
+>  
+> -Quick Quiz #3:  If it is illegal to block in an RCU read-side
+> +Quick Quiz #3:
+> +		If it is illegal to block in an RCU read-side
+>  		critical section, what the heck do you do in
+>  		PREEMPT_RT, where normal spinlocks can block???
+>  
+> -Answer:		Just as PREEMPT_RT permits preemption of spinlock
+> +Answer:
+> +		Just as PREEMPT_RT permits preemption of spinlock
+>  		critical sections, it permits preemption of RCU
+>  		read-side critical sections.  It also permits
+>  		spinlocks blocking while in RCU read-side critical
+> -- 
+> 2.20.1
 > 
-> diff --git a/Documentation/hwmon/bel-pfe.rst b/Documentation/hwmon/bel-pfe.rst
-> new file mode 100644
-> index 000000000000..4b4a7d67854c
-> --- /dev/null
-> +++ b/Documentation/hwmon/bel-pfe.rst
-> @@ -0,0 +1,112 @@
-> +Kernel driver bel-pfe
-> +======================
-> +
-> +Supported chips:
-> +
-> +  * BEL PFE1100
-> +
-> +    Prefixes: 'pfe1100'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://www.belfuse.com/resources/datasheets/powersolutions/ds-bps-pfe1100-12-054xa.pdf
-> +
-> +  * BEL PFE3000
-> +
-> +    Prefixes: 'pfe3000'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://www.belfuse.com/resources/datasheets/powersolutions/ds-bps-pfe3000-series.pdf
-> +
-> +Author: Tao Ren <rentao.bupt@gmail.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver supports hardware monitoring for below power supply devices
-> +which support PMBus Protocol:
-> +
-> +  * BEL PFE1100
-> +
-> +    1100 Watt AC to DC power-factor-corrected (PFC) power supply.
-> +    PMBus Communication Manual is not publicly available.
-> +
-> +  * BEL PFE3000
-> +
-> +    3000 Watt AC/DC power-factor-corrected (PFC) and DC-DC power supply.
-> +    PMBus Communication Manual is not publicly available.
-> +
-> +The driver is a client driver to the core PMBus driver. Please see
-> +Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-> +
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate the
-> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-> +details.
-> +
-> +Example: the following will load the driver for an PFE3000 at address 0x20
-> +on I2C bus #1::
-> +
-> +	$ modprobe bel-pfe
-> +	$ echo pfe3000 0x20 > /sys/bus/i2c/devices/i2c-1/new_device
-> +
-> +
-> +Platform data support
-> +---------------------
-> +
-> +The driver supports standard PMBus driver platform data.
-> +
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +======================= =======================================================
-> +curr1_label		"iin"
-> +curr1_input		Measured input current
-> +curr1_max               Input current max value
-> +curr1_max_alarm         Input current max alarm
-> +
-> +curr[2-3]_label		"iout[1-2]"
-> +curr[2-3]_input		Measured output current
-> +curr[2-3]_max           Output current max value
-> +curr[2-3]_max_alarm     Output current max alarm
-> +
-> +fan[1-2]_input          Fan 1 and 2 speed in RPM
-> +fan1_target             Set fan speed reference for both fans
-> +
-> +in1_label		"vin"
-> +in1_input		Measured input voltage
-> +in1_crit		Input voltage critical max value
-> +in1_crit_alarm		Input voltage critical max alarm
-> +in1_lcrit               Input voltage critical min value
-> +in1_lcrit_alarm         Input voltage critical min alarm
-> +in1_max                 Input voltage max value
-> +in1_max_alarm           Input voltage max alarm
-> +
-> +in2_label               "vcap"
-> +in2_input               Hold up capacitor voltage
-> +
-> +in[3-8]_label		"vout[1-3,5-7]"
-> +in[3-8]_input		Measured output voltage
-> +in[3-4]_alarm           vout[1-2] output voltage alarm
-> +
-> +power[1-2]_label	"pin[1-2]"
-> +power[1-2]_input        Measured input power
-> +power[1-2]_alarm	Input power high alarm
-> +
-> +power[3-4]_label	"pout[1-2]"
-> +power[3-4]_input	Measured output power
-> +
-> +temp[1-3]_input		Measured temperature
-> +temp[1-3]_alarm         Temperature alarm
-> +======================= =======================================================
-> +
-> +.. note::
-> +
-> +    - curr3, fan2, vout[2-7], vcap, pin2, pout2 and temp3 attributes only
-> +      exist for PFE3000.
