@@ -1,106 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 122EE7D982
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Nov 2019 21:04:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 647D27DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Nov 2019 01:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725536AbfKAVBc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Nov 2019 17:01:32 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41624 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726982AbfKAVBc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 17:01:32 -0400
-Received: by mail-lj1-f193.google.com with SMTP id m9so11513815ljh.8
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2019 14:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=+DZAcrYTInC6lyw4/gChnpgNLbD0CwXM1XtbdRrklJ8=;
-        b=aVO7E+zA3atTNkzfVqnxxmkg1zDuPRr1tYRKkRyejCRFmIJriUQAusYYi+gtzngpZc
-         BKIEwn46Nsk1IcMdS+wvyXJMI1r2SKSo6xqwLDFWIx9MKsPVACjcJbIkD6pQsubMd7sD
-         A84TO2HodjD8xuQHMs7FsRGFiFKLLdxiefENYV3dDw7NnGgZmIfDAXtsc2TPqMXU1TAZ
-         RDlcQgLaCb85vyFckWnZ40MhcHzzKoVQny8Ac/uYT1kXD1W6Ope3IB3/3d6ozqu0JU3G
-         2Sb725xMHCEnJPqFQiP2nqRykQkO44la10qrJeHH2QfneEvzeu9L6iSM8xLD15UcjkMZ
-         XPsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=+DZAcrYTInC6lyw4/gChnpgNLbD0CwXM1XtbdRrklJ8=;
-        b=q69tB1iWLwnf1es5EOhnL48TnWYvTupd1689UeDTp/mDAFaQHPoKBOngiOrOvCNysM
-         gPP8v+Jyk+lDBt/ZHTfMH5uySw2rdGReofkkrcffbIsb4WtUy7rqNpqvfoRZwcMbun1R
-         59l4+E2UPtaYoGLYzsnlD306WGZw+U3jlBChPaSIZDiitmSx8bIon4sBG4tiloxAfhZW
-         Jkhgz0Uc0osvXkanbUS+tyoznr/sgC+0IRDIGpjPnpIvupB7rcBwbeSnWAfgG+OF5Jl+
-         PUZbklUiNmzpr7XPU5wl7ZDgjpSCi6oOrCQTsNcs+FU4JcVazJeSkvIsa4JpzZZ47yg2
-         E9Vg==
-X-Gm-Message-State: APjAAAUivL5x1JLYZWU0wSRLxDfyuzRbamkCbBJvQRmJu3CukyzVnj+Q
-        D4qKhvc8F3mKMk7KcrjtX4qQoA==
-X-Google-Smtp-Source: APXvYqx9itIEf0HRYsllPyEfEEXLEXY8zUHnaPXt0a3ZIEZhVf/YeUFY9oDmc9lFtPOikZd1w2D+ZQ==
-X-Received: by 2002:a2e:858f:: with SMTP id b15mr9560436lji.68.1572642089841;
-        Fri, 01 Nov 2019 14:01:29 -0700 (PDT)
-Received: from cakuba.netronome.com ([66.60.152.14])
-        by smtp.gmail.com with ESMTPSA id r22sm2741164ljk.31.2019.11.01.14.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2019 14:01:29 -0700 (PDT)
-Date:   Fri, 1 Nov 2019 14:01:21 -0700
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        Simon Horman <simon.horman@netronome.com>
-Subject: Re: [PATCH net] Documentation: netdev-FAQ: make all questions into
- headings
-Message-ID: <20191101140121.3d0575dd@cakuba.netronome.com>
-In-Reply-To: <20191030090252.7eedec35@cakuba.hsd1.ca.comcast.net>
-References: <20191029171215.6861-1-jakub.kicinski@netronome.com>
-        <20191030024430.719c73be@lwn.net>
-        <20191030090252.7eedec35@cakuba.hsd1.ca.comcast.net>
-Organization: Netronome Systems, Ltd.
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727576AbfKBBMR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Nov 2019 21:12:17 -0400
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:51642 "EHLO
+        kvm5.telegraphics.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726947AbfKBBMR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Nov 2019 21:12:17 -0400
+Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
+        id B6FE429915; Fri,  1 Nov 2019 21:12:15 -0400 (EDT)
+To:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     "Michael Schmitz" <schmitzmic@gmail.com>,
+        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Bartlomiej Zolnierkiewicz" <b.zolnierkie@samsung.com>,
+        "Jens Axboe" <axboe@kernel.dk>,
+        "Viresh Kumar" <vireshk@kernel.org>,
+        "Oliver Neukum" <oneukum@suse.com>,
+        "Alan Stern" <stern@rowland.harvard.edu>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        usb-storage@lists.one-eyed-alien.net, linux-doc@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-usb@vger.kernel.org
+Message-Id: <b4779b7a6563f6bd8d259ee457871c1c463c420e.1572656814.git.fthain@telegraphics.com.au>
+In-Reply-To: <cover.1572656814.git.fthain@telegraphics.com.au>
+References: <cover.1572656814.git.fthain@telegraphics.com.au>
+From:   Finn Thain <fthain@telegraphics.com.au>
+Subject: [PATCH 2/2] scsi: Clean up SG_NONE
+Date:   Sat, 02 Nov 2019 12:06:54 +1100
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Oct 2019 09:02:52 -0700, Jakub Kicinski wrote:
-> On Wed, 30 Oct 2019 02:44:30 -0600, Jonathan Corbet wrote:
-> > On Tue, 29 Oct 2019 10:12:15 -0700
-> > Jakub Kicinski <jakub.kicinski@netronome.com> wrote:  
-> > > -Q: I see a network patch and I think it should be backported to stable.
-> > > ------------------------------------------------------------------------
-> > > -Q: Should I request it via stable@vger.kernel.org like the references in
-> > > -the kernel's Documentation/process/stable-kernel-rules.rst file say?
-> > > +Q: I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
-> > > +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
-> > 
-> > I don't think that making these massive heading lines actually improves the
-> > experience - for readers of either the plain-text or formatted docs.  If
-> > you really want to create headings, the heading here should be "Stable
-> > backports" or some such with the question appearing below.  But do the
-> > questions really need to be headings?  
-> 
-> I agree that this is suboptimal. I couldn't come up with a better way
-> of handling this. I think consistently formatting all questions in one
-> way and answers in another make the document far easier to interpret.
-> I had hard time follow the current formatting:
-> 
-> https://www.kernel.org/doc/html/latest/networking/netdev-FAQ.html#q-i-have-created-a-network-patch-and-i-think-it-should-be-backported-to-stable
-> 
-> Is there a more appropriate form of emphasis we could use here? Even
-> if we add independent headings questions should remain emphasised
-> _somehow_ I reckon..
+Remove SG_NONE and a related misleading comment. Update documentation.
 
-I poked a little bit more, adding first level headings make the
-questions smaller which is nice. But they are still headings.
-Then I watched your presentation from Kernel Recipes which reminded 
-me of the plan to add some per subsystem process files. Which would
-obsolete this doc :) Since that's a hornet's nest I don't wish 
-to poke I will leave this work for a braver soul :)
+This patch does not affect behaviour as zero initialization is redundant.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Viresh Kumar <vireshk@kernel.org>
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: usb-storage@lists.one-eyed-alien.net
+Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
+---
+ Documentation/scsi/scsi_mid_low_api.txt |  3 ++-
+ drivers/ata/pata_arasan_cf.c            |  1 -
+ drivers/scsi/atp870u.c                  |  2 +-
+ drivers/usb/storage/uas.c               |  1 -
+ include/scsi/scsi_host.h                | 13 -------------
+ 5 files changed, 3 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/scsi/scsi_mid_low_api.txt b/Documentation/scsi/scsi_mid_low_api.txt
+index c1dd4939f4ae..2a4be1c3e6db 100644
+--- a/Documentation/scsi/scsi_mid_low_api.txt
++++ b/Documentation/scsi/scsi_mid_low_api.txt
+@@ -1084,7 +1084,8 @@ of interest:
+                    commands to the adapter.
+     this_id      - scsi id of host (scsi initiator) or -1 if not known
+     sg_tablesize - maximum scatter gather elements allowed by host.
+-                   0 implies scatter gather not supported by host
++                   Set this to SG_ALL or less to avoid chained SG lists.
++                   Must be at least 1.
+     max_sectors  - maximum number of sectors (usually 512 bytes) allowed
+                    in a single SCSI command. The default value of 0 leads
+                    to a setting of SCSI_DEFAULT_MAX_SECTORS (defined in
+diff --git a/drivers/ata/pata_arasan_cf.c b/drivers/ata/pata_arasan_cf.c
+index ebecab8c3f36..135173c8d138 100644
+--- a/drivers/ata/pata_arasan_cf.c
++++ b/drivers/ata/pata_arasan_cf.c
+@@ -219,7 +219,6 @@ struct arasan_cf_dev {
+ 
+ static struct scsi_host_template arasan_cf_sht = {
+ 	ATA_BASE_SHT(DRIVER_NAME),
+-	.sg_tablesize = SG_NONE,
+ 	.dma_boundary = 0xFFFFFFFFUL,
+ };
+ 
+diff --git a/drivers/scsi/atp870u.c b/drivers/scsi/atp870u.c
+index e41f0bbdc9fd..c6a752309dda 100644
+--- a/drivers/scsi/atp870u.c
++++ b/drivers/scsi/atp870u.c
+@@ -1680,7 +1680,7 @@ static struct scsi_host_template atp870u_template = {
+      .bios_param        	= atp870u_biosparam	/* biosparm */,
+      .can_queue         	= qcnt			/* can_queue */,
+      .this_id           	= 7			/* SCSI ID */,
+-     .sg_tablesize      	= ATP870U_SCATTER	/*SG_ALL*/ /*SG_NONE*/,
++     .sg_tablesize      	= ATP870U_SCATTER	/*SG_ALL*/,
+      .max_sectors		= ATP870U_MAX_SECTORS,
+ };
+ 
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index bf80d6f81f58..fd9c0d2c111f 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -879,7 +879,6 @@ static struct scsi_host_template uas_host_template = {
+ 	.eh_abort_handler = uas_eh_abort_handler,
+ 	.eh_device_reset_handler = uas_eh_device_reset_handler,
+ 	.this_id = -1,
+-	.sg_tablesize = SG_NONE,
+ 	.skip_settle_delay = 1,
+ 	.dma_boundary = PAGE_SIZE - 1,
+ };
+diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
+index 31e0d6ca1eba..d7cf9c7fecac 100644
+--- a/include/scsi/scsi_host.h
++++ b/include/scsi/scsi_host.h
+@@ -23,19 +23,6 @@ struct scsi_host_cmd_pool;
+ struct scsi_transport_template;
+ 
+ 
+-/*
+- * The various choices mean:
+- * NONE: Self evident.	Host adapter is not capable of scatter-gather.
+- * ALL:	 Means that the host adapter module can do scatter-gather,
+- *	 and that there is no limit to the size of the table to which
+- *	 we scatter/gather data.  The value we set here is the maximum
+- *	 single element sglist.  To use chained sglists, the adapter
+- *	 has to set a value beyond ALL (and correctly use the chain
+- *	 handling API.
+- * Anything else:  Indicates the maximum number of chains that can be
+- *	 used in one scatter-gather request.
+- */
+-#define SG_NONE 0
+ #define SG_ALL	SG_CHUNK_SIZE
+ 
+ #define MODE_UNKNOWN 0x00
+-- 
+2.23.0
+
