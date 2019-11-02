@@ -1,101 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 213D07D918
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Nov 2019 11:01:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C27D77D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Nov 2019 11:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbfKBLBz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Nov 2019 07:01:55 -0400
-Received: from mga18.intel.com ([134.134.136.126]:24973 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726163AbfKBLBz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 Nov 2019 07:01:55 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Nov 2019 04:01:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,259,1569308400"; 
-   d="scan'208";a="206632673"
-Received: from mohseni-mobl2.ger.corp.intel.com (HELO btopel-mobl.ger.intel.com) ([10.252.42.93])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2019 04:01:44 -0700
-Subject: Re: [PATCH 11/19] net/xdp: set FOLL_PIN via pin_user_pages()
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-12-jhubbard@nvidia.com>
-From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>
-Message-ID: <67cd4960-bc17-9603-8d4d-b7b2f68bb373@intel.com>
-Date:   Sat, 2 Nov 2019 12:01:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+        id S1726229AbfKBLzf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Nov 2019 07:55:35 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40330 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbfKBLzf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Nov 2019 07:55:35 -0400
+Received: by mail-pf1-f193.google.com with SMTP id r4so8796839pfl.7;
+        Sat, 02 Nov 2019 04:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7u/iOR7HJqtZD8nquIFJaMlxUwUZ2mligFudZlnPrWU=;
+        b=UnWMI5MI5/gxEd8ihgP7kS9XWpzKHAH7ezgi6KAANGgBemAcX1+iFM6NVxnzuzVjf4
+         tn0H2sMS8+m71lBTPPzsca+MSFg5ULBumVtzCY/TYQcMdGZpkWwQems7wB74qLPNXsaA
+         w2VJremR97MGbNCqbv+mXjqQvVyJz4li6FdYz7V8n9ubDmsrBk5TjeGYWkdTXKEBfDpX
+         NkCQj4P0XePvhDx8OUWuaFwtYeb20FutncuFZvt2sQqJ7By14n8Oo4iy/RIMyk/OWOXX
+         fAF5ALjaQvnr3PWHJ6/1qDqLcqs/hxOg74Y6H4yWVkAjA6eYNDX8lM+zZJjb8ErwBMLV
+         Wfiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7u/iOR7HJqtZD8nquIFJaMlxUwUZ2mligFudZlnPrWU=;
+        b=jI5JO8Duikbx/YoTtnCj3+OlY34z+npR9Idtp96QS7i2dhtsl5sXWTqf9xZ/r4VX55
+         MjBQA6/nFiE/bkd1aAsjXmaRSxsF7SnjFPVfkjZjVaV0gr9nuCzIRH32ISjvwLv5iuLr
+         F4UhU1wYwSX/BfOAs5/GPcpdPez8b+c9D8UoA+go1JF7LCvN1O2zdHC/2Nbm0lVt27c7
+         4CED+zU5AgITviDAMig9WdtxhEYna2D+j0LenK+3alaYBG7/+vgE6hq4tDKI2bVwqFz/
+         exG6YE1xDLm1fu7mLxZkO5PwAzz6nc+qaTqhhY/D/cyT2Fdz7Arc6D1FjKAD7WWMyk99
+         DOMw==
+X-Gm-Message-State: APjAAAVQj9FAhGfOIv4rZGcdDXazE+wBZYtJU8kYjVG8B+cYciBtI9E7
+        PY7DQVu/kmM0UiqcDz5ksy8=
+X-Google-Smtp-Source: APXvYqx5DViiAj0X3gP1IMt5ru+wl84hoOd5wSYkowEoxDjDaT8Br+oaj/Eo+YAEW9+cN7erRjKmRg==
+X-Received: by 2002:a17:90a:d993:: with SMTP id d19mr21679885pjv.26.1572695733504;
+        Sat, 02 Nov 2019 04:55:33 -0700 (PDT)
+Received: from debian.net.fpt ([2405:4800:58f7:55d9:3e01:3008:2e64:188f])
+        by smtp.gmail.com with ESMTPSA id a12sm5122320pfo.136.2019.11.02.04.55.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Nov 2019 04:55:32 -0700 (PDT)
+From:   Phong Tran <tranmanphong@gmail.com>
+To:     paulmck@kernel.org, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net,
+        madhuparnabhowmik04@gmail.com
+Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, Phong Tran <tranmanphong@gmail.com>
+Subject: [PATCH] Doc: Improve format for whatisRCU.rst
+Date:   Sat,  2 Nov 2019 18:55:17 +0700
+Message-Id: <20191102115517.6378-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191030224930.3990755-12-jhubbard@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-10-30 23:49, John Hubbard wrote:
-> Convert net/xdp to use the new pin_longterm_pages() call, which sets
-> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-> tracking of pinned pages.
-> 
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+Adding crossreference target for some headers, answer of quizzes
 
-Acked-by: Björn Töpel <bjorn.topel@intel.com>
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+---
+ Documentation/RCU/whatisRCU.rst | 73 +++++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 21 deletions(-)
 
-> ---
->   net/xdp/xdp_umem.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/xdp/xdp_umem.c b/net/xdp/xdp_umem.c
-> index 16d5f353163a..4d56dfb1139a 100644
-> --- a/net/xdp/xdp_umem.c
-> +++ b/net/xdp/xdp_umem.c
-> @@ -285,8 +285,8 @@ static int xdp_umem_pin_pages(struct xdp_umem *umem)
->   		return -ENOMEM;
->   
->   	down_read(&current->mm->mmap_sem);
-> -	npgs = get_user_pages(umem->address, umem->npgs,
-> -			      gup_flags | FOLL_LONGTERM, &umem->pgs[0], NULL);
-> +	npgs = pin_longterm_pages(umem->address, umem->npgs, gup_flags,
-> +				  &umem->pgs[0], NULL);
->   	up_read(&current->mm->mmap_sem);
->   
->   	if (npgs != umem->npgs) {
-> 
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index 70d0e4c21917..ae40c8bcc56c 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -1,4 +1,4 @@
+-.. _rcu_doc:
++.. _whatisrcu_doc:
+ 
+ What is RCU?  --  "Read, Copy, Update"
+ ======================================
+@@ -27,14 +27,21 @@ the experience has been that different people must take different paths
+ to arrive at an understanding of RCU.  This document provides several
+ different paths, as follows:
+ 
+-1.	RCU OVERVIEW
+-2.	WHAT IS RCU'S CORE API?
+-3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+-4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+-5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+-6.	ANALOGY WITH READER-WRITER LOCKING
+-7.	FULL LIST OF RCU APIs
+-8.	ANSWERS TO QUICK QUIZZES
++:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
++
++:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
++
++:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
++
++:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
++
++:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
++
++:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
++
++:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
++
++:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
+ 
+ People who prefer starting with a conceptual overview should focus on
+ Section 1, though most readers will profit by reading this section at
+@@ -52,6 +59,7 @@ everything, feel free to read the whole thing -- but if you are really
+ that type of person, you have perused the source code and will therefore
+ never need this document anyway.  ;-)
+ 
++.. _1_whatisRCU:
+ 
+ 1.  RCU OVERVIEW
+ ----------------
+@@ -120,6 +128,7 @@ So how the heck can a reclaimer tell when a reader is done, given
+ that readers are not doing any sort of synchronization operations???
+ Read on to learn about how RCU's API makes this easy.
+ 
++.. _2_whatisRCU:
+ 
+ 2.  WHAT IS RCU'S CORE API?
+ ---------------------------
+@@ -381,13 +390,15 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
+ Again, most uses will be of (a).  The (b) and (c) cases are important
+ for specialized uses, but are relatively uncommon.
+ 
++.. _3_whatisRCU:
+ 
+ 3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+ -----------------------------------------------
+ 
+ This section shows a simple use of the core RCU API to protect a
+ global pointer to a dynamically allocated structure.  More-typical
+-uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
++uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
++:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
+ ::
+ 
+ 	struct foo {
+@@ -470,9 +481,11 @@ o	Use synchronize_rcu() -after- removing a data element from an
+ 	data item.
+ 
+ See checklist.txt for additional rules to follow when using RCU.
+-And again, more-typical uses of RCU may be found in listRCU.txt,
+-arrayRCU.txt, and NMI-RCU.txt.
++And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
++<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
++<NMI_rcu_doc>`.
+ 
++.. _4_whatisRCU:
+ 
+ 4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+ --------------------------------------------
+@@ -567,6 +580,7 @@ to avoid having to write your own callback::
+ 
+ Again, see checklist.txt for additional rules governing the use of RCU.
+ 
++.. _5_whatisRCU:
+ 
+ 5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+ ------------------------------------------------
+@@ -657,10 +671,12 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+ But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+ so there can be no deadlock cycle.
+ 
+-Quick Quiz #1:	Why is this argument naive?  How could a deadlock
++Quick Quiz #1:
++		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+ 		kernel?  How could this deadlock be avoided?
+ 
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
+ 5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+ 
+@@ -709,13 +725,20 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+ that there are no RCU read-side critical sections holding a reference
+ to that data item, so we can safely reclaim it.
+ 
+-Quick Quiz #2:	Give an example where Classic RCU's read-side
++Quick Quiz #2:
++		Give an example where Classic RCU's read-side
+ 		overhead is -negative-.
+ 
+-Quick Quiz #3:  If it is illegal to block in an RCU read-side
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
++
++Quick Quiz #3:
++		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+ 		PREEMPT_RT, where normal spinlocks can block???
+ 
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
++
++.. _6_whatisRCU:
+ 
+ 6.  ANALOGY WITH READER-WRITER LOCKING
+ --------------------------------------
+@@ -842,6 +865,7 @@ delete() can now block.  If this is a problem, there is a callback-based
+ mechanism that never blocks, namely call_rcu() or kfree_rcu(), that can
+ be used in place of synchronize_rcu().
+ 
++.. _7_whatisRCU:
+ 
+ 7.  FULL LIST OF RCU APIs
+ -------------------------
+@@ -1001,16 +1025,19 @@ g.	Otherwise, use RCU.
+ Of course, this all assumes that you have determined that RCU is in fact
+ the right tool for your job.
+ 
++.. _8_whatisRCU:
+ 
+ 8.  ANSWERS TO QUICK QUIZZES
+ ----------------------------
+ 
+-Quick Quiz #1:	Why is this argument naive?  How could a deadlock
++Quick Quiz #1:
++		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+ 		kernel?  [Referring to the lock-based "toy" RCU
+ 		algorithm.]
+ 
+-Answer:		Consider the following sequence of events:
++Answer:
++		Consider the following sequence of events:
+ 
+ 		1.	CPU 0 acquires some unrelated lock, call it
+ 			"problematic_lock", disabling irq via
+@@ -1049,10 +1076,12 @@ Answer:		Consider the following sequence of events:
+ 		approach where tasks in RCU read-side critical sections
+ 		cannot be blocked by tasks executing synchronize_rcu().
+ 
+-Quick Quiz #2:	Give an example where Classic RCU's read-side
++Quick Quiz #2:
++		Give an example where Classic RCU's read-side
+ 		overhead is -negative-.
+ 
+-Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
++Answer:
++		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+ 		kernel where a routing table is used by process-context
+ 		code, but can be updated by irq-context code (for example,
+ 		by an "ICMP REDIRECT" packet).	The usual way of handling
+@@ -1074,11 +1103,13 @@ Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+ 		even the theoretical possibility of negative overhead for
+ 		a synchronization primitive is a bit unexpected.  ;-)
+ 
+-Quick Quiz #3:  If it is illegal to block in an RCU read-side
++Quick Quiz #3:
++		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+ 		PREEMPT_RT, where normal spinlocks can block???
+ 
+-Answer:		Just as PREEMPT_RT permits preemption of spinlock
++Answer:
++		Just as PREEMPT_RT permits preemption of spinlock
+ 		critical sections, it permits preemption of RCU
+ 		read-side critical sections.  It also permits
+ 		spinlocks blocking while in RCU read-side critical
+-- 
+2.20.1
+
