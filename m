@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0BFDC7DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 21:21:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4813A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 21:21:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728352AbfKCVSU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 16:18:20 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10534 "EHLO
+        id S1728671AbfKCVVL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Nov 2019 16:21:11 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:10563 "EHLO
         hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728121AbfKCVSS (ORCPT
+        with ESMTP id S1728243AbfKCVSS (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Nov 2019 16:18:18 -0500
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dbf441d0000>; Sun, 03 Nov 2019 13:18:22 -0800
+        id <B5dbf441f0000>; Sun, 03 Nov 2019 13:18:23 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 03 Nov 2019 13:18:15 -0800
+  Sun, 03 Nov 2019 13:18:16 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 03 Nov 2019 13:18:15 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 3 Nov
- 2019 21:18:15 +0000
+        by hqpgpgate101.nvidia.com on Sun, 03 Nov 2019 13:18:16 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 3 Nov
+ 2019 21:18:16 +0000
 Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 3 Nov 2019 21:18:15 +0000
+ Transport; Sun, 3 Nov 2019 21:18:16 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dbf44160003>; Sun, 03 Nov 2019 13:18:14 -0800
+        id <B5dbf44180000>; Sun, 03 Nov 2019 13:18:16 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -60,12 +60,10 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-Subject: [PATCH v2 02/18] mm/gup: factor out duplicate code from four routines
-Date:   Sun, 3 Nov 2019 13:17:57 -0800
-Message-ID: <20191103211813.213227-3-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via pin_longterm_pages*()
+Date:   Sun, 3 Nov 2019 13:18:02 -0800
+Message-ID: <20191103211813.213227-8-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191103211813.213227-1-jhubbard@nvidia.com>
 References: <20191103211813.213227-1-jhubbard@nvidia.com>
@@ -74,230 +72,206 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572815902; bh=kaGNIHbfja+uY6cKXyOxb4P0f0fYoWBJW4uSclr3zkQ=;
+        t=1572815903; bh=q5eBvxC1C1PTwlbM8+ph/cSmourLvxGkHvyzzyTytVY=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=F+q+2Nm2ah/6kNgKZO4cO9APqojvmMVAYoNWjgqqiwuDdQ8AP4EoxEyVuWbTt8N2x
-         0+gD4dEhHTWFLjxwoxODmXiRboHOHRebRhnxK6rrF/aN6FezATSRMkoofDhN+Kuzhc
-         98lFHWFikPv2z7wfnG6mSw5YYZPL8XOTsZfY+FbjSEBKpSjlQnNQMjobgvNx0k8n70
-         il61zIlP+u2wVU/NhvddF6W54orHnMnHFeueINqCQkIh5mazHUKZlAPnI7TOBul3P0
-         2tFEv+/R43mvXKPVCaEFILRD5ZM9jAljSrGESHyz+w6X9AmZw/Frq+aOpSSUHsEtTl
-         ds+UW1ym+06oQ==
+        b=QLZo4I75fQbU6x5SpUwhO8h8SsKUtRLOKJdI3V62uxuAy7pO1Gkel03ilx+XywV3X
+         ybgfMhso8zS2aRMAjtEFwz9dJ40E4oBvysR+G/BLQmgdbObHUJXOpsOaqImlrMrSz+
+         ukshjiVbipqCRRpMLuDIzBTwP3RtehQ9A2/CyH+hgI+iVATGuCJHES45noXAL8Bpcu
+         VwgVjDjvndiTfNRlscSQCEU5nHRTxK75HTjFkX9AinkIpPIR96OHlrYN1CIAR3SWUd
+         qE90/gKvqZfbQ8tzggAUGZbY/gfVoeYGzuVKirkUme8A3ATMCc8HzWuB/nk83/Qfqk
+         jSXtqtn+h9KFA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are four locations in gup.c that have a fair amount of code
-duplication. This means that changing one requires making the same
-changes in four places, not to mention reading the same code four
-times, and wondering if there are subtle differences.
+Convert infiniband to use the new wrapper calls, and stop
+explicitly setting FOLL_LONGTERM at the call sites.
 
-Factor out the common code into static functions, thus reducing the
-overall line count and the code's complexity.
+The new pin_longterm_*() calls replace get_user_pages*()
+calls, and set both FOLL_LONGTERM and a new FOLL_PIN
+flag. The FOLL_PIN flag requires that the caller must
+return the pages via put_user_page*() calls, but
+infiniband was already doing that as part of an earlier
+commit.
 
-Also, take the opportunity to slightly improve the efficiency of the
-error cases, by doing a mass subtraction of the refcount, surrounded
-by get_page()/put_page().
-
-Also, further simplify (slightly), by waiting until the the successful
-end of each routine, to increment *nr.
-
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/gup.c | 104 ++++++++++++++++++++++++-------------------------------
- 1 file changed, 45 insertions(+), 59 deletions(-)
+ drivers/infiniband/core/umem.c              |  5 ++---
+ drivers/infiniband/core/umem_odp.c          | 10 +++++-----
+ drivers/infiniband/hw/hfi1/user_pages.c     |  4 ++--
+ drivers/infiniband/hw/mthca/mthca_memfree.c |  3 +--
+ drivers/infiniband/hw/qib/qib_user_pages.c  |  8 ++++----
+ drivers/infiniband/hw/qib/qib_user_sdma.c   |  2 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c    |  9 ++++-----
+ drivers/infiniband/sw/siw/siw_mem.c         |  5 ++---
+ 8 files changed, 21 insertions(+), 25 deletions(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 85caf76b3012..199da99e8ffc 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1969,6 +1969,34 @@ static int __gup_device_huge_pud(pud_t pud, pud_t *p=
-udp, unsigned long addr,
- }
- #endif
+diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.=
+c
+index 24244a2f68cc..c5a78d3e674b 100644
+--- a/drivers/infiniband/core/umem.c
++++ b/drivers/infiniband/core/umem.c
+@@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, u=
+nsigned long addr,
 =20
-+static int __record_subpages(struct page *page, unsigned long addr,
-+			     unsigned long end, struct page **pages, int nr)
-+{
-+	int nr_recorded_pages =3D 0;
-+
-+	do {
-+		pages[nr] =3D page;
-+		nr++;
-+		page++;
-+		nr_recorded_pages++;
-+	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	return nr_recorded_pages;
-+}
-+
-+static void put_compound_head(struct page *page, int refs)
-+{
-+	/* Do a get_page() first, in case refs =3D=3D page->_refcount */
-+	get_page(page);
-+	page_ref_sub(page, refs);
-+	put_page(page);
-+}
-+
-+static void __huge_pt_done(struct page *head, int nr_recorded_pages, int *=
-nr)
-+{
-+	*nr +=3D nr_recorded_pages;
-+	SetPageReferenced(head);
-+}
-+
- #ifdef CONFIG_ARCH_HAS_HUGEPD
- static unsigned long hugepte_addr_end(unsigned long addr, unsigned long en=
-d,
- 				      unsigned long sz)
-@@ -1998,33 +2026,20 @@ static int gup_hugepte(pte_t *ptep, unsigned long s=
-z, unsigned long addr,
- 	/* hugepages are never "special" */
- 	VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+ 	while (npages) {
+ 		down_read(&mm->mmap_sem);
+-		ret =3D get_user_pages(cur_base,
++		ret =3D pin_longterm_pages(cur_base,
+ 				     min_t(unsigned long, npages,
+ 					   PAGE_SIZE / sizeof (struct page *)),
+-				     gup_flags | FOLL_LONGTERM,
+-				     page_list, NULL);
++				     gup_flags, page_list, NULL);
+ 		if (ret < 0) {
+ 			up_read(&mm->mmap_sem);
+ 			goto umem_release;
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/u=
+mem_odp.c
+index 163ff7ba92b7..a38b67b83db5 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -534,7 +534,7 @@ static int ib_umem_odp_map_dma_single_page(
+ 	} else if (umem_odp->page_list[page_index] =3D=3D page) {
+ 		umem_odp->dma_list[page_index] |=3D access_mask;
+ 	} else {
+-		pr_err("error: got different pages in IB device and from get_user_pages.=
+ IB device page: %p, gup page: %p\n",
++		pr_err("error: got different pages in IB device and from pin_longterm_pa=
+ges. IB device page: %p, gup page: %p\n",
+ 		       umem_odp->page_list[page_index], page);
+ 		/* Better remove the mapping now, to prevent any further
+ 		 * damage. */
+@@ -639,11 +639,11 @@ int ib_umem_odp_map_dma_pages(struct ib_umem_odp *ume=
+m_odp, u64 user_virt,
+ 		/*
+ 		 * Note: this might result in redundent page getting. We can
+ 		 * avoid this by checking dma_list to be 0 before calling
+-		 * get_user_pages. However, this make the code much more
+-		 * complex (and doesn't gain us much performance in most use
+-		 * cases).
++		 * pin_longterm_pages. However, this makes the code much
++		 * more complex (and doesn't gain us much performance in most
++		 * use cases).
+ 		 */
+-		npages =3D get_user_pages_remote(owning_process, owning_mm,
++		npages =3D pin_longterm_pages_remote(owning_process, owning_mm,
+ 				user_virt, gup_num_pages,
+ 				flags, local_page_list, NULL, NULL);
+ 		up_read(&owning_mm->mmap_sem);
+diff --git a/drivers/infiniband/hw/hfi1/user_pages.c b/drivers/infiniband/h=
+w/hfi1/user_pages.c
+index 469acb961fbd..9b55b0a73e29 100644
+--- a/drivers/infiniband/hw/hfi1/user_pages.c
++++ b/drivers/infiniband/hw/hfi1/user_pages.c
+@@ -104,9 +104,9 @@ int hfi1_acquire_user_pages(struct mm_struct *mm, unsig=
+ned long vaddr, size_t np
+ 			    bool writable, struct page **pages)
+ {
+ 	int ret;
+-	unsigned int gup_flags =3D FOLL_LONGTERM | (writable ? FOLL_WRITE : 0);
++	unsigned int gup_flags =3D (writable ? FOLL_WRITE : 0);
 =20
--	refs =3D 0;
- 	head =3D pte_page(pte);
--
- 	page =3D head + ((addr & (sz-1)) >> PAGE_SHIFT);
--	do {
--		VM_BUG_ON(compound_head(page) !=3D head);
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D __record_subpages(page, addr, end, pages, *nr);
+-	ret =3D get_user_pages_fast(vaddr, npages, gup_flags, pages);
++	ret =3D pin_longterm_pages_fast(vaddr, npages, gup_flags, pages);
+ 	if (ret < 0)
+ 		return ret;
 =20
- 	head =3D try_get_compound_head(head, refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pte_val(pte) !=3D pte_val(*ptep))) {
--		/* Could be optimized better */
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
+diff --git a/drivers/infiniband/hw/mthca/mthca_memfree.c b/drivers/infiniba=
+nd/hw/mthca/mthca_memfree.c
+index edccfd6e178f..beec7e4b8a96 100644
+--- a/drivers/infiniband/hw/mthca/mthca_memfree.c
++++ b/drivers/infiniband/hw/mthca/mthca_memfree.c
+@@ -472,8 +472,7 @@ int mthca_map_user_db(struct mthca_dev *dev, struct mth=
+ca_uar *uar,
+ 		goto out;
  	}
 =20
--	SetPageReferenced(head);
-+	__huge_pt_done(head, refs, nr);
- 	return 1;
- }
+-	ret =3D get_user_pages_fast(uaddr & PAGE_MASK, 1,
+-				  FOLL_WRITE | FOLL_LONGTERM, pages);
++	ret =3D pin_longterm_pages_fast(uaddr & PAGE_MASK, 1, FOLL_WRITE, pages);
+ 	if (ret < 0)
+ 		goto out;
 =20
-@@ -2071,29 +2086,19 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, un=
-signed long addr,
- 					     pages, nr);
- 	}
+diff --git a/drivers/infiniband/hw/qib/qib_user_pages.c b/drivers/infiniban=
+d/hw/qib/qib_user_pages.c
+index 6bf764e41891..684a14e14d9b 100644
+--- a/drivers/infiniband/hw/qib/qib_user_pages.c
++++ b/drivers/infiniband/hw/qib/qib_user_pages.c
+@@ -108,10 +108,10 @@ int qib_get_user_pages(unsigned long start_page, size=
+_t num_pages,
 =20
--	refs =3D 0;
- 	page =3D pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D __record_subpages(page, addr, end, pages, *nr);
+ 	down_read(&current->mm->mmap_sem);
+ 	for (got =3D 0; got < num_pages; got +=3D ret) {
+-		ret =3D get_user_pages(start_page + got * PAGE_SIZE,
+-				     num_pages - got,
+-				     FOLL_LONGTERM | FOLL_WRITE | FOLL_FORCE,
+-				     p + got, NULL);
++		ret =3D pin_longterm_pages(start_page + got * PAGE_SIZE,
++					 num_pages - got,
++					 FOLL_WRITE | FOLL_FORCE,
++					 p + got, NULL);
+ 		if (ret < 0) {
+ 			up_read(&current->mm->mmap_sem);
+ 			goto bail_release;
+diff --git a/drivers/infiniband/hw/qib/qib_user_sdma.c b/drivers/infiniband=
+/hw/qib/qib_user_sdma.c
+index 05190edc2611..fd86a9d19370 100644
+--- a/drivers/infiniband/hw/qib/qib_user_sdma.c
++++ b/drivers/infiniband/hw/qib/qib_user_sdma.c
+@@ -670,7 +670,7 @@ static int qib_user_sdma_pin_pages(const struct qib_dev=
+data *dd,
+ 		else
+ 			j =3D npages;
 =20
- 	head =3D try_get_compound_head(pmd_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
+-		ret =3D get_user_pages_fast(addr, j, FOLL_LONGTERM, pages);
++		ret =3D pin_longterm_pages_fast(addr, j, 0, pages);
+ 		if (ret !=3D j) {
+ 			i =3D 0;
+ 			j =3D ret;
+diff --git a/drivers/infiniband/hw/usnic/usnic_uiom.c b/drivers/infiniband/=
+hw/usnic/usnic_uiom.c
+index 62e6ffa9ad78..6b90ca1c3771 100644
+--- a/drivers/infiniband/hw/usnic/usnic_uiom.c
++++ b/drivers/infiniband/hw/usnic/usnic_uiom.c
+@@ -141,11 +141,10 @@ static int usnic_uiom_get_pages(unsigned long addr, s=
+ize_t size, int writable,
+ 	ret =3D 0;
 =20
- 	if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
+ 	while (npages) {
+-		ret =3D get_user_pages(cur_base,
+-				     min_t(unsigned long, npages,
+-				     PAGE_SIZE / sizeof(struct page *)),
+-				     gup_flags | FOLL_LONGTERM,
+-				     page_list, NULL);
++		ret =3D pin_longterm_pages(cur_base,
++					 min_t(unsigned long, npages,
++					     PAGE_SIZE / sizeof(struct page *)),
++					 gup_flags, page_list, NULL);
 =20
--	SetPageReferenced(head);
-+	__huge_pt_done(head, refs, nr);
- 	return 1;
- }
+ 		if (ret < 0)
+ 			goto out;
+diff --git a/drivers/infiniband/sw/siw/siw_mem.c b/drivers/infiniband/sw/si=
+w/siw_mem.c
+index e99983f07663..20e663d7ada8 100644
+--- a/drivers/infiniband/sw/siw/siw_mem.c
++++ b/drivers/infiniband/sw/siw/siw_mem.c
+@@ -426,9 +426,8 @@ struct siw_umem *siw_umem_get(u64 start, u64 len, bool =
+writable)
+ 		while (nents) {
+ 			struct page **plist =3D &umem->page_chunk[i].plist[got];
 =20
-@@ -2114,29 +2119,19 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, un=
-signed long addr,
- 					     pages, nr);
- 	}
-=20
--	refs =3D 0;
- 	page =3D pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D __record_subpages(page, addr, end, pages, *nr);
-=20
- 	head =3D try_get_compound_head(pud_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
--	SetPageReferenced(head);
-+	__huge_pt_done(head, refs, nr);
- 	return 1;
- }
-=20
-@@ -2151,29 +2146,20 @@ static int gup_huge_pgd(pgd_t orig, pgd_t *pgdp, un=
-signed long addr,
- 		return 0;
-=20
- 	BUILD_BUG_ON(pgd_devmap(orig));
--	refs =3D 0;
-+
- 	page =3D pgd_page(orig) + ((addr & ~PGDIR_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D __record_subpages(page, addr, end, pages, *nr);
-=20
- 	head =3D try_get_compound_head(pgd_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pgd_val(orig) !=3D pgd_val(*pgdp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
--	SetPageReferenced(head);
-+	__huge_pt_done(head, refs, nr);
- 	return 1;
- }
+-			rv =3D get_user_pages(first_page_va, nents,
+-					    foll_flags | FOLL_LONGTERM,
+-					    plist, NULL);
++			rv =3D pin_longterm_pages(first_page_va, nents,
++						foll_flags, plist, NULL);
+ 			if (rv < 0)
+ 				goto out_sem_up;
 =20
 --=20
 2.23.0
