@@ -2,93 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 360137D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 17:13:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0CE37D918
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 19:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727891AbfKCRN1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 12:13:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54540 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727444AbfKCRN1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Nov 2019 12:13:27 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1F35120848;
-        Sun,  3 Nov 2019 17:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572801206;
-        bh=1f8uqX2M3g4e8ajbRWXxGgjt5VZyz4HsWLqzRg8UxC8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=diUW5bwnXwDv0EaVWoRkouwwU+DHIHaJ0WEJF3KaeoA40jZb5mtcybcBEzJOCdBup
-         08VLIoBPIrKhOhvvLA+YH3NtAJJikRqR1xypdfnNjIQ5S2gs2Um8qD4wEo74nMWmpf
-         BXOMfC6kDROQaNqnaig5Y0TO4HDqClQhM3OfVjzk=
-Date:   Sun, 3 Nov 2019 18:13:24 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
+        id S1728135AbfKCTxp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Nov 2019 14:53:45 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9104 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727343AbfKCTxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Nov 2019 14:53:44 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dbf30480000>; Sun, 03 Nov 2019 11:53:45 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sun, 03 Nov 2019 11:53:38 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sun, 03 Nov 2019 11:53:38 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 3 Nov
+ 2019 19:53:37 +0000
+Subject: Re: [PATCH 19/19] Documentation/vm: add pin_user_pages.rst
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
         "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] debugfs: Add and use debugfs_create_xul()
-Message-ID: <20191103171324.GA700462@kroah.com>
-References: <20191025094130.26033-1-geert+renesas@glider.be>
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-20-jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <58d3ef87-85ef-a69d-5cf7-1719ff356048@nvidia.com>
+Date:   Sun, 3 Nov 2019 11:53:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191025094130.26033-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191030224930.3990755-20-jhubbard@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572810825; bh=rTG1L9aHJoAtL42CYzuRVvyOXz7jlR1h5ExQz/00LXg=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=hz45cfuI6ZB24IXq0tlVG+4gOOw0rO1aR3a1v+mNE3URSP536c/QI/nw4iVi4Q3Fg
+         ZvhfjRg3c8U4Zeed5IN0S8La0/yhKPqXLcaka8zujsYCnTFzskkYWmX6ZMKm85uc53
+         903Xo+ojBBu648JazllTkreHad3wmqcM3sQfIPNK3XPWIubatS+4uPpiaSake+maws
+         O3mb+7lTk0b/qWmINewSdXIPlnBwUrlkcxoUQTGi1jJWPWnSrL74fzVKeEWjMvAjbH
+         5wXYgJG8qyFZYCSM/zx8jBY5FMvGDHZIQbt9J9oHql6kjp+O+lMMcuF1F8/mAcyFV4
+         Yo4Vz3wx3lQSQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 11:41:23AM +0200, Geert Uytterhoeven wrote:
->         Hi all,
-> 
-> The existing debugfs_create_ulong() function supports objects of
-> type "unsigned long", which are 32-bit or 64-bit depending on the
-> platform, in decimal form.  To format objects in hexadecimal, various
-> debugfs_create_x*() functions exist, but all of them take fixed-size
-> types. 
->   
-> To work around this, some drivers call one of debugfs_create_x{32,64}(),
-> depending on the size of unsigned long.
-> Other drivers just cast the value pointer to "u32 *" or "u64 *",
-> introducing portability bugs or data leaks in the process.
->  
-> Hence this patch series adds a debugfs helper for "unsigned long"
-> objects in hexadecimal format, and converts drivers to make use of it.
-> It also contains two cleanups removing superfluous casts, which I added
-> to this series to avoid conflicts.
->  
-> Changes compared to v1[1]:
->   - Add kerneldoc,
->   - Update Documentation/filesystems/debugfs.txt,
->   - Add Acked-by.
-> 
-> Dependencies:
->   - The first patch now depends on "Documentation: debugfs: Document
->     debugfs helper for unsigned long values"[2], which Jon said he
->     applied to his tree.
+On 10/30/19 3:49 PM, John Hubbard wrote:
+...
+> +* struct page may not be increased in size for this, and all fields are already
+> +  used.
+> +
+> +* Given the above, we can overload the page->_refcount field by using, sort of,
+> +  the upper bits in that field for a dma-pinned count. "Sort of", means that,
+> +  rather than dividing page->_refcount into bit fields, we simple add a medium-
+> +  large value (GUP_PIN_COUNTING_BIAS, initially chosen to be 1024: 10 bits) to
+> +  page->_refcount. This provides fuzzy behavior: if a page has get_page() called
+> +  on it 1024 times, then it will appear to have a single dma-pinned count.
+> +  And again, that's acceptable.
+> +
+> +This also leads to limitations: there are only 32-10==22 bits available for a
+> +counter that increments 10 bits at a time.
+> +
 
-I did not take patches 2 or 3 as I need acks from those subsystem
-maintainers to do so.
+The above claim is just a "bit" too optimistic, by one bit: page->_refcount, being 
+an atomic_t which uses a signed int (and we use the sign bit to check for overflow),
+only has 31 total bits available for actual counting, not 32.
 
-But I did take all the others.
+I'll adjust the documentation in v2, to account for this.
 
 thanks,
 
-greg k-h
+John Hubbard
+NVIDIA
+
