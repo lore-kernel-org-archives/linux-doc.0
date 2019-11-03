@@ -1,46 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 222F97D917
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 22:01:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FE687D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 23:57:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728207AbfKCWBi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 17:01:38 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:55749 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728181AbfKCWBi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Nov 2019 17:01:38 -0500
-Received: from [IPv6:2607:fb90:4e3e:9032:19ff:fb60:ee73:4ffc] ([IPv6:2607:fb90:4e3e:9032:19ff:fb60:ee73:4ffc])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id xA3M0uSX030800
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sun, 3 Nov 2019 14:00:59 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com xA3M0uSX030800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2019091901; t=1572818461;
-        bh=1dtJBXwpbDabMD1Gg7C4v+rSy3ncm7MJY6zt3M5CfrE=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=JkRxBmtdjAY24HyqhOIivEXE2Iy7jCjPRKJhBixtEdeiGldzTx8WAbMzoXypJdw/D
-         dxFx4qMlsm+nEEakdT3iB24SJ+vhcSD8hbP9AqFCKbwplfAnfQIZy2myP/4UWg6n5h
-         cVaVztLhyG6k1Ekks/ImJskOn7V/2V1XugNuNcOsx0ZbtRRpm5hW/o2hhZoOeDFGT3
-         Q963QlMVqsUxSmYP9EwUSWJ4l7viUKAFXMZUg2JGPJGiwTcEvCcJbq3m22f3GOzbLx
-         G5DumzMxQu5pp06n5MuHIFuhLqdaVOPMsTupd6/RPFvwbloTtEYK2kVtJIg+2Y5G0e
-         RwEeORqHSgigA==
-Date:   Sun, 03 Nov 2019 14:00:47 -0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com>
-References: <20190620062246.2665-1-e5ten.arch@gmail.com> <20191029210250.17007-1-e5ten.arch@gmail.com> <CBCA4048-A9C1-42E6-A821-1EE36AE8CDC7@zytor.com> <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com>
+        id S1728402AbfKCX5S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Nov 2019 18:57:18 -0500
+Received: from mail-il1-f181.google.com ([209.85.166.181]:44071 "EHLO
+        mail-il1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728261AbfKCX5S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Nov 2019 18:57:18 -0500
+Received: by mail-il1-f181.google.com with SMTP id w1so4406197ilq.11;
+        Sun, 03 Nov 2019 15:57:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DcgIA0yPIvsIGKQnb70qIrRbOwcnGxkyD0NueTd0dnM=;
+        b=mQpQbIVEcDI8CRk9oBXSsEWOIPA/u3lVHQtEmp62/AhDqcgq5susW8Vxp3qi+W27N/
+         Jwgk5pLmPI9eQ4ZzQi+KXT/MBd6rk1bPKIMVw9A3WHlu9ebn7Z47dkEqNkL+JaqaKiJV
+         2CRFfgYKvNWRPUBMgH++C8RNvTw9fZSy5ib0qf7oQNke18BttFMBnf1dA59IsanXEbyb
+         e1nSY+RKs5Q9/WGf7akhzwwX/IpaGr3Eecs8KZnAkRSX3zhFKMdCd8MqULW/lAzP6cCM
+         X8l1tpCp9fjC+qySDE62qrv/JRYo2DGYedkYvBDkTlqMoal8gNesB0QEsEjGkPseU2bO
+         rkWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DcgIA0yPIvsIGKQnb70qIrRbOwcnGxkyD0NueTd0dnM=;
+        b=mXP6znkabUtgSDpOsPrNDT+ktEqSSCQD/dS8jtjIS9jkGi/UKqx8BHdfJgLmyJ1Zb3
+         c2A4GEI7k5/CToy3I875cq5QTvnqGNKjkaRHEGWEgxjSSzR1I8NniIiSJjcPEPxU/5H3
+         UHExHeRBitwKzFwQU/Se4DOrvwbkq0hLroOPd0iC18G4XS+nusaab5kJwpwk3Mc/2NCJ
+         0L1tQ9VLb2TJv85vk07Ad4FRoYlRoJqZOnZRwJfC0nAcYD06We63XraZN45bqOxTncfv
+         LPX8hZzGMsOCTysKRJekJ2ITLIgWX3VGg2KEQjfRYINascki6D8ooYimzmkQ5qnOuNwK
+         waAA==
+X-Gm-Message-State: APjAAAWaB5KadEM73C5eOZSglHNFDP2+ahWuykRSTiLoPolIafhmuNH3
+        ysDWZALjoGWu2BSbqGGgh/Fq55R633kwc0fZDDM=
+X-Google-Smtp-Source: APXvYqzsWmLb0DjMjZwq0MkhUknk7p77iFlglOlOoE6vmOhYuH2jllnY836U34CV+1ovT1Gc4DFK7Erea6o9XsK7iUI=
+X-Received: by 2002:a92:395a:: with SMTP id g87mr26581440ila.206.1572825437554;
+ Sun, 03 Nov 2019 15:57:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20190620062246.2665-1-e5ten.arch@gmail.com> <20191029210250.17007-1-e5ten.arch@gmail.com>
+ <CBCA4048-A9C1-42E6-A821-1EE36AE8CDC7@zytor.com> <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com>
+ <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com>
+In-Reply-To: <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com>
+From:   Ethan Sommer <e5ten.arch@gmail.com>
+Date:   Sun, 3 Nov 2019 18:57:06 -0500
+Message-ID: <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
 Subject: Re: [PATCH v3] replace timeconst bc script with an sh script
-To:     Ethan Sommer <e5ten.arch@gmail.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
+To:     "H . Peter Anvin" <hpa@zytor.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         "Chang S. Bae" <chang.seok.bae@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -55,40 +69,18 @@ CC:     Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-From:   hpa@zytor.com
-Message-ID: <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On November 3, 2019 1:56:50 PM PST, Ethan Sommer <e5ten=2Earch@gmail=2Ecom>=
- wrote:
->> Please let me point out, again, that bc *is* part of the basic POSIX
->toolset, and the only tool in that toolset that allows for
->arbitrary-precision arithmetic=2E That being said, GNU as, which we also
->depends on, also contains bigint arithmetic, so it might be possible to
->coax as into outputting ASCII output without manually implementing
->bigints manually=2E
->>
->> Another option would be to use a C program linked with gmp=2E Binutils
->requires gmp, so it doesn't inherently add dependencies, but running it
->though as would probably be easier at least for the LLVM guys=2E
->>
->> I also have written a small, portable C bigint library, but that is a
->lot of code to add to the tree=2E
->I don't know what the requirement is for the level of precision this
->would need to support is, so I don't know if this meets them, but I
->made
->a C program that doesn't use gmp, so while it probably doesn't
->theoretically have the same level of precision as bc, it does match it
->for output on anything up to 15000 (it doesn't stop matching
->timeconst=2Ebc above 15000 I just didn't test any higher)=2E The program =
-is
->here: http://ix=2Eio/20Ka
->If this is considered precise enough to be an acceptable replacement
->I will make a new patch to use it in place of timeconst=2Ebc=2E
-
-The point isn't to make it work *now*, but getting it to *stay* work=2E
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+> The point isn't to make it work *now*, but getting it to *stay* work.
+Since the only thing that can change to affect the outcome of the script
+or program is the value of CONFIG_HZ, isn't knowing that it works within
+a range of any reasonable values to set CONFIG_HZ to enough to know that
+it will stay working? I just tested again using the bc script and my C
+program, and this time I tested every possible value up to 100000, and
+they both still matched output. It doesn't seem like there's something
+that would cause the C program to stop working in the future due to
+precision issues.
