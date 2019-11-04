@@ -4,146 +4,671 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AF8E7D982
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 22:16:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 813FB7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 22:23:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389564AbfKDWDr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 17:03:47 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:7167 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388839AbfKDWDq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 17:03:46 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc0a0470001>; Mon, 04 Nov 2019 14:03:51 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 04 Nov 2019 14:03:44 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 14:03:44 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
- 2019 22:03:44 +0000
-Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
- pin_longterm_pages*()
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-8-jhubbard@nvidia.com>
- <20191104203346.GF30938@ziepe.ca>
- <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
- <20191104205738.GH30938@ziepe.ca>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
-Date:   Mon, 4 Nov 2019 14:03:43 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388365AbfKDWXK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 17:23:10 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39611 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388007AbfKDVyo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 16:54:44 -0500
+Received: by mail-pf1-f194.google.com with SMTP id x28so10214381pfo.6
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 13:54:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=R6QO/evjzRzcNH/SYNnzf9+TwOBOa5EZ6vh2uEZbBdw=;
+        b=h+eAk6Cd7oMN4YyV4al5vH7EFg8Z4VTzkFkBWCjB1uya8iiNNmRpX88rmhj3z93xFf
+         wg1UFDPvOfd6e1P9+5Gyy4E38Z759mytFu2SZQyuSlIKUxvhPSCO4Xq+Vm48CT2psR8R
+         Livccg+XgwKIuCNUrEhA+jEmsL5TVJ0pZb/8Uhxp1KBGVeyQyYo7CJYYbUH39i7Ex37d
+         3wwO34au9bC22hHahHvbcObbzAPF3L/HBJ6J4iE2u7aHFpFKwJ+hqjT69gnPh7+pJiJu
+         cSf28S5nrMjR2oKOE+eG2CoRKI2p3g/Q82QeViQ0bq+IYElJhuLuiYPSBtf1hVdpUc1F
+         FYzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=R6QO/evjzRzcNH/SYNnzf9+TwOBOa5EZ6vh2uEZbBdw=;
+        b=A+hpWK59ielzdXRM0Ik5hYqxaGFsJyB7ZJB6Jo8iQBEfCu3oNHS9e2qlAcMNd3sMpf
+         O3/RWyYXmGGBXTIAPOfUfDWqVUGMlQ27a0wLQ0FWH92JYktrxVfNLT01C5UgUIPVYo9c
+         IZBG5wRxeK6ObxODr3e9TT+I4X0oBqkvw+2IrzGzq9ubZYqhGaCvKQnrzqbI8b4VT9+P
+         ShxRYHbuF39kAZTxVqOBw84REdhIYH69KumX8K0gbzMxWJXbDbxS4MWdopBjih5oSfFb
+         kNiYjm0cjt3a9XLrYvSg/kbfcYW6Qm6u6bUsGan3tONU3O9+b4AJlZqlVHQRlmYVwWbR
+         ibtg==
+X-Gm-Message-State: APjAAAUu4XIrQO9JDkgpPELqXc1+5oLZI1ghkkc8mEtozaSxoR8RaEx1
+        rqn9l6fuznLJUaZI4E4giSMr3Q==
+X-Google-Smtp-Source: APXvYqzAZ/1etr1p7qh2JIUjByN1JHiyjEktTWdLij9kGjh39spjIgPun/xC66HpFMTouywq75nTUw==
+X-Received: by 2002:a62:ce85:: with SMTP id y127mr237337pfg.197.1572904483267;
+        Mon, 04 Nov 2019 13:54:43 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.gmail.com with ESMTPSA id e198sm19231350pfh.83.2019.11.04.13.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 13:54:42 -0800 (PST)
+From:   Mark Salyzyn <salyzyn@android.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v15 4/4] overlayfs: override_creds=off option bypass creator_cred
+Date:   Mon,  4 Nov 2019 13:52:49 -0800
+Message-Id: <20191104215253.141818-5-salyzyn@android.com>
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+In-Reply-To: <20191104215253.141818-1-salyzyn@android.com>
+References: <20191104215253.141818-1-salyzyn@android.com>
 MIME-Version: 1.0
-In-Reply-To: <20191104205738.GH30938@ziepe.ca>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572905031; bh=IKdbp+ZVTpqbHTn5cPPMdPyF8t8FSY9+XIKb+nTmNZA=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Exr6wtS04dnOA7OKyG8C6jmfOJgvmOKQ4ryKtK8dYLUGAUhW1ANa3Y76nirEfKZWL
-         BfmKpwQhdZf164GA7TThLAA8XYE7rEB43E5uVykOUw8vjqq+Z5vuPr4RoWB+EBwJmI
-         82WUaxumGAw7uDlxCOHsZWA/nWll4Fj5SlWn1ViJ0PmXPDYlJ4UyJMEdDl6CCPpwkA
-         3kXnuXZEeEzWyHIHP7bnpZdIk11g5n/Fmufuu3stG/XnD2YhIKLkCmPY0tP07oCg3I
-         PY8WkQI5XHEQ8FF1wEe8DPqFUCcb0SNQiASk6Fs41GXmDSlssuX1FKG+oppzdi+q5D
-         gW3LGN7zuApVg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/4/19 12:57 PM, Jason Gunthorpe wrote:
-> On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
->> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
->> ...
->>>> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
->>>> index 24244a2f68cc..c5a78d3e674b 100644
->>>> +++ b/drivers/infiniband/core/umem.c
->>>> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
->>>>  
->>>>  	while (npages) {
->>>>  		down_read(&mm->mmap_sem);
->>>> -		ret = get_user_pages(cur_base,
->>>> +		ret = pin_longterm_pages(cur_base,
->>>>  				     min_t(unsigned long, npages,
->>>>  					   PAGE_SIZE / sizeof (struct page *)),
->>>> -				     gup_flags | FOLL_LONGTERM,
->>>> -				     page_list, NULL);
->>>> +				     gup_flags, page_list, NULL);
->>>
->>> FWIW, this one should be converted to fast as well, I think we finally
->>> got rid of all the blockers for that?
->>>
->>
->> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
->> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
-> 
-> I mean the use of the mmap_sem here is finally in a way where we can
-> just delete the mmap_sem and use _fast
->  
-> ie, AFAIK there is no need for the mmap_sem to be held during
-> ib_umem_add_sg_table()
-> 
-> This should probably be a standalone patch however
-> 
+By default, all access to the upper, lower and work directories is the
+recorded mounter's MAC and DAC credentials.  The incoming accesses are
+checked against the caller's credentials.
 
-Yes. Oh, actually I guess the patch flow should be: change to 
-get_user_pages_fast() and remove the mmap_sem calls, as one patch. And then change 
-to pin_longterm_pages_fast() as the next patch. Otherwise, the internal fallback
-from _fast to slow gup would attempt to take the mmap_sem (again) in the same
-thread, which is not good. :)
+If the principles of least privilege are applied, the mounter's
+credentials might not overlap the credentials of the caller's when
+accessing the overlayfs filesystem.  For example, a file that a lower
+DAC privileged caller can execute, is MAC denied to the generally
+higher DAC privileged mounter, to prevent an attack vector.
 
-Or just defer the change until after this series. Either way is fine, let me
-know if you prefer one over the other.
+We add the option to turn off override_creds in the mount options; all
+subsequent operations after mount on the filesystem will be only the
+caller's credentials.  The module boolean parameter and mount option
+override_creds is also added as a presence check for this "feature",
+existence of /sys/module/overlay/parameters/override_creds.
 
-The patch itself is trivial, but runtime testing to gain confidence that
-it's solid is much harder. Is there a stress test you would recommend for that?
-(I'm not promising I can quickly run it yet--my local IB setup is still nascent 
-at best.)
+It was not always this way.  Circa 4.6 there was no recorded mounter's
+credentials, instead privileged access to upper or work directories
+were temporarily increased to perform the operations.  The MAC
+(selinux) policies were caller's in all cases.  override_creds=off
+partially returns us to this older access model minus the insecure
+temporary credential increases.  This is to permit use in a system
+with non-overlapping security models for each executable including
+the agent that mounts the overlayfs filesystem.  In Android
+this is the case since init, which performs the mount operations,
+has a minimal MAC set of privileges to reduce any attack surface,
+and services that use the content have a different set of MAC
+privileges (eg: read, for vendor labelled configuration, execute for
+vendor libraries and modules).  The caveats are not a problem in
+the Android usage model, however they should be fixed for
+completeness and for general use in time.
 
+Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Stephen Smalley <sds@tycho.nsa.gov>
+Cc: linux-unionfs@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kernel-team@android.com
 
-thanks,
+v15
+- Rebase
+
+v14:
+- fix an issue in ovl_create_or_link which leaks credentials.
+
+v12 + v13
+- Rebase
+
+v11:
+- add sb argument to ovl_revert_creds to match future work
+
+v10:
+- Rebase (and expand because of increased revert_cred usage)
+
+v9:
+- Add to the caveats
+
+v8:
+- drop pr_warn message after straw poll to remove it.
+- added a use case in the commit message
+
+v7:
+- change name of internal parameter to ovl_override_creds_def
+- report override_creds only if different than default
+
+v6:
+- Drop CONFIG_OVERLAY_FS_OVERRIDE_CREDS.
+- Do better with the documentation.
+- pr_warn message adjusted to report consequences.
+
+v5:
+- beefed up the caveats in the Documentation
+- Is dependent on
+  "overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh"
+  "overlayfs: check CAP_MKNOD before issuing vfs_whiteout"
+- Added prwarn when override_creds=off
+
+v4:
+- spelling and grammar errors in text
+
+v3:
+- Change name from caller_credentials / creator_credentials to the
+  boolean override_creds.
+- Changed from creator to mounter credentials.
+- Updated and fortified the documentation.
+- Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
+
+v2:
+- Forward port changed attr to stat, resulting in a build error.
+- altered commit message.
+---
+ Documentation/filesystems/overlayfs.txt | 23 +++++++++++++++++++++++
+ fs/overlayfs/copy_up.c                  |  2 +-
+ fs/overlayfs/dir.c                      | 17 ++++++++++-------
+ fs/overlayfs/file.c                     | 20 ++++++++++----------
+ fs/overlayfs/inode.c                    | 18 +++++++++---------
+ fs/overlayfs/namei.c                    |  6 +++---
+ fs/overlayfs/overlayfs.h                |  1 +
+ fs/overlayfs/ovl_entry.h                |  1 +
+ fs/overlayfs/readdir.c                  |  4 ++--
+ fs/overlayfs/super.c                    | 22 +++++++++++++++++++++-
+ fs/overlayfs/util.c                     | 12 ++++++++++--
+ 11 files changed, 91 insertions(+), 35 deletions(-)
+
+diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+index 845d689e0fd7..c7ab389571e5 100644
+--- a/Documentation/filesystems/overlayfs.txt
++++ b/Documentation/filesystems/overlayfs.txt
+@@ -102,6 +102,29 @@ Only the lists of names from directories are merged.  Other content
+ such as metadata and extended attributes are reported for the upper
+ directory only.  These attributes of the lower directory are hidden.
+ 
++credentials
++-----------
++
++By default, all access to the upper, lower and work directories is the
++recorded mounter's MAC and DAC credentials.  The incoming accesses are
++checked against the caller's credentials.
++
++In the case where caller MAC or DAC credentials do not overlap, a
++use case available in older versions of the driver, the
++override_creds mount flag can be turned off and help when the use
++pattern has caller with legitimate credentials where the mounter
++does not.  Several unintended side effects will occur though.  The
++caller without certain key capabilities or lower privilege will not
++always be able to delete files or directories, create nodes, or
++search some restricted directories.  The ability to search and read
++a directory entry is spotty as a result of the cache mechanism not
++retesting the credentials because of the assumption, a privileged
++caller can fill cache, then a lower privilege can read the directory
++cache.  The uneven security model where cache, upperdir and workdir
++are opened at privilege, but accessed without creating a form of
++privilege escalation, should only be used with strict understanding
++of the side effects and of the security policies.
++
+ whiteouts and opaque directories
+ --------------------------------
+ 
+diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+index b801c6353100..1c1b9415e533 100644
+--- a/fs/overlayfs/copy_up.c
++++ b/fs/overlayfs/copy_up.c
+@@ -886,7 +886,7 @@ int ovl_copy_up_flags(struct dentry *dentry, int flags)
+ 		dput(parent);
+ 		dput(next);
+ 	}
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ 	return err;
+ }
+diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+index 702aa63f6774..f4e6e6b6629a 100644
+--- a/fs/overlayfs/dir.c
++++ b/fs/overlayfs/dir.c
+@@ -536,7 +536,7 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+ 			      struct ovl_cattr *attr, bool origin)
+ {
+ 	int err;
+-	const struct cred *old_cred;
++	const struct cred *old_cred, *hold_cred = NULL;
+ 	struct cred *override_cred;
+ 	struct dentry *parent = dentry->d_parent;
+ 
+@@ -563,14 +563,15 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+ 		override_cred->fsgid = inode->i_gid;
+ 		if (!attr->hardlink) {
+ 			err = security_dentry_create_files_as(dentry,
+-					attr->mode, &dentry->d_name, old_cred,
++					attr->mode, &dentry->d_name,
++					old_cred ? old_cred : current_cred(),
+ 					override_cred);
+ 			if (err) {
+ 				put_cred(override_cred);
+ 				goto out_revert_creds;
+ 			}
+ 		}
+-		put_cred(override_creds(override_cred));
++		hold_cred = override_creds(override_cred);
+ 		put_cred(override_cred);
+ 
+ 		if (!ovl_dentry_is_whiteout(dentry))
+@@ -579,7 +580,9 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+ 			err = ovl_create_over_whiteout(dentry, inode, attr);
+ 	}
+ out_revert_creds:
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred ?: hold_cred);
++	if (old_cred && hold_cred)
++		put_cred(hold_cred);
+ 	return err;
+ }
+ 
+@@ -655,7 +658,7 @@ static int ovl_set_link_redirect(struct dentry *dentry)
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	err = ovl_set_redirect(dentry, false);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ 	return err;
+ }
+@@ -851,7 +854,7 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
+ 		err = ovl_remove_upper(dentry, is_dir, &list);
+ 	else
+ 		err = ovl_remove_and_whiteout(dentry, &list);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	if (!err) {
+ 		if (is_dir)
+ 			clear_nlink(dentry->d_inode);
+@@ -1221,7 +1224,7 @@ static int ovl_rename(struct inode *olddir, struct dentry *old,
+ out_unlock:
+ 	unlock_rename(new_upperdir, old_upperdir);
+ out_revert_creds:
+-	revert_creds(old_cred);
++	ovl_revert_creds(old->d_sb, old_cred);
+ 	if (update_nlink)
+ 		ovl_nlink_end(new);
+ out_drop_write:
+diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+index e235a635d9ec..d94d6ec785a7 100644
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -32,7 +32,7 @@ static struct file *ovl_open_realfile(const struct file *file,
+ 	old_cred = ovl_override_creds(inode->i_sb);
+ 	realfile = open_with_fake_path(&file->f_path, flags, realinode,
+ 				       current_cred());
+-	revert_creds(old_cred);
++	ovl_revert_creds(inode->i_sb, old_cred);
+ 
+ 	pr_debug("open(%p[%pD2/%c], 0%o) -> (%p, 0%o)\n",
+ 		 file, file, ovl_whatisit(inode, realinode), file->f_flags,
+@@ -176,7 +176,7 @@ static loff_t ovl_llseek(struct file *file, loff_t offset, int whence)
+ 
+ 	old_cred = ovl_override_creds(inode->i_sb);
+ 	ret = vfs_llseek(real.file, offset, whence);
+-	revert_creds(old_cred);
++	ovl_revert_creds(inode->i_sb, old_cred);
+ 
+ 	file->f_pos = real.file->f_pos;
+ 	inode_unlock(inode);
+@@ -242,7 +242,7 @@ static ssize_t ovl_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 	ret = vfs_iter_read(real.file, iter, &iocb->ki_pos,
+ 			    ovl_iocb_to_rwf(iocb));
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	ovl_file_accessed(file);
+ 
+@@ -278,7 +278,7 @@ static ssize_t ovl_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	ret = vfs_iter_write(real.file, iter, &iocb->ki_pos,
+ 			     ovl_iocb_to_rwf(iocb));
+ 	file_end_write(real.file);
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	/* Update size */
+ 	ovl_copyattr(ovl_inode_real(inode), inode);
+@@ -305,7 +305,7 @@ static int ovl_fsync(struct file *file, loff_t start, loff_t end, int datasync)
+ 	if (file_inode(real.file) == ovl_inode_upper(file_inode(file))) {
+ 		old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 		ret = vfs_fsync_range(real.file, start, end, datasync);
+-		revert_creds(old_cred);
++		ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 	}
+ 
+ 	fdput(real);
+@@ -329,7 +329,7 @@ static int ovl_mmap(struct file *file, struct vm_area_struct *vma)
+ 
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 	ret = call_mmap(vma->vm_file, vma);
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	if (ret) {
+ 		/* Drop reference count from new vm_file value */
+@@ -357,7 +357,7 @@ static long ovl_fallocate(struct file *file, int mode, loff_t offset, loff_t len
+ 
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 	ret = vfs_fallocate(real.file, mode, offset, len);
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	/* Update size */
+ 	ovl_copyattr(ovl_inode_real(inode), inode);
+@@ -379,7 +379,7 @@ static int ovl_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+ 
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 	ret = vfs_fadvise(real.file, offset, len, advice);
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	fdput(real);
+ 
+@@ -399,7 +399,7 @@ static long ovl_real_ioctl(struct file *file, unsigned int cmd,
+ 
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+ 	ret = vfs_ioctl(real.file, cmd, arg);
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file)->i_sb, old_cred);
+ 
+ 	fdput(real);
+ 
+@@ -589,7 +589,7 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
+ 						flags);
+ 		break;
+ 	}
+-	revert_creds(old_cred);
++	ovl_revert_creds(file_inode(file_out)->i_sb, old_cred);
+ 
+ 	/* Update size */
+ 	ovl_copyattr(ovl_inode_real(inode_out), inode_out);
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index c057e51057f7..3f2474fe8574 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -61,7 +61,7 @@ int ovl_setattr(struct dentry *dentry, struct iattr *attr)
+ 		inode_lock(upperdentry->d_inode);
+ 		old_cred = ovl_override_creds(dentry->d_sb);
+ 		err = notify_change(upperdentry, attr, NULL);
+-		revert_creds(old_cred);
++		ovl_revert_creds(dentry->d_sb, old_cred);
+ 		if (!err)
+ 			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
+ 		inode_unlock(upperdentry->d_inode);
+@@ -257,7 +257,7 @@ int ovl_getattr(const struct path *path, struct kstat *stat,
+ 		stat->nlink = dentry->d_inode->i_nlink;
+ 
+ out:
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ 	return err;
+ }
+@@ -291,7 +291,7 @@ int ovl_permission(struct inode *inode, int mask)
+ 		mask |= MAY_READ;
+ 	}
+ 	err = inode_permission(realinode, mask);
+-	revert_creds(old_cred);
++	ovl_revert_creds(inode->i_sb, old_cred);
+ 
+ 	return err;
+ }
+@@ -308,7 +308,7 @@ static const char *ovl_get_link(struct dentry *dentry,
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	p = vfs_get_link(ovl_dentry_real(dentry), done);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	return p;
+ }
+ 
+@@ -351,7 +351,7 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+ 		WARN_ON(flags != XATTR_REPLACE);
+ 		err = vfs_removexattr(realdentry, name);
+ 	}
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ 	/* copy c/mtime */
+ 	ovl_copyattr(d_inode(realdentry), inode);
+@@ -373,7 +373,7 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	res = __vfs_getxattr(realdentry, d_inode(realdentry), name,
+ 			     value, size, flags);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	return res;
+ }
+ 
+@@ -398,7 +398,7 @@ ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	res = vfs_listxattr(realdentry, list, size);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	if (res <= 0 || size == 0)
+ 		return res;
+ 
+@@ -433,7 +433,7 @@ struct posix_acl *ovl_get_acl(struct inode *inode, int type)
+ 
+ 	old_cred = ovl_override_creds(inode->i_sb);
+ 	acl = get_acl(realinode, type);
+-	revert_creds(old_cred);
++	ovl_revert_creds(inode->i_sb, old_cred);
+ 
+ 	return acl;
+ }
+@@ -471,7 +471,7 @@ static int ovl_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
+ 		filemap_write_and_wait(realinode->i_mapping);
+ 
+ 	err = realinode->i_op->fiemap(realinode, fieinfo, start, len);
+-	revert_creds(old_cred);
++	ovl_revert_creds(inode->i_sb, old_cred);
+ 
+ 	return err;
+ }
+diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+index f5aba0a0767b..e9f989a2d57b 100644
+--- a/fs/overlayfs/namei.c
++++ b/fs/overlayfs/namei.c
+@@ -1076,7 +1076,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+ 			goto out_free_oe;
+ 	}
+ 
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	if (origin_path) {
+ 		dput(origin_path->dentry);
+ 		kfree(origin_path);
+@@ -1103,7 +1103,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+ 	kfree(upperredirect);
+ out:
+ 	kfree(d.redirect);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	return ERR_PTR(err);
+ }
+ 
+@@ -1157,7 +1157,7 @@ bool ovl_lower_positive(struct dentry *dentry)
+ 			dput(this);
+ 		}
+ 	}
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ 	return positive;
+ }
+diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+index 55b872c28bf9..ab9802242857 100644
+--- a/fs/overlayfs/overlayfs.h
++++ b/fs/overlayfs/overlayfs.h
+@@ -213,6 +213,7 @@ int ovl_want_write(struct dentry *dentry);
+ void ovl_drop_write(struct dentry *dentry);
+ struct dentry *ovl_workdir(struct dentry *dentry);
+ const struct cred *ovl_override_creds(struct super_block *sb);
++void ovl_revert_creds(struct super_block *sb, const struct cred *oldcred);
+ struct super_block *ovl_same_sb(struct super_block *sb);
+ int ovl_can_decode_fh(struct super_block *sb);
+ struct dentry *ovl_indexdir(struct super_block *sb);
+diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
+index a8279280e88d..e847d7564999 100644
+--- a/fs/overlayfs/ovl_entry.h
++++ b/fs/overlayfs/ovl_entry.h
+@@ -17,6 +17,7 @@ struct ovl_config {
+ 	bool nfs_export;
+ 	int xino;
+ 	bool metacopy;
++	bool override_creds;
+ };
+ 
+ struct ovl_sb {
+diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+index 47a91c9733a5..874a1b3ff99a 100644
+--- a/fs/overlayfs/readdir.c
++++ b/fs/overlayfs/readdir.c
+@@ -286,7 +286,7 @@ static int ovl_check_whiteouts(struct dentry *dir, struct ovl_readdir_data *rdd)
+ 		}
+ 		inode_unlock(dir->d_inode);
+ 	}
+-	revert_creds(old_cred);
++	ovl_revert_creds(rdd->dentry->d_sb, old_cred);
+ 
+ 	return err;
+ }
+@@ -918,7 +918,7 @@ int ovl_check_empty_dir(struct dentry *dentry, struct list_head *list)
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	err = ovl_dir_read_merged(dentry, list, &root);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index c91e7b604631..1e70914f2bb4 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -53,6 +53,11 @@ module_param_named(xino_auto, ovl_xino_auto_def, bool, 0644);
+ MODULE_PARM_DESC(xino_auto,
+ 		 "Auto enable xino feature");
+ 
++static bool __read_mostly ovl_override_creds_def = true;
++module_param_named(override_creds, ovl_override_creds_def, bool, 0644);
++MODULE_PARM_DESC(ovl_override_creds_def,
++		 "Use mounter's credentials for accesses");
++
+ static void ovl_entry_stack_free(struct ovl_entry *oe)
+ {
+ 	unsigned int i;
+@@ -363,6 +368,9 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
+ 	if (ofs->config.metacopy != ovl_metacopy_def)
+ 		seq_printf(m, ",metacopy=%s",
+ 			   ofs->config.metacopy ? "on" : "off");
++	if (ofs->config.override_creds != ovl_override_creds_def)
++		seq_show_option(m, "override_creds",
++				ofs->config.override_creds ? "on" : "off");
+ 	return 0;
+ }
+ 
+@@ -403,6 +411,8 @@ enum {
+ 	OPT_XINO_AUTO,
+ 	OPT_METACOPY_ON,
+ 	OPT_METACOPY_OFF,
++	OPT_OVERRIDE_CREDS_ON,
++	OPT_OVERRIDE_CREDS_OFF,
+ 	OPT_ERR,
+ };
+ 
+@@ -421,6 +431,8 @@ static const match_table_t ovl_tokens = {
+ 	{OPT_XINO_AUTO,			"xino=auto"},
+ 	{OPT_METACOPY_ON,		"metacopy=on"},
+ 	{OPT_METACOPY_OFF,		"metacopy=off"},
++	{OPT_OVERRIDE_CREDS_ON,		"override_creds=on"},
++	{OPT_OVERRIDE_CREDS_OFF,	"override_creds=off"},
+ 	{OPT_ERR,			NULL}
+ };
+ 
+@@ -479,6 +491,7 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+ 	config->redirect_mode = kstrdup(ovl_redirect_mode_def(), GFP_KERNEL);
+ 	if (!config->redirect_mode)
+ 		return -ENOMEM;
++	config->override_creds = ovl_override_creds_def;
+ 
+ 	while ((p = ovl_next_opt(&opt)) != NULL) {
+ 		int token;
+@@ -559,6 +572,14 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+ 			config->metacopy = false;
+ 			break;
+ 
++		case OPT_OVERRIDE_CREDS_ON:
++			config->override_creds = true;
++			break;
++
++		case OPT_OVERRIDE_CREDS_OFF:
++			config->override_creds = false;
++			break;
++
+ 		default:
+ 			pr_err("overlayfs: unrecognized mount option \"%s\" or missing value\n", p);
+ 			return -EINVAL;
+@@ -1695,7 +1716,6 @@ static int ovl_fill_super(struct super_block *sb, void *data, int silent)
+ 		       ovl_dentry_lower(root_dentry), NULL);
+ 
+ 	sb->s_root = root_dentry;
+-
+ 	return 0;
+ 
+ out_free_oe:
+diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+index 2050c5084a82..e1fd97fe37cc 100644
+--- a/fs/overlayfs/util.c
++++ b/fs/overlayfs/util.c
+@@ -37,9 +37,17 @@ const struct cred *ovl_override_creds(struct super_block *sb)
+ {
+ 	struct ovl_fs *ofs = sb->s_fs_info;
+ 
++	if (!ofs->config.override_creds)
++		return NULL;
+ 	return override_creds(ofs->creator_cred);
+ }
+ 
++void ovl_revert_creds(struct super_block *sb, const struct cred *old_cred)
++{
++	if (old_cred)
++		revert_creds(old_cred);
++}
++
+ struct super_block *ovl_same_sb(struct super_block *sb)
+ {
+ 	struct ovl_fs *ofs = sb->s_fs_info;
+@@ -791,7 +799,7 @@ int ovl_nlink_start(struct dentry *dentry)
+ 	 * value relative to the upper inode nlink in an upper inode xattr.
+ 	 */
+ 	err = ovl_set_nlink_upper(dentry);
+-	revert_creds(old_cred);
++	ovl_revert_creds(dentry->d_sb, old_cred);
+ 
+ out:
+ 	if (err)
+@@ -809,7 +817,7 @@ void ovl_nlink_end(struct dentry *dentry)
+ 
+ 		old_cred = ovl_override_creds(dentry->d_sb);
+ 		ovl_cleanup_index(dentry);
+-		revert_creds(old_cred);
++		ovl_revert_creds(dentry->d_sb, old_cred);
+ 	}
+ 
+ 	ovl_inode_unlock(inode);
 -- 
-John Hubbard
-NVIDIA
+2.24.0.rc1.363.gb1bccd3e3d-goog
 
