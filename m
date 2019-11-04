@@ -1,220 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 251A17D982
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 16:40:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98DB97D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 16:47:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728999AbfKDQjh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 11:39:37 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37504 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729041AbfKDQjh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 11:39:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572885575;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZKRtyHtWqxotoMRVCD2L231GIf5CzzOu6K7yMpGCV1E=;
-        b=EISj5KjZrUl3kZNHgeVxg9gzAbcLy4Tpe15p04ZJX+1X/PP0zhFi/jqdDWYjMDEhoU+i0C
-        JuU/cWz6scDZOZMQlwE2N2QuxICFFYXRzNVTjImH796mEQWD/wjXHkzq8BvJ4gOxbXcJlq
-        N9g+v2tQVhedXU+Lsqq3rbwA789furQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-XcpsC-lSP4a7ehsn9d2sxg-1; Mon, 04 Nov 2019 11:39:31 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728336AbfKDQrV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 11:47:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37954 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728322AbfKDQrV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Nov 2019 11:47:21 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [109.144.216.141])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D6C88017DD;
-        Mon,  4 Nov 2019 16:39:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.178])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id F0A6F5C240;
-        Mon,  4 Nov 2019 16:39:20 +0000 (UTC)
-Date:   Mon, 4 Nov 2019 11:39:19 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v2 01/18] mm/gup: pass flags arg to __gup_device_*
- functions
-Message-ID: <20191104163919.GA5134@redhat.com>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-2-jhubbard@nvidia.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 205412084D;
+        Mon,  4 Nov 2019 16:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572886039;
+        bh=P8jnNo+i4H38L/cwZHxznFW/uN8TNkWtycod/9FL4LI=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=RBlzKtfO650PQaV+Dl6ECp9IKh1IPdCfolPKAv19KzdV3bb/uJaz8PWgrWIohjr/q
+         4EV12HcH2BYB5knlovAayLHV9pEqRjAUwcHH4V0pT5x6pA0oMiTc7KhcIbw434otHQ
+         +PFkDAIZPT8tn23yeK+yqSfJw4vRucQvKIurCBNg=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 3F5003520B56; Mon,  4 Nov 2019 08:47:17 -0800 (PST)
+Date:   Mon, 4 Nov 2019 08:47:17 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191104164717.GE20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191104142745.14722-1-elver@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20191103211813.213227-2-jhubbard@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: XcpsC-lSP4a7ehsn9d2sxg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20191104142745.14722-1-elver@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 03, 2019 at 01:17:56PM -0800, John Hubbard wrote:
-> A subsequent patch requires access to gup flags, so
-> pass the flags argument through to the __gup_device_*
-> functions.
->=20
-> Also placate checkpatch.pl by shortening a nearby line.
->=20
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
+> This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> KCSAN is a sampling watchpoint-based data-race detector. More details
+> are included in Documentation/dev-tools/kcsan.rst. This patch-series
+> only enables KCSAN for x86, but we expect adding support for other
+> architectures is relatively straightforward (we are aware of
+> experimental ARM64 and POWER support).
+> 
+> To gather early feedback, we announced KCSAN back in September, and
+> have integrated the feedback where possible:
+> http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> 
+> We want to point out and acknowledge the work surrounding the LKMM,
+> including several articles that motivate why data-races are dangerous
+> [1, 2], justifying a data-race detector such as KCSAN.
+> [1] https://lwn.net/Articles/793253/
+> [2] https://lwn.net/Articles/799218/
+> 
+> The current list of known upstream fixes for data-races found by KCSAN
+> can be found here:
+> https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
 
-Reviewed-by: J=E9r=F4me Glisse <jglisse@redhat.com>
+Making this more accessible to more people seems like a good thing.
+So, for the series:
 
-> ---
->  mm/gup.c | 28 ++++++++++++++++++----------
->  1 file changed, 18 insertions(+), 10 deletions(-)
->=20
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 8f236a335ae9..85caf76b3012 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -1890,7 +1890,8 @@ static int gup_pte_range(pmd_t pmd, unsigned long a=
-ddr, unsigned long end,
-> =20
->  #if defined(CONFIG_ARCH_HAS_PTE_DEVMAP) && defined(CONFIG_TRANSPARENT_HU=
-GEPAGE)
->  static int __gup_device_huge(unsigned long pfn, unsigned long addr,
-> -=09=09unsigned long end, struct page **pages, int *nr)
-> +=09=09=09     unsigned long end, unsigned int flags,
-> +=09=09=09     struct page **pages, int *nr)
->  {
->  =09int nr_start =3D *nr;
->  =09struct dev_pagemap *pgmap =3D NULL;
-> @@ -1916,13 +1917,14 @@ static int __gup_device_huge(unsigned long pfn, u=
-nsigned long addr,
->  }
-> =20
->  static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long =
-addr,
-> -=09=09unsigned long end, struct page **pages, int *nr)
-> +=09=09=09=09 unsigned long end, unsigned int flags,
-> +=09=09=09=09 struct page **pages, int *nr)
->  {
->  =09unsigned long fault_pfn;
->  =09int nr_start =3D *nr;
-> =20
->  =09fault_pfn =3D pmd_pfn(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> -=09if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
-> +=09if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
->  =09=09return 0;
-> =20
->  =09if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
-> @@ -1933,13 +1935,14 @@ static int __gup_device_huge_pmd(pmd_t orig, pmd_=
-t *pmdp, unsigned long addr,
->  }
-> =20
->  static int __gup_device_huge_pud(pud_t orig, pud_t *pudp, unsigned long =
-addr,
-> -=09=09unsigned long end, struct page **pages, int *nr)
-> +=09=09=09=09 unsigned long end, unsigned int flags,
-> +=09=09=09=09 struct page **pages, int *nr)
->  {
->  =09unsigned long fault_pfn;
->  =09int nr_start =3D *nr;
-> =20
->  =09fault_pfn =3D pud_pfn(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-> -=09if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
-> +=09if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
->  =09=09return 0;
-> =20
->  =09if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
-> @@ -1950,14 +1953,16 @@ static int __gup_device_huge_pud(pud_t orig, pud_=
-t *pudp, unsigned long addr,
->  }
->  #else
->  static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long =
-addr,
-> -=09=09unsigned long end, struct page **pages, int *nr)
-> +=09=09=09=09 unsigned long end, unsigned int flags,
-> +=09=09=09=09 struct page **pages, int *nr)
->  {
->  =09BUILD_BUG();
->  =09return 0;
->  }
-> =20
->  static int __gup_device_huge_pud(pud_t pud, pud_t *pudp, unsigned long a=
-ddr,
-> -=09=09unsigned long end, struct page **pages, int *nr)
-> +=09=09=09=09 unsigned long end, unsigned int flags,
-> +=09=09=09=09 struct page **pages, int *nr)
->  {
->  =09BUILD_BUG();
->  =09return 0;
-> @@ -2062,7 +2067,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, un=
-signed long addr,
->  =09if (pmd_devmap(orig)) {
->  =09=09if (unlikely(flags & FOLL_LONGTERM))
->  =09=09=09return 0;
-> -=09=09return __gup_device_huge_pmd(orig, pmdp, addr, end, pages, nr);
-> +=09=09return __gup_device_huge_pmd(orig, pmdp, addr, end, flags,
-> +=09=09=09=09=09     pages, nr);
->  =09}
-> =20
->  =09refs =3D 0;
-> @@ -2092,7 +2098,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, un=
-signed long addr,
->  }
-> =20
->  static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
-> -=09=09unsigned long end, unsigned int flags, struct page **pages, int *n=
-r)
-> +=09=09=09unsigned long end, unsigned int flags,
-> +=09=09=09struct page **pages, int *nr)
->  {
->  =09struct page *head, *page;
->  =09int refs;
-> @@ -2103,7 +2110,8 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, un=
-signed long addr,
->  =09if (pud_devmap(orig)) {
->  =09=09if (unlikely(flags & FOLL_LONGTERM))
->  =09=09=09return 0;
-> -=09=09return __gup_device_huge_pud(orig, pudp, addr, end, pages, nr);
-> +=09=09return __gup_device_huge_pud(orig, pudp, addr, end, flags,
-> +=09=09=09=09=09     pages, nr);
->  =09}
-> =20
->  =09refs =3D 0;
-> --=20
-> 2.23.0
->=20
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
 
+> Changelog
+> ---------
+> v3:
+> * Major changes:
+>  - Add microbenchmark.
+>  - Add instruction watchpoint skip randomization.
+>  - Refactor API and core runtime fast-path and slow-path. Compared to
+>    the previous version, with a default config and benchmarked using the
+>    added microbenchmark, this version is 3.8x faster.
+>  - Make __tsan_unaligned __alias of generic accesses.
+>  - Rename kcsan_{begin,end}_atomic ->
+>    kcsan_{nestable,flat}_atomic_{begin,end}
+>  - For filter list in debugfs.c use kmalloc+krealloc instead of
+>    kvmalloc.
+>  - Split Documentation into separate patch.
+> 
+> v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+> * Major changes:
+>  - Replace kcsan_check_access(.., {true, false}) with
+>    kcsan_check_{read,write}.
+>  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+>  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+>    contexts.
+> 
+> v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+> 
+> Marco Elver (9):
+>   kcsan: Add Kernel Concurrency Sanitizer infrastructure
+>   kcsan: Add Documentation entry in dev-tools
+>   objtool, kcsan: Add KCSAN runtime functions to whitelist
+>   build, kcsan: Add KCSAN build exceptions
+>   seqlock, kcsan: Add annotations for KCSAN
+>   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+>   asm-generic, kcsan: Add KCSAN instrumentation for bitops
+>   locking/atomics, kcsan: Add KCSAN instrumentation
+>   x86, kcsan: Enable KCSAN for x86
+> 
+>  Documentation/dev-tools/index.rst         |   1 +
+>  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
+>  MAINTAINERS                               |  11 +
+>  Makefile                                  |   3 +-
+>  arch/x86/Kconfig                          |   1 +
+>  arch/x86/boot/Makefile                    |   2 +
+>  arch/x86/boot/compressed/Makefile         |   2 +
+>  arch/x86/entry/vdso/Makefile              |   3 +
+>  arch/x86/include/asm/bitops.h             |   6 +-
+>  arch/x86/kernel/Makefile                  |   7 +
+>  arch/x86/kernel/cpu/Makefile              |   3 +
+>  arch/x86/lib/Makefile                     |   4 +
+>  arch/x86/mm/Makefile                      |   3 +
+>  arch/x86/purgatory/Makefile               |   2 +
+>  arch/x86/realmode/Makefile                |   3 +
+>  arch/x86/realmode/rm/Makefile             |   3 +
+>  drivers/firmware/efi/libstub/Makefile     |   2 +
+>  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
+>  include/asm-generic/bitops-instrumented.h |  18 +
+>  include/linux/compiler-clang.h            |   9 +
+>  include/linux/compiler-gcc.h              |   7 +
+>  include/linux/compiler.h                  |  35 +-
+>  include/linux/kcsan-checks.h              |  97 ++++
+>  include/linux/kcsan.h                     | 115 +++++
+>  include/linux/sched.h                     |   4 +
+>  include/linux/seqlock.h                   |  51 +-
+>  init/init_task.c                          |   8 +
+>  init/main.c                               |   2 +
+>  kernel/Makefile                           |   6 +
+>  kernel/kcsan/Makefile                     |  11 +
+>  kernel/kcsan/atomic.h                     |  27 ++
+>  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
+>  kernel/kcsan/debugfs.c                    | 275 +++++++++++
+>  kernel/kcsan/encoding.h                   |  94 ++++
+>  kernel/kcsan/kcsan.h                      | 131 +++++
+>  kernel/kcsan/report.c                     | 306 ++++++++++++
+>  kernel/kcsan/test.c                       | 121 +++++
+>  kernel/sched/Makefile                     |   6 +
+>  lib/Kconfig.debug                         |   2 +
+>  lib/Kconfig.kcsan                         | 119 +++++
+>  lib/Makefile                              |   3 +
+>  mm/Makefile                               |   8 +
+>  scripts/Makefile.kcsan                    |   6 +
+>  scripts/Makefile.lib                      |  10 +
+>  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+>  tools/objtool/check.c                     |  18 +
+>  46 files changed, 2526 insertions(+), 206 deletions(-)
+>  create mode 100644 Documentation/dev-tools/kcsan.rst
+>  create mode 100644 include/linux/kcsan-checks.h
+>  create mode 100644 include/linux/kcsan.h
+>  create mode 100644 kernel/kcsan/Makefile
+>  create mode 100644 kernel/kcsan/atomic.h
+>  create mode 100644 kernel/kcsan/core.c
+>  create mode 100644 kernel/kcsan/debugfs.c
+>  create mode 100644 kernel/kcsan/encoding.h
+>  create mode 100644 kernel/kcsan/kcsan.h
+>  create mode 100644 kernel/kcsan/report.c
+>  create mode 100644 kernel/kcsan/test.c
+>  create mode 100644 lib/Kconfig.kcsan
+>  create mode 100644 scripts/Makefile.kcsan
+> 
+> -- 
+> 2.24.0.rc1.363.gb1bccd3e3d-goog
+> 
