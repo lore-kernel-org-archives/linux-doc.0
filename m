@@ -1,128 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A03EA7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 05:06:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A9287D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 06:59:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbfKDFGw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 00:06:52 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55334 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfKDFGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 00:06:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=rRkFDuQK8d6xPWihSFGG295MdmIkCag9gl2BPSyBv3c=; b=iE5ZaAsaHNLCK/vaMI1i2bM8i
-        8CwHB2U1j6REGRkir63nMjjptG11SjNDnvNNnQIFxDsB1M8g5EOrjEg9g0D016qmJoi11h+pOmemd
-        8W6AriuplogyNvseleXK6gr287NoLOdjDA/e8p5J7lMmMBnGeJ1OtfjuqaGGdLTReLR4UCNfGrV+D
-        gbEUi4AfmlBiOzJPRZihAkHm/pJO0//rVEPxVR0kcQiuhQ/skU24I46M8WropX66Z8+1c/Y94k7mT
-        +6bHJPPrdssjc/WTOXbVL3vICSzMaS4Jqv7yU8tWOsgqmNMU7IlIRcXG9n8F+pKCaoAFQ8jLRPVXL
-        jcvLlhPow==;
-Received: from [2601:1c0:6280:3f0::4ba1]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iRUZo-0007Ls-4C; Mon, 04 Nov 2019 05:06:52 +0000
-Subject: Re: 'make help' br0ken for @echo ' valid values for SPHINXDIRS are:
- $(_SPHINXDIRS)'
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@infradead.org>
-References: <416a61e8-e40a-6266-3f6a-bdbadf9a10c3@infradead.org>
- <20191007094143.3a4d8a09@lwn.net>
- <084a5009-bb2a-b043-6c16-5b08e5a87d5c@infradead.org>
-Message-ID: <ba29b750-e799-fd64-f5f3-a62bbbc7a2b6@infradead.org>
-Date:   Sun, 3 Nov 2019 21:06:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727551AbfKDG7B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 01:59:01 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:33700 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727138AbfKDG7A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 01:59:00 -0500
+Received: by mail-lj1-f194.google.com with SMTP id t5so16334291ljk.0
+        for <linux-doc@vger.kernel.org>; Sun, 03 Nov 2019 22:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ef40HtgLagkWmNMc93ySVU+8+raGbvhremm/3vIkPJs=;
+        b=vvdCJc1RINMcL5JoJz312DaAniIDfMzCcnwAI/nzlhioj8GGGYgW5khIKfb5WKPoih
+         qMp+vCbDbemdWq8i0Mf58v3uh/mu8EhKBMgRhulZLShXtK+MNVeAUm7PQ2aQiAtYd/+j
+         Jg6nmlI9XTaqFYG/d/qIJDVf1ikfm6/i0iK1k912esWDVF1151DSFoBkdr1dAOlWvfmC
+         jsn+40LPewRJA3SIUnwPlyony4u564JLgwa29HfMy3fBdaUY2d1amOC0D3N4Y4FXSyEs
+         uXfrP9qkdne00KhZwEYKvXolsJ2gV5a0/Mi5PvdRJEwJ90Nr/tnHijeE3ql/YqVMQM1K
+         AvmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ef40HtgLagkWmNMc93ySVU+8+raGbvhremm/3vIkPJs=;
+        b=lEYomK5zuh7pNmRcRsW05mzxmo2IoK42iLSSXax9JJtJ0MmK/nQEAZVlXs4JFEiPle
+         ZLdwMF2D4I/zCaNwio/l3PI1ZqNLmjWRmtbV1mmL90dn//peW1QEKA6JA9E44nVzEaug
+         c60h/gDaXj5WJz9y6dwV9TL4g9Tg45GUs86Tl/T12ke5L7kKQK1s8uJ03lf+Lw9SCEeJ
+         Npbl658Eh4lZ3vRdQlIl9XBITfma9gGeDcf3vCNp9Gf3w5Myd67jrl3HQJ4o/yGo69Eg
+         l/hrLpFA+yeU15nbEk94x3QVoSdOnnEfv8W6LBn2/ObWN7X2r1KQBrbhzd/Q4EkMvbj9
+         oOxA==
+X-Gm-Message-State: APjAAAWq2Y9Chr8NugMVYWL9QFcUZoh06XXWKr4wThc9eod3cXoF2+WX
+        EiFgpbQItNHFnrC8Ax9M6VSH8dEKaHveoYd+oFd+fg==
+X-Google-Smtp-Source: APXvYqwDEcaV1wOC5X14ad1vPw2VW4B5zXbZYrai12akzfGxkCIeR+UrJYYWYChUz2q1aw4cIzuU9bUsn4PO7ZkCq3g=
+X-Received: by 2002:a2e:9a12:: with SMTP id o18mr9966567lji.191.1572850738786;
+ Sun, 03 Nov 2019 22:58:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <084a5009-bb2a-b043-6c16-5b08e5a87d5c@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1572530323-14802-1-git-send-email-sumit.garg@linaro.org>
+ <1572530323-14802-7-git-send-email-sumit.garg@linaro.org> <20191031214745.GG10507@linux.intel.com>
+ <CAFA6WYMkE928v-v76gGtWmsS0PwRp-OHUtkS0+Ts4V6x0AKBqQ@mail.gmail.com> <20191101201957.GA8369@linux.intel.com>
+In-Reply-To: <20191101201957.GA8369@linux.intel.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Mon, 4 Nov 2019 12:28:47 +0530
+Message-ID: <CAFA6WYNwSSaZv5OM=q+LCyn0mEdpg7K+W_v2_NBHhtktg1BFXw@mail.gmail.com>
+Subject: Re: [Patch v3 6/7] doc: keys: Document usage of TEE based Trusted Keys
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     Jens Wiklander <jens.wiklander@linaro.org>, dhowells@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>, jejb@linux.ibm.com,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Stuart Yoder <stuart.yoder@arm.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/7/19 9:54 AM, Randy Dunlap wrote:
-> On 10/7/19 8:41 AM, Jonathan Corbet wrote:
->> On Wed, 2 Oct 2019 16:16:07 -0700
->> Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->>> It seems that _SPHINXDIRS is empty.  I'm getting (short extract):
->>>
->>>   make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
->>>   valid values for SPHINXDIRS are: 
->>>
->>>   make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build
->>>   configuration. This is e.g. useful to build with nit-picking config.
->>>
->>>   Default location for the generated documents is Documentation/output
->>
->> Hmm...it looks like that broke with 9fc3a18a942f, which got rid of the
->> various conf.py files.  Something like the following seems to do the right
->> thing?  (It also shows that we have way too many top-level directories, but
->> that's a separate issue...)
-> 
-> true dat.
-> 
->> Thanks,
->>
->> jon
->>
->> From d402c2de65bb9353e6222a05095f32929ae62373 Mon Sep 17 00:00:00 2001
->> From: Jonathan Corbet <corbet@lwn.net>
->> Date: Mon, 7 Oct 2019 09:38:58 -0600
->> Subject: [PATCH] docs: Fix "make help" suggestion for SPHINXDIR
->>
->> Commit 9fc3a18a942f ("docs: remove extra conf.py files") broke the setting
->> of _SPHINXDIRS in Documentation/Makefile.  Let's just have it look for an
->> index.rst file instead.
->>
->> Fixes: 9fc3a18a942f ("docs: remove extra conf.py files")
->> Reported-by: Randy Dunlap <rdunlap@infradead.org>
->> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks.
+On Sat, 2 Nov 2019 at 01:50, Jarkko Sakkinen
+<jarkko.sakkinen@linux.intel.com> wrote:
+>
+> On Fri, Nov 01, 2019 at 03:04:18PM +0530, Sumit Garg wrote:
+>
+> > Isn't this statement contradicting with your earlier statement
+> > regarding the right order would be to complete TEE patches review
+> > first and then come up with documentation here [2]?
+> >
+> > [1] https://lore.kernel.org/linux-integrity/1568025601.4614.253.camel@linux.ibm.com/
+> > [2] https://lore.kernel.org/linux-integrity/20190909163643.qxmzpcggi567hmhv@linux.intel.com/
+>
+> With the intersecting issues, namely key generation and conflicting
+> keyctl parameters, that was not a well considered statement.
 
-I request that this patch be merged into mainline
-sooner rather than later.
-Thanks.
+Okay, let me work on documentation first, but I think resending whole
+patch-set just for documentation review and rework would be an
+overkill. Would minor revisions of this patch only like v3.1, v3.2
+etc. work for you? And later I could send next version of this
+patch-set once we agree on documentation.
 
->> ---
->>  Documentation/Makefile | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/Makefile b/Documentation/Makefile
->> index c6e564656a5b..ce8eb63b523a 100644
->> --- a/Documentation/Makefile
->> +++ b/Documentation/Makefile
->> @@ -13,7 +13,7 @@ endif
->>  SPHINXBUILD   = sphinx-build
->>  SPHINXOPTS    =
->>  SPHINXDIRS    = .
->> -_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/conf.py,%,$(wildcard $(srctree)/Documentation/*/conf.py))
->> +_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst))
->>  SPHINX_CONF   = conf.py
->>  PAPER         =
->>  BUILDDIR      = $(obj)/output
->>
-> 
-> 
+-Sumit
 
-
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> /Jarkko
