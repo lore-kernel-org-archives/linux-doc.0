@@ -2,145 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E0A17D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 16:52:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0125B7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 17:16:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbfKDQwm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 11:52:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30693 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728882AbfKDQwh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 11:52:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572886356;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6ta56jBRT26o2oAigonInJcC04rruT/2d6fabGOKHyw=;
-        b=WSLa2wKrL8g5aDyoDf02O4k+crqcoTXsQ2EKqq2n6FzaTjqceXHOvCayOCIR1bb5K9cevY
-        4X65fFvcBOCVsRohJoclItex595rU3tYdNhZDQ5rVUFYp7EKSwdA9oE4gxRYhiG3A8fEqR
-        fFQB7XsZgwY/SgZNM9uNmH3+34EtSUE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-9yNyzIkfPeqtWSV5Ovvavg-1; Mon, 04 Nov 2019 11:52:32 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FC0C800C73;
-        Mon,  4 Nov 2019 16:52:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.178])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A10B5C1B2;
-        Mon,  4 Nov 2019 16:52:23 +0000 (UTC)
-Date:   Mon, 4 Nov 2019 11:52:21 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 03/18] goldish_pipe: rename local pin_user_pages()
- routine
-Message-ID: <20191104165221.GC5134@redhat.com>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-4-jhubbard@nvidia.com>
+        id S1728174AbfKDRQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 12:16:50 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45660 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727989AbfKDRQu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 12:16:50 -0500
+Received: by mail-pg1-f193.google.com with SMTP id w11so1385289pga.12;
+        Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
+        b=gZj6ExCI5v/5AyMvZe38iuFqKzLeMDl5eVyobOA5lUAV0qRvKfW4baDJrFUMmE1+h9
+         cj206N2VooFIbxjCjjLTMvbxUXXrm/n8hsap+yda1vmYCP0fZkr+3ma+mHaAFAw1O2Mq
+         qG03YbQrFF5TE3Lzojb6XI4ms68MhTypu31TLSmimjwqcHAlVzFKgtAsQjQUM9VqbB15
+         casxPEqaEDByDQUiPL4kEA7Bn5PiDaRy+bEGE2s4l6ELEwhL2JdUqseJ/A9si6M+6+SG
+         tsccSmy67rp+v5P27wp7k8Pj2Xqfs5HxeHRG5eswrti/SnPAuzA10XndOGXPe0fswZU7
+         YFIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
+        b=RH0uo4LuVf+mWJzm1RBkLU4n4ryX4uxoMsdAz3gyXv8qF68gms1elQjdeabNmmzt6F
+         7XGP2QJr4HkrWXLGZ425qs+OZo+B9hHVMpOdCW7ewexwHs/QxHpD6nTYydUOxwD7Vq09
+         frqAv0q/225NRIlHilN4tPizP4WbMPnVh8DyX8tdGcCAXGpVg8n/F5jF1R42nhhEBMEP
+         KA8DkVCm6ijOQUnC7LmnVLBs2rrhx+0VzysfklZJg57n7rCaj9CQcd4jTF4rUDgan1mY
+         Ibqf+y7krl80zCdD+vlF0b1PDmrxlZq0E1fR3I1IWDk99RjcrxChdsFup5sYxtVKxLX4
+         i4lw==
+X-Gm-Message-State: APjAAAVfeFA3rzR0XpRqpKUgzBnyn/Ez+wZ35z+jVTVffM4LzkgeTYkp
+        eu0djl5pBZ+D5skXv6h7YfQ=
+X-Google-Smtp-Source: APXvYqzOgFP05782A8U4VGLpiUo4fzWQGDXm3X/B8ePj5jvEms9PIC1wv1eYI5rlOgxotppWXJxZRQ==
+X-Received: by 2002:a62:53:: with SMTP id 80mr33528484pfa.192.1572887809296;
+        Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+Received: from workstation-kernel-dev ([139.5.253.170])
+        by smtp.gmail.com with ESMTPSA id v16sm10738482pje.1.2019.11.04.09.16.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 09:16:48 -0800 (PST)
+Date:   Mon, 4 Nov 2019 22:46:41 +0530
+From:   Amol Grover <frextrite@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for
+ section 2
+Message-ID: <20191104171641.GA15217@workstation-kernel-dev>
+References: <20191104133315.GA14499@workstation-kernel-dev>
+ <20191104150328.GZ20975@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-In-Reply-To: <20191103211813.213227-4-jhubbard@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 9yNyzIkfPeqtWSV5Ovvavg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20191104150328.GZ20975@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 03, 2019 at 01:17:58PM -0800, John Hubbard wrote:
-> 1. Avoid naming conflicts: rename local static function from
-> "pin_user_pages()" to "pin_goldfish_pages()".
->=20
-> An upcoming patch will introduce a global pin_user_pages()
-> function.
->=20
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+On Mon, Nov 04, 2019 at 07:03:28AM -0800, Paul E. McKenney wrote:
+> On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
+> > Convert RCU API method text to sub-headings and
+> > add hyperlink and superscript to 2 literary notes
+> > under rcu_dereference() section
+> > 
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> 
+> Good stuff, but Phong Tran beat you to it.  If you are suggesting
+> changes to that patch, please send a reply to her email, which
+> may be found here:
+> 
+> https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
+> 
+> There are several options for replying to this email listed at the
+> bottom of that web page.
+> 
+> 							Thanx, Paul
 
-Reviewed-by: J=E9r=F4me Glisse <jglisse@redhat.com>
+Thank you Paul! And that is correct, I was suggesting changes to
+that patch. However, since that patch was already integrated into
+the `dev` branch, I mistakenly believed this patch could be sent
+independently. Sorry for the trouble, I'll re-send the patch the
+correct way.
 
-> ---
->  drivers/platform/goldfish/goldfish_pipe.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/platform/goldfish/goldfish_pipe.c b/drivers/platform=
-/goldfish/goldfish_pipe.c
-> index cef0133aa47a..7ed2a21a0bac 100644
-> --- a/drivers/platform/goldfish/goldfish_pipe.c
-> +++ b/drivers/platform/goldfish/goldfish_pipe.c
-> @@ -257,12 +257,12 @@ static int goldfish_pipe_error_convert(int status)
->  =09}
->  }
-> =20
-> -static int pin_user_pages(unsigned long first_page,
-> -=09=09=09  unsigned long last_page,
-> -=09=09=09  unsigned int last_page_size,
-> -=09=09=09  int is_write,
-> -=09=09=09  struct page *pages[MAX_BUFFERS_PER_COMMAND],
-> -=09=09=09  unsigned int *iter_last_page_size)
-> +static int pin_goldfish_pages(unsigned long first_page,
-> +=09=09=09      unsigned long last_page,
-> +=09=09=09      unsigned int last_page_size,
-> +=09=09=09      int is_write,
-> +=09=09=09      struct page *pages[MAX_BUFFERS_PER_COMMAND],
-> +=09=09=09      unsigned int *iter_last_page_size)
->  {
->  =09int ret;
->  =09int requested_pages =3D ((last_page - first_page) >> PAGE_SHIFT) + 1;
-> @@ -354,9 +354,9 @@ static int transfer_max_buffers(struct goldfish_pipe =
-*pipe,
->  =09if (mutex_lock_interruptible(&pipe->lock))
->  =09=09return -ERESTARTSYS;
-> =20
-> -=09pages_count =3D pin_user_pages(first_page, last_page,
-> -=09=09=09=09     last_page_size, is_write,
-> -=09=09=09=09     pipe->pages, &iter_last_page_size);
-> +=09pages_count =3D pin_goldfish_pages(first_page, last_page,
-> +=09=09=09=09=09 last_page_size, is_write,
-> +=09=09=09=09=09 pipe->pages, &iter_last_page_size);
->  =09if (pages_count < 0) {
->  =09=09mutex_unlock(&pipe->lock);
->  =09=09return pages_count;
-> --=20
-> 2.23.0
->=20
+Thank you
+Amol
 
+> 
+> > ---
+> >  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
+> >  1 file changed, 28 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> > index ae40c8bcc56c..3cf6e17d0065 100644
+> > --- a/Documentation/RCU/whatisRCU.rst
+> > +++ b/Documentation/RCU/whatisRCU.rst
+> > @@ -150,6 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
+> >  at the function header comments.
+> >  
+> >  rcu_read_lock()
+> > +^^^^^^^^^^^^^^^
+> >  
+> >  	void rcu_read_lock(void);
+> >  
+> > @@ -164,6 +165,7 @@ rcu_read_lock()
+> >  	longer-term references to data structures.
+> >  
+> >  rcu_read_unlock()
+> > +^^^^^^^^^^^^^^^^^
+> >  
+> >  	void rcu_read_unlock(void);
+> >  
+> > @@ -172,6 +174,7 @@ rcu_read_unlock()
+> >  	read-side critical sections may be nested and/or overlapping.
+> >  
+> >  synchronize_rcu()
+> > +^^^^^^^^^^^^^^^^^
+> >  
+> >  	void synchronize_rcu(void);
+> >  
+> > @@ -225,6 +228,7 @@ synchronize_rcu()
+> >  	checklist.txt for some approaches to limiting the update rate.
+> >  
+> >  rcu_assign_pointer()
+> > +^^^^^^^^^^^^^^^^^^^^
+> >  
+> >  	void rcu_assign_pointer(p, typeof(p) v);
+> >  
+> > @@ -245,6 +249,7 @@ rcu_assign_pointer()
+> >  	the _rcu list-manipulation primitives such as list_add_rcu().
+> >  
+> >  rcu_dereference()
+> > +^^^^^^^^^^^^^^^^^
+> >  
+> >  	typeof(p) rcu_dereference(p);
+> >  
+> > @@ -279,8 +284,10 @@ rcu_dereference()
+> >  	if an update happened while in the critical section, and incur
+> >  	unnecessary overhead on Alpha CPUs.
+> >  
+> > +.. _back_to_1:
+> > +
+> >  	Note that the value returned by rcu_dereference() is valid
+> > -	only within the enclosing RCU read-side critical section [1].
+> > +	only within the enclosing RCU read-side critical section |cs_1|.
+> >  	For example, the following is -not- legal::
+> >  
+> >  		rcu_read_lock();
+> > @@ -298,15 +305,27 @@ rcu_dereference()
+> >  	it was acquired is just as illegal as doing so with normal
+> >  	locking.
+> >  
+> > +.. _back_to_2:
+> > +
+> >  	As with rcu_assign_pointer(), an important function of
+> >  	rcu_dereference() is to document which pointers are protected by
+> >  	RCU, in particular, flagging a pointer that is subject to changing
+> >  	at any time, including immediately after the rcu_dereference().
+> >  	And, again like rcu_assign_pointer(), rcu_dereference() is
+> >  	typically used indirectly, via the _rcu list-manipulation
+> > -	primitives, such as list_for_each_entry_rcu() [2].
+> > +	primitives, such as list_for_each_entry_rcu() |entry_2|.
+> > +
+> > +.. |cs_1| raw:: html
+> > +
+> > +	<a href="#cs"><sup>[1]</sup></a>
+> > +
+> > +.. |entry_2| raw:: html
+> >  
+> > -	[1] The variant rcu_dereference_protected() can be used outside
+> > +	<a href="#entry"><sup>[2]</sup></a>
+> > +
+> > +.. _cs:
+> > +
+> > +	\ :sup:`[1]`\  The variant rcu_dereference_protected() can be used outside
+> >  	of an RCU read-side critical section as long as the usage is
+> >  	protected by locks acquired by the update-side code.  This variant
+> >  	avoids the lockdep warning that would happen when using (for
+> > @@ -317,15 +336,18 @@ rcu_dereference()
+> >  	a lockdep expression to indicate which locks must be acquired
+> >  	by the caller. If the indicated protection is not provided,
+> >  	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
+> > -	and the API's code comments for more details and example usage.
+> > +	and the API's code comments for more details and example usage. :ref:`back <back_to_1>`
+> > +
+> > +
+> > +.. _entry:
+> >  
+> > -	[2] If the list_for_each_entry_rcu() instance might be used by
+> > +	\ :sup:`[2]`\  If the list_for_each_entry_rcu() instance might be used by
+> >  	update-side code as well as by RCU readers, then an additional
+> >  	lockdep expression can be added to its list of arguments.
+> >  	For example, given an additional "lock_is_held(&mylock)" argument,
+> >  	the RCU lockdep code would complain only if this instance was
+> >  	invoked outside of an RCU read-side critical section and without
+> > -	the protection of mylock.
+> > +	the protection of mylock. :ref:`back <back_to_2>`
+> >  
+> >  The following diagram shows how each API communicates among the
+> >  reader, updater, and reclaimer.
+> > -- 
+> > 2.20.1
+> > 
