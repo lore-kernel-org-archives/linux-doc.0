@@ -1,201 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C28BA7D917
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 07:46:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E05EF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 09:29:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727236AbfKDHpK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 02:45:10 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5255 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726441AbfKDHpJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Nov 2019 02:45:09 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 20315F736714572F9D41;
-        Mon,  4 Nov 2019 15:45:06 +0800 (CST)
-Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
- (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 4 Nov 2019
- 15:45:04 +0800
-Subject: Re: [PATCH] Revert "ext4 crypto: fix to check feature status before
- get policy"
-To:     Doug Anderson <dianders@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Chao Yu <chao@kernel.org>,
-        Ryo Hashimoto <hashimoto@chromium.org>,
-        Vadim Sukhomlinov <sukhomlinov@google.com>,
-        "Guenter Roeck" <groeck@chromium.org>, <apronin@chromium.org>,
-        <linux-doc@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        <linux-fscrypt@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>
-References: <20191030100618.1.Ibf7a996e4a58e84f11eec910938cfc3f9159c5de@changeid>
- <20191030173758.GC693@sol.localdomain>
- <CAD=FV=Uzma+eSGG1S1Aq6s3QdMNh4J-c=g-5uhB=0XBtkAawcA@mail.gmail.com>
- <20191030190226.GD693@sol.localdomain>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <23f4c3f5-e738-7cd5-a293-14e556d1c6d6@huawei.com>
-Date:   Mon, 4 Nov 2019 15:45:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727419AbfKDJ3f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 04:29:35 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:44713 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727236AbfKDJ3f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 04:29:35 -0500
+Received: by mail-io1-f66.google.com with SMTP id w12so17599306iol.11
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 01:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7LA3aPxO7flmHbs1Fp65T1MxGgeqEVjRl7gRB0nIklg=;
+        b=pIs+r8BGTrZcFZ6o2F9aOev8qXPFSl5BzVzuK8uXfPkmFJ5u78WHAgn7yWhZRgcRF2
+         TQ/fmRIthC7HH1oKRPL+rsIY0xayE+DEbHqMYT/+zihcmnMjln1lQzQBPFD2FkN0gO/R
+         4HhWzrpt1w/0TzsiJgb7btUET/PM7PlsdezH2ASb9obFcGp5X0gZk6uMEwODYssD9ndO
+         EYQFYyql2atk36OPSGopZnAzTs9D12s8ZFpQDSQVqqmYAE3KT9QtIxIc7PjjNvtUIn0I
+         tmEld6xM7W3U54vrFxxBUKCK7vOk3TguwljwVy7KB1EDh9+/aKgSTzCeUR8CWUSEYWZd
+         InJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7LA3aPxO7flmHbs1Fp65T1MxGgeqEVjRl7gRB0nIklg=;
+        b=MFjtx2k2IS266cURz9WR8bo4864qclS92u8jT0aJ2kUbi6T7MCYd45ALDdiU2gMKFa
+         wg+F7ImpFZzWl/MrbwdNr4BCtrPztOWtr7M9hpRGSvwGx9uhd4ot1rOezIneLSJgY8HW
+         EvZQXUc9M0ZnP6RcGlgDyMADOqvguvRGFMRuunkkEQ+n3Sw+wJg2MNzZlHrnuFUpEA9O
+         GUiRxDfwWfoFH3V39OXjt+SRES3RB0421RqGpXI0BQNa/Qtr60VaNAzpw4ALXCI2msqx
+         79U1x3jFRyqUkUp6SopWOvmpKKoG0tw2EyAYDyX0bV9jAfO13WTknWiXlpJTSxvX5AK5
+         bVzg==
+X-Gm-Message-State: APjAAAVDE37gSHafWza1iquyK/APHRRMKCYht0mqzh2T+KfIqNLPuUsJ
+        9ChxQhYdlpKWNd1aBCivnepyY5IiiDbxPe4O/UqbUA==
+X-Google-Smtp-Source: APXvYqyGh8w7aoaD8Ly+KkL+MHjewrNRjU9gjfaUC4B+HarLQYhFCDkzx2C/y4W4+ApkqrVUgvpjDgWLY+BUbVoDQq4=
+X-Received: by 2002:a6b:c705:: with SMTP id x5mr199971iof.189.1572859774524;
+ Mon, 04 Nov 2019 01:29:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191030190226.GD693@sol.localdomain>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.134.22.195]
-X-CFilter-Loop: Reflected
+References: <20191022084318.22256-1-brgl@bgdev.pl>
+In-Reply-To: <20191022084318.22256-1-brgl@bgdev.pl>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 4 Nov 2019 10:29:23 +0100
+Message-ID: <CAMRc=MdqDv7FYCEKoK52G5zacNfLTDErrOGZAG5KDOsKh2pfUw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 0/8] drivers: add new variants of devm_platform_ioremap_resource()
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry to introduce such issue... :(
+wt., 22 pa=C5=BA 2019 o 10:43 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=
+=82(a):
+>
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> Note: resending with Arnd's review tags and rebased on top of char-misc-n=
+ext
+>
+> The new devm_platform_ioremap_resource() helper has now been widely
+> adopted and used in many drivers. Users of the write-combined ioremap()
+> variants could benefit from the same code shrinkage. This series provides
+> a write-combined version of devm_platform_ioremap_resource() and uses it =
+in a
+> relevant driver with the assumption that - just like was the case
+> previously - a coccinelle script will be developed to ease the transition
+> for others.
+>
+> There are also users of platform_get_resource_byname() who call
+> devm_ioremap_resource() next, so provide another variant that they can us=
+e
+> together with two examples.
+>
+> v1 -> v2:
+> - dropped everything related to nocache ioremap as this is going away
+>
+> v2 -> v3:
+> - don't call platform_get_resource() as an argument of devm_ioremap_resou=
+rce(),
+>   it actually decreases readability
+> - add devm_platform_ioremap_resource_byname() as another variant
+>
+> Bartosz Golaszewski (8):
+>   Documentation: devres: add missing entry for
+>     devm_platform_ioremap_resource()
+>   lib: devres: prepare devm_ioremap_resource() for more variants
+>   lib: devres: provide devm_ioremap_resource_wc()
+>   drivers: platform: provide devm_platform_ioremap_resource_wc()
+>   misc: sram: use devm_platform_ioremap_resource_wc()
+>   drivers: provide devm_platform_ioremap_resource_byname()
+>   gpio: mvebu: use devm_platform_ioremap_resource_byname()
+>   gpio: tegra186: use devm_platform_ioremap_resource_byname()
+>
+>  .../driver-api/driver-model/devres.rst        |  4 ++
+>  drivers/base/platform.c                       | 39 +++++++++++-
+>  drivers/gpio/gpio-mvebu.c                     | 19 +++---
+>  drivers/gpio/gpio-tegra186.c                  |  4 +-
+>  drivers/misc/sram.c                           | 28 +++------
+>  include/linux/device.h                        |  2 +
+>  include/linux/platform_device.h               |  6 ++
+>  lib/devres.c                                  | 62 +++++++++++++------
+>  8 files changed, 108 insertions(+), 56 deletions(-)
+>
+> --
+> 2.23.0
+>
 
-On 2019/10/31 3:02, Eric Biggers wrote:
-> On Wed, Oct 30, 2019 at 10:51:20AM -0700, Doug Anderson wrote:
->> Hi,
->>
->> On Wed, Oct 30, 2019 at 10:38 AM Eric Biggers <ebiggers@kernel.org> wrote:
->>>
->>> Hi Douglas,
->>>
->>> On Wed, Oct 30, 2019 at 10:06:25AM -0700, Douglas Anderson wrote:
->>>> This reverts commit 0642ea2409f3 ("ext4 crypto: fix to check feature
->>>> status before get policy").
->>>>
->>>> The commit made a clear and documented ABI change that is not backward
->>>> compatible.  There exists userspace code [1] that relied on the old
->>>> behavior and is now broken.
->>>>
->>>> While we could entertain the idea of updating the userspace code to
->>>> handle the ABI change, it's my understanding that in general ABI
->>>> changes that break userspace are frowned upon (to put it nicely).
->>>>
->>>> NOTE: if we for some reason do decide to entertain the idea of
->>>> allowing the ABI change and updating userspace, I'd appreciate any
->>>> help on how we should make the change.  Specifically the old code
->>>> relied on the different return values to differentiate between
->>>> "KeyState::NO_KEY" and "KeyState::NOT_SUPPORTED".  I'm no expert on
->>>> the ext4 encryption APIs (I just ended up here tracking down the
->>>> regression [2]) so I'd need a bit of handholding from someone.
->>>>
->>>> [1] https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/cryptohome/dircrypto_util.cc#73
->>>> [2] https://crbug.com/1018265
->>>>
->>>> Fixes: 0642ea2409f3 ("ext4 crypto: fix to check feature status before get policy")
->>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>>> ---
->>>>
->>>>  Documentation/filesystems/fscrypt.rst | 3 +--
->>>>  fs/ext4/ioctl.c                       | 2 --
->>>>  2 files changed, 1 insertion(+), 4 deletions(-)
->>>>
->>>> diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
->>>> index 8a0700af9596..4289c29d7c5a 100644
->>>> --- a/Documentation/filesystems/fscrypt.rst
->>>> +++ b/Documentation/filesystems/fscrypt.rst
->>>> @@ -562,8 +562,7 @@ FS_IOC_GET_ENCRYPTION_POLICY_EX can fail with the following errors:
->>>>    or this kernel is too old to support FS_IOC_GET_ENCRYPTION_POLICY_EX
->>>>    (try FS_IOC_GET_ENCRYPTION_POLICY instead)
->>>>  - ``EOPNOTSUPP``: the kernel was not configured with encryption
->>>> -  support for this filesystem, or the filesystem superblock has not
->>>> -  had encryption enabled on it
->>>> +  support for this filesystem
->>>>  - ``EOVERFLOW``: the file is encrypted and uses a recognized
->>>>    encryption policy version, but the policy struct does not fit into
->>>>    the provided buffer
->>>> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
->>>> index 0b7f316fd30f..13d97fb797b4 100644
->>>> --- a/fs/ext4/ioctl.c
->>>> +++ b/fs/ext4/ioctl.c
->>>> @@ -1181,8 +1181,6 @@ long ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->>>>  #endif
->>>>       }
->>>>       case EXT4_IOC_GET_ENCRYPTION_POLICY:
->>>> -             if (!ext4_has_feature_encrypt(sb))
->>>> -                     return -EOPNOTSUPP;
->>>>               return fscrypt_ioctl_get_policy(filp, (void __user *)arg);
->>>>
->>>
->>> Thanks for reporting this.  Can you elaborate on exactly why returning
->>> EOPNOTSUPP breaks things in the Chrome OS code?  Since encryption is indeed not
->>> supported, why isn't "KeyState::NOT_SUPPORTED" correct?
->>
->> I guess all I know is from the cryptohome source code I sent a link
->> to, which I'm not a super expert in.  Did you get a chance to take a
->> look at that?  As far as I can tell the code is doing something like
->> this:
->>
->> 1. If I see EOPNOTSUPP then this must be a kernel without ext4 crypto.
->> Fallback to using the old-style ecryptfs.
->>
->> 2. If I see ENODATA then this is a kernel with ext4 crypto but there's
->> no key yet.  We should set a key and (if necessarily) enable crypto on
->> the filesystem.
->>
->> 3. If I see no error then we're already good.
->>
->>> Note that the state after this revert will be:
->>>
->>> - FS_IOC_GET_ENCRYPTION_POLICY on ext4 => ENODATA
->>> - FS_IOC_GET_ENCRYPTION_POLICY on f2fs => EOPNOTSUPP
->>> - FS_IOC_GET_ENCRYPTION_POLICY_EX on ext4 => EOPNOTSUPP
->>> - FS_IOC_GET_ENCRYPTION_POLICY_EX on f2fs => EOPNOTSUPP
->>>
->>> So if this code change is made, the documentation would need to be updated to
->>> explain that the error code from FS_IOC_GET_ENCRYPTION_POLICY is
->>> filesystem-specific (which we'd really like to avoid...), and that
->>> FS_IOC_GET_ENCRYPTION_POLICY_EX handles this case differently.  Or else the
->>> other three would need to be changed to ENODATA -- which for
->>> FS_IOC_GET_ENCRYPTION_POLICY on f2fs would be an ABI break in its own right,
->>> though it's possible that no one would notice.
->>>
->>> Is your proposal to keep the error filesystem-specific for now?
->>
->> I guess I'd have to leave it up to the people who know this better.
->> Mostly I just saw this as an ABI change breaking userspace which to me
->> means revert.  I have very little background here to make good
->> decisions about the right way to move forward.
->>
-> 
-> Okay, that makes sense -- cryptohome assumes that ENODATA means the kernel
-> supports encryption, even if the encrypt ext4 feature flag isn't set yet.
-> 
-> The way it's really supposed to work (IMO) is that all fscrypt ioctls
-> consistently return EOPNOTSUPP if the feature is off, and then if userspace
-> really needs to know if encryption can nevertheless still be enabled and used on
-> the filesystem, it can check for the presence of
-> /sys/fs/ext4/features/encryption (or /sys/fs/f2fs/features/encryption).  Or the
-> feature flag can just be set by configuration before any of the fscrypt ioctls
-> are attempted (this is what Android does).
+Hi Greg,
 
-How about adding above description into documentation as formal guide to check
-whether ext4/f2fs can supports encryption feature, ubifs could be described
-separatedly...
+can you pick it up for char-misc for v5.5? This was reviewed by Arnd.
 
-> 
-> I guess we're stuck with the existing ext4 FS_IOC_GET_ENCRYPTION_POLICY behavior
-> though, so we need to take this revert for 5.4.
-> 
-> For 5.5 I think we should try to make things slightly more sane by removing the
-> same check from f2fs and fixing the documentation, so that at least each ioctl
-> will behave consistently across filesystems and be correctly documented.
-> 
-> Ted, Jaegeuk, Chao, do you agree?
-
-I saw we're trying to fix Chromium OS code first...
-
-Thanks,
-
-> 
-> - Eric
-> .
-> 
+Best regards,
+Bartosz Golaszewski
