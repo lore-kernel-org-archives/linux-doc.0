@@ -1,83 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B33237D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 03:04:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AAA8A7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 03:34:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbfKDDE1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 22:04:27 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:53415 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728643AbfKDDE0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Nov 2019 22:04:26 -0500
-Received: from [IPv6:2601:646:8600:3281:102f:ba8b:7a69:7a8a] ([IPv6:2601:646:8600:3281:102f:ba8b:7a69:7a8a])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id xA433haZ092262
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sun, 3 Nov 2019 19:03:45 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com xA433haZ092262
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2019091901; t=1572836630;
-        bh=YHmnDJJIhxFAT6Io1jUZZxs7VOrc7D7NbUvhYDnhU24=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=Pu1X0tV2m5PAlzR/appMLa4FxmBFAkI+Mg0Od1AwSIr5NVB4+aYSg7fyKLIt4/Uri
-         f0xZHC3iKXV0iY8Z6aIb7iJmBy4ynHBtCFR5xpFmKVcpj+MKO5miwu/YLUDxiBXqfI
-         TF+KTLwq5faYWD1ktGqsSZimovkkpjXcgK8I9x5S4CgkTjGdZm21OexRzfyjjVrwvS
-         5WSYk2tQaPR027iDhUMUR/qpfDcNc7HDm8R2JiyZnhaem1NCYGyT69ITqEcniMKd3f
-         crkNBnlimcxjKGUaizj+MBCCQqvlQr339xzpYq4HIQfUIiR5cR3/wbRlezlUI0X4LA
-         YCFeDbrSUVg1A==
-Date:   Sun, 03 Nov 2019 19:03:36 -0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
-References: <20190620062246.2665-1-e5ten.arch@gmail.com> <20191029210250.17007-1-e5ten.arch@gmail.com> <CBCA4048-A9C1-42E6-A821-1EE36AE8CDC7@zytor.com> <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com> <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com> <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
+        id S1728693AbfKDDel convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Nov 2019 22:34:41 -0500
+Received: from mx7.zte.com.cn ([202.103.147.169]:59622 "EHLO mxct.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728414AbfKDDel (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 3 Nov 2019 22:34:41 -0500
+Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
+        by Forcepoint Email with ESMTPS id 1C669989B3F1B7C30B8C;
+        Mon,  4 Nov 2019 11:34:38 +0800 (CST)
+Received: from notes_smtp.zte.com.cn (notes_smtp.zte.com.cn [10.30.1.239])
+        by mse-fl1.zte.com.cn with ESMTP id xA43XC9q090748;
+        Mon, 4 Nov 2019 11:33:12 +0800 (GMT-8)
+        (envelope-from zhong.shiqi@zte.com.cn)
+Received: from fox-host8.localdomain ([10.74.120.8])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2019110411331571-271048 ;
+          Mon, 4 Nov 2019 11:33:15 +0800 
+From:   zhongshiqi <zhong.shiqi@zte.com.cn>
+To:     Julia.Lawall@lip6.fr
+Cc:     Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, corbet@lwn.net, cocci@systeme.lip6.fr,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xue.zhihong@zte.com.cn, wang.yi59@zte.com.cn,
+        cheng.shengyu@zte.com.cn, zhongshiqi <zhong.shiqi@zte.com.cn>
+Subject: [PATCH v6] coccicheck: Support search for SmPL scripts within selected directory hierarchy
+Date:   Mon, 4 Nov 2019 11:35:55 +0800
+Message-Id: <1572838555-12101-1-git-send-email-zhong.shiqi@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] replace timeconst bc script with an sh script
-To:     Ethan Sommer <e5ten.arch@gmail.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Kees Cook <keescook@chromium.org>,
-        Corey Minyard <cminyard@mvista.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-From:   hpa@zytor.com
-Message-ID: <EC20169B-26FF-4AC0-AABE-B6FFB0B3AA40@zytor.com>
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2019-11-04 11:33:15,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2019-11-04 11:33:13
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-MAIL: mse-fl1.zte.com.cn xA43XC9q090748
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On November 3, 2019 3:57:06 PM PST, Ethan Sommer <e5ten=2Earch@gmail=2Ecom>=
- wrote:
->> The point isn't to make it work *now*, but getting it to *stay* work=2E
->Since the only thing that can change to affect the outcome of the
->script
->or program is the value of CONFIG_HZ, isn't knowing that it works
->within
->a range of any reasonable values to set CONFIG_HZ to enough to know
->that
->it will stay working? I just tested again using the bc script and my C
->program, and this time I tested every possible value up to 100000, and
->they both still matched output=2E It doesn't seem like there's something
->that would cause the C program to stop working in the future due to
->precision issues=2E
+*Allow defining the environment variable “COCCI” as a directory to
+search SmPL scripts.
 
-No, it's not=2E Because some time we are going to want to change the way t=
-he constants we need, or use them for something else, and be so on=2E
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+*Start a corresponding file determination if it contains an acceptable
+path.
+
+*Update coccinelle.rst documents for use coccicheck with a directory
+selection
+
+Signed-off-by: zhongshiqi <zhong.shiqi@zte.com.cn>
+---
+Changes in v6:
+	update coccinelle.rst documents and add instructions for use this
+
+Changes in v5:
+	rewrite change description as an enumeration
+
+Changes in v4:
+	rewrite change description in another wording
+
+Changes in v3:
+	1:rewrite change description
+	2:fix patch subject
+	3:modify commit log
+
+Changes in v2:
+	1.fix patch subject according to the reply by Markus
+	<Markus.Elfring@web.de>
+	2.change description in “imperative mood”
+
+ Documentation/dev-tools/coccinelle.rst | 51 ++++++++++++++++++++++------------
+ scripts/coccicheck                     |  4 +++
+ 2 files changed, 38 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 00a3409..6af3201 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -100,8 +100,8 @@ Two other modes provide some common combinations of these modes.
+   It should be used with the C option (described later)
+   which checks the code on a file basis.
+ 
+-Examples
+-~~~~~~~~
++Using Coccinelle with defalut value
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ To make a report for every semantic patch, run the following command::
+ 
+@@ -127,6 +127,38 @@ To enable verbose messages set the V= variable, for example::
+ 
+    make coccicheck MODE=report V=1
+ 
++Using Coccinelle with a single file selection
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The optional make variable COCCI can be used to check a single
++semantic patch. In that case, the variable must be initialized with
++the name of the semantic patch to apply.
++
++For instance::
++
++	make coccicheck COCCI=<my_SP.cocci> MODE=patch
++
++or::
++
++	make coccicheck COCCI=<my_SP.cocci> MODE=report
++
++
++Using Coccinelle with directory selection
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The optional make variable COCCI can be used to search SmPL scripts in a
++directory. In that case, the variable must be initialized with the name of
++a directory which contains scripts for the semantic patch language.
++
++For instance::
++
++	make coccicheck COCCI=<my_SPDIR> MODE=patch
++
++or::
++
++	make coccicheck COCCI=<my_SPDIR> MODE=report
++
++
+ Coccinelle parallelization
+ ---------------------------
+ 
+@@ -148,21 +180,6 @@ When parmap is enabled, if an error occurs in Coccinelle, this error
+ value is propagated back, the return value of the ``make coccicheck``
+ captures this return value.
+ 
+-Using Coccinelle with a single semantic patch
+----------------------------------------------
+-
+-The optional make variable COCCI can be used to check a single
+-semantic patch. In that case, the variable must be initialized with
+-the name of the semantic patch to apply.
+-
+-For instance::
+-
+-	make coccicheck COCCI=<my_SP.cocci> MODE=patch
+-
+-or::
+-
+-	make coccicheck COCCI=<my_SP.cocci> MODE=report
+-
+ 
+ Controlling Which Files are Processed by Coccinelle
+ ---------------------------------------------------
+diff --git a/scripts/coccicheck b/scripts/coccicheck
+index e04d328..bfe0c94 100755
+--- a/scripts/coccicheck
++++ b/scripts/coccicheck
+@@ -257,6 +257,10 @@ if [ "$COCCI" = "" ] ; then
+     for f in `find $srctree/scripts/coccinelle/ -name '*.cocci' -type f | sort`; do
+ 	coccinelle $f
+     done
++elif [ -d "$COCCI" ] ; then
++    for f in `find $COCCI/ -name '*.cocci' -type f | sort`; do
++       coccinelle $f
++    done
+ else
+     coccinelle $COCCI
+ fi
+-- 
+2.9.5
+
