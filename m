@@ -1,83 +1,181 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 372197D919
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 15:06:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DECEB7DD29
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 15:17:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729076AbfKDPGR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 10:06:17 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45999 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729061AbfKDPGR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 10:06:17 -0500
-Received: by mail-lf1-f65.google.com with SMTP id v8so12463142lfa.12
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 07:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DNloHCnEtBbwd/RLhQCPuff9G3+A7zTymGTqgW0cFJs=;
-        b=wj/ZMbi4O0qnIyehYcaBvYcnUc8q6yX0RA44xm+nXzL9BvAABB1c2AhmRkYBw1Qg7I
-         mN5UCUUddY9HGRWlzT/6p2B200iREj8F/dF1hqApp7eUvhZx6Dd3ghEhcQ0VFLaL7Kl5
-         Pgpy54adYlSA5tTEDRwDoFSXkUK4urF1D4wKL2deeefCfdS89LoQ6pCuo0xbgn/xopvR
-         ul4n33zi6AgKbYGxO0TfRJkj6etOCS9z83C0N9mEFEKxcpb9bchw5ReBmmDS6V8AsoZH
-         CxHhMEOqRM3aPdqCYKgl5ZIUF9bK5ZNtCsc70kKYSxQGZBBZJThi8FckONgrisLeQMIa
-         5JOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DNloHCnEtBbwd/RLhQCPuff9G3+A7zTymGTqgW0cFJs=;
-        b=lAfQATG4nXI+yhZu6+eCsilhDBEB1uL6gIk4XC2PESywia8VNJLpX+QxJDCo9jSRzA
-         YRpiTU5iYlN0kO3v2y1v5JIrP9nF0zQugkRdim83Vp82DXTOoq1tkenUuVGcPIpXhJh9
-         Yj3iSxeGqbbO5qUuswpaIYTA7BC8aNsCP0Ir/gN6+H/Bf+MOAo8znIqNDCDM9z17/ACX
-         JD25WMSedNpluxBQQP6BZGkTdDvQjf/j+2xyUjfrqnruizQzW9Ymo3RlPGNKKP6tUQes
-         vIQ82aixhlIUJCs1kz1VL+X5YgHwbLPHSApvFfOSBdxiC3O+2+mpEkdBQK2x4LLfZahy
-         9ABg==
-X-Gm-Message-State: APjAAAWV82GBHZu4h5rOtZYcQeaD8//Ds1/EJPUN11LGANL3VhNxW+wP
-        Ht0G6kmbHVD5mWeIh0GxJrF6z9Ht5knmR/4kvXW79g==
-X-Google-Smtp-Source: APXvYqxi25NXW+aVZ57onKX4CL5r0tUcHO+MYQcB/SWeVCchxkGa9OP810BuCSYMvWujYm7jnic6OJLm6w/D7qjiHVU=
-X-Received: by 2002:a19:6a0d:: with SMTP id u13mr8410452lfu.86.1572879975573;
- Mon, 04 Nov 2019 07:06:15 -0800 (PST)
+        id S1728701AbfKDPPn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 10:15:43 -0500
+Received: from mga07.intel.com ([134.134.136.100]:54743 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727796AbfKDPPn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Nov 2019 10:15:43 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 07:15:41 -0800
+X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; 
+   d="scan'208";a="195481925"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 07:15:36 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Amol Grover <frextrite@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for section 2
+In-Reply-To: <20191104133315.GA14499@workstation-kernel-dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191104133315.GA14499@workstation-kernel-dev>
+Date:   Mon, 04 Nov 2019 17:15:34 +0200
+Message-ID: <87pni77jvt.fsf@intel.com>
 MIME-Version: 1.0
-References: <20191022084318.22256-1-brgl@bgdev.pl> <20191022084318.22256-9-brgl@bgdev.pl>
-In-Reply-To: <20191022084318.22256-9-brgl@bgdev.pl>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 4 Nov 2019 16:06:04 +0100
-Message-ID: <CACRpkdZXDwN_z9pFzbHfn78u+51tWUa0OZdrBSSrtmZPoco3EQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 8/8] gpio: tegra186: use devm_platform_ioremap_resource_byname()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 22, 2019 at 10:43 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Mon, 04 Nov 2019, Amol Grover <frextrite@gmail.com> wrote:
+> Convert RCU API method text to sub-headings and
+> add hyperlink and superscript to 2 literary notes
+> under rcu_dereference() section
 >
-> Use the devm_platform_ioremap_resource_byname() helper instead of
-> calling platform_get_resource_byname() and devm_ioremap_resource()
-> separately.
+> Signed-off-by: Amol Grover <frextrite@gmail.com>
+> ---
+>  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
+>  1 file changed, 28 insertions(+), 6 deletions(-)
 >
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> index ae40c8bcc56c..3cf6e17d0065 100644
+> --- a/Documentation/RCU/whatisRCU.rst
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -150,6 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
+>  at the function header comments.
+>  
+>  rcu_read_lock()
+> +^^^^^^^^^^^^^^^
+>  
+>  	void rcu_read_lock(void);
+>  
+> @@ -164,6 +165,7 @@ rcu_read_lock()
+>  	longer-term references to data structures.
+>  
+>  rcu_read_unlock()
+> +^^^^^^^^^^^^^^^^^
+>  
+>  	void rcu_read_unlock(void);
+>  
+> @@ -172,6 +174,7 @@ rcu_read_unlock()
+>  	read-side critical sections may be nested and/or overlapping.
+>  
+>  synchronize_rcu()
+> +^^^^^^^^^^^^^^^^^
+>  
+>  	void synchronize_rcu(void);
+>  
+> @@ -225,6 +228,7 @@ synchronize_rcu()
+>  	checklist.txt for some approaches to limiting the update rate.
+>  
+>  rcu_assign_pointer()
+> +^^^^^^^^^^^^^^^^^^^^
+>  
+>  	void rcu_assign_pointer(p, typeof(p) v);
+>  
+> @@ -245,6 +249,7 @@ rcu_assign_pointer()
+>  	the _rcu list-manipulation primitives such as list_add_rcu().
+>  
+>  rcu_dereference()
+> +^^^^^^^^^^^^^^^^^
+>  
+>  	typeof(p) rcu_dereference(p);
+>  
+> @@ -279,8 +284,10 @@ rcu_dereference()
+>  	if an update happened while in the critical section, and incur
+>  	unnecessary overhead on Alpha CPUs.
+>  
+> +.. _back_to_1:
+> +
+>  	Note that the value returned by rcu_dereference() is valid
+> -	only within the enclosing RCU read-side critical section [1].
+> +	only within the enclosing RCU read-side critical section |cs_1|.
+>  	For example, the following is -not- legal::
+>  
+>  		rcu_read_lock();
+> @@ -298,15 +305,27 @@ rcu_dereference()
+>  	it was acquired is just as illegal as doing so with normal
+>  	locking.
+>  
+> +.. _back_to_2:
+> +
+>  	As with rcu_assign_pointer(), an important function of
+>  	rcu_dereference() is to document which pointers are protected by
+>  	RCU, in particular, flagging a pointer that is subject to changing
+>  	at any time, including immediately after the rcu_dereference().
+>  	And, again like rcu_assign_pointer(), rcu_dereference() is
+>  	typically used indirectly, via the _rcu list-manipulation
+> -	primitives, such as list_for_each_entry_rcu() [2].
+> +	primitives, such as list_for_each_entry_rcu() |entry_2|.
+> +
+> +.. |cs_1| raw:: html
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Please don't use raw. It's ugly and error prone. We have some raw output
+for latex, but this would be the first for html.
 
-Yours,
-Linus Walleij
+What are you trying to achieve?
+
+BR,
+Jani.
+
+> +
+> +	<a href="#cs"><sup>[1]</sup></a>
+> +
+> +.. |entry_2| raw:: html
+>  
+> -	[1] The variant rcu_dereference_protected() can be used outside
+> +	<a href="#entry"><sup>[2]</sup></a>
+> +
+> +.. _cs:
+> +
+> +	\ :sup:`[1]`\  The variant rcu_dereference_protected() can be used outside
+>  	of an RCU read-side critical section as long as the usage is
+>  	protected by locks acquired by the update-side code.  This variant
+>  	avoids the lockdep warning that would happen when using (for
+> @@ -317,15 +336,18 @@ rcu_dereference()
+>  	a lockdep expression to indicate which locks must be acquired
+>  	by the caller. If the indicated protection is not provided,
+>  	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
+> -	and the API's code comments for more details and example usage.
+> +	and the API's code comments for more details and example usage. :ref:`back <back_to_1>`
+> +
+> +
+> +.. _entry:
+>  
+> -	[2] If the list_for_each_entry_rcu() instance might be used by
+> +	\ :sup:`[2]`\  If the list_for_each_entry_rcu() instance might be used by
+>  	update-side code as well as by RCU readers, then an additional
+>  	lockdep expression can be added to its list of arguments.
+>  	For example, given an additional "lock_is_held(&mylock)" argument,
+>  	the RCU lockdep code would complain only if this instance was
+>  	invoked outside of an RCU read-side critical section and without
+> -	the protection of mylock.
+> +	the protection of mylock. :ref:`back <back_to_2>`
+>  
+>  The following diagram shows how each API communicates among the
+>  reader, updater, and reclaimer.
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
