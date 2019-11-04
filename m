@@ -6,52 +6,53 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0125B7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 17:16:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D1D87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 17:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728174AbfKDRQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 12:16:50 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45660 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727989AbfKDRQu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 12:16:50 -0500
-Received: by mail-pg1-f193.google.com with SMTP id w11so1385289pga.12;
-        Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+        id S1727998AbfKDRcH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 12:32:07 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:36015 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727989AbfKDRcG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 12:32:06 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k13so445809pgh.3;
+        Mon, 04 Nov 2019 09:32:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
-        b=gZj6ExCI5v/5AyMvZe38iuFqKzLeMDl5eVyobOA5lUAV0qRvKfW4baDJrFUMmE1+h9
-         cj206N2VooFIbxjCjjLTMvbxUXXrm/n8hsap+yda1vmYCP0fZkr+3ma+mHaAFAw1O2Mq
-         qG03YbQrFF5TE3Lzojb6XI4ms68MhTypu31TLSmimjwqcHAlVzFKgtAsQjQUM9VqbB15
-         casxPEqaEDByDQUiPL4kEA7Bn5PiDaRy+bEGE2s4l6ELEwhL2JdUqseJ/A9si6M+6+SG
-         tsccSmy67rp+v5P27wp7k8Pj2Xqfs5HxeHRG5eswrti/SnPAuzA10XndOGXPe0fswZU7
-         YFIA==
+        bh=l69ummbnkucSxuM61KnWZr+QE4asTsNeQ7EDMaFQ/LQ=;
+        b=ZS92UsCKc8Hj5ncrQDiMdwXGnAGHVrWknlQGjYTwsyXyMCvA9ohIjYNRRTmZ2GTYB2
+         hgHif5b5w0X8junZc4tgPrztpEKOK0v5oCg1tpuH87XrwwYdszS5IGp8fKlggsfNGw/M
+         09pigGUMGbFKp+Gd6cxDnZ3cohi2uPBJyxbyiqA/INFYUyGGVHBg+EDqsa35qgyNmAT3
+         ieqz3OzFbiIu7UhU4nw0s85ZBJtHeFl22qGI5B4wnPsf3e4PvFatnMQgOhNKQCjpCiL+
+         rKodU2WSddX0KyBVjT92daJBd4MNsvznTw4pzeJkyYKlBX6TcEsQ0R8j+iHLMz9OHntH
+         d+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
-        b=RH0uo4LuVf+mWJzm1RBkLU4n4ryX4uxoMsdAz3gyXv8qF68gms1elQjdeabNmmzt6F
-         7XGP2QJr4HkrWXLGZ425qs+OZo+B9hHVMpOdCW7ewexwHs/QxHpD6nTYydUOxwD7Vq09
-         frqAv0q/225NRIlHilN4tPizP4WbMPnVh8DyX8tdGcCAXGpVg8n/F5jF1R42nhhEBMEP
-         KA8DkVCm6ijOQUnC7LmnVLBs2rrhx+0VzysfklZJg57n7rCaj9CQcd4jTF4rUDgan1mY
-         Ibqf+y7krl80zCdD+vlF0b1PDmrxlZq0E1fR3I1IWDk99RjcrxChdsFup5sYxtVKxLX4
-         i4lw==
-X-Gm-Message-State: APjAAAVfeFA3rzR0XpRqpKUgzBnyn/Ez+wZ35z+jVTVffM4LzkgeTYkp
-        eu0djl5pBZ+D5skXv6h7YfQ=
-X-Google-Smtp-Source: APXvYqzOgFP05782A8U4VGLpiUo4fzWQGDXm3X/B8ePj5jvEms9PIC1wv1eYI5rlOgxotppWXJxZRQ==
-X-Received: by 2002:a62:53:: with SMTP id 80mr33528484pfa.192.1572887809296;
-        Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+        bh=l69ummbnkucSxuM61KnWZr+QE4asTsNeQ7EDMaFQ/LQ=;
+        b=AlAB+ab7FXWeyh0TpZlMUcFFLPpka23Na1dtxausajG0VCpHf5LH9cpZXuD/5xkxE8
+         JsqZdajsOTzhiz1L2+x+xuWOahOsBjPWny7lyr46wuoJseWZW1jRAPqrx5GNz3IWozZy
+         GgzBH5zTaom+bEipaqxjUBY9b3H6abdKq+Lxct5jLL1YJPxd7TMYXHyAI93rTc7yAXtL
+         ZAOepBEvA9atGAu0YJ+uHo1qfjuuHd81fP5w3vZf75q4nHdcEw7bTe7533BMbKngj/aq
+         nFs/mmeLWifi9aGGYXLSXcXL9aVjForiDmjhjrYYixKHxWWhqMFpC2s/emGpFuh0jhA2
+         K5lQ==
+X-Gm-Message-State: APjAAAWwDrw1SME/oXRd47OIUeEkgTmxPJC2j2HdCj9Dmo3Q+xtyRBxm
+        fCOS47aJuA1Hhvn597YQcdI=
+X-Google-Smtp-Source: APXvYqySUtitKYMsIcxyNKY9L3vTqqA7owzP7uIwB7NS8uGIXoUwQ9RZ2TI3r0LcmXstWG5gJtCkzw==
+X-Received: by 2002:a63:134a:: with SMTP id 10mr30908497pgt.441.1572888725334;
+        Mon, 04 Nov 2019 09:32:05 -0800 (PST)
 Received: from workstation-kernel-dev ([139.5.253.170])
-        by smtp.gmail.com with ESMTPSA id v16sm10738482pje.1.2019.11.04.09.16.45
+        by smtp.gmail.com with ESMTPSA id 81sm20455000pfx.142.2019.11.04.09.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 09:16:48 -0800 (PST)
-Date:   Mon, 4 Nov 2019 22:46:41 +0530
+        Mon, 04 Nov 2019 09:32:04 -0800 (PST)
+Date:   Mon, 4 Nov 2019 23:01:56 +0530
 From:   Amol Grover <frextrite@gmail.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Josh Triplett <josh@joshtriplett.org>,
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
@@ -62,52 +63,30 @@ Cc:     Josh Triplett <josh@joshtriplett.org>,
         Shuah Khan <skhan@linuxfoundation.org>
 Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for
  section 2
-Message-ID: <20191104171641.GA15217@workstation-kernel-dev>
+Message-ID: <20191104173156.GA15267@workstation-kernel-dev>
 References: <20191104133315.GA14499@workstation-kernel-dev>
- <20191104150328.GZ20975@paulmck-ThinkPad-P72>
+ <87pni77jvt.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191104150328.GZ20975@paulmck-ThinkPad-P72>
+In-Reply-To: <87pni77jvt.fsf@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 07:03:28AM -0800, Paul E. McKenney wrote:
-> On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
+On Mon, Nov 04, 2019 at 05:15:34PM +0200, Jani Nikula wrote:
+> On Mon, 04 Nov 2019, Amol Grover <frextrite@gmail.com> wrote:
 > > Convert RCU API method text to sub-headings and
 > > add hyperlink and superscript to 2 literary notes
 > > under rcu_dereference() section
-> > 
+> >
 > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> 
-> Good stuff, but Phong Tran beat you to it.  If you are suggesting
-> changes to that patch, please send a reply to her email, which
-> may be found here:
-> 
-> https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
-> 
-> There are several options for replying to this email listed at the
-> bottom of that web page.
-> 
-> 							Thanx, Paul
-
-Thank you Paul! And that is correct, I was suggesting changes to
-that patch. However, since that patch was already integrated into
-the `dev` branch, I mistakenly believed this patch could be sent
-independently. Sorry for the trouble, I'll re-send the patch the
-correct way.
-
-Thank you
-Amol
-
-> 
 > > ---
 > >  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
 > >  1 file changed, 28 insertions(+), 6 deletions(-)
-> > 
+> >
 > > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
 > > index ae40c8bcc56c..3cf6e17d0065 100644
 > > --- a/Documentation/RCU/whatisRCU.rst
@@ -180,6 +159,29 @@ Amol
 > > +	primitives, such as list_for_each_entry_rcu() |entry_2|.
 > > +
 > > +.. |cs_1| raw:: html
+> 
+> Please don't use raw. It's ugly and error prone. We have some raw output
+> for latex, but this would be the first for html.
+> 
+> What are you trying to achieve?
+
+Hi Jani,
+While going through the documentation I encountered a few footnotes (numbers
+[1] and [2]) which referenced the actual footnote somewhere below the text.
+They were particularly not straight-forward to find hence I decided to
+link them to the footnote text which could be done using inline markup.
+Then I tried to make them more appealing by converting to super-scripts
+(the way they look like in books and websites). However, nested inline 
+markup is not yet possible in reST hence I went with the html way to 
+achieve the same. Too much?
+
+Thank you
+Amol
+
+> 
+> BR,
+> Jani.
+> 
 > > +
 > > +	<a href="#cs"><sup>[1]</sup></a>
 > > +
@@ -216,6 +218,6 @@ Amol
 > >  
 > >  The following diagram shows how each API communicates among the
 > >  reader, updater, and reclaimer.
-> > -- 
-> > 2.20.1
-> > 
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
