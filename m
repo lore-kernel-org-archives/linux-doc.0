@@ -1,92 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 705D87D918
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 20:55:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F1437D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 20:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728602AbfKDUzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 15:55:21 -0500
-Received: from mga12.intel.com ([192.55.52.136]:64773 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728332AbfKDUzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Nov 2019 15:55:21 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 12:55:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,268,1569308400"; 
-   d="scan'208";a="195581057"
-Received: from rczubala-mobl.ger.corp.intel.com (HELO localhost) ([10.252.7.245])
-  by orsmga008.jf.intel.com with ESMTP; 04 Nov 2019 12:55:08 -0800
-Date:   Mon, 4 Nov 2019 22:55:06 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jens Wiklander <jens.wiklander@linaro.org>, dhowells@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>, jejb@linux.ibm.com,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Stuart Yoder <stuart.yoder@arm.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Subject: Re: [Patch v3 6/7] doc: keys: Document usage of TEE based Trusted
- Keys
-Message-ID: <20191104205453.GA29713@linux.intel.com>
-References: <1572530323-14802-1-git-send-email-sumit.garg@linaro.org>
- <1572530323-14802-7-git-send-email-sumit.garg@linaro.org>
- <20191031214745.GG10507@linux.intel.com>
- <CAFA6WYMkE928v-v76gGtWmsS0PwRp-OHUtkS0+Ts4V6x0AKBqQ@mail.gmail.com>
- <20191101201957.GA8369@linux.intel.com>
- <CAFA6WYNwSSaZv5OM=q+LCyn0mEdpg7K+W_v2_NBHhtktg1BFXw@mail.gmail.com>
+        id S1729548AbfKDU5r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 15:57:47 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:45566 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729035AbfKDU5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 15:57:41 -0500
+Received: by mail-qt1-f194.google.com with SMTP id x21so26026798qto.12
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 12:57:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=DHyq0HiLvr2oRZ7fsWKuvfiy0KSCrmJQP2N7wxll3ck=;
+        b=GqKdo8q3EQ1hr6qek+daVbq7asYL8vgosOUNPq/TbaKVNw+fSwsVZvMXYAXCf0AJyJ
+         u82hnz0QILmabMP4l0QBspnNgDON3wCBCl2euZ2xUfz4wbz1CJOCkCDLlOnh4i58Oaj/
+         S3gq/Jh9sfa4MobfNbFXPlzU8wQ8qlAiWQ9QDx9r++NF1VyZNacvaIxbfl+Dz9q/YaK7
+         LJZ1bbR858MSdLa9WbMS13d/j0HGbePzEAUYRTf3vNGneWwIu7V1pWB8dhbOd6RohsWw
+         Lzscw767cSCt9xjt6Uiuin4I08CfE7g1YZRaK11NZ5fT7S0HH+Tq61iyMWJYbr4RPL29
+         XI3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DHyq0HiLvr2oRZ7fsWKuvfiy0KSCrmJQP2N7wxll3ck=;
+        b=qbgIsCimCXU0T45YA+wYlMyc3i4y/9/CKDO2nQvDcK1UcQPQVUy1xQ+R9qW16fkkeu
+         fQZorPbaK2a5jeBtmG0p+zTsZ6PLXUSlS/ytxvN7VW5LU4uObRFlDsRPGxiSnKZXXya1
+         Pe5kadqNxeFNt+VBKZ0LOLp/SU+YkOFZy8wcDiCk5/j63n6MGIR6mtUvTvdMe/WwLE0Q
+         kjx6s5vt7BBateVhvObWu8hoFtg94KG+hPNedxB0z5Hmfpc2EX6jBi89UHigUmbHO11b
+         iyHVZPUivmGynFt5ndTi3G5zoeY+ouqxorjilWJsIcetpraXG3d8eILZywJFqS8x2Y8+
+         Qtqg==
+X-Gm-Message-State: APjAAAXRF7n6lWU3PUYXKmO7eFoR8GR1T6Onl2iUJcm/UqbJ2pWixLl9
+        jW6yv4i0Lytp0ixi0XWIY6hNww==
+X-Google-Smtp-Source: APXvYqzcbzV98q5L3IoWgV1btJnfFj6kw4clhQUw4ORkigswFo+IphwlhQMZSa6Hl6m/W3Z9gLas4A==
+X-Received: by 2002:ad4:4092:: with SMTP id l18mr462915qvp.114.1572901059500;
+        Mon, 04 Nov 2019 12:57:39 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id l20sm5226323qtq.78.2019.11.04.12.57.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Nov 2019 12:57:38 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iRjPu-0000Zj-4J; Mon, 04 Nov 2019 16:57:38 -0400
+Date:   Mon, 4 Nov 2019 16:57:38 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
+ pin_longterm_pages*()
+Message-ID: <20191104205738.GH30938@ziepe.ca>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-8-jhubbard@nvidia.com>
+ <20191104203346.GF30938@ziepe.ca>
+ <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFA6WYNwSSaZv5OM=q+LCyn0mEdpg7K+W_v2_NBHhtktg1BFXw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 12:28:47PM +0530, Sumit Garg wrote:
-> On Sat, 2 Nov 2019 at 01:50, Jarkko Sakkinen
-> <jarkko.sakkinen@linux.intel.com> wrote:
-> >
-> > On Fri, Nov 01, 2019 at 03:04:18PM +0530, Sumit Garg wrote:
-> >
-> > > Isn't this statement contradicting with your earlier statement
-> > > regarding the right order would be to complete TEE patches review
-> > > first and then come up with documentation here [2]?
-> > >
-> > > [1] https://lore.kernel.org/linux-integrity/1568025601.4614.253.camel@linux.ibm.com/
-> > > [2] https://lore.kernel.org/linux-integrity/20190909163643.qxmzpcggi567hmhv@linux.intel.com/
-> >
-> > With the intersecting issues, namely key generation and conflicting
-> > keyctl parameters, that was not a well considered statement.
+On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
+> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
+> ...
+> >> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+> >> index 24244a2f68cc..c5a78d3e674b 100644
+> >> +++ b/drivers/infiniband/core/umem.c
+> >> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+> >>  
+> >>  	while (npages) {
+> >>  		down_read(&mm->mmap_sem);
+> >> -		ret = get_user_pages(cur_base,
+> >> +		ret = pin_longterm_pages(cur_base,
+> >>  				     min_t(unsigned long, npages,
+> >>  					   PAGE_SIZE / sizeof (struct page *)),
+> >> -				     gup_flags | FOLL_LONGTERM,
+> >> -				     page_list, NULL);
+> >> +				     gup_flags, page_list, NULL);
+> > 
+> > FWIW, this one should be converted to fast as well, I think we finally
+> > got rid of all the blockers for that?
+> > 
 > 
-> Okay, let me work on documentation first, but I think resending whole
-> patch-set just for documentation review and rework would be an
-> overkill. Would minor revisions of this patch only like v3.1, v3.2
-> etc. work for you? And later I could send next version of this
-> patch-set once we agree on documentation.
+> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
+> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
 
-Yeah, we could iterate through the documentation patch and once
-we are happy with it you can bundle it to your main patch set.
+I mean the use of the mmap_sem here is finally in a way where we can
+just delete the mmap_sem and use _fast
+ 
+ie, AFAIK there is no need for the mmap_sem to be held during
+ib_umem_add_sg_table()
 
-/Jarkko
+This should probably be a standalone patch however
+
+Jason
