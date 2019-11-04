@@ -1,180 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AAA8A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 03:34:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A03EA7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 05:06:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728693AbfKDDel convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 22:34:41 -0500
-Received: from mx7.zte.com.cn ([202.103.147.169]:59622 "EHLO mxct.zte.com.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728414AbfKDDel (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Nov 2019 22:34:41 -0500
-Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
-        by Forcepoint Email with ESMTPS id 1C669989B3F1B7C30B8C;
-        Mon,  4 Nov 2019 11:34:38 +0800 (CST)
-Received: from notes_smtp.zte.com.cn (notes_smtp.zte.com.cn [10.30.1.239])
-        by mse-fl1.zte.com.cn with ESMTP id xA43XC9q090748;
-        Mon, 4 Nov 2019 11:33:12 +0800 (GMT-8)
-        (envelope-from zhong.shiqi@zte.com.cn)
-Received: from fox-host8.localdomain ([10.74.120.8])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2019110411331571-271048 ;
-          Mon, 4 Nov 2019 11:33:15 +0800 
-From:   zhongshiqi <zhong.shiqi@zte.com.cn>
-To:     Julia.Lawall@lip6.fr
-Cc:     Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
-        michal.lkml@markovi.net, corbet@lwn.net, cocci@systeme.lip6.fr,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xue.zhihong@zte.com.cn, wang.yi59@zte.com.cn,
-        cheng.shengyu@zte.com.cn, zhongshiqi <zhong.shiqi@zte.com.cn>
-Subject: [PATCH v6] coccicheck: Support search for SmPL scripts within selected directory hierarchy
-Date:   Mon, 4 Nov 2019 11:35:55 +0800
-Message-Id: <1572838555-12101-1-git-send-email-zhong.shiqi@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
+        id S1726018AbfKDFGw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 00:06:52 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55334 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbfKDFGw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 00:06:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=rRkFDuQK8d6xPWihSFGG295MdmIkCag9gl2BPSyBv3c=; b=iE5ZaAsaHNLCK/vaMI1i2bM8i
+        8CwHB2U1j6REGRkir63nMjjptG11SjNDnvNNnQIFxDsB1M8g5EOrjEg9g0D016qmJoi11h+pOmemd
+        8W6AriuplogyNvseleXK6gr287NoLOdjDA/e8p5J7lMmMBnGeJ1OtfjuqaGGdLTReLR4UCNfGrV+D
+        gbEUi4AfmlBiOzJPRZihAkHm/pJO0//rVEPxVR0kcQiuhQ/skU24I46M8WropX66Z8+1c/Y94k7mT
+        +6bHJPPrdssjc/WTOXbVL3vICSzMaS4Jqv7yU8tWOsgqmNMU7IlIRcXG9n8F+pKCaoAFQ8jLRPVXL
+        jcvLlhPow==;
+Received: from [2601:1c0:6280:3f0::4ba1]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iRUZo-0007Ls-4C; Mon, 04 Nov 2019 05:06:52 +0000
+Subject: Re: 'make help' br0ken for @echo ' valid values for SPHINXDIRS are:
+ $(_SPHINXDIRS)'
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@infradead.org>
+References: <416a61e8-e40a-6266-3f6a-bdbadf9a10c3@infradead.org>
+ <20191007094143.3a4d8a09@lwn.net>
+ <084a5009-bb2a-b043-6c16-5b08e5a87d5c@infradead.org>
+Message-ID: <ba29b750-e799-fd64-f5f3-a62bbbc7a2b6@infradead.org>
+Date:   Sun, 3 Nov 2019 21:06:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2019-11-04 11:33:15,
-        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2019-11-04 11:33:13
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-MAIL: mse-fl1.zte.com.cn xA43XC9q090748
+In-Reply-To: <084a5009-bb2a-b043-6c16-5b08e5a87d5c@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-*Allow defining the environment variable “COCCI” as a directory to
-search SmPL scripts.
+On 10/7/19 9:54 AM, Randy Dunlap wrote:
+> On 10/7/19 8:41 AM, Jonathan Corbet wrote:
+>> On Wed, 2 Oct 2019 16:16:07 -0700
+>> Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>>> It seems that _SPHINXDIRS is empty.  I'm getting (short extract):
+>>>
+>>>   make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
+>>>   valid values for SPHINXDIRS are: 
+>>>
+>>>   make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build
+>>>   configuration. This is e.g. useful to build with nit-picking config.
+>>>
+>>>   Default location for the generated documents is Documentation/output
+>>
+>> Hmm...it looks like that broke with 9fc3a18a942f, which got rid of the
+>> various conf.py files.  Something like the following seems to do the right
+>> thing?  (It also shows that we have way too many top-level directories, but
+>> that's a separate issue...)
+> 
+> true dat.
+> 
+>> Thanks,
+>>
+>> jon
+>>
+>> From d402c2de65bb9353e6222a05095f32929ae62373 Mon Sep 17 00:00:00 2001
+>> From: Jonathan Corbet <corbet@lwn.net>
+>> Date: Mon, 7 Oct 2019 09:38:58 -0600
+>> Subject: [PATCH] docs: Fix "make help" suggestion for SPHINXDIR
+>>
+>> Commit 9fc3a18a942f ("docs: remove extra conf.py files") broke the setting
+>> of _SPHINXDIRS in Documentation/Makefile.  Let's just have it look for an
+>> index.rst file instead.
+>>
+>> Fixes: 9fc3a18a942f ("docs: remove extra conf.py files")
+>> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks.
 
-*Start a corresponding file determination if it contains an acceptable
-path.
+I request that this patch be merged into mainline
+sooner rather than later.
+Thanks.
 
-*Update coccinelle.rst documents for use coccicheck with a directory
-selection
+>> ---
+>>  Documentation/Makefile | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/Makefile b/Documentation/Makefile
+>> index c6e564656a5b..ce8eb63b523a 100644
+>> --- a/Documentation/Makefile
+>> +++ b/Documentation/Makefile
+>> @@ -13,7 +13,7 @@ endif
+>>  SPHINXBUILD   = sphinx-build
+>>  SPHINXOPTS    =
+>>  SPHINXDIRS    = .
+>> -_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/conf.py,%,$(wildcard $(srctree)/Documentation/*/conf.py))
+>> +_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst))
+>>  SPHINX_CONF   = conf.py
+>>  PAPER         =
+>>  BUILDDIR      = $(obj)/output
+>>
+> 
+> 
 
-Signed-off-by: zhongshiqi <zhong.shiqi@zte.com.cn>
----
-Changes in v6:
-	update coccinelle.rst documents and add instructions for use this
 
-Changes in v5:
-	rewrite change description as an enumeration
-
-Changes in v4:
-	rewrite change description in another wording
-
-Changes in v3:
-	1:rewrite change description
-	2:fix patch subject
-	3:modify commit log
-
-Changes in v2:
-	1.fix patch subject according to the reply by Markus
-	<Markus.Elfring@web.de>
-	2.change description in “imperative mood”
-
- Documentation/dev-tools/coccinelle.rst | 51 ++++++++++++++++++++++------------
- scripts/coccicheck                     |  4 +++
- 2 files changed, 38 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-index 00a3409..6af3201 100644
---- a/Documentation/dev-tools/coccinelle.rst
-+++ b/Documentation/dev-tools/coccinelle.rst
-@@ -100,8 +100,8 @@ Two other modes provide some common combinations of these modes.
-   It should be used with the C option (described later)
-   which checks the code on a file basis.
- 
--Examples
--~~~~~~~~
-+Using Coccinelle with defalut value
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- To make a report for every semantic patch, run the following command::
- 
-@@ -127,6 +127,38 @@ To enable verbose messages set the V= variable, for example::
- 
-    make coccicheck MODE=report V=1
- 
-+Using Coccinelle with a single file selection
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The optional make variable COCCI can be used to check a single
-+semantic patch. In that case, the variable must be initialized with
-+the name of the semantic patch to apply.
-+
-+For instance::
-+
-+	make coccicheck COCCI=<my_SP.cocci> MODE=patch
-+
-+or::
-+
-+	make coccicheck COCCI=<my_SP.cocci> MODE=report
-+
-+
-+Using Coccinelle with directory selection
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The optional make variable COCCI can be used to search SmPL scripts in a
-+directory. In that case, the variable must be initialized with the name of
-+a directory which contains scripts for the semantic patch language.
-+
-+For instance::
-+
-+	make coccicheck COCCI=<my_SPDIR> MODE=patch
-+
-+or::
-+
-+	make coccicheck COCCI=<my_SPDIR> MODE=report
-+
-+
- Coccinelle parallelization
- ---------------------------
- 
-@@ -148,21 +180,6 @@ When parmap is enabled, if an error occurs in Coccinelle, this error
- value is propagated back, the return value of the ``make coccicheck``
- captures this return value.
- 
--Using Coccinelle with a single semantic patch
-----------------------------------------------
--
--The optional make variable COCCI can be used to check a single
--semantic patch. In that case, the variable must be initialized with
--the name of the semantic patch to apply.
--
--For instance::
--
--	make coccicheck COCCI=<my_SP.cocci> MODE=patch
--
--or::
--
--	make coccicheck COCCI=<my_SP.cocci> MODE=report
--
- 
- Controlling Which Files are Processed by Coccinelle
- ---------------------------------------------------
-diff --git a/scripts/coccicheck b/scripts/coccicheck
-index e04d328..bfe0c94 100755
---- a/scripts/coccicheck
-+++ b/scripts/coccicheck
-@@ -257,6 +257,10 @@ if [ "$COCCI" = "" ] ; then
-     for f in `find $srctree/scripts/coccinelle/ -name '*.cocci' -type f | sort`; do
- 	coccinelle $f
-     done
-+elif [ -d "$COCCI" ] ; then
-+    for f in `find $COCCI/ -name '*.cocci' -type f | sort`; do
-+       coccinelle $f
-+    done
- else
-     coccinelle $COCCI
- fi
 -- 
-2.9.5
-
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
