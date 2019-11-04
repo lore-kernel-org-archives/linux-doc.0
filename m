@@ -1,60 +1,46 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FE687D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Nov 2019 23:57:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B33237D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 03:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728402AbfKCX5S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Nov 2019 18:57:18 -0500
-Received: from mail-il1-f181.google.com ([209.85.166.181]:44071 "EHLO
-        mail-il1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728261AbfKCX5S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Nov 2019 18:57:18 -0500
-Received: by mail-il1-f181.google.com with SMTP id w1so4406197ilq.11;
-        Sun, 03 Nov 2019 15:57:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DcgIA0yPIvsIGKQnb70qIrRbOwcnGxkyD0NueTd0dnM=;
-        b=mQpQbIVEcDI8CRk9oBXSsEWOIPA/u3lVHQtEmp62/AhDqcgq5susW8Vxp3qi+W27N/
-         Jwgk5pLmPI9eQ4ZzQi+KXT/MBd6rk1bPKIMVw9A3WHlu9ebn7Z47dkEqNkL+JaqaKiJV
-         2CRFfgYKvNWRPUBMgH++C8RNvTw9fZSy5ib0qf7oQNke18BttFMBnf1dA59IsanXEbyb
-         e1nSY+RKs5Q9/WGf7akhzwwX/IpaGr3Eecs8KZnAkRSX3zhFKMdCd8MqULW/lAzP6cCM
-         X8l1tpCp9fjC+qySDE62qrv/JRYo2DGYedkYvBDkTlqMoal8gNesB0QEsEjGkPseU2bO
-         rkWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DcgIA0yPIvsIGKQnb70qIrRbOwcnGxkyD0NueTd0dnM=;
-        b=mXP6znkabUtgSDpOsPrNDT+ktEqSSCQD/dS8jtjIS9jkGi/UKqx8BHdfJgLmyJ1Zb3
-         c2A4GEI7k5/CToy3I875cq5QTvnqGNKjkaRHEGWEgxjSSzR1I8NniIiSJjcPEPxU/5H3
-         UHExHeRBitwKzFwQU/Se4DOrvwbkq0hLroOPd0iC18G4XS+nusaab5kJwpwk3Mc/2NCJ
-         0L1tQ9VLb2TJv85vk07Ad4FRoYlRoJqZOnZRwJfC0nAcYD06We63XraZN45bqOxTncfv
-         LPX8hZzGMsOCTysKRJekJ2ITLIgWX3VGg2KEQjfRYINascki6D8ooYimzmkQ5qnOuNwK
-         waAA==
-X-Gm-Message-State: APjAAAWaB5KadEM73C5eOZSglHNFDP2+ahWuykRSTiLoPolIafhmuNH3
-        ysDWZALjoGWu2BSbqGGgh/Fq55R633kwc0fZDDM=
-X-Google-Smtp-Source: APXvYqzsWmLb0DjMjZwq0MkhUknk7p77iFlglOlOoE6vmOhYuH2jllnY836U34CV+1ovT1Gc4DFK7Erea6o9XsK7iUI=
-X-Received: by 2002:a92:395a:: with SMTP id g87mr26581440ila.206.1572825437554;
- Sun, 03 Nov 2019 15:57:17 -0800 (PST)
+        id S1728681AbfKDDE1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Nov 2019 22:04:27 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:53415 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728643AbfKDDE0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 3 Nov 2019 22:04:26 -0500
+Received: from [IPv6:2601:646:8600:3281:102f:ba8b:7a69:7a8a] ([IPv6:2601:646:8600:3281:102f:ba8b:7a69:7a8a])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id xA433haZ092262
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Sun, 3 Nov 2019 19:03:45 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com xA433haZ092262
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019091901; t=1572836630;
+        bh=YHmnDJJIhxFAT6Io1jUZZxs7VOrc7D7NbUvhYDnhU24=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=Pu1X0tV2m5PAlzR/appMLa4FxmBFAkI+Mg0Od1AwSIr5NVB4+aYSg7fyKLIt4/Uri
+         f0xZHC3iKXV0iY8Z6aIb7iJmBy4ynHBtCFR5xpFmKVcpj+MKO5miwu/YLUDxiBXqfI
+         TF+KTLwq5faYWD1ktGqsSZimovkkpjXcgK8I9x5S4CgkTjGdZm21OexRzfyjjVrwvS
+         5WSYk2tQaPR027iDhUMUR/qpfDcNc7HDm8R2JiyZnhaem1NCYGyT69ITqEcniMKd3f
+         crkNBnlimcxjKGUaizj+MBCCQqvlQr339xzpYq4HIQfUIiR5cR3/wbRlezlUI0X4LA
+         YCFeDbrSUVg1A==
+Date:   Sun, 03 Nov 2019 19:03:36 -0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
+References: <20190620062246.2665-1-e5ten.arch@gmail.com> <20191029210250.17007-1-e5ten.arch@gmail.com> <CBCA4048-A9C1-42E6-A821-1EE36AE8CDC7@zytor.com> <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com> <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com> <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190620062246.2665-1-e5ten.arch@gmail.com> <20191029210250.17007-1-e5ten.arch@gmail.com>
- <CBCA4048-A9C1-42E6-A821-1EE36AE8CDC7@zytor.com> <CAMEGPioV_MTKO9DK6JT5355b7x0py-D_K467etDDnxWSYAbEig@mail.gmail.com>
- <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com>
-In-Reply-To: <40DC5B42-6C0D-4A5B-B23E-884ADB0108F0@zytor.com>
-From:   Ethan Sommer <e5ten.arch@gmail.com>
-Date:   Sun, 3 Nov 2019 18:57:06 -0500
-Message-ID: <CAMEGPiqq1aoVNgezkx5DdQO7Jm2NL+pZzzY-N0AoU=+s470LcQ@mail.gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Subject: Re: [PATCH v3] replace timeconst bc script with an sh script
-To:     "H . Peter Anvin" <hpa@zytor.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     Ethan Sommer <e5ten.arch@gmail.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         "Chang S. Bae" <chang.seok.bae@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -69,18 +55,29 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+From:   hpa@zytor.com
+Message-ID: <EC20169B-26FF-4AC0-AABE-B6FFB0B3AA40@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> The point isn't to make it work *now*, but getting it to *stay* work.
-Since the only thing that can change to affect the outcome of the script
-or program is the value of CONFIG_HZ, isn't knowing that it works within
-a range of any reasonable values to set CONFIG_HZ to enough to know that
-it will stay working? I just tested again using the bc script and my C
-program, and this time I tested every possible value up to 100000, and
-they both still matched output. It doesn't seem like there's something
-that would cause the C program to stop working in the future due to
-precision issues.
+On November 3, 2019 3:57:06 PM PST, Ethan Sommer <e5ten=2Earch@gmail=2Ecom>=
+ wrote:
+>> The point isn't to make it work *now*, but getting it to *stay* work=2E
+>Since the only thing that can change to affect the outcome of the
+>script
+>or program is the value of CONFIG_HZ, isn't knowing that it works
+>within
+>a range of any reasonable values to set CONFIG_HZ to enough to know
+>that
+>it will stay working? I just tested again using the bc script and my C
+>program, and this time I tested every possible value up to 100000, and
+>they both still matched output=2E It doesn't seem like there's something
+>that would cause the C program to stop working in the future due to
+>precision issues=2E
+
+No, it's not=2E Because some time we are going to want to change the way t=
+he constants we need, or use them for something else, and be so on=2E
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
