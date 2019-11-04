@@ -1,152 +1,235 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57BEC7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 18:22:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 65EBA7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 18:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729446AbfKDSW0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 13:22:26 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:16082 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728321AbfKDSWZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 13:22:25 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc06c670000>; Mon, 04 Nov 2019 10:22:31 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 04 Nov 2019 10:22:24 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 10:22:24 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
- 2019 18:22:23 +0000
-Subject: Re: [PATCH v2 09/18] drm/via: set FOLL_PIN via pin_user_pages_fast()
-To:     Jerome Glisse <jglisse@redhat.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-10-jhubbard@nvidia.com>
- <20191104174445.GF5134@redhat.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <880dbf76-ba9d-2555-27e4-a656c7cd3296@nvidia.com>
-Date:   Mon, 4 Nov 2019 10:22:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727998AbfKDSlp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 13:41:45 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36447 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728322AbfKDSlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 13:41:44 -0500
+Received: by mail-ot1-f66.google.com with SMTP id s3so7709223otk.3
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 10:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ph+IqdOgslNSLP+IIBkbCH/w84oSj6hoU4Op/Hgua2Y=;
+        b=JAbFW9ecTFBVxutd5BVQhSj7UIlWDxWCHHwVM0gnWS95kG0eOutZ52mNFci7PzB2nY
+         LnE0+/YwE/9yT0NW9Hr9E89N1hwQsp6JNP5sLwrlG5/li7gepF/t/ML+ldCixHKtcqNV
+         oFJjAavtD2mrBCV2OZc4Grj+a0FZ+nOVDV/+yU21lFuh6qHeNpo2Mu3hCcF4cNIdtpvF
+         oQF00OS2eLfy0nIzfmzAqpkkyOjIuYY/k6lmF4VCX7ZtjM3v26QYt8/O3v6HCpOs70Yh
+         qHqkZLH/uenRDdO97kCwVGUE3ScR7k7455bO9ZkN8dLh01T+CZcy9fFgPGdxo4+eM8qE
+         AKJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ph+IqdOgslNSLP+IIBkbCH/w84oSj6hoU4Op/Hgua2Y=;
+        b=M/vaia7J/n7+LsyosjItebNYZB7qmOCYP+rm6eg2tbFY8N3wPbFAXrtruxZih2TO+d
+         LkqjaPM4N1KTrRQ/mlu/djnStFRg2kgvg4SewZx4Peck9OONQ1LzFckyEWCbTfyr96kZ
+         XYsu+Rw0jAN5FZKKQJ3QoYtMgZOXQYEwa7F4NM989YHVDPUhmswB/iHdcQ988kQUFgFi
+         Zfe4OtFoZyphLrM5AmIZsdnRCJNw1AUQo+sbPAWRZUIGSvbUElYMNpR8apuCgLh3XDKz
+         qQHdOv14YQJwJNXrOWVNGAUPyCdsu8ZNmJ4xwDFUrlW7haB5Ubu0wY75hFsSzSoPX2gR
+         jVAg==
+X-Gm-Message-State: APjAAAWqrKdEHjFoi/QxSU9KficnRUbX9dGxZIkAGBN5icsE12JZXuor
+        vGG3acuYHvZEj92AK043Tpgxq26O1WzAag4FgJzg1g==
+X-Google-Smtp-Source: APXvYqxIshoS8PhXmbRpwZOoMMnW2/1m3a5LxT9QOARxujqmlSz/axQsD6s/aCGbL4utL0DXOET1ezIGgX49jUaKAxo=
+X-Received: by 2002:a9d:7308:: with SMTP id e8mr119704otk.17.1572892902802;
+ Mon, 04 Nov 2019 10:41:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191104174445.GF5134@redhat.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572891751; bh=6jW45wKOFDFKBEg0lZ7bTretxwwJVIL7ATzyqCLqcEs=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=q+cPcxTzijEgiG71VTi3ghLiE7GfTQ4coAPAv62hXRzzfbJrqL72vvQzW31t6ElHl
-         a14GEr0QvEJ+EgWUGUZvr/G/dg/DO160GJKTWSZ2RJb00ZyoxmozrYK/r7pBI/oTMl
-         Ler5Xg8wJ+ZN2h3kBmHfP9Sw6IyvnOUkYQcpRlRzW+raDfRYi607iZ0w1mGtWLJDUd
-         OeC58odM3LRQFDuOqtEG4EL4fTJQzFx4oBwJjsq4w851X4PvmAFvjIH2kPLRjgrU0s
-         pJjSO5ccYyyba2k6piwVKSCGegs79Mk1YqTR+mkcxWQJ+CLl9VNfnFD05lp5bT2fCz
-         LMXjtLCzRFCYw==
+References: <20191104142745.14722-1-elver@google.com> <20191104164717.GE20975@paulmck-ThinkPad-P72>
+In-Reply-To: <20191104164717.GE20975@paulmck-ThinkPad-P72>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 4 Nov 2019 19:41:30 +0100
+Message-ID: <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/4/19 9:44 AM, Jerome Glisse wrote:
-> On Sun, Nov 03, 2019 at 01:18:04PM -0800, John Hubbard wrote:
->> Convert drm/via to use the new pin_user_pages_fast() call, which sets
->> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
->> tracking of pinned pages, and therefore for any code that calls
->> put_user_page().
->>
->> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
->> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->=20
-> Please be more explicit that via_dmablit.c is already using put_user_page=
-()
-> as i am expecting that any conversion to pin_user_pages*() must be pair w=
-ith
-> a put_user_page(). I find above commit message bit unclear from that POV.
->=20
+On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
+> > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > KCSAN is a sampling watchpoint-based data-race detector. More details
+> > are included in Documentation/dev-tools/kcsan.rst. This patch-series
+> > only enables KCSAN for x86, but we expect adding support for other
+> > architectures is relatively straightforward (we are aware of
+> > experimental ARM64 and POWER support).
+> >
+> > To gather early feedback, we announced KCSAN back in September, and
+> > have integrated the feedback where possible:
+> > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> >
+> > We want to point out and acknowledge the work surrounding the LKMM,
+> > including several articles that motivate why data-races are dangerous
+> > [1, 2], justifying a data-race detector such as KCSAN.
+> > [1] https://lwn.net/Articles/793253/
+> > [2] https://lwn.net/Articles/799218/
+> >
+> > The current list of known upstream fixes for data-races found by KCSAN
+> > can be found here:
+> > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+>
+> Making this more accessible to more people seems like a good thing.
+> So, for the series:
+>
+> Acked-by: Paul E. McKenney <paulmck@kernel.org>
 
-OK. This one, and the fs/io_uring (patch 9) and net/xdp (patch 10) were all
-cases that had put_user_page() pre-existing. I will add something like the=
-=20
-following to each commit description, for v3:
+Much appreciated. Thanks, Paul!
 
-In partial anticipation of this work, the drm/via driver was already=20
-calling put_user_page() instead of put_page(). Therefore, in order to
-convert from the get_user_pages()/put_page() model, to the
-pin_user_pages()/put_user_page() model, the only change required
-is to change get_user_pages() to pin_user_pages().
+Any suggestions which tree this could eventually land in?
 
-thanks,
+Thanks,
+-- Marco
 
-John Hubbard
-NVIDIA
-
-> Reviewed-by: J=E9r=F4me Glisse <jglisse@redhat.com>
->=20
->=20
->> ---
->>  drivers/gpu/drm/via/via_dmablit.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/via/via_dmablit.c b/drivers/gpu/drm/via/via=
-_dmablit.c
->> index 3db000aacd26..37c5e572993a 100644
->> --- a/drivers/gpu/drm/via/via_dmablit.c
->> +++ b/drivers/gpu/drm/via/via_dmablit.c
->> @@ -239,7 +239,7 @@ via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_=
-via_dmablit_t *xfer)
->>  	vsg->pages =3D vzalloc(array_size(sizeof(struct page *), vsg->num_page=
-s));
->>  	if (NULL =3D=3D vsg->pages)
->>  		return -ENOMEM;
->> -	ret =3D get_user_pages_fast((unsigned long)xfer->mem_addr,
->> +	ret =3D pin_user_pages_fast((unsigned long)xfer->mem_addr,
->>  			vsg->num_pages,
->>  			vsg->direction =3D=3D DMA_FROM_DEVICE ? FOLL_WRITE : 0,
->>  			vsg->pages);
->> --=20
->> 2.23.0
->>
->=20
->=20
+> > Changelog
+> > ---------
+> > v3:
+> > * Major changes:
+> >  - Add microbenchmark.
+> >  - Add instruction watchpoint skip randomization.
+> >  - Refactor API and core runtime fast-path and slow-path. Compared to
+> >    the previous version, with a default config and benchmarked using the
+> >    added microbenchmark, this version is 3.8x faster.
+> >  - Make __tsan_unaligned __alias of generic accesses.
+> >  - Rename kcsan_{begin,end}_atomic ->
+> >    kcsan_{nestable,flat}_atomic_{begin,end}
+> >  - For filter list in debugfs.c use kmalloc+krealloc instead of
+> >    kvmalloc.
+> >  - Split Documentation into separate patch.
+> >
+> > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+> > * Major changes:
+> >  - Replace kcsan_check_access(.., {true, false}) with
+> >    kcsan_check_{read,write}.
+> >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+> >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+> >    contexts.
+> >
+> > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+> >
+> > Marco Elver (9):
+> >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
+> >   kcsan: Add Documentation entry in dev-tools
+> >   objtool, kcsan: Add KCSAN runtime functions to whitelist
+> >   build, kcsan: Add KCSAN build exceptions
+> >   seqlock, kcsan: Add annotations for KCSAN
+> >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+> >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
+> >   locking/atomics, kcsan: Add KCSAN instrumentation
+> >   x86, kcsan: Enable KCSAN for x86
+> >
+> >  Documentation/dev-tools/index.rst         |   1 +
+> >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
+> >  MAINTAINERS                               |  11 +
+> >  Makefile                                  |   3 +-
+> >  arch/x86/Kconfig                          |   1 +
+> >  arch/x86/boot/Makefile                    |   2 +
+> >  arch/x86/boot/compressed/Makefile         |   2 +
+> >  arch/x86/entry/vdso/Makefile              |   3 +
+> >  arch/x86/include/asm/bitops.h             |   6 +-
+> >  arch/x86/kernel/Makefile                  |   7 +
+> >  arch/x86/kernel/cpu/Makefile              |   3 +
+> >  arch/x86/lib/Makefile                     |   4 +
+> >  arch/x86/mm/Makefile                      |   3 +
+> >  arch/x86/purgatory/Makefile               |   2 +
+> >  arch/x86/realmode/Makefile                |   3 +
+> >  arch/x86/realmode/rm/Makefile             |   3 +
+> >  drivers/firmware/efi/libstub/Makefile     |   2 +
+> >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
+> >  include/asm-generic/bitops-instrumented.h |  18 +
+> >  include/linux/compiler-clang.h            |   9 +
+> >  include/linux/compiler-gcc.h              |   7 +
+> >  include/linux/compiler.h                  |  35 +-
+> >  include/linux/kcsan-checks.h              |  97 ++++
+> >  include/linux/kcsan.h                     | 115 +++++
+> >  include/linux/sched.h                     |   4 +
+> >  include/linux/seqlock.h                   |  51 +-
+> >  init/init_task.c                          |   8 +
+> >  init/main.c                               |   2 +
+> >  kernel/Makefile                           |   6 +
+> >  kernel/kcsan/Makefile                     |  11 +
+> >  kernel/kcsan/atomic.h                     |  27 ++
+> >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
+> >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
+> >  kernel/kcsan/encoding.h                   |  94 ++++
+> >  kernel/kcsan/kcsan.h                      | 131 +++++
+> >  kernel/kcsan/report.c                     | 306 ++++++++++++
+> >  kernel/kcsan/test.c                       | 121 +++++
+> >  kernel/sched/Makefile                     |   6 +
+> >  lib/Kconfig.debug                         |   2 +
+> >  lib/Kconfig.kcsan                         | 119 +++++
+> >  lib/Makefile                              |   3 +
+> >  mm/Makefile                               |   8 +
+> >  scripts/Makefile.kcsan                    |   6 +
+> >  scripts/Makefile.lib                      |  10 +
+> >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+> >  tools/objtool/check.c                     |  18 +
+> >  46 files changed, 2526 insertions(+), 206 deletions(-)
+> >  create mode 100644 Documentation/dev-tools/kcsan.rst
+> >  create mode 100644 include/linux/kcsan-checks.h
+> >  create mode 100644 include/linux/kcsan.h
+> >  create mode 100644 kernel/kcsan/Makefile
+> >  create mode 100644 kernel/kcsan/atomic.h
+> >  create mode 100644 kernel/kcsan/core.c
+> >  create mode 100644 kernel/kcsan/debugfs.c
+> >  create mode 100644 kernel/kcsan/encoding.h
+> >  create mode 100644 kernel/kcsan/kcsan.h
+> >  create mode 100644 kernel/kcsan/report.c
+> >  create mode 100644 kernel/kcsan/test.c
+> >  create mode 100644 lib/Kconfig.kcsan
+> >  create mode 100644 scripts/Makefile.kcsan
+> >
+> > --
+> > 2.24.0.rc1.363.gb1bccd3e3d-goog
+> >
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
