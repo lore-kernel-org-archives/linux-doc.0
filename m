@@ -1,130 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFD187D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 20:49:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 705D87D918
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Nov 2019 20:55:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729575AbfKDUso (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 15:48:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51786 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729376AbfKDUso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 15:48:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572900523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mn5RsMcwjgSz4Uc3SsLk9u7OdhxITCoqvev72K3k0/w=;
-        b=hQ9+wUclM/gzvrwXlA0dBmvh/ki8tPcPI4NMrzUSwOoLjc6TTXi4ppLn6A8JYvsmhSCT/q
-        9xJ9ZYZR1XsNeEJ6PbCbPyMze2ZLL00duT3IgVl7S51Ld6Zf0Dtf0e8LS6qh+AhfwtBiPB
-        MvLGtYW2tZJFAys78ar8r6R6dU8re+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-XtiEJ6MJOtixJceTBvorsw-1; Mon, 04 Nov 2019 15:48:39 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 279BB1800DFD;
-        Mon,  4 Nov 2019 20:48:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.178])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AEACB5C3F8;
-        Mon,  4 Nov 2019 20:48:29 +0000 (UTC)
-Date:   Mon, 4 Nov 2019 15:48:28 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     David Rientjes <rientjes@google.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-Message-ID: <20191104204828.GC7731@redhat.com>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-6-jhubbard@nvidia.com>
- <alpine.DEB.2.21.1911041231520.74801@chino.kir.corp.google.com>
+        id S1728602AbfKDUzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 15:55:21 -0500
+Received: from mga12.intel.com ([192.55.52.136]:64773 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728332AbfKDUzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Nov 2019 15:55:21 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 12:55:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,268,1569308400"; 
+   d="scan'208";a="195581057"
+Received: from rczubala-mobl.ger.corp.intel.com (HELO localhost) ([10.252.7.245])
+  by orsmga008.jf.intel.com with ESMTP; 04 Nov 2019 12:55:08 -0800
+Date:   Mon, 4 Nov 2019 22:55:06 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jens Wiklander <jens.wiklander@linaro.org>, dhowells@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>, jejb@linux.ibm.com,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Stuart Yoder <stuart.yoder@arm.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Subject: Re: [Patch v3 6/7] doc: keys: Document usage of TEE based Trusted
+ Keys
+Message-ID: <20191104205453.GA29713@linux.intel.com>
+References: <1572530323-14802-1-git-send-email-sumit.garg@linaro.org>
+ <1572530323-14802-7-git-send-email-sumit.garg@linaro.org>
+ <20191031214745.GG10507@linux.intel.com>
+ <CAFA6WYMkE928v-v76gGtWmsS0PwRp-OHUtkS0+Ts4V6x0AKBqQ@mail.gmail.com>
+ <20191101201957.GA8369@linux.intel.com>
+ <CAFA6WYNwSSaZv5OM=q+LCyn0mEdpg7K+W_v2_NBHhtktg1BFXw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1911041231520.74801@chino.kir.corp.google.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: XtiEJ6MJOtixJceTBvorsw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAFA6WYNwSSaZv5OM=q+LCyn0mEdpg7K+W_v2_NBHhtktg1BFXw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 12:33:09PM -0800, David Rientjes wrote:
->=20
->=20
-> On Sun, 3 Nov 2019, John Hubbard wrote:
->=20
-> > Introduce pin_user_pages*() variations of get_user_pages*() calls,
-> > and also pin_longterm_pages*() variations.
-> >=20
-> > These variants all set FOLL_PIN, which is also introduced, and
-> > thoroughly documented.
-> >=20
-> > The pin_longterm*() variants also set FOLL_LONGTERM, in addition
-> > to FOLL_PIN:
-> >=20
-> >     pin_user_pages()
-> >     pin_user_pages_remote()
-> >     pin_user_pages_fast()
-> >=20
-> >     pin_longterm_pages()
-> >     pin_longterm_pages_remote()
-> >     pin_longterm_pages_fast()
-> >=20
-> > All pages that are pinned via the above calls, must be unpinned via
-> > put_user_page().
-> >=20
->=20
-> Hi John,
->=20
-> I'm curious what consideration is given to what pageblock migrate types=
-=20
-> that FOLL_PIN and FOLL_LONGTERM pages originate from, assuming that=20
-> longterm would want to originate from MIGRATE_UNMOVABLE pageblocks for th=
-e=20
-> purposes of anti-fragmentation?
+On Mon, Nov 04, 2019 at 12:28:47PM +0530, Sumit Garg wrote:
+> On Sat, 2 Nov 2019 at 01:50, Jarkko Sakkinen
+> <jarkko.sakkinen@linux.intel.com> wrote:
+> >
+> > On Fri, Nov 01, 2019 at 03:04:18PM +0530, Sumit Garg wrote:
+> >
+> > > Isn't this statement contradicting with your earlier statement
+> > > regarding the right order would be to complete TEE patches review
+> > > first and then come up with documentation here [2]?
+> > >
+> > > [1] https://lore.kernel.org/linux-integrity/1568025601.4614.253.camel@linux.ibm.com/
+> > > [2] https://lore.kernel.org/linux-integrity/20190909163643.qxmzpcggi567hmhv@linux.intel.com/
+> >
+> > With the intersecting issues, namely key generation and conflicting
+> > keyctl parameters, that was not a well considered statement.
+> 
+> Okay, let me work on documentation first, but I think resending whole
+> patch-set just for documentation review and rework would be an
+> overkill. Would minor revisions of this patch only like v3.1, v3.2
+> etc. work for you? And later I could send next version of this
+> patch-set once we agree on documentation.
 
-We do not control page block, GUP can happens on _any_ page that is
-map inside a process (anonymous private vma or regular file back one).
+Yeah, we could iterate through the documentation patch and once
+we are happy with it you can bundle it to your main patch set.
 
-Cheers,
-J=E9r=F4me
-
+/Jarkko
