@@ -1,177 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E86D7DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 16:09:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EFA87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 16:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390156AbfKEQIf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 11:08:35 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:60606 "EHLO mail.rt-rk.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390168AbfKEQIa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Nov 2019 11:08:30 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.rt-rk.com (Postfix) with ESMTP id 9BD4E1A216E;
-        Tue,  5 Nov 2019 16:59:40 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local [10.10.14.106])
-        by mail.rt-rk.com (Postfix) with ESMTPSA id 753F11A2113;
-        Tue,  5 Nov 2019 16:59:40 +0100 (CET)
-From:   Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-Cc:     Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Subject: [PATCH 1/3] docs: ioctl: Update ioctl-number.rst ioctl ranges table
-Date:   Tue,  5 Nov 2019 16:59:19 +0100
-Message-Id: <1572969561-17591-2-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1572969561-17591-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1572969561-17591-1-git-send-email-aleksandar.markovic@rt-rk.com>
+        id S2389934AbfKEQUo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 11:20:44 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33522 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389760AbfKEQUn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 11:20:43 -0500
+Received: by mail-pf1-f194.google.com with SMTP id c184so15906638pfb.0;
+        Tue, 05 Nov 2019 08:20:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZPVzr1zF8FoSavwzywDNDMaLZfpRZ21grLGFJWRaQIU=;
+        b=Z2Z8MtYGi373NNAWDZz42HeMuGe7BEJkMfI30Qyj50jQnSlcVYc85z4f4nH35KIcru
+         pFYdzrPtkPxWJaIeXkHw3mhsE/OLQSxoZglyhJDnmpZn7/e0OeIqCItP1vDMu5LY02hD
+         O8Ip8VY7PnkU9Ng0mb/VQl/+vzlPrAsaEMCrvVEf7YQ2k8rs0XYkEfBd2g9frV8GrmWR
+         gHC0yGQ0H58nS/5AB5+QnzwWZst5eY5+8whiffDUVTASowbRXKWalL11eiUUNojm+XCe
+         85qU152zCeNNi/J/AIaBFW7vL9ZEoMkJ1uBEgNu+j4mZEoLZLZxVev0j/Jlb9/7We7MK
+         Ckuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZPVzr1zF8FoSavwzywDNDMaLZfpRZ21grLGFJWRaQIU=;
+        b=Vj8L02A1McMsNW5pr2nuqAnz5pfM0NZIdvU/L5BDPx42jN/NhAayGdBj24/aC523GH
+         4zfmbnYTmdAe6eYH++W0qqnmOyFIWGE5Gke199Woaj/rPsXIoyUoHmpLFoSRGIotTEhA
+         YGVfCTX4OtOmo79OzW72mXI9mtpO7Xx5l/eNrAMRH0rTHIRSyrz9HxCGR5Vev+vivBix
+         ImmWnRyb40A2Ey7EAu3dM9uLKzp6roKAKHIeiDBGfPJZRAd/n36qmjqZc3n9r6eiWSOB
+         UJxvF3eAVVPjSjUwQicg09Ex1EGVdUVgsGdpV4pwAw86/DjXfheQSf3epWkaC7Lc7Hqx
+         bqVg==
+X-Gm-Message-State: APjAAAXp6PGh7frt1Olm92VPxpuZAf+W4NMiliMRfFpAxNkp+wSLt2rE
+        JxWp0xdL9kKYv7mFp2vSXqg=
+X-Google-Smtp-Source: APXvYqyFwAsiCDt6AGENcB7yeqqnr/v5aOegQz2usIGj2+tHe7XeVZpvQBweyYpsJ6cneMn6zCf/zw==
+X-Received: by 2002:a63:f94f:: with SMTP id q15mr17430362pgk.412.1572970841275;
+        Tue, 05 Nov 2019 08:20:41 -0800 (PST)
+Received: from workstation ([139.5.253.184])
+        by smtp.gmail.com with ESMTPSA id f2sm17765272pfg.48.2019.11.05.08.20.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 08:20:39 -0800 (PST)
+Date:   Tue, 5 Nov 2019 21:50:32 +0530
+From:   Amol Grover <frextrite@gmail.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     paulmck@kernel.org, Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for
+ section 2
+Message-ID: <20191105162032.GA10619@workstation>
+References: <20191104133315.GA14499@workstation-kernel-dev>
+ <20191104150328.GZ20975@paulmck-ThinkPad-P72>
+ <20191104171641.GA15217@workstation-kernel-dev>
+ <20191104194528.GJ20975@paulmck-ThinkPad-P72>
+ <dc5570d4-26bf-59ab-76bb-79490dde2369@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dc5570d4-26bf-59ab-76bb-79490dde2369@linuxfoundation.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+On Tue, Nov 05, 2019 at 07:52:59AM -0700, Shuah Khan wrote:
+> Hi Amol,
+> 
+> On 11/4/19 12:45 PM, Paul E. McKenney wrote:
+> > On Mon, Nov 04, 2019 at 10:46:41PM +0530, Amol Grover wrote:
+> > > On Mon, Nov 04, 2019 at 07:03:28AM -0800, Paul E. McKenney wrote:
+> > > > On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
+> > > > > Convert RCU API method text to sub-headings and
+> > > > > add hyperlink and superscript to 2 literary notes
+> > > > > under rcu_dereference() section
+> > > > > 
+> > > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > > > 
+> > > > Good stuff, but Phong Tran beat you to it.  If you are suggesting
+> > > > changes to that patch, please send a reply to her email, which
+> > > > may be found here:
+> > > > 
+> 
+> Please do a review and send comments and suggestions in an email
+> instead of a patch.
 
-Attempt to update ioctl ranges table to reflect reality better.
+Hi Shuah,
 
-Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
----
- Documentation/ioctl/ioctl-number.rst | 51 ++++++++++++++++++------------------
- 1 file changed, 26 insertions(+), 25 deletions(-)
+Sure thing! I'll do a review and send in the suggestions.
 
-diff --git a/Documentation/ioctl/ioctl-number.rst b/Documentation/ioctl/ioctl-number.rst
-index bef79cd..f8768c7 100644
---- a/Documentation/ioctl/ioctl-number.rst
-+++ b/Documentation/ioctl/ioctl-number.rst
-@@ -70,26 +70,25 @@ no attempt to list non-X86 architectures or ioctls from drivers/staging/.
- Code  Seq#    Include File                                           Comments
-       (hex)
- ====  =====  ======================================================= ================================================================
--0x00  00-1F  linux/fs.h                                              conflict!
--0x00  00-1F  scsi/scsi_ioctl.h                                       conflict!
--0x00  00-1F  linux/fb.h                                              conflict!
--0x00  00-1F  linux/wavefront.h                                       conflict!
--0x02  all    linux/fd.h
--0x03  all    linux/hdreg.h
-+0x00  00-1F  linux/fs.h                                              Filesystem BMAP support
-+0x02  all    linux/fd.h                                              Floppy drive
-+0x03  all    linux/hdreg.h                                           Hard drive
- 0x04  D2-DC  linux/umsdos_fs.h                                       Dead since 2.6.11, but don't reuse these.
--0x06  all    linux/lp.h
-+0x06  all    linux/lp.h                                              Parallel printer driver
-+0x07  9F-CB  linux/vmw_vmci_defs.h                                   VMware VMCI Driver
- 0x09  all    linux/raid/md_u.h
- 0x10  00-0F  drivers/char/s390/vmcp.h
- 0x10  10-1F  arch/s390/include/uapi/sclp_ctl.h
- 0x10  20-2F  arch/s390/include/uapi/asm/hypfs.h
- 0x12  all    linux/fs.h
-              linux/blkpg.h
--0x1b  all                                                            InfiniBand Subsystem
-+             linux/blkzoned.h
-+0x1b  all    rdma/rdma_user_ioctl.h                                  InfiniBand Subsystem
-                                                                      <http://infiniband.sourceforge.net/>
--0x20  all    drivers/cdrom/cm206.h
-+0x21  00-02  linux/seccomp.h                                         Seccomp BPF
- 0x22  all    scsi/sg.h
- '!'   00-1F  uapi/linux/seccomp.h
--'#'   00-3F                                                          IEEE 1394 Subsystem
-+'#'   00-3F  linux/firewire-cdev.h                                   IEEE 1394 Subsystem
-                                                                      Block for the entire subsystem
- '$'   00-0F  linux/perf_counter.h, linux/perf_event.h
- '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
-@@ -97,13 +96,14 @@ Code  Seq#    Include File                                           Comments
- '&'   00-07  drivers/firewire/nosy-user.h
- '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
-                                                                      <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
--'2'   01-04  linux/i2o.h
- '3'   00-0F  drivers/s390/char/raw3270.h                             conflict!
- '3'   00-1F  linux/suspend_ioctls.h,                                 conflict!
-              kernel/power/user.c
- '8'   all                                                            SNP8023 advanced NIC card
-                                                                      <mailto:mcr@solidum.com>
--';'   64-7F  linux/vfio.h
-+';'   64-7F  linux/vfio.h                                            Virtual Function I/O (VFIO)
-+'='   01-09  linux/ptp_clock.h                                       PTP 1588 clock
-+'>'   03-04  linux/sync_file.h                                       Sync file
- '@'   00-0F  linux/radeonfb.h                                        conflict!
- '@'   00-0F  drivers/video/aty/aty128fb.c                            conflict!
- 'A'   00-1F  linux/apm_bios.h                                        conflict!
-@@ -111,7 +111,7 @@ Code  Seq#    Include File                                           Comments
-              drivers/char/agp/compat_ioctl.h
- 'A'   00-7F  sound/asound.h                                          conflict!
- 'B'   00-1F  linux/cciss_ioctl.h                                     conflict!
--'B'   00-0F  include/linux/pmu.h                                     conflict!
-+'B'   00-0F  linux/pmu.h                                             conflict!
- 'B'   C0-FF  advanced bbus                                           <mailto:maassen@uni-freiburg.de>
- 'C'   all    linux/soundcard.h                                       conflict!
- 'C'   01-2F  linux/capi.h                                            conflict!
-@@ -148,17 +148,15 @@ Code  Seq#    Include File                                           Comments
- 'H'   40-4F  sound/hdsp.h                                            conflict!
- 'H'   90     sound/usb/usx2y/usb_stream.h
- 'H'   A0     uapi/linux/usb/cdc-wdm.h
--'H'   C0-F0  net/bluetooth/hci.h                                     conflict!
--'H'   C0-DF  net/bluetooth/hidp/hidp.h                               conflict!
--'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                               conflict!
--'H'   C0-DF  net/bluetooth/bnep/bnep.h                               conflict!
-+'H'   C0-F0  net/bluetooth/hci_sock.h                                Bluetooth HCI
- 'H'   F1     linux/hid-roccat.h                                      <mailto:erazor_de@users.sourceforge.net>
- 'H'   F8-FA  sound/firewire.h
- 'I'   all    linux/isdn.h                                            conflict!
- 'I'   00-0F  drivers/isdn/divert/isdn_divert.h                       conflict!
- 'I'   40-4F  linux/mISDNif.h                                         conflict!
- 'J'   00-1F  drivers/scsi/gdth_ioctl.h
--'K'   all    linux/kd.h
-+'K'   01-1D  linux/kfd_ioctl.h
-+'K'   2F-FB  linux/kd.h
- 'L'   00-1F  linux/loop.h                                            conflict!
- 'L'   10-1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                      conflict!
- 'L'   20-2F  linux/lightnvm.h
-@@ -171,7 +169,8 @@ Code  Seq#    Include File                                           Comments
- 'M'   00-0F  drivers/video/fsl-diu-fb.h                              conflict!
- 'N'   00-1F  drivers/usb/scanner.h
- 'N'   40-7F  drivers/block/nvme.c
--'O'   00-06  mtd/ubi-user.h                                          UBI
-+'O'   00-08  mtd/ubi-user.h                                          UBI
-+'O'   1F-3F  linux/omapfb.h                                          OMAP framebuffer
- 'P'   all    linux/soundcard.h                                       conflict!
- 'P'   60-6F  sound/sscape_ioctl.h                                    conflict!
- 'P'   00-0F  drivers/usb/class/usblp.c                               conflict!
-@@ -337,10 +336,11 @@ Code  Seq#    Include File                                           Comments
- 0xB4  00-0F  linux/gpio.h                                            <mailto:linux-gpio@vger.kernel.org>
- 0xB5  00-0F  uapi/linux/rpmsg.h                                      <mailto:linux-remoteproc@vger.kernel.org>
- 0xB6  all    linux/fpga-dfl.h
--0xC0  00-0F  linux/usb/iowarrior.h
--0xCA  00-0F  uapi/misc/cxl.h
--0xCA  10-2F  uapi/misc/ocxl.h
--0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h
-+0xB7  01-04  linux/nsfs.h                                            Namespaces
-+0xC0  00-0F  linux/usb/iowarrior.h                                   I/O-Warrior USB devices
-+0xCA  00-0F  uapi/misc/cxl.h                                         Coherent Accelerator Interface (CXL)
-+0xCA  10-2F  uapi/misc/ocxl.h                                        Open Coherent Accelerator Processor Interface (OpenCAPI)
-+0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h                              Coherent Accelerator (CXL) Flash
- 0xCB  00-1F                                                          CBM serial IEC bus in development:
-                                                                      <mailto:michael.klein@puffin.lb.shuttle.de>
- 0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
-@@ -353,10 +353,11 @@ Code  Seq#    Include File                                           Comments
- 0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                   ChromeOS EC driver
- 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                     sisfb (in development)
-                                                                      <mailto:thomas@winischhofer.net>
--0xF4  00-1F  video/mbxfb.h                                           mbxfb
-+0xF4  00-1F  video/mbxfb.h                                           Intel 2700G (Marathon) Frame Buffer Driver
-                                                                      <mailto:raph@8d.com>
-+0xF5  00-08  staging/android/vsoc_shm.h
- 0xF6  all                                                            LTTng Linux Trace Toolkit Next Generation
-                                                                      <mailto:mathieu.desnoyers@efficios.com>
--0xFD  all    linux/dm-ioctl.h
-+0xFD  all    linux/dm-ioctl.h                                        Device mapper
- 0xFE  all    linux/isst_if.h
- ====  =====  ======================================================= ================================================================
--- 
-2.7.4
+> 
+> > > > https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
+> > > > 
+> > > > There are several options for replying to this email listed at the
+> > > > bottom of that web page.
+> > > 
+> > > Thank you Paul! And that is correct, I was suggesting changes to
+> > > that patch. However, since that patch was already integrated into
+> > > the `dev` branch, I mistakenly believed this patch could be sent
+> > > independently. Sorry for the trouble, I'll re-send the patch the
+> > > correct way.
+> > 
+> 
+> Please drop your patch and do a review for the patch as suggested by
+> Paul. This should have been a review and not a patch on top.
 
+Noted. Will definitely keep this in mind the next time.
+
+Thank you
+Amol
+
+> 
+> thanks,
+> -- Shuah
