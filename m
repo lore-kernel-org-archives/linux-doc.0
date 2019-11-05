@@ -1,155 +1,254 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4198C7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 09:50:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 818297D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 11:11:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388175AbfKEJtt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 04:49:49 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51824 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730574AbfKEJtm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 04:49:42 -0500
-Received: by mail-wm1-f67.google.com with SMTP id q70so20064923wme.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 01:49:40 -0800 (PST)
+        id S1730811AbfKELLK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 06:11:10 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35871 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730831AbfKELLJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 06:11:09 -0500
+Received: by mail-ot1-f68.google.com with SMTP id s3so9671090otk.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 03:11:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
-        b=KE3dP9KvcLUq0hJbOhSYMXJr4Z1Cuc2Vc3sYtj3A588K1AxiPBhNRv2jLPVvg3HpiB
-         asO9jGRsCrrAGrGXQuynbnaqIOtPdku/48txDbkC3jyEv0zbAYA99l9MmTsEF4lXmu4c
-         UlGTi/e9P81uVhAoSbMh6OU7HFW5tO869wbeU=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5B6n8kH55VbZzEY+wjyqB8FdxqyxjbBetSMGjeJd+Zc=;
+        b=UdD+cwSex9YqLUgmLDHvIdRuczHsP9I3go9ioWHKDeoQdh5OQ99sHfW3BLlN8Ff6HP
+         8R28ndXbv4hgtUQV3/XxhzEmvZkCXUzkhE0nYViO6ZMEk7CDLU4rpKAE9axwufvKNZ2L
+         Kx71TrGgidPXzEKaXFxPZUZxJCOVqTCuO3XKhbrW8m1S3dQoWQyeL9HeqUeGocDTO96c
+         GLAbijQEINerKedL2FS1iiDHMprU1EIBzoiZUUp4y/nrTCgy5U2hsY0NqNmMiV4n+JxJ
+         LBqAP7ZrAjvi71F1SEMk5eMUKwrNp2pP6nFBEM+hnoQhCe+kfAdOXmA+RphJ9rpfJEGn
+         OU9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
-        b=X9cFgvf5Xb+aJggMuvlF5AUVS1IRQVTEaVKuhokfoXY24A6khOsC9ncbj7upVfYKkt
-         m+tEkTxw4klNRrDJwYBGk4LjazsMkfxFXXqwwXSuysSTBYCyrJswq94V03i9nkC/11cC
-         45Nw4UcurFEHO0bIdd8hqXew2p1IcTV7UxlvSsH90npj6Chv6RUEhh+qKpT0sm8EbCGj
-         CqCVOv/rh/qifz0p4J3arRSuG6oB2Udr8OGiFG+xUOXP6ncQG6yj3ppqdUMpsaSy/hJD
-         AuAYc+WwR7ZqDUpqes5QnIg0QPTntZlDDbpDzS0Ikv1slJ6hY5CrbStYOXMYm70fcACF
-         +1Og==
-X-Gm-Message-State: APjAAAWCrvut+AKalplcfYJSvZskbzmgA7kcPCF13yWQbYZWdv+evnFQ
-        C6ERdZgfZXJvYNs+8pK8uynrQw==
-X-Google-Smtp-Source: APXvYqy+m+ZJ5zxOn/Dji3l65qB+TEfMmH5EiR/oP/iFPjGmYGokusjpTK+YoOlM7MNeuKLe8vHIRQ==
-X-Received: by 2002:a7b:c925:: with SMTP id h5mr3591415wml.115.1572947379914;
-        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id j19sm25704277wre.0.2019.11.05.01.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
-Date:   Tue, 5 Nov 2019 10:49:36 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 09/19] drm/via: set FOLL_PIN via pin_user_pages_fast()
-Message-ID: <20191105094936.GZ10326@phenom.ffwll.local>
-Mail-Followup-To: John Hubbard <jhubbard@nvidia.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>, David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-10-jhubbard@nvidia.com>
- <20191031233628.GI14771@iweiny-DESK2.sc.intel.com>
- <20191104181055.GP10326@phenom.ffwll.local>
- <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5B6n8kH55VbZzEY+wjyqB8FdxqyxjbBetSMGjeJd+Zc=;
+        b=eVbyS42rLrM5S3y3zXUatKjqGwP9YXHSTEtHxRr4RTUXcDR6KfRiU+6SaE4R6plWcw
+         +UdfHW1CWxUQv0So5ZQWPx/VLxsfpk2jbkuB2t2EkM9bobNdgn4dSN8ynX0paU4DaCmm
+         gcewKIIT0jYEWkIkDcen4ipWyksmMh8hjaoqbsub2h3a59Mf2ygplEo83bYVRnMZHVrt
+         y+98ykTsSDHh7F3WuEOnAB5fUSC/8aBiF7jgLmI5031jmxUoiI8u4qkATA+GlRk6jYv4
+         SmgKIAN7W7vlYBBfST75Dh3jTM6VkzrIF1Olyp6iersngeQMPXFrk0NVpP5yafie9hnI
+         F56Q==
+X-Gm-Message-State: APjAAAVVU6CNAs2HRmhXYsY5byTKDaDUIdIqkq+Te+g0c4+LAYT2zOtr
+        F8bXH1JcHDMWgotse5I1Htn93S3ryvlTAbpvWKFekg==
+X-Google-Smtp-Source: APXvYqxrBEp73s3i3gThYRaC4jrcPXypBj9UG+5da1MVtjpJ1hGe+870E3FHigNLsj9J2v5KeREkaOCk1yn4bHYd3bs=
+X-Received: by 2002:a9d:82e:: with SMTP id 43mr22800110oty.23.1572952267599;
+ Tue, 05 Nov 2019 03:11:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
-X-Operating-System: Linux phenom 5.2.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191104142745.14722-1-elver@google.com> <20191104164717.GE20975@paulmck-ThinkPad-P72>
+ <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com> <20191104194658.GK20975@paulmck-ThinkPad-P72>
+In-Reply-To: <20191104194658.GK20975@paulmck-ThinkPad-P72>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 5 Nov 2019 12:10:56 +0100
+Message-ID: <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 11:20:38AM -0800, John Hubbard wrote:
-> On 11/4/19 10:10 AM, Daniel Vetter wrote:
-> > On Thu, Oct 31, 2019 at 04:36:28PM -0700, Ira Weiny wrote:
-> >> On Wed, Oct 30, 2019 at 03:49:20PM -0700, John Hubbard wrote:
-> >>> Convert drm/via to use the new pin_user_pages_fast() call, which sets
-> >>> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-> >>> tracking of pinned pages, and therefore for any code that calls
-> >>> put_user_page().
-> >>>
-> >>
-> >> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> > 
-> > No one's touching the via driver anymore, so feel free to merge this
-> > through whatever tree suits best (aka I'll drop this on the floor and
-> > forget about it now).
-> > 
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> 
-> OK, great. Yes, in fact, I'm hoping Andrew can just push the whole series
-> in through the mm tree, because that would allow it to be done in one 
-> shot, in 5.5
+On Mon, 4 Nov 2019 at 20:47, Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Mon, Nov 04, 2019 at 07:41:30PM +0100, Marco Elver wrote:
+> > On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
+> > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > > KCSAN is a sampling watchpoint-based data-race detector. More details
+> > > > are included in Documentation/dev-tools/kcsan.rst. This patch-series
+> > > > only enables KCSAN for x86, but we expect adding support for other
+> > > > architectures is relatively straightforward (we are aware of
+> > > > experimental ARM64 and POWER support).
+> > > >
+> > > > To gather early feedback, we announced KCSAN back in September, and
+> > > > have integrated the feedback where possible:
+> > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > >
+> > > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > > including several articles that motivate why data-races are dangerous
+> > > > [1, 2], justifying a data-race detector such as KCSAN.
+> > > > [1] https://lwn.net/Articles/793253/
+> > > > [2] https://lwn.net/Articles/799218/
+> > > >
+> > > > The current list of known upstream fixes for data-races found by KCSAN
+> > > > can be found here:
+> > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > >
+> > > Making this more accessible to more people seems like a good thing.
+> > > So, for the series:
+> > >
+> > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
+> >
+> > Much appreciated. Thanks, Paul!
+> >
+> > Any suggestions which tree this could eventually land in?
+>
+> I would guess that Dmitry might have some suggestions.
 
-btw is there more? We should have a bunch more userptr stuff in various
-drivers, so was really surprised that drm/via is the only thing in your
-series.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I checked and we're both unclear what the most obvious tree to land in
+is (the other sanitizers are mm related, which KCSAN is not).
+
+One suggestion that comes to my mind is for KCSAN to go through the
+same tree (rcu?) as the LKMM due to their inherent relationship. Would
+that make most sense?
+
+Thanks,
+-- Marco
+
+> >
+> > > > Changelog
+> > > > ---------
+> > > > v3:
+> > > > * Major changes:
+> > > >  - Add microbenchmark.
+> > > >  - Add instruction watchpoint skip randomization.
+> > > >  - Refactor API and core runtime fast-path and slow-path. Compared to
+> > > >    the previous version, with a default config and benchmarked using the
+> > > >    added microbenchmark, this version is 3.8x faster.
+> > > >  - Make __tsan_unaligned __alias of generic accesses.
+> > > >  - Rename kcsan_{begin,end}_atomic ->
+> > > >    kcsan_{nestable,flat}_atomic_{begin,end}
+> > > >  - For filter list in debugfs.c use kmalloc+krealloc instead of
+> > > >    kvmalloc.
+> > > >  - Split Documentation into separate patch.
+> > > >
+> > > > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+> > > > * Major changes:
+> > > >  - Replace kcsan_check_access(.., {true, false}) with
+> > > >    kcsan_check_{read,write}.
+> > > >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+> > > >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+> > > >    contexts.
+> > > >
+> > > > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+> > > >
+> > > > Marco Elver (9):
+> > > >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
+> > > >   kcsan: Add Documentation entry in dev-tools
+> > > >   objtool, kcsan: Add KCSAN runtime functions to whitelist
+> > > >   build, kcsan: Add KCSAN build exceptions
+> > > >   seqlock, kcsan: Add annotations for KCSAN
+> > > >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+> > > >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
+> > > >   locking/atomics, kcsan: Add KCSAN instrumentation
+> > > >   x86, kcsan: Enable KCSAN for x86
+> > > >
+> > > >  Documentation/dev-tools/index.rst         |   1 +
+> > > >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
+> > > >  MAINTAINERS                               |  11 +
+> > > >  Makefile                                  |   3 +-
+> > > >  arch/x86/Kconfig                          |   1 +
+> > > >  arch/x86/boot/Makefile                    |   2 +
+> > > >  arch/x86/boot/compressed/Makefile         |   2 +
+> > > >  arch/x86/entry/vdso/Makefile              |   3 +
+> > > >  arch/x86/include/asm/bitops.h             |   6 +-
+> > > >  arch/x86/kernel/Makefile                  |   7 +
+> > > >  arch/x86/kernel/cpu/Makefile              |   3 +
+> > > >  arch/x86/lib/Makefile                     |   4 +
+> > > >  arch/x86/mm/Makefile                      |   3 +
+> > > >  arch/x86/purgatory/Makefile               |   2 +
+> > > >  arch/x86/realmode/Makefile                |   3 +
+> > > >  arch/x86/realmode/rm/Makefile             |   3 +
+> > > >  drivers/firmware/efi/libstub/Makefile     |   2 +
+> > > >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
+> > > >  include/asm-generic/bitops-instrumented.h |  18 +
+> > > >  include/linux/compiler-clang.h            |   9 +
+> > > >  include/linux/compiler-gcc.h              |   7 +
+> > > >  include/linux/compiler.h                  |  35 +-
+> > > >  include/linux/kcsan-checks.h              |  97 ++++
+> > > >  include/linux/kcsan.h                     | 115 +++++
+> > > >  include/linux/sched.h                     |   4 +
+> > > >  include/linux/seqlock.h                   |  51 +-
+> > > >  init/init_task.c                          |   8 +
+> > > >  init/main.c                               |   2 +
+> > > >  kernel/Makefile                           |   6 +
+> > > >  kernel/kcsan/Makefile                     |  11 +
+> > > >  kernel/kcsan/atomic.h                     |  27 ++
+> > > >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
+> > > >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
+> > > >  kernel/kcsan/encoding.h                   |  94 ++++
+> > > >  kernel/kcsan/kcsan.h                      | 131 +++++
+> > > >  kernel/kcsan/report.c                     | 306 ++++++++++++
+> > > >  kernel/kcsan/test.c                       | 121 +++++
+> > > >  kernel/sched/Makefile                     |   6 +
+> > > >  lib/Kconfig.debug                         |   2 +
+> > > >  lib/Kconfig.kcsan                         | 119 +++++
+> > > >  lib/Makefile                              |   3 +
+> > > >  mm/Makefile                               |   8 +
+> > > >  scripts/Makefile.kcsan                    |   6 +
+> > > >  scripts/Makefile.lib                      |  10 +
+> > > >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+> > > >  tools/objtool/check.c                     |  18 +
+> > > >  46 files changed, 2526 insertions(+), 206 deletions(-)
+> > > >  create mode 100644 Documentation/dev-tools/kcsan.rst
+> > > >  create mode 100644 include/linux/kcsan-checks.h
+> > > >  create mode 100644 include/linux/kcsan.h
+> > > >  create mode 100644 kernel/kcsan/Makefile
+> > > >  create mode 100644 kernel/kcsan/atomic.h
+> > > >  create mode 100644 kernel/kcsan/core.c
+> > > >  create mode 100644 kernel/kcsan/debugfs.c
+> > > >  create mode 100644 kernel/kcsan/encoding.h
+> > > >  create mode 100644 kernel/kcsan/kcsan.h
+> > > >  create mode 100644 kernel/kcsan/report.c
+> > > >  create mode 100644 kernel/kcsan/test.c
+> > > >  create mode 100644 lib/Kconfig.kcsan
+> > > >  create mode 100644 scripts/Makefile.kcsan
+> > > >
+> > > > --
+> > > > 2.24.0.rc1.363.gb1bccd3e3d-goog
+> > > >
+> > >
+> > > --
+> > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104194658.GK20975%40paulmck-ThinkPad-P72.
