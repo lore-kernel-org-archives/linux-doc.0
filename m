@@ -1,254 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2057D7D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 14:20:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5F8B87DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 14:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388313AbfKEOUj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 09:20:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44342 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388209AbfKEOUj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Nov 2019 09:20:39 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [109.144.209.237])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 92A83214D8;
-        Tue,  5 Nov 2019 14:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572963638;
-        bh=Z2MPkIAzAKDglk54O+36XxRRS4oH0whPqRPz7c34+ro=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=LVMEw0wDVyt/Dy+UZrrYompGaW9qKksnSQABcvC7ArZA5iZoM8yYIALMJAaCRTjLv
-         HMb9NlU0Vnt9P9tK56zmvIsH4RvkgqmU6ZisE1/Q5ZAQFcrbZJeBTqU4NbBmrV2TRN
-         f/+OzgqNvbcmmprG5uPIP08Y0kYgGVMI4C64Og3g=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id A450B35227C0; Tue,  5 Nov 2019 06:20:35 -0800 (PST)
-Date:   Tue, 5 Nov 2019 06:20:35 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191105142035.GR20975@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191104142745.14722-1-elver@google.com>
- <20191104164717.GE20975@paulmck-ThinkPad-P72>
- <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com>
- <20191104194658.GK20975@paulmck-ThinkPad-P72>
- <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
+        id S2389604AbfKEOdw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 09:33:52 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:43171 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389563AbfKEOdw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 09:33:52 -0500
+Received: by mail-pl1-f196.google.com with SMTP id a18so8378811plm.10;
+        Tue, 05 Nov 2019 06:33:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=v9fSyXnD8VoBgR79So8hf0D54ap7pnniJE6V+L+tQj0=;
+        b=qHeUbEs5ZbZVVULeSA39KYSidcTsRbR5Xirdtc8fxiFoKykcH3wQ8vfEuL6QDLKvhF
+         0tiKuj1LbgO9R8awW91Cu3uKuBhhlpV2hIV2fn3olyOTIMZ7ge5mV1Edo9sICpopyku/
+         jiZJ1vCUPKBwRYSUW70pTn/QmUQUBkPVHjiMy4FanRHThE+YsCZDf/gicMngIjGXZ17T
+         WezON4f78514a31zoOEvALzZ+ClZqjOZfMdQ2tqv1Z+98PU1F+Z4ipjoVjZrG8Unz2As
+         LO/85B0+t27RXybCEigoWbbbbt0D7RRg6VU4kB7eJ54UCWhZPbYmSmYcpdzM7Ov4lcoV
+         57dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v9fSyXnD8VoBgR79So8hf0D54ap7pnniJE6V+L+tQj0=;
+        b=Pp03dIIAceKCqjvWNkND8cnEaZAdHgHmYZjBhKFt9PWLZ1Gdli57tZlpevxkJvCJI0
+         2jqmsFWGv+vI8i3qo6+/09Zv7evqY3RDg6u8cwix0UZ4PW/VhJfB9YRVOegqoxCL+FsC
+         KkjtEQqlMHAdEYkLynRRqd0/02OYKsDNUFRvtyJgnfeh9X6AcvsEbB/0dFpZXiT8ga8G
+         WipCIDs6QXVpZrN3wZWVFp8MSUKG/upCnUwQaOnfYL//BsxC0Zo6N0BTlapjTqkfdJnO
+         gb3fhC0+aKgvijrI5jisCD49FjQ+yY8N1CaoGxmMOI5Mab3xaIxpHfgGIxI2dZ+f82Co
+         ajSg==
+X-Gm-Message-State: APjAAAX7hLUmv0Juo+YRT93i2dy48vbdf4AonVna8vXRuGa1x6FNR81Q
+        PGxKr7+V6GUGLLbqBOX7YQ0=
+X-Google-Smtp-Source: APXvYqwYM+PRax7oO1wPn0dsSKHYx6pa9FjEB+WcWxLRXh9HrW1jNeScVrUYBoCAMGUdNcl14Le+UQ==
+X-Received: by 2002:a17:902:b40e:: with SMTP id x14mr27539445plr.262.1572964431006;
+        Tue, 05 Nov 2019 06:33:51 -0800 (PST)
+Received: from workstation ([139.5.253.184])
+        by smtp.gmail.com with ESMTPSA id c12sm25607951pfp.178.2019.11.05.06.33.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 06:33:50 -0800 (PST)
+Date:   Tue, 5 Nov 2019 20:03:44 +0530
+From:   Amol Grover <frextrite@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Phong Tran <tranmanphong@gmail.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rcu@vger.kernel.org, joel@joelfernandes.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        madhuparnabhowmik04@gmail.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: arrayRCU:
+ Converted arrayRCU.txt to arrayRCU.rst
+Message-ID: <20191105143344.GA9069@workstation>
+References: <20191028202417.13095-1-madhuparnabhowmik04@gmail.com>
+ <ac8da2f5-4cda-8985-ff90-061478a4e2c9@gmail.com>
+ <20191105140411.GO20975@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191105140411.GO20975@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 12:10:56PM +0100, Marco Elver wrote:
-> On Mon, 4 Nov 2019 at 20:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Mon, Nov 04, 2019 at 07:41:30PM +0100, Marco Elver wrote:
-> > > On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
-> > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > KCSAN is a sampling watchpoint-based data-race detector. More details
-> > > > > are included in Documentation/dev-tools/kcsan.rst. This patch-series
-> > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > architectures is relatively straightforward (we are aware of
-> > > > > experimental ARM64 and POWER support).
-> > > > >
-> > > > > To gather early feedback, we announced KCSAN back in September, and
-> > > > > have integrated the feedback where possible:
-> > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > >
-> > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > including several articles that motivate why data-races are dangerous
-> > > > > [1, 2], justifying a data-race detector such as KCSAN.
-> > > > > [1] https://lwn.net/Articles/793253/
-> > > > > [2] https://lwn.net/Articles/799218/
-> > > > >
-> > > > > The current list of known upstream fixes for data-races found by KCSAN
-> > > > > can be found here:
-> > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > >
-> > > > Making this more accessible to more people seems like a good thing.
-> > > > So, for the series:
-> > > >
-> > > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> > >
-> > > Much appreciated. Thanks, Paul!
-> > >
-> > > Any suggestions which tree this could eventually land in?
-> >
-> > I would guess that Dmitry might have some suggestions.
+On Tue, Nov 05, 2019 at 06:04:11AM -0800, Paul E. McKenney wrote:
+> On Tue, Nov 05, 2019 at 08:49:47PM +0700, Phong Tran wrote:
+> > On 10/29/19 3:24 AM, madhuparnabhowmik04@gmail.com wrote:
+> > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > > 
+> > > This patch converts arrayRCU from txt to rst format.
+> > > arrayRCU.rst is also added in the index.rst file.
+> > > 
+> > > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > > ---
+> > >   .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 +++++++++++++-----
+> > >   Documentation/RCU/index.rst                    |  1 +
+> > >   2 files changed, 14 insertions(+), 5 deletions(-)
+> > >   rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (91%)
+> > > 
+> > > diff --git a/Documentation/RCU/arrayRCU.txt b/Documentation/RCU/arrayRCU.rst
+> > > similarity index 91%
+> > > rename from Documentation/RCU/arrayRCU.txt
+> > > rename to Documentation/RCU/arrayRCU.rst
+> > > index f05a9afb2c39..ed5ae24b196e 100644
+> > > --- a/Documentation/RCU/arrayRCU.txt
+> > > +++ b/Documentation/RCU/arrayRCU.rst
+> > > @@ -1,5 +1,7 @@
+> > > -Using RCU to Protect Read-Mostly Arrays
+> > > +.. _array_rcu_doc:
+> > > +Using RCU to Protect Read-Mostly Arrays
+> > > +=======================================
+> > >   Although RCU is more commonly used to protect linked lists, it can
+> > >   also be used to protect arrays.  Three situations are as follows:
+> > > @@ -26,6 +28,7 @@ described in the following sections.
+> > 
+> > It will be better to have the cross reference for each situation.
+> > 
+> > Hash Tables
+> > Static Arrays
+> > Resizeable Arrays
 > 
-> I checked and we're both unclear what the most obvious tree to land in
-> is (the other sanitizers are mm related, which KCSAN is not).
+> Madhuparna, could you please put a patch together creating these
+> cross-references and handling Phong's comments below (probably
+> by getting rid of the "." so that the resulting ":" doesn't look
+> strange)?
 > 
-> One suggestion that comes to my mind is for KCSAN to go through the
-> same tree (rcu?) as the LKMM due to their inherent relationship. Would
-> that make most sense?
-
-It works for me, though you guys have to continue to be the main
-developers.  ;-)
-
-I will go through the patches more carefully, and please look into the
-kbuild test robot complaint.
-
-							Thanx, Paul
-
-> Thanks,
-> -- Marco
+> Then I will fold that patch into your original commit in -rcu and
+> add Phong's Tested-by.
 > 
-> > >
-> > > > > Changelog
-> > > > > ---------
-> > > > > v3:
-> > > > > * Major changes:
-> > > > >  - Add microbenchmark.
-> > > > >  - Add instruction watchpoint skip randomization.
-> > > > >  - Refactor API and core runtime fast-path and slow-path. Compared to
-> > > > >    the previous version, with a default config and benchmarked using the
-> > > > >    added microbenchmark, this version is 3.8x faster.
-> > > > >  - Make __tsan_unaligned __alias of generic accesses.
-> > > > >  - Rename kcsan_{begin,end}_atomic ->
-> > > > >    kcsan_{nestable,flat}_atomic_{begin,end}
-> > > > >  - For filter list in debugfs.c use kmalloc+krealloc instead of
-> > > > >    kvmalloc.
-> > > > >  - Split Documentation into separate patch.
-> > > > >
-> > > > > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
-> > > > > * Major changes:
-> > > > >  - Replace kcsan_check_access(.., {true, false}) with
-> > > > >    kcsan_check_{read,write}.
-> > > > >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
-> > > > >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
-> > > > >    contexts.
-> > > > >
-> > > > > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
-> > > > >
-> > > > > Marco Elver (9):
-> > > > >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
-> > > > >   kcsan: Add Documentation entry in dev-tools
-> > > > >   objtool, kcsan: Add KCSAN runtime functions to whitelist
-> > > > >   build, kcsan: Add KCSAN build exceptions
-> > > > >   seqlock, kcsan: Add annotations for KCSAN
-> > > > >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
-> > > > >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
-> > > > >   locking/atomics, kcsan: Add KCSAN instrumentation
-> > > > >   x86, kcsan: Enable KCSAN for x86
-> > > > >
-> > > > >  Documentation/dev-tools/index.rst         |   1 +
-> > > > >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
-> > > > >  MAINTAINERS                               |  11 +
-> > > > >  Makefile                                  |   3 +-
-> > > > >  arch/x86/Kconfig                          |   1 +
-> > > > >  arch/x86/boot/Makefile                    |   2 +
-> > > > >  arch/x86/boot/compressed/Makefile         |   2 +
-> > > > >  arch/x86/entry/vdso/Makefile              |   3 +
-> > > > >  arch/x86/include/asm/bitops.h             |   6 +-
-> > > > >  arch/x86/kernel/Makefile                  |   7 +
-> > > > >  arch/x86/kernel/cpu/Makefile              |   3 +
-> > > > >  arch/x86/lib/Makefile                     |   4 +
-> > > > >  arch/x86/mm/Makefile                      |   3 +
-> > > > >  arch/x86/purgatory/Makefile               |   2 +
-> > > > >  arch/x86/realmode/Makefile                |   3 +
-> > > > >  arch/x86/realmode/rm/Makefile             |   3 +
-> > > > >  drivers/firmware/efi/libstub/Makefile     |   2 +
-> > > > >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
-> > > > >  include/asm-generic/bitops-instrumented.h |  18 +
-> > > > >  include/linux/compiler-clang.h            |   9 +
-> > > > >  include/linux/compiler-gcc.h              |   7 +
-> > > > >  include/linux/compiler.h                  |  35 +-
-> > > > >  include/linux/kcsan-checks.h              |  97 ++++
-> > > > >  include/linux/kcsan.h                     | 115 +++++
-> > > > >  include/linux/sched.h                     |   4 +
-> > > > >  include/linux/seqlock.h                   |  51 +-
-> > > > >  init/init_task.c                          |   8 +
-> > > > >  init/main.c                               |   2 +
-> > > > >  kernel/Makefile                           |   6 +
-> > > > >  kernel/kcsan/Makefile                     |  11 +
-> > > > >  kernel/kcsan/atomic.h                     |  27 ++
-> > > > >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
-> > > > >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
-> > > > >  kernel/kcsan/encoding.h                   |  94 ++++
-> > > > >  kernel/kcsan/kcsan.h                      | 131 +++++
-> > > > >  kernel/kcsan/report.c                     | 306 ++++++++++++
-> > > > >  kernel/kcsan/test.c                       | 121 +++++
-> > > > >  kernel/sched/Makefile                     |   6 +
-> > > > >  lib/Kconfig.debug                         |   2 +
-> > > > >  lib/Kconfig.kcsan                         | 119 +++++
-> > > > >  lib/Makefile                              |   3 +
-> > > > >  mm/Makefile                               |   8 +
-> > > > >  scripts/Makefile.kcsan                    |   6 +
-> > > > >  scripts/Makefile.lib                      |  10 +
-> > > > >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
-> > > > >  tools/objtool/check.c                     |  18 +
-> > > > >  46 files changed, 2526 insertions(+), 206 deletions(-)
-> > > > >  create mode 100644 Documentation/dev-tools/kcsan.rst
-> > > > >  create mode 100644 include/linux/kcsan-checks.h
-> > > > >  create mode 100644 include/linux/kcsan.h
-> > > > >  create mode 100644 kernel/kcsan/Makefile
-> > > > >  create mode 100644 kernel/kcsan/atomic.h
-> > > > >  create mode 100644 kernel/kcsan/core.c
-> > > > >  create mode 100644 kernel/kcsan/debugfs.c
-> > > > >  create mode 100644 kernel/kcsan/encoding.h
-> > > > >  create mode 100644 kernel/kcsan/kcsan.h
-> > > > >  create mode 100644 kernel/kcsan/report.c
-> > > > >  create mode 100644 kernel/kcsan/test.c
-> > > > >  create mode 100644 lib/Kconfig.kcsan
-> > > > >  create mode 100644 scripts/Makefile.kcsan
-> > > > >
-> > > > > --
-> > > > > 2.24.0.rc1.363.gb1bccd3e3d-goog
-> > > > >
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104194658.GK20975%40paulmck-ThinkPad-P72.
+> 							Thanx, Paul
+> 
+> > >   Situation 1: Hash Tables
+> > > +------------------------
+> > >   Hash tables are often implemented as an array, where each array entry
+> > >   has a linked-list hash chain.  Each hash chain can be protected by RCU
+> > > @@ -34,6 +37,7 @@ to other array-of-list situations, such as radix trees.
+> > >   Situation 2: Static Arrays
+> > > +--------------------------
+> > >   Static arrays, where the data (rather than a pointer to the data) is
+> > >   located in each array element, and where the array is never resized,
+> > > @@ -41,11 +45,13 @@ have not been used with RCU.  Rik van Riel recommends using seqlock in
+> > >   this situation, which would also have minimal read-side overhead as long
+> > >   as updates are rare.
+> > > -Quick Quiz:  Why is it so important that updates be rare when
+> > > -	     using seqlock?
+> > > +Quick Quiz:
+> > > +		Why is it so important that updates be rare when using seqlock?
+> > > +:ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+> > >   Situation 3: Resizeable Arrays
+> > > +------------------------------
+> > >   Use of RCU for resizeable arrays is demonstrated by the grow_ary()
+> > >   function formerly used by the System V IPC code.  The array is used
+> > > @@ -60,7 +66,7 @@ the remainder of the new, updates the ids->entries pointer to point to
+> > >   the new array, and invokes ipc_rcu_putref() to free up the old array.
+> > >   Note that rcu_assign_pointer() is used to update the ids->entries pointer,
+> > >   which includes any memory barriers required on whatever architecture
+> > > -you are running on.
+> > > +you are running on.::
+> > 
+> > a redundant ":" in here with html page.
+> > 
+> > 
+> > 
+> > 
+> > >   	static int grow_ary(struct ipc_ids* ids, int newsize)
+> > >   	{
+> > > @@ -112,7 +118,7 @@ a simple check suffices.  The pointer to the structure corresponding
+> > >   to the desired IPC object is placed in "out", with NULL indicating
+> > >   a non-existent entry.  After acquiring "out->lock", the "out->deleted"
+> > >   flag indicates whether the IPC object is in the process of being
+> > > -deleted, and, if not, the pointer is returned.
+> > > +deleted, and, if not, the pointer is returned.::
+> > 
+> > same as above
+> > 
+> > 
+> > Tested-by: Phong Tran <tranmanphong@gmail.com>
+> > 
+> > Regards,
+> > Phong.
+> > 
+> > >   	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
+> > >   	{
+> > > @@ -144,8 +150,10 @@ deleted, and, if not, the pointer is returned.
+> > >   		return out;
+> > >   	}
+> > > +.. _answer_quick_quiz_seqlock:
+> > >   Answer to Quick Quiz:
+> > > +	Why is it so important that updates be rare when using seqlock?
+> > >   	The reason that it is important that updates be rare when
+> > >   	using seqlock is that frequent updates can livelock readers.
+> > > diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+> > > index 5c99185710fa..8d20d44f8fd4 100644
+> > > --- a/Documentation/RCU/index.rst
+> > > +++ b/Documentation/RCU/index.rst
+> > > @@ -7,6 +7,7 @@ RCU concepts
+> > >   .. toctree::
+> > >      :maxdepth: 3
+> > > +   arrayRCU
+> > >      rcu
+> > >      listRCU
+> > >      UP
+> > > 
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees@lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+Hey,
+There are a few instances in the document where words are
+emphasized. Example, -not- in the first paragraph. The 
+previous emphasis was correct wrt txt format, but this
+could be converted to italicize/bold to keep up with the
+reST format. Other than this and what Phong suggested,
+everything looks good!
+
+Tested-by: Amol Grover <frextrite@gmail.com>
+
+Thank you
+Amol
