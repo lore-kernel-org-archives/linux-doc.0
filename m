@@ -1,107 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A1457D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 08:54:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4198C7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 09:50:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727925AbfKEIyM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 03:54:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39212 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730499AbfKEIyM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 03:54:12 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xA58mjXp140469
-        for <linux-doc@vger.kernel.org>; Tue, 5 Nov 2019 03:54:10 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2w33vjmh0v-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 03:54:10 -0500
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Tue, 5 Nov 2019 08:54:08 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 5 Nov 2019 08:54:05 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xA58s4Us57737256
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 5 Nov 2019 08:54:04 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 30EE411C050;
-        Tue,  5 Nov 2019 08:54:04 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D64F311C04A;
-        Tue,  5 Nov 2019 08:54:02 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.124.35.160])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue,  5 Nov 2019 08:54:02 +0000 (GMT)
-Subject: Re: [PATCH v2 3/4] Documentation/ABI: mark /sys/kernel/fadump_* sysfs
- files deprecated
-To:     Hari Bathini <hbathini@linux.ibm.com>, mpe@ellerman.id.au
-Cc:     corbet@lwn.net, mahesh@linux.vnet.ibm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org
-References: <20191018130557.2217-1-sourabhjain@linux.ibm.com>
- <20191018130557.2217-4-sourabhjain@linux.ibm.com>
- <f69daa7b-ddb3-8190-c409-28a22c504fed@linux.ibm.com>
-From:   Sourabh Jain <sourabhjain@linux.ibm.com>
-Date:   Tue, 5 Nov 2019 14:24:02 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S2388175AbfKEJtt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 04:49:49 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51824 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730574AbfKEJtm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 04:49:42 -0500
+Received: by mail-wm1-f67.google.com with SMTP id q70so20064923wme.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 01:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
+        b=KE3dP9KvcLUq0hJbOhSYMXJr4Z1Cuc2Vc3sYtj3A588K1AxiPBhNRv2jLPVvg3HpiB
+         asO9jGRsCrrAGrGXQuynbnaqIOtPdku/48txDbkC3jyEv0zbAYA99l9MmTsEF4lXmu4c
+         UlGTi/e9P81uVhAoSbMh6OU7HFW5tO869wbeU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
+        b=X9cFgvf5Xb+aJggMuvlF5AUVS1IRQVTEaVKuhokfoXY24A6khOsC9ncbj7upVfYKkt
+         m+tEkTxw4klNRrDJwYBGk4LjazsMkfxFXXqwwXSuysSTBYCyrJswq94V03i9nkC/11cC
+         45Nw4UcurFEHO0bIdd8hqXew2p1IcTV7UxlvSsH90npj6Chv6RUEhh+qKpT0sm8EbCGj
+         CqCVOv/rh/qifz0p4J3arRSuG6oB2Udr8OGiFG+xUOXP6ncQG6yj3ppqdUMpsaSy/hJD
+         AuAYc+WwR7ZqDUpqes5QnIg0QPTntZlDDbpDzS0Ikv1slJ6hY5CrbStYOXMYm70fcACF
+         +1Og==
+X-Gm-Message-State: APjAAAWCrvut+AKalplcfYJSvZskbzmgA7kcPCF13yWQbYZWdv+evnFQ
+        C6ERdZgfZXJvYNs+8pK8uynrQw==
+X-Google-Smtp-Source: APXvYqy+m+ZJ5zxOn/Dji3l65qB+TEfMmH5EiR/oP/iFPjGmYGokusjpTK+YoOlM7MNeuKLe8vHIRQ==
+X-Received: by 2002:a7b:c925:: with SMTP id h5mr3591415wml.115.1572947379914;
+        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id j19sm25704277wre.0.2019.11.05.01.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
+Date:   Tue, 5 Nov 2019 10:49:36 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 09/19] drm/via: set FOLL_PIN via pin_user_pages_fast()
+Message-ID: <20191105094936.GZ10326@phenom.ffwll.local>
+Mail-Followup-To: John Hubbard <jhubbard@nvidia.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>, David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-10-jhubbard@nvidia.com>
+ <20191031233628.GI14771@iweiny-DESK2.sc.intel.com>
+ <20191104181055.GP10326@phenom.ffwll.local>
+ <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <f69daa7b-ddb3-8190-c409-28a22c504fed@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19110508-0012-0000-0000-00000360D22C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19110508-0013-0000-0000-0000219C2A5F
-Message-Id: <b1bc42cc-8d80-d104-b1b3-684c08531c78@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-05_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1911050076
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
+X-Operating-System: Linux phenom 5.2.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 10/21/19 1:11 PM, Hari Bathini wrote:
+On Mon, Nov 04, 2019 at 11:20:38AM -0800, John Hubbard wrote:
+> On 11/4/19 10:10 AM, Daniel Vetter wrote:
+> > On Thu, Oct 31, 2019 at 04:36:28PM -0700, Ira Weiny wrote:
+> >> On Wed, Oct 30, 2019 at 03:49:20PM -0700, John Hubbard wrote:
+> >>> Convert drm/via to use the new pin_user_pages_fast() call, which sets
+> >>> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+> >>> tracking of pinned pages, and therefore for any code that calls
+> >>> put_user_page().
+> >>>
+> >>
+> >> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > No one's touching the via driver anymore, so feel free to merge this
+> > through whatever tree suits best (aka I'll drop this on the floor and
+> > forget about it now).
+> > 
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
 > 
-> 
-> On 18/10/19 6:35 PM, Sourabh Jain wrote:
->> The /sys/kernel/fadump_* sysfs files are replicated under
-> 
-> [...]
-> 
->> +Note: The following FADump sysfs files are deprecated.
->> +
->> +    Deprecated                       Alternative
->> +    -------------------------------------------------------------------------------
->> +    /sys/kernel/fadump_enabled           /sys/kernel/fadump/fadump_enabled
->> +    /sys/kernel/fadump_registered        /sys/kernel/fadump/fadump_registered
->> +    /sys/kernel/fadump_release_mem       /sys/kernel/fadump/fadump_release_mem
-> 
-> /sys/kernel/fadump/* looks tidy instead of /sys/kernel/fadump/fadump_* 
-> I mean, /sys/kernel/fadump/fadump_enabled => /sys/kernel/fadump/enabled and such..
+> OK, great. Yes, in fact, I'm hoping Andrew can just push the whole series
+> in through the mm tree, because that would allow it to be done in one 
+> shot, in 5.5
 
-
-
-Could you please confirm whether you want to address the sysfs file path differently or
-actually changing the sysfs file name from fadump_enabled to enabled.
-
-- Sourabh Jain
-
+btw is there more? We should have a bunch more userptr stuff in various
+drivers, so was really surprised that drm/via is the only thing in your
+series.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
