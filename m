@@ -6,117 +6,139 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 869717DC63
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 19:26:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA0ED7D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 21:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390854AbfKETZ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 14:25:58 -0500
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:46561 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390314AbfKETZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 14:25:58 -0500
-Received: by mail-yb1-f194.google.com with SMTP id g17so421185ybd.13;
-        Tue, 05 Nov 2019 11:25:57 -0800 (PST)
+        id S1730040AbfKEV3m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 16:29:42 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39868 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728515AbfKEV3m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 16:29:42 -0500
+Received: by mail-pg1-f193.google.com with SMTP id 29so4099345pgm.6;
+        Tue, 05 Nov 2019 13:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KChVl98RtUbkgrTOQAVv+rIQgGh7eAxBXODW2CW7diU=;
-        b=gr3DvwnNJUf3Y48Dj/m1is18b4uN/Ngwj7G0hU5nh705p48wIU/R6fdiQDM2RyKmS5
-         B4+tCC7gc0ICBXMdqQWvzmJ/ccdkGS4Km7CVRUycrScH451IQUia3g+sE/5gaXZddvvY
-         I2pDqQgPoVRbB+yNOiwgSxIWfFL1lb9JXhQoryEYHCs1nzLLtvoVwwUW9CvEZnMwR3m/
-         52DfEtsh/HX0a2fbBDrsFjV7uE9QVwgXfOs95DxVHZzqUhS04ytJ96mXTyCh105y/HUS
-         BjhzqqiChzRRcqdkexMbU3yMO8CqYb82E8llWTzjWYpzTlSKCxf65d3FE9VmBhPne6+j
-         bqsA==
+        h=from:to:cc:subject:date:message-id;
+        bh=/3vtuMbo2Nno4c5epkK+9ZuqU3gi24D4qXzwnR0105w=;
+        b=Y8+nN28MJHvNLkconUxm0D1DW279dP/3XKV0xks7lwjKbgkFsUv2Gk0c45Sm5pdytv
+         TvD0z3uMV4BeEC0Vdw2mgg3Xtox3TfLlW8CBqdy/5wQMorTCTCMsJaTaowX4K8RMubUS
+         F7oMgWull7Car2vzHrlJZ6TnOuVBZq71dpDhsT2pXCIpSSdGgnybUU+J3x/glyk9085A
+         xiIZ83J6qznRdSjBKytP8yK9dIfwr5ItY1oe+8C0D4pBGmJ1b7Jx5mrWx3TY1yYudONw
+         tUMX3k8okcXeiQcf+FiBUnVbLCpxzd5DbKoUjEKALAzt0LOUhb9B7K4qPJb2KlIKulBC
+         gLsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KChVl98RtUbkgrTOQAVv+rIQgGh7eAxBXODW2CW7diU=;
-        b=bvy0uSTGcsUCj1g6EGeSu+9PcQMzbs5O7Dutdfuc34ULCVwNFSLorFL/6KtvhMQiJg
-         6nQIkmptAfk4Y+8GDkIBRJaDeeRsdPAfVSZcPhTe/qS8a1r3W92PqZqhszAYKAJ/Q1EO
-         nrJPUYo/CLLxy6Xlz66IBk56MHYFwDkKzKryDpZi7gh4qDCQDSbM6yheZV7wWZBXkavw
-         /BAEx6nVeu+/kDPUFCjxmStkA5T2xxwfAfZCEghWBnBxvJUFd6JDhtCWoM/qpJs9v755
-         4CCKNr7JzkS0uAk89froiXMKbuKdvyM25hIB53rS0OFFWJjchgEJ9wzQiR3P0AoQocOm
-         zfng==
-X-Gm-Message-State: APjAAAVf1j8MXsVljadlXxARs4/+VoWQKglRHuj5HiTeFRzWvFH5M19p
-        WWciCw76Fo3w9J4S175VZb5A77lAmBZRQ7PNLTQ=
-X-Google-Smtp-Source: APXvYqx6aFWSGHN0fNloB89+dY7LDFF8+dPoO/5MWUfPSHQSvaN/hiXzcFRfW+Ck3Kgv5gJ2I+zUDkQwtgzJ4cufWWU=
-X-Received: by 2002:a25:3744:: with SMTP id e65mr28077525yba.126.1572981956875;
- Tue, 05 Nov 2019 11:25:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20191104215253.141818-1-salyzyn@android.com> <CAOQ4uxhoozGgxYmucFpFx8N=b4x9H3sfp60TNzf0dmU9eQi2UQ@mail.gmail.com>
- <97c4108f-3a9b-e58b-56e0-dfe2642cc1f5@android.com>
-In-Reply-To: <97c4108f-3a9b-e58b-56e0-dfe2642cc1f5@android.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 5 Nov 2019 21:25:44 +0200
-Message-ID: <CAOQ4uxindmuTdfW6NNM2=Bt=y7KDMQsfN=zA_Z7dgkrHfptoHA@mail.gmail.com>
-Subject: Re: [PATCH v15 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=/3vtuMbo2Nno4c5epkK+9ZuqU3gi24D4qXzwnR0105w=;
+        b=sDgJYsYOZI5FiS2U8oUngmVFHZLUhMqfU7UI1/b9hhdVRaE+J+YY8IqFpjZSNO2EWE
+         b7AFp09Gjkpk7jAAzqhVI/Z4E07jgaX8e5debcOsKWI8a2itE0WJGjDRlHFKS0Ucn9uJ
+         nkef6p8meyyX6B7uhGKhrDE5Sw482/8CRLteu6Do5WlSWQqq5nnq/EP63NUTcnviSZ2w
+         YUDYQRHClUAOXjP90Ix2ubyo7lsaQrxtVUONwJEZNuZdTidC2nAKM+v0dlx5GuMecU66
+         Pg/jIDwq1c8ZA6Ek4A8NoN6aEp2Y+3CE6UNEp+k/tfR0f39bMX9q0SgKYeRHaB81X7J/
+         kONQ==
+X-Gm-Message-State: APjAAAX1TVHx37R4/KFcAdkPHX5UThyossczax2ifnc91cpsXGvyscJd
+        Yv35M5tuO2KbREAqNZVdsfk=
+X-Google-Smtp-Source: APXvYqx/DEl3pgVzSwinBSwE4HEKhElQMucE6B2yI9QSj1UbKcFLQBhjSG+gAIzhYt2jG98V9aDf1w==
+X-Received: by 2002:a17:90a:6583:: with SMTP id k3mr1522054pjj.50.1572989381200;
+        Tue, 05 Nov 2019 13:29:41 -0800 (PST)
+Received: from madhuparna-HP-Notebook.nitk.ac.in ([2402:3a80:50b:6566:c4f0:fef1:89e3:687])
+        by smtp.gmail.com with ESMTPSA id z63sm19040007pgb.75.2019.11.05.13.29.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 13:29:40 -0800 (PST)
+From:   madhuparnabhowmik04@gmail.com
+To:     paulmck@kernel.org, tranmanphong@gmail.com, frextrite@gmail.com
+Cc:     joel@joelfernandes.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Subject: [PATCH 2/2] Documentation: RCU: arrayRCU: Improve format for arrayRCU.rst
+Date:   Wed,  6 Nov 2019 02:59:27 +0530
+Message-Id: <20191105212927.13924-1-madhuparnabhowmik04@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 5, 2019 at 5:20 PM Mark Salyzyn <salyzyn@android.com> wrote:
->
-> On 11/4/19 11:56 PM, Amir Goldstein wrote:
-> > On Mon, Nov 4, 2019 at 11:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
-> >> Patch series:
-> >>
-> >> Mark Salyzyn (4):
-> >>    Add flags option to get xattr method paired to __vfs_getxattr
-> > Sigh.. did not get to fsdevel (again...) I already told you several times
-> > that you need to use a shorter CC list.
->
-> This is a direct result of the _required_ scripts/get_maintainer.pl
-> logic, I am not going to override it for first send. I was going to
-> forward to fsdevel after the messages settled, I am still waiting for
-> 1/4 to land on lore before continuing.
+From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-How do you expect it to land in lore if the mailing list server rejects it?
-If I were you, I would *first* post the patch to the small crowd of the
-patch set, which includes fsdevel and *then* forward patch 1 to all
-maintainers with a link to lore for the series.
+This patch adds cross-references and fixes a few formtting issues.
 
-The result as is was in your last 15 posting is much worst.
-There is a ghost patch in the series that nobody knows where to find.
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+---
+ Documentation/RCU/arrayRCU.rst | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
->
-> The first patch in the series needs to get in before the others. I was
-> told to send the first one individually because the series has so many
-> recipients and stakeholders, and <crickets> because no on could see the
-> reason for the patch once it was all by itself. So I rejoined the set so
-> they could see the reason for the first patch.
->
-> If only the first patch in the series that added the flag argument got
-> in (somewhere), then the overlayfs portion would be much easier to handle.
->
-> >>    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
-> >>    overlayfs: internal getxattr operations without sepolicy checking
-> >>    overlayfs: override_creds=off option bypass creator_cred
-> > It would be better for review IMO if you rebase your series on top of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git ovl-unpriv
-> Will do, send it only to fsdevel, other recipients? What do I do with
-> get_maintainer.pl? The first patch in the series is noisy, I am getting
-> more and more uncomfortable sending it to the list as it looks more and
-> more like spam.
+diff --git a/Documentation/RCU/arrayRCU.rst b/Documentation/RCU/arrayRCU.rst
+index ed5ae24b196e..30c007edfbfb 100644
+--- a/Documentation/RCU/arrayRCU.rst
++++ b/Documentation/RCU/arrayRCU.rst
+@@ -6,16 +6,16 @@ Using RCU to Protect Read-Mostly Arrays
+ Although RCU is more commonly used to protect linked lists, it can
+ also be used to protect arrays.  Three situations are as follows:
+ 
+-1.  Hash Tables
++1.  :ref:`Hash Tables <hash_tables>`
+ 
+-2.  Static Arrays
++2.  :ref:`Static Arrays <static_arrays>`
+ 
+-3.  Resizeable Arrays
++3.  :ref:`Resizeable Arrays <resizeable_arrays>`
+ 
+ Each of these three situations involves an RCU-protected pointer to an
+ array that is separately indexed.  It might be tempting to consider use
+ of RCU to instead protect the index into an array, however, this use
+-case is -not- supported.  The problem with RCU-protected indexes into
++case is **not** supported.  The problem with RCU-protected indexes into
+ arrays is that compilers can play way too many optimization games with
+ integers, which means that the rules governing handling of these indexes
+ are far more trouble than they are worth.  If RCU-protected indexes into
+@@ -26,6 +26,7 @@ to be safely used.
+ That aside, each of the three RCU-protected pointer situations are
+ described in the following sections.
+ 
++.. _hash_tables:
+ 
+ Situation 1: Hash Tables
+ ------------------------
+@@ -35,6 +36,7 @@ has a linked-list hash chain.  Each hash chain can be protected by RCU
+ as described in the listRCU.txt document.  This approach also applies
+ to other array-of-list situations, such as radix trees.
+ 
++.. _static_arrays:
+ 
+ Situation 2: Static Arrays
+ --------------------------
+@@ -50,6 +52,8 @@ Quick Quiz:
+ 
+ :ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+ 
++.. _resizeable_arrays:
++
+ Situation 3: Resizeable Arrays
+ ------------------------------
+ 
+@@ -66,7 +70,7 @@ the remainder of the new, updates the ids->entries pointer to point to
+ the new array, and invokes ipc_rcu_putref() to free up the old array.
+ Note that rcu_assign_pointer() is used to update the ids->entries pointer,
+ which includes any memory barriers required on whatever architecture
+-you are running on.::
++you are running on::
+ 
+ 	static int grow_ary(struct ipc_ids* ids, int newsize)
+ 	{
+@@ -118,7 +122,7 @@ a simple check suffices.  The pointer to the structure corresponding
+ to the desired IPC object is placed in "out", with NULL indicating
+ a non-existent entry.  After acquiring "out->lock", the "out->deleted"
+ flag indicates whether the IPC object is in the process of being
+-deleted, and, if not, the pointer is returned.::
++deleted, and, if not, the pointer is returned::
+ 
+ 	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
+ 	{
+-- 
+2.17.1
 
-get_maintainer.pl is a suggestion. common sense should be applied.
-Sending the entire series to the crowd of this message seems fine to
-me (I also added fsdevel). LKML is quite an overkill IMO and
-linux-doc also seems out of context if you ask me.
-
-Thanks,
-Amir.
