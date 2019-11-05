@@ -1,116 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D824F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 14:53:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33F387D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 15:21:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731026AbfKEOxC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 09:53:02 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:34635 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731023AbfKEOxC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 09:53:02 -0500
-Received: by mail-io1-f66.google.com with SMTP id q83so1693300iod.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 06:53:01 -0800 (PST)
+        id S2389783AbfKEPUN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 10:20:13 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36900 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389386AbfKEPUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 10:20:13 -0500
+Received: by mail-pg1-f194.google.com with SMTP id z24so9886599pgu.4
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 07:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=android.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+KOXusQ0gMsjPIECI8aJtEVaJzR/S8atj/RIpKomKHE=;
-        b=DBW1WPJxUMXrfv7VGwMYcFnk0qqQqtdg00M0Uec/ovJOKDOAhr0OFfig9xaYTtvdTA
-         fao7BC6uzWRQfSL8Gp1wX/pGlJGTbcnPTT/fOK7bVzH1ZXkPBjkzULXtIn7Lzj8Rqh3o
-         +Ve7M2LvNirX/loRVDz2W6eYTr2OGZBpm8NwA=
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=4knTl1jsJDuMainkSHY+5ZG6p+2SnQH1xWJ5/mQLZcc=;
+        b=DjIPeMXW32l5fRqhcF/hEw9KGRzv0na04clJGjRNUHPMDnhcD3TsmsKSwyjh+w/6sQ
+         PTAqM9sTWDUSi6tZrUkRd13QgbMTNVRPQlqdW+1hhLVpk9FmJHl8J6cSMn/Mway2kCWz
+         MJm6ZtryFrevQ+LCFRayk+JyZnFlnyxIgQZD2+1CxTk2zLzkpHX0WenqGSA5OAR0vNLJ
+         vGJ8Nob1RDlf/duriZT/QO02e/vLPDCDiLWW63O8ik1SD8GufmRrU1jjAolUO1dJiToY
+         jI2ZBWJGQxv6FDn+WE71NE1f+THhy/OGWe2P+plmcPg7d6M/DmrAToeVoM6Dzo/qyyJR
+         LmVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+KOXusQ0gMsjPIECI8aJtEVaJzR/S8atj/RIpKomKHE=;
-        b=U8U29PBRBkiFMWxaFE7f1KJU+FE+ZeBGDA5gG5LEPbNt3uyeul+ZPbskbnKHe6EfL8
-         J6LtP0otV3MLHjKN4v4te2JPLt/R8PAETDBCKqR5oC1CgqA90Am+iG+TVTt8/KNVdvYp
-         drPQesvwzWqGvwqofa9Ft53kv8ZCHSnJWZQDGGCTn4Gbn7l04RbeKksGDFDB7CH6ClOz
-         fCON8AE3BCBMFRzpkmUAfCaWkOPepjnNatUfO06atKAab/xp8GFVIa24mkUFHGipJOCy
-         eKICuaYUNO94TS6aUf5XxOi1tfc3aO3a+jsmkmr+2HwY9035JFnAqGi+qjDDAexZMi0r
-         /Aqg==
-X-Gm-Message-State: APjAAAUth0qW7mqMoalF4Iv1PDeb0pjk7wQEGg+jEpu0b4apc/LrMvs1
-        fYXeNR90lgN0Zb/2Zo8mBYe2Yg==
-X-Google-Smtp-Source: APXvYqz5HA2yCc0jWmXskaxybqR69b3WXB8Liclq5ymEdXWCL+pK+LjplQc9EZ95TvV3xrmGZYm64A==
-X-Received: by 2002:a5d:8987:: with SMTP id m7mr29268311iol.104.1572965581116;
-        Tue, 05 Nov 2019 06:53:01 -0800 (PST)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id f8sm2796434ilg.58.2019.11.05.06.52.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Nov 2019 06:53:00 -0800 (PST)
-Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for section
- 2
-To:     paulmck@kernel.org, Amol Grover <frextrite@gmail.com>
-Cc:     Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20191104133315.GA14499@workstation-kernel-dev>
- <20191104150328.GZ20975@paulmck-ThinkPad-P72>
- <20191104171641.GA15217@workstation-kernel-dev>
- <20191104194528.GJ20975@paulmck-ThinkPad-P72>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <dc5570d4-26bf-59ab-76bb-79490dde2369@linuxfoundation.org>
-Date:   Tue, 5 Nov 2019 07:52:59 -0700
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=4knTl1jsJDuMainkSHY+5ZG6p+2SnQH1xWJ5/mQLZcc=;
+        b=Cr+Px6GyRQZc+AkNxSc8RHdpvfsPPMrqfOIm7UilAb1xJ6CFmMMZrxDHwbhwgcAHfL
+         Rbw0ynXsTKalXxzd8WgCQaeKWooFtFiZ4Z5KY9DVpSlIPMU0tr0dxd+/s9ul2LBq3pdE
+         lU9+e/Lk3bIjFSA4RYcJ8Iplsed/przfTtlXjEQIKhxNfvf1KqdYxwnMx5iQNEVU7oZd
+         m2uFnQ6Y+T3X8v3t1XHUT9PODPwU0qbPPJuyJd5+A7hgk8SDzsJidthgs89eU0pZDjvP
+         i1LG7FskG7kv7RFKtxhNNrJwWdPsT29Gv5DO6Ln5uuy2rP4UpWBk0tAZPsPrm9nN7nrN
+         6bpA==
+X-Gm-Message-State: APjAAAWJguVv2iPiLf9okAiNTF7noibcYwtHKdBgtBXrR/38m8v9VsBk
+        nax7RTiijz3BS4LApu521eZxxgmZamCKjg==
+X-Google-Smtp-Source: APXvYqwngaEbIGV2C3ll19WybcLW+UHBVqY0ruQKQmcGOlj8LAdvhzyLZLrbbYkv25c+m4rL0C7yWw==
+X-Received: by 2002:a62:1dc6:: with SMTP id d189mr20322264pfd.100.1572967212046;
+        Tue, 05 Nov 2019 07:20:12 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id h8sm149633pjp.1.2019.11.05.07.20.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Nov 2019 07:20:11 -0800 (PST)
+Subject: Re: [PATCH v15 0/4] overlayfs override_creds=off & nested get xattr
+ fix
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-team@android.com, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20191104215253.141818-1-salyzyn@android.com>
+ <CAOQ4uxhoozGgxYmucFpFx8N=b4x9H3sfp60TNzf0dmU9eQi2UQ@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <97c4108f-3a9b-e58b-56e0-dfe2642cc1f5@android.com>
+Date:   Tue, 5 Nov 2019 07:20:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191104194528.GJ20975@paulmck-ThinkPad-P72>
+In-Reply-To: <CAOQ4uxhoozGgxYmucFpFx8N=b4x9H3sfp60TNzf0dmU9eQi2UQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Amol,
-
-On 11/4/19 12:45 PM, Paul E. McKenney wrote:
-> On Mon, Nov 04, 2019 at 10:46:41PM +0530, Amol Grover wrote:
->> On Mon, Nov 04, 2019 at 07:03:28AM -0800, Paul E. McKenney wrote:
->>> On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
->>>> Convert RCU API method text to sub-headings and
->>>> add hyperlink and superscript to 2 literary notes
->>>> under rcu_dereference() section
->>>>
->>>> Signed-off-by: Amol Grover <frextrite@gmail.com>
->>>
->>> Good stuff, but Phong Tran beat you to it.  If you are suggesting
->>> changes to that patch, please send a reply to her email, which
->>> may be found here:
->>>
-
-Please do a review and send comments and suggestions in an email
-instead of a patch.
-
->>> https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
->>>
->>> There are several options for replying to this email listed at the
->>> bottom of that web page.
+On 11/4/19 11:56 PM, Amir Goldstein wrote:
+> On Mon, Nov 4, 2019 at 11:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>> Patch series:
 >>
->> Thank you Paul! And that is correct, I was suggesting changes to
->> that patch. However, since that patch was already integrated into
->> the `dev` branch, I mistakenly believed this patch could be sent
->> independently. Sorry for the trouble, I'll re-send the patch the
->> correct way.
-> 
+>> Mark Salyzyn (4):
+>>    Add flags option to get xattr method paired to __vfs_getxattr
+> Sigh.. did not get to fsdevel (again...) I already told you several times
+> that you need to use a shorter CC list.
 
-Please drop your patch and do a review for the patch as suggested by
-Paul. This should have been a review and not a patch on top.
+This is a direct result of the _required_ scripts/get_maintainer.pl 
+logic, I am not going to override it for first send. I was going to 
+forward to fsdevel after the messages settled, I am still waiting for 
+1/4 to land on lore before continuing.
 
-thanks,
--- Shuah
+The first patch in the series needs to get in before the others. I was 
+told to send the first one individually because the series has so many 
+recipients and stakeholders, and <crickets> because no on could see the 
+reason for the patch once it was all by itself. So I rejoined the set so 
+they could see the reason for the first patch.
+
+If only the first patch in the series that added the flag argument got 
+in (somewhere), then the overlayfs portion would be much easier to handle.
+
+>>    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
+>>    overlayfs: internal getxattr operations without sepolicy checking
+>>    overlayfs: override_creds=off option bypass creator_cred
+> It would be better for review IMO if you rebase your series on top of
+> git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git ovl-unpriv
+Will do, send it only to fsdevel, other recipients? What do I do with 
+get_maintainer.pl? The first patch in the series is noisy, I am getting 
+more and more uncomfortable sending it to the list as it looks more and 
+more like spam.
+> 1. internal getxattr patch would be a one liner change to ovl_own_getxattr()
+> 2. The documentation of override_creds would be much more
+> meaningful if it used the overlay permission model terminology
+> that Miklos added in his patch set and extend it
+>
+> Thanks,
+> Amir.
+
+-- Mark
+
