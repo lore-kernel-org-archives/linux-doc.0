@@ -6,139 +6,313 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA0ED7D919
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 21:29:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AF5D7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 21:43:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730040AbfKEV3m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 16:29:42 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39868 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728515AbfKEV3m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 16:29:42 -0500
-Received: by mail-pg1-f193.google.com with SMTP id 29so4099345pgm.6;
-        Tue, 05 Nov 2019 13:29:42 -0800 (PST)
+        id S1729895AbfKEVn3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 16:43:29 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44902 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729747AbfKEVn3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 16:43:29 -0500
+Received: by mail-pf1-f193.google.com with SMTP id q26so16939793pfn.11;
+        Tue, 05 Nov 2019 13:43:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=/3vtuMbo2Nno4c5epkK+9ZuqU3gi24D4qXzwnR0105w=;
-        b=Y8+nN28MJHvNLkconUxm0D1DW279dP/3XKV0xks7lwjKbgkFsUv2Gk0c45Sm5pdytv
-         TvD0z3uMV4BeEC0Vdw2mgg3Xtox3TfLlW8CBqdy/5wQMorTCTCMsJaTaowX4K8RMubUS
-         F7oMgWull7Car2vzHrlJZ6TnOuVBZq71dpDhsT2pXCIpSSdGgnybUU+J3x/glyk9085A
-         xiIZ83J6qznRdSjBKytP8yK9dIfwr5ItY1oe+8C0D4pBGmJ1b7Jx5mrWx3TY1yYudONw
-         tUMX3k8okcXeiQcf+FiBUnVbLCpxzd5DbKoUjEKALAzt0LOUhb9B7K4qPJb2KlIKulBC
-         gLsw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PzgUCHmX4SKtXHoHzT3qESrsCOYBynwOpztbmGqg0O0=;
+        b=JLZGt4VBlvn/7SRVm30hukJ/2OU401CXRI3XTJ61J3zbU4ssJnUO+4xrJ8sN/DwYCT
+         x5wn2/2MYlKgORmDMnwlhUEMCVAsDM4/1tdkkozSRr37vW8XKFh6UyNDnwEureqLvjpE
+         76W3UkaFhT7K42bsMGh44ExnE3mEOHPdYEs3/54hhQ8tcQ3RjZtm2a559+C44TELGW5n
+         GOzNUVWoFadfAb9rNOv5hMSFE4s59D/keKeFuov20FSUM+VaWBE9/imO1GyA3GOeh4ZF
+         kGZj2Xd+a6QPyX4vqN+nfIL3j3jqzvF1yKG+a8IOmvad1A5/2PIRaWftWwNrR52ehMgP
+         /4Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/3vtuMbo2Nno4c5epkK+9ZuqU3gi24D4qXzwnR0105w=;
-        b=sDgJYsYOZI5FiS2U8oUngmVFHZLUhMqfU7UI1/b9hhdVRaE+J+YY8IqFpjZSNO2EWE
-         b7AFp09Gjkpk7jAAzqhVI/Z4E07jgaX8e5debcOsKWI8a2itE0WJGjDRlHFKS0Ucn9uJ
-         nkef6p8meyyX6B7uhGKhrDE5Sw482/8CRLteu6Do5WlSWQqq5nnq/EP63NUTcnviSZ2w
-         YUDYQRHClUAOXjP90Ix2ubyo7lsaQrxtVUONwJEZNuZdTidC2nAKM+v0dlx5GuMecU66
-         Pg/jIDwq1c8ZA6Ek4A8NoN6aEp2Y+3CE6UNEp+k/tfR0f39bMX9q0SgKYeRHaB81X7J/
-         kONQ==
-X-Gm-Message-State: APjAAAX1TVHx37R4/KFcAdkPHX5UThyossczax2ifnc91cpsXGvyscJd
-        Yv35M5tuO2KbREAqNZVdsfk=
-X-Google-Smtp-Source: APXvYqx/DEl3pgVzSwinBSwE4HEKhElQMucE6B2yI9QSj1UbKcFLQBhjSG+gAIzhYt2jG98V9aDf1w==
-X-Received: by 2002:a17:90a:6583:: with SMTP id k3mr1522054pjj.50.1572989381200;
-        Tue, 05 Nov 2019 13:29:41 -0800 (PST)
-Received: from madhuparna-HP-Notebook.nitk.ac.in ([2402:3a80:50b:6566:c4f0:fef1:89e3:687])
-        by smtp.gmail.com with ESMTPSA id z63sm19040007pgb.75.2019.11.05.13.29.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PzgUCHmX4SKtXHoHzT3qESrsCOYBynwOpztbmGqg0O0=;
+        b=j8hcIs2sfMI4vF2IJukLLQzVimQvQ1SAoiVTGbaLn6+Kom85ho1uCDczHUkqfEtcbV
+         sivI5cNsFmkhmbKD+PtbOg0nBIJ9zUxLPbtFoWnc7RMZws+ejbnF6gueI1WzgTC65JOR
+         ec+49R38iMUY//J6Jo6Qla1/6s9+wFDEH3XhWPYMhzZGr7+F081ZHw2OQgrodtaT35MH
+         KiPRQJ0h5bnPMpsbxpTB2uVlR26/kF2++9KBXW4ahNMJ0TgE8dn2Aw4idvFRbSFr1N3g
+         KV8OxgbfFt5ykADIKb2ZtWwUVy/TIvauW1MuK2ewiEcnaXIVxd0rz/WAKiCclM+humHZ
+         9PkQ==
+X-Gm-Message-State: APjAAAUpnkYPRzRsr724aDzbCuuDWlZ1zCElFWzNo7fV8VpE4jspZ2Y1
+        HvJSTinlmZVPfGCKqcDpGBg=
+X-Google-Smtp-Source: APXvYqzh7qCItQmbwlGWFB35LJmpSi0Zx9nz8WPKkZC+a4Y2dKLaZ7uhpWoO6DnwyRQS4JGyI7QgvA==
+X-Received: by 2002:a63:cf4d:: with SMTP id b13mr38055347pgj.396.1572990206533;
+        Tue, 05 Nov 2019 13:43:26 -0800 (PST)
+Received: from debian.net.fpt ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
+        by smtp.gmail.com with ESMTPSA id c12sm25428790pfp.67.2019.11.05.13.43.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 13:29:40 -0800 (PST)
-From:   madhuparnabhowmik04@gmail.com
-To:     paulmck@kernel.org, tranmanphong@gmail.com, frextrite@gmail.com
-Cc:     joel@joelfernandes.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Tue, 05 Nov 2019 13:43:25 -0800 (PST)
+From:   Phong Tran <tranmanphong@gmail.com>
+To:     frextrite@gmail.com, paulmck@kernel.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, jiangshanlai@gmail.com,
+        josh@joshtriplett.org, rostedt@goodmis.org,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        mathieu.desnoyers@efficios.com, joel@joelfernandes.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: [PATCH 2/2] Documentation: RCU: arrayRCU: Improve format for arrayRCU.rst
-Date:   Wed,  6 Nov 2019 02:59:27 +0530
-Message-Id: <20191105212927.13924-1-madhuparnabhowmik04@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Phong Tran <tranmanphong@gmail.com>
+Subject: [PATCH] Doc: whatisRCU: Add more Markup
+Date:   Wed,  6 Nov 2019 04:42:34 +0700
+Message-Id: <20191105214234.17116-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191105165938.GA10903@workstation>
+References: <20191105165938.GA10903@workstation>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+o Adding more crossrefs.
+o Bold some words.
+o Add header levels.
 
-This patch adds cross-references and fixes a few formtting issues.
-
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 ---
- Documentation/RCU/arrayRCU.rst | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ Documentation/RCU/whatisRCU.rst | 67 ++++++++++++++++++++-------------
+ 1 file changed, 41 insertions(+), 26 deletions(-)
 
-diff --git a/Documentation/RCU/arrayRCU.rst b/Documentation/RCU/arrayRCU.rst
-index ed5ae24b196e..30c007edfbfb 100644
---- a/Documentation/RCU/arrayRCU.rst
-+++ b/Documentation/RCU/arrayRCU.rst
-@@ -6,16 +6,16 @@ Using RCU to Protect Read-Mostly Arrays
- Although RCU is more commonly used to protect linked lists, it can
- also be used to protect arrays.  Three situations are as follows:
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index ae40c8bcc56c..3e24e0155a91 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -150,7 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
+ at the function header comments.
  
--1.  Hash Tables
-+1.  :ref:`Hash Tables <hash_tables>`
+ rcu_read_lock()
+-
++^^^^^^^^^^^^^^^
+ 	void rcu_read_lock(void);
  
--2.  Static Arrays
-+2.  :ref:`Static Arrays <static_arrays>`
+ 	Used by a reader to inform the reclaimer that the reader is
+@@ -164,7 +164,7 @@ rcu_read_lock()
+ 	longer-term references to data structures.
  
--3.  Resizeable Arrays
-+3.  :ref:`Resizeable Arrays <resizeable_arrays>`
+ rcu_read_unlock()
+-
++^^^^^^^^^^^^^^^^^
+ 	void rcu_read_unlock(void);
  
- Each of these three situations involves an RCU-protected pointer to an
- array that is separately indexed.  It might be tempting to consider use
- of RCU to instead protect the index into an array, however, this use
--case is -not- supported.  The problem with RCU-protected indexes into
-+case is **not** supported.  The problem with RCU-protected indexes into
- arrays is that compilers can play way too many optimization games with
- integers, which means that the rules governing handling of these indexes
- are far more trouble than they are worth.  If RCU-protected indexes into
-@@ -26,6 +26,7 @@ to be safely used.
- That aside, each of the three RCU-protected pointer situations are
- described in the following sections.
+ 	Used by a reader to inform the reclaimer that the reader is
+@@ -172,13 +172,13 @@ rcu_read_unlock()
+ 	read-side critical sections may be nested and/or overlapping.
  
-+.. _hash_tables:
+ synchronize_rcu()
+-
++^^^^^^^^^^^^^^^^^
+ 	void synchronize_rcu(void);
  
- Situation 1: Hash Tables
- ------------------------
-@@ -35,6 +36,7 @@ has a linked-list hash chain.  Each hash chain can be protected by RCU
- as described in the listRCU.txt document.  This approach also applies
- to other array-of-list situations, such as radix trees.
+ 	Marks the end of updater code and the beginning of reclaimer
+ 	code.  It does this by blocking until all pre-existing RCU
+ 	read-side critical sections on all CPUs have completed.
+-	Note that synchronize_rcu() will -not- necessarily wait for
++	Note that synchronize_rcu() will **not** necessarily wait for
+ 	any subsequent RCU read-side critical sections to complete.
+ 	For example, consider the following sequence of events::
  
-+.. _static_arrays:
+@@ -196,7 +196,7 @@ synchronize_rcu()
+ 	any that begin after synchronize_rcu() is invoked.
  
- Situation 2: Static Arrays
- --------------------------
-@@ -50,6 +52,8 @@ Quick Quiz:
+ 	Of course, synchronize_rcu() does not necessarily return
+-	-immediately- after the last pre-existing RCU read-side critical
++	**immediately** after the last pre-existing RCU read-side critical
+ 	section completes.  For one thing, there might well be scheduling
+ 	delays.  For another thing, many RCU implementations process
+ 	requests in batches in order to improve efficiencies, which can
+@@ -225,10 +225,10 @@ synchronize_rcu()
+ 	checklist.txt for some approaches to limiting the update rate.
  
- :ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+ rcu_assign_pointer()
+-
++^^^^^^^^^^^^^^^^^^^^
+ 	void rcu_assign_pointer(p, typeof(p) v);
  
-+.. _resizeable_arrays:
+-	Yes, rcu_assign_pointer() -is- implemented as a macro, though it
++	Yes, rcu_assign_pointer() **is** implemented as a macro, though it
+ 	would be cool to be able to declare a function in this manner.
+ 	(Compiler experts will no doubt disagree.)
+ 
+@@ -245,7 +245,7 @@ rcu_assign_pointer()
+ 	the _rcu list-manipulation primitives such as list_add_rcu().
+ 
+ rcu_dereference()
+-
++^^^^^^^^^^^^^^^^^
+ 	typeof(p) rcu_dereference(p);
+ 
+ 	Like rcu_assign_pointer(), rcu_dereference() must be implemented
+@@ -280,8 +280,8 @@ rcu_dereference()
+ 	unnecessary overhead on Alpha CPUs.
+ 
+ 	Note that the value returned by rcu_dereference() is valid
+-	only within the enclosing RCU read-side critical section [1].
+-	For example, the following is -not- legal::
++	only within the enclosing RCU read-side critical section [1]_.
++	For example, the following is **not** legal::
+ 
+ 		rcu_read_lock();
+ 		p = rcu_dereference(head.next);
+@@ -304,9 +304,11 @@ rcu_dereference()
+ 	at any time, including immediately after the rcu_dereference().
+ 	And, again like rcu_assign_pointer(), rcu_dereference() is
+ 	typically used indirectly, via the _rcu list-manipulation
+-	primitives, such as list_for_each_entry_rcu() [2].
++	primitives, such as list_for_each_entry_rcu() [2]_.
 +
- Situation 3: Resizeable Arrays
- ------------------------------
++	.. [1]
  
-@@ -66,7 +70,7 @@ the remainder of the new, updates the ids->entries pointer to point to
- the new array, and invokes ipc_rcu_putref() to free up the old array.
- Note that rcu_assign_pointer() is used to update the ids->entries pointer,
- which includes any memory barriers required on whatever architecture
--you are running on.::
-+you are running on::
+-	[1] The variant rcu_dereference_protected() can be used outside
++	The variant rcu_dereference_protected() can be used outside
+ 	of an RCU read-side critical section as long as the usage is
+ 	protected by locks acquired by the update-side code.  This variant
+ 	avoids the lockdep warning that would happen when using (for
+@@ -319,7 +321,9 @@ rcu_dereference()
+ 	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
+ 	and the API's code comments for more details and example usage.
  
- 	static int grow_ary(struct ipc_ids* ids, int newsize)
- 	{
-@@ -118,7 +122,7 @@ a simple check suffices.  The pointer to the structure corresponding
- to the desired IPC object is placed in "out", with NULL indicating
- a non-existent entry.  After acquiring "out->lock", the "out->deleted"
- flag indicates whether the IPC object is in the process of being
--deleted, and, if not, the pointer is returned.::
-+deleted, and, if not, the pointer is returned::
+-	[2] If the list_for_each_entry_rcu() instance might be used by
++	.. [2]
++
++	If the list_for_each_entry_rcu() instance might be used by
+ 	update-side code as well as by RCU readers, then an additional
+ 	lockdep expression can be added to its list of arguments.
+ 	For example, given an additional "lock_is_held(&mylock)" argument,
+@@ -459,22 +463,22 @@ uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
  
- 	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
- 	{
+ So, to sum up:
+ 
+-o	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
++-	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
+ 	read-side critical sections.
+ 
+-o	Within an RCU read-side critical section, use rcu_dereference()
++-	Within an RCU read-side critical section, use rcu_dereference()
+ 	to dereference RCU-protected pointers.
+ 
+-o	Use some solid scheme (such as locks or semaphores) to
++-	Use some solid scheme (such as locks or semaphores) to
+ 	keep concurrent updates from interfering with each other.
+ 
+-o	Use rcu_assign_pointer() to update an RCU-protected pointer.
++-	Use rcu_assign_pointer() to update an RCU-protected pointer.
+ 	This primitive protects concurrent readers from the updater,
+-	-not- concurrent updates from each other!  You therefore still
++	**not** concurrent updates from each other!  You therefore still
+ 	need to use locking (or something similar) to keep concurrent
+ 	rcu_assign_pointer() primitives from interfering with each other.
+ 
+-o	Use synchronize_rcu() -after- removing a data element from an
++-	Use synchronize_rcu() **after** removing a data element from an
+ 	RCU-protected data structure, but -before- reclaiming/freeing
+ 	the data element, in order to wait for the completion of all
+ 	RCU read-side critical sections that might be referencing that
+@@ -566,7 +570,7 @@ namely foo_reclaim().
+ The summary of advice is the same as for the previous section, except
+ that we are now using call_rcu() rather than synchronize_rcu():
+ 
+-o	Use call_rcu() -after- removing a data element from an
++-	Use call_rcu() **after** removing a data element from an
+ 	RCU-protected data structure in order to register a callback
+ 	function that will be invoked after the completion of all RCU
+ 	read-side critical sections that might be referencing that
+@@ -603,7 +607,7 @@ more details on the current implementation as of early 2004.
+ 
+ 
+ 5A.  "TOY" IMPLEMENTATION #1: LOCKING
+-
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ This section presents a "toy" RCU implementation that is based on
+ familiar locking primitives.  Its overhead makes it a non-starter for
+ real-life use, as does its lack of scalability.  It is also unsuitable
+@@ -671,6 +675,8 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+ But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+ so there can be no deadlock cycle.
+ 
++.. _quiz_1:
++
+ Quick Quiz #1:
+ 		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+@@ -679,7 +685,7 @@ Quick Quiz #1:
+ :ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
+ 5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+-
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ This section presents a "toy" RCU implementation that is based on
+ "classic RCU".  It is also short on performance (but only for updates) and
+ on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
+@@ -710,14 +716,14 @@ CPU in turn.  The run_on() primitive can be implemented straightforwardly
+ in terms of the sched_setaffinity() primitive.  Of course, a somewhat less
+ "toy" implementation would restore the affinity upon completion rather
+ than just leaving all tasks running on the last CPU, but when I said
+-"toy", I meant -toy-!
++"toy", I meant **toy**!
+ 
+ So how the heck is this supposed to work???
+ 
+ Remember that it is illegal to block while in an RCU read-side critical
+ section.  Therefore, if a given CPU executes a context switch, we know
+ that it must have completed all preceding RCU read-side critical sections.
+-Once -all- CPUs have executed a context switch, then -all- preceding
++Once **all** CPUs have executed a context switch, then **all** preceding
+ RCU read-side critical sections will have completed.
+ 
+ So, suppose that we remove a data item from its structure and then invoke
+@@ -725,12 +731,16 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+ that there are no RCU read-side critical sections holding a reference
+ to that data item, so we can safely reclaim it.
+ 
++.. _quiz_2:
++
+ Quick Quiz #2:
+ 		Give an example where Classic RCU's read-side
+-		overhead is -negative-.
++		overhead is **negative**.
+ 
+ :ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
++.. _quiz_3:
++
+ Quick Quiz #3:
+ 		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+@@ -1076,9 +1086,11 @@ Answer:
+ 		approach where tasks in RCU read-side critical sections
+ 		cannot be blocked by tasks executing synchronize_rcu().
+ 
++:ref:`Back to Quick Quiz #1 <quiz_1>`
++
+ Quick Quiz #2:
+ 		Give an example where Classic RCU's read-side
+-		overhead is -negative-.
++		overhead is **negative**.
+ 
+ Answer:
+ 		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+@@ -1103,6 +1115,8 @@ Answer:
+ 		even the theoretical possibility of negative overhead for
+ 		a synchronization primitive is a bit unexpected.  ;-)
+ 
++:ref:`Back to Quick Quiz #2 <quiz_2>`
++
+ Quick Quiz #3:
+ 		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+@@ -1128,6 +1142,7 @@ Answer:
+ 		Besides, how does the computer know what pizza parlor
+ 		the human being went to???
+ 
++:ref:`Back to Quick Quiz #3 <quiz_3>`
+ 
+ ACKNOWLEDGEMENTS
+ 
 -- 
-2.17.1
+2.20.1
 
