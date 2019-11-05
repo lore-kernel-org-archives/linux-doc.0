@@ -1,115 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68B2C7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 17:03:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B14047D91B
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 17:40:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390320AbfKERBi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 12:01:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21424 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389267AbfKERBi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 12:01:38 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xA5Gx4Nn095623
-        for <linux-doc@vger.kernel.org>; Tue, 5 Nov 2019 12:01:37 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2w3b2em82b-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2019 12:01:34 -0500
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <hbathini@linux.ibm.com>;
-        Tue, 5 Nov 2019 17:01:15 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 5 Nov 2019 17:01:12 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xA5H0b2a15139156
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 5 Nov 2019 17:00:37 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E4E2D11C04C;
-        Tue,  5 Nov 2019 17:01:11 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 390C011C054;
-        Tue,  5 Nov 2019 17:01:10 +0000 (GMT)
-Received: from [9.199.51.136] (unknown [9.199.51.136])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue,  5 Nov 2019 17:01:09 +0000 (GMT)
-Subject: Re: [PATCH v2 3/4] Documentation/ABI: mark /sys/kernel/fadump_* sysfs
- files deprecated
-To:     Sourabh Jain <sourabhjain@linux.ibm.com>, mpe@ellerman.id.au
-Cc:     corbet@lwn.net, mahesh@linux.vnet.ibm.com,
+        id S2389062AbfKERj4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 12:39:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387776AbfKERj4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Nov 2019 12:39:56 -0500
+Received: from localhost (unknown [62.119.166.9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A3B52087E;
+        Tue,  5 Nov 2019 17:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572975594;
+        bh=y2opLO7+HSMdSjVhYh/qVkiMvhFsEgpR1zbUKDSf3Po=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XTa4wDimisYBqz8aF7I1lGHjb8jutSs34fju9pKAYwPMva15JxywK6ltHJb/UVVJb
+         ObxHekeCseV2L5njEMMgtlrsDltq+EEY/CYfSP96c9Oxyp2jVvkK3DulaDCi2bzYYV
+         NLrHucRF/mAZlwSTgkqBCky7bja5uN5D2kieWzu0=
+Date:   Tue, 5 Nov 2019 18:33:58 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org
-References: <20191018130557.2217-1-sourabhjain@linux.ibm.com>
- <20191018130557.2217-4-sourabhjain@linux.ibm.com>
- <f69daa7b-ddb3-8190-c409-28a22c504fed@linux.ibm.com>
- <b1bc42cc-8d80-d104-b1b3-684c08531c78@linux.ibm.com>
-From:   Hari Bathini <hbathini@linux.ibm.com>
-Date:   Tue, 5 Nov 2019 22:31:09 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        linux-gpio@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [RESEND PATCH v3 0/8] drivers: add new variants of
+ devm_platform_ioremap_resource()
+Message-ID: <20191105173358.GA2876364@kroah.com>
+References: <20191022084318.22256-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <b1bc42cc-8d80-d104-b1b3-684c08531c78@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19110517-0012-0000-0000-00000360F5A5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19110517-0013-0000-0000-0000219C4FB8
-Message-Id: <d0a34f71-1b78-e387-c3a5-d771995a91f6@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-05_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1911050140
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191022084318.22256-1-brgl@bgdev.pl>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 05/11/19 2:24 PM, Sourabh Jain wrote:
+On Tue, Oct 22, 2019 at 10:43:10AM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
+> Note: resending with Arnd's review tags and rebased on top of char-misc-next
 > 
-> On 10/21/19 1:11 PM, Hari Bathini wrote:
->>
->>
->> On 18/10/19 6:35 PM, Sourabh Jain wrote:
->>> The /sys/kernel/fadump_* sysfs files are replicated under
->>
->> [...]
->>
->>> +Note: The following FADump sysfs files are deprecated.
->>> +
->>> +    Deprecated                       Alternative
->>> +    -------------------------------------------------------------------------------
->>> +    /sys/kernel/fadump_enabled           /sys/kernel/fadump/fadump_enabled
->>> +    /sys/kernel/fadump_registered        /sys/kernel/fadump/fadump_registered
->>> +    /sys/kernel/fadump_release_mem       /sys/kernel/fadump/fadump_release_mem
->>
->> /sys/kernel/fadump/* looks tidy instead of /sys/kernel/fadump/fadump_* 
->> I mean, /sys/kernel/fadump/fadump_enabled => /sys/kernel/fadump/enabled and such..
+> The new devm_platform_ioremap_resource() helper has now been widely
+> adopted and used in many drivers. Users of the write-combined ioremap()
+> variants could benefit from the same code shrinkage. This series provides
+> a write-combined version of devm_platform_ioremap_resource() and uses it in a
+> relevant driver with the assumption that - just like was the case
+> previously - a coccinelle script will be developed to ease the transition
+> for others.
 > 
-> 
-> 
-> Could you please confirm whether you want to address the sysfs file path differently or
-> actually changing the sysfs file name from fadump_enabled to enabled.
+> There are also users of platform_get_resource_byname() who call
+> devm_ioremap_resource() next, so provide another variant that they can use
+> together with two examples.
 
-I meant, given the path "/sys/kernel/fadump/", the prefix fadump_ is redundant.
-If there are no conventions that we should retain the same file name, I suggest
-to drop the fadump_ prefix and just call them enabled, registered, etc..
+I've queued these up in my driver-core tree as there were some conflicts
+with other work that happened in platform.h and device.h that I figured
+would be good to get out of the way now and not have to wait until the
+merge window to resolve.
 
-- Hari
+thanks,
 
+greg k-h
