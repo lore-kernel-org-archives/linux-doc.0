@@ -1,204 +1,211 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 856F27D92A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 00:18:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F1DAD7DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 00:26:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387450AbfKEASh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 19:18:37 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:17961 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387415AbfKEASh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 19:18:37 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc0bfe10001>; Mon, 04 Nov 2019 16:18:41 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 04 Nov 2019 16:18:35 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 16:18:35 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
- 2019 00:18:34 +0000
-Subject: Re: [PATCH v2 12/18] mm/gup: track FOLL_PIN pages
-To:     Jerome Glisse <jglisse@redhat.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-13-jhubbard@nvidia.com>
- <20191104185238.GG5134@redhat.com>
- <7821cf87-75a8-45e2-cf28-f85b62192416@nvidia.com>
- <20191104234920.GA18515@redhat.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <f587647d-83dc-5bde-d244-f522ec5bda60@nvidia.com>
-Date:   Mon, 4 Nov 2019 16:18:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2387737AbfKEA0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 19:26:12 -0500
+Received: from mail-qt1-f171.google.com ([209.85.160.171]:36077 "EHLO
+        mail-qt1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387484AbfKEA0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 19:26:11 -0500
+Received: by mail-qt1-f171.google.com with SMTP id y10so20061555qto.3;
+        Mon, 04 Nov 2019 16:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vGAWpCYyQmdpG0fVWfM47K0qqxSbXPboe+puExmNy/Q=;
+        b=tG9hbrGoCba4iRI4dXjXXAQSmknmxx2F03TKI/FmsHZpeI4YtT+lJuxTmB4lduVFBf
+         8N8QqospPyimSjxvfn+PGgpJQ2ssy5lKotG5b9/skRZAXZ2geOe4s6FAKvzfxAtq1Jf1
+         cEksRyo92lCUEKBbWM6kcrVRmxf9vEfbctWP0NAcd2fYGCZPisiP/MaB8XcL5XEq5USu
+         JKP929U3BZadQ1mL8MinREFNR9atUrbnwmO6exf9hH16QT1+bnC4/KipN+afpE14jpWx
+         a7aOED4uCGBHw8Hsvl1bnbewkeL9B/5Mqt2Vy/4ba9lYIsrstdnrzu7eL78GgIgUm2UB
+         vo6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vGAWpCYyQmdpG0fVWfM47K0qqxSbXPboe+puExmNy/Q=;
+        b=f2ls+TYzXTWTWJyVM6XpgelJh0bJeVQCSiZyx8V0bci9Ejnxn6WGn+dUj5hDshhjs1
+         qXK2mFK3mmimt3eS0lvots8gF2SDwEbNzZ4aQCTs9o4bJXD32+EGIuRQx4gdbStdIdB9
+         ivbmVu6/4hy7A5N8cd+2WQD3kLbylISR/5mal/hHJDN1MT8SvRDUwlkayeX4A8FaOa/N
+         lVRDI3fsGcQdVKaros50L+Rw9P6H+hw3qQH9HqFBxjZozPsrV7BwvLdvT6vovGk0si2s
+         a+SvhHusyUiB4Cri6Fu2hMuhdIlGp02qcO3V8BTh0Z0rwIRxsrBVrD1ttBL23qBoSHOG
+         Sb7A==
+X-Gm-Message-State: APjAAAUOjktz0H09+m7jKicIyriXZlbYk601tyzjGIDeCUy5jUEt4oQW
+        ZHRJB15x6cQzFqdn4fpSKOA=
+X-Google-Smtp-Source: APXvYqw64/yT3HNa1mqmD5oeeGGQdIx7SWuSCSQq3pbWmU49SkUD327kCjq+LB7sdISGJVYIIDbhDQ==
+X-Received: by 2002:ac8:7655:: with SMTP id i21mr15463788qtr.53.1572913570541;
+        Mon, 04 Nov 2019 16:26:10 -0800 (PST)
+Received: from smtp.gmail.com ([165.204.55.250])
+        by smtp.gmail.com with ESMTPSA id z70sm9888034qkb.60.2019.11.04.16.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 16:26:09 -0800 (PST)
+Date:   Mon, 4 Nov 2019 19:26:07 -0500
+From:   Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To:     Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+Cc:     outreachy-kernel@googlegroups.com, manasi.d.navare@intel.com,
+        hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sean@poorly.run, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org
+Subject: Re: [PATCH VKMS v3] drm/doc: Add VKMS module description and use to
+ "Testing and Validation"
+Message-ID: <20191105002606.4h7brs4ozqwcb5zm@smtp.gmail.com>
+References: <20191104162705.19735-1-gabrielabittencourt00@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191104234920.GA18515@redhat.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572913121; bh=it/avAzbdjbPt9c7ZhR3SugLAHDAeo7qSUQnTa8Gd0Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=nx62lGrPMlwQBcqF9vYxqUTNBIlMwnY3v4vXnUqcAbCO2/xdO7aUYp8qclkmts9z7
-         gtH9Ov6maSgTLFms+gOL/dE2dCoQ1xMQpdGQy9Akbo7N7NyETXXQXZTJZqjI7N8kF+
-         n3RQEPIGAaiZBh6nvWW7FoLz32nqtlJ71DClIb0EMAf4xWjkAmpFYtedbKPVLxdf/b
-         tlQKPTEISDGthKQTi64XGZlvQXC4V843TbV9Pv5FMwu9POX8T7Ox5OlQOI/t1RVVuU
-         ehgOt7zOUTQcQRd6bK+4WI3VER1yK/cV2GljR29nekSSEXFENv8o9uy5i0m+683Ub0
-         piAG/LY3Z7DNw==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nzbdziewgyxr7kks"
+Content-Disposition: inline
+In-Reply-To: <20191104162705.19735-1-gabrielabittencourt00@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dan, there is a question for you further down:
 
+--nzbdziewgyxr7kks
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/4/19 3:49 PM, Jerome Glisse wrote:
-> On Mon, Nov 04, 2019 at 02:49:18PM -0800, John Hubbard wrote:
-...
->>> Maybe add a small comment about wrap around :)
->>
->>
->> I don't *think* the count can wrap around, due to the checks in user_page_ref_inc().
->>
->> But it's true that the documentation is a little light here...What did you have 
->> in mind?
-> 
-> About false positive case (and how unlikely they are) and that wrap
-> around is properly handle. Maybe just a pointer to the documentation
-> so that people know they can go look there for details. I know my
-> brain tend to forget where to look for things so i like to be constantly
-> reminded hey the doc is Documentations/foobar :)
-> 
+lgtm, I'll apply it tomorrow.
 
-I see. OK, here's a version with a thoroughly overhauled comment header:
+Thanks
 
-/**
- * page_dma_pinned() - report if a page is pinned for DMA.
- *
- * This function checks if a page has been pinned via a call to
- * pin_user_pages*() or pin_longterm_pages*().
- *
- * The return value is partially fuzzy: false is not fuzzy, because it means
- * "definitely not pinned for DMA", but true means "probably pinned for DMA, but
- * possibly a false positive due to having at least GUP_PIN_COUNTING_BIAS worth
- * of normal page references".
- *
- * False positives are OK, because: a) it's unlikely for a page to get that many
- * refcounts, and b) all the callers of this routine are expected to be able to
- * deal gracefully with a false positive.
- *
- * For more information, please see Documentation/vm/pin_user_pages.rst.
- *
- * @page:	pointer to page to be queried.
- * @Return:	True, if it is likely that the page has been "dma-pinned".
- *		False, if the page is definitely not dma-pinned.
- */
-static inline bool page_dma_pinned(struct page *page)
+Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 
+On 11/04, Gabriela Bittencourt wrote:
+> Add a description on VKMS module and the cases in which it should be used.
+> There's a brief explanation on how to set it and use it in a VM, along wi=
+th
+> an example of running an igt-test.
+>=20
+> Changes since V3:
+>  Rodrigo:
+>  - Change the log message to imperative
+>  - Fix some bad spelling/writing
+>  - Add a blank line before enumeration
+>=20
+> Changes since V2:
+>  Andre:
+>  - Avoid repetition of words in the same sentence;
+>  - Make the explanation on 'setting the kernel' shorter, eliminate the
+>    'make menuconfig' command;
+>  - Add tab on enumeration to have one line per item;
+>  - Clarify from each machine igt-tests commands should be ran on.
+>=20
+> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+> ---
+>=20
+> Tested the patch using 'make htmldocs' to make sure the output .html is
+> correct.
+>=20
+> Hi DRM-community,
+> this is my first (of many, I hope)  patch in this subsystem. I hope to ha=
+ve
+> a lot of learning (and fun :)) working with you guys.
+> I'm starting by documenting the VKMS driver in "Userland interfaces", if I
+> have been inaccurate in my description or if I misunderstood some concept,
+> please let me know.
+> ---
+>  Documentation/gpu/drm-uapi.rst | 37 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index 94f90521f58c..8271c1e240b7 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -285,6 +285,43 @@ run-tests.sh is a wrapper around piglit that will ex=
+ecute the tests matching
+>  the -t options. A report in HTML format will be available in
+>  ./results/html/index.html. Results can be compared with piglit.
+> =20
+> +Using VKMS to test DRM API
+> +--------------------------
+> +
+> +VKMS is a software-only model of a KMS driver that is useful for testing
+> +and for running compositors. VKMS aims to enable a virtual display witho=
+ut
+> +the need for a hardware display capability. These characteristics made V=
+KMS
+> +a perfect tool for validating the DRM core behavior and also support the
+> +compositor developer. VKMS makes it possible to test DRM functions in a
+> +virtual machine without display, simplifying the validation of some of t=
+he
+> +core changes.
+> +
+> +To Validate changes in DRM API with VKMS, start setting the kernel: make
+> +sure to enable VKMS module; compile the kernel with the VKMS enabled and
+> +install it in the target machine. VKMS can be run in a Virtual Machine
+> +(QEMU, virtme or similar). It's recommended the use of KVM with the mini=
+mum
+> +of 1GB of RAM and four cores.
+> +
+> +It's possible to run the IGT-tests in a VM in two ways:
+> +
+> +	1. Use IGT inside a VM
+> +	2. Use IGT from the host machine and write the results in a shared dire=
+ctory.
+> +
+> +As follow, there is an example of using a VM with a shared directory with
+> +the host machine to run igt-tests. As an example it's used virtme::
+> +
+> +	$ virtme-run --rwdir /path/for/shared_dir --kdir=3Dpath/for/kernel/dire=
+ctory --mods=3Dauto
+> +
+> +Run the igt-tests in the guest machine, as example it's ran the 'kms_fli=
+p'
+> +tests::
+> +
+> +	$ /path/for/igt-gpu-tools/scripts/run-tests.sh -p -s -t "kms_flip.*" -v
+> +
+> +In this example, instead of build the igt_runner, Piglit is used
+> +(-p option); it's created html summary of the tests results and it's sav=
+ed
+> +in the folder "igt-gpu-tools/results"; it's executed only the igt-tests
+> +matching the -t option.
+> +
+>  Display CRC Support
+>  -------------------
+> =20
+> --=20
+> 2.20.1
+>=20
 
->>> [...]
->>>
->>>> @@ -1930,12 +2028,20 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->>>>  
->>>>  		pgmap = get_dev_pagemap(pfn, pgmap);
->>>>  		if (unlikely(!pgmap)) {
->>>> -			undo_dev_pagemap(nr, nr_start, pages);
->>>> +			undo_dev_pagemap(nr, nr_start, flags, pages);
->>>>  			return 0;
->>>>  		}
->>>>  		SetPageReferenced(page);
->>>>  		pages[*nr] = page;
->>>> -		get_page(page);
->>>> +
->>>> +		if (flags & FOLL_PIN) {
->>>> +			if (unlikely(!user_page_ref_inc(page))) {
->>>> +				undo_dev_pagemap(nr, nr_start, flags, pages);
->>>> +				return 0;
->>>> +			}
->>>
->>> Maybe add a comment about a case that should never happens ie
->>> user_page_ref_inc() fails after the second iteration of the
->>> loop as it would be broken and a bug to call undo_dev_pagemap()
->>> after the first iteration of that loop.
->>>
->>> Also i believe that this should never happens as if first
->>> iteration succeed than __page_cache_add_speculative() will
->>> succeed for all the iterations.
->>>
->>> Note that the pgmap case above follows that too ie the call to
->>> get_dev_pagemap() can only fail on first iteration of the loop,
->>> well i assume you can never have a huge device page that span
->>> different pgmap ie different devices (which is a reasonable
->>> assumption). So maybe this code needs fixing ie :
->>>
->>> 		pgmap = get_dev_pagemap(pfn, pgmap);
->>> 		if (unlikely(!pgmap))
->>> 			return 0;
->>>
->>>
->>
->> OK, yes that does make sense. And I think a comment is adequate,
->> no need to check for bugs during every tail page iteration. So how 
->> about this, as a preliminary patch:
-> 
-> Actualy i thought about it and i think that there is pgmap
-> per section and thus maybe one device can have multiple pgmap
-> and that would be an issue for page bigger than section size
-> (ie bigger than 128MB iirc). I will go double check that, but
-> maybe Dan can chime in.
-> 
-> In any case my comment above is correct for the page ref
-> increment, if the first one succeed than others will too
-> or otherwise it means someone is doing too many put_page()/
-> put_user_page() which is _bad_ :)
-> 
+--=20
+Rodrigo Siqueira
+Software Engineer, Advanced Micro Devices (AMD)
+https://siqueira.tech
 
-I'll wait to hear from Dan before doing anything rash. :)
+--nzbdziewgyxr7kks
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-thanks,
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl3AwZ4ACgkQWJzP/com
+vP8WWg/9GIwArmMbTRYE9qkqkNDLclr/1TCgv/jtWAmjWNGvp9yh8uRurcT3tX9m
+utTEiQmhdHcyc1YzdL+WqJgqR25kU2Kb7roXmyP5/0Y5nrePC3j7nVAr/zoqVOaM
+J0/k8cPSO1BTs/QI35Cg7hvrbggWXtNka+IpxK3d5tjDMQ5YwMBOkKOlOBL6aZoD
+T3Q5qzTeKhA1kr9yaZw6ADr2MmEHQloRShsEemGCHuzQ44Od+vSC8D/ZItuJJxFp
+8GnRHtPg2eZbloGRZGojT6gGKrWC2roO5/WMJcYAIMVgmbBjh/RXBDiEBDk8b5yw
+5avVz7/P2+qKQzUTtlWiZS5wO1Yr6w6+ZrwWfdtNKD8WYr+O6D2yCOWLceqdJFtz
+v0N/DDLZHLxHFyS4HFgUFeKzluPSVnzht6PD6EpprzSwT3itm5/6VnPTkKm0BlVm
+CqeViy5kU708W0rcVrnDPJfZefO0vodfn2C1s1pkp+5x1Gm6eY6Ot+1PKoR1tjxY
+cQt9V6Ih1j11sQJ1tcDCOaRKH3mqlw5MDe8Di5kR7re+UGTJN579cHZuyG9LrAqA
+BN08l1Ys8BMlFL4F2FdkoFHRRh/VaDLN8FOW0zXpcb0Ypa1p8MjxrBW85ITADMOu
+oOd93McE+kcmWjUxVy3xWAWcqCMA9cg4c5dmaGxayTlN0TbAnxU=
+=8UYP
+-----END PGP SIGNATURE-----
 
-John Hubbard
-NVIDIA
+--nzbdziewgyxr7kks--
