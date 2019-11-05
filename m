@@ -4,51 +4,52 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F3BA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 07:13:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B9EE67D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 07:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387484AbfKEHNU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 02:13:20 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:46868 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387442AbfKEHNU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 02:13:20 -0500
-Received: by mail-pl1-f193.google.com with SMTP id l4so3666369plt.13;
-        Mon, 04 Nov 2019 23:13:19 -0800 (PST)
+        id S2387639AbfKEHSw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 02:18:52 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34840 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387567AbfKEHSv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 02:18:51 -0500
+Received: by mail-pf1-f194.google.com with SMTP id d13so14504443pfq.2;
+        Mon, 04 Nov 2019 23:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
         bh=C3V4q8Hphd3d9zZDUmVOsx50l1MD7niZTtsL+eJD5Xk=;
-        b=GMRXPOaV/cScc5bIi2rVhUTqtbqLX4F1wEVunTUoNXt1ZiqUT04szIir06nk4AeyXd
-         vf3gnf5ntFv6KjSE7TLmWtCRiPhCBvwrek0c2AxtmtZMk2+InVoLX37g4ecKYeBgMfX/
-         4qpYj5vyWLCioOgo886c51bQCu7AvxAbdgpYPTsUG8HM8VgIlEGDha+ngJ2g8gFQ1lys
-         ygCtEwCD73COluK1unePJic7addR8Pg/gEoh3CRqyX+Iq1kWmCOp11FspIGJYSmnoYz2
-         ZpnlZB5/LnD7g36vZcGVFuwyYvZAYrUBgkzUvffm0DmKBSYGioEN9QX43Lua8V6ahUg/
-         lvfg==
+        b=pUG/0FD5lCFtTdXCgxqI4lo5/O/mgY/aD8EIT5edKtpPwr5U+n7tOaXHOUCNre9cPs
+         hNVhellWuDPlz6Lse9Axfa4kXVnDRj4DiWW14fPpcSKX93Ywy1n9w44jDDdfKMBJociO
+         btB8nIs4TLLcpdxteBijGwN1c5YadKV1lm0BUc7AU+8b9giEB+UjXdz3sKZ7gmeET6Wm
+         QMABkeyXHn4SXOvj+odqkX9KcQM9qhUIElAXyKCBsFHbLUGpM4XyMox0NWbqKEuDCBKt
+         CagnRkLOc5rIxp7P4v1ItUsZgmZG/SW0GejRxGPTFQwMzo9R0u8YRH7fC5KcNd2IpPwq
+         rpEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
         bh=C3V4q8Hphd3d9zZDUmVOsx50l1MD7niZTtsL+eJD5Xk=;
-        b=icaqkaZNsjkdoRjbHQF63DmzkhGSF05+FD7QEC8VM36Mci6JpD0WmoBM692A+BxGd3
-         /15iXu41HLPH2TWUl/j8oKPILhj2vsEpvypxGK48WVMy/vRDskihY1MUWojnm3Q62cQx
-         qMyMCG0uIn6rWh7hy4kIDiO2JYNR4VpQNQKW9K1Pnr9gCTVqhANgUk0WFA9bqO32urRD
-         nXgW0qxxY6hXamxt+I3ULBmTh58ScT2ij4cWCkg4k+pkxIsJAU0f90yui6epHdbJWsO6
-         frQ+/UiDnADDsEAJK8NGACXbof2160TTPWHqrXX9EnhUjeeCMFCi13UXgsgjPkfFl0I3
-         vidw==
-X-Gm-Message-State: APjAAAX+ik+Nu+S3xch28dRJStsP4uks0wuqi7t8BAj3aWxcx5Qriy5t
-        X/snqNVBl50C+KUu42mYDPSDAcPFXNi0rA==
-X-Google-Smtp-Source: APXvYqyTSE6Md7GIuJBxY2sMV6AI5eYamLhQuBjCgwZIIKOy8mA4RjcO44thWIyu0VziK1bM71VRZA==
-X-Received: by 2002:a17:902:a717:: with SMTP id w23mr31962348plq.27.1572937998685;
-        Mon, 04 Nov 2019 23:13:18 -0800 (PST)
+        b=cnaPMMSRBYGe+/TaarHXhh51eqitgirxYdN5eRp3EMnj41zeFFks0RpTWK+KVinVXn
+         OCMu9qbR6nzTJFHKo+HBSxbdsekSbwne11DBnc2YZ9qZH4ugERj8f4ipPbxTJuIz3FFe
+         QE2dhxjiBOCaHQdLyfIGgDJJRmtVb7ZkqxRi2L+rN8tZJDdL+LMOCTDyL7xUz2zb4tt+
+         O7aPrRTogo23Giam5Kv7W3EFoUDppkNUTOm3cKbo0rnH08qONlsUb8Zd77W5njvb/e0/
+         ilySAnf5Nc3ZxvhrOKulSq5SnnuKqiqiOYoiskNURACjXxtVbOLE4PnFfDH7HlN3TSJN
+         tvtQ==
+X-Gm-Message-State: APjAAAUHteGfbDLIc/7A5dTAcxz5g7QyKpQzgwUo6Q9HG2EBAtMPWnLH
+        isUHZVvqKCup05wY/apwiPh5NRDqJvcyuA==
+X-Google-Smtp-Source: APXvYqzOvn/ex1lQYcl1oh+qsjmUqHpXF3lcZ5ByMaJRPk750mwe/kzcRhzeoUa4RXNdPneAoVkrzA==
+X-Received: by 2002:a17:90a:326b:: with SMTP id k98mr4580647pjb.50.1572938330201;
+        Mon, 04 Nov 2019 23:18:50 -0800 (PST)
 Received: from localhost ([2402:3a80:680:8b3a:2a4c:218c:b0b3:eada])
-        by smtp.gmail.com with ESMTPSA id i126sm19838563pfc.29.2019.11.04.23.13.15
+        by smtp.gmail.com with ESMTPSA id w24sm6929812pfn.136.2019.11.04.23.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 23:13:18 -0800 (PST)
-Date:   Tue, 5 Nov 2019 12:43:09 +0530
+        Mon, 04 Nov 2019 23:18:49 -0800 (PST)
+Date:   Tue, 5 Nov 2019 12:48:46 +0530
 From:   Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     corbet@lwn.net, mchehab+samsung@kernel.org, christian@brauner.io,
@@ -56,9 +57,10 @@ Cc:     corbet@lwn.net, mchehab+samsung@kernel.org, christian@brauner.io,
         jaskaransingh7654321@gmail.com, tobin@kernel.org,
         stefanha@redhat.com, hofrat@osadl.org, gregkh@linuxfoundation.org,
         jeffrey.t.kirsher@intel.com, linux-doc@vger.kernel.org,
-        skhan@linuxfoundation.org, linux-kernel-mentees@vger.kernel.org
-Subject: [PATCH] docs: filesystems: sysfs: convert sysfs.txt to reST
-Message-ID: <20191105071309.GA28093@localhost.localdomain>
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH][RESEND] docs: filesystems: sysfs: convert sysfs.txt to reST
+Message-ID: <20191105071846.GA28727@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
