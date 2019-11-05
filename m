@@ -1,173 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2429E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 18:51:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03BF87D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 19:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390696AbfKESvh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 13:51:37 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:39314 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389724AbfKESvh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 13:51:37 -0500
-Received: by mail-pg1-f195.google.com with SMTP id 29so3614188pgm.6;
-        Tue, 05 Nov 2019 10:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lcBaUECIV9z6RejdYiQ5mOojMFMvm3rPEw7OA6L0b/0=;
-        b=n2j3Iqt40E/JIYbIDE2YTTfCVK0fNvKdOzk/8SN1XThHY0rtuUi+Qjk8n4reLJ9p2h
-         9XQHeKAHCMAb7Fn28mfwp6/JzhzHlohoASYtxrVjpylvNCvTYe2cUAiOcAa2+hZTqKau
-         mzoiKvtAOmtmQOsfbiVV1lJ/dh64qQ0WhnvoSmZOFgsT1Bbg/DXRV0+MOR41OsvajyqA
-         yJLaI/QtaaW2is2zFzQE1N7umX72zI3jp4MC0tWRDeoCjXg2WQQpYvAzLva1aYB8X0Sq
-         sDMq9+c8bk7C/9mVbwxDl8SaiWK/v7E52drJhL5E7kBVl0QwbrKseze7VPYmofW5qW62
-         +L5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lcBaUECIV9z6RejdYiQ5mOojMFMvm3rPEw7OA6L0b/0=;
-        b=KKDyVkXB1cdnk230af1gPrkUfKHWhSoputAq6qKxTrB3OcCpLFMfxlpCzGBP8KPnGV
-         q7zrsjlH2SapBaN7bpyJBcPLAuALT+l4MMk0MvJSujul/+4xKxRVuP0KAjHZ7yU5QkiH
-         ZpJvuuw5QfxrZM+ZRKdDiENgJneTkNb8a/n9NOz0prwGDg67Nms9ScEPMk0SdQpHVJIM
-         laeSyUxxYAvj3qC6j7Zy8hc5OxxGw9lD/zofL7TLZNORJ3i7r61R/BOBFrY8P4yioBPB
-         l3MHNY2VBPCvqqk4GdIShkNOwY9TMR/9TaysImqENgqLGp42XOtIsJOfMgl8n2pcrfil
-         XODA==
-X-Gm-Message-State: APjAAAXgE4xIe+dihUstvQV3Mov0jPLgb+nK6M1Jg/pwn8EbBfW3c9q3
-        wBgWiahfeePSDdE3Qht4a4Y=
-X-Google-Smtp-Source: APXvYqzCh2dPz7Hs4WtoduoRjDjqQKuomFW5z0gvVduSb2rzqoTVYvHq0h7JcgOLBSVP7a4JHv6a+w==
-X-Received: by 2002:aa7:9156:: with SMTP id 22mr39719992pfi.246.1572979896117;
-        Tue, 05 Nov 2019 10:51:36 -0800 (PST)
-Received: from workstation ([2405:204:1388:f954:e471:b4bc:a8c7:e586])
-        by smtp.gmail.com with ESMTPSA id w8sm12546619pfi.60.2019.11.05.10.51.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 10:51:35 -0800 (PST)
-Date:   Wed, 6 Nov 2019 00:21:25 +0530
-From:   Amol Grover <frextrite@gmail.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Phong Tran <tranmanphong@gmail.com>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: Re: [PATCH v2] Documentation: RCU: whatisRCU: Fix formatting for
- section 2
-Message-ID: <20191105185125.GA13672@workstation>
-References: <20191105073340.GA3682@workstation-kernel-dev>
+        id S2390746AbfKETAL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 14:00:11 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:13342 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390404AbfKETAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 14:00:11 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc1c6bc0000>; Tue, 05 Nov 2019 11:00:12 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 05 Nov 2019 11:00:07 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 05 Nov 2019 11:00:07 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
+ 2019 19:00:07 +0000
+Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     Mike Rapoport <rppt@kernel.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-6-jhubbard@nvidia.com>
+ <20191105131032.GG25005@rapoport-lnx>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
+Date:   Tue, 5 Nov 2019 11:00:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191105073340.GA3682@workstation-kernel-dev>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191105131032.GG25005@rapoport-lnx>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572980412; bh=ojXJL7Jf2vtMqYP0b7gLz2fp+ItJt4NPdkhylbujo04=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BS0Skgz5RbNv7FRT3SjRhdwpwr0ecQ8AOgMazMsduNtoC93TjDB3sb+UV4BVm8kS1
+         e2YIxx2R9GvEAZtEOkrlW3cAbcdFl/wyRSANMj//120w5PZgTkX7MC1O13jzRSXm0k
+         KFRmKs+Z0OYFmlbRMapMiylU4RVjtXOt6K/rgWvnwLDQgPciqV1nCOSRX3qgMUJrsh
+         MPxa2/es4pKZhwzhaTFebsG3i4fLxzYnNXRQBChEYKYp2xONV3pwMnS3x1UJtQUm9p
+         dbWIIJyjFTTd1aKcwIBzPf2GKUh34tHy3QJ9j5720Clm3FqPmta2g3ZZa8fKcxJoAO
+         rGK6L5pnX3YOQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 01:03:40PM +0530, Amol Grover wrote:
-> Convert RCU API methods text to sub-headings and
-> add footnote linking to 2 literary notes
-> under rcu_dereference() section for improved UX
+On 11/5/19 5:10 AM, Mike Rapoport wrote:
+...
+>> ---
+>>  Documentation/vm/index.rst          |   1 +
+>>  Documentation/vm/pin_user_pages.rst | 212 ++++++++++++++++++++++
 > 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
->  Documentation/RCU/whatisRCU.rst | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+> I think it belongs to Documentation/core-api.
+
+Done:
+
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index ab0eae1c153a..413f7d7c8642 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -31,6 +31,7 @@ Core utilities
+    generic-radix-tree
+    memory-allocation
+    mm-api
++   pin_user_pages
+    gfp_mask-from-fs-io
+    timekeeping
+    boot-time-mm
+
+
+...
+>> diff --git a/Documentation/vm/pin_user_pages.rst b/Documentation/vm/pin_user_pages.rst
+>> new file mode 100644
+>> index 000000000000..3910f49ca98c
+>> --- /dev/null
+>> +++ b/Documentation/vm/pin_user_pages.rst
+>> @@ -0,0 +1,212 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +====================================================
+>> +pin_user_pages() and related calls
+>> +====================================================
 > 
-> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> index ae40c8bcc56c..4c6f1f595757 100644
-> --- a/Documentation/RCU/whatisRCU.rst
-> +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -150,6 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
->  at the function header comments.
->  
->  rcu_read_lock()
-> +^^^^^^^^^^^^^^^
->  
->  	void rcu_read_lock(void);
->  
-> @@ -164,6 +165,7 @@ rcu_read_lock()
->  	longer-term references to data structures.
->  
->  rcu_read_unlock()
-> +^^^^^^^^^^^^^^^^^
->  
->  	void rcu_read_unlock(void);
->  
-> @@ -172,6 +174,7 @@ rcu_read_unlock()
->  	read-side critical sections may be nested and/or overlapping.
->  
->  synchronize_rcu()
-> +^^^^^^^^^^^^^^^^^
->  
->  	void synchronize_rcu(void);
->  
-> @@ -225,6 +228,7 @@ synchronize_rcu()
->  	checklist.txt for some approaches to limiting the update rate.
->  
->  rcu_assign_pointer()
-> +^^^^^^^^^^^^^^^^^^^^
->  
->  	void rcu_assign_pointer(p, typeof(p) v);
->  
-> @@ -245,6 +249,7 @@ rcu_assign_pointer()
->  	the _rcu list-manipulation primitives such as list_add_rcu().
->  
->  rcu_dereference()
-> +^^^^^^^^^^^^^^^^^
->  
->  	typeof(p) rcu_dereference(p);
->  
-> @@ -280,7 +285,7 @@ rcu_dereference()
->  	unnecessary overhead on Alpha CPUs.
->  
->  	Note that the value returned by rcu_dereference() is valid
-> -	only within the enclosing RCU read-side critical section [1].
-> +	only within the enclosing RCU read-side critical section [1]_.
->  	For example, the following is -not- legal::
->  
->  		rcu_read_lock();
-> @@ -304,9 +309,9 @@ rcu_dereference()
->  	at any time, including immediately after the rcu_dereference().
->  	And, again like rcu_assign_pointer(), rcu_dereference() is
->  	typically used indirectly, via the _rcu list-manipulation
-> -	primitives, such as list_for_each_entry_rcu() [2].
-> +	primitives, such as list_for_each_entry_rcu() [2]_.
->  
-> -	[1] The variant rcu_dereference_protected() can be used outside
-> +..	[1] The variant rcu_dereference_protected() can be used outside
->  	of an RCU read-side critical section as long as the usage is
->  	protected by locks acquired by the update-side code.  This variant
->  	avoids the lockdep warning that would happen when using (for
-> @@ -319,7 +324,8 @@ rcu_dereference()
->  	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
->  	and the API's code comments for more details and example usage.
->  
-> -	[2] If the list_for_each_entry_rcu() instance might be used by
-> +
-> +..	[2] If the list_for_each_entry_rcu() instance might be used by
->  	update-side code as well as by RCU readers, then an additional
->  	lockdep expression can be added to its list of arguments.
->  	For example, given an additional "lock_is_held(&mylock)" argument,
-> -- 
-> 2.20.1
->
+> I know this is too much to ask, but having pin_user_pages() a part of more
+> general GUP description would be really great :)
+> 
 
-Please ignore this patch.
+Yes, definitely. But until I saw the reaction to the pin_user_pages() API
+family, I didn't want to write too much--it could have all been tossed out
+in favor of a whole different API. But now that we've had some initial
+reviews, I'm much more confident in being able to write about the larger 
+API set.
 
-Thanks
-Amol 
+So yes, I'll put that on my pending list.
+
+
+...
+>> +This document describes the following functions: ::
+>> +
+>> + pin_user_pages
+>> + pin_user_pages_fast
+>> + pin_user_pages_remote
+>> +
+>> + pin_longterm_pages
+>> + pin_longterm_pages_fast
+>> + pin_longterm_pages_remote
+>> +
+>> +Basic description of FOLL_PIN
+>> +=============================
+>> +
+>> +A new flag for get_user_pages ("gup") has been added: FOLL_PIN. FOLL_PIN has
+> 
+> Consider reading this after, say, half a year ;-)
+> 
+
+OK, OK. I knew when I wrote that that it was not going to stay new forever, but
+somehow failed to write the right thing anyway. :) 
+
+Here's a revised set of paragraphs:
+
+Basic description of FOLL_PIN
+=============================
+
+FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
+("gup") family of functions. FOLL_PIN has significant interactions and
+interdependencies with FOLL_LONGTERM, so both are covered here.
+
+Both FOLL_PIN and FOLL_LONGTERM are internal to gup, meaning that neither
+FOLL_PIN nor FOLL_LONGTERM should not appear at the gup call sites. This allows
+the associated wrapper functions  (pin_user_pages() and others) to set the
+correct combination of these flags, and to check for problems as well.
+
+
+thanks,
+
+John Hubbard
+NVIDIA
