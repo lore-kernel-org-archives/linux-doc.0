@@ -1,78 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B14047D91B
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 17:40:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 637767DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 18:16:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389062AbfKERj4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 12:39:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59378 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387776AbfKERj4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Nov 2019 12:39:56 -0500
-Received: from localhost (unknown [62.119.166.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A3B52087E;
-        Tue,  5 Nov 2019 17:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572975594;
-        bh=y2opLO7+HSMdSjVhYh/qVkiMvhFsEgpR1zbUKDSf3Po=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XTa4wDimisYBqz8aF7I1lGHjb8jutSs34fju9pKAYwPMva15JxywK6ltHJb/UVVJb
-         ObxHekeCseV2L5njEMMgtlrsDltq+EEY/CYfSP96c9Oxyp2jVvkK3DulaDCi2bzYYV
-         NLrHucRF/mAZlwSTgkqBCky7bja5uN5D2kieWzu0=
-Date:   Tue, 5 Nov 2019 18:33:58 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [RESEND PATCH v3 0/8] drivers: add new variants of
- devm_platform_ioremap_resource()
-Message-ID: <20191105173358.GA2876364@kroah.com>
-References: <20191022084318.22256-1-brgl@bgdev.pl>
+        id S2390616AbfKESQb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 13:16:31 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:11085 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390476AbfKESQb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 13:16:31 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc1bc810000>; Tue, 05 Nov 2019 10:16:33 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 05 Nov 2019 10:16:27 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 05 Nov 2019 10:16:27 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
+ 2019 18:16:25 +0000
+Subject: Re: [PATCH 09/19] drm/via: set FOLL_PIN via pin_user_pages_fast()
+To:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-10-jhubbard@nvidia.com>
+ <20191031233628.GI14771@iweiny-DESK2.sc.intel.com>
+ <20191104181055.GP10326@phenom.ffwll.local>
+ <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
+ <20191105094936.GZ10326@phenom.ffwll.local>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <9b9637f4-34e0-a665-a9c8-8fd59ff71063@nvidia.com>
+Date:   Tue, 5 Nov 2019 10:16:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191022084318.22256-1-brgl@bgdev.pl>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191105094936.GZ10326@phenom.ffwll.local>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572977793; bh=R0RxaBiDFTq2JKu4s4y6dD52czu96JnYA/nMzL9A6aE=;
+        h=X-PGP-Universal:Subject:To:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ZSBhPlkU00U2SId5ohXT4qfb7S3CRfF2QxUJyZ0MYASa23SxluEpDZf1THjnsB9k6
+         3RTrsq64bDaJH6/fLXRNFkXaPhRm5A6gkx6RZdlDie0bGzD/RBx0po9cAdeDcz/1hI
+         lKGfT57a8xEYWihKfruZKPu2iv+9HpU34riNOb6hU1aeKe+Fw0TM0CdzQuEAMyVnn3
+         zPBLdfbRqsxHTlb9Dt1LPnE+4oLXwLOgCALb/FxR0bVQqL9MMuMnHnx6cwBXcGJC2q
+         423PWzhyAI/MHMUhEHpOr+pguDR21zYFt0jsH+WX73ZsVIDhQ9aKqbWLguXDJ6ZEPH
+         qkWctNU3sUmkw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 22, 2019 at 10:43:10AM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On 11/5/19 1:49 AM, Daniel Vetter wrote:
+> On Mon, Nov 04, 2019 at 11:20:38AM -0800, John Hubbard wrote:
+>> On 11/4/19 10:10 AM, Daniel Vetter wrote:
+>>> On Thu, Oct 31, 2019 at 04:36:28PM -0700, Ira Weiny wrote:
+>>>> On Wed, Oct 30, 2019 at 03:49:20PM -0700, John Hubbard wrote:
+>>>>> Convert drm/via to use the new pin_user_pages_fast() call, which sets
+>>>>> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+>>>>> tracking of pinned pages, and therefore for any code that calls
+>>>>> put_user_page().
+>>>>>
+>>>>
+>>>> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+>>>
+>>> No one's touching the via driver anymore, so feel free to merge this
+>>> through whatever tree suits best (aka I'll drop this on the floor and
+>>> forget about it now).
+>>>
+>>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>
+>>
+>> OK, great. Yes, in fact, I'm hoping Andrew can just push the whole series
+>> in through the mm tree, because that would allow it to be done in one 
+>> shot, in 5.5
 > 
-> Note: resending with Arnd's review tags and rebased on top of char-misc-next
-> 
-> The new devm_platform_ioremap_resource() helper has now been widely
-> adopted and used in many drivers. Users of the write-combined ioremap()
-> variants could benefit from the same code shrinkage. This series provides
-> a write-combined version of devm_platform_ioremap_resource() and uses it in a
-> relevant driver with the assumption that - just like was the case
-> previously - a coccinelle script will be developed to ease the transition
-> for others.
-> 
-> There are also users of platform_get_resource_byname() who call
-> devm_ioremap_resource() next, so provide another variant that they can use
-> together with two examples.
+> btw is there more? We should have a bunch more userptr stuff in various
+> drivers, so was really surprised that drm/via is the only thing in your
+> series.
 
-I've queued these up in my driver-core tree as there were some conflicts
-with other work that happened in platform.h and device.h that I figured
-would be good to get out of the way now and not have to wait until the
-merge window to resolve.
+
+There is more, but:
+
+1) Fortunately, the opt-in nature of FOLL_PIN allows converting a few call
+sites at a time. And so this patchset limits itself to converting the bare
+minimum required to get started, which is: 
+
+    a) calls sites that have already been converted to put_user_page(), 
+       and
+
+    b) call sites that set FOLL_LONGTERM.
+
+So yes, follow-up patches will be required. This is not everything.
+In fact, if I can fix this series up quickly enough that it makes it into
+mmotm soon-ish, then there may be time to get some follow-patches on top
+of it, in time for 5.5.
+
+
+2) If I recall correctly, Jerome and maybe others are working to remove
+as many get_user_pages() callers from drm as possible, and instead use
+a non-pinned page approach, with mmu notifiers instead.  I'm not sure of
+the exact status of that work, but I see that etnaviv, amdgpu, i915, and
+radeon still call gup() in linux-next.
+
+Anyway, some of those call sites will disappear. Although I'd expect a 
+few to remain, because I doubt the simpler GPUs can support page faulting.
+
+
 
 thanks,
 
-greg k-h
+John Hubbard
+NVIDIA
