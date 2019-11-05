@@ -1,157 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD8797DE57
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 02:32:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B0E97D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 06:09:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729830AbfKECcs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 21:32:48 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:41222 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730418AbfKECcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 21:32:39 -0500
-Received: by mail-qt1-f194.google.com with SMTP id o3so27216864qtj.8
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 18:32:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
-        b=RrEUUprScGGCs1P3lOuGj4a5RoiWbVbfDZ4+HpgRvyTXCYVlJAXQB+MYamRZtedVHY
-         f5+sxNxk2K5wkp7PjMMeD8HJWFAJHo3RtLYXlCrUl00LuH1GNIO+43+qB9VoRPGoMtd2
-         MhxxJSrVmcyNdw2dcAOft+ieDHmjkqcbx3xo51HlgztpG3sVxpkHZVlG9m+fgORfqdhb
-         XySrfwIPRDIjnSUQNZ9F7DSfvHrKSEQZxN/D+pZKoiFoN1H+0mMnDQ/zYc1NegbKO5Qw
-         fR/889wgnwS9AagFL4h4X1w9N0H+8w+Cg8HTo2zBy3ABWuxHxMoo0KJgJWvcNzShW5B1
-         QLlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
-        b=rPVSwLQAuxkjtxys3NaMpqGF1Yn32F5B0CWV2iH8F9QX/gYKG1RTB80AP9OK+Q3Xmh
-         TZdnIx3WUDKs/RQeC9987fqBD1dCTBBPJrmVjzDEGa1gRiZ+88AN8m4sG7EuMAnc8T7H
-         NFLnhPoD+6+kB4DrE0Y3h6ZF2UtT+Q5j7uLgCVc/QkKaw+0Kk3n1SixcPwQmsF7KEC4l
-         DeuZ5wCc0M2dT01O8d8Cq6jdnrgeGPl5XyzhsrU8SQ9/WqI+WIBd4Bi3JFSS1AQ0fhTX
-         xbGQ3EOWlhOF/UgfWzhJH+crIREO0TyJCW4TNpgRaCLoTGYu59hsFwvZuGUjEX9qHHxC
-         YTJg==
-X-Gm-Message-State: APjAAAXV6KddMS/1vnvr1uIr87Xo7ux0PidJOXhO01KDiWEPF3QuFk6t
-        KxQ3HgpEFZE1QDYi6+3EuyM+mw==
-X-Google-Smtp-Source: APXvYqzymmufBg1PiSWGxkk4f7LXgsvyOrzTuuRBB+uFmwh9UO+iQP682ubsI0h94l7eDVroneUqZg==
-X-Received: by 2002:a0c:9838:: with SMTP id c53mr25556531qvd.250.1572921156814;
-        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id t65sm8907102qkh.23.2019.11.04.18.32.36
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iRoe3-0002uH-K9; Mon, 04 Nov 2019 22:32:35 -0400
-Date:   Mon, 4 Nov 2019 22:32:35 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
- pin_longterm_pages*()
-Message-ID: <20191105023235.GA11093@ziepe.ca>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-8-jhubbard@nvidia.com>
- <20191104203346.GF30938@ziepe.ca>
- <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
- <20191104205738.GH30938@ziepe.ca>
- <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
+        id S2387543AbfKEGI7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 01:08:59 -0500
+Received: from mga12.intel.com ([192.55.52.136]:39400 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387541AbfKEGI7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Nov 2019 01:08:59 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 22:08:58 -0800
+X-IronPort-AV: E=Sophos;i="5.68,270,1569308400"; 
+   d="scan'208";a="195709598"
+Received: from gliebl-mobl.ger.corp.intel.com (HELO localhost) ([10.252.42.19])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 22:08:53 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Amol Grover <frextrite@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: RCU: whatisRCU: Fix formatting for section 2
+In-Reply-To: <20191104173156.GA15267@workstation-kernel-dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191104133315.GA14499@workstation-kernel-dev> <87pni77jvt.fsf@intel.com> <20191104173156.GA15267@workstation-kernel-dev>
+Date:   Tue, 05 Nov 2019 08:08:50 +0200
+Message-ID: <87a79ayhvx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 02:03:43PM -0800, John Hubbard wrote:
-> On 11/4/19 12:57 PM, Jason Gunthorpe wrote:
-> > On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
-> >> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
-> >> ...
-> >>>> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
-> >>>> index 24244a2f68cc..c5a78d3e674b 100644
-> >>>> +++ b/drivers/infiniband/core/umem.c
-> >>>> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
-> >>>>  
-> >>>>  	while (npages) {
-> >>>>  		down_read(&mm->mmap_sem);
-> >>>> -		ret = get_user_pages(cur_base,
-> >>>> +		ret = pin_longterm_pages(cur_base,
-> >>>>  				     min_t(unsigned long, npages,
-> >>>>  					   PAGE_SIZE / sizeof (struct page *)),
-> >>>> -				     gup_flags | FOLL_LONGTERM,
-> >>>> -				     page_list, NULL);
-> >>>> +				     gup_flags, page_list, NULL);
-> >>>
-> >>> FWIW, this one should be converted to fast as well, I think we finally
-> >>> got rid of all the blockers for that?
-> >>>
-> >>
-> >> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
-> >> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
-> > 
-> > I mean the use of the mmap_sem here is finally in a way where we can
-> > just delete the mmap_sem and use _fast
-> >  
-> > ie, AFAIK there is no need for the mmap_sem to be held during
-> > ib_umem_add_sg_table()
-> > 
-> > This should probably be a standalone patch however
-> > 
-> 
-> Yes. Oh, actually I guess the patch flow should be: change to 
-> get_user_pages_fast() and remove the mmap_sem calls, as one patch. And then change 
-> to pin_longterm_pages_fast() as the next patch. Otherwise, the internal fallback
-> from _fast to slow gup would attempt to take the mmap_sem (again) in the same
-> thread, which is not good. :)
-> 
-> Or just defer the change until after this series. Either way is fine, let me
-> know if you prefer one over the other.
-> 
-> The patch itself is trivial, but runtime testing to gain confidence that
-> it's solid is much harder. Is there a stress test you would recommend for that?
-> (I'm not promising I can quickly run it yet--my local IB setup is still nascent 
-> at best.)
+On Mon, 04 Nov 2019, Amol Grover <frextrite@gmail.com> wrote:
+> On Mon, Nov 04, 2019 at 05:15:34PM +0200, Jani Nikula wrote:
+>> On Mon, 04 Nov 2019, Amol Grover <frextrite@gmail.com> wrote:
+>> > Convert RCU API method text to sub-headings and
+>> > add hyperlink and superscript to 2 literary notes
+>> > under rcu_dereference() section
+>> >
+>> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+>> > ---
+>> >  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
+>> >  1 file changed, 28 insertions(+), 6 deletions(-)
+>> >
+>> > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+>> > index ae40c8bcc56c..3cf6e17d0065 100644
+>> > --- a/Documentation/RCU/whatisRCU.rst
+>> > +++ b/Documentation/RCU/whatisRCU.rst
+>> > @@ -150,6 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
+>> >  at the function header comments.
+>> >  
+>> >  rcu_read_lock()
+>> > +^^^^^^^^^^^^^^^
+>> >  
+>> >  	void rcu_read_lock(void);
+>> >  
+>> > @@ -164,6 +165,7 @@ rcu_read_lock()
+>> >  	longer-term references to data structures.
+>> >  
+>> >  rcu_read_unlock()
+>> > +^^^^^^^^^^^^^^^^^
+>> >  
+>> >  	void rcu_read_unlock(void);
+>> >  
+>> > @@ -172,6 +174,7 @@ rcu_read_unlock()
+>> >  	read-side critical sections may be nested and/or overlapping.
+>> >  
+>> >  synchronize_rcu()
+>> > +^^^^^^^^^^^^^^^^^
+>> >  
+>> >  	void synchronize_rcu(void);
+>> >  
+>> > @@ -225,6 +228,7 @@ synchronize_rcu()
+>> >  	checklist.txt for some approaches to limiting the update rate.
+>> >  
+>> >  rcu_assign_pointer()
+>> > +^^^^^^^^^^^^^^^^^^^^
+>> >  
+>> >  	void rcu_assign_pointer(p, typeof(p) v);
+>> >  
+>> > @@ -245,6 +249,7 @@ rcu_assign_pointer()
+>> >  	the _rcu list-manipulation primitives such as list_add_rcu().
+>> >  
+>> >  rcu_dereference()
+>> > +^^^^^^^^^^^^^^^^^
+>> >  
+>> >  	typeof(p) rcu_dereference(p);
+>> >  
+>> > @@ -279,8 +284,10 @@ rcu_dereference()
+>> >  	if an update happened while in the critical section, and incur
+>> >  	unnecessary overhead on Alpha CPUs.
+>> >  
+>> > +.. _back_to_1:
+>> > +
+>> >  	Note that the value returned by rcu_dereference() is valid
+>> > -	only within the enclosing RCU read-side critical section [1].
+>> > +	only within the enclosing RCU read-side critical section |cs_1|.
+>> >  	For example, the following is -not- legal::
+>> >  
+>> >  		rcu_read_lock();
+>> > @@ -298,15 +305,27 @@ rcu_dereference()
+>> >  	it was acquired is just as illegal as doing so with normal
+>> >  	locking.
+>> >  
+>> > +.. _back_to_2:
+>> > +
+>> >  	As with rcu_assign_pointer(), an important function of
+>> >  	rcu_dereference() is to document which pointers are protected by
+>> >  	RCU, in particular, flagging a pointer that is subject to changing
+>> >  	at any time, including immediately after the rcu_dereference().
+>> >  	And, again like rcu_assign_pointer(), rcu_dereference() is
+>> >  	typically used indirectly, via the _rcu list-manipulation
+>> > -	primitives, such as list_for_each_entry_rcu() [2].
+>> > +	primitives, such as list_for_each_entry_rcu() |entry_2|.
+>> > +
+>> > +.. |cs_1| raw:: html
+>> 
+>> Please don't use raw. It's ugly and error prone. We have some raw output
+>> for latex, but this would be the first for html.
+>> 
+>> What are you trying to achieve?
+>
+> Hi Jani,
+> While going through the documentation I encountered a few footnotes (numbers
+> [1] and [2]) which referenced the actual footnote somewhere below the text.
+> They were particularly not straight-forward to find hence I decided to
+> link them to the footnote text which could be done using inline markup.
+> Then I tried to make them more appealing by converting to super-scripts
+> (the way they look like in books and websites). However, nested inline 
+> markup is not yet possible in reST hence I went with the html way to 
+> achieve the same. Too much?
 
-If you make a patch we can probably get it tested, it is something
-we should do I keep forgetting about.
+I suggest you use rst footnote markup. It's less of an eye sore in the
+rst source, but provides you with the links in the generated output. And
+typically would be superscript. In particular "autonumber labels" might
+fit the bill. [1][2]
 
-Jason
+BR,
+Jani.
+
+
+[1] http://docutils.sourceforge.net/docs/user/rst/quickref.html#footnotes
+[2] http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#footnotes
+
+
+>
+> Thank you
+> Amol
+>
+>> 
+>> BR,
+>> Jani.
+>> 
+>> > +
+>> > +	<a href="#cs"><sup>[1]</sup></a>
+>> > +
+>> > +.. |entry_2| raw:: html
+>> >  
+>> > -	[1] The variant rcu_dereference_protected() can be used outside
+>> > +	<a href="#entry"><sup>[2]</sup></a>
+>> > +
+>> > +.. _cs:
+>> > +
+>> > +	\ :sup:`[1]`\  The variant rcu_dereference_protected() can be used outside
+>> >  	of an RCU read-side critical section as long as the usage is
+>> >  	protected by locks acquired by the update-side code.  This variant
+>> >  	avoids the lockdep warning that would happen when using (for
+>> > @@ -317,15 +336,18 @@ rcu_dereference()
+>> >  	a lockdep expression to indicate which locks must be acquired
+>> >  	by the caller. If the indicated protection is not provided,
+>> >  	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
+>> > -	and the API's code comments for more details and example usage.
+>> > +	and the API's code comments for more details and example usage. :ref:`back <back_to_1>`
+>> > +
+>> > +
+>> > +.. _entry:
+>> >  
+>> > -	[2] If the list_for_each_entry_rcu() instance might be used by
+>> > +	\ :sup:`[2]`\  If the list_for_each_entry_rcu() instance might be used by
+>> >  	update-side code as well as by RCU readers, then an additional
+>> >  	lockdep expression can be added to its list of arguments.
+>> >  	For example, given an additional "lock_is_held(&mylock)" argument,
+>> >  	the RCU lockdep code would complain only if this instance was
+>> >  	invoked outside of an RCU read-side critical section and without
+>> > -	the protection of mylock.
+>> > +	the protection of mylock. :ref:`back <back_to_2>`
+>> >  
+>> >  The following diagram shows how each API communicates among the
+>> >  reader, updater, and reclaimer.
+>> 
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
