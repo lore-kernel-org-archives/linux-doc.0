@@ -2,210 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1DAD7DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 00:26:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD8797DE57
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 02:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387737AbfKEA0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Nov 2019 19:26:12 -0500
-Received: from mail-qt1-f171.google.com ([209.85.160.171]:36077 "EHLO
-        mail-qt1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387484AbfKEA0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 19:26:11 -0500
-Received: by mail-qt1-f171.google.com with SMTP id y10so20061555qto.3;
-        Mon, 04 Nov 2019 16:26:11 -0800 (PST)
+        id S1729830AbfKECcs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Nov 2019 21:32:48 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:41222 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730418AbfKECcj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Nov 2019 21:32:39 -0500
+Received: by mail-qt1-f194.google.com with SMTP id o3so27216864qtj.8
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2019 18:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=vGAWpCYyQmdpG0fVWfM47K0qqxSbXPboe+puExmNy/Q=;
-        b=tG9hbrGoCba4iRI4dXjXXAQSmknmxx2F03TKI/FmsHZpeI4YtT+lJuxTmB4lduVFBf
-         8N8QqospPyimSjxvfn+PGgpJQ2ssy5lKotG5b9/skRZAXZ2geOe4s6FAKvzfxAtq1Jf1
-         cEksRyo92lCUEKBbWM6kcrVRmxf9vEfbctWP0NAcd2fYGCZPisiP/MaB8XcL5XEq5USu
-         JKP929U3BZadQ1mL8MinREFNR9atUrbnwmO6exf9hH16QT1+bnC4/KipN+afpE14jpWx
-         a7aOED4uCGBHw8Hsvl1bnbewkeL9B/5Mqt2Vy/4ba9lYIsrstdnrzu7eL78GgIgUm2UB
-         vo6g==
+        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
+        b=RrEUUprScGGCs1P3lOuGj4a5RoiWbVbfDZ4+HpgRvyTXCYVlJAXQB+MYamRZtedVHY
+         f5+sxNxk2K5wkp7PjMMeD8HJWFAJHo3RtLYXlCrUl00LuH1GNIO+43+qB9VoRPGoMtd2
+         MhxxJSrVmcyNdw2dcAOft+ieDHmjkqcbx3xo51HlgztpG3sVxpkHZVlG9m+fgORfqdhb
+         XySrfwIPRDIjnSUQNZ9F7DSfvHrKSEQZxN/D+pZKoiFoN1H+0mMnDQ/zYc1NegbKO5Qw
+         fR/889wgnwS9AagFL4h4X1w9N0H+8w+Cg8HTo2zBy3ABWuxHxMoo0KJgJWvcNzShW5B1
+         QLlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vGAWpCYyQmdpG0fVWfM47K0qqxSbXPboe+puExmNy/Q=;
-        b=f2ls+TYzXTWTWJyVM6XpgelJh0bJeVQCSiZyx8V0bci9Ejnxn6WGn+dUj5hDshhjs1
-         qXK2mFK3mmimt3eS0lvots8gF2SDwEbNzZ4aQCTs9o4bJXD32+EGIuRQx4gdbStdIdB9
-         ivbmVu6/4hy7A5N8cd+2WQD3kLbylISR/5mal/hHJDN1MT8SvRDUwlkayeX4A8FaOa/N
-         lVRDI3fsGcQdVKaros50L+Rw9P6H+hw3qQH9HqFBxjZozPsrV7BwvLdvT6vovGk0si2s
-         a+SvhHusyUiB4Cri6Fu2hMuhdIlGp02qcO3V8BTh0Z0rwIRxsrBVrD1ttBL23qBoSHOG
-         Sb7A==
-X-Gm-Message-State: APjAAAUOjktz0H09+m7jKicIyriXZlbYk601tyzjGIDeCUy5jUEt4oQW
-        ZHRJB15x6cQzFqdn4fpSKOA=
-X-Google-Smtp-Source: APXvYqw64/yT3HNa1mqmD5oeeGGQdIx7SWuSCSQq3pbWmU49SkUD327kCjq+LB7sdISGJVYIIDbhDQ==
-X-Received: by 2002:ac8:7655:: with SMTP id i21mr15463788qtr.53.1572913570541;
-        Mon, 04 Nov 2019 16:26:10 -0800 (PST)
-Received: from smtp.gmail.com ([165.204.55.250])
-        by smtp.gmail.com with ESMTPSA id z70sm9888034qkb.60.2019.11.04.16.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 16:26:09 -0800 (PST)
-Date:   Mon, 4 Nov 2019 19:26:07 -0500
-From:   Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To:     Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-Cc:     outreachy-kernel@googlegroups.com, manasi.d.navare@intel.com,
-        hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        sean@poorly.run, corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org
-Subject: Re: [PATCH VKMS v3] drm/doc: Add VKMS module description and use to
- "Testing and Validation"
-Message-ID: <20191105002606.4h7brs4ozqwcb5zm@smtp.gmail.com>
-References: <20191104162705.19735-1-gabrielabittencourt00@gmail.com>
+        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
+        b=rPVSwLQAuxkjtxys3NaMpqGF1Yn32F5B0CWV2iH8F9QX/gYKG1RTB80AP9OK+Q3Xmh
+         TZdnIx3WUDKs/RQeC9987fqBD1dCTBBPJrmVjzDEGa1gRiZ+88AN8m4sG7EuMAnc8T7H
+         NFLnhPoD+6+kB4DrE0Y3h6ZF2UtT+Q5j7uLgCVc/QkKaw+0Kk3n1SixcPwQmsF7KEC4l
+         DeuZ5wCc0M2dT01O8d8Cq6jdnrgeGPl5XyzhsrU8SQ9/WqI+WIBd4Bi3JFSS1AQ0fhTX
+         xbGQ3EOWlhOF/UgfWzhJH+crIREO0TyJCW4TNpgRaCLoTGYu59hsFwvZuGUjEX9qHHxC
+         YTJg==
+X-Gm-Message-State: APjAAAXV6KddMS/1vnvr1uIr87Xo7ux0PidJOXhO01KDiWEPF3QuFk6t
+        KxQ3HgpEFZE1QDYi6+3EuyM+mw==
+X-Google-Smtp-Source: APXvYqzymmufBg1PiSWGxkk4f7LXgsvyOrzTuuRBB+uFmwh9UO+iQP682ubsI0h94l7eDVroneUqZg==
+X-Received: by 2002:a0c:9838:: with SMTP id c53mr25556531qvd.250.1572921156814;
+        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id t65sm8907102qkh.23.2019.11.04.18.32.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iRoe3-0002uH-K9; Mon, 04 Nov 2019 22:32:35 -0400
+Date:   Mon, 4 Nov 2019 22:32:35 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
+ pin_longterm_pages*()
+Message-ID: <20191105023235.GA11093@ziepe.ca>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-8-jhubbard@nvidia.com>
+ <20191104203346.GF30938@ziepe.ca>
+ <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
+ <20191104205738.GH30938@ziepe.ca>
+ <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nzbdziewgyxr7kks"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191104162705.19735-1-gabrielabittencourt00@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Nov 04, 2019 at 02:03:43PM -0800, John Hubbard wrote:
+> On 11/4/19 12:57 PM, Jason Gunthorpe wrote:
+> > On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
+> >> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
+> >> ...
+> >>>> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+> >>>> index 24244a2f68cc..c5a78d3e674b 100644
+> >>>> +++ b/drivers/infiniband/core/umem.c
+> >>>> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+> >>>>  
+> >>>>  	while (npages) {
+> >>>>  		down_read(&mm->mmap_sem);
+> >>>> -		ret = get_user_pages(cur_base,
+> >>>> +		ret = pin_longterm_pages(cur_base,
+> >>>>  				     min_t(unsigned long, npages,
+> >>>>  					   PAGE_SIZE / sizeof (struct page *)),
+> >>>> -				     gup_flags | FOLL_LONGTERM,
+> >>>> -				     page_list, NULL);
+> >>>> +				     gup_flags, page_list, NULL);
+> >>>
+> >>> FWIW, this one should be converted to fast as well, I think we finally
+> >>> got rid of all the blockers for that?
+> >>>
+> >>
+> >> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
+> >> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
+> > 
+> > I mean the use of the mmap_sem here is finally in a way where we can
+> > just delete the mmap_sem and use _fast
+> >  
+> > ie, AFAIK there is no need for the mmap_sem to be held during
+> > ib_umem_add_sg_table()
+> > 
+> > This should probably be a standalone patch however
+> > 
+> 
+> Yes. Oh, actually I guess the patch flow should be: change to 
+> get_user_pages_fast() and remove the mmap_sem calls, as one patch. And then change 
+> to pin_longterm_pages_fast() as the next patch. Otherwise, the internal fallback
+> from _fast to slow gup would attempt to take the mmap_sem (again) in the same
+> thread, which is not good. :)
+> 
+> Or just defer the change until after this series. Either way is fine, let me
+> know if you prefer one over the other.
+> 
+> The patch itself is trivial, but runtime testing to gain confidence that
+> it's solid is much harder. Is there a stress test you would recommend for that?
+> (I'm not promising I can quickly run it yet--my local IB setup is still nascent 
+> at best.)
 
---nzbdziewgyxr7kks
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you make a patch we can probably get it tested, it is something
+we should do I keep forgetting about.
 
-lgtm, I'll apply it tomorrow.
-
-Thanks
-
-Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-
-On 11/04, Gabriela Bittencourt wrote:
-> Add a description on VKMS module and the cases in which it should be used.
-> There's a brief explanation on how to set it and use it in a VM, along wi=
-th
-> an example of running an igt-test.
->=20
-> Changes since V3:
->  Rodrigo:
->  - Change the log message to imperative
->  - Fix some bad spelling/writing
->  - Add a blank line before enumeration
->=20
-> Changes since V2:
->  Andre:
->  - Avoid repetition of words in the same sentence;
->  - Make the explanation on 'setting the kernel' shorter, eliminate the
->    'make menuconfig' command;
->  - Add tab on enumeration to have one line per item;
->  - Clarify from each machine igt-tests commands should be ran on.
->=20
-> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> ---
->=20
-> Tested the patch using 'make htmldocs' to make sure the output .html is
-> correct.
->=20
-> Hi DRM-community,
-> this is my first (of many, I hope)  patch in this subsystem. I hope to ha=
-ve
-> a lot of learning (and fun :)) working with you guys.
-> I'm starting by documenting the VKMS driver in "Userland interfaces", if I
-> have been inaccurate in my description or if I misunderstood some concept,
-> please let me know.
-> ---
->  Documentation/gpu/drm-uapi.rst | 37 ++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 94f90521f58c..8271c1e240b7 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -285,6 +285,43 @@ run-tests.sh is a wrapper around piglit that will ex=
-ecute the tests matching
->  the -t options. A report in HTML format will be available in
->  ./results/html/index.html. Results can be compared with piglit.
-> =20
-> +Using VKMS to test DRM API
-> +--------------------------
-> +
-> +VKMS is a software-only model of a KMS driver that is useful for testing
-> +and for running compositors. VKMS aims to enable a virtual display witho=
-ut
-> +the need for a hardware display capability. These characteristics made V=
-KMS
-> +a perfect tool for validating the DRM core behavior and also support the
-> +compositor developer. VKMS makes it possible to test DRM functions in a
-> +virtual machine without display, simplifying the validation of some of t=
-he
-> +core changes.
-> +
-> +To Validate changes in DRM API with VKMS, start setting the kernel: make
-> +sure to enable VKMS module; compile the kernel with the VKMS enabled and
-> +install it in the target machine. VKMS can be run in a Virtual Machine
-> +(QEMU, virtme or similar). It's recommended the use of KVM with the mini=
-mum
-> +of 1GB of RAM and four cores.
-> +
-> +It's possible to run the IGT-tests in a VM in two ways:
-> +
-> +	1. Use IGT inside a VM
-> +	2. Use IGT from the host machine and write the results in a shared dire=
-ctory.
-> +
-> +As follow, there is an example of using a VM with a shared directory with
-> +the host machine to run igt-tests. As an example it's used virtme::
-> +
-> +	$ virtme-run --rwdir /path/for/shared_dir --kdir=3Dpath/for/kernel/dire=
-ctory --mods=3Dauto
-> +
-> +Run the igt-tests in the guest machine, as example it's ran the 'kms_fli=
-p'
-> +tests::
-> +
-> +	$ /path/for/igt-gpu-tools/scripts/run-tests.sh -p -s -t "kms_flip.*" -v
-> +
-> +In this example, instead of build the igt_runner, Piglit is used
-> +(-p option); it's created html summary of the tests results and it's sav=
-ed
-> +in the folder "igt-gpu-tools/results"; it's executed only the igt-tests
-> +matching the -t option.
-> +
->  Display CRC Support
->  -------------------
-> =20
-> --=20
-> 2.20.1
->=20
-
---=20
-Rodrigo Siqueira
-Software Engineer, Advanced Micro Devices (AMD)
-https://siqueira.tech
-
---nzbdziewgyxr7kks
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl3AwZ4ACgkQWJzP/com
-vP8WWg/9GIwArmMbTRYE9qkqkNDLclr/1TCgv/jtWAmjWNGvp9yh8uRurcT3tX9m
-utTEiQmhdHcyc1YzdL+WqJgqR25kU2Kb7roXmyP5/0Y5nrePC3j7nVAr/zoqVOaM
-J0/k8cPSO1BTs/QI35Cg7hvrbggWXtNka+IpxK3d5tjDMQ5YwMBOkKOlOBL6aZoD
-T3Q5qzTeKhA1kr9yaZw6ADr2MmEHQloRShsEemGCHuzQ44Od+vSC8D/ZItuJJxFp
-8GnRHtPg2eZbloGRZGojT6gGKrWC2roO5/WMJcYAIMVgmbBjh/RXBDiEBDk8b5yw
-5avVz7/P2+qKQzUTtlWiZS5wO1Yr6w6+ZrwWfdtNKD8WYr+O6D2yCOWLceqdJFtz
-v0N/DDLZHLxHFyS4HFgUFeKzluPSVnzht6PD6EpprzSwT3itm5/6VnPTkKm0BlVm
-CqeViy5kU708W0rcVrnDPJfZefO0vodfn2C1s1pkp+5x1Gm6eY6Ot+1PKoR1tjxY
-cQt9V6Ih1j11sQJ1tcDCOaRKH3mqlw5MDe8Di5kR7re+UGTJN579cHZuyG9LrAqA
-BN08l1Ys8BMlFL4F2FdkoFHRRh/VaDLN8FOW0zXpcb0Ypa1p8MjxrBW85ITADMOu
-oOd93McE+kcmWjUxVy3xWAWcqCMA9cg4c5dmaGxayTlN0TbAnxU=
-=8UYP
------END PGP SIGNATURE-----
-
---nzbdziewgyxr7kks--
+Jason
