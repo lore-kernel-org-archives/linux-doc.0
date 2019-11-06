@@ -1,209 +1,266 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08A347D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Nov 2019 19:12:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5320C7DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Nov 2019 19:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732191AbfKFTL7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Nov 2019 14:11:59 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40088 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730487AbfKFTL6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Nov 2019 14:11:58 -0500
-Received: by mail-wr1-f65.google.com with SMTP id i10so6672740wrs.7
-        for <linux-doc@vger.kernel.org>; Wed, 06 Nov 2019 11:11:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
-        b=rgRyO6x1nGDPENAhlTeX1XD1tL7bztL4f34POmMWurjqkhpHZRc6O0seKYBMbC9u2m
-         GiOBZXsbYzd2cMwQ7Un5XYdpqxCR88JdJYcGqZ+EIZn0tz+O/gh+0gVymXtnTh3x3e+Q
-         +vgQsiFQzsAF0f1SzF6rQeWosSl4KG7cSBO0cMeY/yFMtjaD3kOQUI7B0ybY2Mp1EYRj
-         XlqQzSr4fPATOqhHF3AqAEPw28SBvkbGqiOwb13fJHc3e8IJB/HGyF85obDx5SBHYEOt
-         r5PJ8CZ3wiWvJaTMjVlEH/zcloEiB3aDDbSMcFQnX/01veFTumtByBbnmVpbWkZ+fwuV
-         UtjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
-        b=YBll8vm4kNsiiTGwov5snnD1jaXSVlg/FmeIWbByiAPKLld2P1aLGXIZSpJcF+IxbD
-         +ugxAEMXwXBojH1YePQnkeOYuwy7IlQyAIgCAIdDlqLc7JZpQSE3nkpWgrVaMQzIYy6+
-         kwjeRwDrJ/P8EbRByOl8Hjl2KOm/y1dySTPIHOhXkpSPYPtD6rh/3YLMG7k/m7SOUba3
-         hp4CK9hKAA8mZBcrm8cIwf3GS3LuQCrLJ7UyEJby0ev6LbfHyPrdu9zw/EzirRbwzEJh
-         7sDR9KBoO+BLOyS8sdRUU+TJbuMwQ+FmojigleIi6fLWIXm9m4KWzu9QPuiFKQxmcRlI
-         uKrQ==
-X-Gm-Message-State: APjAAAXRoLGy7H/xiVBRAnKh4vwuww8qTMXgQldsaVi0gxmuogSLzoag
-        eYqOEf2FLsrjb1RNHGFkz5W1OQ==
-X-Google-Smtp-Source: APXvYqy2j8z4zrv6pixCYXtdwfDCHIPHcMSlZiyOi4PqRbOW14W0q0tt/ziIhir+mKB+jiKw5TxZRQ==
-X-Received: by 2002:adf:f743:: with SMTP id z3mr4041566wrp.200.1573067516685;
-        Wed, 06 Nov 2019 11:11:56 -0800 (PST)
-Received: from google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id p14sm16143410wrq.72.2019.11.06.11.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 11:11:55 -0800 (PST)
-Date:   Wed, 6 Nov 2019 20:11:49 +0100
-From:   Marco Elver <elver@google.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
+        id S1732513AbfKFTWz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Nov 2019 14:22:55 -0500
+Received: from mga02.intel.com ([134.134.136.20]:50615 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732501AbfKFTWx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Nov 2019 14:22:53 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2019 11:22:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,275,1569308400"; 
+   d="scan'208";a="403835182"
+Received: from vidhipat-mobl1.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.254.33.70])
+  by fmsmga006.fm.intel.com with ESMTP; 06 Nov 2019 11:22:51 -0800
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
+        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
+        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
+        Bard liao <yung-chuan.liao@linux.intel.com>,
+        Rander Wang <rander.wang@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>, paulmck@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v3 1/9] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20191106191149.GA126960@google.com>
-References: <20191104142745.14722-1-elver@google.com>
- <20191104142745.14722-2-elver@google.com>
- <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v2 16/19] soundwire: stream: update state machine and add state checks
+Date:   Wed,  6 Nov 2019 13:22:20 -0600
+Message-Id: <20191106192223.6003-17-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191106192223.6003-1-pierre-louis.bossart@linux.intel.com>
+References: <20191106192223.6003-1-pierre-louis.bossart@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The state machine and notes don't accurately explain or allow
+transitions from STREAM_DEPREPARED and STREAM_DISABLED.
 
+Add more explanations and allow for more transitions as a result of a
+trigger_stop(), trigger_suspend() and prepare(), depending on the
+ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
+flags.
 
-On Wed, 06 Nov 2019, Dmitry Vyukov wrote:
+Also add basic checks to help debug inconsistent states and illegal
+state machine transitions.
 
-> On Mon, Nov 4, 2019 at 3:28 PM Marco Elver <elver@google.com> wrote:
-> >
-> > Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
-> > kernel space. KCSAN is a sampling watchpoint-based data-race detector.
-> > See the included Documentation/dev-tools/kcsan.rst for more details.
-> ...
-> > +static inline atomic_long_t *find_watchpoint(unsigned long addr, size_t size,
-> > +                                            bool expect_write,
-> > +                                            long *encoded_watchpoint)
-> > +{
-> > +       const int slot = watchpoint_slot(addr);
-> > +       const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
-> > +       atomic_long_t *watchpoint;
-> > +       unsigned long wp_addr_masked;
-> > +       size_t wp_size;
-> > +       bool is_write;
-> > +       int i;
-> > +
-> > +       BUILD_BUG_ON(CONFIG_KCSAN_NUM_WATCHPOINTS < CHECK_NUM_SLOTS);
-> > +
-> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
-> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
-> 
-> 
-> The fast path code become much nicer!
-> I did another pass looking at how we can optimize the fast path.
-> Currently we still have 2 push/pop pairs on the fast path because of
-> register pressure. The logic in SLOT_IDX seems to be the main culprit.
-> We discussed several options offline:
-> 1. Just check 1 slot and ignore all corner cases (we will miss racing
-> unaligned access to different addresses but overlapping and crossing
-> pages, which sounds pretty esoteric)
-> 2. Check 3 slots in order and without wraparound (watchpoints[slot +
-> i], where i=-1,0,1), this will require adding dummy slots around the
-> array
-> 3. An interesting option is to check just 2 slots (that's enough!), to
-> make this work we will need to slightly offset bucket number when
-> setting a watch point (namely, if an access goes to the very end of a
-> page, we set the watchpoint into the bucket corresponding to the
-> _next_ page)
-> All of these options remove push/pop in my experiments. Obviously
-> checking fewer slots will reduce dynamic overhead even more.
-> 
-> 
-> > +               *encoded_watchpoint = atomic_long_read(watchpoint);
-> > +               if (!decode_watchpoint(*encoded_watchpoint, &wp_addr_masked,
-> > +                                      &wp_size, &is_write))
-> > +                       continue;
-> > +
-> > +               if (expect_write && !is_write)
-> > +                       continue;
-> > +
-> > +               /* Check if the watchpoint matches the access. */
-> > +               if (matching_access(wp_addr_masked, wp_size, addr_masked, size))
-> > +                       return watchpoint;
-> > +       }
-> > +
-> > +       return NULL;
-> > +}
-> > +
-> > +static inline atomic_long_t *insert_watchpoint(unsigned long addr, size_t size,
-> > +                                              bool is_write)
-> > +{
-> > +       const int slot = watchpoint_slot(addr);
-> > +       const long encoded_watchpoint = encode_watchpoint(addr, size, is_write);
-> > +       atomic_long_t *watchpoint;
-> > +       int i;
-> > +
-> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
-> > +               long expect_val = INVALID_WATCHPOINT;
-> > +
-> > +               /* Try to acquire this slot. */
-> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
-> 
-> If we do this SLOT_IDX trickery to catch unaligned accesses crossing
-> pages, then I think we should not use it insert_watchpoint at all and
-> only set the watchpoint to the exact index. Otherwise, we will
-> actually miss the corner cases which defeats the whole purpose of
-> SLOT_IDX and 3 iterations.
-> 
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ Documentation/driver-api/soundwire/stream.rst | 63 +++++++++++++------
+ drivers/soundwire/stream.c                    | 38 +++++++++++
+ 2 files changed, 83 insertions(+), 18 deletions(-)
 
-Just for the record, there are 2 reasons actually I decided to do this:
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
+index 5351bd2f34a8..9b7418ff8d59 100644
+--- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
+ 	+-----------+     +------------+     +----------+     +----------+
+ 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
+ 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
+-	+-----------+     +------------+     +----------+     +----+-----+
+-	                                                           ^
+-	                                                           |
+-	                                                           |
+-	                                                           v
+-	         +----------+           +------------+        +----+-----+
++	+-----------+     +------------+     +---+--+---+     +----+-----+
++	                                         ^  ^              ^
++				                 |  |              |
++				               __|  |___________   |
++				              |                 |  |
++	                                      v                 |  v
++	         +----------+           +-----+------+        +-+--+-----+
+ 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
+ 	         |  STATE   |           |   STATE    |        |  STATE   |
+ 	         +----------+           +------------+        +----------+
+ 
+-NOTE: State transition between prepare and deprepare is supported in Spec
+-but not in the software (subsystem)
++NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
++``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
++supported at the ALSA/ASoC level. Likewise the transition between
++``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
++INFO_RESUME flag.
+ 
+-NOTE2: Stream state transition checks need to be handled by caller
+-framework, for example ALSA/ASoC. No checks for stream transition exist in
+-SoundWire subsystem.
++NOTE2: The framework implements basic state transition checks, but
++does not e.g. check if a transition from DISABLED to ENABLED is valid
++on a specific platform. Such tests need to be added at the ALSA/ASoC
++level.
+ 
+ Stream State Operations
+ -----------------------
+@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
+ 
+ Prepare state of stream. Operations performed before entering in this state:
+ 
++  (0) Steps 1 and 2 are omitted in the case of a resume operation,
++      where the bus bandwidth is known.
++
+   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
+       are computed based on current stream as well as already active
+       stream(s) on Bus. Re-computation is required to accommodate current
+@@ -270,13 +278,15 @@ Prepare state of stream. Operations performed before entering in this state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_PREPARED``.
+ 
+-Bus implements below API for PREPARE state which needs to be called once per
+-stream. From ASoC DPCM framework, this stream state is linked to
+-.prepare() operation.
++Bus implements below API for PREPARE state which needs to be called
++once per stream. From ASoC DPCM framework, this stream state is linked
++to .prepare() operation. Since the .trigger() operations may not
++follow the .prepare(), a direct transitions from
++``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
+ 
+ .. code-block:: c
+ 
+-  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
++  int sdw_prepare_stream(struct sdw_stream_runtime * stream, bool resume);
+ 
+ 
+ SDW_STREAM_ENABLED
+@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+ 
++When the INFO_PAUSE flag is supported, a direct transition to
++``SDW_STREAM_ENABLED`` is allowed.
++
++For resume operations where ASoC will use the .prepare() callback, the
++stream can transition from ``SDW_STREAM_DISABLED`` to
++``SDW_STREAM_PREPARED``, with all required settings restored but
++without updating the bandwidth and bit allocation.
++
+ .. code-block:: c
+ 
+   int sdw_disable_stream(struct sdw_stream_runtime * stream);
+@@ -353,9 +371,18 @@ state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_DEPREPARED``.
+ 
+-Bus implements below API for DEPREPARED state which needs to be called once
+-per stream. From ASoC DPCM framework, this stream state is linked to
+-.trigger() stop operation.
++Bus implements below API for DEPREPARED state which needs to be called
++once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
++the mapping from this stream state to ALSA/ASoC operation may be
++implementation specific.
++
++When the INFO_PAUSE flag is supported, the stream state is linked to
++the .hw_free() operation - the stream is not deprepared on a
++TRIGGER_STOP.
++
++Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
++state on TRIGGER_STOP, should they require a transition through the
++``SDW_STREAM_PREPARED`` state.
+ 
+ .. code-block:: c
+ 
+diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+index e69f94a8c3a8..0a074d445b8d 100644
+--- a/drivers/soundwire/stream.c
++++ b/drivers/soundwire/stream.c
+@@ -1553,10 +1553,21 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_CONFIGURED &&
++	    stream->state != SDW_STREAM_DEPREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_prepare_stream(stream);
++
+ 	if (ret < 0)
+ 		pr_err("Prepare for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1621,10 +1632,19 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_enable_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("Enable for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1697,10 +1717,18 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_ENABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_disable_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("Disable for stream:%s failed: %d\n", stream->name, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1755,10 +1783,20 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
+ 	}
+ 
+ 	sdw_acquire_bus_lock(stream);
++
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_deprepare_stream(stream);
+ 	if (ret < 0)
+ 		pr_err("De-prepare for stream:%d failed: %d\n", ret, ret);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+-- 
+2.20.1
 
-1. the address slot is already occupied, check if any adjacent slots are
-   free;
-2. accesses that straddle a slot boundary due to size that exceeds a
-   slot's range may check adjacent slots if any watchpoint matches.
-
-In /sys/kernel/debug/kcsan I can see no_capacity with the current version stays
-below 10 for kernel boot. When I just use 1 slot, no_capacity events exceed
-90000, because point (1) is no longer addressed. This is a problem that would
-impair our ability to detect races.  One reason this happens is due to
-locality: it is just much more likely that we have multiple accesses to the
-same pages during some phase of execution from multiple threads.
-
-To avoid blowing up no_capacity events, insert_watchpoint should not change. I
-will change the iteration order in the fast-path (avoiding the complicated
-logic), and add additional overflow entries to the watchpoint array.
-
-AFAIK this generates better code, while still addressing points (1) and
-(2) above. This should be the best trade-off between absolute
-performance and our ability to detect data races.
-
--- Marco
