@@ -1,792 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4C9E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Nov 2019 09:14:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E6947D919
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Nov 2019 09:34:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730144AbfKFJNo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Nov 2019 04:13:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34006 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727068AbfKFJNo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Nov 2019 04:13:44 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [109.144.221.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7568B217F4;
-        Wed,  6 Nov 2019 09:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573031621;
-        bh=G1CedKeYOzTmclW/1freP6jSxkvR/QDMKRh0WTI5zXM=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=zGAHlYeYeE29i/1XaXzC8j7wETgfjKJgJqaYPaok0+xVVu0/oVYYlU1pOsN5+KPFZ
-         Iv03dlxegYHEqoEwoDmSIRjBMfi3XACruVL3H6l0zWv09uiCh5bKDK28iA6BMMvH7X
-         eiJw51zfR4JU+8jRlXMbP8Ri5zmtX9gpINhpKEdE=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 5A2A83520B54; Wed,  6 Nov 2019 01:13:39 -0800 (PST)
-Date:   Wed, 6 Nov 2019 01:13:39 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Phong Tran <tranmanphong@gmail.com>
-Cc:     frextrite@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jiangshanlai@gmail.com, josh@joshtriplett.org, rostedt@goodmis.org,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        mathieu.desnoyers@efficios.com, joel@joelfernandes.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Doc: whatisRCU: Add more Markup
-Message-ID: <20191106091339.GZ20975@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191105165938.GA10903@workstation>
- <20191105214234.17116-1-tranmanphong@gmail.com>
+        id S1731744AbfKFJdn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Nov 2019 04:33:43 -0500
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:12762 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731712AbfKFJdm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Nov 2019 04:33:42 -0500
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69VKLT027217;
+        Wed, 6 Nov 2019 01:33:35 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pfpt0818;
+ bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
+ b=ZRPo+CIZ27YeUmJ/Ouuy5CeYGwxoGBPYNmP940FhSnsm0BA2TDANfIP2uIbmn3h3EpWH
+ 0idcnf2+WG0qo0IdVMKvmu6oQtmvJCEmL2DMYPf84wj6bzw2jhqnParwQFOuFzsLod2a
+ kC/uTyDZtTN0x/Q9d2R8riXStNo50lvsDXYxQbfZg86gskqV26z2JBn4hT1a3lAMBAOT
+ sOWoRxcRNYW+Iiqi+NK6SBIJznp50LMLjC6ar6hSjcdCaL6SYpL477IhroFRBy7Tj09h
+ VFkLG7qV5LdDcAzRBe1Di1+l98BiVEn/JgykKm+OktinURV1VrXdNUSMMz6ZdtpyuXft IA== 
+Received: from sc-exch04.marvell.com ([199.233.58.184])
+        by mx0b-0016f401.pphosted.com with ESMTP id 2w19amyakg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 06 Nov 2019 01:33:35 -0800
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
+ 2019 01:33:33 -0800
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.59) by
+ SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AyNsS/MbNjE6/a+e1PMw+9rspZSx/ASi5mq8+0tlnbFwwbbpfJgMbpfXoZvgep2yWYW6CgMJBmCWC4PQfgvYwYJvqafFD0YoVhSD27kXh4jU4bZf+hFb55YNaQC2YMI1cZlvU0oQKoanmEZsPFq6fccb0U5ktsA1UFUvxCHiDxMwnSKlGj5gSC5KCsqlYk3qjcBclRY8Z4HInk/lyf5pWjKM+9bKKPeAvhFyOjC+GFD+oVQL9Bnqch9Z/gRfqkRX76KkAlX+s9fEPmbCFwQJpDqLTCPdKNe4HQDGVV2ObOdkzMFex66m2arRMl6jde6u9VoaPuz+dGBzk7QrBfxkNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
+ b=SsR7dGYN6XPG2pfbh8NDZVhhhGvikAyqlVCMv2IsYiuParLjunXmcea6rCIMiphQ/CfWQ1037Sl+tkCtO4MNQi4v4mPsG115QcnJnENzZfuUQ/UgnrrX4ihviyg/C50mWXNfeI2O2A38a0DMoPsThqC1Q4KB6o/J5KTujamTHoNUhUgBEu26+E1KKZ8J7V+pnQq2pQy7cQn0Mzex6kyRqmjFt+czuTUCWlc/eqW0/IoIpNMTn0wvqbg3otQHYSfu2uBVdKyDzheza1nLn8Yhlwf7RIy29J/3olbNvkSYinbeoXorr8cg9zUSC73XEdA3SP/jShNnm/fKP1PoDkpxbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
+ b=WFe6L8/gYGyGOqseUvvSeMePrMQFHhpcAhJPc8XLoQpqGqKW1Y/dN+6e1h7XgNE0Kk6eyi8+VSJ/FQSAiAkqVnxcG8UJL7XahYB4gEvXZFnfukEKj3fez0uQ9ZkubmzGDGUhvOShZ8yqTcfHCdaDOvLfxXGecpfuoiG/290mo2k=
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
+ MN2PR18MB3165.namprd18.prod.outlook.com (10.255.236.86) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.20; Wed, 6 Nov 2019 09:33:30 +0000
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::c4a:cf3c:f530:fba6]) by MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::c4a:cf3c:f530:fba6%6]) with mapi id 15.20.2430.020; Wed, 6 Nov 2019
+ 09:33:30 +0000
+From:   Robert Richter <rrichter@marvell.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: [PATCH v2 13/20] EDAC, Documentation: Describe CPER module definition
+ and DIMM ranks
+Thread-Topic: [PATCH v2 13/20] EDAC, Documentation: Describe CPER module
+ definition and DIMM ranks
+Thread-Index: AQHVlIU/GtvaA83eREuXj+Z4hz4EIg==
+Date:   Wed, 6 Nov 2019 09:33:30 +0000
+Message-ID: <20191106093239.25517-14-rrichter@marvell.com>
+References: <20191106093239.25517-1-rrichter@marvell.com>
+In-Reply-To: <20191106093239.25517-1-rrichter@marvell.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0287.eurprd05.prod.outlook.com
+ (2603:10a6:7:93::18) To MN2PR18MB3408.namprd18.prod.outlook.com
+ (2603:10b6:208:165::10)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.20.1
+x-originating-ip: [31.208.96.227]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2a1a2d69-357c-4a73-1fe3-08d7629c6238
+x-ms-traffictypediagnostic: MN2PR18MB3165:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR18MB31650CC33ACC23A01E0D3D71D9790@MN2PR18MB3165.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 02135EB356
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(14444005)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BWEK9AYir7LdYl68B+5lxnEX0CZ2KWdV2Nr8JpI3QQoLXxTT2QZZPZClVwb6K+anG3W07PrvMjKlmVP/Usyyf1TfZf+ggQ40a+PeYR5aZMDhfAs0FMkZfaBaLggFTYtjhJWMkoEtZD3QASzPn/AWhIMGtCsfrdGg63HB+E1cLEKa+ck+jdeG393yZRkeRubD1z3uvdzEH5MjfqLDXvu/XzdMoHgDN2Um8ClvQkgbAlIAj/b03S87H5XL2GEmb19htuY7RDPtCnXRTSH2X4nXP2jobwpuHG3p0xlGpplF427KDJXB83vGDz+H5nNSpoASQUYJ04rzLvl6tO6x4LkWGqOXvM1Zoe10rgNLUwvo40TjXW0CnztpZDvuySfOx/Gv8+f2hE4g0qm4JYI/F08QaxRnP4IN1JX7q4Yl253QXvXLXnqjegVnyRCTyzeVvzbu
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191105214234.17116-1-tranmanphong@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a1a2d69-357c-4a73-1fe3-08d7629c6238
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:30.1788
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jG5x9JpgnoT9WcWC8A9H04R3i0oXAxJAyP4NEZB62EzTrOB/zwfw6DGHm+H6mqjS34+KESnVVlkTsY2Pbh6sqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3165
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-06_02:2019-11-06,2019-11-06 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 06, 2019 at 04:42:34AM +0700, Phong Tran wrote:
-> o Adding more crossrefs.
-> o Bold some words.
-> o Add header levels.
-> 
-> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+Update on CPER DIMM naming convention and DIMM ranks.
 
-Thank you, I have squashed this into your original and pushed it out
-to -rcu, resulting in the commit shown below.
+Signed-off-by: Robert Richter <rrichter@marvell.com>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/admin-guide/ras.rst | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-Amol, does this address your review comments?  If so,
-please reply with your choice of Tested-by or Reviewed-by.
-(Documentation/process/submitting-patches.rst describes these and
-other tags.)
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/=
+ras.rst
+index 2b20f5f7380d..26e02a59f0f4 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -330,9 +330,12 @@ There can be multiple csrows and multiple channels.
+=20
+ .. [#f4] Nowadays, the term DIMM (Dual In-line Memory Module) is widely
+   used to refer to a memory module, although there are other memory
+-  packaging alternatives, like SO-DIMM, SIMM, etc. Along this document,
+-  and inside the EDAC system, the term "dimm" is used for all memory
+-  modules, even when they use a different kind of packaging.
++  packaging alternatives, like SO-DIMM, SIMM, etc. The UEFI
++  specification (Version 2.7) defines a memory module in the Common
++  Platform Error Record (CPER) section to be an SMBIOS Memory Device
++  (Type 17). Along this document, and inside the EDAC system, the term
++  "dimm" is used for all memory modules, even when they use a
++  different kind of packaging.
+=20
+ Memory controllers allow for several csrows, with 8 csrows being a
+ typical value. Yet, the actual number of csrows depends on the layout of
+@@ -349,12 +352,14 @@ controllers. The following example will assume 2 chan=
+nels:
+ 	|            |  ``ch0``  |  ``ch1``  |
+ 	+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+ 	| ``csrow0`` |  DIMM_A0  |  DIMM_B0  |
+-	+------------+           |           |
+-	| ``csrow1`` |           |           |
++	|            |   rank0   |   rank0   |
++	+------------+     -     |     -     |
++	| ``csrow1`` |   rank1   |   rank1   |
+ 	+------------+-----------+-----------+
+ 	| ``csrow2`` |  DIMM_A1  | DIMM_B1   |
+-	+------------+           |           |
+-	| ``csrow3`` |           |           |
++	|            |   rank0   |   rank0   |
++	+------------+     -     |     -     |
++	| ``csrow3`` |   rank1   |   rank1   |
+ 	+------------+-----------+-----------+
+=20
+ In the above example, there are 4 physical slots on the motherboard
+@@ -374,11 +379,13 @@ which the memory DIMM is placed. Thus, when 1 DIMM is=
+ placed in each
+ Channel, the csrows cross both DIMMs.
+=20
+ Memory DIMMs come single or dual "ranked". A rank is a populated csrow.
+-Thus, 2 single ranked DIMMs, placed in slots DIMM_A0 and DIMM_B0 above
+-will have just one csrow (csrow0). csrow1 will be empty. On the other
+-hand, when 2 dual ranked DIMMs are similarly placed, then both csrow0
+-and csrow1 will be populated. The pattern repeats itself for csrow2 and
+-csrow3.
++In the example above 2 dual ranked DIMMs are similarly placed. Thus,
++both csrow0 and csrow1 are populated. On the other hand, when 2 single
++ranked DIMMs are placed in slots DIMM_A0 and DIMM_B0, then they will
++have just one csrow (csrow0) and csrow1 will be empty. The pattern
++repeats itself for csrow2 and csrow3. Also note that some memory
++controller doesn't have any logic to identify the memory module, see
++``rankX`` directories below.
+=20
+ The representation of the above is reflected in the directory
+ tree in EDAC's sysfs interface. Starting in directory
+--=20
+2.20.1
 
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 7c12b3764c47eafd74fb7f613b67be860f4ad784
-Author: Phong Tran <tranmanphong@gmail.com>
-Date:   Thu Oct 31 06:31:28 2019 +0700
-
-    doc: Convert whatisRCU.txt to .rst
-    
-    This commit updates whatisRCU.txt to the new .rst format.
-    This change includes:
-    
-    - Formatting bullet lists
-    - Adding literal blocks
-    - Links from table of contents to corresponding sections
-    - Links to external documents
-    - Reformat quick quizzes
-    
-    Signed-off-by: Phong Tran <tranmanphong@gmail.com>
-    Tested-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-    [ tranmanphong: Apply Amol Grover feedback. ]
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 627128c..b9b1148 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -8,6 +8,7 @@ RCU concepts
-    :maxdepth: 3
- 
-    arrayRCU
-+   whatisRCU
-    rcu
-    listRCU
-    NMI-RCU
-diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.rst
-similarity index 84%
-rename from Documentation/RCU/whatisRCU.txt
-rename to Documentation/RCU/whatisRCU.rst
-index 58ba05c..3e24e01 100644
---- a/Documentation/RCU/whatisRCU.txt
-+++ b/Documentation/RCU/whatisRCU.rst
-@@ -1,15 +1,18 @@
-+.. _whatisrcu_doc:
-+
- What is RCU?  --  "Read, Copy, Update"
-+======================================
- 
- Please note that the "What is RCU?" LWN series is an excellent place
- to start learning about RCU:
- 
--1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
--2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
--3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
--4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
--	2010 Big API Table           http://lwn.net/Articles/419086/
--5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
--	2014 Big API Table           http://lwn.net/Articles/609973/
-+| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
-+| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
-+| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
-+| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
-+| 	2010 Big API Table           http://lwn.net/Articles/419086/
-+| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
-+|	2014 Big API Table           http://lwn.net/Articles/609973/
- 
- 
- What is RCU?
-@@ -24,14 +27,21 @@ the experience has been that different people must take different paths
- to arrive at an understanding of RCU.  This document provides several
- different paths, as follows:
- 
--1.	RCU OVERVIEW
--2.	WHAT IS RCU'S CORE API?
--3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
--4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
--5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
--6.	ANALOGY WITH READER-WRITER LOCKING
--7.	FULL LIST OF RCU APIs
--8.	ANSWERS TO QUICK QUIZZES
-+:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
-+
-+:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
-+
-+:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
-+
-+:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
-+
-+:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
-+
-+:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
-+
-+:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
-+
-+:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
- 
- People who prefer starting with a conceptual overview should focus on
- Section 1, though most readers will profit by reading this section at
-@@ -49,8 +59,10 @@ everything, feel free to read the whole thing -- but if you are really
- that type of person, you have perused the source code and will therefore
- never need this document anyway.  ;-)
- 
-+.. _1_whatisRCU:
- 
- 1.  RCU OVERVIEW
-+----------------
- 
- The basic idea behind RCU is to split updates into "removal" and
- "reclamation" phases.  The removal phase removes references to data items
-@@ -116,8 +128,10 @@ So how the heck can a reclaimer tell when a reader is done, given
- that readers are not doing any sort of synchronization operations???
- Read on to learn about how RCU's API makes this easy.
- 
-+.. _2_whatisRCU:
- 
- 2.  WHAT IS RCU'S CORE API?
-+---------------------------
- 
- The core RCU API is quite small:
- 
-@@ -136,7 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
- at the function header comments.
- 
- rcu_read_lock()
--
-+^^^^^^^^^^^^^^^
- 	void rcu_read_lock(void);
- 
- 	Used by a reader to inform the reclaimer that the reader is
-@@ -150,7 +164,7 @@ rcu_read_lock()
- 	longer-term references to data structures.
- 
- rcu_read_unlock()
--
-+^^^^^^^^^^^^^^^^^
- 	void rcu_read_unlock(void);
- 
- 	Used by a reader to inform the reclaimer that the reader is
-@@ -158,15 +172,15 @@ rcu_read_unlock()
- 	read-side critical sections may be nested and/or overlapping.
- 
- synchronize_rcu()
--
-+^^^^^^^^^^^^^^^^^
- 	void synchronize_rcu(void);
- 
- 	Marks the end of updater code and the beginning of reclaimer
- 	code.  It does this by blocking until all pre-existing RCU
- 	read-side critical sections on all CPUs have completed.
--	Note that synchronize_rcu() will -not- necessarily wait for
-+	Note that synchronize_rcu() will **not** necessarily wait for
- 	any subsequent RCU read-side critical sections to complete.
--	For example, consider the following sequence of events:
-+	For example, consider the following sequence of events::
- 
- 	         CPU 0                  CPU 1                 CPU 2
- 	     ----------------- ------------------------- ---------------
-@@ -182,7 +196,7 @@ synchronize_rcu()
- 	any that begin after synchronize_rcu() is invoked.
- 
- 	Of course, synchronize_rcu() does not necessarily return
--	-immediately- after the last pre-existing RCU read-side critical
-+	**immediately** after the last pre-existing RCU read-side critical
- 	section completes.  For one thing, there might well be scheduling
- 	delays.  For another thing, many RCU implementations process
- 	requests in batches in order to improve efficiencies, which can
-@@ -211,10 +225,10 @@ synchronize_rcu()
- 	checklist.txt for some approaches to limiting the update rate.
- 
- rcu_assign_pointer()
--
-+^^^^^^^^^^^^^^^^^^^^
- 	void rcu_assign_pointer(p, typeof(p) v);
- 
--	Yes, rcu_assign_pointer() -is- implemented as a macro, though it
-+	Yes, rcu_assign_pointer() **is** implemented as a macro, though it
- 	would be cool to be able to declare a function in this manner.
- 	(Compiler experts will no doubt disagree.)
- 
-@@ -231,7 +245,7 @@ rcu_assign_pointer()
- 	the _rcu list-manipulation primitives such as list_add_rcu().
- 
- rcu_dereference()
--
-+^^^^^^^^^^^^^^^^^
- 	typeof(p) rcu_dereference(p);
- 
- 	Like rcu_assign_pointer(), rcu_dereference() must be implemented
-@@ -248,13 +262,13 @@ rcu_dereference()
- 
- 	Common coding practice uses rcu_dereference() to copy an
- 	RCU-protected pointer to a local variable, then dereferences
--	this local variable, for example as follows:
-+	this local variable, for example as follows::
- 
- 		p = rcu_dereference(head.next);
- 		return p->data;
- 
- 	However, in this case, one could just as easily combine these
--	into one statement:
-+	into one statement::
- 
- 		return rcu_dereference(head.next)->data;
- 
-@@ -266,8 +280,8 @@ rcu_dereference()
- 	unnecessary overhead on Alpha CPUs.
- 
- 	Note that the value returned by rcu_dereference() is valid
--	only within the enclosing RCU read-side critical section [1].
--	For example, the following is -not- legal:
-+	only within the enclosing RCU read-side critical section [1]_.
-+	For example, the following is **not** legal::
- 
- 		rcu_read_lock();
- 		p = rcu_dereference(head.next);
-@@ -290,9 +304,11 @@ rcu_dereference()
- 	at any time, including immediately after the rcu_dereference().
- 	And, again like rcu_assign_pointer(), rcu_dereference() is
- 	typically used indirectly, via the _rcu list-manipulation
--	primitives, such as list_for_each_entry_rcu() [2].
-+	primitives, such as list_for_each_entry_rcu() [2]_.
-+
-+	.. [1]
- 
--	[1] The variant rcu_dereference_protected() can be used outside
-+	The variant rcu_dereference_protected() can be used outside
- 	of an RCU read-side critical section as long as the usage is
- 	protected by locks acquired by the update-side code.  This variant
- 	avoids the lockdep warning that would happen when using (for
-@@ -305,7 +321,9 @@ rcu_dereference()
- 	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
- 	and the API's code comments for more details and example usage.
- 
--	[2] If the list_for_each_entry_rcu() instance might be used by
-+	.. [2]
-+
-+	If the list_for_each_entry_rcu() instance might be used by
- 	update-side code as well as by RCU readers, then an additional
- 	lockdep expression can be added to its list of arguments.
- 	For example, given an additional "lock_is_held(&mylock)" argument,
-@@ -315,6 +333,7 @@ rcu_dereference()
- 
- The following diagram shows how each API communicates among the
- reader, updater, and reclaimer.
-+::
- 
- 
- 	    rcu_assign_pointer()
-@@ -375,12 +394,16 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
- Again, most uses will be of (a).  The (b) and (c) cases are important
- for specialized uses, but are relatively uncommon.
- 
-+.. _3_whatisRCU:
- 
- 3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
-+-----------------------------------------------
- 
- This section shows a simple use of the core RCU API to protect a
- global pointer to a dynamically allocated structure.  More-typical
--uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
-+uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
-+:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
-+::
- 
- 	struct foo {
- 		int a;
-@@ -440,40 +463,43 @@ uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
- 
- So, to sum up:
- 
--o	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
-+-	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
- 	read-side critical sections.
- 
--o	Within an RCU read-side critical section, use rcu_dereference()
-+-	Within an RCU read-side critical section, use rcu_dereference()
- 	to dereference RCU-protected pointers.
- 
--o	Use some solid scheme (such as locks or semaphores) to
-+-	Use some solid scheme (such as locks or semaphores) to
- 	keep concurrent updates from interfering with each other.
- 
--o	Use rcu_assign_pointer() to update an RCU-protected pointer.
-+-	Use rcu_assign_pointer() to update an RCU-protected pointer.
- 	This primitive protects concurrent readers from the updater,
--	-not- concurrent updates from each other!  You therefore still
-+	**not** concurrent updates from each other!  You therefore still
- 	need to use locking (or something similar) to keep concurrent
- 	rcu_assign_pointer() primitives from interfering with each other.
- 
--o	Use synchronize_rcu() -after- removing a data element from an
-+-	Use synchronize_rcu() **after** removing a data element from an
- 	RCU-protected data structure, but -before- reclaiming/freeing
- 	the data element, in order to wait for the completion of all
- 	RCU read-side critical sections that might be referencing that
- 	data item.
- 
- See checklist.txt for additional rules to follow when using RCU.
--And again, more-typical uses of RCU may be found in listRCU.txt,
--arrayRCU.txt, and NMI-RCU.txt.
-+And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
-+<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
-+<NMI_rcu_doc>`.
- 
-+.. _4_whatisRCU:
- 
- 4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
-+--------------------------------------------
- 
- In the example above, foo_update_a() blocks until a grace period elapses.
- This is quite simple, but in some cases one cannot afford to wait so
- long -- there might be other high-priority work to be done.
- 
- In such cases, one uses call_rcu() rather than synchronize_rcu().
--The call_rcu() API is as follows:
-+The call_rcu() API is as follows::
- 
- 	void call_rcu(struct rcu_head * head,
- 		      void (*func)(struct rcu_head *head));
-@@ -481,7 +507,7 @@ The call_rcu() API is as follows:
- This function invokes func(head) after a grace period has elapsed.
- This invocation might happen from either softirq or process context,
- so the function is not permitted to block.  The foo struct needs to
--have an rcu_head structure added, perhaps as follows:
-+have an rcu_head structure added, perhaps as follows::
- 
- 	struct foo {
- 		int a;
-@@ -490,7 +516,7 @@ have an rcu_head structure added, perhaps as follows:
- 		struct rcu_head rcu;
- 	};
- 
--The foo_update_a() function might then be written as follows:
-+The foo_update_a() function might then be written as follows::
- 
- 	/*
- 	 * Create a new struct foo that is the same as the one currently
-@@ -520,7 +546,7 @@ The foo_update_a() function might then be written as follows:
- 		call_rcu(&old_fp->rcu, foo_reclaim);
- 	}
- 
--The foo_reclaim() function might appear as follows:
-+The foo_reclaim() function might appear as follows::
- 
- 	void foo_reclaim(struct rcu_head *rp)
- 	{
-@@ -544,7 +570,7 @@ namely foo_reclaim().
- The summary of advice is the same as for the previous section, except
- that we are now using call_rcu() rather than synchronize_rcu():
- 
--o	Use call_rcu() -after- removing a data element from an
-+-	Use call_rcu() **after** removing a data element from an
- 	RCU-protected data structure in order to register a callback
- 	function that will be invoked after the completion of all RCU
- 	read-side critical sections that might be referencing that
-@@ -552,14 +578,16 @@ o	Use call_rcu() -after- removing a data element from an
- 
- If the callback for call_rcu() is not doing anything more than calling
- kfree() on the structure, you can use kfree_rcu() instead of call_rcu()
--to avoid having to write your own callback:
-+to avoid having to write your own callback::
- 
- 	kfree_rcu(old_fp, rcu);
- 
- Again, see checklist.txt for additional rules governing the use of RCU.
- 
-+.. _5_whatisRCU:
- 
- 5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
-+------------------------------------------------
- 
- One of the nice things about RCU is that it has extremely simple "toy"
- implementations that are a good first step towards understanding the
-@@ -579,7 +607,7 @@ more details on the current implementation as of early 2004.
- 
- 
- 5A.  "TOY" IMPLEMENTATION #1: LOCKING
--
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- This section presents a "toy" RCU implementation that is based on
- familiar locking primitives.  Its overhead makes it a non-starter for
- real-life use, as does its lack of scalability.  It is also unsuitable
-@@ -591,7 +619,7 @@ you allow nested rcu_read_lock() calls, you can deadlock.
- However, it is probably the easiest implementation to relate to, so is
- a good starting point.
- 
--It is extremely simple:
-+It is extremely simple::
- 
- 	static DEFINE_RWLOCK(rcu_gp_mutex);
- 
-@@ -614,7 +642,7 @@ It is extremely simple:
- 
- [You can ignore rcu_assign_pointer() and rcu_dereference() without missing
- much.  But here are simplified versions anyway.  And whatever you do,
--don't forget about them when submitting patches making use of RCU!]
-+don't forget about them when submitting patches making use of RCU!]::
- 
- 	#define rcu_assign_pointer(p, v) \
- 	({ \
-@@ -647,18 +675,23 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
- But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
- so there can be no deadlock cycle.
- 
--Quick Quiz #1:	Why is this argument naive?  How could a deadlock
-+.. _quiz_1:
-+
-+Quick Quiz #1:
-+		Why is this argument naive?  How could a deadlock
- 		occur when using this algorithm in a real-world Linux
- 		kernel?  How could this deadlock be avoided?
- 
-+:ref:`Answers to Quick Quiz <8_whatisRCU>`
- 
- 5B.  "TOY" EXAMPLE #2: CLASSIC RCU
--
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- This section presents a "toy" RCU implementation that is based on
- "classic RCU".  It is also short on performance (but only for updates) and
- on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
- kernels.  The definitions of rcu_dereference() and rcu_assign_pointer()
- are the same as those shown in the preceding section, so they are omitted.
-+::
- 
- 	void rcu_read_lock(void) { }
- 
-@@ -683,14 +716,14 @@ CPU in turn.  The run_on() primitive can be implemented straightforwardly
- in terms of the sched_setaffinity() primitive.  Of course, a somewhat less
- "toy" implementation would restore the affinity upon completion rather
- than just leaving all tasks running on the last CPU, but when I said
--"toy", I meant -toy-!
-+"toy", I meant **toy**!
- 
- So how the heck is this supposed to work???
- 
- Remember that it is illegal to block while in an RCU read-side critical
- section.  Therefore, if a given CPU executes a context switch, we know
- that it must have completed all preceding RCU read-side critical sections.
--Once -all- CPUs have executed a context switch, then -all- preceding
-+Once **all** CPUs have executed a context switch, then **all** preceding
- RCU read-side critical sections will have completed.
- 
- So, suppose that we remove a data item from its structure and then invoke
-@@ -698,19 +731,32 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
- that there are no RCU read-side critical sections holding a reference
- to that data item, so we can safely reclaim it.
- 
--Quick Quiz #2:	Give an example where Classic RCU's read-side
--		overhead is -negative-.
-+.. _quiz_2:
-+
-+Quick Quiz #2:
-+		Give an example where Classic RCU's read-side
-+		overhead is **negative**.
- 
--Quick Quiz #3:  If it is illegal to block in an RCU read-side
-+:ref:`Answers to Quick Quiz <8_whatisRCU>`
-+
-+.. _quiz_3:
-+
-+Quick Quiz #3:
-+		If it is illegal to block in an RCU read-side
- 		critical section, what the heck do you do in
- 		PREEMPT_RT, where normal spinlocks can block???
- 
-+:ref:`Answers to Quick Quiz <8_whatisRCU>`
-+
-+.. _6_whatisRCU:
- 
- 6.  ANALOGY WITH READER-WRITER LOCKING
-+--------------------------------------
- 
- Although RCU can be used in many different ways, a very common use of
- RCU is analogous to reader-writer locking.  The following unified
- diff shows how closely related RCU and reader-writer locking can be.
-+::
- 
- 	@@ -5,5 +5,5 @@ struct el {
- 	 	int data;
-@@ -762,7 +808,7 @@ diff shows how closely related RCU and reader-writer locking can be.
- 		return 0;
- 	 }
- 
--Or, for those who prefer a side-by-side listing:
-+Or, for those who prefer a side-by-side listing::
- 
-  1 struct el {                          1 struct el {
-  2   struct list_head list;             2   struct list_head list;
-@@ -774,40 +820,44 @@ Or, for those who prefer a side-by-side listing:
-  8 rwlock_t listmutex;                  8 spinlock_t listmutex;
-  9 struct el head;                      9 struct el head;
- 
-- 1 int search(long key, int *result)    1 int search(long key, int *result)
-- 2 {                                    2 {
-- 3   struct list_head *lp;              3   struct list_head *lp;
-- 4   struct el *p;                      4   struct el *p;
-- 5                                      5
-- 6   read_lock(&listmutex);             6   rcu_read_lock();
-- 7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p, head, lp) {
-- 8     if (p->key == key) {             8     if (p->key == key) {
-- 9       *result = p->data;             9       *result = p->data;
--10       read_unlock(&listmutex);      10       rcu_read_unlock();
--11       return 1;                     11       return 1;
--12     }                               12     }
--13   }                                 13   }
--14   read_unlock(&listmutex);          14   rcu_read_unlock();
--15   return 0;                         15   return 0;
--16 }                                   16 }
--
-- 1 int delete(long key)                 1 int delete(long key)
-- 2 {                                    2 {
-- 3   struct el *p;                      3   struct el *p;
-- 4                                      4
-- 5   write_lock(&listmutex);            5   spin_lock(&listmutex);
-- 6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head, lp) {
-- 7     if (p->key == key) {             7     if (p->key == key) {
-- 8       list_del(&p->list);            8       list_del_rcu(&p->list);
-- 9       write_unlock(&listmutex);      9       spin_unlock(&listmutex);
--                                       10       synchronize_rcu();
--10       kfree(p);                     11       kfree(p);
--11       return 1;                     12       return 1;
--12     }                               13     }
--13   }                                 14   }
--14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
--15   return 0;                         16   return 0;
--16 }                                   17 }
-+::
-+
-+  1 int search(long key, int *result)    1 int search(long key, int *result)
-+  2 {                                    2 {
-+  3   struct list_head *lp;              3   struct list_head *lp;
-+  4   struct el *p;                      4   struct el *p;
-+  5                                      5
-+  6   read_lock(&listmutex);             6   rcu_read_lock();
-+  7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p, head, lp) {
-+  8     if (p->key == key) {             8     if (p->key == key) {
-+  9       *result = p->data;             9       *result = p->data;
-+ 10       read_unlock(&listmutex);      10       rcu_read_unlock();
-+ 11       return 1;                     11       return 1;
-+ 12     }                               12     }
-+ 13   }                                 13   }
-+ 14   read_unlock(&listmutex);          14   rcu_read_unlock();
-+ 15   return 0;                         15   return 0;
-+ 16 }                                   16 }
-+
-+::
-+
-+  1 int delete(long key)                 1 int delete(long key)
-+  2 {                                    2 {
-+  3   struct el *p;                      3   struct el *p;
-+  4                                      4
-+  5   write_lock(&listmutex);            5   spin_lock(&listmutex);
-+  6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head, lp) {
-+  7     if (p->key == key) {             7     if (p->key == key) {
-+  8       list_del(&p->list);            8       list_del_rcu(&p->list);
-+  9       write_unlock(&listmutex);      9       spin_unlock(&listmutex);
-+                                        10       synchronize_rcu();
-+ 10       kfree(p);                     11       kfree(p);
-+ 11       return 1;                     12       return 1;
-+ 12     }                               13     }
-+ 13   }                                 14   }
-+ 14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
-+ 15   return 0;                         16   return 0;
-+ 16 }                                   17 }
- 
- Either way, the differences are quite small.  Read-side locking moves
- to rcu_read_lock() and rcu_read_unlock, update-side locking moves from
-@@ -825,15 +875,17 @@ delete() can now block.  If this is a problem, there is a callback-based
- mechanism that never blocks, namely call_rcu() or kfree_rcu(), that can
- be used in place of synchronize_rcu().
- 
-+.. _7_whatisRCU:
- 
- 7.  FULL LIST OF RCU APIs
-+-------------------------
- 
- The RCU APIs are documented in docbook-format header comments in the
- Linux-kernel source code, but it helps to have a full list of the
- APIs, since there does not appear to be a way to categorize them
- in docbook.  Here is the list, by category.
- 
--RCU list traversal:
-+RCU list traversal::
- 
- 	list_entry_rcu
- 	list_first_entry_rcu
-@@ -854,7 +906,7 @@ RCU list traversal:
- 	hlist_bl_first_rcu
- 	hlist_bl_for_each_entry_rcu
- 
--RCU pointer/list update:
-+RCU pointer/list udate::
- 
- 	rcu_assign_pointer
- 	list_add_rcu
-@@ -876,7 +928,9 @@ RCU pointer/list update:
- 	hlist_bl_del_rcu
- 	hlist_bl_set_first_rcu
- 
--RCU:	Critical sections	Grace period		Barrier
-+RCU::
-+
-+	Critical sections	Grace period		Barrier
- 
- 	rcu_read_lock		synchronize_net		rcu_barrier
- 	rcu_read_unlock		synchronize_rcu
-@@ -885,7 +939,9 @@ RCU:	Critical sections	Grace period		Barrier
- 	rcu_dereference_check	kfree_rcu
- 	rcu_dereference_protected
- 
--bh:	Critical sections	Grace period		Barrier
-+bh::
-+
-+	Critical sections	Grace period		Barrier
- 
- 	rcu_read_lock_bh	call_rcu		rcu_barrier
- 	rcu_read_unlock_bh	synchronize_rcu
-@@ -896,7 +952,9 @@ bh:	Critical sections	Grace period		Barrier
- 	rcu_dereference_bh_protected
- 	rcu_read_lock_bh_held
- 
--sched:	Critical sections	Grace period		Barrier
-+sched::
-+
-+	Critical sections	Grace period		Barrier
- 
- 	rcu_read_lock_sched	call_rcu		rcu_barrier
- 	rcu_read_unlock_sched	synchronize_rcu
-@@ -910,7 +968,9 @@ sched:	Critical sections	Grace period		Barrier
- 	rcu_read_lock_sched_held
- 
- 
--SRCU:	Critical sections	Grace period		Barrier
-+SRCU::
-+
-+	Critical sections	Grace period		Barrier
- 
- 	srcu_read_lock		call_srcu		srcu_barrier
- 	srcu_read_unlock	synchronize_srcu
-@@ -918,13 +978,14 @@ SRCU:	Critical sections	Grace period		Barrier
- 	srcu_dereference_check
- 	srcu_read_lock_held
- 
--SRCU:	Initialization/cleanup
-+SRCU: Initialization/cleanup::
-+
- 	DEFINE_SRCU
- 	DEFINE_STATIC_SRCU
- 	init_srcu_struct
- 	cleanup_srcu_struct
- 
--All:  lockdep-checked RCU-protected pointer access
-+All: lockdep-checked RCU-protected pointer access::
- 
- 	rcu_access_pointer
- 	rcu_dereference_raw
-@@ -974,15 +1035,19 @@ g.	Otherwise, use RCU.
- Of course, this all assumes that you have determined that RCU is in fact
- the right tool for your job.
- 
-+.. _8_whatisRCU:
- 
- 8.  ANSWERS TO QUICK QUIZZES
-+----------------------------
- 
--Quick Quiz #1:	Why is this argument naive?  How could a deadlock
-+Quick Quiz #1:
-+		Why is this argument naive?  How could a deadlock
- 		occur when using this algorithm in a real-world Linux
- 		kernel?  [Referring to the lock-based "toy" RCU
- 		algorithm.]
- 
--Answer:		Consider the following sequence of events:
-+Answer:
-+		Consider the following sequence of events:
- 
- 		1.	CPU 0 acquires some unrelated lock, call it
- 			"problematic_lock", disabling irq via
-@@ -1021,10 +1086,14 @@ Answer:		Consider the following sequence of events:
- 		approach where tasks in RCU read-side critical sections
- 		cannot be blocked by tasks executing synchronize_rcu().
- 
--Quick Quiz #2:	Give an example where Classic RCU's read-side
--		overhead is -negative-.
-+:ref:`Back to Quick Quiz #1 <quiz_1>`
-+
-+Quick Quiz #2:
-+		Give an example where Classic RCU's read-side
-+		overhead is **negative**.
- 
--Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
-+Answer:
-+		Imagine a single-CPU system with a non-CONFIG_PREEMPT
- 		kernel where a routing table is used by process-context
- 		code, but can be updated by irq-context code (for example,
- 		by an "ICMP REDIRECT" packet).	The usual way of handling
-@@ -1046,11 +1115,15 @@ Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
- 		even the theoretical possibility of negative overhead for
- 		a synchronization primitive is a bit unexpected.  ;-)
- 
--Quick Quiz #3:  If it is illegal to block in an RCU read-side
-+:ref:`Back to Quick Quiz #2 <quiz_2>`
-+
-+Quick Quiz #3:
-+		If it is illegal to block in an RCU read-side
- 		critical section, what the heck do you do in
- 		PREEMPT_RT, where normal spinlocks can block???
- 
--Answer:		Just as PREEMPT_RT permits preemption of spinlock
-+Answer:
-+		Just as PREEMPT_RT permits preemption of spinlock
- 		critical sections, it permits preemption of RCU
- 		read-side critical sections.  It also permits
- 		spinlocks blocking while in RCU read-side critical
-@@ -1069,6 +1142,7 @@ Answer:		Just as PREEMPT_RT permits preemption of spinlock
- 		Besides, how does the computer know what pizza parlor
- 		the human being went to???
- 
-+:ref:`Back to Quick Quiz #3 <quiz_3>`
- 
- ACKNOWLEDGEMENTS
- 
