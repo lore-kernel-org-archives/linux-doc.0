@@ -1,167 +1,145 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9866A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Nov 2019 21:53:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71C717D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Nov 2019 01:04:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728178AbfKEVxL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Nov 2019 16:53:11 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:41657 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727606AbfKEVxL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 16:53:11 -0500
-Received: by mail-pf1-f193.google.com with SMTP id p26so16982713pfq.8;
-        Tue, 05 Nov 2019 13:53:11 -0800 (PST)
+        id S1730704AbfKFBCD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Nov 2019 20:02:03 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:21424 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730054AbfKFBCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Nov 2019 20:02:02 -0500
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA61092t028449;
+        Tue, 5 Nov 2019 17:01:42 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pfpt0818; bh=BVp8qUxRE121/tm+T2vAbDt1Z1MHkG+jRqNO0T9Q5w8=;
+ b=q13agy6I5i1iqfD4YnmPGa8TRm0fGQOqEK9hygBoBc45bW9VrN0JewgjzkthxpRQ7zj6
+ zSFPJ47PWjWFoIWNjOVyfOzyFYSxBwBsbMDUW15xCeggpRXiOZvW/7rVrD+4HLmfGsaO
+ U2JONSYsKHgrghhu1RIvDn7BYyTB6zqPTo9ZlLv09U64MNU1rOMo4ZswGQKV69knFqKM
+ OxuVIUgT0G/0GSATL3GINC4ss4QAbrxdzkpdWt4UNxw7sNzuxXNy7pGDabYyENosdug5
+ EbhrwYJ5sFRN540nvVP0TVd3pBFgm/e6RbqiLJWEGX6XTlj2fX/xjuX8l8Eoxd9bzslp zg== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud17ea-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 05 Nov 2019 17:01:41 -0800
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Tue, 5 Nov
+ 2019 17:01:40 -0800
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com (104.47.41.57) by
+ SC-EXCH01.marvell.com (10.93.176.81) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Tue, 5 Nov 2019 17:01:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cxLmRvOp5oZwxO+fRusbj/pIBLSll9g7aCGpgjB/9xKjTPMswUZWJ1mHpUATDKmnRAHlANynr549QaPTKsB7QL7H8gYzg0JFs6qbpnN4fGefyiGgFoLVwqe99dUxDWw4S3yN3yRS22ANLZpE9h/cGUZWtdDog4ps/xkwGnW8iTrfwFq9lCDZyVWGcrIbZ8poOmg0yo1i22NgsMENhnVo7oI1Rwk2y9YYbwpkHQqaqN+L1On8S/oQox+6KF6WVbujc3C5cEBFzr9tHiWm2Jh/I9bDIfLajJ3qokqpwKYG+8s6tkKqVhwZnDPQIOu/JQGHzLXXh7dumH72V6L3WD51xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVp8qUxRE121/tm+T2vAbDt1Z1MHkG+jRqNO0T9Q5w8=;
+ b=VflQ/2/2yTGvxqUr+0gMNZWBp+ekRr7g+PcJEBOXZPUZlOb8RlOibrOOjYsUco0BvyBliR6K2xOhuj+gX8GNt7VKw5Xb+834YfgAPxH0zEXPDsvCivJSOo8wqyrwAm+ejAdTr8sRFi8I7exRHSAh0+9BrhI0eonuZMwp/1ygQ1JFy+omYAl87m6kTDnAQjekZoA7ztkMSl+r6e6q4kmcTa+tSow02D4yF0HxkvL6qVQRVyaqEpQhsaYWWUrgNl7rstBkaFAAlLbe8/OYDRpPrZjGk9B2rmuBkNgeAFh/qAgi2h0O+0WR598HxnQwajQQ6Lz4QBRwmnGWai56QKswMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4CXYo/cgnoTsCjAMMynzYTPUIwRzWVFEV0CA8Ua58Rw=;
-        b=pYo/5KBRtiZGkS9XOGtjyGi+PMmOAuB114Bqxn0MWScWhMaw+OhvDkiP13vVvPf4Lo
-         3NqKu7qhA9gYtLAJxsiIFxb94+ENYwN2awt+kv1aJ5aRfS92zbZdpo1HttOoQIVH+OkQ
-         Ik0avMKoSNfN+iq5tMbl/fOjYTUNl8eLcHHXUt+9OqcvyJMBt7Lf5T5/heA7wr/gDfSs
-         pgN/M+O3NjOBYwbEP3RByettcMZkmXQv8hpuRVncZ11LLJPxzMrLvDcBnv4Lq+OP3d5D
-         m1iNQstaoyzBG8BqpJu7Ox6rEy/NeE0XcC+RysDNBIX/T88eBAaSeUI7Au4UoZH9CTtb
-         1kCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4CXYo/cgnoTsCjAMMynzYTPUIwRzWVFEV0CA8Ua58Rw=;
-        b=TLIrI61D+9yqqGdiwHskKYSQDwetTWDHRegkJM8WZAFfYfjAHGzXwyi/5L3ODGyMQj
-         O2Se2QHQmnl0ljHEXwX9wtZ7+ZMuhlGhRzaic3ZTR7tbuRonG6Ah7m6LBPU+hdQhBp5J
-         iyzeI8xvS2O1TfFFgdj9QnPpcmcNjoNBavHW56ejV4W/nF9TG5xbw9R2xN2FfRsxs1v/
-         YWtElONSoVQpBzR8SP7QuYJniVIHzAOmLjCqor1qOmZsSM8beOj0fqAPffx0j1zMsC2P
-         4TmlKw1AHP6dJXexi/FOP3/K3cf0PoTxz5DeXSLn9cM00SdyzwzRR8X7i/6ucGNcHEiP
-         r34A==
-X-Gm-Message-State: APjAAAVNOlrGryoKgUEyEz2m2vYrulWal+hEpOEzsqAEk7AWUDhwyZK2
-        iDF2703omjRXY4TUBDcL/9U=
-X-Google-Smtp-Source: APXvYqwO87q9uzOmJnztEtcJaqvZdxcCGQp4Nl/xpHUxsvGf6y9yLfWIWFVIDmQU67zH05Ip1BIgQA==
-X-Received: by 2002:a65:55c3:: with SMTP id k3mr37746623pgs.155.1572990790523;
-        Tue, 05 Nov 2019 13:53:10 -0800 (PST)
-Received: from ?IPv6:2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb? ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
-        by smtp.gmail.com with ESMTPSA id o191sm24793150pfg.64.2019.11.05.13.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2019 13:53:09 -0800 (PST)
-Cc:     tranmanphong@gmail.com, josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, corbet@lwn.net,
-        madhuparnabhowmik04@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Doc: Improve format for
- whatisRCU.rst
-To:     Amol Grover <frextrite@gmail.com>, paulmck@kernel.org
-References: <20191102115517.6378-1-tranmanphong@gmail.com>
- <20191105165938.GA10903@workstation>
-From:   Phong Tran <tranmanphong@gmail.com>
-Message-ID: <2e218986-1dd1-42d8-94dc-cce098533af0@gmail.com>
-Date:   Wed, 6 Nov 2019 04:53:05 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191105165938.GA10903@workstation>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVp8qUxRE121/tm+T2vAbDt1Z1MHkG+jRqNO0T9Q5w8=;
+ b=UPrh9KnoJpgdk55a6MmcoazMm1XscpdoM+FrihQVhNzWsku83IgwQha2w0+lN65cgi9EIx1E7F3GjWKsEKaJWAi4ChK6G65AHiIIfHk29h0IlvnoKFO4HliYcb9j1No9Tib3p08qCUzasG4/9/OLX+n/B5kw5P/QEqDZ0ZaCYik=
+Received: from BN8PR18MB2868.namprd18.prod.outlook.com (20.179.74.155) by
+ BN8PR18MB2804.namprd18.prod.outlook.com (20.179.73.85) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.20; Wed, 6 Nov 2019 01:01:39 +0000
+Received: from BN8PR18MB2868.namprd18.prod.outlook.com
+ ([fe80::431:e92e:ca76:f241]) by BN8PR18MB2868.namprd18.prod.outlook.com
+ ([fe80::431:e92e:ca76:f241%5]) with mapi id 15.20.2408.024; Wed, 6 Nov 2019
+ 01:01:39 +0000
+From:   Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "peterz@infradead.org" <peterz@infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH 0/2] Workaround for ThunderX2 erratum 221
+Thread-Topic: [PATCH 0/2] Workaround for ThunderX2 erratum 221
+Thread-Index: AQHVlD2+Hbd68lyaXEuRVf5Y/wFAFw==
+Date:   Wed, 6 Nov 2019 01:01:39 +0000
+Message-ID: <1573002091-9744-1-git-send-email-gkulkarni@marvell.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BYAPR11CA0087.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::28) To BN8PR18MB2868.namprd18.prod.outlook.com
+ (2603:10b6:408:a2::27)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 1.8.3.1
+x-originating-ip: [199.233.59.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e681de9a-873d-475f-003f-08d76254e112
+x-ms-traffictypediagnostic: BN8PR18MB2804:
+x-microsoft-antispam-prvs: <BN8PR18MB280492D82BC5ED5E5F6BD1C3B2790@BN8PR18MB2804.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 02135EB356
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(396003)(136003)(366004)(376002)(39860400002)(199004)(189003)(4744005)(8676002)(99286004)(81166006)(81156014)(2906002)(316002)(2501003)(50226002)(8936002)(54906003)(110136005)(3846002)(6116002)(36756003)(476003)(25786009)(14454004)(186003)(478600001)(26005)(102836004)(66066001)(386003)(6506007)(486006)(2201001)(2616005)(86362001)(66556008)(71200400001)(71190400001)(256004)(14444005)(7736002)(305945005)(4720700003)(52116002)(66446008)(64756008)(6486002)(66476007)(66946007)(6436002)(4326008)(6512007)(5660300002);DIR:OUT;SFP:1101;SCL:1;SRVR:BN8PR18MB2804;H:BN8PR18MB2868.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gdPAi0IudJncwAfHg3+ydnPPFyFxgek/aHbqJCznAPxBbNDAXxnjjxkheGlr09As5JdFV4BLn6MaXLn63Ak88vFWBrOmOoa2wfmgJaPApZmVXndcRPcQooW0EUVWsC3L2u4Wyh2ZmBh0iYzonDE+f2shifTwEmmyJg2ZVTqe9rNlh4Ay7qr4xz9q/G5ML2D3ZgE4kVZP03ntWcBbhapH5TySTt+8NzAYRPVqyQjmDW1P7zxMqMUWi6Noa1dqOX9+5xcHUDxld8dtgtpGRQ8ccdh5m4u8PcfU0qDG9ySY13J/7BCXw4Rt8yv07WYddGp06sO8AKQQU6HTEdhA8pGjh2pAnERFEgTzBVJMC4kTCUvEX65eKogoQ6EDyTFj+OmwaXhILHN2K8H6n5Jq2U9ljTTslrsDgGPWwxbbFXNtrVluweTRoidorIDnujAWkyGD
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: e681de9a-873d-475f-003f-08d76254e112
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 01:01:39.1091
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5PK8DoYlw8CL9xo8CTeKpVGq0Q7G//xt9sFMHdXPA8JEn5gikxzQVb9ehfRoaEQQan6DSpVu+QFW3GTvANX5QQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR18MB2804
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-11-05_09:2019-11-05,2019-11-05 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This erratum is found when system hang reported by internal
+benchmarking team while they were trying ThunderX2 PMU uncore
+events along with cpu/memory intensive applications like stream,
+SPECjbb, SPECInt, etc.
 
+The workaround is to disable event multiplexing.
 
-On 11/5/19 11:59 PM, Amol Grover wrote:
-> On Sat, Nov 02, 2019 at 06:55:17PM +0700, Phong Tran wrote:
->> Adding crossreference target for some headers, answer of quizzes
->>
->> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
->> ---
->>   Documentation/RCU/whatisRCU.rst | 73 +++++++++++++++++++++++----------
->>   1 file changed, 52 insertions(+), 21 deletions(-)
->>
->> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
->> index 70d0e4c21917..ae40c8bcc56c 100644
->> --- a/Documentation/RCU/whatisRCU.rst
->> +++ b/Documentation/RCU/whatisRCU.rst
->> @@ -1,4 +1,4 @@
->> -.. _rcu_doc:
->> +.. _whatisrcu_doc:
->>   
->>   What is RCU?  --  "Read, Copy, Update"
->>   ======================================
->> @@ -27,14 +27,21 @@ the experience has been that different people must take different paths
->>   to arrive at an understanding of RCU.  This document provides several
->>   different paths, as follows:
->>   
->> -1.	RCU OVERVIEW
->> -2.	WHAT IS RCU'S CORE API?
->> -3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
->> -4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
->> -5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
->> -6.	ANALOGY WITH READER-WRITER LOCKING
->> -7.	FULL LIST OF RCU APIs
->> -8.	ANSWERS TO QUICK QUIZZES
->> +:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
->> +
->> +:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
->> +
->> +:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
->> +
->> +:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
->> +
->> +:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
->> +
->> +:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
->> +
->> +:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
->> +
->> +:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
->>   
->>   People who prefer starting with a conceptual overview should focus on
->>   Section 1, though most readers will profit by reading this section at
->> @@ -52,6 +59,7 @@ everything, feel free to read the whole thing -- but if you are really
->>   that type of person, you have perused the source code and will therefore
->>   never need this document anyway.  ;-)
->>   
->> +.. _1_whatisRCU:
->>   
->>   1.  RCU OVERVIEW
->>   ----------------
->> @@ -120,6 +128,7 @@ So how the heck can a reclaimer tell when a reader is done, given
->>   that readers are not doing any sort of synchronization operations???
->>   Read on to learn about how RCU's API makes this easy.
->>   
->> +.. _2_whatisRCU:
->>   
->>   2.  WHAT IS RCU'S CORE API?
->>   ---------------------------
->> @@ -381,13 +390,15 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
->>   Again, most uses will be of (a).  The (b) and (c) cases are important
->>   for specialized uses, but are relatively uncommon.
-> 
-> Hey,
-> 
-> The changes looks good overall, however a few areas would
-> look even better after a bit of formatting.
-> 
-> The API methods text under this section could be converted
-> to sub-headings (^^^) for improved readability.
-> 
-> rcu_dereference() sub-section under `Section 2` has 2
-> footnotes which could be linked using
-> http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#footnotes
-> 
+The current Perf core does not provide any provision to PMUs
+to disable event multiplexing. In first patch, adding PMU
+capability to disable event multiplexing in perf core.
+In second patch, setting the capability to disable for
+the ThunderX2 UNCORE PMUs.
 
-Okay, sent out the patch with the suggestions.
+Ganapatrao Prabhakerrao Kulkarni (2):
+  perf/core: Adding capability to disable PMUs event multiplexing
+  Thunderx2, uncore: Add workaround for ThunderX2 erratum 221
 
-https://lkml.org/lkml/2019/11/5/996
+ Documentation/admin-guide/perf/thunderx2-pmu.rst | 9 +++++++++
+ drivers/perf/thunderx2_pmu.c                     | 3 ++-
+ include/linux/perf_event.h                       | 1 +
+ kernel/events/core.c                             | 8 ++++++++
+ 4 files changed, 20 insertions(+), 1 deletion(-)
 
-Regards,
-Phong.
+--=20
+2.17.1
+
