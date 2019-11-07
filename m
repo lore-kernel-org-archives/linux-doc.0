@@ -1,60 +1,28 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 77D327D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 14:36:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3B427D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 14:52:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbfKGOf5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 09:35:57 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:46510 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbfKGOf4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 09:35:56 -0500
-Received: by mail-yb1-f193.google.com with SMTP id g17so979540ybd.13;
-        Thu, 07 Nov 2019 06:35:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cCJqsx/ftlwibAsAJ5Vcy0JA49jWm4p8qE8hfVDsfVk=;
-        b=p609bKDpHCoHQfbM/eGZgG96SmANx4wFD92aOiUSmPx5mI7JQb5iusZm7PMGjBE0Ur
-         WeK+YljlXYEK2ZWCFagZr7d2o3eoov4TZUw9MXsXfrdJ6v98qDqmFyj1P3tTD931PPBa
-         tCwaFuEHWd65r52ozGGDMdSNYgwZQBnCN9YimJFvUAYgJGkw8uWYTRICATCF1hko1yn0
-         FmUGCcxP8CYFZeoJ1UvtOIfL0LkrGbRWZt2l9ck4MF/ahw7CWemncTIvCwwQXTi1EgII
-         n11omcKJxXVfsYb6mLc4Hu78PO1RIZdLiQDcYi9wQot8m9nr+1rOmh9TW3UppuFlhjbQ
-         JZDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cCJqsx/ftlwibAsAJ5Vcy0JA49jWm4p8qE8hfVDsfVk=;
-        b=SpePYLVDVe3yK4trJNNJBgS/dZSbiztoU433ywbp4EurRxY/wGiloiCE4XmO10nmgu
-         0mSrJ4jXAA5akzh9qymJN13YAqbqIFBNgOHf/sa2mjwMrc/OA5G7JOHLnIsgmVrRQfVK
-         XLSKxHW7KBKwvJrUsRlyGe9aU837bnnNQPKIcnjx8UjFOpH91LmJfb1veWOdh1OTgOCq
-         d8CHQPH7WLQ12qIcze0L1n4EeAxfxKwVXPF7nt2go1pWkqD1QvDiZN0eiGFZ1zZSev5P
-         D6hvaByIdtj+jhKzEfMU68TwEnWC0+MXrngBbgOM6UrCgXLeye+4UXsWwyG3IWKEF2R7
-         A+AQ==
-X-Gm-Message-State: APjAAAV0X1zmcreIgDzyR9yrbxJWpaUsaj62f1hbx3BxgPeny+/5dClP
-        8NjcngrASgS09BE54vnAqFnZEdZg9tHhrQWCzp4=
-X-Google-Smtp-Source: APXvYqyMWpVj32FzQRayhpTWpWdlFXd3D4KTz3BmEyqk9mEJsRvKERSKWHPspwqvIWQCC2SxnvCjPuu22GSaPnAZcbM=
-X-Received: by 2002:a25:c781:: with SMTP id w123mr3644320ybe.509.1573137355279;
- Thu, 07 Nov 2019 06:35:55 -0800 (PST)
-MIME-Version: 1.0
-References: <1573002091-9744-1-git-send-email-gkulkarni@marvell.com>
- <1573002091-9744-2-git-send-email-gkulkarni@marvell.com> <20191106112810.GA50610@lakrids.cambridge.arm.com>
- <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
-In-Reply-To: <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Thu, 7 Nov 2019 06:35:44 -0800
-Message-ID: <CAKTKpr7za2-s0Ayf2AAW5CJ9WQk9smtTAbsjpiFgEg4+wevK7A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] perf/core: Adding capability to disable PMUs event multiplexing
-To:     Mark Rutland <mark.rutland@arm.com>
+        id S1729737AbfKGOwS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 09:52:18 -0500
+Received: from foss.arm.com ([217.140.110.172]:57500 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729450AbfKGOwS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Nov 2019 09:52:18 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7742731B;
+        Thu,  7 Nov 2019 06:52:17 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DD573F71A;
+        Thu,  7 Nov 2019 06:52:16 -0800 (PST)
+Date:   Thu, 7 Nov 2019 14:52:14 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
 Cc:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -64,18 +32,26 @@ Cc:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "will@kernel.org" <will@kernel.org>,
         "corbet@lwn.net" <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/2] perf/core: Adding capability to disable PMUs event
+ multiplexing
+Message-ID: <20191107145213.GB6888@lakrids.cambridge.arm.com>
+References: <1573002091-9744-1-git-send-email-gkulkarni@marvell.com>
+ <1573002091-9744-2-git-send-email-gkulkarni@marvell.com>
+ <20191106112810.GA50610@lakrids.cambridge.arm.com>
+ <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
-
-On Wed, Nov 6, 2019 at 3:28 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
->
+On Wed, Nov 06, 2019 at 03:28:46PM -0800, Ganapatrao Kulkarni wrote:
 > Hi Peter, Mark,
->
+> 
 > On Wed, Nov 6, 2019 at 3:28 AM Mark Rutland <mark.rutland@arm.com> wrote:
 > >
 > > On Wed, Nov 06, 2019 at 01:01:40AM +0000, Ganapatrao Prabhakerrao Kulkarni wrote:
@@ -94,146 +70,62 @@ On Wed, Nov 6, 2019 at 3:28 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
 > > If there's an erratum whereby heavy access to the PMU can lockup the
 > > core, and it's possible to workaround that by minimzing accesses, that
 > > should be done in the back-end PMU driver.
->
+> 
 > As said in errata,  If there are heavy access to memory like stream
 > application running and along with that if PMU control registers are
 > also accessed frequently, then CPU lockup is seen.
->
+
+Ok. So the issue is the frequency of access to those registers.
+
+Which registers does that apply to?
+
+Is this the case for only reads, only writes, or both?
+
+Does the frequency of access actually matter, or is is just more likely
+that we see the issue with a greater number of accesses? i.e the
+increased frequency increases the probability of hitting the issue.
+
+I'd really like a better description of the HW issue here.
+
 > I ran perf stat with 4 events of thuderx2 PMU as well as with 6 events
 > for stream application.
 > For 4 events run, there is no event multiplexing, where as for 6
 > events run the events are multiplexed.
->
+> 
 > For 4 event run:
 > No of times pmu->add is called: 10
 > No of times pmu->del is called: 10
 > No of times pmu->read is called: 310
->
+> 
 > For 6 events run:
 > No of times pmu->add is called: 5216
 > No of times pmu->del is called: 5216
 > No of times pmu->read is called: 5216
->
+> 
 > Issue happens when the add and del are called too many times as seen
 > with 6 event case.
+
+Sure, but I can achieve similar by creating/destroying events in a loop.
+Multiplexing is _one_ way to cause this behaviour, but it's not the
+_only_ way.
+
 > The PMU hardware control registers are programmed when add and del
 > functions are called.
 > For pmu->read no issues since no h/w issue with the data path.
->
+
+As above, can you please describe the hardware conditions more
+thoroughly?
+
 > This is UNCORE driver, not sure context switch has any influence on this?
+
+I believe that today it's possible for this to happen for cgroup events,
+as non-sensical as it may be to have a cgroup-bound uncore PMU event.
+
 > Please suggest me, how can we fix this in back-end PMU driver without
 > any perf core help?
->
-> >
-> > Either way, this minimzes the utility of the PMU.
-> >
-> > Thanks,
-> > Mark.
-> >
-> > >
-> > > Signed-off-by: Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
-> > > ---
-> > >  include/linux/perf_event.h | 1 +
-> > >  kernel/events/core.c       | 8 ++++++++
-> > >  2 files changed, 9 insertions(+)
-> > >
-> > > diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-> > > index 61448c19a132..9e18d841daf7 100644
-> > > --- a/include/linux/perf_event.h
-> > > +++ b/include/linux/perf_event.h
-> > > @@ -247,6 +247,7 @@ struct perf_event;
-> > >  #define PERF_PMU_CAP_HETEROGENEOUS_CPUS              0x40
-> > >  #define PERF_PMU_CAP_NO_EXCLUDE                      0x80
-> > >  #define PERF_PMU_CAP_AUX_OUTPUT                      0x100
-> > > +#define PERF_PMU_CAP_NO_MUX_EVENTS           0x200
-> > >
-> > >  /**
-> > >   * struct pmu - generic performance monitoring unit
-> > > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > > index 4655adbbae10..65452784f81c 100644
-> > > --- a/kernel/events/core.c
-> > > +++ b/kernel/events/core.c
-> > > @@ -1092,6 +1092,10 @@ static void __perf_mux_hrtimer_init(struct perf_cpu_context *cpuctx, int cpu)
-> > >       if (pmu->task_ctx_nr == perf_sw_context)
-> > >               return;
-> > >
-> > > +     /* No PMU support */
-> > > +     if (pmu->capabilities & PERF_PMU_CAP_NO_MUX_EVENTS)
-> > > +             return 0;
-> > > +
-> > >       /*
-> > >        * check default is sane, if not set then force to
-> > >        * default interval (1/tick)
-> > > @@ -1117,6 +1121,10 @@ static int perf_mux_hrtimer_restart(struct perf_cpu_context *cpuctx)
-> > >       if (pmu->task_ctx_nr == perf_sw_context)
-> > >               return 0;
-> > >
-> > > +     /* No PMU support */
-> > > +     if (pmu->capabilities & PERF_PMU_CAP_NO_MUX_EVENTS)
-> > > +             return 0;
-> > > +
-> > >       raw_spin_lock_irqsave(&cpuctx->hrtimer_lock, flags);
-> > >       if (!cpuctx->hrtimer_active) {
-> > >               cpuctx->hrtimer_active = 1;
-> > > --
-> > > 2.17.1
-> > >
->
-> Thanks,
-> Ganapat
 
-Below diff does workaround without support of perf core.
-Please review and let me know your thoughts?
+In order to do so, I need a better explanation of the underlying
+hardware issue.
 
-root@SBR-26>perf>> git diff
-diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-index 43d76c85da56..d5c90a93e96b 100644
---- a/drivers/perf/thunderx2_pmu.c
-+++ b/drivers/perf/thunderx2_pmu.c
-@@ -69,6 +69,7 @@ struct tx2_uncore_pmu {
-        int node;
-        int cpu;
-        u32 max_counters;
-+       bool events_mux_disable;
-        u32 prorate_factor;
-        u32 max_events;
-        u64 hrtimer_interval;
-@@ -442,6 +443,8 @@ static int tx2_uncore_event_init(struct perf_event *event)
-        if (!tx2_uncore_validate_event_group(event))
-                return -EINVAL;
-
-+       /* reset flag */
-+       tx2_pmu->events_mux_disable = false;
-        return 0;
- }
-
-@@ -490,10 +493,19 @@ static int tx2_uncore_event_add(struct
-perf_event *event, int flags)
-
-        tx2_pmu = pmu_to_tx2_pmu(event->pmu);
-
-+       /* Erratum ThunderX2 erratum 221.
-+        * Disable support for events multiplexing.
-+        * Limiting the number of events to available hardware counters.
-+        */
-+       if (tx2_pmu->events_mux_disable)
-+               return -EOPNOTSUPP;
-+
-        /* Allocate a free counter */
-        hwc->idx  = alloc_counter(tx2_pmu);
--       if (hwc->idx < 0)
-+       if (hwc->idx < 0) {
-+               tx2_pmu->events_mux_disable = true;
-                return -EAGAIN;
-+       }
-
-        tx2_pmu->events[hwc->idx] = event;
-        /* set counter control and data registers base address */
-@@ -648,6 +660,7 @@ static struct tx2_uncore_pmu
-*tx2_uncore_pmu_init_dev(struct device *dev,
-        tx2_pmu->dev = dev;
-        tx2_pmu->type = type;
-        tx2_pmu->base = base;
-+       tx2_pmu->events_mux_disable = false;
-        tx2_pmu->node = dev_to_node(dev);
-        INIT_LIST_HEAD(&tx2_pmu->entry);
+Thanks,
+Mark.
