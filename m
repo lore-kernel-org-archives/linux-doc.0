@@ -3,173 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B97707DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 08:07:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F1D1F7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 09:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbfKGIHW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 03:07:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60672 "EHLO mail.kernel.org"
+        id S2387629AbfKGJz5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 04:55:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47494 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726791AbfKGIHV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Nov 2019 03:07:21 -0500
-Received: from rapoport-lnx (nesher1.haifa.il.ibm.com [195.110.40.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727926AbfKGJz5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Nov 2019 04:55:57 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [109.144.217.237])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 14F2F2077C;
-        Thu,  7 Nov 2019 08:07:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F14592084D;
+        Thu,  7 Nov 2019 09:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573114040;
-        bh=Vs0vmuJFZJfCdBWbcef1JshwZZc9l+YrjwUdtsaNu3k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KypO2u9qQZOpCT97PagoJmJ05jNzzAwEOh5TQuJtaHcnw290kuyiCyRgXcpTDgoff
-         yL2r3/5Nv3OxL5iW1vDTUMldS7lvQVWUl8vBPDTErZIqUCYXU5EvD9rUB9CL4lekw9
-         M70s0IBFr/3wdhsUYXeg/j3kPNjd4MGq8LMTqoAU=
-Date:   Thu, 7 Nov 2019 10:07:07 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-Message-ID: <20191107080706.GB3239@rapoport-lnx>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-6-jhubbard@nvidia.com>
- <20191105131032.GG25005@rapoport-lnx>
- <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
+        s=default; t=1573120556;
+        bh=11m4wZfJjMPzk2fEBKdsC1rwpRjYVXA31fkds2/+/E8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=K8YgBirCk1MCAIe836pAstA8lN5eLPqh66hjhqYqOJ+eVfgsBwM5gkYY4S67NSEUc
+         OVKLnNN9rQUhA/BKSu/Fky1xh6+Ppz1NmfhB7gtw6UcHHuGPfvrcxM/rSqIy+B64Ri
+         qf3qKUt387bEclE5+IwlngVc39emcU9CcFYiTGxM=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 05DB735227FC; Thu,  7 Nov 2019 01:55:54 -0800 (PST)
+Date:   Thu, 7 Nov 2019 01:55:54 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Amol Grover <frextrite@gmail.com>
+Cc:     Phong Tran <tranmanphong@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: rcubarrier:
+ Convert to reST
+Message-ID: <20191107095553.GM20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191106165617.GA12205@workstation-kernel-dev>
+ <15512469-fc7e-24c8-d407-72ba7015a099@gmail.com>
+ <20191107063949.GA2310@workstation-kernel-dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20191107063949.GA2310@workstation-kernel-dev>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 11:00:06AM -0800, John Hubbard wrote:
-> On 11/5/19 5:10 AM, Mike Rapoport wrote:
-> ...
-> >> ---
-> >>  Documentation/vm/index.rst          |   1 +
-> >>  Documentation/vm/pin_user_pages.rst | 212 ++++++++++++++++++++++
-> > 
-> > I think it belongs to Documentation/core-api.
-> 
-> Done:
-> 
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index ab0eae1c153a..413f7d7c8642 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -31,6 +31,7 @@ Core utilities
->     generic-radix-tree
->     memory-allocation
->     mm-api
-> +   pin_user_pages
->     gfp_mask-from-fs-io
->     timekeeping
->     boot-time-mm
+On Thu, Nov 07, 2019 at 12:09:49PM +0530, Amol Grover wrote:
+> On Thu, Nov 07, 2019 at 07:19:27AM +0700, Phong Tran wrote:
+> > On 11/6/19 11:56 PM, Amol Grover wrote:
 
-Thanks!
- 
-> ...
-> >> diff --git a/Documentation/vm/pin_user_pages.rst b/Documentation/vm/pin_user_pages.rst
-> >> new file mode 100644
-> >> index 000000000000..3910f49ca98c
-> >> --- /dev/null
-> >> +++ b/Documentation/vm/pin_user_pages.rst
-> >> @@ -0,0 +1,212 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +====================================================
-> >> +pin_user_pages() and related calls
-> >> +====================================================
-> > 
-> > I know this is too much to ask, but having pin_user_pages() a part of more
-> > general GUP description would be really great :)
-> > 
-> 
-> Yes, definitely. But until I saw the reaction to the pin_user_pages() API
-> family, I didn't want to write too much--it could have all been tossed out
-> in favor of a whole different API. But now that we've had some initial
-> reviews, I'm much more confident in being able to write about the larger 
-> API set.
-> 
-> So yes, I'll put that on my pending list.
-> 
-> 
-> ...
-> >> +This document describes the following functions: ::
-> >> +
-> >> + pin_user_pages
-> >> + pin_user_pages_fast
-> >> + pin_user_pages_remote
-> >> +
-> >> + pin_longterm_pages
-> >> + pin_longterm_pages_fast
-> >> + pin_longterm_pages_remote
-> >> +
-> >> +Basic description of FOLL_PIN
-> >> +=============================
-> >> +
-> >> +A new flag for get_user_pages ("gup") has been added: FOLL_PIN. FOLL_PIN has
-> > 
-> > Consider reading this after, say, half a year ;-)
-> > 
-> 
-> OK, OK. I knew when I wrote that that it was not going to stay new forever, but
-> somehow failed to write the right thing anyway. :) 
-> 
-> Here's a revised set of paragraphs:
-> 
-> Basic description of FOLL_PIN
-> =============================
-> 
-> FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
-> ("gup") family of functions. FOLL_PIN has significant interactions and
-> interdependencies with FOLL_LONGTERM, so both are covered here.
-> 
-> Both FOLL_PIN and FOLL_LONGTERM are internal to gup, meaning that neither
-> FOLL_PIN nor FOLL_LONGTERM should not appear at the gup call sites. This allows
-> the associated wrapper functions  (pin_user_pages() and others) to set the
-> correct combination of these flags, and to check for problems as well.
+[ . . . ]
 
-Great, thanks! 
- 
-> thanks,
+> > >   We instead need the rcu_barrier() primitive.  Rather than waiting for
+> > >   a grace period to elapse, rcu_barrier() waits for all outstanding RCU
+> > > -callbacks to complete.  Please note that rcu_barrier() does -not- imply
+> > > +callbacks to complete.  Please note that rcu_barrier() does **not** imply
+> > >   synchronize_rcu(), in particular, if there are no RCU callbacks queued
+> > >   anywhere, rcu_barrier() is within its rights to return immediately,
+> > >   without waiting for a grace period to elapse.
+> > > @@ -89,78 +94,78 @@ module uses multiple flavors of call_rcu(), then it must also use multiple
+> > >   flavors of rcu_barrier() when unloading that module.  For example, if
+> > >   it uses call_rcu(), call_srcu() on srcu_struct_1, and call_srcu() on
+> > >   srcu_struct_2(), then the following three lines of code will be required
+> > 
+> > Hello Amol,
+> > 
+> > srcu_struct_2() should be srcu_struct_2
 > 
-> John Hubbard
-> NVIDIA
+> Hey Phong,
+> Thanks for the review! Fixed and sent the new patch
+> https://lore.kernel.org/lkml/20191107063241.GA2234@workstation-kernel-dev/
 
--- 
-Sincerely yours,
-Mike.
+Phong, please let us know whether Amol's new version looks good to you.
+If it does, preferably with your Reviewed-by and/or Tested by.  ;-)
+
+							Thanx, Paul
