@@ -1,422 +1,239 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13ACF7DD29
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 14:29:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 77D327D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 14:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731082AbfKGO3a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 09:29:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41770 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726033AbfKGO33 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Nov 2019 09:29:29 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [109.144.209.93])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B6E29207FA;
-        Thu,  7 Nov 2019 14:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573136968;
-        bh=0sL7l/n0UDIQqcSLSKAXeHYslytegyv9hyEW/zqifKw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Ff5mXt2/umhb4Dwu0Qc4TMI7f9X0seNPD3COwUR8CsP5nbpU/Q8A7WrzCNzp5JsTi
-         boUZE9IVwsLrd8M/IWdRLwW1GBzQrUQnTRTb5N9ku/bcOqeEeM4LhiTwMlKEUIdg4n
-         zIRdEGSPo2UQ3dL82YI+z0L1lJ0xE3hc3El0NtWc=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id EBD1435227FC; Thu,  7 Nov 2019 06:29:25 -0800 (PST)
-Date:   Thu, 7 Nov 2019 06:29:25 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Phong Tran <tranmanphong@gmail.com>
-Cc:     Amol Grover <frextrite@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: Re: [PATCH v2] Documentation: RCU: rcubarrier: Convert to reST
-Message-ID: <20191107142925.GO20975@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191107063241.GA2234@workstation-kernel-dev>
- <3d3bf2ea-b8af-e561-a631-fb9205973e99@gmail.com>
+        id S1726754AbfKGOf5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 09:35:57 -0500
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:46510 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726033AbfKGOf4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 09:35:56 -0500
+Received: by mail-yb1-f193.google.com with SMTP id g17so979540ybd.13;
+        Thu, 07 Nov 2019 06:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cCJqsx/ftlwibAsAJ5Vcy0JA49jWm4p8qE8hfVDsfVk=;
+        b=p609bKDpHCoHQfbM/eGZgG96SmANx4wFD92aOiUSmPx5mI7JQb5iusZm7PMGjBE0Ur
+         WeK+YljlXYEK2ZWCFagZr7d2o3eoov4TZUw9MXsXfrdJ6v98qDqmFyj1P3tTD931PPBa
+         tCwaFuEHWd65r52ozGGDMdSNYgwZQBnCN9YimJFvUAYgJGkw8uWYTRICATCF1hko1yn0
+         FmUGCcxP8CYFZeoJ1UvtOIfL0LkrGbRWZt2l9ck4MF/ahw7CWemncTIvCwwQXTi1EgII
+         n11omcKJxXVfsYb6mLc4Hu78PO1RIZdLiQDcYi9wQot8m9nr+1rOmh9TW3UppuFlhjbQ
+         JZDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cCJqsx/ftlwibAsAJ5Vcy0JA49jWm4p8qE8hfVDsfVk=;
+        b=SpePYLVDVe3yK4trJNNJBgS/dZSbiztoU433ywbp4EurRxY/wGiloiCE4XmO10nmgu
+         0mSrJ4jXAA5akzh9qymJN13YAqbqIFBNgOHf/sa2mjwMrc/OA5G7JOHLnIsgmVrRQfVK
+         XLSKxHW7KBKwvJrUsRlyGe9aU837bnnNQPKIcnjx8UjFOpH91LmJfb1veWOdh1OTgOCq
+         d8CHQPH7WLQ12qIcze0L1n4EeAxfxKwVXPF7nt2go1pWkqD1QvDiZN0eiGFZ1zZSev5P
+         D6hvaByIdtj+jhKzEfMU68TwEnWC0+MXrngBbgOM6UrCgXLeye+4UXsWwyG3IWKEF2R7
+         A+AQ==
+X-Gm-Message-State: APjAAAV0X1zmcreIgDzyR9yrbxJWpaUsaj62f1hbx3BxgPeny+/5dClP
+        8NjcngrASgS09BE54vnAqFnZEdZg9tHhrQWCzp4=
+X-Google-Smtp-Source: APXvYqyMWpVj32FzQRayhpTWpWdlFXd3D4KTz3BmEyqk9mEJsRvKERSKWHPspwqvIWQCC2SxnvCjPuu22GSaPnAZcbM=
+X-Received: by 2002:a25:c781:: with SMTP id w123mr3644320ybe.509.1573137355279;
+ Thu, 07 Nov 2019 06:35:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d3bf2ea-b8af-e561-a631-fb9205973e99@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1573002091-9744-1-git-send-email-gkulkarni@marvell.com>
+ <1573002091-9744-2-git-send-email-gkulkarni@marvell.com> <20191106112810.GA50610@lakrids.cambridge.arm.com>
+ <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
+In-Reply-To: <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Thu, 7 Nov 2019 06:35:44 -0800
+Message-ID: <CAKTKpr7za2-s0Ayf2AAW5CJ9WQk9smtTAbsjpiFgEg4+wevK7A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] perf/core: Adding capability to disable PMUs event multiplexing
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 07, 2019 at 08:58:18PM +0700, Phong Tran wrote:
-> On 11/7/19 1:32 PM, Amol Grover wrote:
-> > Convert rcubarrier.txt to rcubarrier.rst and
-> > add it to index.rst
-> > 
-> > Format file according to reST
-> > - Add headings and sub-headings
-> > - Add code segments
-> > - Add cross-references to quizes and answers
-> 
-> Tested-by: Phong Tran <tranmanphong@gmail.com>
+Hi Mark,
 
-Applied, thank you both!
+On Wed, Nov 6, 2019 at 3:28 PM Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+>
+> Hi Peter, Mark,
+>
+> On Wed, Nov 6, 2019 at 3:28 AM Mark Rutland <mark.rutland@arm.com> wrote:
+> >
+> > On Wed, Nov 06, 2019 at 01:01:40AM +0000, Ganapatrao Prabhakerrao Kulkarni wrote:
+> > > When PMUs are registered, perf core enables event multiplexing
+> > > support by default. There is no provision for PMUs to disable
+> > > event multiplexing, if PMUs want to disable due to unavoidable
+> > > circumstances like hardware errata etc.
+> > >
+> > > Adding PMU capability flag PERF_PMU_CAP_NO_MUX_EVENTS and support
+> > > to allow PMUs to explicitly disable event multiplexing.
+> >
+> > Even without multiplexing, this PMU activity can happen when switching
+> > tasks, or when creating/destroying events, so as-is I don't think this
+> > makes much sense.
+> >
+> > If there's an erratum whereby heavy access to the PMU can lockup the
+> > core, and it's possible to workaround that by minimzing accesses, that
+> > should be done in the back-end PMU driver.
+>
+> As said in errata,  If there are heavy access to memory like stream
+> application running and along with that if PMU control registers are
+> also accessed frequently, then CPU lockup is seen.
+>
+> I ran perf stat with 4 events of thuderx2 PMU as well as with 6 events
+> for stream application.
+> For 4 events run, there is no event multiplexing, where as for 6
+> events run the events are multiplexed.
+>
+> For 4 event run:
+> No of times pmu->add is called: 10
+> No of times pmu->del is called: 10
+> No of times pmu->read is called: 310
+>
+> For 6 events run:
+> No of times pmu->add is called: 5216
+> No of times pmu->del is called: 5216
+> No of times pmu->read is called: 5216
+>
+> Issue happens when the add and del are called too many times as seen
+> with 6 event case.
+> The PMU hardware control registers are programmed when add and del
+> functions are called.
+> For pmu->read no issues since no h/w issue with the data path.
+>
+> This is UNCORE driver, not sure context switch has any influence on this?
+> Please suggest me, how can we fix this in back-end PMU driver without
+> any perf core help?
+>
+> >
+> > Either way, this minimzes the utility of the PMU.
+> >
+> > Thanks,
+> > Mark.
+> >
+> > >
+> > > Signed-off-by: Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
+> > > ---
+> > >  include/linux/perf_event.h | 1 +
+> > >  kernel/events/core.c       | 8 ++++++++
+> > >  2 files changed, 9 insertions(+)
+> > >
+> > > diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+> > > index 61448c19a132..9e18d841daf7 100644
+> > > --- a/include/linux/perf_event.h
+> > > +++ b/include/linux/perf_event.h
+> > > @@ -247,6 +247,7 @@ struct perf_event;
+> > >  #define PERF_PMU_CAP_HETEROGENEOUS_CPUS              0x40
+> > >  #define PERF_PMU_CAP_NO_EXCLUDE                      0x80
+> > >  #define PERF_PMU_CAP_AUX_OUTPUT                      0x100
+> > > +#define PERF_PMU_CAP_NO_MUX_EVENTS           0x200
+> > >
+> > >  /**
+> > >   * struct pmu - generic performance monitoring unit
+> > > diff --git a/kernel/events/core.c b/kernel/events/core.c
+> > > index 4655adbbae10..65452784f81c 100644
+> > > --- a/kernel/events/core.c
+> > > +++ b/kernel/events/core.c
+> > > @@ -1092,6 +1092,10 @@ static void __perf_mux_hrtimer_init(struct perf_cpu_context *cpuctx, int cpu)
+> > >       if (pmu->task_ctx_nr == perf_sw_context)
+> > >               return;
+> > >
+> > > +     /* No PMU support */
+> > > +     if (pmu->capabilities & PERF_PMU_CAP_NO_MUX_EVENTS)
+> > > +             return 0;
+> > > +
+> > >       /*
+> > >        * check default is sane, if not set then force to
+> > >        * default interval (1/tick)
+> > > @@ -1117,6 +1121,10 @@ static int perf_mux_hrtimer_restart(struct perf_cpu_context *cpuctx)
+> > >       if (pmu->task_ctx_nr == perf_sw_context)
+> > >               return 0;
+> > >
+> > > +     /* No PMU support */
+> > > +     if (pmu->capabilities & PERF_PMU_CAP_NO_MUX_EVENTS)
+> > > +             return 0;
+> > > +
+> > >       raw_spin_lock_irqsave(&cpuctx->hrtimer_lock, flags);
+> > >       if (!cpuctx->hrtimer_active) {
+> > >               cpuctx->hrtimer_active = 1;
+> > > --
+> > > 2.17.1
+> > >
+>
+> Thanks,
+> Ganapat
 
-							Thanx, Paul
+Below diff does workaround without support of perf core.
+Please review and let me know your thoughts?
 
-> > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > ---
-> >   Documentation/RCU/index.rst                   |   1 +
-> >   .../RCU/{rcubarrier.txt => rcubarrier.rst}    | 222 ++++++++++--------
-> >   2 files changed, 126 insertions(+), 97 deletions(-)
-> >   rename Documentation/RCU/{rcubarrier.txt => rcubarrier.rst} (72%)
-> > 
-> > diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> > index c81d0e4fd999..81a0a1e5f767 100644
-> > --- a/Documentation/RCU/index.rst
-> > +++ b/Documentation/RCU/index.rst
-> > @@ -8,6 +8,7 @@ RCU concepts
-> >      :maxdepth: 3
-> >      arrayRCU
-> > +   rcubarrier
-> >      rcu_dereference
-> >      whatisRCU
-> >      rcu
-> > diff --git a/Documentation/RCU/rcubarrier.txt b/Documentation/RCU/rcubarrier.rst
-> > similarity index 72%
-> > rename from Documentation/RCU/rcubarrier.txt
-> > rename to Documentation/RCU/rcubarrier.rst
-> > index a2782df69732..f64f4413a47c 100644
-> > --- a/Documentation/RCU/rcubarrier.txt
-> > +++ b/Documentation/RCU/rcubarrier.rst
-> > @@ -1,4 +1,7 @@
-> > +.. _rcu_barrier:
-> > +
-> >   RCU and Unloadable Modules
-> > +==========================
-> >   [Originally published in LWN Jan. 14, 2007: http://lwn.net/Articles/217484/]
-> > @@ -21,7 +24,7 @@ given that readers might well leave absolutely no trace of their
-> >   presence? There is a synchronize_rcu() primitive that blocks until all
-> >   pre-existing readers have completed. An updater wishing to delete an
-> >   element p from a linked list might do the following, while holding an
-> > -appropriate lock, of course:
-> > +appropriate lock, of course::
-> >   	list_del_rcu(p);
-> >   	synchronize_rcu();
-> > @@ -32,13 +35,13 @@ primitive must be used instead. This primitive takes a pointer to an
-> >   rcu_head struct placed within the RCU-protected data structure and
-> >   another pointer to a function that may be invoked later to free that
-> >   structure. Code to delete an element p from the linked list from IRQ
-> > -context might then be as follows:
-> > +context might then be as follows::
-> >   	list_del_rcu(p);
-> >   	call_rcu(&p->rcu, p_callback);
-> >   Since call_rcu() never blocks, this code can safely be used from within
-> > -IRQ context. The function p_callback() might be defined as follows:
-> > +IRQ context. The function p_callback() might be defined as follows::
-> >   	static void p_callback(struct rcu_head *rp)
-> >   	{
-> > @@ -49,6 +52,7 @@ IRQ context. The function p_callback() might be defined as follows:
-> >   Unloading Modules That Use call_rcu()
-> > +-------------------------------------
-> >   But what if p_callback is defined in an unloadable module?
-> > @@ -69,10 +73,11 @@ in realtime kernels in order to avoid excessive scheduling latencies.
-> >   rcu_barrier()
-> > +-------------
-> >   We instead need the rcu_barrier() primitive.  Rather than waiting for
-> >   a grace period to elapse, rcu_barrier() waits for all outstanding RCU
-> > -callbacks to complete.  Please note that rcu_barrier() does -not- imply
-> > +callbacks to complete.  Please note that rcu_barrier() does **not** imply
-> >   synchronize_rcu(), in particular, if there are no RCU callbacks queued
-> >   anywhere, rcu_barrier() is within its rights to return immediately,
-> >   without waiting for a grace period to elapse.
-> > @@ -88,79 +93,79 @@ must match the flavor of rcu_barrier() with that of call_rcu().  If your
-> >   module uses multiple flavors of call_rcu(), then it must also use multiple
-> >   flavors of rcu_barrier() when unloading that module.  For example, if
-> >   it uses call_rcu(), call_srcu() on srcu_struct_1, and call_srcu() on
-> > -srcu_struct_2(), then the following three lines of code will be required
-> > -when unloading:
-> > +srcu_struct_2, then the following three lines of code will be required
-> > +when unloading::
-> >    1 rcu_barrier();
-> >    2 srcu_barrier(&srcu_struct_1);
-> >    3 srcu_barrier(&srcu_struct_2);
-> >   The rcutorture module makes use of rcu_barrier() in its exit function
-> > -as follows:
-> > +as follows::
-> > - 1 static void
-> > - 2 rcu_torture_cleanup(void)
-> > - 3 {
-> > - 4   int i;
-> > + 1  static void
-> > + 2  rcu_torture_cleanup(void)
-> > + 3  {
-> > + 4    int i;
-> >    5
-> > - 6   fullstop = 1;
-> > - 7   if (shuffler_task != NULL) {
-> > + 6    fullstop = 1;
-> > + 7    if (shuffler_task != NULL) {
-> >    8     VERBOSE_PRINTK_STRING("Stopping rcu_torture_shuffle task");
-> >    9     kthread_stop(shuffler_task);
-> > -10   }
-> > -11   shuffler_task = NULL;
-> > -12
-> > -13   if (writer_task != NULL) {
-> > -14     VERBOSE_PRINTK_STRING("Stopping rcu_torture_writer task");
-> > -15     kthread_stop(writer_task);
-> > -16   }
-> > -17   writer_task = NULL;
-> > -18
-> > -19   if (reader_tasks != NULL) {
-> > -20     for (i = 0; i < nrealreaders; i++) {
-> > -21       if (reader_tasks[i] != NULL) {
-> > -22         VERBOSE_PRINTK_STRING(
-> > -23           "Stopping rcu_torture_reader task");
-> > -24         kthread_stop(reader_tasks[i]);
-> > -25       }
-> > -26       reader_tasks[i] = NULL;
-> > -27     }
-> > -28     kfree(reader_tasks);
-> > -29     reader_tasks = NULL;
-> > -30   }
-> > -31   rcu_torture_current = NULL;
-> > -32
-> > -33   if (fakewriter_tasks != NULL) {
-> > -34     for (i = 0; i < nfakewriters; i++) {
-> > -35       if (fakewriter_tasks[i] != NULL) {
-> > -36         VERBOSE_PRINTK_STRING(
-> > -37           "Stopping rcu_torture_fakewriter task");
-> > -38         kthread_stop(fakewriter_tasks[i]);
-> > -39       }
-> > -40       fakewriter_tasks[i] = NULL;
-> > -41     }
-> > -42     kfree(fakewriter_tasks);
-> > -43     fakewriter_tasks = NULL;
-> > -44   }
-> > -45
-> > -46   if (stats_task != NULL) {
-> > -47     VERBOSE_PRINTK_STRING("Stopping rcu_torture_stats task");
-> > -48     kthread_stop(stats_task);
-> > -49   }
-> > -50   stats_task = NULL;
-> > -51
-> > -52   /* Wait for all RCU callbacks to fire. */
-> > -53   rcu_barrier();
-> > -54
-> > -55   rcu_torture_stats_print(); /* -After- the stats thread is stopped! */
-> > -56
-> > -57   if (cur_ops->cleanup != NULL)
-> > -58     cur_ops->cleanup();
-> > -59   if (atomic_read(&n_rcu_torture_error))
-> > -60     rcu_torture_print_module_parms("End of test: FAILURE");
-> > -61   else
-> > -62     rcu_torture_print_module_parms("End of test: SUCCESS");
-> > -63 }
-> > + 10   }
-> > + 11   shuffler_task = NULL;
-> > + 12
-> > + 13   if (writer_task != NULL) {
-> > + 14     VERBOSE_PRINTK_STRING("Stopping rcu_torture_writer task");
-> > + 15     kthread_stop(writer_task);
-> > + 16   }
-> > + 17   writer_task = NULL;
-> > + 18
-> > + 19   if (reader_tasks != NULL) {
-> > + 20     for (i = 0; i < nrealreaders; i++) {
-> > + 21       if (reader_tasks[i] != NULL) {
-> > + 22         VERBOSE_PRINTK_STRING(
-> > + 23           "Stopping rcu_torture_reader task");
-> > + 24         kthread_stop(reader_tasks[i]);
-> > + 25       }
-> > + 26       reader_tasks[i] = NULL;
-> > + 27     }
-> > + 28     kfree(reader_tasks);
-> > + 29     reader_tasks = NULL;
-> > + 30   }
-> > + 31   rcu_torture_current = NULL;
-> > + 32
-> > + 33   if (fakewriter_tasks != NULL) {
-> > + 34     for (i = 0; i < nfakewriters; i++) {
-> > + 35       if (fakewriter_tasks[i] != NULL) {
-> > + 36         VERBOSE_PRINTK_STRING(
-> > + 37           "Stopping rcu_torture_fakewriter task");
-> > + 38         kthread_stop(fakewriter_tasks[i]);
-> > + 39       }
-> > + 40       fakewriter_tasks[i] = NULL;
-> > + 41     }
-> > + 42     kfree(fakewriter_tasks);
-> > + 43     fakewriter_tasks = NULL;
-> > + 44   }
-> > + 45
-> > + 46   if (stats_task != NULL) {
-> > + 47     VERBOSE_PRINTK_STRING("Stopping rcu_torture_stats task");
-> > + 48     kthread_stop(stats_task);
-> > + 49   }
-> > + 50   stats_task = NULL;
-> > + 51
-> > + 52   /* Wait for all RCU callbacks to fire. */
-> > + 53   rcu_barrier();
-> > + 54
-> > + 55   rcu_torture_stats_print(); /* -After- the stats thread is stopped! */
-> > + 56
-> > + 57   if (cur_ops->cleanup != NULL)
-> > + 58     cur_ops->cleanup();
-> > + 59   if (atomic_read(&n_rcu_torture_error))
-> > + 60     rcu_torture_print_module_parms("End of test: FAILURE");
-> > + 61   else
-> > + 62     rcu_torture_print_module_parms("End of test: SUCCESS");
-> > + 63 }
-> >   Line 6 sets a global variable that prevents any RCU callbacks from
-> >   re-posting themselves. This will not be necessary in most cases, since
-> > @@ -176,9 +181,14 @@ for any pre-existing callbacks to complete.
-> >   Then lines 55-62 print status and do operation-specific cleanup, and
-> >   then return, permitting the module-unload operation to be completed.
-> > -Quick Quiz #1: Is there any other situation where rcu_barrier() might
-> > +.. _rcubarrier_quiz_1:
-> > +
-> > +Quick Quiz #1:
-> > +	Is there any other situation where rcu_barrier() might
-> >   	be required?
-> > +:ref:`Answer to Quick Quiz #1 <answer_rcubarrier_quiz_1>`
-> > +
-> >   Your module might have additional complications. For example, if your
-> >   module invokes call_rcu() from timers, you will need to first cancel all
-> >   the timers, and only then invoke rcu_barrier() to wait for any remaining
-> > @@ -188,11 +198,12 @@ Of course, if you module uses call_rcu(), you will need to invoke
-> >   rcu_barrier() before unloading.  Similarly, if your module uses
-> >   call_srcu(), you will need to invoke srcu_barrier() before unloading,
-> >   and on the same srcu_struct structure.  If your module uses call_rcu()
-> > --and- call_srcu(), then you will need to invoke rcu_barrier() -and-
-> > +**and** call_srcu(), then you will need to invoke rcu_barrier() **and**
-> >   srcu_barrier().
-> >   Implementing rcu_barrier()
-> > +--------------------------
-> >   Dipankar Sarma's implementation of rcu_barrier() makes use of the fact
-> >   that RCU callbacks are never reordered once queued on one of the per-CPU
-> > @@ -200,19 +211,19 @@ queues. His implementation queues an RCU callback on each of the per-CPU
-> >   callback queues, and then waits until they have all started executing, at
-> >   which point, all earlier RCU callbacks are guaranteed to have completed.
-> > -The original code for rcu_barrier() was as follows:
-> > +The original code for rcu_barrier() was as follows::
-> > - 1 void rcu_barrier(void)
-> > - 2 {
-> > - 3   BUG_ON(in_interrupt());
-> > - 4   /* Take cpucontrol mutex to protect against CPU hotplug */
-> > - 5   mutex_lock(&rcu_barrier_mutex);
-> > - 6   init_completion(&rcu_barrier_completion);
-> > - 7   atomic_set(&rcu_barrier_cpu_count, 0);
-> > - 8   on_each_cpu(rcu_barrier_func, NULL, 0, 1);
-> > - 9   wait_for_completion(&rcu_barrier_completion);
-> > -10   mutex_unlock(&rcu_barrier_mutex);
-> > -11 }
-> > + 1  void rcu_barrier(void)
-> > + 2  {
-> > + 3    BUG_ON(in_interrupt());
-> > + 4    /* Take cpucontrol mutex to protect against CPU hotplug */
-> > + 5    mutex_lock(&rcu_barrier_mutex);
-> > + 6    init_completion(&rcu_barrier_completion);
-> > + 7    atomic_set(&rcu_barrier_cpu_count, 0);
-> > + 8    on_each_cpu(rcu_barrier_func, NULL, 0, 1);
-> > + 9    wait_for_completion(&rcu_barrier_completion);
-> > + 10   mutex_unlock(&rcu_barrier_mutex);
-> > + 11 }
-> >   Line 3 verifies that the caller is in process context, and lines 5 and 10
-> >   use rcu_barrier_mutex to ensure that only one rcu_barrier() is using the
-> > @@ -226,18 +237,18 @@ This code was rewritten in 2008 and several times thereafter, but this
-> >   still gives the general idea.
-> >   The rcu_barrier_func() runs on each CPU, where it invokes call_rcu()
-> > -to post an RCU callback, as follows:
-> > +to post an RCU callback, as follows::
-> > - 1 static void rcu_barrier_func(void *notused)
-> > - 2 {
-> > - 3 int cpu = smp_processor_id();
-> > - 4 struct rcu_data *rdp = &per_cpu(rcu_data, cpu);
-> > - 5 struct rcu_head *head;
-> > + 1  static void rcu_barrier_func(void *notused)
-> > + 2  {
-> > + 3    int cpu = smp_processor_id();
-> > + 4    struct rcu_data *rdp = &per_cpu(rcu_data, cpu);
-> > + 5    struct rcu_head *head;
-> >    6
-> > - 7 head = &rdp->barrier;
-> > - 8 atomic_inc(&rcu_barrier_cpu_count);
-> > - 9 call_rcu(head, rcu_barrier_callback);
-> > -10 }
-> > + 7    head = &rdp->barrier;
-> > + 8    atomic_inc(&rcu_barrier_cpu_count);
-> > + 9    call_rcu(head, rcu_barrier_callback);
-> > + 10 }
-> >   Lines 3 and 4 locate RCU's internal per-CPU rcu_data structure,
-> >   which contains the struct rcu_head that needed for the later call to
-> > @@ -248,20 +259,25 @@ the current CPU's queue.
-> >   The rcu_barrier_callback() function simply atomically decrements the
-> >   rcu_barrier_cpu_count variable and finalizes the completion when it
-> > -reaches zero, as follows:
-> > +reaches zero, as follows::
-> >    1 static void rcu_barrier_callback(struct rcu_head *notused)
-> >    2 {
-> > - 3 if (atomic_dec_and_test(&rcu_barrier_cpu_count))
-> > - 4 complete(&rcu_barrier_completion);
-> > + 3   if (atomic_dec_and_test(&rcu_barrier_cpu_count))
-> > + 4     complete(&rcu_barrier_completion);
-> >    5 }
-> > -Quick Quiz #2: What happens if CPU 0's rcu_barrier_func() executes
-> > +.. _rcubarrier_quiz_2:
-> > +
-> > +Quick Quiz #2:
-> > +	What happens if CPU 0's rcu_barrier_func() executes
-> >   	immediately (thus incrementing rcu_barrier_cpu_count to the
-> >   	value one), but the other CPU's rcu_barrier_func() invocations
-> >   	are delayed for a full grace period? Couldn't this result in
-> >   	rcu_barrier() returning prematurely?
-> > +:ref:`Answer to Quick Quiz #2 <answer_rcubarrier_quiz_2>`
-> > +
-> >   The current rcu_barrier() implementation is more complex, due to the need
-> >   to avoid disturbing idle CPUs (especially on battery-powered systems)
-> >   and the need to minimally disturb non-idle CPUs in real-time systems.
-> > @@ -269,6 +285,7 @@ However, the code above illustrates the concepts.
-> >   rcu_barrier() Summary
-> > +---------------------
-> >   The rcu_barrier() primitive has seen relatively little use, since most
-> >   code using RCU is in the core kernel rather than in modules. However, if
-> > @@ -277,8 +294,12 @@ so that your module may be safely unloaded.
-> >   Answers to Quick Quizzes
-> > +------------------------
-> > +
-> > +.. _answer_rcubarrier_quiz_1:
-> > -Quick Quiz #1: Is there any other situation where rcu_barrier() might
-> > +Quick Quiz #1:
-> > +	Is there any other situation where rcu_barrier() might
-> >   	be required?
-> >   Answer: Interestingly enough, rcu_barrier() was not originally
-> > @@ -292,7 +313,12 @@ Answer: Interestingly enough, rcu_barrier() was not originally
-> >   	implementing rcutorture, and found that rcu_barrier() solves
-> >   	this problem as well.
-> > -Quick Quiz #2: What happens if CPU 0's rcu_barrier_func() executes
-> > +:ref:`Back to Quick Quiz #1 <rcubarrier_quiz_1>`
-> > +
-> > +.. _answer_rcubarrier_quiz_2:
-> > +
-> > +Quick Quiz #2:
-> > +	What happens if CPU 0's rcu_barrier_func() executes
-> >   	immediately (thus incrementing rcu_barrier_cpu_count to the
-> >   	value one), but the other CPU's rcu_barrier_func() invocations
-> >   	are delayed for a full grace period? Couldn't this result in
-> > @@ -323,3 +349,5 @@ Answer: This cannot happen. The reason is that on_each_cpu() has its last
-> >   	is to add an rcu_read_lock() before line 8 of rcu_barrier()
-> >   	and an rcu_read_unlock() after line 8 of this same function. If
-> >   	you can think of a better change, please let me know!
-> > +
-> > +:ref:`Back to Quick Quiz #2 <rcubarrier_quiz_2>`
-> > 
+root@SBR-26>perf>> git diff
+diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+index 43d76c85da56..d5c90a93e96b 100644
+--- a/drivers/perf/thunderx2_pmu.c
++++ b/drivers/perf/thunderx2_pmu.c
+@@ -69,6 +69,7 @@ struct tx2_uncore_pmu {
+        int node;
+        int cpu;
+        u32 max_counters;
++       bool events_mux_disable;
+        u32 prorate_factor;
+        u32 max_events;
+        u64 hrtimer_interval;
+@@ -442,6 +443,8 @@ static int tx2_uncore_event_init(struct perf_event *event)
+        if (!tx2_uncore_validate_event_group(event))
+                return -EINVAL;
+
++       /* reset flag */
++       tx2_pmu->events_mux_disable = false;
+        return 0;
+ }
+
+@@ -490,10 +493,19 @@ static int tx2_uncore_event_add(struct
+perf_event *event, int flags)
+
+        tx2_pmu = pmu_to_tx2_pmu(event->pmu);
+
++       /* Erratum ThunderX2 erratum 221.
++        * Disable support for events multiplexing.
++        * Limiting the number of events to available hardware counters.
++        */
++       if (tx2_pmu->events_mux_disable)
++               return -EOPNOTSUPP;
++
+        /* Allocate a free counter */
+        hwc->idx  = alloc_counter(tx2_pmu);
+-       if (hwc->idx < 0)
++       if (hwc->idx < 0) {
++               tx2_pmu->events_mux_disable = true;
+                return -EAGAIN;
++       }
+
+        tx2_pmu->events[hwc->idx] = event;
+        /* set counter control and data registers base address */
+@@ -648,6 +660,7 @@ static struct tx2_uncore_pmu
+*tx2_uncore_pmu_init_dev(struct device *dev,
+        tx2_pmu->dev = dev;
+        tx2_pmu->type = type;
+        tx2_pmu->base = base;
++       tx2_pmu->events_mux_disable = false;
+        tx2_pmu->node = dev_to_node(dev);
+        INIT_LIST_HEAD(&tx2_pmu->entry);
