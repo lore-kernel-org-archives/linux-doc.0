@@ -1,40 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3B427D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 14:52:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D21D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 15:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729737AbfKGOwS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 09:52:18 -0500
-Received: from foss.arm.com ([217.140.110.172]:57500 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729450AbfKGOwS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Nov 2019 09:52:18 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7742731B;
-        Thu,  7 Nov 2019 06:52:17 -0800 (PST)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DD573F71A;
-        Thu,  7 Nov 2019 06:52:16 -0800 (PST)
-Date:   Thu, 7 Nov 2019 14:52:14 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
+        id S1729933AbfKGPEn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 10:04:43 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:33598 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729889AbfKGPEn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 10:04:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=BzPm+y8gqdcfCyLbcdlqhlseD9elHtmAynAOq1Mexo8=; b=rVPgKi1cpg+X6K/+My50HQ1yI
+        G82RP+Dxd8ttQcUyfkT/3SehOJI7FpWnjDRDJEkix8VwznbgDAx6+rDa0Wh7PTHOM0bESCzkyzQOQ
+        1OJAd57mQPYEZ9LXlxvDf4pikZYwsQmA3sI7YtIu6qfuM0K/Fj42IiubCyI/oSdmXsGqdTgR3Suwk
+        fyNb25pcWco+gTpeMUEX+iNMQSrhgBE0beflx+P+hCEj8gmCI3/p45kdW8c5URHGMKXXvPzGPPcMv
+        X+3c/MMLrxpJ9rKXAx4OpQC466WAqXOpQNzrFAseHtyFFWdskm+4uI6todiJBjcUQWPaLpERFVvPa
+        nv4KsbhXA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iSjKr-0000Fh-Q5; Thu, 07 Nov 2019 15:04:33 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5A0DF300489;
+        Thu,  7 Nov 2019 16:03:27 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BC56D2B219005; Thu,  7 Nov 2019 16:04:31 +0100 (CET)
+Date:   Thu, 7 Nov 2019 16:04:31 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
-Cc:     Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "will@kernel.org" <will@kernel.org>,
         "corbet@lwn.net" <corbet@lwn.net>
 Subject: Re: [PATCH 1/2] perf/core: Adding capability to disable PMUs event
  multiplexing
-Message-ID: <20191107145213.GB6888@lakrids.cambridge.arm.com>
+Message-ID: <20191107150431.GC4114@hirez.programming.kicks-ass.net>
 References: <1573002091-9744-1-git-send-email-gkulkarni@marvell.com>
  <1573002091-9744-2-git-send-email-gkulkarni@marvell.com>
  <20191106112810.GA50610@lakrids.cambridge.arm.com>
@@ -43,89 +59,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAKTKpr6U8gUp4C9muN2cL4wn33o2LAa5QnTO2MSmfnBz8oUc=Q@mail.gmail.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Nov 06, 2019 at 03:28:46PM -0800, Ganapatrao Kulkarni wrote:
-> Hi Peter, Mark,
-> 
-> On Wed, Nov 6, 2019 at 3:28 AM Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > On Wed, Nov 06, 2019 at 01:01:40AM +0000, Ganapatrao Prabhakerrao Kulkarni wrote:
-> > > When PMUs are registered, perf core enables event multiplexing
-> > > support by default. There is no provision for PMUs to disable
-> > > event multiplexing, if PMUs want to disable due to unavoidable
-> > > circumstances like hardware errata etc.
-> > >
-> > > Adding PMU capability flag PERF_PMU_CAP_NO_MUX_EVENTS and support
-> > > to allow PMUs to explicitly disable event multiplexing.
-> >
-> > Even without multiplexing, this PMU activity can happen when switching
-> > tasks, or when creating/destroying events, so as-is I don't think this
-> > makes much sense.
-> >
-> > If there's an erratum whereby heavy access to the PMU can lockup the
-> > core, and it's possible to workaround that by minimzing accesses, that
-> > should be done in the back-end PMU driver.
-> 
-> As said in errata,  If there are heavy access to memory like stream
-> application running and along with that if PMU control registers are
-> also accessed frequently, then CPU lockup is seen.
-
-Ok. So the issue is the frequency of access to those registers.
-
-Which registers does that apply to?
-
-Is this the case for only reads, only writes, or both?
-
-Does the frequency of access actually matter, or is is just more likely
-that we see the issue with a greater number of accesses? i.e the
-increased frequency increases the probability of hitting the issue.
-
-I'd really like a better description of the HW issue here.
-
-> I ran perf stat with 4 events of thuderx2 PMU as well as with 6 events
-> for stream application.
-> For 4 events run, there is no event multiplexing, where as for 6
-> events run the events are multiplexed.
-> 
-> For 4 event run:
-> No of times pmu->add is called: 10
-> No of times pmu->del is called: 10
-> No of times pmu->read is called: 310
-> 
-> For 6 events run:
-> No of times pmu->add is called: 5216
-> No of times pmu->del is called: 5216
-> No of times pmu->read is called: 5216
-> 
 > Issue happens when the add and del are called too many times as seen
 > with 6 event case.
-
-Sure, but I can achieve similar by creating/destroying events in a loop.
-Multiplexing is _one_ way to cause this behaviour, but it's not the
-_only_ way.
-
 > The PMU hardware control registers are programmed when add and del
 > functions are called.
 > For pmu->read no issues since no h/w issue with the data path.
-
-As above, can you please describe the hardware conditions more
-thoroughly?
-
-> This is UNCORE driver, not sure context switch has any influence on this?
-
-I believe that today it's possible for this to happen for cgroup events,
-as non-sensical as it may be to have a cgroup-bound uncore PMU event.
-
+> 
 > Please suggest me, how can we fix this in back-end PMU driver without
 > any perf core help?
 
-In order to do so, I need a better explanation of the underlying
-hardware issue.
+As Mark already said, a (much) better description of the actual hardware
+fail is required, but one possible solution would be to add a busy spin
+delay when writing to the hardware registers.
 
-Thanks,
-Mark.
+Something like:
+
+	u64 now, ts = this_cpu_read(tx2_throttle);
+
+	while ((now = cycle_counter()) <= ts)
+		cpu_relax();
+
+	write_register(...);
+
+	this_cpu_write(tx2_throttle, now + delay_ns);
+
+Other known tricks include reading the register back until it contains
+what you just wrote to it.
+
+But really, first properly describe how your hardware is buggered.
