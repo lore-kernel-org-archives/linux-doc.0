@@ -1,221 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A4B5A7DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 19:05:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A4C57D917
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Nov 2019 19:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727741AbfKGTE7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 14:04:59 -0500
-Received: from ms.lwn.net ([45.79.88.28]:39040 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727296AbfKGTE6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Nov 2019 14:04:58 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E11736EC;
-        Thu,  7 Nov 2019 19:04:56 +0000 (UTC)
-Date:   Thu, 7 Nov 2019 12:04:55 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jaskaran Singh <jaskaransingh7654321@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
-        christian@brauner.io, neilb@suse.com, willy@infradead.org,
-        tobin@kernel.org, stefanha@redhat.com, hofrat@osadl.org,
-        gregkh@linuxfoundation.org, jeffrey.t.kirsher@intel.com,
-        linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+        id S1725851AbfKGTFw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 14:05:52 -0500
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:43767 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727352AbfKGTFw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 14:05:52 -0500
+Received: by mail-qv1-f67.google.com with SMTP id cg2so1237643qvb.10;
+        Thu, 07 Nov 2019 11:05:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W47odrIZjcYj4z0Bgkfmue2TCHoiOu56PCWwIh8207g=;
+        b=mMKqtIsq5pYYAfZq2O+8PKS6LuoNfzmmsez9yRUYkHSSU/sFfqaFYiuykAOrmHjpdO
+         iPdMku3aBjtDrw1zEfGG1dz17wpBhtqcevu7Lo0iIM8jtfWqkOlyyoIWijjCJq5NVxqB
+         X2xB9wMzKESpobnCUIqgKric4uF6oJHLVbvLT3sRVAbCmSA1sE0rc/+NJibDJJBbwL0/
+         EKXPuRTmPx7JAYngCv7bhF/FJitCOCP4Or/Q30CCMj+cNoZRNTlp/SvSetRPgG+2kkqM
+         Ok1kS5o13/rZYYEOiza/EzqA34y9MN3peKdGtC1itTzYpEzLHQMgk7FPC/Tfg6iCARgF
+         DVUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W47odrIZjcYj4z0Bgkfmue2TCHoiOu56PCWwIh8207g=;
+        b=Pl7lnZ71yU/KJ8qRqKHPodXKS2I9rvbfJVERXO6ckvOq5Ikc7kxYbGXFZr67NaqXs2
+         PcG2yM2O5ojl/TE648qwSSuZ+jVUPgdJKL3HlRw/NymSZkmI80G+8NHGk2txgtQZADCG
+         uaMgOzQ8h2T6ZNUXD25K7RF1PmAO/OUHhBwwI/H1YGP5X0+OmNJsstF0d2o8Rr81/3aI
+         AZUrNN77t4BVfMbUdTXvdE1yA+boCX9wMcRzlT57vEnLq8ehl/8y1r/0yzU9t0tu4KvR
+         IrwMnM2wY7GDNmTentxtnMRuQcvFxSCVlhRbQ6kG83YlNXGGcPVmaj5cKDRWT+mYJ9sX
+         iIKA==
+X-Gm-Message-State: APjAAAVyyVXcNwmiN1ODE5qJ1igVVH44+IFjP0/GUlhSC/Jzm95oJ1Lv
+        VrFaId14nVps9ejIlec2bJ0=
+X-Google-Smtp-Source: APXvYqxhEAzOELijW4I0V72qVYbNj3+14XAXPmhY2Xi5OjfA8i2GcsCy1+UGFSvZBQ+tREInF2pbCg==
+X-Received: by 2002:a0c:a046:: with SMTP id b64mr5088475qva.6.1573153548680;
+        Thu, 07 Nov 2019 11:05:48 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id h21sm153692qkj.116.2019.11.07.11.05.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2019 11:05:48 -0800 (PST)
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To:     Frank.li@nxp.com, corbet@lwn.net, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH][RESEND] docs: filesystems: sysfs: convert sysfs.txt to
- reST
-Message-ID: <20191107120455.29a4c155@lwn.net>
-In-Reply-To: <20191105071846.GA28727@localhost.localdomain>
-References: <20191105071846.GA28727@localhost.localdomain>
-Organization: LWN.net
+Subject: [RFC PATCH] Documentation: perf: fix kernel-doc warnings in imx-ddr.rst
+Date:   Thu,  7 Nov 2019 15:57:55 -0300
+Message-Id: <20191107185755.29586-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 5 Nov 2019 12:48:46 +0530
-Jaskaran Singh <jaskaransingh7654321@gmail.com> wrote:
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-> This patch converts sysfs.txt to sysfs.rst, and adds a corresponding
-> entry in index.rst.
-> 
-> Most of the whitespacing and indentation is kept similar to the
-> original document.
-> 
-> Changes to the original document include:
-> 
->  - Adding an authors statement in the header.
->  - Replacing the underscores in the title with asterisks. This is so
->    that the "The" in the title appears in italics in HTML.
->  - Replacing the tilde (~) headings with equal signs, for reST section
->    headings.
->  - List out the helper macros with backquotes and corresponding description
->    on the next line.
->  - Placing C code and shell code in reST code blocks, with an indentation
->    of an 8 length tab.
->
-> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+Unexpected indentation errors were reported due to missing blank lines.
+Now fixed. No change in content otherwise.
 
-Thanks for working to improve the documentation.  There are some problems
-here, none of which are your creation, but I would sure like to resolve
-them while working with this document.
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+ Documentation/admin-guide/perf/imx-ddr.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The first of these is that Documentation/filesystems is really the wrong
-place for this file - it's covering the internal API for subsystems that
-want to create entries in sysfs.  IMO, it belongs in either the driver-API
-manual or the core-API manual - probably the latter.
-
->  Documentation/filesystems/index.rst           |   1 +
->  .../filesystems/{sysfs.txt => sysfs.rst}      | 323 ++++++++++--------
->  2 files changed, 189 insertions(+), 135 deletions(-)
->  rename Documentation/filesystems/{sysfs.txt => sysfs.rst} (60%)
-> 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 2c3a9f761205..18b5ea780b9b 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -46,4 +46,5 @@ Documentation for filesystem implementations.
->  .. toctree::
->     :maxdepth: 2
->  
-> +   sysfs
->     virtiofs
-> diff --git a/Documentation/filesystems/sysfs.txt b/Documentation/filesystems/sysfs.rst
-> similarity index 60%
-> rename from Documentation/filesystems/sysfs.txt
-> rename to Documentation/filesystems/sysfs.rst
-> index ddf15b1b0d5a..de0de5869323 100644
-> --- a/Documentation/filesystems/sysfs.txt
-> +++ b/Documentation/filesystems/sysfs.rst
-> @@ -1,15 +1,18 @@
-> +======================================================
-> +sysfs - *The* filesystem for exporting kernel objects.
-> +======================================================
->  
-> -sysfs - _The_ filesystem for exporting kernel objects. 
-
-Nits: We can really just drop emphasis like that, it doesn't really help
-anybody.  Also the period can go on section headers.
-
-> +Authors:
->  
-> -Patrick Mochel	<mochel@osdl.org>
-> -Mike Murphy <mamurph@cs.clemson.edu>
-> +- Patrick Mochel	<mochel@osdl.org>
-> +- Mike Murphy   	<mamurph@cs.clemson.edu>
-
-I would be absolutely amazed if either of those email addresses works at
-this point.  I'd take them out.
-
-> -Revised:    16 August 2011
-> -Original:   10 January 2003
-> +| Revised:    16 August 2011
-> +| Original:   10 January 2003
-
-Dates like that are a red flag.  See below.
-
->  What it is:
-> -~~~~~~~~~~~
-> +===========
->  
->  sysfs is a ram-based filesystem initially based on ramfs. It provides
->  a means to export kernel data structures, their attributes, and the 
-> @@ -21,16 +24,18 @@ interface.
->  
->  
->  Using sysfs
-> -~~~~~~~~~~~
-> +===========
->  
->  sysfs is always compiled in if CONFIG_SYSFS is defined. You can access
->  it by doing:
->  
-> -    mount -t sysfs sysfs /sys 
-> +.. code-block:: sh
-> +
-> +	mount -t sysfs sysfs /sys
-
-In the spirit of minimal markup, I'd do the above as:
-
-   it by doing::
-
-	mount -t sysfs sysfs /sys
-
-But then I know that others are much more fond of .. code-block and syntax
-highlighting than I am.
-
->  Directory Creation
-> -~~~~~~~~~~~~~~~~~~
-> +==================
->  
->  For every kobject that is registered with the system, a directory is
->  created for it in sysfs. That directory is created as a subdirectory
-> @@ -48,7 +53,7 @@ only modified directly by the function sysfs_schedule_callback().
->  
->  
->  Attributes
-> -~~~~~~~~~~
-> +==========
->  
->  Attributes can be exported for kobjects in the form of regular files in
->  the filesystem. Sysfs forwards file I/O operations to methods defined
-> @@ -67,15 +72,16 @@ you publicly humiliated and your code rewritten without notice.
->  
->  An attribute definition is simply:
->  
-> -struct attribute {
-> -        char                    * name;
-> -        struct module		*owner;
-> -        umode_t                 mode;
-> -};
-> +.. code-block:: c
->  
-> +	struct attribute {
-> +		char                    * name;
-> +		struct module		*owner;
-> +		umode_t                 mode;
-> +	};
-
-Here is where we go pretty far off the rails.  If you go looking in
-include/linux/sysfs.h, the actual definition of this structure is:
-
-struct attribute {
-	const char		*name;
-	umode_t			mode;
-#ifdef CONFIG_DEBUG_LOCK_ALLOC
-	bool			ignore_lockdep:1;
-	struct lock_class_key	*key;
-	struct lock_class_key	skey;
-#endif
-};
-
-Most notably, the owner field went away quite some time ago.
-
-Documentation like this is not really useful to anybody; once a reader
-realizes it doesn't describe current reality, they will justifiably
-disregard it.  This isn't your fault, of course, but converting something
-like this to RST gives the illusion that it has been updated, when that is
-very much not the case.
-
-At a bare minimum, an effort like this needs to put a big flashing warning
-at the top of the file.  But it would be soooooo much better to actually
-update the content as well.
-
-The best way to do that would be to annotate the source with proper
-kerneldoc comments, then pull them into the documentation rather than
-repeating the information here.  Is there any chance you might be up for
-taking on a task like this?
-
-Thanks,
-
-jon
+diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
+index 517a205abad6..75c8b46ba6f9 100644
+--- a/Documentation/admin-guide/perf/imx-ddr.rst
++++ b/Documentation/admin-guide/perf/imx-ddr.rst
+@@ -18,6 +18,7 @@ The "format" directory describes format of the config (event ID) and config1
+ devices/imx8_ddr0/format/. The "events" directory describes the events types
+ hardware supported that can be used with perf tool, see /sys/bus/event_source/
+ devices/imx8_ddr0/events/.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/cycles/ cmd
+         perf stat -a -e imx8_ddr0/read/,imx8_ddr0/write/ cmd
+@@ -31,16 +32,19 @@ in the driver.
+   Filter is defined with two configuration parts:
+   --AXI_ID defines AxID matching value.
+   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
++
+         0：corresponding bit is masked.
+         1: corresponding bit is not masked, i.e. used to do the matching.
+ 
+   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
+   When non-masked bits are matching corresponding AXI_ID bits then counter is
+   incremented. Perf counter is incremented if
++
+           AxID && AXI_MASKING == AXI_ID && AXI_MASKING
+ 
+   This filter doesn't support filter different AXI ID for axid-read and axid-write
+   event at the same time as this filter is shared between counters.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+         perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+@@ -48,5 +52,6 @@ in the driver.
+   NOTE: axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
+   it will be reverted in driver automatically. so that the user can just specify
+   axi_id to monitor a specific id, rather than having to specify axi_mask.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
+-- 
+2.24.0
 
