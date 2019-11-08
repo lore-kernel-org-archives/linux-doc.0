@@ -1,192 +1,202 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C2677D917
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 14:23:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A3537D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 15:30:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbfKHOXm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Nov 2019 09:23:42 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39705 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfKHOXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Nov 2019 09:23:41 -0500
-Received: by mail-wr1-f67.google.com with SMTP id a11so7263608wra.6
-        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2019 06:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cE0H/lLtUQTdWA4Vcuht2GzWTV6rZlF0FP9RhMPfa+4=;
-        b=ory/CuML+B+1tukFzKeXnY81XBcGq1vwfIl7kbFAQz+tbADKR+CJPKZy/BESKMtLlE
-         cfe4lPBu0aHoQMgFg3wqNkUUXcZSPOuiHfl+Dp4nenLqnPmRz1Fq9OqGOF3xosOU1zA1
-         S1Ma9nEpT1N8PhAFz5NQZu3UirsZc6RXdSlnH602I62QBX0NM2NGcSf4hdG9Drm93xJ5
-         o92Bli0UhHpFi4zTUBHMYr900Pj+qAzWq0/Jn4peXOKpbsgWDJiSk2XL6Y1btlzEP3BO
-         T6T7qIwCGl/ExdpiwKN+PwjdTw4s7MmCYwCu5XqG94A58Z1uzvF1jFnhoOlKEc3iWoal
-         2JNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cE0H/lLtUQTdWA4Vcuht2GzWTV6rZlF0FP9RhMPfa+4=;
-        b=lnMlya120CUwyjaNx48N7KZHtwv3GAPubbdB5VghUiy0SQU3dYLrTbt/HOdQctojiQ
-         8MOQrMDtnXVaERrjS4bXFM2ycuyZsFR/TGIl9LO3T1UhV0Yo6goIG+pipeqnbTDU6bPJ
-         kT1jQYuieZ56OZ4xMz7E5oT3iMtHxU2LxdtIj18sNwMacUAYIpSljCHM1KAW4QGO3mJn
-         sHWcQc0heLfv7YbLDTWZ9iZYAVm6fMwn5UTE7zdzjNk78z6XTzEPS2ncz3DRGAt4FZfg
-         lAxR6YQJLJeoNWi5hj8QmngAdra3Y9EbqEwA/buup9WwfmqHqBeZYS2zc6XQ9bHgJg7h
-         awqg==
-X-Gm-Message-State: APjAAAWBOMO5P0Cg0xWsspeDwHnp/UeC2+5SB/G9DeJYFduHM4pWHin8
-        kTGI1EINMFvEVHRb8KlNwz6OkA==
-X-Google-Smtp-Source: APXvYqz6emxsafgwEh4kYnaj0O+HdDcno9ONkicjP+nqCSK6nZWbJAM5LqbPHf/CTE/PLeuiqFCJBQ==
-X-Received: by 2002:adf:df09:: with SMTP id y9mr6302486wrl.25.1573223018529;
-        Fri, 08 Nov 2019 06:23:38 -0800 (PST)
-Received: from google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id d4sm5377200wrw.83.2019.11.08.06.23.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2019 06:23:37 -0800 (PST)
-Date:   Fri, 8 Nov 2019 15:23:31 +0100
-From:   Marco Elver <elver@google.com>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu,
-        Alexander Potapenko <glider@google.com>,
-        parri.andrea@gmail.com, andreyknvl@google.com,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, boqun.feng@gmail.com,
-        Borislav Petkov <bp@alien8.de>, dja@axtens.net,
-        dlustig@nvidia.com, Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>, luc.maranget@inria.fr,
-        Mark Rutland <mark.rutland@arm.com>, npiggin@gmail.com,
-        paulmck@kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        id S1726295AbfKHPa4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Nov 2019 10:30:56 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:39332 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726152AbfKHPa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Nov 2019 10:30:56 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA8FTYvv090092;
+        Fri, 8 Nov 2019 15:30:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : in-reply-to : message-id : references : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=muD44DGlPRkW2gSEnldlhZU2cQzKDgKv2ZzPgutoDZk=;
+ b=qc/H4WjZXVN4KToLhXVmcMHuaYggGM9Iyt3RH+4umpdrZyKUqEnEX75UpQMgLNXwu10P
+ PCRWLxeGF+lKPVpvPnC3VjFFtLxdn1rZOXdKqPSeGWfS+pyw6Ig7+vcIFWkKvRiJ3/oS
+ OZ2046xNGy97ebwuHE2KFYIsrW2HMHDMkSGG34oLbvsJdr78I++Tj0IhzeVxcOW+b+fB
+ v7lUHSeIVJE96+xg3sKNxSfidNAu58LboyysZubkL+TUPEPRDWSTb+57A63/nxpgcfaz
+ qbxnqneL8LrJcsP/ijctS0YIHNiDQDLoxJbrefNRUOKqO6a9o0gVDoOBkqpBwEIp9AUl dQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2w41w1609m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Nov 2019 15:30:28 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA8FTYSS102648;
+        Fri, 8 Nov 2019 15:30:28 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 2w50m5g2ww-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Nov 2019 15:30:27 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xA8FUP7i019013;
+        Fri, 8 Nov 2019 15:30:25 GMT
+Received: from dhcp-10-175-178-67.vpn.oracle.com (/10.175.178.67)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 Nov 2019 07:30:25 -0800
+Date:   Fri, 8 Nov 2019 15:30:15 +0000 (GMT)
+From:   Alan Maguire <alan.maguire@oracle.com>
+X-X-Sender: alan@dhcp-10-175-178-67.vpn.oracle.com
+To:     Brendan Higgins <brendanhiggins@google.com>
+cc:     Alan Maguire <alan.maguire@oracle.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v3 1/9] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20191108142331.GA201027@google.com>
-References: <20191104142745.14722-1-elver@google.com>
- <20191104142745.14722-2-elver@google.com>
- <CACi5LpMt1Jp3zi3dQXe-x=nZ4ikADoD2Sr4-6t4HKaarLs7uxw@mail.gmail.com>
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Subject: Re: [PATCH v3 linux-kselftest-test 5/6] kunit: allow kunit to be
+ loaded as a module
+In-Reply-To: <CAFd5g46s4eY4qEB5UZPeOKNdZXm4+sA9N=4g8gDYAhyhMahZKw@mail.gmail.com>
+Message-ID: <alpine.LRH.2.20.1911081520550.24027@dhcp-10-175-178-67.vpn.oracle.com>
+References: <1571335639-21675-1-git-send-email-alan.maguire@oracle.com> <1571335639-21675-6-git-send-email-alan.maguire@oracle.com> <CAFd5g46s4eY4qEB5UZPeOKNdZXm4+sA9N=4g8gDYAhyhMahZKw@mail.gmail.com>
+User-Agent: Alpine 2.20 (LRH 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACi5LpMt1Jp3zi3dQXe-x=nZ4ikADoD2Sr4-6t4HKaarLs7uxw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9434 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1910280000 definitions=main-1911080154
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9434 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
+ definitions=main-1911080154
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bhupesh,
+On Thu, 7 Nov 2019, Brendan Higgins wrote:
 
-Thanks for your comments, see answers below.
-
-On Fri, 08 Nov 2019, Bhupesh Sharma wrote:
-
-> Sorry for the late comments, but I am just trying to understand the
-> new KCSAN feature (which IMO seems very useful for debugging issues).
-> 
-> Some comments inline:
-> 
-> On Mon, Nov 4, 2019 at 7:59 PM Marco Elver <elver@google.com> wrote:
+> On Thu, Oct 17, 2019 at 11:09 AM Alan Maguire <alan.maguire@oracle.com> wrote:
 > >
-...
-> > diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
-> > new file mode 100644
-> > index 000000000000..bd8122acae01
-> > --- /dev/null
-> > +++ b/include/linux/kcsan.h
-> > @@ -0,0 +1,115 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > Making kunit itself buildable as a module allows for "always-on"
+> > kunit configuration; specifying CONFIG_KUNIT=m means the module
+> > is built but only used when loaded.  Kunit test modules will load
+> > kunit.ko as an implicit dependency, so simply running
+> > "modprobe my-kunit-tests" will load the tests along with the kunit
+> > module and run them.
+> >
+> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> > ---
+> >  lib/kunit/Kconfig     | 2 +-
+> >  lib/kunit/Makefile    | 4 +++-
+> >  lib/kunit/test.c      | 2 ++
+> >  lib/kunit/try-catch.c | 3 +++
+> >  4 files changed, 9 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+> > index 9ebd5e6..065aa16 100644
+> > --- a/lib/kunit/Kconfig
+> > +++ b/lib/kunit/Kconfig
+> > @@ -3,7 +3,7 @@
+> >  #
+> >
+> >  menuconfig KUNIT
+> > -       bool "KUnit - Enable support for unit tests"
+> > +       tristate "KUnit - Enable support for unit tests"
+> >         help
+> >           Enables support for kernel unit tests (KUnit), a lightweight unit
+> >           testing and mocking framework for the Linux kernel. These tests are
+> > diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> > index 769d940..8e2635a 100644
+> > --- a/lib/kunit/Makefile
+> > +++ b/lib/kunit/Makefile
+> > @@ -1,4 +1,6 @@
+> > -obj-$(CONFIG_KUNIT) +=                 test.o \
+> > +obj-$(CONFIG_KUNIT) +=                 kunit.o
 > > +
-> > +#ifndef _LINUX_KCSAN_H
-> > +#define _LINUX_KCSAN_H
+> > +kunit-objs +=                          test.o \
+> >                                         string-stream.o \
+> >                                         assert.o \
+> >                                         try-catch.o
+> > diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+> > index e8b2443..c0ace36 100644
+> > --- a/lib/kunit/test.c
+> > +++ b/lib/kunit/test.c
+> > @@ -523,3 +523,5 @@ void *kunit_find_symbol(const char *sym)
+> >         return ERR_PTR(-ENOENT);
+> >  }
+> >  EXPORT_SYMBOL(kunit_find_symbol);
 > > +
-> > +#include <linux/types.h>
-> > +#include <linux/kcsan-checks.h>
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+> > index 1c1e9af..72fc8ed 100644
+> > --- a/lib/kunit/try-catch.c
+> > +++ b/lib/kunit/try-catch.c
+> > @@ -31,6 +31,8 @@ static int kunit_generic_run_threadfn_adapter(void *data)
+> >         complete_and_exit(try_catch->try_completion, 0);
+> >  }
+> >
+> > +KUNIT_VAR_SYMBOL(sysctl_hung_task_timeout_secs, unsigned long);
 > 
-> For the new changes introduced (especially the new header files), can
-> we please try to keep the alphabetical order
-> for the include'd files.
+> Can you just export sysctl_hung_task_timeout_secs?
 > 
-> The same comment applies for changes below ...
+> I don't mean to make you redo all this work for one symbol twice, but
+> I thought we agreed on just exposing this symbol, but in a namespace.
+> It seemed like a good use case for that namespaced exporting thing
+> that Luis was talking about. As I understood it, you would have to
+> export it in the module that defines it, and then use the new
+> MODULE_IMPORT_NS() macro here.
+>
 
-Done for v4.
+Sure, I can certainly look into that, though I wonder if we should 
+consider another possibility - should kunit have its own sysctl table for 
+things like configuring timeouts? I can look at adding a patch for that 
+prior to the module patch so the issues with exporting the hung task 
+timeout would go away. Now the reason I suggest this isn't as much a hack 
+to solve this specific problem, rather it seems to fit better with the 
+longer-term intent expressed by the comment around use of the field (at 
+least as I read it, I may be wrong).
 
-...
-> > +void kcsan_disable_current(void)
-> > +{
-> > +       ++get_ctx()->disable_count;
-> > +}
-> > +EXPORT_SYMBOL(kcsan_disable_current);
+Exporting the symbol does allow us to piggy-back on an existing value, but 
+maybe we should support out our own tunable "kunit_timeout_secs" here?
+Doing so would also lay the groundwork for supporting other kunit 
+tunables in the future if needed. What do you think?
+
+Many thanks for the review! I've got an updated patchset almost 
+ready with the symbol lookup stuff removed; the above is the last issue 
+outstanding from my side.
+
+Thanks!
+
+Alan
+
 > > +
-> > +void kcsan_enable_current(void)
-> > +{
-> > +       if (get_ctx()->disable_count-- == 0) {
-> > +               kcsan_disable_current(); /* restore to 0 */
-> > +               kcsan_disable_current();
-> > +               WARN(1, "mismatching %s", __func__);
+> >  static unsigned long kunit_test_timeout(void)
+> >  {
+> >         unsigned long timeout_msecs;
+> > @@ -52,6 +54,7 @@ static unsigned long kunit_test_timeout(void)
+> >          * For more background on this topic, see:
+> >          * https://mike-bland.com/2011/11/01/small-medium-large.html
+> >          */
+> > +       KUNIT_INIT_VAR_SYMBOL(NULL, sysctl_hung_task_timeout_secs);
+> >         if (sysctl_hung_task_timeout_secs) {
+> >                 /*
+> >                  * If sysctl_hung_task is active, just set the timeout to some
+> > --
+> > 1.8.3.1
+> >
 > 
-> I am not sure I understand, why we need to call
-> 'kcsan_disable_current()' twice and what the WARN message conveys.
-> May-be you can add a comment here, or a more descriptive WARN meesage.
-
-This branch is entered when there is an imbalance between
-kcsan_disable_current and kcsan_enable_current calls. When entering the
-branch, the decrement transitioned disable_count to -1, which should not
-happen. The call to kcsan_disable_current restores it to 0, and the
-following kcsan_disable_current actually disables KCSAN for generating
-the warning.
-
-> > +               kcsan_enable_current();
-> > +       }
-> > +}
-> > +EXPORT_SYMBOL(kcsan_enable_current);
-> > +
-> > +void kcsan_nestable_atomic_begin(void)
-> > +{
-> > +       /*
-> > +        * Do *not* check and warn if we are in a flat atomic region: nestable
-> > +        * and flat atomic regions are independent from each other.
-> > +        * See include/linux/kcsan.h: struct kcsan_ctx comments for more
-> > +        * comments.
-> > +        */
-> > +
-> > +       ++get_ctx()->atomic_nest_count;
-> > +}
-> > +EXPORT_SYMBOL(kcsan_nestable_atomic_begin);
-> > +
-> > +void kcsan_nestable_atomic_end(void)
-> > +{
-> > +       if (get_ctx()->atomic_nest_count-- == 0) {
-> > +               kcsan_nestable_atomic_begin(); /* restore to 0 */
-> > +               kcsan_disable_current();
-> > +               WARN(1, "mismatching %s", __func__);
-> 
-> .. Same as above.
-
-Same situation, except for atomic_nest_count. Here also
-atomic_nest_count is -1 which should not happen.
-
-I've added some more comments.
-
-> > +               kcsan_enable_current();
-> > +       }
-> > +}
-> > +EXPORT_SYMBOL(kcsan_nestable_atomic_end);
-
-Best Wishes,
--- Marco
