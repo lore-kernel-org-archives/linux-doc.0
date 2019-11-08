@@ -6,52 +6,52 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B82F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 01:01:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C5AC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 01:08:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbfKHBB7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 20:01:59 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36182 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbfKHBB6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 20:01:58 -0500
-Received: by mail-pg1-f193.google.com with SMTP id k13so3045356pgh.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2019 17:01:58 -0800 (PST)
+        id S1728072AbfKHBHo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 20:07:44 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45317 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfKHBHn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 20:07:43 -0500
+Received: by mail-pf1-f196.google.com with SMTP id z4so3560624pfn.12
+        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2019 17:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=n8KhhIw9wq8fHDXSkpjCYpeDGqoOXr5BaNSyJb4i1mw=;
-        b=Qpfs89d6fGcAFlekrUchama1AOuf5E4/QFpqPa2Xu9VaH7nkStcbpFX0g35zV+/Qw3
-         GG7hFj49xatpbD98pPA9mcqSvzX2oOTlCzHMOgiguqm+dR8x9eqsOveK96MPVNC+A6kJ
-         hRG7o0M8rBL2eLTYwuLc4Ng13+ZurItZHK3BW+wW46UQKi9RjHr6wTq3kExkdfBqsJDo
-         dlk41x1XS073gg0eXTtzwSPTRLAhXA2qAaHrAM5Bddpw1TurCg5ra4ooRLVq91ZslgbX
-         vbnVkwBIY2/2YL6VEmbdu0XYMXM14RPoPjxr0Skn7MtKsNr6ZdZzJmzCsVQyz220p1BG
-         K0zQ==
+        bh=vNYHIxb4w5wh5OJ2UcsY/rxFSYSM5NjM0g5yCBahmMM=;
+        b=o1RBKYxFeem3vQdmMcb09c/Czaur5BjspbdukbuDfCPWavGuCZYv2d5eYk3lzUh5zm
+         64GDst1itnU6KFqzbvLptz0a7TprmbEIfrVlckuFFjVVhbFLt4noKjbjPsr0C2VT7zs7
+         oCXWMnTKo7jhXWG8Azi4vgX7U037o0KWgXiqfqk324fSvD+XVtYNGMlNsvtdRQlFlnzx
+         XhjuZEhaqpSLjag1ZJGKxsH9Alr304AWYK1hlAREjI/7pwZH/cCON+gJC3eoMzy5jIvC
+         XO2TvoGVoVH9G7xuHsfnddVQJF6HiX0rJKy4qOrdLFUwO9ViLCySgdXxB6CKMgB7DQ+x
+         zuWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=n8KhhIw9wq8fHDXSkpjCYpeDGqoOXr5BaNSyJb4i1mw=;
-        b=CD/pzJ6Bv9KK2F2hDB6MvnbTModx+OBg+5TAiVMeFKessBSEZRoQtqV90UauwfNmy9
-         b4KQHRDJlcAKjFOFfj+Lj8oXYUq/jvRgStxiEdcD8G0KtoBtg+xtonK6Gy5WQwQA0unD
-         bmg5iod9XdDnPn8tG/8mQ16u1rjic/mrRVemGRciZVDnnmpGXdsFN9mJG4Y0RjPKj1rl
-         BZZQxsvgYxuW9kgUVLr6I9+zyVZ+1M/TvUP1T4z3vGblR5rNJ4pknDtPc2EVrs5/BDQr
-         82ZJw3kUmi2b+1n1Vbown5wxF4tpYzWQ5TXBoKlPglsTFNxeOK0PecyQLRZS4/jgnazH
-         QxrA==
-X-Gm-Message-State: APjAAAVksx0gv+OPlhTTgUoS4i2YAsLXPTQS2D9kZRTgZfCha9bXtBTH
-        trFt5CnmYHTDmSeB6vBQUhaRBDDfStRwz/76nVb2sw==
-X-Google-Smtp-Source: APXvYqyEgA8OqDaIdwEFVYc8KM0pSI9cIteIbXHyrzPaQ1d//xnKzVkvWRu4f3RpzZmU//TpVWQgTHPQR5i2uFe3ypA=
-X-Received: by 2002:a63:4721:: with SMTP id u33mr8418057pga.159.1573174917129;
- Thu, 07 Nov 2019 17:01:57 -0800 (PST)
+        bh=vNYHIxb4w5wh5OJ2UcsY/rxFSYSM5NjM0g5yCBahmMM=;
+        b=jttG1BkVSXb2ASze00W0XVPsb/ogU3oiFXvAqGHumgZKlNik/n4k8DavVJSUpv3oJS
+         m5NsLCtze5d6TFUeYZEIpTrJBrW9fmr9Vn8RnkOay1EyJLk1TftCYu5d7AwX0S4wGZRE
+         /yrGc7YGwpp3zZyoQ//RXUh5RSziQj4oKemmZYWRZ/wMcxzVa7LraIBwrYsRJPsN79cb
+         78tJHgwfHY0VreEQhDtXN9+uH+gq6nqtUtnjlYd5zNz2mEBXbGv5rau67OcWnYBQIOXO
+         1hweyAxoWzC94UjWb6UI1H9Oy1lNcAo7m0kxqBpaoai3e/XwdDnmh2ZEnj/yvCqxL+ke
+         wY5A==
+X-Gm-Message-State: APjAAAUlcpnF34C8loxSODD7weHEfPSDvWaoz28P54LgNo7JBCMFr9WR
+        D/UgZBRKTVpVbDFwNlDUxRcnJ+JSwI0P3ZFwUme/yw==
+X-Google-Smtp-Source: APXvYqw+LoU/IiQ8hdHb0R4rY4nc0yI7TqoKto/BO3EMbJDNKkiWiBcBbg8Rvg4gxblStWoydjQcOZFgytKxwL5aXKY=
+X-Received: by 2002:a17:90a:252d:: with SMTP id j42mr9572203pje.131.1573175262439;
+ Thu, 07 Nov 2019 17:07:42 -0800 (PST)
 MIME-Version: 1.0
-References: <1571335639-21675-1-git-send-email-alan.maguire@oracle.com> <1571335639-21675-2-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1571335639-21675-2-git-send-email-alan.maguire@oracle.com>
+References: <1571335639-21675-1-git-send-email-alan.maguire@oracle.com> <1571335639-21675-3-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1571335639-21675-3-git-send-email-alan.maguire@oracle.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 7 Nov 2019 17:01:46 -0800
-Message-ID: <CAFd5g47WvXH9HKVumejWhUGtn5KL-XroTyskUs0rt5jqonfKRA@mail.gmail.com>
-Subject: Re: [PATCH v3 linux-kselftest-test 1/6] kunit: move string-stream.h
- to lib/kunit/string-stream-impl.h
+Date:   Thu, 7 Nov 2019 17:07:31 -0800
+Message-ID: <CAFd5g45qUkKMHizkmM6O54a3_zOjTN_PxDbD+bwHkgvr1wPrcg@mail.gmail.com>
+Subject: Re: [PATCH v3 linux-kselftest-test 2/6] kunit: hide unexported
+ try-catch interface in try-catch-impl.h
 To:     Alan Maguire <alan.maguire@oracle.com>
 Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
@@ -65,123 +65,33 @@ Cc:     "open list:KERNEL SELFTEST FRAMEWORK"
         penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
         urezki@gmail.com, andriy.shevchenko@linux.intel.com,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 11:07 AM Alan Maguire <alan.maguire@oracle.com> wrote:
-
-Sorry for taking so long to get to this.
-
-> string stream interfaces are not intended for external use;
-> move them from include/kunit to lib/kunit/string-stream-impl.h accordingly.
+On Thu, Oct 17, 2019 at 11:08 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+>
+> also remove unused kunit_generic_try_catch
 >
 > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
+
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+
 > ---
->  include/kunit/assert.h         |  3 ++-
->  include/kunit/string-stream.h  | 51 ------------------------------------------
->  lib/kunit/assert.c             |  1 +
->  lib/kunit/string-stream-impl.h | 51 ++++++++++++++++++++++++++++++++++++++++++
+>  include/kunit/try-catch.h  | 10 ----------
+>  lib/kunit/test-test.c      |  1 +
+>  lib/kunit/test.c           |  1 +
+>  lib/kunit/try-catch-impl.h | 23 +++++++++++++++++++++++
 
-I agree with the move of string-stream.h from include/kunit/ to
-lib/kunit/, but can you keep the name string-stream.h?
-string-stream-impl.h seems a little wonky to me. Otherwise, this patch
-looks good to me.
+Just wanted to say that I *am* happy with the *-impl.h naming scheme
+here since there is a public header file with almost the same name. So
+everything looks good to me with this patch.
 
->  lib/kunit/string-stream-test.c |  2 +-
->  lib/kunit/string-stream.c      |  3 ++-
->  lib/kunit/test.c               |  1 +
->  7 files changed, 58 insertions(+), 54 deletions(-)
->  delete mode 100644 include/kunit/string-stream.h
->  create mode 100644 lib/kunit/string-stream-impl.h
->
-> diff --git a/include/kunit/assert.h b/include/kunit/assert.h
-> index db6a0fc..ad889b5 100644
-> --- a/include/kunit/assert.h
-> +++ b/include/kunit/assert.h
-> @@ -9,10 +9,11 @@
->  #ifndef _KUNIT_ASSERT_H
->  #define _KUNIT_ASSERT_H
->
-> -#include <kunit/string-stream.h>
->  #include <linux/err.h>
-> +#include <linux/kernel.h>
->
->  struct kunit;
-> +struct string_stream;
->
->  /**
->   * enum kunit_assert_type - Type of expectation/assertion.
-[...]
-> diff --git a/lib/kunit/assert.c b/lib/kunit/assert.c
-> index 86013d4..d8ae94e 100644
-> --- a/lib/kunit/assert.c
-> +++ b/lib/kunit/assert.c
-> @@ -6,6 +6,7 @@
->   * Author: Brendan Higgins <brendanhiggins@google.com>
->   */
->  #include <kunit/assert.h>
-> +#include "string-stream-impl.h"
->
->  void kunit_base_assert_format(const struct kunit_assert *assert,
->                               struct string_stream *stream)
-[...]
-> diff --git a/lib/kunit/string-stream-test.c b/lib/kunit/string-stream-test.c
-> index 76cc05e..25b2cf3 100644
-> --- a/lib/kunit/string-stream-test.c
-> +++ b/lib/kunit/string-stream-test.c
-> @@ -6,9 +6,9 @@
->   * Author: Brendan Higgins <brendanhiggins@google.com>
->   */
->
-> -#include <kunit/string-stream.h>
->  #include <kunit/test.h>
->  #include <linux/slab.h>
-> +#include "string-stream-impl.h"
->
->  static void string_stream_test_empty_on_creation(struct kunit *test)
->  {
-> diff --git a/lib/kunit/string-stream.c b/lib/kunit/string-stream.c
-> index e6d17aa..a1e005d 100644
-> --- a/lib/kunit/string-stream.c
-> +++ b/lib/kunit/string-stream.c
-> @@ -6,11 +6,12 @@
->   * Author: Brendan Higgins <brendanhiggins@google.com>
->   */
->
-> -#include <kunit/string-stream.h>
->  #include <kunit/test.h>
->  #include <linux/list.h>
->  #include <linux/slab.h>
->
+>  lib/kunit/try-catch.c      |  1 +
+>  5 files changed, 26 insertions(+), 10 deletions(-)
+>  create mode 100644 lib/kunit/try-catch-impl.h
 
-very minor nit: Here you put a space in the include list, elsewhere
-you did not. I don't really care whether you do put the space in or
-you don't (I have a slight preference for the extra space as you have
-done here), but I do think it would be better if we remain consistent.
-
-> +#include "string-stream-impl.h"
-> +
->  struct string_stream_fragment_alloc_context {
->         struct kunit *test;
->         int len;
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index c83c0fa..017d4fb 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -10,6 +10,7 @@
->  #include <kunit/try-catch.h>
->  #include <linux/kernel.h>
->  #include <linux/sched/debug.h>
-> +#include "string-stream-impl.h"
->
->  static void kunit_set_failure(struct kunit *test)
->  {
-> --
-> 1.8.3.1
->
+Thanks for the patch!
