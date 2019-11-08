@@ -1,293 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0CD5E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 01:40:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D374B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 02:43:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbfKHBky (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Nov 2019 20:40:54 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42728 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbfKHBky (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 20:40:54 -0500
-Received: by mail-pf1-f193.google.com with SMTP id s5so3617075pfh.9
-        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2019 17:40:53 -0800 (PST)
+        id S1726504AbfKHCnY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Nov 2019 21:43:24 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35299 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726219AbfKHCnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Nov 2019 21:43:24 -0500
+Received: by mail-pg1-f196.google.com with SMTP id q22so3158127pgk.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2019 18:43:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=omgkosYhpSIUhGpgr0G9r775xrjXzdbgkWmbfALZqCs=;
-        b=TVt3qbZC+XpXTbvOnxgCdM3ViXxajuGgVp8xhwjyqQhEpKwNpOMn5ffo5IkEwnKg89
-         lZD4e2x0LiBOkjHP9XrKw+gEm2heySILnXJVvxxXEchs/vnpugsWvFIXEfzp50qlx0/e
-         1og4xtxP/vwguP3TpT3FO0Fys5FhIUOCDhBtlz6M4ptwXqNvUrl1PujidH82xRCmCo+B
-         cfD23QlZariy2lUl9+Quymwv/NbOixc9gHKGyU5SnePr24C5TJBG+tDKS37okyydqvWk
-         0rgLHgxDZ8VFf90XdP+CznWH5EwVCQWhhgc6mikOvG45JZsN0ltsnm/ktpJn1EB1Hey9
-         6lEQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L7ghc5DftJ1dJAFGG7geKIMSB0XHdAtyHWb1fKQe0ss=;
+        b=Fv95OKfAjhccA38qGlkswPxYWtCbR279VGUGFr3KsVCn/eHl34M0jb1TfygFNNbKIU
+         T/2VlJUyJroKPpb5Ej3+4kBCXen6m2VMg1MLOCY7UsqryzvgghQJtbundVmCHiTwgpgh
+         VAQBdzwux0qEv+PPvtJMAwzXVOdZtTL+k4C8PKwczU89em4WnzfIP8ZIFneVHYmeL+D+
+         ukumFNfa2FdVQT5y7CAPZNxYerq+Afvl3uHth9Zdf7pqWBrDzPT9UcWfeqhUqRx/PPTo
+         gYkK2dPXgOQXh6YwUDpBIwuXkbynry9MYsY+IPXEV3gHjaQ3t6C0GgaUL1AfgY0fJQAP
+         Rinw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=omgkosYhpSIUhGpgr0G9r775xrjXzdbgkWmbfALZqCs=;
-        b=fbhdqcgmusWrgS4Uxs/V2qvUKz+ZsqreWgJJFdlbtIgOwBKQswP4go3aD+1p9AQS1N
-         GWDXmKHPIH6aMfbpZMCaVoieI4+JOMJ4xgnlBjmDUuTLCINe+FNdBFq89H9WGtquIt8f
-         REovHue+gOePINxB6urrNJHn3sUNVCQxiL2teP6RBI5l4PTWxS7WwWy3lkPk/Uqf9qoJ
-         +lY5wnz9YopL/JIppYsXvhgMobT7MlOMvurMYWL0gHU6DpvvoZtsey5gTFb6ozM7+jIi
-         AhzAwEygLACFPzjjXGu8tY5dApjbbz2ul96VMnMBWPXcUMDRB8qic9OnhiMGTO04s1lZ
-         +RUw==
-X-Gm-Message-State: APjAAAWzvF1U7oYLZEq6aJXXKevDTU+Vr8zV/2/eOAXd/EW6abZk6lG2
-        UVwzxLveZnJ1KYJcEotg4datjQ==
-X-Google-Smtp-Source: APXvYqzlhYb3nRzqg9PsLj9IoD42cfUInzHIJPEe+c3A8bD6iaesOYDxsQNa0K5hTqY9lUywlCgxxA==
-X-Received: by 2002:a63:f40e:: with SMTP id g14mr8567981pgi.132.1573177252836;
-        Thu, 07 Nov 2019 17:40:52 -0800 (PST)
-Received: from google.com ([2620:15c:2cb:1:e90c:8e54:c2b4:29e7])
-        by smtp.gmail.com with ESMTPSA id hi2sm3246498pjb.22.2019.11.07.17.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 17:40:52 -0800 (PST)
-Date:   Thu, 7 Nov 2019 17:40:47 -0800
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, keescook@chromium.org,
-        yzaikin@google.com, akpm@linux-foundation.org,
-        yamada.masahiro@socionext.com, catalin.marinas@arm.com,
-        joe.lawrence@redhat.com, penguin-kernel@i-love.sakura.ne.jp,
-        schowdary@nvidia.com, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Knut Omang <knut.omang@oracle.com>
-Subject: Re: [PATCH v3 linux-kselftest-test 4/6] kunit: allow kunit tests to
- be loaded as a module
-Message-ID: <20191108014047.GA216971@google.com>
-References: <1571335639-21675-1-git-send-email-alan.maguire@oracle.com>
- <1571335639-21675-5-git-send-email-alan.maguire@oracle.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L7ghc5DftJ1dJAFGG7geKIMSB0XHdAtyHWb1fKQe0ss=;
+        b=Y0yP1f5JS8sTNirB3eymPKDfJ4+95tjYp0tPGRHNP7gUlZGoeY+rZ6THy28y0+6MWK
+         hcLJohlPdWtd5k5cepwTVLxuswaLnFGLfMgOWWYfc1OwEwYQ7dh+NJtB2frBYcC4YmPO
+         jPAYAEsYSy0cXij6VwzWmWgxbMvMejrh8v8WIWqFDTbzejvQBIzSkfcwaw6Vg8NSwrgv
+         GYdM5AmzMdxNUyrFGeqqDClCHHN/hyZglOYHDMg0DRBX22dcTxRNjyZ5Kopl6BaMieyV
+         n0Pof/NgUreu9dG1nepXmNDQ2oTGgczkpNqm1qZ0tj8hFKkMgEdu+SJijGAfyjjD5EBH
+         zxGQ==
+X-Gm-Message-State: APjAAAUONtAmauga2Uz32X+LmIONVXRyIpzJCoTWogiSrQNwwumiVbz+
+        zaBzOW1GwuUKv4q2h6UOTdet31WNvODllBb6i9FDGg==
+X-Google-Smtp-Source: APXvYqwmr0Xk5qSCk6LJsKaE68DfwybqJtqkMDQUaniWJCkpnNU/JnviODiDeYpoCijj9Q+rcus/ybCUi0qX1DpuoRs=
+X-Received: by 2002:a63:234c:: with SMTP id u12mr8550073pgm.384.1573181002849;
+ Thu, 07 Nov 2019 18:43:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571335639-21675-5-git-send-email-alan.maguire@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1571335639-21675-1-git-send-email-alan.maguire@oracle.com> <1571335639-21675-6-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1571335639-21675-6-git-send-email-alan.maguire@oracle.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 7 Nov 2019 18:43:11 -0800
+Message-ID: <CAFd5g46s4eY4qEB5UZPeOKNdZXm4+sA9N=4g8gDYAhyhMahZKw@mail.gmail.com>
+Subject: Re: [PATCH v3 linux-kselftest-test 5/6] kunit: allow kunit to be
+ loaded as a module
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 07:07:17PM +0100, Alan Maguire wrote:
-> as tests are added to kunit, it will become less feasible to execute
-  ^
-nit: please capitalize "as".
-
-> all built tests together.  By supporting modular tests we provide
-> a simple way to do selective execution on a running system; specifying
-> 
-> CONFIG_KUNIT=y
-> CONFIG_KUNIT_EXAMPLE_TEST=m
-> 
-> ...means we can simply "insmod example-test.ko" to run the tests.
-> 
-> To achieve this we need to
-> 
-> o export the required symbols in kunit
-> o for non-exported symbols, we need to utilize kunit_find_symbol;
->   the simplest way is for the test suite init to call
->   KUNIT_INIT_[FN|VAR]_SYMBOL() for each non-exported symbol.
-> o support a new way of declaring test suites.  Because a module cannot
->   do multiple late_initcall()s, we provide a kunit_test_suites() macro
->   to declare multiple suites within the same module at once.
-> 
-> When compiled as a module, use of KUNIT_INIT_[FN|VAR]_symbol() will
-> retrieve the symbol address via kunit_find_symbol() and assign a local
-> variable with the same symbol name appropriately.  When compiled builtin,
-> these definitions are used to verify that the types we specify match
-> the type of the symbol we are looking for.  Compiler errors will be
-> generated if not.
-> 
-> One wrinkle here is that we cannot use the same names for local function
-> pointer definitions; the reason for this is we have likely #included
-> a definition for the function in question already, so an attempt to
-> redefine it as a function pointer variable fails.  As a result the
-> KUNIT_INIT_FN_SYMBOL() macro requires a name for a local symbol we
-> have defined as a function pointer (with a signature matching the
-> desired function).
-> 
+On Thu, Oct 17, 2019 at 11:09 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+>
+> Making kunit itself buildable as a module allows for "always-on"
+> kunit configuration; specifying CONFIG_KUNIT=m means the module
+> is built but only used when loaded.  Kunit test modules will load
+> kunit.ko as an implicit dependency, so simply running
+> "modprobe my-kunit-tests" will load the tests along with the kunit
+> module and run them.
+>
 > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 > Signed-off-by: Knut Omang <knut.omang@oracle.com>
 > ---
->  include/kunit/test.h           | 115 +++++++++++++++++++++++++++++++++++++----
->  kernel/sysctl-test.c           |   4 +-
->  lib/Kconfig.debug              |   2 +-
->  lib/kunit/Kconfig              |   4 +-
->  lib/kunit/assert.c             |   8 +++
->  lib/kunit/example-test.c       |   4 +-
->  lib/kunit/string-stream-test.c |  44 ++++++++++++----
->  lib/kunit/test-test.c          |  32 ++++++++----
->  lib/kunit/test.c               |   9 ++++
->  lib/kunit/try-catch.c          |   2 +
->  10 files changed, 187 insertions(+), 37 deletions(-)
-> 
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index c645d18..9a3835a 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -12,6 +12,7 @@
->  #include <kunit/assert.h>
->  #include <kunit/try-catch.h>
->  #include <linux/kernel.h>
-> +#include <linux/module.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  
-> @@ -78,6 +79,86 @@ struct kunit_resource {
->  	struct list_head node;
->  };
->  
-> +/**
-> + * KUNIT_VAR_SYMBOL - A helper for defining non-exported variable symbols
-> + *
-> + * @name: name of the symbol.
-> + * @type: type of symbol.
-> + *
-> + * In the module case, we define the pointer to the symbol type where
-> + * we will store the symbol address; KUNIT_INIT_VAR_SYMBOL() will assign
-> + * the symbol name to the dereferenced kunit_<symbol_name>.  Note that
-> + * in the builtin case we still define kunit_<symbol_name>; the reason
-> + * for this is it allows us to verify that the type value is correct
-> + * in the builtin case and has not fallen out-of-sync with its original
-
-Very clever! Can you maybe elaborate on how? I didn't understand until I
-looked at the initialization code. It would probably be sufficient to
-just tell the reader to look at the initialization code.
-
-> + * definition.
-> + */
-> +#ifdef MODULE
-> +#define KUNIT_VAR_SYMBOL(symbol, type)					\
-> +	type * kunit_##symbol;						\
-> +	type symbol
-> +#else
-> +#define KUNIT_VAR_SYMBOL(symbol, type)					\
-> +	type * kunit_##symbol
-> +#endif
+>  lib/kunit/Kconfig     | 2 +-
+>  lib/kunit/Makefile    | 4 +++-
+>  lib/kunit/test.c      | 2 ++
+>  lib/kunit/try-catch.c | 3 +++
+>  4 files changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+> index 9ebd5e6..065aa16 100644
+> --- a/lib/kunit/Kconfig
+> +++ b/lib/kunit/Kconfig
+> @@ -3,7 +3,7 @@
+>  #
+>
+>  menuconfig KUNIT
+> -       bool "KUnit - Enable support for unit tests"
+> +       tristate "KUnit - Enable support for unit tests"
+>         help
+>           Enables support for kernel unit tests (KUnit), a lightweight unit
+>           testing and mocking framework for the Linux kernel. These tests are
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index 769d940..8e2635a 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -1,4 +1,6 @@
+> -obj-$(CONFIG_KUNIT) +=                 test.o \
+> +obj-$(CONFIG_KUNIT) +=                 kunit.o
 > +
-> +/**
-> + * KUNIT_INIT_VAR_SYMBOL - A helper for initializing non-exported variable
-> + *			   symbols
-> + * @test: optional pointer to test context
-> + * @name: name of symbol
-> + *
-> + * In the module case, initialization consists of using kunit_find_symbol()
-> + * to find the address of the symbol, and if found, we set the variable
-> + * to the dereferenced address value.  As mentioned above, in the builtin
-> + * case we simply assing kunit_<symbol_name> to &<symbol_name> ; this will
-> + * generate a compilation warning if the type we specified in KUNIT_VAR_SYMBOL
-> + * and the type of the symbol itself do not match.
-> + */
-> +#ifdef MODULE
-> +#define KUNIT_INIT_VAR_SYMBOL(test, symbol)				\
-> +	do {								\
-> +		if (!(kunit_##symbol)) {				\
-> +			kunit_##symbol = kunit_find_symbol(#symbol);	\
-> +			if (!IS_ERR((kunit_##symbol)))			\
-> +				symbol = *(kunit_##symbol);		\
-> +		}							\
-> +		if (test)						\
-> +			KUNIT_ASSERT_NOT_ERR_OR_NULL(test,		\
-> +						     kunit_##symbol);	\
-> +	} while (0)
-> +#else
-> +#define KUNIT_INIT_VAR_SYMBOL(test, symbol)				\
-> +	kunit_##symbol = &(symbol)
-> +#endif
+> +kunit-objs +=                          test.o \
+>                                         string-stream.o \
+>                                         assert.o \
+>                                         try-catch.o
+> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+> index e8b2443..c0ace36 100644
+> --- a/lib/kunit/test.c
+> +++ b/lib/kunit/test.c
+> @@ -523,3 +523,5 @@ void *kunit_find_symbol(const char *sym)
+>         return ERR_PTR(-ENOENT);
+>  }
+>  EXPORT_SYMBOL(kunit_find_symbol);
 > +
-> +/**
-> + * KUNIT_INIT_FN_SYMBOL - A helper for initializing non-exported function
-> + *			  symbols
-> + * @test: optional pointer to test context
-> + * @symbol: name of symbol
-> + * @name: local name of function used to store function pointer to symbol
-> + *
-> + * In the module case, initialization consists of using kunit_find_symbol()
-> + * to find the address of the symbol, and if found, we set function pointer
-> + * name to the function address value.  In the non-module case, we simply
-> + * assign name to symbol; this will generate a compilation error if the
-> + * type we specified for function pointer @name does not match the symbol
-> + * function type.
-> + */
-> +#ifdef MODULE
-> +#define KUNIT_INIT_FN_SYMBOL(test, symbol, name)			\
-> +	do {								\
-> +		if (!name)						\
-> +			name = kunit_find_symbol(#symbol);		\
-> +		if (test)                                               \
-> +			KUNIT_ASSERT_NOT_ERR_OR_NULL(test, name);	\
-> +	} while (0)
-> +#else
-> +#define KUNIT_INIT_FN_SYMBOL(test, symbol, name)			\
-> +	name = symbol
-> +#endif
+> +MODULE_LICENSE("GPL");
+> diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+> index 1c1e9af..72fc8ed 100644
+> --- a/lib/kunit/try-catch.c
+> +++ b/lib/kunit/try-catch.c
+> @@ -31,6 +31,8 @@ static int kunit_generic_run_threadfn_adapter(void *data)
+>         complete_and_exit(try_catch->try_completion, 0);
+>  }
+>
+> +KUNIT_VAR_SYMBOL(sysctl_hung_task_timeout_secs, unsigned long);
+
+Can you just export sysctl_hung_task_timeout_secs?
+
+I don't mean to make you redo all this work for one symbol twice, but
+I thought we agreed on just exposing this symbol, but in a namespace.
+It seemed like a good use case for that namespaced exporting thing
+that Luis was talking about. As I understood it, you would have to
+export it in the module that defines it, and then use the new
+MODULE_IMPORT_NS() macro here.
+
 > +
-
-Can you put all the KUNIT_*_SYMBOL stuff in another patchset along with
-the kunit_find_symbol?
-
->  struct kunit;
->  
->  /**
-> @@ -197,31 +278,45 @@ struct kunit {
->  int kunit_run_tests(struct kunit_suite *suite);
->  
->  /**
-> - * kunit_test_suite() - used to register a &struct kunit_suite with KUnit.
-> + * kunit_test_suites() - used to register one or more &struct kunit_suite
-> + *			 with KUnit.
->   *
-> - * @suite: a statically allocated &struct kunit_suite.
-> + * @suites: a statically allocated list of &struct kunit_suite.
->   *
-> - * Registers @suite with the test framework. See &struct kunit_suite for
-> + * Registers @suites with the test framework. See &struct kunit_suite for
->   * more information.
->   *
-> - * NOTE: Currently KUnit tests are all run as late_initcalls; this means
-> + * When builtin,  KUnit tests are all run as late_initcalls; this means
->   * that they cannot test anything where tests must run at a different init
->   * phase. One significant restriction resulting from this is that KUnit
->   * cannot reliably test anything that is initialize in the late_init phase;
->   * another is that KUnit is useless to test things that need to be run in
->   * an earlier init phase.
->   *
-> + * An alternative is to build the tests as a module.  Because modules
-> + * do not support multiple late_initcall()s, we need to initialize an
-> + * array of suites for a module.
-> + *
->   * TODO(brendanhiggins@google.com): Don't run all KUnit tests as
->   * late_initcalls.  I have some future work planned to dispatch all KUnit
->   * tests from the same place, and at the very least to do so after
->   * everything else is definitely initialized.
->   */
-> -#define kunit_test_suite(suite)						       \
-> -	static int kunit_suite_init##suite(void)			       \
-> -	{								       \
-> -		return kunit_run_tests(&suite);				       \
-> -	}								       \
-> -	late_initcall(kunit_suite_init##suite)
-> +#define kunit_test_suites(...)						\
-> +	static struct kunit_suite *suites[] = { __VA_ARGS__, NULL};	\
-> +	static int kunit_test_suites_init(void)				\
-> +	{								\
-> +		unsigned int i;						\
-> +		for (i = 0; suites[i] != NULL; i++)			\
-> +			kunit_run_tests(suites[i]);			\
-> +		return 0;						\
-> +	}								\
-> +	late_initcall(kunit_test_suites_init);				\
-> +	static void __exit kunit_test_suites_exit(void)			\
-> +	{								\
-> +		return;							\
-> +	}								\
-> +	module_exit(kunit_test_suites_exit)
->  
->  /*
->   * Like kunit_alloc_resource() below, but returns the struct kunit_resource
+>  static unsigned long kunit_test_timeout(void)
+>  {
+>         unsigned long timeout_msecs;
+> @@ -52,6 +54,7 @@ static unsigned long kunit_test_timeout(void)
+>          * For more background on this topic, see:
+>          * https://mike-bland.com/2011/11/01/small-medium-large.html
+>          */
+> +       KUNIT_INIT_VAR_SYMBOL(NULL, sysctl_hung_task_timeout_secs);
+>         if (sysctl_hung_task_timeout_secs) {
+>                 /*
+>                  * If sysctl_hung_task is active, just set the timeout to some
+> --
+> 1.8.3.1
+>
