@@ -3,55 +3,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 978777D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 06:10:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BCC97D917
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Nov 2019 13:21:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725900AbfKHGKN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Nov 2019 01:10:13 -0500
-Received: from verein.lst.de ([213.95.11.211]:33056 "EHLO verein.lst.de"
+        id S1727957AbfKHNUu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Nov 2019 08:20:50 -0500
+Received: from mga03.intel.com ([134.134.136.65]:22591 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbfKHGKN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Nov 2019 01:10:13 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 68D1368BE1; Fri,  8 Nov 2019 07:10:09 +0100 (CET)
-Date:   Fri, 8 Nov 2019 07:10:09 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-        Andreas Schwab <schwab@suse.de>
-Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation
- for RISC-V
-Message-ID: <20191108061009.GA30335@lst.de>
-References: <alpine.DEB.2.21.9999.1910091252160.11044@viisi.sifive.com> <CAMuHMdUfqvkVJHHwyuYxLSxj_iUofx-vSvEj92C5mg3bGxHqmA@mail.gmail.com> <20191010112347.4a7237bb@lwn.net>
+        id S1727903AbfKHNUu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Nov 2019 08:20:50 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Nov 2019 05:20:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,281,1569308400"; 
+   d="scan'208";a="213240569"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.197]) ([10.237.72.197])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Nov 2019 05:20:42 -0800
+Subject: Re: [PATCH v8 07/14] x86/cet/ibt: Add ENDBR to op-code-map
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
+ <20190813205359.12196-8-yu-cheng.yu@intel.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <5b81028b-2230-51c4-f504-10067cb59bf8@intel.com>
+Date:   Fri, 8 Nov 2019 15:19:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010112347.4a7237bb@lwn.net>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20190813205359.12196-8-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jon,
+On 13/08/19 11:53 PM, Yu-cheng Yu wrote:
+> Add control transfer terminating instructions:
+> 
+> ENDBR64/ENDBR32:
+>     Mark a valid 64/32-bit control transfer endpoint.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/lib/x86-opcode-map.txt               | 13 +++++++++++--
+>  tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 +++++++++++--
+>  2 files changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+> index c5e825d44766..fbc53481bc59 100644
+> --- a/arch/x86/lib/x86-opcode-map.txt
+> +++ b/arch/x86/lib/x86-opcode-map.txt
+> @@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
+>  # Skip 0xeb-0xff
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x38)
+> +Table: 3-byte opcode 2 (0x0f 0x1e)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xf9
+> +fa: ENDBR64 (f3)
+> +fb: ENDBR32 (f3)
 
-can you please revert this?  The paragraph above this addition already
-describes the riscv case perfecty well with my previous patch:
+endbr32 and endbr64 have 2-byte opcodes (0F 1E) and a ModRM byte, so a new
+Grp is needed
 
+> +#skip 0xfc-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 3 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 3 (0x0f 0x3a)
+> +Table: 3-byte opcode 4 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
+> diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> index c5e825d44766..fbc53481bc59 100644
+> --- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> +++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> @@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
+>  # Skip 0xeb-0xff
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x38)
+> +Table: 3-byte opcode 2 (0x0f 0x1e)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xf9
+> +fa: ENDBR64 (f3)
+> +fb: ENDBR32 (f3)
+> +#skip 0xfc-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 3 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 3 (0x0f 0x3a)
+> +Table: 3-byte opcode 4 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
+> 
 
-	earlycon=	[KNL] Output early console device and options.
-
-			When used with no options, the early console is
-			determined by stdout-path property in device tree's
-			chosen node or the ACPI SPCR table if supported by
-			the platform.
-
-			[RISCV] When used with no options, the early
-			console is determined by the stdout-path
-			property in the device tree's chosen node.
