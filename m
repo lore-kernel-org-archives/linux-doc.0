@@ -1,139 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02DC27D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Nov 2019 10:11:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5C05B7D917
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Nov 2019 15:14:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfKJKLx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Nov 2019 05:11:53 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:36361 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726653AbfKJKLx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Nov 2019 05:11:53 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id TkCAiNAD3QBsYTkCDi1SAO; Sun, 10 Nov 2019 11:11:50 +0100
-Subject: Re: [PATCH v2 13/18] media/v4l2-core: pin_longterm_pages (FOLL_PIN)
- and put_user_page() conversion
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1726903AbfKJPON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 10 Nov 2019 10:14:13 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35943 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726789AbfKJPON (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Nov 2019 10:14:13 -0500
+Received: by mail-oi1-f193.google.com with SMTP id j7so9397670oib.3;
+        Sun, 10 Nov 2019 07:14:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=e3b1KNrJoF7hiZ9f5QB0CwtZdtDXpaOtcJztE2+Em/I=;
+        b=GS5A/gJq9PfTy+ldfS/E8RU4kDfHgdBc6VXLWnBC5R5MW9CS3yRP13Sv9CDsJJoBQw
+         0X56lE7y79QDjB9GZp0Whvx4PwMnWdB7VmvowneLpBuCf3SOuyMe5p1RlfH8J8bRwTTK
+         m0NB1mlyPC7yPJWHowUvJ2uleq4wqmqTjvT+Fo9ay2ZUScB1YzNNmVVJ0kJmF74n5nsN
+         yzLGMNBfQ4vLfS24+u2+5GMpedo+YNbkZyBOZAu5l1eU0D+Vh9bUOQcsCKwSgpFgdGol
+         nk1ieRUB7P9MlrOB0xNDtzIXGSfVXPFd0csddnYgkCVzrYb2yB8r18o7ddb9sbhLYvQH
+         FZ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=e3b1KNrJoF7hiZ9f5QB0CwtZdtDXpaOtcJztE2+Em/I=;
+        b=UK1SYf9bx/3oYvujoPOTZvVU45bI6wf3cLF/mHV9sTt1ofzOvBA06aD9+eTHnwGhUW
+         6u8lvRMg9EnkFyDuXSLiIAN3m9Wy1g7uv45wJmXWwqwLSCUh1rfkv5AeRelNtamqeNxG
+         vwCIaFFlBGbjaA35EwVkk4UV5H2kQtN16sqZDJDP7zhpIifJRQg325AdPKt+SyWn07MQ
+         jvCF6wbM5pBR/krd1F6LKyZoLc61YUITnsMN+FXHF02nQEnJy7mGJt2g6DGCDg5v9irf
+         TbPJfXw7bwkVTXt84wyZQBrZvHyUbugohj7hlJQnVAA/oinYPT4ZyssMC5+bLfmBjQLS
+         wXDw==
+X-Gm-Message-State: APjAAAWuwwB+dSWvXKl4ROZzqKDdldBUxjmHeAHmcnFqL96fIs8TLKtU
+        bdqD0jS69hMgQjtGf+QemJ4=
+X-Google-Smtp-Source: APXvYqwSsj4htI0kfSz1zjPmqcSnDIZPqvPVxAOvSaMBenRous+uk6xrLI/PcCkj0Y1nPTS/q4SFqA==
+X-Received: by 2002:a05:6808:ab4:: with SMTP id r20mr20634682oij.166.1573398852415;
+        Sun, 10 Nov 2019 07:14:12 -0800 (PST)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id m4sm3996959otf.0.2019.11.10.07.14.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Nov 2019 07:14:11 -0800 (PST)
+Date:   Sun, 10 Nov 2019 10:14:08 -0500
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Fabien Lahoudere <fabien.lahoudere@collabora.com>,
+        gwendal@chromium.org, egranata@chromium.org, kernel@collabora.com,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-14-jhubbard@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6d21391e-01c4-0605-0d0d-15f574cc3ed4@xs4all.nl>
-Date:   Sun, 10 Nov 2019 11:11:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nick Vaccaro <nvaccaro@chromium.org>,
+        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
+Message-ID: <20191110151408.GB3984@icarus>
+References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
+ <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
+ <20190826095612.7455cb05@archlinux>
+ <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
+ <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20191103211813.213227-14-jhubbard@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFSTukyJqfxV4HrGGQ0j5/iKKr13OkEzy05WqAOfOSWrg/qEYKz7zmsSLuZTQBp28yCz+dvkf6VRv+kw027uNzPdnpP1TG1MNl/DxEey7uZK5/xalM5y
- 5mek2ggN11NHCI9OB51pAxH9HazB5AMpcNYWMTjkyDZlvUJtbfWW4ZUZq85nxiyCH9Wkwv75NaxcyvTMitOA+o4+U5rJjg8sA8gvfV9NbRRVFg3M6alu0IKv
- kyfdjDFwuG4F6JKpbt9v3E049Xx0YF8ppWdgVnIjGfusfyNaLb+90K4NGhzfPU11L+2UeV4HzuHSmBSjFWbsZNO99HRrZoUYxfZil98flfM0I4Tl92e2ZZ6T
- oLNGV585kbb26i0UwqgRbX0qClJpOQIX8JPemeIZHsAISH4A6EIzai79YkaAZrrdJDqsHcU/g5pBk7M+m8f1h0UhG93G+VP07un/zdrM5krNUgUcOHqWl6c8
- yg5UitZLkuZJeoj3AZIHtptGajhOljPiqFe3qrME7yIGvxpfurp6646fJOQdrdhgQ99ZW5ZVLjxCYcB39QCEQQpm6CL4XMXAsAilPNdyDqQvU26KgyC+BY4C
- EfgFzK7XJbQ28t/ACJ7DTyyH14NWDMPJXEZyBEirCE+SenjaNpo1ArEbqixnm5RCT+dULYmvp/soWFNQsgosWPukS+PH1BUonrmmMVLsT7pZ55bv6EkNWDl4
- 9ypHPyVuYZBeyd/QB3263NKtG9W94IRv7gkIMIXqe+gaZqosCCZGLoQ/R3NrX+UELfTllPBXIEjGQ6GcqW4vDLnC6e5LObzBu95S05AVd/j5Z489creqnOqz
- al1X+EBLb7SCFjH5bT0l7XPwxsPFls2nYnNC2VvjaojW5EGzj+P9FMGrDMXQYA5CwZYMR9jVieofsVzZROWuyWgzGX0IWmVMrVJ+O9Cd6w+r38l2u6VzMDO3
- vrKP72jlsDujiCNkz8SZOuEiycTOpqK7FnQXWC0vHy8ZQ5kE+5U3ZOrlf3bE5a7YMuwWWgEf1wyekRKSE5FPwRln1aFBkEu6RfHldiY5r6mScJHM0Hmz3L1G
- jmpevDng1F0dM0khzD8Rn/xNHOQmjygIoT2XjmtiT+xp1E4E+mkPp1qzmYUhF73no8Ws5q3/bDKWOdGuUrZQjRZdQtb3gNeBRaDBFMdPnfgT4QkU99ovX9La
- 0JO93Bw0hzkTQPZYGAQEEyZ5mT+kT8y0hQD80773+KE9/qHPFnhe80tvkU1RdNM3L33ptC7eREOqMAmdRO6tk0ZlucAIUVw5MRfKAm2acO9sl5to+l22CFB1
- ACY3IoeSiNIkXxalh1O2DqvLWJh0AapBIq9krEjBZouKIfbQ+FRgwsFcvPJZJS2eW70SQX+omUmZZ5xpSWDV1lpAjnprcaVW+xX7OhGfCCj2gQOCd9Q=
+Content-Disposition: inline
+In-Reply-To: <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/3/19 10:18 PM, John Hubbard wrote:
-> 1. Change v4l2 from get_user_pages(FOLL_LONGTERM), to
-> pin_longterm_pages(), which sets both FOLL_LONGTERM and FOLL_PIN.
+On Tue, Sep 24, 2019 at 04:20:51PM +0200, Fabien Lahoudere wrote:
+> Hi all,
 > 
-> 2. Because all FOLL_PIN-acquired pages must be released via
-> put_user_page(), also convert the put_page() call over to
-> put_user_pages_dirty_lock().
+> After some discussions and investigation, the timestamp is very
+> important for that sync driver.
+> Google team uses that timestamp to compare with gyroscope timestamp.
 > 
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Looks good, thanks!
-
-	Hans
-
-
-> ---
->  drivers/media/v4l2-core/videobuf-dma-sg.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+> So the important data is timestamp and counter value is useless.
+> Just the event of counter increment is important to get a timestamp.
 > 
-> diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
-> index 28262190c3ab..9b9c5b37bf59 100644
-> --- a/drivers/media/v4l2-core/videobuf-dma-sg.c
-> +++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
-> @@ -183,12 +183,12 @@ static int videobuf_dma_init_user_locked(struct videobuf_dmabuf *dma,
->  	dprintk(1, "init user [0x%lx+0x%lx => %d pages]\n",
->  		data, size, dma->nr_pages);
->  
-> -	err = get_user_pages(data & PAGE_MASK, dma->nr_pages,
-> -			     flags | FOLL_LONGTERM, dma->pages, NULL);
-> +	err = pin_longterm_pages(data & PAGE_MASK, dma->nr_pages,
-> +				 flags, dma->pages, NULL);
->  
->  	if (err != dma->nr_pages) {
->  		dma->nr_pages = (err >= 0) ? err : 0;
-> -		dprintk(1, "get_user_pages: err=%d [%d]\n", err,
-> +		dprintk(1, "pin_longterm_pages: err=%d [%d]\n", err,
->  			dma->nr_pages);
->  		return err < 0 ? err : -EINVAL;
->  	}
-> @@ -349,11 +349,8 @@ int videobuf_dma_free(struct videobuf_dmabuf *dma)
->  	BUG_ON(dma->sglen);
->  
->  	if (dma->pages) {
-> -		for (i = 0; i < dma->nr_pages; i++) {
-> -			if (dma->direction == DMA_FROM_DEVICE)
-> -				set_page_dirty_lock(dma->pages[i]);
-> -			put_page(dma->pages[i]);
-> -		}
-> +		put_user_pages_dirty_lock(dma->pages, dma->nr_pages,
-> +					  dma->direction == DMA_FROM_DEVICE);
->  		kfree(dma->pages);
->  		dma->pages = NULL;
->  	}
+> In that case, my idea was to just use an IIO driver with a single
+> channel with IIO_TIMESTAMP. We discuss this here and it seems
+> controversial.
 > 
+> So my question to Jonathan is if we have a timestamp coming from the EC
+> itself, can we consider this timestamp as a good IIO driver?
+> 
+> Any other idea is welcome, however Google team would like to manage
+> only IIO drivers if possible.
+> 
+> Thanks
 
+Jonathan,
+
+Should the the timestamp from the EC be introduced as an IIO driver
+using IIO_TIMESTAMP?
+
+Since there is no corresponding EC Counter driver in the baseline right
+now we don't have a conflict yet. If the EC timestamp is introduced as
+an IIO driver then we should make any future EC Counter driver mutually
+exclusive with the IIO driver in order to prevent any memory space
+conflict. At that point we may deprecate the IIO driver and move the
+timestamp functionality to the corresponding Counter driver.
+
+That's assuming someone is interested in the Count component enough to
+implement an EC Counter driver; otherwise, the IIO driver will serve
+just fine if timestamp is the only data desired from this device.
+
+William Breathitt Gray
