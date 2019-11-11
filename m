@@ -1,126 +1,220 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C05B7D917
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Nov 2019 15:14:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C86237D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Nov 2019 07:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726903AbfKJPON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Nov 2019 10:14:13 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:35943 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726789AbfKJPON (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Nov 2019 10:14:13 -0500
-Received: by mail-oi1-f193.google.com with SMTP id j7so9397670oib.3;
-        Sun, 10 Nov 2019 07:14:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=e3b1KNrJoF7hiZ9f5QB0CwtZdtDXpaOtcJztE2+Em/I=;
-        b=GS5A/gJq9PfTy+ldfS/E8RU4kDfHgdBc6VXLWnBC5R5MW9CS3yRP13Sv9CDsJJoBQw
-         0X56lE7y79QDjB9GZp0Whvx4PwMnWdB7VmvowneLpBuCf3SOuyMe5p1RlfH8J8bRwTTK
-         m0NB1mlyPC7yPJWHowUvJ2uleq4wqmqTjvT+Fo9ay2ZUScB1YzNNmVVJ0kJmF74n5nsN
-         yzLGMNBfQ4vLfS24+u2+5GMpedo+YNbkZyBOZAu5l1eU0D+Vh9bUOQcsCKwSgpFgdGol
-         nk1ieRUB7P9MlrOB0xNDtzIXGSfVXPFd0csddnYgkCVzrYb2yB8r18o7ddb9sbhLYvQH
-         FZ/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e3b1KNrJoF7hiZ9f5QB0CwtZdtDXpaOtcJztE2+Em/I=;
-        b=UK1SYf9bx/3oYvujoPOTZvVU45bI6wf3cLF/mHV9sTt1ofzOvBA06aD9+eTHnwGhUW
-         6u8lvRMg9EnkFyDuXSLiIAN3m9Wy1g7uv45wJmXWwqwLSCUh1rfkv5AeRelNtamqeNxG
-         vwCIaFFlBGbjaA35EwVkk4UV5H2kQtN16sqZDJDP7zhpIifJRQg325AdPKt+SyWn07MQ
-         jvCF6wbM5pBR/krd1F6LKyZoLc61YUITnsMN+FXHF02nQEnJy7mGJt2g6DGCDg5v9irf
-         TbPJfXw7bwkVTXt84wyZQBrZvHyUbugohj7hlJQnVAA/oinYPT4ZyssMC5+bLfmBjQLS
-         wXDw==
-X-Gm-Message-State: APjAAAWuwwB+dSWvXKl4ROZzqKDdldBUxjmHeAHmcnFqL96fIs8TLKtU
-        bdqD0jS69hMgQjtGf+QemJ4=
-X-Google-Smtp-Source: APXvYqwSsj4htI0kfSz1zjPmqcSnDIZPqvPVxAOvSaMBenRous+uk6xrLI/PcCkj0Y1nPTS/q4SFqA==
-X-Received: by 2002:a05:6808:ab4:: with SMTP id r20mr20634682oij.166.1573398852415;
-        Sun, 10 Nov 2019 07:14:12 -0800 (PST)
-Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
-        by smtp.gmail.com with ESMTPSA id m4sm3996959otf.0.2019.11.10.07.14.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Nov 2019 07:14:11 -0800 (PST)
-Date:   Sun, 10 Nov 2019 10:14:08 -0500
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        gwendal@chromium.org, egranata@chromium.org, kernel@collabora.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nick Vaccaro <nvaccaro@chromium.org>,
-        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
-Message-ID: <20191110151408.GB3984@icarus>
-References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
- <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
- <20190826095612.7455cb05@archlinux>
- <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
- <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
+        id S1726770AbfKKHlv convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Nov 2019 02:41:51 -0500
+Received: from out1.zte.com.cn ([202.103.147.172]:49780 "EHLO mxct.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbfKKHlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Nov 2019 02:41:51 -0500
+Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
+        by Forcepoint Email with ESMTPS id 9E3E6162B64E7E894F6A;
+        Mon, 11 Nov 2019 15:41:40 +0800 (CST)
+Received: from notes_smtp.zte.com.cn (notessmtp.zte.com.cn [10.30.1.239])
+        by mse-fl1.zte.com.cn with ESMTP id xAB7d6ej071507;
+        Mon, 11 Nov 2019 15:39:06 +0800 (GMT-8)
+        (envelope-from zhong.shiqi@zte.com.cn)
+Received: from fox-host8.localdomain ([10.74.120.8])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2019111115391041-386045 ;
+          Mon, 11 Nov 2019 15:39:10 +0800 
+From:   zhongshiqi <zhong.shiqi@zte.com.cn>
+To:     Julia.Lawall@lip6.fr
+Cc:     Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, corbet@lwn.net, cocci@systeme.lip6.fr,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xue.zhihong@zte.com.cn, wang.yi59@zte.com.cn,
+        cheng.shengyu@zte.com.cn, zhongshiqi <zhong.shiqi@zte.com.cn>
+Subject: [PATCH v7] coccicheck: Support search for SmPL scripts within selected directory hierarchy
+Date:   Mon, 11 Nov 2019 15:42:04 +0800
+Message-Id: <1573458124-14528-1-git-send-email-zhong.shiqi@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2019-11-11 15:39:10,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2019-11-11 15:39:07
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-MAIL: mse-fl1.zte.com.cn xAB7d6ej071507
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 04:20:51PM +0200, Fabien Lahoudere wrote:
-> Hi all,
-> 
-> After some discussions and investigation, the timestamp is very
-> important for that sync driver.
-> Google team uses that timestamp to compare with gyroscope timestamp.
-> 
-> So the important data is timestamp and counter value is useless.
-> Just the event of counter increment is important to get a timestamp.
-> 
-> In that case, my idea was to just use an IIO driver with a single
-> channel with IIO_TIMESTAMP. We discuss this here and it seems
-> controversial.
-> 
-> So my question to Jonathan is if we have a timestamp coming from the EC
-> itself, can we consider this timestamp as a good IIO driver?
-> 
-> Any other idea is welcome, however Google team would like to manage
-> only IIO drivers if possible.
-> 
-> Thanks
+*Allow defining the environment variable “COCCI” as a directory to
+ search SmPL scripts.
 
-Jonathan,
+*Start a corresponding file determination if it contains an acceptable
+ path.
 
-Should the the timestamp from the EC be introduced as an IIO driver
-using IIO_TIMESTAMP?
+*Adjust software documentation for using coccicheck with
+ a selected directory.
 
-Since there is no corresponding EC Counter driver in the baseline right
-now we don't have a conflict yet. If the EC timestamp is introduced as
-an IIO driver then we should make any future EC Counter driver mutually
-exclusive with the IIO driver in order to prevent any memory space
-conflict. At that point we may deprecate the IIO driver and move the
-timestamp functionality to the corresponding Counter driver.
+Signed-off-by: zhongshiqi <zhong.shiqi@zte.com.cn>
+---
+Changes in v7:
+        1:adjust coccinelle.rst documentation
+        2:fix a repo of "default"
 
-That's assuming someone is interested in the Count component enough to
-implement an EC Counter driver; otherwise, the IIO driver will serve
-just fine if timestamp is the only data desired from this device.
+Changes in v6:
+        update coccinelle.rst documents and add instructions for use this
 
-William Breathitt Gray
+Changes in v5:
+        rewrite change description as an enumeration
+
+Changes in v4:
+        rewrite change description in another wording
+
+Changes in v3:
+        1:rewrite change description
+        2:fix patch subject
+        3:modify commit log
+
+Changes in v2:
+        1.fix patch subject according to the reply by Markus
+        <Markus.Elfring@web.de>
+        2.change description in “imperative mood”
+
+---
+ Documentation/dev-tools/coccinelle.rst | 69 +++++++++++++++++++++-------------
+ scripts/coccicheck                     |  4 ++
+ 2 files changed, 47 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 00a3409..90abe21 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -100,8 +100,8 @@ Two other modes provide some common combinations of these modes.
+   It should be used with the C option (described later)
+   which checks the code on a file basis.
+ 
+-Examples
+-~~~~~~~~
++Using Coccinelle with the default configuration
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ To make a report for every semantic patch, run the following command::
+ 
+@@ -127,41 +127,36 @@ To enable verbose messages set the V= variable, for example::
+ 
+    make coccicheck MODE=report V=1
+ 
+-Coccinelle parallelization
+----------------------------
++Using Coccinelle with a single file selection
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-By default, coccicheck tries to run as parallel as possible. To change
+-the parallelism, set the J= variable. For example, to run across 4 CPUs::
++The optional make variable COCCI can be used to check a single
++semantic patch. In that case, the variable must be initialized with
++the name of the semantic patch to apply.
+ 
+-   make coccicheck MODE=report J=4
++For instance::
+ 
+-As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization,
+-if support for this is detected you will benefit from parmap parallelization.
++	make coccicheck COCCI=<my_SP.cocci> MODE=patch
+ 
+-When parmap is enabled coccicheck will enable dynamic load balancing by using
+-``--chunksize 1`` argument, this ensures we keep feeding threads with work
+-one by one, so that we avoid the situation where most work gets done by only
+-a few threads. With dynamic load balancing, if a thread finishes early we keep
+-feeding it more work.
++or::
+ 
+-When parmap is enabled, if an error occurs in Coccinelle, this error
+-value is propagated back, the return value of the ``make coccicheck``
+-captures this return value.
++	make coccicheck COCCI=<my_SP.cocci> MODE=report
+ 
+-Using Coccinelle with a single semantic patch
+----------------------------------------------
+ 
+-The optional make variable COCCI can be used to check a single
+-semantic patch. In that case, the variable must be initialized with
+-the name of the semantic patch to apply.
++Using Coccinelle with directory selection
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The optional make variable COCCI can be used to search semantic patch in a
++directory. In that case, the variable must be initialized with the name of
++a directory which contains semantic patches.
+ 
+ For instance::
+ 
+-	make coccicheck COCCI=<my_SP.cocci> MODE=patch
++	make coccicheck COCCI=<my_SPDIR> MODE=patch
+ 
+ or::
+ 
+-	make coccicheck COCCI=<my_SP.cocci> MODE=report
++	make coccicheck COCCI=<my_SPDIR> MODE=report
+ 
+ 
+ Controlling Which Files are Processed by Coccinelle
+@@ -187,12 +182,34 @@ In these modes, which works on a file basis, there is no information
+ about semantic patches displayed, and no commit message proposed.
+ 
+ This runs every semantic patch in scripts/coccinelle by default. The
+-COCCI variable may additionally be used to only apply a single
+-semantic patch as shown in the previous section.
++COCCI variable may additionally be used to apply a single semantic
++patch or a directory which contains semantic patches as shown in the
++previous section.
+ 
+ The "report" mode is the default. You can select another one with the
+ MODE variable explained above.
+ 
++Coccinelle parallelization
++--------------------------
++
++By default, coccicheck tries to run as parallel as possible. To change
++the parallelism, set the J= variable. For example, to run across 4 CPUs::
++
++   make coccicheck MODE=report J=4
++
++As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization,
++if support for this is detected you will benefit from parmap parallelization.
++
++When parmap is enabled coccicheck will enable dynamic load balancing by using
++``--chunksize 1`` argument, this ensures we keep feeding threads with work
++one by one, so that we avoid the situation where most work gets done by only
++a few threads. With dynamic load balancing, if a thread finishes early we keep
++feeding it more work.
++
++When parmap is enabled, if an error occurs in Coccinelle, this error
++value is propagated back, the return value of the ``make coccicheck``
++captures this return value.
++
+ Debugging Coccinelle SmPL patches
+ ---------------------------------
+ 
+diff --git a/scripts/coccicheck b/scripts/coccicheck
+index e04d328..e64a22e 100755
+--- a/scripts/coccicheck
++++ b/scripts/coccicheck
+@@ -257,6 +257,10 @@ if [ "$COCCI" = "" ] ; then
+     for f in `find $srctree/scripts/coccinelle/ -name '*.cocci' -type f | sort`; do
+ 	coccinelle $f
+     done
++elif [ -d "$COCCI" ] ; then
++    for f in `find $COCCI/ -name '*.cocci' -type f | sort`; do
++    coccinelle $f
++    done
+ else
+     coccinelle $COCCI
+ fi
+-- 
+2.9.5
+
