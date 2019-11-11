@@ -5,114 +5,49 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD3BF7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Nov 2019 11:50:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02DC77D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Nov 2019 12:03:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbfKKLuP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Nov 2019 06:50:15 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:32900 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726810AbfKKLuP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Nov 2019 06:50:15 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id CE4F7436E77B1BC29BE4;
-        Mon, 11 Nov 2019 19:50:11 +0800 (CST)
-Received: from localhost (10.202.226.61) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Mon, 11 Nov 2019
- 19:50:06 +0800
-Date:   Mon, 11 Nov 2019 11:49:55 +0000
-From:   Jonathan Cameron <jonathan.cameron@huawei.com>
-To:     William Breathitt Gray <vilhelm.gray@gmail.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        <gwendal@chromium.org>, <egranata@chromium.org>,
-        <kernel@collabora.com>, Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        "Enric Balletbo i Serra" <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nick Vaccaro <nvaccaro@chromium.org>,
-        <linux-iio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
-Message-ID: <20191111114955.00001031@huawei.com>
-In-Reply-To: <20191110151408.GB3984@icarus>
-References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
-        <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
-        <20190826095612.7455cb05@archlinux>
-        <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
-        <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
-        <20191110151408.GB3984@icarus>
-Organization: Huawei
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.61]
-X-CFilter-Loop: Reflected
+        id S1726952AbfKKMDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Nov 2019 07:03:16 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:32774 "EHLO inva020.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726810AbfKKMDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Nov 2019 07:03:16 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9D1E31A08D9;
+        Mon, 11 Nov 2019 13:03:14 +0100 (CET)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9124A1A0626;
+        Mon, 11 Nov 2019 13:03:14 +0100 (CET)
+Received: from fsr-fed2164-101.ea.freescale.net (fsr-fed2164-101.ea.freescale.net [10.171.82.91])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 49FC9205FE;
+        Mon, 11 Nov 2019 13:03:14 +0100 (CET)
+From:   Madalin Bucur <madalin.bucur@nxp.com>
+To:     davem@davemloft.net, netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Madalin Bucur <madalin.bucur@nxp.com>
+Subject: [PATCH net-next 0/2] dpaa_eth documentation updates
+Date:   Mon, 11 Nov 2019 14:03:10 +0200
+Message-Id: <1573473792-17797-1-git-send-email-madalin.bucur@nxp.com>
+X-Mailer: git-send-email 2.1.0
+Content-Type: text/plain; charset="us-ascii"
+Reply-to: madalin.bucur@nxp.com
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 10 Nov 2019 10:14:08 -0500
-William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
+Documentation updates for the DPAA Ethernet driver
 
-> On Tue, Sep 24, 2019 at 04:20:51PM +0200, Fabien Lahoudere wrote:
-> > Hi all,
-> > 
-> > After some discussions and investigation, the timestamp is very
-> > important for that sync driver.
-> > Google team uses that timestamp to compare with gyroscope timestamp.
-> > 
-> > So the important data is timestamp and counter value is useless.
-> > Just the event of counter increment is important to get a timestamp.
-> > 
-> > In that case, my idea was to just use an IIO driver with a single
-> > channel with IIO_TIMESTAMP. We discuss this here and it seems
-> > controversial.
-> > 
-> > So my question to Jonathan is if we have a timestamp coming from the EC
-> > itself, can we consider this timestamp as a good IIO driver?
-> > 
-> > Any other idea is welcome, however Google team would like to manage
-> > only IIO drivers if possible.
-> > 
-> > Thanks  
-> 
-> Jonathan,
-> 
-> Should the the timestamp from the EC be introduced as an IIO driver
-> using IIO_TIMESTAMP?
+Madalin Bucur (2):
+  Documentation: networking: dpaa_eth: adjust buffer pool info
+  Documentation: networking: dpaa_eth: adjust sysfs paths
 
-It is is a rather odd driver but I suppose it would be fine with lots
-of clear docs on why it is how it is...
+ Documentation/networking/device_drivers/freescale/dpaa.txt | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> 
-> Since there is no corresponding EC Counter driver in the baseline right
-> now we don't have a conflict yet. If the EC timestamp is introduced as
-> an IIO driver then we should make any future EC Counter driver mutually
-> exclusive with the IIO driver in order to prevent any memory space
-> conflict. At that point we may deprecate the IIO driver and move the
-> timestamp functionality to the corresponding Counter driver.
-
-That route does become somewhat of a mess so I suspect we'd have to have
-a single driver supporting both userspace interfaces.  If you are happy
-that we'd be adding a bit of legacy to support for ever then we can go
-that way.
-
-> 
-> That's assuming someone is interested in the Count component enough to
-> implement an EC Counter driver; otherwise, the IIO driver will serve
-> just fine if timestamp is the only data desired from this device.
-> 
-> William Breathitt Gray
-
+-- 
+2.1.0
 
