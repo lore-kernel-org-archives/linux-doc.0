@@ -1,120 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 244A47D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Nov 2019 19:35:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C9727D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Nov 2019 20:35:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbfKKTfD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Nov 2019 14:35:03 -0500
-Received: from mail-eopbgr720071.outbound.protection.outlook.com ([40.107.72.71]:62496
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726879AbfKKTfD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Nov 2019 14:35:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DGdItVaRUiv9RjGABK5ZuF9npDLp76qx72QhQdHYmYno5Rzn0vpXJxbGfMtiqzv/ARIdzpRcK8Re2PqXPsfEzHwSCqzYIGmZ37GAKhC9kT0TGuL5E195oBOFfM+rbNfAUy5+bLVVGX5eiz51leNNRmI/hIzFqvBle8O9C8kxwLPyVZ5qbF4f6mjlSgyR1zckwOsUFPR5l4QASlC8k4AFS9v1BTRrfV9YMsFn+ixPxMEOyiOZelYlOaP1LL8FlIeKH8tNQvpgXqdxgiE/d6qyJkILJh0v8UZZ5DpWaoqIAOjWeE4UxNlaRTo0jLWgSVgXvxKEY2uLpPb+MQxbWmY5tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FqTwLXDjqiAe8R2d922gEvHOmHuChaUeTE3PYM3PwSM=;
- b=nA1NDrMfEULSLkKYcRSh2nUemAdPAMpkn83rQUgqD4MhztxYxAIX63XARjTOldFKn6PWFDTFw9tPOXhv/fYsvWJ4oMUdxH8X1uG3jfMpRTtcPDANI2R+aUAYwmZcN4LRe+5DUcEcGeelgJ5vHX9GsuUIY1WV9GclCDTHu3+KZ55PlpdKdKt0MjbHM2SeraE+zqL91dUfopgQm6wlO4EdNwxj4ZtOrgBLYk71ZZr10Gko5yO1mYoo18hA0bK6aAqSecLcVKTeVxl4y7pnmUd7SlY7kIXeG5YSTCLI8rSSFMaIWpL/4ePdKcGoXXrg0Fd3duzTaaHy2zoSBK2IyQ6log==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FqTwLXDjqiAe8R2d922gEvHOmHuChaUeTE3PYM3PwSM=;
- b=ZieE9H841u213CkMOOgoMfxNlvW5ELphtEQSEQGcw9yZE1n1fH7jkJ6lwtPhGXNBXyRtPRA/f6bBRS9oeodtCnPl6nbt7qF80oDcoCcQ5dyMfDk6PoG1TBqBPcYsX/RDd0Tp8Wspun2LsNtySnEHUuoUdQe5K637Fi+INwdnxKk=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Thomas.Lendacky@amd.com; 
-Received: from DM6PR12MB3163.namprd12.prod.outlook.com (20.179.71.154) by
- DM6PR12MB3289.namprd12.prod.outlook.com (20.179.71.95) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Mon, 11 Nov 2019 19:34:53 +0000
-Received: from DM6PR12MB3163.namprd12.prod.outlook.com
- ([fe80::dd0c:8e53:4913:8ef4]) by DM6PR12MB3163.namprd12.prod.outlook.com
- ([fe80::dd0c:8e53:4913:8ef4%5]) with mapi id 15.20.2430.027; Mon, 11 Nov 2019
- 19:34:53 +0000
-From:   Tom Lendacky <thomas.lendacky@amd.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tony Luck <tony.luck@intel.com>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Kees Cook <keescook@chromium.org>
-Subject: [PATCH] Documentation/process: Add AMD contact for embargoed hardware issues
-Date:   Mon, 11 Nov 2019 13:34:37 -0600
-Message-Id: <c1062e44a8784747e4834d28de6f54c30ae95058.1573500877.git.thomas.lendacky@amd.com>
+        id S1727141AbfKKUf2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Nov 2019 15:35:28 -0500
+Received: from mx0a-002ab301.pphosted.com ([148.163.150.161]:7066 "EHLO
+        mx0a-002ab301.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726877AbfKKUf2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Nov 2019 15:35:28 -0500
+Received: from pps.filterd (m0118789.ppops.net [127.0.0.1])
+        by mx0a-002ab301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xABKUaTW013939;
+        Mon, 11 Nov 2019 15:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=distech-controls.com; h=from : to :
+ cc : subject : date : message-id; s=pps-02182019;
+ bh=RSuQv3B5X8eZRcFRHj0snrAJMk64z50YXs+reroRNu4=;
+ b=K72rj1A24Jjva5x+N9gqzBDVGjN9Fepbhz3YD5TvywfCdvk3HOre/fQmcf4RMkVVa+sE
+ qxKXGQK1U0FWPKZKT/3C5OrDUR24Al61khrhsVwBVRz9QUsIXD8eOY8iWaPURFWsd753
+ MSR4sGC9YX3Yt3ERpBckC/LW79sWaBdXw0wcIqeW7Z20r9/7sIFozpZbzqFUOK07cyq7
+ +UZ097YXCpBKZW/4I2MEO+usYNPXjEVWq6wsH2+yMYLVHelgDH+Wg47/638A2qHDFdWZ
+ drW8zWxg3MJyYpWHoyLmfNfvpKmvX/3zTcNBwKGIw5Erqtnh+UNqbyBz5R0eeId/HCSd lQ== 
+Received: from pp-smtp-02.acuitylightinggroup.com ([170.76.205.10])
+        by mx0a-002ab301.pphosted.com with ESMTP id 2w5q5c2h02-1;
+        Mon, 11 Nov 2019 15:33:40 -0500
+Received: from pps.filterd (pp-smtp-02.acuitylightinggroup.com [127.0.0.1])
+        by pp-smtp-02.acuitylightinggroup.com (8.16.0.27/8.16.0.27) with SMTP id xABKWj6j021872;
+        Mon, 11 Nov 2019 15:33:40 -0500
+Received: from inf-dsk-207.acuitylightinggroup.com (inf-dsk-207.acuitylightinggroup.com [10.59.79.18])
+        by pp-smtp-02.acuitylightinggroup.com with ESMTP id 2w5rqdr7yt-1;
+        Mon, 11 Nov 2019 15:33:40 -0500
+From:   etremblay@distech-controls.com
+To:     linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net
+Subject: [PATCH v7 0/2] hwmon: Add driver for Texas Instruments TMP512/513 sensor chips.
+Date:   Mon, 11 Nov 2019 15:34:43 -0500
+Message-Id: <20191111203445.27130-1-etremblay@distech-controls.com>
 X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SN6PR15CA0020.namprd15.prod.outlook.com
- (2603:10b6:805:16::33) To DM6PR12MB3163.namprd12.prod.outlook.com
- (2603:10b6:5:15e::26)
-MIME-Version: 1.0
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d8efda5d-870d-48c6-ce20-08d766de3984
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3289:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB328951B558A3FF3DA20BFFABEC740@DM6PR12MB3289.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
-X-Forefront-PRVS: 0218A015FA
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(376002)(366004)(39860400002)(346002)(136003)(199004)(189003)(54906003)(476003)(6666004)(486006)(50466002)(2616005)(86362001)(186003)(8936002)(99286004)(4326008)(7736002)(7416002)(5660300002)(50226002)(386003)(6506007)(66946007)(51416003)(52116002)(305945005)(66476007)(66556008)(2906002)(66066001)(25786009)(26005)(4744005)(478600001)(36756003)(118296001)(6512007)(6486002)(47776003)(81156014)(16586007)(81166006)(6116002)(3846002)(48376002)(6436002)(14454004)(14444005)(8676002)(316002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR12MB3289;H:DM6PR12MB3163.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: teMJ9zLUWtqRfD9eV0iuFhpLpAXpG63mGdm0Z50iPTZqSDG3ZN8yEpuFQ5ieAwtTiIA6OScZ/jEHsI4Ja7xzlKeZxPETd8DUXzuief4e+cpJCJEO9LZ4WUtnHF+EjCB9TtBzAzELd0XRcojNf2Syp4qKUpDYp1jN4xLKGUtB8fnKVv91jRLlGDpzrwHAarJIDJ19pcufj1nWRGqH5drVyUsarvg/jsN7B1/DWGCZoMZVIW/H/JJbduXlKbQgZYCscxlitMziq2k75RrE1fBsrjAcKxh3gZ46zfZ/kWZekJKIDbUz/l4LVT/9gL6R8gbRAgtUiwY0ghOclbMTsUm2z6v1mfCaCY0z1JNsN4w+FUS/jlHWALQXUtk5UdShP02ywSQHRVZyVO3X/KDKzQlrR6DoM1HAbjWFH+LeUGriv5iksuFsNpKiC9sS0eX/K6Tr
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8efda5d-870d-48c6-ce20-08d766de3984
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2019 19:34:53.2880
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kCPck+aPwVIakVtiLx7wIB3olG2BdSg/qGlcuvsUTlwDSpEoM2HqOP+bu6oo4qu3Jnv6FBXZy4BmWPEidPtHyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3289
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-11_06:,,
+ signatures=0
+X-Proofpoint-Processed: True
+X-Proofpoint-Spam-Details: rule=outbound_spam_notspam policy=outbound_spam score=0 suspectscore=0
+ bulkscore=0 phishscore=0 mlxscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1911110179
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as the AMD ambassador to the embargoed hardware issues
-document.
+From: Eric Tremblay <etremblay@distech-controls.com>
 
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
----
- Documentation/process/embargoed-hardware-issues.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Version seven of the driver for Texas Instruments TMP512/513 sensors.
 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index a3c3349046c4..799580acc8de 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -240,7 +240,7 @@ an involved disclosed party. The current ambassadors list:
- 
-   ============= ========================================================
-   ARM
--  AMD
-+  AMD		Tom Lendacky <tom.lendacky@amd.com>
-   IBM
-   Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+Thanks for the review
+
+Main changes from version 6:
+	- Add tmp513 to index.rst
+	- Use microvolt instead of volt for bus voltage range
+	- Fix current value interpretation
+	- Wrap dt-bindings lines to 80 characters
+
+Main changes from version 5:
+	- Use shunt-resistor-micro-ohms standard property
+	- Fix alignment between 'enum' and 'default' in dt-bindings
+
+Main changes from version 4:
+	- Remove config_lock mutex
+	- Rewrite dt-bindings in yaml
+
+Main changes from version 3:
+	- Remove tmp51x_config structure, there was no useful static
+	  field in the structure. The data was moved to tmp51x_data
+	  structure.
+	- Remove platform data
+	- use device_ API instead of of_device API
+	- Use array for n-Factor values.
+	- Set shunt default value to 1000 uOhms
+
+Main changes from version 2:
+	- Remove the neccessity to provide a shunt-resistor value
+	- Remove max-expected-current-ma configuration and always
+	  use max possible current for calibration
+	- Make sure calculation during calibration can't overflow
+	- Add value clamping for DT value and runtime parameters
+	- Support non DT system
+	- Move hysteresis from DT to standard attribute
+
+Main changes from version 1:
+	- Use the with_info API instead of sysfs attributes.
+	- Remove non-standard attributes and raw value.
+	- Move settings that were non-standard attributes to
+	  device tree, update documentation as well.
+	- Fix coding style issues
+
+Eric Tremblay (2):
+  dt-bindings: hwmon: Add TMP512/513
+  hwmon: Add driver for Texas Instruments TMP512/513 sensor chips.
+
+ .../devicetree/bindings/hwmon/ti,tmp513.yaml  |  89 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/tmp513.rst                | 104 +++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tmp513.c                        | 789 ++++++++++++++++++
+ 7 files changed, 1001 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+ create mode 100644 Documentation/hwmon/tmp513.rst
+ create mode 100644 drivers/hwmon/tmp513.c
+
 -- 
 2.17.1
 
