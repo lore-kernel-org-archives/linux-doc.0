@@ -1,182 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C9C437D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 01:03:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AA557D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 01:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbfKLBDs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Nov 2019 20:03:48 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44428 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726877AbfKLBDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Nov 2019 20:03:48 -0500
-Received: by mail-ot1-f65.google.com with SMTP id c19so12848287otr.11;
-        Mon, 11 Nov 2019 17:03:47 -0800 (PST)
+        id S1726957AbfKLBQf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Nov 2019 20:16:35 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44980 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726903AbfKLBQf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Nov 2019 20:16:35 -0500
+Received: by mail-oi1-f193.google.com with SMTP id s71so13283937oih.11;
+        Mon, 11 Nov 2019 17:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5ArhZrxdgZq3h08D9ehAHSXgdG1rOFXrvThQrayyk/0=;
+        b=ckZWz4ruKEHkjNnnVkxZMvy+n8b4W/NZaQzIuRrOdm6daqLU92cQASmMxLsLaRim2A
+         O2T1OHz0xawbGWb3PygjiTJ54Cgwemx5lEQWnCbM2txx9Ic1W5EJQV2yQeo3oxi7ggek
+         MJMN5wuDUiaANV34HDV6U9t/riri9mQed9vQc4FgF+cxaOfU5BphSJ4DhsMEpI9CaaN/
+         r3j1+AjrYDZ04W8RYfW3+fCcC1CqT2kYrqYG4rfM0j5fBydF3OnxWvPizHfP8AFQDy+b
+         HPRY5Ez+S47ofTG+cFFR7E48JR+tmHkDBwM/XBkHNk4FPM3m9NTWFXzG6FcWUomrEkKf
+         l0UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SKl5Xcupc7He4WT8w6+4E+JP5fs6vZK0i9WhfBICwi0=;
-        b=d3PqHGsFtDWb2St2GM5ijefG9xREPIdGtyXN05qLPsTSkaE12NJTFOzlJZ6FzhMSzQ
-         O3n6UrzYc6g/099EuGpQri2pPr/1EHtJJNS+HqsP/cVODQOlHDBoIpmLtBdUURQt65Fo
-         1hdAgjrxxPYiuSFaUDI1PgVLP2NfdvF2SO6T+JrTf54WfNqHG60K4cSr66PwLOfkpCDK
-         ypv9ocsv1PeTWbGF8yPwo3Bz4RAOcyZ5Y/CdRvh2z+e1IODlZ+ROyohUpqAPlU/ZurDh
-         IPhKSL+J68h1CwOkg5w7J55i0OsA4ZhumPgeT3VkzgIvE+JONEvRVYgXWMto461qWNtz
-         2Z+w==
-X-Gm-Message-State: APjAAAXtIYEDuvpD/mlnYwb5fZvixp9JZl0iyDx/bk5ilnQ+Vvlr8Zyh
-        /K4F9ipgYYQMcmzPYSUOVw==
-X-Google-Smtp-Source: APXvYqyfrZ9KqRIgcKWGt4To/iYyiB/1CqymxV0BGHHKvUeahi0knIHGpqDR3dybuwmTUYZWIbXJ8g==
-X-Received: by 2002:a9d:351:: with SMTP id 75mr14276197otv.142.1573520626610;
-        Mon, 11 Nov 2019 17:03:46 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id y4sm5468071oie.42.2019.11.11.17.03.45
+        bh=5ArhZrxdgZq3h08D9ehAHSXgdG1rOFXrvThQrayyk/0=;
+        b=cKNk1f/gxMV3/z7fymAGiSTeAgbxsSkROOjpWSl0Q4IXKXqWyz/fFtlwMI7Muh+J/d
+         reAlP195bFn5IYv+qlwgb/G9W/6J++nlcvQZ5NBuI/AxOydZpe8jo96aLSp4D412yoFu
+         1JPOc8FOYTgc1m5vlEUQIpL2HD15pEtJ2P9i6Ya6Q6XWnNVmzb9iYwjQkz5CHr17UcuQ
+         LHc89r8ladOLsFy/ih7FLSFCWBi6UnS/VT+OTwGOx0M9DK72F5ODuOETiWab3/VMbfAl
+         dZwQWfiN8Vy5y1cKLGWf8QvUhIYKb5fOjoQgxrVQ2hcmZi/CcA+W8uwx0TNsfAA89wUI
+         wyug==
+X-Gm-Message-State: APjAAAV+ZOmwL6FzdSWDN3rHp5lh+RN3CFGC9Lqd7TwFqsl3PKdTiQyG
+        d+kCm0B4mhYMF8WpNeam35A=
+X-Google-Smtp-Source: APXvYqzllnDD8SyX3HDZdoJn/NTh17HuRN4QUZSfp6M3OPNOjBPd0SDBOfBcXBjQ2o5/Hkl8Lnao5Q==
+X-Received: by 2002:aca:2811:: with SMTP id 17mr1622747oix.46.1573521394052;
+        Mon, 11 Nov 2019 17:16:34 -0800 (PST)
+Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
+        by smtp.gmail.com with ESMTPSA id w10sm4779246oif.9.2019.11.11.17.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 17:03:45 -0800 (PST)
-Date:   Mon, 11 Nov 2019 19:03:45 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     etremblay@distech-controls.com
-Cc:     linux@roeck-us.net, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        jdelvare@suse.com, mark.rutland@arm.com, corbet@lwn.net
-Subject: Re: [PATCH v7 1/2] dt-bindings: hwmon: Add TMP512/513
-Message-ID: <20191112010345.GA19664@bogus>
-References: <20191111203445.27130-1-etremblay@distech-controls.com>
- <20191111203445.27130-2-etremblay@distech-controls.com>
+        Mon, 11 Nov 2019 17:16:33 -0800 (PST)
+Date:   Mon, 11 Nov 2019 20:16:18 -0500
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
+        gwendal@chromium.org, egranata@chromium.org, kernel@collabora.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nick Vaccaro <nvaccaro@chromium.org>,
+        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
+Message-ID: <20191112011618.GA62259@icarus>
+References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
+ <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
+ <20190826095612.7455cb05@archlinux>
+ <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
+ <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
+ <20191110151408.GB3984@icarus>
+ <20191111114955.00001031@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191111203445.27130-2-etremblay@distech-controls.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191111114955.00001031@huawei.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 03:34:44PM -0500, etremblay@distech-controls.com wrote:
-> From: Eric Tremblay <etremblay@distech-controls.com>
+On Mon, Nov 11, 2019 at 11:49:55AM +0000, Jonathan Cameron wrote:
+> On Sun, 10 Nov 2019 10:14:08 -0500
+> William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
 > 
-> Document the TMP513/512 device devicetree bindings
+> > On Tue, Sep 24, 2019 at 04:20:51PM +0200, Fabien Lahoudere wrote:
+> > > Hi all,
+> > > 
+> > > After some discussions and investigation, the timestamp is very
+> > > important for that sync driver.
+> > > Google team uses that timestamp to compare with gyroscope timestamp.
+> > > 
+> > > So the important data is timestamp and counter value is useless.
+> > > Just the event of counter increment is important to get a timestamp.
+> > > 
+> > > In that case, my idea was to just use an IIO driver with a single
+> > > channel with IIO_TIMESTAMP. We discuss this here and it seems
+> > > controversial.
+> > > 
+> > > So my question to Jonathan is if we have a timestamp coming from the EC
+> > > itself, can we consider this timestamp as a good IIO driver?
+> > > 
+> > > Any other idea is welcome, however Google team would like to manage
+> > > only IIO drivers if possible.
+> > > 
+> > > Thanks  
+> > 
+> > Jonathan,
+> > 
+> > Should the the timestamp from the EC be introduced as an IIO driver
+> > using IIO_TIMESTAMP?
 > 
-> Signed-off-by: Eric Tremblay <etremblay@distech-controls.com>
-> ---
->  .../devicetree/bindings/hwmon/ti,tmp513.yaml  | 89 +++++++++++++++++++
->  1 file changed, 89 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> It is is a rather odd driver but I suppose it would be fine with lots
+> of clear docs on why it is how it is...
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
-> new file mode 100644
-> index 000000000000..de4ed3645e0f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
-> +$id: http://devicetree.org/schemas/hwmon/ti,tmp513.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TMP513/512 system monitor sensor
-> +
-> +maintainers:
-> +  - Eric Tremblay <etremblay@distech-controls.com>
-> +
-> +description: |
-> +  This driver implements support for Texas Instruments TMP512, and TMP513.
-> +  The TMP512 (dual-channel) and TMP513 (triple-channel) are system monitors
-> +  that include remote sensors, a local temperature sensor, and a high-side
-> +  current shunt monitor. These system monitors have the capability of measuring
-> +  remote temperatures, on-chip temperatures, and system voltage/power/current
-> +  consumption.
-> +
-> +  Datasheets:
-> +  http://www.ti.com/lit/gpn/tmp513
-> +  http://www.ti.com/lit/gpn/tmp512
-> +
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,tmp512
-> +      - ti,tmp513
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  shunt-resistor-micro-ohms:
-> +    description: |
-> +      If 0, the calibration process will be skiped and the current and power
-> +      measurement engine will not work. Temperature and voltage measurement
-> +      will continue to work. The shunt value also need to respect:
-> +      rshunt <= pga-gain * 40 * 1000 * 1000.
-> +      If not, it's not possible to compute a valid calibration value.
-> +    default: 1000
-> +
-> +  ti,pga-gain:
-> +    description: |
-> +      The gain value for the PGA function. This is 8, 4, 2 or 1.
-> +      The PGA gain affect the shunt voltage range.
-> +      The range will be equal to: pga-gain * 40mV
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1, 2, 4, 8]
-> +    default: 8
-> +
-> +  ti,bus-range-microvolt:
-> +    description: |
-> +      This is the operating range of the bus voltage in microvolt
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [16000000, 32000000]
-> +    default: 32000000
-> +
-> +  ti,nfactor:
-> +    description: |
-> +      Array of three(TMP513) or two(TMP512) n-Factor value for each remote
-> +      temperature channel.
-> +      See datasheet Table 11 for n-Factor range list and value interpretation.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#definitions/uint8-array
-> +      - minItems: 2
-> +        maxItems: 3
-> +        items:
-> +          default: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    i2c {
+> > 
+> > Since there is no corresponding EC Counter driver in the baseline right
+> > now we don't have a conflict yet. If the EC timestamp is introduced as
+> > an IIO driver then we should make any future EC Counter driver mutually
+> > exclusive with the IIO driver in order to prevent any memory space
+> > conflict. At that point we may deprecate the IIO driver and move the
+> > timestamp functionality to the corresponding Counter driver.
+> 
+> That route does become somewhat of a mess so I suspect we'd have to have
+> a single driver supporting both userspace interfaces.  If you are happy
+> that we'd be adding a bit of legacy to support for ever then we can go
+> that way.
 
-'make dt_binding_check' fails. You need #address-cells and #size-cells 
-in here:
+Generally I'd prefer all components of a device to be supported, but
+if this is as Fabien suggests that due to the nature of this particular
+device the counter value is of no interest, then a Counter driver is of
+little practical use here. In this particular case, it seems better to
+restrict the driver support to just the timestamp functionality that
+will be used, rather than introduce extra code to expose values that
+will likely be ignored and risk adding code to the kernel that becomes
+unmaintained due to lack of exposure or interest.
 
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:20.17-30: Warning (reg_format): /example-0/i2c/tmp513@5c:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:17.5-26.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:17.5-26.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:18.23-25.15: 
-Warning (avoid_default_addr_size): /example-0/i2c/tmp513@5c: Relying on default #address-cells value
-Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:18.23-25.15: Warning (avoid_default_addr_size): /example-0/i2c/tmp513@5c: Relying on default #size-cells value
+William Breathitt Gray
 
-> +        tmp513@5c {
-> +            compatible = "ti,tmp513";
-> +            reg = <0x5C>;
-> +            shunt-resistor-micro-ohms = <330000>;
-> +            ti,bus-range-microvolt = <32000000>;
-> +            ti,pga-gain = <8>;
-> +            ti,nfactor = [01 F3 00];
-> +        };
-> +    };
-> -- 
-> 2.17.1
+> 
+> > 
+> > That's assuming someone is interested in the Count component enough to
+> > implement an EC Counter driver; otherwise, the IIO driver will serve
+> > just fine if timestamp is the only data desired from this device.
+> > 
+> > William Breathitt Gray
+> 
 > 
