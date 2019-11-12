@@ -3,71 +3,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5500C7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 14:42:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1A8B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 15:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfKLOmG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Nov 2019 09:42:06 -0500
-Received: from mx0b-002ab301.pphosted.com ([148.163.154.99]:22982 "EHLO
-        mx0b-002ab301.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726008AbfKLOmG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Nov 2019 09:42:06 -0500
-Received: from pps.filterd (m0118795.ppops.net [127.0.0.1])
-        by mx0b-002ab301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xACEeH3i004090;
-        Tue, 12 Nov 2019 09:40:17 -0500
+        id S1726978AbfKLPDJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Nov 2019 10:03:09 -0500
+Received: from mx0a-002ab301.pphosted.com ([148.163.150.161]:49146 "EHLO
+        mx0a-002ab301.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726981AbfKLPDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Nov 2019 10:03:09 -0500
+Received: from pps.filterd (m0118790.ppops.net [127.0.0.1])
+        by mx0a-002ab301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xACEjSKI019901;
+        Tue, 12 Nov 2019 10:01:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=distech-controls.com; h=from : to :
  cc : subject : date : message-id : references : in-reply-to : content-type
  : content-transfer-encoding : mime-version; s=pps-02182019;
- bh=uziLPGfjTx3tN879vkz1CF+ppOdiOY3Qeotll8vOAtM=;
- b=AXG4c7ItbfDzoIfS3me7/VJQ4DThEWfb7sfOaV0YAelP5HNI7yHzfxZG7J1zHS4dkkVX
- tjhRI4+rsvACZr9TLBoohd6DTkptWNuWy+SLYKnAFFi1ehf2sIbA6URf7tOL5pfnx9Jw
- AQzjQXO2BiMpKtZCEwei6PVxbjX/mlpnienHVImp61D3bEFy0d+Qq6iONRGJjijoK5yK
- 50J5yxhocQdnNhOW+GKa0Rr9dv6RxGE1jApZyKr0lmyVLxVqvlskUc/uh6MwuOLcmJRj
- fHT4OoNN1VY1WWQgyz6IlJdC3E6IPQPuLozshF0ip+DwXoByOvyufonPrQYTM6x2zM1g Mg== 
-Received: from nam04-sn1-obe.outbound.protection.outlook.com (mail-sn1nam04lp2059.outbound.protection.outlook.com [104.47.44.59])
-        by mx0b-002ab301.pphosted.com with ESMTP id 2w5r90ub1t-1
+ bh=MpmYh0mghqTbnm0vF83qL1K1KYBDcXpHQwM0k+CBEAY=;
+ b=RO+ORDMQYTn2sUQJZauD3n1iB38ok3VyCGyvfmdn6n7kJT4YEdqkTAWnL5/EsVnxWjLo
+ +SZ4+Rbek0jgpKQ+60exKKs5jZzC3LmElGi0k5FeDf57CwagaxErQg7A2oyO+ns01H93
+ UygFr9DrrmFMs0NhPRZJdN79HWKZXx+NVHPAgD5iZFuyu/sacpgjGByA+ZLvz16a7sNK
+ lYfvPeFXRsi2jOUPXL00G9rNwISevgyG3s7yHvFKVyeUm3pOm6DisIs73l1lIWDc+PgA
+ 49YHlPJ7hOMnLfx4UtJ0ddKhHTAuMMHFgwc/yY51DZUCSrEgLxlxkGfuitqnR6uemFK9 uA== 
+Received: from nam05-co1-obe.outbound.protection.outlook.com (mail-co1nam05lp2050.outbound.protection.outlook.com [104.47.48.50])
+        by mx0a-002ab301.pphosted.com with ESMTP id 2w7cv49052-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Nov 2019 09:40:17 -0500
+        Tue, 12 Nov 2019 10:01:14 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kNGBmCg7FzwlTfKrMWAVFMwOZUJf1EnHvCub5NnNQO2ZKwa0qv1HMSu4pO8rpE3RFmqLDPRtdCWPk0/pungOcEY2KMpBpBH8VQ1UVM5W4ntgg8HL1q/YjCrRqJQAMx9V8hXUaDMxh7w8he+dUsWFBMk05mcfYdpNdg2RE5gpobQ1Zph193oUxksu8vGMIoXaTXqh/5Ut4xulxOV9Ort95dPF7SKj+L5m2WiL2epQE7m2iFrloe2lrJIksV04N5jBr1cTDmb1jHV7zUqaEP/Dvihx4NqnU/sHM6oqwIczwGy7BlZj8oDoGwT5aaPBPv5TwfGrmhgRK1nhsceGTUAjAA==
+ b=G6LdZDFVy3Ttbr6OYWX88Cn8dqoGLsxdqvmyeod5G5k/lJt5ZcC4J0Et7MYFo1M3RxMm1RCpyY+lCcVaxtE/bhF9WFbPI8iVxpsCXpRthE2uMbsSPvx+Yi2ldzATgHZel6hONXR38lfetzXyzWaAbhld9efn5zf8Itpvl68sQE8g2QzDomAMX1hkz5SbSpcvzC27mOYh7Z8UF417ZWeW5vKHAv7ayu4OKxPqTg1gOtrsuQhy/hwQw3NJOZOQFn+0T0wZuDPHxSJlrrVCR0F1IUyV6/Jn/QhjyUJmCCfvQguoIjW+r0ixSgeW9jWJ1pKZAm21z+l/c6cXoj1EOu8sAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uziLPGfjTx3tN879vkz1CF+ppOdiOY3Qeotll8vOAtM=;
- b=ArKFJFO18CCmABBZu9H/RGn7noVOLrbaX+NrVqtW7JBa/x0Ifk8cTrRI/rbcHW9pzmMyO66gC+1PG7LQl6muWCTN4zWyJp5vVOoAn9EioKphtxYY/L/tk8mkTeFjzCxZ8Wy7fWN8pdzzFl+xCj7cK6Zm68Faa64C1LsKqW+vWf49N05X9kTqV1TODlKeuUBMiPMvUt3SrOGXhzAjqQzZ1YUDwSTga0hjkdZoVyxDN9Yo5n+fsiR5XS53FbQAgG8oRfd5VAETdAUVkEI8tk0Slk70UBdVizBT8rHzgIz91Ao70pDBiGRdpCP4+Wqeo13pOOvChOG5/q89o8UkOsvGJA==
+ bh=MpmYh0mghqTbnm0vF83qL1K1KYBDcXpHQwM0k+CBEAY=;
+ b=ak+zwrWRmVvYGhUUV4p11ItwKkt4SGir1+ywM41BZ6BP3UOEzwgVqb7stTsFgm4LakuQZEYp9fzzkczV7HMtM7pXBFsgv3UCcVe0TpAH4ZGEZ1e6OphrTFeCQpWmd188Pjuge5lwgS2nPWP3hKWgKRr4FD+3xlj5a5EJBGNxycRheKMTNBYOt4ZFNicsQsS3ilYtK+ItI3kcrTiPjSkyVDY7TvGje8QIOFe0i3DwIar9oEqq6lOPtxWIIKTaS64QsoMNSSpz3cq5UajZpwTNyiwHB8D75ZPczM8o5VQ32aMEYCgq1Spm/Uk/nbpQkyAZa20s3BFJJdGL4x/vPeBMuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=distech-controls.com; dmarc=pass action=none
  header.from=distech-controls.com; dkim=pass header.d=distech-controls.com;
  arc=none
 Received: from BL0PR01MB4835.prod.exchangelabs.com (20.177.147.211) by
- BL0PR01MB4385.prod.exchangelabs.com (20.177.240.26) with Microsoft SMTP
+ BL0PR01MB4083.prod.exchangelabs.com (10.167.179.86) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Tue, 12 Nov 2019 14:40:15 +0000
+ 15.20.2430.20; Tue, 12 Nov 2019 15:01:11 +0000
 Received: from BL0PR01MB4835.prod.exchangelabs.com
  ([fe80::b00e:eb7:d585:5086]) by BL0PR01MB4835.prod.exchangelabs.com
  ([fe80::b00e:eb7:d585:5086%6]) with mapi id 15.20.2430.027; Tue, 12 Nov 2019
- 14:40:15 +0000
+ 15:01:11 +0000
 From:   "Tremblay, Eric" <etremblay@distech-controls.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
+To:     Rob Herring <robh@kernel.org>
+CC:     "linux@roeck-us.net" <linux@roeck-us.net>,
         "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
         "corbet@lwn.net" <corbet@lwn.net>
 Subject: RE: [PATCH v7 1/2] dt-bindings: hwmon: Add TMP512/513
 Thread-Topic: [PATCH v7 1/2] dt-bindings: hwmon: Add TMP512/513
-Thread-Index: AQHVmM+QVZuvH6alYkaCtrsGmFXw6KeGxAMAgADXgpA=
-Date:   Tue, 12 Nov 2019 14:40:15 +0000
-Message-ID: <BL0PR01MB4835021C7014DA17D2BAA43B95770@BL0PR01MB4835.prod.exchangelabs.com>
+Thread-Index: AQHVmM+QVZuvH6alYkaCtrsGmFXw6KeGuHGAgADoaYA=
+Date:   Tue, 12 Nov 2019 15:01:11 +0000
+Message-ID: <BL0PR01MB4835CDB5E9693A06F10012EF95770@BL0PR01MB4835.prod.exchangelabs.com>
 References: <20191111203445.27130-1-etremblay@distech-controls.com>
  <20191111203445.27130-2-etremblay@distech-controls.com>
- <88a90ad1-cb97-b425-5fea-6580e9d8657b@roeck-us.net>
-In-Reply-To: <88a90ad1-cb97-b425-5fea-6580e9d8657b@roeck-us.net>
+ <20191112010345.GA19664@bogus>
+In-Reply-To: <20191112010345.GA19664@bogus>
 Accept-Language: en-CA, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -76,136 +76,244 @@ x-mib-plugin: true
 x-originating-ip: [207.253.3.19]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 32f6da98-ca71-47b7-56a3-08d7677e3b36
-x-ms-traffictypediagnostic: BL0PR01MB4385:
+x-ms-office365-filtering-correlation-id: 5aa6a1c0-cfa5-44ef-a296-08d7678127d7
+x-ms-traffictypediagnostic: BL0PR01MB4083:
 x-ms-exchange-purlcount: 3
-x-microsoft-antispam-prvs: <BL0PR01MB4385C5363DACF15AF148888995770@BL0PR01MB4385.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:849;
+x-microsoft-antispam-prvs: <BL0PR01MB408350B45BD85641135F991095770@BL0PR01MB4083.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1388;
 x-forefront-prvs: 021975AE46
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(366004)(396003)(39860400002)(346002)(136003)(189003)(199004)(9686003)(478600001)(110136005)(74316002)(186003)(305945005)(54906003)(2201001)(8936002)(6306002)(26005)(6436002)(99286004)(5660300002)(76176011)(7696005)(25786009)(14454004)(476003)(53546011)(52536014)(4326008)(6506007)(7736002)(316002)(446003)(229853002)(102836004)(86362001)(966005)(11346002)(33656002)(2501003)(8676002)(71190400001)(71200400001)(6246003)(66446008)(486006)(6116002)(55016002)(66066001)(3846002)(256004)(2906002)(66946007)(76116006)(64756008)(66556008)(66476007)(81156014)(81166006);DIR:OUT;SFP:1101;SCL:1;SRVR:BL0PR01MB4385;H:BL0PR01MB4835.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(39860400002)(366004)(376002)(346002)(199004)(189003)(4326008)(6436002)(54906003)(9686003)(186003)(6916009)(53546011)(6246003)(102836004)(6506007)(478600001)(99286004)(446003)(7736002)(966005)(229853002)(26005)(11346002)(476003)(486006)(305945005)(74316002)(316002)(76176011)(55016002)(25786009)(86362001)(6306002)(14454004)(66946007)(256004)(33656002)(52536014)(7696005)(8936002)(76116006)(2906002)(66556008)(6116002)(5660300002)(14444005)(66066001)(3846002)(71190400001)(71200400001)(8676002)(81166006)(81156014)(66446008)(64756008)(66476007);DIR:OUT;SFP:1101;SCL:1;SRVR:BL0PR01MB4083;H:BL0PR01MB4835.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:3;
 received-spf: None (protection.outlook.com: distech-controls.com does not
  designate permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QxYtXlB9VyIhVgpvzlNj5L+a/PvL4ls0WfzmKTJ3xk2HZSAi5ez/A9QQNIGeViALjgEbnWNYtGz6VcO/nfgHtpbPQdxrVOMB5bv4+LY/yEdRGn6qwvS+22BUfvUgVuUU5kbh/MEg7wcEnOfGINg9/JMTj0iVXxeItmUoSfNeRrGtvUKb64WMtitFOFimvvxdR+8B+tFHsrq9upUalxL1vg5W7bfBW8NpUDZlvVp3h7GiWyJ56AZHhpaSdWfNERhffH2m2hwrrbHKZgK+Q7P0mf3V9GzpwjTir0+94Dun61PoMGXkJsXc3NzDzPcNc/hNi1uGRbFh6Zrx/+U6gV8efFHdtgoIL+acvx3YBPYpljwSG78ASm6IctfL2b47opSeKXYLhzbgbOf1hukkHITkYlQ9T3h+OlhTnMMFoXsUiNva67JOVQMXHED4WX1ocw25K3D1CENmwWNKYPseIW7o1pAFf2lzebkCTbY78PZYZ0Y=
+x-microsoft-antispam-message-info: 07nLd2y2+9CPi6wi5AO7PYkrc+UI2/P1qorBRZDZ+XxxQ/Wpo7y1SfJCuw80J/Fo63ONoJlnGg/nBK/+ZhJrX/xol0cfpfv+OYXgSA54PL4wjmw4IOl+vzAUFtrjbcBPEkN/7OnzEWio2w0akEZLeLgP10GAYVbenqd0CR27Ai7Rp7b1LQ5mGJl/CmMmzN6BCMoxXdR+tOx3KOIruWDfmD8eJBMdwA30nRwA+uxi8l7a8FEhqpwNsoIRp5f9QSRwykTQHwo9pEV5fxOBOz9HwvEYjH4mpWZqYXnceZ5N44ty4avIKtv9Oz+7UQiFfxPWxKrscg0rt75U5UJ/GFu4yzSDqaHiBZdJcymwcb9NdJKtfKolSNKYQfJFY9I+hD5J+iraTEzD+2Hf70Zwr986RXKV6JpNKEShcIUVMN1tnwxxYdRPH8col4eHRRSndQmE1ZeNYqRg9HezIix4Brpf6KK4zy7NLJO4SJ79BlgpPXk=
 x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: distech-controls.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32f6da98-ca71-47b7-56a3-08d7677e3b36
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 14:40:15.1302
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5aa6a1c0-cfa5-44ef-a296-08d7678127d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 15:01:11.1860
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: caadbe96-024e-4f67-82ec-fb28ff53d16d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: utg/ejUrQNwOMN3OB8G8k9VanNPT2z0H2itPhQBawQ9JA3a7H3xBU6oECQuNjWsGsytCLDjkxD9pqELYD1ZSug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4385
+X-MS-Exchange-CrossTenant-userprincipalname: FRJAabqyUd8WeUYgkx4HAeqLEwy5Vt35AYSTTmPv/moWKYPwSxJg4qOmKbBd/CCFgSef4JW2qza2ht+SFRBiNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4083
 X-Proofpoint-Processed: True
-X-Proofpoint-Spam-Details: rule=outbound_spam_notspam policy=outbound_spam score=0 adultscore=0
- spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 suspectscore=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911120131
+X-Proofpoint-Spam-Details: rule=outbound_spam_notspam policy=outbound_spam score=0 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 mlxscore=0 adultscore=0 phishscore=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911120132
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBHdWVudGVyIFJvZWNrIDxncm9lY2s3QGdtYWlsLmNvbT4gT24gQmVoYWxmIE9mIEd1
-ZW50ZXIgUm9lY2sNCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJlciAxMSwgMjAxOSA4OjQ1IFBNDQo+
-IFRvOiBUcmVtYmxheSwgRXJpYyA8ZXRyZW1ibGF5QGRpc3RlY2gtY29udHJvbHMuY29tPjsgbGlu
-dXgtaHdtb25Admdlci5rZXJuZWwub3JnOyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGlu
-dXgtDQo+IGRvY0B2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IGpkZWx2YXJlQHN1c2UuY29tOyByb2Jo
-K2R0QGtlcm5lbC5vcmc7IG1hcmsucnV0bGFuZEBhcm0uY29tOyBjb3JiZXRAbHduLm5ldA0KPiBT
-dWJqZWN0OiBSZTogW1BBVENIIHY3IDEvMl0gZHQtYmluZGluZ3M6IGh3bW9uOiBBZGQgVE1QNTEy
-LzUxMw0KPiANCj4gT24gMTEvMTEvMTkgMTI6MzQgUE0sIGV0cmVtYmxheUBkaXN0ZWNoLWNvbnRy
-b2xzLmNvbSB3cm90ZToNCj4gPiBGcm9tOiBFcmljIFRyZW1ibGF5IDxldHJlbWJsYXlAZGlzdGVj
-aC1jb250cm9scy5jb20+DQo+ID4NCj4gPiBEb2N1bWVudCB0aGUgVE1QNTEzLzUxMiBkZXZpY2Ug
-ZGV2aWNldHJlZSBiaW5kaW5ncw0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogRXJpYyBUcmVtYmxh
-eSA8ZXRyZW1ibGF5QGRpc3RlY2gtY29udHJvbHMuY29tPg0KPiA+IC0tLQ0KPiA+ICAgLi4uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvaHdtb24vdGksdG1wNTEzLnlhbWwgIHwgODkgKysrKysrKysrKysr
-KysrKysrKw0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDg5IGluc2VydGlvbnMoKykNCj4gPiAgIGNy
-ZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9o
-d21vbi90aSx0bXA1MTMueWFtbA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9od21vbi90aSx0bXA1MTMueWFtbA0KPiA+IGIvRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2h3bW9uL3RpLHRtcDUxMy55YW1sDQo+ID4gbmV3IGZp
-bGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmRlNGVkMzY0NWUwZg0KPiA+
-IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvaHdtb24vdGksdG1wNTEzLnlhbWwNCj4gPiBAQCAtMCwwICsxLDg5IEBADQo+ID4gKyMgU1BE
-WC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wIE9SIEJTRC0yLUNsYXVzZSkgJVlBTUwgMS4y
-DQo+ID4gKy0tLQ0KPiA+ICsNCj4gPiArJGlkOg0KPiA+ICtodHRwczovL3VybGRlZmVuc2UucHJv
-b2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cC0zQV9fZGV2aWNldHJlZS5vcmdfc2MNCj4gPiAraGVt
-YXNfaHdtb25fdGktMkN0bXA1MTMueWFtbC0yMyZkPUR3SUNhUSZjPXR2dkh4M3VDMFhkdGdHLUlt
-UERqZk0wUW5hDQo+ID4gK2tJc21tR2N3ZWpRRFZ4RC1nJnI9eTM0ekxsOV9BdkJ5NU5TcnZza0c2
-U0ZiaUtvQ3pJOTlXVzJ4aEtsc1ZWNCZtPWQzMw0KPiA+ICt3QktpZzdCWjBrc3MwT09VbW1OYmw1
-SFdzV25NQkR0ZkZ2NS1yc1hvJnM9S2VPbWZRZXFVRWkxV2tKQ2djam5XVElJc1MNCj4gPiAra3pZ
-MmhpUmFqSVZWa3EtbGMmZT0NCj4gPiArJHNjaGVtYToNCj4gPiAraHR0cHM6Ly91cmxkZWZlbnNl
-LnByb29mcG9pbnQuY29tL3YyL3VybD91PWh0dHAtM0FfX2RldmljZXRyZWUub3JnX21lDQo+ID4g
-K3RhLTJEc2NoZW1hc19jb3JlLnlhbWwtMjMmZD1Ed0lDYVEmYz10dnZIeDN1QzBYZHRnRy1JbVBE
-amZNMFFuYWtJc21tRw0KPiA+ICtjd2VqUURWeEQtZyZyPXkzNHpMbDlfQXZCeTVOU3J2c2tHNlNG
-YmlLb0N6STk5V1cyeGhLbHNWVjQmbT1kMzN3QktpZzcNCj4gPiArQlowa3NzME9PVW1tTmJsNUhX
-c1duTUJEdGZGdjUtcnNYbyZzPU5lbDZPY0RmeXY4eFdYM2hHWWJFTEtmRW85WExFd0w3DQo+ID4g
-K2xWcnpMS0hjQjZFJmU9DQo+ID4gKw0KPiA+ICt0aXRsZTogVE1QNTEzLzUxMiBzeXN0ZW0gbW9u
-aXRvciBzZW5zb3INCj4gPiArDQo+ID4gK21haW50YWluZXJzOg0KPiA+ICsgIC0gRXJpYyBUcmVt
-YmxheSA8ZXRyZW1ibGF5QGRpc3RlY2gtY29udHJvbHMuY29tPg0KPiA+ICsNCj4gPiArZGVzY3Jp
-cHRpb246IHwNCj4gPiArICBUaGlzIGRyaXZlciBpbXBsZW1lbnRzIHN1cHBvcnQgZm9yIFRleGFz
-IEluc3RydW1lbnRzIFRNUDUxMiwgYW5kIFRNUDUxMy4NCj4gDQo+IEkgdGhpbmsgdGhpcyBuZWVk
-cyBzb21lIHJld29yZGluZy4gVGhpcyBpcyBub3QgYSBkcml2ZXIgZGVzY3JpcHRpb24sIGJ1dCBh
-IHN5c3RlbSBkZXNjcmlwdGlvbi4NCg0KT2ssIEkgd2lsbCBvbmx5IGtlZXAgdGhlIGNoaXAgZGVz
-Y3JpcHRpb24uDQo+IA0KPiA+ICsgIFRoZSBUTVA1MTIgKGR1YWwtY2hhbm5lbCkgYW5kIFRNUDUx
-MyAodHJpcGxlLWNoYW5uZWwpIGFyZSBzeXN0ZW0NCj4gPiArIG1vbml0b3JzICB0aGF0IGluY2x1
-ZGUgcmVtb3RlIHNlbnNvcnMsIGEgbG9jYWwgdGVtcGVyYXR1cmUgc2Vuc29yLA0KPiA+ICsgYW5k
-IGEgaGlnaC1zaWRlICBjdXJyZW50IHNodW50IG1vbml0b3IuIFRoZXNlIHN5c3RlbSBtb25pdG9y
-cyBoYXZlDQo+ID4gKyB0aGUgY2FwYWJpbGl0eSBvZiBtZWFzdXJpbmcgIHJlbW90ZSB0ZW1wZXJh
-dHVyZXMsIG9uLWNoaXANCj4gPiArIHRlbXBlcmF0dXJlcywgYW5kIHN5c3RlbSB2b2x0YWdlL3Bv
-d2VyL2N1cnJlbnQgIGNvbnN1bXB0aW9uLg0KPiA+ICsNCj4gPiArICBEYXRhc2hlZXRzOg0KPiA+
-ICsNCj4gPiArIGh0dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNvbS92Mi91cmw/dT1odHRw
-LTNBX193d3cudGkuY29tX2xpdF9nDQo+ID4gKyBwbl90bXA1MTMmZD1Ed0lDYVEmYz10dnZIeDN1
-QzBYZHRnRy1JbVBEamZNMFFuYWtJc21tR2N3ZWpRRFZ4RC1nJnI9eQ0KPiA+ICsgMzR6TGw5X0F2
-Qnk1TlNydnNrRzZTRmJpS29Dekk5OVdXMnhoS2xzVlY0Jm09ZDMzd0JLaWc3Qlowa3NzME9PVW1t
-TmINCj4gPiArIGw1SFdzV25NQkR0ZkZ2NS1yc1hvJnM9N1FrRHI4bjBKWFBWbUNHUmY2amhRUEs5
-aDRFQ1JGTWZaSnJxdHRWeFdHOCZlDQo+ID4gKyA9DQo+ID4gKyBodHRwczovL3VybGRlZmVuc2Uu
-cHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cC0zQV9fd3d3LnRpLmNvbV9saXRfZw0KPiA+ICsg
-cG5fdG1wNTEyJmQ9RHdJQ2FRJmM9dHZ2SHgzdUMwWGR0Z0ctSW1QRGpmTTBRbmFrSXNtbUdjd2Vq
-UURWeEQtZyZyPXkNCj4gPiArIDM0ekxsOV9BdkJ5NU5TcnZza0c2U0ZiaUtvQ3pJOTlXVzJ4aEts
-c1ZWNCZtPWQzM3dCS2lnN0JaMGtzczBPT1VtbU5iDQo+ID4gKyBsNUhXc1duTUJEdGZGdjUtcnNY
-byZzPTJjNDd6OWhkZFIzdnhXQXl0UnhLMDhTTzkzOVRzaTEyZVBIMXVHS19vSUkmZQ0KPiA+ICsg
-PQ0KPiA+ICsNCj4gPiArDQo+ID4gK3Byb3BlcnRpZXM6DQo+ID4gKyAgY29tcGF0aWJsZToNCj4g
-PiArICAgIGVudW06DQo+ID4gKyAgICAgIC0gdGksdG1wNTEyDQo+ID4gKyAgICAgIC0gdGksdG1w
-NTEzDQo+ID4gKw0KPiA+ICsgIHJlZzoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0KPiA+
-ICsgIHNodW50LXJlc2lzdG9yLW1pY3JvLW9obXM6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogfA0K
-PiA+ICsgICAgICBJZiAwLCB0aGUgY2FsaWJyYXRpb24gcHJvY2VzcyB3aWxsIGJlIHNraXBlZCBh
-bmQgdGhlIGN1cnJlbnQgYW5kIHBvd2VyDQo+ID4gKyAgICAgIG1lYXN1cmVtZW50IGVuZ2luZSB3
-aWxsIG5vdCB3b3JrLiBUZW1wZXJhdHVyZSBhbmQgdm9sdGFnZSBtZWFzdXJlbWVudA0KPiA+ICsg
-ICAgICB3aWxsIGNvbnRpbnVlIHRvIHdvcmsuIFRoZSBzaHVudCB2YWx1ZSBhbHNvIG5lZWQgdG8g
-cmVzcGVjdDoNCj4gPiArICAgICAgcnNodW50IDw9IHBnYS1nYWluICogNDAgKiAxMDAwICogMTAw
-MC4NCj4gPiArICAgICAgSWYgbm90LCBpdCdzIG5vdCBwb3NzaWJsZSB0byBjb21wdXRlIGEgdmFs
-aWQgY2FsaWJyYXRpb24gdmFsdWUuDQo+ID4gKyAgICBkZWZhdWx0OiAxMDAwDQo+ID4gKw0KPiA+
-ICsgIHRpLHBnYS1nYWluOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgVGhl
-IGdhaW4gdmFsdWUgZm9yIHRoZSBQR0EgZnVuY3Rpb24uIFRoaXMgaXMgOCwgNCwgMiBvciAxLg0K
-PiA+ICsgICAgICBUaGUgUEdBIGdhaW4gYWZmZWN0IHRoZSBzaHVudCB2b2x0YWdlIHJhbmdlLg0K
-PiA+ICsgICAgICBUaGUgcmFuZ2Ugd2lsbCBiZSBlcXVhbCB0bzogcGdhLWdhaW4gKiA0MG1WDQo+
-ID4gKyAgICBhbGxPZjoNCj4gPiArICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
-ZWZpbml0aW9ucy91aW50MzINCj4gPiArICAgIGVudW06IFsxLCAyLCA0LCA4XQ0KPiA+ICsgICAg
-ZGVmYXVsdDogOA0KPiA+ICsNCj4gPiArICB0aSxidXMtcmFuZ2UtbWljcm92b2x0Og0KPiA+ICsg
-ICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgVGhpcyBpcyB0aGUgb3BlcmF0aW5nIHJhbmdl
-IG9mIHRoZSBidXMgdm9sdGFnZSBpbiBtaWNyb3ZvbHQNCj4gPiArICAgIGFsbE9mOg0KPiA+ICsg
-ICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0KPiA+
-ICsgICAgZW51bTogWzE2MDAwMDAwLCAzMjAwMDAwMF0NCj4gPiArICAgIGRlZmF1bHQ6IDMyMDAw
-MDAwDQo+ID4gKw0KPiA+ICsgIHRpLG5mYWN0b3I6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogfA0K
-PiA+ICsgICAgICBBcnJheSBvZiB0aHJlZShUTVA1MTMpIG9yIHR3byhUTVA1MTIpIG4tRmFjdG9y
-IHZhbHVlIGZvciBlYWNoIHJlbW90ZQ0KPiA+ICsgICAgICB0ZW1wZXJhdHVyZSBjaGFubmVsLg0K
-PiA+ICsgICAgICBTZWUgZGF0YXNoZWV0IFRhYmxlIDExIGZvciBuLUZhY3RvciByYW5nZSBsaXN0
-IGFuZCB2YWx1ZSBpbnRlcnByZXRhdGlvbi4NCj4gPiArICAgIGFsbE9mOg0KPiA+ICsgICAgICAt
-ICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjZGVmaW5pdGlvbnMvdWludDgtYXJyYXkNCj4gPiAr
-ICAgICAgLSBtaW5JdGVtczogMg0KPiA+ICsgICAgICAgIG1heEl0ZW1zOiAzDQo+ID4gKyAgICAg
-ICAgaXRlbXM6DQo+ID4gKyAgICAgICAgICBkZWZhdWx0OiAwDQo+ID4gKw0KPiA+ICtyZXF1aXJl
-ZDoNCj4gPiArICAtIGNvbXBhdGlibGUNCj4gPiArICAtIHJlZw0KPiA+ICsNCj4gPiArZXhhbXBs
-ZXM6DQo+ID4gKyAgLSB8DQo+ID4gKyAgICBpMmMgew0KPiA+ICsgICAgICAgIHRtcDUxM0A1YyB7
-DQo+ID4gKyAgICAgICAgICAgIGNvbXBhdGlibGUgPSAidGksdG1wNTEzIjsNCj4gPiArICAgICAg
-ICAgICAgcmVnID0gPDB4NUM+Ow0KPiA+ICsgICAgICAgICAgICBzaHVudC1yZXNpc3Rvci1taWNy
-by1vaG1zID0gPDMzMDAwMD47DQo+ID4gKyAgICAgICAgICAgIHRpLGJ1cy1yYW5nZS1taWNyb3Zv
-bHQgPSA8MzIwMDAwMDA+Ow0KPiA+ICsgICAgICAgICAgICB0aSxwZ2EtZ2FpbiA9IDw4PjsNCj4g
-PiArICAgICAgICAgICAgdGksbmZhY3RvciA9IFswMSBGMyAwMF07DQo+ID4gKyAgICAgICAgfTsN
-Cj4gPiArICAgIH07DQo+ID4NCg0K
+> From: Rob Herring <robh@kernel.org>
+> Sent: Monday, November 11, 2019 8:04 PM
+> To: Tremblay, Eric <etremblay@distech-controls.com>
+> Cc: linux@roeck-us.net; linux-hwmon@vger.kernel.org; devicetree@vger.kern=
+el.org; linux-doc@vger.kernel.org;
+> jdelvare@suse.com; mark.rutland@arm.com; corbet@lwn.net
+> Subject: Re: [PATCH v7 1/2] dt-bindings: hwmon: Add TMP512/513
+>=20
+> On Mon, Nov 11, 2019 at 03:34:44PM -0500, etremblay@distech-controls.com =
+wrote:
+> > From: Eric Tremblay <etremblay@distech-controls.com>
+> >
+> > Document the TMP513/512 device devicetree bindings
+> >
+> > Signed-off-by: Eric Tremblay <etremblay@distech-controls.com>
+> > ---
+> >  .../devicetree/bindings/hwmon/ti,tmp513.yaml  | 89
+> > +++++++++++++++++++
+> >  1 file changed, 89 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> > b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> > new file mode 100644
+> > index 000000000000..de4ed3645e0f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> > @@ -0,0 +1,89 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +
+> > +$id:
+> > +https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__devicetree.org_s=
+c
+> > +hemas_hwmon_ti-2Ctmp513.yaml-23&d=3DDwIBAg&c=3DtvvHx3uC0XdtgG-ImPDjfM0=
+Qna
+> > +kIsmmGcwejQDVxD-g&r=3Dy34zLl9_AvBy5NSrvskG6SFbiKoCzI99WW2xhKlsVV4&m=3D=
+sqT
+> > +mLsfhqAI5ubkZyE2FvNS0zZ42lJ4Xsiyf12MKPbI&s=3Dcqxgi-ff4mlqg1dH-w0rmoWT9=
+T
+> > +G9UEzI4jP4boAzSTQ&e=3D
+> > +$schema:
+> > +https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__devicetree.org_m=
+e
+> > +ta-2Dschemas_core.yaml-23&d=3DDwIBAg&c=3DtvvHx3uC0XdtgG-ImPDjfM0QnakIs=
+mmG
+> > +cwejQDVxD-g&r=3Dy34zLl9_AvBy5NSrvskG6SFbiKoCzI99WW2xhKlsVV4&m=3DsqTmLs=
+fhq
+> > +AI5ubkZyE2FvNS0zZ42lJ4Xsiyf12MKPbI&s=3DMFdE05g19en41dOAGudb8oQzrSKdBS_=
+5
+> > +uhKXoz3xbfM&e=3D
+> > +
+> > +title: TMP513/512 system monitor sensor
+> > +
+> > +maintainers:
+> > +  - Eric Tremblay <etremblay@distech-controls.com>
+> > +
+> > +description: |
+> > +  This driver implements support for Texas Instruments TMP512, and TMP=
+513.
+> > +  The TMP512 (dual-channel) and TMP513 (triple-channel) are system
+> > +monitors
+> > +  that include remote sensors, a local temperature sensor, and a
+> > +high-side
+> > +  current shunt monitor. These system monitors have the capability of
+> > +measuring
+> > +  remote temperatures, on-chip temperatures, and system
+> > +voltage/power/current
+> > +  consumption.
+> > +
+> > +  Datasheets:
+> > +
+> > + https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__www.ti.com_lit_=
+g
+> > + pn_tmp513&d=3DDwIBAg&c=3DtvvHx3uC0XdtgG-ImPDjfM0QnakIsmmGcwejQDVxD-g&=
+r=3Dy
+> > + 34zLl9_AvBy5NSrvskG6SFbiKoCzI99WW2xhKlsVV4&m=3DsqTmLsfhqAI5ubkZyE2FvN=
+S
+> > + 0zZ42lJ4Xsiyf12MKPbI&s=3DaRuMhzI-UQfQORXhmK3OaA7UZ_6segIbgQ4k5SoKF0E&=
+e
+> > + =3D
+> > + https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__www.ti.com_lit_=
+g
+> > + pn_tmp512&d=3DDwIBAg&c=3DtvvHx3uC0XdtgG-ImPDjfM0QnakIsmmGcwejQDVxD-g&=
+r=3Dy
+> > + 34zLl9_AvBy5NSrvskG6SFbiKoCzI99WW2xhKlsVV4&m=3DsqTmLsfhqAI5ubkZyE2FvN=
+S
+> > + 0zZ42lJ4Xsiyf12MKPbI&s=3DmMNKG3dkkscHl5e73jC-ESFBdu05NhcCuJ-Pfpwls7E&=
+e
+> > + =3D
+> > +
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - ti,tmp512
+> > +      - ti,tmp513
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  shunt-resistor-micro-ohms:
+> > +    description: |
+> > +      If 0, the calibration process will be skiped and the current and=
+ power
+> > +      measurement engine will not work. Temperature and voltage measur=
+ement
+> > +      will continue to work. The shunt value also need to respect:
+> > +      rshunt <=3D pga-gain * 40 * 1000 * 1000.
+> > +      If not, it's not possible to compute a valid calibration value.
+> > +    default: 1000
+> > +
+> > +  ti,pga-gain:
+> > +    description: |
+> > +      The gain value for the PGA function. This is 8, 4, 2 or 1.
+> > +      The PGA gain affect the shunt voltage range.
+> > +      The range will be equal to: pga-gain * 40mV
+> > +    allOf:
+> > +      - $ref: /schemas/types.yaml#/definitions/uint32
+> > +    enum: [1, 2, 4, 8]
+> > +    default: 8
+> > +
+> > +  ti,bus-range-microvolt:
+> > +    description: |
+> > +      This is the operating range of the bus voltage in microvolt
+> > +    allOf:
+> > +      - $ref: /schemas/types.yaml#/definitions/uint32
+> > +    enum: [16000000, 32000000]
+> > +    default: 32000000
+> > +
+> > +  ti,nfactor:
+> > +    description: |
+> > +      Array of three(TMP513) or two(TMP512) n-Factor value for each re=
+mote
+> > +      temperature channel.
+> > +      See datasheet Table 11 for n-Factor range list and value interpr=
+etation.
+> > +    allOf:
+> > +      - $ref: /schemas/types.yaml#definitions/uint8-array
+> > +      - minItems: 2
+> > +        maxItems: 3
+> > +        items:
+> > +          default: 0
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+>=20
+> 'make dt_binding_check' fails. You need #address-cells and #size-cells in=
+ here:
+>=20
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:20.17-30: W=
+arning (reg_format): /example-
+> 0/i2c/tmp513@5c:reg: property has invalid length (4 bytes) (#address-cell=
+s =3D=3D 2, #size-cells =3D=3D 1)
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warnin=
+g (pci_device_bus_num): Failed prerequisite
+> 'reg_format'
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:17.5-26.11:=
+ Warning (i2c_bus_bridge): /example-0/i2c: incorrect
+> #address-cells for I2C bus
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:17.5-26.11:=
+ Warning (i2c_bus_bridge): /example-0/i2c: incorrect
+> #size-cells for I2C bus
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warnin=
+g (i2c_bus_reg): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warnin=
+g (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dt.yaml: Warnin=
+g (spi_bus_reg): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:18.23-25.15=
+:
+> Warning (avoid_default_addr_size): /example-0/i2c/tmp513@5c: Relying on d=
+efault #address-cells value
+> Documentation/devicetree/bindings/hwmon/ti,tmp513.example.dts:18.23-25.15=
+: Warning (avoid_default_addr_size): /example-
+> 0/i2c/tmp513@5c: Relying on default #size-cells value
+
+Sorry I was confused a little by the documentation. I did not saw that I co=
+uld run `make dt_binding_check' on a single file.
+
+I ran it on my tree and it gives me a warning on another file. I wrongly as=
+sume that it ran all over the tree.
+
+I`ll fix those issue.
+
+Thanks
+>=20
+> > +        tmp513@5c {
+> > +            compatible =3D "ti,tmp513";
+> > +            reg =3D <0x5C>;
+> > +            shunt-resistor-micro-ohms =3D <330000>;
+> > +            ti,bus-range-microvolt =3D <32000000>;
+> > +            ti,pga-gain =3D <8>;
+> > +            ti,nfactor =3D [01 F3 00];
+> > +        };
+> > +    };
+> > --
+> > 2.17.1
+> >
