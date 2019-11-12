@@ -1,130 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AC6E7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 00:03:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 546AF7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 00:07:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbfKLADZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Nov 2019 19:03:25 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53078 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbfKLADY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Nov 2019 19:03:24 -0500
-Received: by mail-wm1-f68.google.com with SMTP id l1so1174060wme.2;
-        Mon, 11 Nov 2019 16:03:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C2hJz4lCOfkMCCr9Ga5SGhhISRmp/Zo6cNfw+JBvPD4=;
-        b=C4dSANX8A3Iqlp5SW3GLXjgDjn6AiIxum5KhabRQL0u9+NJELsKHGj45sobE7NfEbN
-         u09hSXCRTmpfvoFaIdgeRH9JioWuWwZo39JSTIcjveLJvfCZ18V2+RmkwGFj0zRo1GZS
-         UFhbxkdk0trUCPfP6M06Ml6LPigGLiBsfI4rhSsMYsMgAOK8jrqY+kSDFQugU6BjJJnO
-         KKYfpEvemBg8cKUSiM2PpHRF7in5UmfSoRGNUJ0pMctheHk9e5mpVKp2LLyqOB7/QmxK
-         Fp6sClwwusxFR4fYG5BCCaP5kRxadtysU3j2fd3qGQbh7N0SYdongW+pWHgW9yDZp90U
-         kIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C2hJz4lCOfkMCCr9Ga5SGhhISRmp/Zo6cNfw+JBvPD4=;
-        b=gNw+5hVql963DpB4dm4vx32fhJmTWKwzubYzB6ugupvSkq7UXdCbNtJqfFHEKDL4dr
-         362Yhjm9i3FZvARiMo/RCPqUvS/ytkaMoxNz7eg4CbXlsOcHSbSEnswNyldkIBuh6br3
-         4sN5UhUtCNLs/F2neOXIv15oAej3sbPvxxP5jvlmCRWulAkLA88eox5jaAjE2chCAoKH
-         GHpr+fXQIpisXEnwHFMintsralm+/NAp/4/Vp+2VeulW12vMYrpGnIFVnRddu3ozsnqx
-         zq8JZS9fbrsFOL1Q6rX51f9EO66S6UbgzAXKDoJlly/0F4K1LP8IjQWkRemc30UyoCPe
-         yDIA==
-X-Gm-Message-State: APjAAAVxCOVZdKEXYolozw9IdMvH+oAzq3zZgUlptjBr8D6dSKAEFDPa
-        tRofvxg9ciaR/RxD8XpWXln/IHZRNbMAjk9Nr1A=
-X-Google-Smtp-Source: APXvYqx3qSAucNJ8c2QmwKh+XFtnsSnVSsWogTf4eRg+5fTby7qdsdZaAXPlJz2/DRqoC7NEHbalVcg4b1liF2DPg2w=
-X-Received: by 2002:a1c:6405:: with SMTP id y5mr1369685wmb.175.1573517002088;
- Mon, 11 Nov 2019 16:03:22 -0800 (PST)
+        id S1727517AbfKLAHZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Nov 2019 19:07:25 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:16698 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727453AbfKLAHU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Nov 2019 19:07:20 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc9f7790001>; Mon, 11 Nov 2019 16:06:18 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 11 Nov 2019 16:07:19 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 11 Nov 2019 16:07:19 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 00:07:19 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 00:07:18 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 12 Nov 2019 00:07:17 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5dc9f7b40003>; Mon, 11 Nov 2019 16:07:17 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        "Daniel Vetter" <daniel.vetter@ffwll.ch>
+Subject: [PATCH v3 13/23] drm/via: set FOLL_PIN via pin_user_pages_fast()
+Date:   Mon, 11 Nov 2019 16:06:50 -0800
+Message-ID: <20191112000700.3455038-14-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191112000700.3455038-1-jhubbard@nvidia.com>
+References: <20191112000700.3455038-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
-References: <20191111181122.28083-1-madhuparnabhowmik04@gmail.com>
-In-Reply-To: <20191111181122.28083-1-madhuparnabhowmik04@gmail.com>
-From:   Phong Tran <tranmanphong@gmail.com>
-Date:   Tue, 12 Nov 2019 07:03:10 +0700
-Message-ID: <CAD3AR6E486EAJ5EW_Wr4qiPeZU_M7TnDTC0g-CB+=6ob9Ru6mQ@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: whatisRCU:
- Updated full list of RCU API
-To:     Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, mchehab@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+X-NVConfidentiality: public
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573517178; bh=ky7gpstoQdJr5rtxFEQnjpS0lvKe5L6cg7jiu/68ipE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding;
+        b=YzsFSAxKbG15u3QgSNio6pJKXjfnftsZ5SniRAeA+7yL72j635b+q/WwJzr4X0v4Y
+         152OHaQ+ouMz7eIqZEDyjshZMy6cYQHcnCJ6yINPjoIydTFEoVsXoROcrVfqFeHkJa
+         Y2e/BikIKneTbza8bu80gnTIo3XTOaOB92IBGFt5SS9JD4R4bJRY/UENeTvU/6zVkG
+         1boGTp0KFofwlB897vtCSNuvDWx9gBItNi/ZF9cdKeE2Gl7eUfMr8K3Sk3nqrnoxya
+         6zZ8kGQIFSIFH/oKsI6LzKsOSK0eF0Ktgt7ib43mDF7NcxOlzRcqsYTY9K+KFjZmUi
+         DeRyBAPXTj7wQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 1:12 AM <madhuparnabhowmik04@gmail.com> wrote:
->
-> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
->
-> This patch updates the list of RCU API in whatisRCU.rst.
->
+Convert drm/via to use the new pin_user_pages_fast() call, which sets
+FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+tracking of pinned pages, and therefore for any code that calls
+put_user_page().
 
-Tested-by: Phong Tran <tranmanphong@gmail.com>
+In partial anticipation of this work, the drm/via driver was already
+calling put_user_page() instead of put_page(). Therefore, in order to
+convert from the get_user_pages()/put_page() model, to the
+pin_user_pages()/put_user_page() model, the only change required
+is to change get_user_pages() to pin_user_pages().
 
->
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> ---
->  Documentation/RCU/whatisRCU.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> index 2f6f6ebbc8b0..c7f147b8034f 100644
-> --- a/Documentation/RCU/whatisRCU.rst
-> +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -884,11 +884,14 @@ in docbook.  Here is the list, by category.
->  RCU list traversal::
->
->         list_entry_rcu
-> +       list_entry_lockless
->         list_first_entry_rcu
->         list_next_rcu
->         list_for_each_entry_rcu
->         list_for_each_entry_continue_rcu
->         list_for_each_entry_from_rcu
-> +       list_first_or_null_rcu
-> +       list_next_or_null_rcu
->         hlist_first_rcu
->         hlist_next_rcu
->         hlist_pprev_rcu
-> @@ -902,7 +905,7 @@ RCU list traversal::
->         hlist_bl_first_rcu
->         hlist_bl_for_each_entry_rcu
->
-> -RCU pointer/list udate::
-> +RCU pointer/list update::
->
->         rcu_assign_pointer
->         list_add_rcu
-> @@ -912,10 +915,12 @@ RCU pointer/list udate::
->         hlist_add_behind_rcu
->         hlist_add_before_rcu
->         hlist_add_head_rcu
-> +       hlist_add_tail_rcu
->         hlist_del_rcu
->         hlist_del_init_rcu
->         hlist_replace_rcu
-> -       list_splice_init_rcu()
-> +       list_splice_init_rcu
-> +       list_splice_tail_init_rcu
->         hlist_nulls_del_init_rcu
->         hlist_nulls_del_rcu
->         hlist_nulls_add_head_rcu
-> --
-> 2.17.1
->
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ drivers/gpu/drm/via/via_dmablit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/via/via_dmablit.c b/drivers/gpu/drm/via/via_dm=
+ablit.c
+index 3db000aacd26..37c5e572993a 100644
+--- a/drivers/gpu/drm/via/via_dmablit.c
++++ b/drivers/gpu/drm/via/via_dmablit.c
+@@ -239,7 +239,7 @@ via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via=
+_dmablit_t *xfer)
+ 	vsg->pages =3D vzalloc(array_size(sizeof(struct page *), vsg->num_pages))=
+;
+ 	if (NULL =3D=3D vsg->pages)
+ 		return -ENOMEM;
+-	ret =3D get_user_pages_fast((unsigned long)xfer->mem_addr,
++	ret =3D pin_user_pages_fast((unsigned long)xfer->mem_addr,
+ 			vsg->num_pages,
+ 			vsg->direction =3D=3D DMA_FROM_DEVICE ? FOLL_WRITE : 0,
+ 			vsg->pages);
+--=20
+2.24.0
+
