@@ -5,67 +5,96 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E883F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 15:55:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 863F17D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 15:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbfKLPzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Nov 2019 10:55:19 -0500
-Received: from ms.lwn.net ([45.79.88.28]:41668 "EHLO ms.lwn.net"
+        id S1726388AbfKLP71 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Nov 2019 10:59:27 -0500
+Received: from mga14.intel.com ([192.55.52.115]:28118 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726659AbfKLPzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Nov 2019 10:55:19 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6A4B07DE;
-        Tue, 12 Nov 2019 15:55:18 +0000 (UTC)
-Date:   Tue, 12 Nov 2019 08:55:16 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [RFC PATCH] Documentation: filesystems: convert fuse to RST
-Message-ID: <20191112085516.15ed4b1a@lwn.net>
-In-Reply-To: <20191108164619.30401-1-dwlsalmeida@gmail.com>
-References: <20191108164619.30401-1-dwlsalmeida@gmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725954AbfKLP71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Nov 2019 10:59:27 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Nov 2019 07:59:26 -0800
+X-IronPort-AV: E=Sophos;i="5.68,296,1569308400"; 
+   d="scan'208";a="198120110"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Nov 2019 07:59:24 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: On global citations, URLs and translations
+In-Reply-To: <20191112084257.4cca2d4c@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com> <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net>
+Date:   Tue, 12 Nov 2019 17:59:21 +0200
+Message-ID: <871rud3x2e.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  8 Nov 2019 13:46:19 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
+On Tue, 12 Nov 2019, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Tue, 12 Nov 2019 16:17:32 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+>> Fix the references in both places to actually make them cross
+>> references. See below.
+>> 
+>> BR,
+>> Jani.
+>> 
+>> 
+>> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
+>> index e5f5f065dc24..59efa6d7a053 100644
+>> --- a/Documentation/process/programming-language.rst
+>> +++ b/Documentation/process/programming-language.rst
+>> @@ -3,7 +3,7 @@
+>>  Programming Language
+>>  ====================
+>>  
+>> -The kernel is written in the C programming language [c-language]_.
+>> +The kernel is written in the C programming language `[c-language]`_.
+>>  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+>>  under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
+>>  (including some C99 features).
+>> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used and/or to shorten the code.
+>>  
+>>  Please refer to ``include/linux/compiler_attributes.h`` for more information.
+>>  
+>> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+>> +.. _[c-language]: http://www.open-std.org/jtc1/sc22/wg14/www/standards
+>>  .. [gcc] https://gcc.gnu.org
+>>  .. [clang] https://clang.llvm.org
+>>  .. [icc] https://software.intel.com/en-us/c-compilers
+>
+> That fixes this particular instance, while leaving the adjacent ones
+> untouched :)
 
-> Converts fuse.txt to reStructuredText format, improving the presentation
-> without changing much of the underlying content.
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Yeah, that was just a quick hack to prove the point. Perhaps Miguel can
+provide the proper patch? ;)
 
-This generally looks like a good conversion, thanks!  That said, I have a
-few small comments...
+> I think this is a good change, especially if applied to all instances.  I
+> also wonder, though, if we should adopt a rule that translations need
+> unique labels - prepend "IT-" or some such for the Italian translation,
+> for example?
 
- - You should copy the FUSE maintainer on this change.  You can find the
-   relevant information in the MAINTAINERS file or with
-   get_maintainer.pl.
+I *think* the references like above (when done properly) are local to
+the file. It's the labels that perhaps need this.
 
- - Speaking of MAINTAINERS, you also need to fix the reference to
-   fuse.txt there when you rename the file.
+Sphinx also has some i18n support which I believe we aren't using, and
+it would stand to reason this is covered there. But that probably needs
+some dedication from Someone(tm) to figure out.
 
- - You are reasonably well restrained in your use of markup, but it would
-   be good to pull back just a bit more.  Just FUSE everywhere rather than
-   ``FUSE`` in some places.  Less **emphasis**.  Remember that the
-   readability of the plain-text file is important.
+BR,
+Jani.
 
- - This file contains information that is useful to system
-   administrators, so I think that a move to admin-guide would be
-   warranted.
 
-Thanks,
-
-jon
+-- 
+Jani Nikula, Intel Open Source Graphics Center
