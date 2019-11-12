@@ -5,31 +5,41 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED6D87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 15:43:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAD287D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 15:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbfKLPnA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Nov 2019 10:43:00 -0500
-Received: from ms.lwn.net ([45.79.88.28]:41574 "EHLO ms.lwn.net"
+        id S1726376AbfKLPqj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Nov 2019 10:46:39 -0500
+Received: from ms.lwn.net ([45.79.88.28]:41614 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727049AbfKLPnA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Nov 2019 10:43:00 -0500
+        id S1725954AbfKLPqj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Nov 2019 10:46:39 -0500
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7BE587DE;
-        Tue, 12 Nov 2019 15:42:59 +0000 (UTC)
-Date:   Tue, 12 Nov 2019 08:42:57 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 067735A0;
+        Tue, 12 Nov 2019 15:46:36 +0000 (UTC)
+Date:   Tue, 12 Nov 2019 08:46:34 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: On global citations, URLs and translations
-Message-ID: <20191112084257.4cca2d4c@lwn.net>
-In-Reply-To: <87a79141s3.fsf@intel.com>
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com>
-        <87a79141s3.fsf@intel.com>
+To:     Tom Lendacky <thomas.lendacky@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Tyler Hicks <tyhicks@canonical.com>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] Documentation/process: Add AMD contact for embargoed
+ hardware issues
+Message-ID: <20191112084634.75b4cf77@lwn.net>
+In-Reply-To: <c1062e44a8784747e4834d28de6f54c30ae95058.1573500877.git.thomas.lendacky@amd.com>
+References: <c1062e44a8784747e4834d28de6f54c30ae95058.1573500877.git.thomas.lendacky@amd.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -40,47 +50,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 12 Nov 2019 16:17:32 +0200
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Mon, 11 Nov 2019 13:34:37 -0600
+Tom Lendacky <thomas.lendacky@amd.com> wrote:
 
-> Fix the references in both places to actually make them cross
-> references. See below.
+> Add myself as the AMD ambassador to the embargoed hardware issues
+> document.
 > 
-> BR,
-> Jani.
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  Documentation/process/embargoed-hardware-issues.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 
-> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-> index e5f5f065dc24..59efa6d7a053 100644
-> --- a/Documentation/process/programming-language.rst
-> +++ b/Documentation/process/programming-language.rst
-> @@ -3,7 +3,7 @@
->  Programming Language
->  ====================
+> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> index a3c3349046c4..799580acc8de 100644
+> --- a/Documentation/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/process/embargoed-hardware-issues.rst
+> @@ -240,7 +240,7 @@ an involved disclosed party. The current ambassadors list:
 >  
-> -The kernel is written in the C programming language [c-language]_.
-> +The kernel is written in the C programming language `[c-language]`_.
->  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
->  under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
->  (including some C99 features).
-> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used and/or to shorten the code.
->  
->  Please refer to ``include/linux/compiler_attributes.h`` for more information.
->  
-> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-> +.. _[c-language]: http://www.open-std.org/jtc1/sc22/wg14/www/standards
->  .. [gcc] https://gcc.gnu.org
->  .. [clang] https://clang.llvm.org
->  .. [icc] https://software.intel.com/en-us/c-compilers
+>    ============= ========================================================
+>    ARM
+> -  AMD
+> +  AMD		Tom Lendacky <tom.lendacky@amd.com>
 
-That fixes this particular instance, while leaving the adjacent ones
-untouched :)
-
-I think this is a good change, especially if applied to all instances.  I
-also wonder, though, if we should adopt a rule that translations need
-unique labels - prepend "IT-" or some such for the Italian translation,
-for example?
-
-Thanks,
+I've applied this, thanks.
 
 jon
