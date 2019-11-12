@@ -5,39 +5,33 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE5EC7DC63
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 16:44:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9C347DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Nov 2019 16:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbfKLQoZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Nov 2019 11:44:25 -0500
-Received: from ms.lwn.net ([45.79.88.28]:41868 "EHLO ms.lwn.net"
+        id S1726912AbfKLQqm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Nov 2019 11:46:42 -0500
+Received: from ms.lwn.net ([45.79.88.28]:41904 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726008AbfKLQoZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Nov 2019 11:44:25 -0500
+        id S1726896AbfKLQqm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Nov 2019 11:46:42 -0500
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2262B7DE;
-        Tue, 12 Nov 2019 16:44:24 +0000 (UTC)
-Date:   Tue, 12 Nov 2019 09:44:22 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id EC6867DE;
+        Tue, 12 Nov 2019 16:46:40 +0000 (UTC)
+Date:   Tue, 12 Nov 2019 09:46:38 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Paul Walmsley <paul@pwsan.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Andreas Schwab <schwab@suse.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] Documentation: admin-guide: add earlycon documentation
- for RISC-V
-Message-ID: <20191112094422.7abbc581@lwn.net>
-In-Reply-To: <alpine.DEB.2.21.999.1911111729271.32333@utopia.booyaka.com>
-References: <alpine.DEB.2.21.9999.1910091252160.11044@viisi.sifive.com>
-        <CAMuHMdUfqvkVJHHwyuYxLSxj_iUofx-vSvEj92C5mg3bGxHqmA@mail.gmail.com>
-        <20191010112347.4a7237bb@lwn.net>
-        <20191108061009.GA30335@lst.de>
-        <alpine.DEB.2.21.999.1911111729271.32333@utopia.booyaka.com>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     Frank.li@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RFC PATCH] Documentation: perf: fix kernel-doc warnings in
+ imx-ddr.rst
+Message-ID: <20191112094638.54459a23@lwn.net>
+In-Reply-To: <20191107185755.29586-1-dwlsalmeida@gmail.com>
+References: <20191107185755.29586-1-dwlsalmeida@gmail.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -48,29 +42,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 11 Nov 2019 17:30:13 +0000 (UTC)
-Paul Walmsley <paul@pwsan.com> wrote:
+On Thu,  7 Nov 2019 15:57:55 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-> On Fri, 8 Nov 2019, Christoph Hellwig wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> > can you please revert this?  The paragraph above this addition already
-> > describes the riscv case perfecty well with my previous patch:
-> > 
-> > 	earlycon=	[KNL] Output early console device and options.
-> > 
-> > 			When used with no options, the early console is
-> > 			determined by stdout-path property in device tree's
-> > 			chosen node or the ACPI SPCR table if supported by
-> > 			the platform.
-> > 
-> > 			[RISCV] When used with no options, the early
-> > 			console is determined by the stdout-path
-> > 			property in the device tree's chosen node.  
+> Unexpected indentation errors were reported due to missing blank lines.
+> Now fixed. No change in content otherwise.
 > 
-> I support reverting the RISCV section, now that Christoph's more general 
-> change has gone in.
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-OK, the patch has been reverted.
+So this is in no way your fault, but this particular file has been the
+subject of some merge conflicts in linux-next already, so it's probably
+best not to mess with it further at the moment.   Could I ask you to
+resubmit the patch after the 5.5 merge window?
 
 Thanks,
 
