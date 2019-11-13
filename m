@@ -1,128 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 245BD7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 15:46:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5EE07D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 16:31:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726422AbfKMPqe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 10:46:34 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21680 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727745AbfKMPqe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 10:46:34 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xADFfmML115944
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 10:46:33 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2w8kbgcrp2-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 10:46:32 -0500
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Wed, 13 Nov 2019 15:46:25 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 13 Nov 2019 15:46:21 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xADFkKZ738404258
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 Nov 2019 15:46:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 931F9AE057;
-        Wed, 13 Nov 2019 15:46:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5C70DAE04D;
-        Wed, 13 Nov 2019 15:46:19 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.227.104])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 13 Nov 2019 15:46:19 +0000 (GMT)
-Subject: Re: One question about trusted key of keyring in Linux kernel.
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>
-Date:   Wed, 13 Nov 2019 10:46:18 -0500
-In-Reply-To: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
-References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19111315-0028-0000-0000-000003B69508
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111315-0029-0000-0000-000024799DE0
-Message-Id: <1573659978.17949.83.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-13_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1910280000 definitions=main-1911130143
+        id S1728401AbfKMQbk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 11:31:40 -0500
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:45310 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728388AbfKMQbk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 11:31:40 -0500
+Received: by mail-ua1-f43.google.com with SMTP id j4so844899uak.12
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 08:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=tqMvp6R7Yw4SmAq29b12cUx08kJZaFb2aktgCaRidVg=;
+        b=VQG9GuAhCkrExq0QANlUbr2B7WTTZ7334zQJyl+Wsbbq14nNkc9fkY4Y+tWBCLO2G2
+         i3PdOC3wkK81IONAn0hUurXKjI04fcEByfmpOZ6Dxe5/JKB+Ub8YqD3s6msojAKgbs8q
+         ktakkePKYuWZkFopjxa/d4TqB4xT8MoWzgc2QZQrZwkIJ4yzpJz9qlZhbqx4kTfkpyzA
+         eIqWCQDdycQ4m2/hXDYukiLqQZfVWFCJjtO3+CRQqC8SUEX8bQLA9guRVjloWg+bLi0Y
+         G9fbrRy1PHJdxI034dXFg9TdbJom0KIIFxs8k0RnDJWtgdxO9dmwIAoK4BfsZLvUwSGy
+         Nuag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=tqMvp6R7Yw4SmAq29b12cUx08kJZaFb2aktgCaRidVg=;
+        b=d/zmr4dI59TBu3GRz63ODt2rygFp1HZq+IzCwNu+QEZGW+67vR6ONKtXcJ3Jtf4uoT
+         h6wU6/nBJsYxXXauBm3F4pOC6rL5vj/VTyi7rE7gsV92OFlzHmSdtXhDHyQsvQ8Olv76
+         fe1yp6aXBbDguiPBpPUCn2Vic7W/UFUr9KlZBNumKk9yQNdrXrEQehiwKq/OS1JJTlrs
+         ho6vNB4NZT8ja863khCCgSb7OcUhDkf2yiZYle861n7E/4mAF2Kfan+kYGMmh8tQOsZV
+         iXiZElIwy36JbnhErfl8tFkxXM4dIa5c8PA5LHlZg3rlTnobb5s5/GNz276fx3HNTZvl
+         2C9A==
+X-Gm-Message-State: APjAAAUxYZSNjZlT0sZlEe0C4kmKPRZ4djPw3Mj3JKh2Q1fBAC/DsWak
+        9NAjD5xuNxXAfk1oemGpFFkrVQ==
+X-Google-Smtp-Source: APXvYqzw2u4dm/fB/qFWlfB4/plMZGq4mipiSczyOQ19AQjDIj6sE0HXwvqWXTuXReQ3ktMAq6tPDQ==
+X-Received: by 2002:ab0:d8c:: with SMTP id i12mr2372886uak.57.1573662698326;
+        Wed, 13 Nov 2019 08:31:38 -0800 (PST)
+Received: from ubuntu1804-desktop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id j9sm541965vsm.31.2019.11.13.08.31.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2019 08:31:37 -0800 (PST)
+Date:   Wed, 13 Nov 2019 11:31:37 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org
+Subject: [RFC 0/2] docs: ftrace: Clarify the RAM impact of buffer_size_kb
+Message-ID: <cover.1573661658.git.frank@generalsoftwareinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-11-13 at 01:22 +0000, Zhao, Shirley wrote:
-> Hi, all,
-> 
-> This is Shirley from Intel. I have one question about trusted key of
-> keyring in kernel. Please help.
-> 
-> According the to description in https://github.com/torvalds/linux/bl
-> ob/master/Documentation/security/keys/trusted-encrypted.rst.
-> Trusted key will be saved in TPM with PCR policy protected.
+Improves the documentation of buffer_size_kb by clarifying how is
+calculated the number of allocated pages for the ring buffer.
 
-"Trusted Keys use a TPM both to generate and to seal the keys. Keys
-are sealed under a 2048 bit RSA key in the TPM, ..."
+** Do not apply the second patch **. It's just for illustration
+purposes.
 
-Trusted keys are not TPM keys.  They are not stored in the TPM.
+Frank A. Cancio Bello (2):
+  docs: ftrace: Clarify the RAM impact of buffer_size_kb
+  ** do not apply this patch ** Just for illustration purposes
 
-> 
-> Then, I running the following command to create a trusted key.
-> keyctl add trusted test_trusted "new 32 keyhandle=0x81000001" @u
-> 
-> I also tried the following command, it can add one trusted key, too.
-> keyctl add trusted test_trusted "new 32 keyhandle=0x81000001
-> pcrinfo=`cat pcr7.blob`" @u
-> 
-> But after reboot, this key will be removed.
-> I need to re-added during boot.
+ Documentation/trace/ftrace.rst | 13 +++++++++++--
+ kernel/trace/ring_buffer.c     |  2 ++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-Right, they need to be re-loaded on boot.  Refer to the dracut
-module /modules.d/97masterkey for loading a trusted key during boot.
-
-> 
-> Then the question is since this key is saved in TPM, how to get it
-> back from TPM?
-
-Trusted keys are not stored in the TPM.  Refer to the ima-evm-utils
-README for examples of creating a trusted key (kmk) and an encrypted
-key (evm-key).
-
-> 
-> From the document, I need to use "keyctl pipe" to save the key into
-> a blob, then load it.
-> But the blob contend key text, and this is a file on hard disk, it
-> is not safe to protect the key.
-> 
-> So what can TPM do here?
-
-The hex ascii encoded trusted key is sealed under the TPM SRK.
-
-Mimi
+-- 
+2.17.1
 
