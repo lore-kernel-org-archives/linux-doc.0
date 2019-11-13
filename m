@@ -3,118 +3,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A77B7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 09:37:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF46D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 10:12:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726165AbfKMJh2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 04:37:28 -0500
-Received: from smtp2.goneo.de ([85.220.129.33]:51720 "EHLO smtp2.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726155AbfKMJh2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Nov 2019 04:37:28 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id F2E4923F2DD;
-        Wed, 13 Nov 2019 10:37:23 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Eobk1FVLmfgy; Wed, 13 Nov 2019 10:37:22 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-091-096-167-046.ewe-ip-backbone.de [91.96.167.46])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 3BEBF23F3AD;
-        Wed, 13 Nov 2019 10:37:22 +0100 (CET)
-Subject: Re: On global citations, URLs and translations
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com>
- <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net>
- <871rud3x2e.fsf@intel.com>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <25c9ec73-64d3-a5dc-2f64-863c04dad22d@darmarit.de>
-Date:   Wed, 13 Nov 2019 10:37:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726991AbfKMKMU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 05:12:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39804 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726389AbfKMKMU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Nov 2019 05:12:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 826B9B3ED;
+        Wed, 13 Nov 2019 10:12:15 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id CA3AA1E1498; Wed, 13 Nov 2019 11:12:10 +0100 (CET)
+Date:   Wed, 13 Nov 2019 11:12:10 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf <bpf@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, linux-rdma@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 00/23] mm/gup: track dma-pinned pages: FOLL_PIN,
+ FOLL_LONGTERM
+Message-ID: <20191113101210.GD6367@quack2.suse.cz>
+References: <20191112000700.3455038-1-jhubbard@nvidia.com>
+ <20191112203802.GD5584@ziepe.ca>
+ <02fa935c-3469-b766-b691-5660084b60b9@nvidia.com>
+ <CAKMK7uHvk+ti00mCCF2006U003w1dofFg9nSfmZ4bS2Z2pEDNQ@mail.gmail.com>
+ <7b671bf9-4d94-f2cc-8453-863acd5a1115@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <871rud3x2e.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7b671bf9-4d94-f2cc-8453-863acd5a1115@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-my 2cent ..
+On Wed 13-11-19 01:02:02, John Hubbard wrote:
+> On 11/13/19 12:22 AM, Daniel Vetter wrote:
+> ...
+> > > > Why are we doing this? I think things got confused here someplace, as
+> > > 
+> > > 
+> > > Because:
+> > > 
+> > > a) These need put_page() calls,  and
+> > > 
+> > > b) there is no put_pages() call, but there is a release_pages() call that
+> > > is, arguably, what put_pages() would be.
+> > > 
+> > > 
+> > > > the comment still says:
+> > > > 
+> > > > /**
+> > > >   * put_user_page() - release a gup-pinned page
+> > > >   * @page:            pointer to page to be released
+> > > >   *
+> > > >   * Pages that were pinned via get_user_pages*() must be released via
+> > > >   * either put_user_page(), or one of the put_user_pages*() routines
+> > > >   * below.
+> > > 
+> > > 
+> > > Ohhh, I missed those comments. They need to all be changed over to
+> > > say "pages that were pinned via pin_user_pages*() or
+> > > pin_longterm_pages*() must be released via put_user_page*()."
+> > > 
+> > > The get_user_pages*() pages must still be released via put_page.
+> > > 
+> > > The churn is due to a fairly significant change in strategy, whis
+> > > is: instead of changing all get_user_pages*() sites to call
+> > > put_user_page(), change selected sites to call pin_user_pages*() or
+> > > pin_longterm_pages*(), plus put_user_page().
+> > 
+> > Can't we call this unpin_user_page then, for some symmetry? Or is that
+> > even more churn?
+> > 
+> > Looking from afar the naming here seems really confusing.
+> 
+> 
+> That look from afar is valuable, because I'm too close to the problem to see
+> how the naming looks. :)
+> 
+> unpin_user_page() sounds symmetrical. It's true that it would cause more
+> churn (which is why I started off with a proposal that avoids changing the
+> names of put_user_page*() APIs). But OTOH, the amount of churn is proportional
+> to the change in direction here, and it's really only 10 or 20 lines changed,
+> in the end.
+> 
+> So I'm open to changing to that naming. It would be nice to hear what others
+> prefer, too...
 
-I have a doubt that translating has to be a part of the kernel development.
+FWIW I'd find unpin_user_page() also better than put_user_page() as a
+counterpart to pin_user_pages().
 
-Minimal English is one of the prerequisites to be a part of the community.
-Maintainers do not master foreign languages, they are forced to commit
-blindly without quality assurance.  APIs will never be translated and
-the translation of articles is at random.
-
-   IMO a spin-off might focus on translations.
-
-   -- Markus --
-
-Am 12.11.19 um 16:59 schrieb Jani Nikula:
-> On Tue, 12 Nov 2019, Jonathan Corbet <corbet@lwn.net> wrote:
->> On Tue, 12 Nov 2019 16:17:32 +0200
->> Jani Nikula <jani.nikula@linux.intel.com> wrote:
->>
->>> Fix the references in both places to actually make them cross
->>> references. See below.
->>>
->>> BR,
->>> Jani.
->>>
->>>
->>> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
->>> index e5f5f065dc24..59efa6d7a053 100644
->>> --- a/Documentation/process/programming-language.rst
->>> +++ b/Documentation/process/programming-language.rst
->>> @@ -3,7 +3,7 @@
->>>   Programming Language
->>>   ====================
->>>   
->>> -The kernel is written in the C programming language [c-language]_.
->>> +The kernel is written in the C programming language `[c-language]`_.
->>>   More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
->>>   under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
->>>   (including some C99 features).
->>> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used and/or to shorten the code.
->>>   
->>>   Please refer to ``include/linux/compiler_attributes.h`` for more information.
->>>   
->>> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>> +.. _[c-language]: http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>>   .. [gcc] https://gcc.gnu.org
->>>   .. [clang] https://clang.llvm.org
->>>   .. [icc] https://software.intel.com/en-us/c-compilers
->>
->> That fixes this particular instance, while leaving the adjacent ones
->> untouched :)
-> 
-> Yeah, that was just a quick hack to prove the point. Perhaps Miguel can
-> provide the proper patch? ;)
-> 
->> I think this is a good change, especially if applied to all instances.  I
->> also wonder, though, if we should adopt a rule that translations need
->> unique labels - prepend "IT-" or some such for the Italian translation,
->> for example?
-> 
-> I *think* the references like above (when done properly) are local to
-> the file. It's the labels that perhaps need this.
-> 
-> Sphinx also has some i18n support which I believe we aren't using, and
-> it would stand to reason this is covered there. But that probably needs
-> some dedication from Someone(tm) to figure out.
-> 
-> BR,
-> Jani.
-> 
-> 
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
