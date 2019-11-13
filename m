@@ -7,190 +7,202 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6CAA7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 18:12:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 275DC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 18:29:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728230AbfKMSMo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 13:12:44 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55821 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728105AbfKMSMo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 13:12:44 -0500
-Received: by mail-wm1-f65.google.com with SMTP id b11so3014148wmb.5
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 10:12:41 -0800 (PST)
+        id S1728402AbfKMS3M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 13:29:12 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:38595 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727361AbfKMS3L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 13:29:11 -0500
+Received: by mail-qt1-f194.google.com with SMTP id p20so3656102qtq.5
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 10:29:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ki25gnbpyN00Iv5cdTY8OhdgRYpiq6GuA0iUi2qS8JY=;
-        b=Fs57GyBC4KqL9mwZ7pz4er+6yTwZnzeC3f6ecarogyGItcOt761IC74Ow/Fy4yemVK
-         RUqp9/aQEupFLjbQgv1Is7jI9ME2ZM1Urs3WpBzkHiD8m8wVSpaj4qR2HT8NktQ9aIDh
-         83PGyCiMELKFkPAAJ4oKSoHJYw+BxXeDVZHwA+/1F1FsDEdMj437l2T1zBZvMvvheHvL
-         fdLJ8urtUQhsyRrrfXAVw/DhaY2VeUzbmsUBTotErPCNPW/7n17mK4ajJuqRCwV0CKYj
-         W+Zp1BcViOgwN1fFLrhobVuOpXFZhmczbXyYlTzP7butXBzzN7km9hK2nXnGXCXaobqM
-         5tig==
+         :cc:content-transfer-encoding;
+        bh=AVJp3Nx2fJclkPsZmo5pxsSlY+xokOBoEOQZdALqbJc=;
+        b=wGOiwEh11w+CjxmdcSVIkykUGQlX+8qKLxoUiHNR3bfSzC0tPhrY+FxxOOvZ2UlGlg
+         8OScpTD/VFjc0VAehdzHunnGxsBuIJcyAQE/EkzaCSuF7VXtvdpXJuh4pySRhZ+5cL8c
+         eGjt7lo5TEWfDZzl3eGuLA1EhaF0Nbs6XdmhDynaoRDOakkHjwmz2RQ+8skoU4vgIfq2
+         sDdqoRYWZSwKhuqzafEwdCWI8QAZi9rNeWdc4Rsa0mbqBJRrYqufg8RpdWuB7yhpOiaq
+         7pPo8FPrRlXqV2yqse4WiWBMkLf07ImLYXAvQfQ//PTSVIu2qYCiHJ0+UdX6nLWGA2li
+         YGZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ki25gnbpyN00Iv5cdTY8OhdgRYpiq6GuA0iUi2qS8JY=;
-        b=gJX0WeuiUpwJeNJ62ruQFrLFF9n0Quzk0S3/unhC3UyO9BBPzmElwTpjkTJg6nDDVA
-         UpIDs8IfP1zYk5AYITGF5d6GuQcBNy/1BshIEp8C2mvPh/AH8azrgncGOjthrOdK4B6n
-         Q2OFWdwC5tuddhpwozY5f4wEmJly29b9zhgTeERKX9W2ED27Fo1s4QSBd5l83qtu0xsw
-         aYR0gLE5jr/GBRX0PcSdmiv3aiOfmnu6wpJihAdMwPH6oL+pz7fksG1en3araqjCf/M1
-         7oA2VZQzn2b2cHpj4/f25QMPPfSq97Yuh/b6ZzXQaq+lerWWvPSI4O2TtfZ1dMXBQnys
-         z4JQ==
-X-Gm-Message-State: APjAAAUt6abWQKXEDtjA4Oizje5fiJWFj6LpRXq6WijPdSDFC52hM/7j
-        Id76N1OO0Kj+t2JSrWHUNdgxvZsWYw5YRE6vPi0e0w==
-X-Google-Smtp-Source: APXvYqyS2MWVz9Gjs48JrwIYbsO/Nl6/uoy1ID+PXy7Cl0PgKvCG4CClUBfmff8XpKrw/24ncJDArH9Sw7hQb50yikE=
-X-Received: by 2002:a05:600c:295:: with SMTP id 21mr3864373wmk.43.1573668760287;
- Wed, 13 Nov 2019 10:12:40 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=AVJp3Nx2fJclkPsZmo5pxsSlY+xokOBoEOQZdALqbJc=;
+        b=H7EFf7ffpgqYTwDvJbrILSn97pPgAqyCVGy5diJsA5uJcbYR0Lc8b/i7bG2Oi0CFI8
+         brWRF+4g9VIrGYKRoN6k3bubS6DIIa17loLbR/Z0hypOt7v0QFk28xjeH3qB9EdesHi2
+         mGLwwWDoW+czCZG+TunhW5tnJ79OX8y3RWMWMF2UeI7KNiTBkX2RonGfJkKxKGTkCjIh
+         vGoKVTwwj8MnCTtzecJt4sdgaf0xhmQjPlNSnk2fRZrdLVX3VIB3fc5jsRej33zdZuZf
+         0Xf9pu9z25EtIB03theP7a7AnrMOP59pikUJ2dmWJZXH2Ynk7A+ZZJbmI3zyTc1s7wRJ
+         tnIA==
+X-Gm-Message-State: APjAAAUcwL7KRf5QtCHCTbB6YzQlr/gSMD94djn9kj0bCGZbTsy5WKZP
+        csCZKOB002LRhK3Uclo+KyNOF1HEVXddSRYl+3d/
+X-Google-Smtp-Source: APXvYqz6RuVgYs5PhvNTlFRRdDmEaTW7hWupakyWdeAFy65CHcki5bkN96cbOf91R30s0af7NR9u3phubPYifusPKnQ=
+X-Received: by 2002:ac8:1084:: with SMTP id a4mr4196071qtj.114.1573669748685;
+ Wed, 13 Nov 2019 10:29:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20191113012746.52804-1-brendanhiggins@google.com>
-In-Reply-To: <20191113012746.52804-1-brendanhiggins@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Wed, 13 Nov 2019 10:12:28 -0800
-Message-ID: <CABVgOS=3AXS1=rpGyNiNYu8hU+t=gQG9JongHXir=76ENnrnnA@mail.gmail.com>
-Subject: Re: [PATCH linux-kselftest/test v1] Documentation: kunit: add
- documentation for kunit_tool
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-doc@vger.kernel.org,
-        corbet@lwn.net, tytso@mit.edu
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com> <896a7da3-f139-32e7-8a64-b3562df1a091@linux.alibaba.com>
+In-Reply-To: <896a7da3-f139-32e7-8a64-b3562df1a091@linux.alibaba.com>
+From:   Iurii Zaikin <yzaikin@google.com>
+Date:   Wed, 13 Nov 2019 10:28:32 -0800
+Message-ID: <CAAXuY3qsckZurUHy5kJUQcmrbn-bmGHnjtPPus5=PrQ+MmJX+g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] sched/numa: documentation for per-cgroup numa stat
+To:     =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 5:28 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> Add documentation for the Python script used to build, run, and collect
-> results from the kernel known as kunit_tool. kunit_tool
-> (tools/testing/kunit/kunit.py) was already added in previous commits.
->
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> ---
->  Documentation/dev-tools/kunit/index.rst      |  1 +
->  Documentation/dev-tools/kunit/kunit-tool.rst | 57 ++++++++++++++++++++
->  Documentation/dev-tools/kunit/start.rst      |  3 ++
->  3 files changed, 61 insertions(+)
->  create mode 100644 Documentation/dev-tools/kunit/kunit-tool.rst
->
-> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-> index 26ffb46bdf99d..c60d760a0eed1 100644
-> --- a/Documentation/dev-tools/kunit/index.rst
-> +++ b/Documentation/dev-tools/kunit/index.rst
-> @@ -9,6 +9,7 @@ KUnit - Unit Testing for the Linux Kernel
->
->         start
->         usage
-> +       kunit-tool
->         api/index
->         faq
->
-> diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
-> new file mode 100644
-> index 0000000000000..aa1a93649a45a
-> --- /dev/null
-> +++ b/Documentation/dev-tools/kunit/kunit-tool.rst
-> @@ -0,0 +1,57 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+Since the documentation talks about fairly advanced concepts, every little =
+bit
+of readability improvement helps. I tried to make suggestions that I feel m=
+ake
+it easier to read, hopefully my nitpicking is not too annoying.
+On Tue, Nov 12, 2019 at 7:46 PM =E7=8E=8B=E8=B4=87 <yun.wang@linux.alibaba.=
+com> wrote:
+> +On NUMA platforms, remote memory accessing always has a performance pena=
+lty,
+> +although we have NUMA balancing working hard to maximum the local access=
+ing
+> +proportion, there are still situations it can't helps.
+Nit: working hard to maximize the access locality...
+can't helps -> can't help
 > +
-> +=================
-> +kunit_tool How-To
-> +=================
-> +
-> +What is kunit_tool?
-> +===================
-> +
-> +kunit_tool is a set of scripts that aid in building the Linux kernel as UML
-> +(`User Mode Linux <http://user-mode-linux.sourceforge.net/old/>`_), running
-> +KUnit tests, parsing the test results and displaying them in a user friendly
-> +manner.
+> +This could happen in modern production environment, using bunch of cgrou=
+ps
+> +to classify and control resources which introduced complex configuration=
+ on
+> +memory policy, CPUs and NUMA node, NUMA balancing could facing the wrong
+> +memory policy or exhausted local NUMA node, lead into the low local page
+> +accessing proportion.
+I find the below a bit easier to read.
+This could happen in modern production environment. When a large
+number of cgroups
+are used to classify and control resources, this creates a complex
+memory policy configuration
+for CPUs and NUMA nodes. In such cases NUMA balancing could end up
+with the wrong
+memory policy or exhausted local NUMA node, which would lead to low
+percentage of local page
+accesses.
 
-Calling this a "set of scripts" is a bit confusing, as the only script
-described is tools/testing/kunit/kunit.py, which isn't mentioned in
-this section.
+> +We need to perceive such cases, figure out which workloads from which cg=
+roup
+> +has introduced the issues, then we got chance to do adjustment to avoid
+> +performance damages.
+Nit: perceive -> detect, got-> get, damages-> degradation
 
-Also, it may be worth linking to the new version of the UML website
-(even if the old one has more content).
+> +However, there are no hardware counter for per-task local/remote accessi=
+ng
+> +info, we don't know how many remote page accessing has been done for a
+> +particular task.
+Nit: counters.
+Nit: we don't know how many remote page accesses have occurred for a
 
 > +
-> +What is a kunitconfig?
-> +======================
+> +Statistics
+> +----------
 > +
-> +It's just a defconfig that kunit_tool looks for in the base directory.
-> +kunit_tool uses it to generate a .config as you might expect. In addition, it
-> +verifies that the generated .config contains the CONFIG options in the
-> +kunitconfig; the reason it does this is so that it is easy to be sure that a
-> +CONFIG that enables a test actually ends up in the .config.
-> +
-> +How do I use kunit_tool?
-> +=================================
-> +
-> +If a kunitconfig is present at the root directory, all you have to do is:
-> +
-> +.. code-block:: bash
-> +
-> +       ./tools/testing/kunit/kunit.py run
-> +
-> +However, you most likely want to use it with the following options:
-> +
-> +.. code-block:: bash
-> +
-> +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8
-> +
-> +- ``--timeout`` sets a maximum amount of time to allow tests to run.
-> +- ``--jobs`` sets the number of threads to use to build the kernel.
-> +
+> +Fortunately, we have NUMA Balancing which scan task's mapping and trigge=
+r PF
+> +periodically, give us the opportunity to record per-task page accessing =
+info.
+Nit: scans, triggers, gives.
 
-Not directly an issue with the documentation, but this does raise the
-question of why we don't have better defaults. Alternatively, maybe
-this doc could suggest --jobs=`nproc` or similar?
+> +By "echo 1 > /proc/sys/kernel/cg_numa_stat" on runtime or add boot param=
+eter
+Nit: at runtime or adding boot parameter
+> +To be noticed, the accounting is in a hierarchy way, which means the num=
+a
+> +statistics representing not only the workload of this group, but also th=
+e
+> +workloads of all it's descendants.
+Note that the accounting is hierarchical, which means the numa
+statistics for a given group represents not only the workload of this
+group, but also the
+workloads of all it's descendants.
+> +
+> +For example the 'cpu.numa_stat' show:
+> +  locality 39541 60962 36842 72519 118605 721778 946553
+> +  exectime 1220127 1458684
+> +
+> +The locality is sectioned into 7 regions, closely as:
+> +  0-13% 14-27% 28-42% 43-56% 57-71% 72-85% 86-100%
+Nit: closely -> approximately?
 
-> +If you just want to use the defconfig that ships with the kernel, you can
-> +append the ``--defconfig`` flag as well:
-> +
-> +.. code-block:: bash
-> +
-> +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8 --defconfig
-> +
-> +.. note::
-> +       This command is particularly helpful for getting started because it
-> +       just works. No kunitconfig needs to be present.
-> +
+> +we can draw a line for region_bad_percent, when the line close to 0 thin=
+gs
+nit: we can plot?
+> +are good, when getting close to 100% something is wrong, we can pick a p=
+roper
+> +watermark to trigger warning message.
 
-Should we use this in the getting started section below, then?
-Particularly since we're already going over kunitconfigs there
-separately.
-
-> +For a list of all the flags supported by kunit_tool, you can run:
+> +You may want to drop the data if the region_all is too small, which impl=
+y
+Nit: implies
+> +there are not much available pages for NUMA Balancing, just ignore would=
+ be
+Nit: not many... ingoring
+> +fine since most likely the workload is insensitive to NUMA.
+> +Monitoring root group help you control the overall situation, while you =
+may
+Nit: helps
+> +also want to monitoring all the leaf groups which contain the workloads,=
+ this
+Nit: monitor
+> +help to catch the mouse.
+Nit: helps
+> +become too small, for NUMA node X we have:
+Nit: becomes
+> +try put your workload into a memory cgroup which providing per-node memo=
+ry
+Nit: try to put
+> +These two percentage are usually matched on each node, workload should e=
+xecute
+Nit: percentages
+> +Depends on which part of the memory accessed mostly by the workload, loc=
+ality
+Depending on which part of the memory is accessed.
+"mostly by the workload" - not sure what you mean here, the majority
+of accesses from the
+workload fall into this part of memory or that accesses from processes
+other than the workload
+are rare?
+> +could still be good with just a little piece of memory locally.
+?
+> +Thus to tell if things are find or not depends on the understanding of s=
+ystem
+are fine
+> +After locate which workloads introduced the bad locality, check:
+locate -> indentifying
 > +
-> +.. code-block:: bash
-> +
-
-Do you think it's worth documenting the remaining two (--build_dir and
---raw_output) here too?
-
-> +       ./tools/testing/kunit/kunit.py run --help
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> index aeeddfafeea20..1535c4394cfa2 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -21,6 +21,9 @@ The wrapper can be run with:
->
->     ./tools/testing/kunit/kunit.py run
->
-> +For more information on this wrapper (also called kunit_tool) checkout the
-> +:doc:`kunit-tool` page.
-> +
->  Creating a kunitconfig
->  ======================
->  The Python script is a thin wrapper around Kbuild as such, it needs to be
-> --
-> 2.24.0.432.g9d3f5f5b63-goog
->
+> +1). Is the workloads bind into a particular NUMA node?
+bind into -> bound to
+> +2). Is there any NUMA node run out of resources?
+Has any .. run out of resources
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 5e27d74e2b74..220df1f0beb8 100644
+> +                       lot's of per-cgroup workloads.
+lots
