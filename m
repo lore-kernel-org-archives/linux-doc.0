@@ -3,197 +3,293 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CA087D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 21:49:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F122D7D917
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 22:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfKMVti (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 16:49:38 -0500
-Received: from mx.kolabnow.com ([95.128.36.41]:60970 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726162AbfKMVth (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Nov 2019 16:49:37 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 9D7A4126C;
-        Wed, 13 Nov 2019 22:49:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1573681771; x=1575496172; bh=KjmAipo7S7phxrTZcs9K44KSt+4JCGlcqV1
-        fWuQheJM=; b=BX73kTi6UcH3tycmRODT8rEZBlglO5YYYcCLlDH3XllPs3WLa3s
-        5ragWVMSIyd9Mpj92ipUJ54NtlOhMM03NakEnzmiXROb9x7ttgHZUa4lN+Oxr5zZ
-        j/eQ6ruvn/SHKy3wwdEV34VQNxFIQtgraXyN3wDsia4qc5QqlA6TfaHC0dn9E2BC
-        OBYF2E33cPbmr4IRRsO+49/LgxGCYfey+4Xj0Fnn0a5e5Us0RHG9Uxq5+T7slu/P
-        BcpwZBEHwuNHzEcP15WCJlNzFnDLEpRsxuNE8s1Apa+Vpg3U14pDAVJD98E8ffAH
-        hnybJpa1jkEvxM9i4BodnFYmbHvTMriDzBAw4bWadEOyc1ZsuMrKFXoKvRKZ5D8O
-        LSQZWPswWlAgR7KfZJf9CeGg5FHSXVmzAqY2tgNPvxy2kacHsOaYV4fPQwGBXjy/
-        tUBr9LbnDyLxlITNknnoznbhcQfnLekIGX3eEMrkeFQ5Gr4iGkaDf9eQ1/M7jPQ0
-        Z1t7rapVqY9/B+KkGaBV4HctIvMDrlOKIzYylzG3alMxnQH3wOF1y+Z+7Y0apXOi
-        EZYjP2DAF3faiorvEgotBq+7rkyYrlxPJqdfHTRBdk6ngvYP5bxRMN1RzEB9FvP3
-        dJFVK46u7H0Vi2yL3vr4RjcCM9bKOSxwKSUoEDpRwBpSmgeNemdt/Oa4=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id HupaO_OHlxl2; Wed, 13 Nov 2019 22:49:31 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id CCAC7520;
-        Wed, 13 Nov 2019 22:49:31 +0100 (CET)
-Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 722473546;
-        Wed, 13 Nov 2019 22:49:31 +0100 (CET)
+        id S1726988AbfKMWAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 17:00:19 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34105 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726473AbfKMWAT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 17:00:19 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l202so3330739oig.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 14:00:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=324rHVZhrTFcjdK8aV5SZ9IVxxPo74njd/OitSvPfwI=;
+        b=JM5duNQKWOnxFmjkav9HZXH/NjP8V3EFjvRScM8H1ENfRZFMJcqKXGsOH5QH1/XkbY
+         vCD0sAE5s56t2TslzFPlVDg58PWwtwFXGXAxBMG0tsTexLa7QMLwyOZ0Gso6auFVso3Q
+         /H11R89hS1mPF9jLodhzUGt5k/XEVyO/tLKGjex6PPX1In+qTXV0N/dfIMdhxv6uG2sh
+         BZYlUR9Q3NRtsqyHW81yXHskK+nAMUQ+QwspdWneea1zKsQSEwoQhoG8lU1c4/okZPhW
+         9NJ0U93AQ6wir2C/KYTbbzItcaYUlbUWKJBV/qu+CRPugyKbqUjxjl/m3RkevX8fGpp7
+         vvSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=324rHVZhrTFcjdK8aV5SZ9IVxxPo74njd/OitSvPfwI=;
+        b=SBKh3dvpmrhgrGbGJazxsZdLHC1fe9L7JUvjmrLU3vGnveRm52TuIrlhgr5P42l2nr
+         V1usK5cYA9AaSSkLaoGvxamLMY+aAslBAinVXbZ7cGfeMKUMuVZHCooik9ogGuYeHvLu
+         GLocoVlhezBzH9DieE9wWCTPIxiF6d9lkywMgUaqw4ARKeVGtB7QVh1mqqjT1hacQ2EP
+         7tAsc9nJBrgSmvAWSBmiTEVuSH5XI8fnR/whzDn6WeHqkGaXb28ig/Yz7aSyfoKfTEjw
+         DdhiNIg16WMi8CNoKmQOOMkdT/Ys4iE9Cn9dKV82h8e95FdtV7JY8V5zXFtHM1fcoYZu
+         l22A==
+X-Gm-Message-State: APjAAAUcTP0xExzMx09DVnTdFdbp8sVN+W3F60BvsQTdrYe91cRosSEv
+        /ck5F4oZrmUA/G5W0K0MvFx2GKTgcxJFt0IgRz3Q0Q==
+X-Google-Smtp-Source: APXvYqwVpp6U8sqm3YkFplAWvkGjJy2mawgDrQR8Ysx5PquK9pjlYrXYZlj6N+IM0+gIhTrJsrUtjBK/sbd+UEVubTA=
+X-Received: by 2002:aca:3d84:: with SMTP id k126mr726052oia.70.1573682418131;
+ Wed, 13 Nov 2019 14:00:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 13 Nov 2019 22:49:30 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+References: <20191113042710.3997854-1-jhubbard@nvidia.com> <20191113042710.3997854-5-jhubbard@nvidia.com>
+ <CAPcyv4gGu=G-c1czSAYJ3joTYS_ZYOJ6i9umKzCQEFzpwZMiiA@mail.gmail.com>
+In-Reply-To: <CAPcyv4gGu=G-c1czSAYJ3joTYS_ZYOJ6i9umKzCQEFzpwZMiiA@mail.gmail.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 13 Nov 2019 14:00:06 -0800
+Message-ID: <CAPcyv4hr64b-k4j7ZY796+k-+Dy11REMcvPJ+QjTsyJ3vSdfKg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/23] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: On global citations, URLs and translations
-In-Reply-To: <25c9ec73-64d3-a5dc-2f64-863c04dad22d@darmarit.de>
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com>
- <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net>
- <871rud3x2e.fsf@intel.com>
- <25c9ec73-64d3-a5dc-2f64-863c04dad22d@darmarit.de>
-Message-ID: <2057b7e3221cd31678a81060768dfce6@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
+        linux-block@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-11-13 10:37, Markus Heiser wrote:
-> my 2cent ..
-> 
-> I have a doubt that translating has to be a part of the kernel 
-> development.
+On Wed, Nov 13, 2019 at 11:23 AM Dan Williams <dan.j.williams@intel.com> wr=
+ote:
+>
+> On Tue, Nov 12, 2019 at 8:27 PM John Hubbard <jhubbard@nvidia.com> wrote:
+> >
+> > An upcoming patch changes and complicates the refcounting and
+> > especially the "put page" aspects of it. In order to keep
+> > everything clean, refactor the devmap page release routines:
+> >
+> > * Rename put_devmap_managed_page() to page_is_devmap_managed(),
+> >   and limit the functionality to "read only": return a bool,
+> >   with no side effects.
+> >
+> > * Add a new routine, put_devmap_managed_page(), to handle checking
+> >   what kind of page it is, and what kind of refcount handling it
+> >   requires.
+> >
+> > * Rename __put_devmap_managed_page() to free_devmap_managed_page(),
+> >   and limit the functionality to unconditionally freeing a devmap
+> >   page.
+> >
+> > This is originally based on a separate patch by Ira Weiny, which
+> > applied to an early version of the put_user_page() experiments.
+> > Since then, J=C3=A9r=C3=B4me Glisse suggested the refactoring described=
+ above.
+> >
+> > Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> > ---
+> >  include/linux/mm.h | 27 ++++++++++++++++---
+> >  mm/memremap.c      | 67 ++++++++++++++++++++--------------------------
+> >  2 files changed, 53 insertions(+), 41 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index a2adf95b3f9c..96228376139c 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -967,9 +967,10 @@ static inline bool is_zone_device_page(const struc=
+t page *page)
+> >  #endif
+> >
+> >  #ifdef CONFIG_DEV_PAGEMAP_OPS
+> > -void __put_devmap_managed_page(struct page *page);
+> > +void free_devmap_managed_page(struct page *page);
+> >  DECLARE_STATIC_KEY_FALSE(devmap_managed_key);
+> > -static inline bool put_devmap_managed_page(struct page *page)
+> > +
+> > +static inline bool page_is_devmap_managed(struct page *page)
+> >  {
+> >         if (!static_branch_unlikely(&devmap_managed_key))
+> >                 return false;
+> > @@ -978,7 +979,6 @@ static inline bool put_devmap_managed_page(struct p=
+age *page)
+> >         switch (page->pgmap->type) {
+> >         case MEMORY_DEVICE_PRIVATE:
+> >         case MEMORY_DEVICE_FS_DAX:
+> > -               __put_devmap_managed_page(page);
+> >                 return true;
+> >         default:
+> >                 break;
+> > @@ -986,6 +986,27 @@ static inline bool put_devmap_managed_page(struct =
+page *page)
+> >         return false;
+> >  }
+> >
+> > +static inline bool put_devmap_managed_page(struct page *page)
+> > +{
+> > +       bool is_devmap =3D page_is_devmap_managed(page);
+> > +
+> > +       if (is_devmap) {
+> > +               int count =3D page_ref_dec_return(page);
+> > +
+> > +               /*
+> > +                * devmap page refcounts are 1-based, rather than 0-bas=
+ed: if
+> > +                * refcount is 1, then the page is free and the refcoun=
+t is
+> > +                * stable because nobody holds a reference on the page.
+> > +                */
+> > +               if (count =3D=3D 1)
+> > +                       free_devmap_managed_page(page);
+> > +               else if (!count)
+> > +                       __put_page(page);
+> > +       }
+> > +
+> > +       return is_devmap;
+> > +}
+> > +
+> >  #else /* CONFIG_DEV_PAGEMAP_OPS */
+> >  static inline bool put_devmap_managed_page(struct page *page)
+> >  {
+> > diff --git a/mm/memremap.c b/mm/memremap.c
+> > index 03ccbdfeb697..bc7e2a27d025 100644
+> > --- a/mm/memremap.c
+> > +++ b/mm/memremap.c
+> > @@ -410,48 +410,39 @@ struct dev_pagemap *get_dev_pagemap(unsigned long=
+ pfn,
+> >  EXPORT_SYMBOL_GPL(get_dev_pagemap);
+> >
+> >  #ifdef CONFIG_DEV_PAGEMAP_OPS
+> > -void __put_devmap_managed_page(struct page *page)
+> > +void free_devmap_managed_page(struct page *page)
+> >  {
+> > -       int count =3D page_ref_dec_return(page);
+> > +       /* Clear Active bit in case of parallel mark_page_accessed */
+> > +       __ClearPageActive(page);
+> > +       __ClearPageWaiters(page);
+> > +
+> > +       mem_cgroup_uncharge(page);
+>
+> Ugh, when did all this HMM specific manipulation sneak into the
+> generic ZONE_DEVICE path? It used to be gated by pgmap type with its
+> own put_zone_device_private_page(). For example it's certainly
+> unnecessary and might be broken (would need to check) to call
+> mem_cgroup_uncharge() on a DAX page. ZONE_DEVICE users are not a
+> monolith and the HMM use case leaks pages into code paths that DAX
+> explicitly avoids.
 
-I have a conflict of interests of course, and because of it I disagree.
+It's been this way for a while and I did not react previously,
+apologies for that. I think __ClearPageActive, __ClearPageWaiters, and
+mem_cgroup_uncharge, belong behind a device-private conditional. The
+history here is:
 
-> Minimal English is one of the prerequisites to be a part of the 
-> community.
+Move some, but not all HMM specifics to hmm_devmem_free():
+    2fa147bdbf67 mm, dev_pagemap: Do not clear ->mapping on final put
 
-In a community there are active members and passive ones. It is true 
-that
-active members need to know English (it is written in the 
-documentation).
-But passive members are following the development, they are learning 
-from it,
-they profit from its openness. For these users English could be a 
-problem, or
-an imposition; nowadays students future is shaped based on the language 
-they
-study at school (studying German/French/Italian/Spanish does not open 
+Remove the clearing of mapping since no upstream consumers needed it:
+    b7a523109fb5 mm: don't clear ->mapping in hmm_devmem_free
+
+Add it back in once an upstream consumer arrived:
+    7ab0ad0e74f8 mm/hmm: fix ZONE_DEVICE anon page mapping reuse
+
+We're now almost entirely free of ->page_free callbacks except for
+that weird nouveau case, can that FIXME in nouveau_dmem_page_free()
+also result in killing the ->page_free() callback altogether? In the
+meantime I'm proposing a cleanup like this:
+
+diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
+index ad8e4df1282b..4eae441f86c9 100644
+--- a/drivers/nvdimm/pmem.c
++++ b/drivers/nvdimm/pmem.c
+@@ -337,13 +337,7 @@ static void pmem_release_disk(void *__pmem)
+        put_disk(pmem->disk);
+ }
+
+-static void pmem_pagemap_page_free(struct page *page)
+-{
+-       wake_up_var(&page->_refcount);
+-}
+-
+ static const struct dev_pagemap_ops fsdax_pagemap_ops =3D {
+-       .page_free              =3D pmem_pagemap_page_free,
+        .kill                   =3D pmem_pagemap_kill,
+        .cleanup                =3D pmem_pagemap_cleanup,
+ };
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 03ccbdfeb697..157edb8f7cf8 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -419,12 +419,6 @@ void __put_devmap_managed_page(struct page *page)
+         * holds a reference on the page.
+         */
+        if (count =3D=3D 1) {
+-               /* Clear Active bit in case of parallel mark_page_accessed =
+*/
+-               __ClearPageActive(page);
+-               __ClearPageWaiters(page);
+-
+-               mem_cgroup_uncharge(page);
+-
+                /*
+                 * When a device_private page is freed, the page->mapping f=
+ield
+                 * may still contain a (stale) mapping value. For example, =
 the
-same doors).
+@@ -446,10 +440,17 @@ void __put_devmap_managed_page(struct page *page)
+                 * handled differently or not done at all, so there is no n=
+eed
+                 * to clear page->mapping.
+                 */
+-               if (is_device_private_page(page))
+-                       page->mapping =3D NULL;
++               if (is_device_private_page(page)) {
++                       /* Clear Active bit in case of parallel
+mark_page_accessed */
++                       __ClearPageActive(page);
++                       __ClearPageWaiters(page);
 
-I believe that the Linux kernel and many other open source projects 
-should
-not just help the industry to cut their costs, but they should also play 
-a
-social role: education, sharing knowledge. Documentation in general, and
-translations as well, are part of this second world.
-
-> Maintainers do not master foreign languages
-> they are forced to commit blindly without quality assurance.
-
-In some cases maintainers have been forced to accept code blindly 
-without
-quality assurance because they do not own the hardware for which they 
-are
-accepting patches.
-
-
-> APIs will never be translated and
-> the translation of articles is at random.
-
->   IMO a spin-off might focus on translations.
-
-I may agree on this, only if there is an official place where to put 
-them,
-like:
-
-https://www.kernel.org/doc/html/zh_CN/latest/
-
-Otherwise, a translation on a random git<whatever> service is useless 
-because it does
-not have visibility/authority.
-
->   -- Markus --
-> 
-> Am 12.11.19 um 16:59 schrieb Jani Nikula:
->> On Tue, 12 Nov 2019, Jonathan Corbet <corbet@lwn.net> wrote:
->>> On Tue, 12 Nov 2019 16:17:32 +0200
->>> Jani Nikula <jani.nikula@linux.intel.com> wrote:
->>> 
->>>> Fix the references in both places to actually make them cross
->>>> references. See below.
->>>> 
->>>> BR,
->>>> Jani.
->>>> 
->>>> 
->>>> diff --git a/Documentation/process/programming-language.rst 
->>>> b/Documentation/process/programming-language.rst
->>>> index e5f5f065dc24..59efa6d7a053 100644
->>>> --- a/Documentation/process/programming-language.rst
->>>> +++ b/Documentation/process/programming-language.rst
->>>> @@ -3,7 +3,7 @@
->>>>   Programming Language
->>>>   ====================
->>>>   -The kernel is written in the C programming language 
->>>> [c-language]_.
->>>> +The kernel is written in the C programming language 
->>>> `[c-language]`_.
->>>>   More precisely, the kernel is typically compiled with ``gcc`` 
->>>> [gcc]_
->>>>   under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of 
->>>> ISO C90
->>>>   (including some C99 features).
->>>> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used 
->>>> and/or to shorten the code.
->>>>     Please refer to ``include/linux/compiler_attributes.h`` for more 
->>>> information.
->>>>   -.. [c-language] 
->>>> http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>>> +.. _[c-language]: 
->>>> http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>>>   .. [gcc] https://gcc.gnu.org
->>>>   .. [clang] https://clang.llvm.org
->>>>   .. [icc] https://software.intel.com/en-us/c-compilers
->>> 
->>> That fixes this particular instance, while leaving the adjacent ones
->>> untouched :)
->> 
->> Yeah, that was just a quick hack to prove the point. Perhaps Miguel 
->> can
->> provide the proper patch? ;)
->> 
->>> I think this is a good change, especially if applied to all 
->>> instances.  I
->>> also wonder, though, if we should adopt a rule that translations need
->>> unique labels - prepend "IT-" or some such for the Italian 
->>> translation,
->>> for example?
->> 
->> I *think* the references like above (when done properly) are local to
->> the file. It's the labels that perhaps need this.
->> 
->> Sphinx also has some i18n support which I believe we aren't using, and
->> it would stand to reason this is covered there. But that probably 
->> needs
->> some dedication from Someone(tm) to figure out.
->> 
->> BR,
->> Jani.
->> 
->> 
-
--- 
-Federico Vaga
-http://www.federicovaga.it/
+-               page->pgmap->ops->page_free(page);
++                       mem_cgroup_uncharge(page);
++
++                       page->mapping =3D NULL;
++                       page->pgmap->ops->page_free(page);
++               } else
++                       wake_up_var(&page->_refcount);
+        } else if (!count)
+                __put_page(page);
+ }
