@@ -3,59 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 074B97D90D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 16:32:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1772E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 16:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727343AbfKMQcl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 11:32:41 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:42734 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727170AbfKMQcl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 11:32:41 -0500
-Received: by mail-ua1-f51.google.com with SMTP id 31so849236uas.9
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 08:32:39 -0800 (PST)
+        id S1728428AbfKMQda (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 11:33:30 -0500
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:35738 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726978AbfKMQda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 11:33:30 -0500
+Received: by mail-vs1-f66.google.com with SMTP id k15so1771582vsp.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 08:33:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=pDKKsEnNSRaRtnTtkPfEq2dSlMtAaoLWzVsslXGiAh0=;
-        b=18309h9PFFwMrlS/XYWNpakfrkLyFf5WzDSkRkznyRjceSIwnZc1mNodE+ZWZjDd46
-         XWqzYpymjBA7c11tSENL50ARuSWF8gsMk8nwGV2UHCn8Di5UFWpQKoq7Yq4HMsd/TJOT
-         rtmfa2/1EKe7LrY8HjjxXWgSdRsQXlY49MIcfDyeV5fu/CprhZKmQuCPvazseo7f+DDp
-         mbzQoBB/iYc1WEXsQLM7mfzHRYgsvPW5TrxNxbTbhuTL/J4EyOCh3t4+G9oYpQ8fW+kW
-         g9VghxVQ6sELRogY0wGDB67jZlWDfPnzdBjcGmRj8Hi505v+Qzjqyu3JFuJUsfXGwA7H
-         GF/w==
+        bh=EMqO7kO+eGq0uCIQ1EQILqtM2ejcR6sdBUV13AtA/lk=;
+        b=XaiDIDDtPVY40xuVO13Q/1v0UVMXCUMTz9cC7XOMCVRm1GcuhOAK9WCwAL0vdpJ3Il
+         Jlw/rEZS2aFPaNetjY5RElc/Mfud2PtkVURTTzhq7z/Tzg6IzVx21Wt7xJVyVnQVbjjD
+         eF1uGxtrs0jFLbYHX168KizsPTdPhvycgGSrjeTG9H2af0NI0nIyP43tgzsydTeXJQOD
+         TnV59ZoVoN/zBwyBIIe+sPskrI9l++l7yvE+nYVsXaoKbvRW/Td7bPyEAiTMRuTxafzc
+         edDMQG/94ozk80m58lfWGYU88wihBWMDGk5ZLYOB1Ch7F/wAND0IAjHvQ0zkTTjT7rcq
+         6iHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pDKKsEnNSRaRtnTtkPfEq2dSlMtAaoLWzVsslXGiAh0=;
-        b=aCOuRuxTH0Pct/TgK2O0HBBS1njGrXB9H+dns7coynV5t7TGPyI/6x82p+aPAfZN+X
-         EcCm2Pm+Q6JOYz9gYHzs6E4qVAySvalRXpQA+i5cZAqJMsteJDDpdyHuqsi2UqL+QvTW
-         yuzdRVq7q8BeZMYMOIw/HrAcgFETIrRf5TPMWP4qtMTJy9iJWzvZP8vuOg057laq8lP3
-         v2iETw5jQm1reVLoTwlkKiBHUKhJUU4dPnXHxAV6rYQFL7l1cWeUUaLijkIrx0JMi3Vm
-         uWs2NpU9eYwReDrchsKACiTvLSxFYxoP9o4iFS89pYQ1L4s9sycBrH5sY11vHxh8pGv/
-         4/sA==
-X-Gm-Message-State: APjAAAW2JN8RfScUUOGpAXKk6A5JRNhPXjaI82jGkpGdF/1iB9ycyiKv
-        ivrmvtlNiSCqc/8/z+VwQOctTA==
-X-Google-Smtp-Source: APXvYqx9moaQoSBbBI34MchfRiqFzHdBM7CLPKC6eS2MV1lVBMSwkkSDF+V4lf6h3qgkrlCcuUFuEQ==
-X-Received: by 2002:a9f:3c13:: with SMTP id u19mr2369395uah.27.1573662758781;
-        Wed, 13 Nov 2019 08:32:38 -0800 (PST)
+        bh=EMqO7kO+eGq0uCIQ1EQILqtM2ejcR6sdBUV13AtA/lk=;
+        b=ZvmkSC0knczsHNa+++zqhoFtIGbl36LXHjxCmyz0mOPGKrGi4r8vTxLMfgrMav0Soa
+         QNCFyFn9wWhtBHb+o6icdEsH7De0RVeT6gFFLDfSR6p9FgT6g513q4fhm57DuAVkITKa
+         Pgg/VbCtfH+arI2qbKPEu24LJDAk66seAnREgeAHc6kaFscCzg6actOqMu2lUhmhLgSd
+         R07b+myx2mMWF62K8wJ4Poek/qbw8vA6kqSCSrFjV9KRsny8o8nKyStzGQXyV2MG0Hli
+         C8EuVwnZGziJQyGQ52ZnYBK85DDZdf3ce7pYZIcgrywU/Q6oHcrARetDcKbcF6xmOJqT
+         roxw==
+X-Gm-Message-State: APjAAAUoVn+w3XCjEvGC6V05KkCRffg02N65WJEEB1zKvMC6Ggipkxgz
+        dA48U3Se4A5MPpJQZkJ66sMkTg==
+X-Google-Smtp-Source: APXvYqzI2uGfY1AjLJBGPLMwVGPxmNpIdIDSf0dVimu/BkUp0yx8RWSj5ex9NX6esogZOPKMKUVuzQ==
+X-Received: by 2002:a05:6102:7ce:: with SMTP id y14mr2401899vsg.220.1573662808770;
+        Wed, 13 Nov 2019 08:33:28 -0800 (PST)
 Received: from ubuntu1804-desktop ([172.97.41.74])
-        by smtp.gmail.com with ESMTPSA id r15sm587351uap.19.2019.11.13.08.32.36
+        by smtp.gmail.com with ESMTPSA id b26sm612034uaf.5.2019.11.13.08.33.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 08:32:37 -0800 (PST)
-Date:   Wed, 13 Nov 2019 11:32:36 -0500
+        Wed, 13 Nov 2019 08:33:28 -0800 (PST)
+Date:   Wed, 13 Nov 2019 11:33:27 -0500
 From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org
-Subject: [RFC 1/2] docs: ftrace: Clarify the RAM impact of buffer_size_kb
-Message-ID: <0e4a803c3e24140172855748b4a275c31920e208.1573661658.git.frank@generalsoftwareinc.com>
+Subject: [RFC 2/2] ** do not apply this patch ** Just for illustration
+ purposes
+Message-ID: <141cb10cc2eabc5c3130496f12d84dd1ef247e20.1573661658.git.frank@generalsoftwareinc.com>
 References: <cover.1573661658.git.frank@generalsoftwareinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -67,45 +69,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current text could mislead the user into believing that the number
-of pages allocated by each CPU ring buffer is calculated by the round
-up of the division: buffer_size_kb / PAGE_SIZE.
+Prints a message that will allow us to evaluate the number of pages
+allocated by each CPU buffer as well the main values that participate
+in its calculation.
 
-Clarify that the number of pages allocated is the round up of the
-division: buffer_size_kb / (PAGE_SIZE - BUF_PAGE_HDR_SIZE). Add an
-example that shows how the number of pages allocated could be off by
-5 pages more compared with how the current text suggests it should be.
+ $ echo 0 > /sys/kernel/debug/tracing/tracing_on
+ $ echo 4096 > /sys/kernel/debug/tracing/buffer_size_kb
+   .... e.g. of output:
+   PAGE_SIZE: 4096, BUF_PAGE_HDR_SIZE: 16, size: 4194304, nr_pages: 1029
 
-Suggested-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
 ---
- Documentation/trace/ftrace.rst | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ kernel/trace/ring_buffer.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index e3060eedb22d..ec2c4eff95a6 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -188,8 +188,17 @@ of ftrace. Here is a list of some of the key files:
- 	If the last page allocated has room for more bytes
- 	than requested, the rest of the page will be used,
- 	making the actual allocation bigger than requested or shown.
--	( Note, the size may not be a multiple of the page size
--	due to buffer management meta-data. )
-+
-+        The number of pages allocated for each CPU buffer may not
-+        be the same than the round up of the division:
-+        buffer_size_kb / PAGE_SIZE. This is because part of each page is
-+        used to store a page header with metadata. E.g. with
-+        buffer_size_kb=4096 (kilobytes), a PAGE_SIZE=4096 bytes and a
-+        BUF_PAGE_HDR_SIZE=16 bytes (BUF_PAGE_HDR_SIZE is the size of the
-+        page header with metadata) the number of pages allocated for each
-+        CPU buffer is 1029, not 1024. The formula for calculating the
-+        number of pages allocated for each CPU buffer is the round up of:
-+        buffer_size_kb / (PAGE_SIZE - BUF_PAGE_HDR_SIZE).
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 66358d66c933..c10b6bcb29b9 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -1730,6 +1730,8 @@ int ring_buffer_resize(struct ring_buffer *buffer, unsigned long size,
+ 		return size;
  
- 	Buffer sizes for individual CPUs may vary
- 	(see "per_cpu/cpu0/buffer_size_kb" below), and if they do
+ 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
++	printk(KERN_ALERT "PAGE_SIZE: %lu, BUF_PAGE_HDR_SIZE: %lu, size: %lu, nr_pages: %ld",
++	       PAGE_SIZE, BUF_PAGE_HDR_SIZE, size, nr_pages);
+ 
+ 	/* we need a minimum of two pages */
+ 	if (nr_pages < 2)
 -- 
 2.17.1
 
