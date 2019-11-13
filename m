@@ -1,153 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D130C7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 02:09:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA96E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 03:43:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728452AbfKMCJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Nov 2019 21:09:12 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:7386 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728220AbfKMCJL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Nov 2019 21:09:11 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dcb65c50002>; Tue, 12 Nov 2019 18:09:09 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 12 Nov 2019 18:09:09 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 12 Nov 2019 18:09:09 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov
- 2019 02:09:09 +0000
-Subject: Re: [PATCH v3 08/23] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-To:     Dan Williams <dan.j.williams@intel.com>
-CC:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20191112000700.3455038-1-jhubbard@nvidia.com>
- <20191112000700.3455038-9-jhubbard@nvidia.com>
- <20191112204338.GE5584@ziepe.ca>
- <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
- <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
- <20191112234250.GA19615@ziepe.ca>
- <CAPcyv4hwFKmsQpp04rS6diCmZwGtbnriCjfY2ofWV485qT9kzg@mail.gmail.com>
- <28355eb0-4ee5-3418-b430-59302d15b478@nvidia.com>
- <CAPcyv4hdYZ__3+KJHh+0uX--f-U=pLiZfdO0JDhyBE-nZ=i4FQ@mail.gmail.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <c6f035f5-8290-2bc0-a645-d63e3a47f588@nvidia.com>
-Date:   Tue, 12 Nov 2019 18:09:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727480AbfKMDno (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Nov 2019 22:43:44 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:55702 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726994AbfKMDno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Nov 2019 22:43:44 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0ThxeMyX_1573616617;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0ThxeMyX_1573616617)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 13 Nov 2019 11:43:38 +0800
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Subject: [PATCH 0/3] sched/numa: introduce advanced numa statistic
+Message-ID: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+Date:   Wed, 13 Nov 2019 11:43:37 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAPcyv4hdYZ__3+KJHh+0uX--f-U=pLiZfdO0JDhyBE-nZ=i4FQ@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1573610949; bh=B6pkyHmGh6yhjKCidrVzgID/vhDeCAvfXP4nK4Pk4sU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=RV5dPXEXGk2wPs6itxn+ysd+tryNIcHtFe7cNPEDa6fUJR+mqhDFmpWJh1cxUznfM
-         u/dSVfFdxe/eLLU3UZJsFyG0KQve3tMf4SbX/eLAZ3PsvXvDC9d9Vo1jj5Z6rn0Yor
-         1EXyMK0mBMr99qCD9+AZ++P4gO+L3VPJHPXksjDueAgSTRvM0AvLDqBIchBRO93HWN
-         flXai7XrgmMwanL4FueloUnCWoIRpUo5voQGwqOd0jdXOidJNNwAYlQZLipkiht6xZ
-         1PIwF7tPrWLfM+J/GXeR6mCfSxY22FrqYpx7yQ6peaaRvxPNUSU6UqLCTPNv27OnhW
-         6xjI9w2mLclog==
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/12/19 5:35 PM, Dan Williams wrote:
-> On Tue, Nov 12, 2019 at 5:08 PM John Hubbard <jhubbard@nvidia.com> wrote:
->>
->> On 11/12/19 4:58 PM, Dan Williams wrote:
->> ...
->>>>> It's not redundant relative to upstream which does not do anything the
->>>>> FOLL_LONGTERM in the gup-slow path... but I have not looked at patches
->>>>> 1-7 to see if something there made it redundant.
->>>>
->>>> Oh, the hunk John had below for get_user_pages_remote() also needs to
->>>> call __gup_longterm_locked() when FOLL_LONGTERM is specified, then
->>>> that calls check_dax_vmas() which duplicates the vma_is_fsdax() check
->>>> above.
->>>
->>> Oh true, good eye. It is redundant if it does additionally call
->>> __gup_longterm_locked(), and it needs to do that otherwises it undoes
->>> the CMA migration magic that Aneesh added.
->>>
->>
->> OK. So just to be clear, I'll be removing this from the patch:
->>
->>         /*
->>          * The lifetime of a vaddr_get_pfn() page pin is
->>          * userspace-controlled. In the fs-dax case this could
->>          * lead to indefinite stalls in filesystem operations.
->>          * Disallow attempts to pin fs-dax pages via this
->>          * interface.
->>          */
->>         if (ret > 0 && vma_is_fsdax(vmas[0])) {
->>                 ret = -EOPNOTSUPP;
->>                 put_page(page[0]);
->>         }
->>
->> (and the declaration of "vmas", as well).
-> 
-> ...and add a call to __gup_longterm_locked internal to
-> get_user_pages_remote(), right?
-> 
+Modern production environment could use hundreds of cgroup to control
+the resources for different workloads, along with the complicated
+resource binding.
 
-Yes, and thanks for double-checking. I think I got a little dizzy following
-the call stack there. :)  And now I see that this also affects the
-implementation of pin_longterm_pages_remote(), because that will need the
-same logic that get_user_pages_remote() has. 
+On NUMA platforms where we have multiple nodes, things become even more
+complicated, we hope there are more local memory access to improve the
+performance, and NUMA Balancing keep working hard to achieve that,
+however, wrong memory policy or node binding could easily waste the
+effort, result a lot of remote page accessing.
 
+We need to perceive such problems, then we got chance to fix it before
+there are too much damages, however, there are no good approach yet to
+help catch the mouse who introduced the remote access.
+
+This patch set is trying to fill in the missing pieces， by introduce
+the per-cgroup NUMA locality/exectime statistics, and expose the per-task
+page migration failure counter, with these statistics, we could achieve
+the daily monitoring on NUMA efficiency, to give warning when things going
+too wrong.
+
+Please check the third patch for more details.
+
+Thanks to Peter, Mel and Michal for the good advices :-)
+
+Michael Wang (3):
+  sched/numa: advanced per-cgroup numa statistic
+  sched/numa: expose per-task pages-migration-failure counter
+  sched/numa: documentation for per-cgroup numa stat
+
+ Documentation/admin-guide/cg-numa-stat.rst      | 161 ++++++++++++++++++++++++
+ Documentation/admin-guide/kernel-parameters.txt |   4 +
+ Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+ include/linux/sched.h                           |  18 ++-
+ include/linux/sched/sysctl.h                    |   6 +
+ init/Kconfig                                    |   9 ++
+ kernel/sched/core.c                             |  91 ++++++++++++++
+ kernel/sched/debug.c                            |   1 +
+ kernel/sched/fair.c                             |  33 +++++
+ kernel/sched/sched.h                            |  17 +++
+ kernel/sysctl.c                                 |  11 ++
+ 11 files changed, 359 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
 
 
-thanks,
 -- 
-John Hubbard
-NVIDIA
+2.14.4.44.g2045bb6
+
