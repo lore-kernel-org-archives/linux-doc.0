@@ -1,179 +1,165 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3747D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 13:02:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF1E47D917
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 15:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbfKMNCF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 08:02:05 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:33145 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbfKMNCF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 08:02:05 -0500
-Received: by mail-qt1-f194.google.com with SMTP id y39so2492660qty.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 05:02:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oMayMeIif+74vqoR9Hg244XFAjXhPl1nedXCyPx66Cc=;
-        b=nx3682LY4M40wGJ/sVGEu1B6oRowx3yCQZUXaDyQPZ8wp2PPM1JbbnvXpnwJ+1w7kN
-         lveYAqZtu6ZiCNE2GeOgCzqCbaPveYJh+bEnyDI89VRNGCHDXS9A7L5ZDDa96GF+3bm0
-         VmapuAT4FqF5vTUEuSGlcRA+NIY79GOrBmWnh2u551hGbiYfLURBD9nS87LvoXBLbrK0
-         o1TB/3BSIGkHlZVczCO3ubOoj5u0dVQwEYLzu7svoxCzx/+RmvcCH+ACjaNBf3sl94Zf
-         NRZR8twQGuvzHtghZ4nzQu/TUj0hyyqfJ3dXa+O6cdFNGC6w6BZNjOabe9aQdvwtecNu
-         AUCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oMayMeIif+74vqoR9Hg244XFAjXhPl1nedXCyPx66Cc=;
-        b=YFBuAUbM5YRKdEVp/YzFEv2M9UPlowtXoOfY6edG6qxG196To3BwvznVAWnxt3//JJ
-         aVJuOcs/MXOkcy7gW66M+CW3M0lPNvuD1THrAS27pg6zDPdMhxuy4HRe76gXhmYo/4Iu
-         my3v+hCPRwN5AunW4USinWFL4P9KCZOyViIJFKIc1Iura1e09F+Y62D4P+totafcY2ym
-         ZiFg+sPU5MQ9nlpmy3RcHVmMf9hJH8naPXkpLEB4/rGxZzvmueyZU7eFIUiyzfR1exva
-         5eZsCkiu8TiyNGfgNulzpvgkf23fIZflDD8ZS3M4YTSMlpVp14JphqGBYY4J0VYA1r/5
-         QJSQ==
-X-Gm-Message-State: APjAAAUFWD/SXhtgKpxGcqHS73e2wNteAdvU7VexMndhuQ1l4U6J6BmU
-        pSChAMYVSQUkcjgiiyLF1D4O/w==
-X-Google-Smtp-Source: APXvYqwGbusmGQAfGHn3CXk2dU2JO4knhTY4prDGLzmyu8apMpc1WOd3WOgt9K6JkDyAWe/3c1LxDA==
-X-Received: by 2002:ac8:724f:: with SMTP id l15mr2476006qtp.234.1573650124104;
-        Wed, 13 Nov 2019 05:02:04 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id 187sm918223qkk.103.2019.11.13.05.02.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Nov 2019 05:02:03 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iUsHa-000767-Jc; Wed, 13 Nov 2019 09:02:02 -0400
-Date:   Wed, 13 Nov 2019 09:02:02 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 08/23] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-Message-ID: <20191113130202.GA26068@ziepe.ca>
-References: <20191113042710.3997854-1-jhubbard@nvidia.com>
- <20191113042710.3997854-9-jhubbard@nvidia.com>
+        id S1727655AbfKMPJR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 10:09:17 -0500
+Received: from ms.lwn.net ([45.79.88.28]:48940 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726480AbfKMPJQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Nov 2019 10:09:16 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 710685A0;
+        Wed, 13 Nov 2019 15:09:14 +0000 (UTC)
+Date:   Wed, 13 Nov 2019 08:09:12 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Michal =?UTF-8?B?S291dG7DvQ==?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 3/3] sched/numa: documentation for per-cgroup numa stat
+Message-ID: <20191113080912.041918ce@lwn.net>
+In-Reply-To: <896a7da3-f139-32e7-8a64-b3562df1a091@linux.alibaba.com>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+        <896a7da3-f139-32e7-8a64-b3562df1a091@linux.alibaba.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191113042710.3997854-9-jhubbard@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 08:26:55PM -0800, John Hubbard wrote:
-> As it says in the updated comment in gup.c: current FOLL_LONGTERM
-> behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
-> FS DAX check requirement on vmas.
-> 
-> However, the corresponding restriction in get_user_pages_remote() was
-> slightly stricter than is actually required: it forbade all
-> FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
-> that do not set the "locked" arg.
-> 
-> Update the code and comments accordingly, and update the VFIO caller
-> to take advantage of this, fixing a bug as a result: the VFIO caller
-> is logically a FOLL_LONGTERM user.
-> 
-> Also, remove an unnessary pair of calls that were releasing and
-> reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
-> just in order to call page_to_pfn().
-> 
-> Also, move the DAX check ("if a VMA is DAX, don't allow long term
-> pinning") from the VFIO call site, all the way into the internals
-> of get_user_pages_remote() and __gup_longterm_locked(). That is:
-> get_user_pages_remote() calls __gup_longterm_locked(), which in turn
-> calls check_dax_vmas(). It's lightly explained in the comments as well.
-> 
-> Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
-> and to Dan Williams for helping clarify the DAX refactoring.
-> 
-> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Jerome Glisse <jglisse@redhat.com>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->  drivers/vfio/vfio_iommu_type1.c | 25 ++-----------------------
->  mm/gup.c                        | 27 ++++++++++++++++++++++-----
->  2 files changed, 24 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index d864277ea16f..7301b710c9a4 100644
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -340,7 +340,6 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
->  {
->  	struct page *page[1];
->  	struct vm_area_struct *vma;
-> -	struct vm_area_struct *vmas[1];
->  	unsigned int flags = 0;
->  	int ret;
->  
-> @@ -348,33 +347,13 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
->  		flags |= FOLL_WRITE;
->  
->  	down_read(&mm->mmap_sem);
-> -	if (mm == current->mm) {
-> -		ret = get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
-> -				     vmas);
-> -	} else {
-> -		ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
-> -					    vmas, NULL);
-> -		/*
-> -		 * The lifetime of a vaddr_get_pfn() page pin is
-> -		 * userspace-controlled. In the fs-dax case this could
-> -		 * lead to indefinite stalls in filesystem operations.
-> -		 * Disallow attempts to pin fs-dax pages via this
-> -		 * interface.
-> -		 */
-> -		if (ret > 0 && vma_is_fsdax(vmas[0])) {
-> -			ret = -EOPNOTSUPP;
-> -			put_page(page[0]);
-> -		}
-> -	}
-> -	up_read(&mm->mmap_sem);
-> -
-> +	ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTERM,
-> +				    page, NULL, NULL);
->  	if (ret == 1) {
->  		*pfn = page_to_pfn(page[0]);
->  		return 0;
+On Wed, 13 Nov 2019 11:45:59 +0800
+王贇 <yun.wang@linux.alibaba.com> wrote:
 
-Mind the return with the lock held this needs some goto unwind
+> Add the description for 'cg_numa_stat', also a new doc to explain
+> the details on how to deal with the per-cgroup numa statistics.
+> 
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Michal Koutný <mkoutny@suse.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
+> ---
+>  Documentation/admin-guide/cg-numa-stat.rst      | 161 ++++++++++++++++++++++++
+>  Documentation/admin-guide/kernel-parameters.txt |   4 +
+>  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+>  3 files changed, 174 insertions(+)
+>  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
 
-Jason
+Thanks for adding documentation for your new feature!  When you add a new
+RST file, though, you should also add it to index.rst so that it becomes a
+part of the docs build.
+
+A couple of nits below...
+
+> diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
+> new file mode 100644
+> index 000000000000..87b716c51e16
+> --- /dev/null
+> +++ b/Documentation/admin-guide/cg-numa-stat.rst
+> @@ -0,0 +1,161 @@
+> +===============================
+> +Per-cgroup NUMA statistics
+> +===============================
+> +
+> +Background
+> +----------
+> +
+> +On NUMA platforms, remote memory accessing always has a performance penalty,
+> +although we have NUMA balancing working hard to maximum the local accessing
+> +proportion, there are still situations it can't helps.
+> +
+> +This could happen in modern production environment, using bunch of cgroups
+> +to classify and control resources which introduced complex configuration on
+> +memory policy, CPUs and NUMA node, NUMA balancing could facing the wrong
+> +memory policy or exhausted local NUMA node, lead into the low local page
+> +accessing proportion.
+> +
+> +We need to perceive such cases, figure out which workloads from which cgroup
+> +has introduced the issues, then we got chance to do adjustment to avoid
+> +performance damages.
+> +
+> +However, there are no hardware counter for per-task local/remote accessing
+> +info, we don't know how many remote page accessing has been done for a
+> +particular task.
+> +
+> +Statistics
+> +----------
+> +
+> +Fortunately, we have NUMA Balancing which scan task's mapping and trigger PF
+> +periodically, give us the opportunity to record per-task page accessing info.
+> +
+> +By "echo 1 > /proc/sys/kernel/cg_numa_stat" on runtime or add boot parameter
+> +'cg_numa_stat', we will enable the accounting of per-cgroup numa statistics,
+> +the 'cpu.numa_stat' entry of CPU cgroup will show statistics:
+> +
+> +  locality -- execution time sectioned by task NUMA locality (in ms)
+> +  exectime -- execution time sectioned by NUMA node (in ms)
+> +
+> +We define 'task NUMA locality' as:
+> +
+> +  nr_local_page_access * 100 / (nr_local_page_access + nr_remote_page_access)
+> +
+> +this per-task percentage value will be updated on the ticks for current task,
+> +and the access counter will be updated on task's NUMA balancing PF, so only
+> +the pages which NUMA Balancing paid attention to will be accounted.
+> +
+> +On each tick, we acquire the locality of current task on that CPU, accumulating
+> +the ticks into the counter of corresponding locality region, tasks from the
+> +same group sharing the counters, becoming the group locality.
+> +
+> +Similarly, we acquire the NUMA node of current CPU where the current task is
+> +executing on, accumulating the ticks into the counter of corresponding node,
+> +becoming the per-cgroup node execution time.
+> +
+> +To be noticed, the accounting is in a hierarchy way, which means the numa
+> +statistics representing not only the workload of this group, but also the
+> +workloads of all it's descendants.
+> +
+> +For example the 'cpu.numa_stat' show:
+> +  locality 39541 60962 36842 72519 118605 721778 946553
+> +  exectime 1220127 1458684
+
+You almost certainly want that rendered as a literal block, so say
+"show::".  There are other places where you'll want to do that as well. 
+
+> +The locality is sectioned into 7 regions, closely as:
+> +  0-13% 14-27% 28-42% 43-56% 57-71% 72-85% 86-100%
+> +
+> +And exectime is sectioned into 2 nodes, 0 and 1 in this case.
+> +
+> +Thus we know the workload of this group and it's descendants have totally
+> +executed 1220127ms on node_0 and 1458684ms on node_1, tasks with locality
+> +around 0~13% executed for 39541 ms, and tasks with locality around 87~100%
+> +executed for 946553 ms, which imply most of the memory access are local.
+> +
+> +Monitoring
+> +-----------------
+
+A slightly long underline :)
+
+I'll stop here; thanks again for adding documentation.
+
+jon
