@@ -1,218 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3BA87D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:05:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 013AB7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726881AbfKNWFt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 17:05:49 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33210 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbfKNWFs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 17:05:48 -0500
-Received: by mail-pf1-f194.google.com with SMTP id c184so5237358pfb.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 14:05:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PUB/MflXzCJMG7Y2M0r0tuE4n+oLMmgrXK9Lt9807D8=;
-        b=LvqeDdWj4/BvmlCJtUczgpCAZ/S1nczS+iFKbFLDS1G4JiiacIQh5AF3nVq1WdR/mk
-         QJK1r46xfNrokg5Pl3xNjKO+c8ITdvqKffKTEWkP4qYSo/lN6vdwR2fpu769g4FtUHEP
-         DIdSm+3HHQbqeXN5QAAA+5+W46uYGsSH1+Y7nj9MDkPomeX8CXKdjL5EKcqUHA+0UnVZ
-         JQd5IAP5Yf3yNnQmIcFycHbmE8BddReimJfqlttqMaLk3t2Y3K6nN7TllXlCGRvJFUGv
-         8+zg2TpENXotCecZPZsTMu5+MKOU9MUazHSC1VIIl3HV01YOrJlPH3DOXwk/8q8iBBMy
-         R6qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PUB/MflXzCJMG7Y2M0r0tuE4n+oLMmgrXK9Lt9807D8=;
-        b=eAZZN6oVCdhtm1OM7SD2mlpjIEqzOMpPNTrELfkrCXKCJdLTGX+fVdeDvJCUoxBRlT
-         /eFD1D3mS/vyf+cf/0rG0p+FNjv7+Rpkll6ZzvpRi8zcPrsHpFGYW+3SFeJn6QeWlZPI
-         RAE1NrcMOuhmcjvLvmEzChKllNnX3oJ3u2qfGKnuNwROz5gkLTXrIKuYL+Jul/1LOwiX
-         O7NMTkjHy6K/ks+kHFCRz8ByRp3imwLSvmYIilEY/pKxmUFt5CHaacN5S/bhzkeqMkUJ
-         emgwvRGqI4TDP/khhEusA2+xzEeJfgIRLM1rwfw53ObM9zBjgukilAfnkNj9ivZKEDe5
-         fcOg==
-X-Gm-Message-State: APjAAAU5v8tTaf3TA/6OtRimgVJ09cndPDwl7beQq2KwrLC9rCeC7dMT
-        hw6YMxRKvqcEkcjQQW3Ue/Bdarmm9KlGdqvxXuskcw==
-X-Google-Smtp-Source: APXvYqxeHKt2jaGM/C2bqfmau+yuCpw0lKb5aGNis1EqWTGVYXbjSOtTjbZIlvJaYLskYN1vYrwdSdEo/swVvRGXK3Y=
-X-Received: by 2002:a63:4721:: with SMTP id u33mr4321514pga.159.1573769147313;
- Thu, 14 Nov 2019 14:05:47 -0800 (PST)
+        id S1726910AbfKNWQD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 17:16:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52494 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726613AbfKNWQD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Nov 2019 17:16:03 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B271420709;
+        Thu, 14 Nov 2019 22:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573769762;
+        bh=LDvzI/ip5iI4UIoBSOL32SYOqpndu86kZkkikom9zAQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=evw1x+V8DbAMm1Q56y0Dl8nBXH4RuSVwxeqMsDfteUCdnCAMqUInQ8/2NhtcogIZ+
+         xon7nkORRkUbI4++x7nww4haJsBSqgHMLJ4ZzVmMjc54kDTtedT8QMdT/6hOh7Oex2
+         5vtVN19MYBPsP0sLIPE24mpdYfNsH0MiSEQ8OF60=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 87E8835227FC; Thu, 14 Nov 2019 14:15:59 -0800 (PST)
+Date:   Thu, 14 Nov 2019 14:15:59 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, edumazet@google.com, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191114221559.GS2865@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191114180303.66955-1-elver@google.com>
+ <20191114195046.GP2865@paulmck-ThinkPad-P72>
+ <20191114213303.GA237245@google.com>
 MIME-Version: 1.0
-References: <20191113012746.52804-1-brendanhiggins@google.com> <CABVgOS=3AXS1=rpGyNiNYu8hU+t=gQG9JongHXir=76ENnrnnA@mail.gmail.com>
-In-Reply-To: <CABVgOS=3AXS1=rpGyNiNYu8hU+t=gQG9JongHXir=76ENnrnnA@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 14 Nov 2019 14:05:36 -0800
-Message-ID: <CAFd5g45jxFgxPSaamT3EQB5W_HMbM5-FPyRppqTb-HFTn+oGow@mail.gmail.com>
-Subject: Re: [PATCH linux-kselftest/test v1] Documentation: kunit: add
- documentation for kunit_tool
-To:     David Gow <davidgow@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191114213303.GA237245@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 13, 2019 at 10:12 AM David Gow <davidgow@google.com> wrote:
->
-> On Tue, Nov 12, 2019 at 5:28 PM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > Add documentation for the Python script used to build, run, and collect
-> > results from the kernel known as kunit_tool. kunit_tool
-> > (tools/testing/kunit/kunit.py) was already added in previous commits.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > ---
-> >  Documentation/dev-tools/kunit/index.rst      |  1 +
-> >  Documentation/dev-tools/kunit/kunit-tool.rst | 57 ++++++++++++++++++++
-> >  Documentation/dev-tools/kunit/start.rst      |  3 ++
-> >  3 files changed, 61 insertions(+)
-> >  create mode 100644 Documentation/dev-tools/kunit/kunit-tool.rst
-> >
-> > diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-> > index 26ffb46bdf99d..c60d760a0eed1 100644
-> > --- a/Documentation/dev-tools/kunit/index.rst
-> > +++ b/Documentation/dev-tools/kunit/index.rst
-> > @@ -9,6 +9,7 @@ KUnit - Unit Testing for the Linux Kernel
-> >
-> >         start
-> >         usage
-> > +       kunit-tool
-> >         api/index
-> >         faq
-> >
-> > diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
-> > new file mode 100644
-> > index 0000000000000..aa1a93649a45a
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/kunit/kunit-tool.rst
-> > @@ -0,0 +1,57 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=================
-> > +kunit_tool How-To
-> > +=================
-> > +
-> > +What is kunit_tool?
-> > +===================
-> > +
-> > +kunit_tool is a set of scripts that aid in building the Linux kernel as UML
-> > +(`User Mode Linux <http://user-mode-linux.sourceforge.net/old/>`_), running
-> > +KUnit tests, parsing the test results and displaying them in a user friendly
-> > +manner.
->
-> Calling this a "set of scripts" is a bit confusing, as the only script
-> described is tools/testing/kunit/kunit.py, which isn't mentioned in
-> this section.
+On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
+> On Thu, 14 Nov 2019, Paul E. McKenney wrote:
+> 
+> > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
+> > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > only enables KCSAN for x86, but we expect adding support for other
+> > > architectures is relatively straightforward (we are aware of
+> > > experimental ARM64 and POWER support).
+> > > 
+> > > To gather early feedback, we announced KCSAN back in September, and have
+> > > integrated the feedback where possible:
+> > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > 
+> > > The current list of known upstream fixes for data races found by KCSAN
+> > > can be found here:
+> > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > > 
+> > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > including several articles that motivate why data races are dangerous
+> > > [1, 2], justifying a data race detector such as KCSAN.
+> > > 
+> > > [1] https://lwn.net/Articles/793253/
+> > > [2] https://lwn.net/Articles/799218/
+> > 
+> > I queued this and ran a quick rcutorture on it, which completed
+> > successfully with quite a few reports.
+> 
+> Great. Many thanks for queuing this in -rcu. And regarding merge window
+> you mentioned, we're fine with your assumption to targeting the next
+> (v5.6) merge window.
+> 
+> I've just had a look at linux-next to check what a future rebase
+> requires:
+> 
+> - There is a change in lib/Kconfig.debug and moving KCSAN to the
+>   "Generic Kernel Debugging Instruments" section seems appropriate.
+> - bitops-instrumented.h was removed and split into 3 files, and needs
+>   re-inserting the instrumentation into the right places.
+> 
+> Otherwise there are no issues. Let me know what you recommend.
 
-Fair enough. Sorry, I think of it as a set of scripts since there is
-more than one file, but I guess that probably doesn't make too much
-sense to anyone else.
+Sounds good!
 
-> Also, it may be worth linking to the new version of the UML website
-> (even if the old one has more content).
+I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
+approach is to fix any conflicts during that rebasing operation.
+Does that make sense, or would you prefer to send me a rebased stack at
+that point?  Either way is fine for me.
 
-No complaints here. I just linked to what I thought is more helpful.
-It isn't immediately obvious to click on the old site (however, you
-probably want to since it has way more useful content), but the old
-site *is* discoverable from the new site, and the inverse is not true.
-
-> > +
-> > +What is a kunitconfig?
-> > +======================
-> > +
-> > +It's just a defconfig that kunit_tool looks for in the base directory.
-> > +kunit_tool uses it to generate a .config as you might expect. In addition, it
-> > +verifies that the generated .config contains the CONFIG options in the
-> > +kunitconfig; the reason it does this is so that it is easy to be sure that a
-> > +CONFIG that enables a test actually ends up in the .config.
-> > +
-> > +How do I use kunit_tool?
-> > +=================================
-> > +
-> > +If a kunitconfig is present at the root directory, all you have to do is:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +       ./tools/testing/kunit/kunit.py run
-> > +
-> > +However, you most likely want to use it with the following options:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8
-> > +
-> > +- ``--timeout`` sets a maximum amount of time to allow tests to run.
-> > +- ``--jobs`` sets the number of threads to use to build the kernel.
-> > +
->
-> Not directly an issue with the documentation, but this does raise the
-> question of why we don't have better defaults. Alternatively, maybe
-
-Better defaults, yes-ish: I think Ted's suggestion that we should make
-it possible to run KUnit tests from make[1] is correct, and if I
-remember correctly, make *does* have a way to set reasonable
-system-wide defaults for this (I just don't think anybody takes
-advantage of it), so in that case, we should just respect whatever
-make wants to do. Consequently, I think the logic in the script should
-probably be pretty dumb.
-
-> this doc could suggest --jobs=`nproc` or similar?
-
-Good suggestion, although I would do --jobs=`nproc --all `.
-
-> > +If you just want to use the defconfig that ships with the kernel, you can
-> > +append the ``--defconfig`` flag as well:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8 --defconfig
-> > +
-> > +.. note::
-> > +       This command is particularly helpful for getting started because it
-> > +       just works. No kunitconfig needs to be present.
-> > +
->
-> Should we use this in the getting started section below, then?
-> Particularly since we're already going over kunitconfigs there
-> separately.
-
-I think that makes sense.
-
-> > +For a list of all the flags supported by kunit_tool, you can run:
-> > +
-> > +.. code-block:: bash
-> > +
->
-> Do you think it's worth documenting the remaining two (--build_dir and
-> --raw_output) here too?
-
-No. I don't know that I want to set the precedent to document all
-flags here. We already document the flags in the code and I don't want
-the two to get out of sync. However, it might be feasible to have the
-documentation automagically execute the --help command every time it
-is built keeping it in sync. I am not sure how much value that would
-provide.
-
-> > +       ./tools/testing/kunit/kunit.py run --help
-[...]
-
-Cheers!
-
-[1] https://bugzilla.kernel.org/show_bug.cgi?id=205535
+							Thanx, Paul
