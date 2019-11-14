@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 666C77E288
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:04:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AA3D7D917
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727257AbfKNSEn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 13:04:43 -0500
-Received: from mail-vk1-f201.google.com ([209.85.221.201]:52520 "EHLO
-        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbfKNSEW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 13:04:22 -0500
-Received: by mail-vk1-f201.google.com with SMTP id x1so2944766vkc.19
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 10:04:21 -0800 (PST)
+        id S1727314AbfKNSEH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 13:04:07 -0500
+Received: from mail-qv1-f73.google.com ([209.85.219.73]:35026 "EHLO
+        mail-qv1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727301AbfKNSEG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 13:04:06 -0500
+Received: by mail-qv1-f73.google.com with SMTP id d3so1571381qvz.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 10:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=A8ALfglUAafCNqhIvaCjHjdAel0vCMD5ZtmY0/3TtjA=;
-        b=mJoHEAo5pqc+qK89IBDOQOcVkVYj619MJaPZ705KzX7T9U8iHezXczplW4ubbIxVdM
-         84nMLUV7d4T4EVNSQTS2UgACgz40aa3H48N9mrK02ROhyHQgvmtLZJ+xQoaiCe9PXjVg
-         uLAw3gL1JH5FRJ4tQXR1oHyfqfEt0GvvVH4yzLo+x1znGqmMUJFXYrXTA5TlwSVD+r5x
-         N14ZvbEDJ9qialK2dhrbfOIsBSTOF3zr0Bp3ndHbSaf30aYV2Ri+II3D010YXiH8t0fV
-         vnyCC7WhuaFr7Tvtz7eCjw3hEHqmO8miwf5UG27RLIZJpONke9XpSy5sOlk+sbbzAPFl
-         6Ijw==
+        bh=c5ZdhZ0YGUmz1p5pK6AEd80tJtC02zu3w0ESO5REMCw=;
+        b=HvmXn12wl0qX/E3Rsy6XqFvz7iTSNFZJIf1ZuTbKx3Tf8RzcRepEE5HIoqTt7DRQTD
+         BhA9D84TWAiMyyFx8ULMX+Dm3fgOaUFKhbkkAo23XPCj17yXfdvGlxXC3T5hbr6vY+2E
+         /+LOp1OCb1YMNQGDPTs/kvDX3vj+tn43TQfV5DRowqaLe3Rsy0CJONrwytkRB963xQt2
+         RhDiCzHw1wa4bGdIbJDAOtNuLIelDK4ow+jKCLXn6s6/F6/Dqiq3o5xn1VqYsLMdgaay
+         aADxdgs93rup9XUu0H6SUFQRc26NJEOqN8mzXO6Y75vGKv4cuA3T/r8IkQiHZQ5uN5h2
+         exoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=A8ALfglUAafCNqhIvaCjHjdAel0vCMD5ZtmY0/3TtjA=;
-        b=bdFxlrr2xK0JmpHznhU3/Xy/IQgFPmvcPjxYU/sL3c4SDcOe9QgWaBk/sX5I09Yb6O
-         hGVD5WrTlTP8Jn6EULDUnY8khV8DCdj1OuuzQ++NwD/sCxuS8c4jmyk5OJCHqnkUpkOo
-         uzGzdBpWvdcPQkZ/PDnGzbpNLB094vkqqGCjXvDwXjmCaaTzCZCV2ApvlPne6IPFkVp3
-         vqIVqX2zDacBJ91TsWFyjqMY+Y7W2poUSAEL2KiZBfW0h0ohqYY6vpEr7EOACxUtvZJG
-         vhRgAPf+WaV6cylM4Gz8ltaJN4sANLKTOZfk6hQV9bRS8IN9zjUA9jTILp/qU7GKDn5o
-         W4Kw==
-X-Gm-Message-State: APjAAAWSZQY5W2IJcIQqjFRL1kve4GVQXr0VcsGH7Q78iZB1oQFGhc+x
-        6kbl5Ure4qy9v0s4uL4Bo84j8/T7Ow==
-X-Google-Smtp-Source: APXvYqw7JnmHN+nEWhLp7FzaV0lkDhpgCLsWCQoT4EFYL/l9Bdo0fKwoOXqxtktyO21eG3K2d3sQq29XBQ==
-X-Received: by 2002:ab0:2395:: with SMTP id b21mr6064758uan.122.1573754660635;
- Thu, 14 Nov 2019 10:04:20 -0800 (PST)
-Date:   Thu, 14 Nov 2019 19:03:00 +0100
+        bh=c5ZdhZ0YGUmz1p5pK6AEd80tJtC02zu3w0ESO5REMCw=;
+        b=b/60BYdB2O+eA48SKHl9ycvX29un3+s4xPJyD6RoYDLNgkOtCSd5WBBmiBHCiPasNY
+         h++K5LsN6fuWbc/JKpdi+HNmKpR5scJVc11subZatZ76S2+3lq6x04wfTGKVMjmyr9Gf
+         saman87yE9BVl6rDYBsDgxHjx8mFl44nmQ6l+MdUf8CMhfW9lrjvzhBqymNqI8CWV++b
+         ISWUee9owJEXv0Pc7YNLqsn9RtCrMFmx+Kro7jMlDb6aZLFrEKqhEbc50obUcEhBpt2q
+         p9sZTksyPhcpz9yH6ahziEwZO7dMT42/moXizomM/HOfIEEQm+05pAx5nnEP92Z3oivD
+         RXTw==
+X-Gm-Message-State: APjAAAWK7Rh2tAAfyRf1pZJ2gVJlMpuP60CYv1aE2mGYNSb+zeHbZ2Ss
+        soaa/4Dxt/3/mYscHdKNuHWnqL5Gvw==
+X-Google-Smtp-Source: APXvYqwUlw4hUlsakl9iLIPewvS2JHArNK+4NJ+usYinBWA3JzGZ7XeylKBeWUNZaEF3evwOmxW2Hl7CfA==
+X-Received: by 2002:a05:6214:1332:: with SMTP id c18mr7908552qvv.213.1573754643719;
+ Thu, 14 Nov 2019 10:04:03 -0800 (PST)
+Date:   Thu, 14 Nov 2019 19:02:55 +0100
 In-Reply-To: <20191114180303.66955-1-elver@google.com>
-Message-Id: <20191114180303.66955-8-elver@google.com>
+Message-Id: <20191114180303.66955-3-elver@google.com>
 Mime-Version: 1.0
 References: <20191114180303.66955-1-elver@google.com>
 X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
-Subject: [PATCH v4 07/10] seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+Subject: [PATCH v4 02/10] include/linux/compiler.h: Introduce data_race(expr) macro
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com
 Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
@@ -67,69 +67,64 @@ Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
         kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
+        linux-mm@kvack.org, x86@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch proposes to require marked atomic accesses surrounding
-raw_write_seqcount_barrier. We reason that otherwise there is no way to
-guarantee propagation nor atomicity of writes before/after the barrier
-[1]. For example, consider the compiler tears stores either before or
-after the barrier; in this case, readers may observe a partial value,
-and because readers are unaware that writes are going on (writes are not
-in a seq-writer critical section), will complete the seq-reader critical
-section while having observed some partial state.
-[1] https://lwn.net/Articles/793253/
+This introduces the data_race(expr) macro, which can be used to annotate
+expressions for purposes of (1) documenting, and (2) giving tooling such
+as KCSAN information about which data races are deemed "safe".
 
-This came up when designing and implementing KCSAN, because KCSAN would
-flag these accesses as data-races. After careful analysis, our reasoning
-as above led us to conclude that the best thing to do is to propose an
-amendment to the raw_seqcount_barrier usage.
+More context:
+http://lkml.kernel.org/r/CAHk-=wg5CkOEF8DTez1Qu0XTEFw_oHhxN98bDnFqbY7HL5AB2g@mail.gmail.com
 
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Paul E. McKenney <paulmck@kernel.org>
 ---
-v3:
-* Add missing comment that was in preceding seqlock patch.
+v4:
+* Introduce this patch to KCSAN series.
 ---
- include/linux/seqlock.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ include/linux/compiler.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 61232bc223fd..f52c91be8939 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -265,6 +265,13 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
-  * usual consistency guarantee. It is one wmb cheaper, because we can
-  * collapse the two back-to-back wmb()s.
-  *
-+ * Note that, writes surrounding the barrier should be declared atomic (e.g.
-+ * via WRITE_ONCE): a) to ensure the writes become visible to other threads
-+ * atomically, avoiding compiler optimizations; b) to document which writes are
-+ * meant to propagate to the reader critical section. This is necessary because
-+ * neither writes before and after the barrier are enclosed in a seq-writer
-+ * critical section that would ensure readers are aware of ongoing writes.
+diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+index c42fa83f23fb..7d3e77781578 100644
+--- a/include/linux/compiler.h
++++ b/include/linux/compiler.h
+@@ -310,6 +310,26 @@ unsigned long read_word_at_a_time(const void *addr)
+ 	__u.__val;					\
+ })
+ 
++#include <linux/kcsan.h>
++
++/*
++ * data_race: macro to document that accesses in an expression may conflict with
++ * other concurrent accesses resulting in data races, but the resulting
++ * behaviour is deemed safe regardless.
 + *
-  *      seqcount_t seq;
-  *      bool X = true, Y = false;
-  *
-@@ -284,11 +291,11 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
-  *
-  *      void write(void)
-  *      {
-- *              Y = true;
-+ *              WRITE_ONCE(Y, true);
-  *
-  *              raw_write_seqcount_barrier(seq);
-  *
-- *              X = false;
-+ *              WRITE_ONCE(X, false);
-  *      }
-  */
- static inline void raw_write_seqcount_barrier(seqcount_t *s)
++ * This macro *does not* affect normal code generation, but is a hint to tooling
++ * that data races here should be ignored.
++ */
++#define data_race(expr)                                                        \
++	({                                                                     \
++		typeof(({ expr; })) __val;                                     \
++		kcsan_nestable_atomic_begin();                                 \
++		__val = ({ expr; });                                           \
++		kcsan_nestable_atomic_end();                                   \
++		__val;                                                         \
++	})
++#else
++
+ #endif /* __KERNEL__ */
+ 
+ /*
 -- 
 2.24.0.rc1.363.gb1bccd3e3d-goog
 
