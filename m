@@ -1,76 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2F0A7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 00:54:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 050597D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 01:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfKNAyO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 19:54:14 -0500
-Received: from mail-lj1-f172.google.com ([209.85.208.172]:35783 "EHLO
-        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfKNAyO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 19:54:14 -0500
-Received: by mail-lj1-f172.google.com with SMTP id r7so4720995ljg.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 16:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cdU8u7TrXnrCO1uLp4dOVYri6AVg8RGRZFFsUs4zyZE=;
-        b=WdX/pyaFO6r+pKwUSQ7Jw+m4l+euTWJYDbkRBKpwdzkMa7qtUR0H5mQwGPcRWZq9LR
-         /x9qK+bP+1erz5oSvgBWoDLVZX2yO504C4baJWEt/dKWn4vgTTJWiWdyElGIRCeP7Zh3
-         dsacAASctsLwfz2eULAWlrZc055aafkOxlDrRgzq5CP39AIWnk6eEY5BMlZag8Z7K4RT
-         gvZIz6x+Csu0d6SPiBZQ+A/VgqQCoILO2fWt9bx2o8gZXLvn0LCLNvgHcGMuL6MKCDW0
-         oNLBT6uvNzWccyhEMDdk1fLG9PAVDuC+EYkD0Aeh+JaQ9nmbL7YS6WSDGFW6VLQGjDWI
-         Mw1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cdU8u7TrXnrCO1uLp4dOVYri6AVg8RGRZFFsUs4zyZE=;
-        b=Ky2Wpz/2k+CQSdjj0n46WqmZRlyJ/ucRlpso9iA94CQQP8A8odpGcCq9S2/chKPv37
-         BmwJWdQ0hIbONCUVyBFmgz90vb3N0zdcOLYpVaViagE84aVcTXq4+JDZKDlqe5n9OKEr
-         AtGMlTDES8tdp+DumPTxOKYpgqdu3eSM43e+1D1DIZghESIKGti2A8xAXRnqG+fZ0o53
-         +Rg5M9A1r/6ohEj2JDUwWK3ZBgbEjITtaX3Wlod2uszF7DR1Ws1Ydro9qdflw4vvEdBT
-         of0EytlBMgoXKAVnFEng9Tel6JcOlZsLRG43mY0l3WZ/SiIFT/qjMrtPZ+UwSVct45P5
-         JQGQ==
-X-Gm-Message-State: APjAAAUfjHevyBPiz8Zvn/rCqL0P/h5rEBav83vWCGEpgfC0t1RyYZb9
-        80raIdYnWMlX7pBzRTiHcZ7ohKAlze1wxslClo3CYV7o
-X-Google-Smtp-Source: APXvYqzYa+HRHZoB5UurZ0XoOIJ+NvBotYH65G/PffMqm1WEqZjkv7LALlsymbGPUaU6U+gwLms0m/QFwN7jRN0lA2c=
-X-Received: by 2002:a2e:8784:: with SMTP id n4mr4626487lji.230.1573692852343;
- Wed, 13 Nov 2019 16:54:12 -0800 (PST)
+        id S1726120AbfKNBws (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 20:52:48 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:55764 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726098AbfKNBws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 20:52:48 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01422;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0Ti0ZFre_1573696360;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Ti0ZFre_1573696360)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 14 Nov 2019 09:52:43 +0800
+Subject: Re: [PATCH 3/3] sched/numa: documentation for per-cgroup numa stat
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <896a7da3-f139-32e7-8a64-b3562df1a091@linux.alibaba.com>
+ <20191113080912.041918ce@lwn.net>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Message-ID: <359ef90a-aecc-c382-0dd2-2ad7445fb821@linux.alibaba.com>
+Date:   Thu, 14 Nov 2019 09:52:10 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com>
- <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net> <871rud3x2e.fsf@intel.com>
-In-Reply-To: <871rud3x2e.fsf@intel.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 14 Nov 2019 01:54:01 +0100
-Message-ID: <CANiq72kKDiuYcyY+djHPsUJ3AFG6LqT1O=4FT8E+-ifnbKv9Gg@mail.gmail.com>
-Subject: Re: On global citations, URLs and translations
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191113080912.041918ce@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 4:59 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> Sphinx also has some i18n support which I believe we aren't using, and
-> it would stand to reason this is covered there. But that probably needs
-> some dedication from Someone(tm) to figure out.
+Hi, Jonathan
 
-The docs say not to go overboard with the reStructuredText markup, so
-I am not sure if we should avoid going overboard with Sphinx features
-too :)
+On 2019/11/13 下午11:09, Jonathan Corbet wrote:
+> On Wed, 13 Nov 2019 11:45:59 +0800
+> 王贇 <yun.wang@linux.alibaba.com> wrote:
+> 
+>> Add the description for 'cg_numa_stat', also a new doc to explain
+>> the details on how to deal with the per-cgroup numa statistics.
+>>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: Michal Koutný <mkoutny@suse.com>
+>> Cc: Mel Gorman <mgorman@suse.de>
+>> Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
+>> ---
+>>  Documentation/admin-guide/cg-numa-stat.rst      | 161 ++++++++++++++++++++++++
+>>  Documentation/admin-guide/kernel-parameters.txt |   4 +
+>>  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+>>  3 files changed, 174 insertions(+)
+>>  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+> 
+> Thanks for adding documentation for your new feature!  When you add a new
+> RST file, though, you should also add it to index.rst so that it becomes a
+> part of the docs build.
 
-Cheers,
-Miguel
+Thanks for pointing out :-) will fix this in next version.
+
+> 
+> A couple of nits below...
+> 
+>> diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
+>> new file mode 100644
+>> index 000000000000..87b716c51e16
+>> --- /dev/null
+[snip]
+>> +For example the 'cpu.numa_stat' show:
+>> +  locality 39541 60962 36842 72519 118605 721778 946553
+>> +  exectime 1220127 1458684
+> 
+> You almost certainly want that rendered as a literal block, so say
+> "show::".  There are other places where you'll want to do that as well. 
+
+I see, will fix such cases.
+
+> 
+>> +The locality is sectioned into 7 regions, closely as:
+>> +  0-13% 14-27% 28-42% 43-56% 57-71% 72-85% 86-100%
+>> +
+>> +And exectime is sectioned into 2 nodes, 0 and 1 in this case.
+>> +
+>> +Thus we know the workload of this group and it's descendants have totally
+>> +executed 1220127ms on node_0 and 1458684ms on node_1, tasks with locality
+>> +around 0~13% executed for 39541 ms, and tasks with locality around 87~100%
+>> +executed for 946553 ms, which imply most of the memory access are local.
+>> +
+>> +Monitoring
+>> +-----------------
+> 
+> A slightly long underline :)
+
+Aha, will fix this too.
+
+Regards,
+Michael Wang
+
+> 
+> I'll stop here; thanks again for adding documentation.
+> 
+> jon
+> 
