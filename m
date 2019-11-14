@@ -5,34 +5,34 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABF837D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 09:25:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BAFC37D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 09:28:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbfKNJZS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 04:25:18 -0500
-Received: from mga12.intel.com ([192.55.52.136]:7132 "EHLO mga12.intel.com"
+        id S1726000AbfKNJ2c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 04:28:32 -0500
+Received: from mga03.intel.com ([134.134.136.65]:62190 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726000AbfKNJZS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Nov 2019 04:25:18 -0500
+        id S1725977AbfKNJ2c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Nov 2019 04:28:32 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:25:17 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:28:31 -0800
 X-IronPort-AV: E=Sophos;i="5.68,302,1569308400"; 
-   d="scan'208";a="198756057"
+   d="scan'208";a="198756771"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:25:15 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:28:29 -0800
 From:   Jani Nikula <jani.nikula@linux.intel.com>
 To:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Subject: Re: On global citations, URLs and translations
-In-Reply-To: <1a1c57ed248b6cc4622278b079726587@vaga.pv.it>
+In-Reply-To: <72b563af475bb41277e5be48fb43cc18@vaga.pv.it>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com> <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net> <871rud3x2e.fsf@intel.com> <CANiq72kKDiuYcyY+djHPsUJ3AFG6LqT1O=4FT8E+-ifnbKv9Gg@mail.gmail.com> <1a1c57ed248b6cc4622278b079726587@vaga.pv.it>
-Date:   Thu, 14 Nov 2019 11:25:13 +0200
-Message-ID: <87a78y3j46.fsf@intel.com>
+References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com> <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net> <72b563af475bb41277e5be48fb43cc18@vaga.pv.it>
+Date:   Thu, 14 Nov 2019 11:28:27 +0200
+Message-ID: <877e423iys.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
@@ -40,59 +40,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Nov 2019, Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> On 2019-11-14 01:54, Miguel Ojeda wrote:
->> On Tue, Nov 12, 2019 at 4:59 PM Jani Nikula 
->> <jani.nikula@linux.intel.com> wrote:
->>> 
->>> Sphinx also has some i18n support which I believe we aren't using, and
->>> it would stand to reason this is covered there. But that probably 
->>> needs
->>> some dedication from Someone(tm) to figure out.
+On Wed, 13 Nov 2019, Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> On 2019-11-12 16:42, Jonathan Corbet wrote:
+>> On Tue, 12 Nov 2019 16:17:32 +0200
+>> Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >> 
->> The docs say not to go overboard with the reStructuredText markup, so
->> I am not sure if we should avoid going overboard with Sphinx features
->> too :)
+>>> Fix the references in both places to actually make them cross
+>>> references. See below.
+>>> 
+>>> BR,
+>>> Jani.
+>>> 
+>>> 
+>>> diff --git a/Documentation/process/programming-language.rst 
+>>> b/Documentation/process/programming-language.rst
+>>> index e5f5f065dc24..59efa6d7a053 100644
+>>> --- a/Documentation/process/programming-language.rst
+>>> +++ b/Documentation/process/programming-language.rst
+>>> @@ -3,7 +3,7 @@
+>>>  Programming Language
+>>>  ====================
+>>> 
+>>> -The kernel is written in the C programming language [c-language]_.
+>>> +The kernel is written in the C programming language `[c-language]`_.
+>>>  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+>>>  under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO 
+>>> C90
+>>>  (including some C99 features).
+>>> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used 
+>>> and/or to shorten the code.
+>>> 
+>>>  Please refer to ``include/linux/compiler_attributes.h`` for more 
+>>> information.
+>>> 
+>>> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+>>> +.. _[c-language]: 
+>>> http://www.open-std.org/jtc1/sc22/wg14/www/standards
+>>>  .. [gcc] https://gcc.gnu.org
+>>>  .. [clang] https://clang.llvm.org
+>>>  .. [icc] https://software.intel.com/en-us/c-compilers
+>> 
+>> That fixes this particular instance, while leaving the adjacent ones
+>> untouched :)
+>> 
+>> I think this is a good change, especially if applied to all instances.  
+>> I
+>> also wonder, though, if we should adopt a rule that translations need
+>> unique labels - prepend "IT-" or some such for the Italian translation,
+>> for example?
+>> 
+>> Thanks,
+>> 
+>> jon
+>
+> I personally prefer a full inline reference to external links.
+>
+> Blah blah blah `BLAH <https://www.blah.blah/>`_
+>
+> When rendered, we do not care where it is. When we read it from
+> sources (IMHO) it does not look cool but it is nice to have the
+> reference right where we talk about it and not somewhere else in the
+> document: it is there where you need it; it avoids these mistakes, it
+> avoids the need for special labels on external links.  For all
+> translated documents I am already using the prefix "it-" on all
+> internal labels.
 
-We avoid excessive markup to keep the files as readable as possible in
-plain text. Adding or using infrastructure does not conflict with this.
-
-> In addition, I do not know if it worth the effort of doing i18n in
-> Sphinx.  Which problem is going to solve?
-
-Perhaps making it possible to have the whole English documentation
-structure, with certain pages translated to other
-languages. Additionally you could have language specific tables of
-contents for each language, perhaps automatically generated.
-
-I.e. make the translations more accessible.
-
-> If we are talking about this mistake, it is a more general mistake,
-> unrelated with translations: a label has been used twice in the
-> documentation. These labels need to become local in the document or
-> replaced with inline links (I prefer this as I already wrote in
-> another mail).  A global label "gcc" is likely to give some trouble at
-> some point because too generic.
-
-They turned into global duplicate labels due to an error in the
-hyperlink markup. There is no problem with proper markup.
-
-And tying this back to the beginning, IMHO the named hyperlinks are
-*less* of an eyesore than inline markup. Contrast:
-
-	See Foo_.
-
-.. _Foo: http://example.org/what-if-you-have-a-really-long-url
-
-With:
-
-	See `Foo <http://example.org/what-if-you-have-a-really-long-url>`_.
-
-Of course, in this case we also need the backticks in the named targets
-because they contain brackets and hyphens; that could be changed
-too. Also, you don't have to collect the named targets at the bottom of
-the file, you can place them between paragraphs, and it'll be neat in
-plain text too.
+As I wrote elsewhere, IMO the inline markup is uglier in plain text than
+the named targets, which is what we want to avoid. You can place the
+named targets right after the paragraph where you use it. And if you
+reference the same target more than once, you can reuse the URL and not
+have to duplicate.
 
 
 BR,
