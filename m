@@ -1,152 +1,235 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CDA17D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 17:20:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBA757D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:04:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfKNRU4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 12:20:56 -0500
-Received: from mail-eopbgr140047.outbound.protection.outlook.com ([40.107.14.47]:63635
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726491AbfKNRU4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Nov 2019 12:20:56 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XmR9+9QKpSl2TbW78bI5XcH+nYpJbCXtK1XP99tkCZNQ+x44nWvZOB40rdUVzU/ZVhie3OswdVmdNyg+2VgLzBbX33rY/JkwSOTZbHxARF4eU/F34FFMP9Z0tHk5VLsJCyk/d5Ks5/mBRAsqeHgTpiE89qE7NnBCB6BIkZWduSm21Z1gk+UyyRHbBFsS038vPeHPpdhHUHROAFvcHIPvxJ4XanLU3KwuskMXVh2rc2xN/A8ltgn3NclQh7wHSWXshJ0Tx7WQBDkzao38YbyLIGQrT3mArmVSM+1QsC07Lc/02ByWv9hio9pccoBzdQ50eykaAfzdS5lMbW3eJyPakA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkqS3vUpuCzSqtjWpusdOdAlqZROerLERMwBdZyTi6Q=;
- b=VzHiWap2fSANt3CzZjnt/j5uW0tI1d1OBELGp+zO06TThvYREGsqKLLU8zBCJkAfU4+telA8aQoyXokB+OX3ByP4Lr7UfpnFZroe/YoOyksT6y88fDSITx+WoLJvq1vITSDeKFQtjN9xrwtM1EfwS9+HzspjGudlxa6rQbp42uC/+1qCmjyhpZl6Y4ilXR78IxR4sBgWFVPDqU5pU6GvOz9A3a3OKf3bejZq7J40TZhesQ8arBm2GrasDa7zu/Ax/nFFKG0y/xCyBZgY9a99WM818wyMPo5GgtJlDU+h1DlHWSZ92WifbLWWaWhND4kT50uh+A+5fQSNg6GnzKJLXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkqS3vUpuCzSqtjWpusdOdAlqZROerLERMwBdZyTi6Q=;
- b=nTzbER+iitM2wZZ1LRhrkj7dUq0c4WxOVFRRp3yvauw420auPo+cGnVU3Lijl4LhKjYlJDrJ4FFtPbLeMEXKYXXq9K+jynp4SatcTG1PUvHA6WTRfP5QHp3I0A80/Pd7fj9aa8hoeEy+ZDkdyXvCCw9/01i6xHHVUj7c2WVmICk=
-Received: from VI1PR04MB7023.eurprd04.prod.outlook.com (10.186.159.144) by
- VI1PR04MB6127.eurprd04.prod.outlook.com (20.179.26.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2451.23; Thu, 14 Nov 2019 17:20:13 +0000
-Received: from VI1PR04MB7023.eurprd04.prod.outlook.com
- ([fe80::dd0c:72dc:e462:16b3]) by VI1PR04MB7023.eurprd04.prod.outlook.com
- ([fe80::dd0c:72dc:e462:16b3%5]) with mapi id 15.20.2451.024; Thu, 14 Nov 2019
- 17:20:13 +0000
-From:   Leonard Crestez <leonard.crestez@nxp.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Georgi Djakov <georgi.djakov@linaro.org>
-CC:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        =?iso-8859-2?Q?Artur_=A6wigo=F1?= <a.swigon@partner.samsung.com>,
-        Evan Green <evgreen@chromium.org>,
-        David Dai <daidavid1@codeaurora.org>,
-        Jordan Crouse <jcrouse@codeaurora.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH RFC] interconnect: Add interconnect_graph file to debugfs
-Thread-Topic: [PATCH RFC] interconnect: Add interconnect_graph file to debugfs
-Thread-Index: AQHVmpUL9/SyHMg2fkCUeguJeLjH5A==
-Date:   Thu, 14 Nov 2019 17:20:13 +0000
-Message-ID: <VI1PR04MB7023BA56243AADB3E462F535EE710@VI1PR04MB7023.eurprd04.prod.outlook.com>
-References: <70f672b39780ba7387d15fd6485f94b75d47b1ec.1573692109.git.leonard.crestez@nxp.com>
- <20191114024134.GA47006@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=leonard.crestez@nxp.com; 
-x-originating-ip: [89.37.124.34]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 02dbc490-756e-49db-266b-08d76926e8d1
-x-ms-traffictypediagnostic: VI1PR04MB6127:
-x-microsoft-antispam-prvs: <VI1PR04MB612797BCB3E7F661941BEBCEEE710@VI1PR04MB6127.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 02213C82F8
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(376002)(366004)(396003)(346002)(39860400002)(189003)(199004)(54534003)(64756008)(305945005)(74316002)(7416002)(8936002)(76176011)(5660300002)(7696005)(229853002)(8676002)(99286004)(81166006)(86362001)(478600001)(81156014)(4326008)(45080400002)(316002)(110136005)(71200400001)(71190400001)(25786009)(54906003)(6436002)(33656002)(9686003)(7736002)(6306002)(14454004)(55016002)(966005)(256004)(66066001)(6246003)(52536014)(486006)(26005)(91956017)(446003)(44832011)(476003)(2906002)(76116006)(102836004)(3846002)(186003)(6116002)(66476007)(66556008)(66446008)(53546011)(6506007)(66946007);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB6127;H:VI1PR04MB7023.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dIJ1IlwQS8ANzN6dPRNXqAgPV1tSfYCpxwwZvc6IRvmN76Icu90Y1ht6RDXQObxsp+ldJmFFuFyZGGYPwItFz8OYrAwlYa/1iFvRHSOchxOJEYSSHloqkkB/6wFwnsPzCRuUyE7yODqT0gZHVdShSRWFALPEtwuFvajuIt/tAsjeJIhx8QKMjbrWPtKcuGvG2Fw4bOuTOhGpwGHxuNjsPcwvSSCkSjyTaZt29t031J6DH0/oYLiwdjnL4q77leIvc43yaraMLSEsdFEyko+HdRN9Fu6t3ZtcCP2k1ggMjIDBUBgFJZviF4yhDQRjyowPWNXXC0LPa8NyfwB0hbPnxkhHj93Y0ynTQcCTtOsF16E9OncP6yhffT+W9I2Zb2mXe8kej8ZxcA75EO/6hDdWjzKPGMrD9fS0rguvh6cKfGVl6RwAX0uryquw3qYWc5i9
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02dbc490-756e-49db-266b-08d76926e8d1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2019 17:20:13.1660
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7clVE4HWVcpUTkQ43PT8mhVt2Z/vmZfXgkM45cWCPDtxdSIM8kd6HYakBb2w4vytaCl7Lc+wWLNUixmbNCKTEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6127
+        id S1727004AbfKNSEA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 13:04:00 -0500
+Received: from mail-wm1-f73.google.com ([209.85.128.73]:43060 "EHLO
+        mail-wm1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726962AbfKNSEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 13:04:00 -0500
+Received: by mail-wm1-f73.google.com with SMTP id y133so3729993wmd.8
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 10:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=1bg0Urry1BGwaxpDX8MHZFNgYP5IGRugkAlFUvPLa/I=;
+        b=lr7v9t/b/nWB+oAlbYHlnG9ii8vIW9kKStfj1dl2F+rlYORyMHGnNhsdqh03G2C0//
+         yZ5xgTbXsNNf3QwN0Qwga6q5nM/rxjeVaZ9U0zczdCT+0e79wzZS/U9XMus96cOP/QX/
+         k+CVWVti+mZkubWF9QrVTJw5SEehpsKf4hZ7DQ09LIv3oofslpgizYbK8l6+ycIKA89x
+         lJJ9GsqBG24Ur5vUOlwu59yaqPO0FZzn4qgShqmaoVE0Mt8y0BC4GS/WhwSSgu2zcAJI
+         XG0iaZB3EWiAvVB2PFnjG7HFSd/bTbpARaMvFNvmSCEtNF2A9luiODjbY2pxefIlmYv8
+         L4nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=1bg0Urry1BGwaxpDX8MHZFNgYP5IGRugkAlFUvPLa/I=;
+        b=RliJNh3ipB4+2GH0IcQLoPJuCa5DLag9lAq3M2DniO15oklI7cgd+1mUUH9z2F1TzB
+         DkXJXa9p9jN2keEvjyPyVRAztMTTZdrFYkeysf5Z9kD7k2IM8pS7R4oCCY8MOw+oVzPq
+         /X7IA9ffQnXV9loSs8cHOMnsIt9CJOKkjmj1fcFwBrGOj+PBLbBNMnwYdfuUkNLG+bpS
+         PmMwsMQFig9t07x+mRfzXOAdUbO4acH1f7gPmXJ+rfP7IcLWdItWRmELwMl0MwCW7m+z
+         8uHgL2qGu2f0SkrHDz8lzycj0ORKMAn/+8DBjafPjSnuJaIeRsMqxixEJsCbOyN13Xra
+         9Rpg==
+X-Gm-Message-State: APjAAAXBsUrZSR2QXTEWGNcjsb0i45M6MtA2yAD/+Td4rtLChD4Dl3I8
+        Zoq6NVolFTwwsgrucOyG+EUGHiwciA==
+X-Google-Smtp-Source: APXvYqyCRLhzabKP15Hc3I8tuyq3pOVGFzSfCNQc1mA04B8Z4nfTDX8KQ8VJZaVdt16PEvULqCx0tNT5ug==
+X-Received: by 2002:a5d:4585:: with SMTP id p5mr9720266wrq.134.1573754637105;
+ Thu, 14 Nov 2019 10:03:57 -0800 (PST)
+Date:   Thu, 14 Nov 2019 19:02:53 +0100
+Message-Id: <20191114180303.66955-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+Subject: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.11.2019 04:41, Greg Kroah-Hartman wrote:=0A=
-> On Thu, Nov 14, 2019 at 02:50:49AM +0200, Leonard Crestez wrote:=0A=
->> The interconnect graphs can be difficult to understand and the current=
-=0A=
->> "interconnect_summary" file doesn't even display links in any way.=0A=
->>=0A=
->> Add a new "interconnect_graph" file to debugfs in the graphviz "dot"=0A=
->> format which describes interconnect providers, nodes and links.=0A=
->>=0A=
->> The file is human-readable and can be visualized by piping through=0A=
->> graphviz. Example:=0A=
->>=0A=
->> ssh $TARGET cat /sys/kernel/debug/interconnect/interconnect_graph \=0A=
->> 	| dot -Tsvg > interconnect_graph.svg=0A=
-> =0A=
-> You might want to document this somewhere so we don't all have to go dig=
-=0A=
-> it out of the changelog every time we want to look at this file.=0A=
-=0A=
-Files from sysfs are all described under Documentation/ABI but there's =0A=
-nothing similar for debugfs (and this should definitely not be =0A=
-considered ABI).=0A=
-=0A=
-Maybe Documentation/driver-api/interconnect.rst should have a "debugfs =0A=
-interfaces" paragraph?=0A=
-=0A=
->> Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>=0A=
->> ---=0A=
->>   drivers/interconnect/core.c | 66 +++++++++++++++++++++++++++++++++++++=
-=0A=
->>   1 file changed, 66 insertions(+)=0A=
->>=0A=
->> Example output as a github gist:=0A=
->> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgist=
-.github.com%2Fcdleonard%2F2f74a7efe74587e3d4b57cf7983b46a8&amp;data=3D02%7C=
-01%7Cleonard.crestez%40nxp.com%7C946b54955bda47a2c7a308d768ac2d23%7C686ea1d=
-3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637092961007878684&amp;sdata=3DUk7QI%2F=
-Oo70H4H5N3ZZl2IMXMHMvP3vov%2FqSMnPuNWg8%3D&amp;reserved=3D0=0A=
->>=0A=
->> The qcs404 driver was hacked to probe on imx, the links to "0" seem to=
-=0A=
->> from incorrect trailing 0s on DEFINE_QNODE. Possibly fallout from=0A=
->> switching to ARRAY_SIZE(__VA_ARGS__)?=0A=
->>=0A=
->> I'm not sure that "graphviz" is allowed as an output format even in=0A=
->> debugfs.=0A=
-> =0A=
-> Why not!  :)=0A=
-> =0A=
-> This is great, I love it, nice job, no objection from me.=0A=
-> =0A=
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>=0A=
+This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+KCSAN is a sampling watchpoint-based *data race detector*. More details
+are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+only enables KCSAN for x86, but we expect adding support for other
+architectures is relatively straightforward (we are aware of
+experimental ARM64 and POWER support).
+
+To gather early feedback, we announced KCSAN back in September, and have
+integrated the feedback where possible:
+http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+
+The current list of known upstream fixes for data races found by KCSAN
+can be found here:
+https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+
+We want to point out and acknowledge the work surrounding the LKMM,
+including several articles that motivate why data races are dangerous
+[1, 2], justifying a data race detector such as KCSAN.
+
+[1] https://lwn.net/Articles/793253/
+[2] https://lwn.net/Articles/799218/
+
+Race conditions vs. data races
+------------------------------
+
+Race conditions are logic bugs, where unexpected interleaving of racing
+concurrent operations result in an erroneous state.
+
+Data races on the other hand are defined at the *memory model/language
+level*.  Many data races are also harmful race conditions, which a tool
+like KCSAN reports!  However, not all data races are race conditions and
+vice-versa.  KCSAN's intent is to report data races according to the
+LKMM. A data race detector can only work at the memory model/language
+level.
+
+Deeper analysis, to find high-level race conditions only, requires
+conveying the intended kernel logic to a tool. This requires (1) the
+developer writing a specification or model of their code, and then (2)
+the tool verifying that the implementation matches. This has been done
+for small bits of code using model checkers and other formal methods,
+but does not scale to the level of what can be covered with a dynamic
+analysis based data race detector such as KCSAN.
+
+For reasons outlined in [1, 2], data races can be much more subtle, but
+can cause no less harm than high-level race conditions.
+
+Changelog
+---------
+v4:
+* Major changes:
+ - Optimizations resulting in performance improvement of 33% (on
+   microbenchmark).
+ - Deal with nested interrupts for atomic_next.
+ - Simplify report.c (removing double-locking as well), in preparation
+   for KCSAN_REPORT_VALUE_CHANGE_ONLY.
+ - Add patch to introduce "data_race(expr)" macro.
+ - Introduce KCSAN_REPORT_VALUE_CHANGE_ONLY option for further filtering of data
+   races: if a conflicting write was observed via a watchpoint, only report the
+   data race if a value change was observed as well. The option will be enabled
+   by default on syzbot. (rcu-functions will be excluded from this filter at
+   request of Paul McKenney.) Context:
+   http://lkml.kernel.org/r/CANpmjNOepvb6+zJmDePxj21n2rctM4Sp4rJ66x_J-L1UmNK54A@mail.gmail.com
+
+v3: http://lkml.kernel.org/r/20191104142745.14722-1-elver@google.com
+* Major changes:
+ - Add microbenchmark.
+ - Add instruction watchpoint skip randomization.
+ - Refactor API and core runtime fast-path and slow-path. Compared to
+   the previous version, with a default config and benchmarked using the
+   added microbenchmark, this version is 3.8x faster.
+ - Make __tsan_unaligned __alias of generic accesses.
+ - Rename kcsan_{begin,end}_atomic ->
+   kcsan_{nestable,flat}_atomic_{begin,end}
+ - For filter list in debugfs.c use kmalloc+krealloc instead of
+   kvmalloc.
+ - Split Documentation into separate patch.
+
+v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+* Major changes:
+ - Replace kcsan_check_access(.., {true, false}) with
+   kcsan_check_{read,write}.
+ - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+ - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+   contexts.
+
+v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+
+Marco Elver (10):
+  kcsan: Add Kernel Concurrency Sanitizer infrastructure
+  include/linux/compiler.h: Introduce data_race(expr) macro
+  kcsan: Add Documentation entry in dev-tools
+  objtool, kcsan: Add KCSAN runtime functions to whitelist
+  build, kcsan: Add KCSAN build exceptions
+  seqlock, kcsan: Add annotations for KCSAN
+  seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+  asm-generic, kcsan: Add KCSAN instrumentation for bitops
+  locking/atomics, kcsan: Add KCSAN instrumentation
+  x86, kcsan: Enable KCSAN for x86
+
+ Documentation/dev-tools/index.rst         |   1 +
+ Documentation/dev-tools/kcsan.rst         | 256 +++++++++
+ MAINTAINERS                               |  11 +
+ Makefile                                  |   3 +-
+ arch/x86/Kconfig                          |   1 +
+ arch/x86/boot/Makefile                    |   2 +
+ arch/x86/boot/compressed/Makefile         |   2 +
+ arch/x86/entry/vdso/Makefile              |   3 +
+ arch/x86/include/asm/bitops.h             |   6 +-
+ arch/x86/kernel/Makefile                  |   4 +
+ arch/x86/kernel/cpu/Makefile              |   3 +
+ arch/x86/lib/Makefile                     |   4 +
+ arch/x86/mm/Makefile                      |   4 +
+ arch/x86/purgatory/Makefile               |   2 +
+ arch/x86/realmode/Makefile                |   3 +
+ arch/x86/realmode/rm/Makefile             |   3 +
+ drivers/firmware/efi/libstub/Makefile     |   2 +
+ include/asm-generic/atomic-instrumented.h | 393 +++++++-------
+ include/asm-generic/bitops-instrumented.h |  18 +
+ include/linux/compiler-clang.h            |   9 +
+ include/linux/compiler-gcc.h              |   7 +
+ include/linux/compiler.h                  |  57 +-
+ include/linux/kcsan-checks.h              |  97 ++++
+ include/linux/kcsan.h                     | 115 ++++
+ include/linux/sched.h                     |   4 +
+ include/linux/seqlock.h                   |  51 +-
+ init/init_task.c                          |   8 +
+ init/main.c                               |   2 +
+ kernel/Makefile                           |   6 +
+ kernel/kcsan/Makefile                     |  11 +
+ kernel/kcsan/atomic.h                     |  27 +
+ kernel/kcsan/core.c                       | 626 ++++++++++++++++++++++
+ kernel/kcsan/debugfs.c                    | 275 ++++++++++
+ kernel/kcsan/encoding.h                   |  94 ++++
+ kernel/kcsan/kcsan.h                      | 108 ++++
+ kernel/kcsan/report.c                     | 320 +++++++++++
+ kernel/kcsan/test.c                       | 121 +++++
+ kernel/sched/Makefile                     |   6 +
+ lib/Kconfig.debug                         |   2 +
+ lib/Kconfig.kcsan                         | 118 ++++
+ lib/Makefile                              |   3 +
+ mm/Makefile                               |   8 +
+ scripts/Makefile.kcsan                    |   6 +
+ scripts/Makefile.lib                      |  10 +
+ scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+ tools/objtool/check.c                     |  18 +
+ 46 files changed, 2641 insertions(+), 206 deletions(-)
+ create mode 100644 Documentation/dev-tools/kcsan.rst
+ create mode 100644 include/linux/kcsan-checks.h
+ create mode 100644 include/linux/kcsan.h
+ create mode 100644 kernel/kcsan/Makefile
+ create mode 100644 kernel/kcsan/atomic.h
+ create mode 100644 kernel/kcsan/core.c
+ create mode 100644 kernel/kcsan/debugfs.c
+ create mode 100644 kernel/kcsan/encoding.h
+ create mode 100644 kernel/kcsan/kcsan.h
+ create mode 100644 kernel/kcsan/report.c
+ create mode 100644 kernel/kcsan/test.c
+ create mode 100644 lib/Kconfig.kcsan
+ create mode 100644 scripts/Makefile.kcsan
+
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
+
