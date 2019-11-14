@@ -1,123 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACFA37D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Nov 2019 23:29:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2F0A7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 00:54:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfKMX3r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Nov 2019 18:29:47 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14354 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbfKMX3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 18:29:47 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dcc91e90000>; Wed, 13 Nov 2019 15:29:45 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 13 Nov 2019 15:29:46 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 13 Nov 2019 15:29:46 -0800
-Received: from [10.2.160.107] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov
- 2019 23:29:45 +0000
-Subject: Re: [PATCH v4 23/23] mm/gup: remove support for gup(FOLL_LONGTERM)
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191113042710.3997854-1-jhubbard@nvidia.com>
- <20191113042710.3997854-24-jhubbard@nvidia.com>
- <20191113190935.GD12947@iweiny-DESK2.sc.intel.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <4e24c5af-bd96-e7c7-179b-0ca0f6abb852@nvidia.com>
-Date:   Wed, 13 Nov 2019 15:27:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726613AbfKNAyO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Nov 2019 19:54:14 -0500
+Received: from mail-lj1-f172.google.com ([209.85.208.172]:35783 "EHLO
+        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbfKNAyO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Nov 2019 19:54:14 -0500
+Received: by mail-lj1-f172.google.com with SMTP id r7so4720995ljg.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2019 16:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cdU8u7TrXnrCO1uLp4dOVYri6AVg8RGRZFFsUs4zyZE=;
+        b=WdX/pyaFO6r+pKwUSQ7Jw+m4l+euTWJYDbkRBKpwdzkMa7qtUR0H5mQwGPcRWZq9LR
+         /x9qK+bP+1erz5oSvgBWoDLVZX2yO504C4baJWEt/dKWn4vgTTJWiWdyElGIRCeP7Zh3
+         dsacAASctsLwfz2eULAWlrZc055aafkOxlDrRgzq5CP39AIWnk6eEY5BMlZag8Z7K4RT
+         gvZIz6x+Csu0d6SPiBZQ+A/VgqQCoILO2fWt9bx2o8gZXLvn0LCLNvgHcGMuL6MKCDW0
+         oNLBT6uvNzWccyhEMDdk1fLG9PAVDuC+EYkD0Aeh+JaQ9nmbL7YS6WSDGFW6VLQGjDWI
+         Mw1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cdU8u7TrXnrCO1uLp4dOVYri6AVg8RGRZFFsUs4zyZE=;
+        b=Ky2Wpz/2k+CQSdjj0n46WqmZRlyJ/ucRlpso9iA94CQQP8A8odpGcCq9S2/chKPv37
+         BmwJWdQ0hIbONCUVyBFmgz90vb3N0zdcOLYpVaViagE84aVcTXq4+JDZKDlqe5n9OKEr
+         AtGMlTDES8tdp+DumPTxOKYpgqdu3eSM43e+1D1DIZghESIKGti2A8xAXRnqG+fZ0o53
+         +Rg5M9A1r/6ohEj2JDUwWK3ZBgbEjITtaX3Wlod2uszF7DR1Ws1Ydro9qdflw4vvEdBT
+         of0EytlBMgoXKAVnFEng9Tel6JcOlZsLRG43mY0l3WZ/SiIFT/qjMrtPZ+UwSVct45P5
+         JQGQ==
+X-Gm-Message-State: APjAAAUfjHevyBPiz8Zvn/rCqL0P/h5rEBav83vWCGEpgfC0t1RyYZb9
+        80raIdYnWMlX7pBzRTiHcZ7ohKAlze1wxslClo3CYV7o
+X-Google-Smtp-Source: APXvYqzYa+HRHZoB5UurZ0XoOIJ+NvBotYH65G/PffMqm1WEqZjkv7LALlsymbGPUaU6U+gwLms0m/QFwN7jRN0lA2c=
+X-Received: by 2002:a2e:8784:: with SMTP id n4mr4626487lji.230.1573692852343;
+ Wed, 13 Nov 2019 16:54:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191113190935.GD12947@iweiny-DESK2.sc.intel.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1573687785; bh=9B/DbxbXL2Cu8EFiCYVZNw+MxNudIvhgmb1GMnaTmQ0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=rJKFgq0qWlNQhEr6LwQRM7xJTWCfLcG6jdSS31KElayO6wHx7IiwFsaXOvGhplyH1
-         tCC68KrsRIXSAjoot89gKwHpedHmflDisAxv/IoMKZRuMzvzxHIp82VaySctaPBYkQ
-         hZemWLx10v7w1crWSE8+tecZBKihDudRrciOwHkYvfyXR52KB/0+nCkX8xcEjYzOgD
-         BdrgEwqj12gUt+52wZddvynAEOXEEJldAzotyUKT84BAusYTd8IMJOcdCe+okl1UqL
-         yIUM4FRTzo2XVuGeXsCxvfWydTvgqiLWMulv4eIra/tutHomq+DAZbILc3dKig7Hd1
-         UTGu99x3VirIw==
+References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com>
+ <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net> <871rud3x2e.fsf@intel.com>
+In-Reply-To: <871rud3x2e.fsf@intel.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 14 Nov 2019 01:54:01 +0100
+Message-ID: <CANiq72kKDiuYcyY+djHPsUJ3AFG6LqT1O=4FT8E+-ifnbKv9Gg@mail.gmail.com>
+Subject: Re: On global citations, URLs and translations
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/13/19 11:09 AM, Ira Weiny wrote:
-...
->> diff --git a/mm/gup.c b/mm/gup.c
->> index 82e7e4ce5027..90f5f95ee7ac 100644
->> --- a/mm/gup.c
->> +++ b/mm/gup.c
->> @@ -1756,11 +1756,11 @@ long get_user_pages(unsigned long start, unsigned long nr_pages,
->>   		struct vm_area_struct **vmas)
->>   {
->>   	/*
->> -	 * FOLL_PIN must only be set internally by the pin_user_page*() and
->> -	 * pin_longterm_*() APIs, never directly by the caller, so enforce that
->> -	 * with an assertion:
->> +	 * FOLL_PIN and FOLL_LONGTERM must only be set internally by the
->> +	 * pin_user_page*() and pin_longterm_*() APIs, never directly by the
->> +	 * caller, so enforce that with an assertion:
->>   	 */
->> -	if (WARN_ON_ONCE(gup_flags & FOLL_PIN))
->> +	if (WARN_ON_ONCE(gup_flags & (FOLL_PIN | FOLL_LONGTERM)))
-> 
-> Don't we want to block FOLL_LONGTERM in get_user_pages_fast() as well after all
-> this?
-> 
+On Tue, Nov 12, 2019 at 4:59 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> Sphinx also has some i18n support which I believe we aren't using, and
+> it would stand to reason this is covered there. But that probably needs
+> some dedication from Someone(tm) to figure out.
 
-Yes. But with the latest idea to restore FOLL_LONGTERM to its original glory,
-that won't be an issue in the next version. heh.
+The docs say not to go overboard with the reStructuredText markup, so
+I am not sure if we should avoid going overboard with Sphinx features
+too :)
 
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+Cheers,
+Miguel
