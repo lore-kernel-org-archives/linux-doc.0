@@ -1,120 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAFC37D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 09:28:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5CD47D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 11:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726000AbfKNJ2c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 04:28:32 -0500
-Received: from mga03.intel.com ([134.134.136.65]:62190 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725977AbfKNJ2c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Nov 2019 04:28:32 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:28:31 -0800
-X-IronPort-AV: E=Sophos;i="5.68,302,1569308400"; 
-   d="scan'208";a="198756771"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 01:28:29 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: On global citations, URLs and translations
-In-Reply-To: <72b563af475bb41277e5be48fb43cc18@vaga.pv.it>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CANiq72=mBLHTLtstBPU4TZT2DOAnYrtbd4SDh0tjkjo07ns=4w@mail.gmail.com> <87a79141s3.fsf@intel.com> <20191112084257.4cca2d4c@lwn.net> <72b563af475bb41277e5be48fb43cc18@vaga.pv.it>
-Date:   Thu, 14 Nov 2019 11:28:27 +0200
-Message-ID: <877e423iys.fsf@intel.com>
+        id S1726452AbfKNL1K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 06:27:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22747 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726592AbfKNL1J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 06:27:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573730828;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=L/gwESRRR03S0wRJMnaNaIygulhbwzzIij7KolEFnN8=;
+        b=jNq1Y0NwamFJJp168HxJ2DIXGKB+kKF3xNZsDbUslywUvQudhtNAtAS8LbviSqYZCgTpPP
+        I/oT/iuxRmVBO6REBq6nMirTnc9tsLp/X+XQwBx/TOr9YAms2ii+PpxRWObzbfvwjuqRY3
+        AW4B4GdsI8x0t7Nfn7/jYLnXOrYRalY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-VwTW5e3tOdCXzXxGN6q9jg-1; Thu, 14 Nov 2019 06:27:04 -0500
+Received: by mail-wr1-f69.google.com with SMTP id q6so4210824wrv.11
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 03:27:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5jWJINQzU7DIjSgJJ1kpu7evn0eK8lUV8vqPcpC4Jlw=;
+        b=q1GxE2wOKGEsWDEiaa1HPIeHykuYfFs2neFrKYTGeVo/amoBNTVRq/oNnGVBK4AHye
+         ayUe1OJ268yt80qyD7Hrnn48Bg1+SCN9oioqD7YHpl4BxhHzGKmPN+wNgofxEzEPEXdR
+         F5eFDp/V66b9wXP1/EqnNHIbwLZY6oNYvGJS19s/QgyMyZfJVhh83RwRod+FAmT01e9Z
+         OY9IE2eM2XGDu9NWzLQ/UUraFoTk2WgOyNqEcGdr5bNoLFLTzvUrU0sBc5a+luoTYoXr
+         af0dvBdNRe3NdzX1wADBCECFCFcyerCQBIHYYUzx1aAf0ybQompov3LuMndZOhA2EWaj
+         ifnw==
+X-Gm-Message-State: APjAAAWhv1nTHu7ezjL08h/nJG8NaCXWPztu2JvPVVUwROO2D0uzHldZ
+        QE8m/6wTmzBR6rRmVAHCipxzaWp3PeT6iw03tg6ZVonnVJ9mH6iGTP0wHzUdfJi/5Knla/L4OW7
+        w+pphNmJxhZbmlCyAfqSY
+X-Received: by 2002:a1c:3b05:: with SMTP id i5mr7655055wma.8.1573730822918;
+        Thu, 14 Nov 2019 03:27:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzNadAhb3uVoWTx1LAhrlTsop88HOIAwDGjG+zbVgrV8lStQGTeYoYWPW0Kneg5Vd1CAyJU+g==
+X-Received: by 2002:a1c:3b05:: with SMTP id i5mr7655029wma.8.1573730822681;
+        Thu, 14 Nov 2019 03:27:02 -0800 (PST)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id z4sm6280823wmf.36.2019.11.14.03.27.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Nov 2019 03:27:02 -0800 (PST)
+Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-3-hdegoede@redhat.com>
+ <20191011144834.GL16384@42.do-not-panic.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
+Date:   Thu, 14 Nov 2019 12:27:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191011144834.GL16384@42.do-not-panic.com>
+Content-Language: en-US
+X-MC-Unique: VwTW5e3tOdCXzXxGN6q9jg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Nov 2019, Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> On 2019-11-12 16:42, Jonathan Corbet wrote:
->> On Tue, 12 Nov 2019 16:17:32 +0200
->> Jani Nikula <jani.nikula@linux.intel.com> wrote:
->> 
->>> Fix the references in both places to actually make them cross
->>> references. See below.
->>> 
->>> BR,
->>> Jani.
->>> 
->>> 
->>> diff --git a/Documentation/process/programming-language.rst 
->>> b/Documentation/process/programming-language.rst
->>> index e5f5f065dc24..59efa6d7a053 100644
->>> --- a/Documentation/process/programming-language.rst
->>> +++ b/Documentation/process/programming-language.rst
->>> @@ -3,7 +3,7 @@
->>>  Programming Language
->>>  ====================
->>> 
->>> -The kernel is written in the C programming language [c-language]_.
->>> +The kernel is written in the C programming language `[c-language]`_.
->>>  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
->>>  under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO 
->>> C90
->>>  (including some C99 features).
->>> @@ -34,7 +34,7 @@ in order to feature detect which ones can be used 
->>> and/or to shorten the code.
->>> 
->>>  Please refer to ``include/linux/compiler_attributes.h`` for more 
->>> information.
->>> 
->>> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>> +.. _[c-language]: 
->>> http://www.open-std.org/jtc1/sc22/wg14/www/standards
->>>  .. [gcc] https://gcc.gnu.org
->>>  .. [clang] https://clang.llvm.org
->>>  .. [icc] https://software.intel.com/en-us/c-compilers
->> 
->> That fixes this particular instance, while leaving the adjacent ones
->> untouched :)
->> 
->> I think this is a good change, especially if applied to all instances.  
->> I
->> also wonder, though, if we should adopt a rule that translations need
->> unique labels - prepend "IT-" or some such for the Italian translation,
->> for example?
->> 
->> Thanks,
->> 
->> jon
->
-> I personally prefer a full inline reference to external links.
->
-> Blah blah blah `BLAH <https://www.blah.blah/>`_
->
-> When rendered, we do not care where it is. When we read it from
-> sources (IMHO) it does not look cool but it is nice to have the
-> reference right where we talk about it and not somewhere else in the
-> document: it is there where you need it; it avoids these mistakes, it
-> avoids the need for special labels on external links.  For all
-> translated documents I am already using the prefix "it-" on all
-> internal labels.
+Hi Luis,
 
-As I wrote elsewhere, IMO the inline markup is uglier in plain text than
-the named targets, which is what we want to avoid. You can place the
-named targets right after the paragraph where you use it. And if you
-reference the same target more than once, you can reuse the URL and not
-have to duplicate.
+Thank you for the reviews and sorry for being a bit slow to respind.
 
+On 11-10-2019 16:48, Luis Chamberlain wrote:
+> On Fri, Oct 04, 2019 at 04:50:50PM +0200, Hans de Goede wrote:
+>> +static int __init efi_check_md_for_embedded_firmware(
+>> +=09efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
+>> +{
+>> +=09const u64 prefix =3D *((u64 *)desc->prefix);
+>> +=09struct sha256_state sctx;
+>> +=09struct embedded_fw *fw;
+>> +=09u8 sha256[32];
+>> +=09u64 i, size;
+>> +=09void *map;
+>> +
+>> +=09size =3D md->num_pages << EFI_PAGE_SHIFT;
+>> +=09map =3D memremap(md->phys_addr, size, MEMREMAP_WB);
+>=20
+> Since our limitaiton is the init process must have mostly finished,
+> it implies early x86 boot code cannot use this, what measures can we
+> take to prevent / check for such conditions to be detected and
+> gracefully errored out?
 
-BR,
-Jani.
+As with all (EFI) early boot code, there simply is a certain order
+in which things need to be done. This needs to happen after the basic
+mm is setup, but before efi_free_boot_services() gets called, there
+isn't really a way to check for all these conditions. As with all
+early boot code, people making changes need to be careful to not
+break stuff.
 
+>=20
+>> +=09if (!map) {
+>> +=09=09pr_err("Error mapping EFI mem at %#llx\n", md->phys_addr);
+>> +=09=09return -ENOMEM;
+>> +=09}
+>> +
+>> +=09size -=3D desc->length;
+>=20
+> Remind me again, why we decrement the size here?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Basically this is another way of writing:
+
+=09for (i =3D 0; (i + desc->length) < size; i +=3D 8) {
+
+> I was going to ask if we didn't need a:
+>=20
+> if (desc->length > size) {
+> =09memunmap(map);
+> =09return -EINVAL;
+> }
+
+That is a good point, unlikely but still a good point,
+so I guess that writing:
+
+=09for (i =3D 0; (i + desc->length) < size; i +=3D 8) {
+
+Instead would better as that avoids the need for that check.
+I will fix this for the next version.
+
+Regards,
+
+Hans
+
+>=20
+>> +=09for (i =3D 0; i < size; i +=3D 8) {
+>> +=09=09u64 *mem =3D map + i;
+>> +
+>> +=09=09if (*mem !=3D prefix)
+>> +=09=09=09continue;
+>> +
+>> +=09=09sha256_init(&sctx);
+>> +=09=09sha256_update(&sctx, map + i, desc->length);
+>> +=09=09sha256_final(&sctx, sha256);
+>> +=09=09if (memcmp(sha256, desc->sha256, 32) =3D=3D 0)
+>> +=09=09=09break;
+>> +=09}
+>> +=09if (i >=3D size) {
+>> +=09=09memunmap(map);
+>> +=09=09return -ENOENT;
+>> +=09}
+>> +
+>> +=09pr_info("Found EFI embedded fw '%s'\n", desc->name);
+>=20
+> Otherwise looks good.
+>=20
+>    Luis
+>=20
+
