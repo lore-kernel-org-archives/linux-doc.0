@@ -6,209 +6,156 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D4D897D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 19:54:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A9137D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 20:13:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726098AbfKNTyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 14:54:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31555 "EHLO
+        id S1726994AbfKNUN3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 15:13:29 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56991 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726549AbfKNTyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 14:54:40 -0500
+        by vger.kernel.org with ESMTP id S1726613AbfKNUN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 15:13:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573761278;
+        s=mimecast20190719; t=1573762407;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ipOfIuZv4n7OMTuT05ttv+XiU0MiZdbWkcgUyU+rx/Q=;
-        b=fmUXBPg8Zr1oKF8gZ7LEfuLnqor+S26BYNqNz7pjTDOis6EFk1AKX8IdNjiC5j9z8xnlJo
-        Wy5FdQqXv5aVVufziVFBOEHIwYjD9yPvO6d2p82kelFIkENm+TlHLZCUVbh6sKEbvOhNBz
-        pgrUVALA/hz/CP/42VXWpUi+Id2m9f4=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-KNIV39pCNbi2iIhmhp7cTg-1; Thu, 14 Nov 2019 14:54:37 -0500
-Received: by mail-lf1-f70.google.com with SMTP id i25so2334536lfo.4
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 11:54:37 -0800 (PST)
+        bh=zeOvreoiDJiJznC6pgddXng3TgtdBC/uHEqj3GGY24g=;
+        b=GOIBZ4+M74vwTjKaq0ckA93ZbvKT+RlFBAHkmwrjUHZvEnct/NCI8kjHgxZcK6VV5xr3on
+        nvB8tGpF8Ow2n+gcD5+3DDNoH1qCsQ0e2dewPCRHw7InrJTJYk6Xl9jGD1LqHp5KAwhbrQ
+        /FfaDg8o2XL12bhENWx16hLfiliLcxg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-E6rpRYFRNp6EEuErnYip0Q-1; Thu, 14 Nov 2019 15:13:26 -0500
+Received: by mail-wr1-f70.google.com with SMTP id u2so5366141wrm.7
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 12:13:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=MDqH19kOOKY+TUPNPG0CxeBoBcGPMQfXKESSJwySm9E=;
-        b=V/76CSW63miVCQKz0D6UciP/wxMNiWUjrzEJky3XXe8kcdHtRFV2eeqq8N1vzWHgn7
-         yu5T7jt+k6+yyy/I/tW9wFzhidsgRfdr3elEY84GxscMXYECrMCtG4Nmwi0ZK952DBtO
-         VaukkoDydWwdAmeaV9qoEjB4djlJ6Z3icgPQua+PjYhk5nKwHeFaHwUm3fnN75ryV+8D
-         arsbSGDruMqah3hn8cQsge0fHP8shzMhjM92ec+zZqSzd/N6ow84JaypioWkZNlYvw1j
-         Ntz8K1iA55syYgvOtf4H3mvDKYkyzzmPIgM5qSL0ew9ofbKkkXS06gKQdEAyADo9FK03
-         pOHA==
-X-Gm-Message-State: APjAAAXn1uz8InZk1V2ByLUxBAsl+UpMkbsFO6wX12tRYms5asvt84yU
-        /gf5/gGtZ+pK/rlZ7WbeJ7hmAdYUMCdjLKT06PDAZx0jJ3V7b6xHS3z34QbGeUWR6wqB3n6cD7Q
-        Y0Tws9zgu23vKzyajQ+xEX2iSWnzb+UbgT0L8
-X-Received: by 2002:a2e:9695:: with SMTP id q21mr7771502lji.206.1573761275773;
-        Thu, 14 Nov 2019 11:54:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyvZP1Wg9zN6nJYQIloLkjVhepGTmfmXrp4BqyWB295YviNhYt2NN6gtXuLQLlI9WPMoiGos+kqPi2No7ektKQ=
-X-Received: by 2002:a2e:9695:: with SMTP id q21mr7771458lji.206.1573761275378;
- Thu, 14 Nov 2019 11:54:35 -0800 (PST)
-MIME-Version: 1.0
-References: <1573459282-26989-1-git-send-email-bhsharma@redhat.com> <20191113063858.GE22427@linaro.org>
-In-Reply-To: <20191113063858.GE22427@linaro.org>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Fri, 15 Nov 2019 01:24:17 +0530
-Message-ID: <CACi5LpP54d9DKW63G5W6X4euBjAm2NwkHOiM01dB7g8d60s=4w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
- for arm64 and MAX_PHYSMEM_BITS for all archs)
-To:     AKASHI Takahiro <takahiro.akashi@linaro.org>,
-        Bhupesh Sharma <bhsharma@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
-        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Kwk2SObMZHFa0y+X6pAt/3dq8Wi+ovXi2eZNEpP7b1o=;
+        b=SItZZ8Y1AIfnlNPeuyg88qG5/SsNGwrmveoZ/S6BkNSbwrgGyFoNS0d5aDDPuvAXt8
+         K+6Ag63hZ3ppxZInNosa8ZzNdBPhg+JIST7Ipak0n5a7DoJTxYKwCLiZ00gXjFLArLGY
+         iEyMoDYKWM+4cDJpBs16AHwg2CU+SJqUWvNFKBzgSQm2TMm0h+JiL21uG2I+KjNeq0mE
+         NEKKCMU0tHeRreJrUjNNKdM75SoDgqfjjVGfE2dDAhp9dnVCpxJw7aMHZJ/FnvdOfUjB
+         68I0AkX7HspvW5ZsPz/acyT9UrHZcUZ12NgkHJ9U9PgeaEqvgDeepsh0vvJdodhoNTxT
+         EDyQ==
+X-Gm-Message-State: APjAAAWniMaa3pqiyp0wMAErc9O4Jmv63ZCuxO67weklbMGvifJaksLg
+        KnQrSLU/zoBeLfqmghHKE86kR0tRC+UuUmMliRtZ/q7OyiYNAqng6F92ao4E4kK6fm6EeWfmoyk
+        BIRGb67DK1VpvbiqC77lC
+X-Received: by 2002:a1c:a9cb:: with SMTP id s194mr10653857wme.92.1573762404992;
+        Thu, 14 Nov 2019 12:13:24 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxYg+h1HBpJaDU9hPX/MpQYH0wFtF669+nHobvHa152/M/2ldKc/DiHPX6bUeLLg5ZnBKKPdg==
+X-Received: by 2002:a1c:a9cb:: with SMTP id s194mr10653824wme.92.1573762404762;
+        Thu, 14 Nov 2019 12:13:24 -0800 (PST)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id 19sm10336706wrc.47.2019.11.14.12.13.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Nov 2019 12:13:23 -0800 (PST)
+Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dave Anderson <anderson@redhat.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>
-X-MC-Unique: KNIV39pCNbi2iIhmhp7cTg-1
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-3-hdegoede@redhat.com>
+ <20191011144834.GL16384@42.do-not-panic.com>
+ <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
+ <20191114194233.GE11244@42.do-not-panic.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f00804ae-e556-35e4-d0a3-cd9201fdd2d0@redhat.com>
+Date:   Thu, 14 Nov 2019 21:13:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
+MIME-Version: 1.0
+In-Reply-To: <20191114194233.GE11244@42.do-not-panic.com>
+Content-Language: en-US
+X-MC-Unique: E6rpRYFRNp6EEuErnYip0Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Akashi,
+Hi,
 
-On Wed, Nov 13, 2019 at 12:11 PM AKASHI Takahiro
-<takahiro.akashi@linaro.org> wrote:
->
-> Hi Bhupesh,
->
-> Do you have a corresponding patch for userspace tools,
-> including crash util and/or makedumpfile?
-> Otherwise, we can't verify that a generated core file is
-> correctly handled.
+On 14-11-2019 20:42, Luis Chamberlain wrote:
+> On Thu, Nov 14, 2019 at 12:27:01PM +0100, Hans de Goede wrote:
+>> Hi Luis,
+>>
+>> Thank you for the reviews and sorry for being a bit slow to respind.
+>>
+>> On 11-10-2019 16:48, Luis Chamberlain wrote:
+>>> On Fri, Oct 04, 2019 at 04:50:50PM +0200, Hans de Goede wrote:
+>>>> +static int __init efi_check_md_for_embedded_firmware(
+>>>> +=09efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
+>>>> +{
+>>>> +=09const u64 prefix =3D *((u64 *)desc->prefix);
+>>>> +=09struct sha256_state sctx;
+>>>> +=09struct embedded_fw *fw;
+>>>> +=09u8 sha256[32];
+>>>> +=09u64 i, size;
+>>>> +=09void *map;
+>>>> +
+>>>> +=09size =3D md->num_pages << EFI_PAGE_SHIFT;
+>>>> +=09map =3D memremap(md->phys_addr, size, MEMREMAP_WB);
+>>>
+>>> Since our limitaiton is the init process must have mostly finished,
+>>> it implies early x86 boot code cannot use this, what measures can we
+>>> take to prevent / check for such conditions to be detected and
+>>> gracefully errored out?
+>>
+>> As with all (EFI) early boot code, there simply is a certain order
+>> in which things need to be done. This needs to happen after the basic
+>> mm is setup, but before efi_free_boot_services() gets called, there
+>> isn't really a way to check for all these conditions. As with all
+>> early boot code, people making changes need to be careful to not
+>> break stuff.
+>=20
+> I rather we take a proactive measure here and add whatever it is we need
+> to ensure the API works only when its supposed to, rather than try and
+> fail, and then expect the user to know these things.
+>=20
+> I'd prefer if we at least try to address this.
 
-Sure. I am still working on the crash-utility related changes, but you
-can find the makedumpfile changes I posted a couple of days ago here
-(see [0]) and the github link for the makedumpfile changes can be seen
-via [1].
+This is purely internal x86/EFI API it is not intended for drivers
+or anything like that. It has only one caller under arch/x86 and it is
+not supposed to get any other callers outside of arch/* ever.
 
-I will post the crash-util changes shortly as well.
-Thanks for having a look at the same.
+Note that this all runs before even core_initcall-s get run, none
+if the code which runs before then has any sort of ordering checks
+and I don't see how this bit is special and thus does need ordering
+checks; and there really is no mechanism for such checks so early
+during boot.
 
-[0]. http://lists.infradead.org/pipermail/kexec/2019-November/023963.html
-[1]. https://github.com/bhupesh-sharma/makedumpfile/tree/52-bit-va-support-=
-via-vmcore-upstream-v4
+The drivers/firmware/efi/embedded-firmware.c file does add some API
+which can be used normally, specifically the efi_get_embedded_fw()
+but that has no special ordering constrains and it does not directly
+use the function we are discussing now. It reads back data stored
+by the earlier functions; and if somehow called before those functions
+run (*), then it will simply return -ENOENT.
 
 Regards,
-Bhupesh
 
->
-> Thanks,
-> -Takahiro Akashi
->
-> On Mon, Nov 11, 2019 at 01:31:19PM +0530, Bhupesh Sharma wrote:
-> > Changes since v3:
-> > ----------------
-> > - v3 can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
-> > - Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
-> >   instead of PTRS_PER_PGD.
-> > - Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
-> >   'Documentation/arm64/memory.rst'
-> >
-> > Changes since v2:
-> > ----------------
-> > - v2 can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
-> > - Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEM=
-EM
-> >   ifdef sections, as suggested by Kazu.
-> > - Updated vmcoreinfo documentation to add description about
-> >   'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
-> >
-> > Changes since v1:
-> > ----------------
-> > - v1 was sent out as a single patch which can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
-> >
-> > - v2 breaks the single patch into two independent patches:
-> >   [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, wher=
-eas
-> >   [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel c=
-ode (all archs)
-> >
-> > This patchset primarily fixes the regression reported in user-space
-> > utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
-> > with the availability of 52-bit address space feature in underlying
-> > kernel. These regressions have been reported both on CPUs which don't
-> > support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernel=
-s
-> > and also on prototype platforms (like ARMv8 FVP simulator model) which
-> > support ARMv8.2 extensions and are running newer kernels.
-> >
-> > The reason for these regressions is that right now user-space tools
-> > have no direct access to these values (since these are not exported
-> > from the kernel) and hence need to rely on a best-guess method of
-> > determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
-> > by underlying kernel.
-> >
-> > Exporting these values via vmcoreinfo will help user-land in such cases=
-.
-> > In addition, as per suggestion from makedumpfile maintainer (Kazu),
-> > it makes more sense to append 'MAX_PHYSMEM_BITS' to
-> > vmcoreinfo in the core code itself rather than in arm64 arch-specific
-> > code, so that the user-space code for other archs can also benefit from
-> > this addition to the vmcoreinfo and use it as a standard way of
-> > determining 'SECTIONS_SHIFT' value in user-land.
-> >
-> > Cc: Boris Petkov <bp@alien8.de>
-> > Cc: Ingo Molnar <mingo@kernel.org>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: James Morse <james.morse@arm.com>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Steve Capper <steve.capper@arm.com>
-> > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > Cc: Paul Mackerras <paulus@samba.org>
-> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > Cc: Dave Anderson <anderson@redhat.com>
-> > Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-> > Cc: x86@kernel.org
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: kexec@lists.infradead.org
-> >
-> > Bhupesh Sharma (3):
-> >   crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
-> >   arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
-> >   Documentation/arm64: Fix a simple typo in memory.rst
-> >
-> >  Documentation/arm64/memory.rst         | 2 +-
-> >  arch/arm64/include/asm/pgtable-hwdef.h | 1 +
-> >  arch/arm64/kernel/crash_core.c         | 9 +++++++++
-> >  kernel/crash_core.c                    | 1 +
-> >  4 files changed, 12 insertions(+), 1 deletion(-)
-> >
-> > --
-> > 2.7.4
-> >
->
+Hans
+
+
+
+*)  which would mean before core_initcalls run so really really early
 
