@@ -1,180 +1,218 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 12ABE7D919
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 21:50:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3BA87D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbfKNVuN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 16:50:13 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40813 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbfKNVuN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 16:50:13 -0500
-Received: by mail-pl1-f194.google.com with SMTP id e3so3259353plt.7;
-        Thu, 14 Nov 2019 13:50:12 -0800 (PST)
+        id S1726881AbfKNWFt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 17:05:49 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33210 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfKNWFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 17:05:48 -0500
+Received: by mail-pf1-f194.google.com with SMTP id c184so5237358pfb.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 14:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PUB/MflXzCJMG7Y2M0r0tuE4n+oLMmgrXK9Lt9807D8=;
+        b=LvqeDdWj4/BvmlCJtUczgpCAZ/S1nczS+iFKbFLDS1G4JiiacIQh5AF3nVq1WdR/mk
+         QJK1r46xfNrokg5Pl3xNjKO+c8ITdvqKffKTEWkP4qYSo/lN6vdwR2fpu769g4FtUHEP
+         DIdSm+3HHQbqeXN5QAAA+5+W46uYGsSH1+Y7nj9MDkPomeX8CXKdjL5EKcqUHA+0UnVZ
+         JQd5IAP5Yf3yNnQmIcFycHbmE8BddReimJfqlttqMaLk3t2Y3K6nN7TllXlCGRvJFUGv
+         8+zg2TpENXotCecZPZsTMu5+MKOU9MUazHSC1VIIl3HV01YOrJlPH3DOXwk/8q8iBBMy
+         R6qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=5zMHwUOo/2U4wTRnnNuzptX3ll72MK4baxH2uMM1XNw=;
-        b=HlNKU0+W0fRBgy+CvKyNpM/ODMBTouSBLf6Y0YWbGEIa+x3anPCoU4iqxoK90OSpBu
-         U1w7dlIc0n35tyxghxBnyEHgQ2BCyxw+as3BPg5rRi4OaVZn5OTrfJ7Dpx5z2BnJDzPk
-         4Thstk76JNZPVXpOZl9v8/qaMoz7hYr+ulHknJrGY1/AVbOQ8QrjSjV3x58HvV7NzEFs
-         JAvkRuIxMrD9bo699sYfg8SRewYnR1P+g3kFZqhPI+LXCtZQ8z+hdg3asoybnJYzQ3f/
-         eDRpCoR8mkqfCtVB+eV6Ue1CaSV9CnphyY9ueroCPbGgSMhukg6IyqK28AIA9MxenvDt
-         M9qg==
-X-Gm-Message-State: APjAAAVjFEUn0rraWjefHKeQzD08aFV8vFNMUIQq21QHzrJ8AIF7O0mh
-        cWTi65CE7VAgpRDMincqPpk=
-X-Google-Smtp-Source: APXvYqydj/PhwGbb7+FBeWT/qX73FpfeKzIGfeaJLVypBktgbTiIoqJ5tWmafcGyCmnkRQDn0qoNOA==
-X-Received: by 2002:a17:902:6946:: with SMTP id k6mr11133218plt.164.1573768211636;
-        Thu, 14 Nov 2019 13:50:11 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id f31sm10455021pjg.31.2019.11.14.13.50.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2019 13:50:09 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 3DCB6403DC; Thu, 14 Nov 2019 21:50:09 +0000 (UTC)
-Date:   Thu, 14 Nov 2019 21:50:09 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
-Message-ID: <20191114215009.GF11244@42.do-not-panic.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-3-hdegoede@redhat.com>
- <20191011144834.GL16384@42.do-not-panic.com>
- <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
- <20191114194233.GE11244@42.do-not-panic.com>
- <f00804ae-e556-35e4-d0a3-cd9201fdd2d0@redhat.com>
- <9b0a0121-3e63-0602-6c0d-00547e389f76@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PUB/MflXzCJMG7Y2M0r0tuE4n+oLMmgrXK9Lt9807D8=;
+        b=eAZZN6oVCdhtm1OM7SD2mlpjIEqzOMpPNTrELfkrCXKCJdLTGX+fVdeDvJCUoxBRlT
+         /eFD1D3mS/vyf+cf/0rG0p+FNjv7+Rpkll6ZzvpRi8zcPrsHpFGYW+3SFeJn6QeWlZPI
+         RAE1NrcMOuhmcjvLvmEzChKllNnX3oJ3u2qfGKnuNwROz5gkLTXrIKuYL+Jul/1LOwiX
+         O7NMTkjHy6K/ks+kHFCRz8ByRp3imwLSvmYIilEY/pKxmUFt5CHaacN5S/bhzkeqMkUJ
+         emgwvRGqI4TDP/khhEusA2+xzEeJfgIRLM1rwfw53ObM9zBjgukilAfnkNj9ivZKEDe5
+         fcOg==
+X-Gm-Message-State: APjAAAU5v8tTaf3TA/6OtRimgVJ09cndPDwl7beQq2KwrLC9rCeC7dMT
+        hw6YMxRKvqcEkcjQQW3Ue/Bdarmm9KlGdqvxXuskcw==
+X-Google-Smtp-Source: APXvYqxeHKt2jaGM/C2bqfmau+yuCpw0lKb5aGNis1EqWTGVYXbjSOtTjbZIlvJaYLskYN1vYrwdSdEo/swVvRGXK3Y=
+X-Received: by 2002:a63:4721:: with SMTP id u33mr4321514pga.159.1573769147313;
+ Thu, 14 Nov 2019 14:05:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b0a0121-3e63-0602-6c0d-00547e389f76@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191113012746.52804-1-brendanhiggins@google.com> <CABVgOS=3AXS1=rpGyNiNYu8hU+t=gQG9JongHXir=76ENnrnnA@mail.gmail.com>
+In-Reply-To: <CABVgOS=3AXS1=rpGyNiNYu8hU+t=gQG9JongHXir=76ENnrnnA@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 14 Nov 2019 14:05:36 -0800
+Message-ID: <CAFd5g45jxFgxPSaamT3EQB5W_HMbM5-FPyRppqTb-HFTn+oGow@mail.gmail.com>
+Subject: Re: [PATCH linux-kselftest/test v1] Documentation: kunit: add
+ documentation for kunit_tool
+To:     David Gow <davidgow@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 14, 2019 at 09:48:38PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 14-11-2019 21:13, Hans de Goede wrote:
-> > Hi,
-> > 
-> > On 14-11-2019 20:42, Luis Chamberlain wrote:
-> > > On Thu, Nov 14, 2019 at 12:27:01PM +0100, Hans de Goede wrote:
-> > > > Hi Luis,
-> > > > 
-> > > > Thank you for the reviews and sorry for being a bit slow to respind.
-> > > > 
-> > > > On 11-10-2019 16:48, Luis Chamberlain wrote:
-> > > > > On Fri, Oct 04, 2019 at 04:50:50PM +0200, Hans de Goede wrote:
-> > > > > > +static int __init efi_check_md_for_embedded_firmware(
-> > > > > > +    efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
-> > > > > > +{
-> > > > > > +    const u64 prefix = *((u64 *)desc->prefix);
-> > > > > > +    struct sha256_state sctx;
-> > > > > > +    struct embedded_fw *fw;
-> > > > > > +    u8 sha256[32];
-> > > > > > +    u64 i, size;
-> > > > > > +    void *map;
-> > > > > > +
-> > > > > > +    size = md->num_pages << EFI_PAGE_SHIFT;
-> > > > > > +    map = memremap(md->phys_addr, size, MEMREMAP_WB);
-> > > > > 
-> > > > > Since our limitaiton is the init process must have mostly finished,
-> > > > > it implies early x86 boot code cannot use this, what measures can we
-> > > > > take to prevent / check for such conditions to be detected and
-> > > > > gracefully errored out?
-> > > > 
-> > > > As with all (EFI) early boot code, there simply is a certain order
-> > > > in which things need to be done. This needs to happen after the basic
-> > > > mm is setup, but before efi_free_boot_services() gets called, there
-> > > > isn't really a way to check for all these conditions. As with all
-> > > > early boot code, people making changes need to be careful to not
-> > > > break stuff.
-> > > 
-> > > I rather we take a proactive measure here and add whatever it is we need
-> > > to ensure the API works only when its supposed to, rather than try and
-> > > fail, and then expect the user to know these things.
-> > > 
-> > > I'd prefer if we at least try to address this.
-> > 
-> > This is purely internal x86/EFI API it is not intended for drivers
-> > or anything like that. It has only one caller under arch/x86 and it is
-> > not supposed to get any other callers outside of arch/* ever.
-> > 
-> > Note that this all runs before even core_initcall-s get run, none
-> > if the code which runs before then has any sort of ordering checks
-> > and I don't see how this bit is special and thus does need ordering
-> > checks; and there really is no mechanism for such checks so early
-> > during boot.
-> > 
-> > The drivers/firmware/efi/embedded-firmware.c file does add some API
-> > which can be used normally, specifically the efi_get_embedded_fw()
-> > but that has no special ordering constrains and it does not directly
-> > use the function we are discussing now. It reads back data stored
-> > by the earlier functions; and if somehow called before those functions
-> > run (*), then it will simply return -ENOENT.
-> 
-> Ok, I just realized that we may have some miscommunication here,
-> when you wrote:
-> 
-> "Since our limitation is the init process must have mostly finished,
->  it implies early x86 boot code cannot use this, what measures can we
->  take to prevent / check for such conditions to be detected and
->  gracefully errored out?"
-> 
-> I assumed you meant that to apply to the efi_check_md_for_embedded_firmware()
-> helper or its caller.
-> 
-> But I guess what you really want is some error to be thrown if someone
-> calls firmware_request_platform() before we are ready.
-
-Yes.
-
-> I guess I could make efi_check_for_embedded_firmwares() which scans
-> for known firmwares and saved a copy set a flag that it has run.
-> 
-> And then combine that with making efi_get_embedded_fw() (which underpins
-> firmware_request_platform()) print a warning when called if that flag
-> is not set yet.
-> 
-> That would mean though that some code which runs earlier then
-> a core_initcall would, would call firmware_request_platform() and
-> such code is generally expected to know what they are doing.
-> 
-> I just checked and the cpu microcode stuff which comes to mind
-> for this uses a late_initcall so runs long after efi_get_embedded_fw()
-> and I have a feeling that trying to use the fw_loader before
-> core_initcalls have run is going to end poorly anyways.
+On Wed, Nov 13, 2019 at 10:12 AM David Gow <davidgow@google.com> wrote:
 >
-> Still if you want I can add a pr_warn or maybe even a WARN_ON
-> to efi_get_embedded_fw() in case it somehow gets called before
-> efi_check_for_embedded_firmwares().
+> On Tue, Nov 12, 2019 at 5:28 PM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > Add documentation for the Python script used to build, run, and collect
+> > results from the kernel known as kunit_tool. kunit_tool
+> > (tools/testing/kunit/kunit.py) was already added in previous commits.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > ---
+> >  Documentation/dev-tools/kunit/index.rst      |  1 +
+> >  Documentation/dev-tools/kunit/kunit-tool.rst | 57 ++++++++++++++++++++
+> >  Documentation/dev-tools/kunit/start.rst      |  3 ++
+> >  3 files changed, 61 insertions(+)
+> >  create mode 100644 Documentation/dev-tools/kunit/kunit-tool.rst
+> >
+> > diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
+> > index 26ffb46bdf99d..c60d760a0eed1 100644
+> > --- a/Documentation/dev-tools/kunit/index.rst
+> > +++ b/Documentation/dev-tools/kunit/index.rst
+> > @@ -9,6 +9,7 @@ KUnit - Unit Testing for the Linux Kernel
+> >
+> >         start
+> >         usage
+> > +       kunit-tool
+> >         api/index
+> >         faq
+> >
+> > diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
+> > new file mode 100644
+> > index 0000000000000..aa1a93649a45a
+> > --- /dev/null
+> > +++ b/Documentation/dev-tools/kunit/kunit-tool.rst
+> > @@ -0,0 +1,57 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=================
+> > +kunit_tool How-To
+> > +=================
+> > +
+> > +What is kunit_tool?
+> > +===================
+> > +
+> > +kunit_tool is a set of scripts that aid in building the Linux kernel as UML
+> > +(`User Mode Linux <http://user-mode-linux.sourceforge.net/old/>`_), running
+> > +KUnit tests, parsing the test results and displaying them in a user friendly
+> > +manner.
+>
+> Calling this a "set of scripts" is a bit confusing, as the only script
+> described is tools/testing/kunit/kunit.py, which isn't mentioned in
+> this section.
 
-That'd be great.
+Fair enough. Sorry, I think of it as a set of scripts since there is
+more than one file, but I guess that probably doesn't make too much
+sense to anyone else.
 
-  Luis
+> Also, it may be worth linking to the new version of the UML website
+> (even if the old one has more content).
+
+No complaints here. I just linked to what I thought is more helpful.
+It isn't immediately obvious to click on the old site (however, you
+probably want to since it has way more useful content), but the old
+site *is* discoverable from the new site, and the inverse is not true.
+
+> > +
+> > +What is a kunitconfig?
+> > +======================
+> > +
+> > +It's just a defconfig that kunit_tool looks for in the base directory.
+> > +kunit_tool uses it to generate a .config as you might expect. In addition, it
+> > +verifies that the generated .config contains the CONFIG options in the
+> > +kunitconfig; the reason it does this is so that it is easy to be sure that a
+> > +CONFIG that enables a test actually ends up in the .config.
+> > +
+> > +How do I use kunit_tool?
+> > +=================================
+> > +
+> > +If a kunitconfig is present at the root directory, all you have to do is:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +       ./tools/testing/kunit/kunit.py run
+> > +
+> > +However, you most likely want to use it with the following options:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8
+> > +
+> > +- ``--timeout`` sets a maximum amount of time to allow tests to run.
+> > +- ``--jobs`` sets the number of threads to use to build the kernel.
+> > +
+>
+> Not directly an issue with the documentation, but this does raise the
+> question of why we don't have better defaults. Alternatively, maybe
+
+Better defaults, yes-ish: I think Ted's suggestion that we should make
+it possible to run KUnit tests from make[1] is correct, and if I
+remember correctly, make *does* have a way to set reasonable
+system-wide defaults for this (I just don't think anybody takes
+advantage of it), so in that case, we should just respect whatever
+make wants to do. Consequently, I think the logic in the script should
+probably be pretty dumb.
+
+> this doc could suggest --jobs=`nproc` or similar?
+
+Good suggestion, although I would do --jobs=`nproc --all `.
+
+> > +If you just want to use the defconfig that ships with the kernel, you can
+> > +append the ``--defconfig`` flag as well:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=8 --defconfig
+> > +
+> > +.. note::
+> > +       This command is particularly helpful for getting started because it
+> > +       just works. No kunitconfig needs to be present.
+> > +
+>
+> Should we use this in the getting started section below, then?
+> Particularly since we're already going over kunitconfigs there
+> separately.
+
+I think that makes sense.
+
+> > +For a list of all the flags supported by kunit_tool, you can run:
+> > +
+> > +.. code-block:: bash
+> > +
+>
+> Do you think it's worth documenting the remaining two (--build_dir and
+> --raw_output) here too?
+
+No. I don't know that I want to set the precedent to document all
+flags here. We already document the flags in the code and I don't want
+the two to get out of sync. However, it might be feasible to have the
+documentation automagically execute the --help command every time it
+is built keeping it in sync. I am not sure how much value that would
+provide.
+
+> > +       ./tools/testing/kunit/kunit.py run --help
+[...]
+
+Cheers!
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=205535
