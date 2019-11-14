@@ -1,169 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF6D07D917
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:42:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B56157D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726319AbfKNWms (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 17:42:48 -0500
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:37565 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726910AbfKNWmq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 17:42:46 -0500
-Received: by mail-pg1-f202.google.com with SMTP id u20so5748212pga.4
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 14:42:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=//SxIFwu+xlyZ3KpN5ryMxJ8rZ5gTQh9998RBPDyljs=;
-        b=AMVLKupT3zHwBW4ZWFmXDdkA6JXGWjf0opHk2wCQKAwS/Pbi4yMhHyuB+kQf3TtJc+
-         Sr5MjazmlpJQW3hbtSsmlnovsDxJxUitOKUL5EgxO8rrjWZ7zytghWHAyrEy4+bEdScu
-         c+cDEwZVZDHw4nGXQRdAgdqsjnIYfpURyalE5LZEx4445CTjusNn8VX1Eku552sRPuyo
-         0H6a5OYznQ/W259RWo7jY/aRLwWThsV3r8C89RZX61L4Y7NyBI9BO/y1DSBiBXuyS9Hs
-         YogeSAJRRrhEiw//W7lJQDdgETPc661qHyFCTJ3aubO7xW05TiumkLUZdRXZW38Yl+Kx
-         LYfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=//SxIFwu+xlyZ3KpN5ryMxJ8rZ5gTQh9998RBPDyljs=;
-        b=sm3JDWkmStml5/NRsxGhEkGNpPDeHeMTHkTTb8Qhc1D12djn6CRoHEvHZ7BFEouvIA
-         9MlNZN0D1zUUNNqa7ml8EqEP0FyaJrVxIG/RPY/+YHQ5ZljTLsTzI2QkXNcyWeiMy3Ze
-         cIrwDI5N9A1YQFa6iTChQ6Qcpl3KVDGZl052UL0aJB/z/xm81ij/cvGGkM7hFjhsBCMY
-         d6hPtuSSVSOoDzNjm2WSbE3zdSbsn5aSlLvttmgsmHk7RMer+FVNHTfiAntO+nSZ1vW+
-         SSaVdoC0tv6EpfRHGGAC+v1XSf/BybA6erx4Fk1OpZqQ+zckjLpguW5FNYaSgdBd45JI
-         9NXQ==
-X-Gm-Message-State: APjAAAU2OVaKdCzsS9MlmmlCq5sX7fM89masn0NT9wwjL3zRdW71OZWg
-        iDBY4SyXd4idIiF9NGPNacMMur0XCF4Cu1rogvqBFQ==
-X-Google-Smtp-Source: APXvYqwSbawrArXZyzzhjKV9QauxgDW501V2Kcvv8bhjhOddYlxq9Fi9xMi+/r+OSAKviq/rsgaF6aoGbPEnQAIMjfp4GQ==
-X-Received: by 2002:a63:34c8:: with SMTP id b191mr12450491pga.26.1573771364839;
- Thu, 14 Nov 2019 14:42:44 -0800 (PST)
-Date:   Thu, 14 Nov 2019 14:42:40 -0800
-Message-Id: <20191114224240.77861-1-brendanhiggins@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
-Subject: [PATCH linux-kselftest/test v2] Documentation: kunit: add
- documentation for kunit_tool
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     shuah@kernel.org, davidgow@google.com
-Cc:     kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, tytso@mit.edu,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726952AbfKNWzw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 17:55:52 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:41904 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726852AbfKNWzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 17:55:52 -0500
+Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iVO1h-0004jz-Ko; Thu, 14 Nov 2019 23:55:45 +0100
+Date:   Thu, 14 Nov 2019 23:55:44 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Anthony Steinhauser <asteinhauser@google.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [PATCH] Mention PowerPC in the L1TF documentation.
+In-Reply-To: <20191114221634.258799-1-asteinhauser@google.com>
+Message-ID: <alpine.DEB.2.21.1911142334250.29616@nanos.tec.linutronix.de>
+References: <20191114221634.258799-1-asteinhauser@google.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the Python script used to build, run, and collect
-results from the kernel known as kunit_tool. kunit_tool
-(tools/testing/kunit/kunit.py) was already added in previous commits.
+Anthony,
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
----
- Documentation/dev-tools/kunit/index.rst      |  1 +
- Documentation/dev-tools/kunit/kunit-tool.rst | 57 ++++++++++++++++++++
- Documentation/dev-tools/kunit/start.rst      |  5 +-
- 3 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/dev-tools/kunit/kunit-tool.rst
+On Thu, 14 Nov 2019, asteinhauser@google.com wrote:
 
-diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-index 26ffb46bdf99d..c60d760a0eed1 100644
---- a/Documentation/dev-tools/kunit/index.rst
-+++ b/Documentation/dev-tools/kunit/index.rst
-@@ -9,6 +9,7 @@ KUnit - Unit Testing for the Linux Kernel
- 
- 	start
- 	usage
-+	kunit-tool
- 	api/index
- 	faq
- 
-diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
-new file mode 100644
-index 0000000000000..37509527c04e1
---- /dev/null
-+++ b/Documentation/dev-tools/kunit/kunit-tool.rst
-@@ -0,0 +1,57 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+kunit_tool How-To
-+=================
-+
-+What is kunit_tool?
-+===================
-+
-+kunit_tool is a script (``tools/testing/kunit/kunit.py``) that aids in building
-+the Linux kernel as UML (`User Mode Linux
-+<http://user-mode-linux.sourceforge.net/>`_), running KUnit tests, parsing
-+the test results and displaying them in a user friendly manner.
-+
-+What is a kunitconfig?
-+======================
-+
-+It's just a defconfig that kunit_tool looks for in the base directory.
-+kunit_tool uses it to generate a .config as you might expect. In addition, it
-+verifies that the generated .config contains the CONFIG options in the
-+kunitconfig; the reason it does this is so that it is easy to be sure that a
-+CONFIG that enables a test actually ends up in the .config.
-+
-+How do I use kunit_tool?
-+=================================
-+
-+If a kunitconfig is present at the root directory, all you have to do is:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run
-+
-+However, you most likely want to use it with the following options:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all`
-+
-+- ``--timeout`` sets a maximum amount of time to allow tests to run.
-+- ``--jobs`` sets the number of threads to use to build the kernel.
-+
-+If you just want to use the defconfig that ships with the kernel, you can
-+append the ``--defconfig`` flag as well:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all` --defconfig
-+
-+.. note::
-+	This command is particularly helpful for getting started because it
-+	just works. No kunitconfig needs to be present.
-+
-+For a list of all the flags supported by kunit_tool, you can run:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run --help
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index aeeddfafeea20..4248a6f9038b8 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -19,7 +19,10 @@ The wrapper can be run with:
- 
- .. code-block:: bash
- 
--   ./tools/testing/kunit/kunit.py run
-+	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all` --defconfig
-+
-+For more information on this wrapper (also called kunit_tool) checkout the
-+:doc:`kunit-tool` page.
- 
- Creating a kunitconfig
- ======================
--- 
-2.24.0.432.g9d3f5f5b63-goog
+> From: Anthony Steinhauser <asteinhauser@google.com>
+> 
+> There is a false negative that L1TF is Intel specific while it affects
+> also PowerPC:
+> https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=8e6b6da91ac9b9ec5a925b6cb13f287a54bd547d
 
+Please use the regular
+
+   commit 12-char-sha ("powerpc: .......")
+
+notation. These links are horrible.
+
+> Another false negative is that the kernel is unconditionally protected
+> against L1TF attacks from userspace. That's true only on x86 but not on
+> PowerPC where you can turn the protection off by nopti.
+
+Missing newline between body and SOB
+
+> Signed-off-by: Anthony Steinhauser <asteinhauser@google.com>
+> ---
+>  Documentation/admin-guide/hw-vuln/l1tf.rst | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+> index f83212fae4d5..243e494b337a 100644
+> --- a/Documentation/admin-guide/hw-vuln/l1tf.rst
+> +++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+> @@ -9,10 +9,11 @@ for the access, has the Present bit cleared or other reserved bits set.
+>  Affected processors
+>  -------------------
+>  
+> -This vulnerability affects a wide range of Intel processors. The
+> -vulnerability is not present on:
+> +This vulnerability affects a wide range of Intel and PowerPC processors.
+> +The vulnerability is not present on:
+>  
+> -   - Processors from AMD, Centaur and other non Intel vendors
+> +   - Processors from AMD, Centaur and other non Intel vendors except for
+> +     PowerPC
+
+No. This needs restructuring. The non Intel vendor means vendors which
+produce x86 machines (not really clear TBH), but adding these two PPC parts
+above and here does not make it any better.
+  
+>     - Older processor models, where the CPU family is < 6
+
+Also this suggest that _ALL_ PowerPC processors are affected as there is
+no exception list.
+
+So I suggest to structure this like this:
+
+Affected processors
+-------------------
+
+ 1) Intel processors
+
+    Move the existing list here
+
+ 2) PowerPC processors
+
+    Add some meat
+
+Whether a processor is affected or not...
+
+> @@ -125,7 +126,7 @@ mitigations are active. The relevant sysfs file is:
+>  
+>  /sys/devices/system/cpu/vulnerabilities/l1tf
+>  
+> -The possible values in this file are:
+> +The possible values in this file on x86 are:
+
+That commit you referenced added the sysfs output for powerpc. So that
+should be documented properly here as well, right?
+
+>    ===========================   ===============================
+>    'Not affected'		The processor is not vulnerable
+> @@ -158,8 +159,10 @@ The resulting grade of protection is discussed in the following sections.
+>  Host mitigation mechanism
+>  -------------------------
+>  
+> -The kernel is unconditionally protected against L1TF attacks from malicious
+> -user space running on the host.
+> +On x86 the kernel is unconditionally protected against L1TF attacks from
+> +malicious user space running on the host. On PowerPC the kernel is
+> +protected by flushing the L1D cache on each transition from kernel to
+> +userspace unless the 'nopti' boot argument turns this mitigation off.
+
+Please make this clearly visually separated. Just glueing this together is
+hard to read.
+
+What about the l1tf boot param? Is it x86 only? If so, then this wants to
+be added to the the documentation as well.
+
+What about the guest to host issue on PPC? Not affected or same mitigation
+or what?
+
+We really spent a lot of time to write understandable and useful
+documentation. Just sprinkling a few powerpc'isms into it is really not
+cutting it.
+
+This needs proper structuring so that it's obvious for the intended
+audience (administrators, users) which part is applicable to which
+architecture or to both. 
+
+Thanks,
+
+	tglx
