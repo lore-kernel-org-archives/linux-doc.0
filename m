@@ -1,257 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 189367DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:18:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E0D17D917
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 19:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbfKNSSD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 13:18:03 -0500
-Received: from mga03.intel.com ([134.134.136.65]:36355 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727437AbfKNSSC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Nov 2019 13:18:02 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 10:18:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,304,1569308400"; 
-   d="scan'208";a="195123577"
-Received: from chiahuil-mobl.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.255.228.77])
-  by orsmga007.jf.intel.com with ESMTP; 14 Nov 2019 10:18:00 -0800
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     alsa-devel@alsa-project.org
-Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
-        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
-        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
-        Bard liao <yung-chuan.liao@linux.intel.com>,
-        Rander Wang <rander.wang@linux.intel.com>,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
+        id S1726632AbfKNTmi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 14:42:38 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36048 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726474AbfKNTmi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 14:42:38 -0500
+Received: by mail-pg1-f195.google.com with SMTP id k13so4450013pgh.3;
+        Thu, 14 Nov 2019 11:42:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xREiFSWcPI1chhBi4DLb96WHUmNYxgUaObZlX9ct32s=;
+        b=RqQ1/TaigRFRI/T+wCoz5yQ/SAOH68FOaVXZGcIlLVoRQGNR2qjXJpy+qkqSag12GQ
+         TvKjacB8VJfHwyddFEts3dNAhavwJj4aXdn1yTlr6HykjbM6+tw7b2JE1RQsF/wRnzd1
+         poyIPDTdKn35ixj3J75x0OpLcP95KtFJknfADoa4gsngqjy2PxpH+jVasTSu9iIgVhQU
+         0vYvAHQ/lmQ8l/05JuoMpZLGaznBS8fWi3WT0tB1x3Gb1KkKu3VnhQQYxoGuKZCJWpWA
+         EAXN24vuziaCvLgLepTlzoTokFTIDXpmIs0yi7DcsF744HuVA2peF55r/P9McEp391Pj
+         l4+Q==
+X-Gm-Message-State: APjAAAXYnO0m7n9cxbuV4p2Dgp8RTGNQn6e7GWTShQMjrfz+/e4M173w
+        enSVQFoeFD0HoydIm6SdxoI=
+X-Google-Smtp-Source: APXvYqzHzrMhVUuOmrOcvLurwFjLtxHMm3bi+6VC0x6/lYAs2TDGf9BuvH95YORH/zvzQl05Qrz/4g==
+X-Received: by 2002:a17:90a:aa8f:: with SMTP id l15mr14680183pjq.52.1573760555946;
+        Thu, 14 Nov 2019 11:42:35 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id o15sm12166006pgf.2.2019.11.14.11.42.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2019 11:42:34 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id BBC3D403DC; Thu, 14 Nov 2019 19:42:33 +0000 (UTC)
+Date:   Thu, 14 Nov 2019 19:42:33 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v3 18/22] soundwire: stream: update state machine and add state checks
-Date:   Thu, 14 Nov 2019 12:16:58 -0600
-Message-Id: <20191114181702.22254-19-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191114181702.22254-1-pierre-louis.bossart@linux.intel.com>
-References: <20191114181702.22254-1-pierre-louis.bossart@linux.intel.com>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
+Message-ID: <20191114194233.GE11244@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-3-hdegoede@redhat.com>
+ <20191011144834.GL16384@42.do-not-panic.com>
+ <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The state machine and notes don't accurately explain or allow
-transitions from STREAM_DEPREPARED and STREAM_DISABLED.
+On Thu, Nov 14, 2019 at 12:27:01PM +0100, Hans de Goede wrote:
+> Hi Luis,
+> 
+> Thank you for the reviews and sorry for being a bit slow to respind.
+> 
+> On 11-10-2019 16:48, Luis Chamberlain wrote:
+> > On Fri, Oct 04, 2019 at 04:50:50PM +0200, Hans de Goede wrote:
+> > > +static int __init efi_check_md_for_embedded_firmware(
+> > > +	efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
+> > > +{
+> > > +	const u64 prefix = *((u64 *)desc->prefix);
+> > > +	struct sha256_state sctx;
+> > > +	struct embedded_fw *fw;
+> > > +	u8 sha256[32];
+> > > +	u64 i, size;
+> > > +	void *map;
+> > > +
+> > > +	size = md->num_pages << EFI_PAGE_SHIFT;
+> > > +	map = memremap(md->phys_addr, size, MEMREMAP_WB);
+> > 
+> > Since our limitaiton is the init process must have mostly finished,
+> > it implies early x86 boot code cannot use this, what measures can we
+> > take to prevent / check for such conditions to be detected and
+> > gracefully errored out?
+> 
+> As with all (EFI) early boot code, there simply is a certain order
+> in which things need to be done. This needs to happen after the basic
+> mm is setup, but before efi_free_boot_services() gets called, there
+> isn't really a way to check for all these conditions. As with all
+> early boot code, people making changes need to be careful to not
+> break stuff.
 
-Add more explanations and allow for more transitions as a result of a
-trigger_stop(), trigger_suspend() and prepare(), depending on the
-ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
-flags.
+I rather we take a proactive measure here and add whatever it is we need
+to ensure the API works only when its supposed to, rather than try and
+fail, and then expect the user to know these things.
 
-Also add basic checks to help debug inconsistent states and illegal
-state machine transitions.
+I'd prefer if we at least try to address this.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- Documentation/driver-api/soundwire/stream.rst | 63 +++++++++++++------
- drivers/soundwire/stream.c                    | 37 +++++++++++
- 2 files changed, 82 insertions(+), 18 deletions(-)
+> > > +	if (!map) {
+> > > +		pr_err("Error mapping EFI mem at %#llx\n", md->phys_addr);
+> > > +		return -ENOMEM;
+> > > +	}
+> > > +
+> > > +	size -= desc->length;
+> > 
+> > Remind me again, why we decrement the size here?
+> 
+> Basically this is another way of writing:
+> 
+> 	for (i = 0; (i + desc->length) < size; i += 8) {
+> 
+> > I was going to ask if we didn't need a:
+> > 
+> > if (desc->length > size) {
+> > 	memunmap(map);
+> > 	return -EINVAL;
+> > }
+> 
+> That is a good point, unlikely but still a good point,
+> so I guess that writing:
+> 
+> 	for (i = 0; (i + desc->length) < size; i += 8) {
+> 
+> Instead would better as that avoids the need for that check.
+> I will fix this for the next version.
 
-diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
-index 5351bd2f34a8..9b7418ff8d59 100644
---- a/Documentation/driver-api/soundwire/stream.rst
-+++ b/Documentation/driver-api/soundwire/stream.rst
-@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
- 	+-----------+     +------------+     +----------+     +----------+
- 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
- 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
--	+-----------+     +------------+     +----------+     +----+-----+
--	                                                           ^
--	                                                           |
--	                                                           |
--	                                                           v
--	         +----------+           +------------+        +----+-----+
-+	+-----------+     +------------+     +---+--+---+     +----+-----+
-+	                                         ^  ^              ^
-+				                 |  |              |
-+				               __|  |___________   |
-+				              |                 |  |
-+	                                      v                 |  v
-+	         +----------+           +-----+------+        +-+--+-----+
- 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
- 	         |  STATE   |           |   STATE    |        |  STATE   |
- 	         +----------+           +------------+        +----------+
- 
--NOTE: State transition between prepare and deprepare is supported in Spec
--but not in the software (subsystem)
-+NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
-+``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
-+supported at the ALSA/ASoC level. Likewise the transition between
-+``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
-+INFO_RESUME flag.
- 
--NOTE2: Stream state transition checks need to be handled by caller
--framework, for example ALSA/ASoC. No checks for stream transition exist in
--SoundWire subsystem.
-+NOTE2: The framework implements basic state transition checks, but
-+does not e.g. check if a transition from DISABLED to ENABLED is valid
-+on a specific platform. Such tests need to be added at the ALSA/ASoC
-+level.
- 
- Stream State Operations
- -----------------------
-@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
- 
- Prepare state of stream. Operations performed before entering in this state:
- 
-+  (0) Steps 1 and 2 are omitted in the case of a resume operation,
-+      where the bus bandwidth is known.
-+
-   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
-       are computed based on current stream as well as already active
-       stream(s) on Bus. Re-computation is required to accommodate current
-@@ -270,13 +278,15 @@ Prepare state of stream. Operations performed before entering in this state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_PREPARED``.
- 
--Bus implements below API for PREPARE state which needs to be called once per
--stream. From ASoC DPCM framework, this stream state is linked to
--.prepare() operation.
-+Bus implements below API for PREPARE state which needs to be called
-+once per stream. From ASoC DPCM framework, this stream state is linked
-+to .prepare() operation. Since the .trigger() operations may not
-+follow the .prepare(), a direct transitions from
-+``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
- 
- .. code-block:: c
- 
--  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
-+  int sdw_prepare_stream(struct sdw_stream_runtime * stream, bool resume);
- 
- 
- SDW_STREAM_ENABLED
-@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
- per stream. From ASoC DPCM framework, this stream state is linked to
- .trigger() stop operation.
- 
-+When the INFO_PAUSE flag is supported, a direct transition to
-+``SDW_STREAM_ENABLED`` is allowed.
-+
-+For resume operations where ASoC will use the .prepare() callback, the
-+stream can transition from ``SDW_STREAM_DISABLED`` to
-+``SDW_STREAM_PREPARED``, with all required settings restored but
-+without updating the bandwidth and bit allocation.
-+
- .. code-block:: c
- 
-   int sdw_disable_stream(struct sdw_stream_runtime * stream);
-@@ -353,9 +371,18 @@ state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_DEPREPARED``.
- 
--Bus implements below API for DEPREPARED state which needs to be called once
--per stream. From ASoC DPCM framework, this stream state is linked to
--.trigger() stop operation.
-+Bus implements below API for DEPREPARED state which needs to be called
-+once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
-+the mapping from this stream state to ALSA/ASoC operation may be
-+implementation specific.
-+
-+When the INFO_PAUSE flag is supported, the stream state is linked to
-+the .hw_free() operation - the stream is not deprepared on a
-+TRIGGER_STOP.
-+
-+Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
-+state on TRIGGER_STOP, should they require a transition through the
-+``SDW_STREAM_PREPARED`` state.
- 
- .. code-block:: c
- 
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 178ae92b8cc1..6aa0b5d370c0 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1553,8 +1553,18 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_CONFIGURED &&
-+	    stream->state != SDW_STREAM_DEPREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_prepare_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1619,8 +1629,17 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_enable_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1693,8 +1712,16 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_ENABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_disable_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1749,8 +1776,18 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 	}
- 
- 	sdw_acquire_bus_lock(stream);
-+
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_deprepare_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
--- 
-2.20.1
+Great thanks.
 
+  Luis
