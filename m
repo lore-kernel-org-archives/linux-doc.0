@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F09C77DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:04:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3CBAB7DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 18:04:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbfKNSEP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 13:04:15 -0500
-Received: from mail-wm1-f74.google.com ([209.85.128.74]:58878 "EHLO
-        mail-wm1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727429AbfKNSEM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 13:04:12 -0500
-Received: by mail-wm1-f74.google.com with SMTP id f11so4391027wmc.8
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 10:04:11 -0800 (PST)
+        id S1727265AbfKNSET (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 13:04:19 -0500
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:35051 "EHLO
+        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727376AbfKNSEP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 13:04:15 -0500
+Received: by mail-qk1-f202.google.com with SMTP id r2so4513920qkb.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 10:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=yMaGIqlKjXUqwbUrtjSqf1Asst/iuXZBTZYaUH3mnUk=;
-        b=VRI7kx/kQa1bxtHhmGo3GcSsuURWiNJPJTSqjyxjWnaQhrmJjUarWDCTjBJ1UO9p1d
-         BCrzK2drh1ms4Wy6zG+pz0l83lVSSmaJ2QS6e6qVnpWQ216IIFcjB24GrCCRXQWHhQvK
-         rkbcAxgp2a+unX7q6vWoYB/sxObwZ1E6gxz5BGduYlOmlfyHI040gcOkXwiaQy71IUgR
-         bV3iaXbAeYIIk199/bU6jP8nFYKbr2/2Bom4kutSGzf1lgtYu5auv7jbhW4nEnJ91hO9
-         nTU0pVGQxZ7iAAuFNJzrIJAKqQU0N6nHduMy81Sf0Yfu78coO/unTbAO8Gb+qg7b8QKi
-         jzpQ==
+        bh=96xEs+lJYo0V1womdbdeC7cnwgPWDGKGu93eR6OWopc=;
+        b=IcRlS/dVG/yHoLpUqrFonkreYomsiHhkkrl6VYCjwGgeNozljGzE7fVKZv2Ssna1k8
+         1LzS+QCxkC5KHpnsTf2qXBJVStxBgXX4u/O4LQdZK9+jYIPMXHTqe6Nm3353E673RYzR
+         tv5PgG6hmcfdvrqqaDTUgP4qJoJGJpLNU1xNJo6sFHJseHDw6SZ8fVh6/n4Br0qOJHh5
+         WJXazfV7vWPrPneFu9J2a4U+aToz+/wnOYE2oyh063VxBbUNpr06NyaV699hWg0WDYt2
+         YVnyTr7mGDVnEO2JcyvrLr/ihMtib36aaOFIiZNSTGvyzEB6gksmNZx1c054MGPXd/ng
+         axNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=yMaGIqlKjXUqwbUrtjSqf1Asst/iuXZBTZYaUH3mnUk=;
-        b=AyVx1rmwa39io71EaNno5Z7t7s0HyI9OyCKHorgQmwkvWg0hw0SUEE7al4zV7eb/6R
-         HXesHNHrQ00mHRAuauZsXOSYpQIzBrA2Oqm7/HCpbHPFFgcyuK9U4ZHii3zIkx6QZCjj
-         fW7WGKneL8LjECZKe0+mHV/NNb3+KyaaBiOcSCHy+ay7r/HV3rIElHmh6xMNyB3h1dcT
-         Zvpg0Khg2qbo5BoHHW+BTqx8R+3CaDyNZFPb7HTC5BZMvfT1/QFI64dHrgJTcbVGq6A7
-         wv0DKlPBHT+CQlKjDcLbOWzhMZc6WJyAsKnuzpjylY+97hwKW7tF5FMwpFMw2AsN5je7
-         XjOA==
-X-Gm-Message-State: APjAAAU7+dqBJuiTK4rBTS00YojBshuZU0LGTejR8sZikZRzmiJss/Zm
-        WmeMCAfNh14mqo2n7DrWZ/XVNAGqow==
-X-Google-Smtp-Source: APXvYqyspOQpVtiEwHHRTBFpggwt2BjVGksS/Z0SK5UoLcbkvLbrVwozbQHYvHUI0Ye76E0xz4YUUbqqyw==
-X-Received: by 2002:adf:db92:: with SMTP id u18mr9202786wri.1.1573754650237;
- Thu, 14 Nov 2019 10:04:10 -0800 (PST)
-Date:   Thu, 14 Nov 2019 19:02:57 +0100
+        bh=96xEs+lJYo0V1womdbdeC7cnwgPWDGKGu93eR6OWopc=;
+        b=KVoxca+uB2LqdBL+E58QalSpIovTmFAJv2C0MrTL0+Aizq0Ad1Qnhb+qhdtcqUlApO
+         NAhkO7YlAAV7hTsUEi1Xw8g6Az0k7otNe8SsHQWG0jkbeq8mSQ2Vn7h2+xXgGzKFOFhs
+         9+khJN9Ocl7spciL06U3IxB2W5gv56zZvNyJA+zMIPHA1XSmlF96aGLLN4L7k+bYE+io
+         NsmDtmhalsj5C/ALxdjuW14GPz1SoPXP0sfk426L/EQF3qH7Q7KWjkNRATWHIopE27Hr
+         dKREvmjfA92/QBap/XREyWLT1gYAsO5uv9139VGtB+uRwtFnT/SjHKpqTqWlDIJvx8TW
+         /9MQ==
+X-Gm-Message-State: APjAAAVHrQHJU2z+S61YE4Y/BjWhvwiD2OuAC66qH7bKPSmFbcBCbIFH
+        9JjbFAiL2FSuVWKG+G1b+Gk0PMv3rg==
+X-Google-Smtp-Source: APXvYqy9G23BfTtDP6DLRm/+dyC4HyMfQj+e3C86SeKn5yp6ansmdfintOUGctl96DGNbXdQ3o32tHVhbA==
+X-Received: by 2002:aed:2cc5:: with SMTP id g63mr9497984qtd.205.1573754653698;
+ Thu, 14 Nov 2019 10:04:13 -0800 (PST)
+Date:   Thu, 14 Nov 2019 19:02:58 +0100
 In-Reply-To: <20191114180303.66955-1-elver@google.com>
-Message-Id: <20191114180303.66955-5-elver@google.com>
+Message-Id: <20191114180303.66955-6-elver@google.com>
 Mime-Version: 1.0
 References: <20191114180303.66955-1-elver@google.com>
 X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
-Subject: [PATCH v4 04/10] objtool, kcsan: Add KCSAN runtime functions to whitelist
+Subject: [PATCH v4 05/10] build, kcsan: Add KCSAN build exceptions
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com
 Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
@@ -73,47 +73,103 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds KCSAN runtime functions to the objtool whitelist.
+This blacklists several compilation units from KCSAN. See the respective
+inline comments for the reasoning.
 
 Signed-off-by: Marco Elver <elver@google.com>
 Acked-by: Paul E. McKenney <paulmck@kernel.org>
 ---
 v3:
-* Add missing instrumentation functions.
-* Use new function names of refactored core runtime.
+* Moved EFI stub build exception hunk from x86-specific patch, since
+  it's not x86-specific.
+* Spelling "data-race" -> "data race".
 ---
- tools/objtool/check.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/firmware/efi/libstub/Makefile | 2 ++
+ kernel/Makefile                       | 5 +++++
+ kernel/sched/Makefile                 | 6 ++++++
+ mm/Makefile                           | 8 ++++++++
+ 4 files changed, 21 insertions(+)
 
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 044c9a3cb247..e022a9a00ca1 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -466,6 +466,24 @@ static const char *uaccess_safe_builtin[] = {
- 	"__asan_report_store4_noabort",
- 	"__asan_report_store8_noabort",
- 	"__asan_report_store16_noabort",
-+	/* KCSAN */
-+	"kcsan_found_watchpoint",
-+	"kcsan_setup_watchpoint",
-+	/* KCSAN/TSAN */
-+	"__tsan_func_entry",
-+	"__tsan_func_exit",
-+	"__tsan_read_range",
-+	"__tsan_write_range",
-+	"__tsan_read1",
-+	"__tsan_read2",
-+	"__tsan_read4",
-+	"__tsan_read8",
-+	"__tsan_read16",
-+	"__tsan_write1",
-+	"__tsan_write2",
-+	"__tsan_write4",
-+	"__tsan_write8",
-+	"__tsan_write16",
- 	/* KCOV */
- 	"write_comp_data",
- 	"__sanitizer_cov_trace_pc",
+diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
+index ee0661ddb25b..5d0a645c0de8 100644
+--- a/drivers/firmware/efi/libstub/Makefile
++++ b/drivers/firmware/efi/libstub/Makefile
+@@ -31,7 +31,9 @@ KBUILD_CFLAGS			:= $(cflags-y) -DDISABLE_BRANCH_PROFILING \
+ 				   -D__DISABLE_EXPORTS
+ 
+ GCOV_PROFILE			:= n
++# Sanitizer runtimes are unavailable and cannot be linked here.
+ KASAN_SANITIZE			:= n
++KCSAN_SANITIZE			:= n
+ UBSAN_SANITIZE			:= n
+ OBJECT_FILES_NON_STANDARD	:= y
+ 
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 74ab46e2ebd1..cc53f7c25446 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -23,6 +23,9 @@ endif
+ # Prevents flicker of uninteresting __do_softirq()/__local_bh_disable_ip()
+ # in coverage traces.
+ KCOV_INSTRUMENT_softirq.o := n
++# Avoid KCSAN instrumentation in softirq ("No shared variables, all the data
++# are CPU local" => assume no data races), to reduce overhead in interrupts.
++KCSAN_SANITIZE_softirq.o = n
+ # These are called from save_stack_trace() on slub debug path,
+ # and produce insane amounts of uninteresting coverage.
+ KCOV_INSTRUMENT_module.o := n
+@@ -30,6 +33,7 @@ KCOV_INSTRUMENT_extable.o := n
+ # Don't self-instrument.
+ KCOV_INSTRUMENT_kcov.o := n
+ KASAN_SANITIZE_kcov.o := n
++KCSAN_SANITIZE_kcov.o := n
+ CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
+ 
+ # cond_syscall is currently not LTO compatible
+@@ -118,6 +122,7 @@ obj-$(CONFIG_RSEQ) += rseq.o
+ 
+ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
++KCSAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
+ 
+ $(obj)/configs.o: $(obj)/config_data.gz
+diff --git a/kernel/sched/Makefile b/kernel/sched/Makefile
+index 21fb5a5662b5..e9307a9c54e7 100644
+--- a/kernel/sched/Makefile
++++ b/kernel/sched/Makefile
+@@ -7,6 +7,12 @@ endif
+ # that is not a function of syscall inputs. E.g. involuntary context switches.
+ KCOV_INSTRUMENT := n
+ 
++# There are numerous races here, however, most of them due to plain accesses.
++# This would make it even harder for syzbot to find reproducers, because these
++# bugs trigger without specific input. Disable by default, but should re-enable
++# eventually.
++KCSAN_SANITIZE := n
++
+ ifneq ($(CONFIG_SCHED_OMIT_FRAME_POINTER),y)
+ # According to Alan Modra <alan@linuxcare.com.au>, the -fno-omit-frame-pointer is
+ # needed for x86 only.  Why this used to be enabled for all architectures is beyond
+diff --git a/mm/Makefile b/mm/Makefile
+index d996846697ef..56c1964bb3a1 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -7,6 +7,14 @@ KASAN_SANITIZE_slab_common.o := n
+ KASAN_SANITIZE_slab.o := n
+ KASAN_SANITIZE_slub.o := n
+ 
++# These produce frequent data race reports: most of them are due to races on
++# the same word but accesses to different bits of that word. Re-enable KCSAN
++# for these when we have more consensus on what to do about them.
++KCSAN_SANITIZE_slab_common.o := n
++KCSAN_SANITIZE_slab.o := n
++KCSAN_SANITIZE_slub.o := n
++KCSAN_SANITIZE_page_alloc.o := n
++
+ # These files are disabled because they produce non-interesting and/or
+ # flaky coverage that is not a function of syscall inputs. E.g. slab is out of
+ # free pages, or a task is migrated between nodes.
 -- 
 2.24.0.rc1.363.gb1bccd3e3d-goog
 
