@@ -1,114 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 013AB7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:16:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 299637D90D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Nov 2019 22:16:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726910AbfKNWQD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Nov 2019 17:16:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52494 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726613AbfKNWQD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Nov 2019 17:16:03 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B271420709;
-        Thu, 14 Nov 2019 22:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573769762;
-        bh=LDvzI/ip5iI4UIoBSOL32SYOqpndu86kZkkikom9zAQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=evw1x+V8DbAMm1Q56y0Dl8nBXH4RuSVwxeqMsDfteUCdnCAMqUInQ8/2NhtcogIZ+
-         xon7nkORRkUbI4++x7nww4haJsBSqgHMLJ4ZzVmMjc54kDTtedT8QMdT/6hOh7Oex2
-         5vtVN19MYBPsP0sLIPE24mpdYfNsH0MiSEQ8OF60=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 87E8835227FC; Thu, 14 Nov 2019 14:15:59 -0800 (PST)
-Date:   Thu, 14 Nov 2019 14:15:59 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
-        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
-        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
-        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
-        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
-        npiggin@gmail.com, peterz@infradead.org, tglx@linutronix.de,
-        will@kernel.org, edumazet@google.com, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191114221559.GS2865@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191114180303.66955-1-elver@google.com>
- <20191114195046.GP2865@paulmck-ThinkPad-P72>
- <20191114213303.GA237245@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191114213303.GA237245@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1726910AbfKNWQx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Nov 2019 17:16:53 -0500
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:38340 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfKNWQx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Nov 2019 17:16:53 -0500
+Received: by mail-pg1-f202.google.com with SMTP id s8so5696863pgv.5
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2019 14:16:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=RIRCCMERSX60DPHxGjGXa+inq5I/jJQr4eEYO43s6dg=;
+        b=b9yORXv/tdkFLcUZLkE2uzdHVIAtpfolnXmlTeaiVz2ryjjkEh/t2kNaI789QpRTvE
+         O9WsLv6IF3fN3uBMbxzQywCTFZSMufT4FIute2CLGCs1UWc8vO+k1HXXyPVRiY6EyPL6
+         5smqPjl6obIK+mHGIlbVYQWEp5HN0XgRQ/Fh9hsHOlKKpAfCJM1Syzugol+2omkoUwIY
+         nHXGmn0dCv0LGM904hExXWxqyT31nnHQopgdJII4RmQqrVN7mg7yTCZc/K9L+Rjb3qtG
+         jLAhT7lazS8wGJZV/qaEIlk7HCS9pzEuHTmW8m4RSU5JuVDahNOW02KBJXLBNH0F+kxx
+         fEdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=RIRCCMERSX60DPHxGjGXa+inq5I/jJQr4eEYO43s6dg=;
+        b=CFP27q9rI4TzG100yh4kPF1EXdCGB/Rb698a9VOIUSrbQZCSX2JatVK0tTkvJhdrnN
+         ohaGuHGax/PqSxmxYnVALeRM6LYSj/hMXOlsnT/0lvyuV6EBxI0h8i7OM9Tp49O1lRo6
+         E8UHJE8SpBsdmIBhOVZcqRyw2AG+N7SPEOB1AkYXQNE3lcJgnc3/v2CeqTo56BthUi8g
+         MY9/Fh0D+Gtw8guoAQC6eoLUA9unrkC3ilfK3No0vofR9HNjdVmDB4pG2XKxV59i+H34
+         9qMqaIwnMiQFIepeqflOPdL9tdo51RTeHiSJQ9LvgIYw1daMWMwigCPtmxMBrL6aEdhF
+         /hUA==
+X-Gm-Message-State: APjAAAV1tngXC+sZO/yR57A8unybQPjTzs+8/Vdqm0lCaXrj/pm6NhDE
+        ieinFrthbmaVmEinfGWkiUgTgtQlMRVJI1Y1yw==
+X-Google-Smtp-Source: APXvYqxWfMGrMQWNfScxPQ8PK0aNqLSflhxN3kaSIb2n9bqGp3hJU1d5cougJeT1MB1d3dZzeSupTC5WQY6PSGv3xSs=
+X-Received: by 2002:a65:41cd:: with SMTP id b13mr12783514pgq.385.1573769812744;
+ Thu, 14 Nov 2019 14:16:52 -0800 (PST)
+Date:   Thu, 14 Nov 2019 14:16:34 -0800
+Message-Id: <20191114221634.258799-1-asteinhauser@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
+Subject: [PATCH] Mention PowerPC in the L1TF documentation.
+From:   asteinhauser@google.com
+To:     corbet@lwn.net, tglx@linutronix.de
+Cc:     linux-doc@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
-> On Thu, 14 Nov 2019, Paul E. McKenney wrote:
-> 
-> > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
-> > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > only enables KCSAN for x86, but we expect adding support for other
-> > > architectures is relatively straightforward (we are aware of
-> > > experimental ARM64 and POWER support).
-> > > 
-> > > To gather early feedback, we announced KCSAN back in September, and have
-> > > integrated the feedback where possible:
-> > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > 
-> > > The current list of known upstream fixes for data races found by KCSAN
-> > > can be found here:
-> > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > 
-> > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > including several articles that motivate why data races are dangerous
-> > > [1, 2], justifying a data race detector such as KCSAN.
-> > > 
-> > > [1] https://lwn.net/Articles/793253/
-> > > [2] https://lwn.net/Articles/799218/
-> > 
-> > I queued this and ran a quick rcutorture on it, which completed
-> > successfully with quite a few reports.
-> 
-> Great. Many thanks for queuing this in -rcu. And regarding merge window
-> you mentioned, we're fine with your assumption to targeting the next
-> (v5.6) merge window.
-> 
-> I've just had a look at linux-next to check what a future rebase
-> requires:
-> 
-> - There is a change in lib/Kconfig.debug and moving KCSAN to the
->   "Generic Kernel Debugging Instruments" section seems appropriate.
-> - bitops-instrumented.h was removed and split into 3 files, and needs
->   re-inserting the instrumentation into the right places.
-> 
-> Otherwise there are no issues. Let me know what you recommend.
+From: Anthony Steinhauser <asteinhauser@google.com>
 
-Sounds good!
+There is a false negative that L1TF is Intel specific while it affects
+also PowerPC:
+https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=8e6b6da91ac9b9ec5a925b6cb13f287a54bd547d
+Another false negative is that the kernel is unconditionally protected
+against L1TF attacks from userspace. That's true only on x86 but not on
+PowerPC where you can turn the protection off by nopti.
+Signed-off-by: Anthony Steinhauser <asteinhauser@google.com>
+---
+ Documentation/admin-guide/hw-vuln/l1tf.rst | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
-approach is to fix any conflicts during that rebasing operation.
-Does that make sense, or would you prefer to send me a rebased stack at
-that point?  Either way is fine for me.
+diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+index f83212fae4d5..243e494b337a 100644
+--- a/Documentation/admin-guide/hw-vuln/l1tf.rst
++++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+@@ -9,10 +9,11 @@ for the access, has the Present bit cleared or other reserved bits set.
+ Affected processors
+ -------------------
+ 
+-This vulnerability affects a wide range of Intel processors. The
+-vulnerability is not present on:
++This vulnerability affects a wide range of Intel and PowerPC processors.
++The vulnerability is not present on:
+ 
+-   - Processors from AMD, Centaur and other non Intel vendors
++   - Processors from AMD, Centaur and other non Intel vendors except for
++     PowerPC
+ 
+    - Older processor models, where the CPU family is < 6
+ 
+@@ -125,7 +126,7 @@ mitigations are active. The relevant sysfs file is:
+ 
+ /sys/devices/system/cpu/vulnerabilities/l1tf
+ 
+-The possible values in this file are:
++The possible values in this file on x86 are:
+ 
+   ===========================   ===============================
+   'Not affected'		The processor is not vulnerable
+@@ -158,8 +159,10 @@ The resulting grade of protection is discussed in the following sections.
+ Host mitigation mechanism
+ -------------------------
+ 
+-The kernel is unconditionally protected against L1TF attacks from malicious
+-user space running on the host.
++On x86 the kernel is unconditionally protected against L1TF attacks from
++malicious user space running on the host. On PowerPC the kernel is
++protected by flushing the L1D cache on each transition from kernel to
++userspace unless the 'nopti' boot argument turns this mitigation off.
+ 
+ 
+ Guest mitigation mechanisms
+-- 
+2.24.0.432.g9d3f5f5b63-goog
 
-							Thanx, Paul
