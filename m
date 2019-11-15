@@ -1,92 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,MONEY_FORM,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7BEC7D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 15:49:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E23FE7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 16:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbfKOPto (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 10:49:44 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:33640 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727566AbfKOPtm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 10:49:42 -0500
-Received: by mail-io1-f65.google.com with SMTP id j13so10950502ioe.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        id S1727625AbfKOQAA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 11:00:00 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:33547 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727423AbfKOQAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 11:00:00 -0500
+Received: by mail-vs1-f67.google.com with SMTP id c25so6650615vsp.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 07:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
-         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
-         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
-         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
-         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
-         KrHA==
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yFjIWC5grXH1heIBOULUw1cc4MTk9CxbaN9F9M43lG4=;
+        b=DT38kzETDzh6x9pco0SshpqhuC66Qw3l7VpmSb4ev52NzeA/LMlkMqBWRFXdhfjX1d
+         NlFhqHW9c++2KLZRej4J3Kc00BDPUt4Dl9e0gBafZ1kpQIlajKpsd2OAAQdMC0Pn+soR
+         /+rVLUP3ELsW0azaRX08CVMopLEjp1/RNlozn6KfjU3tcDnLJLbCbqggrk2JD9rAEnyY
+         qwZEHkk5bRiN5Km62e9WxJ87o+jMaT7CcmNFlVvw2K4VPEkFMy0OJoFPYNrQR4mYioDS
+         y6zwhWi6TpAypo8S9JsuOeY0hRZJcudItxRDSxFoMDsrWh/t7scPxoQ5Mp2uSWO7k/7v
+         PoYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=czmBByhWJMv/MPfUM83sh/ARlvz0upHn3esPivFGNo/5nlamq8Eip3CLw4SKtT9rFQ
-         ncq8HNfGESKiP/CNrt+hQkcX8w4qCss9oOOb607EndivX/hGuxzPARWWmwpCMlEdW62c
-         +DfJYT4WNC6sj4Hcx0QY4ZFE7zIUOrE5QVLot5EZAdmCbFdsEvn5m2Haf6g0sO2r8KFj
-         mahYu3L6Gyv90XjdZiaxbrXVd/F/3HM+ZUSYwiD5s7V7FYD+7ZVlWU0GSb08N4Ly6fyI
-         4sJnHwR2jPf9FX38Ceyj0eul7R1nrbi2mzFNdBG1R+oEmGSxQF30d/IIFQyG91pTPVmm
-         S6PA==
-X-Gm-Message-State: APjAAAVDUl9aLHeKeeMNhG59OvUiZIf7reliYTgkWfSalTLdKKjMaUUC
-        3UEgHfniDQYqFQ+6Rsk7WdwaUCjaWJkcIN6dPg==
-X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
- Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yFjIWC5grXH1heIBOULUw1cc4MTk9CxbaN9F9M43lG4=;
+        b=kVJBIY1XAdXW6peocz1Xd3WTxfUiTpZXSYQwEUyXGSfI8yaXDIsae8EBuRGGbiTe5C
+         jG3b1L2NxvFIFmFyqSCoSaFjcmkkzNNVx/pT4dP0wS9Qe80CYQ1AVhdPCoDh7Z6su5Pu
+         gxeiIlEhI9Iuf37/mv2vwSGBpsAOzx0n9MU0cvapHeqtJ1f3u6hTae6MUs6p4T+ptRsW
+         vyEyIO/u8BZ2gSBqhcSUaaOpiHyIpOewiMvexQ/EAFgpSsWCdPfazOHaOgJMgnKLWahB
+         l+1QE5Y42+2BjgK6ec9p7DKUZurdjvgBmcDmxHZNDUcc6t1AiVKRc0UeKVsCRmRmllZI
+         vRlQ==
+X-Gm-Message-State: APjAAAUD7XU5JUZo/pOgbtnr82uNuR+dF0Zn+4mvY+NB4zPJrHe+v4hj
+        Fbyqn7GERR/xkHegYwyriGf2fg==
+X-Google-Smtp-Source: APXvYqz1n+cQP+U6jImgFyiC6kv6X9QcmucfMSDgJ3qSjnM13Oj4YaNWJUfBhODzmLoLtbhJ2YQDYg==
+X-Received: by 2002:a67:7d95:: with SMTP id y143mr10065554vsc.39.1573833597008;
+        Fri, 15 Nov 2019 07:59:57 -0800 (PST)
+Received: from ubuntu1804-desktop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id m78sm2547032vke.30.2019.11.15.07.59.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2019 07:59:56 -0800 (PST)
+Date:   Fri, 15 Nov 2019 10:59:55 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, saiprakash.ranjan@codeaurora.org
+Subject: Re: [RFC 1/2] docs: ftrace: Clarify the RAM impact of buffer_size_kb
+Message-ID: <20191115155955.4khvnlnzjhnp5bxa@ubuntu1804-desktop>
+References: <cover.1573661658.git.frank@generalsoftwareinc.com>
+ <0e4a803c3e24140172855748b4a275c31920e208.1573661658.git.frank@generalsoftwareinc.com>
+ <20191113113730.213ddd72@gandalf.local.home>
+ <20191114202059.GC186056@google.com>
+ <20191114163639.4727e3ed@gandalf.local.home>
+ <20191115042428.6xxiqbzhgoko6vyk@ubuntu1804-desktop>
+ <20191115083000.76f89785@gandalf.local.home>
 MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:49:41 +0100
-Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191115083000.76f89785@gandalf.local.home>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+On Fri, Nov 15, 2019 at 08:30:00AM -0500, Steven Rostedt wrote:
+> On Thu, 14 Nov 2019 23:24:28 -0500
+> "Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
+> 
+> > On Thu, Nov 14, 2019 at 04:36:39PM -0500, Steven Rostedt wrote:
+> > > On Thu, 14 Nov 2019 15:20:59 -0500
+> > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > >   
+> > > > On Wed, Nov 13, 2019 at 11:37:30AM -0500, Steven Rostedt wrote:  
+> > > > > On Wed, 13 Nov 2019 11:32:36 -0500
+> > > > > "Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:    
+> > > > [snip]  
+> > > > > > +
+> > > > > > +        The number of pages allocated for each CPU buffer may not
+> > > > > > +        be the same than the round up of the division:
+> > > > > > +        buffer_size_kb / PAGE_SIZE. This is because part of each page is
+> > > > > > +        used to store a page header with metadata. E.g. with
+> > > > > > +        buffer_size_kb=4096 (kilobytes), a PAGE_SIZE=4096 bytes and a
+> > > > > > +        BUF_PAGE_HDR_SIZE=16 bytes (BUF_PAGE_HDR_SIZE is the size of the
+> > > > > > +        page header with metadata) the number of pages allocated for each
+> > > > > > +        CPU buffer is 1029, not 1024. The formula for calculating the
+> > > > > > +        number of pages allocated for each CPU buffer is the round up of:
+> > > > > > +        buffer_size_kb / (PAGE_SIZE - BUF_PAGE_HDR_SIZE).    
+> > > > > 
+> > > > > I have no problem with this patch, but the concern of documenting the
+> > > > > implementation here, which will most likely not be updated if the
+> > > > > implementation is ever changed, which is why I was vague to begin with.
+> > > > > 
+> > > > > But it may never be changed as that code has been like that for a
+> > > > > decade now.    
+> > > > 
+> > > > Agreed. To give some context, Frank is an outreachy intern I am working with and
+> > > > one of his starter tasks was to understand the ring buffer's basics.  I asked
+> > > > him to send a patch since I thought he mentioned there was an error in the
+> > > > documnentation. It looks like all that was missing is some explanation which
+> > > > the deleted text in brackets above should already cover.
+> > > >   
+> > 
+> > Not exactly in my opinion ;) The deleted text was not the problem. I
+> > just deleted it because with the added text it turns to be redundant.
+> > 
+> > The issue that I found with the documentation (maybe just to my
+> > newbie's eyes) is in this part:
+> > 
+> > "The trace buffers are allocated in pages (blocks of memory that the
+> > kernel uses for allocation, usually 4 KB in size). If the last page
+> > allocated has room for more bytes than requested, the rest of the
+> > page will be used, making the actual allocation bigger than requested
+> > or shown."
+> > 
+> > For me that "suggests" the interpretation that the number of pages
+> > allocated in the current implementation correspond with the round
+> > integer division of buffer_size_kb / PAGE_SIZE, which is inaccurate
+> > (for 5 pages in the example that I mentioned).
+> 
+> If you would like, you could reword that to something more accurate,
+> but still not detailing the implementation.
+> 
+> > Understood and agreed. It is funny that what I spotted as "a problem"
+> > was precisely an incomplete description of the implementation (the
+> > sentences that I quoted above). What do you think about removing
+> > those two sentences?
+> 
+> I wouldn't remove them, just reword them to something you find more
+> accurate.
+> 
+
+I feel that adding:
+
+"A few extra pages may be allocated to accommodate buffer management
+meta-data."
+
+between the two sentences that I quoted will address the issue. If
+that is OK with you I will proceed to package this change in a new
+patchset along with a few fixes of typos that I spotted in other
+parts of the doc.
+
+thanks one more time for your quick response.
+frank a.
+
