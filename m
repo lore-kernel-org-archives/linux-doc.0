@@ -4,207 +4,180 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C3A3E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 17:15:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6AF177D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 18:05:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727671AbfKORPC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 12:15:02 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44073 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727656AbfKORPB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 12:15:01 -0500
-Received: by mail-oi1-f196.google.com with SMTP id s71so9212065oih.11
-        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 09:15:00 -0800 (PST)
+        id S1726852AbfKOSFE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 13:05:04 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34655 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbfKOSFD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 13:05:03 -0500
+Received: by mail-wr1-f65.google.com with SMTP id e6so11976879wrw.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 10:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=OMJenj5JQASv6g4NovikQm2+Hb7lZX8x9WL40qMINts=;
-        b=CBFLAcP+oKm5ozaC/dYCuIf8klMNXsh2hapTlsQCl2wIwMP890KgmIt8FubWjOJotW
-         SBA0qHxfNEqf/6i9Jdz5242Bv3Qp2u6lAlduKS5V0Fuvapxf0kOztkzl27w0zsBtb8xX
-         yTnmYMeItCp35Kq3H5eBWsRbw8ofmOm+ZBpYyFF12krdl0qWEAfg8Hcg7hzPswVqn1fN
-         FwFNQRyyE3KBIFlaWKzS0W2mmgQ/hbL0TF60KX4gWFSxibKz0QDKtLPtOI4IrWzykGA8
-         7M2/Jp9d2h2Msqwj3bx5oQAdQZXvkYzLAGBZzJqyqk7VWIo6D482M+7RzUU3qO9b2Uly
-         Fyqw==
+        bh=r4u5oRupfFY1uSL2DcS0+lNB8FvyZfnsD1ZAn7IK4so=;
+        b=hVeJywzaDFteUrWUYEKf4perX433vJZycFkHJxLe4UpSOq+E0T0hMQRQFt+hBL57k4
+         esv/uqWuF6ZEXyyPPm2wIUsY3zo/y//y9GxlctLtP11NygJZWFjoMfJ3ynGHkxUicGy5
+         rLCeOzKtQHHPgw5WcX35aV8VrHlXjyNwCZ4vbQ2sPhwIE7gTRuiOfmOZf3yX6ljcA5Qc
+         A3ue2P9ii5u39+74ud2VCoh66ZtTZ16B1FanpipKEUn+ud/MGMLRrZsMPEY8XTrGuczs
+         XgusJAPAkHlxj8D4XA0Ivl8hgKN/4wNuGSsSI7b1ECuLTDWTjiRz9l5pxte3iujGwhCU
+         HCGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=OMJenj5JQASv6g4NovikQm2+Hb7lZX8x9WL40qMINts=;
-        b=CPOIve7UsE9VMOLjFirmx918R3Hbu/9/mKtO9hDSXeWYYrVSq6bDivsxylwESn/QdV
-         TQJ7L/RuWm7VG8MG+yKKJwxAhr+FYsAX/xScPEyw4k5IC1ENIomuEjio6cpRlunVSzfH
-         Dg70IYshI7TkRcAZBIYtcN3iZcfrbfidJPfLl4UExsRCAc/pli0vsLU4kGx+miZBU+Hd
-         A8Nwpk3EdPahtucoVwJFcnWuLZh/HFkPn6DDzpfhQ2guJfmuMq1FDJNBiikEteENsaEl
-         Bt1gUjDrT0Q4lvplfy7s1TmBcbup3M9wxP5a5vfTdENZsCWJK3JG4F0bMf2g1A84IEte
-         d7HA==
-X-Gm-Message-State: APjAAAXlY9MT6aWx+JGj1tAbMrlRijCPrc441tC9wgT6Im85eSaezcDD
-        iG6qGwoC47OL5tWi4EGnXstRuy4rRm7xLX9IKHTsMQ==
-X-Google-Smtp-Source: APXvYqxHWXVF03C+YdxtSxrgLxdL91oUGsi161YRDrFwzpCwmUgbv+aRRG2bYG5Q9dZzAnZnGy6OsSdj2lBrotybY3s=
-X-Received: by 2002:aca:4ec6:: with SMTP id c189mr8959788oib.70.1573838099466;
- Fri, 15 Nov 2019 09:14:59 -0800 (PST)
+        bh=r4u5oRupfFY1uSL2DcS0+lNB8FvyZfnsD1ZAn7IK4so=;
+        b=PhsMm2JvrhUQpxUHVEk3hF6g06x/VqeoDUogtFg8OokCdOG3tyJVCzEFSLolZOq77O
+         r78uSCUnO1zVFO+z63jfgtpyDQUxiNQdKRi886WU+aQeW/LuP6CxKc7oN+curZM/7RhL
+         gW1qxoPHViAK5upsr5T4yZKuhCqz+CkH9OEe7SNogAzW87AP1JLSfZKpgzFAnU1SZDe9
+         +lvU48jeqyGCxkMGXus6PLazYcpvbxfYSITzhRnN++KqfsG/4wMKXV/2F42z5nAwmCwd
+         dZ6z7wMlkHuzLx64FN/KH0wOr2ztIqw5UhG3cVcOMQK63yNm2qxfjBmeW4wFlxgreYQl
+         r1qA==
+X-Gm-Message-State: APjAAAW/XjQCWqMQVKq7hzxCBROJoAAwGJbuy+ese0nWYzfkxg62LuPM
+        +kcM/qq5v/owzds8GhoUu9C2vAFc5/7xuk56ZFXcPw==
+X-Google-Smtp-Source: APXvYqyCiXMXUf6usCff17snMpxkYcJg2knHlsu6BGxO9gcLgKysYhJxac9RCcngPe7WIGs5lhqr0cFv37TJFf5KI6U=
+X-Received: by 2002:a5d:460b:: with SMTP id t11mr17485139wrq.185.1573841100898;
+ Fri, 15 Nov 2019 10:05:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20191114180303.66955-1-elver@google.com> <20191114195046.GP2865@paulmck-ThinkPad-P72>
- <20191114213303.GA237245@google.com> <20191114221559.GS2865@paulmck-ThinkPad-P72>
- <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com> <20191115164159.GU2865@paulmck-ThinkPad-P72>
-In-Reply-To: <20191115164159.GU2865@paulmck-ThinkPad-P72>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 15 Nov 2019 18:14:46 +0100
-Message-ID: <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20191114224240.77861-1-brendanhiggins@google.com>
+In-Reply-To: <20191114224240.77861-1-brendanhiggins@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 15 Nov 2019 10:04:48 -0800
+Message-ID: <CABVgOSkLM8bGxAYJ25J+nYfPScTBu5__oiZG_9qoTGiNEOz6kw@mail.gmail.com>
+Subject: Re: [PATCH linux-kselftest/test v2] Documentation: kunit: add
+ documentation for kunit_tool
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-doc@vger.kernel.org,
+        corbet@lwn.net, tytso@mit.edu
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000cc11fc0597666fde"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
-> > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
-> > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
-> > > >
-> > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
-> > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > > architectures is relatively straightforward (we are aware of
-> > > > > > experimental ARM64 and POWER support).
-> > > > > >
-> > > > > > To gather early feedback, we announced KCSAN back in September, and have
-> > > > > > integrated the feedback where possible:
-> > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > > >
-> > > > > > The current list of known upstream fixes for data races found by KCSAN
-> > > > > > can be found here:
-> > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > > > >
-> > > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > > including several articles that motivate why data races are dangerous
-> > > > > > [1, 2], justifying a data race detector such as KCSAN.
-> > > > > >
-> > > > > > [1] https://lwn.net/Articles/793253/
-> > > > > > [2] https://lwn.net/Articles/799218/
-> > > > >
-> > > > > I queued this and ran a quick rcutorture on it, which completed
-> > > > > successfully with quite a few reports.
-> > > >
-> > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
-> > > > you mentioned, we're fine with your assumption to targeting the next
-> > > > (v5.6) merge window.
-> > > >
-> > > > I've just had a look at linux-next to check what a future rebase
-> > > > requires:
-> > > >
-> > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
-> > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
-> > > > - bitops-instrumented.h was removed and split into 3 files, and needs
-> > > >   re-inserting the instrumentation into the right places.
-> > > >
-> > > > Otherwise there are no issues. Let me know what you recommend.
-> > >
-> > > Sounds good!
-> > >
-> > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
-> > > approach is to fix any conflicts during that rebasing operation.
-> > > Does that make sense, or would you prefer to send me a rebased stack at
-> > > that point?  Either way is fine for me.
-> >
-> > That's fine with me, thanks!  To avoid too much additional churn on
-> > your end, I just replied to the bitops patch with a version that will
-> > apply with the change to bitops-instrumented infrastructure.
->
-> My first thought was to replace 8/10 of the previous version of your
-> patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
-> for bitops"), but this does not apply.  So I am guessing that I instead
-> do this substitution when a rebase onto -rc1..
->
-> Except...
->
-> > Also considering the merge window, we had a discussion and there are
-> > some arguments for targeting the v5.5 merge window:
-> > - we'd unblock ARM and POWER ports;
-> > - we'd unblock people wanting to use the data_race macro;
-> > - we'd unblock syzbot just tracking upstream;
-> > Unless there are strong reasons to not target v5.5, I leave it to you
-> > if you think it's appropriate.
->
-> My normal process is to send the pull request shortly after -rc5 comes
-> out, but you do call out some benefits of getting it in sooner, so...
->
-> What I will do is to rebase your series onto (say) -rc7, test it, and
-> see about an RFC pull request.
->
-> One possible complication is the new 8/10 patch.  But maybe it will
-> apply against -rc7?
->
-> Another possible complication is this:
->
-> scripts/kconfig/conf  --syncconfig Kconfig
-> *
-> * Restart config...
-> *
-> *
-> * KCSAN: watchpoint-based dynamic data race detector
-> *
-> KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
->
-> Might be OK in this case because it is quite obvious what it is doing.
-> (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
->
-> But I will just mention this in the pull request.
->
-> If there is a -rc8, there is of course a higher probability of making it
-> into the next merge window.
->
-> Fair enough?
+--000000000000cc11fc0597666fde
+Content-Type: text/plain; charset="UTF-8"
 
-Totally fine with that, sounds like a good plan, thanks!
+On Thu, Nov 14, 2019 at 2:42 PM 'Brendan Higgins' via KUnit
+Development <kunit-dev@googlegroups.com> wrote:
+>
+> Add documentation for the Python script used to build, run, and collect
+> results from the kernel known as kunit_tool. kunit_tool
+> (tools/testing/kunit/kunit.py) was already added in previous commits.
+>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 
-If it helps, in theory we can also drop and delay the bitops
-instrumentation patch until the new bitops instrumentation
-infrastructure is in 5.5-rc1. There won't be any false positives if
-this is missing, we might just miss a few data races until we have it.
+Reviewed-by: David Gow <davidgow@google.com>
 
-Thanks,
--- Marco
+(...snip...)
+
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index aeeddfafeea20..4248a6f9038b8 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -19,7 +19,10 @@ The wrapper can be run with:
+>
+>  .. code-block:: bash
+>
+> -   ./tools/testing/kunit/kunit.py run
+> +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all` --defconfig
+> +
+> +For more information on this wrapper (also called kunit_tool) checkout the
+> +:doc:`kunit-tool` page.
+
+I feel that the --timeout=30 and --jobs=`nproc --all` bits distract a
+bit from the "getting started" nature of this bit. I think this
+example is clearer without them (i.e., leaving them as the default):
+we can always change the default in the code -- which we probably want
+to do anyway -- and the consequences of not having them seem to just
+be performance-related. So, minor preference for just having
+--defconfig here.
+
+Cheers,
+-- David
+
+--000000000000cc11fc0597666fde
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPCgYJKoZIhvcNAQcCoIIO+zCCDvcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggxtMIIEkjCCA3qgAwIBAgINAewckktV4F6Q7sAtGDANBgkqhkiG9w0BAQsFADBMMSAwHgYDVQQL
+ExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UEAxMK
+R2xvYmFsU2lnbjAeFw0xODA2MjAwMDAwMDBaFw0yODA2MjAwMDAwMDBaMEsxCzAJBgNVBAYTAkJF
+MRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSEwHwYDVQQDExhHbG9iYWxTaWduIFNNSU1FIENB
+IDIwMTgwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCUeobu8FdB5oJg6Fz6SFf8YsPI
+dNcq4rBSiSDAwqMNYbeTpRrINMBdWuPqVWaBX7WHYMsKQwCOvAF1b7rkD+ROo+CCTJo76EAY25Pp
+jt7TYP/PxoLesLQ+Ld088+BeyZg9pQaf0VK4tn23fOCWbFWoM8hdnF86Mqn6xB6nLsxJcz4CUGJG
+qAhC3iedFiCfZfsIp2RNyiUhzPAqalkrtD0bZQvCgi5aSNJseNyCysS1yA58OuxEyn2e9itZJE+O
+sUeD8VFgz+nAYI5r/dmFEXu5d9npLvTTrSJjrEmw2/ynKn6r6ONueZnCfo6uLmP1SSglhI/SN7dy
+L1rKUCU7R1MjAgMBAAGjggFyMIIBbjAOBgNVHQ8BAf8EBAMCAYYwJwYDVR0lBCAwHgYIKwYBBQUH
+AwIGCCsGAQUFBwMEBggrBgEFBQcDCTASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBRMtwWJ
+1lPNI0Ci6A94GuRtXEzs0jAfBgNVHSMEGDAWgBSP8Et/qC5FJK5NUPpjmove4t0bvDA+BggrBgEF
+BQcBAQQyMDAwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9yb290cjMw
+NgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIzLmNybDBn
+BgNVHSAEYDBeMAsGCSsGAQQBoDIBKDAMBgorBgEEAaAyASgKMEEGCSsGAQQBoDIBXzA0MDIGCCsG
+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
+KwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMFEGCCsGAQUF
+BwEBBEUwQzBBBggrBgEFBQcwAoY1aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQv
+Z3NzbWltZWNhMjAxOC5jcnQwHwYDVR0jBBgwFoAUTLcFidZTzSNAougPeBrkbVxM7NIwPwYDVR0f
+BDgwNjA0oDKgMIYuaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9jYS9nc3NtaW1lY2EyMDE4LmNy
+bDANBgkqhkiG9w0BAQsFAAOCAQEAJ/zitSY5ytjRHvjJRs//GXSqWUC9k+0tOBStoNWdT0W+IU1B
+1LFJELO6cCMS7c1z3KsQoLfLNc/eSYUv/jVWQoXht3qEyYjRS0s/yq8fxvm89uCGbGqtPjygIohU
+o4MsxfvqX/0D3LDZjBSQFsM5pzdIj2c+yEsDuTz1ZZONpsYJZ8e+2sd2soqYkQPjgrTw/DC4iLup
+tRDKk7xLOvTS4GEcnNBZx8EPg9sKqyP51KSxSKQRKAH+fuugWhJTI582FJI1zXnFXW7CywdhCCfI
+nCNqI2fk/FFl6FVqgaJKm30Sp4GZUd2VnH0aGYJq3gYFVph+jvojHGcUqOO5ggMjPTGCAmEwggJd
+AgEBMF8wSzELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExITAfBgNVBAMT
+GEdsb2JhbFNpZ24gU01JTUUgQ0EgMjAxOAIQARE2WR1lhjWKYHwTHLtF1jANBglghkgBZQMEAgEF
+AKCB1DAvBgkqhkiG9w0BCQQxIgQgLbkVggbEKW0Y1qlUklb+HI5yd6Waxqt1kcszD2fLd68wGAYJ
+KoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTkxMTE1MTgwNTAxWjBpBgkq
+hkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqG
+SIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEB
+AQUABIIBALlCISnYSqHmKphDAVo+u5j8D1HkuZTF6/g8RUzA00VNv64JCaIBFd3Q1DZ7Gl9R7uZS
+JTiiL2yfyyoeuVY2OU7PzA30i+lLEP8KEYTdRj+xYGujB0BQsOPEGbKuXmm1gH0ZM92BopjNxGv9
+E9Ecz1ScRNEf1RGx89h79mTg6JDioACvrH4hPrS+tywnIJCamlWsSynE5unezVs8joBeOcPETubV
+1ftFXantoeyYzDFz8CZmfu5Rd8Pa3fSUsBm9R3w/OgMIJf0/4oIQizUKInahbj0omHTJqDzLrmrc
+t661XILI1j6mmoWP5IlbpKfnG9DbjqLk3pKubSHbVJAsZGs=
+--000000000000cc11fc0597666fde--
