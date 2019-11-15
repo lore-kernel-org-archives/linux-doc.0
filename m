@@ -1,172 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFC217D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 11:41:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9ED687D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 11:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbfKOLlf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 06:41:35 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37201 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726983AbfKOLlf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Nov 2019 06:41:35 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 47DxJX3y0Mz9sP6;
-        Fri, 15 Nov 2019 22:41:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1573818093;
-        bh=u2Pq/kR6KEzBIxFBThrNqj13Tle7QfDFu4tBdYORXbM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=KAudABdLeodyQoa/za/ha3rS1V0CkOndZ8fx6HtV99K8206cLnjQ0yYPVngyFilX3
-         4nI4BisUSlTKrQkhI0pJPym82bpTxafi5SvF6083c9T3I6DnDVZAWn9r3bkbtFLbur
-         jdEvYtkx2Q6nDBEsVLcLyMQsGgytRkYHxkLlyKDE5LNfOK65PAnrtnBBFW7P0VSyin
-         BRh8AnsseLHs/TAv/86VaLiMW9CAwP/ZflVbpsZ+hbPZ4198PECU20I7OGsa1pZm/N
-         FriVG0HzdQfqvbYk0FR1S6SJyDCfACkDmiCkbbKkVCpvmWs//t9XypN/40CsGjrsAy
-         DAiTsxNZw1agA==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Anthony Steinhauser <asteinhauser@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: Re: [PATCH] Mention PowerPC in the L1TF documentation.
-In-Reply-To: <CAN_oZf21kYk8FZ_Ah93UQ_rCd7afrxiiX7O4v_xbErFRcGXm9w@mail.gmail.com>
-References: <20191114221634.258799-1-asteinhauser@google.com> <alpine.DEB.2.21.1911142334250.29616@nanos.tec.linutronix.de> <CAN_oZf21kYk8FZ_Ah93UQ_rCd7afrxiiX7O4v_xbErFRcGXm9w@mail.gmail.com>
-Date:   Fri, 15 Nov 2019 22:41:26 +1100
-Message-ID: <871ru9e595.fsf@mpe.ellerman.id.au>
+        id S1727135AbfKOLpM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 06:45:12 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55825 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727122AbfKOLpM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 06:45:12 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iVa1Z-0007QU-T6; Fri, 15 Nov 2019 12:44:25 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iVa1Q-0008K2-Ab; Fri, 15 Nov 2019 12:44:16 +0100
+Date:   Fri, 15 Nov 2019 12:44:16 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     mark.rutland@arm.com, alexandre.belloni@bootlin.com,
+        mhocko@suse.com, julien.thierry@arm.com, catalin.marinas@arm.com,
+        christoffer.dall@arm.com, dhowells@redhat.com,
+        yamada.masahiro@socionext.com, ryabinin.a.a@gmail.com,
+        glider@google.com, kvmarm@lists.cs.columbia.edu, corbet@lwn.net,
+        liuwenliang@huawei.com, daniel.lezcano@linaro.org,
+        linux@armlinux.org.uk, kasan-dev@googlegroups.com,
+        geert@linux-m68k.org, dvyukov@google.com,
+        bcm-kernel-feedback-list@broadcom.com, drjones@redhat.com,
+        vladimir.murzin@arm.com, keescook@chromium.org, arnd@arndb.de,
+        marc.zyngier@arm.com, andre.przywara@arm.com, pombredanne@nexb.com,
+        jinb.park7@gmail.com, tglx@linutronix.de, kernel@pengutronix.de,
+        linux-arm-kernel@lists.infradead.org, nico@fluxnic.net,
+        gregkh@linuxfoundation.org, ard.biesheuvel@linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rob@landley.net, philip@cog.systems, akpm@linux-foundation.org,
+        thgarnie@google.com, kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v6 0/6] KASan for arm
+Message-ID: <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de>
+References: <20190617221134.9930-1-f.fainelli@gmail.com>
+ <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
+ <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
+ <20191115070842.2x7psp243nfo76co@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191115070842.2x7psp243nfo76co@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:28:52 up  2:47, 19 users,  load average: 0.00, 0.04, 0.03
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Anthony Steinhauser <asteinhauser@google.com> writes:
-> OK, I don't intend to work on it to that extent, so you can consider
-> this abandoned.
+Hi Florian,
 
-I or someone else at IBM will pick this up and get it massaged into a
-form that Thomas is happy with.
+On 19-11-15 08:08, Marco Felsch wrote:
+> Hi Florian,
+> 
+> On 19-11-14 15:01, Florian Fainelli wrote:
+> > Hello Marco,
+> > 
+> > On 11/14/19 10:12 AM, Marco Felsch wrote:
+> > > Hi Florian,
+> > > 
+> > > first of all, many thanks for your work on this series =) I picked your
+> > > and Arnd patches to make it compilable. Now it's compiling but my imx6q
+> > > board didn't boot anymore. I debugged the code and found that the branch
+> > > to 'start_kernel' won't be reached
+> > > 
+> > > 8<------- arch/arm/kernel/head-common.S -------
+> > > ....
+> > > 
+> > > #ifdef CONFIG_KASAN
+> > >         bl      kasan_early_init
+> > > #endif
+> > > 	mov     lr, #0
+> > > 	b       start_kernel
+> > > ENDPROC(__mmap_switched)
+> > > 
+> > > ....
+> > > 8<----------------------------------------------
+> > > 
+> > > Now, I found also that 'KASAN_SHADOW_OFFSET' isn't set due to missing
+> > > 'CONFIG_KASAN_SHADOW_OFFSET' and so no '-fasan-shadow-offset=xxxxx' is
+> > > added. Can that be the reason why my board isn't booted anymore?
+> > 
+> > The latest that I have is here, though not yet submitted since I needed
+> > to solve one issue on a specific platform with a lot of memory:
+> > 
+> > https://github.com/ffainelli/linux/pull/new/kasan-v7
+> 
+> Thanks for that hint, I will try this series too :) I read that you
+> wanna prepare a v7 but didn't found it ^^
+> 
+> > Can you share your branch as well? I did not pick all of Arnd's patches
+> > since some appeared to be seemingly independent from KASan on ARM. This
+> > is the KASAN related options that are set in my configuration:
+> 
+> Of course I will push it to github and inform you shortly.
 
-cheers
+Here comes the link:
+https://github.com/medude/linux/tree/v5.4/topic/kasan-arm.v7
 
-> On Thu, Nov 14, 2019 at 2:55 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->>
->> Anthony,
->>
->> On Thu, 14 Nov 2019, asteinhauser@google.com wrote:
->>
->> > From: Anthony Steinhauser <asteinhauser@google.com>
->> >
->> > There is a false negative that L1TF is Intel specific while it affects
->> > also PowerPC:
->> > https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=8e6b6da91ac9b9ec5a925b6cb13f287a54bd547d
->>
->> Please use the regular
->>
->>    commit 12-char-sha ("powerpc: .......")
->>
->> notation. These links are horrible.
->>
->> > Another false negative is that the kernel is unconditionally protected
->> > against L1TF attacks from userspace. That's true only on x86 but not on
->> > PowerPC where you can turn the protection off by nopti.
->>
->> Missing newline between body and SOB
->>
->> > Signed-off-by: Anthony Steinhauser <asteinhauser@google.com>
->> > ---
->> >  Documentation/admin-guide/hw-vuln/l1tf.rst | 15 +++++++++------
->> >  1 file changed, 9 insertions(+), 6 deletions(-)
->> >
->> > diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
->> > index f83212fae4d5..243e494b337a 100644
->> > --- a/Documentation/admin-guide/hw-vuln/l1tf.rst
->> > +++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
->> > @@ -9,10 +9,11 @@ for the access, has the Present bit cleared or other reserved bits set.
->> >  Affected processors
->> >  -------------------
->> >
->> > -This vulnerability affects a wide range of Intel processors. The
->> > -vulnerability is not present on:
->> > +This vulnerability affects a wide range of Intel and PowerPC processors.
->> > +The vulnerability is not present on:
->> >
->> > -   - Processors from AMD, Centaur and other non Intel vendors
->> > +   - Processors from AMD, Centaur and other non Intel vendors except for
->> > +     PowerPC
->>
->> No. This needs restructuring. The non Intel vendor means vendors which
->> produce x86 machines (not really clear TBH), but adding these two PPC parts
->> above and here does not make it any better.
->>
->> >     - Older processor models, where the CPU family is < 6
->>
->> Also this suggest that _ALL_ PowerPC processors are affected as there is
->> no exception list.
->>
->> So I suggest to structure this like this:
->>
->> Affected processors
->> -------------------
->>
->>  1) Intel processors
->>
->>     Move the existing list here
->>
->>  2) PowerPC processors
->>
->>     Add some meat
->>
->> Whether a processor is affected or not...
->>
->> > @@ -125,7 +126,7 @@ mitigations are active. The relevant sysfs file is:
->> >
->> >  /sys/devices/system/cpu/vulnerabilities/l1tf
->> >
->> > -The possible values in this file are:
->> > +The possible values in this file on x86 are:
->>
->> That commit you referenced added the sysfs output for powerpc. So that
->> should be documented properly here as well, right?
->>
->> >    ===========================   ===============================
->> >    'Not affected'             The processor is not vulnerable
->> > @@ -158,8 +159,10 @@ The resulting grade of protection is discussed in the following sections.
->> >  Host mitigation mechanism
->> >  -------------------------
->> >
->> > -The kernel is unconditionally protected against L1TF attacks from malicious
->> > -user space running on the host.
->> > +On x86 the kernel is unconditionally protected against L1TF attacks from
->> > +malicious user space running on the host. On PowerPC the kernel is
->> > +protected by flushing the L1D cache on each transition from kernel to
->> > +userspace unless the 'nopti' boot argument turns this mitigation off.
->>
->> Please make this clearly visually separated. Just glueing this together is
->> hard to read.
->>
->> What about the l1tf boot param? Is it x86 only? If so, then this wants to
->> be added to the the documentation as well.
->>
->> What about the guest to host issue on PPC? Not affected or same mitigation
->> or what?
->>
->> We really spent a lot of time to write understandable and useful
->> documentation. Just sprinkling a few powerpc'isms into it is really not
->> cutting it.
->>
->> This needs proper structuring so that it's obvious for the intended
->> audience (administrators, users) which part is applicable to which
->> architecture or to both.
->>
->> Thanks,
->>
->>         tglx
+I just applied Arnds Patche which you didn't added into your v7.
+
+> > grep KASAN build/linux-custom/.config
+> > CONFIG_HAVE_ARCH_KASAN=y
+> > CONFIG_CC_HAS_KASAN_GENERIC=y
+> > CONFIG_KASAN=y
+> > CONFIG_KASAN_GENERIC=y
+> > CONFIG_KASAN_OUTLINE=y
+> > # CONFIG_KASAN_INLINE is not set
+> > CONFIG_KASAN_STACK=1
+> > CONFIG_TEST_KASAN=m
+> 
+> My config is:
+> 
+> CONFIG_HAVE_ARCH_KASAN=y
+> CONFIG_CC_HAS_KASAN_GENERIC=y
+> CONFIG_KASAN=y
+> CONFIG_KASAN_GENERIC=y
+> CONFIG_KASAN_OUTLINE=y
+> # CONFIG_KASAN_INLINE is not set
+> CONFIG_KASAN_STACK=1
+> # CONFIG_TEST_KASAN is not set
+> 
+> > are you using something different by any chance?
+> 
+> Unfortunately not.
+
+With your v7 it is working on my imx6 but unfortunately I can't run my
+gstreamer testcase. My CPU load goes to 100% after starting gstreamer
+and nothing happens.. But the test_kasan module works =) So I decided to
+check a imx6quadplus but this target did not boot.. I used another
+toolchain for the imx6quadplus gcc-9 instead of gcc-8. So it seems that
+something went wrong during compilation. Because you didn't changed
+something within the logic.
+
+I wonder why we must not define the CONFIG_KASAN_SHADOW_OFFSET for arm.
+
+Regards,
+  Marco
+
+> Regards,
+>   Marco
+> 
+> > -- 
+> > Florian
+> > 
+> 
