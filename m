@@ -1,113 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A89327D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 13:30:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A475B7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 13:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727427AbfKONaE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 08:30:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57702 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727421AbfKONaE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Nov 2019 08:30:04 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2422C206CC;
-        Fri, 15 Nov 2019 13:30:02 +0000 (UTC)
-Date:   Fri, 15 Nov 2019 08:30:00 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, saiprakash.ranjan@codeaurora.org
-Subject: Re: [RFC 1/2] docs: ftrace: Clarify the RAM impact of
- buffer_size_kb
-Message-ID: <20191115083000.76f89785@gandalf.local.home>
-In-Reply-To: <20191115042428.6xxiqbzhgoko6vyk@ubuntu1804-desktop>
-References: <cover.1573661658.git.frank@generalsoftwareinc.com>
-        <0e4a803c3e24140172855748b4a275c31920e208.1573661658.git.frank@generalsoftwareinc.com>
-        <20191113113730.213ddd72@gandalf.local.home>
-        <20191114202059.GC186056@google.com>
-        <20191114163639.4727e3ed@gandalf.local.home>
-        <20191115042428.6xxiqbzhgoko6vyk@ubuntu1804-desktop>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1727527AbfKONcb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 08:32:31 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38148 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727314AbfKONcb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 08:32:31 -0500
+Received: by mail-lj1-f196.google.com with SMTP id v8so10719125ljh.5
+        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 05:32:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iY4RkcWVuu121hVMn9CyIPjc341XN7bdK8dsOdXPx6s=;
+        b=n6CC30E4kOfKRmH6xZYxfSZCAh/+gVRkYpdPWGt5gnTPKcI2U2lzwIgW2XVVot8GJt
+         Tpe9/WuBNG06xrpHOIj3Q7Ml4eyWXbfFqnpQ5/2s0TbQQ/iNDXKcy06x4Guz8Y0c970f
+         mxZq4gZCftIh5ycftiGmefxmDlHRr4XDsXKqQbf9BwC4oxNVDLmnQ540G4r1LfZvNLxi
+         78Z502z7062KLqEDxaBIh1z5Y1g8QFeqNjzoVIozLg3XuLnBDnGsYiGyfIk/pwFkoe/U
+         QZCVU0Q1CP77FWstZPxTbnVDzEY2cPz3taoPfHDfExbWZmqL8RncGp/ENVvrhXwcuBwc
+         AbXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iY4RkcWVuu121hVMn9CyIPjc341XN7bdK8dsOdXPx6s=;
+        b=CkYZr1+jpswLqUwJQvoGPHi2p8v2LCUpujjdlgctkcP/nGmXVp41IUwu6pflr/s8Po
+         9fFjncqerv+DVlG5yVShk0sf5OH/5Tk0sZdHBHNHlCQwkhUFkUk1AXQeE1Nt6QL1APlP
+         TI3LM038TkWFhYzh2Vf5pYP5y8cHRAsdceShGeiGU+RTFSVFWXM+6K9RXrI4A7X3roLb
+         Ojl96+j+0Iu4PaYKRoBKjOoRQpAPNqjIHCnEzJapvNZnfDOaCQrGFgEaYsHTnzVyR4vN
+         MLeVVeAZfYq/TxOGpjmwNwH5pqjLBvC5HXP/h5tMPWUCvLZUVjRQFHDzmsVeCK/RJd3z
+         7vww==
+X-Gm-Message-State: APjAAAVoEa+V30/P4OJq2HTOuVjaSgSfNNnwbmevV4S4ynlJubNHGHoX
+        fJ0Vxvy8PuOTK0W5huwBW4VcPg==
+X-Google-Smtp-Source: APXvYqzQlZCNBIWssS9WflGIEvGBng7CIQasxGhWnPHWVH3Lg5u+SOFWTg7Ue8hGRi4p+OoYOkCiLQ==
+X-Received: by 2002:a2e:a0ce:: with SMTP id f14mr11604522ljm.241.1573824749198;
+        Fri, 15 Nov 2019 05:32:29 -0800 (PST)
+Received: from localhost.localdomain (c-79c8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.200.121])
+        by smtp.gmail.com with ESMTPSA id 21sm3999422lft.23.2019.11.15.05.32.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2019 05:32:27 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: [PATCH] Documentation: Document how to get links with git am
+Date:   Fri, 15 Nov 2019 14:30:21 +0100
+Message-Id: <20191115133021.13165-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Nov 2019 23:24:28 -0500
-"Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
+This adds Kees' clever apply hook to the kernel documentation so
+it can be easily references when needed.
 
-> On Thu, Nov 14, 2019 at 04:36:39PM -0500, Steven Rostedt wrote:
-> > On Thu, 14 Nov 2019 15:20:59 -0500
-> > Joel Fernandes <joel@joelfernandes.org> wrote:
-> >   
-> > > On Wed, Nov 13, 2019 at 11:37:30AM -0500, Steven Rostedt wrote:  
-> > > > On Wed, 13 Nov 2019 11:32:36 -0500
-> > > > "Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:    
-> > > [snip]  
-> > > > > +
-> > > > > +        The number of pages allocated for each CPU buffer may not
-> > > > > +        be the same than the round up of the division:
-> > > > > +        buffer_size_kb / PAGE_SIZE. This is because part of each page is
-> > > > > +        used to store a page header with metadata. E.g. with
-> > > > > +        buffer_size_kb=4096 (kilobytes), a PAGE_SIZE=4096 bytes and a
-> > > > > +        BUF_PAGE_HDR_SIZE=16 bytes (BUF_PAGE_HDR_SIZE is the size of the
-> > > > > +        page header with metadata) the number of pages allocated for each
-> > > > > +        CPU buffer is 1029, not 1024. The formula for calculating the
-> > > > > +        number of pages allocated for each CPU buffer is the round up of:
-> > > > > +        buffer_size_kb / (PAGE_SIZE - BUF_PAGE_HDR_SIZE).    
-> > > > 
-> > > > I have no problem with this patch, but the concern of documenting the
-> > > > implementation here, which will most likely not be updated if the
-> > > > implementation is ever changed, which is why I was vague to begin with.
-> > > > 
-> > > > But it may never be changed as that code has been like that for a
-> > > > decade now.    
-> > > 
-> > > Agreed. To give some context, Frank is an outreachy intern I am working with and
-> > > one of his starter tasks was to understand the ring buffer's basics.  I asked
-> > > him to send a patch since I thought he mentioned there was an error in the
-> > > documnentation. It looks like all that was missing is some explanation which
-> > > the deleted text in brackets above should already cover.
-> > >   
-> 
-> Not exactly in my opinion ;) The deleted text was not the problem. I
-> just deleted it because with the added text it turns to be redundant.
-> 
-> The issue that I found with the documentation (maybe just to my
-> newbie's eyes) is in this part:
-> 
-> "The trace buffers are allocated in pages (blocks of memory that the
-> kernel uses for allocation, usually 4 KB in size). If the last page
-> allocated has room for more bytes than requested, the rest of the
-> page will be used, making the actual allocation bigger than requested
-> or shown."
-> 
-> For me that "suggests" the interpretation that the number of pages
-> allocated in the current implementation correspond with the round
-> integer division of buffer_size_kb / PAGE_SIZE, which is inaccurate
-> (for 5 pages in the example that I mentioned).
+Cc: Kees Cook <keescook@chromium.org>
+Link: https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-July/006608.html
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ .../process/applying-patches-using-git.rst    | 43 +++++++++++++++++++
+ Documentation/process/index.rst               |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 Documentation/process/applying-patches-using-git.rst
 
-If you would like, you could reword that to something more accurate,
-but still not detailing the implementation.
+diff --git a/Documentation/process/applying-patches-using-git.rst b/Documentation/process/applying-patches-using-git.rst
+new file mode 100644
+index 000000000000..60955aa62d42
+--- /dev/null
++++ b/Documentation/process/applying-patches-using-git.rst
+@@ -0,0 +1,43 @@
++.. _applying_patches_using_git:
++
++Applying Patches to the Linux Kernel Using git
++++++++++++++++++++++++++++++++++++++++++++++++
++
++For the most part, using git to apply patches comes down to just following
++the established usage already documented in the git documentation. This is
++pretty intuitive since git was developed initially for Linux kernel
++development.
++
++In some cases the Linux kernel development has special quirks and usage
++patterns that are not an intrinsic part of git.
++
++This file documents some best practices.
++
++
++Creating commit links to lore.kernel.org
++========================================
++
++The web site http://lore.kernel.org is meant as a grand archive of all mail
++list traffic concerning or influencing the kernel development. Storing archives
++of patches here is a recommended practice, and when a maintainer applies a
++patch to a subsystem tree, it is a good idea to provide a Link: tag with a
++reference back to the lore archive so that people that browse the commit
++history can find related discussions and rationale behind a certain change.
++The link tag will look like this:
++
++    Link: https://lore.kernel.org/r/<message-id>
++
++This can be achieved by adding the following hook into your git:
++
++.. code-block:: none
++
++	$ git config am.messageid true
++	$ cat >.git/hooks/applypatch-msg <<'EOF'
++	#!/bin/sh
++	. git-sh-setup
++	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
++	test -x "$GIT_DIR/hooks/commit-msg" &&
++		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
++	:
++	EOF
++	$ chmod a+x .git/hooks/applypatch-msg
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index e2c9ffc682c5..482b07402836 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -46,6 +46,7 @@ Other guides to the community that are of interest to most developers are:
+    kernel-docs
+    deprecated
+    embargoed-hardware-issues
++   applying-patches-using-git
+ 
+ These are some overall technical guides that have been put here for now for
+ lack of a better place.
+-- 
+2.21.0
 
-> Understood and agreed. It is funny that what I spotted as "a problem"
-> was precisely an incomplete description of the implementation (the
-> sentences that I quoted above). What do you think about removing
-> those two sentences?
-
-I wouldn't remove them, just reword them to something you find more
-accurate.
-
--- Steve
