@@ -1,146 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC8457D918
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 10:19:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DFC217D90D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 11:41:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbfKOKT3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 05:19:29 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:49056 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725829AbfKOKT3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 05:19:29 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAFAEITu047434;
-        Fri, 15 Nov 2019 10:16:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=aUmmUofXeDq4ex4OiGNZ0rOva3H7BkAtzGPYlS55bLk=;
- b=nHuYle8Xty0AFSNWkPzS01umuJvgDfPs7wnJsKEkmb3wEmAFZA9m6ADpCi3xqoLsGtGd
- Z3KnGAiwTZMsrWUq/ifEwPFsT0E3obZCRX9/N3WhhOAIuRtzQ5vY93ewLEo9ZTkmE5Wd
- NNLKVjfN3sx2Et9XcM1iaqY5JWvKEToHIyJKQuA4a6y41COXAtwq4FF+A++Sv4ah0sbf
- HOsNmQHNnNTbXM82dvkXlDuAQ2tlz7f3bqBUUH6pfVL+qMpuchnyZd50ClZt/dh31VK4
- oxZMn3cgvHjQ9WB1wgbUElqNpPmYoYqCjrzVdViSDriL7uxELP/adwQHlnVPos5kki9N uw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 2w9gxpje6f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 15 Nov 2019 10:16:48 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAFADDrC007930;
-        Fri, 15 Nov 2019 10:16:47 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2w9h148fhj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 15 Nov 2019 10:16:47 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xAFAGi6e007575;
-        Fri, 15 Nov 2019 10:16:44 GMT
-Received: from dhcp-10-175-208-51.vpn.oracle.com (/10.175.208.51)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 15 Nov 2019 02:16:44 -0800
-From:   Alan Maguire <alan.maguire@oracle.com>
-To:     brendanhiggins@google.com, skhan@linuxfoundation.org,
-        linux-kselftest@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
-        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
-        corbet@lwn.net, tytso@mit.edu, adilger.kernel@dilger.ca,
-        mcgrof@kernel.org, changbin.du@intel.com,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
-        sboyd@kernel.org, Alan Maguire <alan.maguire@oracle.com>,
-        Knut Omang <knut.omang@oracle.com>
-Subject: [PATCH v4 linux-kselftest-test 5/6] kunit: allow kunit to be loaded as a module
-Date:   Fri, 15 Nov 2019 10:16:11 +0000
-Message-Id: <1573812972-10529-6-git-send-email-alan.maguire@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com>
-References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9441 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911150096
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9441 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911150096
+        id S1727135AbfKOLlf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 06:41:35 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37201 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726983AbfKOLlf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Nov 2019 06:41:35 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 47DxJX3y0Mz9sP6;
+        Fri, 15 Nov 2019 22:41:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1573818093;
+        bh=u2Pq/kR6KEzBIxFBThrNqj13Tle7QfDFu4tBdYORXbM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=KAudABdLeodyQoa/za/ha3rS1V0CkOndZ8fx6HtV99K8206cLnjQ0yYPVngyFilX3
+         4nI4BisUSlTKrQkhI0pJPym82bpTxafi5SvF6083c9T3I6DnDVZAWn9r3bkbtFLbur
+         jdEvYtkx2Q6nDBEsVLcLyMQsGgytRkYHxkLlyKDE5LNfOK65PAnrtnBBFW7P0VSyin
+         BRh8AnsseLHs/TAv/86VaLiMW9CAwP/ZflVbpsZ+hbPZ4198PECU20I7OGsa1pZm/N
+         FriVG0HzdQfqvbYk0FR1S6SJyDCfACkDmiCkbbKkVCpvmWs//t9XypN/40CsGjrsAy
+         DAiTsxNZw1agA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Anthony Steinhauser <asteinhauser@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>
+Subject: Re: [PATCH] Mention PowerPC in the L1TF documentation.
+In-Reply-To: <CAN_oZf21kYk8FZ_Ah93UQ_rCd7afrxiiX7O4v_xbErFRcGXm9w@mail.gmail.com>
+References: <20191114221634.258799-1-asteinhauser@google.com> <alpine.DEB.2.21.1911142334250.29616@nanos.tec.linutronix.de> <CAN_oZf21kYk8FZ_Ah93UQ_rCd7afrxiiX7O4v_xbErFRcGXm9w@mail.gmail.com>
+Date:   Fri, 15 Nov 2019 22:41:26 +1100
+Message-ID: <871ru9e595.fsf@mpe.ellerman.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Making kunit itself buildable as a module allows for "always-on"
-kunit configuration; specifying CONFIG_KUNIT=m means the module
-is built but only used when loaded.  Kunit test modules will load
-kunit.ko as an implicit dependency, so simply running
-"modprobe my-kunit-tests" will load the tests along with the kunit
-module and run them.
+Anthony Steinhauser <asteinhauser@google.com> writes:
+> OK, I don't intend to work on it to that extent, so you can consider
+> this abandoned.
 
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-Signed-off-by: Knut Omang <knut.omang@oracle.com>
----
- lib/kunit/Kconfig  |  2 +-
- lib/kunit/Makefile |  4 +++-
- lib/kunit/test.c   | 13 +++++++++++++
- 3 files changed, 17 insertions(+), 2 deletions(-)
+I or someone else at IBM will pick this up and get it massaged into a
+form that Thomas is happy with.
 
-diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-index 9ebd5e6..065aa16 100644
---- a/lib/kunit/Kconfig
-+++ b/lib/kunit/Kconfig
-@@ -3,7 +3,7 @@
- #
- 
- menuconfig KUNIT
--	bool "KUnit - Enable support for unit tests"
-+	tristate "KUnit - Enable support for unit tests"
- 	help
- 	  Enables support for kernel unit tests (KUnit), a lightweight unit
- 	  testing and mocking framework for the Linux kernel. These tests are
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index bc6e5e54..fab5564 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -1,4 +1,6 @@
--obj-$(CONFIG_KUNIT) +=			test.o \
-+obj-$(CONFIG_KUNIT) +=			kunit.o
-+
-+kunit-objs +=				test.o \
- 					string-stream.o \
- 					assert.o \
- 					try-catch.o
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 87b5cf1..41ef71a 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -486,3 +486,16 @@ void kunit_cleanup(struct kunit *test)
- 	}
- }
- EXPORT_SYMBOL_GPL(kunit_cleanup);
-+
-+static int kunit_init(void)
-+{
-+	return 0;
-+}
-+late_initcall(kunit_init);
-+
-+static void __exit kunit_exit(void)
-+{
-+}
-+module_exit(kunit_exit);
-+
-+MODULE_LICENSE("GPL");
--- 
-1.8.3.1
+cheers
 
+> On Thu, Nov 14, 2019 at 2:55 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> Anthony,
+>>
+>> On Thu, 14 Nov 2019, asteinhauser@google.com wrote:
+>>
+>> > From: Anthony Steinhauser <asteinhauser@google.com>
+>> >
+>> > There is a false negative that L1TF is Intel specific while it affects
+>> > also PowerPC:
+>> > https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=8e6b6da91ac9b9ec5a925b6cb13f287a54bd547d
+>>
+>> Please use the regular
+>>
+>>    commit 12-char-sha ("powerpc: .......")
+>>
+>> notation. These links are horrible.
+>>
+>> > Another false negative is that the kernel is unconditionally protected
+>> > against L1TF attacks from userspace. That's true only on x86 but not on
+>> > PowerPC where you can turn the protection off by nopti.
+>>
+>> Missing newline between body and SOB
+>>
+>> > Signed-off-by: Anthony Steinhauser <asteinhauser@google.com>
+>> > ---
+>> >  Documentation/admin-guide/hw-vuln/l1tf.rst | 15 +++++++++------
+>> >  1 file changed, 9 insertions(+), 6 deletions(-)
+>> >
+>> > diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+>> > index f83212fae4d5..243e494b337a 100644
+>> > --- a/Documentation/admin-guide/hw-vuln/l1tf.rst
+>> > +++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+>> > @@ -9,10 +9,11 @@ for the access, has the Present bit cleared or other reserved bits set.
+>> >  Affected processors
+>> >  -------------------
+>> >
+>> > -This vulnerability affects a wide range of Intel processors. The
+>> > -vulnerability is not present on:
+>> > +This vulnerability affects a wide range of Intel and PowerPC processors.
+>> > +The vulnerability is not present on:
+>> >
+>> > -   - Processors from AMD, Centaur and other non Intel vendors
+>> > +   - Processors from AMD, Centaur and other non Intel vendors except for
+>> > +     PowerPC
+>>
+>> No. This needs restructuring. The non Intel vendor means vendors which
+>> produce x86 machines (not really clear TBH), but adding these two PPC parts
+>> above and here does not make it any better.
+>>
+>> >     - Older processor models, where the CPU family is < 6
+>>
+>> Also this suggest that _ALL_ PowerPC processors are affected as there is
+>> no exception list.
+>>
+>> So I suggest to structure this like this:
+>>
+>> Affected processors
+>> -------------------
+>>
+>>  1) Intel processors
+>>
+>>     Move the existing list here
+>>
+>>  2) PowerPC processors
+>>
+>>     Add some meat
+>>
+>> Whether a processor is affected or not...
+>>
+>> > @@ -125,7 +126,7 @@ mitigations are active. The relevant sysfs file is:
+>> >
+>> >  /sys/devices/system/cpu/vulnerabilities/l1tf
+>> >
+>> > -The possible values in this file are:
+>> > +The possible values in this file on x86 are:
+>>
+>> That commit you referenced added the sysfs output for powerpc. So that
+>> should be documented properly here as well, right?
+>>
+>> >    ===========================   ===============================
+>> >    'Not affected'             The processor is not vulnerable
+>> > @@ -158,8 +159,10 @@ The resulting grade of protection is discussed in the following sections.
+>> >  Host mitigation mechanism
+>> >  -------------------------
+>> >
+>> > -The kernel is unconditionally protected against L1TF attacks from malicious
+>> > -user space running on the host.
+>> > +On x86 the kernel is unconditionally protected against L1TF attacks from
+>> > +malicious user space running on the host. On PowerPC the kernel is
+>> > +protected by flushing the L1D cache on each transition from kernel to
+>> > +userspace unless the 'nopti' boot argument turns this mitigation off.
+>>
+>> Please make this clearly visually separated. Just glueing this together is
+>> hard to read.
+>>
+>> What about the l1tf boot param? Is it x86 only? If so, then this wants to
+>> be added to the the documentation as well.
+>>
+>> What about the guest to host issue on PPC? Not affected or same mitigation
+>> or what?
+>>
+>> We really spent a lot of time to write understandable and useful
+>> documentation. Just sprinkling a few powerpc'isms into it is really not
+>> cutting it.
+>>
+>> This needs proper structuring so that it's obvious for the intended
+>> audience (administrators, users) which part is applicable to which
+>> architecture or to both.
+>>
+>> Thanks,
+>>
+>>         tglx
