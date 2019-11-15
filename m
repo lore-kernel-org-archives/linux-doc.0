@@ -3,140 +3,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A475B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 13:32:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45A687D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 14:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbfKONcb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 08:32:31 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38148 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727314AbfKONcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 08:32:31 -0500
-Received: by mail-lj1-f196.google.com with SMTP id v8so10719125ljh.5
-        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 05:32:30 -0800 (PST)
+        id S1727438AbfKOOIo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 09:08:44 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:40481 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727406AbfKOOIo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 09:08:44 -0500
+Received: by mail-qt1-f194.google.com with SMTP id o49so10912263qta.7
+        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2019 06:08:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iY4RkcWVuu121hVMn9CyIPjc341XN7bdK8dsOdXPx6s=;
-        b=n6CC30E4kOfKRmH6xZYxfSZCAh/+gVRkYpdPWGt5gnTPKcI2U2lzwIgW2XVVot8GJt
-         Tpe9/WuBNG06xrpHOIj3Q7Ml4eyWXbfFqnpQ5/2s0TbQQ/iNDXKcy06x4Guz8Y0c970f
-         mxZq4gZCftIh5ycftiGmefxmDlHRr4XDsXKqQbf9BwC4oxNVDLmnQ540G4r1LfZvNLxi
-         78Z502z7062KLqEDxaBIh1z5Y1g8QFeqNjzoVIozLg3XuLnBDnGsYiGyfIk/pwFkoe/U
-         QZCVU0Q1CP77FWstZPxTbnVDzEY2cPz3taoPfHDfExbWZmqL8RncGp/ENVvrhXwcuBwc
-         AbXw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8ZGdiHZxf3ZHqX3I8ydxFdLkSWkpE5WrCI0dICjPpHU=;
+        b=i+UlYqHpSoy9hrCL3gQPMJUhUw3RKIgDls07tcBvdNTrD4jl5OTOMJfNN1MASvpOc/
+         n/RUaDL07zMYWDhclWHPDZnaqTZ6YdpZfzuTyA+HrehI2Ydc75hfkUNiRgV5KLUhGbZ5
+         hwJR6j62hBrGSzy1DyO8h1zN9TlzptjO0LEx4CpgETqR3CBgJNCsKnZKRcbg5KwHic/q
+         pEIdohRRBLTVk18YHW5Vi8NX67r/lGgj0cpRlIJEz6SaDVQBInMFNoQa60kFdiQzPjma
+         xgI2yhuOWu+cTXk9NFpI3of3yS1+C6h76JgFDhrvoDw5piCzGcHI/ud3iOPSS57DuCxF
+         BfMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iY4RkcWVuu121hVMn9CyIPjc341XN7bdK8dsOdXPx6s=;
-        b=CkYZr1+jpswLqUwJQvoGPHi2p8v2LCUpujjdlgctkcP/nGmXVp41IUwu6pflr/s8Po
-         9fFjncqerv+DVlG5yVShk0sf5OH/5Tk0sZdHBHNHlCQwkhUFkUk1AXQeE1Nt6QL1APlP
-         TI3LM038TkWFhYzh2Vf5pYP5y8cHRAsdceShGeiGU+RTFSVFWXM+6K9RXrI4A7X3roLb
-         Ojl96+j+0Iu4PaYKRoBKjOoRQpAPNqjIHCnEzJapvNZnfDOaCQrGFgEaYsHTnzVyR4vN
-         MLeVVeAZfYq/TxOGpjmwNwH5pqjLBvC5HXP/h5tMPWUCvLZUVjRQFHDzmsVeCK/RJd3z
-         7vww==
-X-Gm-Message-State: APjAAAVoEa+V30/P4OJq2HTOuVjaSgSfNNnwbmevV4S4ynlJubNHGHoX
-        fJ0Vxvy8PuOTK0W5huwBW4VcPg==
-X-Google-Smtp-Source: APXvYqzQlZCNBIWssS9WflGIEvGBng7CIQasxGhWnPHWVH3Lg5u+SOFWTg7Ue8hGRi4p+OoYOkCiLQ==
-X-Received: by 2002:a2e:a0ce:: with SMTP id f14mr11604522ljm.241.1573824749198;
-        Fri, 15 Nov 2019 05:32:29 -0800 (PST)
-Received: from localhost.localdomain (c-79c8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.200.121])
-        by smtp.gmail.com with ESMTPSA id 21sm3999422lft.23.2019.11.15.05.32.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2019 05:32:27 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: [PATCH] Documentation: Document how to get links with git am
-Date:   Fri, 15 Nov 2019 14:30:21 +0100
-Message-Id: <20191115133021.13165-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.21.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8ZGdiHZxf3ZHqX3I8ydxFdLkSWkpE5WrCI0dICjPpHU=;
+        b=HWJ1SQdG2esOghY8DOZi3gR2mLSUk58Uo3FZ90tkbqKXhw2ZWelNY1xJ6XLRD8FhY6
+         gfLn2FSQ0xGjyVjNCfdsEtmAh5zpwc3pUV/C5rJd/omppBtNRS4a4Hqga5uXlY65ALry
+         cyJ188+9F6H253RSUdm9yP8XckZb+3dZMhXJGx6nnJfAjAmYBuJ9X2PfM/qnlvCu+JPn
+         e/qzwY9nUi1HWUC35KK9y5t5IEiWF5sW3ySJo8VXXNSPm3zquSGK4+b/SwSH1CsDwq9V
+         /S6MCnJ/9mtAvRxggUeWTPY/H4z4zRVGoU+3QVolqa0IQg8lLCgQP/OTwFx5zm0XisiM
+         ogiw==
+X-Gm-Message-State: APjAAAWPDB8U/zsa4kI2T5FJNDyJIKdh6NlHu7ctMLZ9II+uRaP7nFtR
+        9j1rMxl/nCyhYVbnPe/p4pA0rQ==
+X-Google-Smtp-Source: APXvYqyXZJAB3M+2SHRriOZec9Rfd1hMhPGpVi3+hL/5cz80ckTUMXVgMRzWDvTX6XEGdZam3s9/QQ==
+X-Received: by 2002:ac8:661a:: with SMTP id c26mr13620771qtp.317.1573826923526;
+        Fri, 15 Nov 2019 06:08:43 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id s21sm5382292qtc.12.2019.11.15.06.08.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 15 Nov 2019 06:08:42 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iVcHC-0002xg-A8; Fri, 15 Nov 2019 10:08:42 -0400
+Date:   Fri, 15 Nov 2019 10:08:42 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 09/24] vfio, mm: fix get_user_pages_remote() and
+ FOLL_LONGTERM
+Message-ID: <20191115140842.GA4055@ziepe.ca>
+References: <20191115055340.1825745-1-jhubbard@nvidia.com>
+ <20191115055340.1825745-10-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191115055340.1825745-10-jhubbard@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds Kees' clever apply hook to the kernel documentation so
-it can be easily references when needed.
+On Thu, Nov 14, 2019 at 09:53:25PM -0800, John Hubbard wrote:
+> As it says in the updated comment in gup.c: current FOLL_LONGTERM
+> behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
+> FS DAX check requirement on vmas.
+> 
+> However, the corresponding restriction in get_user_pages_remote() was
+> slightly stricter than is actually required: it forbade all
+> FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
+> that do not set the "locked" arg.
+> 
+> Update the code and comments accordingly, and update the VFIO caller
+> to take advantage of this, fixing a bug as a result: the VFIO caller
+> is logically a FOLL_LONGTERM user.
+> 
+> Also, remove an unnessary pair of calls that were releasing and
+> reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
+> just in order to call page_to_pfn().
+> 
+> Also, move the DAX check ("if a VMA is DAX, don't allow long term
+> pinning") from the VFIO call site, all the way into the internals
+> of get_user_pages_remote() and __gup_longterm_locked(). That is:
+> get_user_pages_remote() calls __gup_longterm_locked(), which in turn
+> calls check_dax_vmas(). It's lightly explained in the comments as well.
+> 
+> Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
+> and to Dan Williams for helping clarify the DAX refactoring.
+> 
+> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Jerome Glisse <jglisse@redhat.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 30 +++++-------------------------
+>  mm/gup.c                        | 27 ++++++++++++++++++++++-----
+>  2 files changed, 27 insertions(+), 30 deletions(-)
 
-Cc: Kees Cook <keescook@chromium.org>
-Link: https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-July/006608.html
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- .../process/applying-patches-using-git.rst    | 43 +++++++++++++++++++
- Documentation/process/index.rst               |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 Documentation/process/applying-patches-using-git.rst
+Looks OK now  
 
-diff --git a/Documentation/process/applying-patches-using-git.rst b/Documentation/process/applying-patches-using-git.rst
-new file mode 100644
-index 000000000000..60955aa62d42
---- /dev/null
-+++ b/Documentation/process/applying-patches-using-git.rst
-@@ -0,0 +1,43 @@
-+.. _applying_patches_using_git:
-+
-+Applying Patches to the Linux Kernel Using git
-+++++++++++++++++++++++++++++++++++++++++++++++
-+
-+For the most part, using git to apply patches comes down to just following
-+the established usage already documented in the git documentation. This is
-+pretty intuitive since git was developed initially for Linux kernel
-+development.
-+
-+In some cases the Linux kernel development has special quirks and usage
-+patterns that are not an intrinsic part of git.
-+
-+This file documents some best practices.
-+
-+
-+Creating commit links to lore.kernel.org
-+========================================
-+
-+The web site http://lore.kernel.org is meant as a grand archive of all mail
-+list traffic concerning or influencing the kernel development. Storing archives
-+of patches here is a recommended practice, and when a maintainer applies a
-+patch to a subsystem tree, it is a good idea to provide a Link: tag with a
-+reference back to the lore archive so that people that browse the commit
-+history can find related discussions and rationale behind a certain change.
-+The link tag will look like this:
-+
-+    Link: https://lore.kernel.org/r/<message-id>
-+
-+This can be achieved by adding the following hook into your git:
-+
-+.. code-block:: none
-+
-+	$ git config am.messageid true
-+	$ cat >.git/hooks/applypatch-msg <<'EOF'
-+	#!/bin/sh
-+	. git-sh-setup
-+	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
-+	test -x "$GIT_DIR/hooks/commit-msg" &&
-+		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
-+	:
-+	EOF
-+	$ chmod a+x .git/hooks/applypatch-msg
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index e2c9ffc682c5..482b07402836 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -46,6 +46,7 @@ Other guides to the community that are of interest to most developers are:
-    kernel-docs
-    deprecated
-    embargoed-hardware-issues
-+   applying-patches-using-git
- 
- These are some overall technical guides that have been put here for now for
- lack of a better place.
--- 
-2.21.0
-
+Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
