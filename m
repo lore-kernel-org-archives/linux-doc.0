@@ -5,49 +5,56 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E8647D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 18:23:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 105597D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Nov 2019 20:00:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726308AbfKOSXh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Nov 2019 13:23:37 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:44352 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726131AbfKOSXh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Nov 2019 13:23:37 -0500
-Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iVgFq-0005L4-VL; Fri, 15 Nov 2019 19:23:35 +0100
-Date:   Fri, 15 Nov 2019 19:23:29 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: Add request_irq() documentation
-In-Reply-To: <20191004163955.14419-3-corbet@lwn.net>
-Message-ID: <alpine.DEB.2.21.1911151922430.28787@nanos.tec.linutronix.de>
-References: <20191004163955.14419-1-corbet@lwn.net> <20191004163955.14419-3-corbet@lwn.net>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726505AbfKOUAU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Nov 2019 15:00:20 -0500
+Received: from ms.lwn.net ([45.79.88.28]:44220 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726466AbfKOUAU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Nov 2019 15:00:20 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C2CEC1E5;
+        Fri, 15 Nov 2019 20:00:19 +0000 (UTC)
+Date:   Fri, 15 Nov 2019 13:00:17 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] Documentation: Document how to get links with git am
+Message-ID: <20191115130017.46d77037@lwn.net>
+In-Reply-To: <20191115133021.13165-1-linus.walleij@linaro.org>
+References: <20191115133021.13165-1-linus.walleij@linaro.org>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 4 Oct 2019, Jonathan Corbet wrote:
+On Fri, 15 Nov 2019 14:30:21 +0100
+Linus Walleij <linus.walleij@linaro.org> wrote:
 
-> While checking the results of the :c:func: removal, I noticed that there
-> was no documentation for request_irq(), and request_threaded_irq() was not
-> mentioned at all.  Add a kerneldoc comment for request_irq() and add
-> request_threaded_irq() to the list of functions.
+> This adds Kees' clever apply hook to the kernel documentation so
+> it can be easily references when needed.
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <keescook@chromium.org>
+> Link: https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-July/006608.html
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+Seems generally useful.  I have a couple of overall questions...
 
-Which reminds me that this documentation really needs some thorough
-rewrite ...
+ - Might this be better placed in the maintainer manual?  It is more
+   likely to be relevant to that audience, methinks.
+
+ - I wonder if the hook script should just go under tools/ somewhere for
+   people to grab.
+
+Thanks,
+
+jon
