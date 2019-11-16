@@ -1,247 +1,221 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC3BC7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 14:37:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47F4E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 15:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727669AbfKPOhj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Nov 2019 09:37:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54510 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727617AbfKPOhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 09:37:39 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAGEVkQx112602
-        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 09:37:37 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2wae4tq2t9-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 09:37:37 -0500
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Sat, 16 Nov 2019 14:37:35 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 16 Nov 2019 14:37:33 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xAGEbWvw54001876
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 16 Nov 2019 14:37:32 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 67ACBA405C;
-        Sat, 16 Nov 2019 14:37:32 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9B1A9A4054;
-        Sat, 16 Nov 2019 14:37:30 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.71.109])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Sat, 16 Nov 2019 14:37:30 +0000 (GMT)
-Subject: Re: [PATCH v3 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_*
- sysfs files
-To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-Cc:     mpe@ellerman.id.au, corbet@lwn.net, mahesh@linux.vnet.ibm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org, hbathini@linux.ibm.com
-References: <20191109122339.20484-1-sourabhjain@linux.ibm.com>
- <20191109122339.20484-3-sourabhjain@linux.ibm.com>
- <20191109125933.GF1384@kitsune.suse.cz>
-From:   Sourabh Jain <sourabhjain@linux.ibm.com>
-Date:   Sat, 16 Nov 2019 20:07:29 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1727751AbfKPPe4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Nov 2019 10:34:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41042 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727737AbfKPPe4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 16 Nov 2019 10:34:56 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C127720700;
+        Sat, 16 Nov 2019 15:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573918494;
+        bh=4JKeG1UGiGuAI6kdmw4o2vLC7dkENZs/jJmsBEWfHmY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=X3NPg89cEppRZ2Ufq25iO1k0ekjtPtTbIbLTVTHxQEgDEvkP6XY3DfvqN9EuLqcYL
+         KV45r1lccVl2DxriNAereFYnXilzKUOtwW1UxLXr2OiBha8f6K6lX+6lbrXXj0a8D1
+         CDQ0FwllS5o4jPei//ti4OGZ/sYxrI7wBQgCie1c=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 940BA35227AD; Sat, 16 Nov 2019 07:34:54 -0800 (PST)
+Date:   Sat, 16 Nov 2019 07:34:54 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Marco Elver <elver@google.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191116153454.GC2865@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191114180303.66955-1-elver@google.com>
+ <20191114195046.GP2865@paulmck-ThinkPad-P72>
+ <20191114213303.GA237245@google.com>
+ <20191114221559.GS2865@paulmck-ThinkPad-P72>
+ <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
+ <20191115164159.GU2865@paulmck-ThinkPad-P72>
+ <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
+ <20191115204321.GX2865@paulmck-ThinkPad-P72>
+ <CANpmjNN0JCgEOC=AhKN7pH9OpmzbNB94mioP0FN9ueCQUfKzBQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191109125933.GF1384@kitsune.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19111614-0028-0000-0000-000003B7EE84
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111614-0029-0000-0000-0000247B0282
-Message-Id: <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-16_04:2019-11-15,2019-11-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- suspectscore=0 clxscore=1015 spamscore=0 impostorscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911160137
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNN0JCgEOC=AhKN7pH9OpmzbNB94mioP0FN9ueCQUfKzBQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 11/9/19 6:29 PM, Michal Suchánek wrote:
-> On Sat, Nov 09, 2019 at 05:53:37PM +0530, Sourabh Jain wrote:
->> As the number of FADump sysfs files increases it is hard to manage all of
->> them inside /sys/kernel directory. It's better to have all the FADump
->> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
->> order to maintain the backward compatibility the /sys/kernel/fadump_*
->> sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
->> removed in future.
->>
->> As the FADump sysfs files are now part of dedicated directory there is no
->> need to prefix their name with fadump_, hence sysfs file names are also
->> updated. For example fadump_enabled sysfs file is now referred as enabled.
->>
->> Also consolidate ABI documentation for all the FADump sysfs files in a
->> single file Documentation/ABI/testing/sysfs-kernel-fadump.
->>
->> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
->> ---
->>  Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
->>  arch/powerpc/kernel/fadump.c                  | 38 +++++++++++++++++
->>  arch/powerpc/platforms/powernv/opal-core.c    | 10 +++--
->>  3 files changed, 86 insertions(+), 3 deletions(-)
->>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
->>
->> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
->> new file mode 100644
->> index 000000000000..a77f1a5ba389
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
->> @@ -0,0 +1,41 @@
->> +What:		/sys/kernel/fadump/*
->> +Date:		Nov 2019
->> +Contact:	linuxppc-dev@lists.ozlabs.org
->> +Description:
->> +		The /sys/kernel/fadump/* is a collection of FADump sysfs
->> +		file provide information about the configuration status
->> +		of Firmware Assisted Dump (FADump).
->> +
->> +What:		/sys/kernel/fadump/enabled
->> +Date:		Nov 2019
->> +Contact:	linuxppc-dev@lists.ozlabs.org
->> +Description:	read only
->> +		Primarily used to identify whether the FADump is enabled in
->> +		the kernel or not.
->> +User:		Kdump service
->> +
->> +What:		/sys/kernel/fadump/registered
->> +Date:		Nov 2019
->> +Contact:	linuxppc-dev@lists.ozlabs.org
->> +Description:	read/write
->> +		Helps to control the dump collect feature from userspace.
->> +		Setting 1 to this file enables the system to collect the
->> +		dump and 0 to disable it.
->> +User:		Kdump service
->> +
->> +What:		/sys/kernel/fadump/release_mem
->> +Date:		Nov 2019
->> +Contact:	linuxppc-dev@lists.ozlabs.org
->> +Description:	write only
->> +		This is a special sysfs file and only available when
->> +		the system is booted to capture the vmcore using FADump.
->> +		It is used to release the memory reserved by FADump to
->> +		save the crash dump.
->> +
->> +What:		/sys/kernel/fadump/release_opalcore
->> +Date:		Nov 2019
->> +Contact:	linuxppc-dev@lists.ozlabs.org
->> +Description:	write only
->> +		The sysfs file is available when the system is booted to
->> +		collect the dump on OPAL based machine. It used to release
->> +		the memory used to collect the opalcore.
->> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
->> index ed59855430b9..a9591def0c84 100644
->> --- a/arch/powerpc/kernel/fadump.c
->> +++ b/arch/powerpc/kernel/fadump.c
->> @@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
->>  	return 0;
->>  }
->>  
->> +struct kobject *fadump_kobj;
->> +EXPORT_SYMBOL_GPL(fadump_kobj);
->> +
->>  static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
->>  						0200, NULL,
->>  						fadump_release_memory_store);
->> @@ -1428,6 +1431,16 @@ static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
->>  						0644, fadump_register_show,
->>  						fadump_register_store);
->>  
->> +static struct kobj_attribute release_attr = __ATTR(release_mem,
->> +						0200, NULL,
->> +						fadump_release_memory_store);
->> +static struct kobj_attribute enable_attr = __ATTR(enabled,
->> +						0444, fadump_enabled_show,
->> +						NULL);
->> +static struct kobj_attribute register_attr = __ATTR(registered,
->> +						0644, fadump_register_show,
->> +						fadump_register_store);
->> +
->>  DEFINE_SHOW_ATTRIBUTE(fadump_region);
->>  
->>  static void fadump_init_files(void)
->> @@ -1435,6 +1448,11 @@ static void fadump_init_files(void)
->>  	struct dentry *debugfs_file;
->>  	int rc = 0;
->>  
->> +	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
->> +	if (!fadump_kobj) {
->> +		pr_err("failed to create fadump kobject\n");
->> +		return;
->> +	}
->>  	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
->>  	if (rc)
->>  		printk(KERN_ERR "fadump: unable to create sysfs file"
->> @@ -1458,6 +1476,26 @@ static void fadump_init_files(void)
->>  			printk(KERN_ERR "fadump: unable to create sysfs file"
->>  				" fadump_release_mem (%d)\n", rc);
->>  	}
->> +	/* Replicating the following sysfs attributes under FADump kobject.
->> +	 *
->> +	 *	- fadump_enabled -> enabled
->> +	 *	- fadump_registered -> registered
->> +	 *	- fadump_release_mem -> release_mem
->> +	 */
->> +	rc = sysfs_create_file(fadump_kobj, &enable_attr.attr);
->> +	if (rc)
->> +		pr_err("unable to create enabled sysfs file (%d)\n",
->> +		       rc);
->> +	rc = sysfs_create_file(fadump_kobj, &register_attr.attr);
->> +	if (rc)
->> +		pr_err("unable to create registered sysfs file (%d)\n",
->> +		       rc);
->> +	if (fw_dump.dump_active) {
->> +		rc = sysfs_create_file(fadump_kobj, &release_attr.attr);
->> +		if (rc)
->> +			pr_err("unable to create release_mem sysfs file (%d)\n",
->> +			       rc);
->> +	}
->>  	return;
->>  }
-> Hello,
+On Sat, Nov 16, 2019 at 09:20:54AM +0100, Marco Elver wrote:
+> On Fri, 15 Nov 2019 at 21:43, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > On Fri, Nov 15, 2019 at 06:14:46PM +0100, Marco Elver wrote:
+> > > On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > >
+> > > > On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
+> > > > > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > > >
+> > > > > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
+> > > > > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
+> > > > > > >
+> > > > > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
+> > > > > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > > > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > > > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > > > > > > > only enables KCSAN for x86, but we expect adding support for other
+> > > > > > > > > architectures is relatively straightforward (we are aware of
+> > > > > > > > > experimental ARM64 and POWER support).
+> > > > > > > > >
+> > > > > > > > > To gather early feedback, we announced KCSAN back in September, and have
+> > > > > > > > > integrated the feedback where possible:
+> > > > > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > > > > > > >
+> > > > > > > > > The current list of known upstream fixes for data races found by KCSAN
+> > > > > > > > > can be found here:
+> > > > > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > > > > > > > >
+> > > > > > > > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > > > > > > > including several articles that motivate why data races are dangerous
+> > > > > > > > > [1, 2], justifying a data race detector such as KCSAN.
+> > > > > > > > >
+> > > > > > > > > [1] https://lwn.net/Articles/793253/
+> > > > > > > > > [2] https://lwn.net/Articles/799218/
+> > > > > > > >
+> > > > > > > > I queued this and ran a quick rcutorture on it, which completed
+> > > > > > > > successfully with quite a few reports.
+> > > > > > >
+> > > > > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
+> > > > > > > you mentioned, we're fine with your assumption to targeting the next
+> > > > > > > (v5.6) merge window.
+> > > > > > >
+> > > > > > > I've just had a look at linux-next to check what a future rebase
+> > > > > > > requires:
+> > > > > > >
+> > > > > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
+> > > > > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
+> > > > > > > - bitops-instrumented.h was removed and split into 3 files, and needs
+> > > > > > >   re-inserting the instrumentation into the right places.
+> > > > > > >
+> > > > > > > Otherwise there are no issues. Let me know what you recommend.
+> > > > > >
+> > > > > > Sounds good!
+> > > > > >
+> > > > > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
+> > > > > > approach is to fix any conflicts during that rebasing operation.
+> > > > > > Does that make sense, or would you prefer to send me a rebased stack at
+> > > > > > that point?  Either way is fine for me.
+> > > > >
+> > > > > That's fine with me, thanks!  To avoid too much additional churn on
+> > > > > your end, I just replied to the bitops patch with a version that will
+> > > > > apply with the change to bitops-instrumented infrastructure.
+> > > >
+> > > > My first thought was to replace 8/10 of the previous version of your
+> > > > patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
+> > > > for bitops"), but this does not apply.  So I am guessing that I instead
+> > > > do this substitution when a rebase onto -rc1..
+> > > >
+> > > > Except...
+> > > >
+> > > > > Also considering the merge window, we had a discussion and there are
+> > > > > some arguments for targeting the v5.5 merge window:
+> > > > > - we'd unblock ARM and POWER ports;
+> > > > > - we'd unblock people wanting to use the data_race macro;
+> > > > > - we'd unblock syzbot just tracking upstream;
+> > > > > Unless there are strong reasons to not target v5.5, I leave it to you
+> > > > > if you think it's appropriate.
+> > > >
+> > > > My normal process is to send the pull request shortly after -rc5 comes
+> > > > out, but you do call out some benefits of getting it in sooner, so...
+> > > >
+> > > > What I will do is to rebase your series onto (say) -rc7, test it, and
+> > > > see about an RFC pull request.
+> > > >
+> > > > One possible complication is the new 8/10 patch.  But maybe it will
+> > > > apply against -rc7?
+> > > >
+> > > > Another possible complication is this:
+> > > >
+> > > > scripts/kconfig/conf  --syncconfig Kconfig
+> > > > *
+> > > > * Restart config...
+> > > > *
+> > > > *
+> > > > * KCSAN: watchpoint-based dynamic data race detector
+> > > > *
+> > > > KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
+> > > >
+> > > > Might be OK in this case because it is quite obvious what it is doing.
+> > > > (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
+> > > >
+> > > > But I will just mention this in the pull request.
+> > > >
+> > > > If there is a -rc8, there is of course a higher probability of making it
+> > > > into the next merge window.
+> > > >
+> > > > Fair enough?
+> > >
+> > > Totally fine with that, sounds like a good plan, thanks!
+> > >
+> > > If it helps, in theory we can also drop and delay the bitops
+> > > instrumentation patch until the new bitops instrumentation
+> > > infrastructure is in 5.5-rc1. There won't be any false positives if
+> > > this is missing, we might just miss a few data races until we have it.
+> >
+> > That sounds advisable for an attempt to hit this coming merge window.
+> >
+> > So just to make sure I understand, I drop 8/10 and keep the rest during
+> > a rebase to 5.4-rc7, correct?
 > 
+> Yes, that's right.
 
-I’m so sorry for taking this long to write you back. 
+Very good, I just now pushed a "kcsan" branch on -rcu, and am running
+rcutorture, first without KCSAN enabled and then with it turned on.
+If all that works out, I set my -next branch to that point and see what
+-next testing and kbuild test robot think about it.  If all goes well,
+an RFC pull request.
 
-> wouldn't it make more sense to create the files in the new location and
-> add a symlink at the old location?
+Look OK?
 
-There are APIs which allow to create a symlink for an entire kobject but
-I did not find a way to create symlink of an individual sysfs file.
-
-Do you have any approach in mind to achieve the same?
-
-
-> Also your error messages aren't really readeable. Without the fadump_
-> prefix it's not clear what's going on here. Perhaps quoting the file
-> name and saying fadump somewhere in the message would be useful.
-
-The pr_err function will prefix the error message with fadump: string.
-I think that will solve the above issue.
-
-
-Thanks,
-
-Sourabh Jain
-
+							Thanx, Paul
