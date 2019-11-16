@@ -1,222 +1,224 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 063877D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 08:21:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 515D77D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 12:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbfKPIVI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Nov 2019 03:21:08 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46726 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726166AbfKPIVI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 03:21:08 -0500
-Received: by mail-ot1-f65.google.com with SMTP id n23so10086070otr.13
-        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 00:21:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IAbPck/tyWYpcH6q1DqU0wF9VrcqMWHjsvfsasMdJQ8=;
-        b=XWnuclkqZMItq+/ksJ8Y1qa9/9oIF2fdvK7zku42Z8ODKYKzpWGUzZ/8O3BaVjf7Ag
-         P71ZJ18PYDh/S+GcXJv7JbUHBfrVxcoQ8Tvy3/rDGiRsih1j0Zfw3p0aX5sUwbDmnNzp
-         UJbeoNYdVfNU8lrJD/bixaoQ7gvdzCi0y77rY6eMix67aCD4LLAxKMFtrjIBZplbOSLa
-         whiths2ljXaRVaJ66Ty6f/l0eqANuJrB5x+g554vTxKefToWIvkl2VMJofQLrWCYVNFN
-         uMyJ4CtcCuhbdCcrnripCXXi0U9CRkogJhOh3chGjPKJVPuRp3IpvYuKiS5dSot+QvZ1
-         UFSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IAbPck/tyWYpcH6q1DqU0wF9VrcqMWHjsvfsasMdJQ8=;
-        b=PdKPR/NV2dQW3kTHjxsIXZgJsVmlSb3vFpDlaNgM8ob267jQbGSkwcR1DEoazAT9J/
-         F+iAVQg+3RKxciiQ4aitXAW8cfDsh5dsm/qk9Yy8ARw25MGInJeuD6LVMcLKwHp2Te5c
-         V4qpdnRLO3kJMligCLkn4qB0VAy0HPo3zuE3ruhw8pCVoywI47GfLl3Ev/fORnzQboKA
-         ngLUXnwHPL16s7Ore9KEbEaVaA0a5P8JDu68VT9C52tHZjO+nEaxeI99ukrp8CcWMNR/
-         ETWqjfplUBzYr1YZcyx4859ZGpspYJlCvb742qD2Msg9Hn1YegwjcvfyMj5Ztm1FEXOT
-         4oMQ==
-X-Gm-Message-State: APjAAAX+KmQcziPC1aEvfaqflXHbE1c8B9DXYU1/Iy1fjaq2MLvq9E5F
-        mtOXE3QbBTMWrUskpNz3i4kie7uxQrEYCoCpOk28gQ==
-X-Google-Smtp-Source: APXvYqyFoD1MoXKYzcJ0ETjr8RD5raPWnHWPSZdYf70aViyP/iAqqE28rDX/p+nlWotCJAjaCdGBcwat07yGzdHKecY=
-X-Received: by 2002:a9d:3d76:: with SMTP id a109mr14975357otc.233.1573892466111;
- Sat, 16 Nov 2019 00:21:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114180303.66955-1-elver@google.com> <20191114195046.GP2865@paulmck-ThinkPad-P72>
- <20191114213303.GA237245@google.com> <20191114221559.GS2865@paulmck-ThinkPad-P72>
- <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
- <20191115164159.GU2865@paulmck-ThinkPad-P72> <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
- <20191115204321.GX2865@paulmck-ThinkPad-P72>
-In-Reply-To: <20191115204321.GX2865@paulmck-ThinkPad-P72>
-From:   Marco Elver <elver@google.com>
-Date:   Sat, 16 Nov 2019 09:20:54 +0100
-Message-ID: <CANpmjNN0JCgEOC=AhKN7pH9OpmzbNB94mioP0FN9ueCQUfKzBQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S1727474AbfKPMZg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Nov 2019 07:25:36 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:45368 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727471AbfKPMZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 07:25:36 -0500
+Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tip-bot2@linutronix.de>)
+        id 1iVx8h-0002om-T0; Sat, 16 Nov 2019 13:25:20 +0100
+Received: from [127.0.1.1] (localhost [IPv6:::1])
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 86FDB1C1923;
+        Sat, 16 Nov 2019 13:25:19 +0100 (CET)
+Date:   Sat, 16 Nov 2019 12:25:19 -0000
+From:   "tip-bot2 for Waiman Long" <tip-bot2@linutronix.de>
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: x86/pti] x86/speculation: Fix incorrect MDS/TAA mitigation status
+Cc:     Waiman Long <longman@redhat.com>, Borislav Petkov <bp@suse.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
+        Jiri Kosina <jkosina@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
         Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
+        linux-doc@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
+        <stable@vger.kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Tyler Hicks <tyhicks@canonical.com>, "x86-ml" <x86@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <20191115161445.30809-2-longman@redhat.com>
+References: <20191115161445.30809-2-longman@redhat.com>
+MIME-Version: 1.0
+Message-ID: <157390711950.12247.3359773169258462200.tip-bot2@tip-bot2>
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Nov 2019 at 21:43, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Fri, Nov 15, 2019 at 06:14:46PM +0100, Marco Elver wrote:
-> > On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
-> > > > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > >
-> > > > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
-> > > > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
-> > > > > >
-> > > > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
-> > > > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > > > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > > > > architectures is relatively straightforward (we are aware of
-> > > > > > > > experimental ARM64 and POWER support).
-> > > > > > > >
-> > > > > > > > To gather early feedback, we announced KCSAN back in September, and have
-> > > > > > > > integrated the feedback where possible:
-> > > > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > > > > >
-> > > > > > > > The current list of known upstream fixes for data races found by KCSAN
-> > > > > > > > can be found here:
-> > > > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > > > > > >
-> > > > > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > > > > including several articles that motivate why data races are dangerous
-> > > > > > > > [1, 2], justifying a data race detector such as KCSAN.
-> > > > > > > >
-> > > > > > > > [1] https://lwn.net/Articles/793253/
-> > > > > > > > [2] https://lwn.net/Articles/799218/
-> > > > > > >
-> > > > > > > I queued this and ran a quick rcutorture on it, which completed
-> > > > > > > successfully with quite a few reports.
-> > > > > >
-> > > > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
-> > > > > > you mentioned, we're fine with your assumption to targeting the next
-> > > > > > (v5.6) merge window.
-> > > > > >
-> > > > > > I've just had a look at linux-next to check what a future rebase
-> > > > > > requires:
-> > > > > >
-> > > > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
-> > > > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
-> > > > > > - bitops-instrumented.h was removed and split into 3 files, and needs
-> > > > > >   re-inserting the instrumentation into the right places.
-> > > > > >
-> > > > > > Otherwise there are no issues. Let me know what you recommend.
-> > > > >
-> > > > > Sounds good!
-> > > > >
-> > > > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
-> > > > > approach is to fix any conflicts during that rebasing operation.
-> > > > > Does that make sense, or would you prefer to send me a rebased stack at
-> > > > > that point?  Either way is fine for me.
-> > > >
-> > > > That's fine with me, thanks!  To avoid too much additional churn on
-> > > > your end, I just replied to the bitops patch with a version that will
-> > > > apply with the change to bitops-instrumented infrastructure.
-> > >
-> > > My first thought was to replace 8/10 of the previous version of your
-> > > patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
-> > > for bitops"), but this does not apply.  So I am guessing that I instead
-> > > do this substitution when a rebase onto -rc1..
-> > >
-> > > Except...
-> > >
-> > > > Also considering the merge window, we had a discussion and there are
-> > > > some arguments for targeting the v5.5 merge window:
-> > > > - we'd unblock ARM and POWER ports;
-> > > > - we'd unblock people wanting to use the data_race macro;
-> > > > - we'd unblock syzbot just tracking upstream;
-> > > > Unless there are strong reasons to not target v5.5, I leave it to you
-> > > > if you think it's appropriate.
-> > >
-> > > My normal process is to send the pull request shortly after -rc5 comes
-> > > out, but you do call out some benefits of getting it in sooner, so...
-> > >
-> > > What I will do is to rebase your series onto (say) -rc7, test it, and
-> > > see about an RFC pull request.
-> > >
-> > > One possible complication is the new 8/10 patch.  But maybe it will
-> > > apply against -rc7?
-> > >
-> > > Another possible complication is this:
-> > >
-> > > scripts/kconfig/conf  --syncconfig Kconfig
-> > > *
-> > > * Restart config...
-> > > *
-> > > *
-> > > * KCSAN: watchpoint-based dynamic data race detector
-> > > *
-> > > KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
-> > >
-> > > Might be OK in this case because it is quite obvious what it is doing.
-> > > (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
-> > >
-> > > But I will just mention this in the pull request.
-> > >
-> > > If there is a -rc8, there is of course a higher probability of making it
-> > > into the next merge window.
-> > >
-> > > Fair enough?
-> >
-> > Totally fine with that, sounds like a good plan, thanks!
-> >
-> > If it helps, in theory we can also drop and delay the bitops
-> > instrumentation patch until the new bitops instrumentation
-> > infrastructure is in 5.5-rc1. There won't be any false positives if
-> > this is missing, we might just miss a few data races until we have it.
->
-> That sounds advisable for an attempt to hit this coming merge window.
->
-> So just to make sure I understand, I drop 8/10 and keep the rest during
-> a rebase to 5.4-rc7, correct?
+The following commit has been merged into the x86/pti branch of tip:
 
-Yes, that's right.
+Commit-ID:     64870ed1b12e235cfca3f6c6da75b542c973ff78
+Gitweb:        https://git.kernel.org/tip/64870ed1b12e235cfca3f6c6da75b542c973ff78
+Author:        Waiman Long <longman@redhat.com>
+AuthorDate:    Fri, 15 Nov 2019 11:14:44 -05:00
+Committer:     Borislav Petkov <bp@suse.de>
+CommitterDate: Sat, 16 Nov 2019 13:17:49 +01:00
 
-Many thanks,
--- Marco
+x86/speculation: Fix incorrect MDS/TAA mitigation status
+
+For MDS vulnerable processors with TSX support, enabling either MDS or
+TAA mitigations will enable the use of VERW to flush internal processor
+buffers at the right code path. IOW, they are either both mitigated
+or both not. However, if the command line options are inconsistent,
+the vulnerabilites sysfs files may not report the mitigation status
+correctly.
+
+For example, with only the "mds=off" option:
+
+  vulnerabilities/mds:Vulnerable; SMT vulnerable
+  vulnerabilities/tsx_async_abort:Mitigation: Clear CPU buffers; SMT vulnerable
+
+The mds vulnerabilities file has wrong status in this case. Similarly,
+the taa vulnerability file will be wrong with mds mitigation on, but
+taa off.
+
+Change taa_select_mitigation() to sync up the two mitigation status
+and have them turned off if both "mds=off" and "tsx_async_abort=off"
+are present.
+
+Update documentation to emphasize the fact that both "mds=off" and
+"tsx_async_abort=off" have to be specified together for processors that
+are affected by both TAA and MDS to be effective.
+
+ [ bp: Massage and add kernel-parameters.txt change too. ]
+
+Fixes: 1b42f017415b ("x86/speculation/taa: Add mitigation for TSX Async Abort")
+Signed-off-by: Waiman Long <longman@redhat.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jiri Kosina <jkosina@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: linux-doc@vger.kernel.org
+Cc: Mark Gross <mgross@linux.intel.com>
+Cc: <stable@vger.kernel.org>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Tyler Hicks <tyhicks@canonical.com>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191115161445.30809-2-longman@redhat.com
+---
+ Documentation/admin-guide/hw-vuln/mds.rst             |  7 ++--
+ Documentation/admin-guide/hw-vuln/tsx_async_abort.rst |  5 ++-
+ Documentation/admin-guide/kernel-parameters.txt       | 11 ++++++-
+ arch/x86/kernel/cpu/bugs.c                            | 17 ++++++++--
+ 4 files changed, 35 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+index e3a796c..2d19c9f 100644
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -265,8 +265,11 @@ time with the option "mds=". The valid arguments for this option are:
+ 
+   ============  =============================================================
+ 
+-Not specifying this option is equivalent to "mds=full".
+-
++Not specifying this option is equivalent to "mds=full". For processors
++that are affected by both TAA (TSX Asynchronous Abort) and MDS,
++specifying just "mds=off" without an accompanying "tsx_async_abort=off"
++will have no effect as the same mitigation is used for both
++vulnerabilities.
+ 
+ Mitigation selection guide
+ --------------------------
+diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+index fddbd75..af6865b 100644
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+@@ -174,7 +174,10 @@ the option "tsx_async_abort=". The valid arguments for this option are:
+                 CPU is not vulnerable to cross-thread TAA attacks.
+   ============  =============================================================
+ 
+-Not specifying this option is equivalent to "tsx_async_abort=full".
++Not specifying this option is equivalent to "tsx_async_abort=full". For
++processors that are affected by both TAA and MDS, specifying just
++"tsx_async_abort=off" without an accompanying "mds=off" will have no
++effect as the same mitigation is used for both vulnerabilities.
+ 
+ The kernel command line also allows to control the TSX feature using the
+ parameter "tsx=" on CPUs which support TSX control. MSR_IA32_TSX_CTRL is used
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 8dee8f6..9983ac7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2473,6 +2473,12 @@
+ 				     SMT on vulnerable CPUs
+ 			off        - Unconditionally disable MDS mitigation
+ 
++			On TAA-affected machines, mds=off can be prevented by
++			an active TAA mitigation as both vulnerabilities are
++			mitigated with the same mechanism so in order to disable
++			this mitigation, you need to specify tsx_async_abort=off
++			too.
++
+ 			Not specifying this option is equivalent to
+ 			mds=full.
+ 
+@@ -4931,6 +4937,11 @@
+ 				     vulnerable to cross-thread TAA attacks.
+ 			off        - Unconditionally disable TAA mitigation
+ 
++			On MDS-affected machines, tsx_async_abort=off can be
++			prevented by an active MDS mitigation as both vulnerabilities
++			are mitigated with the same mechanism so in order to disable
++			this mitigation, you need to specify mds=off too.
++
+ 			Not specifying this option is equivalent to
+ 			tsx_async_abort=full.  On CPUs which are MDS affected
+ 			and deploy MDS mitigation, TAA mitigation is not
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 4c7b0fa..cb513ea 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -304,8 +304,12 @@ static void __init taa_select_mitigation(void)
+ 		return;
+ 	}
+ 
+-	/* TAA mitigation is turned off on the cmdline (tsx_async_abort=off) */
+-	if (taa_mitigation == TAA_MITIGATION_OFF)
++	/*
++	 * TAA mitigation via VERW is turned off if both
++	 * tsx_async_abort=off and mds=off are specified.
++	 */
++	if (taa_mitigation == TAA_MITIGATION_OFF &&
++	    mds_mitigation == MDS_MITIGATION_OFF)
+ 		goto out;
+ 
+ 	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
+@@ -339,6 +343,15 @@ static void __init taa_select_mitigation(void)
+ 	if (taa_nosmt || cpu_mitigations_auto_nosmt())
+ 		cpu_smt_disable(false);
+ 
++	/*
++	 * Update MDS mitigation, if necessary, as the mds_user_clear is
++	 * now enabled for TAA mitigation.
++	 */
++	if (mds_mitigation == MDS_MITIGATION_OFF &&
++	    boot_cpu_has_bug(X86_BUG_MDS)) {
++		mds_mitigation = MDS_MITIGATION_FULL;
++		mds_select_mitigation();
++	}
+ out:
+ 	pr_info("%s\n", taa_strings[taa_mitigation]);
+ }
