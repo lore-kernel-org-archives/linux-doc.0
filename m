@@ -3,222 +3,245 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 515D77D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 12:25:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC3BC7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Nov 2019 14:37:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727474AbfKPMZg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Nov 2019 07:25:36 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:45368 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727471AbfKPMZg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 07:25:36 -0500
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tip-bot2@linutronix.de>)
-        id 1iVx8h-0002om-T0; Sat, 16 Nov 2019 13:25:20 +0100
-Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 86FDB1C1923;
-        Sat, 16 Nov 2019 13:25:19 +0100 (CET)
-Date:   Sat, 16 Nov 2019 12:25:19 -0000
-From:   "tip-bot2 for Waiman Long" <tip-bot2@linutronix.de>
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: x86/pti] x86/speculation: Fix incorrect MDS/TAA mitigation status
-Cc:     Waiman Long <longman@redhat.com>, Borislav Petkov <bp@suse.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
-        <stable@vger.kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Tyler Hicks <tyhicks@canonical.com>, "x86-ml" <x86@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20191115161445.30809-2-longman@redhat.com>
-References: <20191115161445.30809-2-longman@redhat.com>
+        id S1727669AbfKPOhj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Nov 2019 09:37:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54510 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727617AbfKPOhj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 09:37:39 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAGEVkQx112602
+        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 09:37:37 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2wae4tq2t9-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 09:37:37 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Sat, 16 Nov 2019 14:37:35 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 16 Nov 2019 14:37:33 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xAGEbWvw54001876
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 16 Nov 2019 14:37:32 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 67ACBA405C;
+        Sat, 16 Nov 2019 14:37:32 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9B1A9A4054;
+        Sat, 16 Nov 2019 14:37:30 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.71.109])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Sat, 16 Nov 2019 14:37:30 +0000 (GMT)
+Subject: Re: [PATCH v3 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_*
+ sysfs files
+To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+Cc:     mpe@ellerman.id.au, corbet@lwn.net, mahesh@linux.vnet.ibm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org, hbathini@linux.ibm.com
+References: <20191109122339.20484-1-sourabhjain@linux.ibm.com>
+ <20191109122339.20484-3-sourabhjain@linux.ibm.com>
+ <20191109125933.GF1384@kitsune.suse.cz>
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+Date:   Sat, 16 Nov 2019 20:07:29 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Message-ID: <157390711950.12247.3359773169258462200.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+In-Reply-To: <20191109125933.GF1384@kitsune.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19111614-0028-0000-0000-000003B7EE84
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19111614-0029-0000-0000-0000247B0282
+Message-Id: <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-16_04:2019-11-15,2019-11-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ suspectscore=0 clxscore=1015 spamscore=0 impostorscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911160137
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following commit has been merged into the x86/pti branch of tip:
 
-Commit-ID:     64870ed1b12e235cfca3f6c6da75b542c973ff78
-Gitweb:        https://git.kernel.org/tip/64870ed1b12e235cfca3f6c6da75b542c973ff78
-Author:        Waiman Long <longman@redhat.com>
-AuthorDate:    Fri, 15 Nov 2019 11:14:44 -05:00
-Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Sat, 16 Nov 2019 13:17:49 +01:00
 
-x86/speculation: Fix incorrect MDS/TAA mitigation status
+On 11/9/19 6:29 PM, Michal Suchánek wrote:
+> On Sat, Nov 09, 2019 at 05:53:37PM +0530, Sourabh Jain wrote:
+>> As the number of FADump sysfs files increases it is hard to manage all of
+>> them inside /sys/kernel directory. It's better to have all the FADump
+>> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
+>> order to maintain the backward compatibility the /sys/kernel/fadump_*
+>> sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
+>> removed in future.
+>>
+>> As the FADump sysfs files are now part of dedicated directory there is no
+>> need to prefix their name with fadump_, hence sysfs file names are also
+>> updated. For example fadump_enabled sysfs file is now referred as enabled.
+>>
+>> Also consolidate ABI documentation for all the FADump sysfs files in a
+>> single file Documentation/ABI/testing/sysfs-kernel-fadump.
+>>
+>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+>> ---
+>>  Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
+>>  arch/powerpc/kernel/fadump.c                  | 38 +++++++++++++++++
+>>  arch/powerpc/platforms/powernv/opal-core.c    | 10 +++--
+>>  3 files changed, 86 insertions(+), 3 deletions(-)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
+>> new file mode 100644
+>> index 000000000000..a77f1a5ba389
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
+>> @@ -0,0 +1,41 @@
+>> +What:		/sys/kernel/fadump/*
+>> +Date:		Nov 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:
+>> +		The /sys/kernel/fadump/* is a collection of FADump sysfs
+>> +		file provide information about the configuration status
+>> +		of Firmware Assisted Dump (FADump).
+>> +
+>> +What:		/sys/kernel/fadump/enabled
+>> +Date:		Nov 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:	read only
+>> +		Primarily used to identify whether the FADump is enabled in
+>> +		the kernel or not.
+>> +User:		Kdump service
+>> +
+>> +What:		/sys/kernel/fadump/registered
+>> +Date:		Nov 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:	read/write
+>> +		Helps to control the dump collect feature from userspace.
+>> +		Setting 1 to this file enables the system to collect the
+>> +		dump and 0 to disable it.
+>> +User:		Kdump service
+>> +
+>> +What:		/sys/kernel/fadump/release_mem
+>> +Date:		Nov 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:	write only
+>> +		This is a special sysfs file and only available when
+>> +		the system is booted to capture the vmcore using FADump.
+>> +		It is used to release the memory reserved by FADump to
+>> +		save the crash dump.
+>> +
+>> +What:		/sys/kernel/fadump/release_opalcore
+>> +Date:		Nov 2019
+>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>> +Description:	write only
+>> +		The sysfs file is available when the system is booted to
+>> +		collect the dump on OPAL based machine. It used to release
+>> +		the memory used to collect the opalcore.
+>> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
+>> index ed59855430b9..a9591def0c84 100644
+>> --- a/arch/powerpc/kernel/fadump.c
+>> +++ b/arch/powerpc/kernel/fadump.c
+>> @@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
+>>  	return 0;
+>>  }
+>>  
+>> +struct kobject *fadump_kobj;
+>> +EXPORT_SYMBOL_GPL(fadump_kobj);
+>> +
+>>  static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
+>>  						0200, NULL,
+>>  						fadump_release_memory_store);
+>> @@ -1428,6 +1431,16 @@ static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
+>>  						0644, fadump_register_show,
+>>  						fadump_register_store);
+>>  
+>> +static struct kobj_attribute release_attr = __ATTR(release_mem,
+>> +						0200, NULL,
+>> +						fadump_release_memory_store);
+>> +static struct kobj_attribute enable_attr = __ATTR(enabled,
+>> +						0444, fadump_enabled_show,
+>> +						NULL);
+>> +static struct kobj_attribute register_attr = __ATTR(registered,
+>> +						0644, fadump_register_show,
+>> +						fadump_register_store);
+>> +
+>>  DEFINE_SHOW_ATTRIBUTE(fadump_region);
+>>  
+>>  static void fadump_init_files(void)
+>> @@ -1435,6 +1448,11 @@ static void fadump_init_files(void)
+>>  	struct dentry *debugfs_file;
+>>  	int rc = 0;
+>>  
+>> +	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
+>> +	if (!fadump_kobj) {
+>> +		pr_err("failed to create fadump kobject\n");
+>> +		return;
+>> +	}
+>>  	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
+>>  	if (rc)
+>>  		printk(KERN_ERR "fadump: unable to create sysfs file"
+>> @@ -1458,6 +1476,26 @@ static void fadump_init_files(void)
+>>  			printk(KERN_ERR "fadump: unable to create sysfs file"
+>>  				" fadump_release_mem (%d)\n", rc);
+>>  	}
+>> +	/* Replicating the following sysfs attributes under FADump kobject.
+>> +	 *
+>> +	 *	- fadump_enabled -> enabled
+>> +	 *	- fadump_registered -> registered
+>> +	 *	- fadump_release_mem -> release_mem
+>> +	 */
+>> +	rc = sysfs_create_file(fadump_kobj, &enable_attr.attr);
+>> +	if (rc)
+>> +		pr_err("unable to create enabled sysfs file (%d)\n",
+>> +		       rc);
+>> +	rc = sysfs_create_file(fadump_kobj, &register_attr.attr);
+>> +	if (rc)
+>> +		pr_err("unable to create registered sysfs file (%d)\n",
+>> +		       rc);
+>> +	if (fw_dump.dump_active) {
+>> +		rc = sysfs_create_file(fadump_kobj, &release_attr.attr);
+>> +		if (rc)
+>> +			pr_err("unable to create release_mem sysfs file (%d)\n",
+>> +			       rc);
+>> +	}
+>>  	return;
+>>  }
+> Hello,
+> 
 
-For MDS vulnerable processors with TSX support, enabling either MDS or
-TAA mitigations will enable the use of VERW to flush internal processor
-buffers at the right code path. IOW, they are either both mitigated
-or both not. However, if the command line options are inconsistent,
-the vulnerabilites sysfs files may not report the mitigation status
-correctly.
+I’m so sorry for taking this long to write you back. 
 
-For example, with only the "mds=off" option:
+> wouldn't it make more sense to create the files in the new location and
+> add a symlink at the old location?
 
-  vulnerabilities/mds:Vulnerable; SMT vulnerable
-  vulnerabilities/tsx_async_abort:Mitigation: Clear CPU buffers; SMT vulnerable
+There are APIs which allow to create a symlink for an entire kobject but
+I did not find a way to create symlink of an individual sysfs file.
 
-The mds vulnerabilities file has wrong status in this case. Similarly,
-the taa vulnerability file will be wrong with mds mitigation on, but
-taa off.
+Do you have any approach in mind to achieve the same?
 
-Change taa_select_mitigation() to sync up the two mitigation status
-and have them turned off if both "mds=off" and "tsx_async_abort=off"
-are present.
 
-Update documentation to emphasize the fact that both "mds=off" and
-"tsx_async_abort=off" have to be specified together for processors that
-are affected by both TAA and MDS to be effective.
+> Also your error messages aren't really readeable. Without the fadump_
+> prefix it's not clear what's going on here. Perhaps quoting the file
+> name and saying fadump somewhere in the message would be useful.
 
- [ bp: Massage and add kernel-parameters.txt change too. ]
+The pr_err function will prefix the error message with fadump: string.
+I think that will solve the above issue.
 
-Fixes: 1b42f017415b ("x86/speculation/taa: Add mitigation for TSX Async Abort")
-Signed-off-by: Waiman Long <longman@redhat.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jiri Kosina <jkosina@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: Mark Gross <mgross@linux.intel.com>
-Cc: <stable@vger.kernel.org>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Tyler Hicks <tyhicks@canonical.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20191115161445.30809-2-longman@redhat.com
----
- Documentation/admin-guide/hw-vuln/mds.rst             |  7 ++--
- Documentation/admin-guide/hw-vuln/tsx_async_abort.rst |  5 ++-
- Documentation/admin-guide/kernel-parameters.txt       | 11 ++++++-
- arch/x86/kernel/cpu/bugs.c                            | 17 ++++++++--
- 4 files changed, 35 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
-index e3a796c..2d19c9f 100644
---- a/Documentation/admin-guide/hw-vuln/mds.rst
-+++ b/Documentation/admin-guide/hw-vuln/mds.rst
-@@ -265,8 +265,11 @@ time with the option "mds=". The valid arguments for this option are:
- 
-   ============  =============================================================
- 
--Not specifying this option is equivalent to "mds=full".
--
-+Not specifying this option is equivalent to "mds=full". For processors
-+that are affected by both TAA (TSX Asynchronous Abort) and MDS,
-+specifying just "mds=off" without an accompanying "tsx_async_abort=off"
-+will have no effect as the same mitigation is used for both
-+vulnerabilities.
- 
- Mitigation selection guide
- --------------------------
-diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-index fddbd75..af6865b 100644
---- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-+++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-@@ -174,7 +174,10 @@ the option "tsx_async_abort=". The valid arguments for this option are:
-                 CPU is not vulnerable to cross-thread TAA attacks.
-   ============  =============================================================
- 
--Not specifying this option is equivalent to "tsx_async_abort=full".
-+Not specifying this option is equivalent to "tsx_async_abort=full". For
-+processors that are affected by both TAA and MDS, specifying just
-+"tsx_async_abort=off" without an accompanying "mds=off" will have no
-+effect as the same mitigation is used for both vulnerabilities.
- 
- The kernel command line also allows to control the TSX feature using the
- parameter "tsx=" on CPUs which support TSX control. MSR_IA32_TSX_CTRL is used
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8dee8f6..9983ac7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2473,6 +2473,12 @@
- 				     SMT on vulnerable CPUs
- 			off        - Unconditionally disable MDS mitigation
- 
-+			On TAA-affected machines, mds=off can be prevented by
-+			an active TAA mitigation as both vulnerabilities are
-+			mitigated with the same mechanism so in order to disable
-+			this mitigation, you need to specify tsx_async_abort=off
-+			too.
-+
- 			Not specifying this option is equivalent to
- 			mds=full.
- 
-@@ -4931,6 +4937,11 @@
- 				     vulnerable to cross-thread TAA attacks.
- 			off        - Unconditionally disable TAA mitigation
- 
-+			On MDS-affected machines, tsx_async_abort=off can be
-+			prevented by an active MDS mitigation as both vulnerabilities
-+			are mitigated with the same mechanism so in order to disable
-+			this mitigation, you need to specify mds=off too.
-+
- 			Not specifying this option is equivalent to
- 			tsx_async_abort=full.  On CPUs which are MDS affected
- 			and deploy MDS mitigation, TAA mitigation is not
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 4c7b0fa..cb513ea 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -304,8 +304,12 @@ static void __init taa_select_mitigation(void)
- 		return;
- 	}
- 
--	/* TAA mitigation is turned off on the cmdline (tsx_async_abort=off) */
--	if (taa_mitigation == TAA_MITIGATION_OFF)
-+	/*
-+	 * TAA mitigation via VERW is turned off if both
-+	 * tsx_async_abort=off and mds=off are specified.
-+	 */
-+	if (taa_mitigation == TAA_MITIGATION_OFF &&
-+	    mds_mitigation == MDS_MITIGATION_OFF)
- 		goto out;
- 
- 	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
-@@ -339,6 +343,15 @@ static void __init taa_select_mitigation(void)
- 	if (taa_nosmt || cpu_mitigations_auto_nosmt())
- 		cpu_smt_disable(false);
- 
-+	/*
-+	 * Update MDS mitigation, if necessary, as the mds_user_clear is
-+	 * now enabled for TAA mitigation.
-+	 */
-+	if (mds_mitigation == MDS_MITIGATION_OFF &&
-+	    boot_cpu_has_bug(X86_BUG_MDS)) {
-+		mds_mitigation = MDS_MITIGATION_FULL;
-+		mds_select_mitigation();
-+	}
- out:
- 	pr_info("%s\n", taa_strings[taa_mitigation]);
- }
+Thanks,
+
+Sourabh Jain
+
