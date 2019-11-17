@@ -1,198 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 282A97D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Nov 2019 01:32:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6764E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Nov 2019 01:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbfKQBcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Nov 2019 20:32:11 -0500
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:32752 "EHLO
-        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbfKQBcL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 20:32:11 -0500
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1725962AbfKQBdi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Nov 2019 20:33:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47634 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725308AbfKQBdh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 16 Nov 2019 20:33:37 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47FvSs61DGzKmTQ;
-        Sun, 17 Nov 2019 02:22:05 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id qBaie4flEFz9; Sun, 17 Nov 2019 02:21:59 +0100 (CET)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        dev@opencontainers.org, containers@lists.linux-foundation.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: [PATCH v17 09/13] namei: LOOKUP_IN_ROOT: chroot-like scoped resolution
-Date:   Sun, 17 Nov 2019 12:17:09 +1100
-Message-Id: <20191117011713.13032-10-cyphar@cyphar.com>
-In-Reply-To: <20191117011713.13032-1-cyphar@cyphar.com>
-References: <20191117011713.13032-1-cyphar@cyphar.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id F23F820730;
+        Sun, 17 Nov 2019 01:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573954417;
+        bh=TuZEBS3BGkg1+h4fg3BpHM79M3TKTBqF1gE4HKOwcDQ=;
+        h=In-Reply-To:References:Cc:To:Subject:From:Date:From;
+        b=xFHFW1nj7Q6pEsL8oOoBi1KkpYh+XvbwxjZSKWEqInpUsAOvxJSGpWG4IN6lqV5Me
+         HBhjWHR2bHWeASsjr22YUskVlvOMUzRB1YpJHLM/HZ43b+G+Mgq2vpQOWsha6eH9Cy
+         KbauVRTDrhe6QYuyz50xjbNcBGFu7RunUH75Z/Tc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1573812972-10529-2-git-send-email-alan.maguire@oracle.com>
+References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com> <1573812972-10529-2-git-send-email-alan.maguire@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        corbet@lwn.net, tytso@mit.edu, adilger.kernel@dilger.ca,
+        mcgrof@kernel.org, changbin.du@intel.com,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>
+To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
+        linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v4 linux-kselftest-test 1/6] kunit: move string-stream.h to lib/kunit
+From:   Stephen Boyd <sboyd@kernel.org>
+User-Agent: alot/0.8.1
+Date:   Sat, 16 Nov 2019 17:33:36 -0800
+Message-Id: <20191117013336.F23F820730@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-/* Background. */
-Container runtimes or other administrative management processes will
-often interact with root filesystems while in the host mount namespace,
-because the cost of doing a chroot(2) on every operation is too
-prohibitive (especially in Go, which cannot safely use vfork). However,
-a malicious program can trick the management process into doing
-operations on files outside of the root filesystem through careful
-crafting of symlinks.
+Quoting Alan Maguire (2019-11-15 02:16:07)
+> string-stream interfaces are not intended for external use;
+> move them from include/kunit to lib/kunit accordingly.
+>=20
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> Signed-off-by: Knut Omang <knut.omang@oracle.com>
 
-Most programs that need this feature have attempted to make this process
-safe, by doing all of the path resolution in userspace (with symlinks
-being scoped to the root of the malicious root filesystem).
-Unfortunately, this method is prone to foot-guns and usually such
-implementations have subtle security bugs.
+The sign off chain is incorrect here. Is Knut tag supposed to be
+Co-developed-by?=20
 
-Thus, what userspace needs is a way to resolve a path as though it were
-in a chroot(2) -- with all absolute symlinks being resolved relative to
-the dirfd root (and ".." components being stuck under the dirfd root).
-It is much simpler and more straight-forward to provide this
-functionality in-kernel (because it can be done far more cheaply and
-correctly).
+> diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+> index db6a0fc..ad889b5 100644
+> --- a/include/kunit/assert.h
+> +++ b/include/kunit/assert.h
+> @@ -9,10 +9,11 @@
+>  #ifndef _KUNIT_ASSERT_H
+>  #define _KUNIT_ASSERT_H
+> =20
+> -#include <kunit/string-stream.h>
+>  #include <linux/err.h>
+> +#include <linux/kernel.h>
 
-More classical applications that also have this problem (which have
-their own potentially buggy userspace path sanitisation code) include
-web servers, archive extraction tools, network file servers, and so on.
+Why is this included now?
 
-/* Userspace API. */
-LOOKUP_IN_ROOT will be exposed to userspace through openat2(2).
-
-/* Semantics. */
-Unlike most other LOOKUP flags (most notably LOOKUP_FOLLOW),
-LOOKUP_IN_ROOT applies to all components of the path.
-
-With LOOKUP_IN_ROOT, any path component which attempts to cross the
-starting point of the pathname lookup (the dirfd passed to openat) will
-remain at the starting point. Thus, all absolute paths and symlinks will
-be scoped within the starting point.
-
-There is a slight change in behaviour regarding pathnames -- if the
-pathname is absolute then the dirfd is still used as the root of
-resolution of LOOKUP_IN_ROOT is specified (this is to avoid obvious
-foot-guns, at the cost of a minor API inconsistency).
-
-As with LOOKUP_BENEATH, Jann's security concern about ".."[1] applies to
-LOOKUP_IN_ROOT -- therefore ".." resolution is blocked. This restriction
-will be lifted in a future patch, but requires more work to ensure that
-permitting ".." is done safely.
-
-Magic-link jumps are also blocked, because they can beam the path lookup
-across the starting point. It would be possible to detect and block
-only the "bad" crossings with path_is_under() checks, but it's unclear
-whether it makes sense to permit magic-links at all. However, userspace
-is recommended to pass LOOKUP_NO_MAGICLINKS if they want to ensure that
-magic-link crossing is entirely disabled.
-
-/* Testing. */
-LOOKUP_IN_ROOT is tested as part of the openat2(2) selftests.
-
-[1]: https://lore.kernel.org/lkml/CAG48ez1jzNvxB+bfOBnERFGp=oMM0vHWuLD6EULmne3R6xa53w@mail.gmail.com/
-
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- fs/namei.c            | 10 +++++++---
- include/linux/namei.h |  3 ++-
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/fs/namei.c b/fs/namei.c
-index 3f7bb22c375d..a6196786db13 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2289,13 +2289,16 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 
- 	nd->m_seq = read_seqbegin(&mount_lock);
- 
--	/* Figure out the starting path and root (if needed). */
--	if (*s == '/') {
-+	/* Absolute pathname -- fetch the root (LOOKUP_IN_ROOT uses nd->dfd). */
-+	if (*s == '/' && !(flags & LOOKUP_IN_ROOT)) {
- 		error = nd_jump_root(nd);
- 		if (unlikely(error))
- 			return ERR_PTR(error);
- 		return s;
--	} else if (nd->dfd == AT_FDCWD) {
-+	}
-+
-+	/* Relative pathname -- get the starting-point it is relative to. */
-+	if (nd->dfd == AT_FDCWD) {
- 		if (flags & LOOKUP_RCU) {
- 			struct fs_struct *fs = current->fs;
- 			unsigned seq;
-@@ -2335,6 +2338,7 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 		}
- 		fdput(f);
- 	}
-+
- 	/* For scoped-lookups we need to set the root to the dirfd as well. */
- 	if (flags & LOOKUP_IS_SCOPED) {
- 		nd->root = nd->path;
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 93dad378f1e8..93151e47ec47 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -45,8 +45,9 @@ enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT, LAST_BIND};
- #define LOOKUP_NO_MAGICLINKS	0x020000 /* No nd_jump_link() crossing. */
- #define LOOKUP_NO_XDEV		0x040000 /* No mountpoint crossing. */
- #define LOOKUP_BENEATH		0x080000 /* No escaping from starting point. */
-+#define LOOKUP_IN_ROOT		0x100000 /* Treat dirfd as fs root. */
- /* LOOKUP_* flags which do scope-related checks based on the dirfd. */
--#define LOOKUP_IS_SCOPED LOOKUP_BENEATH
-+#define LOOKUP_IS_SCOPED (LOOKUP_BENEATH | LOOKUP_IN_ROOT)
- 
- extern int path_pts(struct path *path);
- 
--- 
-2.24.0
-
+> =20
+>  struct kunit;
+> +struct string_stream;
+> =20
+>  /**
+>   * enum kunit_assert_type - Type of expectation/assertion.
