@@ -1,128 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4ED027D90F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Nov 2019 04:58:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A08E7D90D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Nov 2019 17:25:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbfKQE6B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Nov 2019 23:58:01 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36288 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfKQE6B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Nov 2019 23:58:01 -0500
-Received: by mail-pg1-f193.google.com with SMTP id k13so7924142pgh.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2019 20:58:01 -0800 (PST)
+        id S1726032AbfKQRZC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Nov 2019 12:25:02 -0500
+Received: from mail-pl1-f170.google.com ([209.85.214.170]:34420 "EHLO
+        mail-pl1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726028AbfKQRZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Nov 2019 12:25:01 -0500
+Received: by mail-pl1-f170.google.com with SMTP id h13so8307261plr.1;
+        Sun, 17 Nov 2019 09:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=jEgcbLffHvInuudf1yxHrJupAep1eByuwcjffM5aOvc=;
-        b=a/3JWGztuOAbEsz9msqcvd9nTRMEET4rlDcOuI2gbNGMsUc12lezwTIotPcZPOfSto
-         WDi5TpG/Dhh3/PhkjsSe8K0caDhzTdWV9Ir3B2mTcbDgcN1gP5L8a2a/PS28n1mLqGIb
-         E9XApBJBUbMjJDcX/eMUarB1Kq+0ywGsq056YIUuRivb8eah0lfGIw/Tv5L8De3BPQq/
-         Sq3E34e12B05O3owK+5JN4t70jRFeU7aphHF66OaAXuF/z6vKcEyq4xax3RxrLBllcLa
-         r32x8vNm73s5/CYifOwU370+nfyeFLqm6o67TT9FvgcfAJELoLuIZXY2W2eo5sVVAjrD
-         vjEg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3mg4B929k021pDFFZfZsroPj1OaELDXqTHfnRQbTk54=;
+        b=rAL3k/nR/SyEPeEbXtfeNLh/FPCVC8U5jI5UxoS5O2wt/SWbQfTDzpq2IwCqqF5bgv
+         D9y0NIbIFCqhNRC5wIEy7xHOeE5VeWo1VREBftV3hh6eFq6G+so00raV/zXd7LcP/1Wd
+         15pnQJrO8OSrSBAUFfpnV0zJOSC7/cAuWB/LvpQ6EsrMVeCEgQ2GkvLFElXmugM9taP0
+         WYhaxU7605IBSmY4wsR/K75YbYFtS7mCPdkjrdJb7Uz8vYGAXo8HWLKgn+rF9esD17TV
+         +kTNkVkPaQ/AmB+dbnGXxIKxiyzXPm6frkG6D/Q7XldaC600YxX9lp8asHtFZm2Vm7Cy
+         4cdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=jEgcbLffHvInuudf1yxHrJupAep1eByuwcjffM5aOvc=;
-        b=f0suna0OXkFfQ1siTm+YbWnqtqY31BRZ2IkKYg+ojYJV4HBccLt/wf1MrZRbRypmTt
-         M7RneCJKa+nlHSCkMPY7fDbv39wxEP/GW65KBVDdqSuLNpNogzdOXkGKpHpJkRcH7wpg
-         TFv6jfqag9qgydCI9dyTvYbhZn92fMz7uzboROEitwY/dddzijhB+MYDwC37CeJo0qs/
-         WsaI+k+efuvyEOlNMWqNu1z1/VkXC9F3O2uxDpxV+5smu12hbXVQGv3lK51/reV9oxVV
-         sBRVCmccslfaLz8pO5hdyQkTFArB7koQg/4c/UGJOUQoTUaisFcw8vcMeTysApitnloP
-         7zCw==
-X-Gm-Message-State: APjAAAUwhnrQOrCL7TY/7t+a1hN+OEXSIQfzBqrx0q2/HhcDb1y5pe01
-        30jD7K+THQgxGf9WFbLhfDTS8w==
-X-Google-Smtp-Source: APXvYqw/trc/1O1AypH6tmLPpsAPixu8z/SqLT0y6hDUX8FDf31UAw3DYcCxUKNNRS/lE8JtSappkQ==
-X-Received: by 2002:a63:1f08:: with SMTP id f8mr8309321pgf.145.1573966680566;
-        Sat, 16 Nov 2019 20:58:00 -0800 (PST)
-Received: from localhost ([2600:1011:b043:4c6e:3bc6:3ed3:dc27:5ef3])
-        by smtp.gmail.com with ESMTPSA id j20sm15436653pff.182.2019.11.16.20.57.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3mg4B929k021pDFFZfZsroPj1OaELDXqTHfnRQbTk54=;
+        b=fix3I07H/EE7T3Cw7qfUTFuHBmC0D5OL0Ivtv+oI/6EVTwbOl9CdUyd4ZwqrxuYwOf
+         sj91n9CZRqUhdjoW8u4FSf7OrCqgSTHy1hdro2HFmdmE/7+sShhxHTKKs00bYac+DmMB
+         W/3FyyCooYXswwW3RpNrgE3G99QDbZsDA0TJH3pGIKWIpHsLt0nZ+moxMmHDiqtu9FuH
+         oCzwGYEvNdnB3E96Gau8QY/mQ3+EzGVHYlPeuIG/GZPtK/M4/lWVPrjFAzqa/Ol9HSkZ
+         wD+nqKgxOmWyFmd9dge9tppbwcSO+W7V666sG0xF0uDCC2ra+q1voh+ic2gEaXLc8e2U
+         jjhA==
+X-Gm-Message-State: APjAAAVs2oeC0l6KRkpvlIFxFow/lcWzb/HyW9Mkt/907w0D9jgIcYqQ
+        iwVhJ6ofElHO05KEhYlg3d8=
+X-Google-Smtp-Source: APXvYqxzEgApSa2STdoF9ak0XLXHbwK/CwNWTpJRxaegReLY76KfXH1CVtwoe36fbS9tpOpEq4GVAQ==
+X-Received: by 2002:a17:90a:634a:: with SMTP id v10mr34135336pjs.4.1574011500915;
+        Sun, 17 Nov 2019 09:25:00 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:1662:ba74:f9a6:2aa3:8a9a:5581])
+        by smtp.googlemail.com with ESMTPSA id x13sm18146302pfc.46.2019.11.17.09.24.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Nov 2019 20:58:00 -0800 (PST)
-Date:   Sat, 16 Nov 2019 20:57:55 -0800 (PST)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     dvyukov@google.com, glider@google.com, aryabinin@virtuozzo.com
-cc:     Nick Hu <nickhu@andestech.com>, corbet@lwn.net, palmer@sifive.com,
-        aou@eecs.berkeley.edu, tglx@linutronix.de,
-        gregkh@linuxfoundation.org, alankao@andestech.com,
-        Anup.Patel@wdc.com, atish.patra@wdc.com,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-mm@kvack.org, green.hu@gmail.com
-Subject: Re: [PATCH v4 1/3] kasan: No KASAN's memmove check if archs don't
- have it.
-In-Reply-To: <20191028024101.26655-2-nickhu@andestech.com>
-Message-ID: <alpine.DEB.2.21.9999.1911162055490.21209@viisi.sifive.com>
-References: <20191028024101.26655-1-nickhu@andestech.com> <20191028024101.26655-2-nickhu@andestech.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        Sun, 17 Nov 2019 09:25:00 -0800 (PST)
+From:   Jaskaran Singh <jaskaransingh7654321@gmail.com>
+To:     corbet@lwn.net
+Cc:     raven@themaw.net, akpm@linux-foundation.org,
+        jaskaransingh7654321@gmail.com, mchehab+samsung@kernel.org,
+        neilb@suse.com, christian@brauner.io, mszeredi@redhat.com,
+        ebiggers@google.com, tobin@kernel.org, stefanha@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: [PATCH v2 0/3] docs: filesystems: convert autofs.txt to reST
+Date:   Sun, 17 Nov 2019 22:54:33 +0530
+Message-Id: <20191117172436.8831-1-jaskaransingh7654321@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Andrey, Alexander, Dmitry,
+The following patch series is for converting autofs.txt to reST, and
+updating some of the content.
 
-On Mon, 28 Oct 2019, Nick Hu wrote:
+Changes from v1:
+----------------
+- Split patch into multiple logical changes as per Jonathan Corbet's
+  request.
+- Few more formatting changes and fixes, as pointed out by Jonathan.
+- Add short description of master map used by autofs.
 
-> If archs don't have memmove then the C implementation from lib/string.c is used,
-> and then it's instrumented by compiler. So there is no need to add KASAN's
-> memmove to manual checks.
-> 
-> Signed-off-by: Nick Hu <nickhu@andestech.com>
-
-If you're happy with this revision of this patch, could you please ack it 
-so we can merge it as part of the RISC-V KASAN patch set? 
-
-Or if you'd prefer to take this patch yourself, please let me know.
-
-
-- Paul
-
-> ---
->  mm/kasan/common.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 6814d6d6a023..897f9520bab3 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -107,6 +107,7 @@ void *memset(void *addr, int c, size_t len)
->  	return __memset(addr, c, len);
->  }
->  
-> +#ifdef __HAVE_ARCH_MEMMOVE
->  #undef memmove
->  void *memmove(void *dest, const void *src, size_t len)
->  {
-> @@ -115,6 +116,7 @@ void *memmove(void *dest, const void *src, size_t len)
->  
->  	return __memmove(dest, src, len);
->  }
-> +#endif
->  
->  #undef memcpy
->  void *memcpy(void *dest, const void *src, size_t len)
-> -- 
-> 2.17.0
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> 
+ autofs.rst |  273 ++++++++++++++++++++++++++++++++-----------------------------
+ index.rst  |    1 
+ 2 files changed, 148 insertions(+), 126 deletions(-)
 
 
-- Paul
