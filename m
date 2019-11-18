@@ -1,127 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 717207D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 17:32:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 352347D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 17:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfKRRcg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 12:32:36 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:60890 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbfKRRcg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 12:32:36 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAIHOlrR167573;
-        Mon, 18 Nov 2019 17:31:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : in-reply-to : message-id : references : mime-version :
- content-type; s=corp-2019-08-05;
- bh=fWYXVHNMGwzk76eEZvx0wQOORGxMzV4ZZmWutwdTNzU=;
- b=Q5GHLqOYfoRD2LBmmxZ4kiwYWBh8AWPj0SB2Z3g4mFTDqRw9Flq35LRrJ2/t248iDQQ3
- vFuZ+0waQZOwR+Z3NE5LzA/MCdaVk/S6TF0cyXfeJa9Jyr5XyhE+vVf1zTAgzmfyI3jc
- FTLivj2WUYPiwMrv9u9TV8BrhJwDGUi5wVsEbuSTkvtx4Sl1x/EVZpddEDfaMpMS/6AF
- 8qDwYjC66Grn3t32XQvuajrTDL9P6HwBLdpaAomWolKjE3zu7Rf9xXM37PKezu1lLVPj
- r6MhS7VO/vt3nw79XH3sd+Iyk7HPu2/pAa2lGkteW6E6MhK5WuJxJXzHle7btIyWPv4X gw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2wa92phqga-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Nov 2019 17:31:09 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAIHOe7T174690;
-        Mon, 18 Nov 2019 17:31:08 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2watjxwr9y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Nov 2019 17:31:08 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xAIHV3s9028994;
-        Mon, 18 Nov 2019 17:31:03 GMT
-Received: from dhcp-10-175-206-139.vpn.oracle.com (/10.175.206.139)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 18 Nov 2019 09:31:03 -0800
-Date:   Mon, 18 Nov 2019 17:30:48 +0000 (GMT)
-From:   Alan Maguire <alan.maguire@oracle.com>
-X-X-Sender: alan@dhcp-10-175-206-139.vpn.oracle.com
-To:     Stephen Boyd <sboyd@kernel.org>
-cc:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
-        linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
-        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
-        corbet@lwn.net, tytso@mit.edu, adilger.kernel@dilger.ca,
-        mcgrof@kernel.org, changbin.du@intel.com,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 linux-kselftest-test 2/6] kunit: hide unexported
- try-catch interface in try-catch-impl.h
-In-Reply-To: <20191117013606.4541D207DD@mail.kernel.org>
-Message-ID: <alpine.LRH.2.20.1911181728530.1562@dhcp-10-175-206-139.vpn.oracle.com>
-References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com> <1573812972-10529-3-git-send-email-alan.maguire@oracle.com> <20191117013606.4541D207DD@mail.kernel.org>
-User-Agent: Alpine 2.20 (LRH 67 2015-01-07)
+        id S1726705AbfKRRlH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 12:41:07 -0500
+Received: from ms.lwn.net ([45.79.88.28]:60096 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726475AbfKRRlH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Nov 2019 12:41:07 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 42294378;
+        Mon, 18 Nov 2019 17:41:06 +0000 (UTC)
+Date:   Mon, 18 Nov 2019 10:41:05 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     andriy.shevchenko@intel.com, prarit@redhat.com,
+        rafael.j.wysocki@intel.co, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH] admin guide/pm: Admin guide for intel-speed-select
+Message-ID: <20191118104105.11776f58@lwn.net>
+In-Reply-To: <20191115204925.55181-1-srinivas.pandruvada@linux.intel.com>
+References: <20191115204925.55181-1-srinivas.pandruvada@linux.intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911180150
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911180150
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 16 Nov 2019, Stephen Boyd wrote:
-> Quoting Alan Maguire (2019-11-15 02:16:08)
-> > diff --git a/lib/kunit/try-catch-impl.h b/lib/kunit/try-catch-impl.h
-> > new file mode 100644
-> > index 0000000..e308d5c
-> > --- /dev/null
-> > +++ b/lib/kunit/try-catch-impl.h
-> > @@ -0,0 +1,28 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * An API to allow a function, that may fail, to be executed, and recover in a
+On Fri, 15 Nov 2019 12:49:25 -0800
+Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+
+> Added documentation to configure servers to use Intel(R) Speed
+> Select Technology using intel-speed-select tool.
 > 
-> This file is not an API. Maybe just say "Internal kunit try catch
-> implementation details to be shared with tests".
->
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Thanks for the review! Will fix this, along with adding the
-"Co-developed-by:" for Knut and will remove the unneeded
-#include of linux/kernel.h in v5 mentioned in the patch
-1 review. Thanks again!
+Thanks for improving the docs!  I do have a few overall comments,
+though...  
 
-Alan
-
-> > + * controlled manner.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +
-> > +#ifndef _KUNIT_TRY_CATCH_IMPL_H
-> > +#define _KUNIT_TRY_CATCH_IMPL_H
-> > +
-> > +#include <kunit/try-catch.h>
-> > +#include <linux/types.h>
-> > +
-> > +struct kunit;
-> > +
-> > +static inline void kunit_try_catch_init(struct kunit_try_catch *try_catch,
-> > +                                       struct kunit *test,
-> > +                                       kunit_try_catch_func_t try,
+>  .../admin-guide/pm/intel-speed-select.rst     | 934 ++++++++++++++++++
+>  .../admin-guide/pm/working-state.rst          |   1 +
+>  2 files changed, 935 insertions(+)
+>  create mode 100644 Documentation/admin-guide/pm/intel-speed-select.rst
 > 
+> diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
+> new file mode 100644
+> index 000000000000..c2ce57ebc268
+> --- /dev/null
+> +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
+> @@ -0,0 +1,934 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================================================
+> +Intel® Speed Select Technology (Intel® SST) : User Guide
+> +=========================================================
+
+People give me grief when I take docs patches adding non-ascii characters.
+Adding nearly 100 useless ® symbols seems likely to trigger that sort of
+unicode aversion.  Can I ask you, please, to take those out?  There are
+many occurrences of unadorned "Intel" in the kernel, and the world hasn't
+ended yet.
+
+> +The Intel® Speed Select Technology (Intel® SST) provides a powerful new
+> +collection of features that give more granular control over CPU performance.
+> +With Intel® SST, one server can be configured for power and performance for a
+> +variety of diverse workload requirements.
+> +
+> +Refer to the links below for an overview of the technology:
+> +
+> +- https://www.intel.com/content/www/us/en/architecture-and-technology/speed-select-technology-article.html
+> +- https://builders.intel.com/docs/networkbuilders/intel-speed-select-technology-base-frequency-enhancing-performance.pdf
+> +
+> +These capabilities are further enhanced in some of the newer generations of
+> +server platforms where these features can be enumerated and controlled
+> +dynamically without pre-configuring via BIOS setup options. This dynamic
+> +configuration is done via mailbox commands to the hardware. One way to enumerate
+> +and configure these features is by using the Intel® Speed Select utility.
+> +
+> +This document explains how to use the Intel® Speed Select tool to enumerate and
+> +control Intel® SST features. This document gives example commands and explains
+> +how these commands change the power and performance profile of the system under
+> +test. Using this tool as an example, customers can replicate the messaging
+> +implemented in the tool in their production software.
+> +
+> +
+> +intel-speed-select configuration tool
+> +-------------------------------------
+
+The conventions for subsection markers are documented in
+Documentation/doc-guide/sphinx.rst; this should be "========" rather than
+hyphens. 
+
+> +Most Linux distribution packages include the "intel-speed-select" tool. If not,
+> +it can be built by downloading the Linux kernel tree from kernel.org. Once
+> +downloaded, the tool can be built without building the full kernel.
+> +
+> +From the kernel tree, run the following commands:
+> +
+> +# cd tools/power/x86/intel-speed-select/
+> +
+> +# make
+> +
+> +# make install
+
+This kind of stuff isn't going to render well in the built docs.  Can you
+please change the literal text to literal blocks?  Something like:
+
+	From the kernel tree, run the following commands::
+
+		# cd tools/power/x86/intel-speed-select/
+		# make
+		# make install
+
+Note the "::" on the first line; that introduces a literal block.  It would
+be good to build the docs once you're done and be sure that you're happy
+with the results.
+
+There's a lot of these in this document.
+
+> +
+> +**Getting Help**
+
+Since this is meant to be a section header, please mark it as such;
+"------" would be the appropriate marker for a header at this level.
+
+That's enough for a first pass.
+
+Thanks,
+
+jon
