@@ -3,206 +3,181 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D8B97D917
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 22:34:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B1BE47D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 22:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbfKRWeL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 17:34:11 -0500
-Received: from inva020.nxp.com ([92.121.34.13]:48876 "EHLO inva020.nxp.com"
+        id S1726809AbfKRWz4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 17:55:56 -0500
+Received: from mga01.intel.com ([192.55.52.88]:47353 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726272AbfKRWeL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Nov 2019 17:34:11 -0500
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id E58D11A0427;
-        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D7D651A03E7;
-        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
-Received: from fsr-ub1864-112.ea.freescale.net (fsr-ub1864-112.ea.freescale.net [10.171.82.98])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 705D220396;
-        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
-From:   Leonard Crestez <leonard.crestez@nxp.com>
-To:     Georgi Djakov <georgi.djakov@linaro.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Evan Green <evgreen@chromium.org>,
-        David Dai <daidavid1@codeaurora.org>,
-        Jordan Crouse <jcrouse@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2] interconnect: Add interconnect_graph file to debugfs
-Date:   Tue, 19 Nov 2019 00:34:01 +0200
-Message-Id: <6798d1469dd31609e76d13f5ac6249f7af48456a.1574116163.git.leonard.crestez@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1726705AbfKRWz4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Nov 2019 17:55:56 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 14:55:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,321,1569308400"; 
+   d="scan'208";a="407553765"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Nov 2019 14:55:55 -0800
+Message-ID: <bc93c261f04b74f709d4d320ef2f2af7bd167552.camel@linux.intel.com>
+Subject: Re: [PATCH] admin guide/pm: Admin guide for intel-speed-select
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     andriy.shevchenko@intel.com, prarit@redhat.com,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Date:   Mon, 18 Nov 2019 14:55:55 -0800
+In-Reply-To: <20191118104105.11776f58@lwn.net>
+References: <20191115204925.55181-1-srinivas.pandruvada@linux.intel.com>
+         <20191118104105.11776f58@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The interconnect graphs can be difficult to understand and the current
-"interconnect_summary" file doesn't even display links in any way.
+On Mon, 2019-11-18 at 10:41 -0700, Jonathan Corbet wrote:
+> On Fri, 15 Nov 2019 12:49:25 -0800
+> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+> 
+> > Added documentation to configure servers to use Intel(R) Speed
+> > Select Technology using intel-speed-select tool.
+> > 
+> > Signed-off-by: Srinivas Pandruvada <
+> > srinivas.pandruvada@linux.intel.com>
+> 
+> Thanks for improving the docs!  I do have a few overall comments,
+> though...  
+Thanks for the pointers below. I will work on this and submit again.
 
-Add a new "interconnect_graph" file to debugfs in the graphviz "dot"
-format which describes interconnect providers, nodes and links.
+-Srinivas
 
-The file is human-readable and can be visualized by piping through
-graphviz. Example:
-
-ssh $TARGET cat /sys/kernel/debug/interconnect/interconnect_graph \
-	| dot -Tsvg > interconnect_graph.svg
-
-Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- Documentation/driver-api/interconnect.rst | 23 ++++++++
- drivers/interconnect/core.c               | 66 +++++++++++++++++++++++
- 2 files changed, 89 insertions(+)
-
-Example output as a github gist:
-https://gist.github.com/cdleonard/2f74a7efe74587e3d4b57cf7983b46a8
-
-The qcs404 driver was hacked to probe on imx, the links to "0" seem to
-from incorrect trailing 0s on DEFINE_QNODE. Possibly fallout from
-switching to ARRAY_SIZE(__VA_ARGS__)?
-
-This makes it easier to understand the interconnect graph than just
-staring at registration code.
-
-Changes since RFC v1:
-* Document under driver-api/interconnect.rst
-* Collect reviews
-Link to v1: https://patchwork.kernel.org/patch/11242921/
-
-diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
-index cdeb5825f314..77a85aad8d2f 100644
---- a/Documentation/driver-api/interconnect.rst
-+++ b/Documentation/driver-api/interconnect.rst
-@@ -89,5 +89,28 @@ Interconnect consumers
- 
- Interconnect consumers are the clients which use the interconnect APIs to
- get paths between endpoints and set their bandwidth/latency/QoS requirements
- for these interconnect paths.  These interfaces are not currently
- documented.
-+
-+Interconnect debugfs interfaces
-+-------------------------------
-+
-+Like several other subsystems interconnect will create some files for debugging
-+and introspection. Files in debugfs are not considered ABI so application
-+software shouldn't rely on format details
-+change between kernel versions.
-+
-+``/sys/kernel/debug/interconnect/interconnect_summary``:
-+
-+Show all interconnect nodes in the system with their aggregated bandwith
-+request. Indented under each node show bandwith requests from each device.
-+
-+``/sys/kernel/debug/interconnect/interconnect_graph``:
-+
-+Show the interconnect graph in the graphviz dot format. It shows all
-+interconnect nodes and links in the system and groups together nodes from the
-+same provider as subgraphs. The format is human-readable and can also be piped
-+through dot to generate diagrams in many graphical formats::
-+
-+        $ cat /sys/kernel/debug/interconnect/interconnect_graph | \
-+                dot -Tsvg > interconnect_graph.svg
-diff --git a/drivers/interconnect/core.c b/drivers/interconnect/core.c
-index c498796adc07..07e91288c7f4 100644
---- a/drivers/interconnect/core.c
-+++ b/drivers/interconnect/core.c
-@@ -92,10 +92,74 @@ static int icc_summary_show(struct seq_file *s, void *data)
- 
- 	return 0;
- }
- DEFINE_SHOW_ATTRIBUTE(icc_summary);
- 
-+static void icc_graph_show_link(struct seq_file *s, int level,
-+				struct icc_node *n, struct icc_node *m)
-+{
-+	seq_printf(s, "%s\"%d:%s\" -> \"%d:%s\"\n",
-+			level == 2 ? "\t\t" : "\t",
-+			n->id, n->name, m->id, m->name);
-+}
-+
-+static void icc_graph_show_node(struct seq_file *s, struct icc_node *n)
-+{
-+	seq_printf(s, "\t\t\"%d:%s\" [label=\"%d:%s",
-+		   n->id, n->name, n->id, n->name);
-+	seq_printf(s, "\n\t\t\t|avg_bw=%ukBps", n->avg_bw);
-+	seq_printf(s, "\n\t\t\t|peak_bw=%ukBps", n->peak_bw);
-+	seq_puts(s, "\"]\n");
-+}
-+
-+static int icc_graph_show(struct seq_file *s, void *data)
-+{
-+	struct icc_provider *provider;
-+	struct icc_node *n;
-+	int cluster_index = 0;
-+	int i;
-+
-+	seq_puts(s, "digraph {\n\trankdir = LR\n\tnode [shape = record]\n");
-+	mutex_lock(&icc_lock);
-+
-+	/* draw providers as cluster subgraphs */
-+	cluster_index = 0;
-+	list_for_each_entry(provider, &icc_providers, provider_list) {
-+		seq_printf(s, "\tsubgraph cluster_%d {\n", ++cluster_index);
-+		if (provider->dev)
-+			seq_printf(s, "\t\tlabel = \"%s\"\n",
-+				   dev_name(provider->dev));
-+
-+		/* draw nodes */
-+		list_for_each_entry(n, &provider->nodes, node_list)
-+			icc_graph_show_node(s, n);
-+
-+		/* draw internal links */
-+		list_for_each_entry(n, &provider->nodes, node_list)
-+			for (i = 0; i < n->num_links; ++i)
-+				if (n->provider == n->links[i]->provider)
-+					icc_graph_show_link(s, 2, n,
-+							    n->links[i]);
-+
-+		seq_puts(s, "\t}\n");
-+	}
-+
-+	/* draw external links */
-+	list_for_each_entry(provider, &icc_providers, provider_list)
-+		list_for_each_entry(n, &provider->nodes, node_list)
-+			for (i = 0; i < n->num_links; ++i)
-+				if (n->provider != n->links[i]->provider)
-+					icc_graph_show_link(s, 1, n,
-+							    n->links[i]);
-+
-+	mutex_unlock(&icc_lock);
-+	seq_puts(s, "}");
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(icc_graph);
-+
- static struct icc_node *node_find(const int id)
- {
- 	return idr_find(&icc_idr, id);
- }
- 
-@@ -800,10 +864,12 @@ EXPORT_SYMBOL_GPL(icc_provider_del);
- static int __init icc_init(void)
- {
- 	icc_debugfs_dir = debugfs_create_dir("interconnect", NULL);
- 	debugfs_create_file("interconnect_summary", 0444,
- 			    icc_debugfs_dir, NULL, &icc_summary_fops);
-+	debugfs_create_file("interconnect_graph", 0444,
-+			    icc_debugfs_dir, NULL, &icc_graph_fops);
- 	return 0;
- }
- 
- static void __exit icc_exit(void)
- {
--- 
-2.17.1
+> 
+> >  .../admin-guide/pm/intel-speed-select.rst     | 934
+> > ++++++++++++++++++
+> >  .../admin-guide/pm/working-state.rst          |   1 +
+> >  2 files changed, 935 insertions(+)
+> >  create mode 100644 Documentation/admin-guide/pm/intel-speed-
+> > select.rst
+> > 
+> > diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst
+> > b/Documentation/admin-guide/pm/intel-speed-select.rst
+> > new file mode 100644
+> > index 000000000000..c2ce57ebc268
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
+> > @@ -0,0 +1,934 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=========================================================
+> > +Intel® Speed Select Technology (Intel® SST) : User Guide
+> > +=========================================================
+> 
+> People give me grief when I take docs patches adding non-ascii
+> characters.
+> Adding nearly 100 useless ® symbols seems likely to trigger that sort
+> of
+> unicode aversion.  Can I ask you, please, to take those out?  There
+> are
+> many occurrences of unadorned "Intel" in the kernel, and the world
+> hasn't
+> ended yet.
+> 
+> > +The Intel® Speed Select Technology (Intel® SST) provides a
+> > powerful new
+> > +collection of features that give more granular control over CPU
+> > performance.
+> > +With Intel® SST, one server can be configured for power and
+> > performance for a
+> > +variety of diverse workload requirements.
+> > +
+> > +Refer to the links below for an overview of the technology:
+> > +
+> > +- 
+> > https://www.intel.com/content/www/us/en/architecture-and-technology/speed-select-technology-article.html
+> > +- 
+> > https://builders.intel.com/docs/networkbuilders/intel-speed-select-technology-base-frequency-enhancing-performance.pdf
+> > +
+> > +These capabilities are further enhanced in some of the newer
+> > generations of
+> > +server platforms where these features can be enumerated and
+> > controlled
+> > +dynamically without pre-configuring via BIOS setup options. This
+> > dynamic
+> > +configuration is done via mailbox commands to the hardware. One
+> > way to enumerate
+> > +and configure these features is by using the Intel® Speed Select
+> > utility.
+> > +
+> > +This document explains how to use the Intel® Speed Select tool to
+> > enumerate and
+> > +control Intel® SST features. This document gives example commands
+> > and explains
+> > +how these commands change the power and performance profile of the
+> > system under
+> > +test. Using this tool as an example, customers can replicate the
+> > messaging
+> > +implemented in the tool in their production software.
+> > +
+> > +
+> > +intel-speed-select configuration tool
+> > +-------------------------------------
+> 
+> The conventions for subsection markers are documented in
+> Documentation/doc-guide/sphinx.rst; this should be "========" rather
+> than
+> hyphens. 
+> 
+> > +Most Linux distribution packages include the "intel-speed-select"
+> > tool. If not,
+> > +it can be built by downloading the Linux kernel tree from
+> > kernel.org. Once
+> > +downloaded, the tool can be built without building the full
+> > kernel.
+> > +
+> > +From the kernel tree, run the following commands:
+> > +
+> > +# cd tools/power/x86/intel-speed-select/
+> > +
+> > +# make
+> > +
+> > +# make install
+> 
+> This kind of stuff isn't going to render well in the built docs.  Can
+> you
+> please change the literal text to literal blocks?  Something like:
+> 
+> 	From the kernel tree, run the following commands::
+> 
+> 		# cd tools/power/x86/intel-speed-select/
+> 		# make
+> 		# make install
+> 
+> Note the "::" on the first line; that introduces a literal block.  It
+> would
+> be good to build the docs once you're done and be sure that you're
+> happy
+> with the results.
+> 
+> There's a lot of these in this document.
+> 
+> > +
+> > +**Getting Help**
+> 
+> Since this is meant to be a section header, please mark it as such;
+> "------" would be the appropriate marker for a header at this level.
+> 
+> That's enough for a first pass.
+> 
+> Thanks,
+> 
+> jon
 
