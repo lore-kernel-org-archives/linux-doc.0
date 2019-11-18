@@ -2,84 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F21817D918
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 21:30:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EA347D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 21:31:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbfKRVa1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 16:30:27 -0500
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:42885 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbfKRVa0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 16:30:26 -0500
-Received: by mail-qv1-f68.google.com with SMTP id n4so4108273qvq.9;
-        Mon, 18 Nov 2019 13:30:25 -0800 (PST)
+        id S1726767AbfKRVbq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 16:31:46 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45772 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbfKRVbq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 16:31:46 -0500
+Received: by mail-oi1-f196.google.com with SMTP id 14so16749940oir.12;
+        Mon, 18 Nov 2019 13:31:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LbsJsPA/M9c8jyXlIJ6RFJqXLIPPmiIR0pywnPS5lrg=;
-        b=YADiuJP2Bd7UWyIwWjxEG25hpZCGrSkXRvRh2FR2sL57R5Z6aVXaONG2niViPPIFYN
-         GBieZp5yA4IrKbbaGpfXkch7C1grB0Gkbyyp0tZwisrShXxbpOyrGPfHRTJsudVUnHCy
-         gyRt33zpp4zr1TuP8wFmn6xp084bkgJWaepf6RjLpxIeGPLQdExww6msMttyTLnG68vK
-         w9NbFwYRu46uBdK0lK5DqXX1bfZPV1cB/fopxPcvKB0sO3Pw6SoDFPIngUCt9usUeeIS
-         37Kh8+DnI5izfmbrYeiiWeRXX2AN2ayHqIo8YKpfpczhZTW5feOBq/7m9SEAXRfN9NYH
-         edpQ==
-X-Gm-Message-State: APjAAAWn4RHUlp45e/p9CV76SB6D37XrKDq/KWHx9+Z8rZ+H6uTqWPSP
-        IOi3lVLZOgZnsRwtpubAN3o=
-X-Google-Smtp-Source: APXvYqy/fZCPC24xRSzUWCH7JlKe2bWZMI2UsAiceAttN9T/hERdNGQMTcSAQma/5iD26J4R1zxRUg==
-X-Received: by 2002:a0c:edaa:: with SMTP id h10mr14479334qvr.245.1574112625257;
-        Mon, 18 Nov 2019 13:30:25 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id t65sm9191918qkh.99.2019.11.18.13.30.23
+        bh=xbx1aZAc7rEgW+5jmNWNB9eCM3V1hUlP5bh1eb6G9t0=;
+        b=Ij7n1/eydfk0zZOvD/IFpadDYXsjj5cen19dAseW15ySdK9P7XWvinmbYSFgolXnsH
+         cFI6KvHxvyuqybvd4S1DG+PKzXsqiR46P1+B0uYbN1dDFnM+sPulU7QEJsmNkn6g/t6E
+         s34W4EnLlyR8qB0DbcKIKjeR4gSHbOQgwKuWZAXa07zAqAVkUEfKQuRWJYsgk1hUuMMA
+         ma2DV+/HVMPMAmryRqu1lWYwntV8C0dWXXWKmH0FpWOl+jWLkbNmZWfMYPZPiyjzG2wt
+         6JoCiE8wptxBhCJ6V+s9Z2syP82XEfblTMgICopM8RcM+qKmqsUumvK41CcHqNG2ZZKK
+         ia8A==
+X-Gm-Message-State: APjAAAUlhe05/Jh/ffrH3CY2vb5ukotSmIdpsjre00nj+GZ6qBM+ESTe
+        oqxqRNirQ1CQdMdvm6/iBA==
+X-Google-Smtp-Source: APXvYqyR7y1hrlJ4jytE3hcnnWJKh7pNQWwf4SPEfjTTZiLHGSnGV6pvqvm5MiOkvQudiN4HaO1Aiw==
+X-Received: by 2002:aca:ed85:: with SMTP id l127mr967419oih.75.1574112704372;
+        Mon, 18 Nov 2019 13:31:44 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id d205sm6517189oig.28.2019.11.18.13.31.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 13:30:23 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 56299401EA; Mon, 18 Nov 2019 21:30:20 +0000 (UTC)
-Date:   Mon, 18 Nov 2019 21:30:20 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v8 3/8] firmware: Rename FW_OPT_NOFALLBACK to
- FW_OPT_NOFALLBACK_SYSFS
-Message-ID: <20191118213020.GH11244@42.do-not-panic.com>
-References: <20191115153529.215244-1-hdegoede@redhat.com>
- <20191115153529.215244-4-hdegoede@redhat.com>
+        Mon, 18 Nov 2019 13:31:43 -0800 (PST)
+Date:   Mon, 18 Nov 2019 15:31:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Eric Tremblay <etremblay@distech-controls.com>
+Cc:     linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net
+Subject: Re: [PATCH v8 1/2] dt-bindings: hwmon: Add TMP512/513
+Message-ID: <20191118213142.GA26376@bogus>
+References: <20191112223001.20844-1-etremblay@distech-controls.com>
+ <20191112223001.20844-2-etremblay@distech-controls.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191115153529.215244-4-hdegoede@redhat.com>
+In-Reply-To: <20191112223001.20844-2-etremblay@distech-controls.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 04:35:24PM +0100, Hans de Goede wrote:
-> This is a preparation patch for adding a new platform fallback mechanism,
-> which will have its own enable/disable FW_OPT_xxx option.
+On Tue, 12 Nov 2019 17:30:00 -0500, Eric Tremblay wrote:
+> Document the TMP513/512 device devicetree bindings
 > 
-> Note this also fixes a typo in one of the re-wordwrapped comments:
-> enfoce -> enforce.
+> Signed-off-by: Eric Tremblay <etremblay@distech-controls.com>
+> ---
+>  .../devicetree/bindings/hwmon/ti,tmp513.yaml  | 93 +++++++++++++++++++
+>  1 file changed, 93 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-
-  Luis
+Reviewed-by: Rob Herring <robh@kernel.org>
