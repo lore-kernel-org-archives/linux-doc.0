@@ -1,134 +1,195 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B27997D90D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 16:25:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD0897D90D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 17:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbfKRQZG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 11:25:06 -0500
-Received: from foss.arm.com ([217.140.110.172]:36762 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726216AbfKRQZG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Nov 2019 11:25:06 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D16DEDA7;
-        Mon, 18 Nov 2019 08:25:04 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 12FD93F703;
-        Mon, 18 Nov 2019 08:25:04 -0800 (PST)
-Date:   Mon, 18 Nov 2019 16:25:02 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com, Lee Jones <lee.jones@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        id S1726664AbfKRRSc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 12:18:32 -0500
+Received: from pietrobattiston.it ([92.243.7.39]:50946 "EHLO
+        jauntuale.pietrobattiston.it" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726068AbfKRRSc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 12:18:32 -0500
+X-Greylist: delayed 394 seconds by postgrey-1.27 at vger.kernel.org; Mon, 18 Nov 2019 12:18:30 EST
+Received: from amalgama (pno-math-19.ulb.ac.be [164.15.133.19])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: giovanni)
+        by jauntuale.pietrobattiston.it (Postfix) with ESMTPSA id 16B0BE0546;
+        Mon, 18 Nov 2019 18:11:57 +0100 (CET)
+Received: by amalgama (Postfix, from userid 1000)
+        id CD1053C0244; Mon, 18 Nov 2019 18:11:56 +0100 (CET)
+From:   Giovanni Mascellani <gio@debian.org>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Nicholas Mc Guire <hofrat@osadl.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
- regulator bindings
-Message-ID: <20191118162502.GJ9761@sirena.org.uk>
-References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
- <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Giovanni Mascellani <gio@debian.org>
+Subject: [PATCH v4 2/2] dell-smm-hwmon: Add documentation
+Date:   Mon, 18 Nov 2019 18:11:48 +0100
+Message-Id: <20191118171148.76373-2-gio@debian.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191118171148.76373-1-gio@debian.org>
+References: <20191118171148.76373-1-gio@debian.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8tZVdKiiYitVG083"
-Content-Disposition: inline
-In-Reply-To: <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
-X-Cookie: no maintenance:
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Part of the documentation is taken from the README of the userspace
+utils (https://github.com/vitorafsr/i8kutils). The license is GPL-2+
+and the author Massimo Dal Zotto is already credited as author of
+the module. Therefore there should be no copyright problem.
 
---8tZVdKiiYitVG083
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I also added a paragraph with specific information on the experimental
+support for automatic BIOS fan control.
 
-On Mon, Nov 18, 2019 at 08:53:57AM +0200, Matti Vaittinen wrote:
+Signed-off-by: Giovanni Mascellani <gio@debian.org>
+---
+ Documentation/hwmon/dell-smm-hwmon.rst | 112 +++++++++++++++++++++++++
+ Documentation/hwmon/index.rst          |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 Documentation/hwmon/dell-smm-hwmon.rst
 
-> +#Supported default DVS states:
-> +#buck		| run		| idle		| suspend	| lpsr
-> +#-----------------------------------------------------------------------=
------
-> +#1, 2, 6, and 7	| supported	| supported	| 	supported (*)
-> +#-----------------------------------------------------------------------=
------
-> +#3, 4, and 5	| 			supported (**)
-> +#-----------------------------------------------------------------------=
------
-> +#(*)  LPSR and SUSPEND states use same voltage but both states have own =
-enable /
-> +#     disable settings. Voltage 0 can be specified for a state to make r=
-egulator
-> +#     disabled on that state.
-> +#(**) All states use same voltage but have own enable / disable settings.
-> +#     Voltage 0 can be specified for a state to make regulator disabled =
-on that
-> +#     state.
-> +
-> +      rohm,dvs-runlvl-ctrl:
-> +        description: |
-> +          buck control is done based on run-level. Regulator is not
-> +          individually controllable. See ../mfd/rohm,bd71828-pmic.yaml f=
-or
-> +          how to specify run-level control mechanism. Only bucks 1, 2, 6
-> +          and 7 support this.
-> +        type: boolean
+diff --git a/Documentation/hwmon/dell-smm-hwmon.rst b/Documentation/hwmon/dell-smm-hwmon.rst
+new file mode 100644
+index 000000000000..f80d30d8a02a
+--- /dev/null
++++ b/Documentation/hwmon/dell-smm-hwmon.rst
+@@ -0,0 +1,112 @@
++Kernel driver dell-smm-hwmon
++============================
++
++Description
++-----------
++
++On many Dell laptops the System Management Mode (SMM) BIOS can be
++queried for the status of fans and temperature sensors. The userspace
++suite `i8kutils`__ can be used to read the sensors and automatically
++adjust fan speed.
++
++ __ https://github.com/vitorafsr/i8kutils
++
++``/proc`` interface
++-------------------
++
++The information provided by the kernel driver can be accessed by
++simply reading the ``/proc/i8k`` file. For example::
++
++    $ cat /proc/i8k
++    1.0 A17 2J59L02 52 2 1 8040 6420 1 2
++
++The fields read from ``/proc/i8k`` are::
++
++    1.0 A17 2J59L02 52 2 1 8040 6420 1 2
++    |   |   |       |  | | |    |    | |
++    |   |   |       |  | | |    |    | +------- 10. buttons status
++    |   |   |       |  | | |    |    +--------- 9.  AC status
++    |   |   |       |  | | |    +-------------- 8.  right fan rpm
++    |   |   |       |  | | +------------------- 7.  left fan rpm
++    |   |   |       |  | +--------------------- 6.  right fan status
++    |   |   |       |  +----------------------- 5.  left fan status
++    |   |   |       +-------------------------- 4.  CPU temperature (Celsius)
++    |   |   +---------------------------------- 3.  Dell service tag (later known as 'serial number')
++    |   +-------------------------------------- 2.  BIOS version
++    +------------------------------------------ 1.  /proc/i8k format version
++
++A negative value, for example -22, indicates that the BIOS doesn't
++return the corresponding information. This is normal on some
++models/BIOSes.
++
++For performance reasons the ``/proc/i8k`` doesn't report by default
++the AC status since this SMM call takes a long time to execute and is
++not really needed.  If you want to see the ac status in ``/proc/i8k``
++you must explictitly enable this option by passing the
++``power_status=1`` parameter to insmod. If AC status is not
++available -1 is printed instead.
++
++The driver provides also an ioctl interface which can be used to
++obtain the same information and to control the fan status. The ioctl
++interface can be accessed from C programs or from shell using the
++i8kctl utility. See the source file of ``i8kutils`` for more
++information on how to use the ioctl interface.
++
++``sysfs`` interface
++-------------------
++
++Temperature sensors and fans can also be queried and set via the
++standard ``hwmon`` interface on ``sysfs``.
++
++Disabling automatic BIOS fan control
++------------------------------------
++
++On some laptops, the BIOS automatically sets fan speed every few
++seconds. Therefore the fan speed set via ``/proc/i8k`` or via the
++``sysfs`` interface is quickly overwritten.
++
++There is experimental support for disabling automatic BIOS fan
++control, at least on laptops where the corresponding SMM command is
++known, by writing the value ``1`` in the attribute ``pwm1_enable``
++(writing ``2`` enables automatic BIOS control again). Even if you have
++more than one fan, all of them are set to either enabled or disabled
++automatic fan control at the same time and, notwithstanding the name,
++``pwm1_enable`` sets automatic control for all fans.
++
++If ``pwm1_enable`` is not available, then it means that SMM codes for
++enabling and disabling automatic BIOS fan control are not known for
++your laptop. You can experiment with the code in `this repository`__
++to probe the BIOS on your machine and discover the appropriate codes.
++
++ __ https://github.com/clopez/dellfan/
++
++Module parameters
++-----------------
++
++* force:bool
++                   Force loading without checking for supported
++                   models. (default: 0)
++
++* ignore_dmi:bool
++                   Continue probing hardware even if DMI data does not
++                   match. (default: 0)
++
++* restricted:bool
++                   Allow fan control only to processes with the
++                   ``CAP_SYS_ADMIN`` capability set or processes run
++                   as root. In this case normal users will be able to
++                   read temperature and fan status but not to control
++                   the fan.  If your notebook is shared with other
++                   users and you don't trust them you may want to use
++                   this option. (default: 1)
++
++* power_status:bool
++                   Report AC status in ``/proc/i8k``. (default: 0)
++
++* fan_mult:uint
++                   Factor to multiply fan speed with. (default:
++                   autodetect)
++
++* fan_max:uint
++                   Maximum configurable fan speed. (default:
++                   autodetect)
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 230ad59b462b..092435ad6bb8 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -44,6 +44,7 @@ Hardware Monitoring Kernel Drivers
+    coretemp
+    da9052
+    da9055
++   dell-smm-hwmon
+    dme1737
+    ds1621
+    ds620
+-- 
+2.24.0
 
-I don't think I saw this having the effect on set_voltage() that I'd
-have expected in the driver? =20
-
-> +      rohm,dvs-runlevel-microvolts:
-> +        minimum: 0
-> +        maximum: 2000000
-> +        maxItems: 4
-> +        description:
-> +          Array of voltages for run-levels. First value is for run-level=
- 0,
-> +          second for run-level 1 etc. Microvolts.
-
-What's the mapping from array indexes to the names used elsewhere to
-support runlevels?
-
---8tZVdKiiYitVG083
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3Sxd0ACgkQJNaLcl1U
-h9CCTwf/XyyhpE5QABB0yoyT4n2JEfyYggDTfnGhWaILUDJBNnJ7inK77EpoLaGL
-ybxABHwiIONAnVzWxn+N2THjqO+fbukf7LO6DvYe8FCfoaIz8A6qgGm+P9IC1CWw
-xeWdZwGwWh63iRZ+fR422SlmmNtykgb4QHUdvwEZ9fqMhqPgRGP6YWl5RSuCnC8R
-oE9SPG2GlA/I4kadkV6O503q496yvB6hLiOgXWZ3yWJY2uYNYJvn0sNpd+k0iZK4
-H4iyzLTOIUiD3RpLgNTPrmYXn1D/wClO+l2FqRjpzgq7tDO4xVyEOY8bTH9MrFoD
-36C7jhTJbW2tecxGFK5eemuG+i4Vxg==
-=mxuN
------END PGP SIGNATURE-----
-
---8tZVdKiiYitVG083--
