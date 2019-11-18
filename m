@@ -1,122 +1,208 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31E1F7D917
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 22:32:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D8B97D917
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Nov 2019 22:34:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbfKRWc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 17:32:27 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40932 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbfKRWc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 17:32:27 -0500
-Received: by mail-lj1-f194.google.com with SMTP id q2so20922409ljg.7
-        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2019 14:32:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WJhUfpuuirp/sd/RAPLx9plgAg3FJx8uqtM/2Mg1YyY=;
-        b=i0rSRrkYBvhmtOM9PtJnf5SMpjEzYaOFK+PFRSmfmeLqSd/wJa9JF1p/Rl/UAhsBSe
-         SmN/I8hbRhXuG3zRnG1rao19M8vcPaXuwvd8V7x6fVC5uHxb5WOHqMVAp3viQb8nzN7X
-         hLLwzcapMT4Q45BQTn9pEwMuL9I3GlWyA2TGmlO/GesDMECvLp+7K7gxNoZASAPuGXgk
-         3Eaq9Fqp0fXQtqLwL4xqQg34BGXv8578C8egNqeCBui28TAexcPiAMwYYxgR5hZZINIk
-         m2urDHzTskDOIXPDIuYMyhKRoEo/KBChl4zkIPFGvkWty+OeKHjTGGPrqNcbpn4eMOIL
-         6GAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WJhUfpuuirp/sd/RAPLx9plgAg3FJx8uqtM/2Mg1YyY=;
-        b=GDQKM4KGF5B1TpK+A/2QcOrlA25U5oDy2iGVRL64Ad/cqFiV1YEI8RAw30KyQYK8G3
-         djdriRF72Nh5Ysy/+Ew4aua3WEvgitdfnE+Al6zC+Z+ZhgHa8vITLAonpOhXNWFyT6eX
-         Iw9aW7CB4bfPZf8F4iIxmagGgYUSIZ3Wj8Sl4AUGiVr43Vi1hW6glqc3ss8aVYWILkD/
-         zQniQirmXSbwU2240nU1to40MbUeN4cQbvKysRCUrMDHCO46Wq3Vadl9JJSA1lSw5K45
-         LR2bAp2lrFcpE3g3K5YN9UCb0CFP2rUftXAbfcLExxPCIoP9wsGHXff7SHWUvYMgCtyl
-         XpLQ==
-X-Gm-Message-State: APjAAAVBp90tovbqlYHcJGolbT/xNarlctekstNQoh7/OHREsOkGzZLG
-        vIz+PJULKprNBzbU6EUEaU4NZQ==
-X-Google-Smtp-Source: APXvYqyEkIFcIqnt61ceiDjywPyojv1+Yux1fxm92GGEnBjYl1cDMkO+T08Rr6ePOH2urvNFsXp1BA==
-X-Received: by 2002:a05:651c:1139:: with SMTP id e25mr1299271ljo.200.1574116344094;
-        Mon, 18 Nov 2019 14:32:24 -0800 (PST)
-Received: from localhost.localdomain (c-79c8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.200.121])
-        by smtp.gmail.com with ESMTPSA id q11sm8839747ljm.107.2019.11.18.14.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 14:32:22 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: [PATCH v2] Documentation: Document how to get links with git am
-Date:   Mon, 18 Nov 2019 23:30:19 +0100
-Message-Id: <20191118223019.81708-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726647AbfKRWeL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 17:34:11 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:48876 "EHLO inva020.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726272AbfKRWeL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Nov 2019 17:34:11 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id E58D11A0427;
+        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D7D651A03E7;
+        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
+Received: from fsr-ub1864-112.ea.freescale.net (fsr-ub1864-112.ea.freescale.net [10.171.82.98])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 705D220396;
+        Mon, 18 Nov 2019 23:34:05 +0100 (CET)
+From:   Leonard Crestez <leonard.crestez@nxp.com>
+To:     Georgi Djakov <georgi.djakov@linaro.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Evan Green <evgreen@chromium.org>,
+        David Dai <daidavid1@codeaurora.org>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] interconnect: Add interconnect_graph file to debugfs
+Date:   Tue, 19 Nov 2019 00:34:01 +0200
+Message-Id: <6798d1469dd31609e76d13f5ac6249f7af48456a.1574116163.git.leonard.crestez@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds Kees' clever apply hook to the kernel documentation so
-it can be easily references when needed.
+The interconnect graphs can be difficult to understand and the current
+"interconnect_summary" file doesn't even display links in any way.
 
-Cc: Kees Cook <keescook@chromium.org>
-Link: https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-July/006608.html
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Make the document part of maintainer/configure-git.rst
-- Did not try to separate out to a standalone script file, the thing
-  needs to come with other command line interaction anyway
----
- Documentation/maintainer/configure-git.rst | 30 ++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Add a new "interconnect_graph" file to debugfs in the graphviz "dot"
+format which describes interconnect providers, nodes and links.
 
-diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
-index 78bbbb0d2c84..80ae5030a590 100644
---- a/Documentation/maintainer/configure-git.rst
-+++ b/Documentation/maintainer/configure-git.rst
-@@ -32,3 +32,33 @@ You may also like to tell ``gpg`` which ``tty`` to use (add to your shell rc fil
- ::
+The file is human-readable and can be visualized by piping through
+graphviz. Example:
+
+ssh $TARGET cat /sys/kernel/debug/interconnect/interconnect_graph \
+	| dot -Tsvg > interconnect_graph.svg
+
+Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ Documentation/driver-api/interconnect.rst | 23 ++++++++
+ drivers/interconnect/core.c               | 66 +++++++++++++++++++++++
+ 2 files changed, 89 insertions(+)
+
+Example output as a github gist:
+https://gist.github.com/cdleonard/2f74a7efe74587e3d4b57cf7983b46a8
+
+The qcs404 driver was hacked to probe on imx, the links to "0" seem to
+from incorrect trailing 0s on DEFINE_QNODE. Possibly fallout from
+switching to ARRAY_SIZE(__VA_ARGS__)?
+
+This makes it easier to understand the interconnect graph than just
+staring at registration code.
+
+Changes since RFC v1:
+* Document under driver-api/interconnect.rst
+* Collect reviews
+Link to v1: https://patchwork.kernel.org/patch/11242921/
+
+diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
+index cdeb5825f314..77a85aad8d2f 100644
+--- a/Documentation/driver-api/interconnect.rst
++++ b/Documentation/driver-api/interconnect.rst
+@@ -89,5 +89,28 @@ Interconnect consumers
  
- 	export GPG_TTY=$(tty)
+ Interconnect consumers are the clients which use the interconnect APIs to
+ get paths between endpoints and set their bandwidth/latency/QoS requirements
+ for these interconnect paths.  These interfaces are not currently
+ documented.
 +
++Interconnect debugfs interfaces
++-------------------------------
 +
-+Creating commit links to lore.kernel.org
-+----------------------------------------
++Like several other subsystems interconnect will create some files for debugging
++and introspection. Files in debugfs are not considered ABI so application
++software shouldn't rely on format details
++change between kernel versions.
 +
-+The web site http://lore.kernel.org is meant as a grand archive of all mail
-+list traffic concerning or influencing the kernel development. Storing archives
-+of patches here is a recommended practice, and when a maintainer applies a
-+patch to a subsystem tree, it is a good idea to provide a Link: tag with a
-+reference back to the lore archive so that people that browse the commit
-+history can find related discussions and rationale behind a certain change.
-+The link tag will look like this:
++``/sys/kernel/debug/interconnect/interconnect_summary``:
 +
-+    Link: https://lore.kernel.org/r/<message-id>
++Show all interconnect nodes in the system with their aggregated bandwith
++request. Indented under each node show bandwith requests from each device.
 +
-+This can be configured to happen automatically any time you issue ``git am``
-+by adding the following hook into your git:
++``/sys/kernel/debug/interconnect/interconnect_graph``:
 +
-+.. code-block:: none
++Show the interconnect graph in the graphviz dot format. It shows all
++interconnect nodes and links in the system and groups together nodes from the
++same provider as subgraphs. The format is human-readable and can also be piped
++through dot to generate diagrams in many graphical formats::
 +
-+	$ git config am.messageid true
-+	$ cat >.git/hooks/applypatch-msg <<'EOF'
-+	#!/bin/sh
-+	. git-sh-setup
-+	perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
-+	test -x "$GIT_DIR/hooks/commit-msg" &&
-+		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
-+	:
-+	EOF
-+	$ chmod a+x .git/hooks/applypatch-msg
++        $ cat /sys/kernel/debug/interconnect/interconnect_graph | \
++                dot -Tsvg > interconnect_graph.svg
+diff --git a/drivers/interconnect/core.c b/drivers/interconnect/core.c
+index c498796adc07..07e91288c7f4 100644
+--- a/drivers/interconnect/core.c
++++ b/drivers/interconnect/core.c
+@@ -92,10 +92,74 @@ static int icc_summary_show(struct seq_file *s, void *data)
+ 
+ 	return 0;
+ }
+ DEFINE_SHOW_ATTRIBUTE(icc_summary);
+ 
++static void icc_graph_show_link(struct seq_file *s, int level,
++				struct icc_node *n, struct icc_node *m)
++{
++	seq_printf(s, "%s\"%d:%s\" -> \"%d:%s\"\n",
++			level == 2 ? "\t\t" : "\t",
++			n->id, n->name, m->id, m->name);
++}
++
++static void icc_graph_show_node(struct seq_file *s, struct icc_node *n)
++{
++	seq_printf(s, "\t\t\"%d:%s\" [label=\"%d:%s",
++		   n->id, n->name, n->id, n->name);
++	seq_printf(s, "\n\t\t\t|avg_bw=%ukBps", n->avg_bw);
++	seq_printf(s, "\n\t\t\t|peak_bw=%ukBps", n->peak_bw);
++	seq_puts(s, "\"]\n");
++}
++
++static int icc_graph_show(struct seq_file *s, void *data)
++{
++	struct icc_provider *provider;
++	struct icc_node *n;
++	int cluster_index = 0;
++	int i;
++
++	seq_puts(s, "digraph {\n\trankdir = LR\n\tnode [shape = record]\n");
++	mutex_lock(&icc_lock);
++
++	/* draw providers as cluster subgraphs */
++	cluster_index = 0;
++	list_for_each_entry(provider, &icc_providers, provider_list) {
++		seq_printf(s, "\tsubgraph cluster_%d {\n", ++cluster_index);
++		if (provider->dev)
++			seq_printf(s, "\t\tlabel = \"%s\"\n",
++				   dev_name(provider->dev));
++
++		/* draw nodes */
++		list_for_each_entry(n, &provider->nodes, node_list)
++			icc_graph_show_node(s, n);
++
++		/* draw internal links */
++		list_for_each_entry(n, &provider->nodes, node_list)
++			for (i = 0; i < n->num_links; ++i)
++				if (n->provider == n->links[i]->provider)
++					icc_graph_show_link(s, 2, n,
++							    n->links[i]);
++
++		seq_puts(s, "\t}\n");
++	}
++
++	/* draw external links */
++	list_for_each_entry(provider, &icc_providers, provider_list)
++		list_for_each_entry(n, &provider->nodes, node_list)
++			for (i = 0; i < n->num_links; ++i)
++				if (n->provider != n->links[i]->provider)
++					icc_graph_show_link(s, 1, n,
++							    n->links[i]);
++
++	mutex_unlock(&icc_lock);
++	seq_puts(s, "}");
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(icc_graph);
++
+ static struct icc_node *node_find(const int id)
+ {
+ 	return idr_find(&icc_idr, id);
+ }
+ 
+@@ -800,10 +864,12 @@ EXPORT_SYMBOL_GPL(icc_provider_del);
+ static int __init icc_init(void)
+ {
+ 	icc_debugfs_dir = debugfs_create_dir("interconnect", NULL);
+ 	debugfs_create_file("interconnect_summary", 0444,
+ 			    icc_debugfs_dir, NULL, &icc_summary_fops);
++	debugfs_create_file("interconnect_graph", 0444,
++			    icc_debugfs_dir, NULL, &icc_graph_fops);
+ 	return 0;
+ }
+ 
+ static void __exit icc_exit(void)
+ {
 -- 
-2.23.0
+2.17.1
 
