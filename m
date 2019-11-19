@@ -1,149 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4396B7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 18:13:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4DD927D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 18:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfKSSN3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 13:13:29 -0500
-Received: from foss.arm.com ([217.140.110.172]:56452 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726510AbfKSSN3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Nov 2019 13:13:29 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42F481FB;
-        Tue, 19 Nov 2019 10:13:28 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B16B3F703;
-        Tue, 19 Nov 2019 10:13:27 -0800 (PST)
-Date:   Tue, 19 Nov 2019 18:13:25 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "hofrat@osadl.org" <hofrat@osadl.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>
-Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
- regulator bindings
-Message-ID: <20191119181325.GD3634@sirena.org.uk>
-References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
- <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
- <20191118162502.GJ9761@sirena.org.uk>
- <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+        id S1726948AbfKSSg3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 13:36:29 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:39762 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726711AbfKSSg2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 13:36:28 -0500
+Received: by mail-pj1-f66.google.com with SMTP id t103so2957822pjb.6
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 10:36:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cqd1PZl4Bd7PEGTyuVkaWzR8dbBXh+gC15PgfLfD0Zw=;
+        b=vVGW3EfTq7IwmL6p+BTaKa+qb54m/uF752AGPg8O3AB19vr2fJ/XiITO6xRm37/htM
+         wgspP/qnrZ1knIUwpY9LkcSAxvEW7iwhMFr5lE+KUXiSfqUzYWgLg9s2yaZu0etKbwbl
+         4vPlCLufd/3gzStPsWsGMNY7I1o6en96LUpHN/Y0QlKwMSABDJk/uQmFIVMjQ0F1eiNk
+         1DXuJ4+1FQK3UILFjofyOz+sf4XqFrOkSyZVopEKE/90f1tx+zZBAwopmSMT6fJUCUmt
+         iuodJG/jzNR98u9s3lij09Ql46xDCZn8QZ5zpDUnSXzbMtU9uA7PJrsByrH5UVZbeSrQ
+         FI0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cqd1PZl4Bd7PEGTyuVkaWzR8dbBXh+gC15PgfLfD0Zw=;
+        b=jpnICr/f5538pbIH7mc4Bs9FwdzYDB1MSBce/dZ0EWawOteKVCVKFT0dEVHJYYyrTM
+         7wfl7HLWumwgH4/Px/qAW8XYVdFE+avOnlImKk6Y43Np+j6BEHrOfKWSJzGY8ONVRSex
+         fnzLVOIBC443uhZdHqYfI4qNHkgm9BbUBZ1Zna1gNJ/1NApGKtOcN3VVRGsU3ScPk/LN
+         2PKtRl1Htmj5VfXSKkx4iWKE/yXTNCVrIDLp32RhuF3gjYClaMWCnFtd1Y4sKh1yi8Eh
+         +rT4GHZ+9b48LjfJ5bMl6fmTtTc3QnZS4c46U5KK3uZ1L12ztoJGLsFepHHwBNayCHLK
+         u90Q==
+X-Gm-Message-State: APjAAAUM/CKqn2qivyYfALKj3vBU4VcUVLbjcCGCSHiGKfO4RSsbDW0B
+        V+abYevdCeXn80aDaOgvePwKoIQx3sJIzwgusORRTg==
+X-Google-Smtp-Source: APXvYqwntEoFXFSkd8roeQK4Vfw0pBJCXkLH0R0JAgVf2MFOls4Cp8WPWrVjsoHG2ZZbgV3p9gNovSTX97zEa+suatw=
+X-Received: by 2002:a17:90a:d155:: with SMTP id t21mr8032255pjw.84.1574188587517;
+ Tue, 19 Nov 2019 10:36:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="llIrKcgUOe3dCx0c"
-Content-Disposition: inline
-In-Reply-To: <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
-X-Cookie: Beam me up, Scotty!  It ate my phaser!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com>
+ <1573812972-10529-2-git-send-email-alan.maguire@oracle.com> <20191117013336.F23F820730@mail.kernel.org>
+In-Reply-To: <20191117013336.F23F820730@mail.kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 19 Nov 2019 10:36:15 -0800
+Message-ID: <CAFd5g44115hPDMJNWPnyLZ_3zJMBzA+6MHxCLCA1ddkYipDtkA@mail.gmail.com>
+Subject: Re: [PATCH v4 linux-kselftest-test 1/6] kunit: move string-stream.h
+ to lib/kunit
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Alan Maguire <alan.maguire@oracle.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>, adilger.kernel@dilger.ca,
+        Luis Chamberlain <mcgrof@kernel.org>, changbin.du@intel.com,
+        linux-ext4@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Nov 16, 2019 at 5:33 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Alan Maguire (2019-11-15 02:16:07)
+> > string-stream interfaces are not intended for external use;
+> > move them from include/kunit to lib/kunit accordingly.
+> >
+> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+>
+> The sign off chain is incorrect here. Is Knut tag supposed to be
+> Co-developed-by?
 
---llIrKcgUOe3dCx0c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am not sure what the relationship between Alan and Knut on this
+patch. Nevertheless, Signed-off-by is required either way, but it
+seems that Co-developed-by is optional depending on how Alan and Knut
+would like to share credit for this patch, at least that is based on
+my reading of the submitting patches guide:
 
-On Mon, Nov 18, 2019 at 06:03:42PM +0000, Vaittinen, Matti wrote:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
 
-> It's nice to hear from you again :) I hope you're enjoying all the new
-> things :)
+> > diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+> > index db6a0fc..ad889b5 100644
+> > --- a/include/kunit/assert.h
+> > +++ b/include/kunit/assert.h
+> > @@ -9,10 +9,11 @@
+> >  #ifndef _KUNIT_ASSERT_H
+> >  #define _KUNIT_ASSERT_H
+> >
+> > -#include <kunit/string-stream.h>
+> >  #include <linux/err.h>
+> > +#include <linux/kernel.h>
+>
+> Why is this included now?
 
-:)
+Nice catch! I think I would have missed that.
 
-> On Mon, 2019-11-18 at 16:25 +0000, Mark Brown wrote:
-> > On Mon, Nov 18, 2019 at 08:53:57AM +0200, Matti Vaittinen wrote:
+> >
+> >  struct kunit;
+> > +struct string_stream;
+> >
+> >  /**
+> >   * enum kunit_assert_type - Type of expectation/assertion.
 
-> > I don't think I saw this having the effect on set_voltage() that I'd
-> > have expected in the driver? =20
-
-> The support for this is added in patch 12. I should've ordered the
-> patch series so that all regulator patches were one after another.
-> Sorry for that.
-> The patch 12 adds the run-level support. Please see the functions
-> get_runcontrolled_bucks_dt(),
-> mark_regulator_runlvl_controlled() (sets the g->runlvl)
-> and set_buck_runlvl_controlled() (called based on g->runlvl)
-> which changes the ops to disallow setters and to get voltage based on
-> current runlevel - and different ops depending on if runlevels are
-> controlled by GPIO or I2C. Additionally set_buck_runlvl_controlled()
-> adds DT parsing call-back for setting the initial voltages.
-
-Ah, OK.  I didn't even notice that patch when I scanned the series.
-I'll look out for this next time around but that sounds like it's
-generally going in the right direction, especially if it's integrated
-with the suspend mode regulator bindings that Chunyan did.
-
-> > > +        minimum: 0
-> > > +        maximum: 2000000
-> > > +        maxItems: 4
-> > > +        description:
-> > > +          Array of voltages for run-levels. First value is for
-> > > run-level 0,
-> > > +          second for run-level 1 etc. Microvolts.
-
-> > What's the mapping from array indexes to the names used elsewhere to
-> > support runlevels?
-
-> Hmm. Sorry Mark, I don't think I follow your question. Do you mean
-> names like LPSR, SUSPEND, IDLE, RUN? If so, then I might need to
-> rephrase this. The runlevels referred here are different from LPSR,
-> SUSPEND, IDLE etc. They are actually 'sub-levels' for PMIC's RUN state.
-> Eg, kind of a 'fast way' to change voltages for multiple power rails
-> when SoC is at RUN state. The names I have seen are RUN0, RUN1, RUN2
-> and RUN3. That mapping is described in description above.
-
-Yes, I think this needs clarification as I completely failed to pick up
-on this and did indeed read this as referring to the modes.  "Voltages
-that can be set in RUN mode" or something?  I take it these voltages are
-fixed and the OS can't change them?
-
---llIrKcgUOe3dCx0c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3UMMUACgkQJNaLcl1U
-h9DsnQf9H7LkN3pf6vXdSLnZFaW2fiJIGf+Sk/WnqSyYD4zxVm0xlQ1OPVmWaRv+
-KQ4LEN9/ZqHA3KmCWJrtPLm9R5lXwu2VefYDJVkwb+Rlczpg7nusSr8qSFqi3C48
-UhWSGJy/myipQixFnlucne58SDANqnA/R+WxvPW8Q+PLsFgWmm/MjBF2YCVmrFv+
-R3K8G+POKe4GWkC6E8ISlWHG1YAcFYljMwXCwhex20OxEyuQhzWQ4HFfvbd9OVhe
-lxawOmHk0Oh/pNkB9LX42CnI3oBv6hRc2O0No9kOWWxfTOJuJyRz3N/YlI5EVDzS
-oJ8uCa7FF9f8mnmVxN27sGy7pKAFZQ==
-=lX/d
------END PGP SIGNATURE-----
-
---llIrKcgUOe3dCx0c--
+Cheers!
