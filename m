@@ -1,167 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FA327D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 07:00:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D9C87D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 07:12:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727491AbfKSHAg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 02:00:36 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14990 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726792AbfKSHAg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 02:00:36 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd3930f0000>; Mon, 18 Nov 2019 23:00:32 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 23:00:34 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 18 Nov 2019 23:00:34 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 07:00:34 +0000
-Subject: Re: [PATCH v5 02/24] mm/gup: factor out duplicate code from four
- routines
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1726620AbfKSHMl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 02:12:41 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39398 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbfKSHMk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 02:12:40 -0500
+Received: by mail-pf1-f195.google.com with SMTP id x28so11703153pfo.6
+        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2019 23:12:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SOkEaxvoeuRDKKO9iEeAXK3d8jDrm2+Y0YFp9RHvoAo=;
+        b=nuNOMTdV6cqA5xhs04CNCftYPLjSdTjJ0ePCPMCc3uiZcs4YCBMy9ZamdEurSipKqb
+         B7qbTtqSkuv+cFtd5XGfPFzEAOygMAUU6PfcUq9+XWmSNfghnDQd5F7MZO2RpEtgPBO4
+         pY9GDSzO29EdOQ3rQOPPXttJfNyhL/qzEK/UbIBzD0EktqXFkIZukEz6uYOhqO/XpJSv
+         CZVM33HewLSdQwXu5Sk//1CSz1ZkVkWtwDNAv2TM14cIkWzrIAXJHvymtQVGDfQtyKZ4
+         Gy6ZtONETM6pOH2ZXJaQ3hbDHkgWZ1LaHoK8pE6aiIh13lYEHwfU8H2bnK85SCTR2yLA
+         qJ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=SOkEaxvoeuRDKKO9iEeAXK3d8jDrm2+Y0YFp9RHvoAo=;
+        b=FILOf4xlPWW/QGEYD/IFWgGJYt+RNYJOFaPjUnP/8TkpYnZHFcSLYiVauqtCkwHCxM
+         QbgrakaoZsoCmroSGYdDTfbCfEKQkxeXrzcXldpHUwXbHfOJE8VHE83vy1K/QzuMFnB6
+         OMokyT1n8DKTBaITU+pFbAOUELfZ7hOoHBruKwXRAny2wQsA/DkbhGUz136UyZir+dm+
+         YtuSgJZ32dRqz+bRQ2pUHYRN8jSVu8nr5wDuUYvK8FI5Yf2a/4GJBi+Wtrk6F9CXUuU/
+         ZAAiZTz3mRycPPzp24fM7nu3f+LdyXxfUq71JiVwls6SFBsPryuJjprdjoi2N+KjAaNq
+         YZKQ==
+X-Gm-Message-State: APjAAAUzj/+CkrBAe4k7aCvw22O3cg6BHh+1D8k5pId8jn1H6I7PjTyF
+        XxmaUdWfUqsGO4Qq5tStmuVh6w==
+X-Google-Smtp-Source: APXvYqwFnemtfhSeFTtXNTKp5S2y3O1/8DNvV3VlNu9ve+aPwic4dTdlBLzDttqWkR7TRM8xvN2dTQ==
+X-Received: by 2002:a63:68c3:: with SMTP id d186mr3516436pgc.301.1574147559580;
+        Mon, 18 Nov 2019 23:12:39 -0800 (PST)
+Received: from linaro.org ([121.95.100.191])
+        by smtp.googlemail.com with ESMTPSA id j7sm1931994pjz.12.2019.11.18.23.12.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Nov 2019 23:12:38 -0800 (PST)
+Date:   Tue, 19 Nov 2019 16:13:42 +0900
+From:   AKASHI Takahiro <takahiro.akashi@linaro.org>
+To:     Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
+Cc:     Bhupesh Sharma <bhsharma@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
+        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
         Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-References: <20191115055340.1825745-1-jhubbard@nvidia.com>
- <20191115055340.1825745-3-jhubbard@nvidia.com>
- <20191118094604.GC17319@quack2.suse.cz>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <152e2ea9-edd9-f868-7731-ff467d692f5f@nvidia.com>
-Date:   Mon, 18 Nov 2019 23:00:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>, x86@kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>
+Subject: Re: [PATCH v4 0/3] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
+ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Message-ID: <20191119071341.GW22427@linaro.org>
+Mail-Followup-To: AKASHI Takahiro <takahiro.akashi@linaro.org>,
+        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
+        Bhupesh Sharma <bhsharma@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
+        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>, x86@kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>
+References: <1573459282-26989-1-git-send-email-bhsharma@redhat.com>
+ <20191113063858.GE22427@linaro.org>
+ <CACi5LpP54d9DKW63G5W6X4euBjAm2NwkHOiM01dB7g8d60s=4w@mail.gmail.com>
+ <20191115015959.GI22427@linaro.org>
+ <CAJ2QiJJOSspLKRh+jRB_o0o9nmeAsiFKzxGJ8R0pYPRM4iptmw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191118094604.GC17319@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574146832; bh=u3YCRE77HsuXbqK9BxFmzDLl8JhQHMG9gXXaYRfagTQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=OHB+eUp2jQQmHLrGYBTtAkydhQax1jgPbRIdqXv/zT7mJheOoxm2jC/o00J+31bDd
-         psR1uWZTYTlZpkmYbJIlMzoHbpxnwxoe7ZrZ8UMQNDddfR1HU1k+hUj3JCOx3ZRd5b
-         XT8Ag7PAkGX6G4pIQ7geJmQblkDOtgu1RTN+An2f8z0fTBevVuF5GINewI0N+iPfcv
-         YgagSYh5LQVW6KL8izWZSAMBRDSFlAEl3uHonusWk1CkuRAUgvh73saFcEMPgIKbUo
-         7msrJOumHG3EP3Mzt2Z3Dov3XH2Wq2MWpaj0JPNxYk4UIQaUft9LMOT0FAc0/WGi6i
-         OtciRBna4adWA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ2QiJJOSspLKRh+jRB_o0o9nmeAsiFKzxGJ8R0pYPRM4iptmw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/18/19 1:46 AM, Jan Kara wrote:
-> On Thu 14-11-19 21:53:18, John Hubbard wrote:
->> There are four locations in gup.c that have a fair amount of code
->> duplication. This means that changing one requires making the same
->> changes in four places, not to mention reading the same code four
->> times, and wondering if there are subtle differences.
->>
->> Factor out the common code into static functions, thus reducing the
->> overall line count and the code's complexity.
->>
->> Also, take the opportunity to slightly improve the efficiency of the
->> error cases, by doing a mass subtraction of the refcount, surrounded
->> by get_page()/put_page().
->>
->> Also, further simplify (slightly), by waiting until the the successful
->> end of each routine, to increment *nr.
->>
->> Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
->> Cc: Jan Kara <jack@suse.cz>
->> Cc: Ira Weiny <ira.weiny@intel.com>
->> Cc: Christoph Hellwig <hch@lst.de>
->> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
->> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->> ---
->>  mm/gup.c | 95 ++++++++++++++++++++++++--------------------------------
->>  1 file changed, 40 insertions(+), 55 deletions(-)
->>
->> diff --git a/mm/gup.c b/mm/gup.c
->> index 85caf76b3012..858541ea30ce 100644
->> --- a/mm/gup.c
->> +++ b/mm/gup.c
->> @@ -1969,6 +1969,29 @@ static int __gup_device_huge_pud(pud_t pud, pud_t=
- *pudp, unsigned long addr,
->>  }
->>  #endif
->> =20
->> +static int __record_subpages(struct page *page, unsigned long addr,
->> +			     unsigned long end, struct page **pages)
->> +{
->> +	int nr =3D 0;
->> +	int nr_recorded_pages =3D 0;
->> +
->> +	do {
->> +		pages[nr] =3D page;
->> +		nr++;
->> +		page++;
->> +		nr_recorded_pages++;
->> +	} while (addr +=3D PAGE_SIZE, addr !=3D end);
->> +	return nr_recorded_pages;
->=20
-> nr =3D=3D nr_recorded_pages so no need for both... BTW, structuring this =
-as a
-> for loop would be probably more logical and shorter now:
->=20
-> 	for (nr =3D 0; addr !=3D end; addr +=3D PAGE_SIZE)
-> 		pages[nr++] =3D page++;
-> 	return nr;
->=20
+Hi Prabhakar,
 
-Nice touch, I've applied it.
+On Tue, Nov 19, 2019 at 12:02:46PM +0530, Prabhakar Kushwaha wrote:
+> Hi Akashi,
+> 
+> On Fri, Nov 15, 2019 at 7:29 AM AKASHI Takahiro
+> <takahiro.akashi@linaro.org> wrote:
+> >
+> > Bhupesh,
+> >
+> > On Fri, Nov 15, 2019 at 01:24:17AM +0530, Bhupesh Sharma wrote:
+> > > Hi Akashi,
+> > >
+> > > On Wed, Nov 13, 2019 at 12:11 PM AKASHI Takahiro
+> > > <takahiro.akashi@linaro.org> wrote:
+> > > >
+> > > > Hi Bhupesh,
+> > > >
+> > > > Do you have a corresponding patch for userspace tools,
+> > > > including crash util and/or makedumpfile?
+> > > > Otherwise, we can't verify that a generated core file is
+> > > > correctly handled.
+> > >
+> > > Sure. I am still working on the crash-utility related changes, but you
+> > > can find the makedumpfile changes I posted a couple of days ago here
+> > > (see [0]) and the github link for the makedumpfile changes can be seen
+> > > via [1].
+> > >
+> > > I will post the crash-util changes shortly as well.
+> > > Thanks for having a look at the same.
+> >
+> > Thank you.
+> > I have tested my kdump patch with a hacked version of crash
+> > where VA_BITS_ACTUAL is calculated from tcr_el1_t1sz in vmcoreinfo.
+> >
+> 
+> I also did hack to calculate VA_BITS_ACTUAL is calculated from
+> tcr_el1_t1sz in vmcoreinfo. Now i am getting error same as mentioned
+> by you in other thread last month.
+> https://www.mail-archive.com/crash-utility@redhat.com/msg07385.html
+> 
+> how this error was overcome?
+> 
+> I am using
+>  - crashkernel: https://github.com/crash-utility/crash.git  commit:
+> babd7ae62d4e8fd6f93fd30b88040d9376522aa3
+> and
+>  - Linux: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> commit: af42d3466bdc8f39806b26f593604fdc54140bcb
 
-thanks,
---=20
-John Hubbard
-NVIDIA
+# I am rather reluctant to cross-post non-kernel patch to lkml/lakml,
 
+The only change I made to crash utility was:
+===8<===
+diff --git a/arm64.c b/arm64.c
+index 5ee5f1a29a41..84e40aeb561b 100644
+--- a/arm64.c
++++ b/arm64.c
+@@ -3857,8 +3857,8 @@ arm64_calc_VA_BITS(void)
+ 		} else if (ACTIVE())
+ 			error(FATAL, "cannot determine VA_BITS_ACTUAL: please use /proc/kcore\n");
+ 		else {
+-			if ((string = pc->read_vmcoreinfo("NUMBER(VA_BITS_ACTUAL)"))) {
+-				value = atol(string);
++			if ((string = pc->read_vmcoreinfo("NUMBER(tcr_el1_t1sz)"))) {
++				value = 64 - strtoll(string, NULL, 0);
+ 				free(string);
+ 				machdep->machspec->VA_BITS_ACTUAL = value;
+ 				machdep->machspec->VA_BITS = value;
+===>8===
 
+Thanks,
+-Takahiro Akashi
 
-> The rest of the patch looks good to me.
->=20
-> 								Honza
->=20
+> --pk
