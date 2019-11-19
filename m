@@ -1,120 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0F117D981
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 16:11:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C06577D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 16:39:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728341AbfKSQLC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 11:11:02 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:46033 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728353AbfKSQLA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 11:11:00 -0500
-Received: by mail-io1-f67.google.com with SMTP id v17so12686903iol.12
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 08:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yxTg9Jz6CUPbj7hb+zClDPA6shnTNr7Uh8vLjm12KTA=;
-        b=oGIJW8HfkgkobB0o2Qa1NbNfnl9mEqSGpPEO2LkogyZvOuMJQ7TF55da86qlugqMCd
-         338Wge2YPFXsoEIf9RGDawq7jpCCeV3jwC0W058T6wHLBemhZJS3koszJqUTfQULDiaX
-         2B6RyRY6HS9AE+8hVENsQBKSpUdhkmyAKNXz0Nm/Cxj0QFJRN/CWS+DE/OAhOnYHg0xk
-         tK1FlPGkzCpUU1kARsuIumFoSGAGKhbP5ourqDXhrP7e5xrJzr7bWyrrGYocI1tJI7bI
-         UgAaDI7OLq1bomHv0lR8zAsfor6M3fEsHwxDtlUp7bVspKwb2e69Lw3GuCnkI9VLqTxF
-         /QFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yxTg9Jz6CUPbj7hb+zClDPA6shnTNr7Uh8vLjm12KTA=;
-        b=eqaqrqHqjaGGFNkAV3yb1HeQbOe3J24qv7DkiPIQFRCZb65g3Li+34rSZQNIvGOFaL
-         zNYe8wTddS8/7/ERPDwZ4wiN+uOhEZQowWakPX9V/ZFT1SVWQuzQl+K321YPtDGGECeL
-         JJMms6QRJeF8qKpNnAC4B4hv+4sXLl5hrBrJbEiFYmsMbzDnik8U5K3lguzfTdJu5evR
-         0xiwWCjKgTUA79kFWZ9uXlEYDRRyAuOebaqfXNRR3OFA//wBXGswJUxbk1MHHLLl9FdQ
-         QVChwV5+kjElQX7+eiw78W4nDsBtsfzYvT1chUyq56b6DL6vQ2hm+9sPD7atJoHNA/oB
-         YClQ==
-X-Gm-Message-State: APjAAAWOlMq+OdPhBhvEGY/5VjumNFC6qc8HofMH2Uv2T74nv3aSKud2
-        LjNou43W1YtkGWvYgZfzsGMfpg==
-X-Google-Smtp-Source: APXvYqw/6l4rejQYc8a+bdmv6/89DOI3Ir5+fK0WCl1y9yQpIdn8Kiz4M9g4FLh+4h0UiHB53RA+ow==
-X-Received: by 2002:a02:140a:: with SMTP id 10mr18915165jag.72.1574179857938;
-        Tue, 19 Nov 2019 08:10:57 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id u6sm5616560ilm.22.2019.11.19.08.10.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Nov 2019 08:10:56 -0800 (PST)
-Subject: Re: [PATCH v6 15/24] fs/io_uring: set FOLL_PIN via pin_user_pages()
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-References: <20191119081643.1866232-1-jhubbard@nvidia.com>
- <20191119081643.1866232-16-jhubbard@nvidia.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <2ae65d1b-a3eb-74ed-afce-c493de5bbfd3@kernel.dk>
-Date:   Tue, 19 Nov 2019 09:10:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191119081643.1866232-16-jhubbard@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727991AbfKSQjC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 11:39:02 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:34318 "EHLO inva020.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727910AbfKSQjC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Nov 2019 11:39:02 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id F0CD21A07A5;
+        Tue, 19 Nov 2019 17:38:59 +0100 (CET)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id E34101A07A3;
+        Tue, 19 Nov 2019 17:38:59 +0100 (CET)
+Received: from fsr-ub1864-112.ea.freescale.net (fsr-ub1864-112.ea.freescale.net [10.171.82.98])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 7399C2039B;
+        Tue, 19 Nov 2019 17:38:59 +0100 (CET)
+From:   Leonard Crestez <leonard.crestez@nxp.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Chanwoo Choi <cw00.choi@samsung.com>
+Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@partner.samsung.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <vireshk@kernel.org>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH] docs: Add initial documentation for devfreq
+Date:   Tue, 19 Nov 2019 18:38:56 +0200
+Message-Id: <e32fa9de8a60060a6ee5fc42f163111034f9a550.1574181341.git.leonard.crestez@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/19/19 1:16 AM, John Hubbard wrote:
-> Convert fs/io_uring to use the new pin_user_pages() call, which sets
-> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-> tracking of pinned pages, and therefore for any code that calls
-> put_user_page().
-> 
-> In partial anticipation of this work, the io_uring code was already
-> calling put_user_page() instead of put_page(). Therefore, in order to
-> convert from the get_user_pages()/put_page() model, to the
-> pin_user_pages()/put_user_page() model, the only change required
-> here is to change get_user_pages() to pin_user_pages().
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+The devfreq subsystem has plenty of kernel-doc comments but they're not
+currently included in sphinx documentation.
 
-You dropped my reviewed-by now... Given the file, you'd probably want
-to keep that.
+Add a minimal devfreq.rst file which mostly just includes kernel-doc
+comments from devfreq source. This also exposes a number of kernel-doc
+warnings on `make htmldocs`
 
+Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>
+---
+ Documentation/driver-api/devfreq.rst | 30 ++++++++++++++++++++++++++++
+ Documentation/driver-api/index.rst   |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 Documentation/driver-api/devfreq.rst
+
+diff --git a/Documentation/driver-api/devfreq.rst b/Documentation/driver-api/devfreq.rst
+new file mode 100644
+index 000000000000..4a0bf87a3b13
+--- /dev/null
++++ b/Documentation/driver-api/devfreq.rst
+@@ -0,0 +1,30 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================
++Device Frequency Scaling
++========================
++
++Introduction
++------------
++
++This framework provides a standard kernel interface for Dynamic Voltage and
++Frequency Switching on arbitrary devices.
++
++It exposes controls for adjusting frequency through sysfs files which are
++similar to the cpufreq subsystem.
++
++Devices for which current usage can be measured can have their frequency
++automatically adjusted by governors.
++
++API
++---
++
++Device drivers need to initialize a :c:type:`devfreq_profile` and call the
++:c:func:`devfreq_add_device` function to create a :c:type:`devfreq` instance.
++
++.. kernel-doc:: include/linux/devfreq.h
++.. kernel-doc:: include/linux/devfreq-event.h
++.. kernel-doc:: drivers/devfreq/devfreq.c
++        :export:
++.. kernel-doc:: drivers/devfreq/devfreq-event.c
++        :export:
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index c6094377f1a3..0ebe205efd0c 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -38,10 +38,11 @@ available subsections can be seen below.
+    spi
+    i2c
+    ipmb
+    i3c/index
+    interconnect
++   devfreq
+    hsi
+    edac
+    scsi
+    libata
+    target
 -- 
-Jens Axboe
+2.17.1
 
