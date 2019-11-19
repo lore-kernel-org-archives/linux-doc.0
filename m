@@ -2,69 +2,120 @@ Return-Path: <SRS0=UKPC=ZL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C18EDC432C0
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 20:22:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 401C6C432C0
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 21:05:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A1ED32235D
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 20:22:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18C032245B
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 21:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574197558;
+	bh=DBpI4iM5O9hiEAhz6mGIcdSDeSA9Ihp/Rvjf2ZJbcLI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=Jrlkzadfb10Txf9uoRasAQaqhGHeZ9ItWbwm9CddRRFQ07TjuWx5w9fN4We6m4VNn
+	 6WKLfF5rssvU2XzRnrk/9hU2L9UB9YBIcxhPEx8GUCe3u79mdMkJNbTz7Q+bKHOJLi
+	 xdBBcwKxGZMKzkgeG6vcMfA2+2RsbLwzXIPTDyZI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbfKSUWp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Nov 2019 15:22:45 -0500
-Received: from ms.lwn.net ([45.79.88.28]:40092 "EHLO ms.lwn.net"
+        id S1727140AbfKSVFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Nov 2019 16:05:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36076 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726722AbfKSUWo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Nov 2019 15:22:44 -0500
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726711AbfKSVFy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Nov 2019 16:05:54 -0500
+Received: from kernel.org (unknown [104.132.0.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 015962B2;
-        Tue, 19 Nov 2019 20:22:43 +0000 (UTC)
-Date:   Tue, 19 Nov 2019 13:22:43 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Leonard Crestez <leonard.crestez@nxp.com>
-Cc:     Chanwoo Choi <cw00.choi@samsung.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Artur =?UTF-8?B?xZp3aWdvxYQ=?= <a.swigon@partner.samsung.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <vireshk@kernel.org>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH] docs: Add initial documentation for devfreq
-Message-ID: <20191119132243.0429c1bb@lwn.net>
-In-Reply-To: <e32fa9de8a60060a6ee5fc42f163111034f9a550.1574181341.git.leonard.crestez@nxp.com>
-References: <e32fa9de8a60060a6ee5fc42f163111034f9a550.1574181341.git.leonard.crestez@nxp.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 2FEBD222DC;
+        Tue, 19 Nov 2019 21:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574197553;
+        bh=DBpI4iM5O9hiEAhz6mGIcdSDeSA9Ihp/Rvjf2ZJbcLI=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=hSiQRdVHF3+EHNwjY/mdNQlbamgaIc5j6OhNJbroNTcJtsnX4A56h3aT7Huk764qO
+         tgSL6z8A2ZJuWBEcy7zI6PzcXFDtvFYeCv3Pyqw2qajXLZv47bijKbsVezggXA2BX3
+         PMGzrrOHlsxXaUmQEQmV1bBCRK8FgvfomObdDJ5w=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1573812972-10529-4-git-send-email-alan.maguire@oracle.com>
+References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com> <1573812972-10529-4-git-send-email-alan.maguire@oracle.com>
+Subject: Re: [PATCH v4 linux-kselftest-test 3/6] kunit: allow kunit tests to be loaded as a module
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        corbet@lwn.net, tytso@mit.edu, adilger.kernel@dilger.ca,
+        mcgrof@kernel.org, changbin.du@intel.com,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>
+To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
+        linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org
+User-Agent: alot/0.8.1
+Date:   Tue, 19 Nov 2019 13:05:52 -0800
+Message-Id: <20191119210553.2FEBD222DC@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Nov 2019 18:38:56 +0200
-Leonard Crestez <leonard.crestez@nxp.com> wrote:
-
-> The devfreq subsystem has plenty of kernel-doc comments but they're not
-> currently included in sphinx documentation.
-> 
-> Add a minimal devfreq.rst file which mostly just includes kernel-doc
-> comments from devfreq source. This also exposes a number of kernel-doc
-> warnings on `make htmldocs`
-> 
-> Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>
+Quoting Alan Maguire (2019-11-15 02:16:09)
+> As tests are added to kunit, it will become less feasible to execute
+> all built tests together.  By supporting modular tests we provide
+> a simple way to do selective execution on a running system; specifying
+>=20
+> CONFIG_KUNIT=3Dy
+> CONFIG_KUNIT_EXAMPLE_TEST=3Dm
+>=20
+> ...means we can simply "insmod example-test.ko" to run the tests.
+>=20
+> To achieve this we need to do the following:
+>=20
+> o export the required symbols in kunit
+> o string-stream tests utilize non-exported symbols so for now we skip
+>   building them when CONFIG_KUNIT_TEST=3Dm.
+> o support a new way of declaring test suites.  Because a module cannot
+>   do multiple late_initcall()s, we provide a kunit_test_suites() macro
+>   to declare multiple suites within the same module at once.
+> o some test module names would have been too general ("test-test"
+>   and "example-test" for kunit tests, "inode-test" for ext4 tests);
+>   rename these as appropriate ("kunit-test", "kunit-example-test"
+>   and "ext4-inode-test" respectively).
+>=20
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> Signed-off-by: Knut Omang <knut.omang@oracle.com>
 > ---
->  Documentation/driver-api/devfreq.rst | 30 ++++++++++++++++++++++++++++
->  Documentation/driver-api/index.rst   |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 Documentation/driver-api/devfreq.rst
+>  fs/ext4/Kconfig                |   2 +-
+>  fs/ext4/Makefile               |   5 +
+>  fs/ext4/inode-test.c           |   4 +-
+>  include/kunit/test.h           |  35 +++--
+>  kernel/sysctl-test.c           |   4 +-
+>  lib/Kconfig.debug              |   4 +-
+>  lib/kunit/Kconfig              |   4 +-
+>  lib/kunit/Makefile             |  10 +-
+>  lib/kunit/assert.c             |   8 +
+>  lib/kunit/example-test.c       |  88 -----------
+>  lib/kunit/kunit-example-test.c |  90 +++++++++++
+>  lib/kunit/kunit-test.c         | 334 +++++++++++++++++++++++++++++++++++=
+++++++
+>  lib/kunit/string-stream-test.c |   2 +-
+>  lib/kunit/test-test.c          | 333 -----------------------------------=
+-----
+>  lib/kunit/test.c               |   8 +
+>  lib/kunit/try-catch.c          |   2 +
+>  lib/list-test.c                |   4 +-
 
-Applied, thanks.
+Can you generate your patches with -M or -C? Hopefully that will find
+copies and only show us the diff between the two files.
 
-jon
+>  17 files changed, 494 insertions(+), 443 deletions(-)
+>  delete mode 100644 lib/kunit/example-test.c
+>  create mode 100644 lib/kunit/kunit-example-test.c
+>  create mode 100644 lib/kunit/kunit-test.c
+>  delete mode 100644 lib/kunit/test-test.c
