@@ -2,143 +2,101 @@ Return-Path: <SRS0=UKPC=ZL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9EAC43215
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 19:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDDFC432C0
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 19:27:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB17222440
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 19:16:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DD6C2245F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 19:27:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eVXKgI2I"
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="cOwJdQ3Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbfKSTQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Nov 2019 14:16:27 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35678 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727345AbfKSTQ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 14:16:27 -0500
-Received: by mail-pl1-f196.google.com with SMTP id s10so12294877plp.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 11:16:26 -0800 (PST)
+        id S1726836AbfKST1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Nov 2019 14:27:38 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:37170 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726722AbfKST1i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 14:27:38 -0500
+Received: by mail-qt1-f196.google.com with SMTP id g50so25947193qtb.4
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 11:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xNq8z5XtG5KO8tgWaEJzHz1qCmBffX1guY4gM/pjvEA=;
-        b=eVXKgI2IjM93eDDhQ1EynosRG3oZTbq4/39Piic0R6q2ar80FuTCHo/oGwZ/kJzLF0
-         xi3rp/RH27oeawYS7HnmLIZ8hwnizmGzKd5mhp/2fmEs8QJTcXsj1aoMid9QUtxHh0jS
-         C58KKN9ozkId0OvoJ+Q6Ifv/oyU9uqh/b6SaIpcVeSp8uE/t1CdkzVxUO7YMth0O8b4r
-         z2VYw1HEyrhpRx8pnMcLoxKq0ZnEUglLUXItBaCEv0QyAmC7SuLLiwx+H3AiS+KUFAwI
-         fpL1/FMtHPHFVKxTjdxzZpxwDK43lg+okztQUOt1brBU+5xOnk74uM9BP/mPrkSdb10+
-         fkqA==
+        d=lca.pw; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wWke+FPRS6Ykc0nO40qrsc1dQ72uzYDMM9s/rffQgXo=;
+        b=cOwJdQ3QaoC1ghWuL5cDionr9lVRVE7w0E6xB29suEcWQZJDbarxSfoUMmuspYbOvs
+         foTc3R4N1YA6vsxpIjJbpSttqpBQ3dDDQi4PwvY4v0Tei1oeHkTXBrFblLAZtKjFSVZT
+         k6iJPky6g4ughqLuVvoeuzEMq/7B1gpdHqjeEKLzSldt+RKr3YKXU3JvPlzO5+msV6uZ
+         6v3vYAlWY89i/LBzOxKeer2saajdLI87BirnkGA6ad3ouHDNIw5STroNQNgNVW12VIMO
+         YBsvns+jHm88LTfB94IIPjtkpMzbROhq16RxFtaOcBoM1QlTB/1om5GndImlFebJg1IB
+         mGiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xNq8z5XtG5KO8tgWaEJzHz1qCmBffX1guY4gM/pjvEA=;
-        b=kfQ6wlX/0fZo1kZFJzZbHc1iHYjPzYvJLAqzQXluTqA5lcMakg0sXdaYQ68NYv7Jjo
-         7BCy/5/1XaL8c3d0jYjXgx3Ag2Gc/PCn2qjlrGMO+nZV+lGiDzEM4pY8oiYvBPYBMAO0
-         5oPA0Cc5/IuvECaaFKcyjZop5Par1ONVzSq63Y2fM9HN5hrnrdkFOTYXoPzQwPKEx2my
-         mBvna4RRXp5apVgoW7rHJZnwFvNmb1uhOeQWJE5qJkNXD24L2S7XsCcj4DLptSht1czK
-         0HNBhM4VRfeWejcxjyFD42QwrH3stWwTMc+HPacnyQq3VCJ9epq0u5N8hGfmtSuge4Gm
-         EVuQ==
-X-Gm-Message-State: APjAAAWKz7obnvjHWPUc8/5BYAOYh78zQ0M1o3arPnDOTVqox/PwFLS+
-        PnJYlHZxhybtnfGh/HzFxmwW8IITZuNuQJBBROplmQ==
-X-Google-Smtp-Source: APXvYqyAfZ8iphdg2LYP5pGF7y4vhTOtVs4nX4gS1JEZemNK7UZsDn+akGWXkMl0CcqMxHIzqs8XhZK+6qvgtASJbBY=
-X-Received: by 2002:a17:90a:ff02:: with SMTP id ce2mr8519075pjb.117.1574190985408;
- Tue, 19 Nov 2019 11:16:25 -0800 (PST)
-MIME-Version: 1.0
-References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com> <1573812972-10529-4-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1573812972-10529-4-git-send-email-alan.maguire@oracle.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 19 Nov 2019 11:16:14 -0800
-Message-ID: <CAFd5g473rHeUk6EJ_KnvRin5LrKyW4cNQxNHXmT2zkai5V=q1w@mail.gmail.com>
-Subject: Re: [PATCH v4 linux-kselftest-test 3/6] kunit: allow kunit tests to
- be loaded as a module
-To:     Alan Maguire <alan.maguire@oracle.com>,
-        David Gow <davidgow@google.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Kees Cook <keescook@chromium.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, schowdary@nvidia.com,
-        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
-        Luis Chamberlain <mcgrof@kernel.org>, changbin.du@intel.com,
-        linux-ext4@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wWke+FPRS6Ykc0nO40qrsc1dQ72uzYDMM9s/rffQgXo=;
+        b=q589qinicaOL3l0qq23P6zQ2eActQ46TRFBuk3D7k6/jIVg4WvrJ+HNOCEAIXAuffC
+         sKegAsh3w8QYInoG7CgK7BDBTb3V0XRzMfo+oJ7TOw1bziz93tk1l5LNJvoQT76d94gx
+         kJw9dCiDgTr7MJXD/UUzWghudHwiwZvTKN4usUCh0GF2qLU66KMOvt02Dv0hG117etTZ
+         cxA7ZnHBfRbJD/CFbmcnXdqmYjH64JXxTd5UAHm9ztwpFP/8Wi31jVuW8+YK4x5gboVn
+         9Yh4o1bsV2ZZuHdr6adV+/uK7wHdAg1f64SaC+kXeX9CHaFSDmFCyAf9YJ5E7HBDY0zM
+         5m3Q==
+X-Gm-Message-State: APjAAAV3IBZcS1zIeeye0czbuAEwvtqlYcthDjyMfZ4ThU3x+zqlcshu
+        +xgdD4EQM9WNPUH4pPomwL1SNQ==
+X-Google-Smtp-Source: APXvYqwqqbIYdbA/gvquqIqz/2jzv9H8hpK3t4AE1C7xJadrM0qWrSPiW0jc/PVgaAG39wcWgRtWhw==
+X-Received: by 2002:ac8:244e:: with SMTP id d14mr35262717qtd.388.1574191657402;
+        Tue, 19 Nov 2019 11:27:37 -0800 (PST)
+Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id 134sm10319529qkn.24.2019.11.19.11.27.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Nov 2019 11:27:36 -0800 (PST)
+Message-ID: <1574191653.9585.6.camel@lca.pw>
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+From:   Qian Cai <cai@lca.pw>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Date:   Tue, 19 Nov 2019 14:27:33 -0500
+In-Reply-To: <20191114180303.66955-2-elver@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+         <20191114180303.66955-2-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 (3.22.6-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 2:16 AM Alan Maguire <alan.maguire@oracle.com> wrote:
->
-> As tests are added to kunit, it will become less feasible to execute
-> all built tests together.  By supporting modular tests we provide
-> a simple way to do selective execution on a running system; specifying
->
-> CONFIG_KUNIT=y
-> CONFIG_KUNIT_EXAMPLE_TEST=m
->
-> ...means we can simply "insmod example-test.ko" to run the tests.
->
-> To achieve this we need to do the following:
->
-> o export the required symbols in kunit
-> o string-stream tests utilize non-exported symbols so for now we skip
->   building them when CONFIG_KUNIT_TEST=m.
-> o support a new way of declaring test suites.  Because a module cannot
->   do multiple late_initcall()s, we provide a kunit_test_suites() macro
->   to declare multiple suites within the same module at once.
-> o some test module names would have been too general ("test-test"
->   and "example-test" for kunit tests, "inode-test" for ext4 tests);
->   rename these as appropriate ("kunit-test", "kunit-example-test"
->   and "ext4-inode-test" respectively).
+On Thu, 2019-11-14 at 19:02 +0100, 'Marco Elver' via kasan-dev wrote:
 
-Hmm...should we maybe apply this naming scheme to all the tests then?
-I think Kees might have suggested this. I am actually not sure whether
-or not we should and would like to get other people's input.
+> +menuconfig KCSAN
+> +	bool "KCSAN: watchpoint-based dynamic data race detector"
+> +	depends on HAVE_ARCH_KCSAN && !KASAN && STACKTRACE
 
-It is a valid point that test-test or example-test are too general of
-names for modules, but if this is the case, I think that inode-test is
-probably too general as well. But if we are going that far, maybe we
-should rename everything *-kunit-test.c.
+"!KASAN" makes me sorrow. What's problem of those two?
 
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
-> ---
->  fs/ext4/Kconfig                |   2 +-
->  fs/ext4/Makefile               |   5 +
->  fs/ext4/inode-test.c           |   4 +-
->  include/kunit/test.h           |  35 +++--
->  kernel/sysctl-test.c           |   4 +-
->  lib/Kconfig.debug              |   4 +-
->  lib/kunit/Kconfig              |   4 +-
->  lib/kunit/Makefile             |  10 +-
->  lib/kunit/assert.c             |   8 +
->  lib/kunit/example-test.c       |  88 -----------
->  lib/kunit/kunit-example-test.c |  90 +++++++++++
->  lib/kunit/kunit-test.c         | 334 +++++++++++++++++++++++++++++++++++++++++
->  lib/kunit/string-stream-test.c |   2 +-
->  lib/kunit/test-test.c          | 333 ----------------------------------------
->  lib/kunit/test.c               |   8 +
->  lib/kunit/try-catch.c          |   2 +
->  lib/list-test.c                |   4 +-
->  17 files changed, 494 insertions(+), 443 deletions(-)
->  delete mode 100644 lib/kunit/example-test.c
->  create mode 100644 lib/kunit/kunit-example-test.c
->  create mode 100644 lib/kunit/kunit-test.c
->  delete mode 100644 lib/kunit/test-test.c
+> +	default n
+> +	help
+> +	  Kernel Concurrency Sanitizer is a dynamic data race detector, which
+> +	  uses a watchpoint-based sampling approach to detect races. See
+> +	  <file:Documentation/dev-tools/kcsan.rst> for more details.
+> +
+
