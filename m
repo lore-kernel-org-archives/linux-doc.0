@@ -1,140 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07B0A7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 02:22:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FD777D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 05:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbfKSCWg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 21:22:36 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:57154 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726761AbfKSCWg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Nov 2019 21:22:36 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 09AD612459B90E74DFA0;
-        Tue, 19 Nov 2019 10:22:33 +0800 (CST)
-Received: from [127.0.0.1] (10.177.251.225) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Tue, 19 Nov 2019
- 10:22:26 +0800
-Subject: Re: [PATCH v2] ACPI: sysfs: Change ACPI_MASKABLE_GPE_MAX to 0x100
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Dexuan-Linux Cui <dexuan.linux@gmail.com>
-CC:     Dan Williams <dan.j.williams@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "hushiyuan@huawei.com" <hushiyuan@huawei.com>,
-        "linfeilong@huawei.com" <linfeilong@huawei.com>,
-        Dexuan Cui <decui@microsoft.com>
-References: <cc03ba18-4949-9244-639c-94f461f03361@huawei.com>
- <CAA9_cmc7BuWkBHadHRAxfch43KWovb6rSr2AR9y3bVue0M9EhQ@mail.gmail.com>
- <CAJZ5v0g35zvSB88d7qK8n1uRGCuO5VNK11jHVQRNKwyQW4vZSQ@mail.gmail.com>
- <CAA42JLYCod=mymBiDDXxQ1sts7e-Ot_q9SKdJxjSkcsZRVGDTQ@mail.gmail.com>
- <CAJZ5v0iAbf7qQeyeR6CVYTX8v=OpEcbFksTHgQ0LAZk-QKqHpQ@mail.gmail.com>
-From:   Yunfeng Ye <yeyunfeng@huawei.com>
-Message-ID: <9eff3584-a25b-ca47-d38f-ce83862baa18@huawei.com>
-Date:   Tue, 19 Nov 2019 10:22:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1725306AbfKSFRa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 00:17:30 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:5661 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725280AbfKSFRa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 00:17:30 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd37aeb0000>; Mon, 18 Nov 2019 21:17:32 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 18 Nov 2019 21:17:29 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 21:17:29 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
+ 2019 05:17:28 +0000
+Subject: Re: [PATCH v5 10/24] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>
+References: <20191115055340.1825745-1-jhubbard@nvidia.com>
+ <20191115055340.1825745-11-jhubbard@nvidia.com>
+ <20191118101601.GF17319@quack2.suse.cz>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <aa15a76f-7054-2db2-4a47-8fbe1594295a@nvidia.com>
+Date:   Mon, 18 Nov 2019 21:17:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0iAbf7qQeyeR6CVYTX8v=OpEcbFksTHgQ0LAZk-QKqHpQ@mail.gmail.com>
+In-Reply-To: <20191118101601.GF17319@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.251.225]
-X-CFilter-Loop: Reflected
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574140652; bh=j4L4ESflFWPcWXUSa4QBFr0g8LzukvpI57j3tX0u+LI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=HbjIjhLqDGlCz9fdO9WJ5XZ1MylRhdOt3hOrXOPV4rhTnQVDZpbMvOZlSwNGJc66E
+         /dS/T8ygBehTtSzMJwZ3TOTHElFkCJKdPHvXGZaLpQt9mjPgsblK2PBNnMrg02Wmdh
+         9Qm8oCkWiYkFORrigI0hEzL7aY7iY3cHZ1DrJYjhRQ5sx+Tmm0Tw8QlCh7Z2iKTLps
+         yMslWIbYXkh6S/YZKISH7oHSmmR+hcZRdC+ZCjemhpD6kLdzSXTQ0ykjer3SCrjsmC
+         1w7ai76vYnn+iNTaSLHytmXdlQYChVn5NpYDDm4H81+ayvHDf9eTllSFjtIJNz8Xoj
+         cb1UR17mTvf1w==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/18/19 2:16 AM, Jan Kara wrote:
+> On Thu 14-11-19 21:53:26, John Hubbard wrote:
+>>  /*
+>> - * NOTE on FOLL_LONGTERM:
+>> + * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
+>> + * other. Here is what they mean, and how to use them:
+>>   *
+>>   * FOLL_LONGTERM indicates that the page will be held for an indefinite time
+>> - * period _often_ under userspace control.  This is contrasted with
+>> - * iov_iter_get_pages() where usages which are transient.
+>> + * period _often_ under userspace control.  This is in contrast to
+>> + * iov_iter_get_pages(), where usages which are transient.
+>                           ^^^ when you touch this, please fix also the
+> second sentense. It doesn't quite make sense to me... I'd probably write
+> there "whose usages are transient" but maybe you can come up with something
+> even better.
+
+Fixed, using your wording, as I didn't see any obvious improvements beyond that.
 
 
-On 2019/11/19 5:15, Rafael J. Wysocki wrote:
-> On Mon, Nov 18, 2019 at 8:44 PM Dexuan-Linux Cui <dexuan.linux@gmail.com> wrote:
->>
->> On Mon, Nov 18, 2019 at 1:04 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
->>>
->>> On Sat, Nov 16, 2019 at 9:06 PM Dan Williams <dan.j.williams@intel.com> wrote:
->>>>
->>>> On Wed, Nov 13, 2019 at 11:17 PM Yunfeng Ye <yeyunfeng@huawei.com> wrote:
->>>>>
->>>>> The commit 0f27cff8597d ("ACPI: sysfs: Make ACPI GPE mask kernel
->>>>> parameter cover all GPEs") says:
->>>>>   "Use a bitmap of size 0xFF instead of a u64 for the GPE mask so 256
->>>>>    GPEs can be masked"
->>>>>
->>>>> But the masking of GPE 0xFF it not supported and the check condition
->>>>> "gpe > ACPI_MASKABLE_GPE_MAX" is not valid because the type of gpe is
->>>>> u8.
->>>>>
->>>>> So modify the macro ACPI_MASKABLE_GPE_MAX to 0x100, and drop the "gpe >
->>>>> ACPI_MASKABLE_GPE_MAX" check. In addition, update the docs "Format" for
->>>>> acpi_mask_gpe parameter.
->>>>>
->>>>> Fixes: 0f27cff8597d ("ACPI: sysfs: Make ACPI GPE mask kernel parameter cover all GPEs")
->>>>> Signed-off-by: Yunfeng Ye <yeyunfeng@huawei.com>
->>>>> ---
->>>>> v1 -> v2:
->>>>>  - drop the "gpe > ACPI_MASKABLE_GPE_MAX" check
->>>>>  - update the docs "Format" from <int> to <byte> for acpi_mask_gpe parameter
->>>>>  - update the commit comment
->>>>>
->>>>>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->>>>>  drivers/acpi/sysfs.c                            | 4 ++--
->>>>>  2 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> Bisect flags commit eb09878e1301 "ACPI: sysfs: Change
->>>> ACPI_MASKABLE_GPE_MAX to 0x100" in -next as the reason for a boot
->>>> regression in my qemu-kvm test environment. It spews:
->>>>
->>>> [    1.456728] ACPI: Masking GPE 0x0.
->>>> ...
->>>> [  161.721420] ACPI: Masking GPE 0x0.
->>>>
->>>> ...and then hangs.
->>>>
->>>> A straight revert gets the configuration back on its feet.
->>>>
->>>> qemu-system-x86_64 --version
->>>> QEMU emulator version 4.0.50 (v4.0.0-928-g49c6c6ac0cd8)
->>>
->>> OK, I'll drop it then, thanks!
->>
->> We're seeing the same issue wtih 5.4.0-rc7-next-20191118 on a Linux VM
->> running on Hyper-V :
->>
->> [    0.133029] ACPI: 1 ACPI AML tables successfully acquired and loaded
->> [    0.144023] ACPI: Interpreter enabled
->> [    0.145023] ACPI: (supports S0 S5)
->> [    0.146023] ACPI: Using IOAPIC for interrupt routing
->> [    0.147024] PCI: Using host bridge windows from ACPI; if necessary,
->> use "pci=nocrs" and report a bug
->> [    0.148031] ACPI: Masking GPE 0x0.
->> ...
->> [  774.839023] ACPI: Masking GPE 0x0.
->> [  774.840023] ACPI: Masking GPE 0x0.
->>
->> I guess the patch is only tested on a physical machine and not on a VM...
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
+
 > 
-> It looks like the patch hasn't been tested at all.
+> Otherwise the patch looks good to me so feel free to add:
 > 
-> Please try to change the data type of gpe in
-> acpi_gpe_apply_masked_gpes() to u16 and see if that helps.
+> Reviewed-by: Jan Kara <jack@suse.cz>
 > 
-Sorry for this problem, I have no good test after modification according to
-inspection opinions.
-
-The first version patch is ok, the type of gpe is changed to u32. and I have
-test it before.
-
-thanks.
-> .
+> 								Honza
 > 
-
