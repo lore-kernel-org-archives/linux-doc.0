@@ -1,657 +1,498 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F67F7D982
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 14:03:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 252927D90D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 14:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727678AbfKSOD4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 09:03:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41455 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725280AbfKSOD4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 09:03:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574172234;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gtnF2I4P9OtqsTzvchU/T19l1l/5zs1rbv+02nY6Y74=;
-        b=FArqO+7WOqWl9ymRLDXpou8PldVsP5goDCNxBZChTRGHH9UtDTcvSWeJB01UwuPB7OKCJb
-        U60UlIzd9DWnaEJ+xqghxQSpmJiHeAoE2EbCCecytTa9QmUaWPluIEpsjgGkJDeQudMTqx
-        p9NrxulOs/gDZgBQdpXCaHeo6taOfwE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-FzCd9_YCNiGKJjijptBWcg-1; Tue, 19 Nov 2019 09:03:52 -0500
-Received: by mail-wr1-f72.google.com with SMTP id 4so18345534wrf.19
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 06:03:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1efGFCoQ04/i9yYZO1URcgU4/AsozMwISUCZiEggQ+o=;
-        b=DAG00wFYw+X5HQzXxrEZmTDJHe5UEe62Dw+b3qCnWYV3z86qsKXZDTBJaLgc/6mXG4
-         IUAgzZdcVSLZMywFpkv3+nQvSyqXiPp85ZposepJOn/apSO4cXFJvXab6NeOm43VB2zI
-         FOGcSflILVVX4RxGqZBru9yDKQCOnUiAXvXXtkhEqsi6w5sH3Nd1Tx1yp833FfwpSRN8
-         6W1gYERhnarC3wZr+XFu/CzV4FxtSIkbF1MYtoCcki6TNYjb/q+agIaMi4iz5EnwG+g9
-         Pbj0qvGjE7S9WG5Yv4jvPKPMdQOaAp6wWAz7PFe2fPJcM9ER6jZ+BTE3o7L4P9/ZpOol
-         XCOw==
-X-Gm-Message-State: APjAAAVJIjaEsGB4bO5WgfXjz/0k3AJCeZd6HoULJABUnzJq5a8aDc4M
-        FuMWCS0x/hfrXZGytiVU9qSDVg7NUxv/UQ/+3EReXwj1xvsI0vsA7RsWJ3qq/uQNP31gGH/XFZQ
-        Lu38ePnS3koFAcSqXY3OQ
-X-Received: by 2002:a7b:c207:: with SMTP id x7mr5782667wmi.40.1574172231077;
-        Tue, 19 Nov 2019 06:03:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx549hyaH0Ymq7Ymdj21FpecojASQirdnlnm18+8KQa3+eAI4CrAAFy80xG5VFHlxmP+/dw4g==
-X-Received: by 2002:a7b:c207:: with SMTP id x7mr5782601wmi.40.1574172230507;
-        Tue, 19 Nov 2019 06:03:50 -0800 (PST)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id w132sm3501187wma.6.2019.11.19.06.03.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Nov 2019 06:03:49 -0800 (PST)
-Subject: Re: [PATCH v8 4/8] firmware: Add new platform fallback mechanism and
- firmware_request_platform()
-To:     Luis Chamberlain <mcgrof@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20191115153529.215244-1-hdegoede@redhat.com>
- <20191115153529.215244-5-hdegoede@redhat.com>
- <20191118213542.GI11244@42.do-not-panic.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c559a739-6be3-ae3e-e641-4ae82ffe71f6@redhat.com>
-Date:   Tue, 19 Nov 2019 15:03:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        id S1727255AbfKSOXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 09:23:22 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:53070 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726409AbfKSOXW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 09:23:22 -0500
+X-AuditID: c0a8fbf4-183ff70000001fa6-a8-5dd3fad42ace
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 6C.2E.08102.4DAF3DD5; Tue, 19 Nov 2019 15:23:16 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Tue, 19 Nov 2019 15:23:09 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>
+Subject: Re: [PATCH v5 15/16] leds: Add common LED binding parsing support
+ to LED class/core
+Thread-Topic: [PATCH v5 15/16] leds: Add common LED binding parsing support
+ to LED class/core
+Thread-Index: AQHVnd45T/Y1eQ/PZ0CqzoQf+9hag6eSfT6A
+Date:   Tue, 19 Nov 2019 14:23:09 +0000
+Message-ID: <93aea8553f7ee96d699792b05892df991d2fe2dc.camel@fi.rohmeurope.com>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+         <258b5c9934e2b31a5f433a7dbb908dfe5da3d30c.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <258b5c9934e2b31a5f433a7dbb908dfe5da3d30c.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <319D2B4EED39364FB99797BC2229122C@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20191118213542.GI11244@42.do-not-panic.com>
-Content-Language: en-US
-X-MC-Unique: FzCd9_YCNiGKJjijptBWcg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tb0xTVxjGc+5/oNdcShlnsJmtRs2WTHFZsmPiFrNk23Uf3KLxy0zHLnLX
+        NsAtuW0X6z6smXNSUIQN3dYBKn8mw6JSaMZImymWSTvH1gGKwU7rGFCmMERUGMPd26rw5dzn
+        vs/5vc/74T0Mru2ksxmzZBNlSSjSU6nE2eZ/214YmO835FbXp6DGyCCN9k9+S6M7tWECHY6N
+        UGjk7H6Ajgb7SFT+cweJ6qe+IpHLVUqiYd8ZAvW2XwPo2mwPQHcHSjFUvXACQ9MH/iDR8c8a
+        CdR+dAGg/q4aCvlungLop5MDFGoNRmnUdDmCoZqmXgJN3XZhKBJ+HUXDPRTaGxnC0b5AkEaL
+        l9oIVNH35uaVvKfOA/ipoX00X+f5iP/BHaX5Bn8c470tLoq/eslP8Q0VX5D8+IHzBH/3YhXB
+        V3S0AH70+GmCvzD0PcZ/WTeH8c0n79H8jHflO9y7aZvyBduH281Gaf2r76eZrp7wkCVHZsHu
+        seuluBP8MwnKQAoDuZfgg/H/FJ3KaLlBAMcuVlHJn14Ab90fJMoAw1DcJlh2hValjtsI2yLp
+        6hWcO6iB8xfKabVRBvcejN48R6lax+XBGn+ITuoXoTfyS6INwa2GzlucWma5rbBmJvIwqgFA
+        X+x8YqAUzgQbDroSLOCehi7nJKZqnMuC3tF7ZHJoDjb6f8WTOhPG/1x8WNfDwFwskYVzz8HT
+        XeuT6GYY8HwHkvpZWF0eo5MzpMPQ1yNEJXjCvSzBvUS7l9HuZbR7GX0MkC0AFgvmIqNgEzes
+        k0X7OtliKlY+uyzFXpDcvjud4EH3lm6AMaAbPMlg+ky21d9v0K7ItxQ4TILVlCfbi0RrN4AM
+        rtexW2/8ZtCyBYJjjyhbHlk5DKHPYtfGqgxaTs0qFMUSUX7kPsUweshOzilN02XRKO7+wFxk
+        W7IxJkVtnpqts4pSgSgLdpspT12QPKuyIaqlUXJzVZy1lgjFSjWJhsHLTGW8th5n2mublDOY
+        OC9PBZpwLSFZJDE7i92mYpyKmezS49AJkMUAfQbbcl9xNcpzfNxzQonDlLi21t/VOJuwZGU7
+        geObxaq3r7wSL1wxfzvDSpjNBdeNro+nuzSZvlXhvatCwTX2cHSPLzdzIo27cfhcYaDS8AxL
+        T/TV6zrmtsi7mJnFTwI7d7iMzjdCpWv/QrP5HUekba+ZHW9VjI/ulKUccseh3r+bQ+T0mc7h
+        Q58PDXqH48fGehzuHzfmWNYsaD7VE1aTsOF5XLYK/wPnlCd5SwQAAA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 18-11-2019 22:35, Luis Chamberlain wrote:
-> On Fri, Nov 15, 2019 at 04:35:25PM +0100, Hans de Goede wrote:
->> In some cases the platform's main firmware (e.g. the UEFI fw) may contai=
-n
->> an embedded copy of device firmware which needs to be (re)loaded into th=
-e
->> peripheral. Normally such firmware would be part of linux-firmware, but =
-in
->> some cases this is not feasible, for 2 reasons:
->>
->> 1) The firmware is customized for a specific use-case of the chipset / u=
-se
->> with a specific hardware model, so we cannot have a single firmware file
->> for the chipset. E.g. touchscreen controller firmwares are compiled
->> specifically for the hardware model they are used with, as they are
->> calibrated for a specific model digitizer.
->>
->> 2) Despite repeated attempts we have failed to get permission to
->> redistribute the firmware. This is especially a problem with customized
->> firmwares, these get created by the chip vendor for a specific ODM and t=
-he
->> copyright may partially belong with the ODM, so the chip vendor cannot
->> give a blanket permission to distribute these.
->>
->> This commit adds a new platform fallback mechanism to the firmware loade=
-r
->> which will try to lookup a device fw copy embedded in the platform's mai=
-n
->> firmware if direct filesystem lookup fails.
->>
->> Drivers which need such embedded fw copies can enable this fallback
->> mechanism by using the new firmware_request_platform() function.
->>
->> Note that for now this is only supported on EFI platforms and even on
->> these platforms firmware_fallback_platform() only works if
->> CONFIG_EFI_EMBEDDED_FIRMWARE is enabled (this gets selected by drivers
->> which need this), in all other cases firmware_fallback_platform() simply
->> always returns -ENOENT.
->>
->> Reported-by: Dave Olsthoorn <dave@bewaar.me>
->> Suggested-by: Peter Jones <pjones@redhat.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->=20
-> This looks good to me now thanks!
->=20
-> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
->=20
-> Just one more thing: testing. Since this requires EFI memeory, I guess
-> we can't mimic a fake firmware somehow to use to test the API on any x86
-> system? If not we'd have no test coverage through the selftests for this
-> new call at all, and so could not easily detect regressions. We could
-> perhaps *fake* an entry if a DEBUG kconfig option is enabled, which
-> would stuff the EFI fw entry *once*. What do you think?
-
-We could give the found_fw_list list_head from drivers/firmware/efi/embedde=
-d-firmware.c
-a name which is better suited for exporting it and then actually export it.
-That combined with moving the struct embedded_fw type declaration into
-linux/efi_embedded_fw.h, with a note saying that it is private and should o=
-nly
-be used for the selftests.
-
-Then a selftest can indeed simply add a fake fw entry to the list and then
-excercise the API and check that it gets the contents of its own fake
-entry back.
-
-Hmm, I see that the tests under tools/testing/selftests/firmware
-are doing everything through a special sysfs API, in case of testing
-the userspace fallbacks this makes sense, but in this case I
-was thinking more along the lines of writing the test itself in a
-module (or add it to the lib/test_firmware.c) module rather then doing
-this complex dance.
-
-I guess this test could just be another store method for a new sysfs
-attribute, which does not interact with any of the state/config, like the
-trigger_request test.
-
-I can try to write a follow up series which does this this weekend.
-
-Regards,
-
-Hans
-
-
-
->=20
-> Look at: lib/test_firmware.c and tools/testing/selftests/firmware/
->=20
->    Luis
->=20
->> ---
->> Changes in v8:
->> - Only build fallback_platform.c if CONFIG_EFI_EMBEDDED_FIRMWARE is defi=
-ned,
->>    otherwise make firmware_fallback_platform() a static inline stub
->> - Add documentation to Documentation/driver-api/firmware/fallback-mechan=
-isms.rst
->>    on how the boot_service_code? files exported by EFI debugfs can be us=
-ed to
->>    check if there is an embedded firmware and to get the embedded firmwa=
-re
->>    length and sha256sum
->>
->> Changes in v7:
->> - Split drivers/firmware/efi and drivers/base/firmware_loader changes in=
-to
->>    2 patches
->> - Address kdoc comments from Randy Dunlap
->> - Add new FW_OPT_FALLBACK_PLATFORM flag and firmware_request_platform()
->>    _request_firmware() wrapper, as requested by Luis R. Rodriguez
->> - Stop using "efi-embedded-firmware" device-property, now that drivers n=
-eed to
->>    use the new firmware_request_platform() to enable fallback to a devic=
-e fw
->>    copy embedded in the platform's main firmware, we no longer need a pr=
-operty
->>    on the device to trigger this behavior
->> - Use security_kernel_load_data instead of calling
->>    security_kernel_read_file with a NULL file pointer argument
->> - Move the docs to Documentation/driver-api/firmware/fallback-mechanisms=
-.rst
->> - Document the new firmware_request_platform() function in
->>    Documentation/driver-api/firmware/request_firmware.rst
->>
->> Changes in v6:
->> - Rework code to remove casts from if (prefix =3D=3D mem) comparison
->> - Use SHA256 hashes instead of crc32 sums
->> - Add new READING_FIRMWARE_EFI_EMBEDDED read_file_id and use it
->> - Call security_kernel_read_file(NULL, READING_FIRMWARE_EFI_EMBEDDED)
->>    to check if this is allowed before looking at EFI embedded fw
->> - Document why we are not using the UEFI PI Firmware Volume protocol
->>
->> Changes in v5:
->> - Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
->>
->> Changes in v4:
->> - Drop note in docs about EFI_FIRMWARE_VOLUME_PROTOCOL, it is not part o=
-f
->>    UEFI proper, so the EFI maintainers don't want us referring people to=
- it
->> - Use new EFI_BOOT_SERVICES flag
->> - Put the new fw_get_efi_embedded_fw() function in its own fallback_efi.=
-c
->>    file which only gets built when EFI_EMBEDDED_FIRMWARE is selected
->> - Define an empty stub for fw_get_efi_embedded_fw() in fallback.h hwen
->>    EFI_EMBEDDED_FIRMWARE is not selected, to avoid the need for #ifdefs
->>    in firmware_loader/main.c
->> - Properly call security_kernel_post_read_file() on the firmware returne=
-d
->>    by efi_get_embedded_fw() to make sure that we are allowed to use it
->>
->> Changes in v3:
->> - Fix the docs using "efi-embedded-fw" as property name instead of
->>    "efi-embedded-firmware"
->>
->> Changes in v2:
->> - Rebased on driver-core/driver-core-next
->> - Add documentation describing the EFI embedded firmware mechanism to:
->>    Documentation/driver-api/firmware/request_firmware.rst
->> - Add a new EFI_EMBEDDED_FIRMWARE Kconfig bool and only build the embedd=
-ed
->>    fw support if this is set. This is an invisible option which should b=
-e
->>    selected by drivers which need this
->> - Remove the efi_embedded_fw_desc and dmi_system_id-s for known devices
->>    from the efi-embedded-fw code, instead drivers using this are expecte=
-d to
->>    export a dmi_system_id array, with each entries' driver_data pointing=
- to a
->>    efi_embedded_fw_desc struct and register this with the efi-embedded-f=
-w code
->> - Use kmemdup to make a copy instead of efi_mem_reserve()-ing the firmwa=
-re,
->>    this avoids us messing with the EFI memmap and avoids the need to mak=
-e
->>    changes to efi_mem_desc_lookup()
->> - Make the firmware-loader code only fallback to efi_get_embedded_fw() i=
-f the
->>    passed in device has the "efi-embedded-firmware" device-property bool=
- set
->> - Skip usermodehelper fallback when "efi-embedded-firmware" device-prope=
-rty
->>    is set
->> ---
->>   .../firmware/fallback-mechanisms.rst          | 103 ++++++++++++++++++
->>   .../driver-api/firmware/lookup-order.rst      |   2 +
->>   .../driver-api/firmware/request_firmware.rst  |   5 +
->>   drivers/base/firmware_loader/Makefile         |   1 +
->>   drivers/base/firmware_loader/fallback.h       |  10 ++
->>   .../base/firmware_loader/fallback_platform.c  |  29 +++++
->>   drivers/base/firmware_loader/firmware.h       |   4 +
->>   drivers/base/firmware_loader/main.c           |  27 +++++
->>   include/linux/firmware.h                      |   2 +
->>   include/linux/fs.h                            |   1 +
->>   10 files changed, 184 insertions(+)
->>   create mode 100644 drivers/base/firmware_loader/fallback_platform.c
->>
->> diff --git a/Documentation/driver-api/firmware/fallback-mechanisms.rst b=
-/Documentation/driver-api/firmware/fallback-mechanisms.rst
->> index 8b041d0ab426..036383dad6d6 100644
->> --- a/Documentation/driver-api/firmware/fallback-mechanisms.rst
->> +++ b/Documentation/driver-api/firmware/fallback-mechanisms.rst
->> @@ -202,3 +202,106 @@ the following file:
->>  =20
->>   If you echo 0 into it means MAX_JIFFY_OFFSET will be used. The data ty=
-pe
->>   for the timeout is an int.
->> +
->> +EFI embedded firmware fallback mechanism
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +On some devices the system's EFI code / ROM may contain an embedded cop=
-y
->> +of firmware for some of the system's integrated peripheral devices and
->> +the peripheral's Linux device-driver needs to access this firmware.
->> +
->> +Device drivers which need such firmware can use the
->> +firmware_request_platform() function for this, note that this is a
->> +separate fallback mechanism from the other fallback mechanisms and
->> +this does not use the sysfs interface.
->> +
->> +A device driver which needs this can describe the firmware it needs
->> +using an efi_embedded_fw_desc struct:
->> +
->> +.. kernel-doc:: include/linux/efi_embedded_fw.h
->> +   :functions: efi_embedded_fw_desc
->> +
->> +The EFI embedded-fw code works by scanning all EFI_BOOT_SERVICES_CODE m=
-emory
->> +segments for an eight byte sequence matching prefix; if the prefix is f=
-ound it
->> +then does a sha256 over length bytes and if that matches makes a copy o=
-f length
->> +bytes and adds that to its list with found firmwares.
->> +
->> +To avoid doing this somewhat expensive scan on all systems, dmi matchin=
-g is
->> +used. Drivers are expected to export a dmi_system_id array, with each e=
-ntries'
->> +driver_data pointing to an efi_embedded_fw_desc.
->> +
->> +To register this array with the efi-embedded-fw code, a driver needs to=
-:
->> +
->> +1. Always be builtin to the kernel or store the dmi_system_id array in =
-a
->> +   separate object file which always gets builtin.
->> +
->> +2. Add an extern declaration for the dmi_system_id array to
->> +   include/linux/efi_embedded_fw.h.
->> +
->> +3. Add the dmi_system_id array to the embedded_fw_table in
->> +   drivers/firmware/efi/embedded-firmware.c wrapped in a #ifdef testing=
- that
->> +   the driver is being builtin.
->> +
->> +4. Add "select EFI_EMBEDDED_FIRMWARE if EFI_STUB" to its Kconfig entry.
->> +
->> +The firmware_request_platform() function will always first try to load =
-firmware
->> +with the specified name directly from the disk, so the EFI embedded-fw =
-can
->> +always be overridden by placing a file under /lib/firmware.
->> +
->> +Note that:
->> +
->> +1. The code scanning for EFI embedded-firmware runs near the end
->> +   of start_kernel(), just before calling rest_init(). For normal drive=
-rs and
->> +   subsystems using subsys_initcall() to register themselves this does =
-not
->> +   matter. This means that code running earlier cannot use EFI
->> +   embedded-firmware.
->> +
->> +2. At the moment the EFI embedded-fw code assumes that firmwares always=
- start at
->> +   an offset which is a multiple of 8 bytes, if this is not true for yo=
-ur case
->> +   send in a patch to fix this.
->> +
->> +3. At the moment the EFI embedded-fw code only works on x86 because oth=
-er archs
->> +   free EFI_BOOT_SERVICES_CODE before the EFI embedded-fw code gets a c=
-hance to
->> +   scan it.
->> +
->> +4. The current brute-force scanning of EFI_BOOT_SERVICES_CODE is an ad-=
-hoc
->> +   brute-force solution. There has been discussion to use the UEFI Plat=
-form
->> +   Initialization (PI) spec's Firmware Volume protocol. This has been r=
-ejected
->> +   because the FV Protocol relies on *internal* interfaces of the PI sp=
-ec, and:
->> +   1. The PI spec does not define peripheral firmware at all
->> +   2. The internal interfaces of the PI spec do not guarantee any backw=
-ard
->> +   compatibility. Any implementation details in FV may be subject to ch=
-ange,
->> +   and may vary system to system. Supporting the FV Protocol would be
->> +   difficult as it is purposely ambiguous.
->> +
->> +Example how to check for and extract embedded firmware
->> +------------------------------------------------------
->> +
->> +To check for, for example Silead touchscreen controller embedded firmwa=
-re,
->> +do the following:
->> +
->> +1. Boot the system with efi=3Ddebug on the kernel commandline
->> +
->> +2. cp /sys/kernel/debug/efi/boot_services_code? to your home dir
->> +
->> +3. Open the boot_services_code? files in a hex-editor, search for the
->> +   magic prefix for Silead firmware: F0 00 00 00 02 00 00 00, this give=
-s you
->> +   the beginning address of the firmware inside the boot_services_code?=
- file.
->> +
->> +4. The firmware has a specific pattern, it starts with a 8 byte page-ad=
-dress,
->> +   typically F0 00 00 00 02 00 00 00 for the first page followed by 32-=
-bit
->> +   word-address + 32-bit value pairs. With the word-address incrementin=
-g 4
->> +   bytes (1 word) for each pair until a page is complete. A complete pa=
-ge is
->> +   followed by a new page-address, followed by more word + value pairs.=
- This
->> +   leads to a very distinct pattern. Scroll down until this pattern sto=
-ps,
->> +   this gives you the end of the firmware inside the boot_services_code=
-? file.
->> +
->> +5. "dd if=3Dboot_services_code? of=3Dfirmware bs=3D1 skip=3D<begin-addr=
-> count=3D<len>"
->> +   will extract the firmware for you. Inspect the firmware file in a
->> +   hexeditor to make sure you got the dd parameters correct.
->> +
->> +6. Copy it to /lib/firmware under the expected name to test it.
->> +
->> +7. If the extracted firmware works, you can use the found info to fill =
-an
->> +   efi_embedded_fw_desc struct to describe it, run "sha256sum firmware"
->> +   to get the sha256sum to put in the sha256 field.
->> diff --git a/Documentation/driver-api/firmware/lookup-order.rst b/Docume=
-ntation/driver-api/firmware/lookup-order.rst
->> index 88c81739683c..6064672a782e 100644
->> --- a/Documentation/driver-api/firmware/lookup-order.rst
->> +++ b/Documentation/driver-api/firmware/lookup-order.rst
->> @@ -12,6 +12,8 @@ a driver issues a firmware API call.
->>     return it immediately
->>   * The ''Direct filesystem lookup'' is performed next, if found we
->>     return it immediately
->> +* The ''Platform firmware fallback'' is performed next, but only when
->> +  firmware_request_platform() is used, if found we return it immediatel=
-y
->>   * If no firmware has been found and the fallback mechanism was enabled
->>     the sysfs interface is created. After this either a kobject uevent
->>     is issued or the custom firmware loading is relied upon for firmware
->> diff --git a/Documentation/driver-api/firmware/request_firmware.rst b/Do=
-cumentation/driver-api/firmware/request_firmware.rst
->> index f62bdcbfed5b..cd076462d235 100644
->> --- a/Documentation/driver-api/firmware/request_firmware.rst
->> +++ b/Documentation/driver-api/firmware/request_firmware.rst
->> @@ -25,6 +25,11 @@ firmware_request_nowarn
->>   .. kernel-doc:: drivers/base/firmware_loader/main.c
->>      :functions: firmware_request_nowarn
->>  =20
->> +firmware_request_platform
->> +-------------------------
->> +.. kernel-doc:: drivers/base/firmware_loader/main.c
->> +   :functions: firmware_request_platform
->> +
->>   request_firmware_direct
->>   -----------------------
->>   .. kernel-doc:: drivers/base/firmware_loader/main.c
->> diff --git a/drivers/base/firmware_loader/Makefile b/drivers/base/firmwa=
-re_loader/Makefile
->> index 0b2dfa6259c9..e87843408fe6 100644
->> --- a/drivers/base/firmware_loader/Makefile
->> +++ b/drivers/base/firmware_loader/Makefile
->> @@ -5,5 +5,6 @@ obj-$(CONFIG_FW_LOADER_USER_HELPER) +=3D fallback_table.=
-o
->>   obj-$(CONFIG_FW_LOADER)=09+=3D firmware_class.o
->>   firmware_class-objs :=3D main.o
->>   firmware_class-$(CONFIG_FW_LOADER_USER_HELPER) +=3D fallback.o
->> +firmware_class-$(CONFIG_EFI_EMBEDDED_FIRMWARE) +=3D fallback_platform.o
->>  =20
->>   obj-y +=3D builtin/
->> diff --git a/drivers/base/firmware_loader/fallback.h b/drivers/base/firm=
-ware_loader/fallback.h
->> index 21063503e4ea..06f4577733a8 100644
->> --- a/drivers/base/firmware_loader/fallback.h
->> +++ b/drivers/base/firmware_loader/fallback.h
->> @@ -66,4 +66,14 @@ static inline void unregister_sysfs_loader(void)
->>   }
->>   #endif /* CONFIG_FW_LOADER_USER_HELPER */
->>  =20
->> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
->> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt=
-_flags);
->> +#else
->> +static inline int firmware_fallback_platform(struct fw_priv *fw_priv,
->> +=09=09=09=09=09     enum fw_opt opt_flags)
->> +{
->> +=09return -ENOENT;
->> +}
->> +#endif
->> +
->>   #endif /* __FIRMWARE_FALLBACK_H */
->> diff --git a/drivers/base/firmware_loader/fallback_platform.c b/drivers/=
-base/firmware_loader/fallback_platform.c
->> new file mode 100644
->> index 000000000000..37746efaf8e3
->> --- /dev/null
->> +++ b/drivers/base/firmware_loader/fallback_platform.c
->> @@ -0,0 +1,29 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include <linux/efi_embedded_fw.h>
->> +#include <linux/property.h>
->> +#include <linux/security.h>
->> +#include <linux/vmalloc.h>
->> +
->> +#include "fallback.h"
->> +#include "firmware.h"
->> +
->> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt=
-_flags)
->> +{
->> +=09int rc;
->> +
->> +=09if (!(opt_flags & FW_OPT_FALLBACK_PLATFORM))
->> +=09=09return -ENOENT;
->> +
->> +=09rc =3D security_kernel_load_data(LOADING_FIRMWARE_EFI_EMBEDDED);
->> +=09if (rc)
->> +=09=09return rc;
->> +
->> +=09rc =3D efi_get_embedded_fw(fw_priv->fw_name, &fw_priv->data,
->> +=09=09=09=09 &fw_priv->size);
->> +=09if (rc)
->> +=09=09return rc; /* rc =3D=3D -ENOENT when the fw was not found */
->> +
->> +=09fw_state_done(fw_priv);
->> +=09return 0;
->> +}
->> diff --git a/drivers/base/firmware_loader/firmware.h b/drivers/base/firm=
-ware_loader/firmware.h
->> index 8656e5239a80..25836a6afc9f 100644
->> --- a/drivers/base/firmware_loader/firmware.h
->> +++ b/drivers/base/firmware_loader/firmware.h
->> @@ -29,6 +29,9 @@
->>    *=09firmware caching mechanism.
->>    * @FW_OPT_NOFALLBACK_SYSFS: Disable the sysfs fallback mechanism. Tak=
-es
->>    *=09precedence over &FW_OPT_UEVENT and &FW_OPT_USERHELPER.
->> + * @FW_OPT_FALLBACK_PLATFORM: Enable fallback to device fw copy embedde=
-d in
->> + *=09the platform's main firmware. If both this fallback and the sysfs
->> + *      fallback are enabled, then this fallback will be tried first.
->>    */
->>   enum fw_opt {
->>   =09FW_OPT_UEVENT=09=09=09=3D BIT(0),
->> @@ -37,6 +40,7 @@ enum fw_opt {
->>   =09FW_OPT_NO_WARN=09=09=09=3D BIT(3),
->>   =09FW_OPT_NOCACHE=09=09=09=3D BIT(4),
->>   =09FW_OPT_NOFALLBACK_SYSFS=09=09=3D BIT(5),
->> +=09FW_OPT_FALLBACK_PLATFORM=09=3D BIT(6),
->>   };
->>  =20
->>   enum fw_status {
->> diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware=
-_loader/main.c
->> index 08f8995a530a..006ff71458b1 100644
->> --- a/drivers/base/firmware_loader/main.c
->> +++ b/drivers/base/firmware_loader/main.c
->> @@ -775,6 +775,9 @@ _request_firmware(const struct firmware **firmware_p=
-, const char *name,
->>   =09=09=09=09=09=09 fw_decompress_xz);
->>   #endif
->>  =20
->> +=09if (ret =3D=3D -ENOENT)
->> +=09=09ret =3D firmware_fallback_platform(fw->priv, opt_flags);
->> +
->>   =09if (ret) {
->>   =09=09if (!(opt_flags & FW_OPT_NO_WARN))
->>   =09=09=09dev_warn(device,
->> @@ -882,6 +885,30 @@ int request_firmware_direct(const struct firmware *=
-*firmware_p,
->>   }
->>   EXPORT_SYMBOL_GPL(request_firmware_direct);
->>  =20
->> +/**
->> + * firmware_request_platform() - request firmware with platform-fw fall=
-back
->> + * @firmware: pointer to firmware image
->> + * @name: name of firmware file
->> + * @device: device for which firmware is being loaded
->> + *
->> + * This function is similar in behaviour to request_firmware, except th=
-at if
->> + * direct filesystem lookup fails, it will fallback to looking for a co=
-py of the
->> + * requested firmware embedded in the platform's main (e.g. UEFI) firmw=
-are.
->> + **/
->> +int firmware_request_platform(const struct firmware **firmware,
->> +=09=09=09      const char *name, struct device *device)
->> +{
->> +=09int ret;
->> +
->> +=09/* Need to pin this module until return */
->> +=09__module_get(THIS_MODULE);
->> +=09ret =3D _request_firmware(firmware, name, device, NULL, 0,
->> +=09=09=09=09FW_OPT_UEVENT | FW_OPT_FALLBACK_PLATFORM);
->> +=09module_put(THIS_MODULE);
->> +=09return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(firmware_request_platform);
->> +
->>   /**
->>    * firmware_request_cache() - cache firmware for suspend so resume can=
- use it
->>    * @name: name of firmware file
->> diff --git a/include/linux/firmware.h b/include/linux/firmware.h
->> index 2dd566c91d44..75dbec0bcc06 100644
->> --- a/include/linux/firmware.h
->> +++ b/include/linux/firmware.h
->> @@ -44,6 +44,8 @@ int request_firmware(const struct firmware **fw, const=
- char *name,
->>   =09=09     struct device *device);
->>   int firmware_request_nowarn(const struct firmware **fw, const char *na=
-me,
->>   =09=09=09    struct device *device);
->> +int firmware_request_platform(const struct firmware **fw, const char *n=
-ame,
->> +=09=09=09      struct device *device);
->>   int request_firmware_nowait(
->>   =09struct module *module, bool uevent,
->>   =09const char *name, struct device *device, gfp_t gfp, void *context,
->> diff --git a/include/linux/fs.h b/include/linux/fs.h
->> index e0d909d35763..3cbc955f6a1a 100644
->> --- a/include/linux/fs.h
->> +++ b/include/linux/fs.h
->> @@ -2961,6 +2961,7 @@ extern int do_pipe_flags(int *, int);
->>   =09id(UNKNOWN, unknown)=09=09\
->>   =09id(FIRMWARE, firmware)=09=09\
->>   =09id(FIRMWARE_PREALLOC_BUFFER, firmware)=09\
->> +=09id(FIRMWARE_EFI_EMBEDDED, firmware)=09\
->>   =09id(MODULE, kernel-module)=09=09\
->>   =09id(KEXEC_IMAGE, kexec-image)=09=09\
->>   =09id(KEXEC_INITRAMFS, kexec-initramfs)=09\
->> --=20
->> 2.23.0
->>
->=20
-
+DQpPbiBNb24sIDIwMTktMTEtMTggYXQgMDk6MDMgKzAyMDAsIE1hdHRpIFZhaXR0aW5lbiB3cm90
+ZToNCj4gUXVjaWsgZ3JlcCBmb3IgJ2Zvcl9lYWNoJyBvciAnbGludXgsZGVmYXVsdC10cmlnZ2Vy
+JyBvcg0KPiAnZGVmYXVsdC1zdGF0ZScgdW5kZXIgZHJpdmVycy9sZWRzIGNhbiB0ZWxsIHF1aXRl
+IGEgbG90LiBJdCBzZWVtcw0KPiBtdWx0aXBsZSBMRUQgY29udHJvbGxlciBkcml2ZXJzIGltcGxl
+bWVudCB0aGUgdmVyeSBzaW1pbGFyIGxvb3BpbmcNCj4gdGhyb3VnaCB0aGUgY2hpbGQgbm9kZXMg
+aW4gb3JkZXIgdG8gbG9jYXRlIHRoZSBMRUQgbm9kZXMgYW5kIHJlYWQNCj4gYW5kIHN1cHBvcnQg
+dGhlIGNvbW1vbiBMRUQgZHQgYmluZGluZ3MuIEltcGxlbWVudGluZyB0aGlzIHNhbWUNCj4gc3R1
+ZmYgZm9yIGFsbCBMRUQgY29udHJvbGxlcnMgZ2V0cyBvbGQgcHJldHR5IGZhc3QuDQo+IA0KPiBU
+aGlzIGNvbW1pdCBhZGRzIHN1cHBvcnQgZm9yIGxvY2F0aW5nIHRoZSBMRUQgbm9kZSAoYmFzZWQg
+b24ga25vd24NCj4gbm9kZSBuYW1lcyAtIG9yIGxpbnV4LGxlZC1jb21wYXRpYmxlIHByb3BlcnR5
+KSBhbmQgaGFuZGxpbmcgb2YNCj4gZmV3IGNvbW1vbiBMRUQgcHJvcGVydGllcy4NCg0KVGhpcyBp
+cyBhY3R1YWxseSBub3QgY29tcGxldGVseSB0cnVlLiBJIG9yaWdpbmFsbHkgdGhvdWdodCBvZiBh
+ZGRpbmcNCmxlZC1jb21wYXRpYmxlIC0gYnV0IEkgY2hhbmdlZCBteSBtaW5kIGFmdGVyIEkgc2F3
+IHRoYXQgYXQgbGVhc3Qgc29tZQ0Kb2YgdGhlIGV4aXN0aW5nIGRyaXZlcnMgdXNlZCB2YWx1ZSBv
+ZiAicmVnIi1wcm9wZXJ0eSB0byBkbyB0aGUgbWF0Y2hpbmcNCmluLWRyaXZlci4gU28sIHRvIG1h
+a2UgaXQgc2ltcGxlIGZvciB0aGVtLCBJIGRpZCBhZGQgcHJvcGVydHkNCm5hbWUvdmFsdWUgcGFp
+ciBpbiBpbml0IGRhdGEgZm9yIG1hdGNoaW5nLiBUaGlzIGFsbG93cyBvbmUgdG8gZG8gbGVkLQ0K
+Y29tcGF0aWJsZSwgb3IgdG8gdXNlIGV4aXN0aW5nIGZpeGVkIHJlZyAob3Igb3RoZXIpIHByb3Bl
+cnR5IHZhbHVlLiBJJ2QNCmJldHRlciB0byBjaGFuZ2UgdGhlIGNvbW1pdCBtZXNzYWdlIHRvIHJl
+ZmxlY3QgdGhpcyB0b28uDQoNCj4gDQo+IGxpbnV4LGRlZmF1bHQtdHJpZ2dlciwNCj4gZGVmYXVs
+dC1zdGF0ZSAod2l0aCB0aGUgZXhjZXB0aW9uIG9mIGtlZXApLA0KPiANCj4gKGluIGFkZGl0aW9u
+IHRvIGFscmVhZHkgaGFuZGxlZA0KPiBmdW5jdGlvbi1lbnVtZXJhdG9yLA0KPiBmdW5jdGlvbiwN
+Cj4gY29sb3INCj4gYW5kIGxhYmVsKS4NCj4gDQo+IFJlZ2FyZGluZyB0aGUgbm9kZSBsb29rLXVw
+OiBJZiBubyBpbml0X2RhdGEgaXMgZ2l2ZW4sIHRoZW4gbm8NCj4gbm9kZS1sb29rdXAgaXMgZG9u
+ZSBhbmQgY2RldiBuYW1lIGlzIHVzZWQgYXMgc3VjaC4NCj4gDQo+IElmIGluaXRfZGF0YSBpcyBn
+b3ZlbiBidXQgbm8gc3RhcnRpbmcgcG9pbnQgZm9yIG5vZGUgbG9va3VwIC0gdGhlbg0KPiAocGFy
+ZW50KSBkZXZpY2UncyBvd24gRFQgbm9kZSBpcyB1c2VkLiBJZiBubyBsZWQtY29tcGF0aWJsZSBp
+cyBnaXZlbiwNCj4gdGhlbiBvZl9tYXRjaCBpcyBzZWFyY2hlZCBmb3IuIElmIG5laXRoZXIgbGVk
+LWNvbXBhdGlibGUgbm90IG9mX21hdGNoDQo+IGlzIGdpdmVuIHRoZW4gZGV2aWNlJ3Mgb3duIG5v
+ZGUgb3IgcGFzc2VkIHN0YXJ0aW5nIHBvaW50IGFyZSB1c2VkIGFzDQo+IHN1Y2guDQoNCkFuZCBz
+YW1lIGhlcmUuDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1hdHRpIFZhaXR0aW5lbiA8bWF0dGku
+dmFpdHRpbmVuQGZpLnJvaG1ldXJvcGUuY29tPg0KPiAtLS0NCj4gDQo+IENoYW5nZXMgZnJvbSB2
+NDoNCj4gRml4ZWQgaXNzdWVzIHJlcG9ydGVkIGJ5IERhbiBDYXJwZW50ZXIgYW5kIGtidWlsZC1i
+b3QuDQo+IChsZWZ0b3ZlciBrZnJlZSBhbmQgdW5pbml0aWFsaXplZCByZXR1cm4gdmFsdWUpDQo+
+IA0KPiAgZHJpdmVycy9sZWRzL2xlZC1jbGFzcy5jIHwgIDg4ICsrKysrKysrKysrKy0tDQo+ICBk
+cml2ZXJzL2xlZHMvbGVkLWNvcmUuYyAgfCAyNDYgKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKy0tLS0NCj4gLS0tLQ0KPiAgaW5jbHVkZS9saW51eC9sZWRzLmggICAgIHwgIDkwICsrKysr
+KysrKysrKy0tDQo+ICAzIGZpbGVzIGNoYW5nZWQsIDM1OSBpbnNlcnRpb25zKCspLCA2NSBkZWxl
+dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2xlZHMvbGVkLWNsYXNzLmMgYi9k
+cml2ZXJzL2xlZHMvbGVkLWNsYXNzLmMNCj4gaW5kZXggNjQ3YjEyNjNjNTc5Li45ODE3M2I2NGE1
+OTcgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbGVkcy9sZWQtY2xhc3MuYw0KPiArKysgYi9kcml2
+ZXJzL2xlZHMvbGVkLWNsYXNzLmMNCj4gQEAgLTIzNSw2ICsyMzUsMjkgQEAgc3RhdGljIGludCBs
+ZWRfY2xhc3NkZXZfbmV4dF9uYW1lKGNvbnN0IGNoYXINCj4gKmluaXRfbmFtZSwgY2hhciAqbmFt
+ZSwNCj4gIAlyZXR1cm4gaTsNCj4gIH0NCj4gIA0KPiArc3RhdGljIHZvaWQgbGVkX2FkZF9wcm9w
+cyhzdHJ1Y3QgbGVkX2NsYXNzZGV2ICpsZCwgc3RydWN0DQo+IGxlZF9wcm9wZXJ0aWVzICpwcm9w
+cykNCj4gK3sNCj4gKwlpZiAocHJvcHMtPmRlZmF1bHRfdHJpZ2dlcikNCj4gKwkJbGQtPmRlZmF1
+bHRfdHJpZ2dlciA9IHByb3BzLT5kZWZhdWx0X3RyaWdnZXI7DQo+ICsJLyoNCj4gKwkgKiBBY2Nv
+cmRpbmcgdG8gYmluZGluZyBkb2NzIHRoZSBMRUQgaXMgYnktZGVmYXVsdCB0dXJuZWQgT0ZGDQo+
+IHVubGVzcw0KPiArCSAqIGRlZmF1bHRfc3RhdGUgaXMgdXNlZCB0byBpbmRpY2F0ZSBpdCBzaG91
+bGQgYmUgT04gb3IgdGhhdA0KPiBzdGF0ZQ0KPiArCSAqIHNob3VsZCBiZSBrZXB0IGFzIGlzDQo+
+ICsJICovDQo+ICsJaWYgKHByb3BzLT5kZWZhdWx0X3N0YXRlKSB7DQo+ICsJCWxkLT5icmlnaHRu
+ZXNzID0gTEVEX09GRjsNCj4gKwkJaWYgKCFzdHJjbXAocHJvcHMtPmRlZmF1bHRfc3RhdGUsICJv
+biIpKQ0KPiArCQkJbGQtPmJyaWdodG5lc3MgPSBMRURfRlVMTDsNCj4gKwkvKg0KPiArCSAqIFdl
+IHByb2JhYmx5IHNob3VsZCBub3QgY2FsbCB0aGUgYnJpZ2h0bmVzc19nZXQgcHJpb3IgY2FsbGlu
+Zw0KPiArCSAqIHRoZSBvZl9wYXJzZV9jYiBpZiBvbmUgaXMgcHJvdmlkZWQuDQo+ICsJICogQWRk
+IGEgZmxhZyB0byBhZHZlcnRpY2UgdGhhdCBzdGF0ZSBzaG91bGQgYmUgcXVlcmllZCBhbmQNCj4g
+a2VwdCBhcy1pcy4NCj4gKwkgKi8NCj4gKwkJZWxzZSBpZiAoIXN0cmNtcChwcm9wcy0+ZGVmYXVs
+dF9zdGF0ZSwgImtlZXAiKSkNCj4gKwkJCXByb3BzLT5icmlnaHRuZXNzX2tlZXAgPSB0cnVlOw0K
+PiArCX0NCj4gK30NCj4gKw0KPiAgLyoqDQo+ICAgKiBsZWRfY2xhc3NkZXZfcmVnaXN0ZXJfZXh0
+IC0gcmVnaXN0ZXIgYSBuZXcgb2JqZWN0IG9mIGxlZF9jbGFzc2Rldg0KPiBjbGFzcw0KPiAgICoJ
+CQkgICAgICAgd2l0aCBpbml0IGRhdGEuDQo+IEBAIC0yNTEsMjIgKzI3NCw1OCBAQCBpbnQgbGVk
+X2NsYXNzZGV2X3JlZ2lzdGVyX2V4dChzdHJ1Y3QgZGV2aWNlDQo+ICpwYXJlbnQsDQo+ICAJY2hh
+ciBmaW5hbF9uYW1lW0xFRF9NQVhfTkFNRV9TSVpFXTsNCj4gIAljb25zdCBjaGFyICpwcm9wb3Nl
+ZF9uYW1lID0gY29tcG9zZWRfbmFtZTsNCj4gIAlpbnQgcmV0Ow0KPiAtDQo+ICsJc3RydWN0IGxl
+ZF9wcm9wZXJ0aWVzIHByb3BzID0gezB9Ow0KPiArCXN0cnVjdCBmd25vZGVfaGFuZGxlICpmdzsN
+Cj4gKw0KPiArCS8qDQo+ICsJICogV2UgZG9uJ3QgdHJ5IGdldHRpbmcgdGhlIG5hbWUgYmFzZWQg
+b24gRFQgbm9kZSBpZiBpbml0LWRhdGENCj4gaXMgbm90DQo+ICsJICogZ2l2ZW4uIFdlIGNvdWxk
+IHNlZSBpZiB3ZSBmaW5kIExFRCBwcm9wZXJ0aWVzIGZyb20gdGhlDQo+IGRldmljZSdzIG5vZGUN
+Cj4gKwkgKiBidXQgdGhhdCBtaWdodCBjaGFuZ2UgTEVEIG5hbWVzIGZvciBvbGQgdXNlcnMgb2YN
+Cj4gKwkgKiBsZWRfY2xhc3NkZXZfcmVnaXN0ZXIgd2hvIGhhdmUgYmVlbiBwcm92aWRpbmcgdGhl
+IExFRCBuYW1lDQo+IGluDQo+ICsJICogY2Rldi0+bmFtZS4gU28gd2Ugc2VlayBmd25vZGUgZm9y
+IG5hbWVzIG9ubHkgaWYgaW5pdF9kYXRhIGlzDQo+IGdpdmVuDQo+ICsJICovDQo+ICAJaWYgKGlu
+aXRfZGF0YSkgew0KPiArCQlsZWRfY2Rldi0+aW5pdF9kYXRhID0gaW5pdF9kYXRhOw0KPiAgCQlp
+ZiAoaW5pdF9kYXRhLT5kZXZuYW1lX21hbmRhdG9yeSAmJiAhaW5pdF9kYXRhLQ0KPiA+ZGV2aWNl
+bmFtZSkgew0KPiAgCQkJZGV2X2VycihwYXJlbnQsICJNYW5kYXRvcnkgZGV2aWNlIG5hbWUgaXMN
+Cj4gbWlzc2luZyIpOw0KPiAgCQkJcmV0dXJuIC1FSU5WQUw7DQo+ICAJCX0NCj4gLQkJcmV0ID0g
+bGVkX2NvbXBvc2VfbmFtZShwYXJlbnQsIGluaXRfZGF0YSwNCj4gY29tcG9zZWRfbmFtZSk7DQo+
+ICsNCj4gKwkJZncgPSBsZWRfZmluZF9md25vZGUocGFyZW50LCBpbml0X2RhdGEpOw0KPiArCQlp
+ZiAoIWZ3KSB7DQo+ICsJCQlkZXZfZXJyKHBhcmVudCwgIk5vIGZ3bm9kZSBmb3VuZFxuIik7DQo+
+ICsJCQlyZXR1cm4gLUVOT0VOVDsNCj4gKwkJfQ0KPiArCQkvKg0KPiArCQkgKiBXZSBkaWQgaW5j
+cmVhc2UgcmVmY291bnQgZm9yIGZ3bm9kZS4gTGV0J3Mgc2V0IGENCj4gZmxhZyBzbyB3ZQ0KPiAr
+CQkgKiBjYW4gZGVjcmVhc2UgaXQgZHVyaW5nIGRlcmVnaXN0cmF0aW9uDQo+ICsJCSAqLw0KPiAr
+CQlsZWRfY2Rldi0+Zndub2RlX293bmVkID0gdHJ1ZTsNCj4gKw0KPiArCQlyZXQgPSBsZWRfcGFy
+c2VfZndub2RlX3Byb3BzKHBhcmVudCwgZncsICZwcm9wcyk7DQo+ICsJCWlmIChyZXQpDQo+ICsJ
+CQlnb3RvIGVycl9vdXQ7DQo+ICsNCj4gKwkJaWYgKGluaXRfZGF0YS0+b2ZfcGFyc2VfY2IpDQo+
+ICsJCQlyZXQgPSBpbml0X2RhdGEtPm9mX3BhcnNlX2NiKGxlZF9jZGV2LCBmdywNCj4gJnByb3Bz
+KTsNCj4gIAkJaWYgKHJldCA8IDApDQo+IC0JCQlyZXR1cm4gcmV0Ow0KPiArCQkJZ290byBlcnJf
+b3V0Ow0KPiArDQo+ICsJCWxlZF9hZGRfcHJvcHMobGVkX2NkZXYsICZwcm9wcyk7DQo+ICsNCj4g
+KwkJcmV0ID0gbGVkX2NvbXBvc2VfbmFtZShwYXJlbnQsIGluaXRfZGF0YSwgJnByb3BzLA0KPiAr
+CQkJCSAgICAgICBjb21wb3NlZF9uYW1lKTsNCj4gKwkJaWYgKHJldCA8IDApDQo+ICsJCQlnb3Rv
+IGVycl9vdXQ7DQo+ICAJfSBlbHNlIHsNCj4gIAkJcHJvcG9zZWRfbmFtZSA9IGxlZF9jZGV2LT5u
+YW1lOw0KPiArCQlsZWRfY2Rldi0+Zndub2RlX293bmVkID0gZmFsc2U7DQo+ICsJCWZ3ID0gTlVM
+TDsNCj4gIAl9DQo+ICANCj4gIAlyZXQgPSBsZWRfY2xhc3NkZXZfbmV4dF9uYW1lKHByb3Bvc2Vk
+X25hbWUsIGZpbmFsX25hbWUsDQo+IHNpemVvZihmaW5hbF9uYW1lKSk7DQo+ICAJaWYgKHJldCA8
+IDApDQo+IC0JCXJldHVybiByZXQ7DQo+ICsJCWdvdG8gZXJyX291dDsNCj4gIA0KPiAgCW11dGV4
+X2luaXQoJmxlZF9jZGV2LT5sZWRfYWNjZXNzKTsNCj4gIAltdXRleF9sb2NrKCZsZWRfY2Rldi0+
+bGVkX2FjY2Vzcyk7DQo+IEBAIC0yNzQsMjIgKzMzMywyOCBAQCBpbnQgbGVkX2NsYXNzZGV2X3Jl
+Z2lzdGVyX2V4dChzdHJ1Y3QgZGV2aWNlDQo+ICpwYXJlbnQsDQo+ICAJCQkJbGVkX2NkZXYsIGxl
+ZF9jZGV2LT5ncm91cHMsICIlcyIsDQo+IGZpbmFsX25hbWUpOw0KPiAgCWlmIChJU19FUlIobGVk
+X2NkZXYtPmRldikpIHsNCj4gIAkJbXV0ZXhfdW5sb2NrKCZsZWRfY2Rldi0+bGVkX2FjY2Vzcyk7
+DQo+IC0JCXJldHVybiBQVFJfRVJSKGxlZF9jZGV2LT5kZXYpOw0KPiArCQlyZXQgPSBQVFJfRVJS
+KGxlZF9jZGV2LT5kZXYpOw0KPiArCQlnb3RvIGVycl9vdXQ7DQo+ICAJfQ0KPiAtCWlmIChpbml0
+X2RhdGEgJiYgaW5pdF9kYXRhLT5md25vZGUpDQo+IC0JCWxlZF9jZGV2LT5kZXYtPmZ3bm9kZSA9
+IGluaXRfZGF0YS0+Zndub2RlOw0KPiArCWlmIChmdykNCj4gKwkJbGVkX2NkZXYtPmRldi0+Zndu
+b2RlID0gZnc7DQo+ICANCj4gIAlpZiAocmV0KQ0KPiAgCQlkZXZfd2FybihwYXJlbnQsICJMZWQg
+JXMgcmVuYW1lZCB0byAlcyBkdWUgdG8gbmFtZQ0KPiBjb2xsaXNpb24iLA0KPiAgCQkJCWxlZF9j
+ZGV2LT5uYW1lLCBkZXZfbmFtZShsZWRfY2Rldi0NCj4gPmRldikpOw0KPiAgDQo+ICsJaWYgKHBy
+b3BzLmJyaWdodG5lc3Nfa2VlcCkNCj4gKwkJaWYgKGxlZF9jZGV2LT5icmlnaHRuZXNzX2dldCkN
+Cj4gKwkJCWxlZF9jZGV2LT5icmlnaHRuZXNzID0NCj4gKwkJCQkgbGVkX2NkZXYtPmJyaWdodG5l
+c3NfZ2V0KGxlZF9jZGV2KTsNCj4gKw0KPiAgCWlmIChsZWRfY2Rldi0+ZmxhZ3MgJiBMRURfQlJJ
+R0hUX0hXX0NIQU5HRUQpIHsNCj4gIAkJcmV0ID0gbGVkX2FkZF9icmlnaHRuZXNzX2h3X2NoYW5n
+ZWQobGVkX2NkZXYpOw0KPiAgCQlpZiAocmV0KSB7DQo+ICAJCQlkZXZpY2VfdW5yZWdpc3Rlcihs
+ZWRfY2Rldi0+ZGV2KTsNCj4gIAkJCWxlZF9jZGV2LT5kZXYgPSBOVUxMOw0KPiAgCQkJbXV0ZXhf
+dW5sb2NrKCZsZWRfY2Rldi0+bGVkX2FjY2Vzcyk7DQo+IC0JCQlyZXR1cm4gcmV0Ow0KPiArCQkJ
+Z290byBlcnJfb3V0Ow0KPiAgCQl9DQo+ICAJfQ0KPiAgDQo+IEBAIC0zMjIsNiArMzg3LDEwIEBA
+IGludCBsZWRfY2xhc3NkZXZfcmVnaXN0ZXJfZXh0KHN0cnVjdCBkZXZpY2UNCj4gKnBhcmVudCwN
+Cj4gIAkJCWxlZF9jZGV2LT5uYW1lKTsNCj4gIA0KPiAgCXJldHVybiAwOw0KPiArZXJyX291dDoN
+Cj4gKwlpZiAobGVkX2NkZXYtPmZ3bm9kZV9vd25lZCkNCj4gKwkJZndub2RlX2hhbmRsZV9wdXQo
+ZncpOw0KPiArCXJldHVybiByZXQ7DQo+ICB9DQo+ICBFWFBPUlRfU1lNQk9MX0dQTChsZWRfY2xh
+c3NkZXZfcmVnaXN0ZXJfZXh0KTsNCj4gIA0KPiBAQCAtMzU1LDYgKzQyNCw5IEBAIHZvaWQgbGVk
+X2NsYXNzZGV2X3VucmVnaXN0ZXIoc3RydWN0IGxlZF9jbGFzc2Rldg0KPiAqbGVkX2NkZXYpDQo+
+ICAJaWYgKGxlZF9jZGV2LT5mbGFncyAmIExFRF9CUklHSFRfSFdfQ0hBTkdFRCkNCj4gIAkJbGVk
+X3JlbW92ZV9icmlnaHRuZXNzX2h3X2NoYW5nZWQobGVkX2NkZXYpOw0KPiAgDQo+ICsJaWYgKGxl
+ZF9jZGV2LT5md25vZGVfb3duZWQpDQo+ICsJCWZ3bm9kZV9oYW5kbGVfcHV0KGxlZF9jZGV2LT5k
+ZXYtPmZ3bm9kZSk7DQo+ICsNCj4gIAlkZXZpY2VfdW5yZWdpc3RlcihsZWRfY2Rldi0+ZGV2KTsN
+Cj4gIA0KPiAgCWRvd25fd3JpdGUoJmxlZHNfbGlzdF9sb2NrKTsNCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvbGVkcy9sZWQtY29yZS5jIGIvZHJpdmVycy9sZWRzL2xlZC1jb3JlLmMNCj4gaW5kZXgg
+ZjFmNzE4ZGJlMGY4Li45MzY5ZjAzZWU1NDAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbGVkcy9s
+ZWQtY29yZS5jDQo+ICsrKyBiL2RyaXZlcnMvbGVkcy9sZWQtY29yZS5jDQo+IEBAIC0zNjUsNzAg
+KzM2NSwyMTQgQEAgdm9pZCBsZWRfc3lzZnNfZW5hYmxlKHN0cnVjdCBsZWRfY2xhc3NkZXYNCj4g
+KmxlZF9jZGV2KQ0KPiAgfQ0KPiAgRVhQT1JUX1NZTUJPTF9HUEwobGVkX3N5c2ZzX2VuYWJsZSk7
+DQo+ICANCj4gLXN0YXRpYyB2b2lkIGxlZF9wYXJzZV9md25vZGVfcHJvcHMoc3RydWN0IGRldmlj
+ZSAqZGV2LA0KPiAtCQkJCSAgIHN0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUsDQo+IC0JCQkJ
+ICAgc3RydWN0IGxlZF9wcm9wZXJ0aWVzICpwcm9wcykNCj4gK3N0YXRpYyBpbnQgZndfaXNfbWF0
+Y2goc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmZ3LA0KPiArCQkgICAgICAgc3RydWN0IGxlZF9md19t
+YXRjaF9wcm9wZXJ0eSAqbXAsIHZvaWQgKnZhbCkNCj4gIHsNCj4gLQlpbnQgcmV0Ow0KPiArCXZv
+aWQgKmNtcCA9IG1wLT5yYXdfdmFsOw0KPiArCWludCByZXQgPSAtRUlOVkFMOw0KPiArDQo+ICsJ
+aWYgKG1wLT5yYXdfdmFsKSB7DQo+ICsJCXJldCA9IGZ3bm9kZV9wcm9wZXJ0eV9yZWFkX3U4X2Fy
+cmF5KGZ3LCBtcC0+bmFtZSwgdmFsLA0KPiArCQkJCQkJICAgIG1wLT5zaXplKTsNCj4gKwl9IGVs
+c2UgaWYgKG1wLT5pbnR2YWwpIHsNCj4gKwkJY21wID0gbXAtPmludHZhbDsNCj4gKwkJc3dpdGNo
+IChtcC0+c2l6ZSkgew0KPiArCQljYXNlIDE6DQo+ICsJCQlyZXQgPSBmd25vZGVfcHJvcGVydHlf
+cmVhZF91OF9hcnJheShmdywgbXAtDQo+ID5uYW1lLCB2YWwsDQo+ICsJCQkJCQkgICAgbXAtPnNp
+emUpOw0KPiArCQkJYnJlYWs7DQo+ICsJCWNhc2UgMjoNCj4gKwkJCXJldCA9IGZ3bm9kZV9wcm9w
+ZXJ0eV9yZWFkX3UxNl9hcnJheShmdywgbXAtDQo+ID5uYW1lLCB2YWwsDQo+ICsJCQkJCQkgICAg
+bXAtPnNpemUpOw0KPiArCQkJYnJlYWs7DQo+ICsJCWNhc2UgNDoNCj4gKwkJCXJldCA9IGZ3bm9k
+ZV9wcm9wZXJ0eV9yZWFkX3UzMl9hcnJheShmdywgbXAtDQo+ID5uYW1lLCB2YWwsDQo+ICsJCQkJ
+CQkgICAgbXAtPnNpemUpOw0KPiArCQkJYnJlYWs7DQo+ICsJCWNhc2UgODoNCj4gKwkJCXJldCA9
+IGZ3bm9kZV9wcm9wZXJ0eV9yZWFkX3U2NF9hcnJheShmdywgbXAtDQo+ID5uYW1lLCB2YWwsDQo+
+ICsJCQkJCQkgICAgbXAtPnNpemUpOw0KPiArCQkJYnJlYWs7DQo+ICsJCWRlZmF1bHQ6DQo+ICsJ
+CQlyZXR1cm4gLUVJTlZBTDsNCj4gKwkJfQ0KPiArCX0NCj4gKwlpZiAoIXJldCAmJiBjbXApDQo+
+ICsJCWlmICghbWVtY21wKHZhbCwgY21wLCBtcC0+c2l6ZSkpDQo+ICsJCQlyZXR1cm4gMTsNCj4g
+Kw0KPiArCXJldHVybiAwOw0KPiArfQ0KPiArLyoqDQo+ICsgKiBsZWRfZmluZF9md25vZGUgLSBm
+aW5kIGZ3bm9kZSBmb3IgbGVkDQo+ICsgKiBAcGFyZW50CUxFRCBjb250cm9sbGVyIGRldmljZQ0K
+PiArICogQGluaXRfZGF0YQlsZWQgaW5pdCBkYXRhIHdpdGggbWF0Y2ggaW5mb3JtYXRpb24NCj4g
+KyAqDQo+ICsgKiBTY2FucyB0aGUgZmlybXdhcmUgbm9kZXMgYW5kIHJldHVybnMgbm9kZSBtYXRj
+aGluZyB0aGUgZ2l2ZW4NCj4gaW5pdF9kYXRhLg0KPiArICogTk9URTogRnVuY3Rpb24gaW5jcmVh
+c2VzIHJlZmNvdW50IGZvciBmb3VuZCBub2RlLiBDYWxsZXIgbXVzdA0KPiBkZWNyZWFzZQ0KPiAr
+ICogcmVmY291bnQgdXNpbmcgZndub2RlX2hhbmRsZV9wdXQgd2hlbiBmaW5pc2hlZCB3aXRoIG5v
+ZGUuDQo+ICsgKi8NCj4gK3N0cnVjdCBmd25vZGVfaGFuZGxlICpsZWRfZmluZF9md25vZGUoc3Ry
+dWN0IGRldmljZSAqcGFyZW50LA0KPiArCQkJCSAgICAgIHN0cnVjdCBsZWRfaW5pdF9kYXRhICpp
+bml0X2RhdGEpDQo+ICt7DQo+ICsJc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmZ3Ow0KPiArDQo+ICsJ
+LyoNCj4gKwkgKiBUaGlzIHNob3VsZCBuZXZlciBiZSBjYWxsZWQgVy9PIGluaXQgZGF0YS4gV2Ug
+Y291bGQgYWx3YXlzDQo+IHJldHVybg0KPiArCSAqIGRldl9md25vZGUoKSAtIGJ1dCB0aGVuIHdl
+IHNob3VsZCBwdW1wLXVwIHRoZSByZWZjb3VudA0KPiArCSAqLw0KPiArCWlmICghaW5pdF9kYXRh
+KQ0KPiArCQlyZXR1cm4gTlVMTDsNCj4gKw0KPiArCWlmICghaW5pdF9kYXRhLT5md25vZGUpDQo+
+ICsJCWZ3ID0gZGV2X2Z3bm9kZShwYXJlbnQpOw0KPiArCWVsc2UNCj4gKwkJZncgPSBpbml0X2Rh
+dGEtPmZ3bm9kZTsNCj4gKw0KPiArCWlmICghZncpDQo+ICsJCXJldHVybiBOVUxMOw0KPiArDQo+
+ICsJLyoNCj4gKwkgKiBTaW1wbGUgdGhpbmdzIGFyZSBwcmV0dHkuIEkgdGhpbmsgc2ltcGxlc3Qg
+aXMgdG8gdXNlIERUDQo+IG5vZGUtbmFtZQ0KPiArCSAqIGZvciBtYXRjaGluZyB0aGUgbm9kZSB3
+aXRoIExFRCAtIHNhbWUgd2F5IHJlZ3VsYXRvcnMgdXNlIHRoZQ0KPiBub2RlDQo+ICsJICogbmFt
+ZSB0byBtYXRjaCB3aXRoIGRlc2MuDQo+ICsJICoNCj4gKwkgKiBUaGlzIG1heSBub3Qgd29yayB3
+aXRoIGV4aXN0aW5nIExFRCBEVCBlbnRyaWVzIGlmIHRoZSBub2RlDQo+IG5hbWUgaGFzDQo+ICsJ
+ICogYmVlbiBmcmVlbHkgc2VsZWN0aWJsZS4gSW4gb3JkZXIgdG8gdGhpcyB0byB3b3JrIHRoZSBi
+aW5kaW5nDQo+IGRvYw0KPiArCSAqIGZvciBMRUQgZHJpdmVyIHNob3VsZCBkZWZpbmUgdXNhYmxl
+IG5vZGUgbmFtZXMuDQo+ICsJICoNCj4gKwkgKiBJZiB0aGlzIGlzIG5vdCB3b3JraW5nIHdlIGNh
+biBkZWZpbmUgc3BlY2lmaWMgbWF0Y2ggcHJvcGVydHkNCj4gd2hpY2gNCj4gKwkgKiB2YWx1ZSB3
+ZSBzY2FuIGFuZCB1c2UgZm9yIG1hdGNoaW5nIGZvciBMRURzIGNvbm5lY3RlZCB0byB0aGUNCj4g
+KwkgKiBjb250cm9sbGVyLg0KPiArCSAqLw0KPiArCWlmIChpbml0X2RhdGEtPm1hdGNoX3Byb3Bl
+cnR5Lm5hbWUgJiYgaW5pdF9kYXRhLQ0KPiA+bWF0Y2hfcHJvcGVydHkuc2l6ZSkgew0KPiArCQl1
+OCAqdmFsOw0KPiArCQlpbnQgcmV0Ow0KPiArCQlzdHJ1Y3QgZndub2RlX2hhbmRsZSAqY2hpbGQ7
+DQo+ICsJCXN0cnVjdCBsZWRfZndfbWF0Y2hfcHJvcGVydHkgKm1wOw0KPiArDQo+ICsJCW1wID0g
+JmluaXRfZGF0YS0+bWF0Y2hfcHJvcGVydHk7DQo+ICsNCj4gKwkJdmFsID0ga3phbGxvYyhtcC0+
+c2l6ZSwgR0ZQX0tFUk5FTCk7DQo+ICsJCWlmICghdmFsKQ0KPiArCQkJcmV0dXJuIEVSUl9QVFIo
+LUVOT01FTSk7DQo+ICsNCj4gKwkJZndub2RlX2Zvcl9lYWNoX2NoaWxkX25vZGUoZncsIGNoaWxk
+KSB7DQo+ICsJCQlyZXQgPSBmd19pc19tYXRjaChjaGlsZCwgbXAsIHZhbCk7DQo+ICsJCQlpZiAo
+cmV0ID4gMCkgew0KPiArCQkJCWtmcmVlKHZhbCk7DQo+ICsJCQkJcmV0dXJuIGNoaWxkOw0KPiAr
+CQkJfQ0KPiArCQkJaWYgKHJldCA8IDApIHsNCj4gKwkJCQlkZXZfZXJyKHBhcmVudCwNCj4gKwkJ
+CQkJImludmFsaWQgZncgbWF0Y2guIFVzZQ0KPiByYXdfdmFsP1xuIik7DQo+ICsJCQkJZndub2Rl
+X2hhbmRsZV9wdXQoY2hpbGQpOw0KPiArCQkJCWJyZWFrOw0KPiArCQkJfQ0KPiArCQl9DQo+ICsJ
+CWtmcmVlKHZhbCk7DQo+ICsJfQ0KPiArCWlmIChpbml0X2RhdGEtPm9mX21hdGNoKQ0KPiArCQlm
+dyA9IGZ3bm9kZV9nZXRfbmFtZWRfY2hpbGRfbm9kZShmdywgaW5pdF9kYXRhLQ0KPiA+b2ZfbWF0
+Y2gpOw0KPiArCWVsc2UNCj4gKwkJZncgPSBmd25vZGVfaGFuZGxlX2dldChmdyk7DQo+ICsNCj4g
+KwlyZXR1cm4gZnc7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKGxlZF9maW5kX2Z3bm9kZSk7DQo+
+ICsNCj4gK2ludCBsZWRfcGFyc2VfZndub2RlX3Byb3BzKHN0cnVjdCBkZXZpY2UgKmRldiwgc3Ry
+dWN0IGZ3bm9kZV9oYW5kbGUNCj4gKmZ3bm9kZSwNCj4gKwkJCSAgIHN0cnVjdCBsZWRfcHJvcGVy
+dGllcyAqcHJvcHMpDQo+ICt7DQo+ICsJaW50IHJldCA9IDA7DQo+ICANCj4gIAlpZiAoIWZ3bm9k
+ZSkNCj4gLQkJcmV0dXJuOw0KPiArCQlyZXR1cm4gMDsNCj4gIA0KPiAgCWlmIChmd25vZGVfcHJv
+cGVydHlfcHJlc2VudChmd25vZGUsICJsYWJlbCIpKSB7DQo+ICAJCXJldCA9IGZ3bm9kZV9wcm9w
+ZXJ0eV9yZWFkX3N0cmluZyhmd25vZGUsICJsYWJlbCIsDQo+ICZwcm9wcy0+bGFiZWwpOw0KPiAg
+CQlpZiAocmV0KQ0KPiAgCQkJZGV2X2VycihkZXYsICJFcnJvciBwYXJzaW5nICdsYWJlbCcgcHJv
+cGVydHkNCj4gKCVkKVxuIiwgcmV0KTsNCj4gLQkJcmV0dXJuOw0KPiArCQlyZXR1cm4gcmV0Ow0K
+PiAgCX0NCj4gIA0KPiArCS8qKg0KPiArCSAqIFBsZWFzZSBub3RlLCBsb2dpYyBjaGFuZ2VkIC0g
+aWYgaW52YWxpZCBwcm9wZXJ0eSBpcyBmb3VuZCB3ZQ0KPiBiYWlsDQo+ICsJICogZWFybHkgb3V0
+IHdpdGhvdXQgcGFyc2luZyB0aGUgcmVzdCBvZiB0aGUgcHJvcGVydGllcy4NCj4gT3JpZ2luYWxs
+eQ0KPiArCSAqIHRoaXMgd2FzIHRoZSBjYXNlIG9ubHkgZm9yICdsYWJlbCcgcHJvcGVydHkuIEkg
+ZG9uJ3Qga25vdw0KPiB0aGUNCj4gKwkgKiByYXRpb25hbGUgYmVoaW5kIG9yaWdpbmFsIGxvZ2lj
+IGFsbG93aW5nIGludmFsaWQgcHJvcGVydGllcw0KPiB0byBiZQ0KPiArCSAqIGdpdmVuLiBJZiB0
+aGVyZSBpcyBhIHJlYXNvbiB0aGVuIHdlIHNob3VsZCByZWNvbnNpZGVyIHRoaXMuDQo+ICsJICog
+SW50dWl0aXZlbHkgaXQgZmVlbHMgY29ycmVjdCB0byBqdXN0IHllbGwgYW5kIHF1aXQgaWYgd2Ug
+aGl0DQo+IHZhbHVlIHdlDQo+ICsJICogZG9uJ3QgdW5kZXJzdGFuZCAtIGJ1dCBpbnR1aXRpb24g
+bWF5IGJlIHdyb25nIGF0IHRpbWVzIDopDQo+ICsJICovDQo+ICAJaWYgKGZ3bm9kZV9wcm9wZXJ0
+eV9wcmVzZW50KGZ3bm9kZSwgImNvbG9yIikpIHsNCj4gIAkJcmV0ID0gZndub2RlX3Byb3BlcnR5
+X3JlYWRfdTMyKGZ3bm9kZSwgImNvbG9yIiwgJnByb3BzLQ0KPiA+Y29sb3IpOw0KPiAtCQlpZiAo
+cmV0KQ0KPiArCQlpZiAocmV0KSB7DQo+ICAJCQlkZXZfZXJyKGRldiwgIkVycm9yIHBhcnNpbmcg
+J2NvbG9yJyBwcm9wZXJ0eQ0KPiAoJWQpXG4iLCByZXQpOw0KPiAtCQllbHNlIGlmIChwcm9wcy0+
+Y29sb3IgPj0gTEVEX0NPTE9SX0lEX01BWCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICsJCX0gZWxz
+ZSBpZiAocHJvcHMtPmNvbG9yID49IExFRF9DT0xPUl9JRF9NQVgpIHsNCj4gIAkJCWRldl9lcnIo
+ZGV2LCAiTEVEIGNvbG9yIGlkZW50aWZpZXIgb3V0IG9mDQo+IHJhbmdlXG4iKTsNCj4gLQkJZWxz
+ZQ0KPiAtCQkJcHJvcHMtPmNvbG9yX3ByZXNlbnQgPSB0cnVlOw0KPiArCQkJcmV0dXJuIHJldDsN
+Cj4gKwkJfQ0KPiArCQlwcm9wcy0+Y29sb3JfcHJlc2VudCA9IHRydWU7DQo+ICAJfQ0KPiAgDQo+
+ICsJaWYgKGZ3bm9kZV9wcm9wZXJ0eV9wcmVzZW50KGZ3bm9kZSwgImZ1bmN0aW9uIikpIHsNCj4g
+KwkJcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfc3RyaW5nKGZ3bm9kZSwgImZ1bmN0aW9uIiwN
+Cj4gKwkJCQkJCSAgJnByb3BzLT5mdW5jdGlvbik7DQo+ICsJCWlmIChyZXQpIHsNCj4gKwkJCWRl
+dl9lcnIoZGV2LA0KPiArCQkJCSJFcnJvciBwYXJzaW5nICdmdW5jdGlvbicgcHJvcGVydHkNCj4g
+KCVkKVxuIiwNCj4gKwkJCQlyZXQpOw0KPiArCQkJcmV0dXJuIHJldDsNCj4gKwkJfQ0KPiArCX0N
+Cj4gIA0KPiAtCWlmICghZndub2RlX3Byb3BlcnR5X3ByZXNlbnQoZndub2RlLCAiZnVuY3Rpb24i
+KSkNCj4gLQkJcmV0dXJuOw0KPiAtDQo+IC0JcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfc3Ry
+aW5nKGZ3bm9kZSwgImZ1bmN0aW9uIiwgJnByb3BzLQ0KPiA+ZnVuY3Rpb24pOw0KPiAtCWlmIChy
+ZXQpIHsNCj4gLQkJZGV2X2VycihkZXYsDQo+IC0JCQkiRXJyb3IgcGFyc2luZyAnZnVuY3Rpb24n
+IHByb3BlcnR5ICglZClcbiIsDQo+IC0JCQlyZXQpOw0KPiArCWlmIChmd25vZGVfcHJvcGVydHlf
+cHJlc2VudChmd25vZGUsICJmdW5jdGlvbi1lbnVtZXJhdG9yIikpIHsNCj4gKwkJcmV0ID0gZndu
+b2RlX3Byb3BlcnR5X3JlYWRfdTMyKGZ3bm9kZSwgImZ1bmN0aW9uLQ0KPiBlbnVtZXJhdG9yIiwN
+Cj4gKwkJCQkJICAgICAgICZwcm9wcy0+ZnVuY19lbnVtKTsNCj4gKwkJaWYgKHJldCkgew0KPiAr
+CQkJZGV2X2VycihkZXYsDQo+ICsJCQkJIkVycm9yIHBhcnNpbmcgJ2Z1bmN0aW9uLWVudW1lcmF0
+b3InDQo+IHByb3BlcnR5ICglZClcbiIsDQo+ICsJCQkJcmV0KTsNCj4gKwkJCXJldHVybiByZXQ7
+DQo+ICsJCX0NCj4gKwkJcHJvcHMtPmZ1bmNfZW51bV9wcmVzZW50ID0gdHJ1ZTsNCj4gIAl9DQo+
+ICANCj4gLQlpZiAoIWZ3bm9kZV9wcm9wZXJ0eV9wcmVzZW50KGZ3bm9kZSwgImZ1bmN0aW9uLWVu
+dW1lcmF0b3IiKSkNCj4gLQkJcmV0dXJuOw0KPiArCWlmIChmd25vZGVfcHJvcGVydHlfcHJlc2Vu
+dChmd25vZGUsICJkZWZhdWx0LXN0YXRlIikpIHsNCj4gKwkJcmV0ID0gZndub2RlX3Byb3BlcnR5
+X3JlYWRfc3RyaW5nKGZ3bm9kZSwgImRlZmF1bHQtDQo+IHN0YXRlIiwNCj4gKwkJCQkJCSAgJnBy
+b3BzLQ0KPiA+ZGVmYXVsdF9zdGF0ZSk7DQo+ICsJCWlmIChyZXQpIHsNCj4gKwkJCWRldl9lcnIo
+ZGV2LA0KPiArCQkJCSJFcnJvciBwYXJzaW5nICdkZWZhdWx0LXN0YXRlJyBwcm9wZXJ0eQ0KPiAo
+JWQpXG4iLA0KPiArCQkJCXJldCk7DQo+ICsJCQlyZXR1cm4gcmV0Ow0KPiArCQl9DQo+ICsJfQ0K
+PiAgDQo+IC0JcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGZ3bm9kZSwgImZ1bmN0aW9u
+LWVudW1lcmF0b3IiLA0KPiAtCQkJCSAgICAgICAmcHJvcHMtPmZ1bmNfZW51bSk7DQo+IC0JaWYg
+KHJldCkgew0KPiAtCQlkZXZfZXJyKGRldiwNCj4gLQkJCSJFcnJvciBwYXJzaW5nICdmdW5jdGlv
+bi1lbnVtZXJhdG9yJyBwcm9wZXJ0eQ0KPiAoJWQpXG4iLA0KPiAtCQkJcmV0KTsNCj4gLQl9IGVs
+c2Ugew0KPiAtCQlwcm9wcy0+ZnVuY19lbnVtX3ByZXNlbnQgPSB0cnVlOw0KPiArCWlmIChmd25v
+ZGVfcHJvcGVydHlfcHJlc2VudChmd25vZGUsICJsaW51eCxkZWZhdWx0LXRyaWdnZXIiKSkgew0K
+PiArCQlyZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF9zdHJpbmcoZndub2RlLA0KPiArCQkJCQkJ
+ICAibGludXgsZGVmYXVsdC0NCj4gdHJpZ2dlciIsDQo+ICsJCQkJCQkgICZwcm9wcy0NCj4gPmRl
+ZmF1bHRfdHJpZ2dlcik7DQo+ICsJCWlmIChyZXQpDQo+ICsJCQlkZXZfZXJyKGRldiwNCj4gKwkJ
+CQkiRXJyb3IgcGFyc2luZyAnbGludXgsZGVmYXVsdC10cmlnZ2VyJw0KPiBwcm9wZXJ0eSAoJWQp
+XG4iLA0KPiArCQkJCXJldCk7DQo+ICAJfQ0KPiArCXJldHVybiByZXQ7DQo+ICB9DQo+ICtFWFBP
+UlRfU1lNQk9MX0dQTChsZWRfcGFyc2VfZndub2RlX3Byb3BzKTsNCj4gIA0KPiAgaW50IGxlZF9j
+b21wb3NlX25hbWUoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgbGVkX2luaXRfZGF0YQ0KPiAq
+aW5pdF9kYXRhLA0KPiAtCQkgICAgIGNoYXIgKmxlZF9jbGFzc2Rldl9uYW1lKQ0KPiArCQkgICAg
+IHN0cnVjdCBsZWRfcHJvcGVydGllcyAqcHJvcHMsIGNoYXINCj4gKmxlZF9jbGFzc2Rldl9uYW1l
+KQ0KPiAgew0KPiAtCXN0cnVjdCBsZWRfcHJvcGVydGllcyBwcm9wcyA9IHt9Ow0KPiAtCXN0cnVj
+dCBmd25vZGVfaGFuZGxlICpmd25vZGUgPSBpbml0X2RhdGEtPmZ3bm9kZTsNCj4gIAljb25zdCBj
+aGFyICpkZXZpY2VuYW1lID0gaW5pdF9kYXRhLT5kZXZpY2VuYW1lOw0KPiAgDQo+ICAJaWYgKCFs
+ZWRfY2xhc3NkZXZfbmFtZSkNCj4gIAkJcmV0dXJuIC1FSU5WQUw7DQo+ICANCj4gLQlsZWRfcGFy
+c2VfZndub2RlX3Byb3BzKGRldiwgZndub2RlLCAmcHJvcHMpOw0KPiAtDQo+IC0JaWYgKHByb3Bz
+LmxhYmVsKSB7DQo+ICsJaWYgKHByb3BzLT5sYWJlbCkgew0KPiAgCQkvKg0KPiAgCQkgKiBJZiBp
+bml0X2RhdGEuZGV2aWNlbmFtZSBpcyBOVUxMLCB0aGVuIGl0IGluZGljYXRlcw0KPiB0aGF0DQo+
+ICAJCSAqIERUIGxhYmVsIHNob3VsZCBiZSB1c2VkIGFzLWlzIGZvciBMRUQgY2xhc3MgZGV2aWNl
+DQo+IG5hbWUuDQo+IEBAIC00MzYsMjMgKzU4MCwyMyBAQCBpbnQgbGVkX2NvbXBvc2VfbmFtZShz
+dHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdA0KPiBsZWRfaW5pdF9kYXRhICppbml0X2RhdGEsDQo+
+ICAJCSAqIHRoZSBmaW5hbCBMRUQgY2xhc3MgZGV2aWNlIG5hbWUuDQo+ICAJCSAqLw0KPiAgCQlp
+ZiAoIWRldmljZW5hbWUpIHsNCj4gLQkJCXN0cnNjcHkobGVkX2NsYXNzZGV2X25hbWUsIHByb3Bz
+LmxhYmVsLA0KPiArCQkJc3Ryc2NweShsZWRfY2xhc3NkZXZfbmFtZSwgcHJvcHMtPmxhYmVsLA0K
+PiAgCQkJCUxFRF9NQVhfTkFNRV9TSVpFKTsNCj4gIAkJfSBlbHNlIHsNCj4gIAkJCXNucHJpbnRm
+KGxlZF9jbGFzc2Rldl9uYW1lLCBMRURfTUFYX05BTUVfU0laRSwNCj4gIiVzOiVzIiwNCj4gLQkJ
+CQkgZGV2aWNlbmFtZSwgcHJvcHMubGFiZWwpOw0KPiArCQkJCSBkZXZpY2VuYW1lLCBwcm9wcy0+
+bGFiZWwpOw0KPiAgCQl9DQo+IC0JfSBlbHNlIGlmIChwcm9wcy5mdW5jdGlvbiB8fCBwcm9wcy5j
+b2xvcl9wcmVzZW50KSB7DQo+ICsJfSBlbHNlIGlmIChwcm9wcy0+ZnVuY3Rpb24gfHwgcHJvcHMt
+PmNvbG9yX3ByZXNlbnQpIHsNCj4gIAkJY2hhciB0bXBfYnVmW0xFRF9NQVhfTkFNRV9TSVpFXTsN
+Cj4gIA0KPiAtCQlpZiAocHJvcHMuZnVuY19lbnVtX3ByZXNlbnQpIHsNCj4gKwkJaWYgKHByb3Bz
+LT5mdW5jX2VudW1fcHJlc2VudCkgew0KPiAgCQkJc25wcmludGYodG1wX2J1ZiwgTEVEX01BWF9O
+QU1FX1NJWkUsICIlczolcy0NCj4gJWQiLA0KPiAtCQkJCSBwcm9wcy5jb2xvcl9wcmVzZW50ID8N
+Cj4gbGVkX2NvbG9yc1twcm9wcy5jb2xvcl0gOiAiIiwNCj4gLQkJCQkgcHJvcHMuZnVuY3Rpb24g
+PzogIiIsDQo+IHByb3BzLmZ1bmNfZW51bSk7DQo+ICsJCQkJIHByb3BzLT5jb2xvcl9wcmVzZW50
+ID8NCj4gbGVkX2NvbG9yc1twcm9wcy0+Y29sb3JdIDogIiIsDQo+ICsJCQkJIHByb3BzLT5mdW5j
+dGlvbiA/OiAiIiwgcHJvcHMtDQo+ID5mdW5jX2VudW0pOw0KPiAgCQl9IGVsc2Ugew0KPiAgCQkJ
+c25wcmludGYodG1wX2J1ZiwgTEVEX01BWF9OQU1FX1NJWkUsICIlczolcyIsDQo+IC0JCQkJIHBy
+b3BzLmNvbG9yX3ByZXNlbnQgPw0KPiBsZWRfY29sb3JzW3Byb3BzLmNvbG9yXSA6ICIiLA0KPiAt
+CQkJCSBwcm9wcy5mdW5jdGlvbiA/OiAiIik7DQo+ICsJCQkJIHByb3BzLT5jb2xvcl9wcmVzZW50
+ID8NCj4gbGVkX2NvbG9yc1twcm9wcy0+Y29sb3JdIDogIiIsDQo+ICsJCQkJIHByb3BzLT5mdW5j
+dGlvbiA/OiAiIik7DQo+ICAJCX0NCj4gIAkJaWYgKGluaXRfZGF0YS0+ZGV2bmFtZV9tYW5kYXRv
+cnkpIHsNCj4gIAkJCXNucHJpbnRmKGxlZF9jbGFzc2Rldl9uYW1lLCBMRURfTUFYX05BTUVfU0la
+RSwNCj4gIiVzOiVzIiwNCj4gQEAgLTQ2OCwxMSArNjEyLDE5IEBAIGludCBsZWRfY29tcG9zZV9u
+YW1lKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0DQo+IGxlZF9pbml0X2RhdGEgKmluaXRfZGF0
+YSwNCj4gIAkJfQ0KPiAgCQlzbnByaW50ZihsZWRfY2xhc3NkZXZfbmFtZSwgTEVEX01BWF9OQU1F
+X1NJWkUsICIlczolcyIsDQo+ICAJCQkgZGV2aWNlbmFtZSwgaW5pdF9kYXRhLT5kZWZhdWx0X2xh
+YmVsKTsNCj4gLQl9IGVsc2UgaWYgKGlzX29mX25vZGUoZndub2RlKSkgew0KPiAtCQlzdHJzY3B5
+KGxlZF9jbGFzc2Rldl9uYW1lLCB0b19vZl9ub2RlKGZ3bm9kZSktPm5hbWUsDQo+IC0JCQlMRURf
+TUFYX05BTUVfU0laRSk7DQo+IC0JfSBlbHNlDQo+IC0JCXJldHVybiAtRUlOVkFMOw0KPiArCX0g
+ZWxzZSB7DQo+ICsJCXN0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUgPSBsZWRfZmluZF9md25v
+ZGUoZGV2LA0KPiBpbml0X2RhdGEpOw0KPiArCQlpbnQgcmV0ID0gLUVJTlZBTDsNCj4gKw0KPiAr
+CQlpZiAoaXNfb2Zfbm9kZShmd25vZGUpKSB7DQo+ICsJCQlyZXQgPSAwOw0KPiArCQkJc3Ryc2Nw
+eShsZWRfY2xhc3NkZXZfbmFtZSwgdG9fb2Zfbm9kZShmd25vZGUpLQ0KPiA+bmFtZSwNCj4gKwkJ
+CQlMRURfTUFYX05BTUVfU0laRSk7DQo+ICsJCX0NCj4gKwkJZndub2RlX2hhbmRsZV9wdXQoZndu
+b2RlKTsNCj4gKw0KPiArCQlyZXR1cm4gcmV0Ow0KPiArCX0NCj4gIA0KPiAgCXJldHVybiAwOw0K
+PiAgfQ0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9sZWRzLmggYi9pbmNsdWRlL2xpbnV4
+L2xlZHMuaA0KPiBpbmRleCBlZmIzMDlkYmE5MTQuLmFlYTdkNmJjNzI5NCAxMDA2NDQNCj4gLS0t
+IGEvaW5jbHVkZS9saW51eC9sZWRzLmgNCj4gKysrIGIvaW5jbHVkZS9saW51eC9sZWRzLmgNCj4g
+QEAgLTEzLDYgKzEzLDcgQEANCj4gICNpbmNsdWRlIDxsaW51eC9rZXJuZnMuaD4NCj4gICNpbmNs
+dWRlIDxsaW51eC9saXN0Lmg+DQo+ICAjaW5jbHVkZSA8bGludXgvbXV0ZXguaD4NCj4gKyNpbmNs
+dWRlIDxsaW51eC9wcm9wZXJ0eS5oPg0KPiAgI2luY2x1ZGUgPGxpbnV4L3J3c2VtLmg+DQo+ICAj
+aW5jbHVkZSA8bGludXgvc3BpbmxvY2suaD4NCj4gICNpbmNsdWRlIDxsaW51eC90aW1lci5oPg0K
+PiBAQCAtMjAsNiArMjEsNyBAQA0KPiAgDQo+ICBzdHJ1Y3QgZGV2aWNlOw0KPiAgc3RydWN0IGxl
+ZF9wYXR0ZXJuOw0KPiArc3RydWN0IGxlZF9jbGFzc2RldjsNCj4gIC8qDQo+ICAgKiBMRUQgQ29y
+ZQ0KPiAgICovDQo+IEBAIC0zMSw4ICszMyw0NyBAQCBlbnVtIGxlZF9icmlnaHRuZXNzIHsNCj4g
+IAlMRURfRlVMTAk9IDI1NSwNCj4gIH07DQo+ICANCj4gK3N0cnVjdCBsZWRfcHJvcGVydGllcyB7
+DQo+ICsJdTMyCQljb2xvcjsNCj4gKwlib29sCQljb2xvcl9wcmVzZW50Ow0KPiArCWNvbnN0IGNo
+YXIJKmZ1bmN0aW9uOw0KPiArCXUzMgkJZnVuY19lbnVtOw0KPiArCWJvb2wJCWZ1bmNfZW51bV9w
+cmVzZW50Ow0KPiArCWNvbnN0IGNoYXIJKmxhYmVsOw0KPiArCWNvbnN0IGNoYXIJKmRlZmF1bHRf
+dHJpZ2dlcjsNCj4gKwljb25zdCBjaGFyCSpkZWZhdWx0X3N0YXRlOw0KPiArCWJvb2wJCWJyaWdo
+dG5lc3Nfa2VlcDsNCj4gK307DQo+ICsNCj4gK3N0cnVjdCBsZWRfZndfbWF0Y2hfcHJvcGVydHkg
+ew0KPiArCWNvbnN0IGNoYXIgKm5hbWU7CS8qIE5hbWUgb2YgdGhlIHByb3BlcnR5IHRvIG1hdGNo
+ICovDQo+ICsJdm9pZCAqcmF3X3ZhbDsJCS8qIFJhdyBwcm9wZXJ0eSB2YWx1ZSBhcyBwcmVzZW50
+IGluDQo+IGZ3bm9kZSAqLw0KPiArCXZvaWQgKmludHZhbDsJCS8qIFByb3BlcnR5IHZhbHVlIGlm
+IDgsMTYsMzIgb3IgNjRiaXQNCj4gaW50ZWdlciAqLw0KPiArCXNpemVfdCBzaXplOwkJLyogU2l6
+ZSBvZiB2YWx1ZSBpbiBieXRlcyAqLw0KPiArfTsNCj4gKw0KPiAgc3RydWN0IGxlZF9pbml0X2Rh
+dGEgew0KPiAtCS8qIGRldmljZSBmd25vZGUgaGFuZGxlICovDQo+ICsJLyoNCj4gKwkgKiBJZiBE
+VCBiaW5kaW5nIGRpY3RhdGVzIHRoZSBub2RlIG5hbWUgdGhlIGRyaXZlciBjYW4gZmlsbA0KPiBv
+Zl9tYXRjaA0KPiArCSAqIGNvcnJlc3BvbmRpbmcgdG8gbm9kZSBuYW1lIGRlc2NyaWJpbmcgdGhp
+cyBMRUQuIElmIGZ3bm9kZSBpcw0KPiBnaXZlbg0KPiArCSAqIHRoZSBtYXRjaCBpcyBzZWFyY2hl
+ZCBmcm9tIGl0J3MgY2hpbGQgbm9kZXMuIElmIG5vdCwgdGhlDQo+IG1hdGNoIGlzDQo+ICsJICog
+c2VhcmNoZWQgZnJvbSBkZXZpY2UncyBvd24gY2hpbGQgbm9kZXMuDQo+ICsJICovDQo+ICsJY29u
+c3QgY2hhciAqb2ZfbWF0Y2g7DQo+ICsJLyoNCj4gKwkgKiBJZiBmd25vZGUgY29udGFpbnMgcHJv
+cGVydHkgd2l0aCBrbm93biB2YWx1ZSB0aGUgZHJpdmVyIGNhbg0KPiBzcGVjaWZ5DQo+ICsJICog
+Y29ycmVjdCBwcm9wZXJ0dHktdmFsdWUgcGFpciBoZXJlIHRvIGRvIHRoZSBtYXRjaGluZy4gVGhp
+cw0KPiBoYXMgaGlnaGVyDQo+ICsJICogcHJpb3JpdHkgdGhhbiBvZl9tYXRjaC4gSWYgZndub2Rl
+IGlzIGdpdmVuIHRoZSBtYXRjaCBpcw0KPiBzZWFyY2hlZA0KPiArCSAqIGZyb20gaXQncyBjaGls
+ZCBub2Rlcy4gSWYgbm90IG1hdGNoIGlzIHNlYXJjaGVkIGZyb20NCj4gZGV2aWNlJ3MNCj4gKwkg
+KiBvd24gY2hpbGQgbm9kZXMuDQo+ICsJICovDQo+ICsJc3RydWN0IGxlZF9md19tYXRjaF9wcm9w
+ZXJ0eSBtYXRjaF9wcm9wZXJ0eTsNCj4gKwkvKg0KPiArCSAqIGRldmljZSBmd25vZGUgaGFuZGxl
+LiBJZiBvZl9tYXRjaCBvciBsZWRfY29tcGF0aWJsZSBhcmUgbm90DQo+IGdpdmVuDQo+ICsJICog
+dGhpcyBpcyB1c2VkIGZvciBMRUQgYXMgZ2l2ZW4uIElmIG9mX21hdGNoIG9yIGxlZF9jb21wYXRp
+YmxlDQo+IGFyZQ0KPiArCSAqIGdpdmVuIHRoZW4gdGhpcyBpcyB1c2VkIGFzIGEgcGFyZW50IG5v
+ZGUgd2hvc2UgY2hpbGQgbm9kZXMNCj4gYXJlDQo+ICsJICogc2Nhbm5lZCBmb3IgZ2l2ZW4gbWF0
+Y2guDQo+ICsJICovDQo+ICAJc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmZ3bm9kZTsNCj4gIAkvKg0K
+PiAgCSAqIGRlZmF1bHQgPGNvbG9yOmZ1bmN0aW9uPiB0dXBsZSwgZm9yIGJhY2t3YXJkIGNvbXBh
+dGliaWxpdHkNCj4gQEAgLTUzLDkgKzk0LDE3IEBAIHN0cnVjdCBsZWRfaW5pdF9kYXRhIHsNCj4g
+IAkgKiBzZXQgaXQgdG8gdHJ1ZQ0KPiAgCSAqLw0KPiAgCWJvb2wgZGV2bmFtZV9tYW5kYXRvcnk7
+DQo+ICsJLyoNCj4gKwkgKiBDYWxsYmFjayB3aGljaCBhIExFRCBkcml2ZXIgY2FuIHJlZ2lzdGVy
+IGlmIGl0IGhhcyBvd24gbm9uLQ0KPiBzdGFuZGFyZA0KPiArCSAqIERUIHByb3BlcnRpZXMuIENv
+cmUgY2FsbHMgdGhpcyB3aXRoIHRoZSBsb2NhdGVkIERUIG5vZGUNCj4gZHVyaW5nDQo+ICsJICog
+Y2xhc3NfZGV2aWNlIHJlZ2lzdHJhdGlvbg0KPiArCSAqLw0KPiArCWludCAoKm9mX3BhcnNlX2Ni
+KShzdHJ1Y3QgbGVkX2NsYXNzZGV2ICpsZCwgc3RydWN0DQo+IGZ3bm9kZV9oYW5kbGUgKmZ3LA0K
+PiArCQkJICAgIHN0cnVjdCBsZWRfcHJvcGVydGllcyAqcHJvcHMpOw0KPiAgfTsNCj4gIA0KPiAg
+c3RydWN0IGxlZF9jbGFzc2RldiB7DQo+ICsJc3RydWN0IGxlZF9pbml0X2RhdGEJKmluaXRfZGF0
+YTsNCj4gIAljb25zdCBjaGFyCQkqbmFtZTsNCj4gIAllbnVtIGxlZF9icmlnaHRuZXNzCSBicmln
+aHRuZXNzOw0KPiAgCWVudW0gbGVkX2JyaWdodG5lc3MJIG1heF9icmlnaHRuZXNzOw0KPiBAQCAt
+MTQ4LDYgKzE5Nyw3IEBAIHN0cnVjdCBsZWRfY2xhc3NkZXYgew0KPiAgDQo+ICAJLyogRW5zdXJl
+cyBjb25zaXN0ZW50IGFjY2VzcyB0byB0aGUgTEVEIEZsYXNoIENsYXNzIGRldmljZSAqLw0KPiAg
+CXN0cnVjdCBtdXRleAkJbGVkX2FjY2VzczsNCj4gKwlib29sCQkJZndub2RlX293bmVkOw0KPiAg
+fTsNCj4gIA0KPiAgLyoqDQo+IEBAIC0zMDIsNiArMzUyLDcgQEAgZXh0ZXJuIHZvaWQgbGVkX3N5
+c2ZzX2VuYWJsZShzdHJ1Y3QgbGVkX2NsYXNzZGV2DQo+ICpsZWRfY2Rldik7DQo+ICAgKiBsZWRf
+Y29tcG9zZV9uYW1lIC0gY29tcG9zZSBMRUQgY2xhc3MgZGV2aWNlIG5hbWUNCj4gICAqIEBkZXY6
+IExFRCBjb250cm9sbGVyIGRldmljZSBvYmplY3QNCj4gICAqIEBpbml0X2RhdGE6IHRoZSBMRUQg
+Y2xhc3MgZGV2aWNlIGluaXRpYWxpemF0aW9uIGRhdGENCj4gKyAqIEBwcm9wczogTEVEIHByb3Bl
+cnRpZXMgYXMgcGFyc2VkIGZyb20gZndub2RlLg0KPiAgICogQGxlZF9jbGFzc2Rldl9uYW1lOiBj
+b21wb3NlZCBMRUQgY2xhc3MgZGV2aWNlIG5hbWUNCj4gICAqDQo+ICAgKiBDcmVhdGUgTEVEIGNs
+YXNzIGRldmljZSBuYW1lIGJhc2luZyBvbiB0aGUgcHJvdmlkZWQgaW5pdF9kYXRhDQo+IGFyZ3Vt
+ZW50Lg0KPiBAQCAtMzExLDYgKzM2Miw3IEBAIGV4dGVybiB2b2lkIGxlZF9zeXNmc19lbmFibGUo
+c3RydWN0IGxlZF9jbGFzc2Rldg0KPiAqbGVkX2NkZXYpOw0KPiAgICogUmV0dXJuczogMCBvbiBz
+dWNjZXNzIG9yIG5lZ2F0aXZlIGVycm9yIHZhbHVlIG9uIGZhaWx1cmUNCj4gICAqLw0KPiAgZXh0
+ZXJuIGludCBsZWRfY29tcG9zZV9uYW1lKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGxlZF9p
+bml0X2RhdGENCj4gKmluaXRfZGF0YSwNCj4gKwkJCSAgICBzdHJ1Y3QgbGVkX3Byb3BlcnRpZXMg
+KnByb3BzLA0KPiAgCQkJICAgIGNoYXIgKmxlZF9jbGFzc2Rldl9uYW1lKTsNCj4gIA0KPiAgLyoq
+DQo+IEBAIC0zMjQsNiArMzc2LDMzIEBAIHN0YXRpYyBpbmxpbmUgYm9vbCBsZWRfc3lzZnNfaXNf
+ZGlzYWJsZWQoc3RydWN0DQo+IGxlZF9jbGFzc2RldiAqbGVkX2NkZXYpDQo+ICAJcmV0dXJuIGxl
+ZF9jZGV2LT5mbGFncyAmIExFRF9TWVNGU19ESVNBQkxFOw0KPiAgfQ0KPiAgDQo+ICsvKioNCj4g
+KyAqIGxlZF9maW5kX2Z3bm9kZSAtIGZpbmQgZndub2RlIG1hdGNoaW5nIGdpdmVuIExFRCBpbml0
+IGRhdGENCj4gKyAqIEBwYXJlbnQ6IExFRCBjb250cm9sbGVyIGRldmljZSB0aGlzIExFRCBpcyBk
+cml2ZW4gYnkNCj4gKyAqIEBpbml0X2RhdGE6IHRoZSBMRUQgY2xhc3MgZGV2aWNlIGluaXRpYWxp
+emF0aW9uIGRhdGENCj4gKyAqDQo+ICsgKiBGaW5kIHRoZSBmdyBub2RlIG1hdGNoaW5nIGdpdmVu
+IExFRCBpbml0IGRhdGEuDQo+ICsgKiBOT1RFOiBGdW5jdGlvbiBpbmNyZWFzZXMgcmVmY291bnQg
+Zm9yIGZvdW5kIG5vZGUuIENhbGxlciBtdXN0DQo+IGRlY3JlYXNlDQo+ICsgKiByZWZjb3VudCB1
+c2luZyBmd25vZGVfaGFuZGxlX3B1dCB3aGVuIGZpbmlzaGVkIHdpdGggbm9kZS4NCj4gKyAqDQo+
+ICsgKiBSZXR1cm5zOiBub2RlIGhhbmRsZSBvciBOVUxMIGlmIG1hdGNoaW5nIGZ3IG5vZGUgd2Fz
+IG5vdCBmb3VuZA0KPiArICovDQo+ICtzdHJ1Y3QgZndub2RlX2hhbmRsZSAqbGVkX2ZpbmRfZndu
+b2RlKHN0cnVjdCBkZXZpY2UgKnBhcmVudCwNCj4gKwkJCQkgICAgICBzdHJ1Y3QgbGVkX2luaXRf
+ZGF0YSAqaW5pdF9kYXRhKTsNCj4gKw0KPiArLyoqDQo+ICsgKiBsZWRfcGFyc2VfZndub2RlX3By
+b3BzIC0gcGFyc2UgTEVEIGNvbW1vbiBwcm9wZXJ0aWVzIGZyb20gZndub2RlDQo+ICsgKiBAZGV2
+OiBwb2ludGVyIHRvIExFRCBkZXZpY2UuDQo+ICsgKiBAZndub2RlOiBMRUQgbm9kZSBjb250YWlu
+aW5nIHRoZSBwcm9wZXJ0aWVzDQo+ICsgKiBAcHJvcHM6IHN0cnVjdHVyZSB3aGVyZSBmb3VuZCBw
+cm9wZXJ0eSBkYXRhIGlzIHN0b3JlZC4NCj4gKyAqDQo+ICsgKiBQYXJzZSB0aGUgY29tbW9uIExF
+RCBwcm9wZXJ0aWVzIGZyb20gZndub2RlLg0KPiArICoNCj4gKyAqIFJldHVybnM6IDAgb24gc3Vj
+Y2VzcyBvciBuZWdhdGl2ZSBlcnJvciB2YWx1ZSBvbiBmYWlsdXJlDQo+ICsgKi8NCj4gK2ludCBs
+ZWRfcGFyc2VfZndub2RlX3Byb3BzKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGZ3bm9kZV9o
+YW5kbGUNCj4gKmZ3bm9kZSwNCj4gKwkJCSAgIHN0cnVjdCBsZWRfcHJvcGVydGllcyAqcHJvcHMp
+Ow0KPiArDQo+ICAvKg0KPiAgICogTEVEIFRyaWdnZXJzDQo+ICAgKi8NCj4gQEAgLTQ5MCwxNSAr
+NTY5LDYgQEAgc3RydWN0IGxlZF9wbGF0Zm9ybV9kYXRhIHsNCj4gIAlzdHJ1Y3QgbGVkX2luZm8J
+KmxlZHM7DQo+ICB9Ow0KPiAgDQo+IC1zdHJ1Y3QgbGVkX3Byb3BlcnRpZXMgew0KPiAtCXUzMgkJ
+Y29sb3I7DQo+IC0JYm9vbAkJY29sb3JfcHJlc2VudDsNCj4gLQljb25zdCBjaGFyCSpmdW5jdGlv
+bjsNCj4gLQl1MzIJCWZ1bmNfZW51bTsNCj4gLQlib29sCQlmdW5jX2VudW1fcHJlc2VudDsNCj4g
+LQljb25zdCBjaGFyCSpsYWJlbDsNCj4gLX07DQo+IC0NCj4gIHN0cnVjdCBncGlvX2Rlc2M7DQo+
+ICB0eXBlZGVmIGludCAoKmdwaW9fYmxpbmtfc2V0X3QpKHN0cnVjdCBncGlvX2Rlc2MgKmRlc2Ms
+IGludCBzdGF0ZSwNCj4gIAkJCQl1bnNpZ25lZCBsb25nICpkZWxheV9vbiwNCj4gLS0gDQo+IDIu
+MjEuMA0KPiANCj4gDQoNCg==
