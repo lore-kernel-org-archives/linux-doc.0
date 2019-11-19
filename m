@@ -5,109 +5,274 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D55327D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 09:12:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E25857D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 10:19:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726637AbfKSJMO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 04:12:14 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:42746 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbfKSJMO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 04:12:14 -0500
-X-AuditID: c0a8fbf4-199ff70000001fa6-33-5dd3b1ebf61b
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id A1.7C.08102.BE1B3DD5; Tue, 19 Nov 2019 10:12:11 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Tue, 19 Nov 2019 10:12:06 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "broonie@kernel.org" <broonie@kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "hofrat@osadl.org" <hofrat@osadl.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>
-Subject: Re: [PATCH v5 09/16] regulator: bd71828: Basic support for ROHM
- bd71828 PMIC regulators
-Thread-Topic: [PATCH v5 09/16] regulator: bd71828: Basic support for ROHM
- bd71828 PMIC regulators
-Thread-Index: AQHVnd2DWIMPtP3SE0CbN3AnPrzvvaeRC7QAgAEapIA=
-Date:   Tue, 19 Nov 2019 09:12:06 +0000
-Message-ID: <bd5499bcb2cceb163ab7829eced05360c725f6e3.camel@fi.rohmeurope.com>
-References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
-         <ffd3ea4858f820e565aba88ccac395ce5b661538.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191118162032.GI9761@sirena.org.uk>
-In-Reply-To: <20191118162032.GI9761@sirena.org.uk>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EDAFFAA195E63A428FBFB188D7C56A34@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1726980AbfKSKTS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 05:19:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49868 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726555AbfKSKTS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Nov 2019 05:19:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 737CFAE87;
+        Tue, 19 Nov 2019 10:19:13 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id D586A1E47E5; Tue, 19 Nov 2019 11:19:10 +0100 (CET)
+Date:   Tue, 19 Nov 2019 11:19:10 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH v6 02/24] mm/gup: factor out duplicate code from four
+ routines
+Message-ID: <20191119101910.GC25605@quack2.suse.cz>
+References: <20191119081643.1866232-1-jhubbard@nvidia.com>
+ <20191119081643.1866232-3-jhubbard@nvidia.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUwTZxzH89w7lVuOCvKASrJbFt+iDOaSZ4txukw9t8w598+yhMAhJyVC
-        y65lwowTJp22MiaxZthIeWeGt46i21RqTC0OqnarWMaiDKqMDHSSOQRRg7vbTeGv+93z/X6+
-        3+eP38Pg+mY6kckxWiTZKObylI64cPKxZ/Wdjr60V4buJ6CGUJhGB+810WiyKkCgY5ERCo1c
-        OAhQtT9IosOXT5GobqKSRDbbIRLdOP0dgXo6hwAaetAN0NT1QxhyPPkWQ3+X/U6i2i8bCNRZ
-        /QSgvrMnKHT6bjtAl1quU6jNP0ijxl9DGDrR2EOgifs2DIUCm9BgoJtCB0IDOLJ6/TSa7e8g
-        UHlwy4YkodXVCoSJASstuFr3Cmecg7RQ3zWGCZ5mGyXc7O+ihPryo6TwZ9lFQpi6UkEI5aea
-        gTBa6yaEnwZ+wIRvXDOYcLJlmhb+8SRt5z5esC5TtHz6YU62MXl9xgJDZa0V5LfrCmccI3gx
-        KNPZQRQDubVwvP4hbgc6Rs+FAXQ0fU1rPz0AtvlLSTtgGIpbB+2/0SoQy62Gxx7VU6oH545H
-        w/PBc5gqLOQyYfhMCFf9sdxOePNOjOZ/Aw7UdOPqTHAvw6amWVKdWW4bvBopBVrXFQAfeEsw
-        lY3iUuHQ5U9UD+CWQlvxvf/icS4eekanSe3SHGzo+hnX5jg4dnv2/3MeemcihBqDcyug+2yy
-        hm6AT689xLX5Reg4HKG1K8TA3uMjxBGwyDmvwTlHO+fRznm0cx5dA8hmAPPEnNxs0SKlrJGl
-        gjWyyZCnfHaa8jxA273JH8FT31YfwBjgAwkMxsexw4V9afoXMk1ZRQbRbEiXC3Ilsw9ABudj
-        2W23fknTs1li0WeSbHomLWYIPp5dFqlI03Nq125JypfkZ+oShuEh62hXQmNkKVsq3JWTa5mT
-        MSZKDdclxpolY5YkiwUWQ7q6HulmZT9UKVrpveRWcNacL+YppxoaAKuYI2NVdTjjr2qsw/WE
-        0WSUEuPZIoNi5VSrocD4vGgcxDOAX8j2q0HRygN8njOuVGBKRUfbNbXCIs5JicVguzWsi1qe
-        khoX3DS151bfcG/GylJfCbWLf/TSvvF9r7+t37P2o6+qF/csWX4xfWPcm5tXDe8veTUl8n1G
-        hUW34+jV8JS7dvcH74tbv/C6kt9qWfr4xt3U9amhGqu7k7/tGu39q4s1V27OTPLaE/bCdz/n
-        /3hn0eR0oWWLK2APrqje/95rPGE2iCkrcdks/gubXQWTPQQAAA==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191119081643.1866232-3-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGhhbmtzIE1hcmssDQoNCk9uIE1vbiwgMjAxOS0xMS0xOCBhdCAxNjoyMCArMDAwMCwgTWFyayBC
-cm93biB3cm90ZToNCj4gT24gTW9uLCBOb3YgMTgsIDIwMTkgYXQgMDg6NTc6NTdBTSArMDIwMCwg
-TWF0dGkgVmFpdHRpbmVuIHdyb3RlOg0KPiANCj4gPiArc3RhdGljIGludCByYW1wX2RlbGF5X3N1
-cHBvcnRlZChzdHJ1Y3QgcmVndWxhdG9yX2RldiAqcmRldikNCj4gPiArew0KPiA+ICsJc3dpdGNo
-IChyZGV2LT5kZXNjLT5pZCkgew0KPiA+ICsJY2FzZSBCRDcxODI4X0JVQ0sxOg0KPiA+ICsJY2Fz
-ZSBCRDcxODI4X0JVQ0syOg0KPiA+ICsJY2FzZSBCRDcxODI4X0JVQ0s2Og0KPiA+ICsJY2FzZSBC
-RDcxODI4X0JVQ0s3Og0KPiA+ICsJCXJldHVybiAxOw0KPiA+ICsJZGVmYXVsdDoNCj4gPiArCQli
-cmVhazsNCj4gPiArCX0NCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0
-aWMgaW50IGJkNzE4Mjhfc2V0X3JhbXBfZGVsYXkoc3RydWN0IHJlZ3VsYXRvcl9kZXYgKnJkZXYs
-IGludA0KPiA+IHJhbXBfZGVsYXkpDQo+ID4gK3sNCj4gPiArCXVuc2lnbmVkIGludCB2YWw7DQo+
-ID4gKw0KPiA+ICsJaWYgKCFyYW1wX2RlbGF5X3N1cHBvcnRlZChyZGV2KSkgew0KPiA+ICsJCWRl
-dl9lcnIoJnJkZXYtPmRldiwgIiVzOiBjYW4ndCBzZXQgcmFtcC1kZWxheVxuIiwNCj4gPiArCQkJ
-cmRldi0+ZGVzYy0+bmFtZSk7DQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+IA0KPiBSYXRoZXIg
-dGhhbiBkb2luZyB0aGlzIGl0J3MgYmV0dGVyIHRvIGp1c3Qgbm90IHByb3ZpZGUgdGhlIG9wZXJh
-dGlvbg0KPiBmb3INCj4gZGV2aWNlcyB0aGF0IGRvbid0IHN1cHBvcnQgaXQsIHRoYXQgbWFrZXMg
-dGhlIGhhbmRsaW5nIGluIHRoZSBjb3JlDQo+IGVhc2llci4NCg0KTWFrZXMgc2Vuc2UuIEknbGwg
-Y2hhbmdlIHRoaXMgaW4gbmV4dCB2ZXJzaW9uLg0KDQpCciwNCglNYXR0aSBWYWl0dGluZW4NCg0K
+On Tue 19-11-19 00:16:21, John Hubbard wrote:
+> There are four locations in gup.c that have a fair amount of code
+> duplication. This means that changing one requires making the same
+> changes in four places, not to mention reading the same code four
+> times, and wondering if there are subtle differences.
+> 
+> Factor out the common code into static functions, thus reducing the
+> overall line count and the code's complexity.
+> 
+> Also, take the opportunity to slightly improve the efficiency of the
+> error cases, by doing a mass subtraction of the refcount, surrounded
+> by get_page()/put_page().
+> 
+> Also, further simplify (slightly), by waiting until the the successful
+> end of each routine, to increment *nr.
+> 
+> Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+
+Looks good to me now! You can add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  mm/gup.c | 91 ++++++++++++++++++++++----------------------------------
+>  1 file changed, 36 insertions(+), 55 deletions(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 85caf76b3012..f3c7d6625817 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -1969,6 +1969,25 @@ static int __gup_device_huge_pud(pud_t pud, pud_t *pudp, unsigned long addr,
+>  }
+>  #endif
+>  
+> +static int __record_subpages(struct page *page, unsigned long addr,
+> +			     unsigned long end, struct page **pages)
+> +{
+> +	int nr;
+> +
+> +	for (nr = 0; addr != end; addr += PAGE_SIZE)
+> +		pages[nr++] = page++;
+> +
+> +	return nr;
+> +}
+> +
+> +static void put_compound_head(struct page *page, int refs)
+> +{
+> +	/* Do a get_page() first, in case refs == page->_refcount */
+> +	get_page(page);
+> +	page_ref_sub(page, refs);
+> +	put_page(page);
+> +}
+> +
+>  #ifdef CONFIG_ARCH_HAS_HUGEPD
+>  static unsigned long hugepte_addr_end(unsigned long addr, unsigned long end,
+>  				      unsigned long sz)
+> @@ -1998,32 +2017,20 @@ static int gup_hugepte(pte_t *ptep, unsigned long sz, unsigned long addr,
+>  	/* hugepages are never "special" */
+>  	VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+>  
+> -	refs = 0;
+>  	head = pte_page(pte);
+> -
+>  	page = head + ((addr & (sz-1)) >> PAGE_SHIFT);
+> -	do {
+> -		VM_BUG_ON(compound_head(page) != head);
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(head, refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pte_val(pte) != pte_val(*ptep))) {
+> -		/* Could be optimized better */
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2071,28 +2078,19 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>  					     pages, nr);
+>  	}
+>  
+> -	refs = 0;
+>  	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pmd_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2114,28 +2112,19 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
+>  					     pages, nr);
+>  	}
+>  
+> -	refs = 0;
+>  	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pud_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pud_val(orig) != pud_val(*pudp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2151,28 +2140,20 @@ static int gup_huge_pgd(pgd_t orig, pgd_t *pgdp, unsigned long addr,
+>  		return 0;
+>  
+>  	BUILD_BUG_ON(pgd_devmap(orig));
+> -	refs = 0;
+> +
+>  	page = pgd_page(orig) + ((addr & ~PGDIR_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pgd_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pgd_val(orig) != pgd_val(*pgdp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> -- 
+> 2.24.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
