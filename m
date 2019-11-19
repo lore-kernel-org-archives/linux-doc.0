@@ -1,172 +1,266 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6BC6F7D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 00:14:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 97A877DE5B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 00:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbfKSAOI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Nov 2019 19:14:08 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:33183 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfKSAOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 19:14:07 -0500
-Received: by mail-ed1-f65.google.com with SMTP id a24so15490880edt.0;
-        Mon, 18 Nov 2019 16:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KvzBw5GEm6IKy7UcTEcP5CcHIg0pP5+1eixVP7EiPts=;
-        b=hrf+XtvFLfe+2tOLSsp/bvTGHCcykVLxuj+j39jWN5sA+/9OaJ0tydnUCuPZ6jYDG2
-         m8q9uF1NNhsscoPJ/ctXeAmBtr0Wnq3WUaWOuFhUY1V6+L0cMtpDWqiTmXBOt3RNHvf8
-         yPtwBRAvBQ6f/9sb+9UkHpNkm9/ZJNJGVn9MNNmIP3M7EPHoOEg2Ao8k368uB22YlUYo
-         WXYPj/Kx6kujVbLTr8qZvTDB4Q2eGrHWroGF4LcLTEFTUFk24z5WYvnV9+rF1/D1KhQi
-         MOAtyI0VR2ojnErFvppR+Aktg25dXcoT79YGU7eFOlbb7wpHbUtEAm+PvZkhF+Bs+VgP
-         rH3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=KvzBw5GEm6IKy7UcTEcP5CcHIg0pP5+1eixVP7EiPts=;
-        b=DemYY90kDR0ngrwPzfeJrL89BLEz8jsntbtNcYe7Eb43gmH7hgA/lWpcSWMTbHioOs
-         oDfJEO5zZccLXjhuH3aMYqQZvfaRXZjOQoDT1gRL1a6D1jITkEKM9kEtTdu8kYeUzHIZ
-         qkahm3Hp2snzn7xu+SFMK7KHrCW3KR/TffYah3enElTkpjnxC6Je/r0axzF1eAhkApVe
-         +ZAIizBH77cxmV0qkTLCGxtoSmekUtKu93KLmKRvc2CgRLVVqLvk78HsxzfuYFE9VMUQ
-         ihzLUVxZkiUtr2b0dCL0FaxmciRdsvxVtfElzh7eOdbKpX5FJwxM5KYIY/krTlpaHE08
-         q+EQ==
-X-Gm-Message-State: APjAAAWL+d09FXFmRGbmkw/mhJqjtiKHsgU3buXWysiW+YEL2a53HvzW
-        pJgg/J8Qhj+YC0UwA8vaHy4=
-X-Google-Smtp-Source: APXvYqxo6PfSB2EpjNR7/L52kUiTalgNZmc1x1H2Nm1Kdbz2+wHBrmdMC6zbNFuV2nCC2godfJXU4g==
-X-Received: by 2002:a17:906:5c06:: with SMTP id e6mr27480410ejq.195.1574122445324;
-        Mon, 18 Nov 2019 16:14:05 -0800 (PST)
-Received: from [10.67.50.53] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id r9sm1113964edw.11.2019.11.18.16.13.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Nov 2019 16:14:04 -0800 (PST)
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To:     Marco Felsch <m.felsch@pengutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Cc:     mark.rutland@arm.com, alexandre.belloni@bootlin.com,
-        mhocko@suse.com, julien.thierry@arm.com, catalin.marinas@arm.com,
-        christoffer.dall@arm.com, dhowells@redhat.com,
-        yamada.masahiro@socionext.com, ryabinin.a.a@gmail.com,
-        glider@google.com, kvmarm@lists.cs.columbia.edu, corbet@lwn.net,
-        liuwenliang@huawei.com, daniel.lezcano@linaro.org,
-        linux@armlinux.org.uk, kasan-dev@googlegroups.com,
-        geert@linux-m68k.org, dvyukov@google.com,
-        bcm-kernel-feedback-list@broadcom.com, drjones@redhat.com,
-        vladimir.murzin@arm.com, keescook@chromium.org, arnd@arndb.de,
-        marc.zyngier@arm.com, andre.przywara@arm.com, pombredanne@nexb.com,
-        jinb.park7@gmail.com, tglx@linutronix.de, kernel@pengutronix.de,
-        linux-arm-kernel@lists.infradead.org, nico@fluxnic.net,
-        gregkh@linuxfoundation.org, ard.biesheuvel@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rob@landley.net, philip@cog.systems, akpm@linux-foundation.org,
-        thgarnie@google.com, kirill.shutemov@linux.intel.com
-References: <20190617221134.9930-1-f.fainelli@gmail.com>
- <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
- <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
- <20191115070842.2x7psp243nfo76co@pengutronix.de>
- <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
-Message-ID: <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
-Date:   Mon, 18 Nov 2019 16:13:55 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727594AbfKSAWq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Nov 2019 19:22:46 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:6982 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726952AbfKSAWp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Nov 2019 19:22:45 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd335d60001>; Mon, 18 Nov 2019 16:22:46 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 18 Nov 2019 16:22:44 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 16:22:44 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
+ 2019 00:22:43 +0000
+Subject: Re: [PATCH v5 17/24] mm/gup: track FOLL_PIN pages
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191115055340.1825745-1-jhubbard@nvidia.com>
+ <20191115055340.1825745-18-jhubbard@nvidia.com>
+ <20191118115829.GJ17319@quack2.suse.cz>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <8424f891-271d-5c34-8f7c-ebf3e3aa6664@nvidia.com>
+Date:   Mon, 18 Nov 2019 16:22:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191118115829.GJ17319@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574122967; bh=ip2xVJC+jxbL/7d2eWhZjqdIi4kB0uoxgzyWnYDs5q4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=kZWTJaB6BUYpdW+z0HXxRztjdsBPgYMtIagp6++GXQ1xMYEqmDvkuTu5SJexcfc3Z
+         aqvcG/+YbvfnrntTmKpTzXcCcJ1vacUs8Vt+kkZFmecCKGt5ESA8XOWs62Cbve3dr3
+         XsCtQVKM4yFI8r3EtkYIToV94nBwkk0bzSnRfhI6IY4EfMEr9iYp9o7iElBN+PNDoe
+         GYMLDs4YJjT+MkCB6avfM8/DST4lwWHJbTQrh01mIBzcPCF4cBGDQd1OqtdqCqvly5
+         URQ6TTy1wBAC/IlVtHZs8b+E7d7tANvL2AVJcuHSx7ushKjPgli8Izd92XqBpLulsV
+         NLxmWdrhMpwGw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/15/19 3:44 AM, Marco Felsch wrote:
-> 
-> With your v7 it is working on my imx6 but unfortunately I can't run my
-> gstreamer testcase. My CPU load goes to 100% after starting gstreamer
-> and nothing happens.. But the test_kasan module works =) So I decided to
-> check a imx6quadplus but this target did not boot.. I used another
-> toolchain for the imx6quadplus gcc-9 instead of gcc-8. So it seems that
-> something went wrong during compilation. Because you didn't changed
-> something within the logic.
-> 
-> I wonder why we must not define the CONFIG_KASAN_SHADOW_OFFSET for arm.
+On 11/18/19 3:58 AM, Jan Kara wrote:
+> On Thu 14-11-19 21:53:33, John Hubbard wrote:
+>> Add tracking of pages that were pinned via FOLL_PIN.
+>>
+>> As mentioned in the FOLL_PIN documentation, callers who effectively set
+>> FOLL_PIN are required to ultimately free such pages via put_user_page().
+>> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
+>> for DIO and/or RDMA use".
+>>
+>> Pages that have been pinned via FOLL_PIN are identifiable via a
+>> new function call:
+>>
+>>    bool page_dma_pinned(struct page *page);
+>>
+>> What to do in response to encountering such a page, is left to later
+>> patchsets. There is discussion about this in [1].
+> 						^^ missing this reference
+> in the changelog...
 
-That is was oversight. I have pushed updates to the branch here:
+I'll add that.=20
 
-https://github.com/ffainelli/linux/pull/new/kasan-v7
+>=20
+>> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
+>>
+>> Suggested-by: Jan Kara <jack@suse.cz>
+>> Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+>> ---
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index 6588d2e02628..db872766480f 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -1054,6 +1054,8 @@ static inline __must_check bool try_get_page(struc=
+t page *page)
+>>  	return true;
+>>  }
+>> =20
+>> +__must_check bool user_page_ref_inc(struct page *page);
+>> +
+>>  static inline void put_page(struct page *page)
+>>  {
+>>  	page =3D compound_head(page);
+>> @@ -1071,29 +1073,70 @@ static inline void put_page(struct page *page)
+>>  		__put_page(page);
+>>  }
+>> =20
+>> -/**
+>> - * put_user_page() - release a gup-pinned page
+>> - * @page:            pointer to page to be released
+>> +/*
+>> + * GUP_PIN_COUNTING_BIAS, and the associated functions that use it, ove=
+rload
+>> + * the page's refcount so that two separate items are tracked: the orig=
+inal page
+>> + * reference count, and also a new count of how many get_user_pages() c=
+alls were
+> 							^^ pin_user_pages()
+>=20
+>> + * made against the page. ("gup-pinned" is another term for the latter)=
+.
+>> + *
+>> + * With this scheme, get_user_pages() becomes special: such pages are m=
+arked
+> 			^^^ pin_user_pages()
+>=20
+>> + * as distinct from normal pages. As such, the put_user_page() call (an=
+d its
+>> + * variants) must be used in order to release gup-pinned pages.
+>> + *
+>> + * Choice of value:
+>>   *
+>> - * Pages that were pinned via pin_user_pages*() must be released via ei=
+ther
+>> - * put_user_page(), or one of the put_user_pages*() routines. This is s=
+o that
+>> - * eventually such pages can be separately tracked and uniquely handled=
+. In
+>> - * particular, interactions with RDMA and filesystems need special hand=
+ling.
+>> + * By making GUP_PIN_COUNTING_BIAS a power of two, debugging of page re=
+ference
+>> + * counts with respect to get_user_pages() and put_user_page() becomes =
+simpler,
+> 				^^^ pin_user_pages()
+>=20
 
-which defines CONFIG_KASAN_SHADOW_OFFSET from the PAGE_OFFSET value
-directly, and recalculate KASAN_SHADOW_START/END accordingly using the
-same formula as ARM64.
+Yes.
 
-can you try them out? If that still does not work, can you detail the
-imx6qdp memory layout a little more? Any chance of running a kernel with
-DEBUG_LL/EARLYPRINTK turned on so we can see where the problem could be?
--- 
-Florian
+>> + * due to the fact that adding an even power of two to the page refcoun=
+t has
+>> + * the effect of using only the upper N bits, for the code that counts =
+up using
+>> + * the bias value. This means that the lower bits are left for the excl=
+usive
+>> + * use of the original code that increments and decrements by one (or a=
+t least,
+>> + * by much smaller values than the bias value).
+>>   *
+>> - * put_user_page() and put_page() are not interchangeable, despite this=
+ early
+>> - * implementation that makes them look the same. put_user_page() calls =
+must
+>> - * be perfectly matched up with pin*() calls.
+>> + * Of course, once the lower bits overflow into the upper bits (and thi=
+s is
+>> + * OK, because subtraction recovers the original values), then visual i=
+nspection
+>> + * no longer suffices to directly view the separate counts. However, fo=
+r normal
+>> + * applications that don't have huge page reference counts, this won't =
+be an
+>> + * issue.
+>> + *
+>> + * Locking: the lockless algorithm described in page_cache_get_speculat=
+ive()
+>> + * and page_cache_gup_pin_speculative() provides safe operation for
+>> + * get_user_pages and page_mkclean and other calls that race to set up =
+page
+>> + * table entries.
+>>   */
+> ...
+>> @@ -2070,9 +2191,16 @@ static int gup_hugepte(pte_t *ptep, unsigned long=
+ sz, unsigned long addr,
+>>  	page =3D head + ((addr & (sz-1)) >> PAGE_SHIFT);
+>>  	refs =3D __record_subpages(page, addr, end, pages + *nr);
+>> =20
+>> -	head =3D try_get_compound_head(head, refs);
+>> -	if (!head)
+>> -		return 0;
+>> +	if (flags & FOLL_PIN) {
+>> +		head =3D page;
+>> +		if (unlikely(!user_page_ref_inc(head)))
+>> +			return 0;
+>> +		head =3D page;
+>=20
+> Why do you assign 'head' twice? Also the refcounting logic is repeated
+> several times so perhaps you can factor it out in to a helper function or
+> even move it to __record_subpages()?
+
+OK.
+
+>=20
+>> +	} else {
+>> +		head =3D try_get_compound_head(head, refs);
+>> +		if (!head)
+>> +			return 0;
+>> +	}
+>> =20
+>>  	if (unlikely(pte_val(pte) !=3D pte_val(*ptep))) {
+>>  		put_compound_head(head, refs);
+>=20
+> So this will do the wrong thing for FOLL_PIN. We took just one "pin"
+> reference there but here we'll release 'refs' normal references AFAICT.
+> Also the fact that you take just one pin reference for each huge page
+> substantially changes how GUP refcounting works in the huge page case.
+> Currently, FOLL_GET users can be completely agnostic of huge pages. So yo=
+u
+> can e.g. GUP whole 2 MB page, submit it as 2 different bios and then
+> drop page references from each bio completion function. With your new
+> FOLL_PIN behavior you cannot do that and I believe it will be a problem f=
+or
+> some users. So I think you have to maintain the behavior that you increas=
+e
+> the head->_refcount by (refs * GUP_PIN_COUNTING_BIAS) here.
+>=20
+
+Yes, completely agreed, this was a (big) oversight. I went through the same
+reasoning and reached your conclusions, in __gup_device_huge(), but then
+did it wrong in these functions. Will fix.
+
+thanks,
+--=20
+John Hubbard
+NVIDIA
