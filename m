@@ -1,156 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E0E237D90D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 08:29:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 639FF7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Nov 2019 08:43:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbfKSI3x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Nov 2019 03:29:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33128 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725306AbfKSI3x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 03:29:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574152192;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=H20VJbl/HlqoZLKxB2eEkiVm9bjunStGFexdv/rH5Wg=;
-        b=JlwJQjRzOTfjV9DJ3akkmLjYDMyXdy+0J8dQBJOOyXwwy7jWgQA8ZeTAm+E6XqoqyO1InA
-        V2nD+uurSIGtTn+TzGxjHOeKi8Wh6rdjjShty1M2djP6Wj9RxOkSfYPHLBfphOSsjGdv7E
-        /3IhjgSF/TjwnaZl1KXmY1FWdNZiT+E=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429--kaEMQVVOz6OnewElBiS3A-1; Tue, 19 Nov 2019 03:29:49 -0500
-Received: by mail-lf1-f69.google.com with SMTP id p4so5900516lfo.10
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 00:29:48 -0800 (PST)
+        id S1726555AbfKSInS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Nov 2019 03:43:18 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41912 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbfKSInR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 03:43:17 -0500
+Received: by mail-ot1-f68.google.com with SMTP id 94so17145423oty.8;
+        Tue, 19 Nov 2019 00:43:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LdTt3n+0i729FTDReSuLECgSQ4aS+lT8YABUAIgw7M4=;
-        b=AfoSLdd8nnmUIXNPYQkcdfhHWMpZJJGb/NCzxS4+3ufBzQXqklGitT2DC50HL8fY7H
-         rrlTKLGPbfRR9zjMeQHqwVneCOxE8z7Rz6MjbupB8+ZlerJDbtZu3WtBR7XNmoJwl6M5
-         C4bVbrqyNxdi9Zz1GqfPLO6MWsnprlBjnRrsklg9h3HIcgUytTTeR3vQ7mvWXI2IbTpn
-         r5iPdjxepa+1KSyf41v3ZKN74teuVAM7z5PoyZg6XHuPbVDcIX5hu8ryuoucIsXQww3f
-         cu2Nn28+JwGcuOKvroIGboKGWx6urC0wuCCgKBitI2RlPXl/QFC4vXxzx0fHhLcjuxmx
-         8tmQ==
-X-Gm-Message-State: APjAAAWaPCvjMcVzblAbvK34Cg4yuneM1acB8ZkIwlrgHZK2IlwDQ0hS
-        IsEZdGpnIfOu3S/9KpgJ5+Q96TYa4ZtvuDk5BkShSpp1vbXQy45KDstjn96DKg7VROoCdworfyY
-        /2pc6T/dniWxMCY0TTBHFn11CLx/cqvpG2+nE
-X-Received: by 2002:a2e:98c6:: with SMTP id s6mr2467932ljj.235.1574152187849;
-        Tue, 19 Nov 2019 00:29:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw2IC2bHi8fy/d2SRNiTEi36NRc3i9RixIH7XOkwEMkhAxGronTJF+riz7NT7kg7+QIn9WK1oeS0ClHOZKD/g0=
-X-Received: by 2002:a2e:98c6:: with SMTP id s6mr2467897ljj.235.1574152187559;
- Tue, 19 Nov 2019 00:29:47 -0800 (PST)
+        bh=fLWDK5bcLE7hl1oQBmKL/QSkLfiCovIMYar92vueUXk=;
+        b=i36lthW+vDi3Fq4WkIZJyygob9g5mM9LxWvf3G/QvFsfe89NJVnlRNhCpVTMd+SPG7
+         yQ6MA311OVqaG8fFem6gHf4hdkDOrKgiPflzPAQE9/T3ZGe1ZZS6bXHpjUMdBcOoKBAM
+         wxI9+6A6vKRzCeuXq/GjJ9MNhXzQEUcP9gFM/yQNYOtfxX90dabNgG4vrqdcaMwQF8dR
+         LUvGEdWEdNj6ON73pv5gcErm3STnzacppfk7tip4/KyYjQ/TUVQIEp6EyINNFG3vXjr3
+         sAm83uN7KuD8kaREZ07Xrx/BrTAoRsmZZfSAv8PdnJG67hHYX8wYdub90/wlyrbJQ43B
+         qY3w==
+X-Gm-Message-State: APjAAAXvtKATPuU8nmXKY3T251m9DDZqayq1qqThbCU/MUj7QSU1KFDp
+        BDxv2SkFyWGCceAnOQAcDU1XXYCrzqIThIDZFoILvssO
+X-Google-Smtp-Source: APXvYqyi3eCXBMMch5CtVbQEo2KQ1dQxzAcuZxmaAX4zIZ97CAY0YQWL30MNgoAvRbeC/ixOij26w94cyE9/Tx6JGzk=
+X-Received: by 2002:a9d:4c85:: with SMTP id m5mr2748250otf.118.1574152996610;
+ Tue, 19 Nov 2019 00:43:16 -0800 (PST)
 MIME-Version: 1.0
-References: <1573459282-26989-1-git-send-email-bhsharma@redhat.com>
- <20191113063858.GE22427@linaro.org> <CACi5LpP54d9DKW63G5W6X4euBjAm2NwkHOiM01dB7g8d60s=4w@mail.gmail.com>
- <20191115015959.GI22427@linaro.org> <CAJ2QiJJOSspLKRh+jRB_o0o9nmeAsiFKzxGJ8R0pYPRM4iptmw@mail.gmail.com>
-In-Reply-To: <CAJ2QiJJOSspLKRh+jRB_o0o9nmeAsiFKzxGJ8R0pYPRM4iptmw@mail.gmail.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Tue, 19 Nov 2019 13:59:33 +0530
-Message-ID: <CACi5LpO_fvzDiXP9+QLga_B7kozRRnE9ix4Xa=xvNx1Kvci=3Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
- for arm64 and MAX_PHYSMEM_BITS for all archs)
-To:     Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
-Cc:     AKASHI Takahiro <takahiro.akashi@linaro.org>,
+References: <cc03ba18-4949-9244-639c-94f461f03361@huawei.com>
+ <CAA9_cmc7BuWkBHadHRAxfch43KWovb6rSr2AR9y3bVue0M9EhQ@mail.gmail.com>
+ <CAJZ5v0g35zvSB88d7qK8n1uRGCuO5VNK11jHVQRNKwyQW4vZSQ@mail.gmail.com>
+ <CAA42JLYCod=mymBiDDXxQ1sts7e-Ot_q9SKdJxjSkcsZRVGDTQ@mail.gmail.com>
+ <CAJZ5v0iAbf7qQeyeR6CVYTX8v=OpEcbFksTHgQ0LAZk-QKqHpQ@mail.gmail.com> <9eff3584-a25b-ca47-d38f-ce83862baa18@huawei.com>
+In-Reply-To: <9eff3584-a25b-ca47-d38f-ce83862baa18@huawei.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 19 Nov 2019 09:43:04 +0100
+Message-ID: <CAJZ5v0h9xQeebYst8mg6YOzSXoY=JDg0F8wDXw1QPEatiC-=UA@mail.gmail.com>
+Subject: Re: [PATCH v2] ACPI: sysfs: Change ACPI_MASKABLE_GPE_MAX to 0x100
+To:     Yunfeng Ye <yeyunfeng@huawei.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Dexuan-Linux Cui <dexuan.linux@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
-        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dave Anderson <anderson@redhat.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>
-X-MC-Unique: -kaEMQVVOz6OnewElBiS3A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "hushiyuan@huawei.com" <hushiyuan@huawei.com>,
+        "linfeilong@huawei.com" <linfeilong@huawei.com>,
+        Dexuan Cui <decui@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 12:03 PM Prabhakar Kushwaha
-<prabhakar.pkin@gmail.com> wrote:
+On Tue, Nov 19, 2019 at 3:22 AM Yunfeng Ye <yeyunfeng@huawei.com> wrote:
 >
-> Hi Akashi,
 >
-> On Fri, Nov 15, 2019 at 7:29 AM AKASHI Takahiro
-> <takahiro.akashi@linaro.org> wrote:
+>
+> On 2019/11/19 5:15, Rafael J. Wysocki wrote:
+> > On Mon, Nov 18, 2019 at 8:44 PM Dexuan-Linux Cui <dexuan.linux@gmail.com> wrote:
+> >>
+> >> On Mon, Nov 18, 2019 at 1:04 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >>>
+> >>> On Sat, Nov 16, 2019 at 9:06 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> >>>>
+> >>>> On Wed, Nov 13, 2019 at 11:17 PM Yunfeng Ye <yeyunfeng@huawei.com> wrote:
+> >>>>>
+> >>>>> The commit 0f27cff8597d ("ACPI: sysfs: Make ACPI GPE mask kernel
+> >>>>> parameter cover all GPEs") says:
+> >>>>>   "Use a bitmap of size 0xFF instead of a u64 for the GPE mask so 256
+> >>>>>    GPEs can be masked"
+> >>>>>
+> >>>>> But the masking of GPE 0xFF it not supported and the check condition
+> >>>>> "gpe > ACPI_MASKABLE_GPE_MAX" is not valid because the type of gpe is
+> >>>>> u8.
+> >>>>>
+> >>>>> So modify the macro ACPI_MASKABLE_GPE_MAX to 0x100, and drop the "gpe >
+> >>>>> ACPI_MASKABLE_GPE_MAX" check. In addition, update the docs "Format" for
+> >>>>> acpi_mask_gpe parameter.
+> >>>>>
+> >>>>> Fixes: 0f27cff8597d ("ACPI: sysfs: Make ACPI GPE mask kernel parameter cover all GPEs")
+> >>>>> Signed-off-by: Yunfeng Ye <yeyunfeng@huawei.com>
+> >>>>> ---
+> >>>>> v1 -> v2:
+> >>>>>  - drop the "gpe > ACPI_MASKABLE_GPE_MAX" check
+> >>>>>  - update the docs "Format" from <int> to <byte> for acpi_mask_gpe parameter
+> >>>>>  - update the commit comment
+> >>>>>
+> >>>>>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+> >>>>>  drivers/acpi/sysfs.c                            | 4 ++--
+> >>>>>  2 files changed, 3 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> Bisect flags commit eb09878e1301 "ACPI: sysfs: Change
+> >>>> ACPI_MASKABLE_GPE_MAX to 0x100" in -next as the reason for a boot
+> >>>> regression in my qemu-kvm test environment. It spews:
+> >>>>
+> >>>> [    1.456728] ACPI: Masking GPE 0x0.
+> >>>> ...
+> >>>> [  161.721420] ACPI: Masking GPE 0x0.
+> >>>>
+> >>>> ...and then hangs.
+> >>>>
+> >>>> A straight revert gets the configuration back on its feet.
+> >>>>
+> >>>> qemu-system-x86_64 --version
+> >>>> QEMU emulator version 4.0.50 (v4.0.0-928-g49c6c6ac0cd8)
+> >>>
+> >>> OK, I'll drop it then, thanks!
+> >>
+> >> We're seeing the same issue wtih 5.4.0-rc7-next-20191118 on a Linux VM
+> >> running on Hyper-V :
+> >>
+> >> [    0.133029] ACPI: 1 ACPI AML tables successfully acquired and loaded
+> >> [    0.144023] ACPI: Interpreter enabled
+> >> [    0.145023] ACPI: (supports S0 S5)
+> >> [    0.146023] ACPI: Using IOAPIC for interrupt routing
+> >> [    0.147024] PCI: Using host bridge windows from ACPI; if necessary,
+> >> use "pci=nocrs" and report a bug
+> >> [    0.148031] ACPI: Masking GPE 0x0.
+> >> ...
+> >> [  774.839023] ACPI: Masking GPE 0x0.
+> >> [  774.840023] ACPI: Masking GPE 0x0.
+> >>
+> >> I guess the patch is only tested on a physical machine and not on a VM...
 > >
-> > Bhupesh,
+> > It looks like the patch hasn't been tested at all.
 > >
-> > On Fri, Nov 15, 2019 at 01:24:17AM +0530, Bhupesh Sharma wrote:
-> > > Hi Akashi,
-> > >
-> > > On Wed, Nov 13, 2019 at 12:11 PM AKASHI Takahiro
-> > > <takahiro.akashi@linaro.org> wrote:
-> > > >
-> > > > Hi Bhupesh,
-> > > >
-> > > > Do you have a corresponding patch for userspace tools,
-> > > > including crash util and/or makedumpfile?
-> > > > Otherwise, we can't verify that a generated core file is
-> > > > correctly handled.
-> > >
-> > > Sure. I am still working on the crash-utility related changes, but yo=
-u
-> > > can find the makedumpfile changes I posted a couple of days ago here
-> > > (see [0]) and the github link for the makedumpfile changes can be see=
-n
-> > > via [1].
-> > >
-> > > I will post the crash-util changes shortly as well.
-> > > Thanks for having a look at the same.
+> > Please try to change the data type of gpe in
+> > acpi_gpe_apply_masked_gpes() to u16 and see if that helps.
 > >
-> > Thank you.
-> > I have tested my kdump patch with a hacked version of crash
-> > where VA_BITS_ACTUAL is calculated from tcr_el1_t1sz in vmcoreinfo.
-> >
->
-> I also did hack to calculate VA_BITS_ACTUAL is calculated from
-> tcr_el1_t1sz in vmcoreinfo. Now i am getting error same as mentioned
-> by you in other thread last month.
-> https://www.mail-archive.com/crash-utility@redhat.com/msg07385.html
->
-> how this error was overcome?
->
-> I am using
->  - crashkernel: https://github.com/crash-utility/crash.git  commit:
-> babd7ae62d4e8fd6f93fd30b88040d9376522aa3
-> and
->  - Linux: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t
-> commit: af42d3466bdc8f39806b26f593604fdc54140bcb
+> Sorry for this problem, I have no good test after modification according to
+> inspection opinions.
 
-I will post a formal change for crash-utility shortly that fixes the
-same. Right now we are having issues with emails bouncing off
-'crash-utility@redhat.com', so my patches sent to the same are in
-undelivered state at-the-moment.
+I see.
 
-For easy testing I will share the link to my github tree (off-line)
-[which contains the changes] as well.
+Well, reviewers make mistakes too ...
 
-Regards,
-Bhupesh
+> The first version patch is ok, the type of gpe is changed to u32. and I have
+> test it before.
 
+OK
+
+So I have added the u8 -> u16 change for gpe in
+acpi_gpe_apply_masked_gpes() and applied it again, as that should work
+AFAICS.
