@@ -7,60 +7,60 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 150E6C33CA3
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 23:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB343C33CA2
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 23:19:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E03972245D
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 23:19:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3FD422460
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Nov 2019 23:19:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oD/tt46N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TtJqFFfj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727514AbfKSXTa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Nov 2019 18:19:30 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38859 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbfKSXT3 (ORCPT
+        id S1727480AbfKSXT3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Nov 2019 18:19:29 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43395 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727467AbfKSXT3 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 18:19:29 -0500
-Received: by mail-wr1-f65.google.com with SMTP id i12so25942252wro.5
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 15:19:27 -0800 (PST)
+Received: by mail-wr1-f66.google.com with SMTP id n1so25903662wra.10
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 15:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Gbbgv3A0qCxbF/q1YHbB1qckjwi7274prjE8bZ8akok=;
-        b=oD/tt46NnDHLuEivCs7cUeatqgiP86se0aue8laeN6W3oElINvLAJ2UIpmhxda7w13
-         TD0vWiWcYhIrQG6JzAuUQCfI4cOUMbgWBvlUa+UfdMDOjrXFvir9icr48qb82n+R4kn1
-         wVpX0MacOAKak7garEvghDz19cv/GHpDWOQGyw1kvgsIa/dVBC9QG6E+aBqZyFh1xiNi
-         0dPmgXu64cA6WuwEig+p3RFguDkT5CZFelBix7KvzWKoy5ANKV0a+JyLPzKqaXQCAfHd
-         45ZCi1BkK8zuALmWckgUmC8SE2g5D+BjLR6+5Q7hJl7mocYc3sHsSjFdfn9SjtxzSZ/6
-         Nlnw==
+        bh=bmTN1C+IahLw+ZT5vTARoHDF3oLVbgY/dBEOCXH3uIE=;
+        b=TtJqFFfjaiK+yOHLpbXl4jBfChMe1b9MGx2lQoPzhAyrCf6EiCHZV91Cmuxb+eSpj9
+         4AaHqdwIxTIzeJdY96cJ8pXPzX6ybQwvxs1SLKTdiUpRV0a0jWClBBzYrBDDHkvrsW0h
+         f5l8yNvf/o6FSduNPmXwpzKR1bzFpbgGSsbZrWVLEPeMbm8pbSTiozXsbM8cLBZbgu+v
+         MtTQ3/ADk2jRdYSZIAUPDS1C9d3VRNkLDmckcm9r1WjInZkfA92ICXLcqtNM5qpA9np+
+         CQAA0ou+2iBAhlT39Mxs3iZ20VZ3SvFqrwuLMBr5Jy3SwR0WkIx+CTzjqdSd+ayAkiRs
+         pdCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Gbbgv3A0qCxbF/q1YHbB1qckjwi7274prjE8bZ8akok=;
-        b=ZgTH+i1iKaB9s6Jn6Hau0BdAL3AoNB8ZMxmIhbWIqcHx+wdoaaUbJ24dG6ABY+U8pP
-         HkZaKAtDzh/ktdKlNVxtbEw52upUZGh+QErq2z8ONUibHNkVGyAoHKxAZNEY5BpZvvit
-         BufNgULRikYMbl5HAeL9Y3jFjuq8FOxwjXw7+mWodeLrMNdp+omU3dYMaz7Gtc2/cP4j
-         GCIqkwbV2RE2zlfbhFkDDBZAXoIxsk5ZarTQcmb6QtogU9zhLYRnfMWHnu4TdVFiK2qT
-         g/keuQvWWSuoJWK8Aw9I4k+8ATt0rPvqVfIj8XUak7bbkU6mslIsQvU1v+fS3jPOk2i8
-         6j6A==
-X-Gm-Message-State: APjAAAXTf72Ue83uavXyRoMc8q3NP47Y6+rkMe9dIrrSEYO7BXptBXZT
-        LDk6MP4QpHOBI3Pys4TaJVA+PA==
-X-Google-Smtp-Source: APXvYqyt99hhqGni6NMGAfMhrSLNq1mLyGM+LSY689SNMPlEsRvx7JkceAEugJsMCHCkmmnQrxpBBg==
-X-Received: by 2002:adf:e58c:: with SMTP id l12mr18902383wrm.156.1574205566727;
-        Tue, 19 Nov 2019 15:19:26 -0800 (PST)
+        bh=bmTN1C+IahLw+ZT5vTARoHDF3oLVbgY/dBEOCXH3uIE=;
+        b=RbRxSGMkdkbLNIT8BxsF6PimnlcSCUuNJEkgS3bKEEenTAnuBJ6twDqOlWUohqxG1G
+         +Vz6da9+oGBi2XTpw72a2ZL18BHiNGAOC1TvWXWEib81EcflG1oVO4f+3vccbhhpkuoI
+         ZRAH9xtW2YhRfzRW3d5sCO8l1gXZMiwfR6tH4AOqdk6UAYFbJbvr2EV40Ws7YQlmE6yN
+         8YejPBfqR7oJqoltpcLmtNiTW/tCE1WEuTPQUyBvEln0uYY7BxHv3w5UyqvSL0e8HDhz
+         DWtxl32sNcaf/vl17hy8UOfbo0VFOf83F7TgmCHPluaenDq8Hf3E+OkfdYME96hGn3my
+         QtvA==
+X-Gm-Message-State: APjAAAWyjwlHgbJ6D2DOCo3+TCgHiNXPXCdYRlyZ9Lbkh91jw/68YoFv
+        pJhB8T0W7jziLD1zHnEw7DZeJQ==
+X-Google-Smtp-Source: APXvYqx/OMoFZJBBwPwGgwoT5T1Ag3yKPulcbGaWAwBJT3X/zRV8/bR91QDkNDcp9d5jZnYiiiR12w==
+X-Received: by 2002:adf:f20f:: with SMTP id p15mr34726322wro.370.1574205565648;
+        Tue, 19 Nov 2019 15:19:25 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:a19d:4139:292b:19a0])
-        by smtp.gmail.com with ESMTPSA id m15sm15746717wrj.52.2019.11.19.15.19.25
+        by smtp.gmail.com with ESMTPSA id m15sm15746717wrj.52.2019.11.19.15.19.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2019 15:19:26 -0800 (PST)
+        Tue, 19 Nov 2019 15:19:25 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     mike.leach@linaro.org, coresight@lists.linaro.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         linux-doc@vger.kernel.org
 Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com
-Subject: [PATCH v5 07/14] coresight: cti: Add device tree support for custom CTI.
-Date:   Tue, 19 Nov 2019 23:19:05 +0000
-Message-Id: <20191119231912.12768-8-mike.leach@linaro.org>
+Subject: [PATCH v5 06/14] coresight: cti: Add device tree support for v8 arch CTI
+Date:   Tue, 19 Nov 2019 23:19:04 +0000
+Message-Id: <20191119231912.12768-7-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191119231912.12768-1-mike.leach@linaro.org>
 References: <20191119231912.12768-1-mike.leach@linaro.org>
@@ -69,345 +69,247 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds support for CTIs whose connections are implementation defined at
-hardware design time, and not constrained by v8 architecture.
+The v8 architecture defines the relationship between a PE, its optional ETM
+and a CTI. Unlike non-architectural CTIs which are implementation defined,
+this has a fixed set of connections which can therefore be represented as a
+simple tag in the device tree.
 
-These CTIs have no standard connection setup, all the settings have to
-be defined in the device tree files. The patch creates a set of connections
-and trigger signals based on the information provided.
+This patch defines the tags needed to create an entry for this PE/ETM/CTI
+relationship, and provides functionality to implement the connection model
+in the CTI driver.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
- .../coresight/coresight-cti-platform.c        | 250 +++++++++++++++++-
- .../hwtracing/coresight/coresight-cti-sysfs.c |  11 +
- 2 files changed, 257 insertions(+), 4 deletions(-)
+ .../coresight/coresight-cti-platform.c        | 205 ++++++++++++++++++
+ 1 file changed, 205 insertions(+)
 
 diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/drivers/hwtracing/coresight/coresight-cti-platform.c
-index 790dd30b85f5..9c1ff432b487 100644
+index 665be86c585d..790dd30b85f5 100644
 --- a/drivers/hwtracing/coresight/coresight-cti-platform.c
 +++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
-@@ -13,9 +13,19 @@
- #define NR_V8PE_OUT_SIGS	3
- #define NR_V8ETM_INOUT_SIGS	4
+@@ -3,10 +3,208 @@
+  * Copyright (c) 2019, The Linaro Limited. All rights reserved.
+  */
  
-+/* CTI device tree trigger connection node keyword */
-+#define CTI_DT_CONNS		"trig-conns"
-+
- /* CTI device tree connection property keywords */
- #define CTI_DT_V8ARCH		"arm,cti-v8-arch"
- #define CTI_DT_CSDEV_ASSOC	"arm,cs-dev-assoc"
-+#define CTI_DT_TRIGIN_SIGS	"arm,trig-in-sigs"
-+#define CTI_DT_TRIGOUT_SIGS	"arm,trig-out-sigs"
-+#define CTI_DT_TRIGIN_TYPES	"arm,trig-in-types"
-+#define CTI_DT_TRIGOUT_TYPES	"arm,trig-out-types"
-+#define CTI_DT_FILTER_OUT_SIGS	"arm,trig-filters"
-+#define CTI_DT_CONN_NAME	"arm,trig-conn-name"
-+#define CTI_DT_CTM_ID		"arm,cti-ctm-id"
++#include <dt-bindings/arm/coresight-cti-dt.h>
+ #include <linux/of.h>
  
- /*
-  * Find a registered coresight device from a device fwnode.
-@@ -68,6 +78,12 @@ static const char *of_cti_get_node_name(const struct device_node *node)
- 		return node->full_name;
- 	return "unknown";
- }
+ #include "coresight-cti.h"
+ 
++/* Number of CTI signals in the v8 architecturally defined connection */
++#define NR_V8PE_IN_SIGS		2
++#define NR_V8PE_OUT_SIGS	3
++#define NR_V8ETM_INOUT_SIGS	4
 +
-+static bool of_cti_node_name_eq(const struct device_node *node,
-+				const char *name)
++/* CTI device tree connection property keywords */
++#define CTI_DT_V8ARCH		"arm,cti-v8-arch"
++#define CTI_DT_CSDEV_ASSOC	"arm,cs-dev-assoc"
++
++/*
++ * Find a registered coresight device from a device fwnode.
++ * The node info is associated with the AMBA parent, but the
++ * csdev keeps a copy so iterate round the coresight bus to
++ * find the device.
++ */
++static struct coresight_device *
++cti_get_assoc_csdev_by_fwnode(struct fwnode_handle *r_fwnode)
 +{
-+	return of_node_name_eq(node, name);
-+}
- #else
- static int of_cti_get_cpu_at_node(const struct device_node *node)
- {
-@@ -78,6 +94,12 @@ static const char *of_cti_get_node_name(const struct device_node *node)
- {
- 	return "unknown";
- }
++	struct device *dev;
++	struct coresight_device *csdev = NULL;
 +
-+static bool of_cti_node_name_eq(const struct device_node *node,
-+				const char *name)
-+{
-+	return false;
++	dev = bus_find_device_by_fwnode(&coresight_bustype, r_fwnode);
++	if (dev) {
++		csdev = to_coresight_device(dev);
++		put_device(dev);
++	}
++	return csdev;
 +}
- #endif
- 
- static int cti_plat_get_cpu_at_node(struct fwnode_handle *fwnode)
-@@ -94,6 +116,14 @@ static const char *cti_plat_get_node_name(struct fwnode_handle *fwnode)
- 	return "unknown";
- }
- 
-+static bool cti_plat_node_name_eq(struct fwnode_handle *fwnode,
-+				  const char *name)
++
++#ifdef CONFIG_OF
++/*
++ * CTI can be bound to a CPU, or a system device.
++ * CPU can be declared at the device top level or in a connections node
++ * so need to check relative to node not device.
++ */
++static int of_cti_get_cpu_at_node(const struct device_node *node)
++{
++	int cpu;
++	struct device_node *dn;
++
++	if (node == NULL)
++		return -1;
++
++	dn = of_parse_phandle(node, "cpu", 0);
++	/* CTI affinity defaults to no cpu */
++	if (!dn)
++		return -1;
++	cpu = of_cpu_node_to_id(dn);
++	of_node_put(dn);
++
++	/* No Affinity  if no cpu nodes are found */
++	return (cpu < 0) ? -1 : cpu;
++}
++
++static const char *of_cti_get_node_name(const struct device_node *node)
++{
++	if (node)
++		return node->full_name;
++	return "unknown";
++}
++#else
++static int of_cti_get_cpu_at_node(const struct device_node *node)
++{
++	return -1;
++}
++
++static const char *of_cti_get_node_name(const struct device_node *node)
++{
++	return "unknown";
++}
++#endif
++
++static int cti_plat_get_cpu_at_node(struct fwnode_handle *fwnode)
 +{
 +	if (is_of_node(fwnode))
-+		return of_cti_node_name_eq(to_of_node(fwnode), name);
-+	return false;
++		return of_cti_get_cpu_at_node(to_of_node(fwnode));
++	return -1;
 +}
 +
- static int cti_plat_create_v8_etm_connection(struct device *dev,
- 					     struct cti_drvdata *drvdata)
- {
-@@ -205,6 +235,214 @@ static int cti_plat_create_v8_connections(struct device *dev,
- 	return ret;
- }
- 
-+static int cti_plat_count_sig_elements(const struct fwnode_handle *fwnode,
-+				       const char *name)
++static const char *cti_plat_get_node_name(struct fwnode_handle *fwnode)
 +{
-+	int nr_elem = fwnode_property_count_u32(fwnode, name);
-+
-+	return (nr_elem < 0 ? 0 : nr_elem);
++	if (is_of_node(fwnode))
++		return of_cti_get_node_name(to_of_node(fwnode));
++	return "unknown";
 +}
 +
-+static int cti_plat_read_trig_group(struct cti_trig_grp *tgrp,
-+				    const struct fwnode_handle *fwnode,
-+				    const char *grp_name)
++static int cti_plat_create_v8_etm_connection(struct device *dev,
++					     struct cti_drvdata *drvdata)
 +{
-+	int idx, err = 0;
-+	u32 *values;
++	int ret = -ENOMEM, i;
++	struct fwnode_handle *root_fwnode, *cs_fwnode;
++	const char *assoc_name = NULL;
++	struct coresight_device *csdev;
++	struct cti_trig_con *tc = NULL;
 +
-+	if (!tgrp->nr_sigs)
-+		return 0;
-+
-+	values = kcalloc(tgrp->nr_sigs, sizeof(u32), GFP_KERNEL);
-+	if (!values)
-+		return -ENOMEM;
-+
-+	err = fwnode_property_read_u32_array(fwnode, grp_name,
-+					     values, tgrp->nr_sigs);
-+
-+	if (!err) {
-+		/* set the signal usage mask */
-+		for (idx = 0; idx < tgrp->nr_sigs; idx++)
-+			tgrp->used_mask |= BIT(values[idx]);
-+	}
-+
-+	kfree(values);
-+	return err;
-+}
-+
-+static int cti_plat_read_trig_types(struct cti_trig_grp *tgrp,
-+				    const struct fwnode_handle *fwnode,
-+				    const char *type_name)
-+{
-+	int items, used = 0, err = 0, nr_sigs;
-+	u32 *values = NULL, i;
-+
-+	/* allocate an array according to number of signals in connection */
-+	nr_sigs = tgrp->nr_sigs;
-+	if (!nr_sigs)
-+		return 0;
-+
-+	/* see if any types have been included in the device description */
-+	items = cti_plat_count_sig_elements(fwnode, type_name);
-+	if (items > nr_sigs)
++	root_fwnode = dev_fwnode(dev);
++	if (IS_ERR_OR_NULL(root_fwnode))
 +		return -EINVAL;
 +
-+	/* need an array to store the values iff there are any */
-+	if (items) {
-+		values = kcalloc(items, sizeof(u32), GFP_KERNEL);
-+		if (!values)
-+			return -ENOMEM;
++	/* Can optionally have an etm node - return if not  */
++	cs_fwnode = fwnode_find_reference(root_fwnode, CTI_DT_CSDEV_ASSOC, 0);
++	if (IS_ERR_OR_NULL(cs_fwnode))
++		return 0;
 +
-+		err = fwnode_property_read_u32_array(fwnode, type_name,
-+						     values, items);
-+		if (err)
-+			goto read_trig_types_out;
++	/* allocate memory */
++	tc = cti_allocate_trig_con(dev, NR_V8ETM_INOUT_SIGS,
++				   NR_V8ETM_INOUT_SIGS);
++	if (!tc)
++		goto create_v8_etm_out;
++
++	/* build connection data */
++	tc->con_in->used_mask = 0xF0; /* sigs <4,5,6,7> */
++	tc->con_out->used_mask = 0xF0; /* sigs <4,5,6,7> */
++
++	/*
++	 * The EXTOUT type signals from the ETM are connected to a set of input
++	 * triggers on the CTI, the EXTIN being connected to output triggers.
++	 */
++	for (i = 0; i < NR_V8ETM_INOUT_SIGS; i++) {
++		tc->con_in->sig_types[i] = ETM_EXTOUT;
++		tc->con_out->sig_types[i] = ETM_EXTIN;
 +	}
 +
 +	/*
-+	 * Match type id to signal index, 1st type to 1st index etc.
-+	 * If fewer types than signals default remainder to GEN_IO.
++	 * We look to see if the ETM coresight device associated with this
++	 * handle has been registered with the system - i.e. probed before
++	 * this CTI. If so csdev will be non NULL and we can use the device
++	 * name and pass the csdev to the connection entry function where
++	 * the association will be recorded.
++	 * If not, then simply record the name in the connection data, the
++	 * probing of the ETM will call into the CTI driver API to update the
++	 * association then.
 +	 */
-+	for (i = 0; i < nr_sigs; i++) {
-+		if (used < items) {
-+			tgrp->sig_types[i] =
-+				values[i] < CTI_TRIG_MAX ? values[i] : GEN_IO;
-+			used++;
-+		} else {
-+			tgrp->sig_types[i] = GEN_IO;
-+		}
-+	}
++	csdev = cti_get_assoc_csdev_by_fwnode(cs_fwnode);
++	if (csdev)
++		assoc_name = dev_name(&csdev->dev);
++	else
++		assoc_name = cti_plat_get_node_name(cs_fwnode);
++	ret = cti_add_connection_entry(dev, drvdata, tc, csdev, assoc_name);
 +
-+read_trig_types_out:
-+	kfree(values);
-+	return err;
++create_v8_etm_out:
++	fwnode_handle_put(cs_fwnode);
++	return ret;
 +}
 +
-+static int cti_plat_process_filter_sigs(struct cti_drvdata *drvdata,
-+					const struct fwnode_handle *fwnode)
++/*
++ * Create an architecturally defined v8 connection
++ * must have a cpu, can have an ETM.
++ */
++static int cti_plat_create_v8_connections(struct device *dev,
++					  struct cti_drvdata *drvdata)
 +{
-+	struct cti_trig_grp *tg = NULL;
-+	int err = 0, nr_filter_sigs;
-+
-+	nr_filter_sigs = cti_plat_count_sig_elements(fwnode,
-+						     CTI_DT_FILTER_OUT_SIGS);
-+	if (nr_filter_sigs == 0)
-+		return 0;
-+
-+	if (nr_filter_sigs > drvdata->config.nr_trig_max)
-+		return -EINVAL;
-+
-+	tg = kzalloc(sizeof(*tg), GFP_KERNEL);
-+	if (!tg)
-+		return -ENOMEM;
-+
-+	err = cti_plat_read_trig_group(tg, fwnode, CTI_DT_FILTER_OUT_SIGS);
-+	if (!err)
-+		drvdata->config.trig_out_filter |= tg->used_mask;
-+
-+	kfree(tg);
-+	return err;
-+}
-+
-+static int cti_plat_create_connection(struct device *dev,
-+				      struct cti_drvdata *drvdata,
-+				      struct fwnode_handle *fwnode)
-+{
++	struct cti_device *cti_dev = &drvdata->ctidev;
 +	struct cti_trig_con *tc = NULL;
-+	int cpuid = -1, err = 0;
-+	struct fwnode_handle *cs_fwnode = NULL;
-+	struct coresight_device *csdev = NULL;
-+	const char *assoc_name = "unknown";
++	int cpuid = 0;
 +	char cpu_name_str[16];
-+	int nr_sigs_in, nr_sigs_out;
++	int ret = -ENOMEM;
 +
-+	/* look to see how many in and out signals we have */
-+	nr_sigs_in = cti_plat_count_sig_elements(fwnode, CTI_DT_TRIGIN_SIGS);
-+	nr_sigs_out = cti_plat_count_sig_elements(fwnode, CTI_DT_TRIGOUT_SIGS);
-+
-+	if ((nr_sigs_in > drvdata->config.nr_trig_max) ||
-+	    (nr_sigs_out > drvdata->config.nr_trig_max))
++	/* Must have a cpu node */
++	cpuid = cti_plat_get_cpu_at_node(dev_fwnode(dev));
++	if (cpuid < 0) {
++		dev_warn(dev, "CTI v8 DT binding no cpu\n");
 +		return -EINVAL;
++	}
++	cti_dev->cpu = cpuid;
 +
-+	tc = cti_allocate_trig_con(dev, nr_sigs_in, nr_sigs_out);
++	/* Allocate the v8 cpu connection memory */
++	tc = cti_allocate_trig_con(dev, NR_V8PE_IN_SIGS, NR_V8PE_OUT_SIGS);
 +	if (!tc)
-+		return -ENOMEM;
++		goto of_create_v8_out;
 +
-+	/* look for the signals properties. */
-+	err = cti_plat_read_trig_group(tc->con_in, fwnode,
-+				       CTI_DT_TRIGIN_SIGS);
-+	if (err)
-+		goto create_con_err;
++	/* Set the v8 PE CTI connection data */
++	tc->con_in->used_mask = 0x3; /* sigs <0 1> */
++	tc->con_in->sig_types[0] = PE_DBGTRIGGER;
++	tc->con_in->sig_types[1] = PE_PMUIRQ;
++	tc->con_out->used_mask = 0x7; /* sigs <0 1 2 > */
++	tc->con_out->sig_types[0] = PE_EDBGREQ;
++	tc->con_out->sig_types[1] = PE_DBGRESTART;
++	tc->con_out->sig_types[2] = PE_CTIIRQ;
++	scnprintf(cpu_name_str, sizeof(cpu_name_str), "cpu%d", cpuid);
 +
-+	err = cti_plat_read_trig_types(tc->con_in, fwnode,
-+				       CTI_DT_TRIGIN_TYPES);
-+	if (err)
-+		goto create_con_err;
++	ret = cti_add_connection_entry(dev, drvdata, tc, NULL, cpu_name_str);
++	if (ret)
++		goto of_create_v8_out;
 +
-+	err = cti_plat_read_trig_group(tc->con_out, fwnode,
-+				       CTI_DT_TRIGOUT_SIGS);
-+	if (err)
-+		goto create_con_err;
++	/* Create the v8 ETM associated connection */
++	ret = cti_plat_create_v8_etm_connection(dev, drvdata);
++	if (ret)
++		goto of_create_v8_out;
 +
-+	err = cti_plat_read_trig_types(tc->con_out, fwnode,
-+				       CTI_DT_TRIGOUT_TYPES);
-+	if (err)
-+		goto create_con_err;
++	/* filter pe_edbgreq - PE trigout sig <0> */
++	drvdata->config.trig_out_filter |= 0x1;
 +
-+	err = cti_plat_process_filter_sigs(drvdata, fwnode);
-+	if (err)
-+		goto create_con_err;
-+
-+	/* read the connection name if set - may be overridden by later */
-+	fwnode_property_read_string(fwnode, CTI_DT_CONN_NAME, &assoc_name);
-+
-+	/* associated cpu ? */
-+	cpuid = cti_plat_get_cpu_at_node(fwnode);
-+	if (cpuid >= 0) {
-+		drvdata->ctidev.cpu = cpuid;
-+		scnprintf(cpu_name_str, sizeof(cpu_name_str), "cpu%d", cpuid);
-+		assoc_name = cpu_name_str;
-+	} else {
-+		/* associated device ? */
-+		cs_fwnode = fwnode_find_reference(fwnode,
-+						  CTI_DT_CSDEV_ASSOC, 0);
-+		if (!IS_ERR_OR_NULL(cs_fwnode)) {
-+			csdev = cti_get_assoc_csdev_by_fwnode(cs_fwnode);
-+			if (csdev) /* use device name if csdev found */
-+				assoc_name = dev_name(&csdev->dev);
-+			else  /* otherwise node name for later association */
-+				assoc_name = cti_plat_get_node_name(cs_fwnode);
-+			fwnode_handle_put(cs_fwnode);
-+		}
-+	}
-+	/* set up a connection */
-+	err = cti_add_connection_entry(dev, drvdata, tc, csdev, assoc_name);
-+
-+create_con_err:
-+	return err;
-+}
-+
-+static int cti_plat_create_impdef_connections(struct device *dev,
-+					      struct cti_drvdata *drvdata)
-+{
-+	int rc = 0;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+	struct fwnode_handle *child = NULL;
-+
-+	if (IS_ERR_OR_NULL(fwnode))
-+		return -EINVAL;
-+
-+	fwnode_for_each_child_node(fwnode, child) {
-+		if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
-+			rc = cti_plat_create_connection(dev, drvdata, child);
-+		if (rc != 0)
-+			break;
-+	}
-+	fwnode_handle_put(child);
-+
-+	return rc;
++of_create_v8_out:
++	return ret;
 +}
 +
  /* get the hardware configuration & connection data. */
  int cti_plat_get_hw_data(struct device *dev,
  			 struct cti_drvdata *drvdata)
-@@ -212,12 +450,16 @@ int cti_plat_get_hw_data(struct device *dev,
+@@ -14,6 +212,13 @@ int cti_plat_get_hw_data(struct device *dev,
  	int rc = 0;
  	struct cti_device *cti_dev = &drvdata->ctidev;
  
-+	/* get any CTM ID - defaults to 0 */
-+	device_property_read_u32(dev, CTI_DT_CTM_ID, &cti_dev->ctm_id);
++	/* check for a v8 architectural CTI device */
++	if (device_property_read_bool(dev, CTI_DT_V8ARCH)) {
++		rc = cti_plat_create_v8_connections(dev, drvdata);
++		if (rc)
++			return rc;
++	}
 +
- 	/* check for a v8 architectural CTI device */
--	if (device_property_read_bool(dev, CTI_DT_V8ARCH)) {
-+	if (device_property_read_bool(dev, CTI_DT_V8ARCH))
- 		rc = cti_plat_create_v8_connections(dev, drvdata);
--		if (rc)
--			return rc;
--	}
-+	else
-+		rc = cti_plat_create_impdef_connections(dev, drvdata);
-+	if (rc)
-+		return rc;
- 
  	/* if no connections, just add a single default based on max IN-OUT */
  	if (cti_dev->nr_trig_con == 0)
-diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-index 98de8a4768fc..f800402f73da 100644
---- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-@@ -56,9 +56,20 @@ static ssize_t enable_store(struct device *dev,
- }
- static DEVICE_ATTR_RW(enable);
- 
-+static ssize_t ctmid_show(struct device *dev,
-+			  struct device_attribute *attr,
-+			  char *buf)
-+{
-+	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", drvdata->ctidev.ctm_id);
-+}
-+static DEVICE_ATTR_RO(ctmid);
-+
- /* attribute and group sysfs tables. */
- static struct attribute *coresight_cti_attrs[] = {
- 	&dev_attr_enable.attr,
-+	&dev_attr_ctmid.attr,
- 	NULL,
- };
- 
+ 		rc = cti_add_default_connection(dev, drvdata);
 -- 
 2.17.1
 
