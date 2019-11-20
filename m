@@ -2,104 +2,191 @@ Return-Path: <SRS0=vEmV=ZM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8DFC432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 16:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B76C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 18:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47D942071F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 16:19:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B92932068E
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 18:58:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C4dx6smJ"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EOsTY1N2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732751AbfKTQTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Nov 2019 11:19:49 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41606 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729581AbfKTQTt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 11:19:49 -0500
-Received: by mail-pf1-f195.google.com with SMTP id p26so14449549pfq.8
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2019 08:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hu2jR/6Mmwd09bHtXEWD+IrFeBmmq1D1s96is5WFkyM=;
-        b=C4dx6smJC7FVaMVL53K9ToTHJOjVnVW+3k6p5/wVoZi4VkpJqpUpNeKfEjspLIhf71
-         siCnCNi9Pq0+q118/G9NC2TByQBD0NgrAHbtmSMqLBbCoUK1Jo/UV1GVTxRk/uM+tzls
-         Cl0BmlkLH6dEWrQQDXtwE3JxIHxb5yhJw7CX+at4ozNwb71cH5XGgiU6/bBxCjwC0UCZ
-         is8vsRRK93C1ihpR7uWGdxjtTNV7NMA9fhYk2FhE/JBZ7veqvhRaj0g67lo04rrijzD3
-         PhXat0cjQ2uBWiCMVrcQ+BvTkJDKbs/rfzK924pIOmeWaNRUANNBk2zxYGTEiTs3A0LJ
-         x3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hu2jR/6Mmwd09bHtXEWD+IrFeBmmq1D1s96is5WFkyM=;
-        b=RPOzrptRo7o2C4T/G2VxJVQV6vmvcD9GSb1wfx0b0oLMiLGLHDLlcxsQwTyQQe2eRG
-         Na5SEFgXF3Y69tZIjC3FYZgT+NX1Y8NT+BAdkPMSN5AYN25wkmiYvBSdg/WTKZQK3DVE
-         +47BNRMH0zvnRGD4Ooroqyux8BeJmRJ+H/3BpMOJ/ZWjk6PrEB7hTiAEsVhfRdnqjTB2
-         6hwRWoP9aBgwGsKFbLB3bzPxaDWEUaNfHzZ7yIdid35ug8dz2QSbBbdUVHWG4amQk24B
-         ms7bWNAEncXdOrnkfkzHlTjq91cyVasLjH6GCGlWENQWdede8MBe94juGPpb8yY1JxwG
-         ZirA==
-X-Gm-Message-State: APjAAAVv9kac5bEWeVyKHatpmPugD5YnnX2VO+inEgWCjSzrfgyddpdI
-        KSTZJksIsvesXY+eRFEIWpkGksuwivcaQaIYEsRIqw==
-X-Google-Smtp-Source: APXvYqxFCcYOvyOCvYHJRYXo5Y7pCm2L3aDRnwdFGjxGdni0IKYysa4KhYOihEy20zkzk2bnsTIonVkA23WjphDi3CY=
-X-Received: by 2002:aa7:8edd:: with SMTP id b29mr5018029pfr.23.1574266786126;
- Wed, 20 Nov 2019 08:19:46 -0800 (PST)
+        id S1726554AbfKTS6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Nov 2019 13:58:47 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:53736 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbfKTS6r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 13:58:47 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAKIs5vi002497;
+        Wed, 20 Nov 2019 18:58:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2019-08-05;
+ bh=sSgfjfplpILRyqeLBHWbrZ2grVum8h5c4h94UoKEwFo=;
+ b=EOsTY1N2Mf/iC+R4Ui/Xjy4pL0EJBYibNyK4H0R9oVFwrtOLjnGuQyrXWkNTNJt+Uv/5
+ Tlvvf8w/88wtnUGL+WcKXBJfYjyIrhOYgQtpyRSi3MGZCt0wDlhniuVc2eNp1Pv7Z0d4
+ JK3R8PBMFlczx2/wp9FL8dBzaJbFeKzdIeXOE7bdXGZI8eUm/fV744WKEkSLR9dXu3To
+ HqHVArw41BOkkAIWhJcp0HfA9x7j0BpxauGRfABMhfmZLWyaNfJ1GnEPQwBjjojkkPZj
+ gEqXolLmvByLu3QCFU51nMzCFG05jCNghQw8lwtF0/cwRDib/GI+HtKO01GeLdI5pw76 OA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2wa9rqqfdh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Nov 2019 18:58:37 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAKIrikU139562;
+        Wed, 20 Nov 2019 18:56:36 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2wd47vmgte-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Nov 2019 18:56:36 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAKIuZu9014903;
+        Wed, 20 Nov 2019 18:56:35 GMT
+Received: from zissou.us.oracle.com (/10.152.34.58)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 20 Nov 2019 10:56:34 -0800
+From:   Daniel Jordan <daniel.m.jordan@oracle.com>
+To:     Herbert Xu <herbert@gondor.apana.org.au>,
+        Steffen Klassert <steffen.klassert@secunet.com>
+Cc:     Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 1/4] padata: update documentation
+Date:   Wed, 20 Nov 2019 13:54:09 -0500
+Message-Id: <20191120185412.302-2-daniel.m.jordan@oracle.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191120185412.302-1-daniel.m.jordan@oracle.com>
+References: <20191120185412.302-1-daniel.m.jordan@oracle.com>
 MIME-Version: 1.0
-References: <20191119003120.154041-1-brendanhiggins@google.com>
- <4a3aada5-fe8f-9c82-dfd4-0494acf59334@infradead.org> <CAFd5g47+3TN4pOdeM0YmJpMP2uKnpJYUY_OXmqmZEn8OcVz6ow@mail.gmail.com>
- <20191120063219.1ad15b68@lwn.net> <2ba78e72-22e8-1c5e-103e-78eb892fb2cd@infradead.org>
-In-Reply-To: <2ba78e72-22e8-1c5e-103e-78eb892fb2cd@infradead.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 20 Nov 2019 08:19:33 -0800
-Message-ID: <CAFd5g46JjeoaDTRbNMzUkmtODkK0QX_3tiEbo1GA0KR_f7w9fQ@mail.gmail.com>
-Subject: Re: [PATCH linux-kselftest/test v3] Documentation: kunit: add
- documentation for kunit_tool
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        David Gow <davidgow@google.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9447 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1911200156
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9447 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1911200156
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 20, 2019 at 8:08 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 11/20/19 5:32 AM, Jonathan Corbet wrote:
-> > On Tue, 19 Nov 2019 17:14:20 -0800
-> > Brendan Higgins <brendanhiggins@google.com> wrote:
-> >
-> >> On Tue, Nov 19, 2019 at 4:27 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> >>>
-> >>> On 11/18/19 4:31 PM, Brendan Higgins wrote:
-> >>>> +How do I use kunit_tool?
-> >>>> +=================================
-> >>>
-> >>> Hi,
-> >>> I haven't tested this, but Sphinx (or some doc tool) usually complains if the
-> >>> underline length is not the same as the header text length.  (I.e., use fewer
-> >>> = signs above.)
-> >>
-> >> Hmmm...Sphinx and checkpatch didn't complain. I wonder if it is a
-> >> different script, or maybe I have to use a particular option with
-> >> Sphinx.
-> >
-> > Sphinx wants the underline to be at least as long as the subheading text
-> > above; it's entirely happy if it's longer, though.
->
-> oh. thanks for the info.
+Remove references to unused functions and update to reflect the new
+struct padata_shell.
 
-Hmmm...maybe somebody should add this rule to checkpatch? I have
-already made this mistake at least twice. :-)
+Fixes: 815613da6a67 ("kernel/padata.c: removed unused code")
+Signed-off-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/padata.txt | 50 +++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/padata.txt b/Documentation/padata.txt
+index b37ba1eaace3..a03afb1588f9 100644
+--- a/Documentation/padata.txt
++++ b/Documentation/padata.txt
+@@ -2,7 +2,7 @@
+ The padata parallel execution mechanism
+ =======================================
+ 
+-:Last updated: for 2.6.36
++:Last updated: for 5.4
+ 
+ Padata is a mechanism by which the kernel can farm work out to be done in
+ parallel on multiple CPUs while retaining the ordering of tasks.  It was
+@@ -53,27 +53,26 @@ padata cpumask contains no active CPU (flag not set).
+ padata_stop clears the flag and blocks until the padata instance
+ is unused.
+ 
+-The list of CPUs to be used can be adjusted with these functions::
++Finally, complete padata initialization by allocating a padata_shell object::
++
++   struct padata_shell *padata_alloc_shell(struct padata_instance *pinst);
++
++A padata_shell is used to submit a job to padata and allows a series of such
++jobs to be serialized independently.  A padata_instance may have one or more
++padata_shell objects associated with it, each allowing a separate series of
++jobs.
++
++The list of CPUs to be used can be adjusted with this function::
+ 
+-    int padata_set_cpumasks(struct padata_instance *pinst,
+-			    cpumask_var_t pcpumask,
+-			    cpumask_var_t cbcpumask);
+     int padata_set_cpumask(struct padata_instance *pinst, int cpumask_type,
+ 			   cpumask_var_t cpumask);
+-    int padata_add_cpu(struct padata_instance *pinst, int cpu, int mask);
+-    int padata_remove_cpu(struct padata_instance *pinst, int cpu, int mask);
+ 
+ Changing the CPU masks are expensive operations, though, so it should not be
+ done with great frequency.
+ 
+-It's possible to change both cpumasks of a padata instance with
+-padata_set_cpumasks by specifying the cpumasks for parallel execution (pcpumask)
+-and for the serial callback function (cbcpumask). padata_set_cpumask is used to
+-change just one of the cpumasks. Here cpumask_type is one of PADATA_CPU_SERIAL,
+-PADATA_CPU_PARALLEL and cpumask specifies the new cpumask to use.
+-To simply add or remove one CPU from a certain cpumask the functions
+-padata_add_cpu/padata_remove_cpu are used. cpu specifies the CPU to add or
+-remove and mask is one of PADATA_CPU_SERIAL, PADATA_CPU_PARALLEL.
++padata_set_cpumask is used to change just one of the cpumasks. Here cpumask_type
++is one of PADATA_CPU_SERIAL or PADATA_CPU_PARALLEL, and cpumask specifies the
++new cpumask to use.
+ 
+ If a user is interested in padata cpumask changes, he can register to
+ the padata cpumask change notifier::
+@@ -117,12 +116,13 @@ momentarily.
+ 
+ The submission of work is done with::
+ 
+-    int padata_do_parallel(struct padata_instance *pinst,
+-		           struct padata_priv *padata, int cb_cpu);
++    int padata_do_parallel(struct padata_shell *ps,
++		           struct padata_priv *padata, int *cb_cpu);
+ 
+-The pinst and padata structures must be set up as described above; cb_cpu
+-specifies which CPU will be used for the final callback when the work is
+-done; it must be in the current instance's CPU mask.  The return value from
++The ps and padata structures must be set up as described above; cb_cpu
++points to the preferred CPU to be used for the final callback when the work is
++done; it must be in the current instance's CPU mask (if not the cb_cpu pointer
++is updated to point to the CPU actually chosen).  The return value from
+ padata_do_parallel() is zero on success, indicating that the work is in
+ progress. -EBUSY means that somebody, somewhere else is messing with the
+ instance's CPU mask, while -EINVAL is a complaint about cb_cpu not being
+@@ -154,10 +154,12 @@ Note that this call may be deferred for a while since the padata code takes
+ pains to ensure that tasks are completed in the order in which they were
+ submitted.
+ 
+-The one remaining function in the padata API should be called to clean up
+-when a padata instance is no longer needed::
++Cleaning up a padata instance predictably involves calling the three free
++functions that correspond to the allocation in reverse:
+ 
++    void padata_free_shell(struct padata_shell *ps);
++    void padata_stop(struct padata_instance *pinst);
+     void padata_free(struct padata_instance *pinst);
+ 
+-This function will busy-wait while any remaining tasks are completed, so it
+-might be best not to call it while there is work outstanding.
++It is the user's responsibility to ensure all outstanding jobs are complete
++before any of the above are called.
+-- 
+2.23.0
+
