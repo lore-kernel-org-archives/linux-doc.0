@@ -2,156 +2,167 @@ Return-Path: <SRS0=vEmV=ZM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5687C43215
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 13:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69578C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 15:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A0302246A
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 13:57:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32D5520714
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 15:54:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IeSv2+O3"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jtMhRC6P"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730253AbfKTN53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Nov 2019 08:57:29 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:53840 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727988AbfKTN52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 08:57:28 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAKDsQCo145409;
-        Wed, 20 Nov 2019 13:57:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : in-reply-to : message-id : references : mime-version :
- content-type; s=corp-2019-08-05;
- bh=V/DFRPYzZOalGnsH/AEEGn8n7Gic4vXnO/GK2SB+TOg=;
- b=IeSv2+O3ui/2wSCpPrho1PV53YzwyB2YAQgyhfMZIBjm0nGKzPyyX0LihDMcUh0intIK
- x7YYGCP4psTF+42oxtrzaie5/S5pHp/jMWZCk6jlqezLOwPltRbGEkLalkL8AgLVBKrU
- hrHwt9mQe2yKeUOuA7lxQUMedNgcSLcFjKvn8vSbnWECJMUsuz0E4T3Rz1ripER4DZwa
- CPHwRvn9xWM2sM/FDv6+eNWdsvfGsZUBkDbNwc4XK8joYaZQOwi7aYKVA8D/12SulvAq
- 6Msd4Hs1IWi3ACmWNkkv1AhjWVUneXZHF2PPr2Ggws6wuixhgru4kmRhyru6Nk4ESnds yA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 2wa8htwpu2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Nov 2019 13:57:05 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAKDrYqn104080;
-        Wed, 20 Nov 2019 13:57:05 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 2wd46wf44t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Nov 2019 13:57:05 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAKDv2kK028577;
-        Wed, 20 Nov 2019 13:57:02 GMT
-Received: from dhcp-10-175-162-125.vpn.oracle.com (/10.175.162.125)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 20 Nov 2019 05:57:02 -0800
-Date:   Wed, 20 Nov 2019 13:56:52 +0000 (GMT)
-From:   Alan Maguire <alan.maguire@oracle.com>
-X-X-Sender: alan@dhcp-10-175-162-125.vpn.oracle.com
-To:     Brendan Higgins <brendanhiggins@google.com>
-cc:     Alan Maguire <alan.maguire@oracle.com>,
-        David Gow <davidgow@google.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-ext4@vger.kernel.org,
+        id S1728412AbfKTPy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Nov 2019 10:54:58 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39660 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729188AbfKTPy6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 10:54:58 -0500
+Received: by mail-wm1-f65.google.com with SMTP id t26so117067wmi.4
+        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2019 07:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
+        b=jtMhRC6Pk0HadowGTjQERXbTA9SrlkgA6uoK4GrRBBSya5IrU9FKwc5sKWuazC7hWY
+         91aODgBraKSoG3+eK4B2Za6Q/SMrQiR5aWNtuyZaBsUjHqSN2Zi+JRcOllkgpeTVuzp8
+         KDT853LwBilN+sUKYomYUcWf/qSSmZVkW+82quasRshDxUIO+1hR/nIVZmRvxQmr68TG
+         JuuUYYKg35fGImgfsm/WZdIhy6TJt7Bd0SxC2TXYB82TjG7g7WhD7Xc4n2MJVs5c58xj
+         OsGpyLKVVbGaZmacdh697dBEAEP6D0PtBat1Xcjiao3BpaFQFCZ1O7xp2tWnSqIW3UyD
+         DLNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
+        b=WBjKOeZppZcFIINIPpgh7gBzhkyu23GRlqUOw756RM1j0r1nUDPcUVTCghJfvknX2v
+         NUceMdxu45uv1lrMfhyQ0N52ZA8ORJr/12fhmxOmTZHAPGjNL2AHBreUqcIOJvtX/eLw
+         WC5nVHk8GiQwwPch++jly18362H/tCALhD0un0pg7iu5a7CsUOL6CHpXfvxD1/P8zvbP
+         w2P8X+3/Jr7Q9yLHDZE130eRXx1OZq8UHuPt7Y4gP1wyUHBy60QQaCOnwngKwj7l0iqI
+         AlXtBGFQF9iRsgin4Ns396p+SMLUaXw8nLSKV+xN587XCz0wCMdms98nDw/+kAgSm6NS
+         LieQ==
+X-Gm-Message-State: APjAAAUmwRggh6XwUAPIalGWSt61mts1JM7s4pkCFCA/B93sF/Wye3mr
+        jXLfhhIMD1327fP+HDV90GWRPw==
+X-Google-Smtp-Source: APXvYqygyv2epnPyQ8ZUCWpvIvDmkk1mlhM7bZ2yAb9gUjZi3pn0UqvfOAVs0g05UGhLYqygkKm6GA==
+X-Received: by 2002:a1c:38c3:: with SMTP id f186mr4147629wma.58.1574265294776;
+        Wed, 20 Nov 2019 07:54:54 -0800 (PST)
+Received: from google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id z6sm33020710wro.18.2019.11.20.07.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2019 07:54:53 -0800 (PST)
+Date:   Wed, 20 Nov 2019 16:54:48 +0100
+From:   Marco Elver <elver@google.com>
+To:     Qian Cai <cai@lca.pw>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
-Subject: Re: [PATCH v4 linux-kselftest-test 3/6] kunit: allow kunit tests to
- be loaded as a module
-In-Reply-To: <CAFd5g473rHeUk6EJ_KnvRin5LrKyW4cNQxNHXmT2zkai5V=q1w@mail.gmail.com>
-Message-ID: <alpine.LRH.2.20.1911201347190.19458@dhcp-10-175-162-125.vpn.oracle.com>
-References: <1573812972-10529-1-git-send-email-alan.maguire@oracle.com> <1573812972-10529-4-git-send-email-alan.maguire@oracle.com> <CAFd5g473rHeUk6EJ_KnvRin5LrKyW4cNQxNHXmT2zkai5V=q1w@mail.gmail.com>
-User-Agent: Alpine 2.20 (LRH 67 2015-01-07)
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191120155448.GA21320@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+ <1574194379.9585.10.camel@lca.pw>
+ <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9446 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911200125
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9446 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911200125
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Nov 2019, Brendan Higgins wrote:
+On Tue, 19 Nov 2019, Marco Elver wrote:
 
-> On Fri, Nov 15, 2019 at 2:16 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+> On Tue, 19 Nov 2019 at 21:13, Qian Cai <cai@lca.pw> wrote:
 > >
-> > As tests are added to kunit, it will become less feasible to execute
-> > all built tests together.  By supporting modular tests we provide
-> > a simple way to do selective execution on a running system; specifying
+> > On Thu, 2019-11-14 at 19:02 +0100, 'Marco Elver' via kasan-dev wrote:
+> > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > only enables KCSAN for x86, but we expect adding support for other
+> > > architectures is relatively straightforward (we are aware of
+> > > experimental ARM64 and POWER support).
 > >
-> > CONFIG_KUNIT=y
-> > CONFIG_KUNIT_EXAMPLE_TEST=m
+> > This does not allow the system to boot. Just hang forever at the end.
 > >
-> > ...means we can simply "insmod example-test.ko" to run the tests.
+> > https://cailca.github.io/files/dmesg.txt
 > >
-> > To achieve this we need to do the following:
+> > the config (dselect KASAN and select KCSAN with default options):
 > >
-> > o export the required symbols in kunit
-> > o string-stream tests utilize non-exported symbols so for now we skip
-> >   building them when CONFIG_KUNIT_TEST=m.
-> > o support a new way of declaring test suites.  Because a module cannot
-> >   do multiple late_initcall()s, we provide a kunit_test_suites() macro
-> >   to declare multiple suites within the same module at once.
-> > o some test module names would have been too general ("test-test"
-> >   and "example-test" for kunit tests, "inode-test" for ext4 tests);
-> >   rename these as appropriate ("kunit-test", "kunit-example-test"
-> >   and "ext4-inode-test" respectively).
+> > https://raw.githubusercontent.com/cailca/linux-mm/master/x86.config
 > 
-> Hmm...should we maybe apply this naming scheme to all the tests then?
-> I think Kees might have suggested this. I am actually not sure whether
-> or not we should and would like to get other people's input.
+> Thanks! That config enables lots of other debug code. I could
+> reproduce the hang. It's related to CONFIG_PROVE_LOCKING etc.
 > 
-
-I'd be interested in other opinions here too; the approach I took here was 
-to apply the convention [subsystem]-[optional-suite]-test.ko. So for 
-example kunit-test.ko because the subsystem under test is kunit, etc.
-Implicit in this is the reasoning that the framework used isn't relevant 
-to the naming of the test module, but I'm happy to tweak the naming 
-scheme if another approach is preferred.  The current names from the 
-patchset are:
-
-kunit-test.ko		- tests for kunit itself
-kunit-example-test.ko	- example test using the kunit framework
-sysctl-test.ko		- sysctl kunit tests
-list-test.ko		- list kunit tests
-ext4-inode-test.ko	- ext4 kunit tests
- 
-> It is a valid point that test-test or example-test are too general of
-> names for modules, but if this is the case, I think that inode-test is
-> probably too general as well. But if we are going that far, maybe we
-> should rename everything *-kunit-test.c.
+> The problem is definitely not the fact that kcsan_setup_watchpoint
+> disables interrupts (tested by removing that code). Although lockdep
+> still complains here, and looking at the code in kcsan/core.c, I just
+> can't see how local_irq_restore cannot be called before returning (in
+> the stacktrace you provided, there is no kcsan function), and
+> interrupts should always be re-enabled. (Interrupts are only disabled
+> during delay in kcsan_setup_watchpoint.)
 > 
+> What I also notice is that this happens when the console starts
+> getting spammed with data-race reports (presumably because some extra
+> debug code has lots of data races according to KCSAN).
+> 
+> My guess is that some of the extra debug logic enabled in that config
+> is incompatible with KCSAN. However, so far I cannot tell where
+> exactly the problem is. For now the work-around would be not using
+> KCSAN with these extra debug options.  I will investigate more, but
+> nothing obviously wrong stands out..
 
-Yep, I figured inode-test.ko was too general also, so the Makefile 
-builds ext4-inode-test.ko from inode-test.c. See fs/ext4/Makefile.
+It seems that due to spinlock_debug.c containing data races, the console
+gets spammed with reports. However, it's also possible to encounter
+deadlock, e.g.  printk lock -> spinlock_debug -> KCSAN detects data race
+-> kcsan_print_report() -> printk lock -> deadlock.
 
-Thanks!
+So the best thing is to fix the data races in spinlock_debug. I will
+send a patch separately for you to test.
 
-Alan
+The issue that lockdep still reports inconsistency in IRQ flags tracing
+I cannot yet say what the problem is. It seems that lockdep IRQ flags
+tracing may have an issue with KCSAN for numerous reasons: let's say
+lockdep and IRQ flags tracing code is instrumented, which then calls
+into KCSAN, which disables/enables interrupts, but due to tracing calls
+back into lockdep code. In other words, there may be some recursion
+which corrupts hardirqs_enabled.
+
+Thanks,
+-- Marco
