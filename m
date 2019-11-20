@@ -2,78 +2,97 @@ Return-Path: <SRS0=vEmV=ZM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4473CC432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 00:27:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0DEC432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 01:14:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1C7882084D
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 00:27:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2E6622460
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 01:14:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jhQYalGW"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dCsxQGhH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbfKTA1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Nov 2019 19:27:53 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53840 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbfKTA1x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 19:27:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=mMMDebwACb1zY74jKV4pvVdex8iqpBiiTHzIEmHaphQ=; b=jhQYalGWSAgIRi5O80fqP6It9
-        Y6JbDpGt445GNBdb7e0y2YjDLv1jk8Wsiet4GoVRXcrXcCd8GTil8+UQKy6LfZtnqAK52UDeBjhvz
-        oa3hLNtSOFH7Tgz2tH0kQz5YE0nMpnJyG8OP2q5qXgDKpoS4K3velaABKNCBGlre9YqA2L6FSJDbZ
-        JGZvF9X7acDtcLD7dDsZQzawtBAtejgH+/xQZvRshagTroMN8/lbSShqRFgTy0TEeaNWALPONsSSe
-        rjcw9iUEL5BLkfg+PS0ASooEQxZLGhlsCdzMmuvH5XvxjCN1LNjRLupAJgAXG0cQeQGr2qQHrmCUx
-        AXKUhIB8w==;
-Received: from [2603:3004:32:9a00::f45c]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iXDqa-0000Ai-3i; Wed, 20 Nov 2019 00:27:52 +0000
+        id S1727226AbfKTBOc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Nov 2019 20:14:32 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39114 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727334AbfKTBOc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Nov 2019 20:14:32 -0500
+Received: by mail-pg1-f196.google.com with SMTP id b126so1083377pga.6
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2019 17:14:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XNg1tjP9INvmM/DeIAYa5hYUQZyQDSSg86vYo3TV7Ho=;
+        b=dCsxQGhHkmzl0ml2pIeI752b4HtkmyA3ByI5TXA2lfq2sPe5YuX64IxdaxlSeJvBuV
+         kJ6EnIRwzhwSfJvpkLNQRsmmQE2fm9FqizwJ4xHIjocMniRI3cXYKdwtD+bRfX5HTGYs
+         De6B8bN45rbuhaRT3sau60ZO+OLcv8t39NXwOOw7DAA4V6iW7QcASdhZfpoSqqOlK+dT
+         3eintlSrtwCHFK81GtH2KY50K6dzw0ZmyjuwdjBfCd0Ha4e0+WR7BvQcFRY7Te+Qx1XJ
+         c1IVDQ5xqvETFTC7+BwVQ68dETVNW/DhzUKHCGLD+tnMkTTd74yNJt35d1tZr6sLaA3w
+         Zoyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XNg1tjP9INvmM/DeIAYa5hYUQZyQDSSg86vYo3TV7Ho=;
+        b=LvZqHju4H0Nu3ccNhFNivc/lTN1ChMgxXwLOzQ4J5rAtRbnpzZm3T/HWJbd/UmC54h
+         GQslModiPsVfb1zConZ9VV4GQ87nyX/kUnTWlqL8oiQt0ZFDVMjHb5n/eGxT8VtlChbF
+         hbVVehWfibPJkQzQ0/yje/M/SjRxMDRxWpPJwR9qxcrWzzTdrDjtk57Oapq6pY21prR4
+         7NvpvCCWk8KQqqyjShbiX6Lq+H0v42g+KFbmk2LplHyzfN/c6rwSFacLheCM+ECUO+Tu
+         g04b/bsPQVD/WQEg3qNpTSIoLh7uR/HtyT4phfBUyVc5/dojEcGs4GDNx86iYbwyINJG
+         RMXw==
+X-Gm-Message-State: APjAAAVRwVKKBtROLqcVnY3ujFj0R1JrEnFvaoNXu4F4v3FOc8lCmX3y
+        izXU5nuv4kYlT0ts02yivqN9qR4H2FaRiVLFzn7waQ==
+X-Google-Smtp-Source: APXvYqxAkXh/yc2VcsZRwT1JGfFXlfbvmuoJtajYbRBOUk8rZUaOu5y1Dveu5HQDIG/KqwFiiTzNCFJIVyw3PhzaCGs=
+X-Received: by 2002:a63:5163:: with SMTP id r35mr96501pgl.201.1574212471139;
+ Tue, 19 Nov 2019 17:14:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20191119003120.154041-1-brendanhiggins@google.com> <4a3aada5-fe8f-9c82-dfd4-0494acf59334@infradead.org>
+In-Reply-To: <4a3aada5-fe8f-9c82-dfd4-0494acf59334@infradead.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 19 Nov 2019 17:14:20 -0800
+Message-ID: <CAFd5g47+3TN4pOdeM0YmJpMP2uKnpJYUY_OXmqmZEn8OcVz6ow@mail.gmail.com>
 Subject: Re: [PATCH linux-kselftest/test v3] Documentation: kunit: add
  documentation for kunit_tool
-To:     Brendan Higgins <brendanhiggins@google.com>, shuah@kernel.org,
-        davidgow@google.com
-Cc:     kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, tytso@mit.edu
-References: <20191119003120.154041-1-brendanhiggins@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4a3aada5-fe8f-9c82-dfd4-0494acf59334@infradead.org>
-Date:   Tue, 19 Nov 2019 16:27:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
-MIME-Version: 1.0
-In-Reply-To: <20191119003120.154041-1-brendanhiggins@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     shuah <shuah@kernel.org>, David Gow <davidgow@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/18/19 4:31 PM, Brendan Higgins wrote:
-> +How do I use kunit_tool?
-> +=================================
+On Tue, Nov 19, 2019 at 4:27 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 11/18/19 4:31 PM, Brendan Higgins wrote:
+> > +How do I use kunit_tool?
+> > +=================================
+>
+> Hi,
+> I haven't tested this, but Sphinx (or some doc tool) usually complains if the
+> underline length is not the same as the header text length.  (I.e., use fewer
+> = signs above.)
 
-Hi,
-I haven't tested this, but Sphinx (or some doc tool) usually complains if the
-underline length is not the same as the header text length.  (I.e., use fewer
-= signs above.)
+Hmmm...Sphinx and checkpatch didn't complain. I wonder if it is a
+different script, or maybe I have to use a particular option with
+Sphinx.
 
-> +
-> +If a kunitconfig is present at the root directory, all you have to do is:
-> +
-> +.. code-block:: bash
-> +
-> +	./tools/testing/kunit/kunit.py run
+In any case, thanks for catching this!
 
-
--- 
-~Randy
+> > +
+> > +If a kunitconfig is present at the root directory, all you have to do is:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +     ./tools/testing/kunit/kunit.py run
