@@ -2,108 +2,73 @@ Return-Path: <SRS0=vEmV=ZM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C95C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 09:45:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A69E7C43215
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 13:32:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 531712243F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 09:45:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7ECD922526
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Nov 2019 13:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbfKTJpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Nov 2019 04:45:18 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:34402 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727259AbfKTJpR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 04:45:17 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R641e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TidAYKW_1574243111;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TidAYKW_1574243111)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 20 Nov 2019 17:45:13 +0800
-Subject: Re: [PATCH 0/3] sched/numa: introduce advanced numa statistic
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
-Message-ID: <fb625d65-ee70-2cb6-6060-4f1cd78fa173@linux.alibaba.com>
-Date:   Wed, 20 Nov 2019 17:45:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1729637AbfKTNcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Nov 2019 08:32:21 -0500
+Received: from ms.lwn.net ([45.79.88.28]:45212 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729366AbfKTNcU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Nov 2019 08:32:20 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 096C1867;
+        Wed, 20 Nov 2019 13:32:20 +0000 (UTC)
+Date:   Wed, 20 Nov 2019 06:32:19 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, shuah <shuah@kernel.org>,
+        David Gow <davidgow@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>
+Subject: Re: [PATCH linux-kselftest/test v3] Documentation: kunit: add
+ documentation for kunit_tool
+Message-ID: <20191120063219.1ad15b68@lwn.net>
+In-Reply-To: <CAFd5g47+3TN4pOdeM0YmJpMP2uKnpJYUY_OXmqmZEn8OcVz6ow@mail.gmail.com>
+References: <20191119003120.154041-1-brendanhiggins@google.com>
+        <4a3aada5-fe8f-9c82-dfd4-0494acf59334@infradead.org>
+        <CAFd5g47+3TN4pOdeM0YmJpMP2uKnpJYUY_OXmqmZEn8OcVz6ow@mail.gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Mel
+On Tue, 19 Nov 2019 17:14:20 -0800
+Brendan Higgins <brendanhiggins@google.com> wrote:
 
-I hope this version has addressed the issues you mentioned :-)
+> On Tue, Nov 19, 2019 at 4:27 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > On 11/18/19 4:31 PM, Brendan Higgins wrote:  
+> > > +How do I use kunit_tool?
+> > > +=================================  
+> >
+> > Hi,
+> > I haven't tested this, but Sphinx (or some doc tool) usually complains if the
+> > underline length is not the same as the header text length.  (I.e., use fewer
+> > = signs above.)  
+> 
+> Hmmm...Sphinx and checkpatch didn't complain. I wonder if it is a
+> different script, or maybe I have to use a particular option with
+> Sphinx.
 
-Does it looks better now?
+Sphinx wants the underline to be at least as long as the subheading text
+above; it's entirely happy if it's longer, though.
 
-Regards,
-Michael Wang
-
-On 2019/11/13 上午11:43, 王贇 wrote:
-> Modern production environment could use hundreds of cgroup to control
-> the resources for different workloads, along with the complicated
-> resource binding.
-> 
-> On NUMA platforms where we have multiple nodes, things become even more
-> complicated, we hope there are more local memory access to improve the
-> performance, and NUMA Balancing keep working hard to achieve that,
-> however, wrong memory policy or node binding could easily waste the
-> effort, result a lot of remote page accessing.
-> 
-> We need to perceive such problems, then we got chance to fix it before
-> there are too much damages, however, there are no good approach yet to
-> help catch the mouse who introduced the remote access.
-> 
-> This patch set is trying to fill in the missing pieces， by introduce
-> the per-cgroup NUMA locality/exectime statistics, and expose the per-task
-> page migration failure counter, with these statistics, we could achieve
-> the daily monitoring on NUMA efficiency, to give warning when things going
-> too wrong.
-> 
-> Please check the third patch for more details.
-> 
-> Thanks to Peter, Mel and Michal for the good advices :-)
-> 
-> Michael Wang (3):
->   sched/numa: advanced per-cgroup numa statistic
->   sched/numa: expose per-task pages-migration-failure counter
->   sched/numa: documentation for per-cgroup numa stat
-> 
->  Documentation/admin-guide/cg-numa-stat.rst      | 161 ++++++++++++++++++++++++
->  Documentation/admin-guide/kernel-parameters.txt |   4 +
->  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
->  include/linux/sched.h                           |  18 ++-
->  include/linux/sched/sysctl.h                    |   6 +
->  init/Kconfig                                    |   9 ++
->  kernel/sched/core.c                             |  91 ++++++++++++++
->  kernel/sched/debug.c                            |   1 +
->  kernel/sched/fair.c                             |  33 +++++
->  kernel/sched/sched.h                            |  17 +++
->  kernel/sysctl.c                                 |  11 ++
->  11 files changed, 359 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
-> 
-> 
+jon
