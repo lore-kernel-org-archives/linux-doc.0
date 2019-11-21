@@ -2,162 +2,256 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 690DAC432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 21:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985FAC432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 21:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3B5F72068F
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 21:00:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EA78206CC
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 21:35:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F3+4lkP3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbfKUVA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 16:00:56 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:48534 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbfKUVAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 16:00:55 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1iXtZL-0002sS-Rv; Thu, 21 Nov 2019 14:00:51 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1iXtZE-0008Ey-Gy; Thu, 21 Nov 2019 14:00:51 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        syzbot <syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726939AbfKUVfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 16:35:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37773 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726920AbfKUVfk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 16:35:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574372139;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YslT4VlrB9mGxRqN5ZKGkdoWX+pImdvI3tx38/mJv/g=;
+        b=F3+4lkP3uqyXkGQy92eLDyAWlOZz+Dqr0YZIfkLtyHHYVwohbTEqIdCNRsxde0wfDY7knz
+        XBDvHo51Hj2F1EIeKg+VyyiD24pZJ2SWYGKVbsb+MJOoqWwlrQoTt76Qmvo17+pHXH9ajy
+        RZwA4C+3Vw5Wc333VaXIQm3zSkrXFs4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-_8mqkejRPqeFlprORl3o9g-1; Thu, 21 Nov 2019 16:35:36 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42006801E58;
+        Thu, 21 Nov 2019 21:35:30 +0000 (UTC)
+Received: from x1.home (ovpn-116-56.phx2.redhat.com [10.3.116.56])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2C5BA6E703;
+        Thu, 21 Nov 2019 21:35:26 +0000 (UTC)
+Date:   Thu, 21 Nov 2019 14:35:25 -0700
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <0000000000006e31980579315914@google.com>
-        <000000000000a6993c0597cc8375@google.com>
-        <CALCETrVfWHPHiOmyJ9iDJDiCD3idPA4BdeM=4FUEO-uuxM07_g@mail.gmail.com>
-        <CACT4Y+YVfyb6VSiFALAJT-O0GAxsVRY0XafAyx1NM+bkGw9vCQ@mail.gmail.com>
-Date:   Thu, 21 Nov 2019 15:00:13 -0600
-In-Reply-To: <CACT4Y+YVfyb6VSiFALAJT-O0GAxsVRY0XafAyx1NM+bkGw9vCQ@mail.gmail.com>
-        (Dmitry Vyukov's message of "Thu, 21 Nov 2019 21:13:12 +0100")
-Message-ID: <87v9rd0wte.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        =?UTF-8?B?SsOpcsO0?= =?UTF-8?B?bWU=?= Glisse 
+        <jglisse@redhat.com>, Magnus Karlsson <magnus.karlsson@intel.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "Jason Gunthorpe" <jgg@mellanox.com>
+Subject: Re: [PATCH v7 09/24] vfio, mm: fix get_user_pages_remote() and
+ FOLL_LONGTERM
+Message-ID: <20191121143525.50deb72f@x1.home>
+In-Reply-To: <20191121071354.456618-10-jhubbard@nvidia.com>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+        <20191121071354.456618-10-jhubbard@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1iXtZE-0008Ey-Gy;;;mid=<87v9rd0wte.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+/jXqjH+WgpIi9WaXPa/NIDOfo5vaWQXM=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: INFO: task hung in __do_page_fault (2)
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: _8mqkejRPqeFlprORl3o9g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dmitry Vyukov <dvyukov@google.com> writes:
+On Wed, 20 Nov 2019 23:13:39 -0800
+John Hubbard <jhubbard@nvidia.com> wrote:
 
-> On Thu, Nov 21, 2019 at 7:01 PM Andy Lutomirski <luto@kernel.org> wrote:
->>
->> On Wed, Nov 20, 2019 at 11:52 AM syzbot
->> <syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com> wrote:
->> >
->> > syzbot has bisected this bug to:
->> >
->> > commit 0161028b7c8aebef64194d3d73e43bc3b53b5c66
->> > Author: Andy Lutomirski <luto@kernel.org>
->> > Date:   Mon May 9 22:48:51 2016 +0000
->> >
->> >      perf/core: Change the default paranoia level to 2
->> >
->> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15910e86e00000
->> > start commit:   18d0eae3 Merge tag 'char-misc-4.20-rc1' of git://git.kerne..
->> > git tree:       upstream
->> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=17910e86e00000
->> > console output: https://syzkaller.appspot.com/x/log.txt?x=13910e86e00000
->> > kernel config:  https://syzkaller.appspot.com/x/.config?x=342f43de913c81b9
->> > dashboard link: https://syzkaller.appspot.com/bug?extid=6b074f741adbd93d2df5
->> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12482713400000
->> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=158fd4a3400000
->> >
->> > Reported-by: syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com
->> > Fixes: 0161028b7c8a ("perf/core: Change the default paranoia level to 2")
->> >
->> > For information about bisection process see: https://goo.gl/tpsmEJ#bisection
->>
->> Hi syzbot-
->>
->> I'm not quite sure how to tell you this in syzbotese, but I'm pretty
->> sure you've bisected this wrong.  The blamed patch makes no sense.
->
->
-> Hi Andy,
->
-> Three is no way to tell syzbot about this, it does not have any way to
-> use this information.
-> You can tell this to other recipients, though, and for the record on
-> the bug report email thread. For this you can use any free form.
->
-> But what makes you think this is wrong?
-> From everything I see this looks like amazingly precise bisection.
-> The reproducer contains perf_event_open which seems to cause the hang
-> (there is a number of reports where perf_event_open hangs kernel dead
-> IIRC) _and_ it contains setresuid. Which makes good match for
-> "perf/core: Change the default paranoia level to 2" (for unpriv
-> users).
-> The bisection log also looks perfectly correct to me: no unrelated
-> kernel bugs were hit along the way; the crash was always reproduced
-> 100% reliably in all 10 runs; nothing else suspicious.
-> I can totally imagine that your patch unmasked some latent bug, but
-> it's not 100% obvious to me and in either case syzbot did the job as
-> well as a robot could possibly do.
+> As it says in the updated comment in gup.c: current FOLL_LONGTERM
+> behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
+> FS DAX check requirement on vmas.
+>=20
+> However, the corresponding restriction in get_user_pages_remote() was
+> slightly stricter than is actually required: it forbade all
+> FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
+> that do not set the "locked" arg.
+>=20
+> Update the code and comments accordingly, and update the VFIO caller
+> to take advantage of this, fixing a bug as a result: the VFIO caller
+> is logically a FOLL_LONGTERM user.
+>=20
+> Also, remove an unnessary pair of calls that were releasing and
+> reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
+> just in order to call page_to_pfn().
+>=20
+> Also, move the DAX check ("if a VMA is DAX, don't allow long term
+> pinning") from the VFIO call site, all the way into the internals
+> of get_user_pages_remote() and __gup_longterm_locked(). That is:
+> get_user_pages_remote() calls __gup_longterm_locked(), which in turn
+> calls check_dax_vmas(). It's lightly explained in the comments as well.
+>=20
+> Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
+> and to Dan Williams for helping clarify the DAX refactoring.
+>=20
+> Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Jerome Glisse <jglisse@redhat.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 30 +++++-------------------------
+>  mm/gup.c                        | 27 ++++++++++++++++++++++-----
+>  2 files changed, 27 insertions(+), 30 deletions(-)
 
-All Andy's patch did was change the default value of
-sysctl_perf_event_paranoid.  Which a quick skim of the code can only
-cause perf_event_open to fail.
+Tested with device assignment and Intel mdev vGPU assignment with QEMU
+userspace:
 
-So if perf is running as non-root aka unprivileged it might have
-been affected.
+Tested-by: Alex Williamson <alex.williamson@redhat.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
-That said the most likely effect that would cause a hang is for perf to
-not be started and therefore it's NMI's did not happen and so something
-else was free to hang.
+Feel free to include for 19/24 as well.  Thanks,
 
-The other possibility is something in perf_event_open goes haywire
-when it attempts to start and gets permission denied.  That seems
-unlikely.  Assuming that was the case Andy's change did not
-touch any of the perf_event_open code.  So at most it is highlighting
-a path that was broken in earlier kernels and Andy's change to
-the default caused the syzbot code to take a path that was broken
-much earlier.
+Alex
 
-
-The common sense operation to perform at this point is to realize
-that the setting of sysctl_perf_event_open matters to the test and
-to modify the test to set sysctl_perf_event_open before it does
-more things, and then syzbot or it's keepers can track down a likely
-cause for the hang.
-
-
-Certainly pointing at Andy's patch gives no one any real information of
-why the kernel was hanging.  It is literally changing an default value
-of 1 to a default value of 2.
-
-Eric
-
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_ty=
+pe1.c
+> index d864277ea16f..c7a111ad9975 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -340,7 +340,6 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsign=
+ed long vaddr,
+>  {
+>  =09struct page *page[1];
+>  =09struct vm_area_struct *vma;
+> -=09struct vm_area_struct *vmas[1];
+>  =09unsigned int flags =3D 0;
+>  =09int ret;
+> =20
+> @@ -348,33 +347,14 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsi=
+gned long vaddr,
+>  =09=09flags |=3D FOLL_WRITE;
+> =20
+>  =09down_read(&mm->mmap_sem);
+> -=09if (mm =3D=3D current->mm) {
+> -=09=09ret =3D get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
+> -=09=09=09=09     vmas);
+> -=09} else {
+> -=09=09ret =3D get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
+> -=09=09=09=09=09    vmas, NULL);
+> -=09=09/*
+> -=09=09 * The lifetime of a vaddr_get_pfn() page pin is
+> -=09=09 * userspace-controlled. In the fs-dax case this could
+> -=09=09 * lead to indefinite stalls in filesystem operations.
+> -=09=09 * Disallow attempts to pin fs-dax pages via this
+> -=09=09 * interface.
+> -=09=09 */
+> -=09=09if (ret > 0 && vma_is_fsdax(vmas[0])) {
+> -=09=09=09ret =3D -EOPNOTSUPP;
+> -=09=09=09put_page(page[0]);
+> -=09=09}
+> -=09}
+> -=09up_read(&mm->mmap_sem);
+> -
+> +=09ret =3D get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTE=
+RM,
+> +=09=09=09=09    page, NULL, NULL);
+>  =09if (ret =3D=3D 1) {
+>  =09=09*pfn =3D page_to_pfn(page[0]);
+> -=09=09return 0;
+> +=09=09ret =3D 0;
+> +=09=09goto done;
+>  =09}
+> =20
+> -=09down_read(&mm->mmap_sem);
+> -
+>  =09vaddr =3D untagged_addr(vaddr);
+> =20
+>  =09vma =3D find_vma_intersection(mm, vaddr, vaddr + 1);
+> @@ -384,7 +364,7 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsign=
+ed long vaddr,
+>  =09=09if (is_invalid_reserved_pfn(*pfn))
+>  =09=09=09ret =3D 0;
+>  =09}
+> -
+> +done:
+>  =09up_read(&mm->mmap_sem);
+>  =09return ret;
+>  }
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 14fcdc502166..cce2c9676853 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -29,6 +29,13 @@ struct follow_page_context {
+>  =09unsigned int page_mask;
+>  };
+> =20
+> +static __always_inline long __gup_longterm_locked(struct task_struct *ts=
+k,
+> +=09=09=09=09=09=09  struct mm_struct *mm,
+> +=09=09=09=09=09=09  unsigned long start,
+> +=09=09=09=09=09=09  unsigned long nr_pages,
+> +=09=09=09=09=09=09  struct page **pages,
+> +=09=09=09=09=09=09  struct vm_area_struct **vmas,
+> +=09=09=09=09=09=09  unsigned int flags);
+>  /*
+>   * Return the compound head page with ref appropriately incremented,
+>   * or NULL if that failed.
+> @@ -1167,13 +1174,23 @@ long get_user_pages_remote(struct task_struct *ts=
+k, struct mm_struct *mm,
+>  =09=09struct vm_area_struct **vmas, int *locked)
+>  {
+>  =09/*
+> -=09 * FIXME: Current FOLL_LONGTERM behavior is incompatible with
+> +=09 * Parts of FOLL_LONGTERM behavior are incompatible with
+>  =09 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
+> -=09 * vmas.  As there are no users of this flag in this call we simply
+> -=09 * disallow this option for now.
+> +=09 * vmas. However, this only comes up if locked is set, and there are
+> +=09 * callers that do request FOLL_LONGTERM, but do not set locked. So,
+> +=09 * allow what we can.
+>  =09 */
+> -=09if (WARN_ON_ONCE(gup_flags & FOLL_LONGTERM))
+> -=09=09return -EINVAL;
+> +=09if (gup_flags & FOLL_LONGTERM) {
+> +=09=09if (WARN_ON_ONCE(locked))
+> +=09=09=09return -EINVAL;
+> +=09=09/*
+> +=09=09 * This will check the vmas (even if our vmas arg is NULL)
+> +=09=09 * and return -ENOTSUPP if DAX isn't allowed in this case:
+> +=09=09 */
+> +=09=09return __gup_longterm_locked(tsk, mm, start, nr_pages, pages,
+> +=09=09=09=09=09     vmas, gup_flags | FOLL_TOUCH |
+> +=09=09=09=09=09     FOLL_REMOTE);
+> +=09}
+> =20
+>  =09return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
+>  =09=09=09=09       locked,
 
