@@ -2,127 +2,81 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E58FC43215
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 14:36:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C139BC432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:21:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB02B206B6
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 14:36:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XkP12c/i"
+	by mail.kernel.org (Postfix) with ESMTP id A2AC3206D8
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfKUOgz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 09:36:55 -0500
-Received: from mail-qv1-f66.google.com ([209.85.219.66]:43188 "EHLO
-        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726396AbfKUOgq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 09:36:46 -0500
-Received: by mail-qv1-f66.google.com with SMTP id cg2so1467803qvb.10
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 06:36:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rv5c3PJEtM2ffNdfZuVl2p9Xs+FPDxJaOjEmQ2G8DAo=;
-        b=XkP12c/ibS/aRyryTCd4qjn/PXxyYCusK1THaNAzNjypEGkjhmCt9LtT+qYEnSe3fB
-         R0spZ8YqysCDI95uGLLvFVswmZUjEqJ9cNCyHcavEFwClRwZ6y4PKDy88MyzZlAfM967
-         hisIg3vRQPZ469GZRWnqA3CNAZUY/hKDr+kXV7+2R0BibPU9CM1KGy5uODfMlNXxTJJo
-         tHEs5mFWOzUwzAdEjcr2fH3dCNIBIBIgehoNt8ki1/1o3yu01BkPAihfF+3/v5R6c6NG
-         mm7J2IKwvLhTCpGsMr85umCSjimcUeH9XgLjTylXIMq1THOPpUYiNcR9NxoGX25nyfzV
-         YKKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rv5c3PJEtM2ffNdfZuVl2p9Xs+FPDxJaOjEmQ2G8DAo=;
-        b=AxQhkgjjRRaTd8v9Ne1VH5RXPYxrQXn7GT9OA+wbdmiVc9pTeBPB3HAPv6IlNAuLmi
-         F7Aypk29qBxuC7NY9vhy3YXOKTEOv9lyYkX2FWMBagZxU1vWK95MSrSX0IXkjwsCyFHt
-         PeKc0o7m3nJArXTd/6kqgJ2kDB0zaFLHIWLALrKeMWMJEh/lQ2eKau+WKRi5Fyr36skL
-         vJWMSmHTbX82+ykoR83pwWbrmRhkhsAEtZ4BIVsRX5eAb6GmdJFp8veg/cD/QQbOx/Mj
-         urHpoQHtaI5j0h4qiBeJtG4FpQkjNgIE2Cq0A520SbdJI1FGIktnLIxWT++bw/wud2Mx
-         VG/Q==
-X-Gm-Message-State: APjAAAXKT1Uc/IDdMUL/9cRkTkQYCHPjK51IkdT1EQhxIOvT3TTG4l4M
-        5bMODnV0EviWFCQ3kpflGZHq9w==
-X-Google-Smtp-Source: APXvYqxiPTD6uqfSlGreW7CNwXwCXJOA4tNSbO40QzzV7IhKLzuaPAx4PWY7OQoHdNILaiGopmJlAA==
-X-Received: by 2002:a0c:e74a:: with SMTP id g10mr8540002qvn.29.1574347005412;
-        Thu, 21 Nov 2019 06:36:45 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id 40sm1584912qtc.95.2019.11.21.06.36.44
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 21 Nov 2019 06:36:44 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iXnZb-0004bF-SZ; Thu, 21 Nov 2019 10:36:43 -0400
-Date:   Thu, 21 Nov 2019 10:36:43 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
+        id S1727233AbfKUPVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 10:21:41 -0500
+Received: from mx2.suse.de ([195.135.220.15]:52032 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726279AbfKUPVl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Nov 2019 10:21:41 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id EBC91B127;
+        Thu, 21 Nov 2019 15:21:38 +0000 (UTC)
+Date:   Thu, 21 Nov 2019 16:21:36 +0100
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
 To:     Christoph Hellwig <hch@infradead.org>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 07/24] IB/umem: use get_user_pages_fast() to pin DMA
- pages
-Message-ID: <20191121143643.GC7448@ziepe.ca>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-8-jhubbard@nvidia.com>
- <20191121080746.GC30991@infradead.org>
+Cc:     linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] scsi: sr: workaround VMware ESXi cdrom emulation
+ bug
+Message-ID: <20191121152136.GK11661@kitsune.suse.cz>
+References: <cover.1571834862.git.msuchanek@suse.de>
+ <abf81ec4f8b6139fffc609df519856ff8dc01d0d.1571834862.git.msuchanek@suse.de>
+ <20191024022307.GC11485@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191121080746.GC30991@infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191024022307.GC11485@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 12:07:46AM -0800, Christoph Hellwig wrote:
-> On Wed, Nov 20, 2019 at 11:13:37PM -0800, John Hubbard wrote:
-> > And get rid of the mmap_sem calls, as part of that. Note
-> > that get_user_pages_fast() will, if necessary, fall back to
-> > __gup_longterm_unlocked(), which takes the mmap_sem as needed.
+On Wed, Oct 23, 2019 at 07:23:07PM -0700, Christoph Hellwig wrote:
+> On Wed, Oct 23, 2019 at 02:52:46PM +0200, Michal Suchanek wrote:
 > > 
-> > Reviewed-by: Jan Kara <jack@suse.cz>
-> > Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
-> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> > Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> > The drive claims to have a tray and claims to be able to close it.
+> > However, the UI has no notion of a tray - when medium is ejected it is
+> > dropped in the floor and the user must select a medium again before the
+> > drive can be re-loaded.  On the kernel side the tray_move call to close
+> > the tray succeeds but the drive state does not change as a result of the
+> > call.
+> > 
+> > The drive does not in fact emulate the tray state. There are two ways to
+> > get the medium state. One is the SCSI status:
 > 
-> Looks fine,
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Jason, can you queue this up for 5.5 to reduce this patch stack a bit?
+> Given that this is a buggy software emulation we should not add more
+> than 100 lines of kernel code to work around it.  Ask VMware to fix
+> their mess instead.
 
-Yes, I said I'd do this in an earlier revision. Now that it is clear this
-won't go through Andrew's tree, applied to rdma for-next
+Where do you see 100 lines of code?
 
-Thanks,
-Jason
+The patch has exactly 4.
+
+Thanks
+
+Michal
