@@ -2,89 +2,137 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7FAC432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B95FC432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:13:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 70CBE2068E
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:52:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 416CA2068F
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:13:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WlulTIMK"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ivm+77kB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbfKUTwW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 14:52:22 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:34597 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbfKUTwV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 14:52:21 -0500
-Received: by mail-pj1-f65.google.com with SMTP id bo14so1972431pjb.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 11:52:19 -0800 (PST)
+        id S1726975AbfKUUN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 15:13:26 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:43151 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726970AbfKUUN0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 15:13:26 -0500
+Received: by mail-qk1-f193.google.com with SMTP id p14so4224805qkm.10
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 12:13:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Oibr9mo+x0+TGv4WMCPaafgkJSg0wRL2Of/xQxi/DiU=;
-        b=WlulTIMKfJ69Qa5u9lpbic68PHzChbTGdAZk0v72q6waDu5xHFcYiU0CJEoT30LNpK
-         lgeF9rHVsLJLUb4OQsaxjm8+A7uam5+e2v6+flnO0Sys9x2CkSqVbomkf2wUiOwA8tsq
-         3FzKH2z+xgD280Xlld4qTU4USfRI3qY6vMdhY=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L7kYoMVgzXrrlMqhKt4mkkLjEcR7Iirse1ze91WZ2es=;
+        b=Ivm+77kBP6dszmfwrcPYZpVNUzPEQ41aylYiP4xCZ5ljESqvBEFVvKTD2AEwmdOsL4
+         14ZKZEuU2lOHuPag2Cv7szEQeCTGabe+e3UHltjZORlPWrWo1hgPvhm2w3kHeP6nb+gi
+         o1TXg3NKP1VYP+fadqTqmMG9+StLeCRDU2dwzw91Rngm8de9h5b01xCy8fDo3OzvdGKc
+         7sHbPWh3oF83aJ8I6i1tNam8zl1lgPg1cwehgcJ5YHq3oa13BgDC4vjo5ndPqn8nrlOU
+         8scXT9s6A7/UyWL+yqZhVg+Lgl/0/1oPsHxN3/uHlqPYwTVN9cZ3becP/n2dC7RRMmDY
+         zfRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Oibr9mo+x0+TGv4WMCPaafgkJSg0wRL2Of/xQxi/DiU=;
-        b=VX7CaDvnmcYwyNdZLfMbgN/gBe7ywzGnurkQn8Y4KOJCCrqYnWWdFm+ra+CDiQZfjC
-         /dEfJbXhC43kETg2t6oiph6z0savaJ729aDnQLd7eDWUs84QBjnPkmJTTn6tbRyOoBco
-         F8mB24koI9L0dvtTgB8bFpgvqN+vGmhf1OrouKpVrHRWVhEBwUWZDxPzsKS7LyQtCHm2
-         i8jkiJBOpO8mvGOImW8+H2dRZ8gb9TA3xFamnM/PGIMhRz53vBNwSE8M0XEpEzhsmrH6
-         SPLK2C6ip/A5vhCeJRblVhnRhQq7jAgeP7DpGDTDR4bZC1eKg8XFW/XuWvHDHZ+xamJj
-         GGIA==
-X-Gm-Message-State: APjAAAVJLICdA6FnMHnGtV72GJGhWtvjCfEWbEPQzDcMEtPZ+WUKIM3I
-        eLkYau6aaOfMas8ur6J0wcL0yw==
-X-Google-Smtp-Source: APXvYqyW7eFXDr9JMJJ9FRFENumkx9ubOhmnk19B5oInsr8SBRnIQfkXM/m4r6Y9vbhvVn7CrHJaWg==
-X-Received: by 2002:a17:90b:d93:: with SMTP id bg19mr13434722pjb.81.1574365939329;
-        Thu, 21 Nov 2019 11:52:19 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m6sm3853310pgl.42.2019.11.21.11.52.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 11:52:18 -0800 (PST)
-Date:   Thu, 21 Nov 2019 11:52:17 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] docs, parallelism: Rearrange how jobserver
- reservations are made
-Message-ID: <201911211151.45A9C4F5F6@keescook>
-References: <20191121000304.48829-1-keescook@chromium.org>
- <20191121000304.48829-4-keescook@chromium.org>
- <656afebc-fc60-7502-40a3-52d2662c1d27@rasmusvillemoes.dk>
- <201911211122.02F3646@keescook>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L7kYoMVgzXrrlMqhKt4mkkLjEcR7Iirse1ze91WZ2es=;
+        b=mKDR4AP/PiuDtf0YZyxDCa7f50mMEjm6A5bTVYpH6lA9rh7JjUUr0KznLTSV8fG5hH
+         BGMQOf8CdfhfWAez8Uzxu1moUg2ykGpO7Niddd/z5OPL7TA23cVIpPoJ55JPQoqN7Ogz
+         GltFafqjpBdxUUsukDqLayrACVkvaZ8/JLshoW81gZrMnboUQDwimat7K4SOue6PWry4
+         9uC0JOiqDh3saEd7AxUiS3WFEYzy4GAm7jAY2WDp45hDX+0K18H0J9st5PXKqipzglI7
+         NQ2i1LOHQfJYVp1qDDoT/whAULUfFbkrqiG/BXEMh6HrgDEfK4fSJ/lqIpoBBdUUVkaI
+         s5gg==
+X-Gm-Message-State: APjAAAWHVLFdlzT4iIBD6//646QNnX3+2MaB3De2IsdDjU3FVZ+Y7gpA
+        TWpqKH2OxBv7d1ZBHM0ZoP1to6B11PCpmK6ZvG/mgQ==
+X-Google-Smtp-Source: APXvYqwLvEyx2OYuY5lEgxSfNmvYOcfePTvN/jgculMxRa6kgYzB7S5fAyaH0IZgpTPo0C5Pc2siam/z5wfKTiRPtpY=
+X-Received: by 2002:a05:620a:14b9:: with SMTP id x25mr1608539qkj.8.1574367204856;
+ Thu, 21 Nov 2019 12:13:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <201911211122.02F3646@keescook>
+References: <0000000000006e31980579315914@google.com> <000000000000a6993c0597cc8375@google.com>
+ <CALCETrVfWHPHiOmyJ9iDJDiCD3idPA4BdeM=4FUEO-uuxM07_g@mail.gmail.com>
+In-Reply-To: <CALCETrVfWHPHiOmyJ9iDJDiCD3idPA4BdeM=4FUEO-uuxM07_g@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 21 Nov 2019 21:13:12 +0100
+Message-ID: <CACT4Y+YVfyb6VSiFALAJT-O0GAxsVRY0XafAyx1NM+bkGw9vCQ@mail.gmail.com>
+Subject: Re: INFO: task hung in __do_page_fault (2)
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     syzbot <syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 11:39:03AM -0800, Kees Cook wrote:
-> On Thu, Nov 21, 2019 at 09:09:37AM +0100, Rasmus Villemoes wrote:
-> > Similarly (and the harder problem), what happens when our parent wants
-> > to send its child a signal to say "stop what you're doing, return the
-> > tokens, brush your teeth and go to bed". We should forward that signal
-> > to the real job instead of just dying, losing track of both the tokens
-> > we've claimed as well as orphaning the child.
-> 
-> Hm, hm. I guess I could pass INT and TERM to the child. That seems like
-> the most sensible best-effort here. It seems "make" isn't only looking
-> at the slots to determine process management.
+On Thu, Nov 21, 2019 at 7:01 PM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Wed, Nov 20, 2019 at 11:52 AM syzbot
+> <syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com> wrote:
+> >
+> > syzbot has bisected this bug to:
+> >
+> > commit 0161028b7c8aebef64194d3d73e43bc3b53b5c66
+> > Author: Andy Lutomirski <luto@kernel.org>
+> > Date:   Mon May 9 22:48:51 2016 +0000
+> >
+> >      perf/core: Change the default paranoia level to 2
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15910e86e00000
+> > start commit:   18d0eae3 Merge tag 'char-misc-4.20-rc1' of git://git.kerne..
+> > git tree:       upstream
+> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=17910e86e00000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=13910e86e00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=342f43de913c81b9
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=6b074f741adbd93d2df5
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12482713400000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=158fd4a3400000
+> >
+> > Reported-by: syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com
+> > Fixes: 0161028b7c8a ("perf/core: Change the default paranoia level to 2")
+> >
+> > For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>
+> Hi syzbot-
+>
+> I'm not quite sure how to tell you this in syzbotese, but I'm pretty
+> sure you've bisected this wrong.  The blamed patch makes no sense.
 
-Actually, this doesn't seem to work at all. Interruption already behaves
-correctly. I'm going to ignore this for now...
 
--- 
-Kees Cook
+Hi Andy,
+
+Three is no way to tell syzbot about this, it does not have any way to
+use this information.
+You can tell this to other recipients, though, and for the record on
+the bug report email thread. For this you can use any free form.
+
+But what makes you think this is wrong?
+From everything I see this looks like amazingly precise bisection.
+The reproducer contains perf_event_open which seems to cause the hang
+(there is a number of reports where perf_event_open hangs kernel dead
+IIRC) _and_ it contains setresuid. Which makes good match for
+"perf/core: Change the default paranoia level to 2" (for unpriv
+users).
+The bisection log also looks perfectly correct to me: no unrelated
+kernel bugs were hit along the way; the crash was always reproduced
+100% reliably in all 10 runs; nothing else suspicious.
+I can totally imagine that your patch unmasked some latent bug, but
+it's not 100% obvious to me and in either case syzbot did the job as
+well as a robot could possibly do.
