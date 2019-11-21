@@ -2,187 +2,161 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA47AC432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 04:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7D6C432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 07:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 70F592089D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 04:05:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7CE0208D4
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 07:13:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q04w2aq8"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="GljxL876"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726132AbfKUEFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Nov 2019 23:05:48 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38763 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725819AbfKUEFr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 23:05:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574309146;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ddcL9As6t6N2W7FClqz+MM4Vj5YcYH8nBzk/ipEcve0=;
-        b=Q04w2aq8zeMNqgoLki+N8zmW6DTN4LRrZ7eu8j4iUgmmHnNFxjgrVDl2NPc1TngDvft2jG
-        jXdu8PZD7vkYmy209886kRenZoK35iBkkkAr9GXtLiH27xgW3s4OpvA/M5CGlVbIS8GNoY
-        GBwcewe0AyYUhPEUoyu1Et89+faoX3E=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315--4rWMU2GMwqJ5YqkUtsd4Q-1; Wed, 20 Nov 2019 23:05:45 -0500
-Received: by mail-lf1-f72.google.com with SMTP id h3so501900lfp.17
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2019 20:05:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XAdRIJ2WowQ38gyWjLPpmLE8JvGLeIMdMt69fOJjIH4=;
-        b=UZNS1ulPBQjbbRH4b6/J6yy3l9iZGaYuh4fX0u4Duk3CcvfEtGiq2ZZl+TIubNWGGm
-         MZDCJ4RJ4V80WJ7mKDhO0Fq53MGmIhr+2qXvn8USn5L5Qr5kydJpPhoEl+ObG+bZFink
-         PPwYUHa6iPYUN+0j1Ds6BAjiAyJCAfPCVE/oVDAZncnQqEcY8a5NPRa4x3fxFE0sQTES
-         T8SObrB3reQsntg8gqDQvIv1PKbQVmFaIrJAq/uoQ3qz9EfvRwLRjuXvE8VdEuI/r6mw
-         BZPin9iYvqul/fsrjvhbkdgXIXAmXe2eruXK9vTZw+RC5qiTrx5GJq6JGtHOcAq3sIGr
-         PD+w==
-X-Gm-Message-State: APjAAAU4lfBmOCQJLJlEDx2ERxOrYIRpQfj+2D7gdoEGPp5qOXM08oaP
-        G3JOWLK3ZKWAAIBZanaQzp+BBflDGsHaFKc4F2UOPwWTq7Xn5aky9gm0m1Za2K6fmfOdArbA+3E
-        DO2VQ4CdFpKrcnLJFkfWvqGaPOhofBUS+3Io3
-X-Received: by 2002:a19:bec5:: with SMTP id o188mr5652124lff.140.1574309143459;
-        Wed, 20 Nov 2019 20:05:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy5dgsLiGw/+gMUCqCKW9wbveCY62iBIDQZk8TIYLgEUZuvgMt3xbY56NyFoSWIFRlYSXo+FYcMeO7+9TakXnE=
-X-Received: by 2002:a19:bec5:: with SMTP id o188mr5652105lff.140.1574309143167;
- Wed, 20 Nov 2019 20:05:43 -0800 (PST)
-MIME-Version: 1.0
-References: <1573459282-26989-1-git-send-email-bhsharma@redhat.com> <20191121032047.GB23368@dhcp-128-65.nay.redhat.com>
-In-Reply-To: <20191121032047.GB23368@dhcp-128-65.nay.redhat.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Thu, 21 Nov 2019 09:35:29 +0530
-Message-ID: <CACi5LpOXW+HTsAZfxbwnCnypSdpk4=t8bsS=SRx0crc=4261VA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
- for arm64 and MAX_PHYSMEM_BITS for all archs)
-To:     Dave Young <dyoung@redhat.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727051AbfKUHN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 02:13:58 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:17691 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725842AbfKUHN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 02:13:58 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd639300000>; Wed, 20 Nov 2019 23:13:52 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 20 Nov 2019 23:13:55 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 20 Nov 2019 23:13:55 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Nov
+ 2019 07:13:55 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 21 Nov 2019 07:13:55 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5dd639330004>; Wed, 20 Nov 2019 23:13:55 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Boris Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Steve Capper <steve.capper@arm.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        James Morse <james.morse@arm.com>,
-        Dave Anderson <anderson@redhat.com>,
-        linuxppc-dev@lists.ozlabs.org
-X-MC-Unique: -4rWMU2GMwqJ5YqkUtsd4Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v7 03/24] mm/gup: move try_get_compound_head() to top, fix minor issues
+Date:   Wed, 20 Nov 2019 23:13:33 -0800
+Message-ID: <20191121071354.456618-4-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191121071354.456618-1-jhubbard@nvidia.com>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+MIME-Version: 1.0
+X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574320432; bh=diV8s1yuXD4Hgu8vlHZLpe4KN2/SH1maxCg7V19wHIM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Transfer-Encoding:Content-Type;
+        b=GljxL876+gvuLSjDsLvdnPqOxClI/Ba5thrKXPQx/ixqgcNRfKAZDpBQQ2os5Z7YC
+         7cL5zxn16JCiVQWj1ZTXK02HfMhRRPVENV9RsJZTDhO9BgwdWgiIUrazdv0CXTEbqw
+         cEbCbcq7N8TczqO9rmLK5EQCLbtRCWXyqFrbr63Non+f3K14n+gEOHD1Rm0dtyh3Uh
+         qDlCq399rKL3l2KPteTmRmTotzQnwBcvXn2y6BgAM8jxLiXMHE4QFqGJJCLTcDmUM5
+         OXMe49djzmAEEiiP7N+fQPsboKLOfSn++O/7fPnoJ8ECqzcZn5xgKwmXKO7rmFMSMz
+         2NTGr/KHCuFGQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+An upcoming patch uses try_get_compound_head() more widely,
+so move it to the top of gup.c.
 
-On Thu, Nov 21, 2019 at 8:51 AM Dave Young <dyoung@redhat.com> wrote:
->
-> On 11/11/19 at 01:31pm, Bhupesh Sharma wrote:
-> > Changes since v3:
-> > ----------------
-> > - v3 can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
-> > - Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
-> >   instead of PTRS_PER_PGD.
-> > - Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
-> >   'Documentation/arm64/memory.rst'
-> >
-> > Changes since v2:
-> > ----------------
-> > - v2 can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
-> > - Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEM=
-EM
-> >   ifdef sections, as suggested by Kazu.
-> > - Updated vmcoreinfo documentation to add description about
-> >   'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
-> >
-> > Changes since v1:
-> > ----------------
-> > - v1 was sent out as a single patch which can be seen here:
-> >   http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
-> >
-> > - v2 breaks the single patch into two independent patches:
-> >   [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, wher=
-eas
-> >   [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel c=
-ode (all archs)
-> >
-> > This patchset primarily fixes the regression reported in user-space
-> > utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
-> > with the availability of 52-bit address space feature in underlying
-> > kernel. These regressions have been reported both on CPUs which don't
-> > support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernel=
-s
-> > and also on prototype platforms (like ARMv8 FVP simulator model) which
-> > support ARMv8.2 extensions and are running newer kernels.
-> >
-> > The reason for these regressions is that right now user-space tools
-> > have no direct access to these values (since these are not exported
-> > from the kernel) and hence need to rely on a best-guess method of
-> > determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
-> > by underlying kernel.
-> >
-> > Exporting these values via vmcoreinfo will help user-land in such cases=
-.
-> > In addition, as per suggestion from makedumpfile maintainer (Kazu),
-> > it makes more sense to append 'MAX_PHYSMEM_BITS' to
-> > vmcoreinfo in the core code itself rather than in arm64 arch-specific
-> > code, so that the user-space code for other archs can also benefit from
-> > this addition to the vmcoreinfo and use it as a standard way of
-> > determining 'SECTIONS_SHIFT' value in user-land.
-> >
-> > Cc: Boris Petkov <bp@alien8.de>
-> > Cc: Ingo Molnar <mingo@kernel.org>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: James Morse <james.morse@arm.com>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Steve Capper <steve.capper@arm.com>
-> > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > Cc: Paul Mackerras <paulus@samba.org>
-> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > Cc: Dave Anderson <anderson@redhat.com>
-> > Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-> > Cc: x86@kernel.org
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: kexec@lists.infradead.org
-> >
-> > Bhupesh Sharma (3):
-> >   crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
-> >   arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
->
-> Soft reminder:  the new introduced vmcoreinfo needs documentation
->
-> Please check Documentation/admin-guide/kdump/vmcoreinfo.rst
+Also fix a tiny spelling error and a checkpatch.pl warning.
 
-Sure, will send a v5 to address the same.
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ mm/gup.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-Thanks,
-Bhupesh
+diff --git a/mm/gup.c b/mm/gup.c
+index f3c7d6625817..14fcdc502166 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -29,6 +29,21 @@ struct follow_page_context {
+ 	unsigned int page_mask;
+ };
+=20
++/*
++ * Return the compound head page with ref appropriately incremented,
++ * or NULL if that failed.
++ */
++static inline struct page *try_get_compound_head(struct page *page, int re=
+fs)
++{
++	struct page *head =3D compound_head(page);
++
++	if (WARN_ON_ONCE(page_ref_count(head) < 0))
++		return NULL;
++	if (unlikely(!page_cache_add_speculative(head, refs)))
++		return NULL;
++	return head;
++}
++
+ /**
+  * put_user_pages_dirty_lock() - release and optionally dirty gup-pinned p=
+ages
+  * @pages:  array of pages to be maybe marked dirty, and definitely releas=
+ed.
+@@ -1793,20 +1808,6 @@ static void __maybe_unused undo_dev_pagemap(int *nr,=
+ int nr_start,
+ 	}
+ }
+=20
+-/*
+- * Return the compund head page with ref appropriately incremented,
+- * or NULL if that failed.
+- */
+-static inline struct page *try_get_compound_head(struct page *page, int re=
+fs)
+-{
+-	struct page *head =3D compound_head(page);
+-	if (WARN_ON_ONCE(page_ref_count(head) < 0))
+-		return NULL;
+-	if (unlikely(!page_cache_add_speculative(head, refs)))
+-		return NULL;
+-	return head;
+-}
+-
+ #ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 			 unsigned int flags, struct page **pages, int *nr)
+--=20
+2.24.0
 
