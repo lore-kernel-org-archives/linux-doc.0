@@ -2,252 +2,165 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FA1C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 00:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C6DC432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 03:21:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 402A320895
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 00:03:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC7CD208C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 03:21:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CRFILFHf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ESn/raW6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfKUADZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Nov 2019 19:03:25 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36447 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbfKUADM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 19:03:12 -0500
-Received: by mail-pl1-f196.google.com with SMTP id d7so629899pls.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2019 16:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=6psxPlZl9k9hVxAcY5nJfgBFA/h6KZ9Pi6P6/8PS9Bs=;
-        b=CRFILFHfiKc0hbSgbiktgDPENvDtSf8an3+vKm10BZnsX8g0nra/XcnzdM6nqNBJWu
-         39/vTFFigXtiz0ZeqeZF+RNZMC5+AtvcRrXQ9pm6AwjAu10Jbgc6r6P8L0uZr5RU5L6+
-         retbqw+fEVqIUjM3FmrMu9Pp1/m6Qjansn9RY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=6psxPlZl9k9hVxAcY5nJfgBFA/h6KZ9Pi6P6/8PS9Bs=;
-        b=HqyqW8ag66YidlKdPRz21RhL3It3WE0sOWX8enKS3xOIkoRnQ7G3VC9UrJT5F70sFP
-         A/Rk0aeyK3UVc8ju0fIQ5oXfZqYIpATPvbVtZt3Xl9lh4kLprqFSHTfLcMDZN+GUaexf
-         bdWbUAABhpJ1fLX+d0B6LI9egmZwRQux3Ej0JdcxsJYY3fvKIJarHUMEr2VZjNyWUxyY
-         G7EMAW0NnxkQ/cAwZQUzNRVYGq/PPi/HDaWY6m0FCQF6uOM81ndwu37npiY9XTSujteg
-         iVrTu6nptX7Jwj3X7qxa2z8xKEnz6kPeAKzf49UZ4v7M+QYWZl+taZwNCSb8RR+1codn
-         Vb3A==
-X-Gm-Message-State: APjAAAXOO3leJVCDkp04KQMb9lIVNmQW93MF/zC5qlhovJJM9xhEI8jD
-        9sP7vSienIUdKtbLBMK24IBH5g==
-X-Google-Smtp-Source: APXvYqyzWByrYIkrLzCIeRZ6LRyRadEKAymWhM5zAzN3FhG5cyzWRqRVTnzqfGk2yK2chnaZ94vfMw==
-X-Received: by 2002:a17:90a:bf81:: with SMTP id d1mr7373559pjs.125.1574294590377;
-        Wed, 20 Nov 2019 16:03:10 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s18sm573022pfm.27.2019.11.20.16.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 16:03:09 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] docs, parallelism: Rearrange how jobserver reservations are made
-Date:   Wed, 20 Nov 2019 16:03:04 -0800
-Message-Id: <20191121000304.48829-4-keescook@chromium.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191121000304.48829-1-keescook@chromium.org>
-References: <20191121000304.48829-1-keescook@chromium.org>
+        id S1726840AbfKUDVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Nov 2019 22:21:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27377 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727259AbfKUDVH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Nov 2019 22:21:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574306466;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bWE830W7XPGCNo1jp1GJ01OlXQKp72T4TdINlVBXIEk=;
+        b=ESn/raW6aJmPcrTokzgdf+RFYHAU0ABeg25rS5w40RXN3kd+J+p8klROoCawb1+5Mz6cEX
+        +TAdxtI81isUiJPo/QqcbrUvqxaEnHC8h66FcRqD8oEpL18D2CKdU6qdsmWQA/IHsl7VOw
+        JJPMhg9KUqRBDX8QlUdAhAe2rwqR2mk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-B1bmXBaGNl65qKvByAPhSQ-1; Wed, 20 Nov 2019 22:21:04 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8979E477;
+        Thu, 21 Nov 2019 03:21:01 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-115.pek2.redhat.com [10.72.12.115])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C79066D46;
+        Thu, 21 Nov 2019 03:20:51 +0000 (UTC)
+Date:   Thu, 21 Nov 2019 11:20:47 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Bhupesh Sharma <bhsharma@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        linux-doc@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Boris Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>, bhupesh.linux@gmail.com,
+        linux-arm-kernel@lists.infradead.org,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Steve Capper <steve.capper@arm.com>, kexec@lists.infradead.org,
+        James Morse <james.morse@arm.com>,
+        Dave Anderson <anderson@redhat.com>,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v4 0/3] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
+ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Message-ID: <20191121032047.GB23368@dhcp-128-65.nay.redhat.com>
+References: <1573459282-26989-1-git-send-email-bhsharma@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <1573459282-26989-1-git-send-email-bhsharma@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: B1bmXBaGNl65qKvByAPhSQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rasmus correctly observed that the existing jobserver reservation only
-worked if no other build targets were specified. The correct approach
-is to hold the jobserver slots until sphinx has finished. To fix this,
-the following changes are made:
+On 11/11/19 at 01:31pm, Bhupesh Sharma wrote:
+> Changes since v3:
+> ----------------
+> - v3 can be seen here:
+>   http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
+> - Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
+>   instead of PTRS_PER_PGD.
+> - Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
+>   'Documentation/arm64/memory.rst'
+>=20
+> Changes since v2:
+> ----------------
+> - v2 can be seen here:
+>   http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
+> - Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEMEM
+>   ifdef sections, as suggested by Kazu.
+> - Updated vmcoreinfo documentation to add description about
+>   'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
+>=20
+> Changes since v1:
+> ----------------
+> - v1 was sent out as a single patch which can be seen here:
+>   http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
+>=20
+> - v2 breaks the single patch into two independent patches:
+>   [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, wherea=
+s
+>   [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel cod=
+e (all archs)
+>=20
+> This patchset primarily fixes the regression reported in user-space
+> utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
+> with the availability of 52-bit address space feature in underlying
+> kernel. These regressions have been reported both on CPUs which don't
+> support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernels
+> and also on prototype platforms (like ARMv8 FVP simulator model) which
+> support ARMv8.2 extensions and are running newer kernels.
+>=20
+> The reason for these regressions is that right now user-space tools
+> have no direct access to these values (since these are not exported
+> from the kernel) and hence need to rely on a best-guess method of
+> determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
+> by underlying kernel.
+>=20
+> Exporting these values via vmcoreinfo will help user-land in such cases.
+> In addition, as per suggestion from makedumpfile maintainer (Kazu),
+> it makes more sense to append 'MAX_PHYSMEM_BITS' to
+> vmcoreinfo in the core code itself rather than in arm64 arch-specific
+> code, so that the user-space code for other archs can also benefit from
+> this addition to the vmcoreinfo and use it as a standard way of
+> determining 'SECTIONS_SHIFT' value in user-land.
+>=20
+> Cc: Boris Petkov <bp@alien8.de>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Steve Capper <steve.capper@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Dave Anderson <anderson@redhat.com>
+> Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+> Cc: x86@kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: kexec@lists.infradead.org
+>=20
+> Bhupesh Sharma (3):
+>   crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
+>   arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
 
-- refactor (and rename) scripts/jobserver-exec to set an environment
-  variable for the maximally reserved jobserver slots and exec a
-  child, to release the slots on exit.
+Soft reminder:  the new introduced vmcoreinfo needs documentation
 
-- create Documentation/scripts/parallel-wrapper.sh which examines both
-  $PARALLELISM and the detected "-jauto" logic from Documentation/Makefile
-  to decide sphinx's final -j argument.
+Please check Documentation/admin-guide/kdump/vmcoreinfo.rst
 
-- chain these together in Documentation/Makefile
-
-Suggested-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Link: https://lore.kernel.org/lkml/eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/Makefile                      |  5 +-
- Documentation/sphinx/parallel-wrapper.sh    | 25 +++++++
- scripts/{jobserver-count => jobserver-exec} | 73 ++++++++++++---------
- 3 files changed, 68 insertions(+), 35 deletions(-)
- create mode 100644 Documentation/sphinx/parallel-wrapper.sh
- rename scripts/{jobserver-count => jobserver-exec} (50%)
- mode change 100755 => 100644
-
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index ce8eb63b523a..30554a2fbdd7 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -33,8 +33,6 @@ ifeq ($(HAVE_SPHINX),0)
- 
- else # HAVE_SPHINX
- 
--export SPHINX_PARALLEL = $(shell perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "auto" if ($$1 >= "1.7") } ;} close IN')
--
- # User-friendly check for pdflatex and latexmk
- HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
- HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
-@@ -67,8 +65,9 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
-       cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/media $2 && \
- 	PYTHONDONTWRITEBYTECODE=1 \
- 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
-+	$(PYTHON) $(srctree)/scripts/jobserver-exec \
-+	$(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
- 	$(SPHINXBUILD) \
--	-j $(shell python $(srctree)/scripts/jobserver-count $(SPHINX_PARALLEL)) \
- 	-b $2 \
- 	-c $(abspath $(srctree)/$(src)) \
- 	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
-diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
-new file mode 100644
-index 000000000000..a416dbfd2025
---- /dev/null
-+++ b/Documentation/sphinx/parallel-wrapper.sh
-@@ -0,0 +1,25 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Figure out if we should follow a specific parallelism from the make
-+# environment (as exported by scripts/jobserver-exec), or fall back to
-+# the "auto" parallelism when "-jN" is not specified at the top-level
-+# "make" invocation.
-+
-+sphinx="$1"
-+shift || true
-+
-+parallel="${PARALLELISM:-1}"
-+if [ ${parallel} -eq 1 ] ; then
-+	auto=$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";
-+			while (<IN>) {
-+				if (m/([\d\.]+)/) {
-+					print "auto" if ($1 >= "1.7")
-+				}
-+			}
-+			close IN')
-+	if [ -n "$auto" ] ; then
-+		parallel="$auto"
-+	fi
-+fi
-+exec "$sphinx" "-j$parallel" "$@"
-diff --git a/scripts/jobserver-count b/scripts/jobserver-exec
-old mode 100755
-new mode 100644
-similarity index 50%
-rename from scripts/jobserver-count
-rename to scripts/jobserver-exec
-index a68a04ad304f..4593b2a1e36d
---- a/scripts/jobserver-count
-+++ b/scripts/jobserver-exec
-@@ -2,17 +2,16 @@
- # SPDX-License-Identifier: GPL-2.0+
- #
- # This determines how many parallel tasks "make" is expecting, as it is
--# not exposed via an special variables.
-+# not exposed via an special variables, reserves them all, runs a subprocess
-+# with PARALLELISM environment variable set, and releases the jobs back again.
-+#
- # https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
- from __future__ import print_function
- import os, sys, fcntl, errno
--
--# Default parallelism is "1" unless overridden on the command-line.
--default="1"
--if len(sys.argv) > 1:
--	default=sys.argv[1]
-+import subprocess
- 
- # Extract and prepare jobserver file descriptors from envirnoment.
-+jobs = b""
- try:
- 	# Fetch the make environment options.
- 	flags = os.environ['MAKEFLAGS']
-@@ -30,31 +29,41 @@ try:
- 	reader = os.open("/proc/self/fd/%d" % (reader), os.O_RDONLY)
- 	flags = fcntl.fcntl(reader, fcntl.F_GETFL)
- 	fcntl.fcntl(reader, fcntl.F_SETFL, flags | os.O_NONBLOCK)
--except (KeyError, IndexError, ValueError, IOError, OSError) as e:
--	print(e, file=sys.stderr)
-+
-+	# Read out as many jobserver slots as possible.
-+	while True:
-+		try:
-+			slot = os.read(reader, 1)
-+			jobs += slot
-+		except (OSError, IOError) as e:
-+			if e.errno == errno.EWOULDBLOCK:
-+				# Stop at the end of the jobserver queue.
-+				break
-+			# If something went wrong, give back the jobs.
-+			if len(jobs):
-+				os.write(writer, jobs)
-+			raise e
-+except (KeyError, IndexError, ValueError, OSError, IOError) as e:
- 	# Any missing environment strings or bad fds should result in just
--	# using the default specified parallelism.
--	print(default)
--	sys.exit(0)
-+	# not being parallel.
-+	pass
- 
--# Read out as many jobserver slots as possible.
--jobs = b""
--while True:
--	try:
--		slot = os.read(reader, 1)
--		jobs += slot
--	except (OSError, IOError) as e:
--		if e.errno == errno.EWOULDBLOCK:
--			# Stop when reach the end of the jobserver queue.
--			break
--		raise e
--# Return all the reserved slots.
--os.write(writer, jobs)
--
--# If the jobserver was (impossibly) full or communication failed, use default.
--if len(jobs) < 1:
--	print(default)
--	sys.exit(0)
--
--# Report available slots (with a bump for our caller's reserveration).
--print(len(jobs) + 1)
-+claim = len(jobs)
-+if claim < 1:
-+	# If the jobserver was (impossibly) full or communication failed
-+	# in some way do not use parallelism.
-+	claim = 0
-+
-+# Launch command with a bump for our caller's reserveration,
-+# since we're just going to sit here blocked on our child.
-+claim += 1
-+
-+os.unsetenv('MAKEFLAGS')
-+os.environ['PARALLELISM'] = '%d' % (claim)
-+rc = subprocess.call(sys.argv[1:])
-+
-+# Return all the actually reserved slots.
-+if len(jobs):
-+	os.write(writer, jobs)
-+
-+sys.exit(rc)
--- 
-2.17.1
+Thanks
+Dave
 
