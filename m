@@ -2,104 +2,119 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F91C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 16:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C0A7C432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 17:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9ACE02070B
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 16:07:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 124E3206CC
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 17:00:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="MRC5GtQY"
+	dkim=pass (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="f+VuCObI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbfKUQHa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 11:07:30 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:45565 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfKUQHa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 11:07:30 -0500
-Received: by mail-il1-f195.google.com with SMTP id o18so3751153ils.12
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 08:07:28 -0800 (PST)
+        id S1726948AbfKURAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 12:00:11 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36195 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbfKURAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 12:00:11 -0500
+Received: by mail-oi1-f196.google.com with SMTP id j7so3853487oib.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 09:00:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=P4W4hyYZ6T+wL1O213mYLd96KdBzBHpg9/YQCjoVILM=;
-        b=MRC5GtQYRbjWjFGZ/vJsaClUMDJ7hy8XeLThYplbe7u/VBoJyVDfOQRYNCc9WHf1+R
-         YM8i3LUmqrCtDbaOPuE+/759ibNWitWsdr/1LB32m8NQp+rYS/R5MRMYP0SxrAH7pDW/
-         yzbDF1xvKxuXI/4YwDImOAMRtkxOBtfLCZb7Rn0Rg5lGNiLHY69oLwDT8tQHHONCPyOL
-         VRRMjJIF0O4osgapAp43czNPYKTjL442yIx7Ljhmy1ctls9w6UWWmnJ6QyM6DqVy3hqf
-         4k0Yi51vruRfdY62Nc1rpQ3KoiUObEVajgdICck/bxmpkaj8MaFGqq96EHvYxa8LmC1u
-         C7Og==
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SDymYy1Cr6msxqeKtzOvSyToG0ApR3Ly++FnBPiFfAU=;
+        b=f+VuCObIDRfrJmbTAA4m3SQhOXNZ4pbf+ZyigT8J2YciKJHX1toKS54ABD40/HbC1d
+         7Pkwsh8oyyINQzVpjfjsJLe3RxxCFvky++3gAGs9me3lgi9X2Cs94Bu46By7m8IZ2aX6
+         6VCe60NDY4cCmQm2ZZlTacWdZ6Ps9MXHsxEoPPvq4YYJFGrJauw8LzXEJJdEFg7nFNai
+         NT0xpYhDehIOprr6cUNw9YoHqOqwfQCKgM0QWVQ6U7LVeCnx2wYwSu33Ka73HmSeIHM7
+         JqrB5AsBrlMh6M533DPgzCdMMVEMlw9v2LJQn2e/uD0VclTth1B3dpfknn3iLontgkuH
+         3IWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=P4W4hyYZ6T+wL1O213mYLd96KdBzBHpg9/YQCjoVILM=;
-        b=Vq4FDOJK0Pzls8U3XmY1mutAZGOnLaZNeayyWEK7Mt9oi5llc6CWgihptXepiUMEXE
-         uegPf0aiSfgvc6a5go8vjXEg0CaWDBK8CPPpSUT2Jt597FVN7CLx/JDDlmfFQgvBY8+E
-         KWrTRvvrjJcLPV6b8KN93eeKHpN2FEtDJ+BSeu9TnMlgYnJ6DWn6onZO4N6TNmsOmW3K
-         +f4iChq1Z0HAXThAugB5BfvVkajcjylzSMM7qOr0skELUeqkz2FgWnr7124meYeY35Hn
-         muLlxBRcFcpNfVi2tjMrpQQPX62SDQMP+rT1C+PY2y074B2YgsXAluOPQDg2pz5QLcpa
-         B9gg==
-X-Gm-Message-State: APjAAAWw/BjO9oiyp+ntQnTUU6Ymkkz/DpPe6YLs8ZGEdQXu+wK9xonG
-        syHJHhy/KQiAFCFG0skDWMK5ZZ1oxvrKyQ==
-X-Google-Smtp-Source: APXvYqwBuxR5GnmNrTTF+fDPqQ/m+MVGAFtj5D46hjZm7URBjIHtPwDjypsu1kC4QDIwCYtLqK4NhA==
-X-Received: by 2002:a92:9ace:: with SMTP id c75mr11197162ill.296.1574352448192;
-        Thu, 21 Nov 2019 08:07:28 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id v15sm1379208ilk.8.2019.11.21.08.07.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Nov 2019 08:07:27 -0800 (PST)
-Subject: Re: [PATCH] block: add iostat counters for flush requests
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Dmitry Monakhov <dmtrmonakhov@yandex-team.ru>
-References: <157433282607.7928.5202409984272248322.stgit@buzz>
- <ff971ff6-9a10-c3f1-107d-4f7d378e8755@kernel.dk>
- <20191121160430.GJ6211@magnolia>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <f542739c-7d43-1ea3-5235-c7809bb59f62@kernel.dk>
-Date:   Thu, 21 Nov 2019 09:07:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SDymYy1Cr6msxqeKtzOvSyToG0ApR3Ly++FnBPiFfAU=;
+        b=N9srJjOIK5pFKTA6ybu6c4ZZib7EOAqQja9UPBX+s5Y1FdPBcUblywsYpRoOTU0wdb
+         i25L1HimBELudPsD1wzRWmmwJgXI2EzIRYAjMimEuKBHcAQbm+4Z3YuqrKzNeGkr/sTR
+         Ma7b+WtR8Qj4jppGK38j4KsldMytNj+bLwYQ1OOjgxY0TVsksGHh8uYHbxPZ81JiWnfX
+         77mIQ8ohEbd/XA2WtDV+QJt/ceOPJTtQUsmQDEuJQV9+GTn2ms/xwZH/MrAotmXXdGOM
+         8Nw7NioJDO5zQoWcgyjJhqxIiG9EfQComQFV+fktNyiGcLKuYykEaxJmnV3EYDEIiQrY
+         lo2g==
+X-Gm-Message-State: APjAAAWOMk1n5CjERoZ22zQpR7sii3y6CakBAV6bfdf7O2FUDHv6B5YA
+        89mcneKxv6Rs2ZARvd27ahxszT08a6+Xz0LHTCFuNQ==
+X-Google-Smtp-Source: APXvYqzaKFA5sHA2BoiQUxyQp/rlYSGdVkc2qiU+T2e7CfLgs6CP/GdyTJIUkjrV/y2OAJbT5zFGq6OvhTpLAGKVq9Q=
+X-Received: by 2002:aca:ea57:: with SMTP id i84mr8187454oih.73.1574355610298;
+ Thu, 21 Nov 2019 09:00:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191121160430.GJ6211@magnolia>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191121071354.456618-1-jhubbard@nvidia.com> <20191121071354.456618-6-jhubbard@nvidia.com>
+ <20191121080555.GC24784@lst.de> <c5f8750f-af82-8aec-ce70-116acf24fa82@nvidia.com>
+In-Reply-To: <c5f8750f-af82-8aec-ce70-116acf24fa82@nvidia.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Thu, 21 Nov 2019 08:59:57 -0800
+Message-ID: <CAPcyv4jzDfxFAnAYc6g8Zz=3DweQFEBLBQyA_tSDP2Wy-RoA4A@mail.gmail.com>
+Subject: Re: [PATCH v7 05/24] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
+        linux-block@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/21/19 9:04 AM, Darrick J. Wong wrote:
-> On Thu, Nov 21, 2019 at 08:56:14AM -0700, Jens Axboe wrote:
->> On 11/21/19 3:40 AM, Konstantin Khlebnikov wrote:
->>> Requests that triggers flushing volatile writeback cache to disk (barriers)
->>> have significant effect to overall performance.
->>>
->>> Block layer has sophisticated engine for combining several flush requests
->>> into one. But there is no statistics for actual flushes executed by disk.
->>> Requests which trigger flushes usually are barriers - zero-size writes.
->>>
->>> This patch adds two iostat counters into /sys/class/block/$dev/stat and
->>> /proc/diskstats - count of completed flush requests and their total time.
->>
->> This makes sense to me, and the "recent" discard addition already proved
->> that we're fine extending with more fields. Unless folks object, I'd be
->> happy to queue this up for 5.5.
-> 
-> Looks like a good addition to /me... :)
+On Thu, Nov 21, 2019 at 12:57 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>
+> On 11/21/19 12:05 AM, Christoph Hellwig wrote:
+> > So while this looks correct and I still really don't see the major
+> > benefit of the new code organization, especially as it bloats all
+> > put_page callers.
+> >
+> > I'd love to see code size change stats for an allyesconfig on this
+> > commit.
+> >
+>
+> Right, I'm running that now, will post the results. (btw, if there is
+> a script and/or standard format I should use, I'm all ears. I'll dig
+> through lwn...)
+>
 
-That's all the encouragement I needed, added :-)
+Just run:
 
--- 
-Jens Axboe
-
+    size vmlinux
