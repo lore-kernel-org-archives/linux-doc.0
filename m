@@ -4,34 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08871C33C9C
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:55:12 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4B9720692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08751C43141
 	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:55:11 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.kernel.org (Postfix) with ESMTP id DE84E206F4
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726909AbfKUPzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726293AbfKUPzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 21 Nov 2019 10:55:10 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56323 "EHLO
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:57669 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726574AbfKUPzK (ORCPT
+        with ESMTP id S1726546AbfKUPzK (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 10:55:10 -0500
 Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=leda.hi.pengutronix.de)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <rsc@pengutronix.de>)
-        id 1iXonT-0002x3-0b; Thu, 21 Nov 2019 16:55:07 +0100
+        id 1iXonT-0002x2-0c; Thu, 21 Nov 2019 16:55:07 +0100
 Received: by leda.hi.pengutronix.de (Postfix, from userid 1006)
-        id B98322C877E6; Thu, 21 Nov 2019 16:55:05 +0100 (CET)
+        id AE6BB2C877E3; Thu, 21 Nov 2019 16:55:05 +0100 (CET)
 From:   Robert Schwebel <r.schwebel@pengutronix.de>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Robert Schwebel <r.schwebel@pengutronix.de>,
         "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 3/5] docs: networking: nfc: fix bullet list syntax
-Date:   Thu, 21 Nov 2019 16:55:01 +0100
-Message-Id: <20191121155503.52019-3-r.schwebel@pengutronix.de>
+Subject: [PATCH 2/5] docs: networking: nfc: change block diagram to sphinx syntax
+Date:   Thu, 21 Nov 2019 16:55:00 +0100
+Message-Id: <20191121155503.52019-2-r.schwebel@pengutronix.de>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191121155503.52019-1-r.schwebel@pengutronix.de>
 References: <20191121155503.52019-1-r.schwebel@pengutronix.de>
@@ -46,29 +47,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix this warning:
-
-Documentation/networking/nfc.rst:87: WARNING: Bullet list ends without
-a blank line; unexpected unindent.
+Change the block diagram to match the sphinx syntax. This will make it
+possible to switch this file to rst in the future.
 
 Signed-off-by: Robert Schwebel <r.schwebel@pengutronix.de>
 ---
- Documentation/networking/nfc.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/networking/nfc.txt | 49 ++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 24 deletions(-)
 
 diff --git a/Documentation/networking/nfc.txt b/Documentation/networking/nfc.txt
-index b6056e597e20..af69b3a90eaa 100644
+index c053610bfadc..b6056e597e20 100644
 --- a/Documentation/networking/nfc.txt
 +++ b/Documentation/networking/nfc.txt
-@@ -84,7 +84,7 @@ The operations are composed by commands and events, all listed below:
- * NFC_EVENT_DEVICE_ADDED - reports an NFC device addition
- * NFC_EVENT_DEVICE_REMOVED - reports an NFC device removal
- * NFC_EVENT_TARGETS_FOUND - reports START_POLL results when 1 or more targets
--are found
-+  are found
+@@ -26,30 +26,31 @@ The control operations are available to userspace via generic netlink.
+ The low-level data exchange interface is provided by the new socket family
+ PF_NFC. The NFC_SOCKPROTO_RAW performs raw communication with NFC targets.
  
- The user must call START_POLL to poll for NFC targets, passing the desired NFC
- protocols through NFC_ATTR_PROTOCOLS attribute. The device remains in polling
+-
+-             +--------------------------------------+
+-             |              USER SPACE              |
+-             +--------------------------------------+
+-                 ^                       ^
+-                 | low-level             | control
+-                 | data exchange         | operations
+-                 |                       |
+-                 |                       v
+-                 |                  +-----------+
+-                 | AF_NFC           |  netlink  |
+-                 | socket           +-----------+
+-                 | raw                   ^
+-                 |                       |
+-                 v                       v
+-             +---------+            +-----------+
+-             | rawsock | <--------> |   core    |
+-             +---------+            +-----------+
+-                                         ^
+-                                         |
+-                                         v
+-                                    +-----------+
+-                                    |  driver   |
+-                                    +-----------+
++.. code-block:: none
++
++        +--------------------------------------+
++        |              USER SPACE              |
++        +--------------------------------------+
++            ^                       ^
++            | low-level             | control
++            | data exchange         | operations
++            |                       |
++            |                       v
++            |                  +-----------+
++            | AF_NFC           |  netlink  |
++            | socket           +-----------+
++            | raw                   ^
++            |                       |
++            v                       v
++        +---------+            +-----------+
++        | rawsock | <--------> |   core    |
++        +---------+            +-----------+
++                                    ^
++                                    |
++                                    v
++                               +-----------+
++                               |  driver   |
++                               +-----------+
+ 
+ Device Driver Interface
+ =======================
 -- 
 2.24.0
 
