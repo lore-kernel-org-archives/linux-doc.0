@@ -2,85 +2,95 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F666C43215
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6090DC43215
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:56:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 37BF820692
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3904E206D8
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 15:56:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="p9f61F2q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726927AbfKUPzL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 10:55:11 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56917 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbfKUPzK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 10:55:10 -0500
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=leda.hi.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <rsc@pengutronix.de>)
-        id 1iXonT-0002x4-0a; Thu, 21 Nov 2019 16:55:07 +0100
-Received: by leda.hi.pengutronix.de (Postfix, from userid 1006)
-        id BDF7D2C877E7; Thu, 21 Nov 2019 16:55:05 +0100 (CET)
-From:   Robert Schwebel <r.schwebel@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Robert Schwebel <r.schwebel@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        id S1727215AbfKUP4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 10:56:18 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:36384 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727208AbfKUP4R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 10:56:17 -0500
+Received: by mail-il1-f194.google.com with SMTP id s75so3776168ilc.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 07:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=i6XZTTQSHJKM+KBZCHJbpNr3leYiOU/zZyc4Kt/q1ls=;
+        b=p9f61F2qEE4/QwqhzVpQxRpsxX+tV3SxRebeynsmRfBNHvoMnRcPAeQBMJ4vetLpDz
+         shfSAjNsSLR8/AyOjsQjN2cfgMUQmKjudar8cuqkQT4utDF/Fg0xyKUILGxfQL2m4ykC
+         v2dKDPfCeTVXelv8ErH8wWKv+orr2ysEDzISJsEE+qs4wfsyfactwDmLH8MnBWJzVSmY
+         XCTDegH0huTSluHvW6LcnV5C2iycu99pwuw2Q/YxucMfTo227eo59/I8ZMNVpzMswrI3
+         2Efr4431bVIGY+4pWPJ+b3TiJoIazJewBg9vmPs5YlVPxg8N869vnJ+tezxnZ3CO4XTi
+         5d9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=i6XZTTQSHJKM+KBZCHJbpNr3leYiOU/zZyc4Kt/q1ls=;
+        b=Lk91CHa/fDgSePD6/XFb6SHZb2IbIMr5xI1bRSPVjms7tcQlQjDxa0fYVExHyrZquG
+         xXbxHi+Q0Vcqz2gBrLY2BUAZdxpnLsb8KUv8CWB0Pbs31is1gVNLiJKcEIL9F1rRxr5H
+         ACjYkmUkGCpnS0yWe0aSgs3n6D0pSIL3mvn5JtZmRJxVp7EjGpGHXv7PuFBfla9i3mbw
+         UdypyJeO58Ai3gbIebGuBYv/WYlWtXacDswR6AHGC4Eshy6XP74BqwK0Uxv8tP0/odca
+         edX3c9WmBEsBYArgGafPwHDnirZXtQcYDU4IYHIspP+Ek9cNQ5o5JKdkrHG4EcJrKq2p
+         in4Q==
+X-Gm-Message-State: APjAAAU4hXUWTykuB//VAyeefgDmlqV85uC0A7o997n2G2OVgQ+1MtFj
+        keVjXhlY97Tzp5DuvHUWIpOKag==
+X-Google-Smtp-Source: APXvYqyBx1nTqGMRn9GsWSj0/giOcMCoKn/OjZ4stbz+xyyRba03IeYJrruyiFFcHRXe1jGKDNx4oA==
+X-Received: by 2002:a05:6e02:100b:: with SMTP id n11mr10655778ilj.212.1574351776819;
+        Thu, 21 Nov 2019 07:56:16 -0800 (PST)
+Received: from [192.168.1.159] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id 133sm1342001ila.25.2019.11.21.07.56.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 21 Nov 2019 07:56:15 -0800 (PST)
+Subject: Re: [PATCH] block: add iostat counters for flush requests
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 4/5] docs: networking: nfc: fix code block syntax
-Date:   Thu, 21 Nov 2019 16:55:02 +0100
-Message-Id: <20191121155503.52019-4-r.schwebel@pengutronix.de>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191121155503.52019-1-r.schwebel@pengutronix.de>
-References: <20191121155503.52019-1-r.schwebel@pengutronix.de>
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Dmitry Monakhov <dmtrmonakhov@yandex-team.ru>
+References: <157433282607.7928.5202409984272248322.stgit@buzz>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <ff971ff6-9a10-c3f1-107d-4f7d378e8755@kernel.dk>
+Date:   Thu, 21 Nov 2019 08:56:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: rsc@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <157433282607.7928.5202409984272248322.stgit@buzz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Silence this warning:
+On 11/21/19 3:40 AM, Konstantin Khlebnikov wrote:
+> Requests that triggers flushing volatile writeback cache to disk (barriers)
+> have significant effect to overall performance.
+> 
+> Block layer has sophisticated engine for combining several flush requests
+> into one. But there is no statistics for actual flushes executed by disk.
+> Requests which trigger flushes usually are barriers - zero-size writes.
+> 
+> This patch adds two iostat counters into /sys/class/block/$dev/stat and
+> /proc/diskstats - count of completed flush requests and their total time.
 
-Documentation/networking/nfc.rst:113: WARNING: Definition list ends without
-a blank line; unexpected unindent.
+This makes sense to me, and the "recent" discard addition already proved
+that we're fine extending with more fields. Unless folks object, I'd be
+happy to queue this up for 5.5.
 
-Signed-off-by: Robert Schwebel <r.schwebel@pengutronix.de>
----
- Documentation/networking/nfc.txt | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/networking/nfc.txt b/Documentation/networking/nfc.txt
-index af69b3a90eaa..63e483f6afb4 100644
---- a/Documentation/networking/nfc.txt
-+++ b/Documentation/networking/nfc.txt
-@@ -105,12 +105,14 @@ LOW-LEVEL DATA EXCHANGE:
- The userspace must use PF_NFC sockets to perform any data communication with
- targets. All NFC sockets use AF_NFC:
- 
--struct sockaddr_nfc {
--       sa_family_t sa_family;
--       __u32 dev_idx;
--       __u32 target_idx;
--       __u32 nfc_protocol;
--};
-+.. code-block:: none
-+
-+        struct sockaddr_nfc {
-+               sa_family_t sa_family;
-+               __u32 dev_idx;
-+               __u32 target_idx;
-+               __u32 nfc_protocol;
-+        };
- 
- To establish a connection with one target, the user must create an
- NFC_SOCKPROTO_RAW socket and call the 'connect' syscall with the sockaddr_nfc
 -- 
-2.24.0
+Jens Axboe
 
