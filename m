@@ -5,49 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B110C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDA4C432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:59:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 19913206CB
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4AC8206DA
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 20:59:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AdABsZCc"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DZMjwBV5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726994AbfKUU7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 15:59:34 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45623 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726922AbfKUU7e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 15:59:34 -0500
-Received: by mail-pf1-f196.google.com with SMTP id z4so2330329pfn.12
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 12:59:32 -0800 (PST)
+        id S1727028AbfKUU7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 15:59:35 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45420 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbfKUU7f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 15:59:35 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k1so2222811pgg.12
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 12:59:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=x//g3D21vWGwG/RhBLblP0rKHJ6VZUOUfN3oNVWDiSE=;
-        b=AdABsZCcbIQ8aoHaSiA/rvUkvcPJmtq4tu39UN20wmpAbVG1MDIUT4p8K79QZPUSmb
-         EyXvohds5Av26WQgVdpWrigT2nbudNocuWQby64DdQcXKmlOo2TiIH8V5Wi9zLQoVcUu
-         YFQBYdeiBvgsd1RyYQNGMPgQrO+KDtP8sj4TU=
+        bh=h7iBPSPjA04XWgIsictgmYiAtGLdecxKeMbrdsEqcpA=;
+        b=DZMjwBV5LmZ65QwbCuZZKPoVnXXfCNnJ4TVubt8GaXoginMsXpoVcruU1OkeFGqu0s
+         OKn+YshVjzGCkRBqvisUy0PRat6RSrFO8w5Hsz3cmuFPj4iBP0T0GBhCQ59WxkcgAnSC
+         72YvwUPMEcrB7uuN8QUrbgxhBjE765qirm3rQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=x//g3D21vWGwG/RhBLblP0rKHJ6VZUOUfN3oNVWDiSE=;
-        b=aObgnWWfMrXiTpu1Qhe75XdBJlU8w5dm5kDNttiaqqLk6RQwOngqO2MkDy6o9Gqfmq
-         yTChAfkpaVn1P23Wrkdy+9veasZNbln2Yu0G61AZqTmOOZ0UVPyqzLE5ZsyjWXRusXu1
-         4GQuRnXrd+HEVutYFRdMD1QCy/ZBNXFJr8xosqyGMJ45GoOBOhBISZLa9hP+x+0ML2sB
-         Ehjo2qKg6T1WgeOptHhs/PzZ33jhYroHNFTGGkRVt1ExLoqjk7MS2EX7nV6dLdUB82pf
-         gwWTcd14Qr/ItONyEVj1SDbxPyB8umjJChdyB7TIHQeouxSpYvfWntcEXEMB2Xw0H9g5
-         WpTA==
-X-Gm-Message-State: APjAAAUNZ7ccGOElfYsp98nAF50J7iixH7gMTSiTw6uAl1Z/O/K9gk4L
-        +FoMJu55m3WhLG6iaket9PGHiQ==
-X-Google-Smtp-Source: APXvYqyoGGbWlOrUmiQ8o0JX0y47aJlot9boTCEE+7VAPjX6m1wMJ7G5jEbqeG6IKlEbmnvQM9EVNw==
-X-Received: by 2002:a63:c013:: with SMTP id h19mr11906094pgg.447.1574369972528;
-        Thu, 21 Nov 2019 12:59:32 -0800 (PST)
+        bh=h7iBPSPjA04XWgIsictgmYiAtGLdecxKeMbrdsEqcpA=;
+        b=umfyjsRGKhtP7owUT0FyYNhtsdyFF7jzYUF4CUIrrrhpHPfFo8XnXRejB1DvaXH2tg
+         MMTqGV3WVxPUGJwnulkj5LoSlu1cwZoG7eAdn1k+OtNy5c8BJ7x0AxY6WMiqr4TrprwU
+         j5/om6t1BVE/wWaqncaBa2IeoZWPlKI63Y0aTrpjBo32kuHorOylR3zh+/LtF4mwCDdg
+         BJuHfnVh1zCo9QmGpJO3pwglJq+SqOFVJbYs6etR+td/icCSJCijQgNO22hUBT3nY+JM
+         pRCyxZHuVqYxPDQ0TiTKmQUEmdPK3wSdbW4jMO3XXAcJofHsq6VdKBICtZXd/qaUwfWV
+         iE7g==
+X-Gm-Message-State: APjAAAWp4OA1mCKd4tgdzP1WDdA8uLD45YLrjp/KpPPpVFiuseiB5okd
+        tQmG+avM5WF59t1YzW+urae8tQ==
+X-Google-Smtp-Source: APXvYqxweEWdeXCl2DvMpE6eEvlcsnYZX+GCQg6j7xPv4x5iUHbZZkjMfRQXfjNzgJRSCbVtNJ3PeA==
+X-Received: by 2002:a62:2942:: with SMTP id p63mr13764407pfp.110.1574369974028;
+        Thu, 21 Nov 2019 12:59:34 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e7sm4564530pfe.173.2019.11.21.12.59.31
+        by smtp.gmail.com with ESMTPSA id s18sm4709212pfc.120.2019.11.21.12.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 21 Nov 2019 12:59:31 -0800 (PST)
 From:   Kees Cook <keescook@chromium.org>
@@ -55,9 +55,9 @@ To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Kees Cook <keescook@chromium.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] docs, parallelism: Fix failure path and add comment
-Date:   Thu, 21 Nov 2019 12:59:27 -0800
-Message-Id: <20191121205929.40371-2-keescook@chromium.org>
+Subject: [PATCH v2 2/3] docs, parallelism: Do not leak blocking mode to other readers
+Date:   Thu, 21 Nov 2019 12:59:28 -0800
+Message-Id: <20191121205929.40371-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191121205929.40371-1-keescook@chromium.org>
 References: <20191121205929.40371-1-keescook@chromium.org>
@@ -66,38 +66,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rasmus noted that the failure path didn't correctly exit. Fix this and
-add another comment about GNU Make's job server environment variable
-names over time.
+Setting non-blocking via a local copy of the jobserver file descriptor
+is safer than just assuming other reader processes with the same fd open
+are prepared for it to be non-blocking.
 
-Reported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Link: https://lore.kernel.org/lkml/eb25959a-9ec4-3530-2031-d9d716b40b20@rasmusvillemoes.dk
+Suggested-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Link: https://lore.kernel.org/lkml/44c01043-ab24-b4de-6544-e8efd153e27a@rasmusvillemoes.dk
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- scripts/jobserver-count | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/jobserver-count | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/jobserver-count b/scripts/jobserver-count
-index 0b482d6884d2..6e15b38df3d0 100755
+index 6e15b38df3d0..7807bfa7dafa 100755
 --- a/scripts/jobserver-count
 +++ b/scripts/jobserver-count
-@@ -24,6 +24,8 @@ try:
- 	flags = os.environ['MAKEFLAGS']
+@@ -12,12 +12,6 @@ default="1"
+ if len(sys.argv) > 1:
+ 	default=sys.argv[1]
  
- 	# Look for "--jobserver=R,W"
-+	# Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+	# so this handles all of them.
- 	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
- 
+-# Set non-blocking for a given file descriptor.
+-def nonblock(fd):
+-	flags = fcntl.fcntl(fd, fcntl.F_GETFL)
+-	fcntl.fcntl(fd, fcntl.F_SETFL, flags | os.O_NONBLOCK)
+-	return fd
+-
+ # Extract and prepare jobserver file descriptors from envirnoment.
+ try:
+ 	# Fetch the make environment options.
+@@ -31,8 +25,12 @@ try:
  	# Parse out R,W file descriptor numbers and set them nonblocking.
-@@ -53,6 +55,7 @@ os.write(writer, jobs)
- # If the jobserver was (impossibly) full or communication failed, use default.
- if len(jobs) < 1:
+ 	fds = opts[0].split("=", 1)[1]
+ 	reader, writer = [int(x) for x in fds.split(",", 1)]
+-	reader = nonblock(reader)
+-except (KeyError, IndexError, ValueError, IOError):
++	# Open a private copy of reader to avoid setting nonblocking
++	# on an unexpecting process with the same reader fd.
++	reader = os.open("/proc/self/fd/%d" % (reader),
++			 os.O_RDONLY | os.O_NONBLOCK)
++except (KeyError, IndexError, ValueError, IOError, OSError) as e:
++	print(e, file=sys.stderr)
+ 	# Any missing environment strings or bad fds should result in just
+ 	# using the default specified parallelism.
  	print(default)
-+	sys.exit(0)
- 
- # Report available slots (with a bump for our caller's reserveration).
- print(len(jobs) + 1)
 -- 
 2.17.1
 
