@@ -2,68 +2,109 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3051FC432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 17:10:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA459C432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 18:01:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 10A7F206CC
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 17:10:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD52720672
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 18:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574359299;
+	bh=ruTBz8dVya4WaPnyIBDp61iWLDaJrk1pYALVmqj+7Vo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=lK7CNb0VEb2wwDmmlqVUzNj7qb8O/CQVBKeZQ64gGCJWDwwmAQAoPEQxY+g4r/pLk
+	 eokAPSZF7RoDtmWkSmWimPgSGwDa/n9ESXjdAhc0bLBGkLY30iobmZQy9kZ6gyOYkH
+	 +Fh/DVBHC+sOFpx3t0nkwrEYOT/CFW06f/8XMn+M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbfKURK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 12:10:29 -0500
-Received: from ms.lwn.net ([45.79.88.28]:34182 "EHLO ms.lwn.net"
+        id S1726716AbfKUSBj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 13:01:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47332 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726948AbfKURK3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Nov 2019 12:10:29 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726658AbfKUSBi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Nov 2019 13:01:38 -0500
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E965D6D9;
-        Thu, 21 Nov 2019 17:10:28 +0000 (UTC)
-Date:   Thu, 21 Nov 2019 10:10:27 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Robert Schwebel <r.schwebel@pengutronix.de>
-Cc:     "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] docs: networking: nfc: change to rst format
-Message-ID: <20191121101027.3c060dbe@lwn.net>
-In-Reply-To: <20191121155503.52019-5-r.schwebel@pengutronix.de>
-References: <20191121155503.52019-1-r.schwebel@pengutronix.de>
-        <20191121155503.52019-5-r.schwebel@pengutronix.de>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 31C742071B
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 18:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574359298;
+        bh=ruTBz8dVya4WaPnyIBDp61iWLDaJrk1pYALVmqj+7Vo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PWALfx7LQ2JlDN3r79NlzOh4KVooG+VZ0qnOW5HSzGcU3OI82ZYUQQZgkZg5u/6ry
+         uPbLkk4X059DMbaxwZBM9BLnS1yPPb7VuAGdgYIxp8i+v9zqfZKc63bilGPdYewpuL
+         TE6x1Q3LzqclMIsuYHM99hKheZOcuIHCGsKFidjY=
+Received: by mail-wm1-f49.google.com with SMTP id f129so3434030wmf.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 10:01:38 -0800 (PST)
+X-Gm-Message-State: APjAAAXB/+E506mN0E4HeIsPK1xaH38vXuH2TvFXjC+c+G58xU3t1pye
+        1MfZY+6oPcU3n9nE3kZNW5U9IXt0Ch9pmVpgyAJI5A==
+X-Google-Smtp-Source: APXvYqzhHzqk5yF6OIonrsRfxSV2BGF3FMJRz7HvRWn1XUIvwVYdsgWd8lNDLFm13XUwgW2XCgZQRtVGKYKAEXK8YeM=
+X-Received: by 2002:a7b:c1ca:: with SMTP id a10mr12336041wmj.161.1574359296389;
+ Thu, 21 Nov 2019 10:01:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <0000000000006e31980579315914@google.com> <000000000000a6993c0597cc8375@google.com>
+In-Reply-To: <000000000000a6993c0597cc8375@google.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 21 Nov 2019 10:01:24 -0800
+X-Gmail-Original-Message-ID: <CALCETrVfWHPHiOmyJ9iDJDiCD3idPA4BdeM=4FUEO-uuxM07_g@mail.gmail.com>
+Message-ID: <CALCETrVfWHPHiOmyJ9iDJDiCD3idPA4BdeM=4FUEO-uuxM07_g@mail.gmail.com>
+Subject: Re: INFO: task hung in __do_page_fault (2)
+To:     syzbot <syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Andrew Lutomirski <luto@kernel.org>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Nov 2019 16:55:03 +0100
-Robert Schwebel <r.schwebel@pengutronix.de> wrote:
+On Wed, Nov 20, 2019 at 11:52 AM syzbot
+<syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com> wrote:
+>
+> syzbot has bisected this bug to:
+>
+> commit 0161028b7c8aebef64194d3d73e43bc3b53b5c66
+> Author: Andy Lutomirski <luto@kernel.org>
+> Date:   Mon May 9 22:48:51 2016 +0000
+>
+>      perf/core: Change the default paranoia level to 2
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15910e86e00000
+> start commit:   18d0eae3 Merge tag 'char-misc-4.20-rc1' of git://git.kerne..
+> git tree:       upstream
+> final crash:    https://syzkaller.appspot.com/x/report.txt?x=17910e86e00000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13910e86e00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=342f43de913c81b9
+> dashboard link: https://syzkaller.appspot.com/bug?extid=6b074f741adbd93d2df5
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12482713400000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=158fd4a3400000
+>
+> Reported-by: syzbot+6b074f741adbd93d2df5@syzkaller.appspotmail.com
+> Fixes: 0161028b7c8a ("perf/core: Change the default paranoia level to 2")
+>
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-> Now that the sphinx syntax has been fixed, change the document from txt
-> to rst and add it to the index.
-> 
-> Signed-off-by: Robert Schwebel <r.schwebel@pengutronix.de>
-> ---
->  Documentation/networking/{nfc.txt => nfc.rst} | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/networking/{nfc.txt => nfc.rst} (100%)
-> 
-> diff --git a/Documentation/networking/nfc.txt b/Documentation/networking/nfc.rst
-> similarity index 100%
-> rename from Documentation/networking/nfc.txt
-> rename to Documentation/networking/nfc.rst
+Hi syzbot-
 
-It looks like you didn't actually add it to index.rst?
+I'm not quite sure how to tell you this in syzbotese, but I'm pretty
+sure you've bisected this wrong.  The blamed patch makes no sense.
 
-In general the changes look good.  I'd do it all in one patch, but that's
-up to Dave (who I assume will pick this up).
-
-Thanks,
-
-jon
+--Andy
