@@ -3,96 +3,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F645C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 09:54:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7259BC432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 10:06:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5B3A52067D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 09:54:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B592208CE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 10:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726833AbfKUJyR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 04:54:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42156 "EHLO mx1.suse.de"
+        id S1726351AbfKUKGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 05:06:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49890 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726132AbfKUJyQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Nov 2019 04:54:16 -0500
+        id S1726014AbfKUKGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Nov 2019 05:06:18 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 1B5FCAC46;
-        Thu, 21 Nov 2019 09:54:13 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 5A11F1E47FC; Thu, 21 Nov 2019 10:54:11 +0100 (CET)
-Date:   Thu, 21 Nov 2019 10:54:11 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-Subject: Re: [PATCH v7 02/24] mm/gup: factor out duplicate code from four
- routines
-Message-ID: <20191121095411.GC18190@quack2.suse.cz>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-3-jhubbard@nvidia.com>
- <20191121080356.GA24784@lst.de>
- <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
+        by mx1.suse.de (Postfix) with ESMTP id 38FAEADC8;
+        Thu, 21 Nov 2019 10:06:16 +0000 (UTC)
+Date:   Thu, 21 Nov 2019 11:06:14 +0100
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     linux-scsi@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        "Ewan D. Milne" <emilne@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "J. Bruce Fields" <bfields@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Benjamin Coddington <bcodding@redhat.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>, Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Tejun Heo <tj@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] bdev: add open_finish.
+Message-ID: <20191121100614.GH11661@kitsune.suse.cz>
+References: <cover.1572002144.git.msuchanek@suse.de>
+ <31f640791d9cc20cdbbb3000dfcf8370cf3c6223.1572002144.git.msuchanek@suse.de>
+ <20191105001727.GA29826@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
+In-Reply-To: <20191105001727.GA29826@infradead.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 21-11-19 00:29:59, John Hubbard wrote:
-> > 
-> > Otherwise this looks fine and might be a worthwhile cleanup to feed
-> > Andrew for 5.5 independent of the gut of the changes.
-> > 
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > 
+On Mon, Nov 04, 2019 at 04:17:27PM -0800, Christoph Hellwig wrote:
+> Please make sure you CC linux-block if you add block device ops.
 > 
-> Thanks for the reviews! Say, it sounds like your view here is that this
-> series should be targeted at 5.6 (not 5.5), is that what you have in mind?
-> And get the preparatory patches (1-9, and maybe even 10-16) into 5.5?
+> On Fri, Oct 25, 2019 at 01:21:42PM +0200, Michal Suchanek wrote:
+> > Opening a block device may require a long operation such as waiting for
+> > the cdrom tray to close. Performing this operation with locks held locks
+> > out other attempts to open the device. These processes waiting to open
+> > the device are not killable.
+> > 
+> > To avoid this issue and still be able to perform time-consuming checks
+> > at open() time the block device driver can provide open_finish(). If it
+> > does opening the device proceeds even when an error is returned from
+> > open(), bd_mutex is released and open_finish() is called. If
+> > open_finish() succeeds the device is now open, if it fails release() is
+> > called.
+> > 
+> > When -ERESTARTSYS is returned from open() blkdev_get may loop without
+> > calling open_finish(). On -ERESTARTSYS open_finish() is not called.
+> > 
+> > Move a ret = 0 assignment up in the if/else branching to avoid returning
+> > -ENXIO. Previously the return value was ignored on the unhandled branch.
+> 
+> Still a complete nack for splitting a fundamental operation over two
+> ops, especially just for working around a piece of buggy software.
 
-One more note :) If you are going to push pin_user_pages() interfaces
-(which I'm fine with), it would probably make sense to push also the
-put_user_pages() -> unpin_user_pages() renaming so that that inconsistency
-in naming does not exist in the released upstream kernel.
+Still did not provide an awesome alternative that does not sneed
+splitting the operation.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+What is it, specifically?
+
+Thanks
+
+Michal
