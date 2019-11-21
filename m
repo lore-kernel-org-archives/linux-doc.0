@@ -2,163 +2,89 @@ Return-Path: <SRS0=s6Rs=ZN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5EBEC432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7FAC432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:52:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E3DD2063A
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70CBE2068E
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Nov 2019 19:52:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XMfzQIYt"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WlulTIMK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbfKUTjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 14:39:07 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:40931 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726546AbfKUTjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 14:39:07 -0500
-Received: by mail-pj1-f68.google.com with SMTP id ep1so1945535pjb.7
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 11:39:05 -0800 (PST)
+        id S1726792AbfKUTwW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Nov 2019 14:52:22 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:34597 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726293AbfKUTwV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 14:52:21 -0500
+Received: by mail-pj1-f65.google.com with SMTP id bo14so1972431pjb.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2019 11:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=COatpzDuZgl9WMg8hp9kMY5ElrlJCYz6DmuSXPX+4MI=;
-        b=XMfzQIYtZ59LpXSVL0ZsuREdO/zTlCEpjB3yrDBDcaEUp07a/rl9MG1vi8zsNQniFI
-         EY26nphwA7xJfu/RQBhzFdqIgC5vy6jR7lMWx1+YO0LZvM3Rq7kJqBjSHxvvD+7SiwDF
-         YoEbTBxvincX2cA/1K7Y11EdYqH2RY+fv7Uks=
+        bh=Oibr9mo+x0+TGv4WMCPaafgkJSg0wRL2Of/xQxi/DiU=;
+        b=WlulTIMKfJ69Qa5u9lpbic68PHzChbTGdAZk0v72q6waDu5xHFcYiU0CJEoT30LNpK
+         lgeF9rHVsLJLUb4OQsaxjm8+A7uam5+e2v6+flnO0Sys9x2CkSqVbomkf2wUiOwA8tsq
+         3FzKH2z+xgD280Xlld4qTU4USfRI3qY6vMdhY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=COatpzDuZgl9WMg8hp9kMY5ElrlJCYz6DmuSXPX+4MI=;
-        b=e+G+X0gOOlljf/qR7cUUlgfjZXFzsB5aCxa8TAS0AMolSoUQ0N125s/1RqPonzWqzN
-         mK65iiNoA3zPim9Zdoz2/vetZFEZqDM+VqXfyZ+JTYaULvNdyCoh1EA1NMsdSIZoFfar
-         otkuLU5zjxDkUHfh/q8szdI+0stMbIoWZEldCvtPpKcteez4CV0blN6jhZTKarIybhPO
-         IrRhC0d/6IDRhAvxVj08+TJCm81a6Y9O03VIU8+QAPXf41LrWlnQYAufoJetOH2CE8q8
-         0T6TLAxleil0mu1mJsxjXKPVc7U+SkjQUseSj1SaWybXkuNhU1U3QYh/55joL/HggTSD
-         lZ1A==
-X-Gm-Message-State: APjAAAUl4847Tdt9TDRxOflWsICmDS9x4ulkfXCkhe0Ugjl1B6l/4Oo7
-        KJTbMKBvU2JYjPKiOCBeFFmQM1JWW0I=
-X-Google-Smtp-Source: APXvYqz/jtL9tVfuwcoRhIixv519GB1afp4iPElbqeuxfM7fkUi9Gv03HiJSgOyNJ38Uc33MLBVSFQ==
-X-Received: by 2002:a17:90a:23e2:: with SMTP id g89mr13232298pje.127.1574365145234;
-        Thu, 21 Nov 2019 11:39:05 -0800 (PST)
+        bh=Oibr9mo+x0+TGv4WMCPaafgkJSg0wRL2Of/xQxi/DiU=;
+        b=VX7CaDvnmcYwyNdZLfMbgN/gBe7ywzGnurkQn8Y4KOJCCrqYnWWdFm+ra+CDiQZfjC
+         /dEfJbXhC43kETg2t6oiph6z0savaJ729aDnQLd7eDWUs84QBjnPkmJTTn6tbRyOoBco
+         F8mB24koI9L0dvtTgB8bFpgvqN+vGmhf1OrouKpVrHRWVhEBwUWZDxPzsKS7LyQtCHm2
+         i8jkiJBOpO8mvGOImW8+H2dRZ8gb9TA3xFamnM/PGIMhRz53vBNwSE8M0XEpEzhsmrH6
+         SPLK2C6ip/A5vhCeJRblVhnRhQq7jAgeP7DpGDTDR4bZC1eKg8XFW/XuWvHDHZ+xamJj
+         GGIA==
+X-Gm-Message-State: APjAAAVJLICdA6FnMHnGtV72GJGhWtvjCfEWbEPQzDcMEtPZ+WUKIM3I
+        eLkYau6aaOfMas8ur6J0wcL0yw==
+X-Google-Smtp-Source: APXvYqyW7eFXDr9JMJJ9FRFENumkx9ubOhmnk19B5oInsr8SBRnIQfkXM/m4r6Y9vbhvVn7CrHJaWg==
+X-Received: by 2002:a17:90b:d93:: with SMTP id bg19mr13434722pjb.81.1574365939329;
+        Thu, 21 Nov 2019 11:52:19 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k13sm3978316pgl.69.2019.11.21.11.39.04
+        by smtp.gmail.com with ESMTPSA id m6sm3853310pgl.42.2019.11.21.11.52.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 11:39:04 -0800 (PST)
-Date:   Thu, 21 Nov 2019 11:39:03 -0800
+        Thu, 21 Nov 2019 11:52:18 -0800 (PST)
+Date:   Thu, 21 Nov 2019 11:52:17 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/3] docs, parallelism: Rearrange how jobserver
  reservations are made
-Message-ID: <201911211122.02F3646@keescook>
+Message-ID: <201911211151.45A9C4F5F6@keescook>
 References: <20191121000304.48829-1-keescook@chromium.org>
  <20191121000304.48829-4-keescook@chromium.org>
  <656afebc-fc60-7502-40a3-52d2662c1d27@rasmusvillemoes.dk>
+ <201911211122.02F3646@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <656afebc-fc60-7502-40a3-52d2662c1d27@rasmusvillemoes.dk>
+In-Reply-To: <201911211122.02F3646@keescook>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 09:09:37AM +0100, Rasmus Villemoes wrote:
-> On 21/11/2019 01.03, Kees Cook wrote:
-> > diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
-> > new file mode 100644
-> > index 000000000000..a416dbfd2025
-> > --- /dev/null
-> > +++ b/Documentation/sphinx/parallel-wrapper.sh
-> > @@ -0,0 +1,25 @@
-> > +#!/bin/sh
-> > +# SPDX-License-Identifier: GPL-2.0+
-> > +#
-> > +# Figure out if we should follow a specific parallelism from the make
-> > +# environment (as exported by scripts/jobserver-exec), or fall back to
-> > +# the "auto" parallelism when "-jN" is not specified at the top-level
-> > +# "make" invocation.
-> > +
-> > +sphinx="$1"
-> > +shift || true
-> > +
-> > +parallel="${PARALLELISM:-1}"
-> > +if [ ${parallel} -eq 1 ] ; then
-> > +	auto=$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";
-> > +			while (<IN>) {
-> > +				if (m/([\d\.]+)/) {
-> > +					print "auto" if ($1 >= "1.7")
-> > +				}
-> > +			}
-> > +			close IN')
-> > +	if [ -n "$auto" ] ; then
-> > +		parallel="$auto"
-> > +	fi
-> > +fi
-> > +exec "$sphinx" "-j$parallel" "$@"
+On Thu, Nov 21, 2019 at 11:39:03AM -0800, Kees Cook wrote:
+> On Thu, Nov 21, 2019 at 09:09:37AM +0100, Rasmus Villemoes wrote:
+> > Similarly (and the harder problem), what happens when our parent wants
+> > to send its child a signal to say "stop what you're doing, return the
+> > tokens, brush your teeth and go to bed". We should forward that signal
+> > to the real job instead of just dying, losing track of both the tokens
+> > we've claimed as well as orphaning the child.
 > 
-> I don't understand this logic. If the parent failed to claim any tokens
-> (likely because the top make and its descendants are already running 16
-> gcc processes), just let sphinx run #cpus jobs in parallel? That doesn't
-> make sense - it gets us back to the "we've now effectively injected K
-> tokens to the jobserver that weren't there originally".
+> Hm, hm. I guess I could pass INT and TERM to the child. That seems like
+> the most sensible best-effort here. It seems "make" isn't only looking
+> at the slots to determine process management.
 
-I was going to say "but jobserver-exec can't be running unless there are
-available slots", but I see the case is "if there are 16 slots and
-jobserver-exec gets _1_, it should not fall back to 'auto'".
-
-> From the comment above, what you want is to use "auto" if the top
-> invocation was simply "make docs". Well, I kind of disagree with falling
-> back to auto in that case; the user can say "make -j8 docs" and the
-> wrapper is guaranteed to claim them all. But if you really want, the
-> jobserver-count script needs to detect and export the "no parallelism
-> requested at top level" in some way distinct from "PARALLELISM=1",
-> because that's ambiguous.
-
-Right -- failure needs to be be distinct from "only 1 available".
-
-> > +	# Read out as many jobserver slots as possible.
-> > +	while True:
-> > +		try:
-> > +			slot = os.read(reader, 1)
-> > +			jobs += slot
-> 
-> I'd just try to slurp in 8 or 16 tokens at a time, there's no reason to
-> limit to 1 in each loop.
-
-Good point. I will change that.
-
-> > +rc = subprocess.call(sys.argv[1:])
-> > +
-> > +# Return all the actually reserved slots.
-> > +if len(jobs):
-> > +	os.write(writer, jobs)
-> > +
-> > +sys.exit(rc)
-> 
-> What happens if the child dies from a signal? Will this correctly
-> forward that information?
-
-As far as I understand, yes, signal codes are passed through via the exit
-code (i.e. see WIFSIGNALED, etc).
-
-> Similarly (and the harder problem), what happens when our parent wants
-> to send its child a signal to say "stop what you're doing, return the
-> tokens, brush your teeth and go to bed". We should forward that signal
-> to the real job instead of just dying, losing track of both the tokens
-> we've claimed as well as orphaning the child.
-
-Hm, hm. I guess I could pass INT and TERM to the child. That seems like
-the most sensible best-effort here. It seems "make" isn't only looking
-at the slots to determine process management.
+Actually, this doesn't seem to work at all. Interruption already behaves
+correctly. I'm going to ignore this for now...
 
 -- 
 Kees Cook
