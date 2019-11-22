@@ -2,267 +2,121 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E57C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 10:15:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5E1C43141
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62B882070E
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 10:15:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DC672071F
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbfKVKPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 05:15:39 -0500
-Received: from pietrobattiston.it ([92.243.7.39]:44218 "EHLO
-        jauntuale.pietrobattiston.it" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726500AbfKVKPj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 05:15:39 -0500
-Received: from amalgama (unknown [185.194.187.136])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        (Authenticated sender: giovanni)
-        by jauntuale.pietrobattiston.it (Postfix) with ESMTPSA id 29CB8E0DA8;
-        Fri, 22 Nov 2019 11:15:37 +0100 (CET)
-Received: by amalgama (Postfix, from userid 1000)
-        id A54343C004F; Fri, 22 Nov 2019 11:15:20 +0100 (CET)
-From:   Giovanni Mascellani <gio@debian.org>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        id S1728668AbfKVLPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 06:15:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34110 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729023AbfKVLPI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Nov 2019 06:15:08 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 21586B2F6;
+        Fri, 22 Nov 2019 11:15:04 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 4FA541E484C; Fri, 22 Nov 2019 12:15:02 +0100 (CET)
+Date:   Fri, 22 Nov 2019 12:15:02 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Giovanni Mascellani <gio@debian.org>
-Subject: [PATCH v6 1/2] dell-smm-hwmon: Add support for disabling automatic BIOS fan control
-Date:   Fri, 22 Nov 2019 11:15:18 +0100
-Message-Id: <20191122101519.1246458-1-gio@debian.org>
-X-Mailer: git-send-email 2.24.0
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH v7 02/24] mm/gup: factor out duplicate code from four
+ routines
+Message-ID: <20191122111502.GC26721@quack2.suse.cz>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-3-jhubbard@nvidia.com>
+ <20191121080356.GA24784@lst.de>
+ <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
+ <20191121095411.GC18190@quack2.suse.cz>
+ <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch exports standard hwmon pwmX_enable sysfs attribute for
-enabling or disabling automatic fan control by BIOS. Standard value
-"1" is for disabling automatic BIOS fan control and value "2" for
-enabling.
+On Thu 21-11-19 18:54:02, John Hubbard wrote:
+> On 11/21/19 1:54 AM, Jan Kara wrote:
+> > On Thu 21-11-19 00:29:59, John Hubbard wrote:
+> > > > 
+> > > > Otherwise this looks fine and might be a worthwhile cleanup to feed
+> > > > Andrew for 5.5 independent of the gut of the changes.
+> > > > 
+> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > > 
+> > > 
+> > > Thanks for the reviews! Say, it sounds like your view here is that this
+> > > series should be targeted at 5.6 (not 5.5), is that what you have in mind?
+> > > And get the preparatory patches (1-9, and maybe even 10-16) into 5.5?
+> > 
+> > One more note :) If you are going to push pin_user_pages() interfaces
+> > (which I'm fine with), it would probably make sense to push also the
+> > put_user_pages() -> unpin_user_pages() renaming so that that inconsistency
+> > in naming does not exist in the released upstream kernel.
+> > 
+> > 								Honza
+> 
+> Yes, that's what this patch series does. But I'm not sure if "push" here
+> means, "push out: defer to 5.6", "push (now) into 5.5", or "advocate for"?
 
-By default BIOS auto mode is enabled by laptop firmware.
+I meant to include the patch in the "for 5.5" batch.
 
-When BIOS auto mode is enabled, custom fan speed value (set via hwmon
-pwmX sysfs attribute) is overwritten by SMM in few seconds and
-therefore any custom settings are without effect. So this is reason
-why implementing option for disabling BIOS auto mode is needed.
+> I will note that it's not going to be easy to rename in one step, now
+> that this is being split up. Because various put_user_pages()-based items
+> are going into 5.5 via different maintainer trees now. Probably I'd need
+> to introduce unpin_user_page() alongside put_user_page()...thoughts?
 
-So finally this patch allows kernel to set and control fan speed on
-laptops, but it can be dangerous (like setting speed of other fans).
+Yes, I understand that moving that patch from the end of the series would
+cause fair amount of conflicts. I was hoping that you could generate the
+patch with sed/Coccinelle and then rebasing what remains for 5.6 on top of
+that patch should not be that painful so overall it should not be that much
+work. But I may be wrong so if it proves to be too tedious, let's just
+postpone the renaming to 5.6. I don't find having both unpin_user_page()
+and put_user_page() a better alternative to current state. Thanks!
 
-The SMM commands to enable or disable automatic fan control are not
-documented and are not the same on all Dell laptops. Therefore a
-whitelist is used to send the correct codes only on laptopts for which
-they are known.
-
-This patch was originally developed by Pali Rohár; later Giovanni
-Mascellani implemented the whitelist.
-
-Signed-off-by: Giovanni Mascellani <gio@debian.org>
-Co-Developed-by: Pali Rohár <pali.rohar@gmail.com>
-Signed-off-by: Pali Rohár <pali.rohar@gmail.com>
----
- drivers/hwmon/dell-smm-hwmon.c | 114 ++++++++++++++++++++++++++++++---
- 1 file changed, 104 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
-index 4212d022d253..25d160b36a57 100644
---- a/drivers/hwmon/dell-smm-hwmon.c
-+++ b/drivers/hwmon/dell-smm-hwmon.c
-@@ -68,6 +68,8 @@ static uint i8k_pwm_mult;
- static uint i8k_fan_max = I8K_FAN_HIGH;
- static bool disallow_fan_type_call;
- static bool disallow_fan_support;
-+static unsigned int manual_fan;
-+static unsigned int auto_fan;
- 
- #define I8K_HWMON_HAVE_TEMP1	(1 << 0)
- #define I8K_HWMON_HAVE_TEMP2	(1 << 1)
-@@ -300,6 +302,20 @@ static int i8k_get_fan_nominal_speed(int fan, int speed)
- 	return i8k_smm(&regs) ? : (regs.eax & 0xffff) * i8k_fan_mult;
- }
- 
-+/*
-+ * Enable or disable automatic BIOS fan control support
-+ */
-+static int i8k_enable_fan_auto_mode(bool enable)
-+{
-+	struct smm_regs regs = { };
-+
-+	if (disallow_fan_support)
-+		return -EINVAL;
-+
-+	regs.eax = enable ? auto_fan : manual_fan;
-+	return i8k_smm(&regs);
-+}
-+
- /*
-  * Set the fan speed (off, low, high). Returns the new fan status.
-  */
-@@ -726,6 +742,35 @@ static ssize_t i8k_hwmon_pwm_store(struct device *dev,
- 	return err < 0 ? -EIO : count;
- }
- 
-+static ssize_t i8k_hwmon_pwm_enable_store(struct device *dev,
-+					  struct device_attribute *attr,
-+					  const char *buf, size_t count)
-+{
-+	int err;
-+	bool enable;
-+	unsigned long val;
-+
-+	if (!auto_fan)
-+		return -ENODEV;
-+
-+	err = kstrtoul(buf, 10, &val);
-+	if (err)
-+		return err;
-+
-+	if (val == 1)
-+		enable = false;
-+	else if (val == 2)
-+		enable = true;
-+	else
-+		return -EINVAL;
-+
-+	mutex_lock(&i8k_mutex);
-+	err = i8k_enable_fan_auto_mode(enable);
-+	mutex_unlock(&i8k_mutex);
-+
-+	return err ? err : count;
-+}
-+
- static SENSOR_DEVICE_ATTR_RO(temp1_input, i8k_hwmon_temp, 0);
- static SENSOR_DEVICE_ATTR_RO(temp1_label, i8k_hwmon_temp_label, 0);
- static SENSOR_DEVICE_ATTR_RO(temp2_input, i8k_hwmon_temp, 1);
-@@ -749,6 +794,7 @@ static SENSOR_DEVICE_ATTR_RO(temp10_label, i8k_hwmon_temp_label, 9);
- static SENSOR_DEVICE_ATTR_RO(fan1_input, i8k_hwmon_fan, 0);
- static SENSOR_DEVICE_ATTR_RO(fan1_label, i8k_hwmon_fan_label, 0);
- static SENSOR_DEVICE_ATTR_RW(pwm1, i8k_hwmon_pwm, 0);
-+static SENSOR_DEVICE_ATTR_WO(pwm1_enable, i8k_hwmon_pwm_enable, 0);
- static SENSOR_DEVICE_ATTR_RO(fan2_input, i8k_hwmon_fan, 1);
- static SENSOR_DEVICE_ATTR_RO(fan2_label, i8k_hwmon_fan_label, 1);
- static SENSOR_DEVICE_ATTR_RW(pwm2, i8k_hwmon_pwm, 1);
-@@ -780,12 +826,13 @@ static struct attribute *i8k_attrs[] = {
- 	&sensor_dev_attr_fan1_input.dev_attr.attr,	/* 20 */
- 	&sensor_dev_attr_fan1_label.dev_attr.attr,	/* 21 */
- 	&sensor_dev_attr_pwm1.dev_attr.attr,		/* 22 */
--	&sensor_dev_attr_fan2_input.dev_attr.attr,	/* 23 */
--	&sensor_dev_attr_fan2_label.dev_attr.attr,	/* 24 */
--	&sensor_dev_attr_pwm2.dev_attr.attr,		/* 25 */
--	&sensor_dev_attr_fan3_input.dev_attr.attr,	/* 26 */
--	&sensor_dev_attr_fan3_label.dev_attr.attr,	/* 27 */
--	&sensor_dev_attr_pwm3.dev_attr.attr,		/* 28 */
-+	&sensor_dev_attr_pwm1_enable.dev_attr.attr,	/* 23 */
-+	&sensor_dev_attr_fan2_input.dev_attr.attr,	/* 24 */
-+	&sensor_dev_attr_fan2_label.dev_attr.attr,	/* 25 */
-+	&sensor_dev_attr_pwm2.dev_attr.attr,		/* 26 */
-+	&sensor_dev_attr_fan3_input.dev_attr.attr,	/* 27 */
-+	&sensor_dev_attr_fan3_label.dev_attr.attr,	/* 28 */
-+	&sensor_dev_attr_pwm3.dev_attr.attr,		/* 29 */
- 	NULL
- };
- 
-@@ -828,16 +875,19 @@ static umode_t i8k_is_visible(struct kobject *kobj, struct attribute *attr,
- 	    !(i8k_hwmon_flags & I8K_HWMON_HAVE_TEMP10))
- 		return 0;
- 
--	if (index >= 20 && index <= 22 &&
-+	if (index >= 20 && index <= 23 &&
- 	    !(i8k_hwmon_flags & I8K_HWMON_HAVE_FAN1))
- 		return 0;
--	if (index >= 23 && index <= 25 &&
-+	if (index >= 24 && index <= 26 &&
- 	    !(i8k_hwmon_flags & I8K_HWMON_HAVE_FAN2))
- 		return 0;
--	if (index >= 26 && index <= 28 &&
-+	if (index >= 27 && index <= 29 &&
- 	    !(i8k_hwmon_flags & I8K_HWMON_HAVE_FAN3))
- 		return 0;
- 
-+	if (index == 23 && !auto_fan)
-+		return 0;
-+
- 	return attr->mode;
- }
- 
-@@ -1135,12 +1185,48 @@ static struct dmi_system_id i8k_blacklist_fan_support_dmi_table[] __initdata = {
- 	{ }
- };
- 
-+struct i8k_fan_control_data {
-+	unsigned int manual_fan;
-+	unsigned int auto_fan;
-+};
-+
-+enum i8k_fan_controls {
-+	I8K_FAN_34A3_35A3,
-+};
-+
-+static const struct i8k_fan_control_data i8k_fan_control_data[] = {
-+	[I8K_FAN_34A3_35A3] = {
-+		.manual_fan = 0x34a3,
-+		.auto_fan = 0x35a3,
-+	},
-+};
-+
-+static struct dmi_system_id i8k_whitelist_fan_control[] __initdata = {
-+	{
-+		.ident = "Dell Precision 5530",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Precision 5530"),
-+		},
-+		.driver_data = (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
-+	},
-+	{
-+		.ident = "Dell Latitude E6440",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude E6440"),
-+		},
-+		.driver_data = (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
-+	},
-+	{ }
-+};
-+
- /*
-  * Probe for the presence of a supported laptop.
-  */
- static int __init i8k_probe(void)
- {
--	const struct dmi_system_id *id;
-+	const struct dmi_system_id *id, *fan_control;
- 	int fan, ret;
- 
- 	/*
-@@ -1200,6 +1286,14 @@ static int __init i8k_probe(void)
- 	i8k_fan_max = fan_max ? : I8K_FAN_HIGH;	/* Must not be 0 */
- 	i8k_pwm_mult = DIV_ROUND_UP(255, i8k_fan_max);
- 
-+	fan_control = dmi_first_match(i8k_whitelist_fan_control);
-+	if (fan_control && fan_control->driver_data) {
-+		const struct i8k_fan_control_data *fan_control_data = fan_control->driver_data;
-+		manual_fan = fan_control_data->manual_fan;
-+		auto_fan = fan_control_data->auto_fan;
-+		pr_info("enabling support for setting automatic/manual fan control\n");
-+	}
-+
- 	if (!fan_mult) {
- 		/*
- 		 * Autodetect fan multiplier based on nominal rpm
+								Honza
 -- 
-2.24.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
