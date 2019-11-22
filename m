@@ -2,132 +2,73 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC43EC432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 17:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49597C432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 17:39:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8B1D620714
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 17:34:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2928E2071C
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 17:39:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726686AbfKVRek convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 12:34:40 -0500
-Received: from ms.lwn.net ([45.79.88.28]:41496 "EHLO ms.lwn.net"
+        id S1726046AbfKVRjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 12:39:33 -0500
+Received: from ms.lwn.net ([45.79.88.28]:41512 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726046AbfKVRek (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Nov 2019 12:34:40 -0500
+        id S1726861AbfKVRjd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Nov 2019 12:39:33 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D05F337B;
-        Fri, 22 Nov 2019 17:34:38 +0000 (UTC)
-Date:   Fri, 22 Nov 2019 10:34:37 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 3327537B;
+        Fri, 22 Nov 2019 17:39:33 +0000 (UTC)
+Date:   Fri, 22 Nov 2019 10:39:32 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: fix reference to core-api/namespaces.rst
-Message-ID: <20191122103437.59fda273@lwn.net>
-In-Reply-To: <20191122115337.1541-1-federico.vaga@vaga.pv.it>
-References: <20191122115337.1541-1-federico.vaga@vaga.pv.it>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] docs, parallelism: Rearrange how jobserver
+ reservations are made
+Message-ID: <20191122103932.65d79f1f@lwn.net>
+In-Reply-To: <20191121205929.40371-1-keescook@chromium.org>
+References: <20191121205929.40371-1-keescook@chromium.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Nov 2019 12:53:37 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Thu, 21 Nov 2019 12:59:26 -0800
+Kees Cook <keescook@chromium.org> wrote:
 
-> This patch:
+> v2:
+>     - correct comments and commit logs (rasmus)
+>     - handle non-parallel mode more cleanly (rasmus)
+>     - reserve slots 8 at a time (rasmus)
+> v1: https://lore.kernel.org/lkml/20191121000304.48829-1-keescook@chromium.org
 > 
-> commit fcfacb9f8374 ("doc: move namespaces.rst from kbuild/ to core-api/")
+> Hi,
 > 
-> forgot to update the document kernel-hacking/hacking.rst.
+> As Rasmus noted[1], there were some deficiencies in how the Make jobserver
+> vs sphinx parallelism logic was handled. This series attempts to address
+> all those problems by building a set of wrappers and fixing some of the
+> internal logic.
 > 
-> In addition to the fix the path now is a cross-reference to the document.
-> 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  Documentation/core-api/symbol-namespaces.rst | 2 ++
->  Documentation/kernel-hacking/hacking.rst     | 4 ++--
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 982ed7b568ac..6791f8a5d726 100644
-> --- a/Documentation/core-api/symbol-namespaces.rst
-> +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -1,3 +1,5 @@
-> +.. _core-api-namespace:
-> +
+> Thank you Rasmus for the suggestions (and the "jobhog" example)! :)
 
-So I've been wondering for a bit why we don't use section headers as
-targets more often rather than adding all these tags.  Perhaps it's because
-we never enabled that extension? What do you think of this as an
-alternative fix? (Probably before committing this I would split into two,
-since enabling the extension merits its own patch).
+OK, I have applied this set for 5.5.
+
+I do worry that this all looks a little complex and fragile.  I wonder if
+there's a way that we could set up some sort of dependency chain that
+would just tell make not to run the docs builds in parallel with anything
+else?  That is more-or-less the effect of what we're doing anyway.
+
+Meanwhile, though, this seems to work, so let's go with it :)
 
 Thanks,
 
 jon
-
-From b5ca7304e1a7f67717acff2a7bf50f56d387afdd Mon Sep 17 00:00:00 2001
-From: Jonathan Corbet <corbet@lwn.net>
-Date: Fri, 22 Nov 2019 10:30:30 -0700
-Subject: [PATCH] docs: fix reference to core-api/namespaces.rst
-
-Fix a couple of dangling links to core-api/namespaces.rst by turning them
-into proper references.  Enable the autosection extension (available since
-Sphinx 1.4) to make this work.
-
-Co-developed-by: Federico Vaga <federico.vaga@vaga.pv.it>
-Fixes: fcfacb9f8374 ("doc: move namespaces.rst from kbuild/ to core-api/")
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py                    | 2 +-
- Documentation/kernel-hacking/hacking.rst | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 3c7bdf4cd31f..fa2bfcd6df1d 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -38,7 +38,7 @@ needs_sphinx = '1.3'
- # ones.
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
--              'maintainers_include']
-+              'maintainers_include', 'sphinx.ext.autosectionlabel' ]
- 
- # The name of the math extension changed on Sphinx 1.4
- if (major == 1 and minor > 3) or (major > 1):
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index a3ddb213a5e1..d707a0a61cc9 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
- 
- This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
- namespace. Symbol Namespaces are documented in
--``Documentation/kbuild/namespaces.rst``.
-+:ref:`Documentation/core-api/symbol-namespaces.rst <Symbol Namespaces>`
- 
- :c:func:`EXPORT_SYMBOL_NS_GPL()`
- --------------------------------
-@@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
- 
- This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a symbol
- namespace. Symbol Namespaces are documented in
--``Documentation/kbuild/namespaces.rst``.
-+:ref:`Documentation/core-api/symbol-namespaces.rst <Symbol Namespaces>`
- 
- Routines and Conventions
- ========================
--- 
-2.21.0
-
