@@ -2,121 +2,114 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5E1C43141
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D7AC432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:53:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4DC672071F
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5EA720707
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 11:53:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="MKa4zP6E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbfKVLPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 06:15:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34110 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729023AbfKVLPI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Nov 2019 06:15:08 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 21586B2F6;
-        Fri, 22 Nov 2019 11:15:04 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 4FA541E484C; Fri, 22 Nov 2019 12:15:02 +0100 (CET)
-Date:   Fri, 22 Nov 2019 12:15:02 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-Subject: Re: [PATCH v7 02/24] mm/gup: factor out duplicate code from four
- routines
-Message-ID: <20191122111502.GC26721@quack2.suse.cz>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-3-jhubbard@nvidia.com>
- <20191121080356.GA24784@lst.de>
- <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
- <20191121095411.GC18190@quack2.suse.cz>
- <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
+        id S1726739AbfKVLxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 06:53:49 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:9094 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726714AbfKVLxt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Nov 2019 06:53:49 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id CED4A411C8;
+        Fri, 22 Nov 2019 12:53:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1574423624; x=1576238025; bh=S105/5m7v5DzK5AjvSc
+        p3bpyf5exlALTKIwDoT2gS2M=; b=MKa4zP6Ei9m5nZ8WTwKKN6npezuEbMJuBmP
+        es/0Dd2qt+S1zG2wMmTR1fUo97AiAV54NA3DYPIclc9/Jew025p2R0AdDhdYbvHT
+        b7Q7h0X1xDywJruvNhFm+pxB7VfakUl6bii84/uVxkaqTgpbYdohp7wT0Mkwi1//
+        VbjnHKF3chgkfceDsEvlur8sZRtdL/U88fhIqhnvGjlniXGwY2WSHfeK3LNLLiCU
+        lNONLsliRpzW0sAou1Nk30qevRv9Y6BOZpnCuhk96AlNONWSBbawiT6NCU+r7xzB
+        qSMViyVMc62yLQu8eQj892gHS5LUt0AbWKZsm5Mg4nxdVRmWKv2//zBM+NY31c/S
+        oY/kZMZjyGrCZGw1dJmsu2TLVEnsVWhaH9qjwnUsOKBmUAryW9jpXjgxQq7ziv0D
+        neMGHaM3zXLAjQSZDs25J9qwvlH7EiE72jm7akFEMc+XH+S4k+zhJ7LkcFUwILdG
+        CCcVIoGVdi5rgIuz0tD0Q+vN9ddyl0EJHuz1r1W5j9STk2MFZotl6WrqR4ujynmy
+        vDbn2qN0BkYvuIPAe/Y1P3NCKs/O9yDDTlZaGD8qvWNjD4T8ys5zpA1Jkaum8INo
+        jPkUvqdZamvRxwgrzPTouVQNKApXnBlEi6D2dTC+wWEs8WnGKyBMTjL22Nzo5z7W
+        Jf9Qn7dM=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id w5JxwDGQgqhI; Fri, 22 Nov 2019 12:53:44 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 47A5140D57;
+        Fri, 22 Nov 2019 12:53:44 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id DC73E1617;
+        Fri, 22 Nov 2019 12:53:43 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc: fix reference to core-api/namespaces.rst
+Date:   Fri, 22 Nov 2019 12:53:37 +0100
+Message-Id: <20191122115337.1541-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 21-11-19 18:54:02, John Hubbard wrote:
-> On 11/21/19 1:54 AM, Jan Kara wrote:
-> > On Thu 21-11-19 00:29:59, John Hubbard wrote:
-> > > > 
-> > > > Otherwise this looks fine and might be a worthwhile cleanup to feed
-> > > > Andrew for 5.5 independent of the gut of the changes.
-> > > > 
-> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > > 
-> > > 
-> > > Thanks for the reviews! Say, it sounds like your view here is that this
-> > > series should be targeted at 5.6 (not 5.5), is that what you have in mind?
-> > > And get the preparatory patches (1-9, and maybe even 10-16) into 5.5?
-> > 
-> > One more note :) If you are going to push pin_user_pages() interfaces
-> > (which I'm fine with), it would probably make sense to push also the
-> > put_user_pages() -> unpin_user_pages() renaming so that that inconsistency
-> > in naming does not exist in the released upstream kernel.
-> > 
-> > 								Honza
-> 
-> Yes, that's what this patch series does. But I'm not sure if "push" here
-> means, "push out: defer to 5.6", "push (now) into 5.5", or "advocate for"?
+This patch:
 
-I meant to include the patch in the "for 5.5" batch.
+commit fcfacb9f8374 ("doc: move namespaces.rst from kbuild/ to core-api/")
 
-> I will note that it's not going to be easy to rename in one step, now
-> that this is being split up. Because various put_user_pages()-based items
-> are going into 5.5 via different maintainer trees now. Probably I'd need
-> to introduce unpin_user_page() alongside put_user_page()...thoughts?
+forgot to update the document kernel-hacking/hacking.rst.
 
-Yes, I understand that moving that patch from the end of the series would
-cause fair amount of conflicts. I was hoping that you could generate the
-patch with sed/Coccinelle and then rebasing what remains for 5.6 on top of
-that patch should not be that painful so overall it should not be that much
-work. But I may be wrong so if it proves to be too tedious, let's just
-postpone the renaming to 5.6. I don't find having both unpin_user_page()
-and put_user_page() a better alternative to current state. Thanks!
+In addition to the fix the path now is a cross-reference to the document.
 
-								Honza
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/core-api/symbol-namespaces.rst | 2 ++
+ Documentation/kernel-hacking/hacking.rst     | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+index 982ed7b568ac..6791f8a5d726 100644
+--- a/Documentation/core-api/symbol-namespaces.rst
++++ b/Documentation/core-api/symbol-namespaces.rst
+@@ -1,3 +1,5 @@
++.. _core-api-namespace:
++
+ =================
+ Symbol Namespaces
+ =================
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index a3ddb213a5e1..107c8fd3f6c0 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
+ 
+ This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
+ namespace. Symbol Namespaces are documented in
+-``Documentation/kbuild/namespaces.rst``.
++:ref:`Documentation/core-api/symbol-namespaces.rst <core-api-namespace>`.
+ 
+ :c:func:`EXPORT_SYMBOL_NS_GPL()`
+ --------------------------------
+@@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
+ 
+ This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a symbol
+ namespace. Symbol Namespaces are documented in
+-``Documentation/kbuild/namespaces.rst``.
++:ref:`Documentation/core-api/symbol-namespaces.rst <core-api-namespace>`.
+ 
+ Routines and Conventions
+ ========================
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.21.0
+
