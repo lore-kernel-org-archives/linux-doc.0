@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B322EC432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 06:11:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E94C43215
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 06:17:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8AB652068E
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 06:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F9042068E
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 06:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574403069;
+	s=default; t=1574403451;
 	bh=ghWIX+m6hgr7up8H2IEj/4iJDmGytA1qPuXv0RVTtfE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=M99w3KAwJ2nBEr0kbKwG6C4dQPbn3hBE2IRk+jBx6FFbIhFliyjpl0oh6Sy6bYBHT
-	 ZiYf4lAI1lVEVkSCFPz4mqdsjm9hios6VMo0+SIQSwAYOIQXgvZuI81JT7jPcsa5+S
-	 UG+W95bkpGrV3HbR/nrYY1wt6yOPQSJq8JprE/bw=
+	b=IAdbPBY3FL2YW4pCkTaxWfPQZST2Hfle85JtL/45nordKQgByGeWAnrpE45S2wkvG
+	 MvRY7pfILqVuhwxLiamZ47dARQqZpVGQmbBymvzCXmPfGIfvtBQRwI4/U+Zq/FHKkE
+	 KcmnYWJEsbz0YhVomt1dLcoOxSVpE/gOb2RkXF1w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729192AbfKVF4h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 00:56:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34432 "EHLO mail.kernel.org"
+        id S1728734AbfKVGRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 01:17:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50768 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729188AbfKVF4g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Nov 2019 00:56:36 -0500
+        id S1728042AbfKVGNb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Nov 2019 01:13:31 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4967B20717;
-        Fri, 22 Nov 2019 05:56:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9561C20708;
+        Fri, 22 Nov 2019 06:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574402196;
+        s=default; t=1574403211;
         bh=ghWIX+m6hgr7up8H2IEj/4iJDmGytA1qPuXv0RVTtfE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xWnjU3Q1wTlwOFD/uMJsgMFHk5ky9dh88lkqS2ebLvJs3wR4dfLgp/56dq803eaUZ
-         U2RWQDZX0nOtLum1dfmToSrzKTamR93qGeGFKgTw8Gzd/9JAr4KQG7RpWQD3LpWMQw
-         gRu24tD4MYwNL2Xhn2B9ghWxH1WeCjFQ+BlJPx9c=
+        b=jzjw/n68AZ2LAGWEOQUFaCv/By7UJvJ5t78biOVhBvW2TNcOgjmYaldJsQKIxeeKg
+         NqvqnuwREz2xXfdoWUJNeGOw4qVBZU717torC1yfCpf2lI42m+okvFE5pDYunG3sTD
+         N091sbypru1VyuSGS00G9MBCcNVhGrgO34Qb3gTo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Peter Hutterer <peter.hutterer@who-t.net>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 045/127] HID: doc: fix wrong data structure reference for UHID_OUTPUT
-Date:   Fri, 22 Nov 2019 00:54:23 -0500
-Message-Id: <20191122055544.3299-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 26/68] HID: doc: fix wrong data structure reference for UHID_OUTPUT
+Date:   Fri, 22 Nov 2019 01:12:19 -0500
+Message-Id: <20191122061301.4947-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122055544.3299-1-sashal@kernel.org>
-References: <20191122055544.3299-1-sashal@kernel.org>
+In-Reply-To: <20191122061301.4947-1-sashal@kernel.org>
+References: <20191122061301.4947-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
