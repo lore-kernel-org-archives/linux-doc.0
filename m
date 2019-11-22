@@ -2,100 +2,190 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5223AC432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 04:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1E0C432C3
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 05:27:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2255D20704
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 04:26:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7107520708
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 05:27:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tI9ZcU4X"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwM92wfC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbfKVE0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Nov 2019 23:26:11 -0500
-Received: from mail-qk1-f180.google.com ([209.85.222.180]:46344 "EHLO
-        mail-qk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbfKVE0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Nov 2019 23:26:11 -0500
-Received: by mail-qk1-f180.google.com with SMTP id h15so5125528qka.13;
-        Thu, 21 Nov 2019 20:26:10 -0800 (PST)
+        id S1726100AbfKVF1J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 00:27:09 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:41051 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726018AbfKVF1J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 00:27:09 -0500
+Received: by mail-pf1-f194.google.com with SMTP id p26so2914049pfq.8;
+        Thu, 21 Nov 2019 21:27:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mHG8+AxgBFSWa8fV+NFUGm+PfxGngjUbTez74iu0nRg=;
-        b=tI9ZcU4Xe1MKGicL93WBj6TscKcqAOuxBlMzSP/FS2W2Pv4T2F1rHrN+Aepi6pF2NL
-         Ym2EkT5lcpeqUFQfNfIitYYxY69axKaYRavmuTDa0YsvoFpuzMVmMl+uKNsD4Z9OptCS
-         +RW20STVgsxUffNkF56iNWvWeuMaaZUXbChfa9gVcu4vhDVNvQNkc/45ou7xLo/XbMO7
-         NeTCb8AlptxmP8eMKnkfEFRW0owhazbJZlYdEj0ZpkJlG0VpTwhqcSk8NW27Gzlliqz4
-         xDQDroUim2xPx7F8BNkXJBGEjrMX+m4EOKXWTZul9cV1ONthw+PqfHg4nQF02M7XtRGt
-         QWkw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Ng+pSGgG5AZ0E7r71mRkN5pqcWAjBVIoAMBtQbN/oL8=;
+        b=CwM92wfC8hXbxxv9lcz1TKyE9gkr6pv4XjBGwR4KL9ZBbY+F1GC1rRvKRS2K4Bbq+d
+         R7aaugL4yXJlDk5t8HdsYOLQq6VJUEGCJmbrs0K+wmiLvQsxJITjBsTnfqnXJZ09lqZ/
+         AQEHFtesLSRi25upU+0g2CC2MjEEH7M7InI6nPvO2ef+9JgVtIULS3ouplUjkQzAw8Yl
+         GY8wluNCcGdQJLq1LqnbaIcC0z6b2emChATPhlv1k/Y8i/Wceigp90x9f291M7YBgCYi
+         162i2dZsD5d2kWBqXAnwaCeCBjfWMxfPvPB3qW4OQH5DNXV1aO5nOFDR+fNTBZSLYUqy
+         yGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mHG8+AxgBFSWa8fV+NFUGm+PfxGngjUbTez74iu0nRg=;
-        b=GxzMmdfojenwTOvaE9xiAFAGX68gDgB/Lzl561B4vvAwhlrdAjFwLrGGIP5WDKa1K/
-         RzzOpE1B4szno97Px1qQObho0r8c4wVwTLee6pIykeQn1AS5FM869O6/lEvln/zcwjcO
-         hK9ZP5/mOUON/G8L9pBLGG3AaEa0PA9ePrnUkVwSr2qxSesDtUH/0ralxFo2CiEEreDi
-         3uwQnia0UXkqUcOhQl6UTTSmZ1+Ose7le+KKs9Fp1YyYBQjHgZHIDNE032zZ2HxFUWyG
-         sjUccy2EG3JsUkZWyePvrayVGgSNthskWMeH+pNrmU1ICSmI7Qhx3/rSKueuzlIKdYwv
-         qkwQ==
-X-Gm-Message-State: APjAAAWW0v3oHwOwtc2Fuzp0D+qT4KRJkDPS+Zs5n4GqEjk0sZE3rqve
-        5q3P4CnFd1YG2/yFOQxoggKB/Hx7z3hcVQ==
-X-Google-Smtp-Source: APXvYqyW5aL2g8rbYlgvhpyY3kUxtcidGpbW8mDaqNBNfOBUXyy8NsIxoXl2GcFRM2QkICe6U0DT8Q==
-X-Received: by 2002:a37:508b:: with SMTP id e133mr11084096qkb.21.1574396770124;
-        Thu, 21 Nov 2019 20:26:10 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id b6sm2748821qtp.5.2019.11.21.20.26.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 20:26:09 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     dhowells@redhat.com, jarkko.sakkinen@linux.intel.com,
-        corbet@lwn.net
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] Documentation: security: core.rst: fix warnings
-Date:   Fri, 22 Nov 2019 01:18:06 -0300
-Message-Id: <20191122041806.68650-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Ng+pSGgG5AZ0E7r71mRkN5pqcWAjBVIoAMBtQbN/oL8=;
+        b=Y+TSa1pnf9WuTPhS8rAL7fdMmP6i29yGGLNgENTaJurzwqadIBXbUIVgZ/M5Aafral
+         8vPNl/TxAMDXxzjV5x0o7C/UAeo0012EOdlHldncaOb47am+LLshhbROpbb0q8wyP256
+         pvibA5zjVZDIEOnQRjObhA5r2kzfhbKz5nsDuhB4ijf5LLCKAJkRaY72gvwlyOnMsKkW
+         RO2ibeQKGhYcfbBqpZ87qQ/YL0UGian4ALYcdnjtgA1dnou6GaFYvPAQfk7zpx3OX20u
+         /6ES9NVDtvk0LarP7k40njEKmLgzGadBdMRPMzh5hfSo1f2ulML9XKzw0U25bI72i/11
+         0ClQ==
+X-Gm-Message-State: APjAAAXvFscIaIMMm2RUwpDeQHFqwiPF3NhGoZsXr34VYu7a8rsxu0rk
+        vPorQPT1/d68/lvriF5HS3I=
+X-Google-Smtp-Source: APXvYqzbtB+r9K+tg7COyI/QtTZhEKrOxYCf0LkwRQrGZraf6mOSos3H2LZghXeg6d71jowhCPnULA==
+X-Received: by 2002:aa7:9f86:: with SMTP id z6mr15590299pfr.102.1574400428774;
+        Thu, 21 Nov 2019 21:27:08 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v14sm5421346pfe.94.2019.11.21.21.27.07
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Nov 2019 21:27:07 -0800 (PST)
+Date:   Thu, 21 Nov 2019 21:27:06 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Eric Tremblay <etremblay@distech-controls.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, jdelvare@suse.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, corbet@lwn.net
+Subject: Re: [PATCH v8 1/2] dt-bindings: hwmon: Add TMP512/513
+Message-ID: <20191122052706.GA21663@roeck-us.net>
+References: <20191112223001.20844-1-etremblay@distech-controls.com>
+ <20191112223001.20844-2-etremblay@distech-controls.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191112223001.20844-2-etremblay@distech-controls.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On Tue, Nov 12, 2019 at 05:30:00PM -0500, Eric Tremblay wrote:
+> Document the TMP513/512 device devicetree bindings
+> 
+> Signed-off-by: Eric Tremblay <etremblay@distech-controls.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Fix warnings due to missing markup, no change in content otherwise.
+Applied.
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- Documentation/security/keys/core.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
+Guenter
 
-diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
-index d6d8b0b756b6..d9b0b859018b 100644
---- a/Documentation/security/keys/core.rst
-+++ b/Documentation/security/keys/core.rst
-@@ -1102,7 +1102,7 @@ payload contents" for more information.
-     See also Documentation/security/keys/request-key.rst.
- 
- 
-- *  To search for a key in a specific domain, call:
-+ *  To search for a key in a specific domain, call::
- 
- 	struct key *request_key_tag(const struct key_type *type,
- 				    const char *description,
--- 
-2.24.0
-
+> ---
+>  .../devicetree/bindings/hwmon/ti,tmp513.yaml  | 93 +++++++++++++++++++
+>  1 file changed, 93 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> new file mode 100644
+> index 000000000000..168235ad5d81
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+> @@ -0,0 +1,93 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/ti,tmp513.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TMP513/512 system monitor sensor
+> +
+> +maintainers:
+> +  - Eric Tremblay <etremblay@distech-controls.com>
+> +
+> +description: |
+> +  The TMP512 (dual-channel) and TMP513 (triple-channel) are system monitors
+> +  that include remote sensors, a local temperature sensor, and a high-side
+> +  current shunt monitor. These system monitors have the capability of measuring
+> +  remote temperatures, on-chip temperatures, and system voltage/power/current
+> +  consumption.
+> +
+> +  Datasheets:
+> +  http://www.ti.com/lit/gpn/tmp513
+> +  http://www.ti.com/lit/gpn/tmp512
+> +
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,tmp512
+> +      - ti,tmp513
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  shunt-resistor-micro-ohms:
+> +    description: |
+> +      If 0, the calibration process will be skiped and the current and power
+> +      measurement engine will not work. Temperature and voltage measurement
+> +      will continue to work. The shunt value also need to respect:
+> +      rshunt <= pga-gain * 40 * 1000 * 1000.
+> +      If not, it's not possible to compute a valid calibration value.
+> +    default: 1000
+> +
+> +  ti,pga-gain:
+> +    description: |
+> +      The gain value for the PGA function. This is 8, 4, 2 or 1.
+> +      The PGA gain affect the shunt voltage range.
+> +      The range will be equal to: pga-gain * 40mV
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [1, 2, 4, 8]
+> +    default: 8
+> +
+> +  ti,bus-range-microvolt:
+> +    description: |
+> +      This is the operating range of the bus voltage in microvolt
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [16000000, 32000000]
+> +    default: 32000000
+> +
+> +  ti,nfactor:
+> +    description: |
+> +      Array of three(TMP513) or two(TMP512) n-Factor value for each remote
+> +      temperature channel.
+> +      See datasheet Table 11 for n-Factor range list and value interpretation.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#definitions/uint32-array
+> +      - minItems: 2
+> +        maxItems: 3
+> +        items:
+> +          default: 0x00
+> +          minimum: 0x00
+> +          maximum: 0xFF
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          tmp513@5c {
+> +              compatible = "ti,tmp513";
+> +              reg = <0x5C>;
+> +              shunt-resistor-micro-ohms = <330000>;
+> +              ti,bus-range-microvolt = <32000000>;
+> +              ti,pga-gain = <8>;
+> +              ti,nfactor = <0x1 0xF3 0x00>;
+> +          };
+> +    };
