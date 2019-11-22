@@ -2,52 +2,42 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4216FC432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 07:06:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921DEC432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 07:43:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 145D2204FD
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 07:06:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6579620708
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 07:43:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbfKVHGw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 02:06:52 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:38159 "EHLO
+        id S1726638AbfKVHnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 02:43:45 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:36999 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726100AbfKVHGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 02:06:52 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
+        with ESMTP id S1726529AbfKVHno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 02:43:44 -0500
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=leda.hi.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <rsc@pengutronix.de>)
-        id 1iY31l-0007oP-0Z; Fri, 22 Nov 2019 08:06:49 +0100
-Received: from rsc by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <rsc@pengutronix.de>)
-        id 1iY31k-0003wd-4L; Fri, 22 Nov 2019 08:06:48 +0100
-Date:   Fri, 22 Nov 2019 08:06:48 +0100
+        id 1iY3bS-0002ig-7S; Fri, 22 Nov 2019 08:43:42 +0100
+Received: by leda.hi.pengutronix.de (Postfix, from userid 1006)
+        id 195F52C877E9; Fri, 22 Nov 2019 08:43:41 +0100 (CET)
 From:   Robert Schwebel <r.schwebel@pengutronix.de>
-To:     David Miller <davem@davemloft.net>
-Cc:     corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] docs: networking: nfc: change to rst format
-Message-ID: <20191122070648.xqdz4nujvtvtbff6@pengutronix.de>
-References: <20191121155503.52019-1-r.schwebel@pengutronix.de>
- <20191121155503.52019-5-r.schwebel@pengutronix.de>
- <20191121.150607.1310896813096710634.davem@davemloft.net>
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     Robert Schwebel <r.schwebel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 5/5] docs: networking: nfc: change to rst format
+Date:   Fri, 22 Nov 2019 08:43:06 +0100
+Message-Id: <20191122074306.78179-6-r.schwebel@pengutronix.de>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191122074306.78179-1-r.schwebel@pengutronix.de>
+References: <20191122074306.78179-1-r.schwebel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191121.150607.1310896813096710634.davem@davemloft.net>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:05:49 up 137 days, 13:16, 129 users,  load average: 0,33, 0,22,
- 0,15
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
 X-SA-Exim-Mail-From: rsc@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
@@ -56,29 +46,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 03:06:07PM -0800, David Miller wrote:
-> From: Robert Schwebel <r.schwebel@pengutronix.de>
-> Date: Thu, 21 Nov 2019 16:55:03 +0100
-> 
-> > Now that the sphinx syntax has been fixed, change the document from txt
-> > to rst and add it to the index.
-> > 
-> > Signed-off-by: Robert Schwebel <r.schwebel@pengutronix.de>
-> 
-> As Jon mentioned, you aren't actually adding it to the index in this
-> patch yet the commit message says that you did.
+Now that the sphinx syntax has been fixed, change the document from txt
+to rst and add it to the index.
 
-The index doesn't seem to be particularly ordered, so I'll just add it
-to the end, ok?
+Signed-off-by: Robert Schwebel <r.schwebel@pengutronix.de>
+---
+ Documentation/networking/index.rst            | 1 +
+ Documentation/networking/{nfc.txt => nfc.rst} | 0
+ 2 files changed, 1 insertion(+)
+ rename Documentation/networking/{nfc.txt => nfc.rst} (100%)
 
-> Please fix that, repsin this series, and provide a proper "[PATCH 0/5]
-> ..."  cover letter this time.
-
-Will do, thanks.
-
-rsc
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index d4dca42910d0..5acab1290e03 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -33,6 +33,7 @@ Contents:
+    scaling
+    tls
+    tls-offload
++   nfc
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/networking/nfc.txt b/Documentation/networking/nfc.rst
+similarity index 100%
+rename from Documentation/networking/nfc.txt
+rename to Documentation/networking/nfc.rst
 -- 
-Pengutronix e.K.                           | Dipl.-Ing. Robert Schwebel  |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.24.0
+
