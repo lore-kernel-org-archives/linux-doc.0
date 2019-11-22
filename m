@@ -2,177 +2,85 @@ Return-Path: <SRS0=mcri=ZO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 851E0C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 12:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1ECC432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 12:59:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 53DF320706
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 12:37:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8F482068E
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Nov 2019 12:59:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="I3MEMSf0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DaPJMLk8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726634AbfKVMhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Nov 2019 07:37:19 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:45034 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbfKVMhS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 07:37:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=r5TXXhid21G7+9/7i/KygQOqG5Gr7KaIdp+n95tHJ+U=; b=I3MEMSf0A4e+w1FMVR0pFn45Cu
-        mDOxacNM1NJ1A+4Gzd/D6GX1a9qUcZSNXwFH9SmoS2vSvndrvMZLHaitHR+nX4aByuEMUSWoUdFIR
-        FZ+pNtdua955z8Q/qi5XsASt6LuCU69hD2nmOvIXL+5pHZ35Ng+aO78nviYprbBBYw7rWb4X8WUGv
-        Jj7+LsdjuBT9yY8wbsdHZVIeNlwzrLeeLJnaWvbYBwhHeQBgOupHY1G9IjJHI3NCRSSUSQhIYznva
-        iGq+2ix41oDlX/2K2HGJbQ0WM4grAXIcYo7bLNuEwseRIL5M+HbFZ258SsEd0NL/TfpDLxzq7SyBB
-        H89Ic7eQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([2002:4e20:1eda:1:222:68ff:fe15:37dd]:57320 helo=rmk-PC.armlinux.org.uk)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1iY8BR-00059V-PX; Fri, 22 Nov 2019 12:37:09 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1iY8BQ-00066m-TG; Fri, 22 Nov 2019 12:37:08 +0000
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next] net: phy: remove phy_ethtool_sset()
+        id S1726836AbfKVM7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Nov 2019 07:59:48 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35990 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726744AbfKVM7s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Nov 2019 07:59:48 -0500
+Received: by mail-lf1-f66.google.com with SMTP id f16so5462244lfm.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2019 04:59:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q8dmnxZ8Ub8Bxc2H8I3mPfzbqfpB7OPPdHaZygHcHFE=;
+        b=DaPJMLk8AL1aq2ByFGb2IWSuYlXpiez43Oi25BeBN7wROv9RgVJ815FEIM9S8LtBJZ
+         UtonKNOJCNB+rDeRCfVWO5NE1S5bLZRNGDZx5UjRfDgZm2YJuJxWT3yNlrS0LoHq2F9k
+         VmT47cxRT8H/xf7AvyCN4gT1bdBoBYAV65OH4MLbzwZBnPytv2hJUwu3qpR9fvPqCcFS
+         42q0IyZgsuI1qoYCQAr18hOe6tsMEwOYuN6ucIdogf/4horoUpS9E6Gyl91z//4QGT81
+         7TaGOV1qU8P3so2gBU0fMgkq3aA5Sjpa17HQ6ejQ77o4kRSxZAXUcPe5NBsEVnvbzrEy
+         lyuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q8dmnxZ8Ub8Bxc2H8I3mPfzbqfpB7OPPdHaZygHcHFE=;
+        b=R1fxqtCxzzGJhlhosC4xFq55cCuUtFF43JDsD5CW8daelSBK3ziPmSR8crIWHcNz9z
+         nFJFwAARCmvq3zcj6FUso3C8luWZo66Kq82FIQ6NmHOc2O/4sxffKXu622R9Ixpx6yNG
+         nzxU5b49m8VpyG6Z5Hnefc3uz+KpEXKGpForPsY7+Hqt0ho0CCTw4SwYY1NbPFO9a4W+
+         T+MdG+Av9CwSkxS0jRggwDMBUHth5YA9tXQZs32DvlGYYvlrQ6jOCAbMuW1x7q52ZRVM
+         w1TWvnP50Q87kpMasse9cntyGxsDLc3uvfOa/zAGahXctEAFmnJ/WO9ab+LWKpwjU/7/
+         dQ0g==
+X-Gm-Message-State: APjAAAXG9EI5QGom65j7eDKZ/iOH1AP5JkhgCBWUMES6nPAqn1Q4wk5Y
+        0sQQr3q4WiuR1weFsgRFx0leza7SNhmbzczUpTqD4eo5AE4=
+X-Google-Smtp-Source: APXvYqwYz+6QGdIRe/6VX6sUO09vd4ONwLVaGPGso7wwY07jjid5xDn5gxKiF4dN+YxhEi01937w3jc/iLYs/k5FSsM=
+X-Received: by 2002:ac2:5b86:: with SMTP id o6mr11970188lfn.44.1574427586437;
+ Fri, 22 Nov 2019 04:59:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1iY8BQ-00066m-TG@rmk-PC.armlinux.org.uk>
-Date:   Fri, 22 Nov 2019 12:37:08 +0000
+References: <20191122034702.58563-1-dwlsalmeida@gmail.com>
+In-Reply-To: <20191122034702.58563-1-dwlsalmeida@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 22 Nov 2019 13:59:33 +0100
+Message-ID: <CACRpkdbaDEmZ4JCnWGinVVjzbVB=efTjMSTa+mrzuuaK_sCqmw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: driver.rst: Fix warnings
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are no users of phy_ethtool_sset() in the kernel anymore, and
-as of 3c1bcc8614db ("net: ethernet: Convert phydev advertize and
-supported from u32 to link mode"), the implementation is slightly
-buggy - it doesn't correctly check the masked advertising mask as it
-used to.
+On Fri, Nov 22, 2019 at 4:55 AM Daniel W. S. Almeida
+<dwlsalmeida@gmail.com> wrote:
 
-Remove it, and update the phy documentation to refer to its replacement
-function.
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+>
+> Fix warnings due to incorrect rst markup. Also improved the presentation
+> a little without changing the underlying content.
+>
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
- Documentation/networking/phy.rst |  3 +-
- drivers/net/phy/phy.c            | 60 --------------------------------
- include/linux/phy.h              |  1 -
- 3 files changed, 2 insertions(+), 62 deletions(-)
+Thanks a lot, patch applied!
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index a689966bc4be..cda1c0a0492a 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -352,7 +352,8 @@ Fills the phydev structure with up-to-date information about the current
- settings in the PHY.
- ::
- 
-- int phy_ethtool_sset(struct phy_device *phydev, struct ethtool_cmd *cmd);
-+ int phy_ethtool_ksettings_set(struct phy_device *phydev,
-+                               const struct ethtool_link_ksettings *cmd);
- 
- Ethtool convenience functions.
- ::
-diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-index ef6096dc7182..9e431b9f9d87 100644
---- a/drivers/net/phy/phy.c
-+++ b/drivers/net/phy/phy.c
-@@ -253,66 +253,6 @@ static void phy_sanitize_settings(struct phy_device *phydev)
- 	}
- }
- 
--/**
-- * phy_ethtool_sset - generic ethtool sset function, handles all the details
-- * @phydev: target phy_device struct
-- * @cmd: ethtool_cmd
-- *
-- * A few notes about parameter checking:
-- *
-- * - We don't set port or transceiver, so we don't care what they
-- *   were set to.
-- * - phy_start_aneg() will make sure forced settings are sane, and
-- *   choose the next best ones from the ones selected, so we don't
-- *   care if ethtool tries to give us bad values.
-- */
--int phy_ethtool_sset(struct phy_device *phydev, struct ethtool_cmd *cmd)
--{
--	__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising);
--	u32 speed = ethtool_cmd_speed(cmd);
--
--	if (cmd->phy_address != phydev->mdio.addr)
--		return -EINVAL;
--
--	/* We make sure that we don't pass unsupported values in to the PHY */
--	ethtool_convert_legacy_u32_to_link_mode(advertising, cmd->advertising);
--	linkmode_and(advertising, advertising, phydev->supported);
--
--	/* Verify the settings we care about. */
--	if (cmd->autoneg != AUTONEG_ENABLE && cmd->autoneg != AUTONEG_DISABLE)
--		return -EINVAL;
--
--	if (cmd->autoneg == AUTONEG_ENABLE && cmd->advertising == 0)
--		return -EINVAL;
--
--	if (cmd->autoneg == AUTONEG_DISABLE &&
--	    ((speed != SPEED_1000 &&
--	      speed != SPEED_100 &&
--	      speed != SPEED_10) ||
--	     (cmd->duplex != DUPLEX_HALF &&
--	      cmd->duplex != DUPLEX_FULL)))
--		return -EINVAL;
--
--	phydev->autoneg = cmd->autoneg;
--
--	phydev->speed = speed;
--
--	linkmode_copy(phydev->advertising, advertising);
--
--	linkmode_mod_bit(ETHTOOL_LINK_MODE_Autoneg_BIT,
--			 phydev->advertising, AUTONEG_ENABLE == cmd->autoneg);
--
--	phydev->duplex = cmd->duplex;
--
--	phydev->mdix_ctrl = cmd->eth_tp_mdix_ctrl;
--
--	/* Restart the PHY */
--	phy_start_aneg(phydev);
--
--	return 0;
--}
--EXPORT_SYMBOL(phy_ethtool_sset);
--
- int phy_ethtool_ksettings_set(struct phy_device *phydev,
- 			      const struct ethtool_link_ksettings *cmd)
- {
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 70173861e1a2..f172ff22c177 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -1158,7 +1158,6 @@ void phy_queue_state_machine(struct phy_device *phydev, unsigned long jiffies);
- void phy_mac_interrupt(struct phy_device *phydev);
- void phy_start_machine(struct phy_device *phydev);
- void phy_stop_machine(struct phy_device *phydev);
--int phy_ethtool_sset(struct phy_device *phydev, struct ethtool_cmd *cmd);
- void phy_ethtool_ksettings_get(struct phy_device *phydev,
- 			       struct ethtool_link_ksettings *cmd);
- int phy_ethtool_ksettings_set(struct phy_device *phydev,
--- 
-2.20.1
-
+Yours,
+Linus Walleij
