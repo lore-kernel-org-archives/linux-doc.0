@@ -2,135 +2,89 @@ Return-Path: <SRS0=pmrK=ZP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0032C432C3
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D34C43215
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:50:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8DF172068F
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:29:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB8FF2067D
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:50:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tPlWJIgY"
+	dkim=pass (2048-bit key) header.d=netronome-com.20150623.gappssmtp.com header.i=@netronome-com.20150623.gappssmtp.com header.b="yldlGdHz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbfKWS3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Nov 2019 13:29:51 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:38316 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726494AbfKWS3v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 13:29:51 -0500
-Received: by mail-pj1-f65.google.com with SMTP id f7so4597614pjw.5
-        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 10:29:49 -0800 (PST)
+        id S1726705AbfKWSu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Nov 2019 13:50:27 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41342 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726518AbfKWSu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 13:50:26 -0500
+Received: by mail-pg1-f195.google.com with SMTP id 207so5050015pge.8
+        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 10:50:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TES+D47gjUEYLRi0DVPp3J/8b4TWlZhdLdQzXfHGuX4=;
-        b=tPlWJIgYpLWxBMHIO+01rkY8YKxvLtDYYVMoe/agzNO7wcd6XN4T3Oxg18xvGSlu2t
-         OABJrLs27BBj6Xf9sdIezGJ5bya1ZQyYD1Cd0qaaSgdCoxhC+bN0VH2IXZhoPbyKSZFN
-         tLdnqE8ZNvfhOIHZ1HTl0InMhWgPadCNG9opM3qdZBlVJurXrYT0bMtmN8pPZVRKS9Xe
-         6eXHrMcrkpPO3jSrOKQWSnedNH+QAh3QD40h/MZ+l6dC96Fh7K31D4R0I8d4jrgQHsQG
-         bS9Gb07OQxOie7CTOH8Y4VX/AH8cTjdnCVBPvA2LQd8Rfrt1hThwORt95GNgvwBc0ZN1
-         6lIw==
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=PuJsZuj1KUOMVGQQRhz0AFKXCZlP3B+1wIYCZL517JE=;
+        b=yldlGdHzSGgEn8hFgVHQzCBFpBYwgG6TO9V4BHOUcKClhVoq8QsEfe6a8tzcKg9oBI
+         4FVGUZMwg5oev4TvAnT7kBTkSze//44R9XGLt40xm1CDQFlfgBiNplg0b5v/hWW3DT+E
+         ArPSrXvH+QQ+3pIB56PZp4rDKXC82TqoSOgk/bxQI0CyOrdJeP47BfRLT3/r6N8P8mGQ
+         svFKNMCOaDhAsXAXnyCHzRGThyg80YNjFY3FTjBUGiww3XD/gPcAJUNW02YXLrZDJTLq
+         H5QcUI2xUQQc00y+FAjQTgyvFF+w6INfQU9QvADfV1shuWZH8m2zFSdi5Ffl/bIJFd3G
+         ajUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=TES+D47gjUEYLRi0DVPp3J/8b4TWlZhdLdQzXfHGuX4=;
-        b=h9Qs6exXg+nONwmCUOkawU0tKt85XU1wosPx8qDzB5BUyxZo5X0GHCJO/aEwfZQlrh
-         5+k97uDLo8+aV2zYNJknBsbhzrepcHCehyA0sDwL1iHlWIPLaEhmGH66qWp+8/t8hTp4
-         zwHi+rrX3f/TKcmY8GK+B6CoOXuu9gMbdT/0CZZ2bSo2CfgmEd1PYCcpeNimmH/lUNr6
-         DOR+9jvcInZkx7DIVhV291B/zEUkbT9NiTVw81QmUQuyqdU4aj4/hNt0cQHczZUekQQU
-         l40Tnm1aT+1YDk2d/mM0qoEzVmQngFISmFkAcT+pL98P10YsgEXzN/XRc904xLxzrrcI
-         pXUQ==
-X-Gm-Message-State: APjAAAU3EafqqrQEkbMTlx0lLa9zeY5oh6GiFZvNfsqwyvfDdh3qNWS4
-        FPhe8tt4RKBkhSR3MKRw9AD5tA==
-X-Google-Smtp-Source: APXvYqw7ayFmjaG98HZR4MgbH2glRl8JwiusMos4hjFqGGyavQywamTVSiYvu2KXur0XuWQM18gYiA==
-X-Received: by 2002:a17:90a:1:: with SMTP id 1mr27811515pja.42.1574533788576;
-        Sat, 23 Nov 2019 10:29:48 -0800 (PST)
-Received: from localhost ([2620:0:1000:3510:a526:6d27:395d:e917])
-        by smtp.gmail.com with ESMTPSA id 81sm2331345pfx.142.2019.11.23.10.29.47
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=PuJsZuj1KUOMVGQQRhz0AFKXCZlP3B+1wIYCZL517JE=;
+        b=OIIWWgElByH9Mqk6jtC1h7wcgIcmHHojhHQxR2tOtlhmM9Y2ScuM9CYyMYjsgEuFDM
+         oiW0zrEGgM1z11rdQDTydTctphVZdOADV1a6MqPvwKYlJ27zETYiy4omdmLk9cpcDF4E
+         T54C3IdGLxxGMzX+L6eX6pskX4DELC/TCW6MKwxOjTgbjQyJK540S7PTPHIX3g60Nmyu
+         G79ag+kC5TkVRamLaNlHptCVb2zuSNGS2strJv+ucmKmrbjas+XuaLUA9brUUT4xTm5A
+         hiI+Vael5Q1J4t3qaHYA4rQjDynfvqQT0Mppera05UGqlSc2eRDx2qnKHvLM1ghXruXT
+         8SmQ==
+X-Gm-Message-State: APjAAAWf7KH7w9pI/Vs+Rv0Cu/H/9DESwG427P29pmZC/EYfXhk/T66b
+        7HozgmC+iZ+2aWegYq234bIL8w==
+X-Google-Smtp-Source: APXvYqzAW6Q0++cUvoybZHEwV9r2VSNbCDa16Za0w8q4ikzgY+C4BOvsm3+QLu65fyNn/kNZWY9e+w==
+X-Received: by 2002:a05:6a00:10:: with SMTP id h16mr26090193pfk.27.1574535026248;
+        Sat, 23 Nov 2019 10:50:26 -0800 (PST)
+Received: from cakuba.netronome.com (c-73-202-202-92.hsd1.ca.comcast.net. [73.202.202.92])
+        by smtp.gmail.com with ESMTPSA id z10sm2447882pfr.139.2019.11.23.10.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2019 10:29:47 -0800 (PST)
-Date:   Sat, 23 Nov 2019 10:29:47 -0800 (PST)
-X-Google-Original-Date: Sat, 23 Nov 2019 10:24:07 PST (-0800)
-Subject:     Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
-In-Reply-To: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com>
-CC:     linux-riscv@lists.infradead.org, aou@eecs.berkeley.edu,
-        krste@berkeley.edu, waterman@eecs.berkeley.edu,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        Sat, 23 Nov 2019 10:50:26 -0800 (PST)
+Date:   Sat, 23 Nov 2019 10:50:21 -0800
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Russell King <rmk+kernel@armlinux.org.uk>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-From:   Palmer Dabbelt <palmerdabbelt@google.com>
-To:     Paul Walmsley <paul.walmsley@sifive.com>
-Message-ID: <mhng-ff930dda-c0ba-447c-9753-03dee62ba21c@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: phy: remove phy_ethtool_sset()
+Message-ID: <20191123105021.2a7b1fb9@cakuba.netronome.com>
+In-Reply-To: <E1iY8BQ-00066m-TG@rmk-PC.armlinux.org.uk>
+References: <E1iY8BQ-00066m-TG@rmk-PC.armlinux.org.uk>
+Organization: Netronome Systems, Ltd.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Nov 2019 18:44:39 PST (-0800), Paul Walmsley wrote:
->
-> Formalize, in kernel documentation, the patch acceptance policy for
-> arch/riscv.  In summary, it states that as maintainers, we plan to only
-> accept patches for new modules or extensions that have been frozen or
-> ratified by the RISC-V Foundation.
->
-> We've been following these guidelines for the past few months.  In the
-> meantime, we've received quite a bit of feedback that it would be
-> helpful to have these guidelines formally documented.
->
-> Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Cc: Krste Asanovic <krste@berkeley.edu>
-> Cc: Andrew Waterman <waterman@eecs.berkeley.edu>
-> ---
->  Documentation/riscv/patch-acceptance.rst | 32 ++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->  create mode 100644 Documentation/riscv/patch-acceptance.rst
->
-> diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
-> new file mode 100644
-> index 000000000000..2e658353b53c
-> --- /dev/null
-> +++ b/Documentation/riscv/patch-acceptance.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================================================
-> +arch/riscv maintenance and the RISC-V specifications
-> +====================================================
-> +
-> +The RISC-V instruction set architecture is developed in the open:
-> +in-progress drafts are available for all to review and to experiment
-> +with implementations.  New module or extension drafts can change
-> +during the development process - sometimes in ways that are
-> +incompatible with previous drafts.  This flexibility can present a
-> +challenge for RISC-V Linux maintenance.  Linux maintainers disapprove
-> +of churn, and the Linux development process prefers well-reviewed and
-> +tested code over experimental code.  We wish to extend these same
-> +principles to the RISC-V-related code that will be accepted for
-> +inclusion in the kernel.
-> +
-> +Therefore, as maintainers, we'll only accept patches for new modules
-> +or extensions if the specifications for those modules or extensions
-> +are listed as being "Frozen" or "Ratified" by the RISC-V Foundation.
-> +(Developers may, of course, maintain their own Linux kernel trees that
-> +contain code for any draft extensions that they wish.)
-> +
-> +Additionally, the RISC-V specification allows implementors to create
-> +their own custom extensions.  These custom extensions aren't required
-> +to go through any review or ratification process by the RISC-V
-> +Foundation.  To avoid the maintenance complexity and potential
-> +performance impact of adding kernel code for implementor-specific
-> +RISC-V extensions, we'll only to accept patches for extensions that
-> +have been officially frozen or ratified by the RISC-V Foundation.
-> +(Implementors, may, of course, maintain their own Linux kernel trees
-> +containing code for any custom extensions that they wish.)
+On Fri, 22 Nov 2019 12:37:08 +0000, Russell King wrote:
+> There are no users of phy_ethtool_sset() in the kernel anymore, and
+> as of 3c1bcc8614db ("net: ethernet: Convert phydev advertize and
+> supported from u32 to link mode"), the implementation is slightly
+> buggy - it doesn't correctly check the masked advertising mask as it
+> used to.
+> 
+> Remove it, and update the phy documentation to refer to its replacement
+> function.
+> 
+> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Applied, thank you!
