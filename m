@@ -2,118 +2,135 @@ Return-Path: <SRS0=pmrK=ZP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78FCBC432C0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 16:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0032C432C3
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:29:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49F312070E
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 16:49:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DF172068F
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 18:29:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gpMCYQSF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tPlWJIgY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbfKWQtA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Nov 2019 11:49:00 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:39045 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbfKWQtA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 11:49:00 -0500
-Received: by mail-qt1-f193.google.com with SMTP id g1so2445212qtj.6
-        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 08:49:00 -0800 (PST)
+        id S1726751AbfKWS3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Nov 2019 13:29:51 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:38316 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726494AbfKWS3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 13:29:51 -0500
+Received: by mail-pj1-f65.google.com with SMTP id f7so4597614pjw.5
+        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 10:29:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+66vHYsH7JVPePei6Sqt5pEwqov7Jl4jYo/VgAZ7vnA=;
-        b=gpMCYQSFpmd4mTdfW7RZoAjmqjlGANKf89gWOCz9vY0k4KIf2oGke+YgIwvMr23GhK
-         SDoJm8og7z58h8YqwxpCOx2AVbV5RmMLJoFBjrMLcsjemnXhNMTsZnxXf426a+vlEK1/
-         +NSiP46mA9Bc2RHXfYZql2ncpubyp3Jxh4Q3zWDtq1b1Q5yEw0BDHjsMfwBwhMx/AN1a
-         0ESXgIPifE6WJwD0i72IhNUvSAgVW+nIhsVqRFv+igR6ZEmhXMmQ0pWuQVtV00udXtWu
-         0/DGViJOP34zHvJVqUq/sQdT11cIdIiBDYChBMO8U0aQ3rRYpPxFMCRNN2ZsUXzC0SIu
-         iDEQ==
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TES+D47gjUEYLRi0DVPp3J/8b4TWlZhdLdQzXfHGuX4=;
+        b=tPlWJIgYpLWxBMHIO+01rkY8YKxvLtDYYVMoe/agzNO7wcd6XN4T3Oxg18xvGSlu2t
+         OABJrLs27BBj6Xf9sdIezGJ5bya1ZQyYD1Cd0qaaSgdCoxhC+bN0VH2IXZhoPbyKSZFN
+         tLdnqE8ZNvfhOIHZ1HTl0InMhWgPadCNG9opM3qdZBlVJurXrYT0bMtmN8pPZVRKS9Xe
+         6eXHrMcrkpPO3jSrOKQWSnedNH+QAh3QD40h/MZ+l6dC96Fh7K31D4R0I8d4jrgQHsQG
+         bS9Gb07OQxOie7CTOH8Y4VX/AH8cTjdnCVBPvA2LQd8Rfrt1hThwORt95GNgvwBc0ZN1
+         6lIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+66vHYsH7JVPePei6Sqt5pEwqov7Jl4jYo/VgAZ7vnA=;
-        b=PCPi2FX/TD03aQ0C+6izoftWvrvWCtfIyMqYsXInKzdZYupi0vFJC4NkDACpyUa6fs
-         wrv17du7lLCUoFWLu3gzot8BYMt47JJmFEIQ/NSVLYiWeIj+axXlK3l8y5h6mkStyjmn
-         oIBYOJuLuFAssJpvwc+gZDK3SnwdiofHb5fgxZEvDW4jb7uqOOBR38a66cthEaSr1xXE
-         kFN0o8IKWr8h2YqzAvLj3wXsUS6yHKW4p+HuQhDCT8g+zkGBRmpEJ/zEobQMAjN2M1Za
-         OnL6+2oCUkSyzcL54/AmrhiWaVI2PHQ7Doez6RkKJGI0R2fW6b0leCo3ZRTrzZEdothd
-         HqQg==
-X-Gm-Message-State: APjAAAUFLeKLD/o2ug3HyKERWONMnJMWtxX6ImONzsl1rmX2I9SItdos
-        j4zSgXecH/adbMYdIvxVA+n6KEL9rEkZT/mB3Ln4QA==
-X-Google-Smtp-Source: APXvYqwyxjsh8dA/s2OkM/ns+ygqQG93FdFlPYlZeOwCIwjddgPt9JS5O8BWopdMn7MMTrUZIk7GnILurulL2cuB3xE=
-X-Received: by 2002:aed:33c2:: with SMTP id v60mr8462945qtd.168.1574527739339;
- Sat, 23 Nov 2019 08:48:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20191121191536.186051-1-pterjan@google.com> <20191122100844.2e9b22c6@lwn.net>
-In-Reply-To: <20191122100844.2e9b22c6@lwn.net>
-From:   Pascal Terjan <pterjan@google.com>
-Date:   Sat, 23 Nov 2019 16:48:42 +0000
-Message-ID: <CAANdO=KoAPXh+ZuXOW7XMibvbTchj96vr_aEUtqEDg-H2OVmHw@mail.gmail.com>
-Subject: Re: [PATCH] Delete obsolete magic constants from documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=TES+D47gjUEYLRi0DVPp3J/8b4TWlZhdLdQzXfHGuX4=;
+        b=h9Qs6exXg+nONwmCUOkawU0tKt85XU1wosPx8qDzB5BUyxZo5X0GHCJO/aEwfZQlrh
+         5+k97uDLo8+aV2zYNJknBsbhzrepcHCehyA0sDwL1iHlWIPLaEhmGH66qWp+8/t8hTp4
+         zwHi+rrX3f/TKcmY8GK+B6CoOXuu9gMbdT/0CZZ2bSo2CfgmEd1PYCcpeNimmH/lUNr6
+         DOR+9jvcInZkx7DIVhV291B/zEUkbT9NiTVw81QmUQuyqdU4aj4/hNt0cQHczZUekQQU
+         l40Tnm1aT+1YDk2d/mM0qoEzVmQngFISmFkAcT+pL98P10YsgEXzN/XRc904xLxzrrcI
+         pXUQ==
+X-Gm-Message-State: APjAAAU3EafqqrQEkbMTlx0lLa9zeY5oh6GiFZvNfsqwyvfDdh3qNWS4
+        FPhe8tt4RKBkhSR3MKRw9AD5tA==
+X-Google-Smtp-Source: APXvYqw7ayFmjaG98HZR4MgbH2glRl8JwiusMos4hjFqGGyavQywamTVSiYvu2KXur0XuWQM18gYiA==
+X-Received: by 2002:a17:90a:1:: with SMTP id 1mr27811515pja.42.1574533788576;
+        Sat, 23 Nov 2019 10:29:48 -0800 (PST)
+Received: from localhost ([2620:0:1000:3510:a526:6d27:395d:e917])
+        by smtp.gmail.com with ESMTPSA id 81sm2331345pfx.142.2019.11.23.10.29.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Nov 2019 10:29:47 -0800 (PST)
+Date:   Sat, 23 Nov 2019 10:29:47 -0800 (PST)
+X-Google-Original-Date: Sat, 23 Nov 2019 10:24:07 PST (-0800)
+Subject:     Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
+In-Reply-To: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com>
+CC:     linux-riscv@lists.infradead.org, aou@eecs.berkeley.edu,
+        krste@berkeley.edu, waterman@eecs.berkeley.edu,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+From:   Palmer Dabbelt <palmerdabbelt@google.com>
+To:     Paul Walmsley <paul.walmsley@sifive.com>
+Message-ID: <mhng-ff930dda-c0ba-447c-9753-03dee62ba21c@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Nov 2019 at 17:08, Jonathan Corbet <corbet@lwn.net> wrote:
+On Fri, 22 Nov 2019 18:44:39 PST (-0800), Paul Walmsley wrote:
 >
-> On Thu, 21 Nov 2019 19:15:36 +0000
-> Pascal Terjan <pterjan@google.com> wrote:
+> Formalize, in kernel documentation, the patch acceptance policy for
+> arch/riscv.  In summary, it states that as maintainers, we plan to only
+> accept patches for new modules or extensions that have been frozen or
+> ratified by the RISC-V Foundation.
 >
-> > Those no longer appear in the code.
-> > I have some more patches to cleanup some of them from the code but this
-> > is an easy first step.
-> >
-> > Signed-off-by: Pascal Terjan <pterjan@google.com>
-> > ---
-> >  Documentation/process/magic-number.rst        | 44 -------------------
-> >  .../it_IT/process/magic-number.rst            | 44 -------------------
-> >  .../zh_CN/process/magic-number.rst            | 44 -------------------
-> >  3 files changed, 132 deletions(-)
+> We've been following these guidelines for the past few months.  In the
+> meantime, we've received quite a bit of feedback that it would be
+> helpful to have these guidelines formally documented.
 >
-> So I absolutely love this patch; we really need to clean this kind of
-> cruft out of the docs.
+> Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Albert Ou <aou@eecs.berkeley.edu>
+> Cc: Krste Asanovic <krste@berkeley.edu>
+> Cc: Andrew Waterman <waterman@eecs.berkeley.edu>
+> ---
+>  Documentation/riscv/patch-acceptance.rst | 32 ++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 Documentation/riscv/patch-acceptance.rst
 >
-> Unfortunately, it doesn't apply to docs-next; did you prepare it against
-> linux-next, perhaps?  Is there any chance I could get a version against
-> docs-next?
+> diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
+> new file mode 100644
+> index 000000000000..2e658353b53c
+> --- /dev/null
+> +++ b/Documentation/riscv/patch-acceptance.rst
+> @@ -0,0 +1,32 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================================================
+> +arch/riscv maintenance and the RISC-V specifications
+> +====================================================
+> +
+> +The RISC-V instruction set architecture is developed in the open:
+> +in-progress drafts are available for all to review and to experiment
+> +with implementations.  New module or extension drafts can change
+> +during the development process - sometimes in ways that are
+> +incompatible with previous drafts.  This flexibility can present a
+> +challenge for RISC-V Linux maintenance.  Linux maintainers disapprove
+> +of churn, and the Linux development process prefers well-reviewed and
+> +tested code over experimental code.  We wish to extend these same
+> +principles to the RISC-V-related code that will be accepted for
+> +inclusion in the kernel.
+> +
+> +Therefore, as maintainers, we'll only accept patches for new modules
+> +or extensions if the specifications for those modules or extensions
+> +are listed as being "Frozen" or "Ratified" by the RISC-V Foundation.
+> +(Developers may, of course, maintain their own Linux kernel trees that
+> +contain code for any draft extensions that they wish.)
+> +
+> +Additionally, the RISC-V specification allows implementors to create
+> +their own custom extensions.  These custom extensions aren't required
+> +to go through any review or ratification process by the RISC-V
+> +Foundation.  To avoid the maintenance complexity and potential
+> +performance impact of adding kernel code for implementor-specific
+> +RISC-V extensions, we'll only to accept patches for extensions that
+> +have been officially frozen or ratified by the RISC-V Foundation.
+> +(Implementors, may, of course, maintain their own Linux kernel trees
+> +containing code for any custom extensions that they wish.)
 
-Right, that probably because of the lack of my previous patch
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fba67e8f897870403e1a4f5fe3835c870cd589e0
-which hasn't finished its journey yet
-
-I am not sure how to proceed as there are a few other patches for
-various subsystems I am planning to send out (like deleting
-RFCOMM_TTY_MAGIC from net/bluetooth/rfcomm/tty.c or GDTIOCTL_MAGIC
-from drivers/scsi/gdth_ioctl.h) which will also be touching this file
-and I'd rather not cause some merge problems...
-Maybe I should not update the documentation in the patches removing
-the constants from the code and clean it up separately?
-
-> If you're up for further work on this file, it would be nice to get rid of
-> the 2.x "changelog" text at the beginning; I don't think that has any real
-> value now.
-
-Sure, I picked this file and initially started cleaning it up,
-including deleting that changelog, but then decided to first clean up
-the code referencing some of those constants without using them.
-There are lots of other things to delete in this file, like references
-to OSS and maybe even the file itself given that the practice of using
-a magic field in structs is no longer common, but I can start sending
-a few simple cleanups.
-
-> Thanks,
->
-> jon
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
