@@ -2,70 +2,71 @@ Return-Path: <SRS0=pmrK=ZP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F47C432C3
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F89C432C0
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:50:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B539320656
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:38:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A0AE20674
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:50:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="S+TW1nKx"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="ASgrvDPj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbfKWXiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Nov 2019 18:38:54 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:44385 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbfKWXiy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 18:38:54 -0500
-Received: by mail-io1-f65.google.com with SMTP id j20so12054352ioo.11
-        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 15:38:53 -0800 (PST)
+        id S1726784AbfKWXuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Nov 2019 18:50:01 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:34934 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726765AbfKWXuB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 18:50:01 -0500
+Received: by mail-il1-f194.google.com with SMTP id g12so1362491ild.2
+        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 15:50:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sifive.com; s=google;
         h=date:from:to:cc:subject:in-reply-to:message-id:references
          :user-agent:mime-version;
-        bh=56zdBpxlclR0g1LjYAS1+32bVAGecBlra1y4WDc61ak=;
-        b=S+TW1nKxE5gRiH0TPfNeT4yyprYSSApYNNurctsEcBCQsSqmNsRfTZlHBzYmsw7E0S
-         QRk1VUsNgB8IeBSzwrihAhPgW4go96mZ7mQaDI6+T7nrCClTTycN7QJW5xPZ0cYem5hF
-         1kALf0BBRfROJIb/sh4xSnXUkxSx3/qgo+P2MDl2Z/DxPS6B/1HYM5ajQEYq6b1vJPH7
-         7xEg3fDb1D0d/lz6nDInR50lI2UDeGOJQOtlBQpbuYq7gbzSJaAiH68w1gI4dB5CM0bq
-         qPuMTuyDLS+2WGo/S3Fq0uAUKvoVrka0cHKSiALFAZBkIS9hqNdSrs9o6NKDHff1aQ0U
-         TBBA==
+        bh=s4GCLK+fIVn+snaTOmwkPoaXDJP7z3FcdVJMD3d4BQk=;
+        b=ASgrvDPj4A/sFmDffZ+2PUQ5GRVEw02fOaSJyhpnDMyd/H5wMQMT7uoyC6CSBOV0DN
+         XshcS1H7NEePIkGvTrLcYM+wJjDXbAY0UALDwOCzKe9eJJU2jp9LBkFJhwqKmQOc06om
+         /3RULDjh5ysrs72RSWCed9tWmL1qV0D0ATRvna9IgeYdj/JxvGbuoJ3mgWWyy4nKgXdT
+         WhRqjru2yEpjEVtQ5VAZiiiN+bjb9NczEH4SKT4u3F8HbVLB29jNhQSDi06IE3ISaQCc
+         Or9q/yVZqf9WmSQ9q71QDzHPdCJ1AlOw1Mra3SKkK84m0+qD88loZLVykWYE/aGiE5dG
+         Z/CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
          :references:user-agent:mime-version;
-        bh=56zdBpxlclR0g1LjYAS1+32bVAGecBlra1y4WDc61ak=;
-        b=lgFnM0iQ0FBpNgiH2WuKUxy0K+/TvBiNyYiHxgVRxhWwNfXsIDcxKclh94rGFtVMLX
-         iiFbCAps0+ZRdgM8EUj5a1euARnxkUJ2+56YMtADcO9jRIBHHApuzsq3qyQcvlY7+9gZ
-         hrmBfpjgmGJy6E2XoTDXZHf/BFyN+wB9YR1OzIHm21RWIMtGQg/bHWtCmORKobxLW97+
-         rKxNm6zWFHpyUO2RG5Fudb/fZXyekfSCXiM2yk4i+bbm8wQ5w0kXGotVvb6ukVoOlOF0
-         3Ufj4ybfFMge46EJhlbsgAM40utdhiK7QsajEIzChseKycdGCq0708HMtBtM8r0xwi7i
-         C0UA==
-X-Gm-Message-State: APjAAAUji8U8CTE7phWRTc0HFb1xBmINX/AJQ5dCynY6KbkKMpPsFZ1/
-        Cso3NQT8ogyH0+IrHizQgDSRiA==
-X-Google-Smtp-Source: APXvYqwlp/VBmKTfbXYnwdw6P2u/JqwD2uFYCVpGOeBQfXAbCAE1DRvFvX7L5V0UpSEy3wwjtI/t8A==
-X-Received: by 2002:a5e:d602:: with SMTP id w2mr16471010iom.94.1574552333070;
-        Sat, 23 Nov 2019 15:38:53 -0800 (PST)
+        bh=s4GCLK+fIVn+snaTOmwkPoaXDJP7z3FcdVJMD3d4BQk=;
+        b=Pjh8EKW1Z9JR9n1B1shhTPBp3QzfrW8H0HhE6WB502nezfBZzEwlF04m1mrI4aM0lQ
+         3rp42ZLubqOQIKDZ6KerXyd369FizT3oECuB7ch9xK0Bwkq9499Cc6JAu2K3Mf0YE8to
+         BNF47UMhk8UeRFk6iDKenrWgmxtCG0ef2ioX8eSIiVpe73/r/lRmZGUvAlHnj9ypqN+k
+         nztBPF/KdMjv/whUKXtvlpCa4quUUb6qTLDqZv/LH8um14xXErzMo+MsnGQPMgYOKsSA
+         NKmRX9K24gjCyvO9QR99/jji8tcNNar0NprHguHA4Xca4CcVrR8UMtzNk6mhbe7CUVSs
+         vzjw==
+X-Gm-Message-State: APjAAAU/6aDbQJTJKi4as/AsHMfp8r6yyNBpQWJXydPX7u2J5Sui2zQ1
+        coLCqtKsimc7F22VKDBQim5R7g==
+X-Google-Smtp-Source: APXvYqwfIV3uzdikoiQkcpfkAzGQuZULk1koZ3M8WX2S/VzCwOcD7E1RvKXMwMxHjNC5GYXTXUVh1Q==
+X-Received: by 2002:a92:680e:: with SMTP id d14mr26576786ilc.224.1574553000174;
+        Sat, 23 Nov 2019 15:50:00 -0800 (PST)
 Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id j18sm696555ili.84.2019.11.23.15.38.51
+        by smtp.gmail.com with ESMTPSA id g12sm596204ion.82.2019.11.23.15.49.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2019 15:38:52 -0800 (PST)
-Date:   Sat, 23 Nov 2019 15:38:50 -0800 (PST)
+        Sat, 23 Nov 2019 15:49:59 -0800 (PST)
+Date:   Sat, 23 Nov 2019 15:49:56 -0800 (PST)
 From:   Paul Walmsley <paul.walmsley@sifive.com>
 X-X-Sender: paulw@viisi.sifive.com
-To:     Matthew Wilcox <willy@infradead.org>
-cc:     linux-riscv@lists.infradead.org, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, krste@berkeley.edu,
-        waterman@eecs.berkeley.edu, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
+To:     Dan Williams <dan.j.williams@intel.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
+        waterman@eecs.berkeley.edu,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
-In-Reply-To: <20191123035827.GZ20752@bombadil.infradead.org>
-Message-ID: <alpine.DEB.2.21.9999.1911231536300.14532@viisi.sifive.com>
-References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com> <20191123035827.GZ20752@bombadil.infradead.org>
+In-Reply-To: <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
+References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com> <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com> <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
 User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -74,117 +75,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+On Sat, 23 Nov 2019, Dan Williams wrote:
 
-On Fri, 22 Nov 2019, Matthew Wilcox wrote:
-
-> On Fri, Nov 22, 2019 at 06:44:39PM -0800, Paul Walmsley wrote:
-> >  Documentation/riscv/patch-acceptance.rst | 32 ++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >  create mode 100644 Documentation/riscv/patch-acceptance.rst
+> On Sat, Nov 23, 2019 at 3:27 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
+>
+> > It looks like the main thing that would be needed would be to add the P:
+> > entry with the path to our patch-acceptance.rst file into the MAINTAINERS
+> > file, after Dan's patches are merged.
+> >
+> > Of course, we could also add more information about sparse cleanliness,
+> > checkpatch warnings, etc., but we mostly try to follow the common kernel
+> > guidelines there.
 > 
-> Should this be linked into the toctree somewhere so it's findable
-> on kernel.org?  Maybe add a line to Documentation/process/index.rst
-> to include ../riscv/patch-acceptance.rst?
+> Those could likely be automated to highlight warnings that a given
+> subsystem treats as errors, but wherever possible my expectation is
+> that the policy should be specified globally.
+> 
+> > Is that summary accurate, or did I miss some additional steps?
+> 
+> I'll go fixup and get the into patch submitted today then we can go from 
+> there.
 
-Does this updated patch contain what you had in mind?
+I guess I'm still looking for guidance along the lines of my earlier 
+question: what (if anything) would we need to change about the current 
+patch to have it work with the maintainer profile documentation (beyond 
+the "P:" entry in MAINTAINERS) ?
 
 
 - Paul
-
-From: Paul Walmsley <paul.walmsley@sifive.com>
-Date: Fri, 22 Nov 2019 18:33:28 -0800
-Subject: [PATCH] Documentation: riscv: add patch acceptance guidelines
-
-Formalize, in kernel documentation, the patch acceptance policy for
-arch/riscv.  In summary, it states that as maintainers, we plan to
-only accept patches for new modules or extensions that have been
-frozen or ratified by the RISC-V Foundation.
-
-We've been following these guidelines for the past few months.  In the
-meantime, we've received quite a bit of feedback that it would be
-helpful to have these guidelines formally documented.
-
-Based on a suggestion from Matthew Wilcox, we also add a link to this
-file to Documentation/process/index.rst, to make this document easier
-to find.
-
-Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Krste Asanovic <krste@berkeley.edu>
-Cc: Andrew Waterman <waterman@eecs.berkeley.edu>
-Cc: Matthew Wilcox <willy@infradead.org>
----
- Documentation/process/index.rst          |  1 +
- Documentation/riscv/index.rst            |  1 +
- Documentation/riscv/patch-acceptance.rst | 32 ++++++++++++++++++++++++
- 3 files changed, 34 insertions(+)
- create mode 100644 Documentation/riscv/patch-acceptance.rst
-
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index e2c9ffc682c5..9b8394eacea6 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -58,6 +58,7 @@ lack of a better place.
-    magic-number
-    volatile-considered-harmful
-    clang-format
-+   ../riscv/patch-acceptance
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index 215fd3c1f2d5..fa33bffd8992 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -7,6 +7,7 @@ RISC-V architecture
- 
-     boot-image-header
-     pmu
-+    patch-acceptance
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
-new file mode 100644
-index 000000000000..2e658353b53c
---- /dev/null
-+++ b/Documentation/riscv/patch-acceptance.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================================================
-+arch/riscv maintenance and the RISC-V specifications
-+====================================================
-+
-+The RISC-V instruction set architecture is developed in the open:
-+in-progress drafts are available for all to review and to experiment
-+with implementations.  New module or extension drafts can change
-+during the development process - sometimes in ways that are
-+incompatible with previous drafts.  This flexibility can present a
-+challenge for RISC-V Linux maintenance.  Linux maintainers disapprove
-+of churn, and the Linux development process prefers well-reviewed and
-+tested code over experimental code.  We wish to extend these same
-+principles to the RISC-V-related code that will be accepted for
-+inclusion in the kernel.
-+
-+Therefore, as maintainers, we'll only accept patches for new modules
-+or extensions if the specifications for those modules or extensions
-+are listed as being "Frozen" or "Ratified" by the RISC-V Foundation.
-+(Developers may, of course, maintain their own Linux kernel trees that
-+contain code for any draft extensions that they wish.)
-+
-+Additionally, the RISC-V specification allows implementors to create
-+their own custom extensions.  These custom extensions aren't required
-+to go through any review or ratification process by the RISC-V
-+Foundation.  To avoid the maintenance complexity and potential
-+performance impact of adding kernel code for implementor-specific
-+RISC-V extensions, we'll only to accept patches for extensions that
-+have been officially frozen or ratified by the RISC-V Foundation.
-+(Implementors, may, of course, maintain their own Linux kernel trees
-+containing code for any custom extensions that they wish.)
--- 
-2.24.0.rc0
-
