@@ -1,105 +1,107 @@
-Return-Path: <SRS0=pmrK=ZP=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=u5oY=ZQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F89C432C0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2547FC43215
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 00:01:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A0AE20674
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Nov 2019 23:50:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFF3520719
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 00:01:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="ASgrvDPj"
+	dkim=pass (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="cB5mwcAl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbfKWXuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Nov 2019 18:50:01 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:34934 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbfKWXuB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 18:50:01 -0500
-Received: by mail-il1-f194.google.com with SMTP id g12so1362491ild.2
-        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 15:50:00 -0800 (PST)
+        id S1726867AbfKXABi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Nov 2019 19:01:38 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:41932 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726813AbfKXABh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 19:01:37 -0500
+Received: by mail-oi1-f194.google.com with SMTP id e9so9885000oif.8
+        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 16:01:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=s4GCLK+fIVn+snaTOmwkPoaXDJP7z3FcdVJMD3d4BQk=;
-        b=ASgrvDPj4A/sFmDffZ+2PUQ5GRVEw02fOaSJyhpnDMyd/H5wMQMT7uoyC6CSBOV0DN
-         XshcS1H7NEePIkGvTrLcYM+wJjDXbAY0UALDwOCzKe9eJJU2jp9LBkFJhwqKmQOc06om
-         /3RULDjh5ysrs72RSWCed9tWmL1qV0D0ATRvna9IgeYdj/JxvGbuoJ3mgWWyy4nKgXdT
-         WhRqjru2yEpjEVtQ5VAZiiiN+bjb9NczEH4SKT4u3F8HbVLB29jNhQSDi06IE3ISaQCc
-         Or9q/yVZqf9WmSQ9q71QDzHPdCJ1AlOw1Mra3SKkK84m0+qD88loZLVykWYE/aGiE5dG
-         Z/CQ==
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=woOONoIQFVxkt21SOpo2EiodkEkWZhvsKLiAP/7iXdw=;
+        b=cB5mwcAlEz5N8Q++7MtpoGtJMCRf5e2J4jWxSgD50GpgOzZ5H/55BmhN5W65ClZ7ee
+         KUYiNXQEHMUCUuaObYkohxJf45HrExY6AikhGBLrDwzoXHy/Owg4zjMs7cmBJaKBSnvO
+         YRUAQW8yEGTlQbQE8OXs+26ACEGSefijjB1ExjpFk3Kuh0RcQg1ZsL2zxABODygo7qrO
+         G5d5GvJQytkMEHgbE+9/jECFUbQJIF3DdZRpKBrjxC4ge3/30U/hIYPkofX47wLu4mtM
+         lbr3J+EysGgiLmB5cu1pU01YBzO/wI9Zs/lRmI0ffFUKRCJUkiFjsdE6ol1xxyzKIXgc
+         PCmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=s4GCLK+fIVn+snaTOmwkPoaXDJP7z3FcdVJMD3d4BQk=;
-        b=Pjh8EKW1Z9JR9n1B1shhTPBp3QzfrW8H0HhE6WB502nezfBZzEwlF04m1mrI4aM0lQ
-         3rp42ZLubqOQIKDZ6KerXyd369FizT3oECuB7ch9xK0Bwkq9499Cc6JAu2K3Mf0YE8to
-         BNF47UMhk8UeRFk6iDKenrWgmxtCG0ef2ioX8eSIiVpe73/r/lRmZGUvAlHnj9ypqN+k
-         nztBPF/KdMjv/whUKXtvlpCa4quUUb6qTLDqZv/LH8um14xXErzMo+MsnGQPMgYOKsSA
-         NKmRX9K24gjCyvO9QR99/jji8tcNNar0NprHguHA4Xca4CcVrR8UMtzNk6mhbe7CUVSs
-         vzjw==
-X-Gm-Message-State: APjAAAU/6aDbQJTJKi4as/AsHMfp8r6yyNBpQWJXydPX7u2J5Sui2zQ1
-        coLCqtKsimc7F22VKDBQim5R7g==
-X-Google-Smtp-Source: APXvYqwfIV3uzdikoiQkcpfkAzGQuZULk1koZ3M8WX2S/VzCwOcD7E1RvKXMwMxHjNC5GYXTXUVh1Q==
-X-Received: by 2002:a92:680e:: with SMTP id d14mr26576786ilc.224.1574553000174;
-        Sat, 23 Nov 2019 15:50:00 -0800 (PST)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id g12sm596204ion.82.2019.11.23.15.49.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2019 15:49:59 -0800 (PST)
-Date:   Sat, 23 Nov 2019 15:49:56 -0800 (PST)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Dan Williams <dan.j.williams@intel.com>
-cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=woOONoIQFVxkt21SOpo2EiodkEkWZhvsKLiAP/7iXdw=;
+        b=uOU9VHcCJ4m45TONhAC02HhZJmGycvm0xL870nBQyF8+1odPF5XdH/NlTjLuNG59to
+         1OJf583LqE73ElHujiZUIA17PV/IP9op6/8Mdr6+5hVvOhlQJSzUx2GngL+mzCYldSxO
+         zjYYP1P3vfWzcGavn0juj/EGxKpKxkLWgKRm2NjRA/EqqQr08AHsxygtdnAaMT8AdBdY
+         vXOihaNwo6FdXbUfbBJ5No1TOFSiRnZ1Mb/oJfRwfSH+YSyM7wIQ639eK4wBXknejVMI
+         xMBH2rbWCc4lsD/ifOHCfv7WQY043iby1xfgx3f9gKlCzFMGjKvpbk6o0yf4sJ+0IS3F
+         AQAQ==
+X-Gm-Message-State: APjAAAXdzxu2RZ/B8YZWt85zLTNojZAiwP57DcQ5trcYgtW9Sb5wUiaN
+        lR+9B+83esnN+ZZzW/UPGEpIzHOuYqjsopP0d1SirQ==
+X-Google-Smtp-Source: APXvYqwMQpTIvHFrlW8fxxu156JT9NnpWLhNt6g4BECKYFzkCkhExI2nDlsUnUUdocxvVDaoXp/LGEZ7AjZQO7co3+0=
+X-Received: by 2002:a05:6808:1da:: with SMTP id x26mr18330976oic.149.1574553696828;
+ Sat, 23 Nov 2019 16:01:36 -0800 (PST)
+MIME-Version: 1.0
+References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com>
+ <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com>
+ <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com> <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
+In-Reply-To: <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Sat, 23 Nov 2019 16:01:25 -0800
+Message-ID: <CAPcyv4hBNfabaZmKs0XF+UT9Py8zJqpNdu5KsToqp305NASKNA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
+To:     Paul Walmsley <paul.walmsley@sifive.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
         palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
         waterman@eecs.berkeley.edu,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
-In-Reply-To: <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
-References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com> <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com> <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 23 Nov 2019, Dan Williams wrote:
-
-> On Sat, Nov 23, 2019 at 3:27 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
+On Sat, Nov 23, 2019 at 3:50 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
 >
-> > It looks like the main thing that would be needed would be to add the P:
-> > entry with the path to our patch-acceptance.rst file into the MAINTAINERS
-> > file, after Dan's patches are merged.
+> On Sat, 23 Nov 2019, Dan Williams wrote:
+>
+> > On Sat, Nov 23, 2019 at 3:27 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
 > >
-> > Of course, we could also add more information about sparse cleanliness,
-> > checkpatch warnings, etc., but we mostly try to follow the common kernel
-> > guidelines there.
-> 
-> Those could likely be automated to highlight warnings that a given
-> subsystem treats as errors, but wherever possible my expectation is
-> that the policy should be specified globally.
-> 
-> > Is that summary accurate, or did I miss some additional steps?
-> 
-> I'll go fixup and get the into patch submitted today then we can go from 
-> there.
+> > > It looks like the main thing that would be needed would be to add the P:
+> > > entry with the path to our patch-acceptance.rst file into the MAINTAINERS
+> > > file, after Dan's patches are merged.
+> > >
+> > > Of course, we could also add more information about sparse cleanliness,
+> > > checkpatch warnings, etc., but we mostly try to follow the common kernel
+> > > guidelines there.
+> >
+> > Those could likely be automated to highlight warnings that a given
+> > subsystem treats as errors, but wherever possible my expectation is
+> > that the policy should be specified globally.
+> >
+> > > Is that summary accurate, or did I miss some additional steps?
+> >
+> > I'll go fixup and get the into patch submitted today then we can go from
+> > there.
+>
+> I guess I'm still looking for guidance along the lines of my earlier
+> question: what (if anything) would we need to change about the current
+> patch to have it work with the maintainer profile documentation (beyond
+> the "P:" entry in MAINTAINERS) ?
 
-I guess I'm still looking for guidance along the lines of my earlier 
-question: what (if anything) would we need to change about the current 
-patch to have it work with the maintainer profile documentation (beyond 
-the "P:" entry in MAINTAINERS) ?
-
-
-- Paul
+Oh, sorry, I just reacted to Jon's comments. I took a look, and I
+think the content would just need to be organized into the proposed
+sections. The rules about what level of ratification a specification
+needs to receive before a patch will be received sounds like an
+extension to the Submit Checklist to me. So I'd say just format your
+first paragraph into the Overview section and the other 2 into Submit
+Checklist and call it good.
