@@ -2,176 +2,214 @@ Return-Path: <SRS0=u5oY=ZQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CD74C432C0
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 17:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0813C432C3
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 18:41:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49D62207FD
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 17:02:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="yhAvdlqG"
+	by mail.kernel.org (Postfix) with ESMTP id 8E49020748
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 18:41:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbfKXRCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Nov 2019 12:02:10 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:9106 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726765AbfKXRCK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 24 Nov 2019 12:02:10 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id C8DE8403FB;
-        Sun, 24 Nov 2019 18:02:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1574614925; x=1576429326; bh=ZzJk2PlCg3Y0Fn9+pSO5WGY4G7ppzTRN5vG
-        8DpLnZkQ=; b=yhAvdlqGGq72qq5Xl+PXJIbJcUwBqWXx2+LIvwOohEnP1H1uz98
-        X3S+KRV07PmipAnrarWpWVAuxNCUQXEVhUcCto24tswQpF0HI9oczp8DC59zx56s
-        9qwBi4S/9eFqdfGaYDZMksvncG8OkRisTZ9N1ViuK/AeZxwzcn5gzJyidzAJI2EW
-        ZHwmenXZb9hRBhNgBBnF8zNeF+M3yCAVzDVbSM2IjMJulL9xi53njpRNEhropCQA
-        Et5FXTE4MOIBAG26x6flXKsZYpIxrbHqovJ7l/GY3DVfbkNWI6CeTAubcSqzg9bl
-        5opNByj75x1XXZEhKfzHBVZsqWYFWEY1io4xcGqLNTkPHExmri3Rly3uDxG4nfti
-        SDjphTOd4egxuJinl4COxsWNNG5cZFOKnXOLVgTLgXZjtynKGNvbagSNiYtPGcx1
-        SKAbjx3q7va/L99FpM+arOkurnsVDOoPcbOQsC4vQO1ODvwwiwbC9EaEHIxMXkbQ
-        OrD16B4D9+NOKDc1n73gTbfuM2315ptmxzXcX//JCIyBD0UlxxJIZiMbtzsXIWGs
-        ygCY4AkcFMguECcvabA8/G90c9IP7yFKCFVtI+jDb/5z1sYvFCTJFW/e1S0vlTJ+
-        HKCVkDkUdktwnbg9GiysO/KwrCTs0NRNoRIUfQf0F333vQRwoq9Z70vc=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id z4IsJ0Xn-Vfy; Sun, 24 Nov 2019 18:02:05 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id E740440387;
-        Sun, 24 Nov 2019 18:02:04 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 754183F0B;
-        Sun, 24 Nov 2019 18:02:04 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: fix reference to core-api/namespaces.rst
-Date:   Sun, 24 Nov 2019 18:02:02 +0100
-Message-ID: <2008227.4siv4ILC15@harkonnen>
-In-Reply-To: <20191122103437.59fda273@lwn.net>
-References: <20191122115337.1541-1-federico.vaga@vaga.pv.it> <20191122103437.59fda273@lwn.net>
+        id S1726855AbfKXSlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Nov 2019 13:41:05 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60504 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726851AbfKXSlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Nov 2019 13:41:05 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 24BA1B2AA;
+        Sun, 24 Nov 2019 18:41:02 +0000 (UTC)
+Date:   Sun, 24 Nov 2019 19:40:59 +0100
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc:     linux-doc@vger.kernel.org, mahesh@linux.vnet.ibm.com,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org, hbathini@linux.ibm.com
+Subject: Re: [PATCH v3 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_*
+ sysfs files
+Message-ID: <20191124184059.GP11661@kitsune.suse.cz>
+References: <20191109122339.20484-1-sourabhjain@linux.ibm.com>
+ <20191109122339.20484-3-sourabhjain@linux.ibm.com>
+ <20191109125933.GF1384@kitsune.suse.cz>
+ <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, November 22, 2019 6:34:37 PM CET Jonathan Corbet wrote:
-> On Fri, 22 Nov 2019 12:53:37 +0100
+On Sat, Nov 16, 2019 at 08:07:29PM +0530, Sourabh Jain wrote:
 > 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > This patch:
+> 
+> On 11/9/19 6:29 PM, Michal Suchánek wrote:
+> > On Sat, Nov 09, 2019 at 05:53:37PM +0530, Sourabh Jain wrote:
+> >> As the number of FADump sysfs files increases it is hard to manage all of
+> >> them inside /sys/kernel directory. It's better to have all the FADump
+> >> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
+> >> order to maintain the backward compatibility the /sys/kernel/fadump_*
+> >> sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
+> >> removed in future.
+> >>
+> >> As the FADump sysfs files are now part of dedicated directory there is no
+> >> need to prefix their name with fadump_, hence sysfs file names are also
+> >> updated. For example fadump_enabled sysfs file is now referred as enabled.
+> >>
+> >> Also consolidate ABI documentation for all the FADump sysfs files in a
+> >> single file Documentation/ABI/testing/sysfs-kernel-fadump.
+> >>
+> >> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+> >> ---
+> >>  Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
+> >>  arch/powerpc/kernel/fadump.c                  | 38 +++++++++++++++++
+> >>  arch/powerpc/platforms/powernv/opal-core.c    | 10 +++--
+> >>  3 files changed, 86 insertions(+), 3 deletions(-)
+> >>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
+> >>
+> >> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
+> >> new file mode 100644
+> >> index 000000000000..a77f1a5ba389
+> >> --- /dev/null
+> >> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
+> >> @@ -0,0 +1,41 @@
+> >> +What:		/sys/kernel/fadump/*
+> >> +Date:		Nov 2019
+> >> +Contact:	linuxppc-dev@lists.ozlabs.org
+> >> +Description:
+> >> +		The /sys/kernel/fadump/* is a collection of FADump sysfs
+> >> +		file provide information about the configuration status
+> >> +		of Firmware Assisted Dump (FADump).
+> >> +
+> >> +What:		/sys/kernel/fadump/enabled
+> >> +Date:		Nov 2019
+> >> +Contact:	linuxppc-dev@lists.ozlabs.org
+> >> +Description:	read only
+> >> +		Primarily used to identify whether the FADump is enabled in
+> >> +		the kernel or not.
+> >> +User:		Kdump service
+> >> +
+> >> +What:		/sys/kernel/fadump/registered
+> >> +Date:		Nov 2019
+> >> +Contact:	linuxppc-dev@lists.ozlabs.org
+> >> +Description:	read/write
+> >> +		Helps to control the dump collect feature from userspace.
+> >> +		Setting 1 to this file enables the system to collect the
+> >> +		dump and 0 to disable it.
+> >> +User:		Kdump service
+> >> +
+> >> +What:		/sys/kernel/fadump/release_mem
+> >> +Date:		Nov 2019
+> >> +Contact:	linuxppc-dev@lists.ozlabs.org
+> >> +Description:	write only
+> >> +		This is a special sysfs file and only available when
+> >> +		the system is booted to capture the vmcore using FADump.
+> >> +		It is used to release the memory reserved by FADump to
+> >> +		save the crash dump.
+> >> +
+> >> +What:		/sys/kernel/fadump/release_opalcore
+> >> +Date:		Nov 2019
+> >> +Contact:	linuxppc-dev@lists.ozlabs.org
+> >> +Description:	write only
+> >> +		The sysfs file is available when the system is booted to
+> >> +		collect the dump on OPAL based machine. It used to release
+> >> +		the memory used to collect the opalcore.
+> >> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
+> >> index ed59855430b9..a9591def0c84 100644
+> >> --- a/arch/powerpc/kernel/fadump.c
+> >> +++ b/arch/powerpc/kernel/fadump.c
+> >> @@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
+> >>  	return 0;
+> >>  }
+> >>  
+> >> +struct kobject *fadump_kobj;
+> >> +EXPORT_SYMBOL_GPL(fadump_kobj);
+> >> +
+> >>  static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
+> >>  						0200, NULL,
+> >>  						fadump_release_memory_store);
+> >> @@ -1428,6 +1431,16 @@ static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
+> >>  						0644, fadump_register_show,
+> >>  						fadump_register_store);
+> >>  
+> >> +static struct kobj_attribute release_attr = __ATTR(release_mem,
+> >> +						0200, NULL,
+> >> +						fadump_release_memory_store);
+> >> +static struct kobj_attribute enable_attr = __ATTR(enabled,
+> >> +						0444, fadump_enabled_show,
+> >> +						NULL);
+> >> +static struct kobj_attribute register_attr = __ATTR(registered,
+> >> +						0644, fadump_register_show,
+> >> +						fadump_register_store);
+> >> +
+> >>  DEFINE_SHOW_ATTRIBUTE(fadump_region);
+> >>  
+> >>  static void fadump_init_files(void)
+> >> @@ -1435,6 +1448,11 @@ static void fadump_init_files(void)
+> >>  	struct dentry *debugfs_file;
+> >>  	int rc = 0;
+> >>  
+> >> +	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
+> >> +	if (!fadump_kobj) {
+> >> +		pr_err("failed to create fadump kobject\n");
+> >> +		return;
+> >> +	}
+> >>  	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
+> >>  	if (rc)
+> >>  		printk(KERN_ERR "fadump: unable to create sysfs file"
+> >> @@ -1458,6 +1476,26 @@ static void fadump_init_files(void)
+> >>  			printk(KERN_ERR "fadump: unable to create sysfs file"
+> >>  				" fadump_release_mem (%d)\n", rc);
+> >>  	}
+> >> +	/* Replicating the following sysfs attributes under FADump kobject.
+> >> +	 *
+> >> +	 *	- fadump_enabled -> enabled
+> >> +	 *	- fadump_registered -> registered
+> >> +	 *	- fadump_release_mem -> release_mem
+> >> +	 */
+> >> +	rc = sysfs_create_file(fadump_kobj, &enable_attr.attr);
+> >> +	if (rc)
+> >> +		pr_err("unable to create enabled sysfs file (%d)\n",
+> >> +		       rc);
+> >> +	rc = sysfs_create_file(fadump_kobj, &register_attr.attr);
+> >> +	if (rc)
+> >> +		pr_err("unable to create registered sysfs file (%d)\n",
+> >> +		       rc);
+> >> +	if (fw_dump.dump_active) {
+> >> +		rc = sysfs_create_file(fadump_kobj, &release_attr.attr);
+> >> +		if (rc)
+> >> +			pr_err("unable to create release_mem sysfs file (%d)\n",
+> >> +			       rc);
+> >> +	}
+> >>  	return;
+> >>  }
+> > Hello,
 > > 
-> > commit fcfacb9f8374 ("doc: move namespaces.rst from kbuild/ to core-api/")
-> > 
-> > forgot to update the document kernel-hacking/hacking.rst.
-> > 
-> > In addition to the fix the path now is a cross-reference to the document.
-> > 
-> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> > ---
-> > 
-> >  Documentation/core-api/symbol-namespaces.rst | 2 ++
-> >  Documentation/kernel-hacking/hacking.rst     | 4 ++--
-> >  2 files changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/core-api/symbol-namespaces.rst
-> > b/Documentation/core-api/symbol-namespaces.rst index
-> > 982ed7b568ac..6791f8a5d726 100644
-> > --- a/Documentation/core-api/symbol-namespaces.rst
-> > +++ b/Documentation/core-api/symbol-namespaces.rst
-> > @@ -1,3 +1,5 @@
-> > +.. _core-api-namespace:
-> > +
 > 
-> So I've been wondering for a bit why we don't use section headers as
-> targets more often rather than adding all these tags.  Perhaps it's because
-> we never enabled that extension? What do you think of this as an
-> alternative fix? (Probably before committing this I would split into two,
-> since enabling the extension merits its own patch).
+> I’m so sorry for taking this long to write you back. 
+> 
+> > wouldn't it make more sense to create the files in the new location and
+> > add a symlink at the old location?
+> 
+> There are APIs which allow to create a symlink for an entire kobject but
+> I did not find a way to create symlink of an individual sysfs file.
+> 
+> Do you have any approach in mind to achieve the same?
 
-I take this occasion to express my opinion, even if it is not a strong 
-opinion, I am fine with your solution.
+There is at least one example of plain symlink:
 
-A tag should be always unique (a duplicated tag is an error), so a reference 
-to it can't (shouldn't) be wrong. A section header could be repeated when it 
-is, let's say, too generic (e.g. "Introduction" is a legitimate section in any 
-document). Then we can have both:
-- a document title is, in general, unique so it is not a problem to use it as 
-targets
-- a document sub-section could collide with others so it is preferable an 
-unique tag.
+find /sys -type l -xtype f
+/sys/kernel/security/evm
 
-> 
-> Thanks,
-> 
-> jon
-> 
-> From b5ca7304e1a7f67717acff2a7bf50f56d387afdd Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Fri, 22 Nov 2019 10:30:30 -0700
-> Subject: [PATCH] docs: fix reference to core-api/namespaces.rst
-> 
-> Fix a couple of dangling links to core-api/namespaces.rst by turning them
-> into proper references.  Enable the autosection extension (available since
-> Sphinx 1.4) to make this work.
-> 
-> Co-developed-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> Fixes: fcfacb9f8374 ("doc: move namespaces.rst from kbuild/ to core-api/")
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py                    | 2 +-
->  Documentation/kernel-hacking/hacking.rst | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 3c7bdf4cd31f..fa2bfcd6df1d 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -38,7 +38,7 @@ needs_sphinx = '1.3'
->  # ones.
->  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
->                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-> -              'maintainers_include']
-> +              'maintainers_include', 'sphinx.ext.autosectionlabel' ]
-> 
->  # The name of the math extension changed on Sphinx 1.4
->  if (major == 1 and minor > 3) or (major > 1):
-> diff --git a/Documentation/kernel-hacking/hacking.rst
-> b/Documentation/kernel-hacking/hacking.rst index a3ddb213a5e1..d707a0a61cc9
-> 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
-> 
->  This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
->  namespace. Symbol Namespaces are documented in
-> -``Documentation/kbuild/namespaces.rst``.
-> +:ref:`Documentation/core-api/symbol-namespaces.rst <Symbol Namespaces>`
-> 
->  :c:func:`EXPORT_SYMBOL_NS_GPL()`
-> 
->  --------------------------------
-> @@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
-> 
->  This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a
-> symbol namespace. Symbol Namespaces are documented in
-> -``Documentation/kbuild/namespaces.rst``.
-> +:ref:`Documentation/core-api/symbol-namespaces.rst <Symbol Namespaces>`
-> 
->  Routines and Conventions
->  ========================
+If there is no interface to do one sanely duplicationg the files is
+better than nothing.
 
+Thanks
 
-
-
+Michal
