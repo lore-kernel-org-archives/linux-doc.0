@@ -2,109 +2,131 @@ Return-Path: <SRS0=u5oY=ZQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC94C432C3
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 03:38:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA77C432C0
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 06:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F8702068D
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 03:38:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C52C20658
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Nov 2019 06:15:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="DDcy7HCi"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Lxyt3fX3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726719AbfKXDie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Nov 2019 22:38:34 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36016 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726676AbfKXDie (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Nov 2019 22:38:34 -0500
-Received: by mail-oi1-f193.google.com with SMTP id j7so10145835oib.3
-        for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2019 19:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bh1aHdYDRSuy1cqsFnjQSoB8H/BTadJ3WbQDfyJeyo8=;
-        b=DDcy7HCiW4uxxRJ+HLA1pdHzn60CxNSOECSOvKR3pi8JXKhP705g5MTrvZoiGHQBK7
-         Bj65re2eHhSVvQBx0Glpw2EOvnVZwCGEuyy95UdQhKMXIQ8PtixX1FS6gy7d4XQ2A51K
-         kda8H8QwJ+Bkb5i1cWhgTQd8GGg30e0TeZuSpaWAEaQQPSmXgtJwaZSXTHGeR5x+TuE3
-         I+9EOuLMznWx+Pe9QX9erEveQdWkGmjw22g1PYMfva9lcVy6kn+BDpEcJlO/j8lI45Dq
-         5dlWtKtP+NVXSq+QHxWqF0D/G6P9vtrEvjsMV1K+1zaAgAfhWof3/SxiCjwp5sSXZV38
-         tcRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bh1aHdYDRSuy1cqsFnjQSoB8H/BTadJ3WbQDfyJeyo8=;
-        b=MvvYdwp5JWJunAd2OQLFiXWO+0FjAxJotaW3nlROCtUxgMsBy56+3kgk6IWQYgaH4R
-         Q864CtzvB+QP+ZiJB/46+iFIid6MhJmzNLU1/V4lS43ZBFtQUYxsH97s+1rX5PsF4L45
-         FIyT4YVFvjzb0yIvbWWxpLJAHSIAGKyFqJ6e8a/C/UgOsy3n6HLaSwNrzCdTtyUt7eyW
-         HECmTgsTzpIvfVDGNPno/ZvfhZ4h4mORejzo6vBlJlDK+f2Rpr5ZKGSXj1fe2Ct+sC80
-         Ungrc2m3mmQigXqlxHbJe1c8tj/bnAnVqZYcv28c6u6i4ChE8XXPZBYknLL2x/RSysDW
-         DFsQ==
-X-Gm-Message-State: APjAAAUEcUUXU/Qxtq4URKYI8vSzoEfM0g6WDuwR4Cc2V0HlcnYbURHa
-        ehyLidwgYzZ7iTN2sdIuTKOUg12bDv2ycrpnzUxigg==
-X-Google-Smtp-Source: APXvYqwiQJv+l7hi8NcBC2oEZCV3NVvhW7a5CxKdJznaDcZVAyJGmUY+HGwOeLCL/LE9aOUK3Svxkx3emFRRLkLH7iM=
-X-Received: by 2002:a05:6808:1da:: with SMTP id x26mr18717951oic.149.1574566713131;
- Sat, 23 Nov 2019 19:38:33 -0800 (PST)
+        id S1725813AbfKXGPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Nov 2019 01:15:07 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:6579 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725810AbfKXGPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 01:15:06 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dda1fe40000>; Sat, 23 Nov 2019 22:15:00 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sat, 23 Nov 2019 22:14:59 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sat, 23 Nov 2019 22:14:59 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 24 Nov
+ 2019 06:14:58 +0000
+Subject: Re: [PATCH v7 07/24] IB/umem: use get_user_pages_fast() to pin DMA
+ pages
+To:     Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-8-jhubbard@nvidia.com>
+ <20191121080746.GC30991@infradead.org> <20191121143643.GC7448@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <17835638-d584-f981-faa3-34d57e0990de@nvidia.com>
+Date:   Sat, 23 Nov 2019 22:14:57 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com>
- <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com>
- <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
- <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
- <CAPcyv4hBNfabaZmKs0XF+UT9Py8zJqpNdu5KsToqp305NASKNA@mail.gmail.com> <alpine.DEB.2.21.9999.1911231637510.14532@viisi.sifive.com>
-In-Reply-To: <alpine.DEB.2.21.9999.1911231637510.14532@viisi.sifive.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Sat, 23 Nov 2019 19:38:21 -0800
-Message-ID: <CAPcyv4iqTR8s0v8jH7haWCBQAzhZinUEsypiH7Ts9FCf+F9Bvg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
-To:     Paul Walmsley <paul.walmsley@sifive.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
-        waterman@eecs.berkeley.edu,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191121143643.GC7448@ziepe.ca>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574576100; bh=+mbCPa34GHo19rkSZ8X28MZHFxfKXj0JDCmoAoUgPhA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Lxyt3fX3SLobwlYOgojx5q/tcPHCRvrfdyk3qwBay6+crwzq9cmBDOL2v1A93d2/F
+         znbsTdahsKcfBLC3ExDVRiR4xyNb8wuF+IY4tVg2BRT+CWxuHL+tde5mqs3Sjaqc2H
+         pQhchVsKtIHXazVW0nKuBUtZ85yMnPL1fDCuL8YyEbTuF/FrqtWCNE9nir7lTMKyjf
+         tlQWOABZBTB1lSxY5uwVrlwTat+xx62yAomSXn+CUgkL0jIrOlvTsDh31691ux/R3U
+         ne8BFF7YaXlkXhz8ZhdLSUDwwh/yLz0H7gzsTDkDINVi3pBPVt9mKwVrX7BgK6Om2D
+         P0YwnWGSjqBhw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 23, 2019 at 4:42 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
->
-> On Sat, 23 Nov 2019, Dan Williams wrote:
->
-> > I took a look, and I think the content would just need to be organized
-> > into the proposed sections. The rules about what level of ratification a
-> > specification needs to receive before a patch will be received sounds
-> > like an extension to the Submit Checklist to me. So I'd say just format
-> > your first paragraph into the Overview section and the other 2 into
-> > Submit Checklist and call it good.
->
-> I'm fine with doing that for this patch.
->
-> Stepping back to the broader topic of the maintainer profile patches, one
-> comment there: unless you're planning to do automated processing on these
-> maintainer profile document sections, it's probably better to let
-> maintainers format their own profile documents as they wish.
->
-> Just to use the arch/riscv document as an example: the last two
-> paragraphs, to me, don't belong in a "submit checklist" section, since
-> that implies that the text there only needs to be read before patches are
-> submitted.  We'd really prefer that developers understand what patches
-> we'll take before they even start developing them.
->
-> I imagine we wouldn't be the only ones that would prefer to create their
-> own section headings in this document, etc.
+On 11/21/19 6:36 AM, Jason Gunthorpe wrote:
+> On Thu, Nov 21, 2019 at 12:07:46AM -0800, Christoph Hellwig wrote:
+>> On Wed, Nov 20, 2019 at 11:13:37PM -0800, John Hubbard wrote:
+>>> And get rid of the mmap_sem calls, as part of that. Note
+>>> that get_user_pages_fast() will, if necessary, fall back to
+>>> __gup_longterm_unlocked(), which takes the mmap_sem as needed.
+>>>
+>>> Reviewed-by: Jan Kara <jack@suse.cz>
+>>> Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+>>> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+>>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+>>
+>> Looks fine,
+>>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>>
+>> Jason, can you queue this up for 5.5 to reduce this patch stack a bit?
+> 
+> Yes, I said I'd do this in an earlier revision. Now that it is clear this
+> won't go through Andrew's tree, applied to rdma for-next
+> 
 
-I'm open to updating the headers to make a section heading that
-matches what you're trying to convey, however that header definition
-should be globally agreed upon. I don't want the document that tries
-to clarify per-subsystem behaviours itself to have per-subsystem
-permutations. I think we, subsystem maintainers, at least need to be
-able to agree on the topics we disagree on. Would it be sufficient if
-I just clarified that "Submit Checklist Addendum" also includes
-guidance about which patches are out of scope for submission in the
-first instance?
+Great, I'll plan on it going up through that tree. To be clear, is it headed 
+for:
+
+    git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+
+?
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
