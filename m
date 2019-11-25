@@ -2,228 +2,138 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0ECC432C0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 19:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BAB5C432C3
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 20:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04DBC20869
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 19:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BD8120659
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 20:13:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="nLQ5e77g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727016AbfKYTD1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Nov 2019 14:03:27 -0500
-Received: from foss.arm.com ([217.140.110.172]:53984 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725799AbfKYTD0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Nov 2019 14:03:26 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08EAD328;
-        Mon, 25 Nov 2019 11:03:26 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A2933F68E;
-        Mon, 25 Nov 2019 11:03:25 -0800 (PST)
-Subject: Re: [PATCH v5 01/14] coresight: cti: Initial CoreSight CTI Driver
-To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     mathieu.poirier@linaro.org
-References: <20191119231912.12768-1-mike.leach@linaro.org>
- <20191119231912.12768-2-mike.leach@linaro.org>
-From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Message-ID: <fce270a6-03a7-f620-9ebf-5117c5dd7cc6@arm.com>
-Date:   Mon, 25 Nov 2019 19:03:24 +0000
+        id S1725992AbfKYUN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Nov 2019 15:13:57 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:10773 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725882AbfKYUN5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 15:13:57 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ddc36070000>; Mon, 25 Nov 2019 12:14:00 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 25 Nov 2019 12:13:56 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 12:13:56 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
+ 2019 20:13:55 +0000
+Subject: Re: [PATCH 07/19] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     kbuild test robot <lkp@intel.com>
+CC:     <kbuild-all@lists.01.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Dave Chinner <david@fromorbit.com>,
+        <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        Paul Mackerras <paulus@samba.org>,
+        <linux-kselftest@vger.kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-rdma@vger.kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        <linux-media@vger.kernel.org>, Shuah Khan <shuah@kernel.org>,
+        <linux-block@vger.kernel.org>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jens Axboe <axboe@kernel.dk>, <netdev@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        <linux-fsdevel@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+References: <20191125042011.3002372-8-jhubbard@nvidia.com>
+ <201911251639.UWS3hE3Y%lkp@intel.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <3989f406-c333-59f8-027a-e3506af59028@nvidia.com>
+Date:   Mon, 25 Nov 2019 12:13:55 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191119231912.12768-2-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <201911251639.UWS3hE3Y%lkp@intel.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574712840; bh=xIrvhzi9FQlGBM90SU8S2M4hsd9JLL89vrPzYePQebc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=nLQ5e77gFGxdvd47gRiRGHQbc1wVG8bwNbuGbyST1Q+jBowT4WflUsZ9otzD54lLB
+         J2wcW1AWxZ1vtAVadAvnnzHYEB9/RMQVx2Q02xRhkx6jKeVYJqp1Vzd24M3MZT/KvC
+         2r/IXfhmoHhQNFs1s+Ijlm3sbCcfcCTqQLXfh/u6EJodBjYv13WjZ+5uA/qpRqF5KJ
+         cgfhkSAYwIIVs+guU8WDjo4g7p8fk0VqKWKusesTvojs5xnlpb4TJcK/V2onbK8LWW
+         ksqnqfXGTA8sAX8XklRUC+OhMkFBYvdHQY7BxmxtkVVkFbYIpBRqVJEp1i5QjV+FwU
+         IkbF7UmcnHQ6g==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/11/2019 23:18, Mike Leach wrote:
-> This introduces a baseline CTI driver and associated configuration files.
+On 11/25/19 12:44 AM, kbuild test robot wrote:
+> Hi John,
 > 
-> Uses the platform agnostic naming standard for CoreSight devices, along
-> with a generic platform probing method that currently supports device
-> tree descriptions, but allows for the ACPI bindings to be added once these
-> have been defined for the CTI devices.
+> Thank you for the patch! Yet something to improve:
 > 
-> Driver will probe for the device on the AMBA bus, and load the CTI driver
-> on CoreSight ID match to CTI IDs in tables.
+> [auto build test ERROR on rdma/for-next]
+> [cannot apply to v5.4 next-20191122]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 > 
-> Initial sysfs support for enable / disable provided.
+> url:    https://github.com/0day-ci/linux/commits/John-Hubbard/pin_user_pages-reduced-risk-series-for-Linux-5-5/20191125-125637
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+> config: arm-randconfig-a001-20191125 (attached as .config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 7.4.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.4.0 make.cross ARCH=arm 
 > 
-> Default CTI interconnection data is generated based on hardware
-> register signal counts, with no additional connection information.
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
 > 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> All errors (new ones prefixed by >>):
+> 
+>    mm/gup.o: In function `pin_user_pages_remote':
+>>> mm/gup.c:2528: undefined reference to `get_user_pages_remote'
+> 
+> vim +2528 mm/gup.c
 
-Looks good to me.  Some very minor nits, feel free to ignore if you are 
-not respinning the series.
 
-> +/*
-> + * Look at the HW DEVID register for some of the HW settings.
-> + * DEVID[15:8] - max number of in / out triggers.
-> + */
-> +#define CTI_DEVID_MAXTRIGS(devid_val) (int)((devid_val & 0xFF00) >> 8)
+This, and the other (sh) report, is due to !CONFIG_MMU lacking a get_user_pages_remote(), 
+but pin_user_pages_remote() needs it for a (temporary) implementation. I'll post the fix, 
+in v2.
 
-BMVAL(devid_val, 15, 8)
 
-> +
-> +/* DEVID[19:16] - number of CTM channels */
-> +#define CTI_DEVID_CTMCHANNELS(devid_val) (int)((devid_val & 0xF0000) >> 16)
-
-BMVAL(devid_val, 19, 16)
-
-> +
-> +static void cti_set_default_config(struct device *dev,
-> +				   struct cti_drvdata *drvdata)
-> +{
-> +	struct cti_config *config = &drvdata->config;
-> +	u32 devid;
-> +
-> +	devid = readl_relaxed(drvdata->base + CORESIGHT_DEVID);
-> +	config->nr_trig_max = CTI_DEVID_MAXTRIGS(devid);
-> +
-> +	/*
-> +	 * no current hardware should exceed this, but protect the driver
-> +	 * in case of fault / out of spec hw
-> +	 */
-> +	if (config->nr_trig_max > CTIINOUTEN_MAX) {
-> +		dev_warn_once(dev,
-> +			"Limiting HW MaxTrig value(%d) to driver max(%d)\n",
-> +			config->nr_trig_max, CTIINOUTEN_MAX);
-> +		config->nr_trig_max = CTIINOUTEN_MAX;
-> +	}
-> +
-> +	config->nr_ctm_channels = CTI_DEVID_CTMCHANNELS(devid);
-> +
-> +	/* Most regs default to 0 as zalloc'ed except...*/
-> +	config->trig_filter_enable = true;
-> +	config->ctigate = GENMASK(config->nr_ctm_channels - 1, 0);
-> +	atomic_set(&config->enable_req_count, 0);
-> +}
-> +
-> +/*
-> + * Add a connection entry to the list of connections for this
-> + * CTI device.
-> + */
-> +int cti_add_connection_entry(struct device *dev, struct cti_drvdata *drvdata,
-> +			     struct cti_trig_con *tc,
-> +			     struct coresight_device *csdev,
-> +			     const char *assoc_dev_name)
-> +{
-> +	struct cti_device *cti_dev = &drvdata->ctidev;
-> +
-> +	tc->con_dev = csdev;
-> +	/*
-> +	 * Prefer actual associated CS device dev name to supplied value -
-> +	 * which is likely to be node name / other conn name.
-> +	 */
-> +	if (csdev)
-> +		tc->con_dev_name = devm_kstrdup(dev,
-> +						dev_name(&csdev->dev),
-> +						GFP_KERNEL);
-> +	else if (assoc_dev_name != NULL)
-> +		tc->con_dev_name = devm_kstrdup(dev,
-> +						assoc_dev_name, GFP_KERNEL);
-> +	list_add_tail(&tc->node, &cti_dev->trig_cons);
-> +	cti_dev->nr_trig_con++;
-> +
-> +	/* add connection usage bit info to overall info */
-> +	drvdata->config.trig_in_use |= tc->con_in->used_mask;
-> +	drvdata->config.trig_out_use |= tc->con_out->used_mask;
-
-Do we need to make sure that they are exclusive ?
-
-  WARN_ON(drvdata->config.trig_in_use ^ ~(tc->con_in->used_mask));
-  WARN_ON(drvdata->config.trig_out_use ^ ~(tc->con_out->used_mask));
-
-> +/** cti ect operations **/
-> +int cti_enable(struct coresight_device *csdev)
-> +{
-> +	struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-> +
-> +	/* enable hardware with refcount */
-
-nit: left over comment from previous revision ?
-
-> +	return cti_enable_hw(drvdata);
-> +}
-> +
-> +int cti_disable(struct coresight_device *csdev)
-> +{
-> +	struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-> +
-> +	/* disable hardware with refcount */
-
-same here ?
-
-> +	return cti_disable_hw(drvdata);
-> +}
-> +
-
-> +
-> +static int cti_probe(struct amba_device *adev, const struct amba_id *id)
-> +{
-> +	int ret = 0;
-> +	void __iomem *base;
-> +	struct device *dev = &adev->dev;
-> +	struct cti_drvdata *drvdata = NULL;
-> +	struct coresight_desc cti_desc;
-> +	struct coresight_platform_data *pdata = NULL;
-> +	struct resource *res = &adev->res;
-> +
-> +	/* driver data*/
-> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> +	if (!drvdata) {
-> +		ret = -ENOMEM;
-> +		dev_info(dev, "%s, mem err\n", __func__);
-
-dev_err() ? As they may have higher priority than "info" and will get
-displayed in the rare chance of them getting hit.
-
-> +		goto err_out;
-> +	}
-> +
-> +	/* Validity for the resource is already checked by the AMBA core */
-> +	base = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(base)) {
-> +		ret = PTR_ERR(base);
-> +		dev_info(dev, "%s, remap err\n", __func__);
-
-same here, dev_err()
-
-> +		goto err_out;
-> +	}
-> +	drvdata->base = base;
-> +
-> +	dev_set_drvdata(dev, drvdata);
-> +
-> +	/* default CTI device info  */
-> +	drvdata->ctidev.cpu = -1;
-> +	drvdata->ctidev.nr_trig_con = 0;
-> +	drvdata->ctidev.ctm_id = 0;
-> +	INIT_LIST_HEAD(&drvdata->ctidev.trig_cons);
-> +
-> +	spin_lock_init(&drvdata->spinlock);
-> +
-> +	/* initialise CTI driver config values */
-> +	cti_set_default_config(dev, drvdata);
-> +
-> +	/* Parse the .dts for connections and signals */
-
-minor nit: I would not mention about ".dts" here. The function name is
-implicit. You could actually remove that comment.
-
-As mentioned above, the comments are minor nits. So you may add
-with/without addressing them:
-
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
+thanks,
+-- 
+John Hubbard
+NVIDIA
