@@ -2,106 +2,97 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF82EC432C0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 01:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D16C432C3
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 02:49:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9D82C2080D
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 01:36:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A617220679
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 02:49:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="BqbheMcM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727217AbfKYBgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Nov 2019 20:36:31 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:45359 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727072AbfKYBgb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 20:36:31 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0Tiyc3wU_1574645775;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tiyc3wU_1574645775)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 25 Nov 2019 09:36:16 +0800
-Subject: Re: [PATCH 0/3] sched/numa: introduce advanced numa statistic
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
-Message-ID: <50f167ed-12b5-24b7-a2f7-38d32bf6647a@linux.alibaba.com>
-Date:   Mon, 25 Nov 2019 09:35:30 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1727052AbfKYCs5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Nov 2019 21:48:57 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:36680 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbfKYCs5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 21:48:57 -0500
+Received: by mail-io1-f68.google.com with SMTP id s3so14513514ioe.3
+        for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2019 18:48:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=JfC2mJ/tM0Gtil8eGoDF2rqsQ/Szyy5PK2H9MiBjWaY=;
+        b=BqbheMcM+/+8L5FUajWmcRC1Jt2EFb2gJwq13R2AdKWr4u92cpi/Qku/FU9A2Eu+bw
+         ynY6/cjU7Rtcg/TUulvsuyxfJbeMQqKE1Bx0d7bCGvwzC63FW/yS2hxaeTiWMC9Jp2uG
+         vRibYDUPgmnMbpZYvsxjswCE6r9A/t7AaQPMd6/EzO+s01YSFOmtqZTeGwp1lgVm3eze
+         y4DKreOlFHLvcUqPFKdhUhm4W51onBLMZZ1FAIwmxhjItpmYJcYkwxB7IFMbDBVSFV4x
+         Eq8vviYfv3npRjVahtOivSpmld1ch/YnzuGoNXuN7vLSX7IIiNcR7DRQrKJ8lN3coW9m
+         T7RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=JfC2mJ/tM0Gtil8eGoDF2rqsQ/Szyy5PK2H9MiBjWaY=;
+        b=aRsdRgpxbu08w+khxbUjhAdGQkN+OlFd3ADrfJLeS8kVss/7fewxK+V50pHKO7L+dx
+         xnjfLY9WyFQ+Z0mTLrVlaDHh6Rjcl89WF1YjxmMul80WIQ/SG8SYyRK2ZVYuCUMHEANC
+         6v+SiosgHSsnkCOput9IqYo+XWqB2jXtBhEQXk5K80gKz9oW5EPqBubqtaFThHtG4O3y
+         eEuX7jNYHsNMrWwKxDD9jL4vqU8w84U7EXgLy6BLDeUeVfRRsVJoWKuSpjBnSGkK6vM/
+         ScSut1s9Brohtg1lKVzRwI0qQATmlI1548PFyIUAIiBdi8bTGqgQISpx1k+3zth44cgs
+         uPZA==
+X-Gm-Message-State: APjAAAWN6i+aB5PUwlnUpotONV7mqPsKhm9g2msPyKmcEaDWfqNJvSPL
+        /nRhjwXWa0FagBarfGQ91hrylQ==
+X-Google-Smtp-Source: APXvYqxgFYzEUsZQS6ILtiWRgw3rG7t6lwifkA15Te4VPLhoWxbBdRnWhS7ZYmL1Y/h4E9NFkL+lqw==
+X-Received: by 2002:a02:aa0c:: with SMTP id r12mr26180623jam.75.1574650136249;
+        Sun, 24 Nov 2019 18:48:56 -0800 (PST)
+Received: from localhost ([64.62.168.194])
+        by smtp.gmail.com with ESMTPSA id w2sm1790189ilg.51.2019.11.24.18.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Nov 2019 18:48:55 -0800 (PST)
+Date:   Sun, 24 Nov 2019 18:48:54 -0800 (PST)
+From:   Paul Walmsley <paul.walmsley@sifive.com>
+X-X-Sender: paulw@viisi.sifive.com
+To:     Dan Williams <dan.j.williams@intel.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
+        waterman@eecs.berkeley.edu,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
+In-Reply-To: <CAPcyv4iqTR8s0v8jH7haWCBQAzhZinUEsypiH7Ts9FCf+F9Bvg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.9999.1911241841210.22625@viisi.sifive.com>
+References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com> <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com> <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
+ <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com> <CAPcyv4hBNfabaZmKs0XF+UT9Py8zJqpNdu5KsToqp305NASKNA@mail.gmail.com> <alpine.DEB.2.21.9999.1911231637510.14532@viisi.sifive.com>
+ <CAPcyv4iqTR8s0v8jH7haWCBQAzhZinUEsypiH7Ts9FCf+F9Bvg@mail.gmail.com>
+User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
 MIME-Version: 1.0
-In-Reply-To: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Peter
+On Sat, 23 Nov 2019, Dan Williams wrote:
 
-How do you think about this version, does it looks fine to you?
+> I'm open to updating the headers to make a section heading that
+> matches what you're trying to convey, however that header definition
+> should be globally agreed upon. I don't want the document that tries
+> to clarify per-subsystem behaviours itself to have per-subsystem
+> permutations. I think we, subsystem maintainers, at least need to be
+> able to agree on the topics we disagree on.
 
-Regards,
-Michael Wang
+Unless you're planning to, say, follow up with some kind of automated 
+process working across all of the profile documents in such a way that it 
+would make technical sense for the different sections to be standardized, 
+I personally don't see any need at all for profile document 
+standardization.  As far as I can tell, these documents are meant for 
+humans, rather than computers, to read.  And in the absence of a strong 
+technical rationale to limit how maintainers express themselves here, I 
+don't think it's justified.
 
-On 2019/11/13 上午11:43, 王贇 wrote:
-> Modern production environment could use hundreds of cgroup to control
-> the resources for different workloads, along with the complicated
-> resource binding.
-> 
-> On NUMA platforms where we have multiple nodes, things become even more
-> complicated, we hope there are more local memory access to improve the
-> performance, and NUMA Balancing keep working hard to achieve that,
-> however, wrong memory policy or node binding could easily waste the
-> effort, result a lot of remote page accessing.
-> 
-> We need to perceive such problems, then we got chance to fix it before
-> there are too much damages, however, there are no good approach yet to
-> help catch the mouse who introduced the remote access.
-> 
-> This patch set is trying to fill in the missing pieces， by introduce
-> the per-cgroup NUMA locality/exectime statistics, and expose the per-task
-> page migration failure counter, with these statistics, we could achieve
-> the daily monitoring on NUMA efficiency, to give warning when things going
-> too wrong.
-> 
-> Please check the third patch for more details.
-> 
-> Thanks to Peter, Mel and Michal for the good advices :-)
-> 
-> Michael Wang (3):
->   sched/numa: advanced per-cgroup numa statistic
->   sched/numa: expose per-task pages-migration-failure counter
->   sched/numa: documentation for per-cgroup numa stat
-> 
->  Documentation/admin-guide/cg-numa-stat.rst      | 161 ++++++++++++++++++++++++
->  Documentation/admin-guide/kernel-parameters.txt |   4 +
->  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
->  include/linux/sched.h                           |  18 ++-
->  include/linux/sched/sysctl.h                    |   6 +
->  init/Kconfig                                    |   9 ++
->  kernel/sched/core.c                             |  91 ++++++++++++++
->  kernel/sched/debug.c                            |   1 +
->  kernel/sched/fair.c                             |  33 +++++
->  kernel/sched/sched.h                            |  17 +++
->  kernel/sysctl.c                                 |  11 ++
->  11 files changed, 359 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
-> 
-> 
+
+- Paul
