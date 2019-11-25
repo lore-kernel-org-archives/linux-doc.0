@@ -2,300 +2,125 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F354C432C3
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 23:14:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12FCC432C0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 23:50:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C94D20659
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 23:14:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 905E220733
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 23:50:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="AUXeRtgX"
+	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="i0RI/OVo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbfKYXKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Nov 2019 18:10:44 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:3630 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725940AbfKYXKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 18:10:43 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ddc5f6b0000>; Mon, 25 Nov 2019 15:10:35 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 25 Nov 2019 15:10:41 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 15:10:41 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
- 2019 23:10:41 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
- 2019 23:10:40 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 25 Nov 2019 23:10:39 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ddc5f6e0000>; Mon, 25 Nov 2019 15:10:39 -0800
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Christoph Hellwig" <hch@lst.de>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-Subject: [PATCH v2 01/19] mm/gup: factor out duplicate code from four routines
-Date:   Mon, 25 Nov 2019 15:10:17 -0800
-Message-ID: <20191125231035.1539120-2-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191125231035.1539120-1-jhubbard@nvidia.com>
-References: <20191125231035.1539120-1-jhubbard@nvidia.com>
+        id S1726866AbfKYXuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Nov 2019 18:50:00 -0500
+Received: from mail-vs1-f41.google.com ([209.85.217.41]:35690 "EHLO
+        mail-vs1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbfKYXuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 18:50:00 -0500
+Received: by mail-vs1-f41.google.com with SMTP id k15so11468807vsp.2
+        for <linux-doc@vger.kernel.org>; Mon, 25 Nov 2019 15:49:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rvY24eePNZt+ycJ3AFHByDgIP1Rv1kswbJLitykNPsM=;
+        b=i0RI/OVoO7H3VElF3DlRBwGuB3cfc8g9JH8Uw3W07sxlXmrk86lAYmebUQPbd5jguf
+         lkmeffv+K/+4Oqcti7XGhYWjIclq6r88iI7Dk37KxTTIMJMgYGCILYmXFyUkZ0Dmv0cy
+         ch41cP7PD8jkpkdM36QQWaCzzJDgtxySyhRSb7emi2vrKAtewWDm/xZ70UOJ2tT+q/n2
+         iQNblP857cmJkw9m/GB3WuM9KXviy4YTFVHZYu20ujMl/zfDgn4udKZjgqr5YI0g95hT
+         NY4oS35utxZZlxsWY02jvIBWVoNJgKTXrY/rA/IFhYgdsPYgmg23o+8KZ3PlzvxVXO4P
+         +9fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rvY24eePNZt+ycJ3AFHByDgIP1Rv1kswbJLitykNPsM=;
+        b=IoXPAS9/fJFP5w4XTsg2OLjrXrl+33XD6Vk1ak2IlsTRu66BEZn0v7H5uiUhhJedIu
+         yIwiqYhClatF1KKVfMQWVrwsL5lvzqkthEfqGkuLhERAZEtvYDOqYz2mCauD2R6vrtZj
+         J8eC4bvs+EVsItqRp8q+3frGJfBMB6DY3uqaw+2Xush/quYipsWDK2XcDodYgjhMisXP
+         eLFn0pWl7YCkap/uxtfuAoSPJWUFtPjqes3hE4HkpPWseszqaDqJgE9SugxLRUvd4LMq
+         at7agcnY3aBDagjCdH6F8scTFtHe2qS8GABmu4BTl/fBlSkxWKS5gZl9wycQK2OKKFhb
+         am/g==
+X-Gm-Message-State: APjAAAXYw08AQr7YNbRgXeXYXeKztMPnLvgrHZ4zb7l2Dw+FCHj4K5O/
+        Cqmtx6AE2WY4q410j8sBsXWpwg==
+X-Google-Smtp-Source: APXvYqxeCabpQ+se9Zi1Mbc6QyxyiLZn11MsE8kypk/KmsdPdLqn4Mtl7URGnbPmK7vVazhUDvW8Ew==
+X-Received: by 2002:a05:6102:c3:: with SMTP id u3mr20993889vsp.41.1574725798720;
+        Mon, 25 Nov 2019 15:49:58 -0800 (PST)
+Received: from ubuntu1804-desktop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id c21sm2606280vko.45.2019.11.25.15.49.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2019 15:49:58 -0800 (PST)
+Date:   Mon, 25 Nov 2019 18:49:57 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org
+Subject: Re: [RFC v2 2/2] docs: ftrace: Fix typos
+Message-ID: <20191125234957.nwbzz72aarbhdni2@ubuntu1804-desktop>
+References: <cover.1574655670.git.frank@generalsoftwareinc.com>
+ <a843617511989679b29fbd62b1b8b3e991f2101e.1574655670.git.frank@generalsoftwareinc.com>
+ <20191125123709.5eff70a9@gandalf.local.home>
+ <20191125164625.01101109@gandalf.local.home>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574723435; bh=NjEUDVUY50BsRhke7z2S9TxhDwSe8KFPL35zO7aJjtI=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Type:Content-Transfer-Encoding;
-        b=AUXeRtgX8uwRAN8QQIpBLTFu2Igu3gY6iu0Hlx88BQB7lRXY/SqqRQ8j4e9qcHuvu
-         8ud0fzDtYb7HpYVsQbFF0DMrLY/yh/0ABPdjgosaeLXJYJI+NUQLwFuoaQkhFI3jCZ
-         zbwXJWVN3RZSk/oRUDlsXyigEypZrXCI6Ws6sq4dbhRPfHTPbc1ZHXql8om55mOQof
-         4d8V5UMpqSpP0YKSoV8UYFeDMTXGzt6Iy386zmq6Ii56RT3IOxIe4jWPtu6JQrfCXL
-         7raAc1f0Nwt3ij+KHnYiU86hF9jF05mgsLywy0Mgbyn+olUBs5eef+xe6U2jH+724x
-         drRVMfvI1tV6w==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191125164625.01101109@gandalf.local.home>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are four locations in gup.c that have a fair amount of code
-duplication. This means that changing one requires making the same
-changes in four places, not to mention reading the same code four
-times, and wondering if there are subtle differences.
+On Mon, Nov 25, 2019 at 04:46:25PM -0500, Steven Rostedt wrote:
+> On Mon, 25 Nov 2019 12:37:09 -0500
+> Steven Rostedt <rostedt@goodmis.org> wrote:
+> 
+> > On Sun, 24 Nov 2019 23:38:41 -0500
+> > "Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
+> > 
+> > > --- a/Documentation/trace/ring-buffer-design.txt
+> > > +++ b/Documentation/trace/ring-buffer-design.txt
+> > > @@ -37,7 +37,7 @@ commit_page - a pointer to the page with the last finished non-nested write.
+> > >  
+> > >  cmpxchg - hardware-assisted atomic transaction that performs the following:
+> > >  
+> > > -   A = B iff previous A == C
+> > > +   A = B if previous A == C  
+> > 
+> > This wasn't a typo. "iff" means "if and only if" which is a standard
+> > notation. That is, this is shorthand for:
+> > 
+> >   A = B if previous A == C
+> >   previous A == C if A = B
+> 
+> Although thinking about this more, this may not be correct. If
+> previous A == B, then A = B, thus the "iff" notation is not actually
+> accurate.
+> 
+> This wouldn't then be a typo fix, but a real fix to the logic ;-)
+> 
 
-Factor out the common code into static functions, thus reducing the
-overall line count and the code's complexity.
+What are the odds ;)
 
-Also, take the opportunity to slightly improve the efficiency of the
-error cases, by doing a mass subtraction of the refcount, surrounded
-by get_page()/put_page().
+I knew about the concept https://en.wikipedia.org/wiki/If_and_only_if
+from school math but didn't remember the notation. For me was
+suspicious so, I  looked in "the cmpxchg doc" and nothing referring
+to "iff" was there, then I decided to classified it as a typo.
 
-Also, further simplify (slightly), by waiting until the the successful
-end of each routine, to increment *nr.
+Now thinking more deeply, I agreed with you that was not a typo but
+a "logic mistake", even not for the same reason ;)
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- mm/gup.c | 91 ++++++++++++++++++++++----------------------------------
- 1 file changed, 36 insertions(+), 55 deletions(-)
+Being not 100% sure of what I'm about to say, I will say it
+anyway because you have been kind enough to write the second email.
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 7646bf993b25..f764432914c4 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1978,6 +1978,25 @@ static int __gup_device_huge_pud(pud_t pud, pud_t *p=
-udp, unsigned long addr,
- }
- #endif
-=20
-+static int record_subpages(struct page *page, unsigned long addr,
-+			   unsigned long end, struct page **pages)
-+{
-+	int nr;
-+
-+	for (nr =3D 0; addr !=3D end; addr +=3D PAGE_SIZE)
-+		pages[nr++] =3D page++;
-+
-+	return nr;
-+}
-+
-+static void put_compound_head(struct page *page, int refs)
-+{
-+	/* Do a get_page() first, in case refs =3D=3D page->_refcount */
-+	get_page(page);
-+	page_ref_sub(page, refs);
-+	put_page(page);
-+}
-+
- #ifdef CONFIG_ARCH_HAS_HUGEPD
- static unsigned long hugepte_addr_end(unsigned long addr, unsigned long en=
-d,
- 				      unsigned long sz)
-@@ -2007,32 +2026,20 @@ static int gup_hugepte(pte_t *ptep, unsigned long s=
-z, unsigned long addr,
- 	/* hugepages are never "special" */
- 	VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
-=20
--	refs =3D 0;
- 	head =3D pte_page(pte);
--
- 	page =3D head + ((addr & (sz-1)) >> PAGE_SHIFT);
--	do {
--		VM_BUG_ON(compound_head(page) !=3D head);
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D record_subpages(page, addr, end, pages + *nr);
-=20
- 	head =3D try_get_compound_head(head, refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pte_val(pte) !=3D pte_val(*ptep))) {
--		/* Could be optimized better */
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
-+	*nr +=3D refs;
- 	SetPageReferenced(head);
- 	return 1;
- }
-@@ -2079,28 +2086,19 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, un=
-signed long addr,
- 		return __gup_device_huge_pmd(orig, pmdp, addr, end, pages, nr);
- 	}
-=20
--	refs =3D 0;
- 	page =3D pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D record_subpages(page, addr, end, pages + *nr);
-=20
- 	head =3D try_get_compound_head(pmd_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
-+	*nr +=3D refs;
- 	SetPageReferenced(head);
- 	return 1;
- }
-@@ -2120,28 +2118,19 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, un=
-signed long addr,
- 		return __gup_device_huge_pud(orig, pudp, addr, end, pages, nr);
- 	}
-=20
--	refs =3D 0;
- 	page =3D pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D record_subpages(page, addr, end, pages + *nr);
-=20
- 	head =3D try_get_compound_head(pud_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
-+	*nr +=3D refs;
- 	SetPageReferenced(head);
- 	return 1;
- }
-@@ -2157,28 +2146,20 @@ static int gup_huge_pgd(pgd_t orig, pgd_t *pgdp, un=
-signed long addr,
- 		return 0;
-=20
- 	BUILD_BUG_ON(pgd_devmap(orig));
--	refs =3D 0;
-+
- 	page =3D pgd_page(orig) + ((addr & ~PGDIR_MASK) >> PAGE_SHIFT);
--	do {
--		pages[*nr] =3D page;
--		(*nr)++;
--		page++;
--		refs++;
--	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-+	refs =3D record_subpages(page, addr, end, pages + *nr);
-=20
- 	head =3D try_get_compound_head(pgd_page(orig), refs);
--	if (!head) {
--		*nr -=3D refs;
-+	if (!head)
- 		return 0;
--	}
-=20
- 	if (unlikely(pgd_val(orig) !=3D pgd_val(*pgdp))) {
--		*nr -=3D refs;
--		while (refs--)
--			put_page(head);
-+		put_compound_head(head, refs);
- 		return 0;
- 	}
-=20
-+	*nr +=3D refs;
- 	SetPageReferenced(head);
- 	return 1;
- }
---=20
-2.24.0
+"if and only if (shortened as iff) is a biconditional logical
+connective between statements" and A = B can't be considered a
+logical statement in the context of that definition (math/logic),
+even it could be in C.
 
+Thank you Steven one more time for such a quick reply!
+frank a.
