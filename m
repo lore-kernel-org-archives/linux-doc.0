@@ -2,163 +2,95 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69576C43141
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4671C432C0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:37:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 41C2420815
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 608FE2071A
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:37:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Ag+u7Sri"
+	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="fuSHOk3a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbfKYEUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Nov 2019 23:20:16 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:19303 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726977AbfKYEUP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 23:20:15 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ddb56810000>; Sun, 24 Nov 2019 20:20:17 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 24 Nov 2019 20:20:13 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 24 Nov 2019 20:20:13 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
- 2019 04:20:13 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 25 Nov 2019 04:20:13 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ddb567d0001>; Sun, 24 Nov 2019 20:20:13 -0800
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 02/19] mm/gup: move try_get_compound_head() to top, fix minor issues
-Date:   Sun, 24 Nov 2019 20:19:54 -0800
-Message-ID: <20191125042011.3002372-3-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191125042011.3002372-1-jhubbard@nvidia.com>
-References: <20191125042011.3002372-1-jhubbard@nvidia.com>
+        id S1727007AbfKYEhm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Nov 2019 23:37:42 -0500
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:33543 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726994AbfKYEhl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 23:37:41 -0500
+Received: by mail-ua1-f47.google.com with SMTP id a13so3977833uaq.0
+        for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2019 20:37:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=bwQqTlKTDKZ2abMdWNVOtZUSwtWKOhRAhvsBA2Mpx5I=;
+        b=fuSHOk3aA1DgmMXAvf4yqAMpCZDfU7RBqCAM75G5MmJd4jFAgJCnJE47ohYW1tHmLz
+         5j+TwUBSQOFIKh8KtzBPOoDXoXX1RihAxy+aX7++qKTaow5CrgUpwI011hDmJJp0Vg+d
+         8YdM+6vl3Tpm9OdOYFNTuqm+nVN86o1o9BoEpReo63f5wTUcuAMAdwsLS2sTNprVdrSc
+         VjnE4HdyNbXt53tfgnXTwgPO3HEqzjCxhPv9DMk9zyvcRsu2R6UZ8119F21J3wqKez6G
+         BfgbTPYGpKCem7op6F/boQiT9U24OKtuvSHXLduew/l/zcmczv9aIbE3zEBM4xQ6i9ib
+         ncsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=bwQqTlKTDKZ2abMdWNVOtZUSwtWKOhRAhvsBA2Mpx5I=;
+        b=KPthS7o9vDMKZjAHnTZzVi8CiuFd/B35rMriJLWk4YNe8kjSrzleqCF+BLybXMJ7ES
+         5kaPz2uGLCRRDUTVa9L2Wikmkg/31m9V8fmmDlblOPZwgNQQVDUPnKFQe8/iNnSbQxAY
+         S2Ht9czQr6YR/RLJ676/B9G+0xfW7G/sB3GaG0LZQKDJ2v3Qotjfvif8S5avTMY4wNgD
+         FUL1EriDm08pnVtQuk12CBpUuJvnaUZkd16Cc7iTG5uT07C3m9pFURgEha4YzAsO8nbM
+         Rz5AOZGK18RRdxXMMECAzcdqKeBY/it/a+CVlS6hC3uaPvBXUayz0P2rVcHhqMa0WPBf
+         9dyg==
+X-Gm-Message-State: APjAAAUBAWplMMkdSjEEEyo9KnBJMEsst6plxcT9f1MOcKT9EAcfsieg
+        FxfLtDvqWSkTR2Co2k4V+vl0pg==
+X-Google-Smtp-Source: APXvYqyYfS/umk3C9WJ6m+ltXeTQDzU2ehX1ACDpitE/Nf9SkmILFLc9ZOhVD6PuLqh3XC73KE78QA==
+X-Received: by 2002:ab0:49e9:: with SMTP id f38mr16314359uad.71.1574656659044;
+        Sun, 24 Nov 2019 20:37:39 -0800 (PST)
+Received: from ubuntu1804-desktop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id r64sm1818020vkd.9.2019.11.24.20.37.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Nov 2019 20:37:38 -0800 (PST)
+Date:   Sun, 24 Nov 2019 23:37:37 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org
+Subject: [RFC v2 0/2] docs: ftrace: Clarify the RAM impact of buffer_size_kb
+Message-ID: <cover.1574655670.git.frank@generalsoftwareinc.com>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574655617; bh=JKnh6awNMnXx+WkfJCjCpP/dD2pEJJn8AxQ3IWMhLGw=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=Ag+u7Srir8nvbObwGswAhksM3lf7yhFcBnF9prXEqkjmBbbMlv6MAuwygC5CTdfJ5
-         yE4lfgVi/yE60GFGtA5YNkQ6Ixmb8HKLSLW4UmelKpt3+hIwMQ2v0Xv2lkIRBq/Vz9
-         UyTjt6wkmv/nZ8z4gOSYJ8ODHkT4eW9VcCswEjTPRRKwV/MPtR/2JYgXJPBUa1TpC3
-         X61Mq+s8iu1E8+ey0/n2CT8DHSxzUkKRvGF7G2xUsQVyE52JcynPyIkq/Zd1uyYuWt
-         OjAf4OH2PMbY5AWLJfB/7CI7Kw9bUgcUGPSDczmntAYIcz7EXi+UxoWrCfAF0welk3
-         sIZFe64yADXzg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An upcoming patch uses try_get_compound_head() more widely,
-so move it to the top of gup.c.
+Clarifies the RAM footprint of buffer_size_kb without getting into
+implementation details.
 
-Also fix a tiny spelling error and a checkpatch.pl warning.
+Changes in v2:
+  - Removes implementation description of the RAM footprint of
+    buffer_size_kb, but still make the corresponded clarification.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- mm/gup.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+  - Removes a patch that was just for illustration purposes because
+    Steven already got the issue that I was referring to.
 
-diff --git a/mm/gup.c b/mm/gup.c
-index f764432914c4..3ecce297a47f 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -29,6 +29,21 @@ struct follow_page_context {
- 	unsigned int page_mask;
- };
-=20
-+/*
-+ * Return the compound head page with ref appropriately incremented,
-+ * or NULL if that failed.
-+ */
-+static inline struct page *try_get_compound_head(struct page *page, int re=
-fs)
-+{
-+	struct page *head =3D compound_head(page);
-+
-+	if (WARN_ON_ONCE(page_ref_count(head) < 0))
-+		return NULL;
-+	if (unlikely(!page_cache_add_speculative(head, refs)))
-+		return NULL;
-+	return head;
-+}
-+
- /**
-  * put_user_pages_dirty_lock() - release and optionally dirty gup-pinned p=
-ages
-  * @pages:  array of pages to be maybe marked dirty, and definitely releas=
-ed.
-@@ -1807,20 +1822,6 @@ static void __maybe_unused undo_dev_pagemap(int *nr,=
- int nr_start,
- 	}
- }
-=20
--/*
-- * Return the compund head page with ref appropriately incremented,
-- * or NULL if that failed.
-- */
--static inline struct page *try_get_compound_head(struct page *page, int re=
-fs)
--{
--	struct page *head =3D compound_head(page);
--	if (WARN_ON_ONCE(page_ref_count(head) < 0))
--		return NULL;
--	if (unlikely(!page_cache_add_speculative(head, refs)))
--		return NULL;
--	return head;
--}
--
- #ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
- static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
- 			 unsigned int flags, struct page **pages, int *nr)
---=20
-2.24.0
+  - Adds a patch to fix other typos in the doc.
+
+Frank A. Cancio Bello (2):
+  docs: ftrace: Clarify the RAM impact of buffer_size_kb
+  docs: ftrace: Fix typos
+
+ Documentation/trace/ftrace.rst             | 9 +++++----
+ Documentation/trace/ring-buffer-design.txt | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
 
