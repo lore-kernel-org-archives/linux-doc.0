@@ -2,169 +2,425 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60424C43141
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 20:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E06F8C432C0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 21:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 38C5C2084D
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 20:47:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A381E2071A
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 21:23:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Vc2WP6DA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L/8ePBkL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbfKYUrF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Nov 2019 15:47:05 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:3447 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbfKYUrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 15:47:05 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ddc3dc40000>; Mon, 25 Nov 2019 12:47:00 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 25 Nov 2019 12:46:58 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 12:46:58 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
- 2019 20:46:57 +0000
-Subject: Re: [PATCH 17/19] powerpc: book3s64: convert to pin_user_pages() and
- put_user_page()
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191125042011.3002372-1-jhubbard@nvidia.com>
- <20191125042011.3002372-18-jhubbard@nvidia.com>
- <20191125085915.GB1797@quack2.suse.cz>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <9abfd0bf-ffb9-9fad-848c-caff4a490773@nvidia.com>
-Date:   Mon, 25 Nov 2019 12:46:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1725882AbfKYVXC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Nov 2019 16:23:02 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36470 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725912AbfKYVXC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 16:23:02 -0500
+Received: by mail-pg1-f194.google.com with SMTP id k13so7840418pgh.3
+        for <linux-doc@vger.kernel.org>; Mon, 25 Nov 2019 13:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MRWbzEgUDmf3m7DHTyD54EPb8B/zhp4opLc7il/4TZ0=;
+        b=L/8ePBkLez3+K02qqWuXHzwk2aoe/X/csJkxSiZ9yqGB073CgKBSnV0NCVAddtYhRA
+         Y50OFSl9bR9JRWyHZuQ1HQPQA5jaboTM+KdNzZs9oomThyM9ZFXL+OdGojGpwRRH3QX8
+         JaNM1Su0TjHE/31LckH9YGeeTpbN5P60ANE+3XINq9ZxfnEkVW9X8XIGxd0FgM+VgxLH
+         a3VDqpQMsloYUsXPX2Kj1nqH7EWHFPfJUE4a8sHJRQ8xGN0pV2DSaW/AfcODj7iLAlBm
+         lh7bXb6bZUXcsbi7IiO6LIYM3FHbf8pZNAzFDfW90SYsAvLrviPYQgU8A2fRdybWGgBT
+         Q2Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MRWbzEgUDmf3m7DHTyD54EPb8B/zhp4opLc7il/4TZ0=;
+        b=Z8dqZFvg0bL+3G0e3FtAmbIwEdVmRamBmo04P8PnCsX7lEsaGlsejhn3B9UtGWjYvS
+         hxzLty6eCOaNpM9rtw6tN+fCCg55gXOn5wEazfgQ3w1F7fjJlf2ITmR0LvZUzqQEIbhs
+         HGRmbObgbLZUAvoi2aHwFqC/jeH9GEy+EeGp2THdFdN5DJ8ISKYRZXgOX0tcwLu7Nf+4
+         JJHpi8aqhqqJnBy+HA8bn3WDqULMcFqXvplHyxh81nJ0trg1lUPrjtdQV45U8lG1rI48
+         iAoOVA8DxHdKWeQFC/hps3vN/+jaIgiN5UA0+b/8splElFgxcBqvDOrZF101rtdybUZY
+         vGXQ==
+X-Gm-Message-State: APjAAAXjDkk23iE54qanvGiAIN8VHOdqteuz7QfDzllpEemFGg2VWGfb
+        zNIbmgOFTGN3/Ledn+FlX7N3ac1mR4g=
+X-Google-Smtp-Source: APXvYqzXRkrduILON+fC++84B2cdz7oCejyphDRUULYpI5GMxiVkhrcykpwAmPM/u71w01QGoLxnDQ==
+X-Received: by 2002:a63:354e:: with SMTP id c75mr35774576pga.325.1574716980757;
+        Mon, 25 Nov 2019 13:23:00 -0800 (PST)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id d139sm10304228pfd.162.2019.11.25.13.22.59
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 25 Nov 2019 13:23:00 -0800 (PST)
+Date:   Mon, 25 Nov 2019 14:22:58 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        suzuki.poulose@arm.com
+Subject: Re: [PATCH v5 07/14] coresight: cti: Add device tree support for
+ custom CTI.
+Message-ID: <20191125212258.GB18542@xps15>
+References: <20191119231912.12768-1-mike.leach@linaro.org>
+ <20191119231912.12768-8-mike.leach@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191125085915.GB1797@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574714820; bh=7Gmrre2tneNEWRU9G5+DIn5rrxtRLBtJ55Uj7bfaWRw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Vc2WP6DAAbNZStXBl+ln2+kB/EuUuvRZHzMpZNW80Fm3ZctGnvM4O+tZRCgS3669B
-         /qldmeczkVi9pQJMXYF/4i2XGVt4Gm+gOJ/tFv/RnDb4dopV+tz5b0cyQc9YOTVtBS
-         P/yYNUzd4pjDhuvvDyZmybC/J7abTjT/ntYJJMbyGr8NCKnGXhEtDqS5T7TKRE2hwU
-         dbPgyN9eu9VXPtG/lD5Uk37zf69kjzXTl/JkUlunTht14kOdHqRRRORI90fFcZ/kGC
-         NFhCuK40TfQ4yRLkmLaKp7qlIx6xeGOy5CzKXKx/3W33foWMDjA/xuDpoO/15JsFQy
-         0FiT0Aycu6K+g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191119231912.12768-8-mike.leach@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/25/19 12:59 AM, Jan Kara wrote:
-> On Sun 24-11-19 20:20:09, John Hubbard wrote:
->> 1. Convert from get_user_pages() to pin_user_pages().
->>
->> 2. As required by pin_user_pages(), release these pages via
->> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
->>
->> That has the side effect of calling set_page_dirty_lock(), instead
->> of set_page_dirty(). This is probably more accurate.
->>
->> As Christoph Hellwig put it, "set_page_dirty() is only safe if we are
->> dealing with a file backed page where we have reference on the inode it
->> hangs off." [1]
->>
->> 3. Release each page in mem->hpages[] (instead of mem->hpas[]), because
->> that is the array that pin_longterm_pages() filled in. This is more
->> accurate and should be a little safer from a maintenance point of
->> view.
+On Tue, Nov 19, 2019 at 11:19:05PM +0000, Mike Leach wrote:
+> Adds support for CTIs whose connections are implementation defined at
+> hardware design time, and not constrained by v8 architecture.
 > 
-> Except that this breaks the code. hpages is unioned with hpas...
+> These CTIs have no standard connection setup, all the settings have to
+> be defined in the device tree files. The patch creates a set of connections
+> and trigger signals based on the information provided.
 > 
-
-OK. 
-
->> @@ -212,10 +211,9 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
->>  		if (!page)
->>  			continue;
->>  
->> -		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
->> -			SetPageDirty(page);
->> +		put_user_pages_dirty_lock(&mem->hpages[i], 1,
->> +					  MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>  .../coresight/coresight-cti-platform.c        | 250 +++++++++++++++++-
+>  .../hwtracing/coresight/coresight-cti-sysfs.c |  11 +
+>  2 files changed, 257 insertions(+), 4 deletions(-)
 > 
-> And the dirtying condition is wrong here as well. Currently it is always
-> true.
+> diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/drivers/hwtracing/coresight/coresight-cti-platform.c
+> index 790dd30b85f5..9c1ff432b487 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti-platform.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
+> @@ -13,9 +13,19 @@
+>  #define NR_V8PE_OUT_SIGS	3
+>  #define NR_V8ETM_INOUT_SIGS	4
+>  
+> +/* CTI device tree trigger connection node keyword */
+> +#define CTI_DT_CONNS		"trig-conns"
+> +
+>  /* CTI device tree connection property keywords */
+>  #define CTI_DT_V8ARCH		"arm,cti-v8-arch"
+>  #define CTI_DT_CSDEV_ASSOC	"arm,cs-dev-assoc"
+> +#define CTI_DT_TRIGIN_SIGS	"arm,trig-in-sigs"
+> +#define CTI_DT_TRIGOUT_SIGS	"arm,trig-out-sigs"
+> +#define CTI_DT_TRIGIN_TYPES	"arm,trig-in-types"
+> +#define CTI_DT_TRIGOUT_TYPES	"arm,trig-out-types"
+> +#define CTI_DT_FILTER_OUT_SIGS	"arm,trig-filters"
+> +#define CTI_DT_CONN_NAME	"arm,trig-conn-name"
+> +#define CTI_DT_CTM_ID		"arm,cti-ctm-id"
+>  
+>  /*
+>   * Find a registered coresight device from a device fwnode.
+> @@ -68,6 +78,12 @@ static const char *of_cti_get_node_name(const struct device_node *node)
+>  		return node->full_name;
+>  	return "unknown";
+>  }
+> +
+> +static bool of_cti_node_name_eq(const struct device_node *node,
+> +				const char *name)
+> +{
+> +	return of_node_name_eq(node, name);
+> +}
+>  #else
+>  static int of_cti_get_cpu_at_node(const struct device_node *node)
+>  {
+> @@ -78,6 +94,12 @@ static const char *of_cti_get_node_name(const struct device_node *node)
+>  {
+>  	return "unknown";
+>  }
+> +
+> +static bool of_cti_node_name_eq(const struct device_node *node,
+> +				const char *name)
+> +{
+> +	return false;
+> +}
+>  #endif
+>  
+>  static int cti_plat_get_cpu_at_node(struct fwnode_handle *fwnode)
+> @@ -94,6 +116,14 @@ static const char *cti_plat_get_node_name(struct fwnode_handle *fwnode)
+>  	return "unknown";
+>  }
+>  
+> +static bool cti_plat_node_name_eq(struct fwnode_handle *fwnode,
+> +				  const char *name)
+> +{
+> +	if (is_of_node(fwnode))
+> +		return of_cti_node_name_eq(to_of_node(fwnode), name);
+> +	return false;
+> +}
+> +
+>  static int cti_plat_create_v8_etm_connection(struct device *dev,
+>  					     struct cti_drvdata *drvdata)
+>  {
+> @@ -205,6 +235,214 @@ static int cti_plat_create_v8_connections(struct device *dev,
+>  	return ret;
+>  }
+>  
+> +static int cti_plat_count_sig_elements(const struct fwnode_handle *fwnode,
+> +				       const char *name)
+> +{
+> +	int nr_elem = fwnode_property_count_u32(fwnode, name);
+> +
+> +	return (nr_elem < 0 ? 0 : nr_elem);
+> +}
+> +
+> +static int cti_plat_read_trig_group(struct cti_trig_grp *tgrp,
+> +				    const struct fwnode_handle *fwnode,
+> +				    const char *grp_name)
+> +{
+> +	int idx, err = 0;
+> +	u32 *values;
+> +
+> +	if (!tgrp->nr_sigs)
+> +		return 0;
+> +
+> +	values = kcalloc(tgrp->nr_sigs, sizeof(u32), GFP_KERNEL);
+> +	if (!values)
+> +		return -ENOMEM;
+> +
+> +	err = fwnode_property_read_u32_array(fwnode, grp_name,
+> +					     values, tgrp->nr_sigs);
+> +
+> +	if (!err) {
+> +		/* set the signal usage mask */
+> +		for (idx = 0; idx < tgrp->nr_sigs; idx++)
+> +			tgrp->used_mask |= BIT(values[idx]);
+> +	}
+> +
+> +	kfree(values);
+> +	return err;
+> +}
+> +
+> +static int cti_plat_read_trig_types(struct cti_trig_grp *tgrp,
+> +				    const struct fwnode_handle *fwnode,
+> +				    const char *type_name)
+> +{
+> +	int items, used = 0, err = 0, nr_sigs;
+> +	u32 *values = NULL, i;
+> +
+> +	/* allocate an array according to number of signals in connection */
+> +	nr_sigs = tgrp->nr_sigs;
+> +	if (!nr_sigs)
+> +		return 0;
+> +
+> +	/* see if any types have been included in the device description */
+> +	items = cti_plat_count_sig_elements(fwnode, type_name);
+> +	if (items > nr_sigs)
+> +		return -EINVAL;
+> +
+> +	/* need an array to store the values iff there are any */
+> +	if (items) {
+> +		values = kcalloc(items, sizeof(u32), GFP_KERNEL);
+> +		if (!values)
+> +			return -ENOMEM;
+> +
+> +		err = fwnode_property_read_u32_array(fwnode, type_name,
+> +						     values, items);
+> +		if (err)
+> +			goto read_trig_types_out;
+> +	}
+> +
+> +	/*
+> +	 * Match type id to signal index, 1st type to 1st index etc.
+> +	 * If fewer types than signals default remainder to GEN_IO.
+> +	 */
+> +	for (i = 0; i < nr_sigs; i++) {
+> +		if (used < items) {
+> +			tgrp->sig_types[i] =
+> +				values[i] < CTI_TRIG_MAX ? values[i] : GEN_IO;
+> +			used++;
+> +		} else {
+> +			tgrp->sig_types[i] = GEN_IO;
+> +		}
+> +	}
+> +
+> +read_trig_types_out:
+> +	kfree(values);
+> +	return err;
+> +}
+> +
+> +static int cti_plat_process_filter_sigs(struct cti_drvdata *drvdata,
+> +					const struct fwnode_handle *fwnode)
+> +{
+> +	struct cti_trig_grp *tg = NULL;
+> +	int err = 0, nr_filter_sigs;
+> +
+> +	nr_filter_sigs = cti_plat_count_sig_elements(fwnode,
+> +						     CTI_DT_FILTER_OUT_SIGS);
+> +	if (nr_filter_sigs == 0)
+> +		return 0;
+> +
+> +	if (nr_filter_sigs > drvdata->config.nr_trig_max)
+> +		return -EINVAL;
+> +
+> +	tg = kzalloc(sizeof(*tg), GFP_KERNEL);
+> +	if (!tg)
+> +		return -ENOMEM;
+> +
+> +	err = cti_plat_read_trig_group(tg, fwnode, CTI_DT_FILTER_OUT_SIGS);
+> +	if (!err)
+> +		drvdata->config.trig_out_filter |= tg->used_mask;
+> +
+> +	kfree(tg);
+> +	return err;
+> +}
+> +
+> +static int cti_plat_create_connection(struct device *dev,
+> +				      struct cti_drvdata *drvdata,
+> +				      struct fwnode_handle *fwnode)
+> +{
+> +	struct cti_trig_con *tc = NULL;
+> +	int cpuid = -1, err = 0;
+> +	struct fwnode_handle *cs_fwnode = NULL;
+> +	struct coresight_device *csdev = NULL;
+> +	const char *assoc_name = "unknown";
+> +	char cpu_name_str[16];
+> +	int nr_sigs_in, nr_sigs_out;
+> +
+> +	/* look to see how many in and out signals we have */
+> +	nr_sigs_in = cti_plat_count_sig_elements(fwnode, CTI_DT_TRIGIN_SIGS);
+> +	nr_sigs_out = cti_plat_count_sig_elements(fwnode, CTI_DT_TRIGOUT_SIGS);
+> +
+> +	if ((nr_sigs_in > drvdata->config.nr_trig_max) ||
+> +	    (nr_sigs_out > drvdata->config.nr_trig_max))
+> +		return -EINVAL;
+> +
+> +	tc = cti_allocate_trig_con(dev, nr_sigs_in, nr_sigs_out);
+> +	if (!tc)
+> +		return -ENOMEM;
+> +
+> +	/* look for the signals properties. */
+> +	err = cti_plat_read_trig_group(tc->con_in, fwnode,
+> +				       CTI_DT_TRIGIN_SIGS);
+> +	if (err)
+> +		goto create_con_err;
+> +
+> +	err = cti_plat_read_trig_types(tc->con_in, fwnode,
+> +				       CTI_DT_TRIGIN_TYPES);
+> +	if (err)
+> +		goto create_con_err;
+> +
+> +	err = cti_plat_read_trig_group(tc->con_out, fwnode,
+> +				       CTI_DT_TRIGOUT_SIGS);
+> +	if (err)
+> +		goto create_con_err;
+> +
+> +	err = cti_plat_read_trig_types(tc->con_out, fwnode,
+> +				       CTI_DT_TRIGOUT_TYPES);
+> +	if (err)
+> +		goto create_con_err;
+> +
+> +	err = cti_plat_process_filter_sigs(drvdata, fwnode);
+> +	if (err)
+> +		goto create_con_err;
+> +
+> +	/* read the connection name if set - may be overridden by later */
+> +	fwnode_property_read_string(fwnode, CTI_DT_CONN_NAME, &assoc_name);
+> +
+> +	/* associated cpu ? */
+> +	cpuid = cti_plat_get_cpu_at_node(fwnode);
+> +	if (cpuid >= 0) {
+> +		drvdata->ctidev.cpu = cpuid;
+> +		scnprintf(cpu_name_str, sizeof(cpu_name_str), "cpu%d", cpuid);
+> +		assoc_name = cpu_name_str;
+> +	} else {
+> +		/* associated device ? */
+> +		cs_fwnode = fwnode_find_reference(fwnode,
+> +						  CTI_DT_CSDEV_ASSOC, 0);
+> +		if (!IS_ERR_OR_NULL(cs_fwnode)) {
+> +			csdev = cti_get_assoc_csdev_by_fwnode(cs_fwnode);
+> +			if (csdev) /* use device name if csdev found */
+> +				assoc_name = dev_name(&csdev->dev);
+> +			else  /* otherwise node name for later association */
+> +				assoc_name = cti_plat_get_node_name(cs_fwnode);
+> +			fwnode_handle_put(cs_fwnode);
+> +		}
+> +	}
+> +	/* set up a connection */
+> +	err = cti_add_connection_entry(dev, drvdata, tc, csdev, assoc_name);
+> +
+> +create_con_err:
+> +	return err;
+> +}
+> +
+> +static int cti_plat_create_impdef_connections(struct device *dev,
+> +					      struct cti_drvdata *drvdata)
+> +{
+> +	int rc = 0;
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> +	struct fwnode_handle *child = NULL;
+> +
+> +	if (IS_ERR_OR_NULL(fwnode))
+> +		return -EINVAL;
+> +
+> +	fwnode_for_each_child_node(fwnode, child) {
+> +		if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
+> +			rc = cti_plat_create_connection(dev, drvdata, child);
+> +		if (rc != 0)
+> +			break;
+> +	}
+> +	fwnode_handle_put(child);
+
+As far as I can tell we don't need to call fwnode_handle_put()?
+
+With the above:
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+> +
+> +	return rc;
+> +}
+> +
+>  /* get the hardware configuration & connection data. */
+>  int cti_plat_get_hw_data(struct device *dev,
+>  			 struct cti_drvdata *drvdata)
+> @@ -212,12 +450,16 @@ int cti_plat_get_hw_data(struct device *dev,
+>  	int rc = 0;
+>  	struct cti_device *cti_dev = &drvdata->ctidev;
+>  
+> +	/* get any CTM ID - defaults to 0 */
+> +	device_property_read_u32(dev, CTI_DT_CTM_ID, &cti_dev->ctm_id);
+> +
+>  	/* check for a v8 architectural CTI device */
+> -	if (device_property_read_bool(dev, CTI_DT_V8ARCH)) {
+> +	if (device_property_read_bool(dev, CTI_DT_V8ARCH))
+>  		rc = cti_plat_create_v8_connections(dev, drvdata);
+> -		if (rc)
+> -			return rc;
+> -	}
+> +	else
+> +		rc = cti_plat_create_impdef_connections(dev, drvdata);
+> +	if (rc)
+> +		return rc;
+>  
+>  	/* if no connections, just add a single default based on max IN-OUT */
+>  	if (cti_dev->nr_trig_con == 0)
+> diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
+> index 98de8a4768fc..f800402f73da 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
+> @@ -56,9 +56,20 @@ static ssize_t enable_store(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RW(enable);
+>  
+> +static ssize_t ctmid_show(struct device *dev,
+> +			  struct device_attribute *attr,
+> +			  char *buf)
+> +{
+> +	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%d\n", drvdata->ctidev.ctm_id);
+> +}
+> +static DEVICE_ATTR_RO(ctmid);
+> +
+>  /* attribute and group sysfs tables. */
+>  static struct attribute *coresight_cti_attrs[] = {
+>  	&dev_attr_enable.attr,
+> +	&dev_attr_ctmid.attr,
+>  	NULL,
+>  };
+>  
+> -- 
+> 2.17.1
 > 
-> 								Honza
-> 
-
-Yes. Fixed up locally. The function now looks like this (for this patch, not for
-the entire series, which renames "put" to "unpin"):
-
-
-static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
-{
-	long i;
-	struct page *page = NULL;
-
-	if (!mem->hpas)
-		return;
-
-	for (i = 0; i < mem->entries; ++i) {
-		if (!mem->hpas[i])
-			continue;
-
-		page = pfn_to_page(mem->hpas[i] >> PAGE_SHIFT);
-		if (!page)
-			continue;
-
-		put_user_pages_dirty_lock(&page, 1,
-				mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
-
-		mem->hpas[i] = 0;
-	}
-}
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-
