@@ -2,100 +2,182 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50988C432C0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 03:20:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C64C33C9A
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:20:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 17B502071A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 03:20:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C29232084D
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 04:20:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="FnZ8CuB8"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="lKesB6ym"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726952AbfKYDUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Nov 2019 22:20:50 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37952 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726945AbfKYDUu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 22:20:50 -0500
-Received: by mail-ot1-f65.google.com with SMTP id z25so11324653oti.5
-        for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2019 19:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=72RpSXa/41GCFQnbzlHwP1dZ5nMfYcHZnOpPX9qfEw4=;
-        b=FnZ8CuB8Jaav0sZ6IeBLdo0S0pFI6uWktcnFrPh76h3EjcLbUNcef2Oj+ZbeFs8z1i
-         IPi1wxSBMPSRHu9zUwmhGZXvDYWlkCpdBJqX9fKQ0oJ24/JAqR9Tnq/ZwwFcrJq2cbze
-         RVKynrxQH9feuMHYYhtEeuUvHZs7uGuKLyIaRVMF63rDPw2r2rfgX8hKi234kwQpCj9I
-         g+RMn63vlr7Lyo08UsgHp7j/Cu3Qt2kn1ahGy/vO9U9ImJ2jJHSB6xTOOuYLwPOm5+To
-         ySOTW8i0jngrZ8BKN7ZKhYVRC3f5Fwj4vBQXEalsLB9uk+TCkoHw4oR5LHOAqdIUyZVS
-         O6MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=72RpSXa/41GCFQnbzlHwP1dZ5nMfYcHZnOpPX9qfEw4=;
-        b=Hl+L25R7wqjVmoZPfqy/rhaMdo7g7T11a6YVWJftDz06XAXxh/w6n8zxveVahf+Qce
-         2Sp5uDE7Igwf46kgTEjHapclVYIWFdM5MOqiE50YDRyRzq5f59Ri7uJ4RWH1V5kRvL9s
-         o+bXlh66NijBNTTrdpj1WDCyV05hOICFC0zjYcAEoxArQzG7vm2CvrnfxhDnmCCnlYb2
-         OPCa5BKBBKRXErasc4GHkusgSLnztexRtxgw/zhgUOMCaFQERcc7U4Z1/8G0aSUOwgjI
-         tN+YI6ite6lAmlRmOJLzxGvm0bwLjbNDFT8bNBG/1xKHFdmeD4i4MVG2YkCSz3DeW0xd
-         frCA==
-X-Gm-Message-State: APjAAAWpH0zH7pgxAwgPsKMUoYbMzHBj6enBm/VLrerkKrIbqvhJ8Cqi
-        voWZKdNCr1jD9sEx+pgcUx/kOz0vR2HtjQ12hotg3w==
-X-Google-Smtp-Source: APXvYqzSYjUMsNyaW8sZ9zntR3WRn2N4+MrJ+PCBLWVWhT+aI0bg5hzjDQWFOwtMtWQWDKuQMnfbqSflUKrXtF5NdqY=
-X-Received: by 2002:a9d:2d89:: with SMTP id g9mr18159633otb.126.1574652049319;
- Sun, 24 Nov 2019 19:20:49 -0800 (PST)
+        id S1726977AbfKYEUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Nov 2019 23:20:17 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:19322 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbfKYEUQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Nov 2019 23:20:16 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ddb56810002>; Sun, 24 Nov 2019 20:20:18 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sun, 24 Nov 2019 20:20:14 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sun, 24 Nov 2019 20:20:14 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
+ 2019 04:20:14 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 25 Nov 2019 04:20:14 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ddb567d000c>; Sun, 24 Nov 2019 20:20:13 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH 10/19] mm/process_vm_access: set FOLL_PIN via pin_user_pages_remote()
+Date:   Sun, 24 Nov 2019 20:20:02 -0800
+Message-ID: <20191125042011.3002372-11-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191125042011.3002372-1-jhubbard@nvidia.com>
+References: <20191125042011.3002372-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.9999.1911221842200.14532@viisi.sifive.com>
- <20191123092552.1438bc95@lwn.net> <alpine.DEB.2.21.9999.1911231523390.14532@viisi.sifive.com>
- <CAPcyv4hmagCVLCTYmmv0U8-YD5BEoQPV=wtm5hbp3MxqwZRQUA@mail.gmail.com>
- <alpine.DEB.2.21.9999.1911231546450.14532@viisi.sifive.com>
- <CAPcyv4hBNfabaZmKs0XF+UT9Py8zJqpNdu5KsToqp305NASKNA@mail.gmail.com>
- <alpine.DEB.2.21.9999.1911231637510.14532@viisi.sifive.com>
- <CAPcyv4iqTR8s0v8jH7haWCBQAzhZinUEsypiH7Ts9FCf+F9Bvg@mail.gmail.com> <alpine.DEB.2.21.9999.1911241841210.22625@viisi.sifive.com>
-In-Reply-To: <alpine.DEB.2.21.9999.1911241841210.22625@viisi.sifive.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Sun, 24 Nov 2019 19:20:38 -0800
-Message-ID: <CAPcyv4gbz996jwQQ5HEJ-L6uqqR+PoA5X6zdDQVnoqcmk+oXPw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: riscv: add patch acceptance guidelines
-To:     Paul Walmsley <paul.walmsley@sifive.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
-        waterman@eecs.berkeley.edu,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+X-NVConfidentiality: public
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574655618; bh=P8nVR+kV72iD6sM0eEn6ntwngrRbmURGxrL6qNBlbv8=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding;
+        b=lKesB6ym+xsmH3pzlYoMztJ+yYpmeBfaDdlKbcm+Ov0Oe9me0lSNHUFJ4QprbikOC
+         lfrZrl11HiUBrtbdZMs+LKoi+Rx6l3Ck7oeV8/as0OZFC3m99bu9b6dNykGoGNGYdH
+         g4CW1lvSCC9uYS7u3PjTzS/yu2y3kxiLjI50XfLbt9DiCyC2CPswdMokUj2ZxY1UXS
+         QCkk5wE9DgyI5qHC4UXN52r62eB0umS0CHTNvfAHst68PfMoHzvOWB85QVb6eq5vuU
+         X5qPZJWlwz9ha0xRtwngy4U/T/xLVCOs0dYU5iaDPW30LK6aqCDr2YcR23ic6SgZgg
+         COChY61dWiJQQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 24, 2019 at 6:49 PM Paul Walmsley <paul.walmsley@sifive.com> wrote:
->
-> On Sat, 23 Nov 2019, Dan Williams wrote:
->
-> > I'm open to updating the headers to make a section heading that
-> > matches what you're trying to convey, however that header definition
-> > should be globally agreed upon. I don't want the document that tries
-> > to clarify per-subsystem behaviours itself to have per-subsystem
-> > permutations. I think we, subsystem maintainers, at least need to be
-> > able to agree on the topics we disagree on.
->
-> Unless you're planning to, say, follow up with some kind of automated
-> process working across all of the profile documents in such a way that it
-> would make technical sense for the different sections to be standardized,
-> I personally don't see any need at all for profile document
-> standardization.  As far as I can tell, these documents are meant for
-> humans, rather than computers, to read.  And in the absence of a strong
-> technical rationale to limit how maintainers express themselves here, I
-> don't think it's justified.
->
+Convert process_vm_access to use the new pin_user_pages_remote()
+call, which sets FOLL_PIN. Setting FOLL_PIN is now required for
+code that requires tracking of pinned pages.
 
-It's just a template, you're free to make sub-headings of your own
-choosing, but please try to give a contributor that is spanning
-subsystems a chance to navigate similar information across profile
-documents.
+Also, release the pages via put_user_page*().
+
+Also, rename "pages" to "pinned_pages", as this makes for
+easier reading of process_vm_rw_single_vec().
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ mm/process_vm_access.c | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/mm/process_vm_access.c b/mm/process_vm_access.c
+index 357aa7bef6c0..fd20ab675b85 100644
+--- a/mm/process_vm_access.c
++++ b/mm/process_vm_access.c
+@@ -42,12 +42,11 @@ static int process_vm_rw_pages(struct page **pages,
+ 		if (copy > len)
+ 			copy =3D len;
+=20
+-		if (vm_write) {
++		if (vm_write)
+ 			copied =3D copy_page_from_iter(page, offset, copy, iter);
+-			set_page_dirty_lock(page);
+-		} else {
++		else
+ 			copied =3D copy_page_to_iter(page, offset, copy, iter);
+-		}
++
+ 		len -=3D copied;
+ 		if (copied < copy && iov_iter_count(iter))
+ 			return -EFAULT;
+@@ -96,7 +95,7 @@ static int process_vm_rw_single_vec(unsigned long addr,
+ 		flags |=3D FOLL_WRITE;
+=20
+ 	while (!rc && nr_pages && iov_iter_count(iter)) {
+-		int pages =3D min(nr_pages, max_pages_per_loop);
++		int pinned_pages =3D min(nr_pages, max_pages_per_loop);
+ 		int locked =3D 1;
+ 		size_t bytes;
+=20
+@@ -106,14 +105,15 @@ static int process_vm_rw_single_vec(unsigned long add=
+r,
+ 		 * current/current->mm
+ 		 */
+ 		down_read(&mm->mmap_sem);
+-		pages =3D get_user_pages_remote(task, mm, pa, pages, flags,
+-					      process_pages, NULL, &locked);
++		pinned_pages =3D pin_user_pages_remote(task, mm, pa, pinned_pages,
++						     flags, process_pages,
++						     NULL, &locked);
+ 		if (locked)
+ 			up_read(&mm->mmap_sem);
+-		if (pages <=3D 0)
++		if (pinned_pages <=3D 0)
+ 			return -EFAULT;
+=20
+-		bytes =3D pages * PAGE_SIZE - start_offset;
++		bytes =3D pinned_pages * PAGE_SIZE - start_offset;
+ 		if (bytes > len)
+ 			bytes =3D len;
+=20
+@@ -122,10 +122,12 @@ static int process_vm_rw_single_vec(unsigned long add=
+r,
+ 					 vm_write);
+ 		len -=3D bytes;
+ 		start_offset =3D 0;
+-		nr_pages -=3D pages;
+-		pa +=3D pages * PAGE_SIZE;
+-		while (pages)
+-			put_page(process_pages[--pages]);
++		nr_pages -=3D pinned_pages;
++		pa +=3D pinned_pages * PAGE_SIZE;
++
++		/* If vm_write is set, the pages need to be made dirty: */
++		put_user_pages_dirty_lock(process_pages, pinned_pages,
++					  vm_write);
+ 	}
+=20
+ 	return rc;
+--=20
+2.24.0
+
