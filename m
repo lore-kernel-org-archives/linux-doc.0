@@ -2,137 +2,171 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9677C432C3
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 14:34:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6C0C432C0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 15:50:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE99220740
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 14:34:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pI4OoDNg"
+	by mail.kernel.org (Postfix) with ESMTP id AA13120674
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 15:50:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728094AbfKYOeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Nov 2019 09:34:44 -0500
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:44744 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728026AbfKYOeo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Nov 2019 09:34:44 -0500
-Received: by mail-yb1-f195.google.com with SMTP id g38so6028195ybe.11;
-        Mon, 25 Nov 2019 06:34:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w1yTsSJv7yyPjyVs+cGPsIL5YirijWEFLZ/VgJHff6M=;
-        b=pI4OoDNgpfIVkba/mTG4LhMfCFt3W5sG/l/kegM6avxfhWYgSBrrH80egFzM3hr/Td
-         CKxGzrKvszKJllYFWGG0cREng0cEA37G9hOayADqHlpg/z6KKbF1iqxYEy+L95sE7lqU
-         MDml3fOy5lyS2RkaNeV+MNrQGKlRZp7JIKJTkXtBm6rSKMl4PuQaos+2e2LdziviupYm
-         jNOJaGBFIIl3YRSkl6DKXnXuEVhqHHrqA4RgiG9fxYTlnBtvK4e26lef4nr4iqXA7WG+
-         GQPU5th7KX1J3tAJL5prQ8qkFKthELwbE9W4ZIdmLwmVbcOdV+fYEDVe6fQFCY3gDiir
-         Q5gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w1yTsSJv7yyPjyVs+cGPsIL5YirijWEFLZ/VgJHff6M=;
-        b=UNugWEIjO6rC2feqzTi6RAdPaTQj1CJX6Y0xtd4rPm5XHd6bMLREYNkQREm9BkgiPz
-         7S5EE+i+SDX/6TimGmNhvXxqtwWg9halYewsc1gdnufsOpGORQLB6BSAD/iOuhcwQStB
-         k+Blcf2d1c2w0Jn5Oo4q7FLGAc34TKAyauY8eBJhiZaHNC5911OMFnH1kG5oxDeEHVPR
-         2k2RSBHxD8DCejaNjG7Ic1orhQR/mZf0G+k8Xoei+qc6JiTFT9FA8gzTBN+2uO3Z8S6y
-         /zcQ/L+TvYictWd1XBNOUn8DdZeTuRLLtWUb1jDahhIY36ZRe8ThHe9rxdgD9how157N
-         eKYQ==
-X-Gm-Message-State: APjAAAVD9QBR7qECcQXXPCKs/gph/UdCQODZ4Omp5/t0LoEiva+9D6BD
-        2ZcQKY7SzkpBIoii4PyUZ81KcovfAIEwZSGQpixyBQ==
-X-Google-Smtp-Source: APXvYqwPmHgh2qcLrxCP63kQojXfSXOD7VAXU/t5ny4S8cMVifTcJS0u+TO3aEFmj5UzVvnwmjwomeNP2aCUQvtldao=
-X-Received: by 2002:a25:c50c:: with SMTP id v12mr23486813ybe.428.1574692483098;
- Mon, 25 Nov 2019 06:34:43 -0800 (PST)
+        id S1728635AbfKYPuz convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Nov 2019 10:50:55 -0500
+Received: from ms.lwn.net ([45.79.88.28]:57028 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728592AbfKYPuy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Nov 2019 10:50:54 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0E7202E7;
+        Mon, 25 Nov 2019 15:50:53 +0000 (UTC)
+Date:   Mon, 25 Nov 2019 08:50:52 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joe Perches <joe@perches.com>,
+        "Tobin C. Harding" <me@tobin.cc>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steve French <stfrench@microsoft.com>,
+        Olof Johansson <olof@lixom.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Maintainer Entry Profiles
+Message-ID: <20191125085052.05cfe063@lwn.net>
+In-Reply-To: <157462918268.1729495.10257190766638995699.stgit@dwillia2-desk3.amr.corp.intel.com>
+References: <157462918268.1729495.10257190766638995699.stgit@dwillia2-desk3.amr.corp.intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20191125101626.32722-1-amir73il@gmail.com>
-In-Reply-To: <20191125101626.32722-1-amir73il@gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Mon, 25 Nov 2019 16:34:32 +0200
-Message-ID: <CAOQ4uxiBs==-RV4mCdFyPaFZtWix1xQKkQ9oDPy7EbPW7Byb3Q@mail.gmail.com>
-Subject: Re: [PATCH] docs: filesystems: overlayfs: Rename overlayfs.txt to .rst
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>, linux-doc@vger.kernel.org,
-        overlayfs <linux-unionfs@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="00000000000016134905982caa47"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000016134905982caa47
-Content-Type: text/plain; charset="UTF-8"
+On Sun, 24 Nov 2019 12:59:42 -0800
+Dan Williams <dan.j.williams@intel.com> wrote:
 
-On Mon, Nov 25, 2019 at 12:16 PM Amir Goldstein <amir73il@gmail.com> wrote:
->
-> It is already formatted as RST.
->
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->
-> Hi John,
->
-> Not sure if this doc is up to standards, but it is already displayed
-> fairly well on github as .rst.
->
+> Changes since v2 [1]:
+> - Drop any consideration for coding style concerns in the profile. It
+>   was a minor aspect of the proposal that generated the bulk of the
+>   feedback on v2. Lets make progress on the rest.
+> 
+> - Clarify that the "Submit Checklist Addendum" can also include details
+>   that submitters need to take into account before even beginning to
+>   craft a patch. This is in response to the RISC-V use case of
+>   declaring specification readiness as a patch gate, and is now also used
+>   by the libnvdimm subsystem to clarify details about ACPI NVDIMM Device
+>   Specific Method specifications. (Paul)
+> 
+> - Non-change from v2: Kees had asked for a common directory for all
+>   profiles to live, but Mauro noted that this could be handled later
+>   with some scripting to post-process the MAINTAINERS file, or otherwise
+>   converting MAINTAINERS to ReST.
+> 
+> - Clarify the cover letter to focus on the contributor focused
+>   Maintainer Entry Profiles, and defer discussion of a maintainer
+>   focused Handbook.
 
-You'd probably want to apply the attached patch as well.
+OK, some notes...
 
-I wasn't sure if those should go through documentation tree or overlayfs tree.
-Miklos, if you have any objections or would like to carry this though your tree
-please speak up.
+I wish you'd done this against docs-next, that would have saved me
+resolving a few conflicts on the MAINTAINERS file.
+
+I thought we'd agreed to move this to the process book?  That said, I now
+wonder about that...today I read the document as information for
+maintainers on how to create their profile, so its location in the
+maintainers manual is appropriate.
+
+There were a number RST issues and warnings that I fixed up with the
+following add-on patch; it was mostly a matter of adding blank lines where
+needed.
+
+One other warning resulted from the nvdimm profile document not being
+linked into the TOC tree.  I've added a TOC section to the new document to
+bring these things together for now.  This is almost certainly not what we
+want in the longer term.
+
+It was tempting to ask for this stuff to be fixed up, but I didn't want to
+delay this work any longer.  So it's applied to docs-next; unless something
+explodes in the very near future, I intend to push this for 5.5.
 
 Thanks,
-Amir.
 
---00000000000016134905982caa47
-Content-Type: text/plain; charset="US-ASCII"; 
-	name="0002-docs-filesystems-overlayfs-Fix-restview-warnings.patch.txt"
-Content-Disposition: attachment; 
-	filename="0002-docs-filesystems-overlayfs-Fix-restview-warnings.patch.txt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k3ej5x4t0>
-X-Attachment-Id: f_k3ej5x4t0
+jon
 
-RnJvbSA3NTcwMTY5Y2JmYjk2YmI0ZjJjZTJiNjJjYWEwMjFjNjcxZDM0NWNkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbWlyIEdvbGRzdGVpbiA8YW1pcjczaWxAZ21haWwuY29tPgpE
-YXRlOiBNb24sIDI1IE5vdiAyMDE5IDExOjUxOjI1ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gZG9j
-czogZmlsZXN5c3RlbXM6IG92ZXJsYXlmczogRml4IHJlc3R2aWV3IHdhcm5pbmdzCgpGaXggb25s
-eSB0aGUgb2J2aW91cyBwcm9ibGVtcwoKU2lnbmVkLW9mZi1ieTogQW1pciBHb2xkc3RlaW4gPGFt
-aXI3M2lsQGdtYWlsLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL292ZXJsYXlm
-cy5yc3QgfCA4ICsrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRl
-bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvb3Zlcmxh
-eWZzLnJzdCBiL0RvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvb3ZlcmxheWZzLnJzdAppbmRleCA4
-NDVkNjg5ZTBmZDcuLjExMzM5ZTJhMDRjZCAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9maWxl
-c3lzdGVtcy9vdmVybGF5ZnMucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvb3Zl
-cmxheWZzLnJzdApAQCAtMTgxLDcgKzE4MSw3IEBAIEtlcm5lbCBjb25maWcgb3B0aW9uczoKICAg
-ICB3b3JyaWVkIGFib3V0IGJhY2t3YXJkIGNvbXBhdGliaWxpdHkgd2l0aCBrZXJuZWxzIHRoYXQg
-aGF2ZSB0aGUgcmVkaXJlY3RfZGlyCiAgICAgZmVhdHVyZSBhbmQgZm9sbG93IHJlZGlyZWN0cyBl
-dmVuIGlmIHR1cm5lZCBvZmYuCiAKLU1vZHVsZSBvcHRpb25zIChjYW4gYWxzbyBiZSBjaGFuZ2Vk
-IHRocm91Z2ggL3N5cy9tb2R1bGUvb3ZlcmxheS9wYXJhbWV0ZXJzLyopOgorTW9kdWxlIG9wdGlv
-bnMgKGNhbiBhbHNvIGJlIGNoYW5nZWQgdGhyb3VnaCAvc3lzL21vZHVsZS9vdmVybGF5L3BhcmFt
-ZXRlcnMvKToKIAogLSAicmVkaXJlY3RfZGlyPUJPT0wiOgogICAgIFNlZSBPVkVSTEFZX0ZTX1JF
-RElSRUNUX0RJUiBrZXJuZWwgY29uZmlnIG9wdGlvbiBhYm92ZS4KQEAgLTI2Myw3ICsyNjMsNyBA
-QCB0b3AsIGxvd2VyMiB0aGUgbWlkZGxlIGFuZCBsb3dlcjMgdGhlIGJvdHRvbSBsYXllci4KIAog
-CiBNZXRhZGF0YSBvbmx5IGNvcHkgdXAKLS0tLS0tLS0tLS0tLS0tLS0tLS0tCistLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KIAogV2hlbiBtZXRhZGF0YSBvbmx5IGNvcHkgdXAgZmVhdHVyZSBpcyBlbmFi
-bGVkLCBvdmVybGF5ZnMgd2lsbCBvbmx5IGNvcHkKIHVwIG1ldGFkYXRhIChhcyBvcHBvc2VkIHRv
-IHdob2xlIGZpbGUpLCB3aGVuIGEgbWV0YWRhdGEgc3BlY2lmaWMgb3BlcmF0aW9uCkBAIC0yODYs
-MTAgKzI4NiwxMCBAQCBwb2ludGVkIGJ5IFJFRElSRUNULiBUaGlzIHNob3VsZCBub3QgYmUgcG9z
-c2libGUgb24gbG9jYWwgc3lzdGVtIGFzIHNldHRpbmcKICJ0cnVzdGVkLiIgeGF0dHJzIHdpbGwg
-cmVxdWlyZSBDQVBfU1lTX0FETUlOLiBCdXQgaXQgc2hvdWxkIGJlIHBvc3NpYmxlCiBmb3IgdW50
-cnVzdGVkIGxheWVycyBsaWtlIGZyb20gYSBwZW4gZHJpdmUuCiAKLU5vdGU6IHJlZGlyZWN0X2Rp
-cj17b2ZmfG5vZm9sbG93fGZvbGxvdygqKX0gY29uZmxpY3RzIHdpdGggbWV0YWNvcHk9b24sIGFu
-ZAorTm90ZTogcmVkaXJlY3RfZGlyPXtvZmZ8bm9mb2xsb3d8Zm9sbG93WypdfSBjb25mbGljdHMg
-d2l0aCBtZXRhY29weT1vbiwgYW5kCiByZXN1bHRzIGluIGFuIGVycm9yLgogCi0oKikgcmVkaXJl
-Y3RfZGlyPWZvbGxvdyBvbmx5IGNvbmZsaWN0cyB3aXRoIG1ldGFjb3B5PW9uIGlmIHVwcGVyZGly
-PS4uLiBpcworWypdIHJlZGlyZWN0X2Rpcj1mb2xsb3cgb25seSBjb25mbGljdHMgd2l0aCBtZXRh
-Y29weT1vbiBpZiB1cHBlcmRpcj0uLi4gaXMKIGdpdmVuLgogCiBTaGFyaW5nIGFuZCBjb3B5aW5n
-IGxheWVycwotLSAKMi4xNy4xCgo=
---00000000000016134905982caa47--
+From 0bfa52a43ec085c2f5eb2c35fcc6cf73bb802eae Mon Sep 17 00:00:00 2001
+From: Jonathan Corbet <corbet@lwn.net>
+Date: Mon, 25 Nov 2019 08:42:12 -0700
+Subject: [PATCH 2/2] docs: fix up the maintainer profile document
+
+Add blank lines where needed to get the document to render properly.  Also
+add a TOC of existing profiles just so that the nvdimm profile is linked
+into the toctree, is discoverable, and doesn't generate a warning.
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ .../maintainer/maintainer-entry-profile.rst       | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 51de3b9e606d..3eaddc8ac56d 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -18,7 +18,9 @@ Provide an introduction to how the subsystem operates. While MAINTAINERS
+ tells the contributor where to send patches for which files, it does not
+ convey other subsystem-local infrastructure and mechanisms that aid
+ development.
++
+ Example questions to consider:
++
+ - Are there notifications when patches are applied to the local tree, or
+   merged upstream?
+ - Does the subsystem have a patchwork instance? Are patchwork state
+@@ -55,6 +57,7 @@ be settled in soaking in linux-next in advance of the merge window
+ opening. Clarify for the submitter the key dates (in terms rc release
+ week) that patches might considered for merging and when patches need to
+ wait for the next -rc. At a minimum:
++
+ - Last -rc for new feature submissions:
+   New feature submissions targeting the next merge window should have
+   their first posting for consideration before this point. Patches that
+@@ -72,6 +75,7 @@ wait for the next -rc. At a minimum:
+   resubmit for the following merge window.
+ 
+ Optional:
++
+ - First -rc at which the development baseline branch, listed in the
+   overview section, should be considered ready for new submissions.
+ 
+@@ -85,3 +89,14 @@ section can also indicate a preferred style of update like, resend the
+ full series, or privately send a reminder email. This section might also
+ list how review works for this code area and methods to get feedback
+ that are not directly from the maintainer.
++
++Existing profiles
++-----------------
++
++For now, existing maintainer profiles are listed here; we will likely want
++to do something different in the near future.
++
++.. toctree::
++   :maxdepth: 1
++
++   ../nvdimm/maintainer-entry-profile
+-- 
+2.21.0
+
