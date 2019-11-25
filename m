@@ -2,71 +2,69 @@ Return-Path: <SRS0=z7gB=ZR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC41C432C0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 16:51:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 708FCC432C3
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 17:37:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E1C6F20836
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 16:51:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C27C20836
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Nov 2019 17:37:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728923AbfKYQvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Nov 2019 11:51:55 -0500
-Received: from ms.lwn.net ([45.79.88.28]:57374 "EHLO ms.lwn.net"
+        id S1727566AbfKYRhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Nov 2019 12:37:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728683AbfKYQvz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Nov 2019 11:51:55 -0500
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1725868AbfKYRhL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Nov 2019 12:37:11 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B57152E7;
-        Mon, 25 Nov 2019 16:51:53 +0000 (UTC)
-Date:   Mon, 25 Nov 2019 09:51:52 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Joe Perches <joe@perches.com>,
-        "Tobin C. Harding" <me@tobin.cc>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Steve French <stfrench@microsoft.com>,
-        Olof Johansson <olof@lixom.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 0/3] Maintainer Entry Profiles
-Message-ID: <20191125095152.6cb598b0@lwn.net>
-In-Reply-To: <CAPcyv4gHTz4Zw=hQgkJ1e-_O5PSyMosfQ4iTHZLD03Vw+MWZWQ@mail.gmail.com>
-References: <157462918268.1729495.10257190766638995699.stgit@dwillia2-desk3.amr.corp.intel.com>
-        <20191125085052.05cfe063@lwn.net>
-        <CAPcyv4gHTz4Zw=hQgkJ1e-_O5PSyMosfQ4iTHZLD03Vw+MWZWQ@mail.gmail.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 9801820748;
+        Mon, 25 Nov 2019 17:37:10 +0000 (UTC)
+Date:   Mon, 25 Nov 2019 12:37:09 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org
+Subject: Re: [RFC v2 2/2] docs: ftrace: Fix typos
+Message-ID: <20191125123709.5eff70a9@gandalf.local.home>
+In-Reply-To: <a843617511989679b29fbd62b1b8b3e991f2101e.1574655670.git.frank@generalsoftwareinc.com>
+References: <cover.1574655670.git.frank@generalsoftwareinc.com>
+        <a843617511989679b29fbd62b1b8b3e991f2101e.1574655670.git.frank@generalsoftwareinc.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Nov 2019 08:41:16 -0800
-Dan Williams <dan.j.williams@intel.com> wrote:
+On Sun, 24 Nov 2019 23:38:41 -0500
+"Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
 
-> Apologies for all of the above. I rushed it without considering the
-> docs submission basics. Thanks for moving this forward.
+> --- a/Documentation/trace/ring-buffer-design.txt
+> +++ b/Documentation/trace/ring-buffer-design.txt
+> @@ -37,7 +37,7 @@ commit_page - a pointer to the page with the last finished non-nested write.
+>  
+>  cmpxchg - hardware-assisted atomic transaction that performs the following:
+>  
+> -   A = B iff previous A == C
+> +   A = B if previous A == C
 
-That's OK, I don't have a maintainer profile for you to refer to yet :)
+This wasn't a typo. "iff" means "if and only if" which is a standard
+notation. That is, this is shorthand for:
 
-Thanks,
+  A = B if previous A == C
+  previous A == C if A = B
 
-jon
+-- Steve
+
+
+>  
+>     R = cmpxchg(A, C, B) is saying that we replace A with B if and only if
+>        current A is equal to C, and we put the old (current) A into R
+> -- 
