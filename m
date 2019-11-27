@@ -2,129 +2,86 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA469C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CC6C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:27:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C9B6120722
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:15:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E172620674
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574864829;
+	bh=GKX7EG2gsuqike/iGhVOQHvsxUfyW3BYSHoQohWUpIY=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=HcA3yDLq9PqCRYJzwqfgW/oOOZ8T5qV8woZPzPtc6eynnVXY22hZ1trSRYPhMBB6b
+	 6mXJuI5aMM2iGY6bXBsnomYhOok1yI0YrGoTlh0WMaqXUW++d7Ke1vNOvu+vfF7Oja
+	 9+jS66QNm//NBV8kRqSl1oWQxVGmFEO2ebaqjFLY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbfK0OPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 09:15:41 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:43267 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726320AbfK0OPl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 09:15:41 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E725A3C057C;
-        Wed, 27 Nov 2019 15:15:37 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bipKjdt3AzRZ; Wed, 27 Nov 2019 15:15:32 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        id S1726655AbfK0O1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 09:27:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42590 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726634AbfK0O1I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Nov 2019 09:27:08 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D79383C00BE;
-        Wed, 27 Nov 2019 15:15:32 +0100 (CET)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 27 Nov
- 2019 15:15:32 +0100
-Date:   Wed, 27 Nov 2019 15:15:29 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-Message-ID: <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be>
+        by mail.kernel.org (Postfix) with ESMTPSA id E2E8A20674;
+        Wed, 27 Nov 2019 14:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574864827;
+        bh=GKX7EG2gsuqike/iGhVOQHvsxUfyW3BYSHoQohWUpIY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=yq+Otw3Qy3Nb0X7125ZNOAUI0RyKattNT+iUTDEVXRJuSD3XjGiyWqSS7G6FDQ7Fc
+         gSv8CAuPm+kBe1PHEJbk6ERrR5+s1NHxeChoMf0dvvvapUYNVVFhBH7cFrwWN9Cq+2
+         ZL1wsfLMF5cGBTb+oA5kthO+fGaWI09ipuMANtwo=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id AD89B352083A; Wed, 27 Nov 2019 06:27:07 -0800 (PST)
+Date:   Wed, 27 Nov 2019 06:27:07 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     SeongJae Park <sj38.park@gmail.com>, will@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/7] docs: Update ko_KR translations
+Message-ID: <20191127142707.GB2889@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191121234125.28032-1-sj38.park@gmail.com>
+ <20191126222144.GW2889@paulmck-ThinkPad-P72>
+ <20191127071205.723a33d4@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+In-Reply-To: <20191127071205.723a33d4@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
+On Wed, Nov 27, 2019 at 07:12:05AM -0700, Jonathan Corbet wrote:
+> On Tue, 26 Nov 2019 14:21:44 -0800
+> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> 
+> > On Fri, Nov 22, 2019 at 12:41:18AM +0100, SeongJae Park wrote:
+> > > This patchset contains updates of Korean translation documents and a fix
+> > > of original document.
+> > > 
+> > > First 4 patches update the Korean translation of memory-barriers.txt.
+> > > Fifth patch fixes a broken section reference in the original
+> > > memory-barriers.txt.
+> > > 
+> > > Sixth and seventh patches update the Korean translation of howto.rst.  
+> > 
+> > The sixth and seventh probably have some other more natural path,
+> > but I queued them.  Any chance of a Reviewed-by from one of our other
+> > Korean-language kernel hackers?
+> 
+> I applied the whole set to docs-next a few days ago...apologies if that's
+> not the way you wanted these handled.
 
-Many thanks for the series upgrade.
-A few static-analysis findings below (could be false positives).
+Even better!  I will drop them from -rcu.
 
-On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
-
-[..]
-
-> +static bool isrange(const char *s)
-> +{
-> +	size_t n = strlen(s);
-
-Cppcheck 1.40-18521-ge6d692d96058:
-drivers/gpio/gpio-aggregator.c:69:11: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
-
-Smatch v0.5.0-6150-gc1ed13e4ee7b:
-drivers/gpio/gpio-aggregator.c:69 isrange() warn: unused return: n = strlen()
-
-[..]
-
-> +	aggr->lookups->dev_id = kasprintf(GFP_KERNEL, "%s.%d", DRV_NAME, id);
-> +	if (!aggr->lookups) {
-> +		res = -ENOMEM;
-> +		goto remove_idr;
-> +	}
-
-s/aggr->lookups/aggr->lookups->dev_id/ ?
-
-[..]
-
-> +static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
-> +				 unsigned long *bits)
-> +{
-> +	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> +	unsigned long *values, flags;
-
-gcc 9.2.1:
-warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-
-[..]
-
-> +static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
-> +				  unsigned long *bits)
-> +{
-> +	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> +	unsigned long *values, flags;
-
-gcc 9.2.1, same as above:
-warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-
-Should these be silenced like in 2bf593f101f3ca ("xilinx_uartps.c:
-suppress "may be used uninitialised" warning") ?
-
-I plan to do some runtime testing soon.
-
--- 
-Best Regards,
-Eugeniu
+							Thanx, Paul
