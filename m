@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6745BC432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3CCC432C3
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3D45020835
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A300206F0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1IoBEtp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tpJK0muq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbfK0Rv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 12:51:29 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:42727 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfK0Rv3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 12:51:29 -0500
-Received: by mail-io1-f68.google.com with SMTP id k13so25814895ioa.9;
-        Wed, 27 Nov 2019 09:51:29 -0800 (PST)
+        id S1727372AbfK0Rvv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 12:51:51 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:36260 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726603AbfK0Rvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 12:51:51 -0500
+Received: by mail-il1-f194.google.com with SMTP id b15so1668604iln.3;
+        Wed, 27 Nov 2019 09:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=axIeDX2ZuzeMwEDGdzKEGgiMR3V0p3vdxKl8XUb96Yk=;
-        b=D1IoBEtpYpoEMaZL8zSpM4CxUw6mIEfouJwlzICHwT0eP7hvRP/N/YtL5K+1hFZcWG
-         jzx3ZSmYq2Sec6dWCT4q44CqVoGpdIKlPQgPjU8Sd2vYqZl6HHpZCaMbIILutkL3jxHQ
-         FXJ5MXYaxrHQomSMyRgvhkgjj2zYp+zEgshS++cDM0qK3q/KuZl9XS/aJ9oefM1Ddvwr
-         4MF7vrB8vOAfgxuBVFG8yMnXJSB347fk860MgnrP5quPWMdz/2e+QzUmIBvYs9kznN/p
-         6TeuLw3eKTOxYnI5mFTMnYZ/dYGitc2qQPs7unJdmuvFlIsg7J7E7+XS4hMMgHIKX450
-         H7Uw==
+        bh=q2tEW7FTsA73HHhNSU6k3P4LajEnR3VGBalEePUDQOw=;
+        b=tpJK0muqG5Irb9Lrg4GqPOB4Ey+PWSMVLH+JltOEnBV7wWLWar/X8QDXZobQYi54OT
+         r1yEscJ2IYfppwSSEI4IAXT3tn8TsO8oXndEiu1B6C498T+Liq2+DsUulbjx18HGGcB9
+         ROKcfWoYDdu0lEYjteC2fwg2kSvtKNWsEuojPADhQAkHp4ZD624VUnR5HL8pUkNI7+Tf
+         eIG2jBkGPweSqswoy6uwxQzDsbtfx3VcGejMZpNWP9jIUC/v8J6LNK7wbddUZ503MjHQ
+         RQjEjcIScItifJPQS0QGKEIKvGUI6Mp+Wa2Y413Fg0g4A1qpGz4JG6+9DO7FLzM82fXz
+         TB2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=axIeDX2ZuzeMwEDGdzKEGgiMR3V0p3vdxKl8XUb96Yk=;
-        b=Nf3us8VFTAzK4B+s92z45tjAWER7WyLmfJK4C7FsoijyYn2IEuSdXd1P1A2s1Mn8FB
-         pVDSj5dXICtU3cH7/wGQ1KjQNO1CAlg9sUi+60hKR4wHfiDEW/ff55OmwfIPoHFh1NXH
-         GCPc5y750+p4zy60rdBfLo9sP7Xk/D1xPhb+m3F8ghJmysmZR6obkbsVxgxi20CCmQO2
-         33IYaSG+4BHvu2aiKHDZw7Kq0EWo2umeOWvq7Dw+7rOsZRKhsDpl9zgkuXA4UwkGo7ti
-         3W2GPBWWttI4coDUsWqHm4k2DdtWiXIYM0uKnAAZaN78bDeXN5Ev1+K/R1h1q6/s9iAN
-         IMKw==
-X-Gm-Message-State: APjAAAUiJb4eYgPh6YczNS4sucbkO5ZUGvfggvFoNxiCg5bgXEHBYJHk
-        L+kW2PhPORsEQjxuUVoccwA=
-X-Google-Smtp-Source: APXvYqw5mR4qCkwkkFC2wRiKQzny/Sl48aLcxCJlteK8fMx6gWfc+WW5/CkxcAd4wI6VnH+3IL/vFA==
-X-Received: by 2002:a6b:8b89:: with SMTP id n131mr26965779iod.55.1574877088555;
-        Wed, 27 Nov 2019 09:51:28 -0800 (PST)
+        bh=q2tEW7FTsA73HHhNSU6k3P4LajEnR3VGBalEePUDQOw=;
+        b=DoUNT/uVZkLmdKYqmcDT/JeLPT0tO9L+bKG3mCFwHOeJ8kB2N3KESlV/mQUsC+dn0H
+         5CDUkaKze/65ZUJWMHkdsf4d8NVc/u6jqzG9NM47LakSQhbgc33u+QB56pMqL4EvlOEe
+         yLUut/iB6+FkqPdoGMlBGVlC0UIMjS+AvOmGomthMKe6Wp1/St6Qd0Llu+57JsZ/vfjE
+         Zf45gaAq6efEOFYziw8OnLrY6hpcUff6SrymYBgG8N8ZPNf0q8HtOxPBRK1VJF+0LiuN
+         v11QKajXIKvyY95pIHLNzvsoyI8YMWhtZ2k1s5FbMoPMuUw1c3v/HdwcVulQzERt5WY1
+         09Bg==
+X-Gm-Message-State: APjAAAX1bMoHyR7ium36kteI4HoxVkOvrGegI8c0blw0IrKLQhgtzMdP
+        KD61rEnUuBA2qm9Yq1+aLN9dvakuCF0=
+X-Google-Smtp-Source: APXvYqx+a3gVYoca8y80aPrXc9ASiDhrO5CjhRxnsfxVCWNy3ZurGPo5xe4M66DMl0I0CpjHmpnn3Q==
+X-Received: by 2002:a92:cc51:: with SMTP id t17mr9263456ilq.10.1574877110195;
+        Wed, 27 Nov 2019 09:51:50 -0800 (PST)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id n3sm4612911ilm.74.2019.11.27.09.51.27
+        by smtp.googlemail.com with ESMTPSA id o4sm4547813ilq.15.2019.11.27.09.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2019 09:51:27 -0800 (PST)
+        Wed, 27 Nov 2019 09:51:49 -0800 (PST)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
         Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 12/16] dyndbg: extend ddebug_parse_flags to accept optional filter-flags
-Date:   Wed, 27 Nov 2019 10:51:24 -0700
-Message-Id: <20191127175125.1351810-1-jim.cromie@gmail.com>
+Subject: [PATCH 14/16] dyndbg: add inverted-flags, implement filtering on flags
+Date:   Wed, 27 Nov 2019 10:51:43 -0700
+Message-Id: <20191127175144.1351934-1-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,100 +71,155 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-change ddebug_parse_flags to accept /^ filterflags? OP modflags /x, as
-well as the currently accepted /^ OP modflags /.
+1. Add 3 user-flags [xyz] which work like original [pfmlt] flags, but
+have no effect on callsite behavior; they allow marking of arbitrary
+sets of callsites.  Just adding the flag defs themselves is enough,
+they inherit the existing flags mechanics.
+
+2. Add [PFMLT],[XYZ] flags, which invert their counterparts; P===!p etc.
+And in ddebug_read_flags():
+   current code does:	[pfmlt_xyz] -> flags
+   copy it to:		[PFMLT_XYZ] -> mask
+also disallow both of a pair: ie no 'xX', no true & false.
+
+3. Add filtering ops into ddebug_change(), right after all the
+callsite-property selections are complete.  These test the callsite's
+current flagstate before applying modflags.
+
+Why ?
+
+The 3 new/user flags facilitate batching of changes.  By marking
+individual callsites with 'xyz', user can compose an arbitrary set of
+changes, then activate them together by selecting on 'xyz':
+
+  #> echo 'file foo.c +xyz; file bar.c +xyz' > control
+  #> echo 'xyz+p' > control
+
+These user flags aren't strictly needed, but with them you can avoid
+using [fmlt] flags for marking, which would alter logging.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 18 +++++++----
- lib/dynamic_debug.c                           | 30 ++++++++++---------
- 2 files changed, 28 insertions(+), 20 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 28 ++++++++++++++--
+ include/linux/dynamic_debug.h                 |  3 ++
+ lib/dynamic_debug.c                           | 33 ++++++++++++++-----
+ 3 files changed, 54 insertions(+), 10 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 689a30316589..cdc45dcb3e0c 100644
+index cdc45dcb3e0c..5404e23eeac8 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -209,13 +209,19 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
+@@ -231,9 +231,33 @@ The flags are::
+   m    Include module name in the printed message
+   t    Include thread ID in messages not generated from interrupt context
+   _    No flags are set. (Or'd with others on input)
++  x    user flag, to mark callsites into a group
++  y    user flag, ...
++  z    user flag, ...
  
--The flags specification comprises a change operation followed
--by one or more flag characters.  The change operation is one
--of the characters::
-+Flags Specification::
- 
--  -    remove the given flags
--  +    add the given flags
--  =    set the flags to the given flags
-+  flagspec	::= filterflags? OP modflags
-+  filterflags	::= flagset
-+  modflags	::= flagset
-+  flagset	::= ([pfmlt_xyz] | [PFMLT_XYZ])+
-+  OP		::= [-+=]
+-For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only ``p`` flag
+-have meaning, other flags ignored.
++Additionally, the flags above have upper-case versions, which invert
++their respective meanings.  Their use follows.
 +
-+OP: modify callsites per following flagset::
++Using Filters::
 +
-+  -    remove the following flags
-+  +    add the following flags
-+  =    set the flags to the following flags
++Filter-flags specify an optional additional selector on pr_debug
++callsites; with them you can compose an arbitrary set of callsites, by
++iteratively marking them with ``+xyz``, then enabling them all with
++``xyz+p``.
++
++Filters can also contain upper-case flags, like ``XY``, which select
++only callsites with x&y cleared.
++
++Flagsets cannot contain ``xX`` etc, a flag cannot be true and false.
++
++modflags containing upper-case flags is reserved/undefined for now.
++inverted-flags are currently ignored, usage gets trickier if given
++``-pXy``, it should leave x set.
++
++Notes::
++
++For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
++``p`` flag has meaning, other flags are ignored.
  
- The flags are::
- 
+ For display, the flags are preceded by ``=``
+ (mnemonic: what the flags are currently equal to).
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 802480ea8708..0d7c9a3538b6 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -32,6 +32,9 @@ struct _ddebug {
+ #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
+ #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
+ #define _DPRINTK_FLAGS_INCL_TID		(1<<4)
++#define _DPRINTK_FLAGS_USR_X		(1<<5)
++#define _DPRINTK_FLAGS_USR_Y		(1<<6)
++#define _DPRINTK_FLAGS_USR_Z		(1<<7)
+ #if defined DEBUG
+ #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
+ #else
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 8c62c76badcf..be8299e119ab 100644
+index 26432f88b329..b2630df0c3a5 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -441,34 +441,36 @@ static int ddebug_read_flags(const char *str, struct flagsettings *f)
+@@ -85,13 +85,16 @@ static inline const char *trim_prefix(const char *path)
+ 	return path + skip;
  }
  
- /*
-- * Parse `str' as a flags specification, format [-+=][p]+.
-- * Sets up *maskp and *flagsp to be used when changing the
-- * flags fields of matched _ddebug's.  Returns 0 on success
-- * or <0 on error.
-+ * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
-+ * Fills flagsettings provided.  Returns 0 on success or <0 on error.
-  */
--
- static int ddebug_parse_flags(const char *str,
- 			      struct flagsettings *mods,
- 			      struct flagsettings *filter)
- {
- 	int op;
-+	char *opp = strpbrk(str, "-+=");
+-static struct { unsigned flag:8; char opt_char; } opt_array[] = {
+-	{ _DPRINTK_FLAGS_PRINT, 'p' },
+-	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
+-	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+-	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
+-	{ _DPRINTK_FLAGS_INCL_TID, 't' },
+-	{ _DPRINTK_FLAGS_NONE, '_' },
++static struct { unsigned flag:8; char opt_char, not_char; } opt_array[] = {
++	{ _DPRINTK_FLAGS_PRINT,		'p', 'P' },
++	{ _DPRINTK_FLAGS_INCL_MODNAME,	'm', 'M' },
++	{ _DPRINTK_FLAGS_INCL_FUNCNAME,	'f', 'F' },
++	{ _DPRINTK_FLAGS_INCL_LINENO,	'l', 'L' },
++	{ _DPRINTK_FLAGS_INCL_TID,	't', 'T' },
++	{ _DPRINTK_FLAGS_NONE,		'_', '_' },
++	{ _DPRINTK_FLAGS_USR_X,		'x', 'X' },
++	{ _DPRINTK_FLAGS_USR_Y,		'y', 'Y' },
++	{ _DPRINTK_FLAGS_USR_Z,		'z', 'Z' },
+ };
  
--	switch (*str) {
--	case '+':
--	case '-':
--	case '=':
--		op = *str++;
--		break;
--	default:
--		pr_err("bad flag-op %c, at start of %s\n", *str, str);
-+	if (!opp) {
-+		pr_err("no OP given in %s\n", str);
- 		return -EINVAL;
- 	}
-+	op = *opp;
- 	vpr_info("op='%c'\n", op);
+ /* format a string into buf[] which describes the _ddebug's flags */
+@@ -195,6 +198,13 @@ static int ddebug_change(const struct ddebug_query *query,
+ 			    dp->lineno > query->last_lineno)
+ 				continue;
  
-+	if (opp != str) {
-+		/* filterflags precedes OP, grab it */
-+		*opp++ = '\0';
-+		if (ddebug_read_flags(str, filter))
-+			return -EINVAL;
-+		str = opp;
-+	} else
-+		str++;
++			/* filter for required flags */
++			if ((dp->flags & filter->flags) != filter->flags)
++				continue;
++			/* filter on prohibited bits */
++			if ((~dp->flags & filter->mask) != filter->mask)
++				continue;
 +
- 	if (ddebug_read_flags(str, mods))
- 		return -EINVAL;
+ 			nfound++;
  
--	/* calculate final flags, mask based upon op */
-+	/* calculate final mods: flags, mask based upon op */
- 	switch (op) {
- 	case '=':
- 		mods->mask = 0;
+ 			newflags = (dp->flags & mods->mask) | mods->flags;
+@@ -428,10 +438,17 @@ static int ddebug_read_flags(const char *str, struct flagsettings *f)
+ 			if (*str == opt_array[i].opt_char) {
+ 				f->flags |= opt_array[i].flag;
+ 				break;
++			} else if (*str == opt_array[i].not_char) {
++				f->mask |= opt_array[i].flag;
++				break;
+ 			}
+ 		}
+ 		if (i < 0) {
+-			pr_err("unknown flag '%c' in \"%s\"\n", *str, str);
++			pr_err("unknown flag '%c'", *str);
++			return -EINVAL;
++		}
++		if (f->flags & f->mask) {
++			pr_err("flag '%c' conflicts with earlier one\n", *str);
+ 			return -EINVAL;
+ 		}
+ 	}
 -- 
 2.23.0
 
