@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCC3C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 20:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BFABC432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:06:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0BD95217AB
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 20:44:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A0DB217F9
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:06:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574887467;
-	bh=0Qt+cEqGcxDz+xGfz3u/jJQfrrlSP63mJDpaPxSJ03I=;
+	s=default; t=1574888791;
+	bh=+1owT5ab5x+CU8TcWONskHf6Fca/rC+NpVhtxJEsRo8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=eKXX1jGYXZZaJsuffm7/hKSyLiuwQepoWfay/Us5t8RrI9/SwRMd7k1KBYkE8Xedu
-	 wBa1EN6OTXjkRsThW1xLbQmjxOub61br7JCJDBNS7Ar+6u+lcGp3X6puM/00gcxsgs
-	 IUTh95TjcMqIdfv+S2PNL3cGou3rI1FrOiuoCPCI=
+	b=Tva9mlB4U442KuQFvhYf5eUdO1cnCEqtxbJk/LTsJ8XxR+rrptUZJ3j+9gj6+MhmI
+	 O/gS2/pGKVIeN+378p/tgx1cUIQpP7AGo5t1OU/AJ2C0xtnO0UH2+CiI97YkGCvCcb
+	 B8xhpYGT2ujXaQBGBtuVRG2TWQdOUDF8xbHjKM7M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729573AbfK0UoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 15:44:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53452 "EHLO mail.kernel.org"
+        id S1732076AbfK0VGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 16:06:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60518 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727739AbfK0UoU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Nov 2019 15:44:20 -0500
+        id S1731941AbfK0VG2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Nov 2019 16:06:28 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20992217AB;
-        Wed, 27 Nov 2019 20:44:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE14A2080F;
+        Wed, 27 Nov 2019 21:06:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574887458;
-        bh=0Qt+cEqGcxDz+xGfz3u/jJQfrrlSP63mJDpaPxSJ03I=;
+        s=default; t=1574888787;
+        bh=+1owT5ab5x+CU8TcWONskHf6Fca/rC+NpVhtxJEsRo8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mZmsMTVggdx+5PGWCoRZyxQWVg1FICEq69/kldr1PEG/uIADZ5ukzWHe3aEPtUBF+
-         KwtutRZzD4WmSi6WEiUaMsvM6EF8x7WeE356ojKm+SAddh9XboTHdB/QcU2uS6j1F1
-         CtYulBOS732ni3JYZP0mCKliVz4Zr1i4rtkxUdzw=
+        b=AVnoJFekv+LanBOioJFbeq4k78eWyIeBWlyJjKTg35nK09/ERYGVAJ2+Xx2t2liOe
+         T6r36BTjjx703bTOxOydqiRmrubF0ytdJW5shVeX2tOw41EO2gyiCo9PquuWoeUR0w
+         4xXTC8sp6LothiEFXvx4q+vyiubZRrN1NeCmkXlg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -53,12 +53,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tim Chen <tim.c.chen@linux.intel.com>,
         Tony Luck <tony.luck@intel.com>,
         Tyler Hicks <tyhicks@canonical.com>, x86-ml <x86@kernel.org>
-Subject: [PATCH 4.9 120/151] x86/speculation: Fix incorrect MDS/TAA mitigation status
-Date:   Wed, 27 Nov 2019 21:31:43 +0100
-Message-Id: <20191127203044.703955115@linuxfoundation.org>
+Subject: [PATCH 4.19 268/306] x86/speculation: Fix incorrect MDS/TAA mitigation status
+Date:   Wed, 27 Nov 2019 21:31:58 +0100
+Message-Id: <20191127203134.410002838@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191127203000.773542911@linuxfoundation.org>
-References: <20191127203000.773542911@linuxfoundation.org>
+In-Reply-To: <20191127203114.766709977@linuxfoundation.org>
+References: <20191127203114.766709977@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -121,14 +121,14 @@ Link: https://lkml.kernel.org/r/20191115161445.30809-2-longman@redhat.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
- Documentation/hw-vuln/mds.rst             |    7 +++++--
- Documentation/hw-vuln/tsx_async_abort.rst |    5 ++++-
- Documentation/kernel-parameters.txt       |   11 +++++++++++
- arch/x86/kernel/cpu/bugs.c                |   17 +++++++++++++++--
+ Documentation/admin-guide/hw-vuln/mds.rst             |    7 +++++--
+ Documentation/admin-guide/hw-vuln/tsx_async_abort.rst |    5 ++++-
+ Documentation/admin-guide/kernel-parameters.txt       |   11 +++++++++++
+ arch/x86/kernel/cpu/bugs.c                            |   17 +++++++++++++++--
  4 files changed, 35 insertions(+), 5 deletions(-)
 
---- a/Documentation/hw-vuln/mds.rst
-+++ b/Documentation/hw-vuln/mds.rst
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
 @@ -265,8 +265,11 @@ time with the option "mds=". The valid a
  
    ============  =============================================================
@@ -143,8 +143,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  Mitigation selection guide
  --------------------------
---- a/Documentation/hw-vuln/tsx_async_abort.rst
-+++ b/Documentation/hw-vuln/tsx_async_abort.rst
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
 @@ -174,7 +174,10 @@ the option "tsx_async_abort=". The valid
                  CPU is not vulnerable to cross-thread TAA attacks.
    ============  =============================================================
@@ -157,9 +157,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  The kernel command line also allows to control the TSX feature using the
  parameter "tsx=" on CPUs which support TSX control. MSR_IA32_TSX_CTRL is used
---- a/Documentation/kernel-parameters.txt
-+++ b/Documentation/kernel-parameters.txt
-@@ -2365,6 +2365,12 @@ bytes respectively. Such letter suffixes
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2359,6 +2359,12 @@
  				     SMT on vulnerable CPUs
  			off        - Unconditionally disable MDS mitigation
  
@@ -172,7 +172,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			Not specifying this option is equivalent to
  			mds=full.
  
-@@ -4599,6 +4605,11 @@ bytes respectively. Such letter suffixes
+@@ -4773,6 +4779,11 @@
  				     vulnerable to cross-thread TAA attacks.
  			off        - Unconditionally disable TAA mitigation
  
@@ -186,7 +186,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			and deploy MDS mitigation, TAA mitigation is not
 --- a/arch/x86/kernel/cpu/bugs.c
 +++ b/arch/x86/kernel/cpu/bugs.c
-@@ -303,8 +303,12 @@ static void __init taa_select_mitigation
+@@ -304,8 +304,12 @@ static void __init taa_select_mitigation
  		return;
  	}
  
@@ -201,7 +201,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  		goto out;
  
  	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
-@@ -338,6 +342,15 @@ static void __init taa_select_mitigation
+@@ -339,6 +343,15 @@ static void __init taa_select_mitigation
  	if (taa_nosmt || cpu_mitigations_auto_nosmt())
  		cpu_smt_disable(false);
  
