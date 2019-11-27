@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9ED0C33C9C
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DCC7C33CA1
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9BAC9206F0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E64B2071E
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbfK0In3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 03:43:29 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:52828 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726947AbfK0InL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 03:43:11 -0500
+        id S1726130AbfK0InK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 03:43:10 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:47538 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726852AbfK0InK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 03:43:10 -0500
 Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id Wwiu2100W5USYZQ01wiua3; Wed, 27 Nov 2019 09:43:09 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id Wwiu2100e5USYZQ06wiuWY; Wed, 27 Nov 2019 09:43:08 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iZsuU-0000xj-Mm; Wed, 27 Nov 2019 09:42:54 +0100
+        id 1iZsuU-0000xe-KQ; Wed, 27 Nov 2019 09:42:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iZsuU-0004Ol-KQ; Wed, 27 Nov 2019 09:42:54 +0100
+        id 1iZsuU-0004OJ-IG; Wed, 27 Nov 2019 09:42:54 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -48,9 +48,9 @@ Cc:     Alexander Graf <graf@amazon.com>,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 3/7] gpiolib: Add support for GPIO line table lookup
-Date:   Wed, 27 Nov 2019 09:42:49 +0100
-Message-Id: <20191127084253.16356-4-geert+renesas@glider.be>
+Subject: [PATCH v3 1/7] gpiolib: Add GPIOCHIP_NAME definition
+Date:   Wed, 27 Nov 2019 09:42:47 +0100
+Message-Id: <20191127084253.16356-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191127084253.16356-1-geert+renesas@glider.be>
 References: <20191127084253.16356-1-geert+renesas@glider.be>
@@ -59,59 +59,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently GPIOs can only be referred to by GPIO controller and offset in
-GPIO lookup tables.
-
-Add support for looking them up by line name.
+The string literal "gpiochip" is used in several places.
+Add a definition for it, and use it everywhere, to make sure everything
+stays in sync.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-If this is rejected, the GPIO Aggregator documentation and code must be
-updated.
-
 v3:
   - New.
 ---
- drivers/gpio/gpiolib.c       | 12 ++++++++++++
- include/linux/gpio/machine.h |  2 +-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpio/gpiolib-sysfs.c | 7 +++----
+ drivers/gpio/gpiolib.c       | 4 ++--
+ drivers/gpio/gpiolib.h       | 2 ++
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpio/gpiolib-sysfs.c b/drivers/gpio/gpiolib-sysfs.c
+index fbf6b1a0a4fae6ce..23e3d335cd543d53 100644
+--- a/drivers/gpio/gpiolib-sysfs.c
++++ b/drivers/gpio/gpiolib-sysfs.c
+@@ -762,10 +762,9 @@ int gpiochip_sysfs_register(struct gpio_device *gdev)
+ 		parent = &gdev->dev;
+ 
+ 	/* use chip->base for the ID; it's already known to be unique */
+-	dev = device_create_with_groups(&gpio_class, parent,
+-					MKDEV(0, 0),
+-					chip, gpiochip_groups,
+-					"gpiochip%d", chip->base);
++	dev = device_create_with_groups(&gpio_class, parent, MKDEV(0, 0), chip,
++					gpiochip_groups, GPIOCHIP_NAME "%d",
++					chip->base);
+ 	if (IS_ERR(dev))
+ 		return PTR_ERR(dev);
+ 
 diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index d24a3d79dcfe69ad..cb608512ad6bbded 100644
+index dce0b31f4125a6b3..c9e47620d2434983 100644
 --- a/drivers/gpio/gpiolib.c
 +++ b/drivers/gpio/gpiolib.c
-@@ -4475,6 +4475,18 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
- 		if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
- 			continue;
+@@ -1419,7 +1419,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *chip, void *data,
+ 		ret = gdev->id;
+ 		goto err_free_gdev;
+ 	}
+-	dev_set_name(&gdev->dev, "gpiochip%d", gdev->id);
++	dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
+ 	device_initialize(&gdev->dev);
+ 	dev_set_drvdata(&gdev->dev, gdev);
+ 	if (chip->parent && chip->parent->driver)
+@@ -5105,7 +5105,7 @@ static int __init gpiolib_dev_init(void)
+ 		return ret;
+ 	}
  
-+		if (p->chip_hwnum == (u16)-1) {
-+			desc = gpio_name_to_desc(p->chip_label);
-+			if (desc) {
-+				*flags = p->flags;
-+				return desc;
-+			}
-+
-+			dev_warn(dev, "cannot find GPIO line %s, deferring\n",
-+				 p->chip_label);
-+			return ERR_PTR(-EPROBE_DEFER);
-+		}
-+
- 		chip = find_chip_by_name(p->chip_label);
+-	ret = alloc_chrdev_region(&gpio_devt, 0, GPIO_DEV_MAX, "gpiochip");
++	ret = alloc_chrdev_region(&gpio_devt, 0, GPIO_DEV_MAX, GPIOCHIP_NAME);
+ 	if (ret < 0) {
+ 		pr_err("gpiolib: failed to allocate char dev region\n");
+ 		bus_unregister(&gpio_bus_type);
+diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+index ca9bc1e4803c2979..a4a759920faa48ab 100644
+--- a/drivers/gpio/gpiolib.h
++++ b/drivers/gpio/gpiolib.h
+@@ -16,6 +16,8 @@
+ #include <linux/module.h>
+ #include <linux/cdev.h>
  
- 		if (!chip) {
-diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
-index 1ebe5be05d5f81fa..84c1c097e55eefaf 100644
---- a/include/linux/gpio/machine.h
-+++ b/include/linux/gpio/machine.h
-@@ -31,7 +31,7 @@ enum gpio_lookup_flags {
-  */
- struct gpiod_lookup {
- 	const char *chip_label;
--	u16 chip_hwnum;
-+	u16 chip_hwnum;			/* if -1, chip_label is named line */
- 	const char *con_id;
- 	unsigned int idx;
- 	unsigned long flags;
++#define GPIOCHIP_NAME	"gpiochip"
++
+ /**
+  * struct gpio_device - internal state container for GPIO devices
+  * @id: numerical ID number for the GPIO chip
 -- 
 2.17.1
 
