@@ -2,159 +2,143 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0725C432C3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 15:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD506C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 917732075C
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 15:39:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AF2920835
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:50:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtuGQCCT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbfK0Pji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 10:39:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28158 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726852AbfK0Pji (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 10:39:38 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xARFbTcO065590
-        for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2019 10:39:37 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2whhyfqf71-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2019 10:39:36 -0500
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Wed, 27 Nov 2019 15:39:34 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 27 Nov 2019 15:39:31 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xARFdUPK47251804
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Nov 2019 15:39:30 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 89BE411C04A;
-        Wed, 27 Nov 2019 15:39:30 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5564811C052;
-        Wed, 27 Nov 2019 15:39:29 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.138.180])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 27 Nov 2019 15:39:29 +0000 (GMT)
-Subject: Re: One question about trusted key of keyring in Linux kernel.
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
-        "Zhu, Bing" <bing.zhu@intel.com>,
-        "Chen, Luhai" <luhai.chen@intel.com>
-Date:   Wed, 27 Nov 2019 10:39:28 -0500
-In-Reply-To: <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
-References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
-         <1573659978.17949.83.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
-         <1574796456.4793.248.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
+        id S1726990AbfK0Ruh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 12:50:37 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:37653 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726947AbfK0Rug (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 12:50:36 -0500
+Received: by mail-io1-f68.google.com with SMTP id k24so15201940ioc.4;
+        Wed, 27 Nov 2019 09:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
+        b=jtuGQCCTDbUJ5ImvXzF36pJWvS/G0E2f9jGhmPvOSjcR9/GOBctAZDeZZx+XDT+ZFL
+         zBkd7eWDm+XH6doZMonVivdpXIzSv5x1nB6rw4K6Z93MVpCL8s3g0ekoR6j9eMJNWHP5
+         QZ37fW014SlXffav0nD0sZz12sGAFUnmv5oQmVLQV6lA6oqfzy6EnB1RhU2P7189BCPH
+         7PXH53O2VXGzISkP3uge84MCvBgqU9IBqapRO4H17fM8l59sdEYtQYzzbr5flTIr75GR
+         74Ea84SQAfV1VlbQu05wqGpE5JqqLdmEAUsGhzF7liHMKQNjAyuAdOOF7bjVdZJ+erxp
+         IlQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
+        b=SCLXyOlBFhR/JHs6jRjd2+RGH7zSrHDrY/mMEJR3/vcPFCGQibFiIK8ETr3euav3M8
+         bRlXMWpiw1ZfVS880N4sbCSK0HVpI1jMIbdBirIkAGRr5xB/La0mGzNP0mgWmAeEYmEF
+         F8ujMHkRAGXDkXX3XUyLrFyz2IbeBhBRSvVERbyYqQOpo7/3G4V+7iJDR+SNGbZQViXS
+         Yoc3ZICVyMSX+ilotfIunGHWnAAB3+BOzl8l53zTLlUc3xmTh+geu/1Rv/JqfQfnfGH0
+         RP6rK2zS0bm2nJ7g2BiY/FuZ3zOiKMev6oB0Iey0I8bVLBL5Pe8TElnZ8lHna/JnpZQ3
+         vmZg==
+X-Gm-Message-State: APjAAAX8WhROdPGTTr5p0em32CtqQwoeLmkmXPJSUbRLCk7zRb2G6+KM
+        agZYzUAF4iEGx745Wj7v0CM=
+X-Google-Smtp-Source: APXvYqzWvzxtb7J0G8nzMhO77OMQr50BdQa1XbiNt1L46k32ns3H5ggL9HenLLvInyzeBxVZGAtX+g==
+X-Received: by 2002:a02:6a01:: with SMTP id l1mr5693053jac.73.1574877035951;
+        Wed, 27 Nov 2019 09:50:35 -0800 (PST)
+Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
+        by smtp.googlemail.com with ESMTPSA id b22sm1183466ior.49.2019.11.27.09.50.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Nov 2019 09:50:35 -0800 (PST)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
+Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 01/16] dyndbg-docs: eschew file /full/path query in docs
+Date:   Wed, 27 Nov 2019 10:50:24 -0700
+Message-Id: <20191127175025.1351158-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112715-0016-0000-0000-000002CD01AF
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112715-0017-0000-0000-0000332EE252
-Message-Id: <1574869168.4793.282.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-27_03:2019-11-27,2019-11-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911270137
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Shirley,
+Regarding:
+commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
+commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
 
-On Wed, 2019-11-27 at 02:46 +0000, Zhao, Shirley wrote:
-> Hi, Mimi, 
-> 
-> Answer your two questions:
-> 
-> 1. Yes, I have verified trusted key works well without PCR policy
-> protection as below: 
-> $ keyctl add trusted kmk "new 32 keyhandle=0x81000001" @u
-> 1055240928
-> $ keyctl list @u
-> 1 keys in keyring:
-> 1055240928: --alswrv     0     0 trusted: kmk
-> $ keyctl pipe 1055240928 > kmk.blob
-> $ cat kmk.blob
-> 007f0020ff808bd8b7239194e89aac6a95b4d210114742c20afa33493f002dffd068
-> 5d510010c12d7ad51eb83d6d93895de066bf3d39718cc503adb4802cb087b88b2fff
-> 4b040fe3a2be6a3f87c6749d087c9fb6e8734cb23f438d64087581a13bc83d5dc3b0
-> 26e77a894ece6620d0eb85df6449ff3c609fd77d5f0caf79b4535b002e0008000b00
-> 0000400000001000209a5b00b0d558fcf9e8c029522715e6b5906366eaec5f34367b
-> 8ab16c0fb9009a0073000000000020e3b0c44298fc1c149afbf4c8996fb92427ae41
-> e4649b934ca495991b7852b85501000b0022000bdcdb694e102e13a0fba5111081cb
-> 6cf616c118d404936cac3e84db24c71e47d50022000b04b5db1aa52635dfb242e76f
-> 6bde8e2176ae48fc682946c6c76d96f608079d1f0000002036b6fcca8206c7f722de
-> 85821d7ecb4785976fdd642bc7538505a2a818c8a23880214000000100202aedde45
-> 08f548d108193ec8fe166a7befde19113fe727ae2b29901bdece96e5
-> $ keyctl clear @u
-> $ keyctl list @u
-> keyring is empty
-> $ keyctl add trusted kmk "load `cat kmk.blob` keyhandle=0x81000001"
-> @u
-> 1022963731
-> $ keyctl print 1022963731
-> 007f0020ff808bd8b7239194e89aac6a95b4d210114742c20afa33493f002dffd068
-> 5d510010c12d7ad51eb83d6d93895de066bf3d39718cc503adb4802cb087b88b2fff
-> 4b040fe3a2be6a3f87c6749d087c9fb6e8734cb23f438d64087581a13bc83d5dc3b0
-> 26e77a894ece6620d0eb85df6449ff3c609fd77d5f0caf79b4535b002e0008000b00
-> 0000400000001000209a5b00b0d558fcf9e8c029522715e6b5906366eaec5f34367b
-> 8ab16c0fb9009a0073000000000020e3b0c44298fc1c149afbf4c8996fb92427ae41
-> e4649b934ca495991b7852b85501000b0022000bdcdb694e102e13a0fba5111081cb
-> 6cf616c118d404936cac3e84db24c71e47d50022000b04b5db1aa52635dfb242e76f
-> 6bde8e2176ae48fc682946c6c76d96f608079d1f0000002036b6fcca8206c7f722de
-> 85821d7ecb4785976fdd642bc7538505a2a818c8a23880214000000100202aedde45
-> 08f548d108193ec8fe166a7befde19113fe727ae2b29901bdece96e5
-> 
-> 2. The following kernel file is related with this problem. 
-> /security/keys/keyctl.c
-> /security/keys/key.c
-> /security/keys/trusted-keys/trusted_tpm1.c
-> /security/keys/trusted-keys/trusted_tpm2.c
-> 
-> To load the PCR policy protection trusted key, the call stack is: 
-> SYSCALL_DEFINE5(add_key,...) --> key_create_or_update() -->
-> __key_instantiate_and_link() -->  trusted_instantiate() -->
-> tpm2_unseal_trusted() --> tpm2_unseal_cmd(). 
-> 
-> Check dmesg, there will be error: 
-> [73336.351596] trusted_key: key_unseal failed (-1)
+2nd commit broke dynamic-debug's "file $fullpath" query form, but
+nobody noticed because 1st commit trimmed prefixes from control-file
+output, so the click-copy-pasting of fullpaths into new queries had
+ceased; that query form became unused.
 
-Like the other kernel mailing lists, please bottom post.  When
-reporting a problem, please include the kernel version and other
-relevant details.  For example, the TPM version and type (eg. hardware
-vendor, software TPM, etc).  Please indicate if this is a new problem
-and which kernel release it first start happening?
+Removing the function is cleanest, but it could be useful in
+old-compiler corner cases, where __FILE__ still has /full/path,
+and it safely does nothing otherwize.
 
-I have no experience with the tpm2_ commands,  I suggest trying to
-extend a single measurement to a PCR and sealing to that value.
+So instead, quietly deprecate "file /full/path" query form, by
+removing all /full/paths examples in the docs.  I skipped adding a
+back-compat note.
 
-Mimi
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 252e5ef324e5..e011f8907116 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -62,10 +62,10 @@ statements via::
+ 
+   nullarbor:~ # cat <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
++  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
++  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
++  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
++  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+   ...
+ 
+ 
+@@ -85,7 +85,7 @@ the debug statement callsites with any non-default flags::
+ 
+   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 
+ Command Language Reference
+ ==========================
+@@ -158,13 +158,12 @@ func
+ 	func svc_tcp_accept
+ 
+ file
+-    The given string is compared against either the full pathname, the
+-    src-root relative pathname, or the basename of the source file of
+-    each callsite.  Examples::
++    The given string is compared against either the src-root relative
++    pathname, or the basename of the source file of each callsite.
++    Examples::
+ 
+ 	file svcsock.c
+-	file kernel/freezer.c
+-	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
++	file kernel/freezer.c	# ie column 1 of control file
+ 
+ module
+     The given string is compared against the module name
+-- 
+2.23.0
 
