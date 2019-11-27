@@ -2,106 +2,94 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B62DEC432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 05:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57122C33C9B
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88E0720684
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 05:54:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E63F2071E
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 08:43:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbfK0FyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 00:54:20 -0500
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:42135 "EHLO
-        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726078AbfK0FyT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 00:54:19 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0TjCTZdE_1574834051;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjCTZdE_1574834051)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Nov 2019 13:54:11 +0800
-Subject: Re: [PATCH v2 3/3] sched/numa: documentation for per-cgroup numa stat
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <cc35a710-c2ec-6c61-e30e-ee707798c5e9@linux.alibaba.com>
- <9ce01935-84ba-e8b4-461b-8be388433950@infradead.org>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <7169fba4-220f-a4a7-d6e7-0f025a3cd308@linux.alibaba.com>
-Date:   Wed, 27 Nov 2019 13:54:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <9ce01935-84ba-e8b4-461b-8be388433950@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1726696AbfK0InL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 03:43:11 -0500
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:52844 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726985AbfK0InK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 03:43:10 -0500
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Wwiu2100b5USYZQ01wiua4; Wed, 27 Nov 2019 09:43:09 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iZsuU-0000xw-RV; Wed, 27 Nov 2019 09:42:54 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iZsuU-0004PA-P7; Wed, 27 Nov 2019 09:42:54 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 7/7] MAINTAINERS: Add GPIO Aggregator/Repeater section
+Date:   Wed, 27 Nov 2019 09:42:53 +0100
+Message-Id: <20191127084253.16356-8-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191127084253.16356-1-geert+renesas@glider.be>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Randy
+Add a maintainership section for the GPIO Aggregator/Repeater, covering
+documentation, Device Tree bindings, and driver source code.
 
-On 2019/11/27 下午12:58, Randy Dunlap wrote:
-> On 11/26/19 5:50 PM, 王贇 wrote:
->> Since v1:
->>   * thanks to Iurii for the better sentence
->>   * thanks to Jonathan for the better format
->>
->> Add the description for 'cg_numa_stat', also a new doc to explain
->> the details on how to deal with the per-cgroup numa statistics.
->>
->> Cc: Peter Zijlstra <peterz@infradead.org>
->> Cc: Michal Koutný <mkoutny@suse.com>
->> Cc: Mel Gorman <mgorman@suse.de>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Iurii Zaikin <yzaikin@google.com>
->> Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
-> 
-> Hi,
-> I have a few comments/corrections. Please see below.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Harish: Do you want to be listed as maintainer, too?
 
-Thanks for the comments :-) will apply them all in next version.
+v3:
+  - New.
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> 
->> ---
->>  Documentation/admin-guide/cg-numa-stat.rst      | 163 
-[snip]
->> +if you want to have the whole history.
->> +
->> +We have per-task migfailed counter to tell how many page migration has been
-> 
-> I can't find any occurrence of 'migfailed' in the entire kernel source tree.
-> Maybe it is misspelled?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e5949b6827b72f2b..0f12ebdaa8faa76b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7043,6 +7043,14 @@ S:	Maintained
+ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
+ F:	drivers/gpio/gpiolib-acpi.c
+ 
++GPIO AGGREGATOR/REPEATER
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
++L:	linux-gpio@vger.kernel.org
++S:	Maintained
++F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
++F:	Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
++F:	drivers/gpio/gpio-aggregator.c
++
+ GPIO IR Transmitter
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
+-- 
+2.17.1
 
-This one is added by the secondary patch:
-  [PATCH v2 2/3] sched/numa: expose per-task pages-migration-failure
-
-As suggested by Mel.
-
-Regards,
-Michael Wang
-
-> 
->> +failed for a particular task, you will find it in /proc/PID/sched entry.
-> 
-> 
-> HTH.
-> 
