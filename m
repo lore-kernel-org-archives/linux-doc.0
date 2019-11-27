@@ -2,253 +2,344 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA42C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:54:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F39B5C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:58:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE4FC2080F
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:54:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B561B20835
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:58:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OWw7WqYI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbfK0EyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Nov 2019 23:54:14 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8700 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726540AbfK0EyO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Nov 2019 23:54:14 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAR4lkIR101417
-        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2019 23:54:13 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2whcxhgqp2-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2019 23:54:12 -0500
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Wed, 27 Nov 2019 04:54:11 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 27 Nov 2019 04:54:09 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xAR4s8vJ37945446
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Nov 2019 04:54:08 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4C4D15207A;
-        Wed, 27 Nov 2019 04:54:08 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.124.35.154])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 20BB952050;
-        Wed, 27 Nov 2019 04:54:06 +0000 (GMT)
-Subject: Re: [PATCH v3 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_*
- sysfs files
-To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-Cc:     corbet@lwn.net, mahesh@linux.vnet.ibm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org, hbathini@linux.ibm.com
-References: <20191109122339.20484-1-sourabhjain@linux.ibm.com>
- <20191109122339.20484-3-sourabhjain@linux.ibm.com>
- <20191109125933.GF1384@kitsune.suse.cz>
- <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
- <20191124184059.GP11661@kitsune.suse.cz>
-From:   Sourabh Jain <sourabhjain@linux.ibm.com>
-Date:   Wed, 27 Nov 2019 10:24:06 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1726985AbfK0E6a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Nov 2019 23:58:30 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:60636 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfK0E6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Nov 2019 23:58:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=K9hTuzCHbAYzj1xCpMz13v3VR7aCPjv4f1pPE00Xhr0=; b=OWw7WqYIwWPvh2z/0Fk3Oob2R
+        pZiwWjIp+Th1rxNo10mlyghAxKfE3qnapJvBSxrZqs5MT7DAnAAtIdtV2OiMwGi2TXyOfCZ3xp8dK
+        IiR1Wxj9djGUOQ+anNt78JXxy44bYwunTKjtbOTLzWfayyWjCq9dtYTTpkBxWKobDfeJdDxO4TBos
+        MVN1V09kQtz0p87yvzjEErA4qUyBLODFdtgiH8iikLCdaP3VL5wpvcRjrcW9xt4JUMq0lg1XmEUMk
+        7POqYKGyBCag3/ApTHPHpW6/KPQFSlWnnepDK4vwkr3/UTMgyyiYZJJCB/aQk7GrY3KKUPscWTCOG
+        JL3qGwOeQ==;
+Received: from [2601:1c0:6280:3f0::5a22]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iZpPG-0007Xd-JQ; Wed, 27 Nov 2019 04:58:26 +0000
+Subject: Re: [PATCH v2 3/3] sched/numa: documentation for per-cgroup numa stat
+To:     =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <cc35a710-c2ec-6c61-e30e-ee707798c5e9@linux.alibaba.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <9ce01935-84ba-e8b4-461b-8be388433950@infradead.org>
+Date:   Tue, 26 Nov 2019 20:58:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191124184059.GP11661@kitsune.suse.cz>
+In-Reply-To: <cc35a710-c2ec-6c61-e30e-ee707798c5e9@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112704-0028-0000-0000-000003C07E12
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112704-0029-0000-0000-0000248382FB
-Message-Id: <ea97b5e3-e1e2-2aff-8227-7cfb551c8ebc@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-26_08:2019-11-26,2019-11-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911270037
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 11/25/19 12:10 AM, Michal Suchánek wrote:
-> On Sat, Nov 16, 2019 at 08:07:29PM +0530, Sourabh Jain wrote:
->>
->>
->> On 11/9/19 6:29 PM, Michal Suchánek wrote:
->>> On Sat, Nov 09, 2019 at 05:53:37PM +0530, Sourabh Jain wrote:
->>>> As the number of FADump sysfs files increases it is hard to manage all of
->>>> them inside /sys/kernel directory. It's better to have all the FADump
->>>> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
->>>> order to maintain the backward compatibility the /sys/kernel/fadump_*
->>>> sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
->>>> removed in future.
->>>>
->>>> As the FADump sysfs files are now part of dedicated directory there is no
->>>> need to prefix their name with fadump_, hence sysfs file names are also
->>>> updated. For example fadump_enabled sysfs file is now referred as enabled.
->>>>
->>>> Also consolidate ABI documentation for all the FADump sysfs files in a
->>>> single file Documentation/ABI/testing/sysfs-kernel-fadump.
->>>>
->>>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
->>>> ---
->>>>  Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
->>>>  arch/powerpc/kernel/fadump.c                  | 38 +++++++++++++++++
->>>>  arch/powerpc/platforms/powernv/opal-core.c    | 10 +++--
->>>>  3 files changed, 86 insertions(+), 3 deletions(-)
->>>>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
->>>>
->>>> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
->>>> new file mode 100644
->>>> index 000000000000..a77f1a5ba389
->>>> --- /dev/null
->>>> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
->>>> @@ -0,0 +1,41 @@
->>>> +What:		/sys/kernel/fadump/*
->>>> +Date:		Nov 2019
->>>> +Contact:	linuxppc-dev@lists.ozlabs.org
->>>> +Description:
->>>> +		The /sys/kernel/fadump/* is a collection of FADump sysfs
->>>> +		file provide information about the configuration status
->>>> +		of Firmware Assisted Dump (FADump).
->>>> +
->>>> +What:		/sys/kernel/fadump/enabled
->>>> +Date:		Nov 2019
->>>> +Contact:	linuxppc-dev@lists.ozlabs.org
->>>> +Description:	read only
->>>> +		Primarily used to identify whether the FADump is enabled in
->>>> +		the kernel or not.
->>>> +User:		Kdump service
->>>> +
->>>> +What:		/sys/kernel/fadump/registered
->>>> +Date:		Nov 2019
->>>> +Contact:	linuxppc-dev@lists.ozlabs.org
->>>> +Description:	read/write
->>>> +		Helps to control the dump collect feature from userspace.
->>>> +		Setting 1 to this file enables the system to collect the
->>>> +		dump and 0 to disable it.
->>>> +User:		Kdump service
->>>> +
->>>> +What:		/sys/kernel/fadump/release_mem
->>>> +Date:		Nov 2019
->>>> +Contact:	linuxppc-dev@lists.ozlabs.org
->>>> +Description:	write only
->>>> +		This is a special sysfs file and only available when
->>>> +		the system is booted to capture the vmcore using FADump.
->>>> +		It is used to release the memory reserved by FADump to
->>>> +		save the crash dump.
->>>> +
->>>> +What:		/sys/kernel/fadump/release_opalcore
->>>> +Date:		Nov 2019
->>>> +Contact:	linuxppc-dev@lists.ozlabs.org
->>>> +Description:	write only
->>>> +		The sysfs file is available when the system is booted to
->>>> +		collect the dump on OPAL based machine. It used to release
->>>> +		the memory used to collect the opalcore.
->>>> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
->>>> index ed59855430b9..a9591def0c84 100644
->>>> --- a/arch/powerpc/kernel/fadump.c
->>>> +++ b/arch/powerpc/kernel/fadump.c
->>>> @@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> +struct kobject *fadump_kobj;
->>>> +EXPORT_SYMBOL_GPL(fadump_kobj);
->>>> +
->>>>  static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
->>>>  						0200, NULL,
->>>>  						fadump_release_memory_store);
->>>> @@ -1428,6 +1431,16 @@ static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
->>>>  						0644, fadump_register_show,
->>>>  						fadump_register_store);
->>>>  
->>>> +static struct kobj_attribute release_attr = __ATTR(release_mem,
->>>> +						0200, NULL,
->>>> +						fadump_release_memory_store);
->>>> +static struct kobj_attribute enable_attr = __ATTR(enabled,
->>>> +						0444, fadump_enabled_show,
->>>> +						NULL);
->>>> +static struct kobj_attribute register_attr = __ATTR(registered,
->>>> +						0644, fadump_register_show,
->>>> +						fadump_register_store);
->>>> +
->>>>  DEFINE_SHOW_ATTRIBUTE(fadump_region);
->>>>  
->>>>  static void fadump_init_files(void)
->>>> @@ -1435,6 +1448,11 @@ static void fadump_init_files(void)
->>>>  	struct dentry *debugfs_file;
->>>>  	int rc = 0;
->>>>  
->>>> +	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
->>>> +	if (!fadump_kobj) {
->>>> +		pr_err("failed to create fadump kobject\n");
->>>> +		return;
->>>> +	}
->>>>  	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
->>>>  	if (rc)
->>>>  		printk(KERN_ERR "fadump: unable to create sysfs file"
->>>> @@ -1458,6 +1476,26 @@ static void fadump_init_files(void)
->>>>  			printk(KERN_ERR "fadump: unable to create sysfs file"
->>>>  				" fadump_release_mem (%d)\n", rc);
->>>>  	}
->>>> +	/* Replicating the following sysfs attributes under FADump kobject.
->>>> +	 *
->>>> +	 *	- fadump_enabled -> enabled
->>>> +	 *	- fadump_registered -> registered
->>>> +	 *	- fadump_release_mem -> release_mem
->>>> +	 */
->>>> +	rc = sysfs_create_file(fadump_kobj, &enable_attr.attr);
->>>> +	if (rc)
->>>> +		pr_err("unable to create enabled sysfs file (%d)\n",
->>>> +		       rc);
->>>> +	rc = sysfs_create_file(fadump_kobj, &register_attr.attr);
->>>> +	if (rc)
->>>> +		pr_err("unable to create registered sysfs file (%d)\n",
->>>> +		       rc);
->>>> +	if (fw_dump.dump_active) {
->>>> +		rc = sysfs_create_file(fadump_kobj, &release_attr.attr);
->>>> +		if (rc)
->>>> +			pr_err("unable to create release_mem sysfs file (%d)\n",
->>>> +			       rc);
->>>> +	}
->>>>  	return;
->>>>  }
->>> Hello,
->>>
->>
->> I’m so sorry for taking this long to write you back. 
->>
->>> wouldn't it make more sense to create the files in the new location and
->>> add a symlink at the old location?
->>
->> There are APIs which allow to create a symlink for an entire kobject but
->> I did not find a way to create symlink of an individual sysfs file.
->>
->> Do you have any approach in mind to achieve the same?
+On 11/26/19 5:50 PM, 王贇 wrote:
+> Since v1:
+>   * thanks to Iurii for the better sentence
+>   * thanks to Jonathan for the better format
 > 
-> There is at least one example of plain symlink:
+> Add the description for 'cg_numa_stat', also a new doc to explain
+> the details on how to deal with the per-cgroup numa statistics.
 > 
-> find /sys -type l -xtype f
-> /sys/kernel/security/evm
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Michal Koutný <mkoutny@suse.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Iurii Zaikin <yzaikin@google.com>
+> Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
 
-Yes, there are APIs available in debugfs and securityfs that allow creatinga symlink of sysfs files. But I did not find a generic API at sysfs level tocreate symlink.
+Hi,
+I have a few comments/corrections. Please see below.
 
-Let's wait for others to put in their view on this. Meanwhile, I'll start
-exploring how we can replace the older FADump sysfs files with symlink.
+> ---
+>  Documentation/admin-guide/cg-numa-stat.rst      | 163 ++++++++++++++++++++++++
+>  Documentation/admin-guide/index.rst             |   1 +
+>  Documentation/admin-guide/kernel-parameters.txt |   4 +
+>  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+>  4 files changed, 177 insertions(+)
+>  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+> 
+> diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
+> new file mode 100644
+> index 000000000000..6f505f46fe00
+> --- /dev/null
+> +++ b/Documentation/admin-guide/cg-numa-stat.rst
+> @@ -0,0 +1,163 @@
+> +===============================
+> +Per-cgroup NUMA statistics
+> +===============================
+> +
+> +Background
+> +----------
+> +
+> +On NUMA platforms, remote memory accessing always has a performance penalty,
 
-Thanks,
-Sourabh Jain
+                                                                       penalty.
+
+> +although we have NUMA balancing working hard to maximize the access locality,
+
+   Although
+
+> +there are still situations it can't help.
+> +
+> +This could happen in modern production environment. When a large number of
+> +cgroups are used to classify and control resources, this creates a complex
+> +configuration for memory policy, CPUs and NUMA nodes. In such cases NUMA
+> +balancing could end up with the wrong memory policy or exhausted local NUMA
+> +node, which would lead to low percentage of local page accesses.
+> +
+> +We need to detect such cases, figure out which workloads from which cgroup
+> +has introduced the issues, then we get chance to do adjustment to avoid
+
+   have
+
+> +performance degradation.
+> +
+> +However, there are no hardware counters for per-task local/remote accessing
+> +info, we don't know how many remote page accesses have occurred for a
+> +particular task.
+> +
+> +Statistics
+> +----------
+> +
+> +Fortunately, we have NUMA Balancing which scans task's mapping and triggers PF
+> +periodically, gives us the opportunity to record per-task page accessing info.
+
+                 giving
+
+> +
+> +By "echo 1 > /proc/sys/kernel/cg_numa_stat" at runtime or adding boot parameter
+> +'cg_numa_stat', we will enable the accounting of per-cgroup numa statistics,
+
+                                                               NUMA
+
+> +the 'cpu.numa_stat' entry of CPU cgroup will show statistics::
+> +
+> +  locality -- execution time sectioned by task NUMA locality (in ms)
+> +  exectime -- execution time sectioned by NUMA node (in ms)
+> +
+> +We define 'task NUMA locality' as::
+> +
+> +  nr_local_page_access * 100 / (nr_local_page_access + nr_remote_page_access)
+> +
+> +this per-task percentage value will be updated on the ticks for current task,
+
+   This
+
+> +and the access counter will be updated on task's NUMA balancing PF, so only
+> +the pages which NUMA Balancing paid attention to will be accounted.
+> +
+> +On each tick, we acquire the locality of current task on that CPU, accumulating
+> +the ticks into the counter of corresponding locality region, tasks from the
+> +same group sharing the counters, becoming the group locality.
+> +
+> +Similarly, we acquire the NUMA node of current CPU where the current task is
+> +executing on, accumulating the ticks into the counter of corresponding node,
+> +becoming the per-cgroup node execution time.
+> +
+> +Note that the accounting is hierarchical, which means the numa statistics for
+
+                                                             NUMA
+
+> +a given group represents not only the workload of this group, but also the
+
+                 represent
+
+> +workloads of all it's descendants.
+
+                    its
+
+> +
+> +For example the 'cpu.numa_stat' show::
+> +
+> +  locality 39541 60962 36842 72519 118605 721778 946553
+> +  exectime 1220127 1458684
+> +
+> +The locality is sectioned into 7 regions, approximately as::
+> +
+> +  0-13% 14-27% 28-42% 43-56% 57-71% 72-85% 86-100%
+> +
+> +And exectime is sectioned into 2 nodes, 0 and 1 in this case.
+> +
+> +Thus we know the workload of this group and it's descendants have totally
+
+                                               its
+
+> +executed 1220127ms on node_0 and 1458684ms on node_1, tasks with locality
+> +around 0~13% executed for 39541 ms, and tasks with locality around 87~100%
+> +executed for 946553 ms, which imply most of the memory access are local.
+> +
+> +Monitoring
+> +----------
+> +
+> +By monitoring the increments of these statistics, we can easily know whether
+> +NUMA balancing is working well for a particular workload.
+> +
+> +For example we take a 5 secs sample period, and consider locality under 27%
+
+                           seconds
+
+> +is bad, then on each sampling we have::
+> +
+> +  region_bad = region_1 + region_2
+> +  region_all = region_1 + region_2 + ... + region_7
+> +
+> +and we have the increments as::
+> +
+> +  region_bad_diff = region_bad - last_region_bad
+> +  region_all_diff = region_all - last_region_all
+> +
+> +which finally become::
+> +
+> +  region_bad_percent = region_bad_diff * 100 / region_all_diff
+> +
+> +we can plot a line for region_bad_percent, when the line close to 0 things
+
+   We
+
+> +are good, when getting close to 100% something is wrong, we can pick a proper
+> +watermark to trigger warning message.
+> +
+> +You may want to drop the data if the region_all is too small, which implies
+> +there are not many available pages for NUMA Balancing, ignoring would be fine
+> +since most likely the workload is insensitive to NUMA.
+> +
+> +Monitoring root group helps you control the overall situation, while you may
+> +also want to monitor all the leaf groups which contain the workloads, this
+> +helps to catch the mouse.
+> +
+> +The exectime could be useful when NUMA Balancing is disabled, or when locality
+> +becomes too small, for NUMA node X we have::
+
+               small. For
+
+> +
+> +  exectime_X_diff = exectime_X - last_exectime_X
+> +  exectime_all_diff = exectime_all - last_exectime_all
+> +
+> +try to put your workload into a memory cgroup which providing per-node memory
+
+   Try                                                 provides
+
+
+> +consumption by 'memory.numa_stat' entry, then we could get::
+> +
+> +  memory_percent_X = memory_X * 100 / memory_all
+> +  exectime_percent_X = exectime_X_diff * 100 / exectime_all_diff
+> +
+> +These two percentages are usually matched on each node, workload should execute
+> +mostly on the node contain most of it's memory, but it's not guaranteed.
+
+                 node that contains most of its
+
+> +
+> +The workload may only access a small part of it's memory, in such cases although
+
+                                                its
+
+> +the majority of memory are remotely, locality could still be good.
+> +
+> +Thus to tell if things are fine or not depends on the understanding of system
+> +resource deployment, however, if you find node X got 100% memory percent but 0%
+> +exectime percent, definitely something is wrong.
+> +
+> +Troubleshooting
+> +---------------
+> +
+> +After identifying which workload introduced the bad locality, check:
+> +
+> +1). Is the workload bound to a particular NUMA node?
+> +2). Has any NUMA node run out of resources?
+> +
+> +There are several ways to bind task's memory with a NUMA node, the strict way
+> +like the MPOL_BIND memory policy or 'cpuset.mems' will limiting the memory
+
+                                                     will limit
+
+> +node where to allocate pages, in this situation, admin should make sure the
+
+                          pages. In
+
+> +task is allowed to run on the CPUs of that NUMA node, and make sure there are
+> +available CPU resource there.
+> +
+> +There are also ways to bind task's CPU with a NUMA node, like 'cpuset.cpus' or
+> +sched_setaffinity() syscall, in this situation, NUMA Balancing help to migrate
+
+                       syscall. In
+
+> +pages into that node, admin should make sure there are available memory there.
+> +
+> +Admin could try rebind or unbind the NUMA node to erase the damage, make a
+
+               try to
+
+> +change then observe the statistics see if things get better until the situation
+
+               observe the statistics to see if
+
+> +is acceptable.
+> +
+> +Highlights
+> +----------
+> +
+> +For some tasks, NUMA Balancing may found no necessary to scan pages, and
+> +locality could always be 0 or small number, don't pay attention to them
+> +since they most likely insensitive to NUMA.
+> +
+> +There are no accounting until the option turned on, so enable it in advance
+
+         is no accounting until the option is turned on,
+
+> +if you want to have the whole history.
+> +
+> +We have per-task migfailed counter to tell how many page migration has been
+
+I can't find any occurrence of 'migfailed' in the entire kernel source tree.
+Maybe it is misspelled?
+
+> +failed for a particular task, you will find it in /proc/PID/sched entry.
+
+
+HTH.
+
+-- 
+~Randy
 
