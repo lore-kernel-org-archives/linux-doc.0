@@ -2,140 +2,159 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AABC432C3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76145C43215
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 18:07:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A359206F0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 17:51:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sd60D36c"
+	by mail.kernel.org (Postfix) with ESMTP id 5AB2B20874
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 18:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727394AbfK0Rv4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 12:51:56 -0500
-Received: from mail-io1-f50.google.com ([209.85.166.50]:35662 "EHLO
-        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbfK0Rv4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 12:51:56 -0500
-Received: by mail-io1-f50.google.com with SMTP id x21so25868637ior.2;
-        Wed, 27 Nov 2019 09:51:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xkTFpkb5r8yGg3ZllYhT/TfhMsW8y8XB6bOw4rnyvIg=;
-        b=sd60D36c3gKuRUo0c8JHhGZ4Mv/X9usffrUt7h6oIqM8CZx40W4OEKCQayAkHzC3sE
-         ADP8ol7roUh4s4QFwoFnDHq+7Kex/I/kSJ7q3IUvQ7PRFjEvAHIyS2RSXhC/597uD9Vx
-         NvYuD2Lvkcva3ooK5lwqd8GnVn/lBLewB7rwzdVGUGCLRzAF5evrVvfYAw+JmZNQ+qZd
-         Or0afYsOX9H+GpRZF65iDEgi3V4mquV5aVk+Q0WPjeLbQiV0IN99JIpEpejlIfe9egwj
-         ZMpxtdcP/bvECZg/dpxnCwVuEcdJj8v4pejac45n9Y+kq9VCm4pJqyAS8kK2Hk1g9U2u
-         h76A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xkTFpkb5r8yGg3ZllYhT/TfhMsW8y8XB6bOw4rnyvIg=;
-        b=b9ESC0Xlse+PhPa1Aaze77JEAJioUlq50FAazkrzqsLLVt8YwdFZdxJz46JUx50rkv
-         GrdWJTlziJrvqzcKwvP6fcDM5iEfCStdp1wPbKCwEXlBZv6lh6Ayq5TLPQUqHCEVCR23
-         Wz8UJuYhUlpVo0x9zkn20R4ToU/zVXz28xEdSfFhqzSXyZfJ07FzaYsXTX8HkhYAycQD
-         ogul/UVgP94qJHsYTRPcO0smP9iBK1phv2NVNJp81FaDLjVVlTmIP7y5C/upiPNFLtnT
-         SPTn72z8kjddf74o0MDGEkyMgUYsFj8vhOWRrlV1EysY9a2O6hrWY6hThuzfLaf0Y5sH
-         Jm9g==
-X-Gm-Message-State: APjAAAXQ0qcdslSOkpc1vVwB6VOnjL3GBP0wlLxmm5eeSRl7I6XaZ5tG
-        QKhTa5V/gqLNpbzk0auMvV0=
-X-Google-Smtp-Source: APXvYqzAAhmy4HRWKkl4v8JsQijaLV6aRF80X+52bCol8elZ+6Jq69LpKTIzKi9EU1SsFQFevDMlWA==
-X-Received: by 2002:a5d:958d:: with SMTP id a13mr36252257ioo.144.1574877115174;
-        Wed, 27 Nov 2019 09:51:55 -0800 (PST)
-Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id j79sm4588510ila.70.2019.11.27.09.51.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2019 09:51:54 -0800 (PST)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, linux-kernel@vger.kernel.org
-Cc:     linux@rasmusvillemoes.dk, greg@kroah.com,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 15/16] dyndbg: allow inverted-flag-chars in modflags
-Date:   Wed, 27 Nov 2019 10:51:50 -0700
-Message-Id: <20191127175151.1351999-1-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727127AbfK0SH3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 13:07:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36914 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726655AbfK0SH2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 13:07:28 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xARI4woc038018;
+        Wed, 27 Nov 2019 13:06:23 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2whcxr3xhh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 Nov 2019 13:06:23 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xARI50D0028595;
+        Wed, 27 Nov 2019 18:06:22 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma01dal.us.ibm.com with ESMTP id 2wevd70s2c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 Nov 2019 18:06:21 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xARI6K8628442992
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Nov 2019 18:06:20 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 758F6136055;
+        Wed, 27 Nov 2019 18:06:20 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5EC3813604F;
+        Wed, 27 Nov 2019 18:06:18 +0000 (GMT)
+Received: from jarvis.ext.hansenpartnership.com (unknown [9.85.134.245])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Wed, 27 Nov 2019 18:06:18 +0000 (GMT)
+Message-ID: <1574877977.3551.5.camel@linux.ibm.com>
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+From:   James Bottomley <jejb@linux.ibm.com>
+To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Date:   Wed, 27 Nov 2019 10:06:17 -0800
+In-Reply-To: <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+         <1573659978.17949.83.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-27_04:2019-11-27,2019-11-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1011
+ impostorscore=0 mlxlogscore=999 suspectscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911270147
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend flags modifications to allow [PFMLT_XYZ] inverted flags.
-This allows control-queries like:
+On Tue, 2019-11-26 at 07:32 +0000, Zhao, Shirley wrote:
+> Thanks for your feedback, Mimi. 
+> But the document of dracut can't solve my problem. 
+> 
+> I did more test these days and try to descript my question in more
+> detail. 
+> 
+> In my scenario, the trusted key will be sealed into TPM with PCR
+> policy. 
+> And there are some related options in manual like 
+>        hash=         hash algorithm name as a string. For TPM 1.x the
+> only
+>                      allowed value is sha1. For TPM 2.x the allowed
+> values
+>                      are sha1, sha256, sha384, sha512 and sm3-256.
+>        policydigest= digest for the authorization policy. must be
+> calculated
+>                      with the same hash algorithm as specified by the
+> 'hash='
+>                      option.
+>        policyhandle= handle to an authorization policy session that
+> defines the
+>                      same policy and with the same hash algorithm as
+> was used to
+>                      seal the key. 
+> 
+> Here is my test step. 
+> Firstly, the pcr policy is generated as below: 
+> $ tpm2_createpolicy --policy-pcr --pcr-list sha256:7 --policy
+> pcr7_bin.policy > pcr7.policy
+> 
+> Pcr7.policy is the ascii hex of policy:
+> $ cat pcr7.policy
+> 321fbd28b60fcc23017d501b133bd5dbf2889814588e8a23510fe10105cb2cc9
+> 
+> Then generate the trusted key and configure policydigest and get the
+> key ID: 
+> $ keyctl add trusted kmk "new 32 keyhandle=0x81000001 hash=sha256
+> policydigest=`cat pcr7.policy`" @u
+> 874117045
+> 
+> Save the trusted key. 
+> $ keyctl pipe 874117045 > kmk.blob
+> 
+> Reboot and load the key. 
+> Start a auth session to generate the policy:
+> $ tpm2_startauthsession -S session.ctx
+> session-handle: 0x3000000
+> $ tpm2_pcrlist -L sha256:7 -o pcr7.sha256
+> $ tpm2_policypcr -S session.ctx -L sha256:7 -F pcr7.sha256 -f
+> pcr7.policy
+> policy-digest:
+> 0x321FBD28B60FCC23017D501B133BD5DBF2889814588E8A23510FE10105CB2CC9
+> 
+> Input the policy handle to load trusted key:
+> $ keyctl add trusted kmk "load `cat kmk.blob` keyhandle=0x81000001
+> policyhandle=0x3000000" @u
+> add_key: Operation not permitted
+> 
+> The error should be policy check failed, because I use TPM command to
+> unseal directly with error of policy check failed. 
+> $ tpm2_unseal -c 0x81000001 -L sha256:7
+> ERROR on line: "81" in file: "./lib/log.h": Tss2_Sys_Unseal(0x99D) -
+> tpm:session(1):a policy check failed
+> ERROR on line: "213" in file: "tools/tpm2_unseal.c": Unseal failed!
+> ERROR on line: "166" in file: "tools/tpm2_tool.c": Unable to run
+> tpm2_unseal
 
-  #> Q () { echo file inode.c $* > control } # to type less
-  #> Q -P	# same as +p
-  #> Q +X	# same as -x
-  #> Q xyz-P	# same as xyz+p
+I think there's a miscommunication here: you're complaining about the
+error returned from a trusted key unseal operation that *should* fail,
+correct?  You think it should return a TPM error but instead it returns
+-EPERM.  That's completely correct: we translate all TPM errors into
+linux ones as we pass them up to userspace, so the best we can do is
+operation not permitted.
 
-This allows flags in a callsite to be simultaneously set and cleared,
-while still starting with the current flagstate (with +- ops).
-Generally, you chose -p or +p 1st, then set or clear flags
-accordingly.
-
-  # enable print on callsites with 'xy'; and re-mark with just 'z'
-  #> Q xy+pXYz
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- Documentation/admin-guide/dynamic-debug-howto.rst | 8 +++++---
- lib/dynamic_debug.c                               | 6 ++++--
- 2 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 5404e23eeac8..493e74a14bdd 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -250,9 +250,11 @@ only callsites with x&y cleared.
- 
- Flagsets cannot contain ``xX`` etc, a flag cannot be true and false.
- 
--modflags containing upper-case flags is reserved/undefined for now.
--inverted-flags are currently ignored, usage gets trickier if given
--``-pXy``, it should leave x set.
-+modflags may contain upper-case flags also, using these lets you
-+invert the flag setting implied by the OP; '-pX' means disable
-+printing, and mark that callsite with usr-x flag to create a group,
-+for optional further manipulation.  Generally, '+p' and '-p' is your
-+main choice, and use of inverted flags in modflags is rare.
- 
- Notes::
- 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index b2630df0c3a5..82daf95b8f64 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -488,15 +488,17 @@ static int ddebug_parse_flags(const char *str,
- 
- 	/* calculate final mods: flags, mask based upon op */
- 	switch (op) {
-+		unsigned int tmp;
- 	case '=':
- 		mods->mask = 0;
- 		break;
- 	case '+':
--		mods->mask = ~0U;
-+		mods->mask = ~mods->mask;
- 		break;
- 	case '-':
-+		tmp = mods->mask;
- 		mods->mask = ~mods->flags;
--		mods->flags = 0;
-+		mods->flags = tmp;
- 		break;
- 	}
- 
--- 
-2.23.0
+James
 
