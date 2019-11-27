@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11447C432C3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14757C43215
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:32:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CBFB8216F4
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:16:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF476206F0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574889381;
-	bh=R8yDMwW6Q5kfvBAmrQx9hhdSqYG+QQmt9RkCH8BUsL4=;
+	s=default; t=1574890342;
+	bh=HrcUwKkHlSK/RNoEZonL455GYgfvlpM2beplA3LdyN4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=O/krhx6FuLiUkVaf4OylphYVxjy0mfek6/XKhPgfsk8fWtNOf1ywJ+DrOmgUUYYgG
-	 IWbnmH6Vuwoj5ZYA2Xvg8sKrU/oWfd2YEz4Fspkw0JXSsactLxDf5cLdkkRSEn5Thr
-	 S4TVwDH4WSaOqOFmUPPfeoJSXCR2lORMSnGUdDrY=
+	b=IcC/i4So6d7TI7QWcj838AB88PgY/d5xjFAyK1AiPjewBMov63us9lEUoFNh5XyJH
+	 M4pQhi57YWSqOHu8k4qzJ/N1JsHq7rOISlJ+JQrOPYS2I/o4Rdz1QoOCcj1SaF/i2s
+	 BccDqnyiyechQ863K/sZX1kavdts71zSamiajg1A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731516AbfK0VQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 16:16:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47590 "EHLO mail.kernel.org"
+        id S1729590AbfK0Ux3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 15:53:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42284 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727344AbfK0VOO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Nov 2019 16:14:14 -0500
+        id S1730729AbfK0Ux3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Nov 2019 15:53:29 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4E19F215F2;
-        Wed, 27 Nov 2019 21:14:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1D87F218AF;
+        Wed, 27 Nov 2019 20:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574889253;
-        bh=R8yDMwW6Q5kfvBAmrQx9hhdSqYG+QQmt9RkCH8BUsL4=;
+        s=default; t=1574888008;
+        bh=HrcUwKkHlSK/RNoEZonL455GYgfvlpM2beplA3LdyN4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AYXQPHfubgD2dPgtOYR4N6ZtQTKuKK+qLEz3AP3RoU3X073L0jZgEPU1BzSipWjxd
-         +t5U/rl3nKjw0jKSTk1jc6RT9flnRkoJC0khpfsOZhAIU722VM0FRAu5UUoYI+BE5V
-         a7/M1LFUJ3mqJfYjjG/WVwqQrmTm7jPueWbJYOsg=
+        b=sphDqL4HRU5QS4O0Wd0N154fCOnXLT+cMILzPgVoURhkVKkMZG8kZDxws0zi+sLyu
+         UcWgLkKnfynqgLUIT+Gm/h/89oqqdI4sVaOSdRVdST6Oh662d7pwAt2UBrNisodfBQ
+         hC9LhO5kAxISPvfiZMdzuAsd9xOPNvQMWEg6jkxc=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -53,12 +53,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tim Chen <tim.c.chen@linux.intel.com>,
         Tony Luck <tony.luck@intel.com>,
         Tyler Hicks <tyhicks@canonical.com>, x86-ml <x86@kernel.org>
-Subject: [PATCH 5.4 10/66] x86/speculation: Fix incorrect MDS/TAA mitigation status
-Date:   Wed, 27 Nov 2019 21:32:05 +0100
-Message-Id: <20191127202646.142189951@linuxfoundation.org>
+Subject: [PATCH 4.14 178/211] x86/speculation: Fix incorrect MDS/TAA mitigation status
+Date:   Wed, 27 Nov 2019 21:31:51 +0100
+Message-Id: <20191127203110.639688055@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191127202632.536277063@linuxfoundation.org>
-References: <20191127202632.536277063@linuxfoundation.org>
+In-Reply-To: <20191127203049.431810767@linuxfoundation.org>
+References: <20191127203049.431810767@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -159,7 +159,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  parameter "tsx=" on CPUs which support TSX control. MSR_IA32_TSX_CTRL is used
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2473,6 +2473,12 @@
+@@ -2254,6 +2254,12 @@
  				     SMT on vulnerable CPUs
  			off        - Unconditionally disable MDS mitigation
  
@@ -172,7 +172,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			Not specifying this option is equivalent to
  			mds=full.
  
-@@ -4931,6 +4937,11 @@
+@@ -4588,6 +4594,11 @@
  				     vulnerable to cross-thread TAA attacks.
  			off        - Unconditionally disable TAA mitigation
  
