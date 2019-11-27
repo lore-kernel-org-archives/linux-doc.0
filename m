@@ -2,192 +2,253 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C527C432C3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 02:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA42C432C0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:54:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3FACE206CC
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 02:46:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE4FC2080F
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 04:54:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbfK0Cqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Nov 2019 21:46:48 -0500
-Received: from mga06.intel.com ([134.134.136.31]:34617 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726304AbfK0Cqs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Nov 2019 21:46:48 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2019 18:46:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,247,1571727600"; 
-   d="scan'208";a="240165411"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2019 18:46:47 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 26 Nov 2019 18:46:47 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 26 Nov 2019 18:46:46 -0800
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 26 Nov 2019 18:46:46 -0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.108]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.213]) with mapi id 14.03.0439.000;
- Wed, 27 Nov 2019 10:46:44 +0800
-From:   "Zhao, Shirley" <shirley.zhao@intel.com>
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
-        "Zhu, Bing" <bing.zhu@intel.com>,
-        "Chen, Luhai" <luhai.chen@intel.com>
-Subject: RE: One question about trusted key of keyring in Linux kernel.
-Thread-Topic: One question about trusted key of keyring in Linux kernel.
-Thread-Index: AdWZwFKzDBwFOydYTGGk+Aqs+6BIxAANhxEAAoxRZMAACTMHAAAdE3MA
-Date:   Wed, 27 Nov 2019 02:46:44 +0000
-Message-ID: <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
-References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
-         <1573659978.17949.83.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
- <1574796456.4793.248.camel@linux.ibm.com>
-In-Reply-To: <1574796456.4793.248.camel@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzUwNDI3NTYtYTE3NC00ZTRhLWJlYTAtOWI4Nzc3ODNjMDI0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiY0VwbFpvM3NZdXJTNFc1REswOWMxWjRkMFhVN3Y2XC9rSmtVRUx2N0Y5YmZBXC9ETkVIWHRnZmEwbzdLVW9ocyswIn0=
-x-ctpclassification: CTP_NT
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726510AbfK0EyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Nov 2019 23:54:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8700 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726540AbfK0EyO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Nov 2019 23:54:14 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAR4lkIR101417
+        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2019 23:54:13 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2whcxhgqp2-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2019 23:54:12 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Wed, 27 Nov 2019 04:54:11 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 27 Nov 2019 04:54:09 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xAR4s8vJ37945446
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Nov 2019 04:54:08 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4C4D15207A;
+        Wed, 27 Nov 2019 04:54:08 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.154])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 20BB952050;
+        Wed, 27 Nov 2019 04:54:06 +0000 (GMT)
+Subject: Re: [PATCH v3 2/4] powerpc/fadump: reorganize /sys/kernel/fadump_*
+ sysfs files
+To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+Cc:     corbet@lwn.net, mahesh@linux.vnet.ibm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org, hbathini@linux.ibm.com
+References: <20191109122339.20484-1-sourabhjain@linux.ibm.com>
+ <20191109122339.20484-3-sourabhjain@linux.ibm.com>
+ <20191109125933.GF1384@kitsune.suse.cz>
+ <8c1ec297-0c34-12de-2528-be436697215a@linux.ibm.com>
+ <20191124184059.GP11661@kitsune.suse.cz>
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+Date:   Wed, 27 Nov 2019 10:24:06 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <20191124184059.GP11661@kitsune.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112704-0028-0000-0000-000003C07E12
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112704-0029-0000-0000-0000248382FB
+Message-Id: <ea97b5e3-e1e2-2aff-8227-7cfb551c8ebc@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-26_08:2019-11-26,2019-11-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911270037
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGksIE1pbWksIA0KDQpBbnN3ZXIgeW91ciB0d28gcXVlc3Rpb25zOg0KDQoxLiBZZXMsIEkgaGF2
-ZSB2ZXJpZmllZCB0cnVzdGVkIGtleSB3b3JrcyB3ZWxsIHdpdGhvdXQgUENSIHBvbGljeSBwcm90
-ZWN0aW9uIGFzIGJlbG93OiANCiQga2V5Y3RsIGFkZCB0cnVzdGVkIGttayAibmV3IDMyIGtleWhh
-bmRsZT0weDgxMDAwMDAxIiBAdQ0KMTA1NTI0MDkyOA0KJCBrZXljdGwgbGlzdCBAdQ0KMSBrZXlz
-IGluIGtleXJpbmc6DQoxMDU1MjQwOTI4OiAtLWFsc3dydiAgICAgMCAgICAgMCB0cnVzdGVkOiBr
-bWsNCiQga2V5Y3RsIHBpcGUgMTA1NTI0MDkyOCA+IGttay5ibG9iDQokIGNhdCBrbWsuYmxvYg0K
-MDA3ZjAwMjBmZjgwOGJkOGI3MjM5MTk0ZTg5YWFjNmE5NWI0ZDIxMDExNDc0MmMyMGFmYTMzNDkz
-ZjAwMmRmZmQwNjg1ZDUxMDAxMGMxMmQ3YWQ1MWViODNkNmQ5Mzg5NWRlMDY2YmYzZDM5NzE4Y2M1
-MDNhZGI0ODAyY2IwODdiODhiMmZmZjRiMDQwZmUzYTJiZTZhM2Y4N2M2NzQ5ZDA4N2M5ZmI2ZTg3
-MzRjYjIzZjQzOGQ2NDA4NzU4MWExM2JjODNkNWRjM2IwMjZlNzdhODk0ZWNlNjYyMGQwZWI4NWRm
-NjQ0OWZmM2M2MDlmZDc3ZDVmMGNhZjc5YjQ1MzViMDAyZTAwMDgwMDBiMDAwMDAwNDAwMDAwMDAx
-MDAwMjA5YTViMDBiMGQ1NThmY2Y5ZThjMDI5NTIyNzE1ZTZiNTkwNjM2NmVhZWM1ZjM0MzY3Yjhh
-YjE2YzBmYjkwMDlhMDA3MzAwMDAwMDAwMDAyMGUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZi
-OTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUwMTAwMGIwMDIyMDAwYmRjZGI2OTRl
-MTAyZTEzYTBmYmE1MTExMDgxY2I2Y2Y2MTZjMTE4ZDQwNDkzNmNhYzNlODRkYjI0YzcxZTQ3ZDUw
-MDIyMDAwYjA0YjVkYjFhYTUyNjM1ZGZiMjQyZTc2ZjZiZGU4ZTIxNzZhZTQ4ZmM2ODI5NDZjNmM3
-NmQ5NmY2MDgwNzlkMWYwMDAwMDAyMDM2YjZmY2NhODIwNmM3ZjcyMmRlODU4MjFkN2VjYjQ3ODU5
-NzZmZGQ2NDJiYzc1Mzg1MDVhMmE4MThjOGEyMzg4MDIxNDAwMDAwMDEwMDIwMmFlZGRlNDUwOGY1
-NDhkMTA4MTkzZWM4ZmUxNjZhN2JlZmRlMTkxMTNmZTcyN2FlMmIyOTkwMWJkZWNlOTZlNQ0KJCBr
-ZXljdGwgY2xlYXIgQHUNCiQga2V5Y3RsIGxpc3QgQHUNCmtleXJpbmcgaXMgZW1wdHkNCiQga2V5
-Y3RsIGFkZCB0cnVzdGVkIGttayAibG9hZCBgY2F0IGttay5ibG9iYCBrZXloYW5kbGU9MHg4MTAw
-MDAwMSIgQHUNCjEwMjI5NjM3MzENCiQga2V5Y3RsIHByaW50IDEwMjI5NjM3MzENCjAwN2YwMDIw
-ZmY4MDhiZDhiNzIzOTE5NGU4OWFhYzZhOTViNGQyMTAxMTQ3NDJjMjBhZmEzMzQ5M2YwMDJkZmZk
-MDY4NWQ1MTAwMTBjMTJkN2FkNTFlYjgzZDZkOTM4OTVkZTA2NmJmM2QzOTcxOGNjNTAzYWRiNDgw
-MmNiMDg3Yjg4YjJmZmY0YjA0MGZlM2EyYmU2YTNmODdjNjc0OWQwODdjOWZiNmU4NzM0Y2IyM2Y0
-MzhkNjQwODc1ODFhMTNiYzgzZDVkYzNiMDI2ZTc3YTg5NGVjZTY2MjBkMGViODVkZjY0NDlmZjNj
-NjA5ZmQ3N2Q1ZjBjYWY3OWI0NTM1YjAwMmUwMDA4MDAwYjAwMDAwMDQwMDAwMDAwMTAwMDIwOWE1
-YjAwYjBkNTU4ZmNmOWU4YzAyOTUyMjcxNWU2YjU5MDYzNjZlYWVjNWYzNDM2N2I4YWIxNmMwZmI5
-MDA5YTAwNzMwMDAwMDAwMDAwMjBlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0
-MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1MDEwMDBiMDAyMjAwMGJkY2RiNjk0ZTEwMmUxM2Ew
-ZmJhNTExMTA4MWNiNmNmNjE2YzExOGQ0MDQ5MzZjYWMzZTg0ZGIyNGM3MWU0N2Q1MDAyMjAwMGIw
-NGI1ZGIxYWE1MjYzNWRmYjI0MmU3NmY2YmRlOGUyMTc2YWU0OGZjNjgyOTQ2YzZjNzZkOTZmNjA4
-MDc5ZDFmMDAwMDAwMjAzNmI2ZmNjYTgyMDZjN2Y3MjJkZTg1ODIxZDdlY2I0Nzg1OTc2ZmRkNjQy
-YmM3NTM4NTA1YTJhODE4YzhhMjM4ODAyMTQwMDAwMDAxMDAyMDJhZWRkZTQ1MDhmNTQ4ZDEwODE5
-M2VjOGZlMTY2YTdiZWZkZTE5MTEzZmU3MjdhZTJiMjk5MDFiZGVjZTk2ZTUNCg0KMi4gVGhlIGZv
-bGxvd2luZyBrZXJuZWwgZmlsZSBpcyByZWxhdGVkIHdpdGggdGhpcyBwcm9ibGVtLiANCi9zZWN1
-cml0eS9rZXlzL2tleWN0bC5jDQovc2VjdXJpdHkva2V5cy9rZXkuYw0KL3NlY3VyaXR5L2tleXMv
-dHJ1c3RlZC1rZXlzL3RydXN0ZWRfdHBtMS5jDQovc2VjdXJpdHkva2V5cy90cnVzdGVkLWtleXMv
-dHJ1c3RlZF90cG0yLmMNCg0KVG8gbG9hZCB0aGUgUENSIHBvbGljeSBwcm90ZWN0aW9uIHRydXN0
-ZWQga2V5LCB0aGUgY2FsbCBzdGFjayBpczogDQpTWVNDQUxMX0RFRklORTUoYWRkX2tleSwuLi4p
-IC0tPiBrZXlfY3JlYXRlX29yX3VwZGF0ZSgpIC0tPiBfX2tleV9pbnN0YW50aWF0ZV9hbmRfbGlu
-aygpIC0tPiAgdHJ1c3RlZF9pbnN0YW50aWF0ZSgpIC0tPiB0cG0yX3Vuc2VhbF90cnVzdGVkKCkg
-LS0+IHRwbTJfdW5zZWFsX2NtZCgpLiANCg0KQ2hlY2sgZG1lc2csIHRoZXJlIHdpbGwgYmUgZXJy
-b3I6IA0KWzczMzM2LjM1MTU5Nl0gdHJ1c3RlZF9rZXk6IGtleV91bnNlYWwgZmFpbGVkICgtMSkN
-Cg0KLSBTaGlybGV5IA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogTWltaSBa
-b2hhciA8em9oYXJAbGludXguaWJtLmNvbT4gDQpTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI3
-LCAyMDE5IDM6MjggQU0NClRvOiBaaGFvLCBTaGlybGV5IDxzaGlybGV5LnpoYW9AaW50ZWwuY29t
-PjsgSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LmlibS5jb20+OyBKYXJra28gU2Fra2luZW4g
-PGphcmtrby5zYWtraW5lbkBsaW51eC5pbnRlbC5jb20+OyBKb25hdGhhbiBDb3JiZXQgPGNvcmJl
-dEBsd24ubmV0Pg0KQ2M6IGxpbnV4LWludGVncml0eUB2Z2VyLmtlcm5lbC5vcmc7IGtleXJpbmdz
-QHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZzsgJ01hdXJvIENhcnZhbGhvIENoZWhhYicgPG1jaGVoYWIrc2Ftc3Vu
-Z0BrZXJuZWwub3JnPjsgWmh1LCBCaW5nIDxiaW5nLnpodUBpbnRlbC5jb20+OyBDaGVuLCBMdWhh
-aSA8bHVoYWkuY2hlbkBpbnRlbC5jb20+DQpTdWJqZWN0OiBSZTogT25lIHF1ZXN0aW9uIGFib3V0
-IHRydXN0ZWQga2V5IG9mIGtleXJpbmcgaW4gTGludXgga2VybmVsLg0KDQpPbiBUdWUsIDIwMTkt
-MTEtMjYgYXQgMDc6MzIgKzAwMDAsIFpoYW8sIFNoaXJsZXkgd3JvdGU6DQo+IFRoYW5rcyBmb3Ig
-eW91ciBmZWVkYmFjaywgTWltaS4gDQo+IEJ1dCB0aGUgZG9jdW1lbnQgb2YgZHJhY3V0IGNhbid0
-IHNvbHZlIG15IHByb2JsZW0uIA0KPiANCj4gSSBkaWQgbW9yZSB0ZXN0IHRoZXNlIGRheXMgYW5k
-IHRyeSB0byBkZXNjcmlwdCBteSBxdWVzdGlvbiBpbiBtb3JlIGRldGFpbC4gDQo+IA0KPiBJbiBt
-eSBzY2VuYXJpbywgdGhlIHRydXN0ZWQga2V5IHdpbGwgYmUgc2VhbGVkIGludG8gVFBNIHdpdGgg
-UENSIHBvbGljeS4gDQo+IEFuZCB0aGVyZSBhcmUgc29tZSByZWxhdGVkIG9wdGlvbnMgaW4gbWFu
-dWFsIGxpa2UgDQo+ICAgICAgICBoYXNoPSAgICAgICAgIGhhc2ggYWxnb3JpdGhtIG5hbWUgYXMg
-YSBzdHJpbmcuIEZvciBUUE0gMS54IHRoZSBvbmx5DQo+ICAgICAgICAgICAgICAgICAgICAgIGFs
-bG93ZWQgdmFsdWUgaXMgc2hhMS4gRm9yIFRQTSAyLnggdGhlIGFsbG93ZWQgdmFsdWVzDQo+ICAg
-ICAgICAgICAgICAgICAgICAgIGFyZSBzaGExLCBzaGEyNTYsIHNoYTM4NCwgc2hhNTEyIGFuZCBz
-bTMtMjU2Lg0KPiAgICAgICAgcG9saWN5ZGlnZXN0PSBkaWdlc3QgZm9yIHRoZSBhdXRob3JpemF0
-aW9uIHBvbGljeS4gbXVzdCBiZSBjYWxjdWxhdGVkDQo+ICAgICAgICAgICAgICAgICAgICAgIHdp
-dGggdGhlIHNhbWUgaGFzaCBhbGdvcml0aG0gYXMgc3BlY2lmaWVkIGJ5IHRoZSAnaGFzaD0nDQo+
-ICAgICAgICAgICAgICAgICAgICAgIG9wdGlvbi4NCj4gICAgICAgIHBvbGljeWhhbmRsZT0gaGFu
-ZGxlIHRvIGFuIGF1dGhvcml6YXRpb24gcG9saWN5IHNlc3Npb24gdGhhdCBkZWZpbmVzIHRoZQ0K
-PiAgICAgICAgICAgICAgICAgICAgICBzYW1lIHBvbGljeSBhbmQgd2l0aCB0aGUgc2FtZSBoYXNo
-IGFsZ29yaXRobSBhcyB3YXMgdXNlZCB0bw0KPiAgICAgICAgICAgICAgICAgICAgICBzZWFsIHRo
-ZSBrZXkuIA0KPiANCj4gSGVyZSBpcyBteSB0ZXN0IHN0ZXAuIA0KPiBGaXJzdGx5LCB0aGUgcGNy
-IHBvbGljeSBpcyBnZW5lcmF0ZWQgYXMgYmVsb3c6IA0KPiAkIHRwbTJfY3JlYXRlcG9saWN5IC0t
-cG9saWN5LXBjciAtLXBjci1saXN0IHNoYTI1Njo3IC0tcG9saWN5IA0KPiBwY3I3X2Jpbi5wb2xp
-Y3kgPiBwY3I3LnBvbGljeQ0KPiANCj4gUGNyNy5wb2xpY3kgaXMgdGhlIGFzY2lpIGhleCBvZiBw
-b2xpY3k6DQo+ICQgY2F0IHBjcjcucG9saWN5DQo+IDMyMWZiZDI4YjYwZmNjMjMwMTdkNTAxYjEz
-M2JkNWRiZjI4ODk4MTQ1ODhlOGEyMzUxMGZlMTAxMDVjYjJjYzkNCj4gDQo+IFRoZW4gZ2VuZXJh
-dGUgdGhlIHRydXN0ZWQga2V5IGFuZCBjb25maWd1cmUgcG9saWN5ZGlnZXN0IGFuZCBnZXQgdGhl
-IGtleSBJRDogDQo+ICQga2V5Y3RsIGFkZCB0cnVzdGVkIGttayAibmV3IDMyIGtleWhhbmRsZT0w
-eDgxMDAwMDAxIGhhc2g9c2hhMjU2IA0KPiBwb2xpY3lkaWdlc3Q9YGNhdCBwY3I3LnBvbGljeWAi
-IEB1DQo+IDg3NDExNzA0NQ0KPiANCj4gU2F2ZSB0aGUgdHJ1c3RlZCBrZXkuIA0KPiAkIGtleWN0
-bCBwaXBlIDg3NDExNzA0NSA+IGttay5ibG9iDQo+IA0KPiBSZWJvb3QgYW5kIGxvYWQgdGhlIGtl
-eS4gDQo+IFN0YXJ0IGEgYXV0aCBzZXNzaW9uIHRvIGdlbmVyYXRlIHRoZSBwb2xpY3k6DQo+ICQg
-dHBtMl9zdGFydGF1dGhzZXNzaW9uIC1TIHNlc3Npb24uY3R4DQo+IHNlc3Npb24taGFuZGxlOiAw
-eDMwMDAwMDANCj4gJCB0cG0yX3Bjcmxpc3QgLUwgc2hhMjU2OjcgLW8gcGNyNy5zaGEyNTYgJCB0
-cG0yX3BvbGljeXBjciAtUyANCj4gc2Vzc2lvbi5jdHggLUwgc2hhMjU2OjcgLUYgcGNyNy5zaGEy
-NTYgLWYgcGNyNy5wb2xpY3kNCj4gcG9saWN5LWRpZ2VzdDogDQo+IDB4MzIxRkJEMjhCNjBGQ0My
-MzAxN0Q1MDFCMTMzQkQ1REJGMjg4OTgxNDU4OEU4QTIzNTEwRkUxMDEwNUNCMkNDOQ0KPiANCj4g
-SW5wdXQgdGhlIHBvbGljeSBoYW5kbGUgdG8gbG9hZCB0cnVzdGVkIGtleToNCj4gJCBrZXljdGwg
-YWRkIHRydXN0ZWQga21rICJsb2FkIGBjYXQga21rLmJsb2JgIGtleWhhbmRsZT0weDgxMDAwMDAx
-IA0KPiBwb2xpY3loYW5kbGU9MHgzMDAwMDAwIiBAdQ0KPiBhZGRfa2V5OiBPcGVyYXRpb24gbm90
-IHBlcm1pdHRlZA0KPiANCj4gVGhlIGVycm9yIHNob3VsZCBiZSBwb2xpY3kgY2hlY2sgZmFpbGVk
-LCBiZWNhdXNlIEkgdXNlIFRQTSBjb21tYW5kIHRvIHVuc2VhbCBkaXJlY3RseSB3aXRoIGVycm9y
-IG9mIHBvbGljeSBjaGVjayBmYWlsZWQuIA0KPiAkIHRwbTJfdW5zZWFsIC1jIDB4ODEwMDAwMDEg
-LUwgc2hhMjU2OjcgRVJST1Igb24gbGluZTogIjgxIiBpbiBmaWxlOiANCj4gIi4vbGliL2xvZy5o
-IjogVHNzMl9TeXNfVW5zZWFsKDB4OTlEKSAtIHRwbTpzZXNzaW9uKDEpOmEgcG9saWN5IGNoZWNr
-IA0KPiBmYWlsZWQgRVJST1Igb24gbGluZTogIjIxMyIgaW4gZmlsZTogInRvb2xzL3RwbTJfdW5z
-ZWFsLmMiOiBVbnNlYWwgZmFpbGVkIQ0KPiBFUlJPUiBvbiBsaW5lOiAiMTY2IiBpbiBmaWxlOiAi
-dG9vbHMvdHBtMl90b29sLmMiOiBVbmFibGUgdG8gcnVuIA0KPiB0cG0yX3Vuc2VhbA0KPiANCj4g
-U28gbXkgcXVlc3Rpb24gaXM6DQo+IDEuIEhvdyB0byB1c2UgdGhlIG9wdGlvbiwgcG9saWN5ZGln
-ZXN0LCBwb2xpY3loYW5kbGU/PyBJcyB0aGVyZSBhbnkgZXhhbXBsZT8gDQo+IDIuIFdoYXQncyB3
-cm9uZyB3aXRoIG15IHRlc3Qgc3RlcD8gDQoNCldoZW4gcmVwb3J0aW5nIGEgcHJvYmxlbSBwbGVh
-c2Ugc3RhdGUgd2hpY2gga2VybmVsIGlzIGV4cGVyaWVuY2luZyB0aGlzIHByb2JsZW0uIMKgUmVj
-ZW50bHkgdGhlcmUgd2FzIGEgdHJ1c3RlZCBrZXkgcmVncmVzc2lvbi4gwqBSZWZlciB0byBjb21t
-aXQgZTEzY2QyMWZmZDUwICJ0cG06IFdyYXAgdGhlIGJ1ZmZlciBmcm9tIHRoZSBjYWxsZXIgdG8g
-dHBtX2J1ZiBpbiB0cG1fc2VuZCgpIiBmb3IgdGhlIGRldGFpbHMuDQoNCkJlZm9yZSBkZWx2aW5n
-IGludG8gdGhpcyBwYXJ0aWN1bGFyIHByb2JsZW0sIGZpcnN0IHBsZWFzZSBtYWtlIHN1cmUgeW91
-IGFyZSBhYmxlIHRvIGNyZWF0ZSwgc2F2ZSwgcmVtb3ZlLCBhbmQgdGhlbiByZWxvYWQgYSB0cnVz
-dGVkIGtleSBub3Qgc2VhbGVkIHRvIGEgUENSLg0KDQpNaW1pwqANCg0K
+
+
+On 11/25/19 12:10 AM, Michal Suchánek wrote:
+> On Sat, Nov 16, 2019 at 08:07:29PM +0530, Sourabh Jain wrote:
+>>
+>>
+>> On 11/9/19 6:29 PM, Michal Suchánek wrote:
+>>> On Sat, Nov 09, 2019 at 05:53:37PM +0530, Sourabh Jain wrote:
+>>>> As the number of FADump sysfs files increases it is hard to manage all of
+>>>> them inside /sys/kernel directory. It's better to have all the FADump
+>>>> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
+>>>> order to maintain the backward compatibility the /sys/kernel/fadump_*
+>>>> sysfs files are replicated inside /sys/kernel/fadump/ and eventually get
+>>>> removed in future.
+>>>>
+>>>> As the FADump sysfs files are now part of dedicated directory there is no
+>>>> need to prefix their name with fadump_, hence sysfs file names are also
+>>>> updated. For example fadump_enabled sysfs file is now referred as enabled.
+>>>>
+>>>> Also consolidate ABI documentation for all the FADump sysfs files in a
+>>>> single file Documentation/ABI/testing/sysfs-kernel-fadump.
+>>>>
+>>>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+>>>> ---
+>>>>  Documentation/ABI/testing/sysfs-kernel-fadump | 41 +++++++++++++++++++
+>>>>  arch/powerpc/kernel/fadump.c                  | 38 +++++++++++++++++
+>>>>  arch/powerpc/platforms/powernv/opal-core.c    | 10 +++--
+>>>>  3 files changed, 86 insertions(+), 3 deletions(-)
+>>>>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
+>>>>
+>>>> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
+>>>> new file mode 100644
+>>>> index 000000000000..a77f1a5ba389
+>>>> --- /dev/null
+>>>> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
+>>>> @@ -0,0 +1,41 @@
+>>>> +What:		/sys/kernel/fadump/*
+>>>> +Date:		Nov 2019
+>>>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>>>> +Description:
+>>>> +		The /sys/kernel/fadump/* is a collection of FADump sysfs
+>>>> +		file provide information about the configuration status
+>>>> +		of Firmware Assisted Dump (FADump).
+>>>> +
+>>>> +What:		/sys/kernel/fadump/enabled
+>>>> +Date:		Nov 2019
+>>>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>>>> +Description:	read only
+>>>> +		Primarily used to identify whether the FADump is enabled in
+>>>> +		the kernel or not.
+>>>> +User:		Kdump service
+>>>> +
+>>>> +What:		/sys/kernel/fadump/registered
+>>>> +Date:		Nov 2019
+>>>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>>>> +Description:	read/write
+>>>> +		Helps to control the dump collect feature from userspace.
+>>>> +		Setting 1 to this file enables the system to collect the
+>>>> +		dump and 0 to disable it.
+>>>> +User:		Kdump service
+>>>> +
+>>>> +What:		/sys/kernel/fadump/release_mem
+>>>> +Date:		Nov 2019
+>>>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>>>> +Description:	write only
+>>>> +		This is a special sysfs file and only available when
+>>>> +		the system is booted to capture the vmcore using FADump.
+>>>> +		It is used to release the memory reserved by FADump to
+>>>> +		save the crash dump.
+>>>> +
+>>>> +What:		/sys/kernel/fadump/release_opalcore
+>>>> +Date:		Nov 2019
+>>>> +Contact:	linuxppc-dev@lists.ozlabs.org
+>>>> +Description:	write only
+>>>> +		The sysfs file is available when the system is booted to
+>>>> +		collect the dump on OPAL based machine. It used to release
+>>>> +		the memory used to collect the opalcore.
+>>>> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
+>>>> index ed59855430b9..a9591def0c84 100644
+>>>> --- a/arch/powerpc/kernel/fadump.c
+>>>> +++ b/arch/powerpc/kernel/fadump.c
+>>>> @@ -1418,6 +1418,9 @@ static int fadump_region_show(struct seq_file *m, void *private)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +struct kobject *fadump_kobj;
+>>>> +EXPORT_SYMBOL_GPL(fadump_kobj);
+>>>> +
+>>>>  static struct kobj_attribute fadump_release_attr = __ATTR(fadump_release_mem,
+>>>>  						0200, NULL,
+>>>>  						fadump_release_memory_store);
+>>>> @@ -1428,6 +1431,16 @@ static struct kobj_attribute fadump_register_attr = __ATTR(fadump_registered,
+>>>>  						0644, fadump_register_show,
+>>>>  						fadump_register_store);
+>>>>  
+>>>> +static struct kobj_attribute release_attr = __ATTR(release_mem,
+>>>> +						0200, NULL,
+>>>> +						fadump_release_memory_store);
+>>>> +static struct kobj_attribute enable_attr = __ATTR(enabled,
+>>>> +						0444, fadump_enabled_show,
+>>>> +						NULL);
+>>>> +static struct kobj_attribute register_attr = __ATTR(registered,
+>>>> +						0644, fadump_register_show,
+>>>> +						fadump_register_store);
+>>>> +
+>>>>  DEFINE_SHOW_ATTRIBUTE(fadump_region);
+>>>>  
+>>>>  static void fadump_init_files(void)
+>>>> @@ -1435,6 +1448,11 @@ static void fadump_init_files(void)
+>>>>  	struct dentry *debugfs_file;
+>>>>  	int rc = 0;
+>>>>  
+>>>> +	fadump_kobj = kobject_create_and_add("fadump", kernel_kobj);
+>>>> +	if (!fadump_kobj) {
+>>>> +		pr_err("failed to create fadump kobject\n");
+>>>> +		return;
+>>>> +	}
+>>>>  	rc = sysfs_create_file(kernel_kobj, &fadump_attr.attr);
+>>>>  	if (rc)
+>>>>  		printk(KERN_ERR "fadump: unable to create sysfs file"
+>>>> @@ -1458,6 +1476,26 @@ static void fadump_init_files(void)
+>>>>  			printk(KERN_ERR "fadump: unable to create sysfs file"
+>>>>  				" fadump_release_mem (%d)\n", rc);
+>>>>  	}
+>>>> +	/* Replicating the following sysfs attributes under FADump kobject.
+>>>> +	 *
+>>>> +	 *	- fadump_enabled -> enabled
+>>>> +	 *	- fadump_registered -> registered
+>>>> +	 *	- fadump_release_mem -> release_mem
+>>>> +	 */
+>>>> +	rc = sysfs_create_file(fadump_kobj, &enable_attr.attr);
+>>>> +	if (rc)
+>>>> +		pr_err("unable to create enabled sysfs file (%d)\n",
+>>>> +		       rc);
+>>>> +	rc = sysfs_create_file(fadump_kobj, &register_attr.attr);
+>>>> +	if (rc)
+>>>> +		pr_err("unable to create registered sysfs file (%d)\n",
+>>>> +		       rc);
+>>>> +	if (fw_dump.dump_active) {
+>>>> +		rc = sysfs_create_file(fadump_kobj, &release_attr.attr);
+>>>> +		if (rc)
+>>>> +			pr_err("unable to create release_mem sysfs file (%d)\n",
+>>>> +			       rc);
+>>>> +	}
+>>>>  	return;
+>>>>  }
+>>> Hello,
+>>>
+>>
+>> I’m so sorry for taking this long to write you back. 
+>>
+>>> wouldn't it make more sense to create the files in the new location and
+>>> add a symlink at the old location?
+>>
+>> There are APIs which allow to create a symlink for an entire kobject but
+>> I did not find a way to create symlink of an individual sysfs file.
+>>
+>> Do you have any approach in mind to achieve the same?
+> 
+> There is at least one example of plain symlink:
+> 
+> find /sys -type l -xtype f
+> /sys/kernel/security/evm
+
+Yes, there are APIs available in debugfs and securityfs that allow creatinga symlink of sysfs files. But I did not find a generic API at sysfs level tocreate symlink.
+
+Let's wait for others to put in their view on this. Meanwhile, I'll start
+exploring how we can replace the older FADump sysfs files with symlink.
+
+Thanks,
+Sourabh Jain
+
