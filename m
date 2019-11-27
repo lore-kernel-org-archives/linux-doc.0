@@ -2,148 +2,159 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E4A3C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0725C432C3
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 15:39:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3C3A820674
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 14:33:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 917732075C
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 15:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727051AbfK0Odr convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 09:33:47 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37618 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfK0Odr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 09:33:47 -0500
-Received: by mail-oi1-f195.google.com with SMTP id 128so12195533oih.4;
-        Wed, 27 Nov 2019 06:33:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p4HQ0sBvX9KwKME5QSEdWqGhxNVzafG2qhuy+QctP4M=;
-        b=uIu88hPH1HKUcJ9FxgIQiprCpNhBB3D/sjX+Z3Buoc3AY63eSySYBxawinLs6HB6ak
-         zufvG2EoASpJW4XPnzxzHwG1rlMVyeKe3ZNCeUEHK7NaAQEPF3hHHk/ZT6rbeQB3ct6r
-         ELxVeKaPffJqNdMQnrI5XdNkjLZC8Rjz9wPZIeG+PZqXI7EQpkrCLxR3w7Luf9iDTPV5
-         /quCP4xMzEftrmR/M6Gtrmkh1AlUIy7P9LNX9/hcFqFLk8M15dB6JogP3eYYNFrK4cNo
-         H2vByTo8FwlazB57PN3FpoWbmHSaDHpdWyhrRK7Q/SY+v4kCx9+mtCuStIq08XIKNkMo
-         s7sA==
-X-Gm-Message-State: APjAAAXTwa0AZ28VipTYnZc8636eEGfZjcCxegeiRt/BV5yfvpHuyTBl
-        pd46WN4VEFe4E4sOpkoN6hELorBye9nwkAivyhU=
-X-Google-Smtp-Source: APXvYqxCCNIKdr71l4+aem/37DJmvPbfkWnFnSlhjT3Aiy6bb+myMARYI5vlJfzw8lh/LBhhdEQ2bi0iWvwnKGpu9eY=
-X-Received: by 2002:a05:6808:b17:: with SMTP id s23mr4564212oij.102.1574865225731;
- Wed, 27 Nov 2019 06:33:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be> <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
-In-Reply-To: <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Nov 2019 15:33:34 +0100
-Message-ID: <CAMuHMdVMoo0rJ-Ji1ek-DqHEkRqM5Fk5o9RzQV08Z8SSdS9APA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
+        id S1726655AbfK0Pji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 10:39:38 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28158 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726852AbfK0Pji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 10:39:38 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xARFbTcO065590
+        for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2019 10:39:37 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2whhyfqf71-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2019 10:39:36 -0500
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Wed, 27 Nov 2019 15:39:34 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 27 Nov 2019 15:39:31 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xARFdUPK47251804
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Nov 2019 15:39:30 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 89BE411C04A;
+        Wed, 27 Nov 2019 15:39:30 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5564811C052;
+        Wed, 27 Nov 2019 15:39:29 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.138.180])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 27 Nov 2019 15:39:29 +0000 (GMT)
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Date:   Wed, 27 Nov 2019 10:39:28 -0500
+In-Reply-To: <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+         <1573659978.17949.83.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+         <1574796456.4793.248.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112715-0016-0000-0000-000002CD01AF
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112715-0017-0000-0000-0000332EE252
+Message-Id: <1574869168.4793.282.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-27_03:2019-11-27,2019-11-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ phishscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911270137
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Eugeniu,
+Hi Shirley,
 
-On Wed, Nov 27, 2019 at 3:15 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
-> > +static bool isrange(const char *s)
-> > +{
-> > +     size_t n = strlen(s);
->
-> Cppcheck 1.40-18521-ge6d692d96058:
-> drivers/gpio/gpio-aggregator.c:69:11: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
->
-> Smatch v0.5.0-6150-gc1ed13e4ee7b:
-> drivers/gpio/gpio-aggregator.c:69 isrange() warn: unused return: n = strlen()
+On Wed, 2019-11-27 at 02:46 +0000, Zhao, Shirley wrote:
+> Hi, Mimi, 
+> 
+> Answer your two questions:
+> 
+> 1. Yes, I have verified trusted key works well without PCR policy
+> protection as below: 
+> $ keyctl add trusted kmk "new 32 keyhandle=0x81000001" @u
+> 1055240928
+> $ keyctl list @u
+> 1 keys in keyring:
+> 1055240928: --alswrv     0     0 trusted: kmk
+> $ keyctl pipe 1055240928 > kmk.blob
+> $ cat kmk.blob
+> 007f0020ff808bd8b7239194e89aac6a95b4d210114742c20afa33493f002dffd068
+> 5d510010c12d7ad51eb83d6d93895de066bf3d39718cc503adb4802cb087b88b2fff
+> 4b040fe3a2be6a3f87c6749d087c9fb6e8734cb23f438d64087581a13bc83d5dc3b0
+> 26e77a894ece6620d0eb85df6449ff3c609fd77d5f0caf79b4535b002e0008000b00
+> 0000400000001000209a5b00b0d558fcf9e8c029522715e6b5906366eaec5f34367b
+> 8ab16c0fb9009a0073000000000020e3b0c44298fc1c149afbf4c8996fb92427ae41
+> e4649b934ca495991b7852b85501000b0022000bdcdb694e102e13a0fba5111081cb
+> 6cf616c118d404936cac3e84db24c71e47d50022000b04b5db1aa52635dfb242e76f
+> 6bde8e2176ae48fc682946c6c76d96f608079d1f0000002036b6fcca8206c7f722de
+> 85821d7ecb4785976fdd642bc7538505a2a818c8a23880214000000100202aedde45
+> 08f548d108193ec8fe166a7befde19113fe727ae2b29901bdece96e5
+> $ keyctl clear @u
+> $ keyctl list @u
+> keyring is empty
+> $ keyctl add trusted kmk "load `cat kmk.blob` keyhandle=0x81000001"
+> @u
+> 1022963731
+> $ keyctl print 1022963731
+> 007f0020ff808bd8b7239194e89aac6a95b4d210114742c20afa33493f002dffd068
+> 5d510010c12d7ad51eb83d6d93895de066bf3d39718cc503adb4802cb087b88b2fff
+> 4b040fe3a2be6a3f87c6749d087c9fb6e8734cb23f438d64087581a13bc83d5dc3b0
+> 26e77a894ece6620d0eb85df6449ff3c609fd77d5f0caf79b4535b002e0008000b00
+> 0000400000001000209a5b00b0d558fcf9e8c029522715e6b5906366eaec5f34367b
+> 8ab16c0fb9009a0073000000000020e3b0c44298fc1c149afbf4c8996fb92427ae41
+> e4649b934ca495991b7852b85501000b0022000bdcdb694e102e13a0fba5111081cb
+> 6cf616c118d404936cac3e84db24c71e47d50022000b04b5db1aa52635dfb242e76f
+> 6bde8e2176ae48fc682946c6c76d96f608079d1f0000002036b6fcca8206c7f722de
+> 85821d7ecb4785976fdd642bc7538505a2a818c8a23880214000000100202aedde45
+> 08f548d108193ec8fe166a7befde19113fe727ae2b29901bdece96e5
+> 
+> 2. The following kernel file is related with this problem. 
+> /security/keys/keyctl.c
+> /security/keys/key.c
+> /security/keys/trusted-keys/trusted_tpm1.c
+> /security/keys/trusted-keys/trusted_tpm2.c
+> 
+> To load the PCR policy protection trusted key, the call stack is: 
+> SYSCALL_DEFINE5(add_key,...) --> key_create_or_update() -->
+> __key_instantiate_and_link() -->  trusted_instantiate() -->
+> tpm2_unseal_trusted() --> tpm2_unseal_cmd(). 
+> 
+> Check dmesg, there will be error: 
+> [73336.351596] trusted_key: key_unseal failed (-1)
 
-Correct, this is a remainder of code present temporarily during development.
-Will drop.
+Like the other kernel mailing lists, please bottom post.  When
+reporting a problem, please include the kernel version and other
+relevant details.  For example, the TPM version and type (eg. hardware
+vendor, software TPM, etc).  Please indicate if this is a new problem
+and which kernel release it first start happening?
 
-(where are the days gcc itself warned about that?)
+I have no experience with the tpm2_ commands,  I suggest trying to
+extend a single measurement to a PCR and sealing to that value.
 
-> > +     aggr->lookups->dev_id = kasprintf(GFP_KERNEL, "%s.%d", DRV_NAME, id);
-> > +     if (!aggr->lookups) {
-> > +             res = -ENOMEM;
-> > +             goto remove_idr;
-> > +     }
->
-> s/aggr->lookups/aggr->lookups->dev_id/ ?
+Mimi
 
-Thanks, will fix.
-
-> > +static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
-> > +                              unsigned long *bits)
-> > +{
-> > +     struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> > +     unsigned long *values, flags;
->
-> gcc 9.2.1:
-> warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
->
-> [..]
->
-> > +static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
-> > +                               unsigned long *bits)
-> > +{
-> > +     struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> > +     unsigned long *values, flags;
->
-> gcc 9.2.1, same as above:
-> warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-
-So newer gcc is (again) no longer smart enough to notice the check is
-the same for initializer and user...
-
-> Should these be silenced like in 2bf593f101f3ca ("xilinx_uartps.c:
-> suppress "may be used uninitialised" warning") ?
-
-TBH, I'm not a big fan of silencing false positives.
-But if people like to see flags preinitialized to zero, that can be done...
-
-> I plan to do some runtime testing soon.
-
-Thanks, looking forward to the results!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
