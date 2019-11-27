@@ -2,296 +2,192 @@ Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4223C432C0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 01:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C527C432C3
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 02:46:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BEE8B2068E
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 01:52:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FACE206CC
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 02:46:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbfK0BwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Nov 2019 20:52:17 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:53567 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725871AbfK0BwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Nov 2019 20:52:17 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R321e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07486;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TjBBq.j_1574819522;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjBBq.j_1574819522)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Nov 2019 09:52:05 +0800
-Subject: [PATCH v2 3/3] sched/numa: documentation for per-cgroup numa stat
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
-Message-ID: <cc35a710-c2ec-6c61-e30e-ee707798c5e9@linux.alibaba.com>
-Date:   Wed, 27 Nov 2019 09:50:35 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
+        id S1726539AbfK0Cqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Nov 2019 21:46:48 -0500
+Received: from mga06.intel.com ([134.134.136.31]:34617 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726304AbfK0Cqs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Nov 2019 21:46:48 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2019 18:46:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,247,1571727600"; 
+   d="scan'208";a="240165411"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+  by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2019 18:46:47 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 26 Nov 2019 18:46:47 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 26 Nov 2019 18:46:46 -0800
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 26 Nov 2019 18:46:46 -0800
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.108]) by
+ SHSMSX101.ccr.corp.intel.com ([169.254.1.213]) with mapi id 14.03.0439.000;
+ Wed, 27 Nov 2019 10:46:44 +0800
+From:   "Zhao, Shirley" <shirley.zhao@intel.com>
+To:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Subject: RE: One question about trusted key of keyring in Linux kernel.
+Thread-Topic: One question about trusted key of keyring in Linux kernel.
+Thread-Index: AdWZwFKzDBwFOydYTGGk+Aqs+6BIxAANhxEAAoxRZMAACTMHAAAdE3MA
+Date:   Wed, 27 Nov 2019 02:46:44 +0000
+Message-ID: <A888B25CD99C1141B7C254171A953E8E490961E5@shsmsx102.ccr.corp.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+         <1573659978.17949.83.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+ <1574796456.4793.248.camel@linux.ibm.com>
+In-Reply-To: <1574796456.4793.248.camel@linux.ibm.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzUwNDI3NTYtYTE3NC00ZTRhLWJlYTAtOWI4Nzc3ODNjMDI0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiY0VwbFpvM3NZdXJTNFc1REswOWMxWjRkMFhVN3Y2XC9rSmtVRUx2N0Y5YmZBXC9ETkVIWHRnZmEwbzdLVW9ocyswIn0=
+x-ctpclassification: CTP_NT
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since v1:
-  * thanks to Iurii for the better sentence
-  * thanks to Jonathan for the better format
-
-Add the description for 'cg_numa_stat', also a new doc to explain
-the details on how to deal with the per-cgroup numa statistics.
-
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Michal Koutný <mkoutny@suse.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Iurii Zaikin <yzaikin@google.com>
-Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
----
- Documentation/admin-guide/cg-numa-stat.rst      | 163 ++++++++++++++++++++++++
- Documentation/admin-guide/index.rst             |   1 +
- Documentation/admin-guide/kernel-parameters.txt |   4 +
- Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
- 4 files changed, 177 insertions(+)
- create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
-
-diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
-new file mode 100644
-index 000000000000..6f505f46fe00
---- /dev/null
-+++ b/Documentation/admin-guide/cg-numa-stat.rst
-@@ -0,0 +1,163 @@
-+===============================
-+Per-cgroup NUMA statistics
-+===============================
-+
-+Background
-+----------
-+
-+On NUMA platforms, remote memory accessing always has a performance penalty,
-+although we have NUMA balancing working hard to maximize the access locality,
-+there are still situations it can't help.
-+
-+This could happen in modern production environment. When a large number of
-+cgroups are used to classify and control resources, this creates a complex
-+configuration for memory policy, CPUs and NUMA nodes. In such cases NUMA
-+balancing could end up with the wrong memory policy or exhausted local NUMA
-+node, which would lead to low percentage of local page accesses.
-+
-+We need to detect such cases, figure out which workloads from which cgroup
-+has introduced the issues, then we get chance to do adjustment to avoid
-+performance degradation.
-+
-+However, there are no hardware counters for per-task local/remote accessing
-+info, we don't know how many remote page accesses have occurred for a
-+particular task.
-+
-+Statistics
-+----------
-+
-+Fortunately, we have NUMA Balancing which scans task's mapping and triggers PF
-+periodically, gives us the opportunity to record per-task page accessing info.
-+
-+By "echo 1 > /proc/sys/kernel/cg_numa_stat" at runtime or adding boot parameter
-+'cg_numa_stat', we will enable the accounting of per-cgroup numa statistics,
-+the 'cpu.numa_stat' entry of CPU cgroup will show statistics::
-+
-+  locality -- execution time sectioned by task NUMA locality (in ms)
-+  exectime -- execution time sectioned by NUMA node (in ms)
-+
-+We define 'task NUMA locality' as::
-+
-+  nr_local_page_access * 100 / (nr_local_page_access + nr_remote_page_access)
-+
-+this per-task percentage value will be updated on the ticks for current task,
-+and the access counter will be updated on task's NUMA balancing PF, so only
-+the pages which NUMA Balancing paid attention to will be accounted.
-+
-+On each tick, we acquire the locality of current task on that CPU, accumulating
-+the ticks into the counter of corresponding locality region, tasks from the
-+same group sharing the counters, becoming the group locality.
-+
-+Similarly, we acquire the NUMA node of current CPU where the current task is
-+executing on, accumulating the ticks into the counter of corresponding node,
-+becoming the per-cgroup node execution time.
-+
-+Note that the accounting is hierarchical, which means the numa statistics for
-+a given group represents not only the workload of this group, but also the
-+workloads of all it's descendants.
-+
-+For example the 'cpu.numa_stat' show::
-+
-+  locality 39541 60962 36842 72519 118605 721778 946553
-+  exectime 1220127 1458684
-+
-+The locality is sectioned into 7 regions, approximately as::
-+
-+  0-13% 14-27% 28-42% 43-56% 57-71% 72-85% 86-100%
-+
-+And exectime is sectioned into 2 nodes, 0 and 1 in this case.
-+
-+Thus we know the workload of this group and it's descendants have totally
-+executed 1220127ms on node_0 and 1458684ms on node_1, tasks with locality
-+around 0~13% executed for 39541 ms, and tasks with locality around 87~100%
-+executed for 946553 ms, which imply most of the memory access are local.
-+
-+Monitoring
-+----------
-+
-+By monitoring the increments of these statistics, we can easily know whether
-+NUMA balancing is working well for a particular workload.
-+
-+For example we take a 5 secs sample period, and consider locality under 27%
-+is bad, then on each sampling we have::
-+
-+  region_bad = region_1 + region_2
-+  region_all = region_1 + region_2 + ... + region_7
-+
-+and we have the increments as::
-+
-+  region_bad_diff = region_bad - last_region_bad
-+  region_all_diff = region_all - last_region_all
-+
-+which finally become::
-+
-+  region_bad_percent = region_bad_diff * 100 / region_all_diff
-+
-+we can plot a line for region_bad_percent, when the line close to 0 things
-+are good, when getting close to 100% something is wrong, we can pick a proper
-+watermark to trigger warning message.
-+
-+You may want to drop the data if the region_all is too small, which implies
-+there are not many available pages for NUMA Balancing, ignoring would be fine
-+since most likely the workload is insensitive to NUMA.
-+
-+Monitoring root group helps you control the overall situation, while you may
-+also want to monitor all the leaf groups which contain the workloads, this
-+helps to catch the mouse.
-+
-+The exectime could be useful when NUMA Balancing is disabled, or when locality
-+becomes too small, for NUMA node X we have::
-+
-+  exectime_X_diff = exectime_X - last_exectime_X
-+  exectime_all_diff = exectime_all - last_exectime_all
-+
-+try to put your workload into a memory cgroup which providing per-node memory
-+consumption by 'memory.numa_stat' entry, then we could get::
-+
-+  memory_percent_X = memory_X * 100 / memory_all
-+  exectime_percent_X = exectime_X_diff * 100 / exectime_all_diff
-+
-+These two percentages are usually matched on each node, workload should execute
-+mostly on the node contain most of it's memory, but it's not guaranteed.
-+
-+The workload may only access a small part of it's memory, in such cases although
-+the majority of memory are remotely, locality could still be good.
-+
-+Thus to tell if things are fine or not depends on the understanding of system
-+resource deployment, however, if you find node X got 100% memory percent but 0%
-+exectime percent, definitely something is wrong.
-+
-+Troubleshooting
-+---------------
-+
-+After identifying which workload introduced the bad locality, check:
-+
-+1). Is the workload bound to a particular NUMA node?
-+2). Has any NUMA node run out of resources?
-+
-+There are several ways to bind task's memory with a NUMA node, the strict way
-+like the MPOL_BIND memory policy or 'cpuset.mems' will limiting the memory
-+node where to allocate pages, in this situation, admin should make sure the
-+task is allowed to run on the CPUs of that NUMA node, and make sure there are
-+available CPU resource there.
-+
-+There are also ways to bind task's CPU with a NUMA node, like 'cpuset.cpus' or
-+sched_setaffinity() syscall, in this situation, NUMA Balancing help to migrate
-+pages into that node, admin should make sure there are available memory there.
-+
-+Admin could try rebind or unbind the NUMA node to erase the damage, make a
-+change then observe the statistics see if things get better until the situation
-+is acceptable.
-+
-+Highlights
-+----------
-+
-+For some tasks, NUMA Balancing may found no necessary to scan pages, and
-+locality could always be 0 or small number, don't pay attention to them
-+since they most likely insensitive to NUMA.
-+
-+There are no accounting until the option turned on, so enable it in advance
-+if you want to have the whole history.
-+
-+We have per-task migfailed counter to tell how many page migration has been
-+failed for a particular task, you will find it in /proc/PID/sched entry.
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 4405b7485312..c75a3fdfcd94 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -112,6 +112,7 @@ configure specific aspects of kernel behavior to your liking.
-    video-output
-    wimax/index
-    xfs
-+   cg-numa-stat
-
- .. only::  subproject and html
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0945611b3877..674c1a4bae14 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3227,6 +3227,10 @@
- 	numa_balancing=	[KNL,X86] Enable or disable automatic NUMA balancing.
- 			Allowed values are enable and disable
-
-+	cg_numa_atat	[KNL] Enable advanced per-cgroup numa statistics.
-+			Useful to debug NUMA efficiency problems when there are
-+			lots of per-cgroup workloads.
-+
- 	numa_zonelist_order= [KNL, BOOT] Select zonelist order for NUMA.
- 			'node', 'default' can be specified
- 			This can be set from sysctl after boot.
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 7e203b3ed331..918a26d2bd77 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -572,6 +572,15 @@ rate for each task.
- numa_balancing_scan_size_mb is how many megabytes worth of pages are
- scanned for a given scan.
-
-+cg_numa_stat:
-+=============
-+
-+Enables/disables advanced per-cgroup NUMA statistic.
-+
-+0: disabled (default).
-+1: enabled.
-+
-+Check Documentation/admin-guide/cg-numa-stat.rst for details.
-
- osrelease, ostype & version:
- ============================
--- 
-2.14.4.44.g2045bb6
-
+SGksIE1pbWksIA0KDQpBbnN3ZXIgeW91ciB0d28gcXVlc3Rpb25zOg0KDQoxLiBZZXMsIEkgaGF2
+ZSB2ZXJpZmllZCB0cnVzdGVkIGtleSB3b3JrcyB3ZWxsIHdpdGhvdXQgUENSIHBvbGljeSBwcm90
+ZWN0aW9uIGFzIGJlbG93OiANCiQga2V5Y3RsIGFkZCB0cnVzdGVkIGttayAibmV3IDMyIGtleWhh
+bmRsZT0weDgxMDAwMDAxIiBAdQ0KMTA1NTI0MDkyOA0KJCBrZXljdGwgbGlzdCBAdQ0KMSBrZXlz
+IGluIGtleXJpbmc6DQoxMDU1MjQwOTI4OiAtLWFsc3dydiAgICAgMCAgICAgMCB0cnVzdGVkOiBr
+bWsNCiQga2V5Y3RsIHBpcGUgMTA1NTI0MDkyOCA+IGttay5ibG9iDQokIGNhdCBrbWsuYmxvYg0K
+MDA3ZjAwMjBmZjgwOGJkOGI3MjM5MTk0ZTg5YWFjNmE5NWI0ZDIxMDExNDc0MmMyMGFmYTMzNDkz
+ZjAwMmRmZmQwNjg1ZDUxMDAxMGMxMmQ3YWQ1MWViODNkNmQ5Mzg5NWRlMDY2YmYzZDM5NzE4Y2M1
+MDNhZGI0ODAyY2IwODdiODhiMmZmZjRiMDQwZmUzYTJiZTZhM2Y4N2M2NzQ5ZDA4N2M5ZmI2ZTg3
+MzRjYjIzZjQzOGQ2NDA4NzU4MWExM2JjODNkNWRjM2IwMjZlNzdhODk0ZWNlNjYyMGQwZWI4NWRm
+NjQ0OWZmM2M2MDlmZDc3ZDVmMGNhZjc5YjQ1MzViMDAyZTAwMDgwMDBiMDAwMDAwNDAwMDAwMDAx
+MDAwMjA5YTViMDBiMGQ1NThmY2Y5ZThjMDI5NTIyNzE1ZTZiNTkwNjM2NmVhZWM1ZjM0MzY3Yjhh
+YjE2YzBmYjkwMDlhMDA3MzAwMDAwMDAwMDAyMGUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZi
+OTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUwMTAwMGIwMDIyMDAwYmRjZGI2OTRl
+MTAyZTEzYTBmYmE1MTExMDgxY2I2Y2Y2MTZjMTE4ZDQwNDkzNmNhYzNlODRkYjI0YzcxZTQ3ZDUw
+MDIyMDAwYjA0YjVkYjFhYTUyNjM1ZGZiMjQyZTc2ZjZiZGU4ZTIxNzZhZTQ4ZmM2ODI5NDZjNmM3
+NmQ5NmY2MDgwNzlkMWYwMDAwMDAyMDM2YjZmY2NhODIwNmM3ZjcyMmRlODU4MjFkN2VjYjQ3ODU5
+NzZmZGQ2NDJiYzc1Mzg1MDVhMmE4MThjOGEyMzg4MDIxNDAwMDAwMDEwMDIwMmFlZGRlNDUwOGY1
+NDhkMTA4MTkzZWM4ZmUxNjZhN2JlZmRlMTkxMTNmZTcyN2FlMmIyOTkwMWJkZWNlOTZlNQ0KJCBr
+ZXljdGwgY2xlYXIgQHUNCiQga2V5Y3RsIGxpc3QgQHUNCmtleXJpbmcgaXMgZW1wdHkNCiQga2V5
+Y3RsIGFkZCB0cnVzdGVkIGttayAibG9hZCBgY2F0IGttay5ibG9iYCBrZXloYW5kbGU9MHg4MTAw
+MDAwMSIgQHUNCjEwMjI5NjM3MzENCiQga2V5Y3RsIHByaW50IDEwMjI5NjM3MzENCjAwN2YwMDIw
+ZmY4MDhiZDhiNzIzOTE5NGU4OWFhYzZhOTViNGQyMTAxMTQ3NDJjMjBhZmEzMzQ5M2YwMDJkZmZk
+MDY4NWQ1MTAwMTBjMTJkN2FkNTFlYjgzZDZkOTM4OTVkZTA2NmJmM2QzOTcxOGNjNTAzYWRiNDgw
+MmNiMDg3Yjg4YjJmZmY0YjA0MGZlM2EyYmU2YTNmODdjNjc0OWQwODdjOWZiNmU4NzM0Y2IyM2Y0
+MzhkNjQwODc1ODFhMTNiYzgzZDVkYzNiMDI2ZTc3YTg5NGVjZTY2MjBkMGViODVkZjY0NDlmZjNj
+NjA5ZmQ3N2Q1ZjBjYWY3OWI0NTM1YjAwMmUwMDA4MDAwYjAwMDAwMDQwMDAwMDAwMTAwMDIwOWE1
+YjAwYjBkNTU4ZmNmOWU4YzAyOTUyMjcxNWU2YjU5MDYzNjZlYWVjNWYzNDM2N2I4YWIxNmMwZmI5
+MDA5YTAwNzMwMDAwMDAwMDAwMjBlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0
+MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1MDEwMDBiMDAyMjAwMGJkY2RiNjk0ZTEwMmUxM2Ew
+ZmJhNTExMTA4MWNiNmNmNjE2YzExOGQ0MDQ5MzZjYWMzZTg0ZGIyNGM3MWU0N2Q1MDAyMjAwMGIw
+NGI1ZGIxYWE1MjYzNWRmYjI0MmU3NmY2YmRlOGUyMTc2YWU0OGZjNjgyOTQ2YzZjNzZkOTZmNjA4
+MDc5ZDFmMDAwMDAwMjAzNmI2ZmNjYTgyMDZjN2Y3MjJkZTg1ODIxZDdlY2I0Nzg1OTc2ZmRkNjQy
+YmM3NTM4NTA1YTJhODE4YzhhMjM4ODAyMTQwMDAwMDAxMDAyMDJhZWRkZTQ1MDhmNTQ4ZDEwODE5
+M2VjOGZlMTY2YTdiZWZkZTE5MTEzZmU3MjdhZTJiMjk5MDFiZGVjZTk2ZTUNCg0KMi4gVGhlIGZv
+bGxvd2luZyBrZXJuZWwgZmlsZSBpcyByZWxhdGVkIHdpdGggdGhpcyBwcm9ibGVtLiANCi9zZWN1
+cml0eS9rZXlzL2tleWN0bC5jDQovc2VjdXJpdHkva2V5cy9rZXkuYw0KL3NlY3VyaXR5L2tleXMv
+dHJ1c3RlZC1rZXlzL3RydXN0ZWRfdHBtMS5jDQovc2VjdXJpdHkva2V5cy90cnVzdGVkLWtleXMv
+dHJ1c3RlZF90cG0yLmMNCg0KVG8gbG9hZCB0aGUgUENSIHBvbGljeSBwcm90ZWN0aW9uIHRydXN0
+ZWQga2V5LCB0aGUgY2FsbCBzdGFjayBpczogDQpTWVNDQUxMX0RFRklORTUoYWRkX2tleSwuLi4p
+IC0tPiBrZXlfY3JlYXRlX29yX3VwZGF0ZSgpIC0tPiBfX2tleV9pbnN0YW50aWF0ZV9hbmRfbGlu
+aygpIC0tPiAgdHJ1c3RlZF9pbnN0YW50aWF0ZSgpIC0tPiB0cG0yX3Vuc2VhbF90cnVzdGVkKCkg
+LS0+IHRwbTJfdW5zZWFsX2NtZCgpLiANCg0KQ2hlY2sgZG1lc2csIHRoZXJlIHdpbGwgYmUgZXJy
+b3I6IA0KWzczMzM2LjM1MTU5Nl0gdHJ1c3RlZF9rZXk6IGtleV91bnNlYWwgZmFpbGVkICgtMSkN
+Cg0KLSBTaGlybGV5IA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogTWltaSBa
+b2hhciA8em9oYXJAbGludXguaWJtLmNvbT4gDQpTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI3
+LCAyMDE5IDM6MjggQU0NClRvOiBaaGFvLCBTaGlybGV5IDxzaGlybGV5LnpoYW9AaW50ZWwuY29t
+PjsgSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LmlibS5jb20+OyBKYXJra28gU2Fra2luZW4g
+PGphcmtrby5zYWtraW5lbkBsaW51eC5pbnRlbC5jb20+OyBKb25hdGhhbiBDb3JiZXQgPGNvcmJl
+dEBsd24ubmV0Pg0KQ2M6IGxpbnV4LWludGVncml0eUB2Z2VyLmtlcm5lbC5vcmc7IGtleXJpbmdz
+QHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVs
+QHZnZXIua2VybmVsLm9yZzsgJ01hdXJvIENhcnZhbGhvIENoZWhhYicgPG1jaGVoYWIrc2Ftc3Vu
+Z0BrZXJuZWwub3JnPjsgWmh1LCBCaW5nIDxiaW5nLnpodUBpbnRlbC5jb20+OyBDaGVuLCBMdWhh
+aSA8bHVoYWkuY2hlbkBpbnRlbC5jb20+DQpTdWJqZWN0OiBSZTogT25lIHF1ZXN0aW9uIGFib3V0
+IHRydXN0ZWQga2V5IG9mIGtleXJpbmcgaW4gTGludXgga2VybmVsLg0KDQpPbiBUdWUsIDIwMTkt
+MTEtMjYgYXQgMDc6MzIgKzAwMDAsIFpoYW8sIFNoaXJsZXkgd3JvdGU6DQo+IFRoYW5rcyBmb3Ig
+eW91ciBmZWVkYmFjaywgTWltaS4gDQo+IEJ1dCB0aGUgZG9jdW1lbnQgb2YgZHJhY3V0IGNhbid0
+IHNvbHZlIG15IHByb2JsZW0uIA0KPiANCj4gSSBkaWQgbW9yZSB0ZXN0IHRoZXNlIGRheXMgYW5k
+IHRyeSB0byBkZXNjcmlwdCBteSBxdWVzdGlvbiBpbiBtb3JlIGRldGFpbC4gDQo+IA0KPiBJbiBt
+eSBzY2VuYXJpbywgdGhlIHRydXN0ZWQga2V5IHdpbGwgYmUgc2VhbGVkIGludG8gVFBNIHdpdGgg
+UENSIHBvbGljeS4gDQo+IEFuZCB0aGVyZSBhcmUgc29tZSByZWxhdGVkIG9wdGlvbnMgaW4gbWFu
+dWFsIGxpa2UgDQo+ICAgICAgICBoYXNoPSAgICAgICAgIGhhc2ggYWxnb3JpdGhtIG5hbWUgYXMg
+YSBzdHJpbmcuIEZvciBUUE0gMS54IHRoZSBvbmx5DQo+ICAgICAgICAgICAgICAgICAgICAgIGFs
+bG93ZWQgdmFsdWUgaXMgc2hhMS4gRm9yIFRQTSAyLnggdGhlIGFsbG93ZWQgdmFsdWVzDQo+ICAg
+ICAgICAgICAgICAgICAgICAgIGFyZSBzaGExLCBzaGEyNTYsIHNoYTM4NCwgc2hhNTEyIGFuZCBz
+bTMtMjU2Lg0KPiAgICAgICAgcG9saWN5ZGlnZXN0PSBkaWdlc3QgZm9yIHRoZSBhdXRob3JpemF0
+aW9uIHBvbGljeS4gbXVzdCBiZSBjYWxjdWxhdGVkDQo+ICAgICAgICAgICAgICAgICAgICAgIHdp
+dGggdGhlIHNhbWUgaGFzaCBhbGdvcml0aG0gYXMgc3BlY2lmaWVkIGJ5IHRoZSAnaGFzaD0nDQo+
+ICAgICAgICAgICAgICAgICAgICAgIG9wdGlvbi4NCj4gICAgICAgIHBvbGljeWhhbmRsZT0gaGFu
+ZGxlIHRvIGFuIGF1dGhvcml6YXRpb24gcG9saWN5IHNlc3Npb24gdGhhdCBkZWZpbmVzIHRoZQ0K
+PiAgICAgICAgICAgICAgICAgICAgICBzYW1lIHBvbGljeSBhbmQgd2l0aCB0aGUgc2FtZSBoYXNo
+IGFsZ29yaXRobSBhcyB3YXMgdXNlZCB0bw0KPiAgICAgICAgICAgICAgICAgICAgICBzZWFsIHRo
+ZSBrZXkuIA0KPiANCj4gSGVyZSBpcyBteSB0ZXN0IHN0ZXAuIA0KPiBGaXJzdGx5LCB0aGUgcGNy
+IHBvbGljeSBpcyBnZW5lcmF0ZWQgYXMgYmVsb3c6IA0KPiAkIHRwbTJfY3JlYXRlcG9saWN5IC0t
+cG9saWN5LXBjciAtLXBjci1saXN0IHNoYTI1Njo3IC0tcG9saWN5IA0KPiBwY3I3X2Jpbi5wb2xp
+Y3kgPiBwY3I3LnBvbGljeQ0KPiANCj4gUGNyNy5wb2xpY3kgaXMgdGhlIGFzY2lpIGhleCBvZiBw
+b2xpY3k6DQo+ICQgY2F0IHBjcjcucG9saWN5DQo+IDMyMWZiZDI4YjYwZmNjMjMwMTdkNTAxYjEz
+M2JkNWRiZjI4ODk4MTQ1ODhlOGEyMzUxMGZlMTAxMDVjYjJjYzkNCj4gDQo+IFRoZW4gZ2VuZXJh
+dGUgdGhlIHRydXN0ZWQga2V5IGFuZCBjb25maWd1cmUgcG9saWN5ZGlnZXN0IGFuZCBnZXQgdGhl
+IGtleSBJRDogDQo+ICQga2V5Y3RsIGFkZCB0cnVzdGVkIGttayAibmV3IDMyIGtleWhhbmRsZT0w
+eDgxMDAwMDAxIGhhc2g9c2hhMjU2IA0KPiBwb2xpY3lkaWdlc3Q9YGNhdCBwY3I3LnBvbGljeWAi
+IEB1DQo+IDg3NDExNzA0NQ0KPiANCj4gU2F2ZSB0aGUgdHJ1c3RlZCBrZXkuIA0KPiAkIGtleWN0
+bCBwaXBlIDg3NDExNzA0NSA+IGttay5ibG9iDQo+IA0KPiBSZWJvb3QgYW5kIGxvYWQgdGhlIGtl
+eS4gDQo+IFN0YXJ0IGEgYXV0aCBzZXNzaW9uIHRvIGdlbmVyYXRlIHRoZSBwb2xpY3k6DQo+ICQg
+dHBtMl9zdGFydGF1dGhzZXNzaW9uIC1TIHNlc3Npb24uY3R4DQo+IHNlc3Npb24taGFuZGxlOiAw
+eDMwMDAwMDANCj4gJCB0cG0yX3Bjcmxpc3QgLUwgc2hhMjU2OjcgLW8gcGNyNy5zaGEyNTYgJCB0
+cG0yX3BvbGljeXBjciAtUyANCj4gc2Vzc2lvbi5jdHggLUwgc2hhMjU2OjcgLUYgcGNyNy5zaGEy
+NTYgLWYgcGNyNy5wb2xpY3kNCj4gcG9saWN5LWRpZ2VzdDogDQo+IDB4MzIxRkJEMjhCNjBGQ0My
+MzAxN0Q1MDFCMTMzQkQ1REJGMjg4OTgxNDU4OEU4QTIzNTEwRkUxMDEwNUNCMkNDOQ0KPiANCj4g
+SW5wdXQgdGhlIHBvbGljeSBoYW5kbGUgdG8gbG9hZCB0cnVzdGVkIGtleToNCj4gJCBrZXljdGwg
+YWRkIHRydXN0ZWQga21rICJsb2FkIGBjYXQga21rLmJsb2JgIGtleWhhbmRsZT0weDgxMDAwMDAx
+IA0KPiBwb2xpY3loYW5kbGU9MHgzMDAwMDAwIiBAdQ0KPiBhZGRfa2V5OiBPcGVyYXRpb24gbm90
+IHBlcm1pdHRlZA0KPiANCj4gVGhlIGVycm9yIHNob3VsZCBiZSBwb2xpY3kgY2hlY2sgZmFpbGVk
+LCBiZWNhdXNlIEkgdXNlIFRQTSBjb21tYW5kIHRvIHVuc2VhbCBkaXJlY3RseSB3aXRoIGVycm9y
+IG9mIHBvbGljeSBjaGVjayBmYWlsZWQuIA0KPiAkIHRwbTJfdW5zZWFsIC1jIDB4ODEwMDAwMDEg
+LUwgc2hhMjU2OjcgRVJST1Igb24gbGluZTogIjgxIiBpbiBmaWxlOiANCj4gIi4vbGliL2xvZy5o
+IjogVHNzMl9TeXNfVW5zZWFsKDB4OTlEKSAtIHRwbTpzZXNzaW9uKDEpOmEgcG9saWN5IGNoZWNr
+IA0KPiBmYWlsZWQgRVJST1Igb24gbGluZTogIjIxMyIgaW4gZmlsZTogInRvb2xzL3RwbTJfdW5z
+ZWFsLmMiOiBVbnNlYWwgZmFpbGVkIQ0KPiBFUlJPUiBvbiBsaW5lOiAiMTY2IiBpbiBmaWxlOiAi
+dG9vbHMvdHBtMl90b29sLmMiOiBVbmFibGUgdG8gcnVuIA0KPiB0cG0yX3Vuc2VhbA0KPiANCj4g
+U28gbXkgcXVlc3Rpb24gaXM6DQo+IDEuIEhvdyB0byB1c2UgdGhlIG9wdGlvbiwgcG9saWN5ZGln
+ZXN0LCBwb2xpY3loYW5kbGU/PyBJcyB0aGVyZSBhbnkgZXhhbXBsZT8gDQo+IDIuIFdoYXQncyB3
+cm9uZyB3aXRoIG15IHRlc3Qgc3RlcD8gDQoNCldoZW4gcmVwb3J0aW5nIGEgcHJvYmxlbSBwbGVh
+c2Ugc3RhdGUgd2hpY2gga2VybmVsIGlzIGV4cGVyaWVuY2luZyB0aGlzIHByb2JsZW0uIMKgUmVj
+ZW50bHkgdGhlcmUgd2FzIGEgdHJ1c3RlZCBrZXkgcmVncmVzc2lvbi4gwqBSZWZlciB0byBjb21t
+aXQgZTEzY2QyMWZmZDUwICJ0cG06IFdyYXAgdGhlIGJ1ZmZlciBmcm9tIHRoZSBjYWxsZXIgdG8g
+dHBtX2J1ZiBpbiB0cG1fc2VuZCgpIiBmb3IgdGhlIGRldGFpbHMuDQoNCkJlZm9yZSBkZWx2aW5n
+IGludG8gdGhpcyBwYXJ0aWN1bGFyIHByb2JsZW0sIGZpcnN0IHBsZWFzZSBtYWtlIHN1cmUgeW91
+IGFyZSBhYmxlIHRvIGNyZWF0ZSwgc2F2ZSwgcmVtb3ZlLCBhbmQgdGhlbiByZWxvYWQgYSB0cnVz
+dGVkIGtleSBub3Qgc2VhbGVkIHRvIGEgUENSLg0KDQpNaW1pwqANCg0K
