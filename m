@@ -3,27 +3,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA976C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 13:42:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD4BC432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 15:58:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 987EE216F4
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 13:42:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B19421771
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 15:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726227AbfK1Nmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Nov 2019 08:42:33 -0500
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:47041 "EHLO
-        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727418AbfK1Nmd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Nov 2019 08:42:33 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07486;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TjJZTYN_1574948497;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjJZTYN_1574948497)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 28 Nov 2019 21:41:38 +0800
-Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+        id S1726582AbfK1P6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Nov 2019 10:58:24 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44502 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726401AbfK1P6X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Nov 2019 10:58:23 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id B593BB1FB;
+        Thu, 28 Nov 2019 15:58:20 +0000 (UTC)
+Date:   Thu, 28 Nov 2019 16:58:18 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     =?utf-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
 Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
@@ -37,92 +38,99 @@ Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
+Message-ID: <20191128155818.GE831@blackbody.suse.cz>
 References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
  <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
  <9354ffe8-81ba-9e76-e0b3-222bc942b3fc@linux.alibaba.com>
  <20191127101932.GN28938@suse.de>
  <3ff78d18-fa29-13f3-81e5-a05537a2e344@linux.alibaba.com>
  <20191128123924.GD831@blackbody.suse.cz>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
-Date:   Thu, 28 Nov 2019 21:41:37 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+ <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
 MIME-Version: 1.0
-In-Reply-To: <20191128123924.GD831@blackbody.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="9l24NVCWtSuIVIod"
+Content-Disposition: inline
+In-Reply-To: <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/11/28 下午8:39, Michal Koutný wrote:
-> Hello.
-> 
-> My primary concern is still the measuring of per-NUMA node execution
-> time.
-> 
-> First, I think exposing the aggregated data into the numa_stat file is
-> loss of information. The data are collected per-CPU and then summed over
-> NUMA nodes -- this could be easily done by the userspace consumer of the
-> data, keeping the per-CPU data available.
-> 
-> Second, comparing with the cpuacct implementation, yours has only jiffy
-> granularity (I may have overlooked something or I miss some context,
-> then it's a non-concern).
 
-There are used to be a discussion on this, Peter mentioned we no longer
-expose raw ticks into userspace and micro seconds could be fine.
+--9l24NVCWtSuIVIod
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Basically we use this to calculate percentages, for which jiffy could be
-accurate enough :-)
+On Thu, Nov 28, 2019 at 09:41:37PM +0800, =E7=8E=8B=E8=B4=87 <yun.wang@linu=
+x.alibaba.com> wrote:
+> There are used to be a discussion on this, Peter mentioned we no longer
+> expose raw ticks into userspace and micro seconds could be fine.
+I don't mean the unit presented but the precision.
 
-> 
-> IOW, to me it sounds like duplicating cpuacct job and if that is deemed
-> useful for cgroup v2, I think it should be done (only once) and at
-> proper place (i.e. how cputime is measured in the default hierarchy).
+> Basically we use this to calculate percentages, for which jiffy could be
+> accurate enough :-)
+You also report the raw times.
 
-But still, what if folks don't use v2... any good suggestions?
+Ad percentages (or raw times precision), on average, it should be fine
+but can't there be any "aliasing" artifacts when only an unimportant
+task is regularly sampled, hence not capturing the real pattern on the
+CPU? (Again, I'm not confident I'm not missing anything that prevents
+that behavior.)
 
-> 
-> The previous two are design/theoretical remarks, however, your patch
-> misses measuring of other than fair_sched_class policy tasks. Is that
-> intentional?
+> But still, what if folks don't use v2... any good suggestions?
+(Note this applies to exectimes not locality.) On v1, they can add up
+per CPU values from cpuacct. (So it's v2 that's missing the records.)
 
-Yes, since they don't have NUMA balancing to do optimization, and
-generally they are not that much.
 
-> 
-> My last two comments are to locality measurement but are based on no
-> experience or specific knowledge.
-> 
-> The seven percentile groups seem quite arbitrary to me, I find it
-> strange that the ratio of cache-line size and u64 leaks and is fixed in
-> the generally visible file. Wouldn't such a form be better hidden under
-> a _DEBUG config option?
+> Yes, since they don't have NUMA balancing to do optimization, and
+> generally they are not that much.
+Aha, I didn't realize that.
 
-Sorry but I don't get it... at first it was 10 regions, as Peter suggested
-we pick 8, but now to insert member 'jiffies' it become 7, the address of
-'jiffies' is cache aligned, so we pick u64 * 8 == 64Bytes to make sure the
-whole thing could be load in cache once a time, or did I misunderstand
-something?
+> Sorry but I don't get it... at first it was 10 regions, as Peter suggested
+> we pick 8, but now to insert member 'jiffies' it become 7,
+See, there are various arguments for different values :-)
 
-> 
-> 
-> On Thu, Nov 28, 2019 at 10:09:13AM +0800, 王贇 <yun.wang@linux.alibaba.com> wrote:
->> Consider it as load_1/5/15 which not accurate but tell the trend of system
-> I understood your patchset provides cumulative data over time, i.e. if
-> a user wants to see an immediate trend, they have to calculate
-> differences. Have I overlooked some back-off or regular zeroing?
+I meant that the currently chosen one is imprinted into the API file.
+That is IMO fixable by documenting (e.g. the number of bands may change,
+assume uniform division) or making all this just a debug API. Or, see
+below.
 
-Yes, here what I try to highlight is the similar usage, but not the way of
-monitoring ;-) as the docs tell, we monitoring increments.
+> Yes, here what I try to highlight is the similar usage, but not the way of
+> monitoring ;-) as the docs tell, we monitoring increments.
+I see, the docs give me an idea what's the supposed use case.
 
-Regards,
-Michale Wang
+What about exposing only the counters for local, remote and let the user
+do their monitoring based on =CE=94local/(=CE=94local + =CE=94remote)?
 
-> 
-> Michal
-> 
+That would avoid the partitioning question completely, exposed values
+would be simple numbers and provided information should be equal. A
+drawback is that such a sampling would be slower (but sufficient for the
+illustrating example).
+
+Michal
+
+--9l24NVCWtSuIVIod
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAl3f7pIACgkQia1+riC5
+qSh1eA/7B1Pr1I/nxQSY3n0NbVS3hJW2czHc9vMnQ9IykuHUc3DNgsugiQ382l4a
+Kh46uyGXbOyj5k8OCSCAihN/OSPz8Xv5PMYfsgLshhIHN6konY6LE7yOTCJYvgUM
+/n7+pHXvFVFmyU/1giGpfOsOPNRlB92ohm0VG9b56Oo5GjWjQbXbHKUT8GkOST3k
+Ef7p2f/pJVnucYVlHMwDYdTK0j5a7eorEr6tZ/vSMldadrLgrGSGZAZY7d5yLwsH
+SjyAoSdJf/dknjE/BeIpKTHX7OeNd42g4QutjMiQZ+3YyMeRiB7UN+ZDh0TVmt47
+zxqiLdGkGQu6rDkDqIPgfTiUgfGSOY2/WpeHvuwKylb6+mPp92gfA9S8aaINs5ZM
+nfMF8dWTGkZq86y/XLEYtDQrD/C8UUNSY3APyfO9PoXgYFlC51SS32SDASwYcX8o
+Z/T1vOxwXGOBUCy+5gxDKy1x5bWwUNMvMZSON622ZxL2pXYFdHEhqqw4dGOfzFRX
+NlXurxlGVkdRo053A9SnZiA4xINYZ37wPjUdchPni3R/qsaSdKGyqdAQEwR8STvL
+KmHBZaVId4TQt1XrUVDPTIHwUiQjaPHxhfvctfoTIhrE0xHGmvJsZAWJbcIdkv5A
+jfHzpZWdOHcxAbEew5C+Rs8JyAqw8d84hoopeBBMj5A8lhgOwEg=
+=PQHj
+-----END PGP SIGNATURE-----
+
+--9l24NVCWtSuIVIod--
