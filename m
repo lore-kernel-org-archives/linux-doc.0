@@ -5,82 +5,80 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B58AFC432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353AEC432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:25:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CE18216F4
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:25:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D51EA216F4
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:25:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iGfa3lcM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Eq4dJpBy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726822AbfK1UZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Nov 2019 15:25:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29996 "EHLO
+        id S1726925AbfK1UZq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Nov 2019 15:25:46 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40329 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726800AbfK1UZl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Nov 2019 15:25:41 -0500
+        by vger.kernel.org with ESMTP id S1726917AbfK1UZq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Nov 2019 15:25:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574972740;
+        s=mimecast20190719; t=1574972745;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=yNq9Cl1u8a4Res9gMqZVglO/lwiENzme0qL73M9MY10=;
-        b=iGfa3lcM+x4ZdaCCNlh9J0QKx8CfIQaMWmsreOv1wzDUPyQvJIROUzQZngJy8YJ4lLIbQU
-        +K3kAwICKk8CPxWeTSvZ2dc9oaHWS3h8ohFVVJ3twZ+d2ZDKaiN6N2Lowt0sD1sfTbBO01
-        1mlrqy7NpVb+FSHX7w+c4j27dMcSJvo=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-pnvmSJokOSuHFTnqhSAEzw-1; Thu, 28 Nov 2019 15:25:38 -0500
-Received: by mail-pg1-f197.google.com with SMTP id e16so15195514pgi.22
-        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2019 12:25:38 -0800 (PST)
+        bh=41xNMejmkDpiENDKO7RxAxz9cPSeln8z2A1ifqUYAvQ=;
+        b=Eq4dJpByok4mJzG+h1bcOLUTz+teMeIXm2JNaseXdSZJWmFmmCzUgJQKzCwByKThiCRWzw
+        oMGvwW6AIVNMdMUgjQ5XgWFEO+l+HS253aa0v4kA4fa9SKksa/Kg45uKMdVwAqvltMu+BH
+        4D0/kxIiV3Mz9dGkwtR07uRNeurqY24=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-o9DdFaZ1MZWCgVnazTZMDw-1; Thu, 28 Nov 2019 15:25:42 -0500
+Received: by mail-pf1-f197.google.com with SMTP id h67so16725800pfb.7
+        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2019 12:25:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=EGXp9xk2iujKm5hWzUI7x5fii/ZV0bMMwslmLu+YaOk=;
-        b=IsU2IcKplK8xrJMundx/FgpmPsD9ZrnucuHcuWuEu5iCFWuhzXcXnjVMHK7NU3qqZa
-         kS6c3DIUv1ffxtgVpEP0by5yNIHF0A5hRUIXBoSKqsPzfM4mUXchdjQox28Nmp/Azwz6
-         MwkuF3Cm93vhea8cJ6SrJaUEgHmDgtC1p5xRKkcx0fq+CAaY2+2Izu295EuM2AqdGZ4F
-         MF9etXO8yNye3nPcXmJHGo8uXr9tFTG7fD0BjhhRZiB0b4pISjUbtLGTUm/2tX2XwDEC
-         0LBgtmEdVB3L3rGa4GCVYKEgW31+zwy9xfXwb1n2DAolmPmx4/1rg9pwrSCGzWUW6V5W
-         pong==
-X-Gm-Message-State: APjAAAWmmBtNePuVUY2k9RtPerSSz+wC0n9Kx8evnY0Sh3cclp5ZTkOr
-        tAodlyoFc3xIUN8l7+XUX74B3t1N1cyFAkpDshpZtxqKOs/Sx6YrKaJv2rjP062GDy7Mj20AYMN
-        bKF9RA8ZxAVbMimg+GdeI
-X-Received: by 2002:aa7:9f08:: with SMTP id g8mr55602054pfr.59.1574972737769;
-        Thu, 28 Nov 2019 12:25:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxZd0aFye0vSy1NxsGtsRRJBkuncMDWAD+zRH7F+esJn7Za4gqNzi7+zhDEogE6OWw66etLDg==
-X-Received: by 2002:aa7:9f08:: with SMTP id g8mr55602046pfr.59.1574972737583;
-        Thu, 28 Nov 2019 12:25:37 -0800 (PST)
+        bh=TnU1CF4ydXp0Re/7xQPqByhi17OoIqWu96aUm7ilAL8=;
+        b=AcxaVRjUr1WdZdJpy2FV1gkUMcgjqV4n+TYjSqkgpPIXvRvKTPpTAR3Jo6Y5Kd1xtT
+         XI84vJnxnrZrIl/0eX/QhLcszHVD5wxx+7LXRJoG+Tf3k9jYiv5bJCEnx01BVsfUkrs1
+         zzU051pCvWDeY8k2cEizipTit9mAxL6T4VQujgEznKSU8tT03CAIFcEXjCsnT/N6Wpaa
+         APEgn6MxRyYEXqZEDFIE6UFfKM5QDStbPXvihHmiD5qr6c9grX+3O8Joh8N/qOWFxz1O
+         K99KeB/hM0RqlKKDPXU2HaOu1t+t72A6ce/l1RJdPRUkzX35oTIbO/iq2DbRBZojkhaJ
+         7ckQ==
+X-Gm-Message-State: APjAAAV1yYng6aZiQ5Vh+DtHgGDsExtaZc/6QYHdk3f3I+jSQLLiYpUR
+        s5XzcTgPb2veVlDtzSFPSLMJze0VXij+4jpxTRZqNa4nX+zUzuuGhcXNxpYGnePHOcMktBL4JZi
+        vVMUMzsYAnYeUJSVhZlwv
+X-Received: by 2002:a17:90a:3463:: with SMTP id o90mr14440663pjb.4.1574972741160;
+        Thu, 28 Nov 2019 12:25:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw1994kyjpL8nA7jbNA2MDbvleaYMa6ZgrsQMiMtjPLDmyjZ21lIhTP8RXhXz67xc7yDAqxlg==
+X-Received: by 2002:a17:90a:3463:: with SMTP id o90mr14440628pjb.4.1574972740900;
+        Thu, 28 Nov 2019 12:25:40 -0800 (PST)
 Received: from localhost ([122.177.85.74])
-        by smtp.gmail.com with ESMTPSA id 21sm22106551pfy.67.2019.11.28.12.25.35
+        by smtp.gmail.com with ESMTPSA id c184sm22569924pfc.159.2019.11.28.12.25.39
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Nov 2019 12:25:36 -0800 (PST)
+        Thu, 28 Nov 2019 12:25:40 -0800 (PST)
 From:   Bhupesh Sharma <bhsharma@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     bhsharma@redhat.com, bhupesh.linux@gmail.com, x86@kernel.org,
         linuxppc-dev@lists.ozlabs.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, Boris Petkov <bp@alien8.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        James Morse <james.morse@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        kexec@lists.infradead.org, James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         Dave Anderson <anderson@redhat.com>,
         Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Subject: [PATCH v5 4/5] Documentation/vmcoreinfo: Add documentation for 'MAX_PHYSMEM_BITS'
-Date:   Fri, 29 Nov 2019 01:55:15 +0530
-Message-Id: <1574972716-25858-3-git-send-email-bhsharma@redhat.com>
+Subject: [PATCH v5 5/5] Documentation/vmcoreinfo: Add documentation for 'TCR_EL1.T1SZ'
+Date:   Fri, 29 Nov 2019 01:55:16 +0530
+Message-Id: <1574972716-25858-4-git-send-email-bhsharma@redhat.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1574972716-25858-1-git-send-email-bhsharma@redhat.com>
 References: <1574972716-25858-1-git-send-email-bhsharma@redhat.com>
-X-MC-Unique: pnvmSJokOSuHFTnqhSAEzw-1
+X-MC-Unique: o9DdFaZ1MZWCgVnazTZMDw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -89,49 +87,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for 'MAX_PHYSMEM_BITS' variable being added to
+Add documentation for TCR_EL1.T1SZ variable being added to
 vmcoreinfo.
 
-'MAX_PHYSMEM_BITS' defines the maximum supported physical address
-space memory.
+It indicates the size offset of the memory region addressed by TTBR1_EL1
+and hence can be used for determining the vabits_actual value.
 
-Cc: Boris Petkov <bp@alien8.de>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: James Morse <james.morse@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Steve Capper <steve.capper@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Cc: Dave Anderson <anderson@redhat.com>
 Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Cc: x86@kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org
 Cc: kexec@lists.infradead.org
 Signed-off-by: Bhupesh Sharma <bhsharma@redhat.com>
 ---
- Documentation/admin-guide/kdump/vmcoreinfo.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/admin-guide/kdump/vmcoreinfo.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation=
 /admin-guide/kdump/vmcoreinfo.rst
-index 007a6b86e0ee..447b64314f56 100644
+index 447b64314f56..f9349f9d3345 100644
 --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
 +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -93,6 +93,11 @@ It exists in the sparse memory mapping model, and it is =
-also somewhat
- similar to the mem_map variable, both of them are used to translate an
- address.
+@@ -398,6 +398,12 @@ KERNELOFFSET
+ The kernel randomization offset. Used to compute the page offset. If
+ KASLR is disabled, this value is zero.
 =20
-+MAX_PHYSMEM_BITS
-+----------------
++TCR_EL1.T1SZ
++------------
 +
-+Defines the maximum supported physical address space memory.
++Indicates the size offset of the memory region addressed by TTBR1_EL1
++and hence can be used for determining the vabits_actual value.
 +
- page
- ----
+ arm
+ =3D=3D=3D
 =20
 --=20
 2.7.4
