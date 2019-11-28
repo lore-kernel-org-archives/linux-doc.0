@@ -2,135 +2,118 @@ Return-Path: <SRS0=ox8w=ZU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD4BC432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 15:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54280C432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 17:20:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3B19421771
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 15:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2873221739
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 17:20:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LwTDbZMB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbfK1P6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Nov 2019 10:58:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44502 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726401AbfK1P6X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Nov 2019 10:58:23 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id B593BB1FB;
-        Thu, 28 Nov 2019 15:58:20 +0000 (UTC)
-Date:   Thu, 28 Nov 2019 16:58:18 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     =?utf-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
-Message-ID: <20191128155818.GE831@blackbody.suse.cz>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <9354ffe8-81ba-9e76-e0b3-222bc942b3fc@linux.alibaba.com>
- <20191127101932.GN28938@suse.de>
- <3ff78d18-fa29-13f3-81e5-a05537a2e344@linux.alibaba.com>
- <20191128123924.GD831@blackbody.suse.cz>
- <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
+        id S1726681AbfK1RUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Nov 2019 12:20:22 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:33762 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbfK1RUW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Nov 2019 12:20:22 -0500
+Received: by mail-il1-f194.google.com with SMTP id y16so17262594iln.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2019 09:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Oie0bM178aUOxU4BJOrM9kVBDCA95ZD+DTy+5sq9Vkc=;
+        b=LwTDbZMB0t4gpW9EXlsp+SpAcTpbl1AAAb4/Uv/C4t6EVxVHJDWskW/H8szBJDaATo
+         n8D2pQGGDxYIavNp3NLeTPxj5vnm0wA+KuP+F8YPzz43s2WIKoNDHql0iYXMvtvb2F2z
+         vNLeQOWcJAlWRwc4gK2yAhU5vo3b9nNP8RHyQHLA6/6iFsAU6JK/rQihBbPpWKz290Bj
+         QxFWH/d5/U0cyPmTFwk3xWTCy6IPKdOer3iMR4zd2yzIXxPs+zClJ73phSMiv/KY92YB
+         jhtn9/nWswqhvz8mF9w4yuws1mwo3cXVvt7gtZ0ZveJDLB/qKHMY8ITV0ooVN3XZuupr
+         lZuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Oie0bM178aUOxU4BJOrM9kVBDCA95ZD+DTy+5sq9Vkc=;
+        b=UMIoMaONUwULVxpLzWwHbqgg5yoQasREiwdJxxxMX4VMQlcvSrUP7GQwrgAX05lHXt
+         b0TLF74b14X341AU8dHHij7mOeq4roz91BrHX7r9Cl9BplvQhD0/WjhffSVsCLiTJll5
+         R9kEYZs5G1DcFB+rLyjTsRcaPUDeE++5DrpOtdMKKHJk+2xmWFJLZA7aonw8/UvDvp4X
+         ANNDI2WdZewbzyB9UTxDKQKJMH/K/CqKuc9SwDnrGHOLNf4Aplsn1a5O45eVDaTC69AP
+         GjEgy/rV79oxApP470cITyFY7+prpJXYL/LTDRdMtW8lX531TAbyikf6+3b306N0t4cv
+         cxuQ==
+X-Gm-Message-State: APjAAAXMYn9yedLF02hcLg8xE0SYKjVcysGQJcEoeyOhrYlEujl+rKXW
+        Xo7JgpKIpsaV2RNfYAR6TqEx+w1LV6YHu9Ozs8B5gw==
+X-Google-Smtp-Source: APXvYqwtBfdFeO0UfXhQ4uWy57Am43xaNg5zXNDfE01bsarG3c196FurVM4CPTCCwBIxN4josf68OMIMNTX395okYPE=
+X-Received: by 2002:a92:1547:: with SMTP id v68mr8134548ilk.58.1574961621511;
+ Thu, 28 Nov 2019 09:20:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="9l24NVCWtSuIVIod"
-Content-Disposition: inline
-In-Reply-To: <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-4-mike.leach@linaro.org>
+ <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
+In-Reply-To: <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Thu, 28 Nov 2019 10:20:10 -0700
+Message-ID: <CANLsYkzsn6UWjjXLDSx+2hbXV26Qf-6FMqE7xURPgPzxOYpVbw@mail.gmail.com>
+Subject: Re: [PATCH v5 03/14] coresight: cti: Add sysfs access to program
+ function regs
+To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Cc:     Mike Leach <mike.leach@linaro.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 28 Nov 2019 at 03:54, Suzuki Kuruppassery Poulose
+<suzuki.poulose@arm.com> wrote:
+>
+> On 19/11/2019 23:19, Mike Leach wrote:
+> > Adds in sysfs programming support for the CTI function register sets.
+> > Allows direct manipulation of channel / trigger association registers.
+> >
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+>
+>
+> > +/*
+> > + * #define CTI_DEBUG_INTEGRATION_CTRL to enable the access to the integration
+> > + * control registers. Normally only used to investigate connection data.
+> > + */
+>
+> On a second thought, I have some comments on this symbol.
+>
+> Given that the integration control registers may be useful for people to
+> find the device connections, I strongly feel that this is provided
+> via a CONFIG symbol rather than a  debug symbol within the code.
 
---9l24NVCWtSuIVIod
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Device connections can be discovered with the dynamic sysfs connection
+entries added as part of patch 09.  In cases where that is not
+sufficient and people really need to use the integration control
+registers they are probably instrumenting the code anyway.
 
-On Thu, Nov 28, 2019 at 09:41:37PM +0800, =E7=8E=8B=E8=B4=87 <yun.wang@linu=
-x.alibaba.com> wrote:
-> There are used to be a discussion on this, Peter mentioned we no longer
-> expose raw ticks into userspace and micro seconds could be fine.
-I don't mean the unit presented but the precision.
+>
+> i.e, CONFIG_CTI_DEBUG_INTEGRATION_CTRL, to help the people better.
+> Codewise this doesn't make much difference, but it certainly makes
+> it more easier for people to use it.
 
-> Basically we use this to calculate percentages, for which jiffy could be
-> accurate enough :-)
-You also report the raw times.
+I agree that code-wise it doesn't make much difference but I'm really
+not convinced it makes the driver easier to use, and one needs to
+recompile their kernel for production systems anyway.
 
-Ad percentages (or raw times precision), on average, it should be fine
-but can't there be any "aliasing" artifacts when only an unimportant
-task is regularly sampled, hence not capturing the real pattern on the
-CPU? (Again, I'm not confident I'm not missing anything that prevents
-that behavior.)
+Thanks,
+Mathieu
 
-> But still, what if folks don't use v2... any good suggestions?
-(Note this applies to exectimes not locality.) On v1, they can add up
-per CPU values from cpuacct. (So it's v2 that's missing the records.)
-
-
-> Yes, since they don't have NUMA balancing to do optimization, and
-> generally they are not that much.
-Aha, I didn't realize that.
-
-> Sorry but I don't get it... at first it was 10 regions, as Peter suggested
-> we pick 8, but now to insert member 'jiffies' it become 7,
-See, there are various arguments for different values :-)
-
-I meant that the currently chosen one is imprinted into the API file.
-That is IMO fixable by documenting (e.g. the number of bands may change,
-assume uniform division) or making all this just a debug API. Or, see
-below.
-
-> Yes, here what I try to highlight is the similar usage, but not the way of
-> monitoring ;-) as the docs tell, we monitoring increments.
-I see, the docs give me an idea what's the supposed use case.
-
-What about exposing only the counters for local, remote and let the user
-do their monitoring based on =CE=94local/(=CE=94local + =CE=94remote)?
-
-That would avoid the partitioning question completely, exposed values
-would be simple numbers and provided information should be equal. A
-drawback is that such a sampling would be slower (but sufficient for the
-illustrating example).
-
-Michal
-
---9l24NVCWtSuIVIod
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAl3f7pIACgkQia1+riC5
-qSh1eA/7B1Pr1I/nxQSY3n0NbVS3hJW2czHc9vMnQ9IykuHUc3DNgsugiQ382l4a
-Kh46uyGXbOyj5k8OCSCAihN/OSPz8Xv5PMYfsgLshhIHN6konY6LE7yOTCJYvgUM
-/n7+pHXvFVFmyU/1giGpfOsOPNRlB92ohm0VG9b56Oo5GjWjQbXbHKUT8GkOST3k
-Ef7p2f/pJVnucYVlHMwDYdTK0j5a7eorEr6tZ/vSMldadrLgrGSGZAZY7d5yLwsH
-SjyAoSdJf/dknjE/BeIpKTHX7OeNd42g4QutjMiQZ+3YyMeRiB7UN+ZDh0TVmt47
-zxqiLdGkGQu6rDkDqIPgfTiUgfGSOY2/WpeHvuwKylb6+mPp92gfA9S8aaINs5ZM
-nfMF8dWTGkZq86y/XLEYtDQrD/C8UUNSY3APyfO9PoXgYFlC51SS32SDASwYcX8o
-Z/T1vOxwXGOBUCy+5gxDKy1x5bWwUNMvMZSON622ZxL2pXYFdHEhqqw4dGOfzFRX
-NlXurxlGVkdRo053A9SnZiA4xINYZ37wPjUdchPni3R/qsaSdKGyqdAQEwR8STvL
-KmHBZaVId4TQt1XrUVDPTIHwUiQjaPHxhfvctfoTIhrE0xHGmvJsZAWJbcIdkv5A
-jfHzpZWdOHcxAbEew5C+Rs8JyAqw8d84hoopeBBMj5A8lhgOwEg=
-=PQHj
------END PGP SIGNATURE-----
-
---9l24NVCWtSuIVIod--
+>
+> We have used debug symbols elsewhere in the drivers for pure functional
+> debugging purposes. However I feel this is case is superior.
+>
+>
+> Cheers
+> Suzuki
