@@ -1,221 +1,171 @@
-Return-Path: <SRS0=9pVK=ZT=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=ox8w=ZU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD70C43215
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E40C432C3
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 02:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 775822154A
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Nov 2019 21:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574891032;
-	bh=yjg5mbcT2qayoGiXGeuj4+AiaU2IiMtfvk/0rI/sPF0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KzKEM98TFuIw/pySKJvmG0Zi9cOT3uBX4zsiUnnQyH+g5pYcQFr448/6khxxOY5ah
-	 3LTQKA9gXFBelUMag1jMlUNghQMkXK3c4vS/PRGeYebfZeNmn0WxWRe502hrOY4RZd
-	 o7Wy1xqOEppkpvcu+kCxFvtjqMaKcKvB8GY8hOjg=
+	by mail.kernel.org (Postfix) with ESMTP id 047A5215F2
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 02:09:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728703AbfK0UiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 15:38:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41664 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727813AbfK0UiO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Nov 2019 15:38:14 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50B4A21772;
-        Wed, 27 Nov 2019 20:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574887092;
-        bh=yjg5mbcT2qayoGiXGeuj4+AiaU2IiMtfvk/0rI/sPF0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ad+oVc0xmlkOVwbgR+SvEI2aMhmB1mI9wwz8Ugymg7WON7z40RpgIfe0TWSnZXK1H
-         lmZrRex2yCY9sknUljTVN4W4maKh+2Awb6Pic/AAFGCjnaLVr/JTHLdo5/bMlFNof8
-         LXUqKveaiCo6e6FAWkM70rkyAIUatEl1sitzKxd4=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Waiman Long <longman@redhat.com>,
-        Borislav Petkov <bp@suse.de>, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        id S1729241AbfK1CJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 21:09:22 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:46117 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729239AbfK1CJW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 21:09:22 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TjGOkbY_1574906953;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjGOkbY_1574906953)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 28 Nov 2019 10:09:14 +0800
+Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Tyler Hicks <tyhicks@canonical.com>, x86-ml <x86@kernel.org>
-Subject: [PATCH 4.4 108/132] x86/speculation: Fix incorrect MDS/TAA mitigation status
-Date:   Wed, 27 Nov 2019 21:31:39 +0100
-Message-Id: <20191127203027.431819899@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191127202857.270233486@linuxfoundation.org>
-References: <20191127202857.270233486@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Michal Koutn? <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <9354ffe8-81ba-9e76-e0b3-222bc942b3fc@linux.alibaba.com>
+ <20191127101932.GN28938@suse.de>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Message-ID: <3ff78d18-fa29-13f3-81e5-a05537a2e344@linux.alibaba.com>
+Date:   Thu, 28 Nov 2019 10:09:13 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191127101932.GN28938@suse.de>
 Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Waiman Long <longman@redhat.com>
+On 2019/11/27 下午6:19, Mel Gorman wrote:
+> On Wed, Nov 27, 2019 at 09:49:34AM +0800, ?????? wrote:
+>> Currently there are no good approach to monitoring the per-cgroup
+>> numa efficiency, this could be a trouble especially when groups
+>> are sharing CPUs, it's impossible to tell which one caused the
+>> remote-memory access by reading hardware counter since multiple
+>> workloads could sharing the same CPU, which make it painful when
+>> one want to find out the root cause and fix the issue>>
+> 
+> It's already possible to identify specific tasks triggering PMU events
+> so this is not exactly true.
 
-commit 64870ed1b12e235cfca3f6c6da75b542c973ff78 upstream.
+Should fix the description regarding this...
 
-For MDS vulnerable processors with TSX support, enabling either MDS or
-TAA mitigations will enable the use of VERW to flush internal processor
-buffers at the right code path. IOW, they are either both mitigated
-or both not. However, if the command line options are inconsistent,
-the vulnerabilites sysfs files may not report the mitigation status
-correctly.
+I think you mean tools like numatop which showing per task local/remote
+accessing info from PMU, correct?
 
-For example, with only the "mds=off" option:
+It's a good one for debugging, but when we talking about monitoring over
+cluster sharing by multiple users, still not very practical... compared
+to the workloads classified historical data.
 
-  vulnerabilities/mds:Vulnerable; SMT vulnerable
-  vulnerabilities/tsx_async_abort:Mitigation: Clear CPU buffers; SMT vulnerable
+I'm not sure about the overhead and limitation of this PMU approach, or
+whether there are any platform it's not yet supported, worth a survey.
 
-The mds vulnerabilities file has wrong status in this case. Similarly,
-the taa vulnerability file will be wrong with mds mitigation on, but
-taa off.
+> 
+>> In order to address this, we introduced new per-cgroup statistic
+>> for numa:
+>>   * the numa locality to imply the numa balancing efficiency
+>>   * the numa execution time on each node
+>>
+[snip]
+>> +#ifdef CONFIG_PROC_SYSCTL
+>> +int sysctl_cg_numa_stat(struct ctl_table *table, int write,
+>> +			 void __user *buffer, size_t *lenp, loff_t *ppos)
+>> +{
+>> +	struct ctl_table t;
+>> +	int err;
+>> +	int state = static_branch_likely(&sched_cg_numa_stat);
+>> +
+>> +	if (write && !capable(CAP_SYS_ADMIN))
+>> +		return -EPERM;
+>> +
+>> +	t = *table;
+>> +	t.data = &state;
+>> +	err = proc_dointvec_minmax(&t, write, buffer, lenp, ppos);
+>> +	if (err < 0 || !write)
+>> +		return err;
+>> +
+>> +	if (state)
+>> +		static_branch_enable(&sched_cg_numa_stat);
+>> +	else
+>> +		static_branch_disable(&sched_cg_numa_stat);
+>> +
+>> +	return err;
+>> +}
+>> +#endif
+>> +
+> 
+> Why is this implemented as a toggle? I'm finding it hard to make sense
+> of this. The numa_stat should not even exist if the feature is disabled.
 
-Change taa_select_mitigation() to sync up the two mitigation status
-and have them turned off if both "mds=off" and "tsx_async_abort=off"
-are present.
+numa_stat will not exist if CONFIG is not enabled, do you mean it should
+also disappear when dynamically turn off?
 
-Update documentation to emphasize the fact that both "mds=off" and
-"tsx_async_abort=off" have to be specified together for processors that
-are affected by both TAA and MDS to be effective.
+> 
+> Assuming that is fixed then the runtime overhead is fine but the same
+> issues with the quality of the information relying on NUMA balancing
+> limits the usefulness of this. Disabling NUMA balancing or the scan rate
+> dropping to a very low frequency would lead in misleading conclusions as
+> well as false positives if the CPU and memory policies force remote memory
+> usage. Similarly, the timing of the information available is variable du
+> to how numa_faults_locality gets reset so sometimes the information is
+> fine-grained and sometimes it's coarse grained. It will also pretend to
+> display useful information even if NUMA balancing is disabled.
 
- [ bp: Massage and add kernel-parameters.txt change too. ]
+The data just represent what we traced on NUMA balancing PF, so yes folks
+need some understanding on NUMA balancing to figure out the real meaning
+behind locality.
 
-Fixes: 1b42f017415b ("x86/speculation/taa: Add mitigation for TSX Async Abort")
-Signed-off-by: Waiman Long <longman@redhat.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jiri Kosina <jkosina@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: Mark Gross <mgross@linux.intel.com>
-Cc: <stable@vger.kernel.org>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Tyler Hicks <tyhicks@canonical.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20191115161445.30809-2-longman@redhat.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+We want it to tell the real story, if NUMA balancing disabled or scan rate
+dropped very low, the locality increments should be very small, when it
+keep failing for memory policy or CPU binding reason, we want it to tell how
+bad it is, locality just show us how NUMA Balancing is performing, the data
+could contains many information since how OS dealing with NUMA could be
+complicated...
 
----
- Documentation/hw-vuln/mds.rst             |    7 +++++--
- Documentation/hw-vuln/tsx_async_abort.rst |    5 ++++-
- Documentation/kernel-parameters.txt       |   11 +++++++++++
- arch/x86/kernel/cpu/bugs.c                |   17 +++++++++++++++--
- 4 files changed, 35 insertions(+), 5 deletions(-)
+> 
+> I find it hard to believe it would be useful in practice and I think users
+> would have real trouble interpreting the data given how much it relies on
+> internal implementation details of NUMA balancing. I cannot be certain
+> as clearly something motivated the creation of this patch although it's
+> unclear if it has ever been used to debug and fix an actual problem in
+> the field. Hence, I'm neutral on the patch and will neither ack or nack
+> it and will defer to the scheduler maintainers but if I was pushed on it,
+> I would be disinclined to merge the patch due to the potential confusion
+> caused by users who believe it provides accurate information when at best
+> it gives a rough approximation with variable granularity.
 
---- a/Documentation/hw-vuln/mds.rst
-+++ b/Documentation/hw-vuln/mds.rst
-@@ -262,8 +262,11 @@ time with the option "mds=". The valid a
- 
-   ============  =============================================================
- 
--Not specifying this option is equivalent to "mds=full".
--
-+Not specifying this option is equivalent to "mds=full". For processors
-+that are affected by both TAA (TSX Asynchronous Abort) and MDS,
-+specifying just "mds=off" without an accompanying "tsx_async_abort=off"
-+will have no effect as the same mitigation is used for both
-+vulnerabilities.
- 
- Mitigation selection guide
- --------------------------
---- a/Documentation/hw-vuln/tsx_async_abort.rst
-+++ b/Documentation/hw-vuln/tsx_async_abort.rst
-@@ -169,7 +169,10 @@ the option "tsx_async_abort=". The valid
-                 systems will have no effect.
-   ============  =============================================================
- 
--Not specifying this option is equivalent to "tsx_async_abort=full".
-+Not specifying this option is equivalent to "tsx_async_abort=full". For
-+processors that are affected by both TAA and MDS, specifying just
-+"tsx_async_abort=off" without an accompanying "mds=off" will have no
-+effect as the same mitigation is used for both vulnerabilities.
- 
- The kernel command line also allows to control the TSX feature using the
- parameter "tsx=" on CPUs which support TSX control. MSR_IA32_TSX_CTRL is used
---- a/Documentation/kernel-parameters.txt
-+++ b/Documentation/kernel-parameters.txt
-@@ -2054,6 +2054,12 @@ bytes respectively. Such letter suffixes
- 			full    - Enable MDS mitigation on vulnerable CPUs
- 			off     - Unconditionally disable MDS mitigation
- 
-+			On TAA-affected machines, mds=off can be prevented by
-+			an active TAA mitigation as both vulnerabilities are
-+			mitigated with the same mechanism so in order to disable
-+			this mitigation, you need to specify tsx_async_abort=off
-+			too.
-+
- 			Not specifying this option is equivalent to
- 			mds=full.
- 
-@@ -4105,6 +4111,11 @@ bytes respectively. Such letter suffixes
- 
- 			off        - Unconditionally disable TAA mitigation
- 
-+			On MDS-affected machines, tsx_async_abort=off can be
-+			prevented by an active MDS mitigation as both vulnerabilities
-+			are mitigated with the same mechanism so in order to disable
-+			this mitigation, you need to specify mds=off too.
-+
- 			Not specifying this option is equivalent to
- 			tsx_async_abort=full.  On CPUs which are MDS affected
- 			and deploy MDS mitigation, TAA mitigation is not
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -283,8 +283,12 @@ static void __init taa_select_mitigation
- 		return;
- 	}
- 
--	/* TAA mitigation is turned off on the cmdline (tsx_async_abort=off) */
--	if (taa_mitigation == TAA_MITIGATION_OFF)
-+	/*
-+	 * TAA mitigation via VERW is turned off if both
-+	 * tsx_async_abort=off and mds=off are specified.
-+	 */
-+	if (taa_mitigation == TAA_MITIGATION_OFF &&
-+	    mds_mitigation == MDS_MITIGATION_OFF)
- 		goto out;
- 
- 	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
-@@ -315,6 +319,15 @@ static void __init taa_select_mitigation
- 	 */
- 	static_branch_enable(&mds_user_clear);
- 
-+	/*
-+	 * Update MDS mitigation, if necessary, as the mds_user_clear is
-+	 * now enabled for TAA mitigation.
-+	 */
-+	if (mds_mitigation == MDS_MITIGATION_OFF &&
-+	    boot_cpu_has_bug(X86_BUG_MDS)) {
-+		mds_mitigation = MDS_MITIGATION_FULL;
-+		mds_select_mitigation();
-+	}
- out:
- 	pr_info("%s\n", taa_strings[taa_mitigation]);
- }
+We have our cluster enabled this feature already, an old version though but
+still helpful, when we want to debug NUMA issues, this could give good hints.
 
+Consider it as load_1/5/15 which not accurate but tell the trend of system
+behavior, locality giving the trend of NUMA Balancing as long as it's working,
+when increasing slowly it means locality already good enough or no more memory
+to adjust, and that's fine, for those who disabled the NUMA Balancing, they do
+their own NUMA optimization and find their own ways to estimate the results.
+
+Anyway, we thanks for all those good inputs from your side :-)
+
+Regards,
+Michael Wang
 
