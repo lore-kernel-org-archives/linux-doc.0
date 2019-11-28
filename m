@@ -2,374 +2,188 @@ Return-Path: <SRS0=ox8w=ZU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F2D1C432C0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 18:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A45B1C43215
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:24:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3931C216F4
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 18:38:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7494421787
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 20:24:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="daj/EdjY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbfK1Si4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Nov 2019 13:38:56 -0500
-Received: from foss.arm.com ([217.140.110.172]:39744 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726401AbfK1Si4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Nov 2019 13:38:56 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29B521FB;
-        Thu, 28 Nov 2019 10:38:55 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 439083F6C4;
-        Thu, 28 Nov 2019 10:38:54 -0800 (PST)
-Subject: Re: [PATCH v5 05/14] dt-bindings: arm: Adds CoreSight CTI hardware
- definitions.
-To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     mathieu.poirier@linaro.org
-References: <20191119231912.12768-1-mike.leach@linaro.org>
- <20191119231912.12768-6-mike.leach@linaro.org>
-From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Message-ID: <f2150b39-c662-4eea-a556-27d8ebb51735@arm.com>
-Date:   Thu, 28 Nov 2019 18:38:53 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191119231912.12768-6-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726558AbfK1UYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Nov 2019 15:24:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47926 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726565AbfK1UYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Nov 2019 15:24:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574972640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=XqTwc5ebz6tenvnG6zkONwdSyh0ZcAJ7/GPADSmX7as=;
+        b=daj/EdjYZyauOID1QtsTH6Bw5IeoGciF4aqx6kxqUUi+1fyUlrX/ZSyUOAbs5BOVkN/24T
+        +u4PeeZYCPhA8rgl0LCAYGQigo8Pyj96oPiYgoc5Khmbl4Fx00UqaB8jxjc2tnTcwZmOX/
+        ug1agBcZRNtQNttTHz4vwLWEcTecZBA=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-oL4xZPWLMcmaf1YiqI8T9w-1; Thu, 28 Nov 2019 15:23:57 -0500
+Received: by mail-pg1-f198.google.com with SMTP id k7so15222112pgq.10
+        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2019 12:23:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GPEyz/IHgt6mAW0R3tmNHtqBX2Y5bDBhF2H/Q45W8jA=;
+        b=l2PqhEuCbjY45SVDfHEhVe55+x8i2PvxarUk7hLxlAGdFeCmQg9s5XD9olvGtSLnmg
+         9ZGDjWch4aLiiYV5Ow2hKgWUvVtY14CBcku5qWQ/57Cdh8Ra8OP0Yy9txA2fLmAx2dFU
+         0mAOY29/h9RFOPZ79JTcbSOidmeXn4Kac+soIOPXBRLHZQXunCWYljTeXSdxew1imiKD
+         c9lVsM58KFg9m6BkI/Dvin0U/odp/UXZUsMZQO3aIpmE4Ar2Ql4PJjkB9+DrhKVz1gcZ
+         Ad/3vuf5aUSkdgUcky705ZWn/ACDRkFahu5GH+6UKY0fBZXOlMKe7z9UQl4HDIEi9QgI
+         Q9ug==
+X-Gm-Message-State: APjAAAV8r8GVfC8nWUVqzTHGOGx33xRpdAzJ6C3dLZtRyL68FgB0Gqlc
+        jEIUjlOrgi+T+hJPde9xdhQmBn2Sjn7xqcgU4GVNgPp1vGXKddiyijdYqGYZnhFXP/LyKEtwIJ2
+        QkBcvA2n392RCJXvjpYec
+X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr9966529pjb.30.1574972636141;
+        Thu, 28 Nov 2019 12:23:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwLgmQBIVDgB8JTDBBuFEwN/117Vx9qIR4Jgevr8C1kD585Wc5/+quQsfVlRjSD579x56aJyQ==
+X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr9966493pjb.30.1574972635767;
+        Thu, 28 Nov 2019 12:23:55 -0800 (PST)
+Received: from localhost ([122.177.85.74])
+        by smtp.gmail.com with ESMTPSA id a15sm2778299pfh.169.2019.11.28.12.23.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 Nov 2019 12:23:54 -0800 (PST)
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     bhsharma@redhat.com, bhupesh.linux@gmail.com, x86@kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, Boris Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Subject: [PATCH v5 0/5] Append new variables to vmcoreinfo (TCR_EL1.T1SZ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Date:   Fri, 29 Nov 2019 01:53:36 +0530
+Message-Id: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
+X-Mailer: git-send-email 2.7.4
+X-MC-Unique: oL4xZPWLMcmaf1YiqI8T9w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+Changes since v4:
+----------------
+- v4 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
+- Addressed comments from Dave and added patches for documenting
+  new variables appended to vmcoreinfo documentation.
+- Added testing report shared by Akashi for PATCH 2/5.
 
-On 19/11/2019 23:19, Mike Leach wrote:
-> Adds new coresight-cti.yaml file describing the bindings required to define
-> CTI in the device trees.
-> 
-> Adds an include file to dt-bindings/arm to define constants describing
-> common signal functionality used in CoreSight and generic usage.
+Changes since v3:
+----------------
+- v3 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
+- Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
+  instead of PTRS_PER_PGD.
+- Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
+  'Documentation/arm64/memory.rst'
 
-The documentation looks really nice and helpful. Some very minor nits
-below.
+Changes since v2:
+----------------
+- v2 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
+- Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEMEM
+  ifdef sections, as suggested by Kazu.
+- Updated vmcoreinfo documentation to add description about
+  'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
 
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Changes since v1:
+----------------
+- v1 was sent out as a single patch which can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
 
-> ---
->   .../bindings/arm/coresight-cti.yaml           | 303 ++++++++++++++++++
->   .../devicetree/bindings/arm/coresight.txt     |   7 +
->   MAINTAINERS                                   |   2 +
->   include/dt-bindings/arm/coresight-cti-dt.h    |  37 +++
->   4 files changed, 349 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/arm/coresight-cti.yaml
->   create mode 100644 include/dt-bindings/arm/coresight-cti-dt.h
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/coresight-cti.yaml b/Documentation/devicetree/bindings/arm/coresight-cti.yaml
-> new file mode 100644
-> index 000000000000..882c72f1c798
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/coresight-cti.yaml
-> @@ -0,0 +1,303 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright 2019 Linaro Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/arm/coresight-cti.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ARM Coresight Cross Trigger Interface (CTI) device.
-> +
-> +description: |
-> +  The CoreSight Embedded Cross Trigger (ECT) consists of CTI devices connected
-> +  to one or more CoreSight components and/or a CPU, with CTIs interconnected in
-> +  a star topology via the CTM (which is not programmable). The ECT components
+- v2 breaks the single patch into two independent patches:
+  [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, whereas
+  [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel code =
+(all archs)
 
-nit: CTM is not expanded anywhere here. For the sake of completeness, 
-you may do that here.
+This patchset primarily fixes the regression reported in user-space
+utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
+with the availability of 52-bit address space feature in underlying
+kernel. These regressions have been reported both on CPUs which don't
+support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernels
+and also on prototype platforms (like ARMv8 FVP simulator model) which
+support ARMv8.2 extensions and are running newer kernels.
 
-i.e, s/"a start topology via the CTM"/"a start topology via the Cross 
-Trigger Matrix (CTM)"/
+The reason for these regressions is that right now user-space tools
+have no direct access to these values (since these are not exported
+from the kernel) and hence need to rely on a best-guess method of
+determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
+by underlying kernel.
 
+Exporting these values via vmcoreinfo will help user-land in such cases.
+In addition, as per suggestion from makedumpfile maintainer (Kazu),
+it makes more sense to append 'MAX_PHYSMEM_BITS' to
+vmcoreinfo in the core code itself rather than in arm64 arch-specific
+code, so that the user-space code for other archs can also benefit from
+this addition to the vmcoreinfo and use it as a standard way of
+determining 'SECTIONS_SHIFT' value in user-land.
 
-> +  are not part of the trace generation data path and are thus not part of the
-> +  CoreSight graph described in the general CoreSight bindings file
-> +  coresight.txt.
-> +
-> +  The CTI component properties define the connections between the individual
-> +  CTI and the components it is directly connected to, consisting of input and
-> +  output hardware trigger signals. CTIs can have a maximum number of input and
-> +  output hardware trigger signals (8 each for v1 CTI, 32 each for v2 CTI). The
-> +  number is defined at design time, the maximum of each defined in the DEVID
-> +  register.
-> +
-> +  CTIs are interconnected in a star topology via the CTM, using a number of
-> +  programmable channels usually 4, but again implementation defined and
+Cc: Boris Petkov <bp@alien8.de>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Steve Capper <steve.capper@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Dave Anderson <anderson@redhat.com>
+Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc: x86@kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: kexec@lists.infradead.org
 
-nit: "programmable channels, usually 4, but..." ?
+Bhupesh Sharma (5):
+  crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
+  arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
+  Documentation/arm64: Fix a simple typo in memory.rst
+  Documentation/vmcoreinfo: Add documentation for 'MAX_PHYSMEM_BITS'
+  Documentation/vmcoreinfo: Add documentation for 'TCR_EL1.T1SZ'
 
-> +  described in the DEVID register. The star topology is not required to be
-> +  described in the bindings as the actual connections are software
-> +  programmable.
-> +
-> +  In general the connections between CTI and components via the trigger signals
-> +  are implementation defined, other than when v8 core and ETM is present.
+ Documentation/admin-guide/kdump/vmcoreinfo.rst | 11 +++++++++++
+ Documentation/arm64/memory.rst                 |  2 +-
+ arch/arm64/include/asm/pgtable-hwdef.h         |  1 +
+ arch/arm64/kernel/crash_core.c                 |  9 +++++++++
+ kernel/crash_core.c                            |  1 +
+ 5 files changed, 23 insertions(+), 1 deletion(-)
 
-nite: are implementation defined, *except when they are connected to an 
-Arm v8 compatible CPU or an ETM* ?
+--=20
+2.7.4
 
-
-> +  The v8 architecture defines the required signal connections between CPU core
-
-nit: "The Arm v8"
-
-> +  and CTI, and ETM and CTI, if the ETM if present.
-> +
-> +  When only minimal information is available for the CTI trigger connections,
-> +  then a minimal driver binding can be declare with no explicit trigger
-> +  signals. This will result in the using the DEVID register to set the
-> +  input and output triggers and channels in use. Any user / client
-> +  application will require additional information on the connections
-> +  between the CTI and other components for correct operation. This minimal
-> +  binding may be used when using the Integration Control registers to
-> +  discover connections between CTI and other CoreSight components,
-
-How about "When the CTI trigger connection information is unavailable,
-the driver detects the number of triggers and channels from the DEVID
-register and makes them available. The Integration Control registers
-can be then used to discover the connections for this CTI device
-to other CoreSight components".
-
-Since we recommend the use of the "Integration Control registers", which
-is not normally available unless you play around the code, it will be a
-good idea to metion, what the user needs to do to make the registers
-available. (One more reason to use the CONFIG symbol, makes that
-easier.)
-
-
-> +
-> +  Certain triggers between CoreSight devices and the CTI have specific types
-> +  and usages. These can be defined along with the signal indexes with the
-> +  constants defined in <dt-bindings/arm/coresight-cti-dt.h>
-> +
-> +  For example a CTI connected to a core will usually have a DBGREQ signal. This
-> +  is defined in the binding as type PE_EDBGREQ. These types will appear in an
-> +  optional array alongside the signal indexes. Omitting types will default all
-> +  signals to GEN_IO.
-> +
-> +  Note that some hardware trigger signals can be connected to non-CoreSight
-> +  components (e.g. UART etc) depending on hardware implementation.
-> +
-> +maintainers:
-> +  - Mike Leach <mike.leach@linaro.org>
-> +
-> +allOf:
-> +  - $ref: /schemas/arm/primecell.yaml#
-> +
-> +# Need a custom select here or 'arm,primecell' will match on lots of nodes
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - arm,coresight-cti
-> +  required:
-> +    - compatible
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^cti(@[0-9a-f,]+)*$"
-> +  compatible:
-> +    items:
-> +      - const: arm,coresight-cti
-> +      - const: arm,primecell
-> +
-> +  reg:
-> +    items:
-> +      - description: device programming registers
-> +
-> +  arm,cti-v8-arch:
-
-If possible, please could we make this :
-
-"arm,cti-arm-v8-architected"
-
-to be more meaning ful ?
-
-> +    type: boolean
-> +    description:
-> +      This CTI follows the v8 architecturally mandated layout for a CTI.
-> +      Bindings declaring this must declare a cpu, and optionally a single
-> +      arm,cs-dev-assoc may be present to define an attached ETM. No additional
-> +      trig-conns nodes are permitted. The driver will build a connection model
-> +      according to architectural requirements. This will include a filter on
-> +      the CPU dbgreq signal as described above.
-> +
-> +  cpu:
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Handle to cpu this device is associated with.
-> +
-> +  arm,cti-ctm-id:
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Defines the CTM this CTI is connected to, in large systems with multiple
-> +      separate CTI/CTM nets. Typically multi-socket systems where the CTM is
-> +      propagated between sockets.
-> +
-> +  arm,cs-dev-assoc:
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      defines a phandle reference to an associated CoreSight trace device.
-> +      When the associated trace device is enabled, then the respective CTI
-> +      will be enabled. Use in a trig-conns node, or in CTI base node when
-> +      arm,cti-v8-arch present. If the associated device has not been registered
-> +      then the node name will be stored as the connection name for later
-> +      resolution. If the associated device is not a CoreSight device or not
-> +      registered then the node name will remain the connection name and
-> +      automatic enabling will not occur.
-> +
-> +patternProperties:
-> +  '^trig_conns@[0-9]+$':
-
-I understand these bindings have been around for quite long and is too
-late to make any changes. So, feel free to ignore this suggestion below
-and I am perfectly fine with it.
-
---- Begin silly comments Or Skip to DONE ----
-
-Could we make the property names a bit more obvious ? Since they are 
-supposed to be written by other people (unlike our variable names), it
-always makes sense to have expanded, meaningful names:
-
-s/trig_conns@/triggers@ ?
-
-s/arm,trig-{in,out}-sigs/arm,cti-{in,out}-triggers
-s/arm,trig-{in,out}-types/arm,cti-{in,out}-trigger-types
-
-"arm,trig-xxx" property name doesn't really imply that it is for cti.
-So, the above changes makes it explicit and more reader friendly.
-
-> +    type: object
-> +    description:
-> +      A trigger connections child node which describes the trigger signals
-> +      between this CTI and another hardware device. This device may be a CPU,
-> +      CoreSight device, any other hardware device or simple external IO lines.
-> +      The connection may have both input and output triggers, or only one or the
-> +      other.
-> +
-> +    properties:
-> +
-> +      arm,trig-in-sigs:
-> +        allOf:
-> +          - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of CTI trigger in signal numbers in use by a trig-conns node.
-> +
-> +      arm,trig-in-types:
-> +        allOf:
-> +          - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of constants representing the types for the CTI trigger in
-> +          signals. Types in this array match to the corresponding signal in the
-> +          arm,trig-in-sigs array. If the -types array is smaller, or omitted
-> +          completely, then the types will default to GEN_IO.
-> +
-> +      arm,trig-out-sigs:
-> +        allOf:
-> +          - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of CTI trigger out signal numbers in use by a trig-conns node.
-> +
-> +      arm,trig-out-types:
-> +        allOf:
-> +          - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of constants representing the types for the CTI trigger out
-> +          signals. Types in this array match to the corresponding signal
-> +          in the arm,trig-out-sigs array. If the "-types" array is smaller,
-> +          or omitted completely, then the types will default to GEN_IO.
-> +
-> +      arm,trig-filters:
-
-arm,cti-trigger-filters ?
-
-> +        allOf:
-> +          - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of CTI trigger out signals that will be blocked from becoming
-> +          active, unless filtering is disabled on the driver.
-> +
-> +      arm,trig-conn-name:
-
-arm,cti-trigger-name ?
-
-
---- DONE or End of silly comments ---
-
-> +  # Implementation defined CTI - CPU + ETM connections explicitly defined..
-> +  # Shows use of type constants from dt-bindings/arm/coresight-cti-dt.h
-> +  - |
-> +    #include <dt-bindings/arm/coresight-cti-dt.h>
-> +
-> +    cti@858000 {
-> +      compatible = "arm,coresight-cti", "arm,primecell";
-> +      reg = <0x858000 0x1000>;
-> +
-> +      clocks = <&soc_smc50mhz>;
-> +      clock-names = "apb_pclk";
-> +
-> +      arm,cti-ctm-id = <1>;
-> +
-> +      trig-conns@0 {
-> +            arm,trig-in-sigs = <4 5 6 7>;
-> +            arm,trig-in-types = <ETM_EXTOUT
-> +                                 ETM_EXTOUT
-> +                                 ETM_EXTOUT
-> +                                 ETM_EXTOUT>;
-> +            arm,trig-out-sigs = <4 5 6 7>;
-> +            arm,trig-out-types = <ETM_EXTIN
-> +                                  ETM_EXTIN
-> +                                  ETM_EXTIN
-> +                                  ETM_EXTIN>;
-> +            arm,cs-dev-assoc = <&etm0>;
-> +      };
-> +
-> +      trig-conns@1 {
-> +            cpu = <&CPU0>;
-> +            arm,trig-in-sigs = <0 1>;
-> +            arm,trig-in-types = <PE_DBGTRIGGER
-> +                                 PE_PMUIRQ>;
-> +            arm,trig-out-sigs=<0 1 2 >;
-> +            arm,trig-out-types = <PE_EDBGREQ
-> +                                  PE_DBGRESTART
-> +                                  PE_CTIIRQ>;
-> +
-> +            arm,trig-filters = <0>;
-> +      };
-> +    };
-> +  # Implementation defined CTI - none CoreSight component connections.
-
-nit: s/none/non ?
-
-Rest looks fine to me.
-
-Suzuki
