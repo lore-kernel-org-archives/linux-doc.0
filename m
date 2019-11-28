@@ -2,170 +2,159 @@ Return-Path: <SRS0=ox8w=ZU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E40C432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 02:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 963F0C432C0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 03:44:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 047A5215F2
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 02:09:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6915E206E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Nov 2019 03:44:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="PFclMg4E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729241AbfK1CJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Nov 2019 21:09:22 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:46117 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729239AbfK1CJW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 21:09:22 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TjGOkbY_1574906953;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjGOkbY_1574906953)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 28 Nov 2019 10:09:14 +0800
-Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Michal Koutn? <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <9354ffe8-81ba-9e76-e0b3-222bc942b3fc@linux.alibaba.com>
- <20191127101932.GN28938@suse.de>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <3ff78d18-fa29-13f3-81e5-a05537a2e344@linux.alibaba.com>
-Date:   Thu, 28 Nov 2019 10:09:13 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1727146AbfK1Dop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Nov 2019 22:44:45 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.170]:19338 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727117AbfK1Doo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Nov 2019 22:44:44 -0500
+X-Greylist: delayed 348 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Nov 2019 22:44:42 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574912681;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=nvzO8rqYdXuIPjP0LXy5wKBL7E3Y7S8VI2AMrtpVuGw=;
+        b=PFclMg4EFSJ57I2l8e9SLhyyJ0lo4j9gQOL/+hg75rXhXe/iv9zfFaow6PMx7KMGi0
+        kM3Q/HKGaPTWry/0tp5DCvg/n61UxaccEI1Tjl9JhFrs/m94SuOahR5jeHvf233mqWvY
+        v7IR49TyI8D4sV4clCQdaPJQ347IvCTwnRG4w0fG97f6pqKqkQ4tXVagfoP1P9JUAEty
+        zhZlcyikYOtp8hXxNCp6dC6avl+l2U4U82cENXaOAQDwfz2fYHxoSjCSBb6Xpe5nmq63
+        SforMexiig6Ha4z2bYQFWpCeeiDQWetTw8SYlzstENyxzWcyQY7HAxGuQc1ktBCSKu+r
+        uWDQ==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp04-01.back.ox.d0m.de
+        by smtp-ox.front (RZmta 46.0.0 AUTH)
+        with ESMTPSA id 604beevAS3cd2Io
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Thu, 28 Nov 2019 04:38:39 +0100 (CET)
+Date:   Thu, 28 Nov 2019 04:38:39 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
+Message-ID: <1936168849.1467696.1574912319589@webmail.strato.com>
+In-Reply-To: <20191127084253.16356-2-geert+renesas@glider.be>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-2-geert+renesas@glider.be>
+Subject: Re: [PATCH v3 1/7] gpiolib: Add GPIOCHIP_NAME definition
 MIME-Version: 1.0
-In-Reply-To: <20191127101932.GN28938@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.1-Rev22
+X-Originating-IP: 112.198.74.215
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/11/27 下午6:19, Mel Gorman wrote:
-> On Wed, Nov 27, 2019 at 09:49:34AM +0800, ?????? wrote:
->> Currently there are no good approach to monitoring the per-cgroup
->> numa efficiency, this could be a trouble especially when groups
->> are sharing CPUs, it's impossible to tell which one caused the
->> remote-memory access by reading hardware counter since multiple
->> workloads could sharing the same CPU, which make it painful when
->> one want to find out the root cause and fix the issue>>
+
+> On November 27, 2019 at 9:42 AM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 > 
-> It's already possible to identify specific tasks triggering PMU events
-> so this is not exactly true.
-
-Should fix the description regarding this...
-
-I think you mean tools like numatop which showing per task local/remote
-accessing info from PMU, correct?
-
-It's a good one for debugging, but when we talking about monitoring over
-cluster sharing by multiple users, still not very practical... compared
-to the workloads classified historical data.
-
-I'm not sure about the overhead and limitation of this PMU approach, or
-whether there are any platform it's not yet supported, worth a survey.
-
 > 
->> In order to address this, we introduced new per-cgroup statistic
->> for numa:
->>   * the numa locality to imply the numa balancing efficiency
->>   * the numa execution time on each node
->>
-[snip]
->> +#ifdef CONFIG_PROC_SYSCTL
->> +int sysctl_cg_numa_stat(struct ctl_table *table, int write,
->> +			 void __user *buffer, size_t *lenp, loff_t *ppos)
->> +{
->> +	struct ctl_table t;
->> +	int err;
->> +	int state = static_branch_likely(&sched_cg_numa_stat);
->> +
->> +	if (write && !capable(CAP_SYS_ADMIN))
->> +		return -EPERM;
->> +
->> +	t = *table;
->> +	t.data = &state;
->> +	err = proc_dointvec_minmax(&t, write, buffer, lenp, ppos);
->> +	if (err < 0 || !write)
->> +		return err;
->> +
->> +	if (state)
->> +		static_branch_enable(&sched_cg_numa_stat);
->> +	else
->> +		static_branch_disable(&sched_cg_numa_stat);
->> +
->> +	return err;
->> +}
->> +#endif
->> +
+> The string literal "gpiochip" is used in several places.
+> Add a definition for it, and use it everywhere, to make sure everything
+> stays in sync.
 > 
-> Why is this implemented as a toggle? I'm finding it hard to make sense
-> of this. The numa_stat should not even exist if the feature is disabled.
-
-numa_stat will not exist if CONFIG is not enabled, do you mean it should
-also disappear when dynamically turn off?
-
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3:
+>   - New.
+> ---
+>  drivers/gpio/gpiolib-sysfs.c | 7 +++----
+>  drivers/gpio/gpiolib.c       | 4 ++--
+>  drivers/gpio/gpiolib.h       | 2 ++
+>  3 files changed, 7 insertions(+), 6 deletions(-)
 > 
-> Assuming that is fixed then the runtime overhead is fine but the same
-> issues with the quality of the information relying on NUMA balancing
-> limits the usefulness of this. Disabling NUMA balancing or the scan rate
-> dropping to a very low frequency would lead in misleading conclusions as
-> well as false positives if the CPU and memory policies force remote memory
-> usage. Similarly, the timing of the information available is variable du
-> to how numa_faults_locality gets reset so sometimes the information is
-> fine-grained and sometimes it's coarse grained. It will also pretend to
-> display useful information even if NUMA balancing is disabled.
+> diff --git a/drivers/gpio/gpiolib-sysfs.c b/drivers/gpio/gpiolib-sysfs.c
+> index fbf6b1a0a4fae6ce..23e3d335cd543d53 100644
+> --- a/drivers/gpio/gpiolib-sysfs.c
+> +++ b/drivers/gpio/gpiolib-sysfs.c
+> @@ -762,10 +762,9 @@ int gpiochip_sysfs_register(struct gpio_device *gdev)
+>  		parent = &gdev->dev;
+>  
+>  	/* use chip->base for the ID; it's already known to be unique */
+> -	dev = device_create_with_groups(&gpio_class, parent,
+> -					MKDEV(0, 0),
+> -					chip, gpiochip_groups,
+> -					"gpiochip%d", chip->base);
+> +	dev = device_create_with_groups(&gpio_class, parent, MKDEV(0, 0), chip,
+> +					gpiochip_groups, GPIOCHIP_NAME "%d",
+> +					chip->base);
+>  	if (IS_ERR(dev))
+>  		return PTR_ERR(dev);
+>  
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index dce0b31f4125a6b3..c9e47620d2434983 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1419,7 +1419,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *chip, void *data,
+>  		ret = gdev->id;
+>  		goto err_free_gdev;
+>  	}
+> -	dev_set_name(&gdev->dev, "gpiochip%d", gdev->id);
+> +	dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
+>  	device_initialize(&gdev->dev);
+>  	dev_set_drvdata(&gdev->dev, gdev);
+>  	if (chip->parent && chip->parent->driver)
+> @@ -5105,7 +5105,7 @@ static int __init gpiolib_dev_init(void)
+>  		return ret;
+>  	}
+>  
+> -	ret = alloc_chrdev_region(&gpio_devt, 0, GPIO_DEV_MAX, "gpiochip");
+> +	ret = alloc_chrdev_region(&gpio_devt, 0, GPIO_DEV_MAX, GPIOCHIP_NAME);
+>  	if (ret < 0) {
+>  		pr_err("gpiolib: failed to allocate char dev region\n");
+>  		bus_unregister(&gpio_bus_type);
+> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+> index ca9bc1e4803c2979..a4a759920faa48ab 100644
+> --- a/drivers/gpio/gpiolib.h
+> +++ b/drivers/gpio/gpiolib.h
+> @@ -16,6 +16,8 @@
+>  #include <linux/module.h>
+>  #include <linux/cdev.h>
+>  
+> +#define GPIOCHIP_NAME	"gpiochip"
+> +
+>  /**
+>   * struct gpio_device - internal state container for GPIO devices
+>   * @id: numerical ID number for the GPIO chip
+> -- 
+> 2.17.1
+>
 
-The data just represent what we traced on NUMA balancing PF, so yes folks
-need some understanding on NUMA balancing to figure out the real meaning
-behind locality.
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-We want it to tell the real story, if NUMA balancing disabled or scan rate
-dropped very low, the locality increments should be very small, when it
-keep failing for memory policy or CPU binding reason, we want it to tell how
-bad it is, locality just show us how NUMA Balancing is performing, the data
-could contains many information since how OS dealing with NUMA could be
-complicated...
-
-> 
-> I find it hard to believe it would be useful in practice and I think users
-> would have real trouble interpreting the data given how much it relies on
-> internal implementation details of NUMA balancing. I cannot be certain
-> as clearly something motivated the creation of this patch although it's
-> unclear if it has ever been used to debug and fix an actual problem in
-> the field. Hence, I'm neutral on the patch and will neither ack or nack
-> it and will defer to the scheduler maintainers but if I was pushed on it,
-> I would be disinclined to merge the patch due to the potential confusion
-> caused by users who believe it provides accurate information when at best
-> it gives a rough approximation with variable granularity.
-
-We have our cluster enabled this feature already, an old version though but
-still helpful, when we want to debug NUMA issues, this could give good hints.
-
-Consider it as load_1/5/15 which not accurate but tell the trend of system
-behavior, locality giving the trend of NUMA Balancing as long as it's working,
-when increasing slowly it means locality already good enough or no more memory
-to adjust, and that's fine, for those who disabled the NUMA Balancing, they do
-their own NUMA optimization and find their own ways to estimate the results.
-
-Anyway, we thanks for all those good inputs from your side :-)
-
-Regards,
-Michael Wang
-
+CU
+Uli
