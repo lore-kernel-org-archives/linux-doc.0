@@ -2,61 +2,60 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2683CC43215
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A845C432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:50:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E782D20869
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2935620869
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:50:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l5uWqe7b"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7TY7lJe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbfK2Mre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 07:47:34 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:43172 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbfK2Mre (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 07:47:34 -0500
-Received: by mail-qk1-f193.google.com with SMTP id q28so6453561qkn.10
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 04:47:32 -0800 (PST)
+        id S1726360AbfK2Mum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 07:50:42 -0500
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:35497 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726608AbfK2Mum (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 07:50:42 -0500
+Received: by mail-qv1-f67.google.com with SMTP id y18so11546340qve.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 04:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HA9o/u53YjrVdA02BiAhrhaWuLmdYlt8zQVP4Dznw6U=;
-        b=l5uWqe7bpXn2UmXrf5rJxfPA/epAIbrtB3jup0WIiu5m8pWoU00aEs1tua2o2EoA8W
-         +8Yw+nK4rUZFqZEuAwGmwZC55hEP898tYISz7JX6QLf/hlKh11pwKjIXI35npPPAlj4H
-         Uk2Itv6CXUl6L6unhF9qRb3phRktfJIStsROI9PlzzoMhgaKR987uAch/1leF22Mvcso
-         wbkcSGEtMwT6sYVIVQJeNmyZdvNUOynl88P92VcAFVYVY3ci6e5+TjDeuI51N7/Ts0TT
-         cUY2iNqTDxjjIjYvvju8CsLLbJHhlJp+9LAtmGT/fLGYmiCNYlgHDiO+P0Fxseh+LseN
-         T3sg==
+        bh=lJbIAqeUDXD4kcUbIecANlElpIrUUQHr/u/gzWsPOOU=;
+        b=Z7TY7lJe2RR0bY595O8O8pFed9bQc/UF1lJ7h+m2Ur4M40GihCpYzBmRuXU2nAchEz
+         A4GM945FLCCo3SCNfGP/xiJM5Z6jcYycs+VyKa73tAE73kf3c1fS8EiGwv/N2SGGvFpU
+         Y1tJYtW4W9nM380QBmVcoCE06ms6SXlEePb6QaOJGs9Lz5w1J7V0VL0okZzDNif+PwnR
+         8S0B0jPw6QIq6mFDn2ecGQLUsZgOA9cmlZR1rIiH5xnGa1Yml0I9zpLsvoLe3Za4WcAY
+         HSuAaYID813yC+bug59gLqoI2nnUWfSzyhtirvtTFimT4P8X8sIgQnxIoetg9z6793CU
+         IhCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HA9o/u53YjrVdA02BiAhrhaWuLmdYlt8zQVP4Dznw6U=;
-        b=PFGxTDVN8TAswJoNrWEfJygpkc1bmCt+M5gOZ0teoRxd1T2u/zexuGm7wUmMUxx2/b
-         0vfRp/0QnLjvuYB3ZHhPyzl8ZxHAwhaqroVwaW57V113e9d8nrkq9xJJtTvnpzXnPwY3
-         XbFx2tmclzbPaEQcVjwLSaAkvjIqt0uAnNETuOS9Qbgt8ekMq1QE5KOAHZC7HMEzLytj
-         1qgUZrqp/w4/hEzmITIScG+DUcmNCWPPJlWS74MIvQAxOBHhv5ezrBmYR+YjhA+YRT8k
-         IWviVeR/7FuRBIr3J8zY+Efssv9ehGXQ2sZ7+L+aOTAR17fTcz7f16by4sauQ3CcROgY
-         gOkQ==
-X-Gm-Message-State: APjAAAWmvCYs+PK1ElzDyRM9utjjFGGcaBNGTAptHvAmAMA8mR7VXB8L
-        oKBNwj6BmkmemCcRyUFsmEOcfqY8tQdSyctigV56TA==
-X-Google-Smtp-Source: APXvYqzmTmr6QZQFIUEGRuuXj5PXEOxF6lLfDqA6zEH/L5cP6mOIC+LfT9NMK8B0Ha75O23mZDfOLZ+HCsRM7UEbVTU=
-X-Received: by 2002:a37:62d2:: with SMTP id w201mr15360336qkb.445.1575031651558;
- Fri, 29 Nov 2019 04:47:31 -0800 (PST)
+        bh=lJbIAqeUDXD4kcUbIecANlElpIrUUQHr/u/gzWsPOOU=;
+        b=P4LAue9cA4HMSOiFr3xkJ4dmplyTvkwOClZ+NJRZoV3yEnrb9d6F5LdpRfPkwDEbQq
+         0xFw/oxRTNyqkuiwXiYL2zoq8ou3hgkqescMGYDGURnlGf+tDeyFLwS/jKJFoHS1NHh1
+         frPVX6QOuaP/J8QHZruEGNsKztfQ1tJAyBf5mVClICKYSuuOKs+i8c3Lgcm5T8HSQgqX
+         +lWrjahwX+HjoI8SsaFycYgW0B+3ztmmKnc+hrudYdq6iaWlQK7MrEIHqMgFD9Szzg7f
+         JXuLjmPSbmrtvNoCSsKpTXPuNrw9yc5msgcyeVKya/YU7GuRHwfqBtEasdN/FJY5CecG
+         QkkQ==
+X-Gm-Message-State: APjAAAVaySJi2o1Oidq8Y4u034VAxmdZabw7c5hg48oHcW3UtBIch/Bb
+        C372vdw1mxL3nYRk2jSH1t+2HEBOgFYzXKJXkU899JGP
+X-Google-Smtp-Source: APXvYqwgNwgGwC0/hhgzT5ewCqO0LQ/ZTP/UDvHdFa1bVBib5Bq/FnKSVHeDG4EOI2aRFcBiV5or57cU3hFUD7PidXc=
+X-Received: by 2002:a05:6214:245:: with SMTP id k5mr11234215qvt.182.1575031841425;
+ Fri, 29 Nov 2019 04:50:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-4-mike.leach@linaro.org>
- <df1f3912-4096-bc96-e65a-5db1593ad8f4@arm.com>
-In-Reply-To: <df1f3912-4096-bc96-e65a-5db1593ad8f4@arm.com>
+ <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
+In-Reply-To: <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
 From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 29 Nov 2019 12:47:20 +0000
-Message-ID: <CAJ9a7VhV=5okV1oCW8sAUZVsUzgDWnDNgP-eWejquGx+M9Xv2w@mail.gmail.com>
+Date:   Fri, 29 Nov 2019 12:50:30 +0000
+Message-ID: <CAJ9a7Vh=J8QbPbng0OMmH6uNjhTZJMfm9hn63zw8rNcr00msbw@mail.gmail.com>
 Subject: Re: [PATCH v5 03/14] coresight: cti: Add sysfs access to program
  function regs
 To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
@@ -71,10 +70,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
+Hi Suzuki, Mathieu,
 
-
-On Wed, 27 Nov 2019 at 18:26, Suzuki Kuruppassery Poulose
+On Thu, 28 Nov 2019 at 10:54, Suzuki Kuruppassery Poulose
 <suzuki.poulose@arm.com> wrote:
 >
 > On 19/11/2019 23:19, Mike Leach wrote:
@@ -83,144 +81,38 @@ On Wed, 27 Nov 2019 at 18:26, Suzuki Kuruppassery Poulose
 > >
 > > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >   .../hwtracing/coresight/coresight-cti-sysfs.c | 362 ++++++++++++++++++
-> >   drivers/hwtracing/coresight/coresight-cti.c   |  19 +
-> >   drivers/hwtracing/coresight/coresight-cti.h   |   5 +
-> >   3 files changed, 386 insertions(+)
-> >
-> > diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > index 507f8eb487fe..02d3ee0c1278 100644
-> > --- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > +++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > @@ -109,6 +109,362 @@ static struct attribute *coresight_cti_mgmt_attrs[] = {
-> >       NULL,
-> >   };
-> >
-> > +/* CTI low level programming registers */
-> > +
+>
+>
 > > +/*
-> > + * Show a simple 32 bit value if enabled and powered.
-> > + * If inaccessible & pcached_val not NULL then show cached value.
+> > + * #define CTI_DEBUG_INTEGRATION_CTRL to enable the access to the integration
+> > + * control registers. Normally only used to investigate connection data.
 > > + */
 >
-> Also I am not sure if it makes sense to mention that the value is cached.
+> On a second thought, I have some comments on this symbol.
 >
-> > +static ssize_t cti_reg32_show(struct device *dev, char *buf,
-> > +                           u32 *pcached_val, int reg_offset)
-> > +{
-> > +     u32 val = 0;
->    +    char *state = "";
+> Given that the integration control registers may be useful for people to
+> find the device connections, I strongly feel that this is provided
+> via a CONFIG symbol rather than a  debug symbol within the code.
 >
-> > +     struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> > +     struct cti_config *config = &drvdata->config;
-> > +
-> > +     spin_lock(&drvdata->spinlock);
-> > +     if ((reg_offset >= 0) && CTI_PWR_ENA(config)) {
+> i.e, CONFIG_CTI_DEBUG_INTEGRATION_CTRL, to help the people better.
+> Codewise this doesn't make much difference, but it certainly makes
+> it more easier for people to use it.
 >
-> minor nit: Personally I don't like the naming here. This could simply
-> be: cti_accessible(config) , may be defined as a static inline function
-> instead of a macro:
->
-> static inline bool cti_accessible(struct cti_drvdata *drvdata)
-> {
->         struct cti_config *cfg = &drvdata->config;
->
->         return cfg->hw_powered && cfg->hw_enabled;
-> }
+> We have used debug symbols elsewhere in the drivers for pure functional
+> debugging purposes. However I feel this is case is superior.
 >
 >
+> Cheers
+> Suzuki
 
-Since this is a generic access function used throughout the file - the
-cached pointer is an indicator used by the callee that there is a
-value available if the CTI is unpowered  / disabled - so the function
-can show an appropriate value which will be taken from the config
-structure.
-
-So I don't think it is relevant to show that a "cached" value is being
-used to show the user. If you look at similar functions in the ETM
-drivers for example, quite often a show function simple shows that
-stored value from a config structure without ever looking at the
-register in the device.
-
-As to naming - the name is chosen to represent a specific state - both
-powered and enabled. The sysfs interface is accessible in any state  -
-powered / unpowered  , enabled /disabled - so I am being specific.
-Unlike the ETM, this hardware can have registers programmed while
-enabled - and for some such as apppulse this is the only time it makes
-sense to use them.
-
-I don't mind either way between macro / inline function - though it
-still has to be declared in the header as it is used in multiple .c
-files.
-I'd be inclined to call it cti_active() if preferred to cti_pwr_ena -
-active implies that the CTI is in operation.
+Per the comment above, and the discussions following, I would agree
+that using a config symbol makes it easier for users to select the
+feature and gives us an opportunity to put in some explanation as to
+what it does.
 
 Thanks
 
 Mike
-
-
-> > +             CS_UNLOCK(drvdata->base);
-> > +             val = readl_relaxed(drvdata->base + reg_offset);
-> > +             if (pcached_val)
-> > +                     *pcached_val = val;
-> > +             CS_LOCK(drvdata->base);
-> > +     } else if (pcached_val) {
-> > +             val = *pcached_val;
->
->    +            state = " (cached)";
-> > +     }
-> > +     spin_unlock(&drvdata->spinlock);
-> > +     return scnprintf(buf, PAGE_SIZE, "%#x\n", val);
->    +    return scnprintf(buf, PAGE_SIZE, "%#x%s\n", val, state);
->
-> > +}
-> > +
-> > +/*
-> > + * Store a simple 32 bit value.
-> > + * If pcached_val not NULL, then copy to here too,
-> > + * if reg_offset >= 0 then write through if enabled.
-> > + */
-> > +static ssize_t cti_reg32_store(struct device *dev, const char *buf,
-> > +                            size_t size, u32 *pcached_val, int reg_offset)
->
->
-> > +static ssize_t appclear_store(struct device *dev,
-> > +                           struct device_attribute *attr,
-> > +                           const char *buf, size_t size)
-> > +{
-> > +     unsigned long val;
-> > +     struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> > +     struct cti_config *config = &drvdata->config;
-> > +
-> > +     if (kstrtoul(buf, 0, &val))
-> > +             return -EINVAL;
-> > +
-> > +     spin_lock(&drvdata->spinlock);
-> > +
-> > +     /* a 1'b1 in appclr clears down the same bit in appset*/
->
-> nit: a 0b1 ?
->
-Syntax is <bitwidth>'<radix><value> - a habit picked up from verilog.
-
-> > +     config->ctiappset &= ~val;
-> > +
-> > +     /* write through if enabled */
-> > +     if (CTI_PWR_ENA(config))
-> > +             cti_write_single_reg(drvdata, CTIAPPCLEAR, val);
-> > +     spin_unlock(&drvdata->spinlock);
-> > +     return size;
-> > +}
-> > +static DEVICE_ATTR_WO(appclear);
-> > +
->
-> Otherwise looks good to me.
->
-> Suzuki
-
-
 
 -- 
 Mike Leach
