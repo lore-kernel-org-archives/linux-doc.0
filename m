@@ -2,295 +2,143 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAFE4C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7A8C33CBA
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:47:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9ABA5217C3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:25:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 363E92464B
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:47:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X2QQphmk"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="P515JTdy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfK2VZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 16:25:34 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:44877 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727073AbfK2VZd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 16:25:33 -0500
-Received: by mail-io1-f65.google.com with SMTP id j20so33674295ioo.11
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 13:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rQWXhLEHvXY0fOacTxBkCCu+SBMW2v/Wmdf1V/A/YNU=;
-        b=X2QQphmk/ovbpXP2p/ACcYml+DNYCC0qh1VutHnuDWP+ygHjABDgNfFgfYysTlOyDV
-         Ilh3I76sMi/N8IyACRcMSsJRoCtFf7ZEAlrYT0g7SfbsMCGHOqOG2jxR7Tmn1akOXa//
-         vIerJI53FMkX1JugGdN+KFy2QF4ToSAARSwXC8oYshbETfbKip89dK5KTsrdUkmyjbuh
-         9oZII4kNa5Lp9Nx7R2y6vo7NsrlqmZA6j9Aa+50XgqX0ZbquZKq2VAvmqr7N4rzrs/wl
-         QHdMysjCpAlGDOjJKGYpzofOyt4VOa6RaL/Nd7GsqHt5/iTGAQ6eNgUuX/HHLykNYYnR
-         J9qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rQWXhLEHvXY0fOacTxBkCCu+SBMW2v/Wmdf1V/A/YNU=;
-        b=gfCldtWyKPgjS0nmeTi+HqSy/FKoqzaIk1klykXSlsUMk3ugzGQZiJBs23bmKAqhAy
-         FOGrEJTQypA5R6VUodsrLRuqTCHOCOtKL1U7M2wyYjj1gNv3FsPczJtKapomxIT1dEpm
-         LbmFgxS6FoD9JhC6FFU2iJ5T4f3r1pG5HljAhQX7fwYYLzB+xnzZ/bqG/qnBSF8HpvUh
-         +0Xtls+ZFpTYEDgUr+4Iz2rbrf3MjKeh071uYtfdDtylCKFGYg50VWee7BcmFsHLGuK4
-         hig9/uPuauywt6qwakS/UjQWw+XVA7Rqag6DNBfzBPS4Jzq+npyucwY24Rnz9reKD50I
-         YSCw==
-X-Gm-Message-State: APjAAAUxl/c65EKK/tJAeccev8GhJ+u49/kUR7dqF4Jw7784Ls/D7mFM
-        0jbSAftoJILKfp/VDhJfeegljiYvAd+kTXshNAWXbLnX
-X-Google-Smtp-Source: APXvYqwR23S5it+fulG0l1d5hrTAFUe5YcVwda2R5nEcSJ/skggaAfJd21lD8TqoD9tVJ+OFQNyWFoB9joOxh6kdNug=
-X-Received: by 2002:a02:a08:: with SMTP id 8mr12145440jaw.98.1575062731367;
- Fri, 29 Nov 2019 13:25:31 -0800 (PST)
+        id S1727193AbfK2Vro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 16:47:44 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:6093 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbfK2Vro (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 16:47:44 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5de192010000>; Fri, 29 Nov 2019 13:47:46 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 29 Nov 2019 13:47:42 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 29 Nov 2019 13:47:42 -0800
+Received: from [10.2.169.205] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 Nov
+ 2019 21:47:41 +0000
+Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
+ and put_user_page()
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191125231035.1539120-1-jhubbard@nvidia.com>
+ <20191125231035.1539120-18-jhubbard@nvidia.com>
+ <20191129112315.GB1121@quack2.suse.cz>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <cb3e2acc-0a83-4053-fbcc-6d75dc47f174@nvidia.com>
+Date:   Fri, 29 Nov 2019 13:44:53 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-9-mike.leach@linaro.org>
- <c48fe3ee-335b-3dfb-33c1-a2cd7d5a00e6@arm.com>
-In-Reply-To: <c48fe3ee-335b-3dfb-33c1-a2cd7d5a00e6@arm.com>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Fri, 29 Nov 2019 14:25:20 -0700
-Message-ID: <CANLsYkyAhbpzGFt6Y7cJ19fSpAAtifbHdr=_3fRztqog6xOFpA@mail.gmail.com>
-Subject: Re: [PATCH v5 08/14] coresight: cti: Enable CTI associated with devices.
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Cc:     Mike Leach <mike.leach@linaro.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191129112315.GB1121@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575064066; bh=tMvn6asqZgJ/8yczcC9lnf1pHEf7TJzCvRVZqLzUEIk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=P515JTdy70KP3oimNK/fSAtObgW4JDQsh/LN+dj31w7qtgH6JUdGJYKS3j5J8enBM
+         oN04vymJSqszX58P75QNc1cW3k/Ll0LB9zwNlmlBWaR7zw2qd7/o9t2Cy3EugW3wgY
+         XBlQyEsBEMcfywkDPj201lclcvfOCs5gFzs/O+2QmSmHzciD31eTMBkNB0W6VGXEOL
+         BbnrGM91l0GAwjLm+XJmL4eoGQAce5JVCz6FfueQA4/sc24hO2mmz2R1mloKHyP2Ej
+         3q1StOVbP0t0OEBFEGay8puwUyC8jwyLEftGIYNcVrkaz5szmNasFETh2Ir0Xi5Q1g
+         8xDwDUM/1ii9A==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 29 Nov 2019 at 11:28, Suzuki Kuruppassery Poulose
-<suzuki.poulose@arm.com> wrote:
->
-> On 19/11/2019 23:19, Mike Leach wrote:
-> > The CoreSight subsystem enables a path of devices from source to sink.
-> > Any CTI devices associated with the path devices must be enabled at the
-> > same time.
-> >
-> > This patch adds an associated coresight_device element to the main
-> > coresight device structure, and uses this to create associations between
-> > the CTI and other devices based on the device tree data. The associated
-> > device element is used to enable CTI in conjunction with the path elements.
-> >
-> > CTI devices are reference counted so where a single CTI is associated with
-> > multiple elements on the path, it will be enabled on the first associated
-> > device enable, and disabled with the last associated device disable.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >   drivers/hwtracing/coresight/coresight-cti.c   | 87 +++++++++++++++++++
-> >   .../hwtracing/coresight/coresight-platform.c  | 23 +++++
-> >   drivers/hwtracing/coresight/coresight-priv.h  |  6 ++
-> >   drivers/hwtracing/coresight/coresight.c       | 58 +++++++++++--
-> >   include/linux/coresight.h                     |  5 ++
-> >   5 files changed, 173 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-> > index 369488dd7b8e..cf116463149a 100644
-> > --- a/drivers/hwtracing/coresight/coresight-cti.c
-> > +++ b/drivers/hwtracing/coresight/coresight-cti.c
-> > @@ -440,6 +440,90 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
-> >       return err;
-> >   }
-> >
-> > +/*
-> > + * Look for a matching connection device name in the list of
-> > + * connections. If found then swap in the csdev name and return
-> > + * found.
-> > + */
-> > +static bool
-> > +cti_match_con_name(struct cti_device *ctidev, const char *node_name,
-> > +                const char *csdev_name)
->
-> Here we actually fixup the name of the connection, rather than simply
-> matching it. So it may be apt to rename this to cti_match_fixup_name()
->
-> > +{
-> > +     struct cti_trig_con *trig_con;
-> > +
-> > +     list_for_each_entry(trig_con, &ctidev->trig_cons, node) {
-> > +             if (trig_con->con_dev_name) {
-> > +                     if (!strcmp(node_name, trig_con->con_dev_name)) {
->
-> Can there be duplicate node_name's ? Does it make sense to store the
-> fwhandle along with the "temporary node_name" to match it later while
-> fixing up ?
+On 11/29/19 3:23 AM, Jan Kara wrote:
+> On Mon 25-11-19 15:10:33, John Hubbard wrote:
+>> 1. Convert from get_user_pages() to pin_user_pages().
+>>
+>> 2. As required by pin_user_pages(), release these pages via
+>> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
+>>
+>> That has the side effect of calling set_page_dirty_lock(), instead
+>> of set_page_dirty(). This is probably more accurate.
+> 
+> Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
+> checking mm_iommu_unpin() gets called from RCU callback which is executed
+> interrupt context and you cannot lock pages from such context. So you need
+> to queue work from the RCU callback and then do the real work from the
+> workqueue...
+> 
+> 								Honza
 
-I think we're fine here - CS devices have bidirectional connections
-that are checked by the DTC.  You get a bitter complaint if two CS
-nodes have the same value.
+ah yes, fixed locally. (In order to avoid  distracting people during the merge
+window, I won't post any more versions of the series until the merge window is
+over, unless a maintainer tells me that any of these patches are desired for
+5.5.)
 
->
-> > +                             /* match: so swap in csdev name */
-> > +                             kfree(trig_con->con_dev_name);
-> > +                             trig_con->con_dev_name =
-> > +                                     kstrdup(csdev_name, GFP_KERNEL);
-> > +                             return true;
-> > +                     }
-> > +             }
-> > +     }
-> > +     return false;
-> > +}
->
->
-> > +/*
-> > + * Search the cti list to add an associated CTI into the supplied CS device
-> > + * This will set the association if CTI declared before the CS device
-> > + */
-> > +void cti_add_assoc_to_csdev(struct coresight_device *csdev)
-> > +{
->
-> ..
->
->  > +    struct cti_drvdata *ect_item;
->  > +    struct cti_device *ctidev;
->  > +    const char *node_name = NULL, *csdev_name;
->  > +
->  > +    /* protect the list */
->  > +    mutex_lock(&ect_mutex);
->  > +
->  > +    /* exit if current is an ECT device.*/
->  > +    if ((csdev->type == CORESIGHT_DEV_TYPE_ECT) || list_empty(&ect_net))
->  > +            goto cti_add_done;
->  > +
->  > +    /* if we didn't find the csdev previously we used the fwnode name */
->  > +    node_name = coresight_get_fwnode_name(csdev->dev.parent);
->
-> We used "cti_plat_get_node_name()" when we added the name in the
-> absence of csdev in patch 7, could we not reuse the function here ?
->
->  > +
->  > +    if (!node_name)
->  > +            goto cti_add_done;
->  > +
->  > +    /* this is the name we want to use for the association */
->  > +    csdev_name = dev_name(&csdev->dev);
->
->
-> > +
-> > +     /* for each CTI in list... */
-> > +     list_for_each_entry(ect_item, &ect_net, node) {
-> > +             ctidev = &ect_item->ctidev;
-> > +             if (cti_match_con_name(ctidev, node_name, csdev_name)) {
-> > +                     /*
-> > +                      * if we found a matching name then update the
-> > +                      * association pointers.
-> > +                      */
-> > +                     csdev->ect_dev = ect_item->csdev;
-> > +                     goto cti_add_done;
->
->                         break; instead ?
->
-> > +             }
-> > +     }
-> > +cti_add_done:
-> > +     mutex_unlock(&ect_mutex);
-> > +}
-> > +EXPORT_SYMBOL_GPL(cti_add_assoc_to_csdev);
-> > +
-> > +/*
-> > + * Update the cross references where the associated device was found
-> > + * while we were building the connection info. This will occur if the
-> > + * assoc device was registered before the CTI.
-> > + */
-> > +static void cti_update_conn_xrefs(struct cti_drvdata *drvdata)
-> > +{
-> > +     struct cti_trig_con *tc;
-> > +     struct cti_device *ctidev = &drvdata->ctidev;
-> > +
-> > +     list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> > +             if (tc->con_dev)
-> > +                     tc->con_dev->ect_dev = drvdata->csdev;
-> > +     }
->
-> Does this need to take the coresight_mutex to avoid racing against
-> a coresight_enable_path() ? Though this may be fine as long as the
-> CTI driver detects that that device was not enabled.
->
-> Also, it looks like we have a potential issue with perf vs sysfs mode.
-> The perf mode doesn't seem to take the coresight_mutex, for
-> build_path/enable_path operations. This is outside the scope of this
-> series though.
->
-> > +}
-> > +
-> >   /** cti ect operations **/
-> >   int cti_enable(struct coresight_device *csdev)
-> >   {
-> > @@ -574,6 +658,9 @@ static int cti_probe(struct amba_device *adev, const struct amba_id *id)
-> >       drvdata->csdev_release = drvdata->csdev->dev.release;
-> >       drvdata->csdev->dev.release = cti_device_release;
-> >
-> > +     /* set any cross references */
-> > +     cti_update_conn_xrefs(drvdata);
-> > +
->         /* all done - dec pm refcount */
-> >       pm_runtime_put(&adev->dev);
-> >       dev_info(&drvdata->csdev->dev, "CTI initialized\n");
-> > diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-> > index 3c5bee429105..6721cb1af5fe 100644
-> > --- a/drivers/hwtracing/coresight/coresight-platform.c
-> > +++ b/drivers/hwtracing/coresight/coresight-platform.c
-> > @@ -293,6 +293,12 @@ static int of_get_coresight_platform_data(struct device *dev,
-> >
-> >       return 0;
-> >   }
-> > +
-> > +static inline const char *of_coresight_get_node_name(struct device *dev)
-> > +{
-> > +     return dev->of_node->full_name;
-> > +}
-> > +
-> >   #else
-> >   static inline int
-> >   of_get_coresight_platform_data(struct device *dev,
-> > @@ -305,6 +311,11 @@ static inline int of_coresight_get_cpu(struct device *dev)
-> >   {
-> >       return -ENODEV;
-> >   }
-> > +
-> > +static inline const char *of_coresight_get_node_name(struct device *dev)
-> > +{
-> > +     return NULL;
-> > +}
-> >   #endif
-> >
-> >   #ifdef CONFIG_ACPI
-> > @@ -766,6 +777,18 @@ static inline int acpi_coresight_get_cpu(struct device *dev)
-> >   }
-> >   #endif
-> >
-> > +const char *coresight_get_fwnode_name(struct device *dev)
->
-> As mentioned above, please could we reuse the name helper we used
-> during the insertion rather than introducing a new wrapper which
-> effectively does the same thing ?
->
-> > +{
-> > +     const char *node_name = NULL;
-> > +     struct fwnode_handle *fwnode = dev_fwnode(dev);
-> > +
-> > +     if (is_of_node(fwnode))
-> > +             node_name = of_coresight_get_node_name(dev);
-> > +
-> > +     return node_name;
-> > +}
-> > +EXPORT_SYMBOL_GPL(coresight_get_fwnode_name);
->
-> Why does this get exported ? If a following patch needs it, you may
-> always do that when you need it.
->
->
-> Cheers
-> Suzuki
+With that, we are back to a one-line diff for this part:
+
+@@ -215,7 +214,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+                 if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+                         SetPageDirty(page);
+  
+-               put_page(page);
++               put_user_page(page);
+                 mem->hpas[i] = 0;
+         }
+  }
+
+btw, I'm also working on your feedback for patch 17 (mm/gup: track FOLL_PIN pages [1]),
+from a few days earlier, it's not being ignored, I'm just trying to avoid distracting
+people during the merge window.
+
+[1] https://lore.kernel.org/r/20191121093941.GA18190@quack2.suse.cz
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
