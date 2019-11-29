@@ -2,96 +2,146 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2AA6C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:24:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE9FC43141
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 11:23:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B93D4217D6
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575023070;
-	bh=VjBbZ2snQPvCylKfggADmKtB7KOQ00A+5qv/wamd9BI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rwO0eBVPWEMjMBGLOBpEbx0jvWJdB8QlkUdZootc4FamJBk/v/mtGAPpqmW6aOXW+
-	 9Gg+G7Mf8RrSjPeZcXzQUBpFWcW3IbPYJcdPHCR81QF8QCy37Oggy7bXN4JpDbgiR5
-	 UbX48YrPUTwNp+whyTGOZimGtmN1F+PgAyw05MMk=
+	by mail.kernel.org (Postfix) with ESMTP id 5DFC72084D
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 11:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbfK2KYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 05:24:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44364 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725892AbfK2KYa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Nov 2019 05:24:30 -0500
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C38D1217BA;
-        Fri, 29 Nov 2019 10:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575023069;
-        bh=VjBbZ2snQPvCylKfggADmKtB7KOQ00A+5qv/wamd9BI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A4mBF7y2wubx7yJLQJsBFt9G/OPUtUbvyriYy4NmNtpOcIW5tUWsocV7wrA6Qy6Yg
-         3mi8RQParNjCdNLFd657ThNyEh4bsWQdhJfSj1BiTydE+qZyhntU/td0YP4Bqj+eB+
-         uiO666YGv0W1qJbb7nUGBFd5tsauyVwdATlruN1g=
-Date:   Fri, 29 Nov 2019 10:24:22 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, bhupesh.linux@gmail.com,
-        x86@kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, Boris Petkov <bp@alien8.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
+        id S1726819AbfK2LXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 06:23:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35050 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725892AbfK2LXW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Nov 2019 06:23:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id EA9F5AC82;
+        Fri, 29 Nov 2019 11:23:17 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 4E8A01E0B6A; Fri, 29 Nov 2019 12:23:15 +0100 (CET)
+Date:   Fri, 29 Nov 2019 12:23:15 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dave Anderson <anderson@redhat.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Subject: Re: [PATCH v5 0/5] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
- for arm64 and MAX_PHYSMEM_BITS for all archs)
-Message-ID: <20191129102421.GA28322@willie-the-truck>
-References: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
+ and put_user_page()
+Message-ID: <20191129112315.GB1121@quack2.suse.cz>
+References: <20191125231035.1539120-1-jhubbard@nvidia.com>
+ <20191125231035.1539120-18-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
+In-Reply-To: <20191125231035.1539120-18-jhubbard@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 29, 2019 at 01:53:36AM +0530, Bhupesh Sharma wrote:
-> Changes since v4:
-> ----------------
-> - v4 can be seen here:
->   http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
-> - Addressed comments from Dave and added patches for documenting
->   new variables appended to vmcoreinfo documentation.
-> - Added testing report shared by Akashi for PATCH 2/5.
+On Mon 25-11-19 15:10:33, John Hubbard wrote:
+> 1. Convert from get_user_pages() to pin_user_pages().
+> 
+> 2. As required by pin_user_pages(), release these pages via
+> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
+> 
+> That has the side effect of calling set_page_dirty_lock(), instead
+> of set_page_dirty(). This is probably more accurate.
 
-Please can you fix your mail setup? The last two times you've sent this
-series it seems to get split into two threads, which is really hard to
-track in my inbox:
+Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
+checking mm_iommu_unpin() gets called from RCU callback which is executed
+interrupt context and you cannot lock pages from such context. So you need
+to queue work from the RCU callback and then do the real work from the
+workqueue...
 
-First thread:
+								Honza
 
-https://lore.kernel.org/lkml/1574972621-25750-1-git-send-email-bhsharma@redhat.com/
-
-Second thread:
-
-https://lore.kernel.org/lkml/1574972716-25858-1-git-send-email-bhsharma@redhat.com/
-
-Thanks,
-
-Will
+> 
+> As Christoph Hellwig put it, "set_page_dirty() is only safe if we are
+> dealing with a file backed page where we have reference on the inode it
+> hangs off." [1]
+> 
+> [1] https://lore.kernel.org/r/20190723153640.GB720@lst.de
+> 
+> Cc: Jan Kara <jack@suse.cz>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  arch/powerpc/mm/book3s64/iommu_api.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s64/iommu_api.c
+> index 56cc84520577..fc1670a6fc3c 100644
+> --- a/arch/powerpc/mm/book3s64/iommu_api.c
+> +++ b/arch/powerpc/mm/book3s64/iommu_api.c
+> @@ -103,7 +103,7 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
+>  	for (entry = 0; entry < entries; entry += chunk) {
+>  		unsigned long n = min(entries - entry, chunk);
+>  
+> -		ret = get_user_pages(ua + (entry << PAGE_SHIFT), n,
+> +		ret = pin_user_pages(ua + (entry << PAGE_SHIFT), n,
+>  				FOLL_WRITE | FOLL_LONGTERM,
+>  				mem->hpages + entry, NULL);
+>  		if (ret == n) {
+> @@ -167,9 +167,8 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
+>  	return 0;
+>  
+>  free_exit:
+> -	/* free the reference taken */
+> -	for (i = 0; i < pinned; i++)
+> -		put_page(mem->hpages[i]);
+> +	/* free the references taken */
+> +	put_user_pages(mem->hpages, pinned);
+>  
+>  	vfree(mem->hpas);
+>  	kfree(mem);
+> @@ -212,10 +211,9 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+>  		if (!page)
+>  			continue;
+>  
+> -		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+> -			SetPageDirty(page);
+> +		put_user_pages_dirty_lock(&page, 1,
+> +				mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
+>  
+> -		put_page(page);
+>  		mem->hpas[i] = 0;
+>  	}
+>  }
+> -- 
+> 2.24.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
