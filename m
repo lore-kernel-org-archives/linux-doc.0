@@ -2,87 +2,114 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F7AC432C3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA10C432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:19:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B7402158A
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:17:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6B3820869
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:19:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b9E3t905"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UOujqduo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727117AbfK2SRj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 13:17:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41078 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727022AbfK2SRi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 13:17:38 -0500
+        id S1727004AbfK2STE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 13:19:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58666 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726970AbfK2STE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 13:19:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575051457;
+        s=mimecast20190719; t=1575051542;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=0JsvcP5JjavRLN7Eg1l3dqgu/7OBAuKTZlpK2fEtMVA=;
-        b=b9E3t9053bE5kkf6Zn843sQAonTzKWoS1jmW9YA7PF4d4vFE5+mHP9r8iBJRKm0B3X+1IZ
-        CVm8bxdM9b60jAlP5oXpynpcvGUYPZCNAi4sJ+o5xdttSHdHLdt4JzG6gC4yuN14vvS/7X
-        v6NrzyuPkeHc02lLtR/tZLqBX3LqVfk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-Vn0Ttw11NB63YmMzg0Xfcw-1; Fri, 29 Nov 2019 13:17:36 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B413118AAFA3;
-        Fri, 29 Nov 2019 18:17:35 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4B3D15C1BB;
-        Fri, 29 Nov 2019 18:17:31 +0000 (UTC)
-From:   Wainer dos Santos Moschetta <wainersm@redhat.com>
-To:     pbonzini@redhat.com, rkrcmar@redhat.com
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FiyrhdgENs34vIhSRSTGRDggmyyimwC96XAb9yeIB6k=;
+        b=UOujqduoFl5F6cHcKxnZjs1qcby4eEY4Tt0in3X1YCGHUodQrG5w4h/blIJTOOevuSO6OP
+        b0VRJttUgq9awq/cWbkfdCln2xGDVo2riC3QUx+HdvwEi9HCKQpexl5zerfFM9gQnZ9gYi
+        vhe5CrIxKNKL6JWE74mPzjpHxl8tzPI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-kjssIbcfPR-njA5Z_YosCQ-1; Fri, 29 Nov 2019 13:19:01 -0500
+Received: by mail-wm1-f71.google.com with SMTP id p5so4718756wmc.4
+        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 10:19:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FiyrhdgENs34vIhSRSTGRDggmyyimwC96XAb9yeIB6k=;
+        b=OvynmjR3ehuoYUWON5tOY1aRlwcc9Wr53knu6IEBaf6QOAAgr9/pXhfYp0cGcT8jGj
+         p8ayVNoaANax27BR+UU4raucwSFbjGNzjXN6SHtx5eCxg2LvD1vK1Q8+tVK6D1CARiZe
+         mum4cmdc38r+ufpjdcCyeZjhl+xYbHZyqHarZ4jLfbs7dpMkYxJACWjQBtSvXEKLuBIP
+         whqb/53565FqQReKljw/OFGmNaU08+ZVHEWbKNTnPeceqgPa8n/QXlzgkySaBO+qYePo
+         VtFo2h3AKlzSmTg3zL9rIXhUwx5QGtk76l5K0LqiTD+JwqS5+Vy/ryUxgRKNUClAk+Fj
+         qEJA==
+X-Gm-Message-State: APjAAAW/cJ1Gqr2I4eNKSErFZYbAmRROhQRJDlY1ixWmn7B9zashy/fN
+        dluQZy/Qg8dC+cQUZpYqh4E2dhJ3R705Tb1Pgg6KG1M/lOm8QMbNxVgRD7P04+uwTC8gPq8/xfd
+        z9FO5zEfSl9Tg7xre+7Kb
+X-Received: by 2002:adf:ea4e:: with SMTP id j14mr7028872wrn.101.1575051540404;
+        Fri, 29 Nov 2019 10:19:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzBCDg/+xrc9KqzOZsoX1fdWUXz3f/n/RYBgMN+X+O1eMFce6efVhgwcEb8hu7gTdmmmfm3sg==
+X-Received: by 2002:adf:ea4e:: with SMTP id j14mr7028844wrn.101.1575051540104;
+        Fri, 29 Nov 2019 10:19:00 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:56e1:adff:fed9:caf0? ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
+        by smtp.gmail.com with ESMTPSA id m3sm13546140wrs.53.2019.11.29.10.18.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Nov 2019 10:18:59 -0800 (PST)
+Subject: Re: [PATCH] Documentation: kvm: Fix mention to number of ioctls
+ classes
+To:     Wainer dos Santos Moschetta <wainersm@redhat.com>,
+        rkrcmar@redhat.com
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org
-Subject: [PATCH] Documentation: kvm: Fix mention to number of ioctls classes
-Date:   Fri, 29 Nov 2019 13:17:30 -0500
-Message-Id: <20191129181730.15037-1-wainersm@redhat.com>
+References: <20191129181730.15037-1-wainersm@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <67bb9781-98a5-fcad-b958-04abe42b37fb@redhat.com>
+Date:   Fri, 29 Nov 2019 19:18:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Vn0Ttw11NB63YmMzg0Xfcw-1
+In-Reply-To: <20191129181730.15037-1-wainersm@redhat.com>
+Content-Language: en-US
+X-MC-Unique: kjssIbcfPR-njA5Z_YosCQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In api.txt it is said that KVM ioctls belong to three classes
-but in reality it is four. Fixed this, but do not count categories
-anymore to avoid such as outdated information in the future.
+On 29/11/19 19:17, Wainer dos Santos Moschetta wrote:
+> In api.txt it is said that KVM ioctls belong to three classes
+> but in reality it is four. Fixed this, but do not count categories
+> anymore to avoid such as outdated information in the future.
+> 
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>  Documentation/virt/kvm/api.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
+> index 4833904d32a5..4e3d22429b19 100644
+> --- a/Documentation/virt/kvm/api.txt
+> +++ b/Documentation/virt/kvm/api.txt
+> @@ -5,7 +5,7 @@ The Definitive KVM (Kernel-based Virtual Machine) API Documentation
+>  ----------------------
+>  
+>  The kvm API is a set of ioctls that are issued to control various aspects
+> -of a virtual machine.  The ioctls belong to three classes:
+> +of a virtual machine.  The ioctls belong to the following classes:
+>  
+>   - System ioctls: These query and set global attributes which affect the
+>     whole kvm subsystem.  In addition a system ioctl is used to create
+> 
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- Documentation/virt/kvm/api.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Queued, thanks.
 
-diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.tx=
-t
-index 4833904d32a5..4e3d22429b19 100644
---- a/Documentation/virt/kvm/api.txt
-+++ b/Documentation/virt/kvm/api.txt
-@@ -5,7 +5,7 @@ The Definitive KVM (Kernel-based Virtual Machine) API Docum=
-entation
- ----------------------
-=20
- The kvm API is a set of ioctls that are issued to control various aspects
--of a virtual machine.  The ioctls belong to three classes:
-+of a virtual machine.  The ioctls belong to the following classes:
-=20
-  - System ioctls: These query and set global attributes which affect the
-    whole kvm subsystem.  In addition a system ioctl is used to create
---=20
-2.21.0
+Paolo
 
