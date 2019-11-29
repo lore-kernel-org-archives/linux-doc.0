@@ -6,58 +6,58 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A845C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:50:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 629ACC432C3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 13:01:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2935620869
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:50:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 286EF21721
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 13:01:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7TY7lJe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="An+4zXCF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfK2Mum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 07:50:42 -0500
-Received: from mail-qv1-f67.google.com ([209.85.219.67]:35497 "EHLO
-        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726608AbfK2Mum (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 07:50:42 -0500
-Received: by mail-qv1-f67.google.com with SMTP id y18so11546340qve.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 04:50:41 -0800 (PST)
+        id S1726770AbfK2NBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 08:01:49 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46928 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbfK2NBt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 08:01:49 -0500
+Received: by mail-qt1-f195.google.com with SMTP id r20so32336182qtp.13
+        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 05:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lJbIAqeUDXD4kcUbIecANlElpIrUUQHr/u/gzWsPOOU=;
-        b=Z7TY7lJe2RR0bY595O8O8pFed9bQc/UF1lJ7h+m2Ur4M40GihCpYzBmRuXU2nAchEz
-         A4GM945FLCCo3SCNfGP/xiJM5Z6jcYycs+VyKa73tAE73kf3c1fS8EiGwv/N2SGGvFpU
-         Y1tJYtW4W9nM380QBmVcoCE06ms6SXlEePb6QaOJGs9Lz5w1J7V0VL0okZzDNif+PwnR
-         8S0B0jPw6QIq6mFDn2ecGQLUsZgOA9cmlZR1rIiH5xnGa1Yml0I9zpLsvoLe3Za4WcAY
-         HSuAaYID813yC+bug59gLqoI2nnUWfSzyhtirvtTFimT4P8X8sIgQnxIoetg9z6793CU
-         IhCg==
+        bh=Xn54XTvcNkal14NNHB7+Vzm9BZs6YXQQ3RAQ8lYr/oc=;
+        b=An+4zXCFdte8eMvcqUEG3vfTxzYHLztNUyO+dIju42gILkNWJLODGcoxqgrQR7mqsl
+         OfYl8RSMNw0xmz5Bgz11IFl+yVb5ur2ssG+rt2UWWkK3GXNcN5i0+6XzLBwaYkxROqrK
+         hf05akothfHLjS+dc3IJ2nmpGRpB4rtw7hvhHxMw/wuCu0I+T8j69hAB5WrJ0UhCECxf
+         RMt3xTOTWuVlOuPignDWsj0EBINdiInOto4yDYiZ/CqeuULQuwnS4TQ7ua9n3EYQ1Opt
+         cF4tfnfdW0s1OqfNGbRi1bC6J2MgQcaHGhBWzpy10bkEgFRVncoZ+2BQibA0Id+qjfm/
+         kEFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lJbIAqeUDXD4kcUbIecANlElpIrUUQHr/u/gzWsPOOU=;
-        b=P4LAue9cA4HMSOiFr3xkJ4dmplyTvkwOClZ+NJRZoV3yEnrb9d6F5LdpRfPkwDEbQq
-         0xFw/oxRTNyqkuiwXiYL2zoq8ou3hgkqescMGYDGURnlGf+tDeyFLwS/jKJFoHS1NHh1
-         frPVX6QOuaP/J8QHZruEGNsKztfQ1tJAyBf5mVClICKYSuuOKs+i8c3Lgcm5T8HSQgqX
-         +lWrjahwX+HjoI8SsaFycYgW0B+3ztmmKnc+hrudYdq6iaWlQK7MrEIHqMgFD9Szzg7f
-         JXuLjmPSbmrtvNoCSsKpTXPuNrw9yc5msgcyeVKya/YU7GuRHwfqBtEasdN/FJY5CecG
-         QkkQ==
-X-Gm-Message-State: APjAAAVaySJi2o1Oidq8Y4u034VAxmdZabw7c5hg48oHcW3UtBIch/Bb
-        C372vdw1mxL3nYRk2jSH1t+2HEBOgFYzXKJXkU899JGP
-X-Google-Smtp-Source: APXvYqwgNwgGwC0/hhgzT5ewCqO0LQ/ZTP/UDvHdFa1bVBib5Bq/FnKSVHeDG4EOI2aRFcBiV5or57cU3hFUD7PidXc=
-X-Received: by 2002:a05:6214:245:: with SMTP id k5mr11234215qvt.182.1575031841425;
- Fri, 29 Nov 2019 04:50:41 -0800 (PST)
+        bh=Xn54XTvcNkal14NNHB7+Vzm9BZs6YXQQ3RAQ8lYr/oc=;
+        b=m21RHSOWHq3wixLrfeLM7OB5h1OXzg3saavdSZZ4j8PuFktaiQCslnDxJO3f2YQqKY
+         Fzgioq3YW4lfdtEMB4Ip3+fJoPamZxgaTbe+UUmUQpmkjD7XFS+uT5Qdnh6BzUcrzBID
+         O9SS6YkHu/E0ghORPR2LNrDDaxDkw1JyNd3cTDws2zrLM6TQgnz4t5zgX40DbH02iZgd
+         3DzuGfPBBRKOYUAp5WrTv26WxD0GUiQ8awJvbyx3W424hscGI8WWYrNj/QoQQWKjdN5i
+         wel/4JwzVEw56xmWFmdny4+rg6fu+sbafi2CYuTsBspVNWG0VdwQG7PA6pCui93RAItZ
+         uosA==
+X-Gm-Message-State: APjAAAVEEy5eZT8pGaBHhQWkKnd+P6B0It8ygTKMqUWCBsbc1B5+sY3Q
+        125PF2+4c3hOYxgUFcE+7HotkFWGs/XYsYUpQeeC3A==
+X-Google-Smtp-Source: APXvYqxnCMUzN7K5F96FwviGs9debEPUho46vDAcIfSuTnPxYu+XchM5mkJV2q7pXMOhaWj2Um8cNDKqRVhiHyGh8zE=
+X-Received: by 2002:ac8:41c3:: with SMTP id o3mr35156316qtm.88.1575032508294;
+ Fri, 29 Nov 2019 05:01:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-4-mike.leach@linaro.org>
- <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
-In-Reply-To: <cc0eb144-48a2-bde5-4790-2fd5e1168360@arm.com>
+References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-5-mike.leach@linaro.org>
+ <ce6d3334-2baf-0528-33a1-0157a8ad0c57@arm.com>
+In-Reply-To: <ce6d3334-2baf-0528-33a1-0157a8ad0c57@arm.com>
 From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 29 Nov 2019 12:50:30 +0000
-Message-ID: <CAJ9a7Vh=J8QbPbng0OMmH6uNjhTZJMfm9hn63zw8rNcr00msbw@mail.gmail.com>
-Subject: Re: [PATCH v5 03/14] coresight: cti: Add sysfs access to program
- function regs
+Date:   Fri, 29 Nov 2019 13:01:37 +0000
+Message-ID: <CAJ9a7Vj0fL4bkA+k-ip-NBwJ4nU3B+sCmPQZH1j9PdXnR66Veg@mail.gmail.com>
+Subject: Re: [PATCH v5 04/14] coresight: cti: Add sysfs trigger / channel
+ programming API
 To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
 Cc:     Coresight ML <coresight@lists.linaro.org>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
@@ -70,49 +70,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki, Mathieu,
+Hi Suzuki,
 
-On Thu, 28 Nov 2019 at 10:54, Suzuki Kuruppassery Poulose
+
+On Wed, 27 Nov 2019 at 18:40, Suzuki Kuruppassery Poulose
 <suzuki.poulose@arm.com> wrote:
 >
 > On 19/11/2019 23:19, Mike Leach wrote:
-> > Adds in sysfs programming support for the CTI function register sets.
-> > Allows direct manipulation of channel / trigger association registers.
+> > Adds a user API to allow programming of CTI by trigger ID and
+> > channel number. This will take the channel and trigger ID supplied
+> > by the user and program the appropriate register values.
 > >
-> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > ---
 >
+> > +
+> > +static ssize_t chan_xtrigs_view_show(struct device *dev,
+> > +                                  struct device_attribute *attr,
+> > +                                  char *buf)
+> > +{
+> > +     struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
+> > +     struct cti_config *cfg = &drvdata->config;
+> > +     int used = 0, reg_idx;
+> > +     int buf_sz = PAGE_SIZE;
+> > +     u32 chan_mask = BIT(cfg->xtrig_rchan_sel);
+> > +
+> > +     used += scnprintf(buf, buf_sz, "[%d] IN: ", cfg->xtrig_rchan_sel);
+> > +     for (reg_idx = 0;
+> > +          reg_idx < drvdata->config.nr_trig_max;
+> > +          reg_idx++) {
+> > +             if (chan_mask & cfg->ctiinen[reg_idx]) {
+> > +                     used += scnprintf(buf + used, buf_sz - used, "%d ",
+> > +                                       reg_idx);
+> > +             }
+> > +     }
 >
-> > +/*
-> > + * #define CTI_DEBUG_INTEGRATION_CTRL to enable the access to the integration
-> > + * control registers. Normally only used to investigate connection data.
-> > + */
+> As a security measure, we must make sure that we have space left in the
+> buffer. We could end up passing "negative" numbers for the size
+> argument, in the worst case.
 >
-> On a second thought, I have some comments on this symbol.
->
-> Given that the integration control registers may be useful for people to
-> find the device connections, I strongly feel that this is provided
-> via a CONFIG symbol rather than a  debug symbol within the code.
->
-> i.e, CONFIG_CTI_DEBUG_INTEGRATION_CTRL, to help the people better.
-> Codewise this doesn't make much difference, but it certainly makes
-> it more easier for people to use it.
->
-> We have used debug symbols elsewhere in the drivers for pure functional
-> debugging purposes. However I feel this is case is superior.
->
->
-> Cheers
-> Suzuki
 
-Per the comment above, and the discussions following, I would agree
-that using a config symbol makes it easier for users to select the
-feature and gives us an opportunity to put in some explanation as to
-what it does.
+The return value from scnprintf() is always the _actual_ number of
+characters added to the buffer, not as per snprintf() which returns
+the number that could have been printed if there were sufficient
+space.
+Thus used can never exceed the buffer size.
 
-Thanks
+Regards
 
 Mike
+
+
+> > +
+> > +     used += scnprintf(buf + used, buf_sz - used, "OUT: ");
+> > +     for (reg_idx = 0;
+> > +          reg_idx < drvdata->config.nr_trig_max;
+> > +          reg_idx++) {
+> > +             if (chan_mask & cfg->ctiouten[reg_idx]) {
+> > +                     used += scnprintf(buf + used, buf_sz - used, "%d ",
+> > +                                       reg_idx);
+> > +             }
+> > +     }
+> > +     used += scnprintf(buf + used, buf_sz - used, "\n");
+> > +     return used;
+> > +}
+> > +static DEVICE_ATTR_RW(chan_xtrigs_view);
+>
+>
+> The rest looks fine to me.
+>
+> Suzuki
+
+
 
 -- 
 Mike Leach
