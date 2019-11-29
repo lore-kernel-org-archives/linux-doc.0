@@ -2,143 +2,128 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7A8C33CBA
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6069EC43215
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 23:01:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 363E92464B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:47:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="P515JTdy"
+	by mail.kernel.org (Postfix) with ESMTP id 3D37620880
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 23:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfK2Vro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 16:47:44 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:6093 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727073AbfK2Vro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 16:47:44 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de192010000>; Fri, 29 Nov 2019 13:47:46 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 29 Nov 2019 13:47:42 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 29 Nov 2019 13:47:42 -0800
-Received: from [10.2.169.205] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 Nov
- 2019 21:47:41 +0000
-Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
- and put_user_page()
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1727142AbfK2XBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 18:01:54 -0500
+Received: from mga05.intel.com ([192.55.52.43]:5392 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727073AbfK2XBy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Nov 2019 18:01:54 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Nov 2019 15:01:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,259,1571727600"; 
+   d="scan'208";a="212413270"
+Received: from gamanzi-mobl4.ger.corp.intel.com (HELO localhost) ([10.252.3.126])
+  by orsmga006.jf.intel.com with ESMTP; 29 Nov 2019 15:01:48 -0800
+Date:   Sat, 30 Nov 2019 01:01:46 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Mimi Zohar <zohar@linux.ibm.com>
+Cc:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191125231035.1539120-1-jhubbard@nvidia.com>
- <20191125231035.1539120-18-jhubbard@nvidia.com>
- <20191129112315.GB1121@quack2.suse.cz>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <cb3e2acc-0a83-4053-fbcc-6d75dc47f174@nvidia.com>
-Date:   Fri, 29 Nov 2019 13:44:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        'Mauro Carvalho Chehab' <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+Message-ID: <20191129230146.GB15726@linux.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+ <1573659978.17949.83.camel@linux.ibm.com>
+ <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+ <1574796456.4793.248.camel@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20191129112315.GB1121@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575064066; bh=tMvn6asqZgJ/8yczcC9lnf1pHEf7TJzCvRVZqLzUEIk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=P515JTdy70KP3oimNK/fSAtObgW4JDQsh/LN+dj31w7qtgH6JUdGJYKS3j5J8enBM
-         oN04vymJSqszX58P75QNc1cW3k/Ll0LB9zwNlmlBWaR7zw2qd7/o9t2Cy3EugW3wgY
-         XBlQyEsBEMcfywkDPj201lclcvfOCs5gFzs/O+2QmSmHzciD31eTMBkNB0W6VGXEOL
-         BbnrGM91l0GAwjLm+XJmL4eoGQAce5JVCz6FfueQA4/sc24hO2mmz2R1mloKHyP2Ej
-         3q1StOVbP0t0OEBFEGay8puwUyC8jwyLEftGIYNcVrkaz5szmNasFETh2Ir0Xi5Q1g
-         8xDwDUM/1ii9A==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1574796456.4793.248.camel@linux.ibm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/29/19 3:23 AM, Jan Kara wrote:
-> On Mon 25-11-19 15:10:33, John Hubbard wrote:
->> 1. Convert from get_user_pages() to pin_user_pages().
->>
->> 2. As required by pin_user_pages(), release these pages via
->> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
->>
->> That has the side effect of calling set_page_dirty_lock(), instead
->> of set_page_dirty(). This is probably more accurate.
+On Tue, Nov 26, 2019 at 02:27:36PM -0500, Mimi Zohar wrote:
+> On Tue, 2019-11-26 at 07:32 +0000, Zhao, Shirley wrote:
+> > Thanks for your feedback, Mimi. 
+> > But the document of dracut can't solve my problem. 
+> > 
+> > I did more test these days and try to descript my question in more detail. 
+> > 
+> > In my scenario, the trusted key will be sealed into TPM with PCR policy. 
+> > And there are some related options in manual like 
+> >        hash=         hash algorithm name as a string. For TPM 1.x the only
+> >                      allowed value is sha1. For TPM 2.x the allowed values
+> >                      are sha1, sha256, sha384, sha512 and sm3-256.
+> >        policydigest= digest for the authorization policy. must be calculated
+> >                      with the same hash algorithm as specified by the 'hash='
+> >                      option.
+> >        policyhandle= handle to an authorization policy session that defines the
+> >                      same policy and with the same hash algorithm as was used to
+> >                      seal the key. 
+> > 
+> > Here is my test step. 
+> > Firstly, the pcr policy is generated as below: 
+> > $ tpm2_createpolicy --policy-pcr --pcr-list sha256:7 --policy pcr7_bin.policy > pcr7.policy
+> > 
+> > Pcr7.policy is the ascii hex of policy:
+> > $ cat pcr7.policy
+> > 321fbd28b60fcc23017d501b133bd5dbf2889814588e8a23510fe10105cb2cc9
+> > 
+> > Then generate the trusted key and configure policydigest and get the key ID: 
+> > $ keyctl add trusted kmk "new 32 keyhandle=0x81000001 hash=sha256 policydigest=`cat pcr7.policy`" @u
+> > 874117045
+> > 
+> > Save the trusted key. 
+> > $ keyctl pipe 874117045 > kmk.blob
+> > 
+> > Reboot and load the key. 
+> > Start a auth session to generate the policy:
+> > $ tpm2_startauthsession -S session.ctx
+> > session-handle: 0x3000000
+> > $ tpm2_pcrlist -L sha256:7 -o pcr7.sha256
+> > $ tpm2_policypcr -S session.ctx -L sha256:7 -F pcr7.sha256 -f pcr7.policy
+> > policy-digest: 0x321FBD28B60FCC23017D501B133BD5DBF2889814588E8A23510FE10105CB2CC9
+> > 
+> > Input the policy handle to load trusted key:
+> > $ keyctl add trusted kmk "load `cat kmk.blob` keyhandle=0x81000001 policyhandle=0x3000000" @u
+> > add_key: Operation not permitted
+> > 
+> > The error should be policy check failed, because I use TPM command to unseal directly with error of policy check failed. 
+> > $ tpm2_unseal -c 0x81000001 -L sha256:7
+> > ERROR on line: "81" in file: "./lib/log.h": Tss2_Sys_Unseal(0x99D) - tpm:session(1):a policy check failed
+> > ERROR on line: "213" in file: "tools/tpm2_unseal.c": Unseal failed!
+> > ERROR on line: "166" in file: "tools/tpm2_tool.c": Unable to run tpm2_unseal
+> > 
+> > So my question is:
+> > 1. How to use the option, policydigest, policyhandle?? Is there any example? 
+> > 2. What's wrong with my test step? 
 > 
-> Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
-> checking mm_iommu_unpin() gets called from RCU callback which is executed
-> interrupt context and you cannot lock pages from such context. So you need
-> to queue work from the RCU callback and then do the real work from the
-> workqueue...
+> When reporting a problem please state which kernel is experiencing
+> this problem.  Recently there was a trusted key regression.  Refer to
+> commit e13cd21ffd50 "tpm: Wrap the buffer from the caller to tpm_buf
+> in tpm_send()" for the details.
 > 
-> 								Honza
+> Before delving into this particular problem, first please make sure
+> you are able to create, save, remove, and then reload a trusted key
+> not sealed to a PCR.
 
-ah yes, fixed locally. (In order to avoid  distracting people during the merge
-window, I won't post any more versions of the series until the merge window is
-over, unless a maintainer tells me that any of these patches are desired for
-5.5.)
+Please re-test with rc1 when available.
 
-With that, we are back to a one-line diff for this part:
-
-@@ -215,7 +214,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
-                 if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
-                         SetPageDirty(page);
-  
--               put_page(page);
-+               put_user_page(page);
-                 mem->hpas[i] = 0;
-         }
-  }
-
-btw, I'm also working on your feedback for patch 17 (mm/gup: track FOLL_PIN pages [1]),
-from a few days earlier, it's not being ignored, I'm just trying to avoid distracting
-people during the merge window.
-
-[1] https://lore.kernel.org/r/20191121093941.GA18190@quack2.suse.cz
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+/Jarkko
