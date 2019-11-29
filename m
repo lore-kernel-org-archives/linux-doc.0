@@ -2,114 +2,264 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA10C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C9EC432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:28:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6B3820869
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:19:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UOujqduo"
+	by mail.kernel.org (Postfix) with ESMTP id 0F3DA21736
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 18:28:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727004AbfK2STE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 13:19:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58666 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726970AbfK2STE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 13:19:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575051542;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FiyrhdgENs34vIhSRSTGRDggmyyimwC96XAb9yeIB6k=;
-        b=UOujqduoFl5F6cHcKxnZjs1qcby4eEY4Tt0in3X1YCGHUodQrG5w4h/blIJTOOevuSO6OP
-        b0VRJttUgq9awq/cWbkfdCln2xGDVo2riC3QUx+HdvwEi9HCKQpexl5zerfFM9gQnZ9gYi
-        vhe5CrIxKNKL6JWE74mPzjpHxl8tzPI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-kjssIbcfPR-njA5Z_YosCQ-1; Fri, 29 Nov 2019 13:19:01 -0500
-Received: by mail-wm1-f71.google.com with SMTP id p5so4718756wmc.4
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 10:19:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FiyrhdgENs34vIhSRSTGRDggmyyimwC96XAb9yeIB6k=;
-        b=OvynmjR3ehuoYUWON5tOY1aRlwcc9Wr53knu6IEBaf6QOAAgr9/pXhfYp0cGcT8jGj
-         p8ayVNoaANax27BR+UU4raucwSFbjGNzjXN6SHtx5eCxg2LvD1vK1Q8+tVK6D1CARiZe
-         mum4cmdc38r+ufpjdcCyeZjhl+xYbHZyqHarZ4jLfbs7dpMkYxJACWjQBtSvXEKLuBIP
-         whqb/53565FqQReKljw/OFGmNaU08+ZVHEWbKNTnPeceqgPa8n/QXlzgkySaBO+qYePo
-         VtFo2h3AKlzSmTg3zL9rIXhUwx5QGtk76l5K0LqiTD+JwqS5+Vy/ryUxgRKNUClAk+Fj
-         qEJA==
-X-Gm-Message-State: APjAAAW/cJ1Gqr2I4eNKSErFZYbAmRROhQRJDlY1ixWmn7B9zashy/fN
-        dluQZy/Qg8dC+cQUZpYqh4E2dhJ3R705Tb1Pgg6KG1M/lOm8QMbNxVgRD7P04+uwTC8gPq8/xfd
-        z9FO5zEfSl9Tg7xre+7Kb
-X-Received: by 2002:adf:ea4e:: with SMTP id j14mr7028872wrn.101.1575051540404;
-        Fri, 29 Nov 2019 10:19:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzBCDg/+xrc9KqzOZsoX1fdWUXz3f/n/RYBgMN+X+O1eMFce6efVhgwcEb8hu7gTdmmmfm3sg==
-X-Received: by 2002:adf:ea4e:: with SMTP id j14mr7028844wrn.101.1575051540104;
-        Fri, 29 Nov 2019 10:19:00 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:56e1:adff:fed9:caf0? ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
-        by smtp.gmail.com with ESMTPSA id m3sm13546140wrs.53.2019.11.29.10.18.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Nov 2019 10:18:59 -0800 (PST)
-Subject: Re: [PATCH] Documentation: kvm: Fix mention to number of ioctls
- classes
-To:     Wainer dos Santos Moschetta <wainersm@redhat.com>,
-        rkrcmar@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org
-References: <20191129181730.15037-1-wainersm@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <67bb9781-98a5-fcad-b958-04abe42b37fb@redhat.com>
-Date:   Fri, 29 Nov 2019 19:18:58 +0100
+        id S1726980AbfK2S2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 13:28:21 -0500
+Received: from foss.arm.com ([217.140.110.172]:51026 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726909AbfK2S2V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Nov 2019 13:28:21 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2AFE31B;
+        Fri, 29 Nov 2019 10:28:18 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3DD23F68E;
+        Fri, 29 Nov 2019 10:28:17 -0800 (PST)
+Subject: Re: [PATCH v5 08/14] coresight: cti: Enable CTI associated with
+ devices.
+To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     mathieu.poirier@linaro.org
+References: <20191119231912.12768-1-mike.leach@linaro.org>
+ <20191119231912.12768-9-mike.leach@linaro.org>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <c48fe3ee-335b-3dfb-33c1-a2cd7d5a00e6@arm.com>
+Date:   Fri, 29 Nov 2019 18:28:16 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191129181730.15037-1-wainersm@redhat.com>
+In-Reply-To: <20191119231912.12768-9-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MC-Unique: kjssIbcfPR-njA5Z_YosCQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/11/19 19:17, Wainer dos Santos Moschetta wrote:
-> In api.txt it is said that KVM ioctls belong to three classes
-> but in reality it is four. Fixed this, but do not count categories
-> anymore to avoid such as outdated information in the future.
+On 19/11/2019 23:19, Mike Leach wrote:
+> The CoreSight subsystem enables a path of devices from source to sink.
+> Any CTI devices associated with the path devices must be enabled at the
+> same time.
 > 
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> This patch adds an associated coresight_device element to the main
+> coresight device structure, and uses this to create associations between
+> the CTI and other devices based on the device tree data. The associated
+> device element is used to enable CTI in conjunction with the path elements.
+> 
+> CTI devices are reference counted so where a single CTI is associated with
+> multiple elements on the path, it will be enabled on the first associated
+> device enable, and disabled with the last associated device disable.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
 > ---
->  Documentation/virt/kvm/api.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/hwtracing/coresight/coresight-cti.c   | 87 +++++++++++++++++++
+>   .../hwtracing/coresight/coresight-platform.c  | 23 +++++
+>   drivers/hwtracing/coresight/coresight-priv.h  |  6 ++
+>   drivers/hwtracing/coresight/coresight.c       | 58 +++++++++++--
+>   include/linux/coresight.h                     |  5 ++
+>   5 files changed, 173 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
-> index 4833904d32a5..4e3d22429b19 100644
-> --- a/Documentation/virt/kvm/api.txt
-> +++ b/Documentation/virt/kvm/api.txt
-> @@ -5,7 +5,7 @@ The Definitive KVM (Kernel-based Virtual Machine) API Documentation
->  ----------------------
->  
->  The kvm API is a set of ioctls that are issued to control various aspects
-> -of a virtual machine.  The ioctls belong to three classes:
-> +of a virtual machine.  The ioctls belong to the following classes:
->  
->   - System ioctls: These query and set global attributes which affect the
->     whole kvm subsystem.  In addition a system ioctl is used to create
-> 
+> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> index 369488dd7b8e..cf116463149a 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> @@ -440,6 +440,90 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+>   	return err;
+>   }
+>   
+> +/*
+> + * Look for a matching connection device name in the list of
+> + * connections. If found then swap in the csdev name and return
+> + * found.
+> + */
+> +static bool
+> +cti_match_con_name(struct cti_device *ctidev, const char *node_name,
+> +		   const char *csdev_name)
 
-Queued, thanks.
+Here we actually fixup the name of the connection, rather than simply 
+matching it. So it may be apt to rename this to cti_match_fixup_name()
 
-Paolo
+> +{
+> +	struct cti_trig_con *trig_con;
+> +
+> +	list_for_each_entry(trig_con, &ctidev->trig_cons, node) {
+> +		if (trig_con->con_dev_name) {
+> +			if (!strcmp(node_name, trig_con->con_dev_name)) {
 
+Can there be duplicate node_name's ? Does it make sense to store the 
+fwhandle along with the "temporary node_name" to match it later while
+fixing up ?
+
+> +				/* match: so swap in csdev name */
+> +				kfree(trig_con->con_dev_name);
+> +				trig_con->con_dev_name =
+> +					kstrdup(csdev_name, GFP_KERNEL);
+> +				return true;
+> +			}
+> +		}
+> +	}
+> +	return false;
+> +}
+
+
+> +/*
+> + * Search the cti list to add an associated CTI into the supplied CS device
+> + * This will set the association if CTI declared before the CS device
+> + */
+> +void cti_add_assoc_to_csdev(struct coresight_device *csdev)
+> +{
+
+..
+
+ > +	struct cti_drvdata *ect_item;
+ > +	struct cti_device *ctidev;
+ > +	const char *node_name = NULL, *csdev_name;
+ > +
+ > +	/* protect the list */
+ > +	mutex_lock(&ect_mutex);
+ > +
+ > +	/* exit if current is an ECT device.*/
+ > +	if ((csdev->type == CORESIGHT_DEV_TYPE_ECT) || list_empty(&ect_net))
+ > +		goto cti_add_done;
+ > +
+ > +	/* if we didn't find the csdev previously we used the fwnode name */
+ > +	node_name = coresight_get_fwnode_name(csdev->dev.parent);
+
+We used "cti_plat_get_node_name()" when we added the name in the
+absence of csdev in patch 7, could we not reuse the function here ?
+
+ > +
+ > +	if (!node_name)
+ > +		goto cti_add_done;
+ > +
+ > +	/* this is the name we want to use for the association */
+ > +	csdev_name = dev_name(&csdev->dev);
+
+
+> +
+> +	/* for each CTI in list... */
+> +	list_for_each_entry(ect_item, &ect_net, node) {
+> +		ctidev = &ect_item->ctidev;
+> +		if (cti_match_con_name(ctidev, node_name, csdev_name)) {
+> +			/*
+> +			 * if we found a matching name then update the
+> +			 * association pointers.
+> +			 */
+> +			csdev->ect_dev = ect_item->csdev;
+> +			goto cti_add_done;
+
+			break; instead ?
+
+> +		}
+> +	}
+> +cti_add_done:
+> +	mutex_unlock(&ect_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(cti_add_assoc_to_csdev);
+> +
+> +/*
+> + * Update the cross references where the associated device was found
+> + * while we were building the connection info. This will occur if the
+> + * assoc device was registered before the CTI.
+> + */
+> +static void cti_update_conn_xrefs(struct cti_drvdata *drvdata)
+> +{
+> +	struct cti_trig_con *tc;
+> +	struct cti_device *ctidev = &drvdata->ctidev;
+> +
+> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> +		if (tc->con_dev)
+> +			tc->con_dev->ect_dev = drvdata->csdev;
+> +	}
+
+Does this need to take the coresight_mutex to avoid racing against
+a coresight_enable_path() ? Though this may be fine as long as the
+CTI driver detects that that device was not enabled.
+
+Also, it looks like we have a potential issue with perf vs sysfs mode.
+The perf mode doesn't seem to take the coresight_mutex, for
+build_path/enable_path operations. This is outside the scope of this
+series though.
+
+> +}
+> +
+>   /** cti ect operations **/
+>   int cti_enable(struct coresight_device *csdev)
+>   {
+> @@ -574,6 +658,9 @@ static int cti_probe(struct amba_device *adev, const struct amba_id *id)
+>   	drvdata->csdev_release = drvdata->csdev->dev.release;
+>   	drvdata->csdev->dev.release = cti_device_release;
+>   
+> +	/* set any cross references */
+> +	cti_update_conn_xrefs(drvdata);
+> +
+    	/* all done - dec pm refcount */
+>   	pm_runtime_put(&adev->dev);
+>   	dev_info(&drvdata->csdev->dev, "CTI initialized\n");
+> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
+> index 3c5bee429105..6721cb1af5fe 100644
+> --- a/drivers/hwtracing/coresight/coresight-platform.c
+> +++ b/drivers/hwtracing/coresight/coresight-platform.c
+> @@ -293,6 +293,12 @@ static int of_get_coresight_platform_data(struct device *dev,
+>   
+>   	return 0;
+>   }
+> +
+> +static inline const char *of_coresight_get_node_name(struct device *dev)
+> +{
+> +	return dev->of_node->full_name;
+> +}
+> +
+>   #else
+>   static inline int
+>   of_get_coresight_platform_data(struct device *dev,
+> @@ -305,6 +311,11 @@ static inline int of_coresight_get_cpu(struct device *dev)
+>   {
+>   	return -ENODEV;
+>   }
+> +
+> +static inline const char *of_coresight_get_node_name(struct device *dev)
+> +{
+> +	return NULL;
+> +}
+>   #endif
+>   
+>   #ifdef CONFIG_ACPI
+> @@ -766,6 +777,18 @@ static inline int acpi_coresight_get_cpu(struct device *dev)
+>   }
+>   #endif
+>   
+> +const char *coresight_get_fwnode_name(struct device *dev)
+
+As mentioned above, please could we reuse the name helper we used
+during the insertion rather than introducing a new wrapper which
+effectively does the same thing ?
+
+> +{
+> +	const char *node_name = NULL;
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> +
+> +	if (is_of_node(fwnode))
+> +		node_name = of_coresight_get_node_name(dev);
+> +
+> +	return node_name;
+> +}
+> +EXPORT_SYMBOL_GPL(coresight_get_fwnode_name);
+
+Why does this get exported ? If a following patch needs it, you may
+always do that when you need it.
+
+
+Cheers
+Suzuki
