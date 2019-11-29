@@ -2,111 +2,96 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD794C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2AA6C432C0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:24:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AB0E4206E0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:06:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B93D4217D6
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 10:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575023070;
+	bh=VjBbZ2snQPvCylKfggADmKtB7KOQ00A+5qv/wamd9BI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rwO0eBVPWEMjMBGLOBpEbx0jvWJdB8QlkUdZootc4FamJBk/v/mtGAPpqmW6aOXW+
+	 9Gg+G7Mf8RrSjPeZcXzQUBpFWcW3IbPYJcdPHCR81QF8QCy37Oggy7bXN4JpDbgiR5
+	 UbX48YrPUTwNp+whyTGOZimGtmN1F+PgAyw05MMk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbfK2KGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 05:06:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35702 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725892AbfK2KGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Nov 2019 05:06:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D7179B1AD;
-        Fri, 29 Nov 2019 10:06:41 +0000 (UTC)
-Date:   Fri, 29 Nov 2019 11:06:39 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     =?utf-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] sched/numa: advanced per-cgroup numa statistic
-Message-ID: <20191129100639.GI831@blackbody.suse.cz>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <9354ffe8-81ba-9e76-e0b3-222bc942b3fc@linux.alibaba.com>
- <20191127101932.GN28938@suse.de>
- <3ff78d18-fa29-13f3-81e5-a05537a2e344@linux.alibaba.com>
- <20191128123924.GD831@blackbody.suse.cz>
- <e008fef6-06d2-28d3-f4d3-229f4b181b4f@linux.alibaba.com>
- <20191128155818.GE831@blackbody.suse.cz>
- <b97ce489-c5c5-0670-a553-0e45d593de2c@linux.alibaba.com>
- <f9da5ce8-519e-62b4-36f7-8e5bbf0485fd@linux.alibaba.com>
+        id S1726215AbfK2KYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 05:24:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44364 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbfK2KYa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Nov 2019 05:24:30 -0500
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C38D1217BA;
+        Fri, 29 Nov 2019 10:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575023069;
+        bh=VjBbZ2snQPvCylKfggADmKtB7KOQ00A+5qv/wamd9BI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A4mBF7y2wubx7yJLQJsBFt9G/OPUtUbvyriYy4NmNtpOcIW5tUWsocV7wrA6Qy6Yg
+         3mi8RQParNjCdNLFd657ThNyEh4bsWQdhJfSj1BiTydE+qZyhntU/td0YP4Bqj+eB+
+         uiO666YGv0W1qJbb7nUGBFd5tsauyVwdATlruN1g=
+Date:   Fri, 29 Nov 2019 10:24:22 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Bhupesh Sharma <bhsharma@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, bhupesh.linux@gmail.com,
+        x86@kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, Boris Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Subject: Re: [PATCH v5 0/5] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
+ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Message-ID: <20191129102421.GA28322@willie-the-truck>
+References: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tctmm6wHVGT/P6vA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f9da5ce8-519e-62b4-36f7-8e5bbf0485fd@linux.alibaba.com>
+In-Reply-To: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Nov 29, 2019 at 01:53:36AM +0530, Bhupesh Sharma wrote:
+> Changes since v4:
+> ----------------
+> - v4 can be seen here:
+>   http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
+> - Addressed comments from Dave and added patches for documenting
+>   new variables appended to vmcoreinfo documentation.
+> - Added testing report shared by Akashi for PATCH 2/5.
 
---tctmm6wHVGT/P6vA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please can you fix your mail setup? The last two times you've sent this
+series it seems to get split into two threads, which is really hard to
+track in my inbox:
 
-On Fri, Nov 29, 2019 at 01:19:33PM +0800, =E7=8E=8B=E8=B4=87 <yun.wang@linu=
-x.alibaba.com> wrote:
-> I did some research regarding cpuacct, and find cpuacct_charge() is a good
-> place to do hierarchical update, however, what we get there is the execut=
-ion
-> time delta since last update_curr().
-I wouldn't extend cpuacct, I'd like to look into using the rstat
-mechanism for per-CPU runtime collection. (Most certainly I won't get
-down to this until mid December though.)
+First thread:
 
-> I'm afraid we can't just do local/remote accumulation since the sample pe=
-riod
-> now is changing, still have to accumulate the execution time into locality
-> regions.
-My idea was to decouple time from the locality counters completely. It'd
-be up to the monitoring application to normalize differences wrt
-sampling rate (and handle wrap arounds).
+https://lore.kernel.org/lkml/1574972621-25750-1-git-send-email-bhsharma@redhat.com/
 
+Second thread:
 
-Michal
+https://lore.kernel.org/lkml/1574972716-25858-1-git-send-email-bhsharma@redhat.com/
 
---tctmm6wHVGT/P6vA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAl3g7aoACgkQia1+riC5
-qSj6ihAAjGL+AfasV1mBclWNhpl6+ocgSIbO11onVPt4IbQHizY925prKB3WfEqc
-n/rv5OykoWSLCtZsSQAzqN7th9XYzqaALVJ7/CDfQP4QBIlPxBQ/nSQvE1mg5f5e
-Dyon80A94xAxWScMCXhpL1BgmNJH9PxgI/1rVq0RuAn2OE5XN/95xzesZh89SWLa
-A8iJ/4rvUwF7aQZLpG75U03Kejo16aBPcaSh8M9dqCPTa9R0/iXMc20bzVBhpqZq
-GvT+V5NjgOmM4mxwa1atcOXdsb5w+J3NRTxl4fl8rwr01WTwR6OiU2ZTV3+OMqwe
-DK0UaLdwKc9X7uzioPiVZlICOz8lBccd19ZvmMUVPgZdwIfXLT52S30dp38gq6vd
-RVOGf68MWI0swndpgnVcSHpSyIgMOvQBdWaA0Yv8GkfIcADwCceeFQ0joyhm+SbU
-wnhfEB6/gwWn5CU9bhhNJF2yILxxmQYfjE4hgkMg4fvdddisAvha7AVDYS5dXadW
-xSnvCXgI1gRXm4SmF8SmuLDVsLdmFJf2OIjKBbOZ2lY1yxnO66bc/cSKQZlYGyVg
-7cFZDhjUCKPEys1sn7SwV4KGpa9AQVBL18D6AvAAwnWRxJxPdSJP2lKB0u4sIDJQ
-kqGtI30Ny4C8ClB1XqB1YAMHYjObuuGfBG0NtCLap6bOxI0hdc0=
-=+0n3
------END PGP SIGNATURE-----
-
---tctmm6wHVGT/P6vA--
+Will
