@@ -2,60 +2,123 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA03C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 20:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DA1C432C3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:11:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CBDA821736
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 20:57:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59C1921771
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 21:11:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lB9otGP+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbfK2U5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 15:57:47 -0500
-Received: from mga09.intel.com ([134.134.136.24]:32973 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727090AbfK2U5r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Nov 2019 15:57:47 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Nov 2019 12:57:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,258,1571727600"; 
-   d="scan'208";a="384174207"
-Received: from kryanx-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.22.23])
-  by orsmga005.jf.intel.com with ESMTP; 29 Nov 2019 12:57:42 -0800
-Date:   Fri, 29 Nov 2019 22:57:41 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     dhowells@redhat.com, corbet@lwn.net, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Documentation: security: core.rst: fix warnings
-Message-ID: <20191129205741.GA12055@linux.intel.com>
-References: <20191122041806.68650-1-dwlsalmeida@gmail.com>
+        id S1727130AbfK2VL1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 16:11:27 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:42315 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbfK2VL0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 16:11:26 -0500
+Received: by mail-il1-f194.google.com with SMTP id f6so23976891ilh.9
+        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 13:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=J737RfycvasrkDMuXXVhGv8GjJozMIk9WjH6tUo8YNU=;
+        b=lB9otGP+R7D5FDCg+yCl5lzrEbHVc6Uxs0+r8izKBMVVOofA3vofUwCrTGfrnh/HzZ
+         nQhDEkKv9iFoZWHxi6Lm1vM755MYXzxCy5RZp4jPRE/gJ2i9XvIJGWnd9ekCs/i9szP+
+         517eLdsZZuxFUU4mWYjZgOVY1hD6uyvbW1lnCzq/wktHxgnQA6T1f0c9qQjJHQmI0zbI
+         8V+2XFBdclfe41bWEdDMCU2YuW4KMdfuROPYnbBrNDN52yqzzuCMy8RtBtAnZxGVEyDm
+         ntE4PwYVP+sP+TljhMeQQ5sxV0Ry0ylzC2Nuyf3oC2BT/Tqn/gwKUaSZXUT6AHKd8tDK
+         rpEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=J737RfycvasrkDMuXXVhGv8GjJozMIk9WjH6tUo8YNU=;
+        b=LwZevR8hyN0gutjcv3DcEqNvzkkq/UtHUs9TqXQuBV7t0H/Zqs+YP+1bXrEvuvmfIY
+         CzFAvbwgNMwrU7L9LtJAbirF4e6HQH9tjBah70lPXulOBDfYi8aYdPXKmTvDA4aqeM4T
+         oI/6Amtp72iTyMODKschA/a+a4wHYddJcKimAW+Y+0f8Rj/PEe0ugtuS9rqbK4i4OlYg
+         ZazNuMuZv4XXXx48hJYJW9rO0Fp+nTWTa5nNCi5iAjHF5MF3f7l/QRNH7Gj9AU+IrFZ8
+         QuHyQhGJanGtCZoRy3mUxGmy9xkko6nAWZgTboHOe5wKj4Fpm7KKJP+9DnKRoO3qydSH
+         8Gvw==
+X-Gm-Message-State: APjAAAWG0+Lp7/OQaQUnTdaOrlVLzkT6MlnGfks8sk2RX/kxkd2LRY4S
+        xlk4g93WLxT0SyPcbn7hVxOARhyYphV3ZCPNNxXASg==
+X-Google-Smtp-Source: APXvYqyOXHCVc3ozOJPEmGcC3VwB8m0Qnuuz5GE4mQlGcSQvgINwg2paqQAOa7PK0kmgMZbGH4Jw33/Thcthow443Ck=
+X-Received: by 2002:a92:1547:: with SMTP id v68mr13668342ilk.58.1575061884570;
+ Fri, 29 Nov 2019 13:11:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122041806.68650-1-dwlsalmeida@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-8-mike.leach@linaro.org>
+ <20191125212258.GB18542@xps15> <35357ff3-2b1e-764e-cfbd-65bcc7a4faa6@arm.com>
+In-Reply-To: <35357ff3-2b1e-764e-cfbd-65bcc7a4faa6@arm.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Fri, 29 Nov 2019 14:11:13 -0700
+Message-ID: <CANLsYkxqO71aBzf=BqcFDWccp3XH3gXc4OESgRy0-rTEe27fJA@mail.gmail.com>
+Subject: Re: [PATCH v5 07/14] coresight: cti: Add device tree support for
+ custom CTI.
+To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Cc:     Mike Leach <mike.leach@linaro.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 22, 2019 at 01:18:06AM -0300, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Fix warnings due to missing markup, no change in content otherwise.
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+On Fri, 29 Nov 2019 at 07:16, Suzuki Kuruppassery Poulose
+<suzuki.poulose@arm.com> wrote:
+>
+> On 25/11/2019 21:22, Mathieu Poirier wrote:
+> > On Tue, Nov 19, 2019 at 11:19:05PM +0000, Mike Leach wrote:
+> >> Adds support for CTIs whose connections are implementation defined at
+> >> hardware design time, and not constrained by v8 architecture.
+> >>
+> >> These CTIs have no standard connection setup, all the settings have to
+> >> be defined in the device tree files. The patch creates a set of connections
+> >> and trigger signals based on the information provided.
+> >>
+> >> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> >> ---
+> >>   .../coresight/coresight-cti-platform.c        | 250 +++++++++++++++++-
+> >>   .../hwtracing/coresight/coresight-cti-sysfs.c |  11 +
+> >>   2 files changed, 257 insertions(+), 4 deletions(-)
+>
+> >> +static int cti_plat_create_impdef_connections(struct device *dev,
+> >> +                                          struct cti_drvdata *drvdata)
+> >> +{
+> >> +    int rc = 0;
+> >> +    struct fwnode_handle *fwnode = dev_fwnode(dev);
+> >> +    struct fwnode_handle *child = NULL;
+> >> +
+> >> +    if (IS_ERR_OR_NULL(fwnode))
+> >> +            return -EINVAL;
+> >> +
+> >> +    fwnode_for_each_child_node(fwnode, child) {
+> >> +            if (cti_plat_node_name_eq(child, CTI_DT_CONNS))
+> >> +                    rc = cti_plat_create_connection(dev, drvdata, child);
+> >> +            if (rc != 0)
+> >> +                    break;
+> >> +    }
+> >> +    fwnode_handle_put(child);
+> >
+> > As far as I can tell we don't need to call fwnode_handle_put()?
+>
+> Actually we do, if we break the scan in between, at least for of_nodes.
+> I had to literally look it down all the way down to confirm this.
+>
+> So for CONFIG_OF it ends up in of_get_next_available_child(), which
+> drops the ref on "prev" and grabs the "next". So in case we break
+> the loop, we must drop the ref on the child.
 
-Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Well spotted.
 
-/Jarkko
+> Otherwise, the last
+> result would be NULL, which would have dropped the ref on the "last"
+> valid entry. And this is harmless with a NULL ptr.
+>
+> Suzuki
