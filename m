@@ -7,77 +7,78 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE3CC43215
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 19:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53921C43215
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 19:59:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 41FDB21844
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 19:59:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27503217AB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 19:59:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NQANLXP3"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TLwAYx7+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfK2T7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 14:59:48 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21447 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727158AbfK2T7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 14:59:47 -0500
+        id S1727225AbfK2T74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 14:59:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55568 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727208AbfK2T7z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 14:59:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575057586;
+        s=mimecast20190719; t=1575057594;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2FRKI5+6EDUKwn2QzAstv2u6dW0Q8/ilQLcz5atGxuE=;
-        b=NQANLXP30sRk0tXFB+ffKa9zZTtMQXSoaD2W8LshSl3Q7Ylv8BBiQQyfiYm5As3WuQG94s
-        EjWu+Cna3UG4FM8zBBI98tY8ctinVKFCPfpq9MWWCfP6aJUpSlsdHMw0jwCq8jFkRPaPYQ
-        HAy5Gvo5IU+QmXZfeP360nCl2HdA//s=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-D6Cx4IfxNTaad9ReuV8AIg-1; Fri, 29 Nov 2019 14:59:45 -0500
-Received: by mail-pg1-f198.google.com with SMTP id k10so17083156pgm.7
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 11:59:45 -0800 (PST)
+        bh=41xNMejmkDpiENDKO7RxAxz9cPSeln8z2A1ifqUYAvQ=;
+        b=TLwAYx7+GwsQy5Nsbfp3upNO524Vr513dsISkCP5sFAIpOjVX3xYGVJx8DlEg3wHBbRJ2i
+        VSviOXx2OioZt8KY7Bg/ieyxg82CXLqhHiDzKbZfUJjtegssz7ojtVfCV5yOszy2Rh97/U
+        0JRO05Qjbdfvmept4lM37ZvfPvwktHA=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-AvJCGMFIPiCOseli7Y2sbg-1; Fri, 29 Nov 2019 14:59:53 -0500
+Received: by mail-pl1-f197.google.com with SMTP id q19so6156188pll.13
+        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 11:59:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=BgAr5VVOQXh1yien5qVgdgmIL5RHbScoYGF2ala0/ak=;
-        b=d2B7s+7iuL/Tse+jSUz64XKcZM1Q5nB6c9NjFnx5Qp2oCkyBPmnUeQSwplwY7matkI
-         LZosGcxcx31eD1/7Z4fVGmq3zX9lTCH81wjwKu4GFg7O4X0p2+uZWRSIB2+z6HJ37qdK
-         BLZkAoFBgxhg3g4tbzTqTWASLfAzBpQbaUHp53pO7AHFZrpQQkKdKDSnpsiovSRu/Lyn
-         6Ameio71cYtPBObQM41HErzJHmapvTVTQUxRP9rLPBQ1fKk7E9YE8LldDkdNsgTl+0LL
-         Y/QnXBMcQEiXyS+FHgv5m/6STLbXSVQMQH5JBVoFMk069IuQyK+bTjYExSRmvy4lAatt
-         1Hug==
-X-Gm-Message-State: APjAAAUQgZ8KuCOC695q0mq8Iv74bCtSSv/pszhetUyuFSDI4D0N3iRe
-        KlymBCIEC7RJ9M+1HXq/A+8k1DwZVBhlac4+z3s0Z+Y+gg98fZcMDPeD6OYRLegavyrR9qqKImw
-        Z6k4TiizEfbd/NlvojY+s
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr20314623pjb.138.1575057584293;
-        Fri, 29 Nov 2019 11:59:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz4gnI9c2bYrtjkLwMhPYvWHvZw+YasEX6lAkryf7HpqeVi2n8s5GR/Ai2re8lnbcSS3E4aLw==
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr20314608pjb.138.1575057584113;
-        Fri, 29 Nov 2019 11:59:44 -0800 (PST)
+        bh=TnU1CF4ydXp0Re/7xQPqByhi17OoIqWu96aUm7ilAL8=;
+        b=ApzkKYlbl/lblzCQSPAuRVHKktS15VxdRSDQ0J3CcU6X8eDCD5Qv+T8q3brPkPdPbd
+         R1YwciTFHe6dER2RzK9nCJMMX6gxsnoTz/PnHq76M+llswyFPJtkEkc9Po5UTpWP3ZMD
+         kIMw/agiGAfrtjkFxMIDR/FJ9bQErWfEMAXRrlInrg27wCpqrQ9wp1RQFCLfSSo3IZzC
+         LnVMFin0UKRZVmG5Mi+tLMdPm299M6m9n+GfpWhFjZoTcVYTWATs4xbivVlSUMrGzmeP
+         pql+y4M7tPOLS99537mEUMzAywEBA8fWu7bL6qAH2/Jg9Cq5z9re54VXJzUNnV7vipOj
+         Rdlw==
+X-Gm-Message-State: APjAAAX1anYAy7LcaZ74DnBN18qM67wdH1HvzkWAps+MEEF2m1soGdGP
+        c+Xe/V2rAJTma8QgoLUOjMDlSm/3jYv9OeYr2hEQudNETFct72IGNM46u9cPoYj/I2qaS3i8P+3
+        LRn2MJdAD3BoeZ4nDm2kZ
+X-Received: by 2002:a17:90a:1a8a:: with SMTP id p10mr19841459pjp.6.1575057592018;
+        Fri, 29 Nov 2019 11:59:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxSY3AQtQ2n98lr5W53/GVJZRJxpVnInAVeYWNmyeuMXseeTDPCBIIN9JR01+Ft/5q0+acg9Q==
+X-Received: by 2002:a17:90a:1a8a:: with SMTP id p10mr19841443pjp.6.1575057591861;
+        Fri, 29 Nov 2019 11:59:51 -0800 (PST)
 Received: from localhost ([122.177.85.74])
-        by smtp.gmail.com with ESMTPSA id 67sm15725427pfw.82.2019.11.29.11.59.42
+        by smtp.gmail.com with ESMTPSA id v10sm23928968pgr.37.2019.11.29.11.59.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Nov 2019 11:59:43 -0800 (PST)
+        Fri, 29 Nov 2019 11:59:51 -0800 (PST)
 From:   Bhupesh Sharma <bhsharma@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     bhsharma@redhat.com, bhupesh.linux@gmail.com, x86@kernel.org,
         linuxppc-dev@lists.ozlabs.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
+        kexec@lists.infradead.org, James Morse <james.morse@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Will Deacon <will@kernel.org>,
         Steve Capper <steve.capper@arm.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Subject: [RESEND PATCH v5 3/5] Documentation/arm64: Fix a simple typo in memory.rst
-Date:   Sat, 30 Nov 2019 01:29:17 +0530
-Message-Id: <1575057559-25496-4-git-send-email-bhsharma@redhat.com>
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Subject: [RESEND PATCH v5 5/5] Documentation/vmcoreinfo: Add documentation for 'TCR_EL1.T1SZ'
+Date:   Sat, 30 Nov 2019 01:29:19 +0530
+Message-Id: <1575057559-25496-6-git-send-email-bhsharma@redhat.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
 References: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
-X-MC-Unique: D6Cx4IfxNTaad9ReuV8AIg-1
+X-MC-Unique: AvJCGMFIPiCOseli7Y2sbg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -86,37 +87,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a simple typo in arm64/memory.rst
+Add documentation for TCR_EL1.T1SZ variable being added to
+vmcoreinfo.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
+It indicates the size offset of the memory region addressed by TTBR1_EL1
+and hence can be used for determining the vabits_actual value.
+
 Cc: James Morse <james.morse@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: Will Deacon <will@kernel.org>
 Cc: Steve Capper <steve.capper@arm.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>
 Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Cc: Dave Anderson <anderson@redhat.com>
+Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
 Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kexec@lists.infradead.org
 Signed-off-by: Bhupesh Sharma <bhsharma@redhat.com>
 ---
- Documentation/arm64/memory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/kdump/vmcoreinfo.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/arm64/memory.rst b/Documentation/arm64/memory.rs=
-t
-index 02e02175e6f5..cf03b3290800 100644
---- a/Documentation/arm64/memory.rst
-+++ b/Documentation/arm64/memory.rst
-@@ -129,7 +129,7 @@ this logic.
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation=
+/admin-guide/kdump/vmcoreinfo.rst
+index 447b64314f56..f9349f9d3345 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -398,6 +398,12 @@ KERNELOFFSET
+ The kernel randomization offset. Used to compute the page offset. If
+ KASLR is disabled, this value is zero.
 =20
- As a single binary will need to support both 48-bit and 52-bit VA
- spaces, the VMEMMAP must be sized large enough for 52-bit VAs and
--also must be sized large enought to accommodate a fixed PAGE_OFFSET.
-+also must be sized large enough to accommodate a fixed PAGE_OFFSET.
++TCR_EL1.T1SZ
++------------
++
++Indicates the size offset of the memory region addressed by TTBR1_EL1
++and hence can be used for determining the vabits_actual value.
++
+ arm
+ =3D=3D=3D
 =20
- Most code in the kernel should not need to consider the VA_BITS, for
- code that does need to know the VA size the variables are
 --=20
 2.7.4
 
