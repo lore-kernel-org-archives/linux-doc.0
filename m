@@ -2,268 +2,174 @@ Return-Path: <SRS0=1Ifr=ZV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D48C432C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47AE5C33CA0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:09:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2A0F520869
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:06:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OTTULPKi"
+	by mail.kernel.org (Postfix) with ESMTP id 1DCF72086A
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Nov 2019 12:09:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575029372;
+	bh=jGaMu88zl6ED3WverAr02i8/B4AFL3F/8VtWk2oAvco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=nVybJAkJu668iO9zecEptBggx2ruLjUWs+Yp4gkmXlcerL7Hmwu957dE+g0OOhIIB
+	 RX+KLBTiy1j/F5Nws1K27rMH+8QDdZEvo4Qj9+SW+Yyl7GmGUR4+PS3RooDUHk56+/
+	 ixvvFXD935ChsJlNjHYUkiDYRVpUnokrVnw1pt4A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbfK2MGT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Nov 2019 07:06:19 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:37660 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbfK2MGT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Nov 2019 07:06:19 -0500
-Received: by mail-qk1-f194.google.com with SMTP id e187so25335163qkf.4
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2019 04:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sRsq1H79H3SLbpinKw5zokLUT+GaLK3RwOVX6nt73FY=;
-        b=OTTULPKiIQOT+vyZGHWZPmxqkih3Hh6RRORnIy6dpyCx2NoPUYCznp7t7uXcWvJfFB
-         2xjnAJn955SfGxBDm4idJ2fUnOQ3/nbVCzdJl3nGl8VLihxxM1d+85B9uYx7QCwr6gOO
-         uLxdP2hkHpQENBpqPTrgkhsC8zdf7cBhzUeg6Qbf2Qg+xfjO+uALwWv7Uk/4FjHUN0Ok
-         aIsJ1cVO26NpNxpxZT9HWUA/tfSrzApnwXRRbolfVG+wzUQhvSkRqLBrI/aVQeSYh8TL
-         oZmjnqC1gKI2mOlwSnTrsCXD+fKRT5RaCLS3y6sroU/J4FwA9apiFwht11ruyRlOhZhk
-         Mf0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sRsq1H79H3SLbpinKw5zokLUT+GaLK3RwOVX6nt73FY=;
-        b=A26LDI4hfFmyYUYf08q5aHIb4xThvIb3E9aYFy1wZxGOLK82WLrPifSUAZQU51CyAx
-         qaXRWTtIlBv/Tijt1opfa7hZPozN2PQE4iZGnpmEoM9iDyR8baWndG1Bv5J4NyZgLQa7
-         ws9+i8aLZ9zpenGRpQkzjCsYYVbjKlOB6dTnynjKBncLPYLfj5pFVmK1j1LuJMiLOIy4
-         bX4VYwbzdidx8I2mGN2hpcd3EXMCSqVmf+pPp4kHVIb8zd7gQNolWg1dw0AHHQp2D1SH
-         iSQFHJ0oJNNyU8E0KmsAziaL/Njja26zXrsZ6Esm79wz5ItKdxxXXDDNAXR+2ZT3LfQc
-         tSHA==
-X-Gm-Message-State: APjAAAUZYusIwlGvt20CUnFE6FDxZn3XoClw/8u4rfrbvItVur4zXHv/
-        sQDcvVsA7jeuZTLyj12k/e9wkrG/C13m0GGdW2yAKw==
-X-Google-Smtp-Source: APXvYqxYJ/XTnVV2D0O5LIR8DcwEy685N4d9CsfVW42yMIEOsMvK04m5AOEIGODr+J13K/33Putoa+yrlFztG507vlo=
-X-Received: by 2002:a37:4ccb:: with SMTP id z194mr15433686qka.128.1575029178058;
- Fri, 29 Nov 2019 04:06:18 -0800 (PST)
+        id S1726780AbfK2MJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Nov 2019 07:09:28 -0500
+Received: from foss.arm.com ([217.140.110.172]:46922 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbfK2MJ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Nov 2019 07:09:28 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8653C1FB;
+        Fri, 29 Nov 2019 04:09:27 -0800 (PST)
+Received: from localhost (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B4ED3F52E;
+        Fri, 29 Nov 2019 04:09:27 -0800 (PST)
+Date:   Fri, 29 Nov 2019 12:09:25 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191129120925.GA5747@sirena.org.uk>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191118162502.GJ9761@sirena.org.uk>
+ <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+ <20191119181325.GD3634@sirena.org.uk>
+ <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+ <20191119193636.GH3634@sirena.org.uk>
+ <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-2-mike.leach@linaro.org>
- <fce270a6-03a7-f620-9ebf-5117c5dd7cc6@arm.com>
-In-Reply-To: <fce270a6-03a7-f620-9ebf-5117c5dd7cc6@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 29 Nov 2019 12:06:06 +0000
-Message-ID: <CAJ9a7ViVpUq7OCR2=QKDBX=YXpuKdm8hGGBkhjyttr3+L=v5qQ@mail.gmail.com>
-Subject: Re: [PATCH v5 01/14] coresight: cti: Initial CoreSight CTI Driver
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
+Content-Disposition: inline
+In-Reply-To: <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+X-Cookie: To love is good, love being difficult.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
 
-Will be re-spinning due to later patches - so will fixup as requested
+--tThc/1wpZn/ma/RB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On Fri, Nov 29, 2019 at 07:48:13AM +0000, Vaittinen, Matti wrote:
+> On Tue, 2019-11-19 at 19:36 +0000, Mark Brown wrote:
 
-Mike
+> > The driver interface was added in "regulator: add PM suspend and
+> > resume
+> > hooks".
 
-On Mon, 25 Nov 2019 at 19:03, Suzuki Kuruppassery Poulose
-<suzuki.poulose@arm.com> wrote:
->
-> On 19/11/2019 23:18, Mike Leach wrote:
-> > This introduces a baseline CTI driver and associated configuration files.
-> >
-> > Uses the platform agnostic naming standard for CoreSight devices, along
-> > with a generic platform probing method that currently supports device
-> > tree descriptions, but allows for the ACPI bindings to be added once these
-> > have been defined for the CTI devices.
-> >
-> > Driver will probe for the device on the AMBA bus, and load the CTI driver
-> > on CoreSight ID match to CTI IDs in tables.
-> >
-> > Initial sysfs support for enable / disable provided.
-> >
-> > Default CTI interconnection data is generated based on hardware
-> > register signal counts, with no additional connection information.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
->
-> Looks good to me.  Some very minor nits, feel free to ignore if you are
-> not respinning the series.
->
-> > +/*
-> > + * Look at the HW DEVID register for some of the HW settings.
-> > + * DEVID[15:8] - max number of in / out triggers.
-> > + */
-> > +#define CTI_DEVID_MAXTRIGS(devid_val) (int)((devid_val & 0xFF00) >> 8)
->
-> BMVAL(devid_val, 15, 8)
->
-> > +
-> > +/* DEVID[19:16] - number of CTM channels */
-> > +#define CTI_DEVID_CTMCHANNELS(devid_val) (int)((devid_val & 0xF0000) >> 16)
->
-> BMVAL(devid_val, 19, 16)
->
-> > +
-> > +static void cti_set_default_config(struct device *dev,
-> > +                                struct cti_drvdata *drvdata)
-> > +{
-> > +     struct cti_config *config = &drvdata->config;
-> > +     u32 devid;
-> > +
-> > +     devid = readl_relaxed(drvdata->base + CORESIGHT_DEVID);
-> > +     config->nr_trig_max = CTI_DEVID_MAXTRIGS(devid);
-> > +
-> > +     /*
-> > +      * no current hardware should exceed this, but protect the driver
-> > +      * in case of fault / out of spec hw
-> > +      */
-> > +     if (config->nr_trig_max > CTIINOUTEN_MAX) {
-> > +             dev_warn_once(dev,
-> > +                     "Limiting HW MaxTrig value(%d) to driver max(%d)\n",
-> > +                     config->nr_trig_max, CTIINOUTEN_MAX);
-> > +             config->nr_trig_max = CTIINOUTEN_MAX;
-> > +     }
-> > +
-> > +     config->nr_ctm_channels = CTI_DEVID_CTMCHANNELS(devid);
-> > +
-> > +     /* Most regs default to 0 as zalloc'ed except...*/
-> > +     config->trig_filter_enable = true;
-> > +     config->ctigate = GENMASK(config->nr_ctm_channels - 1, 0);
-> > +     atomic_set(&config->enable_req_count, 0);
-> > +}
-> > +
-> > +/*
-> > + * Add a connection entry to the list of connections for this
-> > + * CTI device.
-> > + */
-> > +int cti_add_connection_entry(struct device *dev, struct cti_drvdata *drvdata,
-> > +                          struct cti_trig_con *tc,
-> > +                          struct coresight_device *csdev,
-> > +                          const char *assoc_dev_name)
-> > +{
-> > +     struct cti_device *cti_dev = &drvdata->ctidev;
-> > +
-> > +     tc->con_dev = csdev;
-> > +     /*
-> > +      * Prefer actual associated CS device dev name to supplied value -
-> > +      * which is likely to be node name / other conn name.
-> > +      */
-> > +     if (csdev)
-> > +             tc->con_dev_name = devm_kstrdup(dev,
-> > +                                             dev_name(&csdev->dev),
-> > +                                             GFP_KERNEL);
-> > +     else if (assoc_dev_name != NULL)
-> > +             tc->con_dev_name = devm_kstrdup(dev,
-> > +                                             assoc_dev_name, GFP_KERNEL);
-> > +     list_add_tail(&tc->node, &cti_dev->trig_cons);
-> > +     cti_dev->nr_trig_con++;
-> > +
-> > +     /* add connection usage bit info to overall info */
-> > +     drvdata->config.trig_in_use |= tc->con_in->used_mask;
-> > +     drvdata->config.trig_out_use |= tc->con_out->used_mask;
->
-> Do we need to make sure that they are exclusive ?
->
->   WARN_ON(drvdata->config.trig_in_use ^ ~(tc->con_in->used_mask));
->   WARN_ON(drvdata->config.trig_out_use ^ ~(tc->con_out->used_mask));
->
-> > +/** cti ect operations **/
-> > +int cti_enable(struct coresight_device *csdev)
-> > +{
-> > +     struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-> > +
-> > +     /* enable hardware with refcount */
->
-> nit: left over comment from previous revision ?
->
-> > +     return cti_enable_hw(drvdata);
-> > +}
-> > +
-> > +int cti_disable(struct coresight_device *csdev)
-> > +{
-> > +     struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-> > +
-> > +     /* disable hardware with refcount */
->
-> same here ?
->
-> > +     return cti_disable_hw(drvdata);
-> > +}
-> > +
->
-> > +
-> > +static int cti_probe(struct amba_device *adev, const struct amba_id *id)
-> > +{
-> > +     int ret = 0;
-> > +     void __iomem *base;
-> > +     struct device *dev = &adev->dev;
-> > +     struct cti_drvdata *drvdata = NULL;
-> > +     struct coresight_desc cti_desc;
-> > +     struct coresight_platform_data *pdata = NULL;
-> > +     struct resource *res = &adev->res;
-> > +
-> > +     /* driver data*/
-> > +     drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> > +     if (!drvdata) {
-> > +             ret = -ENOMEM;
-> > +             dev_info(dev, "%s, mem err\n", __func__);
->
-> dev_err() ? As they may have higher priority than "info" and will get
-> displayed in the rare chance of them getting hit.
->
-> > +             goto err_out;
-> > +     }
-> > +
-> > +     /* Validity for the resource is already checked by the AMBA core */
-> > +     base = devm_ioremap_resource(dev, res);
-> > +     if (IS_ERR(base)) {
-> > +             ret = PTR_ERR(base);
-> > +             dev_info(dev, "%s, remap err\n", __func__);
->
-> same here, dev_err()
->
-> > +             goto err_out;
-> > +     }
-> > +     drvdata->base = base;
-> > +
-> > +     dev_set_drvdata(dev, drvdata);
-> > +
-> > +     /* default CTI device info  */
-> > +     drvdata->ctidev.cpu = -1;
-> > +     drvdata->ctidev.nr_trig_con = 0;
-> > +     drvdata->ctidev.ctm_id = 0;
-> > +     INIT_LIST_HEAD(&drvdata->ctidev.trig_cons);
-> > +
-> > +     spin_lock_init(&drvdata->spinlock);
-> > +
-> > +     /* initialise CTI driver config values */
-> > +     cti_set_default_config(dev, drvdata);
-> > +
-> > +     /* Parse the .dts for connections and signals */
->
-> minor nit: I would not mention about ".dts" here. The function name is
-> implicit. You could actually remove that comment.
->
-> As mentioned above, the comments are minor nits. So you may add
-> with/without addressing them:
->
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->
+> I looked through the set but didn't spot any new interface towards the
+> regulator driver (which accesses the HW). I saw interface towards
+> regulator consumer driver which can be used to set the constrains
+> though.
 
+The regulator driver has a bunch fo set_suspend_ operations.
 
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+> Specifically, I don't see voltage setting callback for different run-
+> modes. Nor do I see voltage setting (or differentiation) of more than
+> one suspend state.
+
+set_suspend_voltage.
+
+> To explain it further - my assumption is that the BD71828 'run-levels'
+> (RUN0, ... RUN3) could be mapped to regulator modes
+> REGULATOR_MODE_FAST, REGULATOR_MODE_NORMAL, REGULATOR_MODE_IDLE and=20
+> REGULATOR_MODE_STANDBY. But regulators which are controlled by these
+
+That doesn't make sense at all, the modes affect the quality of
+regulation not the voltage that is set.
+
+> run-levels, can't be individually controlled. If state for one is
+> changed, the state is changed for all of them. The DVS bucks 1,2,6 and
+
+We don't really have anything that'd only work for group configuration
+except for the suspend modes.
+
+> > Ah, that's actually better.  It opens up possiblities for making use
+> > of
+> > the feature without encoding voltages in DT.  For example, you can
+> > cache
+> > the last however many voltages that were set and jump quickly to them
+> > or
+> > do something like put the top of the constraints in to help with
+> > governors like ondemand.  I'd recommend trying for something like
+> > that
+> > rather than encoding in DT, it'll probably be more robust with things
+> > like cpufreq changing.
+
+> I wish I was working with the full product so that I could see and
+> learn a proper example on how the cpufreq actually uses these
+> interfaces :) I'd really like to understand this much better. Maybe
+> this could be a topic for you to present in some Linux conference ;)
+> Just please ping me when you are doing that and I'll be listening there
+> for sure ;)
+
+The cpufreq code is all there in kernel - drivers/cpufreq.  I can't
+remember if Android still has a custom governor in their trees but it
+doesn't really make much difference in terms of how it interacts with
+the regulator drivers.
+
+> Anyways, my idea was to set the inital voltage values for these states
+> via DT - but allow the voltages to be changed at run-time too (I guess
+> this idea is visible in the patch 12).
+
+It'd be much better if you could avoid putting the voltages in the
+binding if they're not strictly required.
+
+--tThc/1wpZn/ma/RB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3hCnMACgkQJNaLcl1U
+h9DYngf+IXV00SV4baSzbbPD499t+tcmC50xm6QHtyWWK8Cp9civk8HKVm+I8Hq4
+QD4QuFuR+eqK2qDTm+BAX6fTA64j0WeXKdEzN7PL83q4TlUI+f6n3l7baWyikfS+
+jvtHyZGD6QeSMlTBIpR3pDt4u61HM7aFgSH6m86zZX/trPBDfMqk5AynMT4kePZ1
+/F2ygmNUUbuZKkS1NLLKsQxr7nvtNvGyR+4HbQbNBuLlMN9BZaFGnQPmVzeksPe4
+PnJgOV90Ka3VvoJfRUKKs2z2hvdUP7j+NVjib9COrIhiz987HedXU52OxS/Ae90c
+08uWP7tcnqokEsVNIdA6qRO5Jn/lug==
+=D2yP
+-----END PGP SIGNATURE-----
+
+--tThc/1wpZn/ma/RB--
