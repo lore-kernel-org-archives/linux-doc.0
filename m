@@ -2,148 +2,101 @@ Return-Path: <SRS0=rOJF=ZX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9657AC43215
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Dec 2019 19:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4DFC432C0
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Dec 2019 23:25:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D0982146E
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Dec 2019 19:17:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8080215E5
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Dec 2019 23:25:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=jonmasters-org.20150623.gappssmtp.com header.i=@jonmasters-org.20150623.gappssmtp.com header.b="jwOVcGbn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kytsNh2A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfLATG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Dec 2019 14:06:28 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:33122 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726965AbfLATG2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Dec 2019 14:06:28 -0500
-Received: by mail-qk1-f193.google.com with SMTP id c124so26006707qkg.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Dec 2019 11:06:26 -0800 (PST)
+        id S1727280AbfLAXZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Dec 2019 18:25:45 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46866 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727266AbfLAXZp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Dec 2019 18:25:45 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z7so38468918wrl.13;
+        Sun, 01 Dec 2019 15:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jonmasters-org.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MYJMRHaiXc+sf5WEZ2y2GPKTcfT0mAf/egNeoJkGqUk=;
-        b=jwOVcGbncaHcFffRkMA7LE9/UEhFUaIT8HSLGGQg6lzBye14j5BgANn42w4XkkyUfV
-         ZOeYTUI0Dd3YuYKHFmy8XJ288eAiat5tF1T/Annsj7YQszO0ng4s3PnYNlcc6EvK8Mst
-         nsUxYHAo+BA5vFB6wpkDCkxk7TWJ8NevfsWgUFUPHAht5Wo6CiF4uhiBp8edAwy1OiuX
-         S1Jd1DrmUKk4BtedkskZETWYwSznYKzddZWM91onELxBhwwxx64JfrvTFsVTo8CLYBUB
-         zeMcq1mqFwHppbPvN09508FJp8LjKrr8nCXj4xoCiyXtevuoR+S4h+dA+WQi+mdQEGob
-         fBEg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=HYMDGCEmGcRSgznIZqiDAqfjbK/Kr8elskjbFdh/a+8=;
+        b=kytsNh2AsL4R2YGin9NHm3swj8566Bw36YlupJ91/bJ8mc+KxBt8QR5TXV/bHeP30I
+         wV4NEfjSRSshzUTZG0+vnSfqN+OivW1D1lnGhe9MeRUEMTAsmT83J4OncMdik/qt8/KL
+         4SzJELjewY70o+mR+BrfzlZ1MgAZUzxw2uywZ8FJAn8Pt4aVqSx+fZywrMwpL0l5Fd/t
+         Id+DpLp+0L4UJs+y+9jaXHxMxo2+bdSqg2SJ39XATzcxG589teqqCbWvQRmICQAu6yWk
+         oOWZkPX/YSw/QNo9PJyEx6mCrmTXNvYmY9C/82BJgnaSjlfO0BMMHKZv9fmwAGjMYqgH
+         19Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=MYJMRHaiXc+sf5WEZ2y2GPKTcfT0mAf/egNeoJkGqUk=;
-        b=Jq30SbkE6K481bN5DlSaPtUwuhVNYhV+KCaaRUELptGPdf9Ej+vBA82ATusiZrXTeq
-         s60uA6N4jiNQKPSKsMb+V7ki5TKpHoHinlgf0/MpoHl6M+6Rr9S2LdItcXDXM8sXx3qO
-         /h4eiUWeXyCGDG2EL6grQH7GfYQ313f28Obt/gZbgEPPyBZC+KH0eSw+86FM0a4MlJuC
-         sn9aV1QJn8wzOVfwH/V6hCEhIhyCppvhRKjG8pdtKSlZDg3rgeCxZEcqjHBMN7hjsfVj
-         r1d7TA5y+vyIAKPwfiAr0WEFDxTGvEXJvEkmsPQGDWcPFyENViQrkgvuPO51Yq9jXnTV
-         rFkg==
-X-Gm-Message-State: APjAAAVrA3uAdQ5SUFhBl8Cew+kf8iJCxH4xp06eeIzT8hFuaovEu6bK
-        KqJ0wnGUj4mGKyEiTBklTLsGrA==
-X-Google-Smtp-Source: APXvYqxQytCbo+98XXQij13g03gGpSRogXBmEDaQ9V4RHLtJy49OLvXxEnE89dRmw7RtqJlp/u3SRg==
-X-Received: by 2002:a05:620a:16a4:: with SMTP id s4mr5994651qkj.488.1575227185774;
-        Sun, 01 Dec 2019 11:06:25 -0800 (PST)
-Received: from independence.bos.jonmasters.org (24-148-33-89.s2391.c3-0.grn-cbr1.chi-grn.il.cable.rcncustomer.com. [24.148.33.89])
-        by smtp.gmail.com with ESMTPSA id k123sm6414644qkd.4.2019.12.01.11.06.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Dec 2019 11:06:25 -0800 (PST)
-Subject: Re: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
- instruction within the same inner shareable domain
-To:     Will Deacon <will@kernel.org>,
-        "qi.fuli@fujitsu.com" <qi.fuli@fujitsu.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Itaru Kitayama <itaru.kitayama@gmail.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "indou.takao@fujitsu.com" <indou.takao@fujitsu.com>,
-        "maeda.naoaki@fujitsu.com" <maeda.naoaki@fujitsu.com>,
-        "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
-        "tokamoto@jp.fujitsu.com" <tokamoto@jp.fujitsu.com>
-References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
- <93009dbd-b31c-7364-86d2-21f0fac36676@jp.fujitsu.com>
- <20191101172851.GC3983@willie-the-truck>
-From:   Jon Masters <jcm@jonmasters.org>
-Organization: World Organi{s,z}ation of Broken Dreams
-Message-ID: <a06ae400-29b2-d88f-af48-deafd7e355fe@jonmasters.org>
-Date:   Sun, 1 Dec 2019 11:02:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191101172851.GC3983@willie-the-truck>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=HYMDGCEmGcRSgznIZqiDAqfjbK/Kr8elskjbFdh/a+8=;
+        b=I1bJQx5JIPrlTdYqdylASEI/cZGntVvIxioJFBq9GK2D2J7tGY7LsuoH7f9W9CC1Bs
+         kJYGQ3HLWHPfvvJWVpkuxz7sULscowy5pvIsil9asn+U+e+RBZsCWqDLmcgh5QVv25A3
+         dZk45lq3ICq8nFevbPN/z8lCcCSi+une0YeyCnecnceGm9JJtsEqVw5UToOALx98bdQT
+         uTqciBf+zSFkCIHlo933PuVE0tzIYdM4fYOudmBJCYbdgq6jZvbekovFa83K2Xb2J/5o
+         UP/aJm8CSN5m1KTSleWLMIhpb0oDyP1zo6J67rlC2GJ/uSjCru/fWrDuZWBjIoZcfMFi
+         cNcg==
+X-Gm-Message-State: APjAAAWcFy7IEcYja8HwX/yc/7GA+n/CRh47pz9ytQ/cpg/8tjNadvGF
+        Z2JXif6lsQfI/5HsHE+/9wI=
+X-Google-Smtp-Source: APXvYqy1luSgtaDxhS/XlxRiPYxiWqzgWyjAEQaSVT72yqkQysRWTNzVHpAzskZqwnYCVk/CGMQRpg==
+X-Received: by 2002:adf:8147:: with SMTP id 65mr65094833wrm.230.1575242742682;
+        Sun, 01 Dec 2019 15:25:42 -0800 (PST)
+Received: from localhost.localdomain (cable-86-56-100-90.cust.telecolumbus.net. [86.56.100.90])
+        by smtp.gmail.com with ESMTPSA id y6sm37450454wrl.17.2019.12.01.15.25.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 01 Dec 2019 15:25:42 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     brendanhiggins@google.com, shuah@kernel.org
+Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
+Subject: [PATCH 1/6] docs/kunit/start: Use in-tree 'kunit_defconfig'
+Date:   Mon,  2 Dec 2019 08:25:19 +0900
+Message-Id: <1575242724-4937-2-git-send-email-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1575242724-4937-1-git-send-email-sj38.park@gmail.com>
+References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/1/19 1:28 PM, Will Deacon wrote:
+From: SeongJae Park <sjpark@amazon.de>
 
-> On Fri, Nov 01, 2019 at 09:56:05AM +0000, qi.fuli@fujitsu.com wrote:
+The kunit doc suggests users to get the default `kunitconfig` from an
+external git tree.  However, the file is already located under the
+`arch/um/configs/` of the kernel tree.  Because the local file is easier
+to access and maintain, this commit updates the doc to use it.
 
->> In this thread, I explained that:
->> * I found a performance problem which is caused by TLBI-is instruction.
->> * The problem occurs like this:
->>    1) On a core, OS tries to flush TLB using TLBI-is instruction
->>    2) TLBI-is instruction causes a broadcast to all other cores, and
->>    each core received hard-wired signal
->>    3) Each core check if there are TLB entries which have the specified
->> ASID/VA
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ Documentation/dev-tools/kunit/start.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-(the above confuses implementation with architecture)
-
-<snip>
-
-> I think it's worth bearing in mind that I have little sympathy for the
-> problem that you are seeing. As far as I can tell, you've done the
-> following:
-> 
->    1. You designed a CPU micro-architecture that stalls whenever it receives
->       a TLB invalidation request.
-
-s/SPARC/Arm/ && wire in DVM
-
->    2. You integrated said CPU design into a system where broadcast TLB
->       invalidation is not filtered and therefore stalls every CPU every
->       time that /any/ TLB invalidation is broadcast.
-> 
->    3. You deployed a mixture of Linux and jitter-sensitive software on
->       this system, and now you're failing to meet your performance
->       requirements.
-> 
-> Have I got that right?
-> 
-> If so, given that your CPU design isn't widely available, nobody else
-> appears to have made this mistake and jitter hasn't been reported as an
-> issue for any other systems, it's very unlikely that we're going to make
-> invasive upstream kernel changes to support you. I'm sorry, but all I can
-> suggest is that you check that your micro-architecture and performance
-> requirements are aligned with the design of Linux *before* building another
-> machine like this in future.
-> 
-> I hate to be blunt, but I also don't want to waste your time.
-
-I always tried to ask nicely for the above to be heeded. There's a 
-difference between "hi, our implementation doesn't scale, and here's 
-why" vs "there's a problem with all TLBIs...". There isn't. The problem 
-is the implementation and that should have been called out first thing.
-
-Jon.
-
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index aeeddfa..78a0aed 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -29,9 +29,8 @@ regular Kernel config, with the specific test targets as well.
+ 
+ .. code-block:: bash
+ 
+-	git clone -b master https://kunit.googlesource.com/kunitconfig $PATH_TO_KUNITCONFIG_REPO
+ 	cd $PATH_TO_LINUX_REPO
+-	ln -s $PATH_TO_KUNIT_CONFIG_REPO/kunitconfig kunitconfig
++	cp arch/um/configs/kunit_defconfig kunitconfig
+ 
+ You may want to add kunitconfig to your local gitignore.
+ 
 -- 
-Computer Architect
+2.7.4
+
