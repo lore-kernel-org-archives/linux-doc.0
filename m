@@ -2,98 +2,136 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4827C432C0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 02:23:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B06C432C3
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 04:17:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 96A2F20833
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 02:23:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7A102146E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 04:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbfLBCXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Dec 2019 21:23:13 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:50555 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727285AbfLBCXM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Dec 2019 21:23:12 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R871e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TjbqBc0_1575253385;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjbqBc0_1575253385)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 02 Dec 2019 10:23:06 +0800
-Subject: Re: [PATCH v2 2/3] sched/numa: expose per-task
- pages-migration-failure
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <3931bf05-2939-0499-7660-8cc9a6f71c9a@linux.alibaba.com>
-Message-ID: <c63e9e2c-ea9e-3f61-734c-afa3b92cd5bb@linux.alibaba.com>
-Date:   Mon, 2 Dec 2019 10:22:15 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <3931bf05-2939-0499-7660-8cc9a6f71c9a@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1727328AbfLBERJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Dec 2019 23:17:09 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25658 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727298AbfLBERJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Dec 2019 23:17:09 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB24CJTm050963;
+        Sun, 1 Dec 2019 23:17:04 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wm6smb4wm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 01 Dec 2019 23:17:04 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xB24DS4M026084;
+        Mon, 2 Dec 2019 04:17:08 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+        by ppma01wdc.us.ibm.com with ESMTP id 2wkg25qed9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Dec 2019 04:17:08 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB24H2S944302720
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 2 Dec 2019 04:17:02 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BF1FE28060;
+        Mon,  2 Dec 2019 04:17:02 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7A01228058;
+        Mon,  2 Dec 2019 04:17:01 +0000 (GMT)
+Received: from jarvis.ext.hansenpartnership.com (unknown [9.85.189.151])
+        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon,  2 Dec 2019 04:17:01 +0000 (GMT)
+Message-ID: <1575260220.4080.17.camel@linux.ibm.com>
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+From:   James Bottomley <jejb@linux.ibm.com>
+To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Date:   Sun, 01 Dec 2019 20:17:00 -0800
+In-Reply-To: <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+         <1573659978.17949.83.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+         <1574877977.3551.5.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49096521@shsmsx102.ccr.corp.intel.com>
+         <1575057916.6220.7.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-01_04:2019-11-29,2019-12-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0 impostorscore=0
+ phishscore=0 mlxlogscore=961 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912020035
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Peter,
+On Mon, 2019-12-02 at 01:44 +0000, Zhao, Shirley wrote:
+> Hi, James, 
+> 
+> The value of PCR7 is not changed. I have checked it with TPM command
+> tpm_pcrlist. 
+> 
+> So I think the problem is how to use the option policydigest and
+> policyhandle? Is there any example?
+> Maybe the format in my command is not correct. 
 
-This has been acked by Mel Gorman, since it is not much related
-with the rest patches, would you like to pick this one now?
+OK, so previously you said that using the Intel TSS the policy also
+failed after a reboot:
+
+> The error should be policy check failed, because I use TPM command to
+> unseal directly with error of policy check failed. 
+> $ tpm2_unseal -c 0x81000001 -L sha256:7
+> ERROR on line: "81" in file: "./lib/log.h": Tss2_Sys_Unseal(0x99D) -
+> tpm:session(1):a policy check failed
+> ERROR on line: "213" in file: "tools/tpm2_unseal.c": Unseal failed!
+> ERROR on line: "166" in file: "tools/tpm2_tool.c": Unable to run
+> tpm2_unseal
+
+So this must mean the actual policy hash you constructed was wrong in
+some way: it didn't correspond simply to a value of pcr7 ... well
+assuming the -L sha256:7 means construct a policy of the sha256 value
+of pcr7 and use it in the unseal.
+
+I can tell you how to construct policies using TPM2 commands, but I
+think you want to know how to do it using the Intel TSS?  In which case
+you really need to consult the experts in that TSS, like Phil Tricca.
+
+For the plain TPM2 case, the policy looks like
+
+TPM_CC_PolicyPCR || pcrs || pcrDigest
+
+Where TPM_CC_PolicyPCR = 0000017f and for selecting pcr7 only.  pcrs is
+a complicated entity: it's a counted array of pcr selections.  For your
+policy you only need one entry, so it would be 00000001 followed by a
+single pcrSelection entry.  pcrSelection is the hash algorithm, the
+size of the selection bitmap (always 3 since every current TPM only has
+24 PCRs) and a bitmap selecting the PCRs in big endian format, so for
+PCR7 using sha256 (algorithm 000b), pcrSelection = 000b 03 80 00 00. 
+And then you follow this by the hash of the PCR value you're looking
+for.  The policyhash becomes the initial policy (all zeros for the
+start of the policy chain) hashed with this.
 
 Regards,
-Michael Wang
 
-On 2019/11/27 上午9:50, 王贇 wrote:
-> NUMA balancing will try to migrate pages between nodes, which
-> could caused by memory policy or numa group aggregation, while
-> the page migration could failed too for eg when the target node
-> run out of memory.
-> 
-> Since this is critical to the performance, admin should know
-> how serious the problem is, and take actions before it causing
-> too much performance damage, thus this patch expose the counter
-> as 'migfailed' in '/proc/PID/sched'.
-> 
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Michal Koutný <mkoutny@suse.com>
-> Suggested-by: Mel Gorman <mgorman@suse.de>
-> Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
-> ---
->  kernel/sched/debug.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-> index f7e4579e746c..73c4809c8f37 100644
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -848,6 +848,7 @@ static void sched_show_numa(struct task_struct *p, struct seq_file *m)
->  	P(total_numa_faults);
->  	SEQ_printf(m, "current_node=%d, numa_group_id=%d\n",
->  			task_node(p), task_numa_group_id(p));
-> +	SEQ_printf(m, "migfailed=%lu\n", p->numa_faults_locality[2]);
->  	show_numa_stats(p, m);
->  	mpol_put(pol);
->  #endif
-> 
+James
+
