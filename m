@@ -6,45 +6,45 @@ X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 121C0C432C3
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D537C432C0
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:05:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D8CC6206ED
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:05:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42847207DD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575320730;
-	bh=kb8PGjziUHv/KkDLxOGSoaPrB+6nVxX9CyYMF71QW1M=;
+	s=default; t=1575320739;
+	bh=5rgGyS0Ie1a+WHSCN+fY6M52xXC7X3TjSl90U7zC+tk=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=MW8g8KkkWBcM7oYdDYh44a90/CNVBQgI7ZLAsgrJ23mwbedMb6At1t7JUIIPd4Ys7
-	 dsE04Y+q9HAG/bnB16nUZwzKHM3i2oFxzwIbPorYtu27nbQQcCUEIlXHJFdtNfwbGW
-	 nPgzh12p4aUDlcr89hqKpZrYGwimsD71QMFHrR6E=
+	b=dbl6ieZKiajxBVxbZnPkqkKPW9ox/u9jjW3IGO2zjXXYv+ye2ECmkpCCzpjkSDgGF
+	 YNhahz838HuNhW30UsLkgoeQQ3U78FvG5lBx9ghyWcPR3YUeOK60ojYheR4/LIaF0s
+	 ueaF0y2eWftabXyiDPY2XVfe20FaGNMqY43x7cHs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbfLBVF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 16:05:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56932 "EHLO mail.kernel.org"
+        id S1727188AbfLBVFS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 16:05:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727267AbfLBVFX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 16:05:23 -0500
-Subject: Re: [GIT PULL] Documentation for 5.5, take 2
+        id S1727187AbfLBVFR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Dec 2019 16:05:17 -0500
+Subject: Re: [PULL] Documentation for 5.5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575320723;
-        bh=kb8PGjziUHv/KkDLxOGSoaPrB+6nVxX9CyYMF71QW1M=;
+        s=default; t=1575320717;
+        bh=5rgGyS0Ie1a+WHSCN+fY6M52xXC7X3TjSl90U7zC+tk=;
         h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=Z7F8UVQKR2fNxj3+sfYocVDCN5vYix494aVuD/BxymCAznbC/+/MZ4vGHGcoAhRFA
-         9mg+2TA0DLcqaui9SvllpbIImAAvy4S+n/tE42wtNkzNuBkeYZKrzuRS6jDrm3PbOa
-         FrgxkkD+MiOonLAZLDNWS1Pluua4grs3yDoVFaNU=
+        b=hruUrgFVeJ74DMD12inQErLofxL7PnbZhoQ+xMrQQSUzlrFp+RS8FBG2nfZ5EW1X3
+         huBCdrDBUhzAL25QSyeDffp+Zco/1UMWvu+7ghkYofjEwAcuS0kLLyIn5bg0jHWSBK
+         Bac0DiOS7QobKHO3kTInUY1XjWH7Z1gORqtEdJwE=
 From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20191201090945.69c6aa4e@lwn.net>
-References: <20191201090945.69c6aa4e@lwn.net>
+In-Reply-To: <20191126093002.06ece6dd@lwn.net>
+References: <20191126093002.06ece6dd@lwn.net>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20191201090945.69c6aa4e@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.5a
-X-PR-Tracked-Commit-Id: 36bb9778fd11173f2dd1484e4f6797365e18c1d8
+X-PR-Tracked-Message-Id: <20191126093002.06ece6dd@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.5
+X-PR-Tracked-Commit-Id: 22abcd7569618271cc3609da24bbc0e7541248a4
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 937d6eefc716a9071f0e3bada19200de1bb9d048
-Message-Id: <157532072337.29263.11064952657785957219.pr-tracker-bot@kernel.org>
-Date:   Mon, 02 Dec 2019 21:05:23 +0000
+X-PR-Merge-Commit-Id: 36bb9778fd11173f2dd1484e4f6797365e18c1d8
+Message-Id: <157532071722.29263.11542218044846923178.pr-tracker-bot@kernel.org>
+Date:   Mon, 02 Dec 2019 21:05:17 +0000
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
@@ -53,12 +53,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Sun, 1 Dec 2019 09:09:45 -0700:
+The pull request you sent on Tue, 26 Nov 2019 09:30:02 -0700:
 
-> git://git.lwn.net/linux.git tags/docs-5.5a
+> git://git.lwn.net/linux.git tags/docs-5.5
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/937d6eefc716a9071f0e3bada19200de1bb9d048
+https://git.kernel.org/torvalds/c/36bb9778fd11173f2dd1484e4f6797365e18c1d8
 
 Thank you!
 
