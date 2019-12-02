@@ -2,251 +2,117 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 246BAC43215
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CC2C43141
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:17:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB08620848
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:10:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pwu4o8nZ"
+	by mail.kernel.org (Postfix) with ESMTP id A50C22070A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 21:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726449AbfLBVKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 16:10:19 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42579 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbfLBVKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 16:10:19 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e28so1123606ljo.9;
-        Mon, 02 Dec 2019 13:10:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bI0vrIcnx4OyiLwsy+iUg8MBW9que6as4Vgej46HfQE=;
-        b=Pwu4o8nZY8nAcf27eWcYyvVgM7fHYu7v1RJJh+M6sl0RXXqubD4tPL0g2jEL8Zze8X
-         rbryxAGu1R2fuQC4EgocyoSpuNQRCN4rI3XMOj4FBWpafOlbRjIZ9BG+VoKZOFgsZrbD
-         L1dckW2Is1XYBluqMpZ3FPFJdCNHH0hy3QWAo1nlt4k6hPIQnfenYO6JbLA6IET7Yh3B
-         doELxvTNHLAqLx+MiZVO8c8XTTRNaN106vAaI2iiISq84b83LMRhCCQougdGqsuuWPZD
-         cT/eIkXw2e8MCHUSEJfQBLmzF29prSnvnQ3v2TqOM6ZGSJ/Qmf0z6GD9CEhsj3+NkyAQ
-         bv3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bI0vrIcnx4OyiLwsy+iUg8MBW9que6as4Vgej46HfQE=;
-        b=hGZ8SBZo8rgUXlkoGQVkqZQ4f2imuosAHiYcSymynrmsCDQzOalnMI2veZjDO2LpBC
-         rA766St+8Mc7N0RUVoHr3snFj+SHsWnnrALuHro1Ucua989QFwa4M8LNDKPeP+K30WKF
-         4rcPwyrU3KlD2B9bRSGwnYVeZt35Aa1s8YSBgRYBOVvl3QiglAu8Hu2yYRFpFsin0Ove
-         /udzhsymBZ/7w2Th3xA9xGBzZz24dIjQEoTpFV8fRypf855VJFml8315pxaoFgb6qxvk
-         Kzp+gqDThlk72bMjitoooo8QVi7rZKoEMQKZowCOMxSD2s0VllI4n3XujyznMKNgZFiK
-         Q8zg==
-X-Gm-Message-State: APjAAAUSy+7NuS8PaTBfebKlKStKKEfC8puuZoET438Jn9HAKZiBtFl9
-        UHbssPSR3TP4XfvYFEZwUZYErOeZ/qJJoCBdNxI=
-X-Google-Smtp-Source: APXvYqzuMeAo6CLh8G4KVix8Vb7c5xmu/o1UZpX1Y8VMOBlfI9bXc9O8atB+enauwtCcjG+rK+xRSNJPzPFP22O9nWw=
-X-Received: by 2002:a2e:7816:: with SMTP id t22mr468856ljc.161.1575321015559;
- Mon, 02 Dec 2019 13:10:15 -0800 (PST)
+        id S1726808AbfLBVRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 16:17:50 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39332 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725834AbfLBVRt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 16:17:49 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EA9133C0579;
+        Mon,  2 Dec 2019 22:17:46 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 0ASiIrofYquI; Mon,  2 Dec 2019 22:17:40 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 540063C003B;
+        Mon,  2 Dec 2019 22:17:40 +0100 (CET)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 2 Dec 2019
+ 22:17:39 +0100
+Date:   Mon, 2 Dec 2019 22:17:37 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 1/7] gpiolib: Add GPIOCHIP_NAME definition
+Message-ID: <20191202211737.GA27915@vmlxhi-102.adit-jv.com>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com>
- <1575242724-4937-3-git-send-email-sj38.park@gmail.com> <CAFd5g47C6OShsYy5ngSGTmkL3fQoj-6jb09iQ+CD6FE0usggCA@mail.gmail.com>
- <CABVgOS=xYiqVNND3JxgRLPv--0ZNC+h=FB0oZc2sKmVk4HJ95A@mail.gmail.com>
-In-Reply-To: <CABVgOS=xYiqVNND3JxgRLPv--0ZNC+h=FB0oZc2sKmVk4HJ95A@mail.gmail.com>
-From:   SeongJae Park <sj38.park@gmail.com>
-Date:   Mon, 2 Dec 2019 22:09:49 +0100
-Message-ID: <CAEjAshqVQNwQo+yiAYhKXC0k=ZHx2MKZAB90hO2PLw9STMZ8=w@mail.gmail.com>
-Subject: Re: [PATCH 2/6] docs/kunit/start: Skip wrapper run command
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        shuah <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20191127084253.16356-2-geert+renesas@glider.be>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 2, 2019 at 10:03 PM David Gow <davidgow@google.com> wrote:
->
-> On Mon, Dec 2, 2019 at 9:25 AM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > +David Gow - David has lots of good opinions on our documentation.
-> >
-> > On Sun, Dec 1, 2019 at 3:25 PM SeongJae Park <sj38.park@gmail.com> wrote:
-> > >
-> > > From: SeongJae Park <sjpark@amazon.de>
-> > >
-> > > The kunit 'Getting Started' document first shows the wrapper running
-> > > command.  However, a new user who simply following the command might
-> > > encounter a failure like below:
-> > >
-> > >     $ ./tools/testing/kunit/kunit.py run
-> > >     Traceback (most recent call last):
-> > >       File "./tools/testing/kunit/kunit.py", line 140, in <module>
-> > >         main(sys.argv[1:])
-> > >       File "./tools/testing/kunit/kunit.py", line 126, in main
-> > >         linux = kunit_kernel.LinuxSourceTree()
-> > >       File "/home/sjpark/linux/tools/testing/kunit/kunit_kernel.py", line 85, in __init__
-> > >         self._kconfig.read_from_file(KUNITCONFIG_PATH)
-> > >       File "/home/sjpark/linux/tools/testing/kunit/kunit_config.py", line 65, in read_from_file
-> > >         with open(path, 'r') as f:
-> > >     FileNotFoundError: [Errno 2] No such file or directory: 'kunitconfig'
-> > >
-> > > Though the reason of the failure ('kunitconfig') is explained in its
-> > > next section, it would be better to reduce any failure that user might
-> > > encounter.  This commit removes the example command for the reason.
-> >
-> > Seems reasonable.
-> >
-> I definitely agree that having a non-working command here is doing
-> more harm than good. Whether we just get rid of it, or change it to
-> use the --defconfig option is a matter of taste. (Personally, I think
-> there's some value in having a one-line "run the tests" command at the
-> top of the Getting Started page, but it definitely needs to be one
-> that works.)
->
-> So, overall, I think this is definitely an improvement, but that we do
-> need to choose whether to take this approach (deleting this command)
-> or the --defconfig approach as in:
-> https://lore.kernel.org/linux-kselftest/20191119003120.154041-1-brendanhiggins@google.com/
->
-> > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > > ---
-> > >  Documentation/dev-tools/kunit/start.rst | 6 ------
-> > >  1 file changed, 6 deletions(-)
-> > >
-> > > diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> > > index 78a0aed..e25978d 100644
-> > > --- a/Documentation/dev-tools/kunit/start.rst
-> > > +++ b/Documentation/dev-tools/kunit/start.rst
-> > > @@ -15,12 +15,6 @@ Included with KUnit is a simple Python wrapper that helps format the output to
-> > >  easily use and read KUnit output. It handles building and running the kernel, as
-> > >  well as formatting the output.
-> > >
-> > > -The wrapper can be run with:
-> > > -
-> > > -.. code-block:: bash
-> > > -
-> > > -   ./tools/testing/kunit/kunit.py run
-> > > -
-> > >  Creating a kunitconfig
-> > >  ======================
-> >
-> > I think maybe we should demote this section so that this is a
-> > subsection under KUnit Wrapper. Might also want to add a tie-in
-> > explaining why we are talking about kunitconfig here? Right now this
-> > kind of reads as a non sequitur.
-> I generally think we want to keep the "Getting Started" guide focused
-> on the goal (running/writing tests), rather than too much detail on
-> the implementation (the wrapper itself).
-> How about renaming what's currently the "KUnit Wrapper" section to
-> "Running tests" or similar, and moving the kunitconfig part under
-> that?
->
-> The "Creating a kunitconfig" part could equally be "configuring which
-> tests to run" or something, which may speak more to motivating
->
-> As for some sort of tie-in, perhaps rewording the opening sentence to
-> say "The easiest way to run tests is to use the kunit_tool script",
-> and link to the page kunit_tool page in the patch below?
-> >
-> > Note: we have tried to address this potential issue for new users in
-> > this patch under review:
-> >
-> > https://patchwork.kernel.org/patch/11252953/
-> >
-> > I don't feel strongly whether we do it your way or my way. What do
-> > other people think?
->
-> As above, my slight preference is for adding the --defconfig option
-> over removing the section entirely.
+Hi Geert,
 
-Agree, I would also prefer to do explain about '--defconfig' option.
+On Wed, Nov 27, 2019 at 09:42:47AM +0100, Geert Uytterhoeven wrote:
+> The string literal "gpiochip" is used in several places.
+> Add a definition for it, and use it everywhere, to make sure everything
+> stays in sync.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3:
+>   - New.
+> ---
+>  drivers/gpio/gpiolib-sysfs.c | 7 +++----
+>  drivers/gpio/gpiolib.c       | 4 ++--
+>  drivers/gpio/gpiolib.h       | 2 ++
+>  3 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+> index ca9bc1e4803c2979..a4a759920faa48ab 100644
+> --- a/drivers/gpio/gpiolib.h
+> +++ b/drivers/gpio/gpiolib.h
+> @@ -16,6 +16,8 @@
+>  #include <linux/module.h>
+>  #include <linux/cdev.h>
+>  
+> +#define GPIOCHIP_NAME	"gpiochip"
 
-Thanks,
-SeongJae Park
+[.02$/nit] I wonder if GPIOCHIP_NAME is actually an essential
+part of kernel-user contract [1-2], in which case it could
+probably be moved to include/uapi/linux/gpio.h ?
 
->
-> > >  The Python script is a thin wrapper around Kbuild as such, it needs to be
-> > > --
-> > > 2.7.4
-> > >
-> On Mon, Dec 2, 2019 at 9:25 AM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > +David Gow - David has lots of good opinions on our documentation.
-> >
-> > On Sun, Dec 1, 2019 at 3:25 PM SeongJae Park <sj38.park@gmail.com> wrote:
-> > >
-> > > From: SeongJae Park <sjpark@amazon.de>
-> > >
-> > > The kunit 'Getting Started' document first shows the wrapper running
-> > > command.  However, a new user who simply following the command might
-> > > encounter a failure like below:
-> > >
-> > >     $ ./tools/testing/kunit/kunit.py run
-> > >     Traceback (most recent call last):
-> > >       File "./tools/testing/kunit/kunit.py", line 140, in <module>
-> > >         main(sys.argv[1:])
-> > >       File "./tools/testing/kunit/kunit.py", line 126, in main
-> > >         linux = kunit_kernel.LinuxSourceTree()
-> > >       File "/home/sjpark/linux/tools/testing/kunit/kunit_kernel.py", line 85, in __init__
-> > >         self._kconfig.read_from_file(KUNITCONFIG_PATH)
-> > >       File "/home/sjpark/linux/tools/testing/kunit/kunit_config.py", line 65, in read_from_file
-> > >         with open(path, 'r') as f:
-> > >     FileNotFoundError: [Errno 2] No such file or directory: 'kunitconfig'
-> > >
-> > > Though the reason of the failure ('kunitconfig') is explained in its
-> > > next section, it would be better to reduce any failure that user might
-> > > encounter.  This commit removes the example command for the reason.
-> >
-> > Seems reasonable.
-> >
-> > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > > ---
-> > >  Documentation/dev-tools/kunit/start.rst | 6 ------
-> > >  1 file changed, 6 deletions(-)
-> > >
-> > > diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> > > index 78a0aed..e25978d 100644
-> > > --- a/Documentation/dev-tools/kunit/start.rst
-> > > +++ b/Documentation/dev-tools/kunit/start.rst
-> > > @@ -15,12 +15,6 @@ Included with KUnit is a simple Python wrapper that helps format the output to
-> > >  easily use and read KUnit output. It handles building and running the kernel, as
-> > >  well as formatting the output.
-> > >
-> > > -The wrapper can be run with:
-> > > -
-> > > -.. code-block:: bash
-> > > -
-> > > -   ./tools/testing/kunit/kunit.py run
-> > > -
-> > >  Creating a kunitconfig
-> > >  ======================
-> >
-> > I think maybe we should demote this section so that this is a
-> > subsection under KUnit Wrapper. Might also want to add a tie-in
-> > explaining why we are talking about kunitconfig here? Right now this
-> > kind of reads as a non sequitur.
-> >
-> > Note: we have tried to address this potential issue for new users in
-> > this patch under review:
-> >
-> > https://patchwork.kernel.org/patch/11252953/
-> >
-> > I don't feel strongly whether we do it your way or my way. What do
-> > other people think?
-> >
-> > >  The Python script is a thin wrapper around Kbuild as such, it needs to be
-> > > --
-> > > 2.7.4
-> > >
+Regardless:
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+[1] linux (v5.4) git grep '"gpiochip' -- tools/
+tools/gpio/lsgpio.c:                    if (check_prefix(ent->d_name, "gpiochip")) {
+tools/testing/selftests/gpio/gpio-mockup-chardev.c:             if (check_prefix(ent->d_name, "gpiochip")) {
+
+[2] libgpiod (v1.4-76-g00418dfdfc8b) git grep '"gpiochip'
+lib/iter.c:	return !strncmp(dir->d_name, "gpiochip", 8);
+tests/mockup/gpio-mockup.c:	rv = sscanf(sysname, "gpiochip%u", &chip->num);
+tools/gpioget.c:		die("gpiochip must be specified");
+tools/gpiomon.c:		die("gpiochip must be specified");
+tools/gpioset.c:		die("gpiochip must be specified");
+
+-- 
+Best Regards,
+Eugeniu
