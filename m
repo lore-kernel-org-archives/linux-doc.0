@@ -2,62 +2,89 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC586C432C0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 14:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0A0C432C3
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 17:13:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B6FE22146E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 14:29:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DED0A20833
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 17:13:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Vk1wssvB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbfLBO34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 09:29:56 -0500
-Received: from ms.lwn.net ([45.79.88.28]:45410 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727435AbfLBO34 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 09:29:56 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 741964FA;
-        Mon,  2 Dec 2019 14:29:55 +0000 (UTC)
-Date:   Mon, 2 Dec 2019 07:29:54 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Subject: Re: [PULL] Documentation for 5.5
-Message-ID: <20191202072954.0e00ac92@lwn.net>
-In-Reply-To: <20191202001928.GA4146@latitude>
-References: <20191126093002.06ece6dd@lwn.net>
-        <CAHk-=whH-wrF7dx_+NgpYi8pK0vovE2mEFE3sgEYXAQZcPwBjA@mail.gmail.com>
-        <20191130171428.6c09f892@lwn.net>
-        <20191202001928.GA4146@latitude>
-Organization: LWN.net
+        id S1727766AbfLBRNt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 12:13:49 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42015 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727529AbfLBRNs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 12:13:48 -0500
+Received: by mail-pl1-f193.google.com with SMTP id x13so185400plr.9
+        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2019 09:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=64Rtkbp5lv2QBUlTxW71SlutJl/znQZhVAhGmRkDa5A=;
+        b=Vk1wssvB/zZH8eG99umAlefNG1L3qcWJrGhvntSWhcfpVqIgNAxOidQi1rwq4EQIXn
+         bN4vLm7U3VKPpBs9sda/OGs+oyh9PNagdmFLvXdLj/BS47NPntYenQZ5La3ndeMMvSdE
+         skeX0zFDPEe2oYhEETSdTU90kbb3+PL8p4zstc5e0YlF0cKXQ92MxFz36GyVOGZ0X7/M
+         K3MrdpOuSClJ+EaJxL7s+dztJNSPhojECu28cIb0F2l3WqnCnMDfk4C/Hj49DL952BEY
+         BxZqmEm7yS/3E/w9YNyvwuwajKd5JfcTzCs/nbSRB1EuYZe1m8RWrwueCb+hlp03EFEM
+         7wcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=64Rtkbp5lv2QBUlTxW71SlutJl/znQZhVAhGmRkDa5A=;
+        b=Bqoqtt2e9fXT0YSaFu8c00LETyaWLSIKYO1PbQJp+92nQXIj2ZnyPAn/D3nA9uKIh/
+         iijKPA5Vh8/Qt1kd0k87y4t59EGaijGpZZjBt3Jl2HleOqoAqmGK2kTOVOi8iCV3e2cw
+         aSfSS3KJmGqP7jva/7RVCkgJ3TiA1HD8qLqnviHJVv5B9U0w78esUg45eBnPHzTwYg7e
+         T5e6ZTxHOIJugzIvk2cjWbWwfcbhukOAK1F23+pWrneH7T7nO6yNqWRv2M8HRh7YfqCM
+         iDfh2NFrczhBcPtwUiXbW63/MI9sfxGJSHYxWRWQIMCOsQFUkriTucfhZRF6ovJkXv0D
+         J4Tg==
+X-Gm-Message-State: APjAAAUHU+srUqkjDAz83ggop0G2IjKUIm4WIGiWxB0bZGsraizoVWeK
+        Ty0TQgx77G+yADs90jlz3YL6sSyjhsaNvOpzDKzNXg==
+X-Google-Smtp-Source: APXvYqw2U7Pcn6yuncEv+9Hnh2ggnupoJ+IowA3xrDVuGtbGVVpYPNpOewznFvm7KtezB3JzP8UOxrp7rkAIVpmh7PQ=
+X-Received: by 2002:a17:90a:ff02:: with SMTP id ce2mr16466pjb.117.1575306825934;
+ Mon, 02 Dec 2019 09:13:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com> <1575242724-4937-2-git-send-email-sj38.park@gmail.com>
+In-Reply-To: <1575242724-4937-2-git-send-email-sj38.park@gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 2 Dec 2019 09:13:37 -0800
+Message-ID: <CAFd5g468=suYdH9No7f1qkr-oAvOFS3q4O1iW3ABs57fzsntdw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] docs/kunit/start: Use in-tree 'kunit_defconfig'
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     shuah <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2 Dec 2019 01:19:28 +0100
-Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
+On Sun, Dec 1, 2019 at 3:25 PM SeongJae Park <sj38.park@gmail.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> The kunit doc suggests users to get the default `kunitconfig` from an
+> external git tree.  However, the file is already located under the
+> `arch/um/configs/` of the kernel tree.  Because the local file is easier
+> to access and maintain, this commit updates the doc to use it.
 
-> On a somewhat related note: "Documentation: networking: device drivers:
-> Remove stray asterisks" was also picked up via the networking tree.
-> Perhaps I should have mentioned that when I became aware(?)
+I agree; this probably makes more sense.
 
-Yeah, I'm not quite sure why that happened.  Dave M. suggested I take it
-and sent an ack, then it looks like Jeff Kirsher grabbed it as well
-anyway for some reason...?  Oh well, the resulting conflict brought the
-problem to light, at least :)
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-Thanks,
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 
-jon
+Thanks!
