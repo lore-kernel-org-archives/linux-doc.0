@@ -2,296 +2,171 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00265C432C0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52417C432C0
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BEAD4217F9
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575281852;
-	bh=CQwLaPfjyq5qvrJ95mM35q4XZZrZIKEuQkYcOzmmww4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=doJhWyYvux9dDhdEaob7nsTdvwVIybq+pUKg/yYFn41AArUV4d7SHinJ1FBqvskR0
-	 x7ITn7moxdZiQl/ZEMMnsPu5HPnLPA9ChuAPx2Z6gCvqdaNFV/ddIjveKvPukmr7Hs
-	 oewYH/FknWWXtD/yO4A4zsfXan23J1CG9/qgyStI=
+	by mail.kernel.org (Postfix) with ESMTP id 247FC217F5
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbfLBKRc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 05:17:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33678 "EHLO mail.kernel.org"
+        id S1726330AbfLBKn4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 05:43:56 -0500
+Received: from foss.arm.com ([217.140.110.172]:52648 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727364AbfLBKRc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 05:17:32 -0500
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B12F217D9;
-        Mon,  2 Dec 2019 10:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575281850;
-        bh=CQwLaPfjyq5qvrJ95mM35q4XZZrZIKEuQkYcOzmmww4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ofKz3D+UYOSrcblzVDZ44gBbY0L3/A79zqd3D02vsq1wQHg4F91Mv2avrpk2hbH1s
-         ocfS8pfqx2g6I359u4PcAzv0breZDSdn0WfYTJe8FY3X6Rsw7wIt6ZlZx0FPgU0eKX
-         zByI/xtCEyIsfeahVWhemL8DuCvA12MlXW0/HH0Y=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v4 22/22] Documentation: tracing: Add boot-time tracing document
-Date:   Mon,  2 Dec 2019 19:17:25 +0900
-Message-Id: <157528184501.22451.12534762470752205454.stgit@devnote2>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <157528159833.22451.14878731055438721716.stgit@devnote2>
-References: <157528159833.22451.14878731055438721716.stgit@devnote2>
-User-Agent: StGit/0.17.1-dirty
+        id S1726276AbfLBKn4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Dec 2019 05:43:56 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5389431B;
+        Mon,  2 Dec 2019 02:43:55 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85E023F68E;
+        Mon,  2 Dec 2019 02:43:54 -0800 (PST)
+Subject: Re: [PATCH v5 13/14] docs: coresight: Update documentation for
+ CoreSight to cover CTI.
+To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     mathieu.poirier@linaro.org
+References: <20191119231912.12768-1-mike.leach@linaro.org>
+ <20191119231912.12768-14-mike.leach@linaro.org>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <1076b0e3-6b50-7be9-0a25-cb003bd77674@arm.com>
+Date:   Mon, 2 Dec 2019 10:43:53 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191119231912.12768-14-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a documentation about boot-time tracing options in
-boot config.
+On 19/11/2019 23:19, Mike Leach wrote:
+> Add new document covering CTI / CTM usage in CoreSight.
+> 
+> Add section in coresight.rst introducing CTI and CTM modules with link
+> to new document.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>   .../trace/coresight/coresight-ect.rst         | 200 ++++++++++++++++++
+>   Documentation/trace/coresight/coresight.rst   |  13 ++
+>   2 files changed, 213 insertions(+)
+>   create mode 100644 Documentation/trace/coresight/coresight-ect.rst
+> 
+> diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
+> new file mode 100644
+> index 000000000000..6448cf910f20
+> --- /dev/null
+> +++ b/Documentation/trace/coresight/coresight-ect.rst
+> @@ -0,0 +1,200 @@
+> +=============================================
+> +CoreSight Embedded Cross Trigger (CTI & CTM).
+> +=============================================
+> +
+> +    :Author:   Mike Leach <mike.leach@linaro.org>
+> +    :Date:     November 2019
+> +
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Documentation/admin-guide/bootconfig.rst |    2 
- Documentation/trace/boottime-trace.rst   |  184 ++++++++++++++++++++++++++++++
- Documentation/trace/index.rst            |    1 
- 3 files changed, 187 insertions(+)
- create mode 100644 Documentation/trace/boottime-trace.rst
+...
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index db35cee8a00a..ab015e512614 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _bootconfig:
-+
- ==================
- Boot Configuration
- ==================
-diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-new file mode 100644
-index 000000000000..1d10fdebf1b2
---- /dev/null
-+++ b/Documentation/trace/boottime-trace.rst
-@@ -0,0 +1,184 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+Boot-time tracing
-+=================
-+
-+:Author: Masami Hiramatsu <mhiramat@kernel.org>
-+
-+Overview
-+========
-+
-+Boot-time tracing allows users to trace boot-time process including
-+device initialization with full features of ftrace including per-event
-+filter and actions, histograms, kprobe-events and synthetic-events,
-+and trace instances.
-+Since kernel cmdline is not enough to control these complex features,
-+this uses bootconfig file to describe tracing feature programming.
-+
-+Options in the Boot Config
-+==========================
-+
-+Here is the list of available options list for boot time tracing in
-+boot config file [1]_. All options are under "ftrace." or "kernel."
-+refix. See kernel parameters for the options which starts
-+with "kernel." prefix [2]_.
-+
-+.. [1] See :ref:`Documentation/admin-guide/bootconfig.rst <bootconfig>`
-+.. [2] See :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
-+
-+Ftrace Global Options
-+---------------------
-+
-+Ftrace global options have "kernel." prefix in boot config, which means
-+these options are passed as a part of kernel legacy command line.
-+
-+kernel.tp_printk
-+   Output trace-event data on printk buffer too.
-+
-+kernel.dump_on_oops [= MODE]
-+   Dump ftrace on Oops. If MODE = 1 or omitted, dump trace buffer
-+   on all CPUs. If MODE = 2, dump a buffer on a CPU which kicks Oops.
-+
-+kernel.traceoff_on_warning
-+   Stop tracing if WARN_ON() occurs.
-+
-+kernel.fgraph_max_depth = MAX_DEPTH
-+   Set MAX_DEPTH to maximum depth of fgraph tracer.
-+
-+kernel.fgraph_filters = FILTER[, FILTER2...]
-+   Add fgraph tracing function filters.
-+
-+kernel.fgraph_notraces = FILTER[, FILTER2...]
-+   Add fgraph non tracing function filters.
-+
-+
-+Ftrace Per-instance Options
-+---------------------------
-+
-+These options can be used for each instance including global ftrace node.
-+
-+ftrace.[instance.INSTANCE.]options = OPT1[, OPT2[...]]
-+   Enable given ftrace options.
-+
-+ftrace.[instance.INSTANCE.]trace_clock = CLOCK
-+   Set given CLOCK to ftrace's trace_clock.
-+
-+ftrace.[instance.INSTANCE.]buffer_size = SIZE
-+   Configure ftrace buffer size to SIZE. You can use "KB" or "MB"
-+   for that SIZE.
-+
-+ftrace.[instance.INSTANCE.]alloc_snapshot
-+   Allocate snapshot buffer.
-+
-+ftrace.[instance.INSTANCE.]cpumask = CPUMASK
-+   Set CPUMASK as trace cpu-mask.
-+
-+ftrace.[instance.INSTANCE.]events = EVENT[, EVENT2[...]]
-+   Enable given events on boot. You can use a wild card in EVENT.
-+
-+ftrace.[instance.INSTANCE.]tracer = TRACER
-+   Set TRACER to current tracer on boot. (e.g. function)
-+
-+ftrace.[instance.INSTANCE.]ftrace.filters
-+   This will take an array of tracing function filter rules
-+
-+ftrace.[instance.INSTANCE.]ftrace.notraces
-+   This will take an array of NON-tracing function filter rules
-+
-+
-+Ftrace Per-Event Options
-+------------------------
-+
-+These options are setting per-event options.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.enable
-+   Enables GROUP:EVENT tracing.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.filter = FILTER
-+   Set FILTER rule to the GROUP:EVENT.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.actions = ACTION[, ACTION2[...]]
-+   Set ACTIONs to the GROUP:EVENT.
-+
-+ftrace.[instance.INSTANCE.]event.kprobes.EVENT.probes = PROBE[, PROBE2[...]]
-+   Defines new kprobe event based on PROBEs. It is able to define
-+   multiple probes on one event, but those must have same type of
-+   arguments. This option is available only for the event which
-+   group name is "kprobes".
-+
-+ftrace.[instance.INSTANCE.]event.synthetic.EVENT.fields = FIELD[, FIELD2[...]]
-+   Defines new synthetic event with FIELDs. Each field should be
-+   "type varname".
-+
-+Note that kprobe and synthetic event definitions can be written under
-+instance node, but those are also visible from other instances. So please
-+take care for event name conflict.
-+
-+
-+Examples
-+========
-+
-+For example, to add filter and actions for each event, define kprobe
-+events, and synthetic events with histogram, write a boot config like
-+below::
-+
-+  ftrace.event {
-+        task.task_newtask {
-+                filter = "pid < 128"
-+                enable
-+        }
-+        kprobes.vfs_read {
-+                probes = "vfs_read $arg1 $arg2"
-+                filter = "common_pid < 200"
-+                enable
-+        }
-+        synthetic.initcall_latency {
-+                fields = "unsigned long func", "u64 lat"
-+                actions = "hist:keys=func.sym,lat:vals=lat:sort=lat"
-+        }
-+        initcall.initcall_start {
-+                actions = "hist:keys=func:ts0=common_timestamp.usecs"
-+        }
-+        initcall.initcall_finish {
-+                actions = "hist:keys=func:lat=common_timestamp.usecs-$ts0:onmatch(initcall.initcall_start).initcall_latency(func,$lat)"
-+        }
-+  }
-+
-+Also, boottime tracing supports "instance" node, which allows us to run
-+several tracers for different purpose at once. For example, one tracer
-+is for tracing functions start with "user\_", and others tracing "kernel\_"
-+functions, you can write boot config as below::
-+
-+  ftrace.instance {
-+        foo {
-+                tracer = "function"
-+                ftrace.filters = "user_*"
-+        }
-+        bar {
-+                tracer = "function"
-+                ftrace.filters = "kernel_*"
-+        }
-+  }
-+
-+The instance node also accepts event nodes so that each instance
-+can customize its event tracing.
-+
-+This boot-time tracing also supports ftrace kernel parameters via boot
-+config.
-+For example, following kernel parameters::
-+
-+ trace_options=sym-addr trace_event=initcall:* tp_printk trace_buf_size=1M ftrace=function ftrace_filter="vfs*"
-+
-+This can be written in boot config like below::
-+
-+  kernel {
-+        trace_options = sym-addr
-+        trace_event = "initcall:*"
-+        tp_printk
-+        trace_buf_size = 1M
-+        ftrace = function
-+        ftrace_filter = "vfs*"
-+  }
-+
-+Note that parameters start with "kernel" prefix instead of "ftrace".
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index b7891cb1ab4d..47d6b466e308 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -19,6 +19,7 @@ Linux Tracing Technologies
-    events-msr
-    mmiotrace
-    histogram
-+   boottime-trace
-    hwlat_detector
-    intel_th
-    stm
 
+> +
+> +Channels API Directory
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +This provides an easy way to attach triggers to channels, without needing
+> +the multiple register operations that are required if manipluating the
+> +'regs' sub-dir elements directly.
+> +
+> +A number of files provide this API::
+> +
+> +   >$ ls ./cti_sys0/channels/
+> +   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
+> +   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
+> +   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
+> +   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
+> +
+> +Most access to these elements take the form::
+> +
+> +  echo <chan> [<trigger>] > /<device_path>/<operation>
+> +
+> +where the optional <trigger> is only needed for trigXX_attach | detach
+> +operations.
+> +
+> +e.g.::
+> +
+> +   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
+> +   >$ echo 0 > ./cti_sys0/channels/chan_set
+> +
+> +Attaches trigout(1) to channel(0), then activates channel(0) generating a
+> +set state on cti_sys0.trigout(1)
+> +
+> +
+> +*API operations*
+> +
+> +   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
+> +   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
+> +   * ``chan_set``: Set the channel - the set state will be propogated around
+> +     the CTM to other connected devices.
+> +   * ``chan_clear``: Clear the channel.
+> +   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
+> +   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
+> +     (enable) the channel to other devices. This operation takes a channel
+> +     number. CTI gate is enabled for all channels by default at power up. Read
+> +     to list the currently enabled channels on the gate.
+> +   * ``chan_gate_disable``: Write channel number to disable gate for that
+> +     channel.
+> +   * ``chan_inuse``: Show the current channels attached to any signal
+> +   * ``chan_free``: Show channels with no attached signals.
+> +   * ``chan_xtrig_view``: write a channel number to select a channel to view,
+> +     read to show the cross triggers programmed for the selected channel.
+> +   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
+> +     dangerous output signals to be set.
+> +   * ``trigout_filtered``: Trigger out signals that are prevented from being
+> +     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
+> +     accidental ``EDBGREQ`` signals stopping a core.
+> +   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
+> +     Resets device hardware to default state.
+> +
+> +e.g.::
+> +
+> +   .../cti_sys0/channels# echo 2 1 > trigin_attach
+> +   .../cti_sys0/channels# echo 2 6 > trigout_attach
+
+minor nit: It may be a good idea to add a comment to describe what you
+are doing with the above operations, to avoid looking up and mapping it
+for someone looking it up. I am not too keen, but it is definitely
+helpful.
+
+> +   .../cti_sys0/channels# cat chan_free
+> +   0-1,3
+> +   .../cti_sys0/channels# cat chan_inuse
+> +   2
+> +   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
+> +   .../cti_sys0/channels# cat chan_xtrigs_view
+> +   [2] IN: 1 OUT: 6
+> +   .../cti_sys0/# echo 1 > enable
+> +   .../cti_sys0/channels# echo 2 > chan_set
+> +   .../cti_sys0/channels# cat ../regs/choutstatus
+> +   0x4
+> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
+> +   0x40
+> +   .../cti_sys0/channels# echo 2 > chan_clear
+
+> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
+> +   0x0
+> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
+> +   0x0
+
+nit: duplicate lines ?
+
+Otherwise:
+
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
