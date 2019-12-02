@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FDAC432C3
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F52C432C0
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:15:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80D8A217F9
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 198EA217D9
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575281677;
-	bh=mv23QpR0UZRd2huPYgplFV3TLKM6Bswzr0oUDmadTVs=;
+	s=default; t=1575281701;
+	bh=+yEowJLKOMjPDHTuH6PUsFeC4DPmKVnwMvOyi0ajpUM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=it57/3RdeefDHNn1iy6iL7N9abvZHaN1P5cw8Q9ZONWWYYeffK+Lq+kFr3OPCzHeI
-	 oKDjxSCK5RfrDlZpCKh6a25V8txolzvlRKHzma1gXQ0w8Z80btedCsfFLKMzALGXy4
-	 U0mpGQxrENq9OBxdVAqt244NOEIMMkOSKRA7MKuw=
+	b=o34UivrQXqlzuiDH+R6wuQD/2K5onhdK7lTnJav+VksjsauXR82cb29+UyZdf9lbm
+	 rw5kcc7bBoV2y/1nA2+LLKlm6FDTU6oYiHhUlzjGlogDzKhoRBEq7yt7+djYEJAHmY
+	 uEXrmAbGns9aYjD8r43vQ7ovOEfJG2SJCpBGIMvg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727516AbfLBKOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 05:14:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59168 "EHLO mail.kernel.org"
+        id S1727597AbfLBKOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 05:14:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726276AbfLBKOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 05:14:33 -0500
+        id S1727494AbfLBKOy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Dec 2019 05:14:54 -0500
 Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7D10217D9;
-        Mon,  2 Dec 2019 10:14:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D80321835;
+        Mon,  2 Dec 2019 10:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575281672;
-        bh=mv23QpR0UZRd2huPYgplFV3TLKM6Bswzr0oUDmadTVs=;
+        s=default; t=1575281693;
+        bh=+yEowJLKOMjPDHTuH6PUsFeC4DPmKVnwMvOyi0ajpUM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YbpSJKDEUiPK9aCWC9n5+H3AQVtezubrDqGHZ+ScVWMHKKa9/tjfwl5g+kvvZd17q
-         +Ozg2lodnfbazr/EC3Or5Qpz35RCYFtMGSCpfVu5h5YDH+xz4FUSKHQQA5mI6ggIrG
-         kzoAc4+oURxG+nbX3YHXxjAcWcZ9zkPskhpfyUg8=
+        b=JNQipn6AS5mrhjEskiiRKRXsIG9NqPoabSId7LAF4Ew0nm+N8Gw6J+2fmv17rR/a7
+         YE0QnmfYoLbFJzY+UtDP6W4t3iLOcbRW77SrJ8U47mKOvGwXPvlnomIH3TqzDM2eXW
+         CkxiCxbS8nVSP/6EbMCY2h5uu2KuO1YoJj8j/xg4=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         Frank Rowand <frowand.list@gmail.com>
@@ -54,9 +54,9 @@ Cc:     Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v4 06/22] init/main.c: Alloc initcall_command_line in do_initcall() and free it
-Date:   Mon,  2 Dec 2019 19:14:26 +0900
-Message-Id: <157528166664.22451.16147144831500689849.stgit@devnote2>
+Subject: [RFC PATCH v4 08/22] bootconfig: init: Allow admin to use bootconfig for init command line
+Date:   Mon,  2 Dec 2019 19:14:48 +0900
+Message-Id: <157528168803.22451.13616097455333249096.stgit@devnote2>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <157528159833.22451.14878731055438721716.stgit@devnote2>
 References: <157528159833.22451.14878731055438721716.stgit@devnote2>
@@ -69,76 +69,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since initcall_command_line is used as a temporary buffer,
-it could be freed after usage. Allocate it in do_initcall()
-and free it after used.
+Since the current kernel command line is too short to describe
+long and many options for init (e.g. systemd command line options),
+this allows admin to use boot config for init command line.
+
+All init command line under "init." keywords will be passed to
+init.
+
+For example,
+
+init.systemd {
+	unified_cgroup_hierarchy = 1
+	debug_shell
+	default_timeout_start_sec = 60
+}
 
 Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- init/main.c |   26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ init/main.c |   31 ++++++++++++++++++++++++++++---
+ 1 file changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/init/main.c b/init/main.c
-index 27f70fa37b18..b6fd906e7714 100644
+index b2aac7ec2862..c138b2068602 100644
 --- a/init/main.c
 +++ b/init/main.c
-@@ -137,8 +137,6 @@ char __initdata boot_command_line[COMMAND_LINE_SIZE];
- char *saved_command_line;
- /* Command line for parameter parsing */
+@@ -139,6 +139,8 @@ char *saved_command_line;
  static char *static_command_line;
--/* Command line for per-initcall parameter parsing */
--static char *initcall_command_line;
+ /* Untouched extra command line */
+ static char *extra_command_line;
++/* Extra init arguments */
++static char *extra_init_args;
  
  static char *execute_command;
  static char *ramdisk_execute_command;
-@@ -433,10 +431,6 @@ static void __init setup_command_line(char *command_line)
- 	if (!saved_command_line)
- 		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
+@@ -372,6 +374,8 @@ static void __init setup_boot_config(void)
+ 		pr_info("Load boot config: %d bytes\n", size);
+ 		/* keys starting with "kernel." are passed via cmdline */
+ 		extra_command_line = xbc_make_cmdline("kernel");
++		/* Also, "init." keys are init arguments */
++		extra_init_args = xbc_make_cmdline("init");
+ 	}
+ }
+ #else
+@@ -507,16 +511,18 @@ static inline void smp_prepare_cpus(unsigned int maxcpus) { }
+  */
+ static void __init setup_command_line(char *command_line)
+ {
+-	size_t len, xlen = 0;
++	size_t len, xlen = 0, ilen = 0;
  
--	initcall_command_line =	memblock_alloc(len, SMP_CACHE_BYTES);
--	if (!initcall_command_line)
+ 	if (extra_command_line)
+ 		xlen = strlen(extra_command_line);
++	if (extra_init_args)
++		ilen = strlen(extra_init_args) + 4; /* for " -- " */
+ 
+ 	len = xlen + strlen(boot_command_line) + 1;
+ 
+-	saved_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
++	saved_command_line = memblock_alloc(len + ilen, SMP_CACHE_BYTES);
+ 	if (!saved_command_line)
 -		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
--
++		panic("%s: Failed to allocate %zu bytes\n", __func__, len + ilen);
+ 
  	static_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
  	if (!static_command_line)
- 		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
-@@ -1044,13 +1038,12 @@ static const char *initcall_level_names[] __initdata = {
- 	"late",
- };
- 
--static void __init do_initcall_level(int level)
-+static void __init do_initcall_level(int level, char *command_line)
- {
- 	initcall_entry_t *fn;
- 
--	strcpy(initcall_command_line, saved_command_line);
- 	parse_args(initcall_level_names[level],
--		   initcall_command_line, __start___param,
-+		   command_line, __start___param,
- 		   __stop___param - __start___param,
- 		   level, level,
- 		   NULL, &repair_env_string);
-@@ -1063,9 +1056,20 @@ static void __init do_initcall_level(int level)
- static void __init do_initcalls(void)
- {
- 	int level;
-+	size_t len = strlen(saved_command_line) + 1;
-+	char *command_line;
+@@ -533,6 +539,22 @@ static void __init setup_command_line(char *command_line)
+ 	}
+ 	strcpy(saved_command_line + xlen, boot_command_line);
+ 	strcpy(static_command_line + xlen, command_line);
 +
-+	command_line = kzalloc(len, GFP_KERNEL);
-+	if (!command_line)
-+		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
++	if (ilen) {
++		/*
++		 * Append supplemental init boot args to saved_command_line
++		 * so that user can check what command line options passed
++		 * to init.
++		 */
++		len = strlen(saved_command_line);
++		if (!strstr(boot_command_line, " -- ")) {
++			strcpy(saved_command_line + len, " -- ");
++			len += 4;
++		} else
++			saved_command_line[len++] = ' ';
 +
-+	for (level = 0; level < ARRAY_SIZE(initcall_levels) - 1; level++) {
-+		/* Parser modifies command_line, restore it each time */
-+		strcpy(command_line, saved_command_line);
-+		do_initcall_level(level, command_line);
++		strcpy(saved_command_line + len, extra_init_args);
 +	}
- 
--	for (level = 0; level < ARRAY_SIZE(initcall_levels) - 1; level++)
--		do_initcall_level(level);
-+	kfree(command_line);
  }
  
  /*
+@@ -759,6 +781,9 @@ asmlinkage __visible void __init start_kernel(void)
+ 	if (!IS_ERR_OR_NULL(after_dashes))
+ 		parse_args("Setting init args", after_dashes, NULL, 0, -1, -1,
+ 			   NULL, set_init_arg);
++	if (extra_init_args)
++		parse_args("Setting extra init args", extra_init_args,
++			   NULL, 0, -1, -1, NULL, set_init_arg);
+ 
+ 	/*
+ 	 * These use large bootmem allocations and must precede
 
