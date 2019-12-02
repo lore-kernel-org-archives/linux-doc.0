@@ -2,466 +2,125 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69B2C432C0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 09:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E82E0C432C3
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 09:50:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7511920661
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 09:48:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCBAD2146E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 09:50:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLqwgQHE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726115AbfLBJsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 04:48:00 -0500
-Received: from foss.arm.com ([217.140.110.172]:51848 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726087AbfLBJsA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 04:48:00 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0ED68328;
-        Mon,  2 Dec 2019 01:47:59 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 271BE3F68E;
-        Mon,  2 Dec 2019 01:47:58 -0800 (PST)
-Subject: Re: [PATCH v5 09/14] coresight: cti: Add connection information to
- sysfs
-To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     mathieu.poirier@linaro.org
-References: <20191119231912.12768-1-mike.leach@linaro.org>
- <20191119231912.12768-10-mike.leach@linaro.org>
-From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Message-ID: <ad75693c-8c6f-35fd-f9bb-0317c2b4dcd2@arm.com>
-Date:   Mon, 2 Dec 2019 09:47:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726533AbfLBJup (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 04:50:45 -0500
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:38709 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726399AbfLBJuo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 04:50:44 -0500
+Received: by mail-vs1-f68.google.com with SMTP id y195so10050426vsy.5;
+        Mon, 02 Dec 2019 01:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ipg1WLEffdYnfTvQd1IRhgK8FSlTc8OcoNS/WRcxcW0=;
+        b=WLqwgQHEsnBfqsvS0rIxr5QM7OYHkYfM8LrhsB/tsD15MrIlhFGlC20BtP6VXNRCg2
+         +xDFCxzkcTzb765X57bQyZi9ZnDRYTXvpfo0Bcz9bOnwq0NLo9RYRW179t9GP4bxrjLz
+         hMxOJkA9Vj2y9ofEct4i+lW4GyT3Hlgm7pUKeiqmud4cHY7sOLc41bBUPisZ1IaP8JyC
+         8Aqvqg4kfjok17Ov7r3V+cLZsKIjpWFRKtPFQ/lNJ7o2NDg+hhbFr4WcLwFZUF7GVYfs
+         QPZOigvEaqvwRoF4jMZKZouMnW/+DzWK6kdMml8cMovOy1fxJ4hEsXtRabToVBlA2Rbq
+         u+6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ipg1WLEffdYnfTvQd1IRhgK8FSlTc8OcoNS/WRcxcW0=;
+        b=sJiG5Grih9fv+PaKT2zEqaZRw/TEl2tA98sfDGXJsEpb6eNrVfS63O4R5JpnpiIvf9
+         4e+dsQN3ifOhXJ6kaUU4n3peAiiZuHyLJa3UNVwD1XFjMTYPdf2wL+7z6iJ7pNdsM8MP
+         6tMVkjx44GaZLJlyMhFrCfE7uqC8dseuEVGZB4nqr8LRrSgXQVCmLaZsJRVcmhvXT0td
+         hfR1qJ6BrDlJAcI+TUgdxhziDBSpdoVaOri0KAIQPbcdaqrFg/XE6bMBXWxqLS3J5kfk
+         MNFxJTK0eWwwzSWFCfqvBWVeuXLr20jhoWkvLqdqSajTfebSWvr500QMC/urhd1pMxGy
+         Ggmg==
+X-Gm-Message-State: APjAAAXoJXiQ5Om85v0vFcfMsYYzVEcHR2Oe1gj1joe1LNvJSjKA/Lds
+        CEqpt0FkTrmDqRlZ6ST5ddR57Yfm7GrNId+gFwA=
+X-Google-Smtp-Source: APXvYqyiVZmMk0LsdmPaDP3UNQX15ikmg1n2j98bbuACw1hpO77IA0X0pLqtYDaZTw+dWTqrH32pe3kfaJ495a89q7I=
+X-Received: by 2002:a05:6102:5c7:: with SMTP id v7mr37986140vsf.85.1575280243731;
+ Mon, 02 Dec 2019 01:50:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191119231912.12768-10-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191130180301.5c39d8a4@lwn.net> <CAHk-=wj8tNhu76yxShwOfwVKk=qWznSFkAKyQfu6adcV8JzJkQ@mail.gmail.com>
+ <20191130184512.23c6faaa@lwn.net> <xmqqblss1rjp.fsf@gitster-ct.c.googlers.com>
+ <CAHk-=wj9P8ukXOuTUnpkPNwc8B683Z0Za=-WxpLygMbjEtNxgA@mail.gmail.com> <xmqq7e3g12xo.fsf@gitster-ct.c.googlers.com>
+In-Reply-To: <xmqq7e3g12xo.fsf@gitster-ct.c.googlers.com>
+From:   Amit Choudhary <amitchoudhary2305@gmail.com>
+Date:   Mon, 2 Dec 2019 15:20:08 +0530
+Message-ID: <CAFzckaEQo6CQM9LukikgbtUKZX=eajG+OFNhnDJ_EY7M1V4XKA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: networking: device drivers: Remove stray asterisks
+To:     Junio C Hamano <gitster@pobox.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Git List Mailing <git@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/11/2019 23:19, Mike Leach wrote:
-> Dynamically adds sysfs attributes for all connections defined in the CTI.
-> 
-> Each connection has a triggers<N> sub-directory with name, in_signals,
-> in_types, out_signals and out_types as read-only parameters in the
-> directory. in_ or out_ parameters may be omitted if there are no in or
-> out signals for the connection.
-> 
-> Additionally each device has a nr_cons in the connections sub-directory.
-> 
-> This allows clients to explore the connection and trigger signal details
-> without needing to refer to device tree or specification of the device.
-> 
-> Standardised type information is provided for certain common functions -
-> e.g. snk_full for a trigger from a sink indicating full. Otherwise type
-> defaults to genio.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->   .../hwtracing/coresight/coresight-cti-sysfs.c | 376 +++++++++++++++++-
->   drivers/hwtracing/coresight/coresight-cti.c   |  13 +-
->   drivers/hwtracing/coresight/coresight-cti.h   |  11 +-
->   3 files changed, 396 insertions(+), 4 deletions(-)
-> 
+Is it possible that git complains about everything that has ^M in it
+and rejects it (that is without trying to fix it, etc.)
 
+Regards,
+Amit
 
-The patch looks good overall, some minor comments below.
-
-
-> diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> index f800402f73da..91986732506f 100644
-> --- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> @@ -8,6 +8,67 @@
-
-
-> @@ -818,7 +890,306 @@ static struct attribute *coresight_cti_channel_attrs[] = {
->   	NULL,
->   };
->   
-> -/* sysfs groups */
-> +/* Create the connections trigger groups and attrs dynamically */
-> +/*
-> + * Each connection has dynamic group triggers<N> + name, trigin/out sigs/types
-> + * attributes, + each device has static nr_trigger_cons giving the number
-> + * of groups. e.g. in sysfs:-
-> + * /cti_<name>/triggers0
-> + * /cti_<name>/triggers1
-> + * /cti_<name>/nr_trigger_cons
-> + * where nr_trigger_cons = 2
-> + */
-> +static ssize_t con_name_show(struct device *dev,
-> +			     struct device_attribute *attr,
-> +			     char *buf)
-> +{
-> +	struct dev_ext_attribute *ext_attr =
-> +		container_of(attr, struct dev_ext_attribute, attr);
-> +	struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", con->con_dev_name);
-> +}
-> +
-> +static ssize_t trigin_sig_show(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       char *buf)
-> +{
-> +	struct dev_ext_attribute *ext_attr =
-> +		container_of(attr, struct dev_ext_attribute, attr);
-> +	struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> +	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct cti_config *cfg = &drvdata->config;
-> +	unsigned long mask = con->con_in->used_mask;
-> +
-> +	return bitmap_print_to_pagebuf(true, buf, &mask, cfg->nr_trig_max);
-> +}
-> +
-> +static ssize_t trigout_sig_show(struct device *dev,
-> +				struct device_attribute *attr,
-> +				char *buf)
-> +{
-> +	struct dev_ext_attribute *ext_attr =
-> +		container_of(attr, struct dev_ext_attribute, attr);
-> +	struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> +	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> +	struct cti_config *cfg = &drvdata->config;
-> +	unsigned long mask = con->con_out->used_mask;
-> +
-> +	return bitmap_print_to_pagebuf(true, buf, &mask, cfg->nr_trig_max);
-> +}
-> +
-> +/* convert a sig type id to a name */
-> +static const char *
-> +cti_sig_type_name(struct cti_trig_con *con, int used_count, bool in)
-> +{
-> +	int idx = 0;
-> +	struct cti_trig_grp *grp = in ? con->con_in : con->con_out;
-> +
-> +	if (grp->sig_types) {
-> +		if (used_count < grp->nr_sigs)
-> +			idx = grp->sig_types[used_count];
-> +	}
-> +	return sig_type_names[idx];
-> +}
-> +
-> +static ssize_t trigin_type_show(struct device *dev,
-> +				struct device_attribute *attr,
-> +				char *buf)
-> +{
-> +	struct dev_ext_attribute *ext_attr =
-> +		container_of(attr, struct dev_ext_attribute, attr);
-> +	struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> +	int sig_idx, used = 0, b_sz = PAGE_SIZE;
-> +	const char *name;
-> +
-> +	for (sig_idx = 0; sig_idx < con->con_in->nr_sigs; sig_idx++) {
-> +		name = cti_sig_type_name(con, sig_idx, true);
-> +		used += scnprintf(buf + used, b_sz - used, "%s ", name);
-> +	}
-> +	used += scnprintf(buf + used, b_sz - used, "\n");
-> +	return used;
-> +}
-> +
-> +static ssize_t trigout_type_show(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 char *buf)
-> +{
-> +	struct dev_ext_attribute *ext_attr =
-> +		container_of(attr, struct dev_ext_attribute, attr);
-> +	struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> +	int sig_idx, used = 0, b_sz = PAGE_SIZE;
-> +	const char *name;
-> +
-> +	for (sig_idx = 0; sig_idx < con->con_out->nr_sigs; sig_idx++) {
-> +		name = cti_sig_type_name(con, sig_idx, false);
-> +		used += scnprintf(buf + used, b_sz - used, "%s ", name);
-> +	}
-> +	used += scnprintf(buf + used, b_sz - used, "\n");
-> +	return used;
-> +}
-> +
-> +/*
-> + * Array of show function names declared above to allow selection
-> + * for the connection attributes
-> + */
-> +static p_show_fn show_fns[CTI_CON_ATTR_MAX] = {
-> +	con_name_show,
-> +	trigin_sig_show,
-> +	trigout_sig_show,
-> +	trigin_type_show,
-> +	trigout_type_show,
-> +};
-> +
-> +static int cti_create_con_sysfs_attr(struct cti_trig_con *con,
-> +				     enum cti_conn_attr_type attr_type,
-> +				     int attr_idx)
-> +{
-> +	struct dev_ext_attribute *dev_ext_attr = 0;
-
-super minor nit: You may use "eattr" instead.
-
-
-> +	char *name = 0;
-> +
-> +	dev_ext_attr = kzalloc(sizeof(struct dev_ext_attribute), GFP_KERNEL);
-
-
-Could we not use devm_* alloc helpers everywhere ?
-
-> +	if (dev_ext_attr) {
-> +		name = kstrdup(con_attr_names[attr_type], GFP_KERNEL);
-> +		if (name) {
-> +			/* fill out the underlying attribute struct */
-> +			dev_ext_attr->attr.attr.name = name;
-> +			dev_ext_attr->attr.attr.mode = 0444;
-> +
-> +			/* now the device_attribute struct */
-> +			dev_ext_attr->attr.show = show_fns[attr_type];
-> +		} else {
-> +			kfree(dev_ext_attr);
-> +			return -ENOMEM;
-> +		}
-> +	} else {
-> +		return -ENOMEM;
-> +	}
-> +	dev_ext_attr->var = con;
-> +	con->con_attrs[attr_idx] = &dev_ext_attr->attr.attr;
-> +	return 0;
-> +}
-> +
-> +static struct attribute_group *
-> +cti_create_con_sysfs_group(struct cti_device *ctidev, int con_idx,
-> +			   struct cti_trig_con *con)
-> +{
-> +	struct attribute_group *group = NULL;
-> +
-> +	group = kzalloc(sizeof(struct attribute_group), GFP_KERNEL);
-> +	if (!group)
-> +		return NULL;
-> +
-> +	group->name = kasprintf(GFP_KERNEL, "triggers%d", con_idx);
-> +	if (!group->name) {
-> +		kfree(group);
-> +		return NULL;
-> +	}
-> +
-> +	ctidev->con_groups[con_idx + CORESIGHT_CTI_STATIC_GROUPS_MAX - 1]
-> +		= group;
-
-nit:
-	con_idx +=  CORESIGHT_CTI_STATIC_GROUPS_MAX - 1;
-	ctidev->con_groups[con_idx] = group;
-
-
-> +	con->attr_group = group;
-> +	return group;
-> +}
-> +
-> +/* create a triggers connection group and the attributes for that group */
-> +static int cti_create_con_attr_set(int con_idx, struct cti_device *ctidev,
-> +				   struct cti_trig_con *con)
-> +{
-> +	struct attribute_group *attr_group = NULL;
-> +	int attr_idx = 0;
-> +	int err = -ENOMEM;
-> +
-> +	attr_group = cti_create_con_sysfs_group(ctidev, con_idx, con);
-> +	if (!attr_group)
-> +		return -ENOMEM;
-> +
-> +	/* allocate NULL terminated array of attributes */
-> +	con->con_attrs = kcalloc(CTI_CON_ATTR_MAX + 1,
-> +				 sizeof(struct attribute *),
-> +				 GFP_KERNEL);
-
-Again why not devm_* allocations ? That takes the pain of freeing the
-memory away and helps prevent memory leaks.
-
-> +	if (!con->con_attrs)
-> +		return -ENOMEM;
-> +
-> +	err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_NAME, attr_idx++);
-> +	if (err)
-> +		return err;
-> +
-> +	if (con->con_in->nr_sigs > 0) {
-> +		err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGIN_SIG,
-> +						attr_idx++);
-> +		if (err)
-> +			return err;
-> +
-> +		err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGIN_TYPES,
-> +						attr_idx++);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	if (con->con_in->nr_sigs > 0) {
-> +		err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGOUT_SIG,
-> +						attr_idx++);
-> +		if (err)
-> +			return err;
-> +
-> +		err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGOUT_TYPES,
-> +						attr_idx++);
-> +		if (err)
-> +			return err;
-> +	}
-> +	attr_group->attrs = con->con_attrs;
-> +	return 0;
-> +}
-> +
-> +/* create the array of group pointers for the CTI sysfs groups */
-> +int cti_create_cons_groups(struct cti_device *ctidev)
-> +{
-> +	int i, nr_groups;
-> +
-> +	/* nr groups - dynamic + static + NULL terminator */
-> +	nr_groups = ctidev->nr_trig_con + CORESIGHT_CTI_STATIC_GROUPS_MAX;
-> +	ctidev->con_groups = kcalloc(nr_groups,
-> +				     sizeof(struct attribute_group *),
-> +				     GFP_KERNEL);
-> +	if (!ctidev->con_groups)
-> +		return -ENOMEM;
-> +
-> +	/* populate first locations with the static set of groups */
-> +	for (i = 0; i < (CORESIGHT_CTI_STATIC_GROUPS_MAX - 1); i++)
-> +		ctidev->con_groups[i] = coresight_cti_groups[i];
-> +
-> +	return 0;
-> +}
-> +
-
-To be frank, it doesn't make sense to have this split of populating
-the groups.
-
-> +int cti_create_cons_sysfs(struct cti_drvdata *drvdata)
-> +{
-> +	struct cti_device *ctidev = &drvdata->ctidev;
-> +	int err, con_idx = 0;
-> +	struct cti_trig_con *tc = NULL;
-> +
-> +	err = cti_create_cons_groups(ctidev);
-> +	if (err)
-> +		return err;
-> +
-> +	/* add dynamic set for each connection */
-> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> +		err = cti_create_con_attr_set(con_idx++, ctidev, tc);
-> +		if (err)
-> +			goto cons_sysfs_err;
-> +	}
-> +	return 0;
-> +
-> +cons_sysfs_err:
-> +	cti_destroy_cons_sysfs(ctidev);
-> +	return err;
-> +}
-> +
-> +void cti_free_con_attr(struct attribute *con_attr)
-> +{
-> +	struct device_attribute *dattr =
-> +		container_of(con_attr, struct device_attribute, attr);
-> +	struct dev_ext_attribute *dev_ext_attr =
-> +		container_of(dattr, struct dev_ext_attribute, attr);
-> +	kfree(con_attr->name);
-> +	kfree(dev_ext_attr);
-> +}
-> +
-> +void cti_free_con_group(struct attribute_group *attr_group)
-> +{
-> +	if (attr_group) {
-> +		kfree(attr_group->name);
-> +		kfree(attr_group);
-> +	}
-> +}
-> +
-> +void cti_destroy_cons_attr_set(int con_idx, struct cti_device *ctidev,
-> +			       struct cti_trig_con *con)
-> +{
-> +	int i;
-> +
-> +	if (con->con_attrs) {
-> +		for (i = 0; i < CTI_CON_ATTR_MAX; i++) {
-> +			if (con->con_attrs[i])
-> +				cti_free_con_attr(con->con_attrs[i]);
-> +		}
-> +		kfree(con->con_attrs);
-> +	}
-> +	cti_free_con_group(con->attr_group);
-> +}
-> +
-> +void cti_destroy_cons_sysfs(struct cti_device *ctidev)
-> +{
-> +	struct cti_trig_con *tc;
-
-minor nit: Please keep the variable name consistent if possible, helps a
-lot with the code following. i.e, tc vs con above in 
-cti_destroy_cons_attr_set().
-
-> +	int con_idx = 0;
-> +
-> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> +		cti_destroy_cons_attr_set(con_idx++, ctidev, tc);
-> +	}
-> +	kfree(ctidev->con_groups);
-> +}
-> +
-> +/* attribute and group sysfs tables. */
->   static const struct attribute_group coresight_cti_group = {
->   	.attrs = coresight_cti_attrs,
->   };
-> @@ -838,7 +1209,8 @@ static const struct attribute_group coresight_cti_channels_group = {
->   	.name = "channels",
->   };
->   
-> -const struct attribute_group *coresight_cti_groups[] = {
-> +const struct attribute_group *
-> +coresight_cti_groups[CORESIGHT_CTI_STATIC_GROUPS_MAX] = {
->   	&coresight_cti_group,
->   	&coresight_cti_mgmt_group,
->   	&coresight_cti_regs_group,
-> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-> index cf116463149a..c3d63cc53bdd 100644
-> --- a/drivers/hwtracing/coresight/coresight-cti.c
-> +++ b/drivers/hwtracing/coresight/coresight-cti.c
-> @@ -561,6 +561,9 @@ static void cti_device_release(struct device *dev)
->   
->   	mutex_lock(&ect_mutex);
->   
-> +	/* clear the dynamic sysfs associate with connections */
-> +	cti_destroy_cons_sysfs(&drvdata->ctidev);
-> +
->   	/* remove from the list */
->   	list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
->   		if (ect_item == drvdata) {
-> @@ -636,12 +639,20 @@ static int cti_probe(struct amba_device *adev, const struct amba_id *id)
->   		goto err_out;
->   	}
->   
-> +	/* create dynamic attributes for connections */
-> +	ret = cti_create_cons_sysfs(drvdata);
-> +	if (ret) {
-> +		pr_err("%s: create dynamic sysfs entries failed\n",
-> +		       cti_desc.name);
-
-nit: It may be a good idea to include the actual device name (rather 
-than just cti_xxx). so may be :
-
-  dev_err(dev, "%s:....", cti_desc.name) ?
-
-
-> +		goto err_out;
-> +	}
-
-
-Except for the devm_ alloc question, rest are fine.
-
-Suzuki
+On Sun, Dec 1, 2019 at 8:58 PM Junio C Hamano <gitster@pobox.com> wrote:
+>
+> Linus Torvalds <torvalds@linux-foundation.org> writes:
+>
+> > On Sat, Nov 30, 2019 at 10:35 PM Junio C Hamano <gitster@pobox.com> wrote:
+> >>
+> >> OK, so it appears that the tool is working as documented.
+> >
+> > Well, yes and no.
+> >
+> > I think it's a mistake that --no-keep-cr (which is the default) only
+> > acts on the outer envelope.
+> >
+> > Now, *originally* the outer envelope was all that existed so it makes
+> > sense in a historical context of "CR removal happens when splitting
+> > emails in an mbox". And that's the behavior we have.
+>
+> Hmph, first of all, the one I was referring to as "documented" was
+> about --ignore-whitespace, and not --no-keep-cr.
+>
+> And I am not as sure as you seem to be about "--no-keep-cr" either.
+>
+> What was the reason why "--no-keep-cr" was invented and made
+> default?  Wasn't it because RFC says that each line of plaintext
+> transfer of an e-mail is terminated with CRLF?  It would mean that,
+> whether the payload originally had CRLF terminated or LF terminated,
+> we would not be able to tell---the CR may have been there from the
+> beginning, or it could have been added in transit.  And because we
+> (the projects Git was originally designed to serve well) wanted our
+> patches with LF terminated lines most of the time, it made sense to
+> strip CR from CRLF (i.e. assuming that it would be rare that the
+> sender wants to transmit CRLF terminated lines).
+>
+> If the contents were base64 protected from getting munged during
+> transit, we _know_ CRLF in the payload after we decode MIME is what
+> the sender _meant_ to give us, no?  Which leads me to say ...
+>
+> >
+> > But then git learnt to do MIME decoding and extracting things from
+> > base64 etc, and the CR removal wasn't updated to that change.
+>
+> ... I do not think it was a wrong decision (well, I do not think we
+> made the conscious decision to do so, though) not to do that update.
+>
+> I dunno.
+>
