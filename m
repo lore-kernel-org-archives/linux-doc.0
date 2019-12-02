@@ -2,171 +2,170 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52417C432C0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43932C43141
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 13:12:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 247FC217F5
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 10:43:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1916120674
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 13:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575292333;
+	bh=meyClUUOM5Jc/rsPZdIT2wYbDynhpM5KxMTgwvSQFHQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Zua9vEigsIg7EcJ0DQ9PSFnKs7YUXjZp9XEBAmZ3Wo89nEIzQS6Y2ePf62GlK9tNJ
+	 tMvFR473+VgkLZ0ayYpIB4qF2SAV83U4bVilj3kUCQASFdUfd+WPpwvCnjYr7WELGd
+	 1X/kMlVMo8GKTDR8uA9w4STmTPpg8mDtgkLhPc/E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfLBKn4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 05:43:56 -0500
-Received: from foss.arm.com ([217.140.110.172]:52648 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726276AbfLBKn4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Dec 2019 05:43:56 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5389431B;
-        Mon,  2 Dec 2019 02:43:55 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85E023F68E;
-        Mon,  2 Dec 2019 02:43:54 -0800 (PST)
-Subject: Re: [PATCH v5 13/14] docs: coresight: Update documentation for
- CoreSight to cover CTI.
-To:     Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     mathieu.poirier@linaro.org
-References: <20191119231912.12768-1-mike.leach@linaro.org>
- <20191119231912.12768-14-mike.leach@linaro.org>
-From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Message-ID: <1076b0e3-6b50-7be9-0a25-cb003bd77674@arm.com>
-Date:   Mon, 2 Dec 2019 10:43:53 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1727382AbfLBNMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Dec 2019 08:12:09 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:51046 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727381AbfLBNMJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 08:12:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=HcdPKwqbVGtlgcTIZgCIi0isK2Mpc49YUdk5xlaJzq0=; b=eMgFjIw0NhQQ+Z5g2pVLfx0Z/
+        HPRbQ8VD6LzILID+Y2PhharPGvlPAq79MtFYP84MsnbUkInBOAEYpol69Cx+VUXES8ea6kBYRFoXI
+        9LA46DCwTHRcSsg1xO5EVf3HG00L+yJhLHtjGWdwDSMtyJRAyB4gSNFoWDpW4xEoUk1gs=;
+Received: from 188.31.173.115.threembb.co.uk ([188.31.173.115] helo=fitzroy.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1iblUM-0003mu-7T; Mon, 02 Dec 2019 13:11:42 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+        id E6920D020A4; Mon,  2 Dec 2019 13:11:40 +0000 (GMT)
+Date:   Mon, 2 Dec 2019 13:11:40 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191202131140.GD1998@sirena.org.uk>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191118162502.GJ9761@sirena.org.uk>
+ <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+ <20191119181325.GD3634@sirena.org.uk>
+ <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+ <20191119193636.GH3634@sirena.org.uk>
+ <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+ <20191129120925.GA5747@sirena.org.uk>
+ <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-In-Reply-To: <20191119231912.12768-14-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vni90+aGYgRvsTuO"
+Content-Disposition: inline
+In-Reply-To: <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
+X-Cookie: Cleanliness is next to impossible.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/11/2019 23:19, Mike Leach wrote:
-> Add new document covering CTI / CTM usage in CoreSight.
-> 
-> Add section in coresight.rst introducing CTI and CTM modules with link
-> to new document.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->   .../trace/coresight/coresight-ect.rst         | 200 ++++++++++++++++++
->   Documentation/trace/coresight/coresight.rst   |  13 ++
->   2 files changed, 213 insertions(+)
->   create mode 100644 Documentation/trace/coresight/coresight-ect.rst
-> 
-> diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
-> new file mode 100644
-> index 000000000000..6448cf910f20
-> --- /dev/null
-> +++ b/Documentation/trace/coresight/coresight-ect.rst
-> @@ -0,0 +1,200 @@
-> +=============================================
-> +CoreSight Embedded Cross Trigger (CTI & CTM).
-> +=============================================
-> +
-> +    :Author:   Mike Leach <mike.leach@linaro.org>
-> +    :Date:     November 2019
-> +
 
-...
+--vni90+aGYgRvsTuO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Dec 02, 2019 at 07:57:13AM +0000, Vaittinen, Matti wrote:
+> On Fri, 2019-11-29 at 12:09 +0000, Mark Brown wrote:
 
-> +
-> +Channels API Directory
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +This provides an easy way to attach triggers to channels, without needing
-> +the multiple register operations that are required if manipluating the
-> +'regs' sub-dir elements directly.
-> +
-> +A number of files provide this API::
-> +
-> +   >$ ls ./cti_sys0/channels/
-> +   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
-> +   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
-> +   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
-> +   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
-> +
-> +Most access to these elements take the form::
-> +
-> +  echo <chan> [<trigger>] > /<device_path>/<operation>
-> +
-> +where the optional <trigger> is only needed for trigXX_attach | detach
-> +operations.
-> +
-> +e.g.::
-> +
-> +   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
-> +   >$ echo 0 > ./cti_sys0/channels/chan_set
-> +
-> +Attaches trigout(1) to channel(0), then activates channel(0) generating a
-> +set state on cti_sys0.trigout(1)
-> +
-> +
-> +*API operations*
-> +
-> +   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
-> +   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
-> +   * ``chan_set``: Set the channel - the set state will be propogated around
-> +     the CTM to other connected devices.
-> +   * ``chan_clear``: Clear the channel.
-> +   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
-> +   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
-> +     (enable) the channel to other devices. This operation takes a channel
-> +     number. CTI gate is enabled for all channels by default at power up. Read
-> +     to list the currently enabled channels on the gate.
-> +   * ``chan_gate_disable``: Write channel number to disable gate for that
-> +     channel.
-> +   * ``chan_inuse``: Show the current channels attached to any signal
-> +   * ``chan_free``: Show channels with no attached signals.
-> +   * ``chan_xtrig_view``: write a channel number to select a channel to view,
-> +     read to show the cross triggers programmed for the selected channel.
-> +   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
-> +     dangerous output signals to be set.
-> +   * ``trigout_filtered``: Trigger out signals that are prevented from being
-> +     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
-> +     accidental ``EDBGREQ`` signals stopping a core.
-> +   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
-> +     Resets device hardware to default state.
-> +
-> +e.g.::
-> +
-> +   .../cti_sys0/channels# echo 2 1 > trigin_attach
-> +   .../cti_sys0/channels# echo 2 6 > trigout_attach
+> > The regulator driver has a bunch fo set_suspend_ operations.
 
-minor nit: It may be a good idea to add a comment to describe what you
-are doing with the above operations, to avoid looking up and mapping it
-for someone looking it up. I am not too keen, but it is definitely
-helpful.
+> Hmm. I saw these. But unless I am mistaken linux only knows one
+> 'suspend' state whereas the PMIC has a few separate states I can see as
+> 'suspend' states. As far as I understood the set_suspend_voltage does
+> not allow setting separate suspend voltages depending on the "type of
+> suspend" (as there is only one 'suspend' state).
 
-> +   .../cti_sys0/channels# cat chan_free
-> +   0-1,3
-> +   .../cti_sys0/channels# cat chan_inuse
-> +   2
-> +   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
-> +   .../cti_sys0/channels# cat chan_xtrigs_view
-> +   [2] IN: 1 OUT: 6
-> +   .../cti_sys0/# echo 1 > enable
-> +   .../cti_sys0/channels# echo 2 > chan_set
-> +   .../cti_sys0/channels# cat ../regs/choutstatus
-> +   0x4
-> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> +   0x40
-> +   .../cti_sys0/channels# echo 2 > chan_clear
+No, look at the bindings - we support a bunch of different
+suspend states matching the different suspend states that the
+kernel as a whole supports.  We don't assume that the device will
+know this but you can always use the current suspend we're going
+for to decide where to update.
 
-> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> +   0x0
-> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> +   0x0
+> > > (RUN0, ... RUN3) could be mapped to regulator modes
+> > > REGULATOR_MODE_FAST, REGULATOR_MODE_NORMAL, REGULATOR_MODE_IDLE
+> > > and=20
+> > > REGULATOR_MODE_STANDBY. But regulators which are controlled by
+> > > these
 
-nit: duplicate lines ?
+> > That doesn't make sense at all, the modes affect the quality of
+> > regulation not the voltage that is set.
 
-Otherwise:
+> Thanks. I misunderstood this. I thought these states could be used for
+> some adaptive voltages. My understanding is that the RUN0,...RUN3 are
+> designed for that - but I didn't know if regulator framework is
+> designed for this.
 
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+The framework doesn't care how a device is controlled, that's up
+to the device.  Like I said I recommend figuring out what
+voltages are useful to have quick access to at runtime, for
+example it's likely that it's good to have quick access to the
+highest voltage that's been set (and/or the top of the
+constraints).
+
+> > The cpufreq code is all there in kernel - drivers/cpufreq.  I can't
+> > remember if Android still has a custom governor in their trees but it
+> > doesn't really make much difference in terms of how it interacts with
+> > the regulator drivers.
+
+> Right. I guess your answers mean that there is no "regulator group
+> control" for "adaptive voltage changes" supported by regulator
+
+I can't parse the above, sorry.  What is "regulator group
+control"?
+
+--vni90+aGYgRvsTuO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3lDYkACgkQJNaLcl1U
+h9Amugf/QH6FoZOtAUIIujQELU4pGFVm5XkIvgjpWUWDlNK6CW+CKrdAc/iRcuch
+fpYcI7ht3Nd94mcruUECYYI5fTxj0ECj3mflGdL6c2nl7Sw3D3haNabXsa4XN5CT
+OUIi4NWGhuKUpFSLxgwdApBxJ5Tlri+TWW6Prv9Bf9IM1TMAHvCnIQD8rgSFrYga
+gxL160QzYsJoGI2KqLHFgo8ltWKjQO/jLHNoAL0awmx+Iujh30I8dlU1Laq3atoA
+siWbaqGqJKZLbfFOfaLQrga5DOJSd20ZY0R09niVgOr2xap2wxXaqVCLg7pnSBwV
+LD5cn4UcLr5v0sUXKwN908qjIvMxrg==
+=Fs54
+-----END PGP SIGNATURE-----
+
+--vni90+aGYgRvsTuO--
