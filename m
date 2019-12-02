@@ -2,130 +2,128 @@ Return-Path: <SRS0=pJ38=ZY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6E0C432C3
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 00:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1A6C432C0
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 01:44:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6864920748
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 00:19:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="KlHLiuVa"
+	by mail.kernel.org (Postfix) with ESMTP id C0E3A20748
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Dec 2019 01:44:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbfLBATf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Dec 2019 19:19:35 -0500
-Received: from mout.gmx.net ([212.227.17.20]:40179 "EHLO mout.gmx.net"
+        id S1727345AbfLBBoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Dec 2019 20:44:04 -0500
+Received: from mga06.intel.com ([134.134.136.31]:60711 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727279AbfLBATf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 1 Dec 2019 19:19:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1575245969;
-        bh=tV2kfJnJSdTdIr7Ps2AnmtxR9DGkfzjZII/HdaPqu2M=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=KlHLiuVaOBd4mKI4BCQUSvNRCPl8ARefOB49YMaP2wTobrmhAGLqTu7yodbtqoo3u
-         WrUErq7tEgkuEQGV2RP8jTSk9ooft29JgurYDcGa7vWzAX2Bu+hufuLoTwAWmxewCt
-         qHdq0IIDhWpSxDQsNoU6r3sg5VpGBqB4O42szENc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.233.102]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMofc-1iIo8D30ku-00IpQs; Mon, 02
- Dec 2019 01:19:29 +0100
-Date:   Mon, 2 Dec 2019 01:19:28 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PULL] Documentation for 5.5
-Message-ID: <20191202001928.GA4146@latitude>
-References: <20191126093002.06ece6dd@lwn.net>
- <CAHk-=whH-wrF7dx_+NgpYi8pK0vovE2mEFE3sgEYXAQZcPwBjA@mail.gmail.com>
- <20191130171428.6c09f892@lwn.net>
+        id S1727279AbfLBBoE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 1 Dec 2019 20:44:04 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Dec 2019 17:44:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,267,1571727600"; 
+   d="scan'208";a="200437555"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+  by orsmga007.jf.intel.com with ESMTP; 01 Dec 2019 17:44:02 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 1 Dec 2019 17:44:01 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 1 Dec 2019 17:44:01 -0800
+Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sun, 1 Dec 2019 17:44:01 -0800
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.109]) by
+ SHSMSX103.ccr.corp.intel.com ([169.254.4.29]) with mapi id 14.03.0439.000;
+ Mon, 2 Dec 2019 09:44:00 +0800
+From:   "Zhao, Shirley" <shirley.zhao@intel.com>
+To:     James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Subject: RE: One question about trusted key of keyring in Linux kernel.
+Thread-Topic: One question about trusted key of keyring in Linux kernel.
+Thread-Index: AdWZwFKzDBwFOydYTGGk+Aqs+6BIxAANhxEAAoxRZMAAOKaagABSSevwABZzFQAAgRP1kA==
+Date:   Mon, 2 Dec 2019 01:44:00 +0000
+Message-ID: <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
+         <1573659978.17949.83.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
+         <1574877977.3551.5.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E49096521@shsmsx102.ccr.corp.intel.com>
+ <1575057916.6220.7.camel@linux.ibm.com>
+In-Reply-To: <1575057916.6220.7.camel@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTYxYWJjZjgtYmU3NC00NTFkLWE0NzEtZTRlMzBlMzQyNTUzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZjQxZVhoaCt5bUxRMnN5cElyR2orNHVVclo4SzJZRDBMQmJKZmoyYVE0UUxhd1RJQzZxWFgwNjFYZXJPM2RjOSJ9
+x-ctpclassification: CTP_NT
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
-Content-Disposition: inline
-In-Reply-To: <20191130171428.6c09f892@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:4gNqU4/I/EbdcWnb41uvU/DGVpdpSEFnA27YIf93++D6TcXhoOP
- eiborndJQqHECFBbeAeRxVInTGLHqs8KxwrXFpj0c2f5lzMVFRX0PW9+We7GAvzeuLZDr/d
- GkEBuYPvdeWfE5VF3D4eFHHYk1W//k4z/RKIoYAa0EQ9savxvkKl8GQbJrcrflm02h5N5Yk
- ZQ8JpBTTS/CHuFLpBV6hA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Wbdz4rfoDNo=:O02Xc1mHEfHOYVvObo7Zld
- 3bE0/TZBOgKqRhdD8PL8iaSlk8+ePaqPhB/JlF8cDAI0X+nBa1Mw7/O/jjmiyM7tu/PYTeL4R
- gcXp1NKQwiY41AgD9kam1rufSG+PeiIS+qAv0r10CLGLoATAwUV8Elt7bwlrYae92SLuEjKMB
- tA2Hc7zl6NhGQdQ1XewQQ5ZTaP1mT0nGfvta2UW0jchHAE41EwV2y2/UT6dic8H78AttYxBrU
- Dj/ggEO0UtDN2cr2h25GLXtPs4vx5/x9CGAIYJDP7Y7yRJsm2xaf3G/aBUN+GNouacbsVuxRl
- lsQ5cedUTM4cL864NCBY4JQqRi8ajp5ecPSpOQOpjnzNcDrB3e0CuhxafxENY0fIPTDzXHtZH
- /FWTDDqs2PrPRF3EHn1KSXYLbDwKn1apie2T+UueqQOVpmP4QZScaKC03lxaMnc27Ri0E3qXd
- ALmkXgK+AV5p2mbc6oVhryfbCjZMvqnNYPnXCKZwIWtNP1ZZ2d3xgXVE7NKTCrHXdY0dGocxw
- 4/Gsp2Bt5BjeqQBXuxbdKylxRNN9sca/ppWLFQm4rwH+uyuL3OfXslNme36US7Wp0drVmz5cY
- T0DzWbzGPWeC390iPRQh33TE96Oy6Sxr3NNCqf+krfqDoO66xotmUOZtVSM4jN9atGAaeJFPb
- DxCy8zfbj6d8DhN42StZqkZLPv0iX95RNfdBTB+x0+QrydxbefY3T1CPDwF6zvZCA8Q4ADGEx
- Azl1YuVgA9TbZJRz2qHHh0LTeBAE4S30c3wWrexXe0XCUEjyF8f8Yd2Fpa3uz/6GDU+CAW8ac
- fnUYAvV/+QiK93xioGkn2qmOJtuckUxmwaB3YswerhOnk+5E6Qj3nwsMGfzsFtasDJUZNTjFL
- GqkpwI/5GDUWdPBBv/1kzSOJYOSLJP8QpgvdE0NaLGtsUI8qqoLq0bg5nkfClulXrST6mqDjA
- 3KilgwuFBucnhbbUs4fcCbwCgHHOJJvX+XM0wQRuzE6N/b6ZaWN36p+GxWMIYkvHnpv3/3/jO
- QzcGSjfpsVzJ6A2qG+NfzugUcPce0oXxnUgsyu9mvADHJlQ0mGhGrn7t9z4ZL/59j4y5Us1yK
- cwg0C8tmIUXxVQ+yBzza1M0YZ+g1DpwmOmDu14CCiUhzY3Q5YkonbIxngEeBjZ3luLczmwKQ/
- EipZrLUes/LkbeCEg4y9mxT7proRpi8pZlBjGL2zUfQSQYBdgtlVhYMO/lzt7ATmrZpor1OVs
- 5b8HsYV2QuIIaJQS6KK8NlmL6kvTUUrkM5T2ONchgyDfOHDPYKfSmqrBHgpg=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Nov 30, 2019 at 05:14:28PM -0700, Jonathan Corbet wrote:
-[...]
-> All of the afflicted files arrived in that state as the result of a pair
-> of patches from Jonathan (copied); I have verified that the original
-> patches also had the DOS line endings.
-
-Not sure why, or where in the mails' path this happened, but the base64
-with CR/LF inside is also present in the copies that went directly to
-me, rather than via the mailing lists.
-
-> Anyway, if I revert the two offending patches and resend the pull, is that
-> good enough, or do you want this mess out of the history entirely?
-
-On a somewhat related note: "Documentation: networking: device drivers:
-Remove stray asterisks" was also picked up via the networking tree.
-Perhaps I should have mentioned that when I became aware(?)
-
-> Sorry for the trouble,
-
-Well, same here :/
-
-
-Jonathan Neusch=C3=A4fer
-
---EVF5PPMfhYS0aIcm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl3kWIkACgkQCDBEmo7z
-X9sZlBAArNmrtwOupByvamJkONeJ8iiJAy1xT4EtPY0j22FfM5sJ9lDJVuo+y/+Q
-zt+KzQi6vH020+oX3NmTBLLL2pLqkTURb+Nha2zqoyA15GOz/iM+a3Hz5j9agUQc
-zIiI4MTSsYsHbiZMyMDpDNuNqul3wNWHpHmm3VRc6jEOmsG43vqJ9t1LICk2g0X0
-Kn5nJ/q0UqSTO2Rvawol746XVb/Rw72zxu9SG2Vex9cWDjwaTK2qAGYPSUWmtbCd
-SSkX1515wPVc5oTpQ9/7XvsdNWwhhsk+mUPihI4QIf/lwPq5sEVhZbMSFjg7+4RK
-NAMcMbkbnmYzAdPaU2Mwz94BQ1sGWSIcKWcYfOZG7DWi0LBtyd2GiY/BzTjk49/q
-GhpovKBT1Qr3XVIv1yD/u8vGPIkRgwcOkVn9vFjj8XGXMh72zTC2DlbKnz2PrwYA
-PsDQnY/qvcntWyfeIlL09v7RpkTWjs+Gp2SoxH4OOfRRRRG/H1AC1xakTDAXO06R
-yg4CeOGmQesBa3ttYUuhMMmU4zrjYWK40m1FyZ+xtP3XCck0jPL1cMcaiGeHNw+n
-vC0wMs9IyydsnSZPq/hYxeq/I9I8OOeufaDhjGctU25y5OQdYYapXgMRvZDoqAnm
-jHzWv+2MW5nDhLhCkC4tTtwLDL1GQdH8uWiZdVd3jItla8BcDIM=
-=MTIV
------END PGP SIGNATURE-----
-
---EVF5PPMfhYS0aIcm--
+SGksIEphbWVzLCANCg0KVGhlIHZhbHVlIG9mIFBDUjcgaXMgbm90IGNoYW5nZWQuIEkgaGF2ZSBj
+aGVja2VkIGl0IHdpdGggVFBNIGNvbW1hbmQgdHBtX3Bjcmxpc3QuIA0KDQpTbyBJIHRoaW5rIHRo
+ZSBwcm9ibGVtIGlzIGhvdyB0byB1c2UgdGhlIG9wdGlvbiBwb2xpY3lkaWdlc3QgYW5kIHBvbGlj
+eWhhbmRsZT8gSXMgdGhlcmUgYW55IGV4YW1wbGU/DQpNYXliZSB0aGUgZm9ybWF0IGluIG15IGNv
+bW1hbmQgaXMgbm90IGNvcnJlY3QuIA0KDQpUaGFua3MuIA0KDQotIFNoaXJsZXkgDQoNCi0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBKYW1lcyBCb3R0b21sZXkgPGplamJAbGludXgu
+aWJtLmNvbT4gDQpTZW50OiBTYXR1cmRheSwgTm92ZW1iZXIgMzAsIDIwMTkgNDowNSBBTQ0KVG86
+IFpoYW8sIFNoaXJsZXkgPHNoaXJsZXkuemhhb0BpbnRlbC5jb20+OyBNaW1pIFpvaGFyIDx6b2hh
+ckBsaW51eC5pYm0uY29tPjsgSmFya2tvIFNha2tpbmVuIDxqYXJra28uc2Fra2luZW5AbGludXgu
+aW50ZWwuY29tPjsgSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4NCkNjOiBsaW51eC1p
+bnRlZ3JpdHlAdmdlci5rZXJuZWwub3JnOyBrZXlyaW5nc0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4
+LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7ICdNYXVy
+byBDYXJ2YWxobyBDaGVoYWInIDxtY2hlaGFiK3NhbXN1bmdAa2VybmVsLm9yZz47IFpodSwgQmlu
+ZyA8YmluZy56aHVAaW50ZWwuY29tPjsgQ2hlbiwgTHVoYWkgPGx1aGFpLmNoZW5AaW50ZWwuY29t
+Pg0KU3ViamVjdDogUmU6IE9uZSBxdWVzdGlvbiBhYm91dCB0cnVzdGVkIGtleSBvZiBrZXlyaW5n
+IGluIExpbnV4IGtlcm5lbC4NCg0KT24gRnJpLCAyMDE5LTExLTI5IGF0IDAxOjQwICswMDAwLCBa
+aGFvLCBTaGlybGV5IHdyb3RlOg0KPiBIaSwgSmFtZXMsDQo+IA0KPiBNYXliZSB0aGUgVFBNIGNv
+bW1hbmQgY29uZnVzZWQgeW91LiANCg0KV2VsbCB5b3UgZGlkIHNlZW0gdG8gYmUgc2F5aW5nIHdl
+IGhhZCBhIHByb2JsZW0gaW4gdGhlIFRQTSBzZWFsZWQga2V5IHN1YnN5c3RlbS4NCg0KPiBUaGUg
+cXVlc3Rpb24gaXMgSSB1c2Uga2V5Y3RsIGNvbW1hbmQgc2VhbGVkIGEgdHJ1c3RlZCBrZXkgd2l0
+aCBQQ1IgDQo+IHBvbGljeSwgYnV0IGxvYWQgaXQgZmFpbGVkIGFmdGVyIHJlYm9vdC4NCj4gSSBk
+b24ndCBrbm93IHdoeSBpdCB3YXMgbG9hZGVkIGZhaWxlZC4gSSB1c2UgVFBNIGNvbW1hbmQgdG8g
+aGVscCBmaW5kIA0KPiBpdCwgaXQgcmVwb3J0IHBvbGljeSBjaGVjayBmYWlsZWQuDQoNClJpZ2h0
+LCBzbyB5b3VyIHF1ZXN0aW9uIHNlZW1zIHRvIGJlIHdoeSBhZnRlciBhIHJlYm9vdCwgdGhlIFRQ
+TSBwb2xpY3kgbm8gbG9uZ2VyIHdvcmtzIHRvIGF1dGhvcml6ZSB0aGUga2V5IGV2ZW4gZnJvbSB1
+c2VyIHNwYWNlPyAgTXkgYmVzdCBndWVzcyB3b3VsZCBiZSB0aGUgUENSIHZhbHVlIHlvdSd2ZSBz
+ZWFsZWQgaXQgdG8gY2hhbmdlZCBvdmVyIHRoZSByZWJvb3QgZm9yIHNvbWUgcmVhc29uLg0KDQo+
+IFNvIG15IHF1ZXN0aW9uIGlzIGhvdyB0byBsb2FkIHRoZSBQQ1IgcG9saWN5IHNlYWxlZCB0cnVz
+dGVkIGtleSANCj4gY29ycmVjdGx5Pw0KDQpZb3UgaGF2ZSB0byBzZXQgdGhlIHNlYWxpbmcgcmVs
+ZWFzZSBwb2xpY3kgdG8gc29tZXRoaW5nIHlvdSBrbm93IHdpbGwgYmUgaW52YXJpYW50IGFjcm9z
+cyByZWJvb3RzIGZvciBhbiB1bnNlYWwgdG8gaGFwcGVuIHJlbGlhYmx5LiAgSG93ZXZlciwgdXN1
+YWxseSB5b3UgYWxzbyB3YW50IHRoZSB1bnNlYWwgdG8gZmFpbCBpZiBzb21ldGhpbmcgeW91IGRv
+bid0IGxpa2UgY2hhbmdlcywgc28geW91IHNldCB0aGUgcG9saWN5IHRvIGJlIHNvbWV0aGluZyB0
+aGF0J3MgaW52YXJpYW50IHVubGVzcyB0aGF0IGhhcHBlbnMuICBOb3QgcmVhbGx5IGtub3dpbmcg
+d2hhdCB5b3VyIGNvbmRpdGlvbnMgYXJlIHdlIGNhbid0IHJlYWxseSB0ZWxsIHlvdSB3aGF0IHlv
+dXIgcG9saWN5IHNob3VsZCBsb29rIGxpa2UuDQoNCj4gSG93IHRvIHVzZSBwb2xpY3lkaWdlc3Qg
+YW5kIHBvbGljeWhhbmRsZSBjb3JyZWN0bHkuIA0KDQpJJ3ZlIG5vIHJlYWwgaWRlYSBob3cgdGhl
+IHRwbTJfIGNvbW1hbmRzIHdvcmssIGJ1dCB0aGUgdHNzcG9saWN5IGNvbW1hbmRzIGFsbCBoYXZl
+IG1hbiBwYWdlcyB3aGljaCBkbyBhIHByZXR0eSBnb29kIGV4cGxhbmF0aW9uLiAgSWYgSSBpbmZl
+ciBob3cgeW91ciB0cG0yXyBjb21tYW5kcyBzZWVtIHRvIGJlIHdvcmtpbmcsIEkgdGhpbmsgeW91
+J3JlIHNlYWxpbmcgdG8gYSBwY3I3IGhhc2g/ICBwY3I3IGlzIHRoZSBvbmUgdGhhdCdzIHN1cHBv
+c2VkIHRvIG1lYXN1cmUgdGhlIHNlY3VyZSBib290IHBhdGggYW5kIHByb3BlcnRpZXMgYW5kIGFz
+IHN1Y2ggc2hvdWxkbid0IGNoYW5nZSBhY3Jvc3MgcmVib290cywgc28gSSB0aGluayB5b3VyIHBy
+b2JsZW0gYmVjb21lcyBmaW5kaW5nIG91dCB3aHkgaXQgY2hhbmdlZC4NCg0KSmFtZXMNCg0K
