@@ -2,182 +2,110 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB55C432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80C9C432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:59:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CCB520684
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:51:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C917920726
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:59:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727021AbfLCFvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 00:51:40 -0500
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:6594 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbfLCFvj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 00:51:39 -0500
-IronPort-SDR: o/j+Ri+xO4fWTIVCdgPBUzjtzOJlOQ4wmggRu6QZca0TCBOkHqE4ZMckMY0XgpgEFCwVAkOZdJ
- zH0Di0t2eFwTMoCX5+Dmbv/B30Kz8UeQbcwSlJRrRyvBRAArhUElLv2NMKH+zppw4ZC7dOxlWK
- AOMf3uRfAIM2u7Wk4Qq86K3+6lV5vqjvPpzQSFfW8sP63eqIdEg5mIdaN5zTAybmjTxgYgnNgL
- KxJgiYocZbKXHSbByjv5bF9N1WRypaYrkWAm9RhI0RIYJkMYks64vQIn8f/LUTdW04Df3YiDyu
- xKI=
-X-IronPort-AV: E=Sophos;i="5.69,272,1571731200"; 
-   d="scan'208";a="45589731"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 02 Dec 2019 21:51:38 -0800
-IronPort-SDR: i8krjONcTTsnPkHY7SRiGdPmITr+0xNAXFXEgjkJWTG1D1tRaDcT2sdw0OnXTIXhUqEDFgzvAR
- dttKo+ORd63AvM4to/DyzDuJF57oI5Vi7/iYpzrQEkc3xIqj3eJT457bxirU8BrDkuqz8apUvw
- JxXTyf13gnmnt2Ln1nepE0IY1Dr7ZC1/mxI+i6nWcNIcJmX2GgkCgi2Uo1v6wmGd1b+yqVAN9T
- 0VLnn5Y5apijUzN7Hq0gIyZaQmf5LOaoYKcT6i2bJwuZAsOGE6Kp5TQMK0MgNeNdOFviPXHdfV
- l0k=
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-CC:     Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
-From:   Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <11ae473f-cee1-241b-174c-915dc46209b1@mentor.com>
-Date:   Tue, 3 Dec 2019 11:21:26 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727004AbfLCF7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 00:59:21 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:52370 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726521AbfLCF7V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 00:59:21 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tjn1MiF_1575352754;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tjn1MiF_1575352754)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 03 Dec 2019 13:59:16 +0800
+Subject: [PATCH v3 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+Message-ID: <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+Date:   Tue, 3 Dec 2019 13:59:14 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191127084253.16356-5-geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Since last patch set:
+  Because the locality region concept is too complicated, we tried to
+  decouple the time factor from it now as Michal commented.
 
-On 27/11/19 2:12 PM, Geert Uytterhoeven wrote:
-> Add Device Tree bindings for a GPIO repeater, with optional translation
-> of physical signal properties.  This is useful for describing explicitly
-> the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> non-YAML gpio-inverter bindings by Harish Jenny K N
-> <harish_kandiga@mentor.com>[1].
->
-> Note that this is different from a GPIO Nexus Node[2], which cannot do
-> physical signal property translation.
->
-> While an inverter can be described implicitly by exchanging the
-> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> th provider and consumer sides:
->   1. The GPIO provider (controller) looks at the flags to know the
->      polarity, so it can translate between logical (active/not active)
->      and physical (high/low) signal levels.
->   2. While the signal polarity is usually fixed on the GPIO consumer
->      side (e.g. an LED is tied to either the supply voltage or GND),
->      it may be configurable on some devices, and both sides need to
->      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->      match the actual polarity.
->      There exists a similar issue with interrupt flags, where both the
->      interrupt controller and the device generating the interrupt need
->      to agree, which breaks in the presence of a physical inverter not
->      described in DT (see e.g. [3]).
->
-> [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
->     https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/
->
-> [2] Devicetree Specification v0.3-rc2, Section 2.5
->     https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.3-rc2
->
-> [3] "[PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
->     inverted IRQ"
->     https://lore.kernel.org/linux-renesas-soc/20190607172958.20745-1-erosca@de.adit-jv.com/
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - New.
-> ---
->  .../bindings/gpio/gpio-repeater.yaml          | 53 +++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
->
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml b/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
-> new file mode 100644
-> index 0000000000000000..efdee0c3be43f731
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpio/gpio-repeater.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GPIO Repeater
-> +
-> +maintainers:
-> +  - Harish Jenny K N <harish_kandiga@mentor.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  This represents a repeater for one or more GPIOs, possibly including physical
-> +  signal property translation (e.g. polarity inversion).
-> +
-> +properties:
-> +  compatible:
-> +    const: gpio-repeater
-> +
-> +  "#gpio-cells":
-> +    const: 2
-> +
-> +  gpio-controller: true
-> +
-> +  gpios:
-> +    description:
-> +      Phandle and specifier, one for each repeated GPIO.
-> +
-> +  gpio-line-names:
-> +    description:
-> +      Strings defining the names of the GPIO lines going out of the GPIO
-> +      controller.
-> +
-> +required:
-> +  - compatible
-> +  - "#gpio-cells"
-> +  - gpio-controller
-> +  - gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node describing a polarity inverter for a single GPIO
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    inverter: gpio-repeater {
-> +        compatible = "gpio-repeater";
-> +        #gpio-cells = <2>;
-> +        gpio-controller;
-> +        gpios = <&gpio 95 GPIO_ACTIVE_LOW>;
-> +    };
+  Now the numa_stat just expose the local/remote page accessing counter
+  , gathering from all the tasks in hierarchy. This should be much more
+  easier to understand, also the meaning of counter is straightforward.
 
+  Now we have just one locality percentage for each cgroup, to represent
+  how NUMA Balancing is working and imply NUMA efficiency.
 
-just a suggestion: giving a gpio-line-names in the example would look useful.
+Modern production environment could use hundreds of cgroup to control
+the resources for different workloads, along with the complicated
+resource binding.
+
+On NUMA platforms where we have multiple nodes, things become even more
+complicated, we hope there are more local memory access to improve the
+performance, and NUMA Balancing keep working hard to achieve that,
+however, wrong memory policy or node binding could easily waste the
+effort, result a lot of remote page accessing.
+
+We need to notice such problems, then we got chance to fix it before
+there are too much damages, however, there are no good monitoring
+approach yet to help catch the mouse who introduced the remote access.
+
+This patch set is trying to fill in the missing pieces， by introduce
+the per-cgroup NUMA locality info, with this new statistics, we could
+achieve the daily monitoring on NUMA efficiency, to give warning when
+things going too wrong.
+
+Please check the second patch for more details.
+
+Michael Wang (2):
+  sched/numa: introduce per-cgroup NUMA locality info
+  sched/numa: documentation for per-cgroup numa statistics
+
+ Documentation/admin-guide/cg-numa-stat.rst      | 176 ++++++++++++++++++++++++
+ Documentation/admin-guide/index.rst             |   1 +
+ Documentation/admin-guide/kernel-parameters.txt |   4 +
+ Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+ include/linux/sched.h                           |  15 ++
+ include/linux/sched/sysctl.h                    |   6 +
+ init/Kconfig                                    |  11 ++
+ kernel/sched/core.c                             |  75 ++++++++++
+ kernel/sched/fair.c                             |  62 +++++++++
+ kernel/sched/sched.h                            |  12 ++
+ kernel/sysctl.c                                 |  11 ++
+ 11 files changed, 382 insertions(+)
+ create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+
+-- 
+2.14.4.44.g2045bb6
 
