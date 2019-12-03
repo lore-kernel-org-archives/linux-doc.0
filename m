@@ -2,68 +2,70 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64D4FC432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 17:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDACC432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 17:45:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 398FA2080A
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 17:42:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF1E12080F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 17:45:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CA8U+ILS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QpxjuqLN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726182AbfLCRmD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 12:42:03 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42641 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfLCRmA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 12:42:00 -0500
-Received: by mail-pf1-f196.google.com with SMTP id l22so2192829pff.9
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 09:41:59 -0800 (PST)
+        id S1726533AbfLCRpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 12:45:44 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:41597 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfLCRpo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 12:45:44 -0500
+Received: by mail-pj1-f65.google.com with SMTP id ca19so1798116pjb.8
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 09:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aPNclA55GeMuTPy00O4xA3XNidBB0rleD9eOny3IQXU=;
-        b=CA8U+ILSVCqpsw6oVcTIiykcDXOPtAQZ3dRCBFCZF1Nnq9ZRybkNiuadJE3k6L38nk
-         1nM6dfAtI1nmuq17a2w3pQeYTJcbN+0E7hZQXNu1BmYtv22ZIo+H6t8xILsvT5l3PK3F
-         jKAh96PdF5kuA3LEMjN+Mi1PK/05bdRSWUicAd9PMzhTT1G7ELE6IpqgsinlpfSopyS/
-         lODY3D32qAbzArZ+QI45bVCSRWDjJAaFswGXvQ/spe0FY5bCVUlTftGsJzDCsvmGUaqy
-         wBCVGR89Awy9K5FZunIUztSkOLIa0VchzzRL68mjE+rANibb5Yi+gTiKo9Ce0FEKX68U
-         pmBA==
+        bh=z7N6iQZ6w+KnK1x580YAK+IgWlbj+L7z26/RNYAhP3E=;
+        b=QpxjuqLNn8DPHEmW8Mne7bHFbkHFrWcadhd3+9wt8gWJJIslzBTmim1TD5pOW0dvaA
+         bC76EQ7govwprkNb75aGyD6KHY8ymXR5N5w6Caa7L8wSLQ8o6YSIh5c8qGyJKwLNR5rV
+         6tCVzWrx/V9AD8Wf/hpe4/4M2sZYDEa5fP87n24haNU0l1cBwtmastId7QhfBbfz8tpB
+         nWWGDUBjCE44/t64p3fJ3FPUQNbKUKjxqw+zdrcFFOL8bd+Lh7WxRAF0+EazzRUNLgF8
+         4eSmnS+upC3AWrGrfZYAOw40jtAJYKZ0evSwDw4C01BQqyVmi2IWQBkkHsc/FPsTTzL+
+         PB5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aPNclA55GeMuTPy00O4xA3XNidBB0rleD9eOny3IQXU=;
-        b=f5cDdP6yN/eWgvnK4hsEpiwFjnRoSYo3CLMjF9913pajzAvP5PadhKc+0XG3hA6kFc
-         WDzwn+OH7TS0A+t85iafFX96xyTk8dum1hNPpzpXGucxEotf/jfl6t9pJPQ9TCAP/FfE
-         Lp56JCeB5IzeQtvpwB463BdXM6Sdn+Fh0zWXLjm3hcU4C4vFOVCbo1q4VCHkyuJ3F6A3
-         G/+s7F1c2fEKhgVt0XRxMlbHPnt+cb3oRM0mt4ew3i+WAst8lMPjnsGNl+QITcAz5lCL
-         p+VihNHra06/M3EfaVEI2T+y9HAZABB1PdORWXv+nHLq+sQRt8Wa+le13Wgf9zDRA6J0
-         XU1Q==
-X-Gm-Message-State: APjAAAV1p3gAdD6HHP83A0CK5uFuIKHU83vq7l6ZPt4JR2tqcSDrYBvn
-        s5hlZ39oDdcWQxuAWMWcQdj3w4Ks7It9qXgIRNBrkg==
-X-Google-Smtp-Source: APXvYqyLfrzqw76FsSf7xNdSx42vZjlHk3EqzEY2B6hdnMDa1YuE2bPl3G/so4GSGjfHNmL5z7UDa/RdVqlVulsRkzU=
-X-Received: by 2002:a62:174b:: with SMTP id 72mr6112264pfx.185.1575394918652;
- Tue, 03 Dec 2019 09:41:58 -0800 (PST)
+        bh=z7N6iQZ6w+KnK1x580YAK+IgWlbj+L7z26/RNYAhP3E=;
+        b=cYZ7jlSuXYy4bjxyIeHKXTDK5cPBvTwyRQ+g91kJnqY3vNJ7P7+H4wOWOvYUamTDnL
+         xkQ1V+XRh+JTKCglpM74V+7cUkO1UMeuAgzLADgBkPKSkeR2IRysGlbcVRMoyNGgUW68
+         ZxS23C6ChajoUuEmcqsidqZvlXfaM8KK5KAfhYBAeTaKmslEXSFRdlSPoHPEIkaU9M17
+         fV5k2HCJazYNPGhkAskdsqbY2RHd7jHA8u/D0WvAv0gd12BSBg5G9Z5/+QoucpNhpZ4N
+         Jk+JWbqafwMVbFhmYSxHaFN1z7sjIfMUtvIO/t3v6J9OgYqbyLa+nL3kIhsjJqmuXiGb
+         0TtA==
+X-Gm-Message-State: APjAAAUitIkN0AAp03eRm6PqH4+zFpu6pIYjH0O4alMPChIVgeeCBhgZ
+        4YD4RIX5sptk7XFiHs6bVPOubxpaFwKs2gNBDK9kZQ==
+X-Google-Smtp-Source: APXvYqykkKXbum3SSjV3LDPg92I2gZuwgqFvaKWHVvCaYAZ8GyCh+gaXA/1WQQhyvLYBi43QZL+p4VYGPLTqotMNZac=
+X-Received: by 2002:a17:90a:ff12:: with SMTP id ce18mr4019224pjb.117.1575395143149;
+ Tue, 03 Dec 2019 09:45:43 -0800 (PST)
 MIME-Version: 1.0
-References: <1575361141-6806-1-git-send-email-sj38.park@gmail.com> <1575361141-6806-6-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1575361141-6806-6-git-send-email-sj38.park@gmail.com>
+References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com>
+ <20191203070025.GA4206@google.com> <CAEjAshraUy20gEEaff69=b11DhB7zbz8WHT=6wOuw6C2FyJwYA@mail.gmail.com>
+ <CAEjAsho98ER1RQ6=++ECmoCJxw2mMrGqV4jAgW5wgfb8eEM9eQ@mail.gmail.com>
+In-Reply-To: <CAEjAsho98ER1RQ6=++ECmoCJxw2mMrGqV4jAgW5wgfb8eEM9eQ@mail.gmail.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 3 Dec 2019 09:41:47 -0800
-Message-ID: <CAFd5g456ZK-zZw_E2O1MOC2-vjwQ8Rpm=tuNMscks_mcOsdwxQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] kunit: Rename 'kunitconfig' to '.kunitconfig'
+Date:   Tue, 3 Dec 2019 09:45:31 -0800
+Message-ID: <CAFd5g46qPPsKJFqs07Eiea0Nim=YDWbOUndJu=JbW--VcTb-ww@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Fix nits in the kunit
 To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     shuah <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         SeongJae Park <sjpark@amazon.de>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -71,14 +73,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 3, 2019 at 12:19 AM SeongJae Park <sj38.park@gmail.com> wrote:
+On Tue, Dec 3, 2019 at 12:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
 >
-> From: SeongJae Park <sjpark@amazon.de>
+> You're right, the error was due to the assumption of the existence of the
+> build_dir.  The "kunit: Create default config in '--build_dir'" patch made the
+> bug.  I fixed it in the second version patchset[1].
 >
-> This commit renames 'kunitconfig' to '.kunitconfig' so that it can be
-> automatically ignored by git and do not disturb people who want to type
-> 'kernel/' by pressing only the 'k' and then 'tab' key.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> [1] https://lore.kernel.org/linux-doc/1575361141-6806-1-git-send-email-sj38.park@gmail.com/
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+After trying your new patches, I am still getting the
+"FileNotFoundError" when the given build_dir has not been created.
+
+> Thanks,
+> SeongJae Park
+>
+> On Tue, Dec 3, 2019 at 8:10 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> >
+> > On Tue, Dec 3, 2019 at 8:00 AM Brendan Higgins
+> > <brendanhiggins@google.com> wrote:
+> > >
+> > > On Mon, Dec 02, 2019 at 08:25:18AM +0900, SeongJae Park wrote:
+> > > > From: SeongJae Park <sjpark@amazon.de>
+> > > >
+> > > > This patchset contains trivial fixes for the kunit documentations and the
+> > > > wrapper python scripts.
+> > > >
+> > > > SeongJae Park (6):
+> > > >   docs/kunit/start: Use in-tree 'kunit_defconfig'
+> > > >   docs/kunit/start: Skip wrapper run command
+> > > >   kunit: Remove duplicated defconfig creation
+> > > >   kunit: Create default config in 'build_dir'
+> > > >   kunit: Place 'test.log' under the 'build_dir'
+> > > >   kunit: Rename 'kunitconfig' to '.kunitconfig'
+> > > >
+> > > >  Documentation/dev-tools/kunit/start.rst | 19 +++++--------------
+> > > >  tools/testing/kunit/kunit.py            | 10 ++++++----
+> > > >  tools/testing/kunit/kunit_kernel.py     |  6 +++---
+> > > >  3 files changed, 14 insertions(+), 21 deletions(-)
+> > >
+> > > I applied your patchset to torvalds/master, ran the command:
+> > >
+> > > tools/testing/kunit/kunit.py run --timeout=60 --jobs=8 --defconfig --build_dir=.kunit
+> > >
+> > > and got the error:
+> > >
+> > > Traceback (most recent call last):
+> > >   File "tools/testing/kunit/kunit.py", line 140, in <module>
+> > >     main(sys.argv[1:])
+> > >   File "tools/testing/kunit/kunit.py", line 123, in main
+> > >     create_default_kunitconfig()
+> > >   File "tools/testing/kunit/kunit.py", line 36, in create_default_kunitconfig
+> > >     kunit_kernel.KUNITCONFIG_PATH)
+> > >   File "/usr/lib/python3.7/shutil.py", line 121, in copyfile
+> > >     with open(dst, 'wb') as fdst:
+> > > FileNotFoundError: [Errno 2] No such file or directory: '.kunit/.kunitconfig'
+> > >
+> > > It seems that it expects the build_dir to already exist; however, I
+> > > don't think this is clear from the error message. Would you mind
+> > > addressing that here?
+> >
+> > Thank you for sharing this.  I will take a look!
+> >
+> >
+> > Thanks,
+> > SeongJae Park
+> > >
+> > > Cheers!
