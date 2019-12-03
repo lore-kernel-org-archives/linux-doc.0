@@ -2,269 +2,158 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCDFC43215
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 21:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0846C432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 22:36:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6EAC20803
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 21:21:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6042820675
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 22:36:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qmmaebzo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727484AbfLCVVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 16:21:08 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37006 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727439AbfLCVVI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 16:21:08 -0500
-Received: from localhost (unknown [IPv6:2610:98:8005::647])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: krisman)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E95F128C59C;
-        Tue,  3 Dec 2019 21:21:04 +0000 (GMT)
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Gao Xiang <gaoxiang25@huawei.com>,
-        Daniel Rosenberg <drosen@google.com>,
-        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
-Organization: Collabora
-References: <20191203051049.44573-1-drosen@google.com>
-        <20191203051049.44573-5-drosen@google.com>
-        <20191203074154.GA216261@architecture4> <85wobdb3hp.fsf@collabora.com>
-        <20191203203414.GA727@sol.localdomain>
-Date:   Tue, 03 Dec 2019 16:21:02 -0500
-In-Reply-To: <20191203203414.GA727@sol.localdomain> (Eric Biggers's message of
-        "Tue, 3 Dec 2019 12:34:14 -0800")
-Message-ID: <85zhg96r7l.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1727574AbfLCWgF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 17:36:05 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45335 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727528AbfLCWgF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 17:36:05 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k1so2289211pgg.12
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 14:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r06+KrKZmbSJH6UUm02fNkOof8/gjixGbcfjblQ+qRs=;
+        b=qmmaebzoB44V44DUoG8FAhCTP3bWZxhuWc/e85o0mdI6Hg+gGv8FZsbinUlNKbd+cB
+         SML2TNJLyK+1Kz5vJTHNbPffrS+dZYi3mWcVJEvQXoePAoP/scqeV34UCbocwPR6YFB6
+         R4C/xrXvcfFez3m0kS8tQZ97SM/tpq2yM16XDitDpBR9BwH4IuYvXRNj9zz8dtypvU4Z
+         JgmqbL+mAilAq2eBnhxfjTy+simzyTz5k7LbYN9oWVWjzwPzTekeGkc9P3LScLtACFmK
+         MBXNDmluF4EhFW2ZAuR87z06qoWJveYtsGKQsHRz45F5zAAjEwhvdPwulQQGoFKsAC21
+         wGFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r06+KrKZmbSJH6UUm02fNkOof8/gjixGbcfjblQ+qRs=;
+        b=gralwZm1bmfrQpE4vhFKuD7TkkRUzI+cY5+A+ojJFgbbYu4B2WNcsll9SFwopltl/M
+         +sPwFPmcZXO8LWb5Em+9EFyRPFoaa0wDj0k8qxupBAPEgkIB0wOPHdDVXlRMV9hmb5Zu
+         qdguat6Pxc8yWXEsXXZHQOvZnf4TBWM8EDlT3ag7flgjxS/6z8KCBetLRXLPPiZTR5WS
+         HTXBV96tmZT+YAaQGPibgeW22gIODLPQgW4XrdVBixEceZjuMI7x1SF6zi2xrWvrl5SG
+         rV0rHxMath6qQp56nCbIfnk5wKlA5Ki3MYFCM3kwnxYczOSgxLT6/JReXgsJjs8djVy1
+         RSQg==
+X-Gm-Message-State: APjAAAWSPyZ+p0gPSVw3arJsqJ27pH1Shg7rOB+XSrVCwzXybXWGXV7q
+        2GxNnP4vK7jv3lROYv8ZiB8cc2EGpDl5Cml73fX/Ew==
+X-Google-Smtp-Source: APXvYqxWObr1MDrGkYFSZAzjU0wyoXqLlbyFY+LBrt8mBQKO1DqOKm01gXn/4tlInbMN4BHmYN9VZEP1u5qBzoGNkK8=
+X-Received: by 2002:a63:480f:: with SMTP id v15mr7802935pga.201.1575412564268;
+ Tue, 03 Dec 2019 14:36:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com>
+ <20191203070025.GA4206@google.com> <CAEjAshraUy20gEEaff69=b11DhB7zbz8WHT=6wOuw6C2FyJwYA@mail.gmail.com>
+ <CAEjAsho98ER1RQ6=++ECmoCJxw2mMrGqV4jAgW5wgfb8eEM9eQ@mail.gmail.com>
+ <CAFd5g46qPPsKJFqs07Eiea0Nim=YDWbOUndJu=JbW--VcTb-ww@mail.gmail.com> <CAEjAshpTAj_aYBUG1PWoyPajT69hWptXOZKwydg6duTNV5=aLQ@mail.gmail.com>
+In-Reply-To: <CAEjAshpTAj_aYBUG1PWoyPajT69hWptXOZKwydg6duTNV5=aLQ@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 3 Dec 2019 14:35:53 -0800
+Message-ID: <CAFd5g46VZ10FeKJspSQXWc+zHervGQk5brOxei+S53OO5kYfTQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Fix nits in the kunit
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Eric Biggers <ebiggers@kernel.org> writes:
-
-> On Tue, Dec 03, 2019 at 02:42:10PM -0500, Gabriel Krisman Bertazi wrote:
->> Gao Xiang <gaoxiang25@huawei.com> writes:
-
->> I think Daniel's approach of moving this into VFS is the simplest way to
->> actually solve the issue, instead of extending and duplicating a lot of
->> functionality into filesystem hooks to support the possible mixes of
->> case-insensitive, overlayfs and fscrypt.
->> 
+On Tue, Dec 3, 2019 at 10:11 AM SeongJae Park <sj38.park@gmail.com> wrote:
 >
-> I think we can actually get everything we want using dentry_operations only,
-> since the filesystem can set ->d_op during ->lookup() (like what is done for
-> encrypted filenames now) rather than at dentry allocation time.  And fs/crypto/
-> can export fscrypt_d_revalidate() rather than setting ->d_op itself.
+> On Tue, Dec 3, 2019 at 6:45 PM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > On Tue, Dec 3, 2019 at 12:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> > >
+> > > You're right, the error was due to the assumption of the existence of the
+> > > build_dir.  The "kunit: Create default config in '--build_dir'" patch made the
+> > > bug.  I fixed it in the second version patchset[1].
+> > >
+> > > [1] https://lore.kernel.org/linux-doc/1575361141-6806-1-git-send-email-sj38.park@gmail.com/
+> >
+> > After trying your new patches, I am still getting the
+> > "FileNotFoundError" when the given build_dir has not been created.
+>
+> Sorry, apparently my mistake...  Sent v3 fixing it:
+> https://lore.kernel.org/linux-kselftest/1575396508-21480-1-git-send-email-sj38.park@gmail.com/T/#t
 
-Problem is, differently from fscrypt, case-insensitive uses the d_hash()
-hook and for a lookup, we actually use
-dentry->d_parent->d_ops->d_hash().  Which works well, until you are flipping the
-casefold flag.  Then the dentry already exists and you need to modify
-the d_ops on the fly, which I couldn't find precedent anywhere.  I tried
-invalidating the dentry whenever we flip the flag, but then if it has
-negative dentries as children,I wasn't able to reliably invalidate it,
-and that's when I reached the limit of my knowledge in VFS.  In
-particular, in every attempt I made to implement it like this, I was
-able to race and do a case-insensitive lookup on a directory that was
-just made case sensitive.
+Awesome, looks like that works now!
 
-I'm not saying there isn't a way.  But it is a bit harder than this
-proposal. I tried it already and still didn't manage to make it work.
-Maybe someone who better understands vfs.
+Thanks for taking care of this!
 
-> It's definitely ugly to have to handle the 3 cases of encrypt, casefold, and
-> encrypt+casefold separately -- and this will need to be duplicated for each
-> filesystem.  But we do have to weigh that against adding additional complexity
-> and overhead to the VFS for everyone.  If we do go with the VFS changes, please
-> try to make them as simple and unobtrusive as possible.
-
-Well, it is just not case-insensitive+fscrypt. Also overlayfs
-there. Probably more.  So we have much more cases.  I understand the VFS
-changes need to be very well thought, but when I worked on this it
-started to look a more correct solution than using the hooks.
-
-> diff --git a/fs/crypto/crypto.c b/fs/crypto/crypto.c
-> index 3719efa546c6..cfa44adff2b3 100644
-> --- a/fs/crypto/crypto.c
-> +++ b/fs/crypto/crypto.c
-> @@ -290,7 +290,7 @@ EXPORT_SYMBOL(fscrypt_decrypt_block_inplace);
->   * Validate dentries in encrypted directories to make sure we aren't potentially
->   * caching stale dentries after a key has been added.
->   */
-> -static int fscrypt_d_revalidate(struct dentry *dentry, unsigned int flags)
-> +int fscrypt_d_revalidate(struct dentry *dentry, unsigned int flags)
->  {
->  	struct dentry *dir;
->  	int err;
-> @@ -329,10 +329,7 @@ static int fscrypt_d_revalidate(struct dentry *dentry, unsigned int flags)
->  
->  	return valid;
->  }
-> -
-> -const struct dentry_operations fscrypt_d_ops = {
-> -	.d_revalidate = fscrypt_d_revalidate,
-> -};
-> +EXPORT_SYMBOL_GPL(fscrypt_d_revalidate);
->  
->  /**
->   * fscrypt_initialize() - allocate major buffers for fs encryption.
-> diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
-> index 130b50e5a011..4420670ac40a 100644
-> --- a/fs/crypto/fscrypt_private.h
-> +++ b/fs/crypto/fscrypt_private.h
-> @@ -233,7 +233,6 @@ extern int fscrypt_crypt_block(const struct inode *inode,
->  			       unsigned int len, unsigned int offs,
->  			       gfp_t gfp_flags);
->  extern struct page *fscrypt_alloc_bounce_page(gfp_t gfp_flags);
-> -extern const struct dentry_operations fscrypt_d_ops;
->  
->  extern void __printf(3, 4) __cold
->  fscrypt_msg(const struct inode *inode, const char *level, const char *fmt, ...);
-> diff --git a/fs/crypto/hooks.c b/fs/crypto/hooks.c
-> index bb3b7fcfdd48..ec81b6a597aa 100644
-> --- a/fs/crypto/hooks.c
-> +++ b/fs/crypto/hooks.c
-> @@ -116,7 +116,6 @@ int __fscrypt_prepare_lookup(struct inode *dir, struct dentry *dentry,
->  		spin_lock(&dentry->d_lock);
->  		dentry->d_flags |= DCACHE_ENCRYPTED_NAME;
->  		spin_unlock(&dentry->d_lock);
-> -		d_set_d_op(dentry, &fscrypt_d_ops);
->  	}
->  	return err;
->  }
-> diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
-> index 9fdd2b269d61..bd3c14e6b24a 100644
-> --- a/fs/ext4/dir.c
-> +++ b/fs/ext4/dir.c
-> @@ -704,9 +704,47 @@ static int ext4_d_hash(const struct dentry *dentry, struct qstr *str)
->  	kfree(norm);
->  	return ret;
->  }
-> +#endif /* !CONFIG_UNICODE */
->  
-> -const struct dentry_operations ext4_dentry_ops = {
-> +#ifdef CONFIG_UNICODE
-> +static const struct dentry_operations ext4_ci_dentry_ops = {
-> +	.d_hash = ext4_d_hash,
-> +	.d_compare = ext4_d_compare,
-> +};
-> +#endif
-> +
-> +#ifdef CONFIG_FS_ENCRYPTION
-> +static const struct dentry_operations ext4_encrypted_dentry_ops = {
-> +	.d_revalidate = fscrypt_d_revalidate,
-> +};
-> +#endif
-> +
-> +#if IS_ENABLED(CONFIG_UNICODE) && IS_ENABLED(CONFIG_FS_ENCRYPTION)
-> +static const struct dentry_operations ext4_encrypted_ci_dentry_ops = {
->  	.d_hash = ext4_d_hash,
->  	.d_compare = ext4_d_compare,
-> +	.d_revalidate = fscrypt_d_revalidate,
->  };
->  #endif
-> +
-> +void ext4_set_d_ops(struct inode *dir, struct dentry *dentry)
-> +{
-> +#ifdef CONFIG_FS_ENCRYPTION
-> +	if (dentry->d_flags & DCACHE_ENCRYPTED_NAME) {
-> +#ifdef CONFIG_UNICODE
-> +		if (IS_CASEFOLDED(dir)) {
-> +			d_set_d_op(dentry, &ext4_encrypted_ci_dentry_ops);
-> +			return;
-> +		}
-> +#endif
-> +		d_set_d_op(dentry, &ext4_encrypted_dentry_ops);
-> +		return;
-> +	}
-> +#endif
-> +#ifdef CONFIG_UNICODE
-> +	if (IS_CASEFOLDED(dir)) {
-> +		d_set_d_op(dentry, &ext4_ci_dentry_ops);
-> +		return;
-> +	}
-> +#endif
-> +}
-> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> index f8578caba40d..00a10015a53c 100644
-> --- a/fs/ext4/ext4.h
-> +++ b/fs/ext4/ext4.h
-> @@ -2499,6 +2499,8 @@ static inline  unsigned char get_dtype(struct super_block *sb, int filetype)
->  extern int ext4_check_all_de(struct inode *dir, struct buffer_head *bh,
->  			     void *buf, int buf_size);
->  
-> +void ext4_set_d_ops(struct inode *dir, struct dentry *dentry);
-> +
->  /* fsync.c */
->  extern int ext4_sync_file(struct file *, loff_t, loff_t, int);
->  
-> @@ -3097,10 +3099,6 @@ static inline void ext4_unlock_group(struct super_block *sb,
->  /* dir.c */
->  extern const struct file_operations ext4_dir_operations;
->  
-> -#ifdef CONFIG_UNICODE
-> -extern const struct dentry_operations ext4_dentry_ops;
-> -#endif
-> -
->  /* file.c */
->  extern const struct inode_operations ext4_file_inode_operations;
->  extern const struct file_operations ext4_file_operations;
-> diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-> index a856997d87b5..4df1d074b393 100644
-> --- a/fs/ext4/namei.c
-> +++ b/fs/ext4/namei.c
-> @@ -1608,6 +1608,7 @@ static struct buffer_head *ext4_lookup_entry(struct inode *dir,
->  	struct buffer_head *bh;
->  
->  	err = ext4_fname_prepare_lookup(dir, dentry, &fname);
-> +	ext4_set_d_ops(dir, dentry);
->  	if (err == -ENOENT)
->  		return NULL;
->  	if (err)
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index 1d82b56d9b11..ac593e9af270 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -4498,11 +4498,6 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
->  		goto failed_mount4;
->  	}
->  
-> -#ifdef CONFIG_UNICODE
-> -	if (sbi->s_encoding)
-> -		sb->s_d_op = &ext4_dentry_ops;
-> -#endif
-> -
->  	sb->s_root = d_make_root(root);
->  	if (!sb->s_root) {
->  		ext4_msg(sb, KERN_ERR, "get root dentry failed");
-> diff --git a/include/linux/fscrypt.h b/include/linux/fscrypt.h
-> index 1a7bffe78ed5..0de461f2225a 100644
-> --- a/include/linux/fscrypt.h
-> +++ b/include/linux/fscrypt.h
-> @@ -120,6 +120,8 @@ static inline struct page *fscrypt_pagecache_page(struct page *bounce_page)
->  
->  extern void fscrypt_free_bounce_page(struct page *bounce_page);
->  
-> +extern int fscrypt_d_revalidate(struct dentry *dentry, unsigned int flags);
-> +
->  /* policy.c */
->  extern int fscrypt_ioctl_set_policy(struct file *, const void __user *);
->  extern int fscrypt_ioctl_get_policy(struct file *, void __user *);
-
--- 
-Gabriel Krisman Bertazi
+> Thanks,
+> SeongJae Park
+>
+>
+> >
+> > > Thanks,
+> > > SeongJae Park
+> > >
+> > > On Tue, Dec 3, 2019 at 8:10 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> > > >
+> > > > On Tue, Dec 3, 2019 at 8:00 AM Brendan Higgins
+> > > > <brendanhiggins@google.com> wrote:
+> > > > >
+> > > > > On Mon, Dec 02, 2019 at 08:25:18AM +0900, SeongJae Park wrote:
+> > > > > > From: SeongJae Park <sjpark@amazon.de>
+> > > > > >
+> > > > > > This patchset contains trivial fixes for the kunit documentations and the
+> > > > > > wrapper python scripts.
+> > > > > >
+> > > > > > SeongJae Park (6):
+> > > > > >   docs/kunit/start: Use in-tree 'kunit_defconfig'
+> > > > > >   docs/kunit/start: Skip wrapper run command
+> > > > > >   kunit: Remove duplicated defconfig creation
+> > > > > >   kunit: Create default config in 'build_dir'
+> > > > > >   kunit: Place 'test.log' under the 'build_dir'
+> > > > > >   kunit: Rename 'kunitconfig' to '.kunitconfig'
+> > > > > >
+> > > > > >  Documentation/dev-tools/kunit/start.rst | 19 +++++--------------
+> > > > > >  tools/testing/kunit/kunit.py            | 10 ++++++----
+> > > > > >  tools/testing/kunit/kunit_kernel.py     |  6 +++---
+> > > > > >  3 files changed, 14 insertions(+), 21 deletions(-)
+> > > > >
+> > > > > I applied your patchset to torvalds/master, ran the command:
+> > > > >
+> > > > > tools/testing/kunit/kunit.py run --timeout=60 --jobs=8 --defconfig --build_dir=.kunit
+> > > > >
+> > > > > and got the error:
+> > > > >
+> > > > > Traceback (most recent call last):
+> > > > >   File "tools/testing/kunit/kunit.py", line 140, in <module>
+> > > > >     main(sys.argv[1:])
+> > > > >   File "tools/testing/kunit/kunit.py", line 123, in main
+> > > > >     create_default_kunitconfig()
+> > > > >   File "tools/testing/kunit/kunit.py", line 36, in create_default_kunitconfig
+> > > > >     kunit_kernel.KUNITCONFIG_PATH)
+> > > > >   File "/usr/lib/python3.7/shutil.py", line 121, in copyfile
+> > > > >     with open(dst, 'wb') as fdst:
+> > > > > FileNotFoundError: [Errno 2] No such file or directory: '.kunit/.kunitconfig'
+> > > > >
+> > > > > It seems that it expects the build_dir to already exist; however, I
+> > > > > don't think this is clear from the error message. Would you mind
+> > > > > addressing that here?
+> > > >
+> > > > Thank you for sharing this.  I will take a look!
+> > > >
+> > > >
+> > > > Thanks,
+> > > > SeongJae Park
+> > > > >
+> > > > > Cheers!
