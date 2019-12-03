@@ -2,211 +2,91 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2B8C432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 12:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C9EC432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 13:41:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5506620684
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 12:26:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bpJPXACy"
+	by mail.kernel.org (Postfix) with ESMTP id 93A312073F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 13:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfLCM0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 07:26:05 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:39564 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbfLCM0F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 07:26:05 -0500
-Received: by mail-qt1-f195.google.com with SMTP id g1so3522261qtj.6
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 04:26:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KCV6d9hCioXwDxQSc+9jtdCsRf9f3DSaaCIPQTYGbKY=;
-        b=bpJPXACy569Uou4xeEkwZe9zGcFmIVFTruFj2RkHy7VtyGHrOoGRz3FqXS6kIL+sRo
-         daMX5qEwAaWytvZEWpXQrsbW2BR8GJe0aPT3Cj7ggNoQNY3Dh2zJwsQVDGqIjqUv/hdQ
-         v2w7Is0MN86M34UBMlqsoquVNzg/LUCns7zy7DYnvPW3vKggDzp9hAMv6pdFnZgEqcvf
-         C4CXXVbJGvuwu7Bf8+AGrGMJmfi+XQ46PkOQY/Y8DnSF1xg5jRT4EnhFTXMHrLm63DYi
-         Nr3L1gbqGsTXMpQbHcQsMQwZRuobk3Bz4Nzsvvx5aTaYSsezK7fEDiHD4k3YJUebl9YQ
-         mqrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KCV6d9hCioXwDxQSc+9jtdCsRf9f3DSaaCIPQTYGbKY=;
-        b=KL43s1NhVHj46EKitdQ4fyuuRMm+SnGylmlrtgX843gGgg2k2rKEumcpaG6UOt1Upt
-         0ByUx/yZq5M7eKplSgJc+0HULKZjPXqvpxa85UAswuLI6hlRNW2Bw1ztCuxi9RB3zSUg
-         Im9wm3UVH/Lthh8z65X8/76mmtvAECqNk/ZONGxYDUuMB9TPPBVlljnn8k+tTS7VLKWN
-         VFxWnq8R4iBjwxckFHDMGjD8OFT6ge8DnUwMhHWEekA7vyG8MGM9P/31xFcRWsVB7RUG
-         f7D16mWCRrvCgrgXEg/iASF9KoYMFOc66hD6yOvakOcjhNeBAZroBQ0Aq7Bvs9S7GIKT
-         PtfA==
-X-Gm-Message-State: APjAAAWaT4r1mKpKQXle95/Gx3J/gj3JTB5md3CpUDfO/BTYBo9xZ2zA
-        xhAYK4Frs5CJEuCXiKTYifzOj5W/8lQooT4EeGQkTQvB
-X-Google-Smtp-Source: APXvYqweLlybh/rT5gfnZhz0yyuec8Zuu65/mrhliV+x4arFaG745EaW3zCKngE6hVl+mIngkPeM29sDhed2WB7clT0=
-X-Received: by 2002:ac8:1098:: with SMTP id a24mr4859094qtj.62.1575375964252;
- Tue, 03 Dec 2019 04:26:04 -0800 (PST)
+        id S1726363AbfLCNlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 08:41:35 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52276 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725939AbfLCNlf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Dec 2019 08:41:35 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 91DBC60B;
+        Tue,  3 Dec 2019 13:41:33 +0000 (UTC)
+Date:   Tue, 3 Dec 2019 06:41:32 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Amol Grover <frextrite@gmail.com>
+Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Subject: Re: [PATCH] doc: listRCU: Add some more listRCU patterns in the
+ kernel
+Message-ID: <20191203064132.38d75348@lwn.net>
+In-Reply-To: <20191203063941.6981-1-frextrite@gmail.com>
+References: <20191203063941.6981-1-frextrite@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-7-mike.leach@linaro.org>
- <b2f640d3-c320-82d4-7399-172846820589@arm.com> <CAJ9a7VgkgoUTL0+_3kj53go_CKtAH3fO5xF9UNDPPz1se1SKSw@mail.gmail.com>
- <ffda8aff-0904-7292-e2f1-93833b936c49@arm.com>
-In-Reply-To: <ffda8aff-0904-7292-e2f1-93833b936c49@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Tue, 3 Dec 2019 12:25:52 +0000
-Message-ID: <CAJ9a7VgH6tueHP_bCcwKzORbBxxADrRhUzPaSe=3NixCC05=Dw@mail.gmail.com>
-Subject: Re: [PATCH v5 06/14] coresight: cti: Add device tree support for v8
- arch CTI
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
+On Tue,  3 Dec 2019 12:09:43 +0530
+Amol Grover <frextrite@gmail.com> wrote:
 
-On Tue, 3 Dec 2019 at 11:28, Suzuki Kuruppassery Poulose
-<suzuki.poulose@arm.com> wrote:
->
-> On 03/12/2019 10:59, Mike Leach wrote:
-> > Hi Suzuki,
-> >
-> > On Fri, 29 Nov 2019 at 11:33, Suzuki Kuruppassery Poulose
-> > <suzuki.poulose@arm.com> wrote:
-> >>
-> >> On 19/11/2019 23:19, Mike Leach wrote:
-> >>> The v8 architecture defines the relationship between a PE, its optional ETM
-> >>> and a CTI. Unlike non-architectural CTIs which are implementation defined,
-> >>> this has a fixed set of connections which can therefore be represented as a
-> >>> simple tag in the device tree.
-> >>>
-> >>> This patch defines the tags needed to create an entry for this PE/ETM/CTI
-> >>> relationship, and provides functionality to implement the connection model
-> >>> in the CTI driver.
-> >>>
-> >>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> >>> ---
->
->
-> >>> +#ifdef CONFIG_OF
-> >>> +/*
-> >>> + * CTI can be bound to a CPU, or a system device.
-> >>> + * CPU can be declared at the device top level or in a connections node
-> >>> + * so need to check relative to node not device.
-> >>> + */
-> >>> +static int of_cti_get_cpu_at_node(const struct device_node *node)
-> >>> +{
-> >>> +     int cpu;
-> >>> +     struct device_node *dn;
-> >>> +
-> >>> +     if (node == NULL)
-> >>> +             return -1;
-> >>> +
-> >>> +     dn = of_parse_phandle(node, "cpu", 0);
-> >>> +     /* CTI affinity defaults to no cpu */
-> >>> +     if (!dn)
-> >>> +             return -1;
-> >>> +     cpu = of_cpu_node_to_id(dn);
-> >>> +     of_node_put(dn);
-> >>> +
-> >>> +     /* No Affinity  if no cpu nodes are found */
-> >>> +     return (cpu < 0) ? -1 : cpu;
-> >>> +}
-> >>> +
-> >>> +static const char *of_cti_get_node_name(const struct device_node *node)
-> >>> +{
-> >>> +     if (node)
-> >>> +             return node->full_name;
-> >>> +     return "unknown";
-> >>> +}
-> >>> +#else
-> >>> +static int of_cti_get_cpu_at_node(const struct device_node *node)
-> >>> +{
-> >>> +     return -1;
-> >>> +}
-> >>> +
-> >>> +static const char *of_cti_get_node_name(const struct device_node *node)
-> >>> +{
-> >>> +     return "unknown";
-> >>> +}
-> >>> +#endif
-> >>> +
-> >>> +static int cti_plat_get_cpu_at_node(struct fwnode_handle *fwnode)
-> >>> +{
-> >>
-> >> You may simply reuse coresight_get_cpu() below, instead of adding this
-> >> duplicate set of functions. See below.
-> >>
-> >>
-> >
-> > No we can't. coresight_get_cpu gets the 'cpu' entry relative to the
-> > device node, this gets the 'cpu' relative to the supplied node.
-> > This is very important for the case where a none v8 architected PE is
-> > attached to a CTI. This will use the devicetree form:-
-> >
-> > cti@<addr> {
-> >      [ some stuff  ]
-> >     trig_conns@1 {
-> >            cpu = <&CPU0>
-> >            [trigger signal  connection info for this cpu]
-> >     }
-> > }
-> >
-> > trig_conns is a child node and we must look for 'cpu' relative to it.
->
-> Ok. May be we could refactor the function to find the 'CPU' node
-> relative to the given "fwnode" and let the coresight_get_cpu() use it ?
->
-> int coresight_get_cpu(struct device *dev)
-> {
->         return coresight_get_fwnode_cpu(dev_fwnode(dev));
-> }
->
-> That way it is clear what we are dealing with. i.e, fwnode of any level
-> (device or an intermediate node).
->
+> - Add more information about listRCU patterns taking examples
+> from audit subsystem in the linux kernel.
+> 
+> - The initially written audit examples are kept, even though they are
+> slightly different in the kernel.
+> 
+> - Modify inline text for better passage quality.
+> 
+> - Fix typo in code-blocks and improve code comments.
+> 
+> - Add text formatting (italics, bold and code) for better emphasis.
 
-At present the generic coresight_get_cpu() deals with both DT and ACPI
-bindings.
-To refactor this would require re-factoring both binding types - and
-at present we have no definition for ACPI bindings for CTI and hence
-no way of knowing how the embedded cpu node is going to be
-represented.
+Thanks for improving the documentation!  I'll leave the RCU stuff to the
+experts, but I do have one request...
 
-I think we have to take just the DT binding as is for now as a CTI
-specific element and consider if it is worth re-factoring once the
-ACPI bindings are defined
+[...]
 
-Regards
+> +When a process exits, ``release_task()`` calls ``list_del_rcu(&p->tasks)`` under
+> +``tasklist_lock`` writer lock protection, to remove the task from the list of
+> +all tasks. The ``tasklist_lock`` prevents concurrent list additions/removals
+> +from corrupting the list. Readers using ``for_each_process()`` are not protected
+> +with the ``tasklist_lock``. To prevent readers from noticing changes in the list
+> +pointers, the ``task_struct`` object is freed only after one or more grace
+> +periods elapse (with the help of ``call_rcu()``). This deferring of destruction
+> +ensures that any readers traversing the list will see valid ``p->tasks.next``
+> +pointers and deletion/freeing can happen in parallel with traversal of the list.
+> +This pattern is also called an **existence lock**, since RCU pins the object in
+> +memory until all existing readers finish.
 
-Mike
+Please don't put function names as literal text.  If you just say
+call_rcu(), it will be formatted correctly and cross-linked to the
+appropriate kerneldoc entry.  Saying ``call_rcu()`` defeats that and
+clutters the plain-text reading experience.
 
-> >>> +     csdev = cti_get_assoc_csdev_by_fwnode(cs_fwnode);
-> >>> +     if (csdev)
-> >>> +             assoc_name = dev_name(&csdev->dev);
-> >>
-> >> Does it make sense to defer the probing until the ETM device  turn up ?
-> >> Its fine either way.
-> >>
-> >
-> > Not really as the ETM is optional but the PE still has a CTI.
->
-> Ah, you're right. Please ignore my comment.
->
-> Kind regards
-> Suzuki
+Thanks,
 
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+jon
