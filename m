@@ -2,119 +2,102 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EF2C432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F67C432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:19:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 676B52064B
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:18:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F8772068E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:19:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBgi+WWq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726186AbfLCISL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 03:18:11 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39478 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725845AbfLCISK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 03:18:10 -0500
-Received: by mail-ot1-f67.google.com with SMTP id 77so2148995oty.6;
-        Tue, 03 Dec 2019 00:18:10 -0800 (PST)
+        id S1726628AbfLCITS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 03:19:18 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:39548 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfLCITR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 03:19:17 -0500
+Received: by mail-wm1-f67.google.com with SMTP id s14so2365713wmh.4;
+        Tue, 03 Dec 2019 00:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=dVR4fIFnqBj1P8D1zyzrE8lPHinFuQJmdruk8S76xeM=;
+        b=BBgi+WWqAttoUkdZsDU5N6LxlC+t8hvemSP8NZWg8F9Dj1P0/4UrRbC9aa5omO1IJQ
+         q5XTvMzBWPrKmp486nQgcaLKN04np240K10uGf+ORgU+p4gS/4za7/o0ANKAHNHF4xfm
+         eWFiNM4WweY6Lhfn5JLALOTyASRS6tYsf5a8P+cJiZF9b4pC9VWfFMo32+wIP03DqEeu
+         1LP0e0+SGrb2nZiwWXq5g6tCj4TS/OvIwctlyMcFZMVEDs18efTR1klq5VL8xrLr7kTo
+         dSEMvUZZm8nLUGxfTgotrvQxXJhiNjq9p02rvZM0WOEhjO0X7whASlOy4yuYpCGUIMvz
+         bkeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gBtOE1GdWf2jzATlRbrF8r8Pac6d5nQ4OzH7cwGAR94=;
-        b=b+m13b3CkvQfHjFMmIRLCWHuM3weg+qEBDCakTYL5msGW+URm18UNn563N0Kqw0ut0
-         xP+lH3/HGq2BMU+spjBBYcC9Cb+78tpW7yy3ySLggmRmVByCMwTFY/4Ucgo7Akiw1A75
-         mKq37EDgN3klAjpfcS9hSaEsn9XhutvYasivZbdaNzFibSZb9eIiq/vjmdYT4bGqye72
-         69xqvTZx6uZbXcVaAdCu+pl7J5bICfLM9oM9eT7tn7grjfm7cRGDm/txW5VVZiZgdymC
-         7cmXLlpLlGXahovpcl0/xVYTkBbjErfggae43lJxfDghOHpRjJJGJmo0ixWOGHuKJ+vc
-         ZRPQ==
-X-Gm-Message-State: APjAAAVRpMyApozG4Ibe0l5j8+hA7Rzmk6Tvm+WtGxmLkU6Kbl8uBdd3
-        jMSNYPA4mZ0hGvW5CIcvZwYnulIG/ppA1P/HhL8=
-X-Google-Smtp-Source: APXvYqzBuvWMWrwsEDDhZ2tcNfeX7um84g4QQ5ld7WP0VV8LQtkLVFpjZhnV4oe+jaJ4tYQpo65700XzoJh4+uCOqZU=
-X-Received: by 2002:a9d:3a37:: with SMTP id j52mr2353717otc.39.1575361089532;
- Tue, 03 Dec 2019 00:18:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be> <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
-In-Reply-To: <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Dec 2019 09:17:58 +0100
-Message-ID: <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To:     Harish Jenny K N <harish_kandiga@mentor.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=dVR4fIFnqBj1P8D1zyzrE8lPHinFuQJmdruk8S76xeM=;
+        b=pfF6TI3ZG4eSKxCoorQTdVsRDJtsb35TrlwrYzU26SZO4Gl+Xs3x1Pk0GXVXJwCp+I
+         R7c1uzNjBTRwQxmVteU2NVrF6xTCx1gxSkmgPWyfB+TlcvKIukqF4CatVrlnIzgi/2oX
+         fzNtEd6NcjhURIIGBzgd25ateCR1RE6cH+hIuepovnQWoU3DqVOTUneigPmy/Eb9zgkN
+         1jxkGaxb+VX7hiDzs/U3Pd0Km/oriy8LdZmRuqPR4FIY62skRh9phA8YgjaIuys4dAcD
+         MSH59Kp8riQSeogbl4NfQbxoqDIslfyCY73keqGBlfSZrFQPADQLgBqC5+DOC2uMpy6j
+         nofw==
+X-Gm-Message-State: APjAAAX0aRIVvYM2W4cNOtxb5n+JJr0ZYlmv4tmY/CGLbqm5V+T4dUh+
+        Prri6sxEwyP7S84+PXW7P00=
+X-Google-Smtp-Source: APXvYqy0tqj03oWE45FyTibwSYi6op8KSBZc9QWMHOxtWPIBnhiU58JJnMP0yJ7VaLJMRRTOpAR5bg==
+X-Received: by 2002:a7b:c0d8:: with SMTP id s24mr29443182wmh.30.1575361154886;
+        Tue, 03 Dec 2019 00:19:14 -0800 (PST)
+Received: from localhost.localdomain (p50991abe.dip0.t-ipconnect.de. [80.153.26.190])
+        by smtp.gmail.com with ESMTPSA id 188sm2048197wmz.13.2019.12.03.00.19.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 03 Dec 2019 00:19:14 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     brendanhiggins@google.com, shuah@kernel.org
+Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sjpark@amazon.de
+Subject: [PATCH v2 1/5] docs/kunit/start: Use in-tree 'kunit_defconfig'
+Date:   Tue,  3 Dec 2019 17:18:57 +0900
+Message-Id: <1575361141-6806-2-git-send-email-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1575361141-6806-1-git-send-email-sj38.park@gmail.com>
+References: <1575361141-6806-1-git-send-email-sj38.park@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Harish,
+From: SeongJae Park <sjpark@amazon.de>
 
-On Tue, Dec 3, 2019 at 6:42 AM Harish Jenny K N
-<harish_kandiga@mentor.com> wrote:
-> > +static int gpio_aggregator_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev = &pdev->dev;
-> > +     struct gpio_desc **descs;
-> > +     struct gpiochip_fwd *fwd;
-> > +     int i, n;
-> > +
-> > +     n = gpiod_count(dev, NULL);
-> > +     if (n < 0)
-> > +             return n;
-> > +
-> > +     descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
-> > +     if (!descs)
-> > +             return -ENOMEM;
-> > +
-> > +     for (i = 0; i < n; i++) {
-> > +             descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
->
-> can you please add this check as well as we need to return EPROBE_DEFER.
->
-> if (desc[i] == ERR_PTR(-ENOENT))
-> <                 return -EPROBE_DEFER;
+The kunit doc suggests users to get the default `kunitconfig` from an
+external git tree.  However, the file is already located under the
+`arch/um/configs/` of the kernel tree.  Because the local file is easier
+to access and maintain, this commit updates the doc to use it.
 
-So gpiod_get_index() nevers return -EPROBE_DEFER, but returns -ENOENT
-instead?
-How can a driver distinguish between "GPIO not found" and "gpiochip driver
-not yet initialized"?
-Worse, so the *_optional() variants will return NULL in both cases, too, so
-the caller will always fall back to optional GPIO not present?
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+---
+ Documentation/dev-tools/kunit/start.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Or am I missing something?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index aeeddfa..78a0aed 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -29,9 +29,8 @@ regular Kernel config, with the specific test targets as well.
+ 
+ .. code-block:: bash
+ 
+-	git clone -b master https://kunit.googlesource.com/kunitconfig $PATH_TO_KUNITCONFIG_REPO
+ 	cd $PATH_TO_LINUX_REPO
+-	ln -s $PATH_TO_KUNIT_CONFIG_REPO/kunitconfig kunitconfig
++	cp arch/um/configs/kunit_defconfig kunitconfig
+ 
+ You may want to add kunitconfig to your local gitignore.
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
