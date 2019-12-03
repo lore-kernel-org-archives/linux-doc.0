@@ -2,161 +2,139 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45973C432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 03:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A6DC432C3
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1AB562068E
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 03:12:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41039207DD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 05:11:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K1e8TPhp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbfLCDMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Dec 2019 22:12:14 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8620 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726186AbfLCDMO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Dec 2019 22:12:14 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB338fJu039177;
-        Mon, 2 Dec 2019 22:12:10 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2wm6snqf1y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 02 Dec 2019 22:12:10 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xB33BRZO029645;
-        Tue, 3 Dec 2019 03:12:09 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma04dal.us.ibm.com with ESMTP id 2wkg26pg31-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Dec 2019 03:12:09 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB33C7AZ32964986
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 3 Dec 2019 03:12:07 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A4D54136055;
-        Tue,  3 Dec 2019 03:12:07 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 67F9B136051;
-        Tue,  3 Dec 2019 03:12:05 +0000 (GMT)
-Received: from jarvis.ext.hansenpartnership.com (unknown [9.80.221.34])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue,  3 Dec 2019 03:12:05 +0000 (GMT)
-Message-ID: <1575342724.24227.41.camel@linux.ibm.com>
-Subject: Re: One question about trusted key of keyring in Linux kernel.
-From:   James Bottomley <jejb@linux.ibm.com>
-To:     "Zhao, Shirley" <shirley.zhao@intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
-        "Zhu, Bing" <bing.zhu@intel.com>,
-        "Chen, Luhai" <luhai.chen@intel.com>
-Date:   Mon, 02 Dec 2019 19:12:04 -0800
-In-Reply-To: <A888B25CD99C1141B7C254171A953E8E4909E62E@shsmsx102.ccr.corp.intel.com>
-References: <A888B25CD99C1141B7C254171A953E8E49094313@shsmsx102.ccr.corp.intel.com>
-         <1573659978.17949.83.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E49095F9B@shsmsx102.ccr.corp.intel.com>
-         <1574877977.3551.5.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E49096521@shsmsx102.ccr.corp.intel.com>
-         <1575057916.6220.7.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
-         <1575260220.4080.17.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E4909D360@shsmsx102.ccr.corp.intel.com>
-         <1575267453.4080.26.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E4909E381@shsmsx102.ccr.corp.intel.com>
-         <1575269075.4080.31.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E4909E399@shsmsx102.ccr.corp.intel.com>
-         <1575312932.24227.13.camel@linux.ibm.com>
-         <A888B25CD99C1141B7C254171A953E8E4909E62E@shsmsx102.ccr.corp.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
+        id S1726131AbfLCFLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 00:11:18 -0500
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:47559 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725845AbfLCFLS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 00:11:18 -0500
+Received: by mail-pf1-f202.google.com with SMTP id e62so1440899pfh.14
+        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2019 21:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=JS26lqPOsyf+GCzfh2q7I14K35HWfvfL+jqbIeTiEhs=;
+        b=K1e8TPhpNMFVfy3zpUvxGh3rgUGzKKm5sRwldvLEOIz/KQFH4IXBVzoD7xIeXW+sI+
+         OHuBZYRP4c76okFVaCmF7t+ZhiyQ47NNKd8za4hEYxZ/9eN2nJNM68LEf9dSAhEHOwN4
+         a9+fCrUqBS2/vijwnB/zHYZ3QZP70NycgF/0gJuHNVgL4OVsK9mXOkllWTRUysHBF+wa
+         Gak/gb8gp9GJqewrQ7lybxNuknjIdN/43X38dwmp6wpmPxfFAzDAyu5634JeWK/S45eI
+         j3VRm8PmCQYeh3ZNcfCFmHhOhd5swp1KGjEMgNcsj8Lz9Zt42UsPXNuvXXoYDhc3LwDH
+         UWxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=JS26lqPOsyf+GCzfh2q7I14K35HWfvfL+jqbIeTiEhs=;
+        b=ctQb0QoIRmpjLxRPr3QJU63aLE9DHN15i8yac13bDza91E6iHPnd7Q3LUUIpzuDMWg
+         PEPFAdHsGbI5PHUTsS62EzKWoCcE1tff01ia1+Rdgqi7XHdhqzYlo0VYmP1xXVphE3Hy
+         D8vBUHTsuz6q8htdIBEQuNHOCwwLU9YP84F339ZfVO4ix0wRw7RpNAIz64xIyb1/ye46
+         LinaDAW17+rqcnyQulCdEO5x6i5yfeO6yXZPLQSl/HASI14Yaai34BrvsKjmJngKuzFE
+         vygOzXbChFfdEbpChHvrX9eVp1vvpaoQYtMTglMFf7ATrN2RTIKPF1xXtPZKO3R4NS68
+         5b+g==
+X-Gm-Message-State: APjAAAV49DRthf/rTF0kdSxL/ODwqZkD1y37NfKeXCq9Up/d8Q1LhFVs
+        I5s1KStka6xRueIjeV59/zdhmocsCYg=
+X-Google-Smtp-Source: APXvYqwAUHq1SM7kgd3huIBZdhakSOyUU8oN/jfGh2+n4qRA8Pa17aUBVqzak3AMNCxa4UE+GvJKUKnGXqc=
+X-Received: by 2002:a63:4104:: with SMTP id o4mr3339080pga.169.1575349877576;
+ Mon, 02 Dec 2019 21:11:17 -0800 (PST)
+Date:   Mon,  2 Dec 2019 21:10:41 -0800
+Message-Id: <20191203051049.44573-1-drosen@google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-02_06:2019-11-29,2019-12-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
- suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0 impostorscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912030028
+X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
+Subject: [PATCH 0/8] Support for Casefolding and Encryption
+From:   Daniel Rosenberg <drosen@google.com>
+To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-12-03 at 02:11 +0000, Zhao, Shirley wrote:
-> Thanks so much for you feedback, James. 
-> And glad to hear that the API will be made more friendly. 
-> 
-> But I have a little confused about the call stack. 
-> From the document, https://github.com/torvalds/linux/blob/master/Docu
-> mentation/security/keys/trusted-encrypted.rst and 
-> https://github.com/zfsonlinux/dracut/tree/master/modules.d/97masterke
-> y, the trusted key is a random number and generated by TPM2.0 and
-> sealed with TPM2.0 2048 RSA key. 
+Ext4 and F2FS currently both support casefolding and encryption, but not at the
+same time. These patches aim to rectify that.
 
-Well, um, that document seems to be based on TPM 1.2 ... a lot of what
-it says isn't quite true for TPM 2.0.  For instance all TPM 2.0 primary
-keys come with a symmetric component, so the sealed data in TPM 2.0 is
-actually symmetrically encrypted to a primary key.
+Since directory names are stored case preserved, we cannot just take the hash
+of the ciphertext. Instead we use the siphash of the casefolded name. With this
+we no longer have a direct path from an encrypted name to the hash without the
+key. To deal with this, fscrypt now always includes the hash in the name it
+presents when the key is not present. There is a pre-existing bug where you can
+change parts of the hash and still match the name so long as the disruption to
+the hash does not happen to affect lookup on that filesystem. I'm not sure how
+to fix that without making ext4 lookups slower in the more common case.
 
-> The 2048 RSA key is generated by tpm2_createprimary, and it can be
-> got by the TPM2.0 handle, just the "keyhandle" used in the following
-> keyctl command. 
-> $ keyctl add trusted kmk "new 32 keyhandle=0x81000001 hash=sha256
-> policydigest=`cat pcr7.policy`" @u
+I moved the identical dcache operations for ext4 and f2fs into the VFS, as any
+filesystem that uses casefolding will need the same code. This will also allow
+further optimizations to that path, although my current changes don't take
+advantage of that yet.
 
-The problem TPM 2.0 has is that most of them can't generate prime
-numbers very fast, so even through the kernel could generate the RSA
-primary, it would usually take far too long, so if you want to use a
-RSA primary you have to pre-generate one and place it in NV storage;
-the TCG recommends doing this at handle 81000001, which is what you
-have above.  However, the more modern way is to derive an elliptic
-curve key primary key every time ... EC keys can be generated by most
-TPMs in 10s of milliseconds, so the primary doesn't need to be present
-in NVRAM.
+For Ext4, this also means that we need to store the hash on disk. We only do so
+for encrypted and casefolded directories to avoid on disk format changes.
+Previously encryption and casefolding could not live on the same filesystem,
+and we're relaxing that requirement. F2fs is a bit more straightforward since
+it already stores hashes on disk.
 
-THe kernel should be using the EC primary method for the parent.  The
-only exception is when the key has an intermediate parent, and then it
-can be simply loaded from a file.
+I've updated the related tools with just enough to enable the feature. I still
+need to adjust their respective fsck's, although without access to the keys,
+they won't be able to verify the hashes of casefolded and encrypted names.
 
-> If reboot, to re-load the trusted key back to keyring, just call
-> tpm2_unseal is enough, don't need to call tpm2_load to load the
-> TPM2.0 2048 RSA key.
-> If the trusted key is also protected by policy, then the policy will
-> be checked during tpm2_unseal. 
-> 
-> After check the source code, the call stack is mostly like: 
-> SYSCALL_DEFINE5(add_key,...) --> key_create_or_update() -->
-> __key_instantiate_and_link() -->  trusted_instantiate() -->
-> tpm2_unseal_trusted() --> tpm2_unseal_cmd().
 
-Well, the API is confusing, but the code seems to imply the parent
-should be present somehow.  A key in NVRAM, like 81000001 is always
-present so it doesn't need to be loaded it can just be used as is.
+Daniel Rosenberg (8):
+  fscrypt: Add siphash and hash key for policy v2
+  fscrypt: Don't allow v1 policies with casefolding
+  fscrypt: Change format of no-key token
+  vfs: Fold casefolding into vfs
+  f2fs: Handle casefolding with Encryption
+  ext4: Use struct super_blocks' casefold data
+  ext4: Hande casefolding with encryption
+  ext4: Optimize match for casefolded encrypted dirs
 
-> Another problem here is, to build the policy to unseal the key, it
-> need to start an policy session, and transfer the session handle to
-> TPM2.0 unseal command. 
-> In my keyctl command, I use tpm2.0 command to start the session and
-> get the handle, put it into the keyctl command like:
-> keyctl add trusted kmk "load `cat kmk.blob` keyhandle=0x81000001
-> policyhandle=0x3000000" @u
+ Documentation/filesystems/ext4/directory.rst |  27 ++
+ fs/crypto/Kconfig                            |   1 +
+ fs/crypto/fname.c                            | 204 +++++++++---
+ fs/crypto/fscrypt_private.h                  |   9 +
+ fs/crypto/keysetup.c                         |  29 +-
+ fs/crypto/policy.c                           |  26 +-
+ fs/dcache.c                                  |  35 ++
+ fs/ext4/dir.c                                |  72 +----
+ fs/ext4/ext4.h                               |  87 +++--
+ fs/ext4/hash.c                               |  26 +-
+ fs/ext4/ialloc.c                             |   5 +-
+ fs/ext4/inline.c                             |  41 +--
+ fs/ext4/namei.c                              | 318 ++++++++++++-------
+ fs/ext4/super.c                              |  21 +-
+ fs/f2fs/dir.c                                | 115 +++----
+ fs/f2fs/f2fs.h                               |  14 +-
+ fs/f2fs/hash.c                               |  25 +-
+ fs/f2fs/inline.c                             |   9 +-
+ fs/f2fs/super.c                              |  17 +-
+ fs/f2fs/sysfs.c                              |   8 +-
+ fs/inode.c                                   |   8 +
+ fs/namei.c                                   |  43 ++-
+ include/linux/fs.h                           |  12 +
+ include/linux/fscrypt.h                      | 107 +++----
+ 24 files changed, 797 insertions(+), 462 deletions(-)
 
-As I said, using policy handles simply won't scale, so we need to use
-the actual policy instead ... thus the policy should be passed into the
-kernel  as part of the trusted key and the kernel itself would generate
-a policy session from the policy statements ... this approach is aready
-proven to be useful and functional in the tpm2 openssl engine code.
-
-James
+-- 
+2.24.0.393.g34dc348eaf-goog
 
