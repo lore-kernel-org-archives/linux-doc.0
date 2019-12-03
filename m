@@ -2,85 +2,276 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59ECAC43141
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:12:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E6F8C432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:25:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 219C5207DD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:12:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z4qWuLdz"
+	by mail.kernel.org (Postfix) with ESMTP id D8624206F0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575415547;
+	bh=s62NE83AvGkHv7a8GdNaMsP2tq9piaojVsurSzGHy0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=sPivDaBvXXIL4+JH1s7e3aobnMcjrtwrjk8H6+7ospYnZywFvkhsvH0gqNf2EaVAo
+	 e98vYAsTwRpR3kXcNILLbve+aOPQPEmWzLtNGqJBRc+/Qrg2prtOSo02DLZxzUNPS5
+	 ew/huS/OtP/THgm4S5RRwaMUFRX4JGA+YWtbIqAQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728580AbfLCXMX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 18:12:23 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33553 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728310AbfLCWjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 17:39:54 -0500
-Received: by mail-pf1-f196.google.com with SMTP id y206so2574094pfb.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 14:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PooeH2U9l4e0abyw2b34fiXdiQuPMqsoVdOri4vyWA8=;
-        b=Z4qWuLdzmbQTwgVTPkTffJkS/6pNJFJU52Pv5anld3AdBN2RKrp/QNd1ONA86GCT4X
-         Ue7OKCSynqRiSFtptrF3HrNk43XMiXsTQ2B0hgCska6BooFqIZFkPDO2/D24Z9Nquoaa
-         wm5Z9A+sS3IkccLQquaDr/DfefHCZZUj9H4vgVMLNNvKvukZfQs7lne9YWKfrNG4zLb9
-         EHOyQnKZfLEu0it+urUIkOotHnUuBQSoEytGqEP1moY7TceKQ3RaPVjFaxcxV680ACSY
-         cAD51x/PTdUvx4vPH5x/HrR9owsPzsP1j9WGcfG4gxtfx0o31QH3nq6CaIq7UZ+E1KoD
-         tfCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PooeH2U9l4e0abyw2b34fiXdiQuPMqsoVdOri4vyWA8=;
-        b=IRrZgwBNEqWwOriwoiuNYNIJIE3g2/DXBcUuz85hICd0D3G119ZiUdnN8/zn6XsmeZ
-         8XbiZ4bLsPIixx1WyEwCbhn9CDvU13u5mmd6w6gbhohvIt4ukiSIhwSOJlUtKxQ7jiZL
-         3QsonPaPF6xpGryVPgrrXFkLKzAya6rYyBNKFPyHC1+aiGyUfK9INIzSQJsEVtbZUMJk
-         E13iJs03G1j2KwQPUw/7NoMw0/Iqps/Mvc6WAxtVq0tyTo/CNAg6Qpd0B1APmqSUkQEp
-         NZJg81y/55LCkaON3j41uYPKcZIOam9MZuyREOxot2MsSoa0Od/HGT1wkU1Y1vZ0e2wE
-         TgKg==
-X-Gm-Message-State: APjAAAVu50qP2iYmE6/rpGXdbS9CmMlWHy1wgQT29djUguPLMyaUzdFV
-        /Sga8VBBxorqitqUMPXkqhTmEGiJqvkVjrKRCHI2zg==
-X-Google-Smtp-Source: APXvYqyopdizFtuRaXmHpNZY01aJqLAUpTS7fHYCocl6WpG8VXrtTOu+n9u17wqq8KlX1dRoJ6xGABbIJHbMC+vv96s=
-X-Received: by 2002:aa7:961b:: with SMTP id q27mr238999pfg.23.1575412793102;
- Tue, 03 Dec 2019 14:39:53 -0800 (PST)
+        id S1727015AbfLCXZq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 18:25:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42260 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726144AbfLCXZq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Dec 2019 18:25:46 -0500
+Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C1DD2068E;
+        Tue,  3 Dec 2019 23:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575415544;
+        bh=s62NE83AvGkHv7a8GdNaMsP2tq9piaojVsurSzGHy0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=crsYPp1d5tGI/MP8ReqUbvWAAZnafXFc4U7M2rUBZkC9KU0ir1bSFtgigA7Bg9rVd
+         olCW0/Tc+JxkFPpad+Rfap03k421RQ0XdMzO626E63or+h+JBju4GUy6IXTOYo/3W+
+         FUDxxcg0Q2J8npexMUa0+kZy0QjQ3emGL9pDB/E8=
+Date:   Tue, 3 Dec 2019 15:25:42 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com
+Subject: Re: [PATCH 1/8] fscrypt: Add siphash and hash key for policy v2
+Message-ID: <20191203232542.GB727@sol.localdomain>
+References: <20191203051049.44573-1-drosen@google.com>
+ <20191203051049.44573-2-drosen@google.com>
 MIME-Version: 1.0
-References: <1575396508-21480-1-git-send-email-sj38.park@gmail.com> <1575396508-21480-4-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1575396508-21480-4-git-send-email-sj38.park@gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 3 Dec 2019 14:39:42 -0800
-Message-ID: <CAFd5g47CtpRusO1tit3x+65p8EWVy-PSWU1rhwZ6x6ubbig=rQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] kunit: Create default config in '--build_dir'
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191203051049.44573-2-drosen@google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 3, 2019 at 10:08 AM SeongJae Park <sj38.park@gmail.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> If both '--build_dir' and '--defconfig' are given, the handling of
-> '--defconfig' ignores '--build_dir' option.  This commit modifies the
-> behavior to respect '--build_dir' option.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Suggested-by: Brendan Higgins <brendanhiggins@google.com>
-> Reported-by: Brendan Higgins <brendanhiggins@google.com>
+On Mon, Dec 02, 2019 at 09:10:42PM -0800, Daniel Rosenberg wrote:
+> When using casefolding along with encryption, we need to use a
+> cryptographic hash to allow fast filesystem operations while not knowing
+> the case of the name stored on disk while not revealing extra
+> information about the name if the key is not present.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+This sentence is hard to parse.  Can you make it any clearer?
+
+> 
+> When a v2 policy is used on a directory, we derive a key for use with
+> siphash.
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
+> ---
+>  fs/crypto/fname.c           | 22 ++++++++++++++++++++++
+>  fs/crypto/fscrypt_private.h |  9 +++++++++
+>  fs/crypto/keysetup.c        | 29 ++++++++++++++++++++---------
+>  include/linux/fscrypt.h     |  8 ++++++++
+>  4 files changed, 59 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/crypto/fname.c b/fs/crypto/fname.c
+> index 3da3707c10e3..b33f03b9f892 100644
+> --- a/fs/crypto/fname.c
+> +++ b/fs/crypto/fname.c
+> @@ -12,6 +12,7 @@
+>   */
+>  
+>  #include <linux/scatterlist.h>
+> +#include <linux/siphash.h>
+>  #include <crypto/skcipher.h>
+>  #include "fscrypt_private.h"
+>  
+> @@ -400,3 +401,24 @@ int fscrypt_setup_filename(struct inode *dir, const struct qstr *iname,
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(fscrypt_setup_filename);
+> +
+> +/**
+> + * fscrypt_fname_siphash() - Calculate the siphash for a file name
+> + * @dir: the parent directory
+> + * @name: the name of the file to get the siphash of
+> + *
+> + * Given a user-provided filename @name, this function calculates the siphash of
+> + * that name using the hash key stored with the directory's policy.
+
+I suggest writing "using the directory's hash key" instead of "using the hash
+key stored with the directory's policy", since the latter might be misunderstood
+as meaning that the hash key is stored on-disk.
+
+Also it would be helpful to document the assumptions:
+
+	The directory must use a v2 encryption policy, and its key must be available.
+
+> + *
+> + *
+> + * Return: the siphash of @name using the hash key of @dir
+> + */
+> +u64 fscrypt_fname_siphash(const struct inode *dir, const struct qstr *name)
+> +{
+> +	struct fscrypt_info *ci = dir->i_crypt_info;
+> +
+> +	WARN_ON(!ci || !ci->ci_hash_key_initialized);
+> +
+> +	return siphash(name->name, name->len, &ci->ci_hash_key);
+> +}
+> +EXPORT_SYMBOL(fscrypt_fname_siphash);
+
+The !ci part of the WARN_ON is pointless because if it ever triggers, there will
+be a NULL dereference afterwards anyway.  I suggest changing it to just:
+
+	WARN_ON(!ci->ci_hash_key_initialized);
+
+> diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
+> index 130b50e5a011..f0dfef9921de 100644
+> --- a/fs/crypto/fscrypt_private.h
+> +++ b/fs/crypto/fscrypt_private.h
+> @@ -12,6 +12,7 @@
+>  #define _FSCRYPT_PRIVATE_H
+>  
+>  #include <linux/fscrypt.h>
+> +#include <linux/siphash.h>
+>  #include <crypto/hash.h>
+>  
+>  #define CONST_STRLEN(str)	(sizeof(str) - 1)
+> @@ -194,6 +195,13 @@ struct fscrypt_info {
+>  	 */
+>  	struct fscrypt_direct_key *ci_direct_key;
+>  
+> +	/*
+> +	 * With v2 policies, this can be used with siphash
+> +	 * When the key has been set, ci_hash_key_initialized is set to true
+> +	 */
+> +	siphash_key_t ci_hash_key;
+> +	bool ci_hash_key_initialized;
+> +
+>  	/* The encryption policy used by this inode */
+>  	union fscrypt_policy ci_policy;
+>  
+> @@ -286,6 +294,7 @@ extern int fscrypt_init_hkdf(struct fscrypt_hkdf *hkdf, const u8 *master_key,
+>  #define HKDF_CONTEXT_PER_FILE_KEY	2
+>  #define HKDF_CONTEXT_DIRECT_KEY		3
+>  #define HKDF_CONTEXT_IV_INO_LBLK_64_KEY	4
+> +#define HKDF_CONTEXT_FNAME_HASH_KEY     5
+>  
+>  extern int fscrypt_hkdf_expand(struct fscrypt_hkdf *hkdf, u8 context,
+>  			       const u8 *info, unsigned int infolen,
+> diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
+> index f577bb6613f9..e6c7ec04cd25 100644
+> --- a/fs/crypto/keysetup.c
+> +++ b/fs/crypto/keysetup.c
+> @@ -192,7 +192,7 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
+>  				     ci->ci_mode->friendly_name);
+>  			return -EINVAL;
+>  		}
+> -		return setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
+> +		err = setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
+>  					  HKDF_CONTEXT_DIRECT_KEY, false);
+>  	} else if (ci->ci_policy.v2.flags &
+>  		   FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64) {
+> @@ -202,20 +202,31 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
+>  		 * the IVs.  This format is optimized for use with inline
+>  		 * encryption hardware compliant with the UFS or eMMC standards.
+>  		 */
+> -		return setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
+> +		err = setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
+>  					  HKDF_CONTEXT_IV_INO_LBLK_64_KEY,
+>  					  true);
+> -	}
+> -
+> -	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+> +	} else {
+> +		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+>  				  HKDF_CONTEXT_PER_FILE_KEY,
+>  				  ci->ci_nonce, FS_KEY_DERIVATION_NONCE_SIZE,
+>  				  derived_key, ci->ci_mode->keysize);
+
+Nit: keep continuation lines aligned when they don't exceed 80 characters:
+
+		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+					  HKDF_CONTEXT_PER_FILE_KEY,
+					  ci->ci_nonce,
+					  FS_KEY_DERIVATION_NONCE_SIZE,
+					  derived_key, ci->ci_mode->keysize);
+
+> -	if (err)
+> -		return err;
+> +		if (err)
+> +			return err;
+> +
+> +		err = fscrypt_set_derived_key(ci, derived_key);
+> +		memzero_explicit(derived_key, ci->ci_mode->keysize);
+> +		if (err)
+> +			return err;
+
+This 'if (err)' check is in the wrong place.  It needs to be below the brace
+below, so that it also checks the error from setup_per_mode_key().
+
+> +	}
+>  
+> -	err = fscrypt_set_derived_key(ci, derived_key);
+> -	memzero_explicit(derived_key, ci->ci_mode->keysize);
+> +	if (S_ISDIR(ci->ci_inode->i_mode)) {
+> +		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+> +			  HKDF_CONTEXT_FNAME_HASH_KEY,
+> +			  ci->ci_nonce, FS_KEY_DERIVATION_NONCE_SIZE,
+> +			  (u8 *)&ci->ci_hash_key, sizeof(ci->ci_hash_key));
+
+Nit: keep continuation lines aligned when they don't exceed 80 characters:
+
+		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+					  HKDF_CONTEXT_FNAME_HASH_KEY,
+					  ci->ci_nonce,
+					  FS_KEY_DERIVATION_NONCE_SIZE,
+					  (u8 *)&ci->ci_hash_key,
+					  sizeof(ci->ci_hash_key));
+
+> +		if (!err)
+> +			ci->ci_hash_key_initialized = true;
+> +	}
+>  	return err;
+
+Nit: an early return on error would be better here
+(consistent with the code above):
+
+                if (err)
+                        return err;
+                ci->ci_hash_key_initialized = true;
+        }
+        return 0;
+
+> +extern u64 fscrypt_fname_siphash(const struct inode *dir,
+> +					const struct qstr *name);
+
+Nit: align the continuation line:
+
+extern u64 fscrypt_fname_siphash(const struct inode *dir,
+				 const struct qstr *name);
+
+>  
+>  #define FSCRYPT_FNAME_MAX_UNDIGESTED_SIZE	32
+>  
+> @@ -446,6 +448,12 @@ static inline int fscrypt_fname_disk_to_usr(struct inode *inode,
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> +static inline u64 fscrypt_fname_siphash(const struct inode *inode,
+
+In the other places the first parameter is called 'dir', not 'inode'.
+
+- Eric
