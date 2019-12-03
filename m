@@ -2,62 +2,62 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4052C432C3
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA63C43141
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:06:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C69672064B
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AD6D20803
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 23:06:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IUFc8UxN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RQtd+Q+J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729743AbfLCWuW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 17:50:22 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:42071 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729744AbfLCWuW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 17:50:22 -0500
-Received: by mail-pl1-f193.google.com with SMTP id x13so2268393plr.9
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 14:50:22 -0800 (PST)
+        id S1728004AbfLCXGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 18:06:32 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39045 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729325AbfLCXGa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 18:06:30 -0500
+Received: by mail-pl1-f194.google.com with SMTP id o9so2292807plk.6
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 15:06:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=s72VU58n1uZlGbJBRTu2xgBYvYdIHK25ECXlG0jy3sU=;
-        b=IUFc8UxNwCnljk1TUZeICIsFef5PK+xyx1Cbp5WCC/NRyAH/tbCYjBIAeLuROBwikS
-         7ZJl3nv42a8U9RgG63oQnfjnPKIovit6eCqoPDdhkLgzn5hRk1/nRxJt7ld9HCyyhMlk
-         JILbzRmnm3Y+5cdd/BwZZBnNhnO2dK6/enplmbtWP4BBQol0Ci2cwRgE+JclK44wH0Mw
-         ysEBvJVUVGDWQIELvgX4F94BvuaB1Sa/wk0WN9TVAehOEWdcUBsOn+qYzcqu8cpkUMhu
-         vttwNNE5r1wOhr9igAx4QihOT1fd5iRS1B7bEO+mKA2grij7zGOPJU69UqyOw6P7TKu5
-         SvPA==
+        bh=Y2iAUprUf3pSOMTinMI9+8tya2E8oBWIGOekFGX5HtE=;
+        b=RQtd+Q+Jq3oz26YIhHqXhGktsZlvdyT9W6nrwbKCBKWRL7ZTHS787L7uBYipiIuaj0
+         t2LGZD3jBENoo8sWRPYby5PA1LhyYsxqw21isJh37AehCw93QsAqUDZuq0cA7E8xfb3Y
+         ZRrQzh32e0Rodb7O//iAPRQf0KFSv7TJrLfAwCF1lTUki4OZomF7ih5Pja27/hkMFFvd
+         BUevFk6R/3E1YWJkpNBkUS9TuI0QccztX4CJSI3/xTIVegPjSgybEJgJnsoBJDL+NAyX
+         RzB0Daj07rp+bSWj/JG12eLEmrWyliRC+gVc50JRjCBX2OgKmyn3A/1+8VkMy6MwYd9b
+         5hOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=s72VU58n1uZlGbJBRTu2xgBYvYdIHK25ECXlG0jy3sU=;
-        b=ZwCYp57gULNdF8P0FoUgAvd7kf/qzkYHYjaGPu5zkL9CVLmqLxa7RQLIkD5qfOcH5H
-         /Bw62D80qg2vaRIp93bje1gx+BO5VD6crOkguiMUHMBoIi0+qDzdVclU+OIBvcSL7ViZ
-         mD2NuAMvkY6OFMXb7y+V2rDzXv8QG90acntyG2LPL/FNVSmrPvfnQAxIN68FQs4GEvo1
-         AK9KgbhYhudpzW3cIANhsJwXZHJyj69SKwGrJghTyhIv/qu4h5EN1gE2S4HYUxgVfhoa
-         WOBaYk/wWXvz5htj88RU7spZBJ/YNZnBDWUX27ltoFebnuTpAsSLBiAA1/yaNoUGp8/Y
-         t9Gg==
-X-Gm-Message-State: APjAAAVC455BVlf1SEMV1coox+Q9DkPncbcjGsRjzuyWdAvOxyJgA8YI
-        yHbIk6hlhYQYQdu4uXbhrUuOEXYEnLZp6r2vciQi1g==
-X-Google-Smtp-Source: APXvYqwiLcG4Ak+RbWUBVrzm1Y963nmdTKtkyVteu+4h4xn9QeAIwv9XGtBGLGW8JW3XRdI9kKo1W/hNsqcZZ8MX+Ho=
-X-Received: by 2002:a17:90a:c390:: with SMTP id h16mr8324726pjt.131.1575413421318;
- Tue, 03 Dec 2019 14:50:21 -0800 (PST)
+        bh=Y2iAUprUf3pSOMTinMI9+8tya2E8oBWIGOekFGX5HtE=;
+        b=Cw5v2mOz4GRuEFQqYwig0mMFUCrVN17Eo0Y+E9DIfvvm9mBkFnSEPc3Jkuv3O4XLV7
+         7sJ+3gfuDr95B5IR5iH+TqKsYl0DBjZd66zN1XLUcjRap6RmCvDJ8UVPFUUZOG3Pc9/y
+         j8HDT5THZYtEejAc3QL7VI7wH+CUVzo43SlBHwQ7JaESPquMwTIxxEENmyE/menbVr9n
+         lJWYtuC6/MYlj1tjvttket0+tvCZhJEKU/gQ3hIO6WHw7eyMmouffsLz1fmMDxzDn05/
+         FYkkSjRXs/G7U5tKWaSQJ2myGG44OpVGbRfzF8MYs7Ul22cXrn+8U65cYxrx7e7D/3pv
+         fNIg==
+X-Gm-Message-State: APjAAAVE21Nq2tRqmI3/gyCyPAIMWtLIbufQFlL2aD6g3k6sDo9VOtDN
+        tRKPJho1lu8XcPzQ1fZZcd8oRo8+1uMcty+rjssfmw==
+X-Google-Smtp-Source: APXvYqwoExgGqnGZkIzdVLbdVbyPMv/m/oFfgdibsdNl5+1hS5tfHV2K1vCgTDj2i/m7J0guJkjxOOZDsOKAKgfVUv0=
+X-Received: by 2002:a17:90a:c390:: with SMTP id h16mr8400706pjt.131.1575414389181;
+ Tue, 03 Dec 2019 15:06:29 -0800 (PST)
 MIME-Version: 1.0
-References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com> <1575374868-32601-7-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1575374868-32601-7-git-send-email-alan.maguire@oracle.com>
+References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 3 Dec 2019 14:50:10 -0800
-Message-ID: <CAFd5g47y8t7ZveLvgiTBVBkFE4-zJmPgMykjPNkm03X63Aimnw@mail.gmail.com>
-Subject: Re: [PATCH v5 linux-kselftest-test 6/6] kunit: update documentation
- to describe module-based build
+Date:   Tue, 3 Dec 2019 15:06:17 -0800
+Message-ID: <CAFd5g45VsXEXX--z-tjZWOTLgodnUwnOgyGqJVgy4xbz_YZFTQ@mail.gmail.com>
+Subject: Re: [PATCH v5 linux-kselftest-test 0/6] kunit: support building
+ core/tests as modules
 To:     Alan Maguire <alan.maguire@oracle.com>
 Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
@@ -74,8 +74,7 @@ Cc:     "open list:KERNEL SELFTEST FRAMEWORK"
         David Gow <davidgow@google.com>, adilger.kernel@dilger.ca,
         "Theodore Ts'o" <tytso@mit.edu>,
         Luis Chamberlain <mcgrof@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -84,12 +83,17 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Dec 3, 2019 at 4:08 AM Alan Maguire <alan.maguire@oracle.com> wrote:
 >
-> Documentation should describe how to build kunit and tests as
-> modules.
+> The current kunit execution model is to provide base kunit functionality
+> and tests built-in to the kernel.  The aim of this series is to allow
+> building kunit itself and tests as modules.  This in turn allows a
+> simple form of selective execution; load the module you wish to test.
+> In doing so, kunit itself (if also built as a module) will be loaded as
+> an implicit dependency.
 >
-> Co-developed-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Because this requires a core API modification - if a module delivers
+> multiple suites, they must be declared with the kunit_test_suites()
+> macro - we're proposing this patch set as a candidate to be applied to the
+> test tree before too many kunit consumers appear.  We attempt to deal
+> with existing consumers in patch 3.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Tested-by: Brendan Higgins <brendanhiggins@google.com>
