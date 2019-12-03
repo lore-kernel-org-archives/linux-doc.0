@@ -2,122 +2,88 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1309C43141
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:11:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6927DC432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:36:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C82C621555
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:11:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IpBzg5jo"
+	by mail.kernel.org (Postfix) with ESMTP id 493AE20661
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:36:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727467AbfLCHK4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 02:10:56 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34389 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727460AbfLCHKz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 02:10:55 -0500
-Received: by mail-lj1-f195.google.com with SMTP id m6so2555828ljc.1;
-        Mon, 02 Dec 2019 23:10:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T2oE/2ITTWUYWdiRD1UkVYx9tpV5y/qN7WKbuS8zqvk=;
-        b=IpBzg5jomg2hqfZqFOL+4Z2qK4TAHWstGJIqb3mUCDL03GtM9q3IV+COWDN4ecHtGY
-         hdt6Z7toqPcgqf5AZAhBo0ytu6mgjjiPzmRNloS/zzSUbWAjh+96Nif5bwoK30/ehJnC
-         A9RI/GDiS1peoHcV8dT5QZ+v1SCGYEPWBenTEdumCoQZcSSihbpkvdIEIhMlKhMKUer1
-         2koz2qyOdSuAxWUqdvFPvfb30mU/CkXoP84mKKRBnoKhhRx0TxQXXpAN7xKzm48NjsTX
-         FGyUzMcbLcj2mss86iVwSA7racaih2s4SG0Tw50FeLXM+2fxF21iNxuLtcDnmE5bsbph
-         tdog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T2oE/2ITTWUYWdiRD1UkVYx9tpV5y/qN7WKbuS8zqvk=;
-        b=H1830PYOg058ozingUnh64aQMGC+pBEN8/MDMpBFHypBtWVwn5v82DpXJuEx792ueN
-         NOSVsB+dG3mSMdBjVs+2lpzyaV+42gWwwVO7esF7RYDMJBkjEKYN47i1GjD25mER+thi
-         3AXvYdCN/8nFBw9+w2oU8ELsGn2FTFf82Xd1E3O5j9Znfelc9dK/7KNf7Ynjle30R1zi
-         ujQg0NXqaJA+9KBkrtRNHcx93wSPUnA5cl9QN7wv3cYuWSnv6cAXb3gjNs91jamt5MjV
-         bLwGr7LdSNvYnx9Ca6wDmS9cizcCQHcl8kjBibdbpg+M+8ASJvq6WSYIuuL7ILuGzJMv
-         ApDA==
-X-Gm-Message-State: APjAAAUbTcbCegqu4V/cku4dmDCvTZ6nu1occuGU/z+/Blrd99YYYq86
-        zntGY+QSX5wdRlUE3dyiIDpAsiUQ+pwI/u//JFo=
-X-Google-Smtp-Source: APXvYqweZp802KOAOJ8BisQDD2SIzdLKUOS/xVrxSfjAi42aOc57eQ5eEjmiqISt4Ij5722rvuc/8ygCbAkkgbksSQk=
-X-Received: by 2002:a2e:7816:: with SMTP id t22mr1625051ljc.161.1575357053013;
- Mon, 02 Dec 2019 23:10:53 -0800 (PST)
+        id S1727433AbfLCHgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 02:36:40 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2525 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727444AbfLCHgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Dec 2019 02:36:39 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.56])
+        by Forcepoint Email with ESMTP id 7819FD447DA005F45EFD;
+        Tue,  3 Dec 2019 15:36:36 +0800 (CST)
+Received: from dggeme762-chm.china.huawei.com (10.3.19.108) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 3 Dec 2019 15:36:36 +0800
+Received: from architecture4 (10.160.196.180) by
+ dggeme762-chm.china.huawei.com (10.3.19.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Tue, 3 Dec 2019 15:36:35 +0800
+Date:   Tue, 3 Dec 2019 15:41:54 +0800
+From:   Gao Xiang <gaoxiang25@huawei.com>
+To:     Daniel Rosenberg <drosen@google.com>
+CC:     Theodore Ts'o <tytso@mit.edu>, <linux-ext4@vger.kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        <linux-fscrypt@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        <kernel-team@android.com>
+Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
+Message-ID: <20191203074154.GA216261@architecture4>
+References: <20191203051049.44573-1-drosen@google.com>
+ <20191203051049.44573-5-drosen@google.com>
 MIME-Version: 1.0
-References: <1575242724-4937-1-git-send-email-sj38.park@gmail.com> <20191203070025.GA4206@google.com>
-In-Reply-To: <20191203070025.GA4206@google.com>
-From:   SeongJae Park <sj38.park@gmail.com>
-Date:   Tue, 3 Dec 2019 08:10:26 +0100
-Message-ID: <CAEjAshraUy20gEEaff69=b11DhB7zbz8WHT=6wOuw6C2FyJwYA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Fix nits in the kunit
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20191203051049.44573-5-drosen@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.160.196.180]
+X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
+ dggeme762-chm.china.huawei.com (10.3.19.108)
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 3, 2019 at 8:00 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> On Mon, Dec 02, 2019 at 08:25:18AM +0900, SeongJae Park wrote:
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > This patchset contains trivial fixes for the kunit documentations and the
-> > wrapper python scripts.
-> >
-> > SeongJae Park (6):
-> >   docs/kunit/start: Use in-tree 'kunit_defconfig'
-> >   docs/kunit/start: Skip wrapper run command
-> >   kunit: Remove duplicated defconfig creation
-> >   kunit: Create default config in 'build_dir'
-> >   kunit: Place 'test.log' under the 'build_dir'
-> >   kunit: Rename 'kunitconfig' to '.kunitconfig'
-> >
-> >  Documentation/dev-tools/kunit/start.rst | 19 +++++--------------
-> >  tools/testing/kunit/kunit.py            | 10 ++++++----
-> >  tools/testing/kunit/kunit_kernel.py     |  6 +++---
-> >  3 files changed, 14 insertions(+), 21 deletions(-)
->
-> I applied your patchset to torvalds/master, ran the command:
->
-> tools/testing/kunit/kunit.py run --timeout=60 --jobs=8 --defconfig --build_dir=.kunit
->
-> and got the error:
->
-> Traceback (most recent call last):
->   File "tools/testing/kunit/kunit.py", line 140, in <module>
->     main(sys.argv[1:])
->   File "tools/testing/kunit/kunit.py", line 123, in main
->     create_default_kunitconfig()
->   File "tools/testing/kunit/kunit.py", line 36, in create_default_kunitconfig
->     kunit_kernel.KUNITCONFIG_PATH)
->   File "/usr/lib/python3.7/shutil.py", line 121, in copyfile
->     with open(dst, 'wb') as fdst:
-> FileNotFoundError: [Errno 2] No such file or directory: '.kunit/.kunitconfig'
->
-> It seems that it expects the build_dir to already exist; however, I
-> don't think this is clear from the error message. Would you mind
-> addressing that here?
+On Mon, Dec 02, 2019 at 09:10:45PM -0800, Daniel Rosenberg wrote:
+> Ext4 and F2fs are both using casefolding, and they, along with any other
+> filesystem that adds the feature, will be using identical dentry_ops.
+> Additionally, those dentry ops interfere with the dentry_ops required
+> for fscrypt once we add support for casefolding and encryption.
+> Moving this into the vfs removes code duplication as well as the
+> complication with encryption.
+> 
+> Currently this is pretty close to just moving the existing f2fs/ext4
+> code up a level into the vfs, although there is a lot of room for
+> improvement now.
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 
-Thank you for sharing this.  I will take a look!
+I'm afraid that such vfs modification is unneeded.
 
+Just a quick glance it seems just can be replaced by introducing some
+.d_cmp, .d_hash helpers (or with little modification) and most non-Android
+emulated storage files are not casefolded (even in Android).
+
+"those dentry ops interfere with the dentry_ops required for fscrypt",
+I don't think it's a real diffculty and it could be done with some
+better approach instead.
 
 Thanks,
-SeongJae Park
->
-> Cheers!
+Gao Xiang
+
