@@ -2,108 +2,136 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2760C432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 10:12:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F41C43215
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 10:51:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7548F206F0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 10:12:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575367936;
-	bh=njEa6+IrLjuvJPILzHBnWSOeMyzbeQ4z6Q3+166H/eE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=xuYS7VmAk0DImVq+nKqQMvOrywVFJXPMsm5h4byk41n0bLr8jVOqcwGTqmiR1Dzsg
-	 oXKEspbp7VvExjJUVoeA/x68Y5pVSfWFyXbMwWWc0zhnVzvPcwA7rqV6tho0uf2uiu
-	 vb3ooBrMk0oW19pRbrBW47ziRvg7ddTe76h/So8o=
+	by mail.kernel.org (Postfix) with ESMTP id 5FC202073B
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 10:51:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcu1flX4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbfLCKMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 05:12:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58876 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725773AbfLCKMQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Dec 2019 05:12:16 -0500
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DD68A206DF;
-        Tue,  3 Dec 2019 10:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575367935;
-        bh=njEa6+IrLjuvJPILzHBnWSOeMyzbeQ4z6Q3+166H/eE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EwECi3FPLB/gvnYoP5ns47k1Roo8LLto0gKhd1RbDt8bHESwF/OS5NpOW/mDzvbBU
-         aNAi2vigGNx3RvjT6bsRLY06FdN/918p4dNXEvOAMkx+FqMjBl+PWB3UrR7P1cM92U
-         sGuAtpf5TUSO3fHv9ZfheiDtJ8l0aAS48yG5iCLU=
-Date:   Tue, 3 Dec 2019 10:12:03 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S1725838AbfLCKvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 05:51:22 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36051 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfLCKvV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 05:51:21 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z3so3091028wru.3;
+        Tue, 03 Dec 2019 02:51:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aVH1wKqnS/0tpLzx3r/GAf1NKCehOyA/BPLaY/A9mZw=;
+        b=bcu1flX4c17aWB0jdh6P6lZDIp/SLk/qdtJsKK+v1cgpyZysw5D8BZTfLyywHxESb/
+         VbPx8AvNhzB4UezAY9fDA6YZEIwwIbWLpRUT7ffXDaeqnOU+vtIbypDjkrn9knnOeTKC
+         lTKLKrvjcaTIsswNVoEAvjFcdX+t6BmlifXBAfwXCH9u4CLrNKNuFISMAOfA/L5bdHWy
+         /9jY3s23Uwo3yZJSAuqrE1qGmH7CgWfGkf+C1i0/V4a9wAiblr4Msd4W2DkxhHoWYHcM
+         7wdRPGB4fmqEulF7xyADd4vTG0DwEFv/aLwoThA10b2vKiINmT+yKPM/SJ6cmpjyUKkC
+         X1eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aVH1wKqnS/0tpLzx3r/GAf1NKCehOyA/BPLaY/A9mZw=;
+        b=e04dAZJCrx9mjPP0+eI9a687aclqvH3XgEM/NJiODUtOiwnc7VI2QLSeaqWeWcyt9K
+         Z8JuZuEUB/85FcYZPk4kTymmU0nnUUkfpn5Nnw0vjJnYaWnNGo4MfPTnxQitDqp4Tw66
+         oTb8nvmEfYqsJebhNvQ+qv4tONnTaRC/jv7DW5K5EofDdYKaTBwRR/UvE+Q6s337IEo8
+         O1/jKB5XWn7bYS0PPbSvNHcD9Pmv0DHYLu7gWVZGVJmj+r56E19tu5iWcPOCMoApBE31
+         1+yBXd+6pX/Es+usqYHWKWp9DY3lBKybSV0puWW3vJNp2JNXU/GEkIsToOETkD8QjRPB
+         N2Zg==
+X-Gm-Message-State: APjAAAXKByzlHccUxAJTnC6KCrBN6ynRC0k88U7+nPU/lzqM8UfpFvUB
+        l06zx9FFmaqmKqmg19d02/A=
+X-Google-Smtp-Source: APXvYqwmQ0zWTmSyqUGQ+uwoCR4ldO/zmwY8wc11jDimSnmv1YmHJBk/u09q6d+wdYGUiW8KtCogYA==
+X-Received: by 2002:adf:ef10:: with SMTP id e16mr4196456wro.336.1575370278677;
+        Tue, 03 Dec 2019 02:51:18 -0800 (PST)
+Received: from x230 (ipb218f57a.dynamic.kabel-deutschland.de. [178.24.245.122])
+        by smtp.gmail.com with ESMTPSA id m8sm2618228wmf.8.2019.12.03.02.51.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2019 02:51:17 -0800 (PST)
+From:   Eugeniu Rosca <roscaeugeniu@gmail.com>
+X-Google-Original-From: Eugeniu Rosca <erosca@de.adit-jv.com>
+Date:   Tue, 3 Dec 2019 11:51:03 +0100
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dave Anderson <anderson@redhat.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Subject: Re: [PATCH v5 0/5] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
- for arm64 and MAX_PHYSMEM_BITS for all archs)
-Message-ID: <20191203101202.GA6815@willie-the-truck>
-References: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
- <20191129102421.GA28322@willie-the-truck>
- <CACi5LpNQPw41kGsW+d0PyZaC7gSrbgwT2VxwyO5r3j83h-mkEQ@mail.gmail.com>
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+Message-ID: <20191203105103.GA20470@x230>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACi5LpNQPw41kGsW+d0PyZaC7gSrbgwT2VxwyO5r3j83h-mkEQ@mail.gmail.com>
+In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 30, 2019 at 01:35:36AM +0530, Bhupesh Sharma wrote:
-> On Fri, Nov 29, 2019 at 3:54 PM Will Deacon <will@kernel.org> wrote:
-> > On Fri, Nov 29, 2019 at 01:53:36AM +0530, Bhupesh Sharma wrote:
-> > > Changes since v4:
-> > > ----------------
-> > > - v4 can be seen here:
-> > >   http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
-> > > - Addressed comments from Dave and added patches for documenting
-> > >   new variables appended to vmcoreinfo documentation.
-> > > - Added testing report shared by Akashi for PATCH 2/5.
-> >
-> > Please can you fix your mail setup? The last two times you've sent this
-> > series it seems to get split into two threads, which is really hard to
-> > track in my inbox:
-> >
-> > First thread:
-> >
-> > https://lore.kernel.org/lkml/1574972621-25750-1-git-send-email-bhsharma@redhat.com/
-> >
-> > Second thread:
-> >
-> > https://lore.kernel.org/lkml/1574972716-25858-1-git-send-email-bhsharma@redhat.com/
-> 
-> There seems to be some issue with my server's msmtp settings. I have
-> tried resending the v5 (see
-> <http://lists.infradead.org/pipermail/linux-arm-kernel/2019-November/696833.html>).
-> 
-> I hope the threading is ok this time.
+Hi Geert,
 
-Much better now, thanks for sorting it out.
+On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
+> +static int gpio_aggregator_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct gpio_desc **descs;
+> +	struct gpiochip_fwd *fwd;
+> +	int i, n;
 
-Will
+FWIW/FTR, doing some blind creation and deletion of gpio aggregator
+chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
+sure this is something 100% reproducible.
+
+[1] while true; do \
+   echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
+   echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
+   done 
+
+[2] unreferenced object 0xffff0006d2c2e000 (size 128):
+  comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
+  hex dump (first 32 bytes):
+    00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
+    [<000000006f419a4f>] __kmalloc+0x170/0x218
+    [<0000000060d185ea>] kobj_map+0x78/0x1c0
+    [<00000000c96645f3>] cdev_add+0x68/0x94
+    [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
+    [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
+    [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
+    [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
+    [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
+    [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
+    [<00000000de84b58b>] really_probe+0x2d8/0x434
+    [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
+    [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
+    [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
+    [<00000000c149acef>] __device_attach+0x148/0x1e0
+    [<00000000a74fd158>] device_initial_probe+0x24/0x30
+
+-- 
+Best Regards,
+Eugeniu
