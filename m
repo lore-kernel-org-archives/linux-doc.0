@@ -2,126 +2,104 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3043C33C9A
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 19:32:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81731C33C9A
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 19:42:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B5F6206DF
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 19:32:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TyhNG6ph"
+	by mail.kernel.org (Postfix) with ESMTP id 5D7CF206DF
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 19:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727486AbfLCTbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 14:31:46 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:35986 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727433AbfLCTbp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 14:31:45 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB3JOcB9165372;
-        Tue, 3 Dec 2019 19:31:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2019-08-05; bh=qEl+pOhRr3g+RbA74TF3EJsh7AdX920CBSilgxsTtEA=;
- b=TyhNG6phCS4TQJ7F8PPU0jytfzaRchoWR6IbfN7EznnBQ/F0L+jvwdG88mZ1u5+kgpLZ
- 6BEjm/u8DxAD7qZI9poq6jroazrTa9BNAxhYM69DmOYZUbgPdQmY/v181yS9PZ6BRHAe
- dVgcPbpj1uBaxy1L8FZEJX2WJ1QZcyt5mwJH/+AeDtnFjhhnLpifjoic1/NHm8BF1BzP
- n2A3L5DnkRiFSDZ/18BPHf0h9mIJXhhup5SwnS/RqYcjjGY+YpewUOJACi52ZrSpIfS2
- rEBf2OHZwpAj/ui+N+1Bzw+xcxwwOnOvBPuVku/rNgOToZFrLVf5oW0Bl+e82BcctOSd Sg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2wkgcq9x9c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 03 Dec 2019 19:31:35 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB3JEcmg133392;
-        Tue, 3 Dec 2019 19:31:35 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 2wn7pqmm1x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 03 Dec 2019 19:31:34 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xB3JVT6O009168;
-        Tue, 3 Dec 2019 19:31:30 GMT
-Received: from localhost.localdomain (/98.229.125.203)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 03 Dec 2019 11:31:29 -0800
-From:   Daniel Jordan <daniel.m.jordan@oracle.com>
-To:     Herbert Xu <herbert@gondor.apana.org.au>,
-        Steffen Klassert <steffen.klassert@secunet.com>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Daniel Jordan <daniel.m.jordan@oracle.com>
-Subject: [PATCH v2 0/5] padata lockdep, cpumask, and doc fixes
-Date:   Tue,  3 Dec 2019 14:31:09 -0500
-Message-Id: <20191203193114.238912-1-daniel.m.jordan@oracle.com>
-X-Mailer: git-send-email 2.24.0
+        id S1727308AbfLCTmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 14:42:16 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36132 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726114AbfLCTmQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 14:42:16 -0500
+Received: from localhost (unknown [IPv6:2610:98:8005::647])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6C9562909E7;
+        Tue,  3 Dec 2019 19:42:14 +0000 (GMT)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Gao Xiang <gaoxiang25@huawei.com>
+Cc:     Daniel Rosenberg <drosen@google.com>,
+        Theodore Ts'o <tytso@mit.edu>, <linux-ext4@vger.kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        <linux-fscrypt@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <kernel-team@android.com>
+Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
+Organization: Collabora
+References: <20191203051049.44573-1-drosen@google.com>
+        <20191203051049.44573-5-drosen@google.com>
+        <20191203074154.GA216261@architecture4>
+Date:   Tue, 03 Dec 2019 14:42:10 -0500
+In-Reply-To: <20191203074154.GA216261@architecture4> (Gao Xiang's message of
+        "Tue, 3 Dec 2019 15:41:54 +0800")
+Message-ID: <85wobdb3hp.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9460 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=984
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1912030143
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9460 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1912030143
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series depends on all of Herbert's recent padata fixes to reduce
-merge conflicts on his end:
+Gao Xiang <gaoxiang25@huawei.com> writes:
 
-  crypto: pcrypt - Do not clear MAY_SLEEP flag in original request
-  padata: Remove unused padata_remove_cpu
-  [v3] crypto: pcrypt - Avoid deadlock by using per-instance padata queues
-  crypto: pcrypt - Fix user-after-free on module unload
-  padata: Remove broken queue flushing 
+> On Mon, Dec 02, 2019 at 09:10:45PM -0800, Daniel Rosenberg wrote:
+>> Ext4 and F2fs are both using casefolding, and they, along with any other
+>> filesystem that adds the feature, will be using identical dentry_ops.
+>> Additionally, those dentry ops interfere with the dentry_ops required
+>> for fscrypt once we add support for casefolding and encryption.
+>> Moving this into the vfs removes code duplication as well as the
+>> complication with encryption.
+>> 
+>> Currently this is pretty close to just moving the existing f2fs/ext4
+>> code up a level into the vfs, although there is a lot of room for
+>> improvement now.
+>> 
+>> Signed-off-by: Daniel Rosenberg <drosen@google.com>
+>
+> I'm afraid that such vfs modification is unneeded.
+>
+> Just a quick glance it seems just can be replaced by introducing some
+> .d_cmp, .d_hash helpers (or with little modification) and most non-Android
+> emulated storage files are not casefolded (even in Android).
+>
+> "those dentry ops interfere with the dentry_ops required for fscrypt",
+> I don't think it's a real diffculty and it could be done with some
+> better approach instead.
 
-If this should be based on something else, please let me know.
+It would be good to avoid dentry_ops in general for these cases.  It
+doesn't just interfere with fscrypt, but also overlayfs and others.
 
-Thanks,
-Daniel
+The difficulty is that it is not trivial to change dentry_ops after
+dentries are already installed in the dcache.  Which means that it is
+hard to use different dentry_ops for different parts of the filesystem,
+for instance when converting a directory to case-insensitive or back
+to case-sensitive.
 
-v2:
- - documentation patch RST-ized according to Jon's comments
- - "validate cpumask" patch added
- - rebased onto v5.4 and updated since Herbert's fixes have changed
+In fact, currently and for case-insensitive at least, we install generic
+hooks for the entire case-insensitive filesystem and use it even for
+!IS_CASEFOLDED() directories. This breaks overlayfs even if we don't
+have a single IS_CASEFOLDED() directory at all, just by having the
+superblock flag, we *must* set the dentry_ops, which already breaks
+overlayfs.
 
-Daniel Jordan (5):
-  padata: validate cpumask without removed CPU during offline
-  padata: always acquire cpu_hotplug_lock before pinst->lock
-  padata: remove cpumask change notifier
-  padata: remove reorder_objects
-  padata: update documentation
+I think Daniel's approach of moving this into VFS is the simplest way to
+actually solve the issue, instead of extending and duplicating a lot of
+functionality into filesystem hooks to support the possible mixes of
+case-insensitive, overlayfs and fscrypt.
 
- Documentation/core-api/index.rst  |   1 +
- Documentation/core-api/padata.rst | 169 ++++++++++++++++++++++++++++++
- Documentation/padata.txt          | 163 ----------------------------
- crypto/pcrypt.c                   |   1 -
- include/linux/cpuhotplug.h        |   1 +
- include/linux/padata.h            |  28 ++---
- kernel/padata.c                   | 124 ++++++++--------------
- 7 files changed, 220 insertions(+), 267 deletions(-)
- create mode 100644 Documentation/core-api/padata.rst
- delete mode 100644 Documentation/padata.txt
-
-
-base-commit: 219d54332a09e8d8741c1e1982f5eae56099de85
-prerequisite-patch-id: e31e7b28eb12a2c7e1e04261f4e890f83a57bd19
-prerequisite-patch-id: 00f7ca687bd9df6281e9ced0925a865b2fa7b297
-prerequisite-patch-id: 9f3bb985b34d29ff30e44b8829545736de02186f
-prerequisite-patch-id: fe09ee84131ee649b90ee291fbbeda32e90c42fe
-prerequisite-patch-id: f2e5a29f78e2403677ad50d870d90022932bc2b6
 -- 
-2.24.0
-
+Gabriel Krisman Bertazi
