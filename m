@@ -2,88 +2,119 @@ Return-Path: <SRS0=JqMg=ZZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6927DC432C0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EF2C432C0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:18:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 493AE20661
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 07:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 676B52064B
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Dec 2019 08:18:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbfLCHgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 02:36:40 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2525 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727444AbfLCHgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Dec 2019 02:36:39 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.56])
-        by Forcepoint Email with ESMTP id 7819FD447DA005F45EFD;
-        Tue,  3 Dec 2019 15:36:36 +0800 (CST)
-Received: from dggeme762-chm.china.huawei.com (10.3.19.108) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 3 Dec 2019 15:36:36 +0800
-Received: from architecture4 (10.160.196.180) by
- dggeme762-chm.china.huawei.com (10.3.19.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Tue, 3 Dec 2019 15:36:35 +0800
-Date:   Tue, 3 Dec 2019 15:41:54 +0800
-From:   Gao Xiang <gaoxiang25@huawei.com>
-To:     Daniel Rosenberg <drosen@google.com>
-CC:     Theodore Ts'o <tytso@mit.edu>, <linux-ext4@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        <linux-fscrypt@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        <kernel-team@android.com>
-Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
-Message-ID: <20191203074154.GA216261@architecture4>
-References: <20191203051049.44573-1-drosen@google.com>
- <20191203051049.44573-5-drosen@google.com>
+        id S1726186AbfLCISL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 03:18:11 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39478 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725845AbfLCISK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 03:18:10 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 77so2148995oty.6;
+        Tue, 03 Dec 2019 00:18:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gBtOE1GdWf2jzATlRbrF8r8Pac6d5nQ4OzH7cwGAR94=;
+        b=b+m13b3CkvQfHjFMmIRLCWHuM3weg+qEBDCakTYL5msGW+URm18UNn563N0Kqw0ut0
+         xP+lH3/HGq2BMU+spjBBYcC9Cb+78tpW7yy3ySLggmRmVByCMwTFY/4Ucgo7Akiw1A75
+         mKq37EDgN3klAjpfcS9hSaEsn9XhutvYasivZbdaNzFibSZb9eIiq/vjmdYT4bGqye72
+         69xqvTZx6uZbXcVaAdCu+pl7J5bICfLM9oM9eT7tn7grjfm7cRGDm/txW5VVZiZgdymC
+         7cmXLlpLlGXahovpcl0/xVYTkBbjErfggae43lJxfDghOHpRjJJGJmo0ixWOGHuKJ+vc
+         ZRPQ==
+X-Gm-Message-State: APjAAAVRpMyApozG4Ibe0l5j8+hA7Rzmk6Tvm+WtGxmLkU6Kbl8uBdd3
+        jMSNYPA4mZ0hGvW5CIcvZwYnulIG/ppA1P/HhL8=
+X-Google-Smtp-Source: APXvYqzBuvWMWrwsEDDhZ2tcNfeX7um84g4QQ5ld7WP0VV8LQtkLVFpjZhnV4oe+jaJ4tYQpo65700XzoJh4+uCOqZU=
+X-Received: by 2002:a9d:3a37:: with SMTP id j52mr2353717otc.39.1575361089532;
+ Tue, 03 Dec 2019 00:18:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191203051049.44573-5-drosen@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.160.196.180]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggeme762-chm.china.huawei.com (10.3.19.108)
-X-CFilter-Loop: Reflected
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be> <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+In-Reply-To: <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 Dec 2019 09:17:58 +0100
+Message-ID: <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Harish Jenny K N <harish_kandiga@mentor.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 02, 2019 at 09:10:45PM -0800, Daniel Rosenberg wrote:
-> Ext4 and F2fs are both using casefolding, and they, along with any other
-> filesystem that adds the feature, will be using identical dentry_ops.
-> Additionally, those dentry ops interfere with the dentry_ops required
-> for fscrypt once we add support for casefolding and encryption.
-> Moving this into the vfs removes code duplication as well as the
-> complication with encryption.
-> 
-> Currently this is pretty close to just moving the existing f2fs/ext4
-> code up a level into the vfs, although there is a lot of room for
-> improvement now.
-> 
-> Signed-off-by: Daniel Rosenberg <drosen@google.com>
+Hi Harish,
 
-I'm afraid that such vfs modification is unneeded.
+On Tue, Dec 3, 2019 at 6:42 AM Harish Jenny K N
+<harish_kandiga@mentor.com> wrote:
+> > +static int gpio_aggregator_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct gpio_desc **descs;
+> > +     struct gpiochip_fwd *fwd;
+> > +     int i, n;
+> > +
+> > +     n = gpiod_count(dev, NULL);
+> > +     if (n < 0)
+> > +             return n;
+> > +
+> > +     descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
+> > +     if (!descs)
+> > +             return -ENOMEM;
+> > +
+> > +     for (i = 0; i < n; i++) {
+> > +             descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
+>
+> can you please add this check as well as we need to return EPROBE_DEFER.
+>
+> if (desc[i] == ERR_PTR(-ENOENT))
+> <                 return -EPROBE_DEFER;
 
-Just a quick glance it seems just can be replaced by introducing some
-.d_cmp, .d_hash helpers (or with little modification) and most non-Android
-emulated storage files are not casefolded (even in Android).
+So gpiod_get_index() nevers return -EPROBE_DEFER, but returns -ENOENT
+instead?
+How can a driver distinguish between "GPIO not found" and "gpiochip driver
+not yet initialized"?
+Worse, so the *_optional() variants will return NULL in both cases, too, so
+the caller will always fall back to optional GPIO not present?
 
-"those dentry ops interfere with the dentry_ops required for fscrypt",
-I don't think it's a real diffculty and it could be done with some
-better approach instead.
+Or am I missing something?
 
-Thanks,
-Gao Xiang
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
