@@ -2,117 +2,176 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F83C43603
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 11:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FEAC43603
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 12:47:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C44D3206DF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 11:20:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="XpMSckWm"
+	by mail.kernel.org (Postfix) with ESMTP id 77DCA2081B
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 12:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575463661;
+	bh=YhBNn2pIe/XfuGHUHPcwfE5cePX6v0rmcKrFXfekw34=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=TWmqoteoHUwxOtQU8DHzRb/FSI3Pxy0HZhIvBBY5wMgsR2r64Eyx7guw5SucdHzDM
+	 qpzSxiMO5Md63RXIhjbx0W2aXPocg1eBK1D+6eaDf1PSURnp87ifYUdzWYlgKEixf2
+	 qZHDsVZdt+3/V71QHnu/+9KhPBfUM3uF1fu7c4Mk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbfLDLUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Dec 2019 06:20:09 -0500
-Received: from ozlabs.org ([203.11.71.1]:53851 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727331AbfLDLUJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Dec 2019 06:20:09 -0500
-Received: by ozlabs.org (Postfix, from userid 1034)
-        id 47Sbx23pcmz9sR1; Wed,  4 Dec 2019 22:20:06 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1575458406;
-        bh=RMWRAZwwgQN245RNDHoLGpEfZTTGRpaWbqsOmoV4m10=;
-        h=From:To:Cc:Subject:Date:From;
-        b=XpMSckWmnEfztrCYf+YqL1t0UyDy/krGzoeqHHG+Ddx23tDjETbuUfZZHy86k3JgS
-         WHmJ9rB4KlU0yEU2JZQcuX6ZU9Utb++aJxcQpN9oyoJ93a7SvWCymGfvNymrEPKJmO
-         S96+frlpOpYV3PbHZM2JatODfk22JOqbsatqtRc2/Yc26lm2q/sTU7EgrtoZhXxGSY
-         JRX15DlckcNWn7Qz2bKTG80vev8E9NHRwB9fTmFhSeqSjKjisPrIZnM6blXFfQgTud
-         0xYHxvX5n8Cgc4rDYe8S8cBYgXzMyW9SMkoENVTvTvpCCUIxOsKo3BkiD1Yas0CDPQ
-         BzrtQN0bhoFDQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     linux-kernel@vger.kernel.org
-Cc:     linuxppc-dev@ozlabs.org, dja@axtens.net, elver@google.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH] docs/core-api: Remove possibly confusing sub-headings from Bit Operations
-Date:   Wed,  4 Dec 2019 22:19:57 +1100
-Message-Id: <20191204111957.4754-1-mpe@ellerman.id.au>
-X-Mailer: git-send-email 2.21.0
+        id S1727469AbfLDMrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Dec 2019 07:47:40 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49656 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbfLDMrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Dec 2019 07:47:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wvspINbC0rd5pzrtB6IdbMhDRhq0Gg7sBdygu5GhV/g=; b=xXhDP38bEFkCILphtkcyG2GaF
+        jidMnvmM6z0sQcofRm5Aly/bnCMFa4fyoRZ3t1zviZvzBW8vHhdofmGYIIvsI0HWA7sUyoO7fpHO1
+        dmDDWh8zmi2YVI2jdiU9VV335soA8GuPDJYV1Epa55tPSvam/KNjhcpvcvPkwY3bhqWtY=;
+Received: from fw-tnat-cam3.arm.com ([217.140.106.51] helo=fitzroy.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1icU3p-0000LL-Hi; Wed, 04 Dec 2019 12:47:17 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+        id 10DC4D003B4; Wed,  4 Dec 2019 12:47:17 +0000 (GMT)
+Date:   Wed, 4 Dec 2019 12:47:17 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191204124717.GR1998@sirena.org.uk>
+References: <20191118162502.GJ9761@sirena.org.uk>
+ <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+ <20191119181325.GD3634@sirena.org.uk>
+ <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+ <20191119193636.GH3634@sirena.org.uk>
+ <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+ <20191129120925.GA5747@sirena.org.uk>
+ <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
+ <20191202131140.GD1998@sirena.org.uk>
+ <72a1f4c5768b8c08c2669ea01e60d1b614095a43.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="r7tUYVWcdYzDJoZW"
+Content-Disposition: inline
+In-Reply-To: <72a1f4c5768b8c08c2669ea01e60d1b614095a43.camel@fi.rohmeurope.com>
+X-Cookie: Cleanliness is next to impossible.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The recent commit 81d2c6f81996 ("kasan: support instrumented bitops
-combined with generic bitops"), split the KASAN instrumented bitops
-into separate headers for atomic, non-atomic and locking operations.
 
-This was done to allow arches to include just the instrumented bitops
-they need, while also using some of the generic bitops in
-asm-generic/bitops (which are automatically instrumented). The generic
-bitops are already split into atomic, non-atomic and locking headers.
+--r7tUYVWcdYzDJoZW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This split required an update to kernel-api.rst because it included
-include/asm-generic/bitops-instrumented.h, which no longer exists. So
-now kernel-api.rst includes all three instrumented headers to get the
-definitions for all the bitops.
+On Mon, Dec 02, 2019 at 02:02:41PM +0000, Vaittinen, Matti wrote:
+> On Mon, 2019-12-02 at 13:11 +0000, Mark Brown wrote:
 
-When adding the three headers it seemed sensible to add sub-headings
-for each, ie. "Atomic", "Non-atomic" and "Locking".
+> > No, look at the bindings - we support a bunch of different
+> > suspend states matching the different suspend states that the
+> > kernel as a whole supports.  We don't assume that the device will
+> > know this but you can always use the current suspend we're going
+> > for to decide where to update.
 
-The confusion is that test_bit() is (and always has been) in
-non-atomic.h, but is documented elsewhere (atomic_bitops.txt) as being
-atomic. So having it appear under the "Non-atomic" heading is possibly
-confusing.
+> Hm. So if I understand this correctly, you mean user should set the
+> suspend 'target' - and then call the set_suspend_voltage for this
+> state. To set voltages for all states one should do loop
 
-Probably test_bit() should move from bitops/non-atomic.h to atomic.h,
-but that has flow on effects. For now just remove the newly added
-sub-headings in the documentation, so we at least aren't adding to the
-confusion about whether test_bit() is atomic or not.
+The general idea is that we set the suspend state during the
+process of suspending rather than in advance - that way when the
+hardware doesn't understand different types of suspsend things
+work fine.
 
-Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
----
- Documentation/core-api/kernel-api.rst | 9 ---------
- 1 file changed, 9 deletions(-)
+> get_current_mode()
 
-Just FYI. I've applied this to my topic/kasan-bitops branch which I plan to ask
-Linus to pull before the end of the merge window.
+> for_all_modes() {
+> 	set_mode()
+> 	set_voltage()
+> }
 
-https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/log/?h=topic/kasan-bitops
+> restore_original_mode()
 
-cheers
+> am I on a right track? I'll try to see if I can find some examples of
+> this - thanks.
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 2caaeb55e8dd..4ac53a1363f6 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -57,21 +57,12 @@ The Linux kernel provides more basic utility functions.
- Bit Operations
- --------------
- 
--Atomic Operations
--~~~~~~~~~~~~~~~~~
--
- .. kernel-doc:: include/asm-generic/bitops/instrumented-atomic.h
-    :internal:
- 
--Non-atomic Operations
--~~~~~~~~~~~~~~~~~~~~~
--
- .. kernel-doc:: include/asm-generic/bitops/instrumented-non-atomic.h
-    :internal:
- 
--Locking Operations
--~~~~~~~~~~~~~~~~~~
--
- .. kernel-doc:: include/asm-generic/bitops/instrumented-lock.h
-    :internal:
- 
--- 
-2.21.0
+I don't understand the save and restore of mode?  If setting the
+suspend configuration affects the runtime state then the hardware
+doesn't support suspend configuration.
 
+> > The framework doesn't care how a device is controlled, that's up
+> > to the device.  Like I said I recommend figuring out what
+> > voltages are useful to have quick access to at runtime, for
+> > example it's likely that it's good to have quick access to the
+> > highest voltage that's been set (and/or the top of the
+> > constraints).
+
+> Problem is that the run-level controlled regulator can't be
+> individually controlled (unless it is only regulator in the group). I
+
+Regulators that have to be controlled en masse aren't really
+supported by the API, it only understands regulators that are
+individually controllable.
+
+> But just to confirm, I meant for example assigning bucks 1,2,6 and 7
+> into a group which 'state' is changed via GPIO line. Say 'states' are
+> RUN0, RUN1. For each of these bucks we can define a voltage and
+> enable/disable status which is to be used on RUN0, and another
+> voltage/state tuple for RUN1.
+
+So you could also just create a group consisting of a single
+regulator?  That would be fine for the API.
+
+--r7tUYVWcdYzDJoZW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3nqtQACgkQJNaLcl1U
+h9DtkQf/ZOvqt/xvJrkjQ2zSreCV2pRVglwsGchtoOcrs1gS/5iuRXJb8Fic/clC
+BMt7wBK5Zqeu6q2A3oqQ85hPjYMipgmMfwDQzNCGMTHN+EpVvmYX0R8PXWM5yEiP
+SJJ3ZVZHk2TqOIhiGwFbBpYnm3u/J5AbHeHXPXKVMuyMap2OVfXFx2DNexM1vC4X
+Kj70z8B9MA7Hv+VBbmOK/+nsQiRVkr8FyZjoefUdmIF1vPHqMWXA9S8+jziZoyZS
+6QZ5EJFXS99omTKYYeOL4R6RlrMW/Ln5HWRWWuXVNV8uvt3xqQNln9QMSNYzHGAn
+3fl1ynbYU1UiEsY07AKvLnboLE0iDA==
+=9lBU
+-----END PGP SIGNATURE-----
+
+--r7tUYVWcdYzDJoZW--
