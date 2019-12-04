@@ -2,130 +2,111 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6378C432C0
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F963C432C3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:39:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A68F2206E4
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575419534;
-	bh=8ZaeCwEq+6xIABYU+SGqp6hX6Y6XpUzqAIOiEL+4ptk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=arSsBb6eEvcHrgq95BVW4lxJwfbwr+6wu1H0m/Ehw/BkfcMvfcgYSJfznrW1iGcwM
-	 C6B5BlEILC78m6sKtsszM+sNfL4Nim7/ikNMoZ2eQ6InwkAEjMNCcFWr0T+E2jlP6s
-	 o8ndiW52C6lDQbwZj8rpVgQE/dgYTsZhcCEZZB6Q=
+	by mail.kernel.org (Postfix) with ESMTP id 218082073B
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbfLDAcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 19:32:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37848 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726008AbfLDAcO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Dec 2019 19:32:14 -0500
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F59820674;
-        Wed,  4 Dec 2019 00:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575419533;
-        bh=8ZaeCwEq+6xIABYU+SGqp6hX6Y6XpUzqAIOiEL+4ptk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H+JHr/MY13+OR7Xg3FnTUgq77Cu2JRb/F5u+aykghFc6qGYlML4b6ddbV54qHYV0C
-         HkJpYWB7n8o3CzDTRpPQ6YK/SIfmqLJ7ehkznxzeKGCk0Je1hCzegtpse65co4wjGM
-         dAdXmhvWd1VFRWMfustTw3Kz4aCxFW4LVjSG3khk=
-Date:   Tue, 3 Dec 2019 16:32:11 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Gao Xiang <gaoxiang25@huawei.com>,
-        Daniel Rosenberg <drosen@google.com>,
-        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
-Message-ID: <20191204003211.GE727@sol.localdomain>
-References: <20191203051049.44573-1-drosen@google.com>
- <20191203051049.44573-5-drosen@google.com>
- <20191203074154.GA216261@architecture4>
- <85wobdb3hp.fsf@collabora.com>
- <20191203203414.GA727@sol.localdomain>
- <85zhg96r7l.fsf@collabora.com>
+        id S1726060AbfLDAjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 19:39:24 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47416 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726008AbfLDAjY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 19:39:24 -0500
+Received: from callcc.thunk.org (guestnat-104-133-0-111.corp.google.com [104.133.0.111] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xB40cpqi007825
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 3 Dec 2019 19:38:52 -0500
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 2474D421A48; Tue,  3 Dec 2019 19:38:51 -0500 (EST)
+Date:   Tue, 3 Dec 2019 19:38:51 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Alan Maguire <alan.maguire@oracle.com>,
+        Iurii Zaikin <yzaikin@google.com>,
+        David Gow <davidgow@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
+        andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Subject: Re: [PATCH v5 linux-kselftest-test 3/6] kunit: allow kunit tests to
+ be loaded as a module
+Message-ID: <20191204003851.GF86484@mit.edu>
+References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com>
+ <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
+ <CAFd5g47dRP9HvsZD3sqzzfbAthNq8gxEdh57owo3CqVHLNOf6w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85zhg96r7l.fsf@collabora.com>
+In-Reply-To: <CAFd5g47dRP9HvsZD3sqzzfbAthNq8gxEdh57owo3CqVHLNOf6w@mail.gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 03, 2019 at 04:21:02PM -0500, Gabriel Krisman Bertazi wrote:
-> Eric Biggers <ebiggers@kernel.org> writes:
-> 
-> > On Tue, Dec 03, 2019 at 02:42:10PM -0500, Gabriel Krisman Bertazi wrote:
-> >> Gao Xiang <gaoxiang25@huawei.com> writes:
-> 
-> >> I think Daniel's approach of moving this into VFS is the simplest way to
-> >> actually solve the issue, instead of extending and duplicating a lot of
-> >> functionality into filesystem hooks to support the possible mixes of
-> >> case-insensitive, overlayfs and fscrypt.
-> >> 
+On Tue, Dec 03, 2019 at 09:54:25AM -0800, Brendan Higgins wrote:
+> On Tue, Dec 3, 2019 at 4:08 AM Alan Maguire <alan.maguire@oracle.com> wrote:
 > >
-> > I think we can actually get everything we want using dentry_operations only,
-> > since the filesystem can set ->d_op during ->lookup() (like what is done for
-> > encrypted filenames now) rather than at dentry allocation time.  And fs/crypto/
-> > can export fscrypt_d_revalidate() rather than setting ->d_op itself.
+> > As tests are added to kunit, it will become less feasible to execute
+> > all built tests together.  By supporting modular tests we provide
+> > a simple way to do selective execution on a running system; specifying
+> >
+> > CONFIG_KUNIT=y
+> > CONFIG_KUNIT_EXAMPLE_TEST=m
+> >
+> > ...means we can simply "insmod example-test.ko" to run the tests.
+> >
+> > To achieve this we need to do the following:
+> >
+> > o export the required symbols in kunit
+> > o string-stream tests utilize non-exported symbols so for now we skip
+> >   building them when CONFIG_KUNIT_TEST=m.
+> > o support a new way of declaring test suites.  Because a module cannot
+> >   do multiple late_initcall()s, we provide a kunit_test_suites() macro
+> >   to declare multiple suites within the same module at once.
+> > o some test module names would have been too general ("test-test"
+> >   and "example-test" for kunit tests, "inode-test" for ext4 tests);
+> >   rename these as appropriate ("kunit-test", "kunit-example-test"
+> >   and "ext4-inode-test" respectively).
+> >
+> > Co-developed-by: Knut Omang <knut.omang@oracle.com>
+> > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 > 
-> Problem is, differently from fscrypt, case-insensitive uses the d_hash()
-> hook and for a lookup, we actually use
-> dentry->d_parent->d_ops->d_hash().  Which works well, until you are flipping the
-> casefold flag.  Then the dentry already exists and you need to modify
-> the d_ops on the fly, which I couldn't find precedent anywhere.  I tried
-> invalidating the dentry whenever we flip the flag, but then if it has
-> negative dentries as children,I wasn't able to reliably invalidate it,
-> and that's when I reached the limit of my knowledge in VFS.  In
-> particular, in every attempt I made to implement it like this, I was
-> able to race and do a case-insensitive lookup on a directory that was
-> just made case sensitive.
-> 
-> I'm not saying there isn't a way.  But it is a bit harder than this
-> proposal. I tried it already and still didn't manage to make it work.
-> Maybe someone who better understands vfs.
+> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 
-Yes you're right, I forgot that for ->d_hash() and ->d_compare() it's actually
-the parent's directory dentry_operations that are used.
+Acked-by: Theodore Ts'o <tytso@mit.edu> # for ext4 bits
 
-> 
-> > It's definitely ugly to have to handle the 3 cases of encrypt, casefold, and
-> > encrypt+casefold separately -- and this will need to be duplicated for each
-> > filesystem.  But we do have to weigh that against adding additional complexity
-> > and overhead to the VFS for everyone.  If we do go with the VFS changes, please
-> > try to make them as simple and unobtrusive as possible.
-> 
-> Well, it is just not case-insensitive+fscrypt. Also overlayfs
-> there. Probably more.  So we have much more cases.  I understand the VFS
-> changes need to be very well thought, but when I worked on this it
-> started to look a more correct solution than using the hooks.
 
-Well the point of my proof-of-concept patch having separate ext4_ci_dentry_ops,
-ext4_encrypted_dentry_ops, and ext4_encrypted_ci_dentry_ops is supposed to be
-for overlayfs support -- since overlayfs requires that some operations are not
-present.  If we didn't need overlayfs support, we could just use a single
-ext4_dentry_ops for all dentries instead.
+I do have one question, out of curiosity --- for people who aren't
+using UML to run Kunit tests, and are either running the kunit tests
+during boot, or when the module is loaded, is there the test framework
+to automatically extract the test reports out of dmesg?
 
-I think we could still support fscrypt, casefold, fscrypt+casefold, and
-fscrypt+overlayfs with dentry_operations only.  It's casefold+overlayfs that's
-the biggest problem, due to the possibility of the casefold flag being set on a
-directory later as you pointed out.
+I can boot a kernel with kunit tests enabled using kvm, and I see it
+splatted intermixed with the rest of the kernel boot messages.  This
+is how I tested the 32-bit ext4 inode test fix.  But I had to manually
+find the test output.  Is that the expected way people are supposed to
+be using Kunit tests w/o using UML and the python runner?
 
-- Eric
+Thanks,
+
+						- Ted
