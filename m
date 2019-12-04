@@ -2,131 +2,123 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DA2C43603
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5629FC43603
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:49:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1A99A20675
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:21:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 283BF2073C
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:49:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sU1JSfe4"
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="E7xM2G7n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728468AbfLDTVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Dec 2019 14:21:48 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:33970 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728030AbfLDTVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Dec 2019 14:21:48 -0500
-Received: by mail-pj1-f67.google.com with SMTP id t21so216862pjq.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2019 11:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=DifXKFST8fxhtH1miSgvC52bAOjBe8VIhNBj9qhxAyA=;
-        b=sU1JSfe4ZXwst2VoEwnLY7Bn8vP4W/Z+FQ/f/lMhs5J4jsLxhjmlClb6sBB0czSyDj
-         bZq/f8/vp5J5uWt9wnL3GQATulx21R/VuZfUMK/nt8R1EFPM/R/Q/CEnGFlFx8j5CW2u
-         YrdP2KKw69KAac+CV30xGf37n57hRmr3+UlrW449e25/4j0Pitz0JSHx3FE0ODZxOeIc
-         KtDNBkYvykdZG3KijAeCgOmQ+jlU2xgTpvvLP99gjn248XyWBpKzH0nAxZxVLjQs9xmO
-         WXVrckTUpB3wjAtKjsg1LYfiJjxTM9er7doXZYwpch+f77lhXyFLkIssEhBNrUHScIol
-         3q1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=DifXKFST8fxhtH1miSgvC52bAOjBe8VIhNBj9qhxAyA=;
-        b=hx5ZQ8QErEZuufDRL+79VZAHJupDvlax+lodX7N6DRgdvb41AeHJ/UaLs9VRIny8fJ
-         oixaJYZiKQ5llviC10xPMV04DV/ImPhvmABTfYtqe+OIztrWCidNwf08PQAWDFJXEyIT
-         I1vlRWFrDnlQUuiAjGqwjWXb1KAHgu1SfVHbDNB6AqFtj1v8uUEK07xmcmGtEXq2b0uq
-         ZcC3cTeM5FxHM8iv4CGmUdelAa3GtabxokGmD0VKtmVZYbztGk8flEGCyo8wgoWbL6/R
-         tfkSyMIjwXdMv32dPK4QmAtvq1vTT72apDPHt7K+3NOcMGYl7UGYf2VHna6zbbY0BYyj
-         vu4A==
-X-Gm-Message-State: APjAAAVpFJuddACTDHYW5uOQ4lb1rhNrFcRVndETmhmyliHQB1kqOyM6
-        63Zf4yO14WqKbYqPl+BMTr1TJA==
-X-Google-Smtp-Source: APXvYqwgj78CVQEsvHaciNRYpv8SFALXczwuGqtEa2Fgio39brOuBL8TfRgrEqAe81yEefApj17u5Q==
-X-Received: by 2002:a17:90b:30c4:: with SMTP id hi4mr5072973pjb.62.1575487306918;
-        Wed, 04 Dec 2019 11:21:46 -0800 (PST)
-Received: from google.com ([2620:15c:2cb:1:e90c:8e54:c2b4:29e7])
-        by smtp.gmail.com with ESMTPSA id d14sm9888831pfq.117.2019.12.04.11.21.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 11:21:46 -0800 (PST)
-Date:   Wed, 4 Dec 2019 11:21:41 -0800
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-Subject: Re: [PATCH v3 0/5] Fix nits in the kunit
-Message-ID: <20191204192141.GA247851@google.com>
-References: <1575396508-21480-1-git-send-email-sj38.park@gmail.com>
- <CAFd5g46X9WK-xKJFF5AVYXXmM4a2dYD3fy=oi1CGJM1gc9RzuA@mail.gmail.com>
+        id S1727867AbfLDTtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Dec 2019 14:49:12 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:17500 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727033AbfLDTtM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Dec 2019 14:49:12 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 10E7DE80;
+        Wed,  4 Dec 2019 20:49:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1575488947; x=1577303348; bh=yLYpeKqjnaOhnM2r4tIxV0b85RTS/6he0Mv
+        6cNbwlEQ=; b=E7xM2G7nTnUPsnUVjbv7tOKoo3tPyTc6e6I/SW4owdScN5YvTzE
+        RgQbQn9NCneyvA8BRrWgDgvFEE4uIQ5iHIgTM4CGXNYS4wbCmA4Lc965tkElJAbp
+        OlWqGpdjGGtkHVyI0wnOOVQaEmkkhmKPI1kcZpse7eV2V51ZJeNDRT52lPpiSBdc
+        xreJ7pgQFLswjrvyVtLEwfUJuFI2p7z1xnjo4w401kfzibw2xSMO48RxMF2l9Xpu
+        H/R5CW0BZ9C8odUuNZYmp/MfeehT+XKIuxpnf9cIGujFEfDXy70pDAXyVRTKKu+N
+        ma5C1dZ21jSjcLYlyhnv4k3rWcsddkmObNWGjC+guv9hbaYtdufkpbkQwkzeX8pH
+        1C5pWi5JHAlU73M4O5s4JxpSfgClQNOk0j3xVHvCwWfktQOyAjaOu3wjql40Ranh
+        LXYW4xP/fsB6gcssvpz022pefrMh/CcwNC8eRT5Wm8uZz9vL6U0Y99I2pysmDdVL
+        9OT4ucRERsVPDJalYgndny83nYtYN0VruFdVdE06QflR/eTSBy7XjNZz+BhXwOHM
+        4orugqieCP8CdkPH8dNBoom+9+2poBoKnYSCu0DVOQ9zuujuseQhZytmjadoPzQv
+        wwsaHDFSf+Nl08apyHgqoLrUXLu4n8sSjr0r3yEV6fqdvs9q11yjBc20=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id aiCaJ7Unynau; Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id C99D056F;
+        Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 6A5FF3B72;
+        Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     madhuparnabhowmik04@gmail.com
+Cc:     corbet@lwn.net, mchehab@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 2/2] Documentation: kernel-hacking: hacking.rst: Change reference to document namespaces.rst to symbol-namespaces.rst
+Date:   Wed, 04 Dec 2019 20:49:05 +0100
+Message-ID: <4850753.A3onD7O4GF@harkonnen>
+In-Reply-To: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
+References: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFd5g46X9WK-xKJFF5AVYXXmM4a2dYD3fy=oi1CGJM1gc9RzuA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 03, 2019 at 02:41:26PM -0800, Brendan Higgins wrote:
-> On Tue, Dec 3, 2019 at 10:08 AM SeongJae Park <sj38.park@gmail.com> wrote:
-> >
-> > This patchset contains trivial fixes for the kunit documentations and the
-> > wrapper python scripts.
-> >
-> > Changes from v2 (https://lore.kernel.org/linux-kselftest/1575361141-6806-1-git-send-email-sj38.park@gmail.com/T/#t):
-> >  - Make 'build_dir' if not exists (missed from v3 by mistake)
-> >
-> > SeongJae Park (5):
-> >   docs/kunit/start: Use in-tree 'kunit_defconfig'
-> >   kunit: Remove duplicated defconfig creation
-> >   kunit: Create default config in '--build_dir'
-> >   kunit: Place 'test.log' under the 'build_dir'
-> >   kunit: Rename 'kunitconfig' to '.kunitconfig'
-> >
-> >  Documentation/dev-tools/kunit/start.rst | 13 +++++--------
-> >  tools/testing/kunit/kunit.py            | 16 ++++++++++------
-> >  tools/testing/kunit/kunit_kernel.py     |  8 ++++----
-> >  3 files changed, 19 insertions(+), 18 deletions(-)
+If you are interested there is a little discussion here about it
+
+https://www.lkml.org/lkml/2019/11/22/1580
+
+On Wednesday, December 4, 2019 11:45:54 AM CET madhuparnabhowmik04@gmail.com 
+wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 > 
-> Tested-by: Brendan Higgins <brendanhiggins@google.com>
+> This patch fixes the following documentation build warning:
+> Warning: Documentation/kernel-hacking/hacking.rst references
+> a file that doesn't exist: Documentation/kbuild/namespaces.rst
+> 
+> According to the following patch:
+> https://patchwork.kernel.org/patch/11178727/
+> (doc: move namespaces.rst from kbuild/ to core-api/)
+> 
+> The file namespaces.rst was moved from kbuild to core-api
+> and renamed to symbol-namespaces.rst.
+> Therefore, this patch changes the reference to the document
+> kbuild/namespaces.rst in hacking.rst to
+> core-api/symbol-namespaces.rst
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> ---
+>  Documentation/kernel-hacking/hacking.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/kernel-hacking/hacking.rst
+> b/Documentation/kernel-hacking/hacking.rst index a3ddb213a5e1..d62aacb2822a
+> 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
+> 
+>  This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
+>  namespace. Symbol Namespaces are documented in
+> -``Documentation/kbuild/namespaces.rst``.
+> +``Documentation/core-api/symbol-namespaces.rst``.
+> 
+>  :c:func:`EXPORT_SYMBOL_NS_GPL()`
+> 
+>  --------------------------------
+> @@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
+> 
+>  This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a
+> symbol namespace. Symbol Namespaces are documented in
+> -``Documentation/kbuild/namespaces.rst``.
+> +``Documentation/core-api/symbol-namespaces.rst``.
+> 
+>  Routines and Conventions
+>  ========================
 
-I just realized that I forgot to test for something...
 
-The following command fails:
 
-./tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --defconfig
 
-[11:17:13] Building KUnit Kernel ...
-[11:17:16] Starting KUnit Kernel ...
-Traceback (most recent call last):
-  File "tools/testing/kunit/kunit.py", line 142, in <module>
-    main(sys.argv[1:])
-  File "tools/testing/kunit/kunit.py", line 135, in main
-    result = run_tests(linux, request)
-  File "tools/testing/kunit/kunit.py", line 67, in run_tests
-    test_result = kunit_parser.parse_run_tests(kunit_output)
-  File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_parser.py", line 283, in parse_run_tests
-    test_result = parse_test_result(list(isolate_kunit_output(kernel_output)))
-  File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_parser.py", line 54, in isolate_kunit_output
-    for line in kernel_output:
-  File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_kernel.py", line 146, in run_kernel
-    with open(os.path.join(build_dir, 'test.log'), 'w') as f:
-  File "/usr/lib/python3.7/posixpath.py", line 80, in join
-    a = os.fspath(a)
-TypeError: expected str, bytes or os.PathLike object, not NoneType
-
-It seems as though you assume that build_dir is always populated by the flag.
