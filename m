@@ -2,88 +2,130 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F69CC432C0
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:17:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6378C432C0
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E7552054F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:17:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hOm8wz2J"
+	by mail.kernel.org (Postfix) with ESMTP id A68F2206E4
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575419534;
+	bh=8ZaeCwEq+6xIABYU+SGqp6hX6Y6XpUzqAIOiEL+4ptk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=arSsBb6eEvcHrgq95BVW4lxJwfbwr+6wu1H0m/Ehw/BkfcMvfcgYSJfznrW1iGcwM
+	 C6B5BlEILC78m6sKtsszM+sNfL4Nim7/ikNMoZ2eQ6InwkAEjMNCcFWr0T+E2jlP6s
+	 o8ndiW52C6lDQbwZj8rpVgQE/dgYTsZhcCEZZB6Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbfLDARp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 19:17:45 -0500
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:43688 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbfLDARp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 19:17:45 -0500
-Received: by mail-qv1-f68.google.com with SMTP id p2so2372237qvo.10
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 16:17:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QTyx2RZy7Y05cTkQC5l7sD6FLwz4Qd0lQ0nPf0EZIKQ=;
-        b=hOm8wz2JV5irNU26ecry779uLa4TiPhyZ1ZbH5BMAy/dmu7zOGoJWBAfrrXnkZ4bAI
-         i3S1GGj7B/bD+yuiGyVGBFPy0Scho66AEJzGF0Uz9gjhbCR20aK8/aD754sz5fHdycGk
-         ElbXXiBdPnpI5fmy7qTAqyOnxSjMyNU8gh6CG/lsf7crB4HjGgbZ4aTmvdRq56HBEao6
-         WiFWriZ/V4caGH9ZsSaK2SudOmSHCEnweMh/Rr4ecE0DCuWpEBcp59cbvpDBglqRURAu
-         55Rp+JxFnBZW3Y6c9elMR3Ps13iJiRCX7Pcp+gToSKg/XaWp2AXLH4rYaqVePA8HVcGI
-         Is1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QTyx2RZy7Y05cTkQC5l7sD6FLwz4Qd0lQ0nPf0EZIKQ=;
-        b=S9vjAng9d77kJrxZfSrJjoPH0Fa2asvtDFyt+mSg+UVqFi9geY3kZzChFLg4h40JcI
-         N9Tpkj/8pFV8iZGXH+v5+i0EuRrjFTnYaTjThyDHd3pdoXaubOtxQ0xPu9SBkGJTMGlp
-         bs5JGIJtEzkk5Lb/On4aWgpZ89vIhi/P/tL3Q6i3mmEA1A8EsHzgdWVcun0Y0I1jSN2L
-         Ieg948Y7dr8hTTQLadvJDDXAqY47+sp1Nbg4EIV43IWgFNLN+o9Too3sJXljhB7Ylre+
-         gU3m/zoM0S24PEbuF5UNRKNCRObIYdDyoGjvizlfPluWzokkPeRxl2irT7/qsajKrGId
-         5sdA==
-X-Gm-Message-State: APjAAAWH3SDCEpNKIH3Ku+JkUU7asACR0tMizjtMrzMpybD72t0Kd58/
-        T9a/4drLHFClhGbIy7PUeVO4GAcHCboQ/NKE11s3
-X-Google-Smtp-Source: APXvYqyz1zLOAzlEW9SR6UXDydhWZrLGVzqeOyJQaU/XEZFykJigtOH++7UD8tHeCTXXoGftLWGr/Iw5KbggfuWAdmA=
-X-Received: by 2002:a0c:8061:: with SMTP id 88mr411290qva.62.1575418664089;
- Tue, 03 Dec 2019 16:17:44 -0800 (PST)
+        id S1726060AbfLDAcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 19:32:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37848 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726008AbfLDAcO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Dec 2019 19:32:14 -0500
+Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F59820674;
+        Wed,  4 Dec 2019 00:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575419533;
+        bh=8ZaeCwEq+6xIABYU+SGqp6hX6Y6XpUzqAIOiEL+4ptk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H+JHr/MY13+OR7Xg3FnTUgq77Cu2JRb/F5u+aykghFc6qGYlML4b6ddbV54qHYV0C
+         HkJpYWB7n8o3CzDTRpPQ6YK/SIfmqLJ7ehkznxzeKGCk0Je1hCzegtpse65co4wjGM
+         dAdXmhvWd1VFRWMfustTw3Kz4aCxFW4LVjSG3khk=
+Date:   Tue, 3 Dec 2019 16:32:11 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Gao Xiang <gaoxiang25@huawei.com>,
+        Daniel Rosenberg <drosen@google.com>,
+        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH 4/8] vfs: Fold casefolding into vfs
+Message-ID: <20191204003211.GE727@sol.localdomain>
+References: <20191203051049.44573-1-drosen@google.com>
+ <20191203051049.44573-5-drosen@google.com>
+ <20191203074154.GA216261@architecture4>
+ <85wobdb3hp.fsf@collabora.com>
+ <20191203203414.GA727@sol.localdomain>
+ <85zhg96r7l.fsf@collabora.com>
 MIME-Version: 1.0
-References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com> <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
-From:   Iurii Zaikin <yzaikin@google.com>
-Date:   Tue, 3 Dec 2019 16:17:07 -0800
-Message-ID: <CAAXuY3rYZHac4o1bqqnbR_1g12dtqmJHVp8Taky00J4-+2hwZA@mail.gmail.com>
-Subject: Re: [PATCH v5 linux-kselftest-test 3/6] kunit: allow kunit tests to
- be loaded as a module
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        David Gow <davidgow@google.com>, adilger.kernel@dilger.ca,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85zhg96r7l.fsf@collabora.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +ifeq ($(CONFIG_EXT4_KUNIT_TESTS),y)
->  ext4-$(CONFIG_EXT4_KUNIT_TESTS)                += inode-test.o
-> +else
-> +obj-$(CONFIG_EXT4_KUNIT_TESTS)         += ext4-inode-test.o
-> +ext4-inode-test-objs                   += inode-test.o
-> +endif
-Why not rename it unconditionally?
+On Tue, Dec 03, 2019 at 04:21:02PM -0500, Gabriel Krisman Bertazi wrote:
+> Eric Biggers <ebiggers@kernel.org> writes:
+> 
+> > On Tue, Dec 03, 2019 at 02:42:10PM -0500, Gabriel Krisman Bertazi wrote:
+> >> Gao Xiang <gaoxiang25@huawei.com> writes:
+> 
+> >> I think Daniel's approach of moving this into VFS is the simplest way to
+> >> actually solve the issue, instead of extending and duplicating a lot of
+> >> functionality into filesystem hooks to support the possible mixes of
+> >> case-insensitive, overlayfs and fscrypt.
+> >> 
+> >
+> > I think we can actually get everything we want using dentry_operations only,
+> > since the filesystem can set ->d_op during ->lookup() (like what is done for
+> > encrypted filenames now) rather than at dentry allocation time.  And fs/crypto/
+> > can export fscrypt_d_revalidate() rather than setting ->d_op itself.
+> 
+> Problem is, differently from fscrypt, case-insensitive uses the d_hash()
+> hook and for a lookup, we actually use
+> dentry->d_parent->d_ops->d_hash().  Which works well, until you are flipping the
+> casefold flag.  Then the dentry already exists and you need to modify
+> the d_ops on the fly, which I couldn't find precedent anywhere.  I tried
+> invalidating the dentry whenever we flip the flag, but then if it has
+> negative dentries as children,I wasn't able to reliably invalidate it,
+> and that's when I reached the limit of my knowledge in VFS.  In
+> particular, in every attempt I made to implement it like this, I was
+> able to race and do a case-insensitive lookup on a directory that was
+> just made case sensitive.
+> 
+> I'm not saying there isn't a way.  But it is a bit harder than this
+> proposal. I tried it already and still didn't manage to make it work.
+> Maybe someone who better understands vfs.
+
+Yes you're right, I forgot that for ->d_hash() and ->d_compare() it's actually
+the parent's directory dentry_operations that are used.
+
+> 
+> > It's definitely ugly to have to handle the 3 cases of encrypt, casefold, and
+> > encrypt+casefold separately -- and this will need to be duplicated for each
+> > filesystem.  But we do have to weigh that against adding additional complexity
+> > and overhead to the VFS for everyone.  If we do go with the VFS changes, please
+> > try to make them as simple and unobtrusive as possible.
+> 
+> Well, it is just not case-insensitive+fscrypt. Also overlayfs
+> there. Probably more.  So we have much more cases.  I understand the VFS
+> changes need to be very well thought, but when I worked on this it
+> started to look a more correct solution than using the hooks.
+
+Well the point of my proof-of-concept patch having separate ext4_ci_dentry_ops,
+ext4_encrypted_dentry_ops, and ext4_encrypted_ci_dentry_ops is supposed to be
+for overlayfs support -- since overlayfs requires that some operations are not
+present.  If we didn't need overlayfs support, we could just use a single
+ext4_dentry_ops for all dentries instead.
+
+I think we could still support fscrypt, casefold, fscrypt+casefold, and
+fscrypt+overlayfs with dentry_operations only.  It's casefold+overlayfs that's
+the biggest problem, due to the possibility of the casefold flag being set on a
+directory later as you pointed out.
+
+- Eric
