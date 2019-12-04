@@ -2,111 +2,89 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F2AC432C0
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 746E7C432C3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:27:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2ADC20675
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 00:55:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oU3RI8Ru"
+	by mail.kernel.org (Postfix) with ESMTP id 449012068E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:27:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726115AbfLDAzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 19:55:25 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44222 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726060AbfLDAzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 19:55:25 -0500
-Received: by mail-wr1-f66.google.com with SMTP id q10so6377548wrm.11
-        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2019 16:55:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e2Azc16Vw4ryTYqh29ZhrpRERgOlPUdv16uA7Ge2ox4=;
-        b=oU3RI8RuGAnLzan6JzZGxTOz1LeLVBDqbni8Ea82NabY23NmjsmEKWvosJld0Nya7e
-         yNhnapLfvI+dxZ93IOdQFMvKBH0/NUoAimXLZGhjxTCOVKOFjIFNZ1sqJQXHiiL0SN2A
-         lyYssl2AANQxxbHpV+pxJv0U/m1euUdsRGRbveXcXt1DX9p0a66xfME1bfdZYMbNk+DW
-         ElCWJ1pO4V469mxDQQhr+WcZpCyMt0GMQWRWYdw+Lgl2URh0IUewq6cfBFmfqYyzEyyE
-         mfwaWFcZ2+Y0DZK3Qv257QkcYKvd/KrS1AimIrlpa667CinHXdgaR/nW/cCWdHzI1CmZ
-         0bmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e2Azc16Vw4ryTYqh29ZhrpRERgOlPUdv16uA7Ge2ox4=;
-        b=RCCq+O8TOqRRhRc84mWDAmmdTpAxtrVfCoB1PRFJ7+MrgOmt+pVJ/GuDgYOcsWN1U8
-         d8yrCBJXlt/7vHMNGgnUQgt3t4RGixWuGTxQJQra1dGGB3j6U338hFNnF9laMEdhLbXH
-         kj615S8JSpC85JU02CaTxIKsyWbIMW+8UKhxTYhALMtg3BPmQERlRjzO+43rt73E/Hya
-         n8rfKctlw7d0iLZnXy1BtN4GcN6WvpMdurSjfMgTG7GkWuG6G1bZtMI91gk+5E+XdiX8
-         xGbXEYvcstbIRSQdkTvE6jy1qfFzf72Llqdse6gNOoTE+7a5d8jcuXc6PIt7uQXGIq7l
-         OmcA==
-X-Gm-Message-State: APjAAAUjGad231PevhrI4PPj03eXDP0iikeG4eYjkzYGwC8lx+jnHoI0
-        2fyBW72EAYUrgroPRQ6KEMrbUGutJ95KCHh2Nc+gYw==
-X-Google-Smtp-Source: APXvYqwaXcNZHm6NG4ULW38X0tHXZZUc4SvPr+46VmXZB3u1NEBvvPM0cY/ZXqxxyo3blM69EXP/X9UTvUJxLArinaA=
-X-Received: by 2002:adf:f3d0:: with SMTP id g16mr968333wrp.2.1575420923180;
- Tue, 03 Dec 2019 16:55:23 -0800 (PST)
-MIME-Version: 1.0
-References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com> <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
-From:   David Gow <davidgow@google.com>
-Date:   Tue, 3 Dec 2019 16:55:11 -0800
-Message-ID: <CABVgOSnEKQGdzdjLAuGDXMF1WB5ga-ePqmMzQhbCWP=2qiv7ew@mail.gmail.com>
-Subject: Re: [PATCH v5 linux-kselftest-test 3/6] kunit: allow kunit tests to
- be loaded as a module
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
+        id S1726319AbfLDC1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 21:27:16 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:51553 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726189AbfLDC1P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 21:27:15 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07417;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TjrT8lt_1575426430;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjrT8lt_1575426430)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 04 Dec 2019 10:27:10 +0800
+Subject: Re: [PATCH v3 2/2] sched/numa: documentation for per-cgroup numa
+ statistics
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Iurii Zaikin <yzaikin@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        yamada.masahiro@socionext.com, catalin.marinas@arm.com,
-        joe.lawrence@redhat.com, penguin-kernel@i-love.sakura.ne.jp,
-        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
-        tytso@mit.edu, Luis Chamberlain <mcgrof@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <d295141d-e1bf-10f5-a489-a7055ca6d509@linux.alibaba.com>
+ <20191203064321.56ad316f@lwn.net>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Message-ID: <44fa7e1f-906a-4b19-c194-52dee92e7d83@linux.alibaba.com>
+Date:   Wed, 4 Dec 2019 10:27:10 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191203064321.56ad316f@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 3, 2019 at 4:08 AM Alan Maguire <alan.maguire@oracle.com> wrote:
->
-> As tests are added to kunit, it will become less feasible to execute
-> all built tests together.  By supporting modular tests we provide
-> a simple way to do selective execution on a running system; specifying
->
-> CONFIG_KUNIT=y
-> CONFIG_KUNIT_EXAMPLE_TEST=m
->
-> ...means we can simply "insmod example-test.ko" to run the tests.
->
-> To achieve this we need to do the following:
->
-> o export the required symbols in kunit
-> o string-stream tests utilize non-exported symbols so for now we skip
->   building them when CONFIG_KUNIT_TEST=m.
-> o support a new way of declaring test suites.  Because a module cannot
->   do multiple late_initcall()s, we provide a kunit_test_suites() macro
->   to declare multiple suites within the same module at once.
-> o some test module names would have been too general ("test-test"
->   and "example-test" for kunit tests, "inode-test" for ext4 tests);
->   rename these as appropriate ("kunit-test", "kunit-example-test"
->   and "ext4-inode-test" respectively).
->
-> Co-developed-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> ---
 
-Acked-by: David Gow <davidgow@google.com> # For list-test
+
+On 2019/12/3 下午9:43, Jonathan Corbet wrote:
+> On Tue, 3 Dec 2019 14:02:18 +0800
+[snip]
+>> diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
+>> new file mode 100644
+>> index 000000000000..49167db36f37
+>> --- /dev/null
+>> +++ b/Documentation/admin-guide/cg-numa-stat.rst
+>> @@ -0,0 +1,176 @@
+>> +===============================
+>> +Per-cgroup NUMA statistics
+>> +===============================
+> 
+> One small request: can we get an SPDX line at the beginning of that new
+> file?
+
+Certainly, will be in next version :-)
+
+Regards,
+Michael Wang
+
+> 
+> Thanks,
+> 
+> jon
+> 
