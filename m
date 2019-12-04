@@ -2,30 +2,43 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 746E7C432C3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8217C432C0
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:33:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 449012068E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:27:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7BC22068E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 02:33:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h7d2D8DD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726319AbfLDC1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Dec 2019 21:27:16 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:51553 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726189AbfLDC1P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 21:27:15 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07417;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TjrT8lt_1575426430;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TjrT8lt_1575426430)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 04 Dec 2019 10:27:10 +0800
-Subject: Re: [PATCH v3 2/2] sched/numa: documentation for per-cgroup numa
- statistics
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Ingo Molnar <mingo@redhat.com>,
+        id S1726189AbfLDCdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Dec 2019 21:33:18 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:49826 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfLDCdS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Dec 2019 21:33:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=KEvl8E2uqYzHXXBcWxExEanjkQOayE/IO/ACRjvE+vk=; b=h7d2D8DDkM4aY5V970X2F32Wt
+        XYLmNR6BcaCV/zpo0sxeqEN3Ogl0N9JjO4hS7WplSX8z9qhvTYS2adrRqOQym2ZWt+zMfHD7nHWGM
+        1FQd4U3M44atyYGl36B3+tJXwbHjTbdF7Qezv41U7P1+hejdPlu2TZJ7+ktsRczuJFwHP8zy2wlGq
+        gdiEU3FG3mOD38i35RvphKQrEcdS71RMkzxF9VA+RAdFD5a0GwliNP/l4UWB6ZBrtDD0cm9wXsO4s
+        i/OKq3AxhgY6HyJ/oszTumKybPWYqxKc4zkr7xSgBxjpkDLWHimU5Q3zTg9O6WgTsDrtISrfU3UOs
+        Z+76RA0eQ==;
+Received: from [2601:1c0:6280:3f0::5a22]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1icKTT-0001ej-Ge; Wed, 04 Dec 2019 02:33:13 +0000
+Subject: Re: [PATCH v3 1/2] sched/numa: introduce per-cgroup NUMA locality
+ info
+To:     =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
         Vincent Guittot <vincent.guittot@linaro.org>,
@@ -39,19 +52,18 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>
+        Jonathan Corbet <corbet@lwn.net>
 References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
  <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
  <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <d295141d-e1bf-10f5-a489-a7055ca6d509@linux.alibaba.com>
- <20191203064321.56ad316f@lwn.net>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <44fa7e1f-906a-4b19-c194-52dee92e7d83@linux.alibaba.com>
-Date:   Wed, 4 Dec 2019 10:27:10 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+ <2398e8a4-a3ad-3660-3aba-298730d209b2@linux.alibaba.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d5f109b8-be26-c025-1d6d-ec3b3354c4b1@infradead.org>
+Date:   Tue, 3 Dec 2019 18:33:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191203064321.56ad316f@lwn.net>
+In-Reply-To: <2398e8a4-a3ad-3660-3aba-298730d209b2@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -60,31 +72,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2019/12/3 下午9:43, Jonathan Corbet wrote:
-> On Tue, 3 Dec 2019 14:02:18 +0800
-[snip]
->> diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
->> new file mode 100644
->> index 000000000000..49167db36f37
->> --- /dev/null
->> +++ b/Documentation/admin-guide/cg-numa-stat.rst
->> @@ -0,0 +1,176 @@
->> +===============================
->> +Per-cgroup NUMA statistics
->> +===============================
+On 12/2/19 10:00 PM, 王贇 wrote:
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 4d8d145c41d2..9c086f716a6d 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -817,6 +817,15 @@ config NUMA_BALANCING_DEFAULT_ENABLED
+>  	  If set, automatic NUMA balancing will be enabled if running on a NUMA
+>  	  machine.
 > 
-> One small request: can we get an SPDX line at the beginning of that new
-> file?
+> +config CGROUP_NUMA_LOCALITY
+> +	bool "The per-cgroup NUMA Locality"
 
-Certainly, will be in next version :-)
+I would drop "The".
 
-Regards,
-Michael Wang
+> +	default n
+> +	depends on CGROUP_SCHED && NUMA_BALANCING
+> +	help
+> +	  This option enable the collection of per-cgroup NUMA locality info,
 
-> 
-> Thanks,
-> 
-> jon
-> 
+	              enables
+
+> +	  to tell whether NUMA Balancing is working well for a particular
+> +	  workload.
+> +
+>  menuconfig CGROUPS
+>  	bool "Control Group support"
+>  	select KERNFS
+
+
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
