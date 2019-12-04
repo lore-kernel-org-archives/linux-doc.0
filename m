@@ -2,123 +2,102 @@ Return-Path: <SRS0=cnO7=Z2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5629FC43603
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BD5C43603
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 20:18:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 283BF2073C
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 19:49:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B229421823
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Dec 2019 20:18:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="E7xM2G7n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZHv7AgA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbfLDTtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Dec 2019 14:49:12 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:17500 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727033AbfLDTtM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Dec 2019 14:49:12 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 10E7DE80;
-        Wed,  4 Dec 2019 20:49:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1575488947; x=1577303348; bh=yLYpeKqjnaOhnM2r4tIxV0b85RTS/6he0Mv
-        6cNbwlEQ=; b=E7xM2G7nTnUPsnUVjbv7tOKoo3tPyTc6e6I/SW4owdScN5YvTzE
-        RgQbQn9NCneyvA8BRrWgDgvFEE4uIQ5iHIgTM4CGXNYS4wbCmA4Lc965tkElJAbp
-        OlWqGpdjGGtkHVyI0wnOOVQaEmkkhmKPI1kcZpse7eV2V51ZJeNDRT52lPpiSBdc
-        xreJ7pgQFLswjrvyVtLEwfUJuFI2p7z1xnjo4w401kfzibw2xSMO48RxMF2l9Xpu
-        H/R5CW0BZ9C8odUuNZYmp/MfeehT+XKIuxpnf9cIGujFEfDXy70pDAXyVRTKKu+N
-        ma5C1dZ21jSjcLYlyhnv4k3rWcsddkmObNWGjC+guv9hbaYtdufkpbkQwkzeX8pH
-        1C5pWi5JHAlU73M4O5s4JxpSfgClQNOk0j3xVHvCwWfktQOyAjaOu3wjql40Ranh
-        LXYW4xP/fsB6gcssvpz022pefrMh/CcwNC8eRT5Wm8uZz9vL6U0Y99I2pysmDdVL
-        9OT4ucRERsVPDJalYgndny83nYtYN0VruFdVdE06QflR/eTSBy7XjNZz+BhXwOHM
-        4orugqieCP8CdkPH8dNBoom+9+2poBoKnYSCu0DVOQ9zuujuseQhZytmjadoPzQv
-        wwsaHDFSf+Nl08apyHgqoLrUXLu4n8sSjr0r3yEV6fqdvs9q11yjBc20=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id aiCaJ7Unynau; Wed,  4 Dec 2019 20:49:07 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id C99D056F;
-        Wed,  4 Dec 2019 20:49:07 +0100 (CET)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 6A5FF3B72;
-        Wed,  4 Dec 2019 20:49:07 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     madhuparnabhowmik04@gmail.com
-Cc:     corbet@lwn.net, mchehab@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 2/2] Documentation: kernel-hacking: hacking.rst: Change reference to document namespaces.rst to symbol-namespaces.rst
-Date:   Wed, 04 Dec 2019 20:49:05 +0100
-Message-ID: <4850753.A3onD7O4GF@harkonnen>
-In-Reply-To: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
-References: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1727910AbfLDUSZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Dec 2019 15:18:25 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41874 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbfLDUSZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Dec 2019 15:18:25 -0500
+Received: by mail-wr1-f68.google.com with SMTP id c9so731539wrw.8;
+        Wed, 04 Dec 2019 12:18:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=RZERPFUWOa/lGcWiQ5EhbcD6LWlr2/Pa13KS0SVnOxA=;
+        b=mZHv7AgAuu+1nD+jQ1+38h8j7Obuk0gTv9MBzCljWz8KYZ9jaQiRDkxGnkemWC7BDf
+         Y/gPO1I2lKcvYFoHjgUy5fgtiZEW5VdRWmIdBlTer4+k2ASaxleasscXbm7ai6KT6v19
+         GvjJjQAMmZhtf5WkO3zAyfC/JTgptJ2eBsjNCo+hDyNcVS8vpUVVtg3jO+hrptqpoEWw
+         snoP3zwrJZXMlQio7lTgbrr+lcBFSnFhazyZ3gDn+ml8DgW4Li/J/OE3eng9WxK9qJ6U
+         6Sv7tqf3zS3LoeHoVrv/dYl94KoDfDcg2letRYrvu9sOI9LAjNDJynosk9vepHmbf/FB
+         6acA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=RZERPFUWOa/lGcWiQ5EhbcD6LWlr2/Pa13KS0SVnOxA=;
+        b=Nn9tDTEMQmCrcmgzfp+Z+a9MRYutODTgwp1C4mCx2NgxKVyemifgcDtt/Uyfpwt0wa
+         BYEHPeBskyDvOVi8qZj6MfSVVMcT+MlcIMa793YYZEUcKAyQq5Dzt+3vsvf7w80d0D74
+         As6+4nzxhjhE5f98NnrU1fU9dSTLLJqBazRi6Xs2JKCXMKmcUOP8XMyIAMSyETM9kq1H
+         hAJXnQpwanbjvmi4O602Hn2QfDYuxDTgTFG4Hl/e1fIVX1PCxakUrpPqLV0zV5WWSv7h
+         xFl8M9SlPVR/CjBn3RwYHavV53O4WXjjvYBWOxpfQW3jPd6HpWly8UkfTHbm6IkkT9On
+         ktpA==
+X-Gm-Message-State: APjAAAVkfcs0XdWqVjH6VuvVw633ZcMeYlNvBAlyYCWZag6wsMW9I2eQ
+        6lMNvFhEvvTmtRHp6c6zbHQ=
+X-Google-Smtp-Source: APXvYqwP6lN+FX26HO0D+3bQ6kltC8zufv++XlnDc/HaLnSifJopyycs6Su36vlSHd2v9uimA5JdCw==
+X-Received: by 2002:adf:e984:: with SMTP id h4mr5937907wrm.275.1575490702578;
+        Wed, 04 Dec 2019 12:18:22 -0800 (PST)
+Received: from localhost.localdomain (cable-86-56-100-90.cust.telecolumbus.net. [86.56.100.90])
+        by smtp.gmail.com with ESMTPSA id f2sm7329254wmh.46.2019.12.04.12.18.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 04 Dec 2019 12:18:21 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     brendanhiggins@google.com
+Cc:     corbet@lwn.net, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org,
+        sj38.park@gmail.com, sjpark@amazon.de
+Subject: [PATCH v4 0/5] Fix nits in the kunit
+Date:   Thu,  5 Dec 2019 05:17:58 +0900
+Message-Id: <1575490683-13015-1-git-send-email-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If you are interested there is a little discussion here about it
+This patchset contains trivial fixes for the kunit documentations and the
+wrapper python scripts.
 
-https://www.lkml.org/lkml/2019/11/22/1580
+Changes from v3
+(https://lore.kernel.org/linux-kselftest/20191204192141.GA247851@google.com):
+ - Fix the 4th patch, "kunit: Place 'test.log' under the 'build_dir'" to set
+   default value of 'build_dir' as '' instead of NULL so that kunit can run
+   even though '--build_dir' option is not given.
 
-On Wednesday, December 4, 2019 11:45:54 AM CET madhuparnabhowmik04@gmail.com 
-wrote:
-> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> 
-> This patch fixes the following documentation build warning:
-> Warning: Documentation/kernel-hacking/hacking.rst references
-> a file that doesn't exist: Documentation/kbuild/namespaces.rst
-> 
-> According to the following patch:
-> https://patchwork.kernel.org/patch/11178727/
-> (doc: move namespaces.rst from kbuild/ to core-api/)
-> 
-> The file namespaces.rst was moved from kbuild to core-api
-> and renamed to symbol-namespaces.rst.
-> Therefore, this patch changes the reference to the document
-> kbuild/namespaces.rst in hacking.rst to
-> core-api/symbol-namespaces.rst
-> 
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> ---
->  Documentation/kernel-hacking/hacking.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kernel-hacking/hacking.rst
-> b/Documentation/kernel-hacking/hacking.rst index a3ddb213a5e1..d62aacb2822a
-> 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
-> 
->  This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
->  namespace. Symbol Namespaces are documented in
-> -``Documentation/kbuild/namespaces.rst``.
-> +``Documentation/core-api/symbol-namespaces.rst``.
-> 
->  :c:func:`EXPORT_SYMBOL_NS_GPL()`
-> 
->  --------------------------------
-> @@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
-> 
->  This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a
-> symbol namespace. Symbol Namespaces are documented in
-> -``Documentation/kbuild/namespaces.rst``.
-> +``Documentation/core-api/symbol-namespaces.rst``.
-> 
->  Routines and Conventions
->  ========================
+Changes from v2
+(https://lore.kernel.org/linux-kselftest/1575361141-6806-1-git-send-email-sj38.park@gmail.com):
+ - Make 'build_dir' if not exists (missed from v3 by mistake)
 
+Changes from v1
+(https://lore.kernel.org/linux-doc/1575242724-4937-1-git-send-email-sj38.park@gmail.com):
+ - Remove "docs/kunit/start: Skip wrapper run command" (A similar approach is
+   ongoing)
+ - Make 'build_dir' if not exists
 
+SeongJae Park (5):
+  docs/kunit/start: Use in-tree 'kunit_defconfig'
+  kunit: Remove duplicated defconfig creation
+  kunit: Create default config in '--build_dir'
+  kunit: Place 'test.log' under the 'build_dir'
+  kunit: Rename 'kunitconfig' to '.kunitconfig'
 
+ Documentation/dev-tools/kunit/start.rst | 13 +++++--------
+ tools/testing/kunit/kunit.py            | 18 +++++++++++-------
+ tools/testing/kunit/kunit_kernel.py     | 10 +++++-----
+ 3 files changed, 21 insertions(+), 20 deletions(-)
+
+-- 
+2.7.4
 
