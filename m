@@ -2,30 +2,29 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA42C2D0BF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 03:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11575C43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 06:53:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8F0220707
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 03:52:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD48022464
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 06:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728764AbfLEDwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Dec 2019 22:52:47 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:44924 "EHLO
+        id S1725953AbfLEGxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 01:53:25 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:36856 "EHLO
         out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728132AbfLEDwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Dec 2019 22:52:46 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01422;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tk0Ttie_1575517957;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tk0Ttie_1575517957)
+        by vger.kernel.org with ESMTP id S1725909AbfLEGxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 01:53:25 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tk0sC2w_1575528794;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tk0sC2w_1575528794)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 05 Dec 2019 11:52:38 +0800
-Subject: Re: [PATCH v4 1/2] sched/numa: introduce per-cgroup NUMA locality
- info
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
+          Thu, 05 Dec 2019 14:53:15 +0800
+Subject: [PATCH v5 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
         Vincent Guittot <vincent.guittot@linaro.org>,
@@ -39,21 +38,18 @@ To:     Randy Dunlap <rdunlap@infradead.org>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
 References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
  <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
  <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
  <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <89416266-0a06-ce1c-1d78-11171f0c80b8@linux.alibaba.com>
- <fde5d43b-447d-1b54-1bad-3a5d67e6c1f2@infradead.org>
- <c757f282-e89c-78f6-71cd-1273d2624429@infradead.org>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <2b1fde95-9d50-b03b-1cd7-de7001f4fe56@linux.alibaba.com>
-Date:   Thu, 5 Dec 2019 11:52:37 +0800
+Message-ID: <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+Date:   Thu, 5 Dec 2019 14:53:14 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
  Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <c757f282-e89c-78f6-71cd-1273d2624429@infradead.org>
+In-Reply-To: <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -62,53 +58,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Since v4:
+  * improved documentation
+Since v3:
+  * fix comments and improved documentation
+Since v2:
+  * simplified the locality concept & implementation
+Since v1:
+  * improved documentation
 
+Modern production environment could use hundreds of cgroup to control
+the resources for different workloads, along with the complicated
+resource binding.
 
-On 2019/12/5 上午11:29, Randy Dunlap wrote:
-> On 12/4/19 7:28 PM, Randy Dunlap wrote:
->> Hi,
->>
->> It seems that you missed my previous comments...
->>
->>
->> On 12/3/19 11:59 PM, 王贇 wrote:
->>> diff --git a/init/Kconfig b/init/Kconfig
->>> index 4d8d145c41d2..fb7182a0d017 100644
->>> --- a/init/Kconfig
->>> +++ b/init/Kconfig
->>> @@ -817,6 +817,15 @@ config NUMA_BALANCING_DEFAULT_ENABLED
->>>  	  If set, automatic NUMA balancing will be enabled if running on a NUMA
->>>  	  machine.
->>>
->>> +config CGROUP_NUMA_LOCALITY
->>> +	bool "The per-cgroup NUMA Locality"
->>
->> Drop "The"
->>
->>> +	default n
->>> +	depends on CGROUP_SCHED && NUMA_BALANCING
->>> +	help
->>> +	  This option enable the collection of per-cgroup NUMA locality info,
->>
->> 	              enables
->>
->>> +	  to tell whether NUMA Balancing is working well for a particular
->>> +	  workload, also imply the NUMA efficiency.
->>> +
->>>  menuconfig CGROUPS
->>>  	bool "Control Group support"
->>>  	select KERNFS
->>
->>
->> thanks.
->>
-> 
-> Ah, the changes are in patch 2/2/ for some reason.  OK, thanks.
+On NUMA platforms where we have multiple nodes, things become even more
+complicated, we hope there are more local memory access to improve the
+performance, and NUMA Balancing keep working hard to achieve that,
+however, wrong memory policy or node binding could easily waste the
+effort, result a lot of remote page accessing.
 
-My bad, let's move them to 1/2 then, also will apply the comments you sent
-for 2/2 in next version ;-)
+We need to notice such problems, then we got chance to fix it before
+there are too much damages, however, there are no good monitoring
+approach yet to help catch the mouse who introduced the remote access.
 
-Regards,
-Michael Wang
+This patch set is trying to fill in the missing pieces， by introduce
+the per-cgroup NUMA locality info, with this new statistics, we could
+achieve the daily monitoring on NUMA efficiency, to give warning when
+things going too wrong.
 
-> 
+Please check the second patch for more details.
+
+Michael Wang (2):
+  sched/numa: introduce per-cgroup NUMA locality info
+  sched/numa: documentation for per-cgroup numa statistics
+
+ Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
+ Documentation/admin-guide/index.rst             |   1 +
+ Documentation/admin-guide/kernel-parameters.txt |   4 +
+ Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+ include/linux/sched.h                           |  15 ++
+ include/linux/sched/sysctl.h                    |   6 +
+ init/Kconfig                                    |  11 ++
+ kernel/sched/core.c                             |  75 ++++++++++
+ kernel/sched/fair.c                             |  62 +++++++++
+ kernel/sched/sched.h                            |  12 ++
+ kernel/sysctl.c                                 |  11 ++
+ 11 files changed, 384 insertions(+)
+ create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+
+-- 
+2.14.4.44.g2045bb6
+
