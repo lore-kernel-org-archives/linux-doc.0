@@ -2,173 +2,109 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8856BC43603
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57619C43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 22:25:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 59A5B2466E
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2368020707
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 22:25:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9UtKpvd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nhguw729"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387417AbfLEVwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 16:52:18 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:44426 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387415AbfLEVwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:17 -0500
-Received: by mail-il1-f194.google.com with SMTP id z12so4362262iln.11;
-        Thu, 05 Dec 2019 13:52:17 -0800 (PST)
+        id S1729450AbfLEWZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 17:25:04 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43311 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729430AbfLEWZE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 17:25:04 -0500
+Received: by mail-pf1-f193.google.com with SMTP id h14so2261756pfe.10;
+        Thu, 05 Dec 2019 14:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
-        b=g9UtKpvdmqkb8LED/sHy5z6LtpDExLhvMqpSfIh3BH/8egEL2QzxM92WHpXPCKU/UX
-         GQ47PT8+lOFHuU0CAsJK0RDtfoID7GvXBTrYwH2X35rNqD2d5LCeLY3EZqNnYUrWDSpz
-         H+mdzlSVK2GwM23/ydBj7qGdjqeKzIA422ZVXoJtmk7cJs6SRhQweobQ8nhP0fPKTz/R
-         7CQWJSmsFd5ZNbU/CJsRJbowVaAUx6G+QnyJIIvnnkuHxVHXST+uTFU84XeLJuDSW8z8
-         MhkKBlslHA7XdUaE9N9BI9tf3DBd7WT4pTh/uzyq5X5cgMpnYAMY3SM0O59uMRX/hObP
-         WJcQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i7d8gLjd+sLoiJpXei1q6a6kERigQFuSYg7tC9xLpLQ=;
+        b=Nhguw729g/WUMhWFkxEF7GWHFRtvnBoAnkFhvhi7jPBIXNhvjwFDNssMX1ScVNCjVY
+         dW8HB3etskB92IitKyrS5OMjiXsowoD2PjZKU1GmTTxwR2hxRQyVEsiJv4lVR/kqOpD3
+         nEw2j1J0191duIdNWJmeI4q0fWmk9pkWe0I0N2ae+Co2AWVGtk9CJ0C+tKyA1YTZ0+ez
+         48pGKZFjF7owmWUoJIbih8f5sRKw+VwGRUOA2WxacA6mFFm6rBHZBE/qQVGvCYFNdJYa
+         GLtYcGVHUtWACOHYF9ybZSqr//+XnNMD71B5OmkWLgxbYOQ34mM975xOfvQDjHQEBcRA
+         GczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
-        b=GjgjrYA/SU2io/wFgaZe+QJQsCaKFublfFcsI5AE/bw5MuTISN3I36T4fFmwXbHCaU
-         HTgj9Ul5zhsHb83ox5wS3wRgBQ0l7af6kFhgF0UYSdgXeuxxATcGk9iXdY5z25+Heh2C
-         4NxLvM3TIVbqM0qQ0aB7FrDWUAlTCmKKQGhJkUGMFZXB3riQSHM8DJ4qSTIu4hljOWvf
-         kCwAvdg2yXaZ5PEG58EcEcOkxkZdwfzvmqegJeCHgHn0Rt4XaWLcpDY1wCYESgWSy9Yu
-         s4gK6FdIUw38hXJKFM4ZdxdleCR5XJe1peU476zj4qMVOefqbyztjjYma8n40GsBpc3E
-         vNyw==
-X-Gm-Message-State: APjAAAWMQT87Ywzt0TEQVNdjqXs2l2xwz0g6apQmeEJ1fkJAMJDayeDM
-        shGsEVco7l0WghA00ihyO/Y=
-X-Google-Smtp-Source: APXvYqxtsOguVD5OjiAl2LXWs61tkwUaHZgqCoQ81BONy+REW3HUxgS8dbNMif1KAdlVb9lXygxS6w==
-X-Received: by 2002:a92:cd4f:: with SMTP id v15mr11425153ilq.230.1575582736991;
-        Thu, 05 Dec 2019 13:52:16 -0800 (PST)
-Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:52:16 -0800 (PST)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 08/18] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-Date:   Thu,  5 Dec 2019 14:51:39 -0700
-Message-Id: <20191205215151.421926-9-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191205215151.421926-1-jim.cromie@gmail.com>
-References: <20191205215151.421926-1-jim.cromie@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i7d8gLjd+sLoiJpXei1q6a6kERigQFuSYg7tC9xLpLQ=;
+        b=acY+3j5os/SbzpHWqWTeqRHOI+WXZCTJImL/Dz/muGr3oKBT10U4Roy3cAXcTW7oz0
+         OFvXOMtFJfSYjZtLkmIfeZ0oLgZunBdHH4S27r8u2PBa91C/DQstwHtZOvgrgV4h56GY
+         rYBsTUGglzOhDaHH+AjNrAp3B82IGYd+F8lw/eoAUfpPVfhVbu/KS5vT4DCJ4O7XpBN1
+         V+1TlKI+0dMR54UfT5yxJcOyXHNNV4vVtgsfy0w2xZxzluoolMNJYZfqThjL3tLh3mOc
+         jqecxMr+D2/rr3mpk6GZtJ0l6aopLbzdZ8D2gGI+VYoIFmh7VXYqboo0lZ3gox8ptJFZ
+         jF2w==
+X-Gm-Message-State: APjAAAXZ6Baeck6SRkXo/2oHUuwjJEAOlXQSvseCGLq9d2FJdlYglE3n
+        +4gB9U5s6T0WEpQuIRMZmevptdZwHvIWBunlZy4=
+X-Google-Smtp-Source: APXvYqxMbd1CA+h65ymSEClEw1SnfCASsf92gbJSoej2Vn3nUlZUtazzWber25+lZzHthoOXsseTrIP4ugkGyOQ1uYg=
+X-Received: by 2002:a65:490e:: with SMTP id p14mr2933470pgs.4.1575584703737;
+ Thu, 05 Dec 2019 14:25:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191205215151.421926-1-jim.cromie@gmail.com> <20191205215151.421926-20-jim.cromie@gmail.com>
+In-Reply-To: <20191205215151.421926-20-jim.cromie@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 6 Dec 2019 00:24:52 +0200
+Message-ID: <CAHp75VcSkm4M7VOuMWnNUOMAPbbvmodGfn9_Pu25H213pMuxFA@mail.gmail.com>
+Subject: Re: [PATCH 17/18] dyndbg: rename dynamic_debug to dyndbg
+To:     Jim Cromie <jim.cromie@gmail.com>
+Cc:     jbaron@akamai.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Gary Hook <Gary.Hook@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Accept these additional query forms:
+On Thu, Dec 5, 2019 at 11:54 PM Jim Cromie <jim.cromie@gmail.com> wrote:
+>
+> This rename fixes a subtle usage wrinkle; the __setup() names didn't
+> match the fake "dyndbg" module parameter used to enable dynamic-printk
+> callsites in modules.  See the last change in Docs for the effect.
+>
+> It also shortens the "__FILE__:__func__" prefix in dyndbg.verbose
+> messages, effectively s/dynamic_debug/dyndbg/
+>
+> This is a 99.9% rename; trim_prefix and debugfs_create_dir arg excepted.
+> Nonetheless, it also changes both /sys appearances:
+>
+> bash-5.0# ls -R /sys/kernel/debug/dyndbg/ /sys/module/dyndbg/parameters/
+> /sys/kernel/debug/dyndbg/:
+> control
 
-   echo "file $filestr +_" > control
+> /sys/module/dyndbg/parameters/:
 
-       path/to/file.c:100	# as from control, column 1
-       path/to/file.c:1-100	# or any legal line-range
-       path/to/file.c:func_A	# as from an editor/browser
-       path/to/file.c:drm_\*	# wildcards still work
-       path/to/file.c:*_foo	# lead wildcard too
+Isn't this path a part of ABI?
 
-1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+> verbose
+>
+> Finally, paths in docs are ~= s|/dynamic_debug/|/dyndbg/|,
+> plus the kernel cmdline example tweak cited above.
 
-Doc these changes, and sprinkle in a few extra wild-card examples and
-trailing # explanation texts.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
- lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index e011f8907116..689a30316589 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -156,6 +156,7 @@ func
-     of each callsite.  Example::
- 
- 	func svc_tcp_accept
-+	func *recv*		# in rfcomm, bluetooth, ping, tcp
- 
- file
-     The given string is compared against either the src-root relative
-@@ -164,6 +165,9 @@ file
- 
- 	file svcsock.c
- 	file kernel/freezer.c	# ie column 1 of control file
-+	file drivers/usb/*	# all callsites under it
-+	file inode.c:start_*	# parse :tail as a func (above)
-+	file inode.c:1-100	# parse :tail as a line-range (above)
- 
- module
-     The given string is compared against the module name
-@@ -173,6 +177,7 @@ module
- 
- 	module sunrpc
- 	module nfsd
-+	module drm*	# both drm, drm_kms_helper
- 
- format
-     The given string is searched for in the dynamic debug format
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index f0cf90e672b8..9fa6d4eeae5c 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -322,6 +322,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
- 	} else {
- 		query->last_lineno = query->first_lineno;
- 	}
-+	vpr_info("parsed line %d-%d\n", query->first_lineno,
-+		 query->last_lineno);
- 	return 0;
- }
- 
-@@ -358,6 +360,7 @@ static int ddebug_parse_query(char *words[], int nwords,
- {
- 	unsigned int i;
- 	int rc = 0;
-+	char *fline;
- 
- 	/* check we have an even number of words */
- 	if (nwords % 2 != 0) {
-@@ -374,7 +377,22 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (!strcmp(words[i], "func")) {
- 			rc = check_set(&query->function, words[i+1], "func");
- 		} else if (!strcmp(words[i], "file")) {
--			rc = check_set(&query->filename, words[i+1], "file");
-+			if (check_set(&query->filename, words[i+1], "file"))
-+				return -EINVAL;
-+
-+			/* tail :$info is function or line-range */
-+			fline = strchr(query->filename, ':');
-+			if (!fline)
-+				break;
-+			*fline++ = '\0';
-+			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
-+				/* take as function name */
-+				if (check_set(&query->function, fline, "func"))
-+					return -EINVAL;
-+			} else
-+				if (parse_linerange(query, fline))
-+					return -EINVAL;
-+
- 		} else if (!strcmp(words[i], "module")) {
- 			rc = check_set(&query->module, words[i+1], "module");
- 		} else if (!strcmp(words[i], "format")) {
 -- 
-2.23.0
-
+With Best Regards,
+Andy Shevchenko
