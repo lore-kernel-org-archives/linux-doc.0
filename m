@@ -2,113 +2,299 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33433C2D0BE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 00:01:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D8EC43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 01:08:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 09620214B2
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 00:01:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dMXveiSd"
+	by mail.kernel.org (Postfix) with ESMTP id ED0342073B
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 01:08:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728383AbfLEABZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Dec 2019 19:01:25 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38932 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728071AbfLEABZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Dec 2019 19:01:25 -0500
-Received: by mail-qt1-f195.google.com with SMTP id g1so1679877qtj.6
-        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2019 16:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NJE0pjdE5Zlehm0IQrIdzxUmlagRhXSz8Z6krXba16E=;
-        b=dMXveiSdmysvHaaEGqoOeZVSx5EPJ9MpMwSPukSFjNxEoCMpSTZ/b7nW3a3ag+uVAQ
-         WJqr3Mqy/7UmoytRqJv1NDqoRpsXix5p5K7lJ1cn9tolu5aMWzqO1bsczgCQX2yBZFio
-         /owaBhc98Ur1YVsbX4paW48mWFyWzoO/p1IDD3DFqbUqcIKOR9ok2SpJjnxswQIwl5k8
-         11AdS6biXWKXtMXYO02Qbn3EyfPdk9nh44b2fn9WJTrAx07Weld/jA/XnPX9fNhWsxFA
-         gK7XXefTKOuYQuo1lCxJjtBIQQPuqF4K/u9J38SLRlccFneeuFHsEIkfmMtJTYKqh5tN
-         yB7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NJE0pjdE5Zlehm0IQrIdzxUmlagRhXSz8Z6krXba16E=;
-        b=b0S0hn+C/x/JlZnX6neIljy/LvW6cPAZcczJC4I/cpIH6fWxvmjEXMofA/Q92swLIc
-         i4G9y4a+jtvMxXAr9RO/IsDO5WDEIjU3QhugIMf6PtUQFDOGZpXTy3EYZebxK7OtCchE
-         xLtS3My5FN5KLOZ/pCXzRw4XHxzZ1ycFqBYutfxAojQTPshfvtHvNi3RSASI+aHj1+5/
-         mE4UK9FoRDI5zVUPZM4IrFMNDtNujMfTVtXxFE5zfeJgINLx51YhPhLGhebl62XlrL6r
-         QeEyA3rAWMFKCfPQZDUXkZlaeEorI7qUktMlh2ZEjw50dKdgQkiGES4THbhUGfdudbJu
-         6h7g==
-X-Gm-Message-State: APjAAAURm+Rkhs5gVUH2Gv5bDoOjVPZrgh+5ofZ61Zl/AcDS3pxSP6er
-        i8/E5RzYowqkdk/zPiD+AEb0Zi4PbGNdCK2PqW0d
-X-Google-Smtp-Source: APXvYqyjERtSkkqd18jJn6NmH7zcnXxSu4imYlM1ke8pU9s0MVgE/EHmIGiKhuYy1w87RsrmzGQgcu4BTCkDWBb0gf0=
-X-Received: by 2002:ac8:46cc:: with SMTP id h12mr5209796qto.109.1575504084233;
- Wed, 04 Dec 2019 16:01:24 -0800 (PST)
-MIME-Version: 1.0
-References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com>
- <1575374868-32601-4-git-send-email-alan.maguire@oracle.com>
- <CAFd5g47dRP9HvsZD3sqzzfbAthNq8gxEdh57owo3CqVHLNOf6w@mail.gmail.com>
- <20191204003851.GF86484@mit.edu> <alpine.LRH.2.20.1912041531160.5511@dhcp-10-175-179-22.vpn.oracle.com>
-In-Reply-To: <alpine.LRH.2.20.1912041531160.5511@dhcp-10-175-179-22.vpn.oracle.com>
-From:   Iurii Zaikin <yzaikin@google.com>
-Date:   Wed, 4 Dec 2019 16:00:48 -0800
-Message-ID: <CAAXuY3qekjWBUTxzAjCs+87nVXpigvzqm7TpG7MtJagTSG-xtg@mail.gmail.com>
-Subject: Re: [PATCH v5 linux-kselftest-test 3/6] kunit: allow kunit tests to
- be loaded as a module
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        David Gow <davidgow@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Knut Omang <knut.omang@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728238AbfLEBIZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Dec 2019 20:08:25 -0500
+Received: from mga17.intel.com ([192.55.52.151]:24082 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728098AbfLEBIZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Dec 2019 20:08:25 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Dec 2019 17:08:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,279,1571727600"; 
+   d="scan'208";a="294380489"
+Received: from spandruv-mobl3.jf.intel.com ([10.252.134.55])
+  by orsmga001.jf.intel.com with ESMTP; 04 Dec 2019 17:08:23 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     rjw@rjwysocki.net, lenb@kernel.org, rui.zhang@intel.com,
+        corbet@lwn.net
+Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] ACPI / fan: Display fan performance state information
+Date:   Wed,  4 Dec 2019 17:08:10 -0800
+Message-Id: <20191205010810.18410-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> I've also got a patch that I was hoping to send out soon
-> that might help.  The idea is that each test suite would create
-> a debugfs representation under /sys/kernel/debug/kunit;
-> specifically:
->
-> /sys/kernel/debug/kunit/results/<suite>
-> /sys/kernel/debug/kunit/results/<suite>-tests
->
-> ...where cat'ing the former shows the full set of results,
-> and the latter is a directory within which we can display
-> individual test results in test-case-specific files.
->
-> This is all done by ensuring that when tests log information,
-> they log to a per-test-case log buffer as well as to dmesg.
->
-> If the above sounds useful, I'll try and polish up the patch
-> for submission. Thanks!
-What would be the best way for kunit_tool to:
-1. Know that the tests have completed as QEMU will be just sitting
-there with kernel complaining about the absence of init (or running
-whatever we give it as init)?
-2. Read the test results from debugfs under QEMU virtual machine while
-the kernel is still there?
-I think supplying an init script/binary that copies the
-/sys/kernel/debug/kunit/results/* to a 9p shared dir set up by
-kunit_tool would work but it would add a step of cross-compiling and
-packaging a userspace binary.
+When _FPS object indicates support of variable speed fan, thermal cooling
+devices for fan shows max performance state count using attribute
+"max_state" greater than or equal to 1.
+
+But the thermal cooling device doesn't display properties of each
+performance state. This is not enough for smart fan control user space
+software, which also considers speed, power and noise level.
+
+This change presents fan performance states attributes under acpi
+device for the fan. This will be under:
+/sys/bus/acpi/devices/devices/INT3404:00
+or
+/sys/bus/platform/devices/PNP0C0B:00.
+
+For more information refer to:
+Documentation/acpi/fan_performance_states.txt
+
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Tested-by: Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>
+---
+ Documentation/acpi/fan_performance_states.txt |  39 ++++++
+ drivers/acpi/fan.c                            | 111 ++++++++++++++++--
+ 2 files changed, 141 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/acpi/fan_performance_states.txt
+
+diff --git a/Documentation/acpi/fan_performance_states.txt b/Documentation/acpi/fan_performance_states.txt
+new file mode 100644
+index 000000000000..06fd8eb002f2
+--- /dev/null
++++ b/Documentation/acpi/fan_performance_states.txt
+@@ -0,0 +1,39 @@
++When the optional object _FPS is present for ACPI devices PNP0C0B or INT3404,
++additional attributes are displayed under acpi device object. These attributes
++display information about each performance state.
++
++For example
++$ ls /sys/bus/acpi/devices/INT3404\:00
++description        fan_perf_state_11  fan_perf_state_5  fan_perf_state_9  physical_node  uevent
++fan_perf_state_0   fan_perf_state_2   fan_perf_state_6  hid               power          uid
++fan_perf_state_1   fan_perf_state_3   fan_perf_state_7  modalias          status         wakeup
++fan_perf_state_10  fan_perf_state_4   fan_perf_state_8  path              subsystem
++
++Each fan_perf_state_* contains the information about the fields for each state as
++defined by the ACPI specification.
++
++For example
++$ grep . /sys/bus/acpi/devices/INT3404\:00/fan_perf_state_1/*
++/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/control_percent:25
++/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/noise_level_mdb:12500
++/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/power_mw:1250
++/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/speed_rpm:3200
++/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/trip_point_index:invalid
++
++Fields
++control_percent: Indicates the value to be used to set the fan speed to a
++specific level using the _FSL object. The value here is from 0-100 percent.
++
++noise_level_mdb: Indicates the audible noise emitted by the fan. By the
++specification the value represents the noise in 10ths of decibels. Here
++it is multiplied with 100 to present in milli-db, to avoid loss of
++precision. When not populated, "not-defined" is displayed.
++
++speed_rpm: Indicates the speed of the fan in revolutions per minute.
++
++power_mw: Indicates the power consumption in milliwatts. When not populated,
++"not-defined" is displayed.
++
++trip_point_index: The active cooling trip point number that corresponds to this
++performance state. The range is from 0-9. For any other values, "invalid" is
++be displayed.
+diff --git a/drivers/acpi/fan.c b/drivers/acpi/fan.c
+index 816b0803f7fb..b0ce7a48f0f6 100644
+--- a/drivers/acpi/fan.c
++++ b/drivers/acpi/fan.c
+@@ -50,6 +50,7 @@ struct acpi_fan_fps {
+ 	u64 speed;
+ 	u64 noise_level;
+ 	u64 power;
++	struct kobject kobj;
+ };
+ 
+ struct acpi_fan_fif {
+@@ -265,8 +266,67 @@ static int acpi_fan_speed_cmp(const void *a, const void *b)
+ 	return fps1->speed - fps2->speed;
+ }
+ 
+-static int acpi_fan_get_fps(struct acpi_device *device)
++#define to_fps_state(k) container_of(k, struct acpi_fan_fps, kobj)
++
++#define DEFINE_ONE_FPS_ATTR_RO(_name)\
++	static struct kobj_attribute _name =\
++		__ATTR(_name, 0444, show_##_name, NULL)
++
++#define FPS_INFO_SHOW(name, object, multiplier)\
++static ssize_t show_##name(struct kobject *kobj,\
++			   struct kobj_attribute *attr,\
++			   char *buf)\
++{\
++	struct acpi_fan_fps *fps = to_fps_state(kobj);\
++\
++	if (fps->object == 0xFFFFFFFF)\
++		return sprintf(buf, "not-defined\n");\
++\
++	return sprintf(buf, "%llu\n", multiplier * fps->object);\
++}
++
++FPS_INFO_SHOW(control_percent, control, 1)
++FPS_INFO_SHOW(speed_rpm, speed, 1)
++FPS_INFO_SHOW(power_mw, power, 1)
++FPS_INFO_SHOW(noise_level_mdb, noise_level, 100)
++
++static ssize_t show_trip_point_index(struct kobject *kobj,
++				     struct kobj_attribute *attr,
++				     char *buf)
+ {
++	struct acpi_fan_fps *fps = to_fps_state(kobj);
++
++	if (fps->trip_point > 9)
++		return sprintf(buf, "invalid\n");
++
++	return sprintf(buf, "%llu\n", fps->trip_point);
++}
++
++DEFINE_ONE_FPS_ATTR_RO(control_percent);
++DEFINE_ONE_FPS_ATTR_RO(trip_point_index);
++DEFINE_ONE_FPS_ATTR_RO(speed_rpm);
++DEFINE_ONE_FPS_ATTR_RO(noise_level_mdb);
++DEFINE_ONE_FPS_ATTR_RO(power_mw);
++
++static struct attribute *fps_attrs[] = {
++	&control_percent.attr,
++	&trip_point_index.attr,
++	&speed_rpm.attr,
++	&noise_level_mdb.attr,
++	&power_mw.attr,
++	NULL
++};
++
++static struct kobj_type fps_ktype = {
++	.sysfs_ops = &kobj_sysfs_ops,
++	.default_attrs = fps_attrs,
++};
++
++#define ACPI_FPS_NAME_LEN	20
++
++static int acpi_fan_get_fps(struct platform_device *pdev)
++{
++	struct acpi_device *device = ACPI_COMPANION(&pdev->dev);
+ 	struct acpi_fan *fan = acpi_driver_data(device);
+ 	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+ 	union acpi_object *obj;
+@@ -295,12 +355,13 @@ static int acpi_fan_get_fps(struct acpi_device *device)
+ 	}
+ 	for (i = 0; i < fan->fps_count; i++) {
+ 		struct acpi_buffer format = { sizeof("NNNNN"), "NNNNN" };
+-		struct acpi_buffer fps = { sizeof(fan->fps[i]), &fan->fps[i] };
++		struct acpi_buffer fps = { offsetof(struct acpi_fan_fps, kobj),
++						&fan->fps[i] };
+ 		status = acpi_extract_package(&obj->package.elements[i + 1],
+ 					      &format, &fps);
+ 		if (ACPI_FAILURE(status)) {
+ 			dev_err(&device->dev, "Invalid _FPS element\n");
+-			break;
++			goto err;
+ 		}
+ 	}
+ 
+@@ -308,6 +369,21 @@ static int acpi_fan_get_fps(struct acpi_device *device)
+ 	sort(fan->fps, fan->fps_count, sizeof(*fan->fps),
+ 	     acpi_fan_speed_cmp, NULL);
+ 
++	for (i = 0; i < fan->fps_count; ++i) {
++		char name[ACPI_FPS_NAME_LEN];
++
++		snprintf(name, ACPI_FPS_NAME_LEN, "fan_perf_state_%d", i);
++		status = kobject_init_and_add(&fan->fps[i].kobj, &fps_ktype,
++					      &device->dev.kobj, name);
++		if (status) {
++			int j;
++
++			for (j = 0; j < i; ++j)
++				kobject_put(&fan->fps[j].kobj);
++			break;
++		}
++	}
++
+ err:
+ 	kfree(obj);
+ 	return status;
+@@ -330,14 +406,14 @@ static int acpi_fan_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, fan);
+ 
+ 	if (acpi_fan_is_acpi4(device)) {
+-		if (acpi_fan_get_fif(device) || acpi_fan_get_fps(device))
+-			goto end;
++		if (acpi_fan_get_fif(device) || acpi_fan_get_fps(pdev))
++			goto err_end;
+ 		fan->acpi4 = true;
+ 	} else {
+ 		result = acpi_device_update_power(device, NULL);
+ 		if (result) {
+ 			dev_err(&device->dev, "Failed to set initial power state\n");
+-			goto end;
++			goto err_end;
+ 		}
+ 	}
+ 
+@@ -350,7 +426,7 @@ static int acpi_fan_probe(struct platform_device *pdev)
+ 						&fan_cooling_ops);
+ 	if (IS_ERR(cdev)) {
+ 		result = PTR_ERR(cdev);
+-		goto end;
++		goto err_end;
+ 	}
+ 
+ 	dev_dbg(&pdev->dev, "registered as cooling_device%d\n", cdev->id);
+@@ -365,10 +441,21 @@ static int acpi_fan_probe(struct platform_device *pdev)
+ 	result = sysfs_create_link(&cdev->device.kobj,
+ 				   &pdev->dev.kobj,
+ 				   "device");
+-	if (result)
++	if (result) {
+ 		dev_err(&pdev->dev, "Failed to create sysfs link 'device'\n");
++		goto err_end;
++	}
++
++	return 0;
++
++err_end:
++	if (fan->acpi4) {
++		int i;
++
++		for (i = 0; i < fan->fps_count; ++i)
++			kobject_put(&fan->fps[i].kobj);
++	}
+ 
+-end:
+ 	return result;
+ }
+ 
+@@ -376,6 +463,12 @@ static int acpi_fan_remove(struct platform_device *pdev)
+ {
+ 	struct acpi_fan *fan = platform_get_drvdata(pdev);
+ 
++	if (fan->acpi4) {
++		int i;
++
++		for (i = 0; i < fan->fps_count; ++i)
++			kobject_put(&fan->fps[i].kobj);
++	}
+ 	sysfs_remove_link(&pdev->dev.kobj, "thermal_cooling");
+ 	sysfs_remove_link(&fan->cdev->device.kobj, "device");
+ 	thermal_cooling_device_unregister(fan->cdev);
+-- 
+2.17.2
+
