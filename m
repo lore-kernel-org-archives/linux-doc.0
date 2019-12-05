@@ -5,64 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9966BC43603
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BCC0C2D0C1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5BAED21835
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38B7D24676
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOxPNe8W"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dPQL7iwe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387492AbfLEVwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 16:52:36 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:44548 "EHLO
+        id S2387533AbfLEVww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 16:52:52 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:44570 "EHLO
         mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387488AbfLEVwg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:36 -0500
-Received: by mail-io1-f68.google.com with SMTP id z23so5191703iog.11;
-        Thu, 05 Dec 2019 13:52:35 -0800 (PST)
+        with ESMTP id S2387525AbfLEVwu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:50 -0500
+Received: by mail-io1-f68.google.com with SMTP id z23so5192298iog.11;
+        Thu, 05 Dec 2019 13:52:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2hpIeNO/rrHxqmmLp7RAfiIu08DiGGroLpGDwIlCW7M=;
-        b=MOxPNe8WPtSybtjHa0RjD3KJL4IhgjYoRlaEx55/rqpvYo9Ky6IkP8BxUSKa8W//Ul
-         PBG3mLdwri+d+vIivintMAMlESZr7QBNgX+YOA+gIimPYIK7mtAPhdDh9zjI9X6cgTy8
-         hpkh7n7a3Mv6QLc9k+pMlahHM3SBi/a/fE0hKWOAEPaSVUcQhfKiIR4OqWXPvXm+YyhS
-         A6XN6ru7o1ETHZLiBAbpXFeG/QwR/yS+OrF2xV4Q52E2TtUpb9MYk+Gahv/RdbWaCzCw
-         7OubreR8PMWUxQJo9r/xnvAmqklOf85y46yPHqKR5/Zl6ay195i+WhsPx0gbg5S7POwy
-         OZqg==
+        bh=+DItobioE2v0mcjvG7rtQWbeO2Gh9dZ5P9FoUFdI1r8=;
+        b=dPQL7iwe36qPjYatnqnyMK7+wQcq/+GaIbuumJSYp+Odzdr29W4dj+1GMvZFPEkLfM
+         oNmNdpZg2sTDEI/oKXIUKo/HKR99JM9odseNtG5FtKpfeB3k04kTZE8xpQ+wh5sgowmC
+         rTTgQqq+7LfhVB7gPQrOSEilZFv/rYaMluz46geLr/ut3X6TD0GA59ekD4poXUrDF2xK
+         JxQbqtw1xXN3GtclgVuveNgkX+MVDUwTgno7kM2POx4KSLcyFjR/0mqxaBQWPeNb4h3M
+         2KOlJM2pkKbOGvU7dIk430gVwcAPLnk6jaIEJ52jc5zAzoml8pZDPymIughrtVJHuG1F
+         1ddQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2hpIeNO/rrHxqmmLp7RAfiIu08DiGGroLpGDwIlCW7M=;
-        b=Qe5A5Gt23WUNeQgU6raBeiXMvg3q1Qk6K5mquM7+rx9c1F683kHtOx6XW4ammSqQo9
-         ieb+sjAlgBxl9e70TBKgkfKr/TgptoWOxMeikphcpBwQUCdkcKI8KJL3iAeG1pllqCBG
-         wZadyCU+TRgFx9LY0t+y1+RI3qbGnjKrYzZ3OeyrHoq0Ngw2EdZQSxv8OzHqI3M5yVQy
-         FrH1JyMQLta4LQFhr5tRFMcz1++9cHsJFMUnL3WQyhrYFbDqALD6N1NTy2uwz074gQKS
-         oTLJ2swHhQQnqMtbiJZA5SdPtNla3XXAaM8CX0X0oBe02S8/G/VyJVYxgvmkl8mysZwG
-         JXug==
-X-Gm-Message-State: APjAAAWvvyRrX0576wL7KYiiQTSCqRXC1M6MCmHqtksSHELX8F7EHSMJ
-        e55SVtZphasYdtmdTdD3tlMH3eZauis=
-X-Google-Smtp-Source: APXvYqxPNCcMlZKwCPlWpIF1OSmY5ID6nrckbjANU//r7OZaeuSpKzUBkXCqcUDfwIGUhTXIGlR9Cw==
-X-Received: by 2002:a02:c4da:: with SMTP id h26mr10742177jaj.47.1575582755356;
-        Thu, 05 Dec 2019 13:52:35 -0800 (PST)
+        bh=+DItobioE2v0mcjvG7rtQWbeO2Gh9dZ5P9FoUFdI1r8=;
+        b=oj9G1pWGxjYV82LZliWlCqnvmBwzftC2KOB1aWDLCB1GxQdifuyLP0rWHFDsBOVyrB
+         SQz8fmog3gVS7IHJUpE20Tf5emQ3ATSQZLuv3q5+SzRzmqkgCYelF1xnu8IfMHJEvNPa
+         QoijkMXAwauICHEFCxACR5o+4cNGnQ6BQbK7w4z/mnML2xGjshtJ3TrIpt/QWZ1pjXXX
+         2ZdNkxsH84BuQ1QQWVpY0QPHI50TqPcwfT/kXyWmNRVOsIXFarJOzwVlvZXxQsFfZPWS
+         6shXDnBh2ghrOBiVVwVQKtnfnasdkK4rld3KaU3y8KRKVGzSf9XfpqWGj25+2jS5UGin
+         LQBw==
+X-Gm-Message-State: APjAAAULiwyC1jrA5VTYTd/bH8sbPVcsUnniPIlMsuYDuGy9bRFTTNUp
+        qn09lXmThBLuDhSGFaenaU5O2JzKTDyQRQ==
+X-Google-Smtp-Source: APXvYqy2RPf1EWJTE5thsigSgQnTSK9fZBeGJmChON0tx5U/ZvgnYBw2HIVw83BdYuHDLHTSkkrmbw==
+X-Received: by 2002:a02:ca42:: with SMTP id i2mr10497732jal.87.1575582768972;
+        Thu, 05 Dec 2019 13:52:48 -0800 (PST)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.34
+        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:52:34 -0800 (PST)
+        Thu, 05 Dec 2019 13:52:48 -0800 (PST)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 15/18] dyndbg: allow negating flag-chars in modflags
-Date:   Thu,  5 Dec 2019 14:51:48 -0700
-Message-Id: <20191205215151.421926-18-jim.cromie@gmail.com>
+Subject: [PATCH 18/18] dyndbg-docs: normalize comments in examples
+Date:   Thu,  5 Dec 2019 14:51:51 -0700
+Message-Id: <20191205215151.421926-21-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191205215151.421926-1-jim.cromie@gmail.com>
 References: <20191205215151.421926-1-jim.cromie@gmail.com>
@@ -73,77 +73,119 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend flags modifications to allow [PFMLTU] inverted flags.
-This allows control-queries like:
+given that:
+  ~# cat batch-of-dyndbg-cmd-queries > /sys/kernel/debug/dyndbg/control
 
-  #> Q () { echo file inode.c $* > control } # to type less
-  #> Q -P	# same as +p
-  #> Q +U	# same as -u
-  #> Q u-P	# same as u+p
+works, and since '#' is a legal comment character accepted
+by >control, the syntax is much more like bash than c++.
 
-This allows flags in a callsite to be simultaneously set and cleared,
-while still starting with the current flagstate (with +- ops).
-Generally, you chose -p or +p 1st, then set or clear flags
-accordingly.
+So replace '//' with '#'.
+Someone might copy-paste these examples, lets make them more usable
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++----
- lib/dynamic_debug.c                               |  6 ++++--
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 51 ++++++++++---------
+ 1 file changed, 27 insertions(+), 24 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 9f68062ba316..5c170e49121d 100644
+index d91dbb52721d..33eed4713bb8 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -249,9 +249,11 @@ only callsites with ``u`` and ``f`` cleared.
+@@ -189,11 +189,11 @@ format
+     characters (``"``) or single quote characters (``'``).
+     Examples::
  
- Flagsets cannot contain ``pP`` etc, a flag cannot be true and false.
+-	format svcrdma:         // many of the NFS/RDMA server pr_debugs
+-	format readahead        // some pr_debugs in the readahead cache
+-	format nfsd:\040SETATTR // one way to match a format with whitespace
+-	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
+-	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
++	format svcrdma:         # many of the NFS/RDMA server pr_debugs
++	format readahead        # some pr_debugs in the readahead cache
++	format nfsd:\040SETATTR # one way to match a format with whitespace
++	format "nfsd: SETATTR"  # a neater way to match a format with whitespace
++	format 'nfsd: SETATTR'  # yet another way to match a format with whitespace
  
--modflags containing upper-case flags is reserved/undefined for now.
--inverted-flags are currently ignored, usage gets trickier if given
--``-pXy``, it should leave x set.
-+modflags may contain upper-case flags also, using these lets you
-+invert the flag setting implied by the OP; '-pU' means disable
-+printing, and mark that callsite with the user-flag to create a group,
-+for optional further manipulation.  Generally, '+p' and '-p' is your
-+main choice, and use of negating flags in modflags is rare.
+ line
+     The given line number or range of line numbers is compared
+@@ -204,10 +204,10 @@ line
+     the first line in the file, an empty last line number means the
+     last line number in the file.  Examples::
  
- Notes::
+-	line 1603           // exactly line 1603
+-	line 1600-1605      // the six lines from line 1600 to line 1605
+-	line -1605          // the 1605 lines from line 1 to line 1605
+-	line 1600-          // all lines from line 1600 to the end of the file
++	line 1603           # exactly line 1603
++	line 1600-1605      # the six lines from line 1600 to line 1605
++	line -1605          # the 1605 lines from line 1 to line 1605
++	line 1600-          # all lines from line 1600 to the end of the file
  
-@@ -261,7 +263,7 @@ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- For display, the flags are preceded by ``=``
- (mnemonic: what the flags are currently equal to).
+ Flags Specification::
  
--Note the regexp ``^[-+=][flmptu_]+$`` matches a flags specification.
-+Note the regexp ``/^[-+=][flmptu_]+$/i`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-flmptu``.
+@@ -345,44 +345,47 @@ Examples
  
+ ::
  
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 736895efe17d..15bb9939df97 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -486,15 +486,17 @@ static int ddebug_parse_flags(const char *str,
+-  // enable the message at line 1603 of file svcsock.c
++  # enable the message at line 1603 of file svcsock.c
+   nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
+ 				<debugfs>/dyndbg/control
  
- 	/* calculate final mods: flags, mask based upon op */
- 	switch (op) {
-+		unsigned int tmp;
- 	case '=':
- 		mods->mask = 0;
- 		break;
- 	case '+':
--		mods->mask = ~0U;
-+		mods->mask = ~mods->mask;
- 		break;
- 	case '-':
-+		tmp = mods->mask;
- 		mods->mask = ~mods->flags;
--		mods->flags = 0;
-+		mods->flags = tmp;
- 		break;
- 	}
+-  // enable all the messages in file svcsock.c
++  # enable all the messages in file svcsock.c
+   nullarbor:~ # echo -n 'file svcsock.c +p' >
+ 				<debugfs>/dyndbg/control
  
+-  // enable all the messages in the NFS server module
++  # enable all the messages in the NFS server module
+   nullarbor:~ # echo -n 'module nfsd +p' >
+ 				<debugfs>/dyndbg/control
+ 
+-  // enable all 12 messages in the function svc_process()
++  # enable all 12 messages in the function svc_process()
+   nullarbor:~ # echo -n 'func svc_process +p' >
+ 				<debugfs>/dyndbg/control
+ 
+-  // disable all 12 messages in the function svc_process()
++  # disable all 12 messages in the function svc_process()
+   nullarbor:~ # echo -n 'func svc_process -p' >
+ 				<debugfs>/dyndbg/control
+ 
+-  // enable messages for NFS calls READ, READLINK, READDIR and READDIR+.
++  # enable messages for NFS calls READ, READLINK, READDIR and READDIR+.
+   nullarbor:~ # echo -n 'format "nfsd: READ" +p' >
+ 				<debugfs>/dyndbg/control
+ 
+-  // enable messages in files of which the paths include string "usb"
++  # enable messages in files of which the paths include string "usb"
+   nullarbor:~ # echo -n '*usb* +p' > <debugfs>/dyndbg/control
+ 
+-  // enable all messages
++  # enable all messages
+   nullarbor:~ # echo -n '+p' > <debugfs>/dyndbg/control
+ 
+-  // add module, function to all enabled messages
++  # add module, function to all enabled messages
+   nullarbor:~ # echo -n '+mf' > <debugfs>/dyndbg/control
+ 
+-  // boot-args example, with newlines and comments for readability
+-  Kernel command line: ...
+-    // see whats going on in dyndbg=value processing
++  # boot-args example, with newlines and comments for readability
++  # Kernel command line: ...
++
++    # see whats going on in dyndbg=value processing
+     dyndbg.verbose=1
+-    // enable pr_debugs in 2 builtins, #cmt is stripped
++
++    # enable pr_debugs in 2 builtins, #cmt is stripped
+     dyndbg="module params +p #cmt ; module sys +p"
+-    // enable pr_debugs in 2 functions in a module loaded later
+-    pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
++
++    # enable pr_debugs in 2 functions in a module loaded later
++    pc87360.dyndbg="func *_init_device +p; func *_find +p"
 -- 
 2.23.0
 
