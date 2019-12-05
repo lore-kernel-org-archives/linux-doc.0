@@ -2,67 +2,67 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BTC_ID,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4074C43603
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9966BC43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 623FD21835
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BAED21835
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:52:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KkIJTde1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOxPNe8W"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729950AbfLEVwF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 16:52:05 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:35553 "EHLO
+        id S2387492AbfLEVwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 16:52:36 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:44548 "EHLO
         mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729914AbfLEVwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:05 -0500
-Received: by mail-io1-f68.google.com with SMTP id v18so5286078iol.2;
-        Thu, 05 Dec 2019 13:52:05 -0800 (PST)
+        with ESMTP id S2387488AbfLEVwg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:36 -0500
+Received: by mail-io1-f68.google.com with SMTP id z23so5191703iog.11;
+        Thu, 05 Dec 2019 13:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
-        b=KkIJTde1r4C7sMJ3KIuZeGIH7d3OP0OJGrxgfdw+8B4R5fNsgr/nscwZYqtow/YyUM
-         TJiUY9exZT63nfaavupuIVNVm9IFAl6SiNA2l/f6wiZhnr5kBCyHPMgCJMt6KNc5RXTQ
-         pqJ1GR5w0DppHHkFgaOOtSl4XSkpFARTTRzRulBLaH3uopxwzQBB/v9QWS7Yh7MvSIdw
-         0omlbjob2V49uA/7uJHFyd+9bI2gxrDRMTSoC7E42PqcmNLG9psX7udQK9ddc4hPSt9G
-         dksms2GADici3fJJmr+rwiQTBRJbbEJxf7tGEErD0ig2iNYEgy20GmdeMpKBb1uJObv3
-         kArg==
+        bh=2hpIeNO/rrHxqmmLp7RAfiIu08DiGGroLpGDwIlCW7M=;
+        b=MOxPNe8WPtSybtjHa0RjD3KJL4IhgjYoRlaEx55/rqpvYo9Ky6IkP8BxUSKa8W//Ul
+         PBG3mLdwri+d+vIivintMAMlESZr7QBNgX+YOA+gIimPYIK7mtAPhdDh9zjI9X6cgTy8
+         hpkh7n7a3Mv6QLc9k+pMlahHM3SBi/a/fE0hKWOAEPaSVUcQhfKiIR4OqWXPvXm+YyhS
+         A6XN6ru7o1ETHZLiBAbpXFeG/QwR/yS+OrF2xV4Q52E2TtUpb9MYk+Gahv/RdbWaCzCw
+         7OubreR8PMWUxQJo9r/xnvAmqklOf85y46yPHqKR5/Zl6ay195i+WhsPx0gbg5S7POwy
+         OZqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
-        b=EH7pqCeBQERdpjJLQ1x7ZYIG20rEOaCbKZu+arJ3zByfTxkx4L8656Vu3rAe1yOeSr
-         mLuWddT8Wkez8fT8dKqD2A4+C1Nep7jkELvesDSo5O7ihHpc4gaykBDzvhtpwbcZSpL6
-         ojgCWLvUX31P/Lt+W15QnSjhu2xJCNw+c1QPdSdb33nXbYEH1AcYUVqZB8g0GrRKaHsq
-         gC51P6AfAmOYNyyK6XXERumwNqnVWnVDDpYrak0p/RIA1BiFvZ7/qPbYsyq1R2gpqSu4
-         Tn5vV7MDgUQ/4984zbLYWqw39xxxI/CQ+K6L7OXeXGJgvYI7J9a9scJR32wghvJ/xIKv
-         L6mA==
-X-Gm-Message-State: APjAAAXZqk2TdeAgRGSkBZJpbbc6+MEo5xHC4FhXWzCxHQMnu/q6eF/H
-        ZI34OPRzJJJ5SeIY2a8AcFw=
-X-Google-Smtp-Source: APXvYqyjQJykbez8N9B4qcqPu7CuJ5u4sXk5Bwnj5YfHhpeFb6/xrZEZ+JhuypIl34/GBFBwQldArA==
-X-Received: by 2002:a02:52c9:: with SMTP id d192mr4028520jab.29.1575582724755;
-        Thu, 05 Dec 2019 13:52:04 -0800 (PST)
+        bh=2hpIeNO/rrHxqmmLp7RAfiIu08DiGGroLpGDwIlCW7M=;
+        b=Qe5A5Gt23WUNeQgU6raBeiXMvg3q1Qk6K5mquM7+rx9c1F683kHtOx6XW4ammSqQo9
+         ieb+sjAlgBxl9e70TBKgkfKr/TgptoWOxMeikphcpBwQUCdkcKI8KJL3iAeG1pllqCBG
+         wZadyCU+TRgFx9LY0t+y1+RI3qbGnjKrYzZ3OeyrHoq0Ngw2EdZQSxv8OzHqI3M5yVQy
+         FrH1JyMQLta4LQFhr5tRFMcz1++9cHsJFMUnL3WQyhrYFbDqALD6N1NTy2uwz074gQKS
+         oTLJ2swHhQQnqMtbiJZA5SdPtNla3XXAaM8CX0X0oBe02S8/G/VyJVYxgvmkl8mysZwG
+         JXug==
+X-Gm-Message-State: APjAAAWvvyRrX0576wL7KYiiQTSCqRXC1M6MCmHqtksSHELX8F7EHSMJ
+        e55SVtZphasYdtmdTdD3tlMH3eZauis=
+X-Google-Smtp-Source: APXvYqxPNCcMlZKwCPlWpIF1OSmY5ID6nrckbjANU//r7OZaeuSpKzUBkXCqcUDfwIGUhTXIGlR9Cw==
+X-Received: by 2002:a02:c4da:: with SMTP id h26mr10742177jaj.47.1575582755356;
+        Thu, 05 Dec 2019 13:52:35 -0800 (PST)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.03
+        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:52:04 -0800 (PST)
+        Thu, 05 Dec 2019 13:52:34 -0800 (PST)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 01/18] dyndbg-docs: eschew file /full/path query in docs
-Date:   Thu,  5 Dec 2019 14:51:32 -0700
-Message-Id: <20191205215151.421926-2-jim.cromie@gmail.com>
+Subject: [PATCH 15/18] dyndbg: allow negating flag-chars in modflags
+Date:   Thu,  5 Dec 2019 14:51:48 -0700
+Message-Id: <20191205215151.421926-18-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191205215151.421926-1-jim.cromie@gmail.com>
 References: <20191205215151.421926-1-jim.cromie@gmail.com>
@@ -73,74 +73,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Regarding:
-commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
-commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
+Extend flags modifications to allow [PFMLTU] inverted flags.
+This allows control-queries like:
 
-2nd commit broke dynamic-debug's "file $fullpath" query form, but
-nobody noticed because 1st commit trimmed prefixes from control-file
-output, so the click-copy-pasting of fullpaths into new queries had
-ceased; that query form became unused.
+  #> Q () { echo file inode.c $* > control } # to type less
+  #> Q -P	# same as +p
+  #> Q +U	# same as -u
+  #> Q u-P	# same as u+p
 
-Removing the function is cleanest, but it could be useful in
-old-compiler corner cases, where __FILE__ still has /full/path,
-and it safely does nothing otherwize.
-
-So instead, quietly deprecate "file /full/path" query form, by
-removing all /full/paths examples in the docs.  I skipped adding a
-back-compat note.
+This allows flags in a callsite to be simultaneously set and cleared,
+while still starting with the current flagstate (with +- ops).
+Generally, you chose -p or +p 1st, then set or clear flags
+accordingly.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++----
+ lib/dynamic_debug.c                               |  6 ++++--
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 252e5ef324e5..e011f8907116 100644
+index 9f68062ba316..5c170e49121d 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -62,10 +62,10 @@ statements via::
+@@ -249,9 +249,11 @@ only callsites with ``u`` and ``f`` cleared.
  
-   nullarbor:~ # cat <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-+  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
-+  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
-+  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
-+  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-   ...
+ Flagsets cannot contain ``pP`` etc, a flag cannot be true and false.
+ 
+-modflags containing upper-case flags is reserved/undefined for now.
+-inverted-flags are currently ignored, usage gets trickier if given
+-``-pXy``, it should leave x set.
++modflags may contain upper-case flags also, using these lets you
++invert the flag setting implied by the OP; '-pU' means disable
++printing, and mark that callsite with the user-flag to create a group,
++for optional further manipulation.  Generally, '+p' and '-p' is your
++main choice, and use of negating flags in modflags is rare.
+ 
+ Notes::
+ 
+@@ -261,7 +263,7 @@ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+ For display, the flags are preceded by ``=``
+ (mnemonic: what the flags are currently equal to).
+ 
+-Note the regexp ``^[-+=][flmptu_]+$`` matches a flags specification.
++Note the regexp ``/^[-+=][flmptu_]+$/i`` matches a flags specification.
+ To clear all flags at once, use ``=_`` or ``-flmptu``.
  
  
-@@ -85,7 +85,7 @@ the debug statement callsites with any non-default flags::
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 736895efe17d..15bb9939df97 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -486,15 +486,17 @@ static int ddebug_parse_flags(const char *str,
  
-   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
-+  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 	/* calculate final mods: flags, mask based upon op */
+ 	switch (op) {
++		unsigned int tmp;
+ 	case '=':
+ 		mods->mask = 0;
+ 		break;
+ 	case '+':
+-		mods->mask = ~0U;
++		mods->mask = ~mods->mask;
+ 		break;
+ 	case '-':
++		tmp = mods->mask;
+ 		mods->mask = ~mods->flags;
+-		mods->flags = 0;
++		mods->flags = tmp;
+ 		break;
+ 	}
  
- Command Language Reference
- ==========================
-@@ -158,13 +158,12 @@ func
- 	func svc_tcp_accept
- 
- file
--    The given string is compared against either the full pathname, the
--    src-root relative pathname, or the basename of the source file of
--    each callsite.  Examples::
-+    The given string is compared against either the src-root relative
-+    pathname, or the basename of the source file of each callsite.
-+    Examples::
- 
- 	file svcsock.c
--	file kernel/freezer.c
--	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
-+	file kernel/freezer.c	# ie column 1 of control file
- 
- module
-     The given string is compared against the module name
 -- 
 2.23.0
 
