@@ -2,150 +2,128 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A27D1C43603
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 18:45:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBF7C43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:06:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AF132464E
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 18:45:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="id6bY7Nr"
+	by mail.kernel.org (Postfix) with ESMTP id 077BB20707
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575580017;
+	bh=0BjwXnBxJCjxAOFHsj6kbOG0NMYoOT/Yq6sWwXI4xwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=kpzPBqjUdTl7CaY0qxMwtsPoYkv//EZVbLcLNhhkDruYIHBrAugRKtdg7AIR9qfLV
+	 DdfYm523AA04x5Y6hHrz4NF+UKHyf6AyvGq7hyb0cb2ABtPBN2fMp66EwIEvwG3GRh
+	 t7ZEXl4CPPtAx1tFgqNesJ0+qdpa/SJgfaheoD14=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730295AbfLESpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 13:45:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29193 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730155AbfLESpa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 13:45:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575571529;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o+ceyNOAgwOHGOedPh8jjnXDmvLZ/5D9KblQB5Ic6zg=;
-        b=id6bY7NrHUwmTCF7ouSvsf6LSNWL9PTYJ6iSB02ysTu6P+lkbzAHRwRbhqw+/HdWUBI6Ja
-        y3sptHYl77NzInYxhrxJ49Ar/qFB54xAIz30kOywgrQMEq/7qkEeTZesjlfuupbXaDmlIX
-        4yVqspl9P6HXUP5st1lYJRPi1U3xW5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-wjmLsy-_NiCvkUvbpkiP0g-1; Thu, 05 Dec 2019 13:45:27 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61250100550E;
-        Thu,  5 Dec 2019 18:45:25 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-55.ams2.redhat.com [10.36.116.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A1955600D1;
-        Thu,  5 Dec 2019 18:45:21 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        id S1729859AbfLEVG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 16:06:56 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42505 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729145AbfLEVG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:06:56 -0500
+Received: by mail-ot1-f65.google.com with SMTP id 66so3890328otd.9;
+        Thu, 05 Dec 2019 13:06:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kfZJgMdMZnEWqYp4l6MRhDa+lgrmX+5UPFpYfdvrZFQ=;
+        b=SoZxAsjeHAmoEf4nNdWHdNcH1eSxQGcAMlZkojEugsfwFP+PMHN/5fG+rRd+a6QsrN
+         UZ2nSGHtgB7j38V6j9TPs0jIXrA+Q5OOtGsGzONxVQ+ynCqo2IadyilFgPosg3/gOxdf
+         3VEQNi8ZiUF0J5ebBwjKwSVnI1m2V/fb8mcJFHJJz5VZSTeZbTV0nOK1nLiSW1ghecYD
+         /flwLufgKqBJxGPODZgph7WUClg+7YA1/B3cJsgJ2UGN4Qxyfg9Ma3+VFf8vsxZlveMq
+         0WbZLwUoPFak+8xVRRFjNI2Gvm8RxNzKG0Q3uoWlDgAn4m8Ds/4u1RwXhKM2C0/9CGja
+         C50A==
+X-Gm-Message-State: APjAAAVKlfEd2gTkmkWLBWw8xtEUxm7kwBuU/TsAzv72M3BjbzhHMyv2
+        7TT0vK57ZYd3gRo5ej7OQA==
+X-Google-Smtp-Source: APXvYqz+giNRZ8MeXlmxtPAkMj15JPvC0Xm4AbR1+kfJ6wADHeXGxnfrjZfPcXGkJATVHVwmwkF53w==
+X-Received: by 2002:a9d:75c7:: with SMTP id c7mr2839523otl.181.1575580014993;
+        Thu, 05 Dec 2019 13:06:54 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id r25sm3819723otk.22.2019.12.05.13.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2019 13:06:54 -0800 (PST)
+Date:   Thu, 5 Dec 2019 15:06:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v9 10/10] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Thu,  5 Dec 2019 19:44:22 +0100
-Message-Id: <20191205184422.7316-11-hdegoede@redhat.com>
-In-Reply-To: <20191205184422.7316-1-hdegoede@redhat.com>
-References: <20191205184422.7316-1-hdegoede@redhat.com>
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
+Message-ID: <20191205210653.GA29969@bogus>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-5-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: wjmLsy-_NiCvkUvbpkiP0g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191127084253.16356-5-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
+On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
+> Add Device Tree bindings for a GPIO repeater, with optional translation
+> of physical signal properties.  This is useful for describing explicitly
+> the presence of e.g. an inverter on a GPIO line, and was inspired by the
+> non-YAML gpio-inverter bindings by Harish Jenny K N
+> <harish_kandiga@mentor.com>[1].
+> 
+> Note that this is different from a GPIO Nexus Node[2], which cannot do
+> physical signal property translation.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
+It can't? Why not? The point of the passthru mask is to not do 
+translation of flags, but without it you are always doing translation of 
+cells.
 
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+> 
+> While an inverter can be described implicitly by exchanging the
+> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
+> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
+> th provider and consumer sides:
+>   1. The GPIO provider (controller) looks at the flags to know the
+>      polarity, so it can translate between logical (active/not active)
+>      and physical (high/low) signal levels.
+>   2. While the signal polarity is usually fixed on the GPIO consumer
+>      side (e.g. an LED is tied to either the supply voltage or GND),
+>      it may be configurable on some devices, and both sides need to
+>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
+>      match the actual polarity.
+>      There exists a similar issue with interrupt flags, where both the
+>      interrupt controller and the device generating the interrupt need
+>      to agree, which breaks in the presence of a physical inverter not
+>      described in DT (see e.g. [3]).
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/=
-touchscreen_dmi.c
-index 4449e4c0b26b..4a09b479cda5 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data =3D {
- =09.properties     =3D chuwi_vi8_props,
- };
-=20
-+static const struct ts_dmi_data chuwi_vi8_plus_data =3D {
-+=09.embedded_fw =3D {
-+=09=09.name=09=3D "chipone/icn8505-HAMP0002.fw",
-+=09=09.prefix =3D { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+=09=09.length=09=3D 35012,
-+=09=09.sha256=09=3D { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+=09=09=09    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+=09=09=09    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+=09=09=09    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+=09},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] =3D {
- =09PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- =09PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -743,6 +755,15 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
- {
- =09=09=09DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- =09=09},
- =09},
-+=09{
-+=09=09/* Chuwi Vi8 Plus (CWI519) */
-+=09=09.driver_data =3D (void *)&chuwi_vi8_plus_data,
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+=09=09=09DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+=09=09},
-+=09},
- =09{
- =09=09/* Chuwi Vi10 (CWI505) */
- =09=09.driver_data =3D (void *)&chuwi_vi10_data,
-@@ -1137,6 +1158,9 @@ static int __init ts_dmi_init(void)
- =09=09return 0; /* Not an error */
-=20
- =09ts_data =3D dmi_id->driver_data;
-+=09/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+=09if (!ts_data->properties)
-+=09=09return 0;
-=20
- =09error =3D bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- =09if (error)
---=20
-2.23.0
+Adding an inverted flag as I've suggested would also solve this issue.
 
+> 
+> [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+>     https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/
+> 
+> [2] Devicetree Specification v0.3-rc2, Section 2.5
+>     https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.3-rc2
+> 
+> [3] "[PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
+>     inverted IRQ"
+>     https://lore.kernel.org/linux-renesas-soc/20190607172958.20745-1-erosca@de.adit-jv.com/
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
