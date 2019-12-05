@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB50C2D0C1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8856BC43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 512F82466E
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59A5B2466E
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 21:53:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G9ZI6UP2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9UtKpvd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387444AbfLEVwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 16:52:25 -0500
-Received: from mail-io1-f53.google.com ([209.85.166.53]:39966 "EHLO
-        mail-io1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387440AbfLEVwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:24 -0500
-Received: by mail-io1-f53.google.com with SMTP id x1so5235124iop.7;
-        Thu, 05 Dec 2019 13:52:24 -0800 (PST)
+        id S2387417AbfLEVwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 16:52:18 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:44426 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387415AbfLEVwR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 16:52:17 -0500
+Received: by mail-il1-f194.google.com with SMTP id z12so4362262iln.11;
+        Thu, 05 Dec 2019 13:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=axIeDX2ZuzeMwEDGdzKEGgiMR3V0p3vdxKl8XUb96Yk=;
-        b=G9ZI6UP25/SpVKvWIB6fsm0sCEhWGpI+Ui+ygRJM180TynebLJiaTK29BpHEaTPsGp
-         SD4wWpv3MlmS1CqBKyKXYXXN49W4s5iJBEW6uApKs7bjDn/lpUMSQKKFHRYrSbZ3X471
-         4tvxmMOvDs9WG2NabCY/JNN2E/iikrGAqjWLJD7wMl43zijQh1hZe5IeK8zExxm97iTi
-         RP1v/1Z89DyYAZ+iCGauUUF7bQz2r2pivxCwOkjqh9mG336AEFoYeQr6w+tC3mFiIyzT
-         Vv67jOryeacDcuA1Mhrl2F7NWzeUOaaqrx3cX4wQ3AidSNegmrOc50Yf9LSEZyZ1xxXh
-         Lheg==
+        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
+        b=g9UtKpvdmqkb8LED/sHy5z6LtpDExLhvMqpSfIh3BH/8egEL2QzxM92WHpXPCKU/UX
+         GQ47PT8+lOFHuU0CAsJK0RDtfoID7GvXBTrYwH2X35rNqD2d5LCeLY3EZqNnYUrWDSpz
+         H+mdzlSVK2GwM23/ydBj7qGdjqeKzIA422ZVXoJtmk7cJs6SRhQweobQ8nhP0fPKTz/R
+         7CQWJSmsFd5ZNbU/CJsRJbowVaAUx6G+QnyJIIvnnkuHxVHXST+uTFU84XeLJuDSW8z8
+         MhkKBlslHA7XdUaE9N9BI9tf3DBd7WT4pTh/uzyq5X5cgMpnYAMY3SM0O59uMRX/hObP
+         WJcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=axIeDX2ZuzeMwEDGdzKEGgiMR3V0p3vdxKl8XUb96Yk=;
-        b=aa9t+dOKT9QbvARy2gJMC1L9VKPuOjvH+ZZiTndcoBAF9UZ6ZQ8q/YW+lquE8VQdaF
-         mmvFslrSZXPaONF9QOYOX3w80uPK7VwxNd7DJw6wRyNtkzeSdDYzkx8IVKl1leK3ibp3
-         qL3Dfhdrn6NV0HR5/BP3+uLuKs22kf39fEHyXnq7314SWLgC6N3ziisakHHhBWITTwea
-         YbAcGvXUmnC9anquj30rQco8aUVaZ7QRP/nAjl+5PgneAF2L8wyYjlijuUf9fweWkeGD
-         JCXjZd+SkG+CHuvSW3j+YiLjgXCFW9Z9wHsfiDTe73ZNcPEkDsOv/9z9sPFxMxbH2pIu
-         beEA==
-X-Gm-Message-State: APjAAAU0NJhOp4Ujkev9JY0Hs+SyWKjTpk1xwAqzb9VzoAQGyXtThI0V
-        6Xf7R+xwwt7elhCPtm6MTP4=
-X-Google-Smtp-Source: APXvYqwvOFCYcY7BzS4YkzGQmBx2gkRp9Gt2kOT4lm96EDR2Gn7xeahiB/GzRaybKao9GBWcXtlXJA==
-X-Received: by 2002:a6b:7618:: with SMTP id g24mr8266624iom.31.1575582743696;
-        Thu, 05 Dec 2019 13:52:23 -0800 (PST)
+        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
+        b=GjgjrYA/SU2io/wFgaZe+QJQsCaKFublfFcsI5AE/bw5MuTISN3I36T4fFmwXbHCaU
+         HTgj9Ul5zhsHb83ox5wS3wRgBQ0l7af6kFhgF0UYSdgXeuxxATcGk9iXdY5z25+Heh2C
+         4NxLvM3TIVbqM0qQ0aB7FrDWUAlTCmKKQGhJkUGMFZXB3riQSHM8DJ4qSTIu4hljOWvf
+         kCwAvdg2yXaZ5PEG58EcEcOkxkZdwfzvmqegJeCHgHn0Rt4XaWLcpDY1wCYESgWSy9Yu
+         s4gK6FdIUw38hXJKFM4ZdxdleCR5XJe1peU476zj4qMVOefqbyztjjYma8n40GsBpc3E
+         vNyw==
+X-Gm-Message-State: APjAAAWMQT87Ywzt0TEQVNdjqXs2l2xwz0g6apQmeEJ1fkJAMJDayeDM
+        shGsEVco7l0WghA00ihyO/Y=
+X-Google-Smtp-Source: APXvYqxtsOguVD5OjiAl2LXWs61tkwUaHZgqCoQ81BONy+REW3HUxgS8dbNMif1KAdlVb9lXygxS6w==
+X-Received: by 2002:a92:cd4f:: with SMTP id v15mr11425153ilq.230.1575582736991;
+        Thu, 05 Dec 2019 13:52:16 -0800 (PST)
 Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.22
+        by smtp.googlemail.com with ESMTPSA id n22sm740184iog.14.2019.12.05.13.52.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:52:23 -0800 (PST)
+        Thu, 05 Dec 2019 13:52:16 -0800 (PST)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
 Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 12/18] dyndbg: extend ddebug_parse_flags to accept optional filter-flags
-Date:   Thu,  5 Dec 2019 14:51:43 -0700
-Message-Id: <20191205215151.421926-13-jim.cromie@gmail.com>
+Subject: [PATCH 08/18] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
+Date:   Thu,  5 Dec 2019 14:51:39 -0700
+Message-Id: <20191205215151.421926-9-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191205215151.421926-1-jim.cromie@gmail.com>
 References: <20191205215151.421926-1-jim.cromie@gmail.com>
@@ -73,100 +73,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-change ddebug_parse_flags to accept /^ filterflags? OP modflags /x, as
-well as the currently accepted /^ OP modflags /.
+Accept these additional query forms:
+
+   echo "file $filestr +_" > control
+
+       path/to/file.c:100	# as from control, column 1
+       path/to/file.c:1-100	# or any legal line-range
+       path/to/file.c:func_A	# as from an editor/browser
+       path/to/file.c:drm_\*	# wildcards still work
+       path/to/file.c:*_foo	# lead wildcard too
+
+1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+
+Doc these changes, and sprinkle in a few extra wild-card examples and
+trailing # explanation texts.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 18 +++++++----
- lib/dynamic_debug.c                           | 30 ++++++++++---------
- 2 files changed, 28 insertions(+), 20 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
+ lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 689a30316589..cdc45dcb3e0c 100644
+index e011f8907116..689a30316589 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -209,13 +209,19 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
+@@ -156,6 +156,7 @@ func
+     of each callsite.  Example::
  
--The flags specification comprises a change operation followed
--by one or more flag characters.  The change operation is one
--of the characters::
-+Flags Specification::
+ 	func svc_tcp_accept
++	func *recv*		# in rfcomm, bluetooth, ping, tcp
  
--  -    remove the given flags
--  +    add the given flags
--  =    set the flags to the given flags
-+  flagspec	::= filterflags? OP modflags
-+  filterflags	::= flagset
-+  modflags	::= flagset
-+  flagset	::= ([pfmlt_xyz] | [PFMLT_XYZ])+
-+  OP		::= [-+=]
-+
-+OP: modify callsites per following flagset::
-+
-+  -    remove the following flags
-+  +    add the following flags
-+  =    set the flags to the following flags
+ file
+     The given string is compared against either the src-root relative
+@@ -164,6 +165,9 @@ file
  
- The flags are::
+ 	file svcsock.c
+ 	file kernel/freezer.c	# ie column 1 of control file
++	file drivers/usb/*	# all callsites under it
++	file inode.c:start_*	# parse :tail as a func (above)
++	file inode.c:1-100	# parse :tail as a line-range (above)
  
+ module
+     The given string is compared against the module name
+@@ -173,6 +177,7 @@ module
+ 
+ 	module sunrpc
+ 	module nfsd
++	module drm*	# both drm, drm_kms_helper
+ 
+ format
+     The given string is searched for in the dynamic debug format
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 8c62c76badcf..be8299e119ab 100644
+index f0cf90e672b8..9fa6d4eeae5c 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -441,34 +441,36 @@ static int ddebug_read_flags(const char *str, struct flagsettings *f)
+@@ -322,6 +322,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
+ 	} else {
+ 		query->last_lineno = query->first_lineno;
+ 	}
++	vpr_info("parsed line %d-%d\n", query->first_lineno,
++		 query->last_lineno);
+ 	return 0;
  }
  
- /*
-- * Parse `str' as a flags specification, format [-+=][p]+.
-- * Sets up *maskp and *flagsp to be used when changing the
-- * flags fields of matched _ddebug's.  Returns 0 on success
-- * or <0 on error.
-+ * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
-+ * Fills flagsettings provided.  Returns 0 on success or <0 on error.
-  */
--
- static int ddebug_parse_flags(const char *str,
- 			      struct flagsettings *mods,
- 			      struct flagsettings *filter)
+@@ -358,6 +360,7 @@ static int ddebug_parse_query(char *words[], int nwords,
  {
- 	int op;
-+	char *opp = strpbrk(str, "-+=");
+ 	unsigned int i;
+ 	int rc = 0;
++	char *fline;
  
--	switch (*str) {
--	case '+':
--	case '-':
--	case '=':
--		op = *str++;
--		break;
--	default:
--		pr_err("bad flag-op %c, at start of %s\n", *str, str);
-+	if (!opp) {
-+		pr_err("no OP given in %s\n", str);
- 		return -EINVAL;
- 	}
-+	op = *opp;
- 	vpr_info("op='%c'\n", op);
- 
-+	if (opp != str) {
-+		/* filterflags precedes OP, grab it */
-+		*opp++ = '\0';
-+		if (ddebug_read_flags(str, filter))
-+			return -EINVAL;
-+		str = opp;
-+	} else
-+		str++;
+ 	/* check we have an even number of words */
+ 	if (nwords % 2 != 0) {
+@@ -374,7 +377,22 @@ static int ddebug_parse_query(char *words[], int nwords,
+ 		if (!strcmp(words[i], "func")) {
+ 			rc = check_set(&query->function, words[i+1], "func");
+ 		} else if (!strcmp(words[i], "file")) {
+-			rc = check_set(&query->filename, words[i+1], "file");
++			if (check_set(&query->filename, words[i+1], "file"))
++				return -EINVAL;
 +
- 	if (ddebug_read_flags(str, mods))
- 		return -EINVAL;
- 
--	/* calculate final flags, mask based upon op */
-+	/* calculate final mods: flags, mask based upon op */
- 	switch (op) {
- 	case '=':
- 		mods->mask = 0;
++			/* tail :$info is function or line-range */
++			fline = strchr(query->filename, ':');
++			if (!fline)
++				break;
++			*fline++ = '\0';
++			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
++				/* take as function name */
++				if (check_set(&query->function, fline, "func"))
++					return -EINVAL;
++			} else
++				if (parse_linerange(query, fline))
++					return -EINVAL;
++
+ 		} else if (!strcmp(words[i], "module")) {
+ 			rc = check_set(&query->module, words[i+1], "module");
+ 		} else if (!strcmp(words[i], "format")) {
 -- 
 2.23.0
 
