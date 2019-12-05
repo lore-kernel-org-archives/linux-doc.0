@@ -2,163 +2,124 @@ Return-Path: <SRS0=7OKn=Z3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC1EC43603
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 09:44:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41202C43603
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 15:14:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8B62E2464E
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 09:44:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 163A224652
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Dec 2019 15:14:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="GWaaIsrg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iqs3hhxM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729167AbfLEJol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 04:44:41 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:39985 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728629AbfLEJol (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 04:44:41 -0500
+        id S1729154AbfLEPO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Dec 2019 10:14:27 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46498 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725909AbfLEPO1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 10:14:27 -0500
+Received: by mail-pf1-f196.google.com with SMTP id y14so1740171pfm.13;
+        Thu, 05 Dec 2019 07:14:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1575539080; x=1607075080;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=XA3oZWOd5asy5rioRAKyGk2s02rOKwV9Udl1+L/1v4E=;
-  b=GWaaIsrga2Wf7razKIk59blu9cEsQGKQNnXACz7FAGJBOwqKzXknve+N
-   /rz2OBVx2bnMomjpn3m+/l4QSGtpbSPjrbwUnHqyM80rW+z8AMzsLozJ7
-   SuLVducC5dB/cuMAKV105qlfruw8lPSm8xO0KBCCP7pqTIUysQtL5EDdb
-   s=;
-IronPort-SDR: oN9E6e02wCm8LbHFJfX4TowVWG/UGsHK2KJGpM9LCOW/lsg4WGpaDkCS0sw0RtFBGy5/0lIxHY
- axKXhaQXUPTw==
-X-IronPort-AV: E=Sophos;i="5.69,280,1571702400"; 
-   d="scan'208";a="7245714"
-Received: from iad6-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-c5104f52.us-west-2.amazon.com) ([10.124.125.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 05 Dec 2019 09:44:38 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-c5104f52.us-west-2.amazon.com (Postfix) with ESMTPS id 9CB0CA1F5E;
-        Thu,  5 Dec 2019 09:44:37 +0000 (UTC)
-Received: from EX13D22UEA003.ant.amazon.com (10.43.61.147) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 5 Dec 2019 09:44:37 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (10.43.61.82) by
- EX13D22UEA003.ant.amazon.com (10.43.61.147) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 5 Dec 2019 09:44:37 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.28.85.76) by
- mail-relay.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Thu, 5 Dec 2019 09:44:35 +0000
-Subject: Re: [PATCH v3 0/5] Fix nits in the kunit
-To:     SeongJae Park <sj38.park@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-References: <1575396508-21480-1-git-send-email-sj38.park@gmail.com>
- <CAFd5g46X9WK-xKJFF5AVYXXmM4a2dYD3fy=oi1CGJM1gc9RzuA@mail.gmail.com>
- <20191204192141.GA247851@google.com>
- <CAEjAshrXG3GmNMAS6Upu0=cCe9KJxchQWeiqLg0b8kif9ivNTg@mail.gmail.com>
- <CAEjAshpQNVdLgtLyTu5WjxygRptZ4qomKCQaxw1YaX5ppvBcNQ@mail.gmail.com>
-From:   <sjpark@amazon.com>
-Message-ID: <68b23584-c82f-68b7-f428-5b6a0738e072@amazon.com>
-Date:   Thu, 5 Dec 2019 10:44:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4KrZ84UljluamxNF+nH5kh1soJy0EOumBh8z5AiXj1M=;
+        b=Iqs3hhxMyajp6V6jOD9k8vmFZgFnE7RlH5Y5SIFEW8fHtSiT8WMNdMvH4Orv5qsVnY
+         ISzL7S362NFaevFh8wcBCvOnjDMqjeRa3xqLJXIk7QgpiCsap+7/QOAVOCI78pX52ki/
+         1iGqAct3hgHONi8QTfRTdMj/DFNsuBZyY8uIzcLhqDydv1LPSqccgf0eayjyO7lLusS9
+         Jloht0wmQC3Kwcf6ISB50SO/CZsro7ORzKDPuxdt0ItadsFYasg6pYViQvzfHeJm9phH
+         ty6sWpUnWREW4jEYCpVEw8a3W+5Drw2jihWJmNNWDDHx1kTvpoICF8bWE1PV+L42jQfB
+         lpqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4KrZ84UljluamxNF+nH5kh1soJy0EOumBh8z5AiXj1M=;
+        b=mcC94QU52K+vywoybxCj4b21/m4KJ2msHyE9aO4dmH7Q4/2CL2Fuk4hF2KFvOyuhTc
+         Vpz6+xJfDvLII/7yth6K6/QoMagAa2j6/JqiZw3ReqiIzohWNCiAmSZsYTWgO1jUcfbr
+         50OsxcKO3tEp77TL2vaNEta2iSWmYId1vPI5BKgC/Fba9Q/1pBuCJ0yy+Bew0vM9562g
+         W8010R3Jh70BDTr5Q7trVchCcYxlfhhdsGZzYrXH61c0M9IrTJMM8aCDVTAXNyKhlImI
+         4RgkRmSebopYhNv58Ufb61Ay0lotGm4Dm2LpxO/6fWBdG+ocLyXZ0WMHnymbQ5cunGxJ
+         PFgA==
+X-Gm-Message-State: APjAAAV/jbx73FHAJl9XCZcXfHA6wEwDAsB/karpx1vO17CceB1kDQkR
+        PhlraicP7GTe0ZRBt30BwXY=
+X-Google-Smtp-Source: APXvYqy/oc7fJO2/PLyS5gTXvu0Yq0ItJ+u+B2pLMSWHPIMKM4VcXxZPSU3Y9Rq9/t32w3QA2avRRg==
+X-Received: by 2002:a63:ec0a:: with SMTP id j10mr7305169pgh.178.1575558866248;
+        Thu, 05 Dec 2019 07:14:26 -0800 (PST)
+Received: from workstation-kernel-dev ([103.211.17.187])
+        by smtp.gmail.com with ESMTPSA id x13sm13397674pfc.171.2019.12.05.07.14.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2019 07:14:25 -0800 (PST)
+Date:   Thu, 5 Dec 2019 20:44:18 +0530
+From:   Amol Grover <frextrite@gmail.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Subject: Re: [PATCH] doc: listRCU: Add some more listRCU patterns in the
+ kernel
+Message-ID: <20191205151418.GA3424@workstation-kernel-dev>
+References: <20191203063941.6981-1-frextrite@gmail.com>
+ <20191203064132.38d75348@lwn.net>
+ <20191204082412.GA6959@workstation-kernel-dev>
+ <20191204074833.44bcc079@lwn.net>
+ <20191204153958.GA17404@google.com>
+ <20191204084729.184480f3@lwn.net>
+ <20191204163552.GE17404@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEjAshpQNVdLgtLyTu5WjxygRptZ4qomKCQaxw1YaX5ppvBcNQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191204163552.GE17404@google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04.12.19 21:28, SeongJae Park wrote:
-> On Wed, Dec 4, 2019 at 9:25 PM SeongJae Park <sj38.park@gmail.com> wrote:
->> On Wed, Dec 4, 2019 at 8:21 PM Brendan Higgins
->> <brendanhiggins@google.com> wrote:
->>> On Tue, Dec 03, 2019 at 02:41:26PM -0800, Brendan Higgins wrote:
->>>> On Tue, Dec 3, 2019 at 10:08 AM SeongJae Park <sj38.park@gmail.com> wrote:
->>>>> This patchset contains trivial fixes for the kunit documentations and the
->>>>> wrapper python scripts.
->>>>>
->>>>> Changes from v2 (https://lore.kernel.org/linux-kselftest/1575361141-6806-1-git-send-email-sj38.park@gmail.com/T/#t):
->>>>>  - Make 'build_dir' if not exists (missed from v3 by mistake)
->>>>>
->>>>> SeongJae Park (5):
->>>>>   docs/kunit/start: Use in-tree 'kunit_defconfig'
->>>>>   kunit: Remove duplicated defconfig creation
->>>>>   kunit: Create default config in '--build_dir'
->>>>>   kunit: Place 'test.log' under the 'build_dir'
->>>>>   kunit: Rename 'kunitconfig' to '.kunitconfig'
->>>>>
->>>>>  Documentation/dev-tools/kunit/start.rst | 13 +++++--------
->>>>>  tools/testing/kunit/kunit.py            | 16 ++++++++++------
->>>>>  tools/testing/kunit/kunit_kernel.py     |  8 ++++----
->>>>>  3 files changed, 19 insertions(+), 18 deletions(-)
->>>> Tested-by: Brendan Higgins <brendanhiggins@google.com>
->>> I just realized that I forgot to test for something...
->>>
->>> The following command fails:
->>>
->>> ./tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --defconfig
->>>
->>> [11:17:13] Building KUnit Kernel ...
->>> [11:17:16] Starting KUnit Kernel ...
->>> Traceback (most recent call last):
->>>   File "tools/testing/kunit/kunit.py", line 142, in <module>
->>>     main(sys.argv[1:])
->>>   File "tools/testing/kunit/kunit.py", line 135, in main
->>>     result = run_tests(linux, request)
->>>   File "tools/testing/kunit/kunit.py", line 67, in run_tests
->>>     test_result = kunit_parser.parse_run_tests(kunit_output)
->>>   File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_parser.py", line 283, in parse_run_tests
->>>     test_result = parse_test_result(list(isolate_kunit_output(kernel_output)))
->>>   File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_parser.py", line 54, in isolate_kunit_output
->>>     for line in kernel_output:
->>>   File "/usr/local/google/home/brendanhiggins/gbmc-linux/tools/testing/kunit/kunit_kernel.py", line 146, in run_kernel
->>>     with open(os.path.join(build_dir, 'test.log'), 'w') as f:
->>>   File "/usr/lib/python3.7/posixpath.py", line 80, in join
->>>     a = os.fspath(a)
->>> TypeError: expected str, bytes or os.PathLike object, not NoneType
->>>
->>> It seems as though you assume that build_dir is always populated by the flag.
->> Sorry for not checking the case.  The 4th patch, "kunit: Place 'test.log' under
->> the 'build_dir'" made the bug.  I fixed the 4th patch and tested with below
->> commands:
->>
->>     ./tools/testing/kunit/kunit.py run --timeout=60 --jobs=12
->> --defconfig --build_dir .kunit
->>     ./tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --defconfig
->>
->> Just sent the 4th version patchset including the fix:
->>     http://lkml.kernel.org/r/1575490683-13015-1-git-send-email-sj38.park@gmail.com
-> Also, removed the 'Reviewed-by' from the 4th patch and didn't add 'Tested-by'
-> to the patchset.
->
->
-> Thanks,
-> SeongJae Park
->
->> I will consider adding some tests that can check such cases in the
->> 'kunit_tools_test.py' later.
+On Wed, Dec 04, 2019 at 11:35:52AM -0500, Joel Fernandes wrote:
+> On Wed, Dec 04, 2019 at 08:47:29AM -0700, Jonathan Corbet wrote:
+> > On Wed, 4 Dec 2019 10:39:58 -0500
+> > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > 
+> > > Actually I had asked Amol privately to add the backticks. It appeared
+> > > super weird in my browser when some function calls were rendered
+> > > monospace while others weren't. Not all functions were successfully
+> > > cross referenced for me. May be it is my kernel version?
+> > 
+> > If you have an example of a failure to cross-reference a function that
+> > has kerneldoc comments *that are included in the toctree*, I'd like to see
+> > it; that's a bug.
+> > 
+> > Changing the font on functions without anything to cross-reference to is
+> > easy enough and should probably be done; I'll look into it when I get a
+> > chance.
+> 
+> I tried on a different machine (my work machine) and the cross-referencing is
+> working fine. So I am not sure if this could be something related to Sphinx
+> version or I had used an older kernel tree before. This kernel tree is
+> Linus's master.
+> 
 
-I just sent 5th version which includes this change and a fix:
-https://lore.kernel.org/linux-kselftest/20191205093440.21824-1-sjpark@amazon.com
+This is great! I'll remove the "``" from function text and send in the
+updated version. However, should I leave in the "``CONSTANTS``" and
+"``variables``"? They dont' have any kernel docs to be cross-referenced
+with and also make them distinguishable from the normal text.
 
+Thanks
+Amol
 
-Thanks,
-SeongJae Park
-
->>
->>
->> Thanks,
->> SeongJae Park
-
-
+> thanks,
+> 
+>  - Joel
+> 
