@@ -2,121 +2,166 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E66FC43603
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 01:08:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A03C43603
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 05:44:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 21E7520707
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 01:08:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0B992245C
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 05:44:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="mcohcs6I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwk8aQjr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbfLFBII (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Dec 2019 20:08:08 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33751 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbfLFBII (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Dec 2019 20:08:08 -0500
-Received: by mail-pf1-f195.google.com with SMTP id y206so2462438pfb.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2019 17:08:08 -0800 (PST)
+        id S1726104AbfLFFoh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 00:44:37 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:41339 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbfLFFoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 00:44:37 -0500
+Received: by mail-ed1-f66.google.com with SMTP id c26so4794710eds.8;
+        Thu, 05 Dec 2019 21:44:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=6QNT5TPRX9LvCPG87QD5zupwCfbpXJ322naahbA3zsE=;
-        b=mcohcs6IvVzKE1WtjTt3SAAgCpPpyXT7KNl1cy4GGYGRNjcaD6CS5SbdB543e71BOd
-         oL0rhLUqg+P9u3sQS3kajx81HG2lBrDnMCcpOBqeHEbMvW12ttL+z9k6ZayGpKuFhJWZ
-         RMEa57xuCixXLoDIk6h3FLyjCzE/UlVMvHB6w=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jG4VeHKyYrwbwzbvzBFt4Gx2edRiCsdmF+I1yIWaGOQ=;
+        b=hwk8aQjrxoq7/cMpTn3R/vI7AwL8vcmF8odckxSgFkQ7S5l8xjksnJ8GXpTauf6VxW
+         FbIV50+Finemz9inqv8p8j41pxeEKHNNiTaBbub+pgk7JxY5lpgS3hYLG8ATCX7ZFVUJ
+         uwcoARmbktnQSOrOAabeGjejFiovi03QBCyaK5qjJgTgfHABaIwl6sLey6iCxrHLGHc2
+         s6D4pmKTdaB48kvXcyRq90VKOHsjA4vR4zDhHYOKpEn9UfjSjHsv60cvhXqF5r0DK0p1
+         0hkd08vUqnTd6gqZMDG6fgBSNT1VzMrWRhfLztWMZtiOdx5zqQ+SaGXPRwBQMCWdQdDB
+         Gpwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=6QNT5TPRX9LvCPG87QD5zupwCfbpXJ322naahbA3zsE=;
-        b=rKAIxXXcq9O/ejwVfXsEglCV9mFhYPyOhtWfQD739Rw6pumOuKdiGiJpZblA1/CpCP
-         9vVWeRQrupUCdR3tqjZG1EcpJIL6tuEOCS0W3eG/CtAY1/Iipu7ycr2F3XPG+EvfYCcn
-         6TcnAMn1xSoiJW9XrP82tSX8wuQGYB7m+kGMic3mVMkR2yp1K1JzpCe4cwCrjR926EEW
-         LkOn/Z8SbGSLEO8z/pgn+BcoznDnOXaHukabKDF8GmFi6ecit3PenURloxG/4lIRXXYh
-         U+yCY5I+Kf8BYziyqGs0fNF+wvleVqphntin0Z455/x165+kw7SOZBDbs6fgFfFLjpjY
-         CuKg==
-X-Gm-Message-State: APjAAAUUAjqttaXy8B7nJiHiP81kMXSi+EosTLMKDSwdxxA3Odz1kCRW
-        /prUf9Mo35zTyrhKetV9ysH8ww==
-X-Google-Smtp-Source: APXvYqy7slV1vspesqiwQNeIaiovm3Q3/BPlms15Vf02v4G2S8j6tKfI0uxzWagh5nTrPJ2bHNG9kg==
-X-Received: by 2002:a62:1cd6:: with SMTP id c205mr11881014pfc.179.1575594487954;
-        Thu, 05 Dec 2019 17:08:07 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id 143sm13650519pfz.67.2019.12.05.17.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 17:08:07 -0800 (PST)
-Date:   Thu, 5 Dec 2019 20:08:06 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Amol Grover <frextrite@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: Re: [PATCH] doc: listRCU: Add some more listRCU patterns in the
- kernel
-Message-ID: <20191206010806.GA142442@google.com>
-References: <20191203063941.6981-1-frextrite@gmail.com>
- <20191203064132.38d75348@lwn.net>
- <20191204082412.GA6959@workstation-kernel-dev>
- <20191204074833.44bcc079@lwn.net>
- <20191204153958.GA17404@google.com>
- <20191204084729.184480f3@lwn.net>
- <20191204163552.GE17404@google.com>
- <20191205151418.GA3424@workstation-kernel-dev>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jG4VeHKyYrwbwzbvzBFt4Gx2edRiCsdmF+I1yIWaGOQ=;
+        b=sR7N41nbiQGsPPkUeaImK66VFXttJq4w3Be24/ZQlBh574GnDSa7NTECidJ4O8ZM5q
+         m8G7TVC1WB+gUhmlT/KGS4D0HIoOztc++V8pMoNzyH0cUZbdGxLQG1OlSeVJ4hZcX9+L
+         Phing4XrS0HvfJNfEOs/1mFIeMpsx6jOj7bEzDOcB+v25JU3cz4RSSlS4A5ts+OUKXWU
+         Lnw6LI9hqrgYu8027eA3FQ4aJmraVKAQjak8MujzRJ6iO/AlGNHGIM5sFMzo/hsL04yc
+         EVY7rhshxPcRFQXoWaTcufTTYFv35/qSzxQVpHjZ4v+mZmVARteJagmJosxHBFGQqshL
+         tMsw==
+X-Gm-Message-State: APjAAAUUhaxIBVXqpa2xCS8/k+Tq2X6U1cSYD06djeL80nuwciIzi9Dw
+        QODySDSlTN2IQRsecaZO+bqgbQu1+BlPVrNeCBU=
+X-Google-Smtp-Source: APXvYqyDDeni3gnBiyE0+HxIAg+g/Cy0WoARGXH+7cPG3f7z554qdeBuocYEs/PL7lODC/WIgmE8dBBlC+DWW7zBBjU=
+X-Received: by 2002:a05:6402:12d1:: with SMTP id k17mr14585333edx.291.1575611074979;
+ Thu, 05 Dec 2019 21:44:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191205151418.GA3424@workstation-kernel-dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1574679352-2989-1-git-send-email-shubhrajyoti.datta@gmail.com> <20191205181740.GA26684@bogus>
+In-Reply-To: <20191205181740.GA26684@bogus>
+From:   Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date:   Fri, 6 Dec 2019 11:14:23 +0530
+Message-ID: <CAKfKVtHnnFbgmtpRJYS7V97SvZdipnhf7Pe1kOxPpJh+30bEFA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: Add dt bindings for flex noc Performance Monitor
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-doc@vger.kernel.org,
+        corbet@lwn.net, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 05, 2019 at 08:44:18PM +0530, Amol Grover wrote:
-> On Wed, Dec 04, 2019 at 11:35:52AM -0500, Joel Fernandes wrote:
-> > On Wed, Dec 04, 2019 at 08:47:29AM -0700, Jonathan Corbet wrote:
-> > > On Wed, 4 Dec 2019 10:39:58 -0500
-> > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > 
-> > > > Actually I had asked Amol privately to add the backticks. It appeared
-> > > > super weird in my browser when some function calls were rendered
-> > > > monospace while others weren't. Not all functions were successfully
-> > > > cross referenced for me. May be it is my kernel version?
-> > > 
-> > > If you have an example of a failure to cross-reference a function that
-> > > has kerneldoc comments *that are included in the toctree*, I'd like to see
-> > > it; that's a bug.
-> > > 
-> > > Changing the font on functions without anything to cross-reference to is
-> > > easy enough and should probably be done; I'll look into it when I get a
-> > > chance.
-> > 
-> > I tried on a different machine (my work machine) and the cross-referencing is
-> > working fine. So I am not sure if this could be something related to Sphinx
-> > version or I had used an older kernel tree before. This kernel tree is
-> > Linus's master.
-> > 
-> 
-> This is great! I'll remove the "``" from function text and send in the
-> updated version. However, should I leave in the "``CONSTANTS``" and
-> "``variables``"? They dont' have any kernel docs to be cross-referenced
-> with and also make them distinguishable from the normal text.
+On Thu, Dec 5, 2019 at 11:47 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Nov 25, 2019 at 04:25:50PM +0530, shubhrajyoti.datta@gmail.com wrote:
+> > From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+> >
+> > Add dt bindings for flexnoc Performance Monitor.
+> > The flexnoc counters for read and write response and requests are
+> > supported.
+> >
+> > Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+> > ---
+> > changes from RFC:
+> > moved to schema / yaml
+> >
+> >  .../devicetree/bindings/perf/xlnx-flexnoc-pm.yaml  | 45 ++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml b/Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml
+> > new file mode 100644
+> > index 0000000..bd0f345
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml
+> > @@ -0,0 +1,45 @@
+> > +# SPDX-License-Identifier: GPL-2.0-or-later OR BSD-2-Clause
+>
+> () around the licenses.
+>
+> Are you good with GPL v10? Make it 'GPL-2.0-only' instead.
+fixed in v2
 
-I think you should.
+>
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/perf/xlnx-flexnoc-pm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Xilinx flexnoc Performance Monitor device tree bindings
+> > +
+> > +maintainers:
+> > +  - Arnd Bergmann <arnd@arndb.de>
+> > +  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> This should be someone familar with this h/w (you).
+>
+fixed in v2
+> > +
+> > +properties:
+> > +  compatible:
+> > +    # Versal SoC based boards
+> > +    items:
+> > +      - enum:
+> > +          - xlnx,flexnoc-pm-2.7
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: funnel registers
+> > +      - description: baselpd registers
+> > +      - description: basefpd registers
+> > +
+> > +  reg-names:
+> > +    # The core schema enforces this is a string array
+> > +    items:
+> > +      - const: funnel
+> > +      - const: baselpd
+> > +      - const: basefpd
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+>
+> No point having 'reg-names' if not required.
+this I am using to get the addresses.
 
-thanks,
+>
+>
+> Add:
+>
+> additionalProperties: false
 
- - Joel
-
+updated in v2.
+>
+> > +
+> > +examples:
+> > +  - |
+> > +    performance-monitor@f0920000 {
+> > +        compatible = "xlnx,flexnoc-pm-2.7";
+> > +        reg-names = "funnel", "baselpd", "basefpd";
+> > +        reg = <0x0 0xf0920000 0x0 0x1000>,
+> > +              <0x0 0xf0980000 0x0 0x9000>,
+> > +              <0x0 0xf0b80000 0x0 0x9000>;
+> > +    };
+> > --
+> > 2.1.1
+> >
