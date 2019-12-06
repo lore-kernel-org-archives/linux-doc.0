@@ -2,511 +2,267 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2218CC2BD09
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 16:24:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23272C43603
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 17:21:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CA50324676
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 16:24:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D07F92053B
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 17:21:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z8eMLo7n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="an+j1h8C"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfLFQY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 11:24:57 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:42662 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbfLFQYy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 11:24:54 -0500
-Received: by mail-qk1-f194.google.com with SMTP id a10so6928740qko.9
-        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2019 08:24:54 -0800 (PST)
+        id S1726298AbfLFRVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 12:21:21 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:32952 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726284AbfLFRVV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 12:21:21 -0500
+Received: by mail-lj1-f194.google.com with SMTP id 21so8505056ljr.0;
+        Fri, 06 Dec 2019 09:21:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JFv84laA10Pk+JwumRyYBaBX414kcBmv+UEU4e5duvk=;
-        b=z8eMLo7n8xrcJPUHu6Ig7A+jFzX5ZDMCEYe3/+wWiTQqVvJVpJxTbJTcU+C+GA1k7G
-         o0WdA0Tf/WWg+ShqbRjJxbzmB8taB5jaYKF15ZlOqBlNPpGvompUrdjMxPWYknRimTHs
-         t1j8S6w47waeo71esjuzE3IAdfsgHMb/iEjzzI7xVlozZz+XZeo8Cid8cI7Rsw1VKwcs
-         fOu4U7LqimADiTTZwc9G87O92JJHBTK0E9l4fgSHCfXjnj6IKLYbFxQYczRK8tdROM9n
-         qKL05eQBIU4OWryhpka0Afya0pNE4ANTMA8bhWwyYDRLsW1QJLl8viupUxRma3IMEH3B
-         biKg==
+         :cc:content-transfer-encoding;
+        bh=N7bRyIXvgDpWfPIfEhxQO8a71BQi+1Mcl20LBEW8M3o=;
+        b=an+j1h8CgvjG3BxR/5tGxVZlElaDlCTPkbRJXJbGxTeN9xqT0s/ORPllOTMxUsN+eQ
+         +cIZMPXZCv+/t6m2viZpfg9WsnYDmZsGF5nytMkpab3IT9k2QgdQh2ASzJUaJ2I6e7RF
+         nOHJnc3/VjMvkd25pNHt1ojFHDA4gbqTHv+EucHjf8rNDMs60M05CCc+Ut0Ty86cCsWh
+         fh4MojMmL9VCXO4ZELxvnvYkh/zuJkoc2OMiV5h/Vh85PQ8+zJ/+4wUCAlJr/PB4gLVA
+         DpzUwoTmQOwgP4wUTZmrs/8/h9q0IhdxNskLSg8UAYhrcQlzmbnsNKFSMtETXMb85IgA
+         TzWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JFv84laA10Pk+JwumRyYBaBX414kcBmv+UEU4e5duvk=;
-        b=b5mKmBxpZL2O1zMypidI3J7wET+n1amwUgIcbaM2IfudXGFrJLDD2OvqCvdtTzLUV7
-         VRe40/rqxLVDNxes0Q+GV298gtx+u3XqyWe5YOac9pBMwTmPqXZBBNUQnGqLlouvJSYK
-         vP9wneUhSChlaVfFji0r545iHQz1fsiv/DkIDewU2ibpkpMuL25cjwvoLuHaMx6TXVrD
-         gittuQyWtGdctW0Wr3+6f4yB+P4NnK396W6OWTQSZcxARnTbUeUCSG9U6vw4ExVQFACt
-         cvJvQXyj7QEyEp6T0qu6MlYRrzNXI6IPwAIeeWynv3GdWi5Pv7YC5XoQsFW4YoH5UHZg
-         CKxQ==
-X-Gm-Message-State: APjAAAVzsR4UizPEI3DDF9c3PDroHDpD8T7u2zDypVsvMcBePjqZD4Vb
-        8p1sjgkpC/4deZpgprTwy1FQoJgKErk4XDLnWxR5yg==
-X-Google-Smtp-Source: APXvYqyPEgGJuwEIKg68iumKwgxBTNsiveVSvWv6p3/TppaQ6RO1OWv/uz9ucDXbK/UZ+qgcXmiv7PahlK7uswIgsls=
-X-Received: by 2002:a37:c205:: with SMTP id i5mr8195633qkm.118.1575649493673;
- Fri, 06 Dec 2019 08:24:53 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=N7bRyIXvgDpWfPIfEhxQO8a71BQi+1Mcl20LBEW8M3o=;
+        b=YsGjtMvi6PLkVcGYP3mKdiwrYJBpsrxI5Sp4rOLQXTtSJI4QgrEOrr4XxSTo3rJoJo
+         fxgJrZcb7nH+TIqw1CzxmGXefLOW9A38XeUK6jefqoiuMniqXwcjyzA9HApsAm3tGDLk
+         3AmztcD5D35B2M6QLTicM6RZ/YZYVgTKSiSO5O6P1Qj7HnL0aNDbO7h8b1gWJqKtu8S6
+         ABkqXtZxdp/GK8I6RgAsnV/1MB31B1F47de4F0LWCfpU/7ULiUwbqKsnDpe2dp5gSPvK
+         Tp4Ulef3HYhTvxW3rotUenPZK78s70ATlH2bXnWugwrDni/O9Y7zYsfYEfDQ3+lMnEwN
+         Wv1w==
+X-Gm-Message-State: APjAAAXP42Z2DShSkNNBWWfRvRg2+ubOcNYRKKR9QaXEPn7WzeN+LQ30
+        Q3rfWeuG/1sBJABJD6P0e/76+YmtaDgtmHode1k=
+X-Google-Smtp-Source: APXvYqzyw7oqmWpwccevCT0osMig6OrEXqF/ubSAusadXwKREpmfdtjsB8ZSz0GcbxeLm1e1QVKoja/pDVVfIWeUqJc=
+X-Received: by 2002:a05:651c:1110:: with SMTP id d16mr9559007ljo.86.1575652877081;
+ Fri, 06 Dec 2019 09:21:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-10-mike.leach@linaro.org>
- <ad75693c-8c6f-35fd-f9bb-0317c2b4dcd2@arm.com>
-In-Reply-To: <ad75693c-8c6f-35fd-f9bb-0317c2b4dcd2@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 6 Dec 2019 16:24:42 +0000
-Message-ID: <CAJ9a7Vi3zRkj=SKHy1p_fmzteZ-jk=r+c85-_d=rwyaDiDF8qg@mail.gmail.com>
-Subject: Re: [PATCH v5 09/14] coresight: cti: Add connection information to sysfs
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
+References: <20191121193209.15687-1-sj38.park@gmail.com> <20191129180837.7233-1-sjpark@amazon.de>
+In-Reply-To: <20191129180837.7233-1-sjpark@amazon.de>
+From:   SeongJae Park <sj38.park@gmail.com>
+Date:   Fri, 6 Dec 2019 18:20:51 +0100
+Message-ID: <CAEjAshpsnrfkb83738rtkPbQohoFP0LZbP_45rUqyBX-RvsVwg@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/barriers/kokr: Remove references to [smp_]read_barrier_depends()
+To:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Will Deacon <will@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>, notify@kernel.org,
+        SeongJae Park <sjpark@amazon.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi suzuki,
-
-On Mon, 2 Dec 2019 at 09:48, Suzuki Kuruppassery Poulose
-<suzuki.poulose@arm.com> wrote:
->
-> On 19/11/2019 23:19, Mike Leach wrote:
-> > Dynamically adds sysfs attributes for all connections defined in the CTI.
-> >
-> > Each connection has a triggers<N> sub-directory with name, in_signals,
-> > in_types, out_signals and out_types as read-only parameters in the
-> > directory. in_ or out_ parameters may be omitted if there are no in or
-> > out signals for the connection.
-> >
-> > Additionally each device has a nr_cons in the connections sub-directory.
-> >
-> > This allows clients to explore the connection and trigger signal details
-> > without needing to refer to device tree or specification of the device.
-> >
-> > Standardised type information is provided for certain common functions -
-> > e.g. snk_full for a trigger from a sink indicating full. Otherwise type
-> > defaults to genio.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >   .../hwtracing/coresight/coresight-cti-sysfs.c | 376 +++++++++++++++++-
-> >   drivers/hwtracing/coresight/coresight-cti.c   |  13 +-
-> >   drivers/hwtracing/coresight/coresight-cti.h   |  11 +-
-> >   3 files changed, 396 insertions(+), 4 deletions(-)
-> >
->
->
-> The patch looks good overall, some minor comments below.
->
->
-> > diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > index f800402f73da..91986732506f 100644
-> > --- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > +++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-> > @@ -8,6 +8,67 @@
->
->
-> > @@ -818,7 +890,306 @@ static struct attribute *coresight_cti_channel_attrs[] = {
-> >       NULL,
-> >   };
-> >
-> > -/* sysfs groups */
-> > +/* Create the connections trigger groups and attrs dynamically */
-> > +/*
-> > + * Each connection has dynamic group triggers<N> + name, trigin/out sigs/types
-> > + * attributes, + each device has static nr_trigger_cons giving the number
-> > + * of groups. e.g. in sysfs:-
-> > + * /cti_<name>/triggers0
-> > + * /cti_<name>/triggers1
-> > + * /cti_<name>/nr_trigger_cons
-> > + * where nr_trigger_cons = 2
-> > + */
-> > +static ssize_t con_name_show(struct device *dev,
-> > +                          struct device_attribute *attr,
-> > +                          char *buf)
-> > +{
-> > +     struct dev_ext_attribute *ext_attr =
-> > +             container_of(attr, struct dev_ext_attribute, attr);
-> > +     struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> > +
-> > +     return scnprintf(buf, PAGE_SIZE, "%s\n", con->con_dev_name);
-> > +}
-> > +
-> > +static ssize_t trigin_sig_show(struct device *dev,
-> > +                            struct device_attribute *attr,
-> > +                            char *buf)
-> > +{
-> > +     struct dev_ext_attribute *ext_attr =
-> > +             container_of(attr, struct dev_ext_attribute, attr);
-> > +     struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> > +     struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> > +     struct cti_config *cfg = &drvdata->config;
-> > +     unsigned long mask = con->con_in->used_mask;
-> > +
-> > +     return bitmap_print_to_pagebuf(true, buf, &mask, cfg->nr_trig_max);
-> > +}
-> > +
-> > +static ssize_t trigout_sig_show(struct device *dev,
-> > +                             struct device_attribute *attr,
-> > +                             char *buf)
-> > +{
-> > +     struct dev_ext_attribute *ext_attr =
-> > +             container_of(attr, struct dev_ext_attribute, attr);
-> > +     struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> > +     struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-> > +     struct cti_config *cfg = &drvdata->config;
-> > +     unsigned long mask = con->con_out->used_mask;
-> > +
-> > +     return bitmap_print_to_pagebuf(true, buf, &mask, cfg->nr_trig_max);
-> > +}
-> > +
-> > +/* convert a sig type id to a name */
-> > +static const char *
-> > +cti_sig_type_name(struct cti_trig_con *con, int used_count, bool in)
-> > +{
-> > +     int idx = 0;
-> > +     struct cti_trig_grp *grp = in ? con->con_in : con->con_out;
-> > +
-> > +     if (grp->sig_types) {
-> > +             if (used_count < grp->nr_sigs)
-> > +                     idx = grp->sig_types[used_count];
-> > +     }
-> > +     return sig_type_names[idx];
-> > +}
-> > +
-> > +static ssize_t trigin_type_show(struct device *dev,
-> > +                             struct device_attribute *attr,
-> > +                             char *buf)
-> > +{
-> > +     struct dev_ext_attribute *ext_attr =
-> > +             container_of(attr, struct dev_ext_attribute, attr);
-> > +     struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> > +     int sig_idx, used = 0, b_sz = PAGE_SIZE;
-> > +     const char *name;
-> > +
-> > +     for (sig_idx = 0; sig_idx < con->con_in->nr_sigs; sig_idx++) {
-> > +             name = cti_sig_type_name(con, sig_idx, true);
-> > +             used += scnprintf(buf + used, b_sz - used, "%s ", name);
-> > +     }
-> > +     used += scnprintf(buf + used, b_sz - used, "\n");
-> > +     return used;
-> > +}
-> > +
-> > +static ssize_t trigout_type_show(struct device *dev,
-> > +                              struct device_attribute *attr,
-> > +                              char *buf)
-> > +{
-> > +     struct dev_ext_attribute *ext_attr =
-> > +             container_of(attr, struct dev_ext_attribute, attr);
-> > +     struct cti_trig_con *con = (struct cti_trig_con *)ext_attr->var;
-> > +     int sig_idx, used = 0, b_sz = PAGE_SIZE;
-> > +     const char *name;
-> > +
-> > +     for (sig_idx = 0; sig_idx < con->con_out->nr_sigs; sig_idx++) {
-> > +             name = cti_sig_type_name(con, sig_idx, false);
-> > +             used += scnprintf(buf + used, b_sz - used, "%s ", name);
-> > +     }
-> > +     used += scnprintf(buf + used, b_sz - used, "\n");
-> > +     return used;
-> > +}
-> > +
-> > +/*
-> > + * Array of show function names declared above to allow selection
-> > + * for the connection attributes
-> > + */
-> > +static p_show_fn show_fns[CTI_CON_ATTR_MAX] = {
-> > +     con_name_show,
-> > +     trigin_sig_show,
-> > +     trigout_sig_show,
-> > +     trigin_type_show,
-> > +     trigout_type_show,
-> > +};
-> > +
-> > +static int cti_create_con_sysfs_attr(struct cti_trig_con *con,
-> > +                                  enum cti_conn_attr_type attr_type,
-> > +                                  int attr_idx)
-> > +{
-> > +     struct dev_ext_attribute *dev_ext_attr = 0;
->
-> super minor nit: You may use "eattr" instead.
->
->
-> > +     char *name = 0;
-> > +
-> > +     dev_ext_attr = kzalloc(sizeof(struct dev_ext_attribute), GFP_KERNEL);
->
->
-> Could we not use devm_* alloc helpers everywhere ?
-
-Yes - will change.
-
->
-> > +     if (dev_ext_attr) {
-> > +             name = kstrdup(con_attr_names[attr_type], GFP_KERNEL);
-> > +             if (name) {
-> > +                     /* fill out the underlying attribute struct */
-> > +                     dev_ext_attr->attr.attr.name = name;
-> > +                     dev_ext_attr->attr.attr.mode = 0444;
-> > +
-> > +                     /* now the device_attribute struct */
-> > +                     dev_ext_attr->attr.show = show_fns[attr_type];
-> > +             } else {
-> > +                     kfree(dev_ext_attr);
-> > +                     return -ENOMEM;
-> > +             }
-> > +     } else {
-> > +             return -ENOMEM;
-> > +     }
-> > +     dev_ext_attr->var = con;
-> > +     con->con_attrs[attr_idx] = &dev_ext_attr->attr.attr;
-> > +     return 0;
-> > +}
-> > +
-> > +static struct attribute_group *
-> > +cti_create_con_sysfs_group(struct cti_device *ctidev, int con_idx,
-> > +                        struct cti_trig_con *con)
-> > +{
-> > +     struct attribute_group *group = NULL;
-> > +
-> > +     group = kzalloc(sizeof(struct attribute_group), GFP_KERNEL);
-> > +     if (!group)
-> > +             return NULL;
-> > +
-> > +     group->name = kasprintf(GFP_KERNEL, "triggers%d", con_idx);
-> > +     if (!group->name) {
-> > +             kfree(group);
-> > +             return NULL;
-> > +     }
-> > +
-> > +     ctidev->con_groups[con_idx + CORESIGHT_CTI_STATIC_GROUPS_MAX - 1]
-> > +             = group;
->
-> nit:
->         con_idx +=  CORESIGHT_CTI_STATIC_GROUPS_MAX - 1;
->         ctidev->con_groups[con_idx] = group;
->
-OK.
->
-> > +     con->attr_group = group;
-> > +     return group;
-> > +}
-> > +
-> > +/* create a triggers connection group and the attributes for that group */
-> > +static int cti_create_con_attr_set(int con_idx, struct cti_device *ctidev,
-> > +                                struct cti_trig_con *con)
-> > +{
-> > +     struct attribute_group *attr_group = NULL;
-> > +     int attr_idx = 0;
-> > +     int err = -ENOMEM;
-> > +
-> > +     attr_group = cti_create_con_sysfs_group(ctidev, con_idx, con);
-> > +     if (!attr_group)
-> > +             return -ENOMEM;
-> > +
-> > +     /* allocate NULL terminated array of attributes */
-> > +     con->con_attrs = kcalloc(CTI_CON_ATTR_MAX + 1,
-> > +                              sizeof(struct attribute *),
-> > +                              GFP_KERNEL);
->
-> Again why not devm_* allocations ? That takes the pain of freeing the
-> memory away and helps prevent memory leaks.
->
-> > +     if (!con->con_attrs)
-> > +             return -ENOMEM;
-> > +
-> > +     err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_NAME, attr_idx++);
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     if (con->con_in->nr_sigs > 0) {
-> > +             err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGIN_SIG,
-> > +                                             attr_idx++);
-> > +             if (err)
-> > +                     return err;
-> > +
-> > +             err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGIN_TYPES,
-> > +                                             attr_idx++);
-> > +             if (err)
-> > +                     return err;
-> > +     }
-> > +
-> > +     if (con->con_in->nr_sigs > 0) {
-> > +             err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGOUT_SIG,
-> > +                                             attr_idx++);
-> > +             if (err)
-> > +                     return err;
-> > +
-> > +             err = cti_create_con_sysfs_attr(con, CTI_CON_ATTR_TRIGOUT_TYPES,
-> > +                                             attr_idx++);
-> > +             if (err)
-> > +                     return err;
-> > +     }
-> > +     attr_group->attrs = con->con_attrs;
-> > +     return 0;
-> > +}
-> > +
-> > +/* create the array of group pointers for the CTI sysfs groups */
-> > +int cti_create_cons_groups(struct cti_device *ctidev)
-> > +{
-> > +     int i, nr_groups;
-> > +
-> > +     /* nr groups - dynamic + static + NULL terminator */
-> > +     nr_groups = ctidev->nr_trig_con + CORESIGHT_CTI_STATIC_GROUPS_MAX;
-> > +     ctidev->con_groups = kcalloc(nr_groups,
-> > +                                  sizeof(struct attribute_group *),
-> > +                                  GFP_KERNEL);
-> > +     if (!ctidev->con_groups)
-> > +             return -ENOMEM;
-> > +
-> > +     /* populate first locations with the static set of groups */
-> > +     for (i = 0; i < (CORESIGHT_CTI_STATIC_GROUPS_MAX - 1); i++)
-> > +             ctidev->con_groups[i] = coresight_cti_groups[i];
-> > +
-> > +     return 0;
-> > +}
-> > +
->
-> To be frank, it doesn't make sense to have this split of populating
-> the groups.
-Moved to caller.
-
->
-> > +int cti_create_cons_sysfs(struct cti_drvdata *drvdata)
-> > +{
-> > +     struct cti_device *ctidev = &drvdata->ctidev;
-> > +     int err, con_idx = 0;
-> > +     struct cti_trig_con *tc = NULL;
-> > +
-> > +     err = cti_create_cons_groups(ctidev);
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     /* add dynamic set for each connection */
-> > +     list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> > +             err = cti_create_con_attr_set(con_idx++, ctidev, tc);
-> > +             if (err)
-> > +                     goto cons_sysfs_err;
-> > +     }
-> > +     return 0;
-> > +
-> > +cons_sysfs_err:
-> > +     cti_destroy_cons_sysfs(ctidev);
-> > +     return err;
-> > +}
-> > +
-> > +void cti_free_con_attr(struct attribute *con_attr)
-> > +{
-> > +     struct device_attribute *dattr =
-> > +             container_of(con_attr, struct device_attribute, attr);
-> > +     struct dev_ext_attribute *dev_ext_attr =
-> > +             container_of(dattr, struct dev_ext_attribute, attr);
-> > +     kfree(con_attr->name);
-> > +     kfree(dev_ext_attr);
-> > +}
-> > +
-> > +void cti_free_con_group(struct attribute_group *attr_group)
-> > +{
-> > +     if (attr_group) {
-> > +             kfree(attr_group->name);
-> > +             kfree(attr_group);
-> > +     }
-> > +}
-> > +
-> > +void cti_destroy_cons_attr_set(int con_idx, struct cti_device *ctidev,
-> > +                            struct cti_trig_con *con)
-> > +{
-> > +     int i;
-> > +
-> > +     if (con->con_attrs) {
-> > +             for (i = 0; i < CTI_CON_ATTR_MAX; i++) {
-> > +                     if (con->con_attrs[i])
-> > +                             cti_free_con_attr(con->con_attrs[i]);
-> > +             }
-> > +             kfree(con->con_attrs);
-> > +     }
-> > +     cti_free_con_group(con->attr_group);
-> > +}
-> > +
-> > +void cti_destroy_cons_sysfs(struct cti_device *ctidev)
-> > +{
-> > +     struct cti_trig_con *tc;
->
-> minor nit: Please keep the variable name consistent if possible, helps a
-> lot with the code following. i.e, tc vs con above in
-> cti_destroy_cons_attr_set().
-
-OK
->
-> > +     int con_idx = 0;
-> > +
-> > +     list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> > +             cti_destroy_cons_attr_set(con_idx++, ctidev, tc);
-> > +     }
-> > +     kfree(ctidev->con_groups);
-> > +}
-> > +
-> > +/* attribute and group sysfs tables. */
-> >   static const struct attribute_group coresight_cti_group = {
-> >       .attrs = coresight_cti_attrs,
-> >   };
-> > @@ -838,7 +1209,8 @@ static const struct attribute_group coresight_cti_channels_group = {
-> >       .name = "channels",
-> >   };
-> >
-> > -const struct attribute_group *coresight_cti_groups[] = {
-> > +const struct attribute_group *
-> > +coresight_cti_groups[CORESIGHT_CTI_STATIC_GROUPS_MAX] = {
-> >       &coresight_cti_group,
-> >       &coresight_cti_mgmt_group,
-> >       &coresight_cti_regs_group,
-> > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-> > index cf116463149a..c3d63cc53bdd 100644
-> > --- a/drivers/hwtracing/coresight/coresight-cti.c
-> > +++ b/drivers/hwtracing/coresight/coresight-cti.c
-> > @@ -561,6 +561,9 @@ static void cti_device_release(struct device *dev)
-> >
-> >       mutex_lock(&ect_mutex);
-> >
-> > +     /* clear the dynamic sysfs associate with connections */
-> > +     cti_destroy_cons_sysfs(&drvdata->ctidev);
-> > +
-> >       /* remove from the list */
-> >       list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
-> >               if (ect_item == drvdata) {
-> > @@ -636,12 +639,20 @@ static int cti_probe(struct amba_device *adev, const struct amba_id *id)
-> >               goto err_out;
-> >       }
-> >
-> > +     /* create dynamic attributes for connections */
-> > +     ret = cti_create_cons_sysfs(drvdata);
-> > +     if (ret) {
-> > +             pr_err("%s: create dynamic sysfs entries failed\n",
-> > +                    cti_desc.name);
->
-> nit: It may be a good idea to include the actual device name (rather
-> than just cti_xxx). so may be :
->
->   dev_err(dev, "%s:....", cti_desc.name) ?
->
->
-> > +             goto err_out;
-> > +     }
->
->
-> Except for the devm_ alloc question, rest are fine.
->
-> Suzuki
-
-Thanks
-
-Mike
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+SGVsbG8gUGF1bCBhbmQgV2lsbCwNCg0KT24gRnJpLCBOb3YgMjksIDIwMTkgYXQgNzowOSBQTSBT
+ZW9uZ0phZSBQYXJrIDxzajM4LnBhcmtAZ21haWwuY29tPiB3cm90ZToNCj4NCj4gUGF1bCwgdGhh
+bmsgeW91IGZvciB3YWl0aW5nIGxvbmcuICBJIGdvdCByZXZpZXdlZCBieSBhbm90aGVyIEtvcmVh
+bg0KPiBoYWNrZXIsIFl1bmphZS4NCj4NCj4gQ2hhbmdlcyBmcm9tIHYxIChodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9sa21sLzIwMTkxMTIxMTkzMjA5LjE1Njg3LTEtc2ozOC5wYXJrQGdtYWlsLmNv
+bS8pDQo+IC0gR2V0IGEgcmV2aWV3IGZyb20gWXVuamFlDQo+IC0gTWlub3Igd29yZHNtaXRoIGJh
+c2VkIG9uIHRoZSByZXZpZXcgY29tbWVudA0KPiAtIFJlYmFzZWQgb24gZ2l0Oi8vZ2l0Lmx3bi5u
+ZXQvbGludXguZ2l0IHRhZ3MvZG9jcy01LjUNCj4gLSBVcGRhdGUgYXV0aG9yJ3MgZW1haWwgYWRk
+cmVzcw0KDQpNYXkgSSBhc2sgeW91ciBjb21tZW50cz8NCg0KDQpUaGFua3MsDQpTZW9uZ0phZSBQ
+YXJrDQoNCj4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tID44IC0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+DQo+IFRoaXMgY29tbWl0IHRyYW5z
+bGF0ZXMgY29tbWl0IDgwODg2MTZkNGNhNiAoIkRvY3VtZW50YXRpb24vYmFycmllcnM6DQo+IFJl
+bW92ZSByZWZlcmVuY2VzIHRvIFtzbXBfXXJlYWRfYmFycmllcl9kZXBlbmRzKCkiKSBvZiBXaWxs
+J3MgdHJlZVsxXQ0KPiBpbnRvIEtvcmVhbi4NCj4NCj4gWzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5v
+cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3dpbGwvbGludXguZ2l0L2NvbW1pdC9Eb2N1bWVu
+dGF0aW9uL21lbW9yeS1iYXJyaWVycy50eHQ/aD1sdG8maWQ9ODA4ODYxNmQ0Y2E2MWNkNmI3NzAy
+MjVmMzBmZWM2NmM2ZjY3NjdmYg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBTZW9uZ0phZSBQYXJrIDxz
+anBhcmtAYW1hem9uLmRlPg0KPiBSZXZpZXdlZC1ieTogWXVuamFlIExlZSA8bHlqNzY5NEBnbWFp
+bC5jb20+DQo+DQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy9rb19LUi9tZW1vcnktYmFycmll
+cnMudHh0ICAgIHwgMTQ2ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDMg
+aW5zZXJ0aW9ucygrKSwgMTQzIGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMva29fS1IvbWVtb3J5LWJhcnJpZXJzLnR4dCBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL2tvX0tSL21lbW9yeS1iYXJyaWVycy50eHQNCj4gaW5kZXggZjA3
+YzQwYTA2OGI1Li5hOGQyNmRmOTM2MGIgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL2tvX0tSL21lbW9yeS1iYXJyaWVycy50eHQNCj4gKysrIGIvRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMva29fS1IvbWVtb3J5LWJhcnJpZXJzLnR4dA0KPiBAQCAtNTc3LDcgKzU3
+Nyw3IEBAIEFDUVVJUkUg64qUIO2VtOuLuSDsmKTtjbzroIjsnbTshZjsnZgg66Gc65OcIOu2gOu2
+hOyXkOunjCDsoIHsmqnrkJjqs6AgUkVMRUFTRQ0KPiAg642w7J207YSwIOydmOyhtOyEsSDrsLDr
+pqzslrQgKOyXreyCrOyggSkNCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+DQo+
+IC3rpqzriIXsiqQg7Luk64SQIHY0LjE1IOq4sOykgOycvOuhnCwgc21wX3JlYWRfYmFycmllcl9k
+ZXBlbmRzKCkg6rCAIFJFQURfT05DRSgpIOyXkA0KPiAr66as64iF7IqkIOy7pOuEkCB2NC4xNSDq
+uLDspIDsnLzroZwsIHNtcF9tYigpIOqwgCBERUMgQWxwaGEg7JqpIFJFQURfT05DRSgpIOy9lOuT
+nOyXkA0KPiAg7LaU6rCA65CY7JeI64qU642wLCDsnbTripQg7J20IOyEueyFmOyXkCDso7zsnZjr
+pbwg6riw7Jq47Jes7JW8IO2VmOuKlCDsgqzrnozrk6TsnYAgREVDIEFscGhhIOyVhO2CpO2Fjeyz
+kA0KPiAg7KCE7JqpIOy9lOuTnOulvCDrp4zrk5zripQg7IKs656M65Ok6rO8IFJFQURfT05DRSgp
+IOyekOyytOulvCDrp4zrk5zripQg7IKs656M65OkIOu/kOyehOydhCDsnZjrr7jtlanri4jri6Qu
+DQo+ICDqt7jrn7Ag67aE65Ok7J2EIOychO2VtCwg6re466as6rOgIOyXreyCrOyXkCDqtIDsi6wg
+7J6I64qUIOu2hOuTpOydhCDsnITtlbQsIOyXrOq4sCDrjbDsnbTthLAg7J2Y7KG07ISxDQo+IEBA
+IC0yNjYxLDE0NCArMjY2MSw2IEBAIENQVSDsvZTslrTripQg7ZSE66Gc6re4656o7J2YIOyduOqz
+vOyEseydtCDsnKDsp4DrkJzri6Tqs6Drp4wg7Jes6rKo7KeE64uk66m0DQo+ICDsiJjrj4Qg7J6I
+7Iq164uI64ukLg0KPg0KPg0KPiAt7LqQ7IucIOydvOq0gOyEsQ0KPiAtLS0tLS0tLS0tLS0NCj4g
+LQ0KPiAt7ZWY7KeA66eMIOyCtuydgCDslZ7sl5DshJwg7J207JW86riw7ZWcIOqyg+yymOufvCDr
+i6jsiJztlZjsp4Ag7JWK7Iq164uI64ukOiDsupDsi5zrk6TsnYAg7J286rSA7KCB7J28IOqyg+yc
+vOuhnA0KPiAt6riw64yA65CY7KeA66eMLCDqt7gg7J286rSA7ISx7J20IOyInOyEnOyXkOuPhCDs
+oIHsmqnrkKAg6rGw652864qUIOuztOyepeydgCDsl4bsirXri4jri6QuICDtlZwgQ1BVIOyXkOyE
+nA0KPiAt66eM65Ok7Ja07KeEIOuzgOqyvSDsgqztla3snYAg7LWc7KKF7KCB7Jy866Gc64qUIOyL
+nOyKpO2FnOydmCDrqqjrk6AgQ1BVIOyXkOqyjCDrs7Tsl6zsp4Dqsowg65CY7KeA66eMLCDri6Tr
+pbgNCj4gLUNQVSDrk6Tsl5Dqsozrj4Qg6rCZ7J2AIOyInOyEnOuhnCDrs7TsnbTqsowg65CgIOqx
+sOudvOuKlCDrs7TsnqXsnYAg7JeG64uk64qUIOucu+yeheuLiOuLpC4NCj4gLQ0KPiAtDQo+IC3r
+kZDqsJzsnZggQ1BVICgxICYgMikg6rCAIOuLrOugpCDsnojqs6AsIOqwgSBDUFUg7JeQIOuRkOqw
+nOydmCDrjbDsnbTthLAg7LqQ7IucKENQVSAxIOydgCBBL0Ig66W8LA0KPiAtQ1BVIDIg64qUIEMv
+RCDrpbwg6rCW7Iq164uI64ukKeqwgCDrs5HroKzroZwg7Jew6rKw65CY7Ja0IOyeiOuKlCDsi5zs
+iqTthZzsnYQg64uk66Os64uk6rOgIOyDneqwge2VtA0KPiAt67SF7Iuc64ukOg0KPiAtDQo+IC0g
+ICAgICAgICAgICAgICAgICAgOg0KPiAtICAgICAgICAgICAgICAgICAgIDogICAgICAgICAgICAg
+ICAgICAgICAgICAgICstLS0tLS0tLSsNCj4gLSAgICAgICAgICAgICAgICAgICA6ICAgICAgKy0t
+LS0tLS0tLSsgICAgICAgICB8ICAgICAgICB8DQo+IC0gICAgICAgKy0tLS0tLS0tKyAgOiArLS0t
+PnwgQ2FjaGUgQSB8PC0tLS0tLS0+fCAgICAgICAgfA0KPiAtICAgICAgIHwgICAgICAgIHwgIDog
+fCAgICArLS0tLS0tLS0tKyAgICAgICAgIHwgICAgICAgIHwNCj4gLSAgICAgICB8ICBDUFUgMSB8
+PC0tLSsgICAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICB8DQo+IC0gICAgICAgfCAgICAg
+ICAgfCAgOiB8ICAgICstLS0tLS0tLS0rICAgICAgICAgfCAgICAgICAgfA0KPiAtICAgICAgICst
+LS0tLS0tLSsgIDogKy0tLT58IENhY2hlIEIgfDwtLS0tLS0tPnwgICAgICAgIHwNCj4gLSAgICAg
+ICAgICAgICAgICAgICA6ICAgICAgKy0tLS0tLS0tLSsgICAgICAgICB8ICAgICAgICB8DQo+IC0g
+ICAgICAgICAgICAgICAgICAgOiAgICAgICAgICAgICAgICAgICAgICAgICAgfCBNZW1vcnkgfA0K
+PiAtICAgICAgICAgICAgICAgICAgIDogICAgICArLS0tLS0tLS0tKyAgICAgICAgIHwgU3lzdGVt
+IHwNCj4gLSAgICAgICArLS0tLS0tLS0rICA6ICstLS0+fCBDYWNoZSBDIHw8LS0tLS0tLT58ICAg
+ICAgICB8DQo+IC0gICAgICAgfCAgICAgICAgfCAgOiB8ICAgICstLS0tLS0tLS0rICAgICAgICAg
+fCAgICAgICAgfA0KPiAtICAgICAgIHwgIENQVSAyIHw8LS0tKyAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAgICAgIHwNCj4gLSAgICAgICB8ICAgICAgICB8ICA6IHwgICAgKy0tLS0tLS0tLSsg
+ICAgICAgICB8ICAgICAgICB8DQo+IC0gICAgICAgKy0tLS0tLS0tKyAgOiArLS0tPnwgQ2FjaGUg
+RCB8PC0tLS0tLS0+fCAgICAgICAgfA0KPiAtICAgICAgICAgICAgICAgICAgIDogICAgICArLS0t
+LS0tLS0tKyAgICAgICAgIHwgICAgICAgIHwNCj4gLSAgICAgICAgICAgICAgICAgICA6ICAgICAg
+ICAgICAgICAgICAgICAgICAgICArLS0tLS0tLS0rDQo+IC0gICAgICAgICAgICAgICAgICAgOg0K
+PiAtDQo+IC3snbQg7Iuc7Iqk7YWc7J20IOuLpOydjOqzvCDqsJnsnYAg7Yq57ISx7J2EIOqwluuK
+lOuLpCDsg53qsIHtlbQg67SF7Iuc64ukOg0KPiAtDQo+IC0gKCopIO2ZgOyImOuyiCDsupDsi5zr
+nbzsnbjsnYAg7LqQ7IucIEEsIOy6kOyLnCBDIOuYkOuKlCDrqZTrqqjrpqzsl5Ag7JyE7LmY7ZWg
+IOyImCDsnojsnYw7DQo+IC0NCj4gLSAoKikg7Ked7IiY67KIIOy6kOyLnOudvOyduOydgCDsupDs
+i5wgQiwg7LqQ7IucIEQg65iQ64qUIOuplOuqqOumrOyXkCDsnITsuZjtlaAg7IiYIOyeiOydjDsN
+Cj4gLQ0KPiAtICgqKSBDUFUg7L2U7Ja06rCAIO2VnOqwnOydmCDsupDsi5zsl5Ag7KCR6re87ZWY
+64qUIOuPmeyViCwg64uk66W4IOy6kOyLnOuKlCAtIOuNlO2LsCDsupDsi5zrnbzsnbjsnYQNCj4g
+LSAgICAg66mU66qo66as7JeQIOuCtOumrOqxsOuCmCDstpTsuKHshLEg66Gc65Oc66W8IO2VmOqx
+sOuCmCDtlZjquLAg7JyE7ZW0IC0g7Iuc7Iqk7YWc7J2YIOuLpOuluCDrtoDrtoTsl5ANCj4gLSAg
+ICAg7JWh7IS47IqkIO2VmOq4sCDsnITtlbQg67KE7Iqk66W8IOyCrOyaqe2VoCDsiJgg7J6I7J2M
+Ow0KPiAtDQo+IC0gKCopIOqwgSDsupDsi5zripQg7Iuc7Iqk7YWc7J2YIOuCmOuouOyngCDrtoDr
+toTrk6Tqs7wg7J286rSA7ISx7J2EIOunnuy2lOq4sCDsnITtlbQg7ZW064u5IOy6kOyLnOyXkA0K
+PiAtICAgICDsoIHsmqnrkJjslrTslbwg7ZWgIOyYpO2NvOugiOydtOyFmOuTpOydmCDtgZDrpbwg
+6rCA7KeQOw0KPiAtDQo+IC0gKCopIOydtCDsnbzqtIDshLEg7YGQ64qUIOy6kOyLnOyXkCDsnbTr
+r7gg7KG07J6s7ZWY64qUIOudvOyduOyXkCDqsIDtlbTsp4DripQg7Y+J67KU7ZWcIOuhnOuTnOyX
+kCDsnZjtlbTshJzripQNCj4gLSAgICAg67mE7JuM7KeA7KeAIOyViuuKlOuNsCwg7YGQ7J2YIOyY
+pO2NvOugiOydtOyFmOuTpOydtCDsnbQg66Gc65Oc7J2YIOqysOqzvOyXkCDsmIHtlqXsnYQg64G8
+7LmgIOyImCDsnojri6QNCj4gLSAgICAg7ZWg7KeA652864+EIOq3uOufrO2VqC4NCj4gLQ0KPiAt
+7J207KCcLCDssqvrsojsp7ggQ1BVIOyXkOyEnCDrkZDqsJzsnZgg7JOw6riwIOyYpO2NvOugiOyd
+tOyFmOydhCDrp4zrk5zripTrjbAsIO2VtOuLuSBDUFUg7J2YIOy6kOyLnOyXkA0KPiAt7JqU7LKt
+65CcIOyInOyEnOuhnCDsmKTtjbzroIjsnbTshZjsnbQg64+E64us65Co7J2EIOuztOyepe2VmOq4
+sCDsnITtlbQg65GQIOyYpO2NvOugiOydtOyFmCDsgqzsnbTsl5Ag7JOw6riwDQo+IC3rsLDrpqzs
+lrTrpbwg7IKs7Jqp7ZWY64qUIOyDge2ZqeydhCDsg4Hsg4HtlbQg67SF7Iuc64ukOg0KPiAtDQo+
+IC0gICAgICAgQ1BVIDEgICAgICAgICAgIENQVSAyICAgICAgICAgICBDT01NRU5UDQo+IC0gICAg
+ICAgPT09PT09PT09PT09PT09ID09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0NCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHUgPT0gMCwgdiA9PSAxIGFuZCBwID09ICZ1LCBxID09ICZ1DQo+IC0gICAgICAgdiA9IDI7
+DQo+IC0gICAgICAgc21wX3dtYigpOyAgICAgICAgICAgICAgICAgICAgICB2IOydmCDrs4Dqsr3s
+nbQgcCDsnZgg67OA6rK9IOyghOyXkCDrs7Tsnbwg6rKD7J2EDQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAg67aE66qF7Z6IIO2VqA0KPiAtICAgICAgIDxBOm1vZGlm
+eSB2PTI+ICAgICAgICAgICAgICAgICAgdiDripQg7J207KCcIOy6kOyLnCBBIOyXkCDrj4XsoJDs
+oIHsnLzroZwg7KG07J6s7ZWoDQo+IC0gICAgICAgcCA9ICZ2Ow0KPiAtICAgICAgIDxCOm1vZGlm
+eSBwPSZ2PiAgICAgICAgICAgICAgICAgcCDripQg7J207KCcIOy6kOyLnCBCIOyXkCDrj4XsoJDs
+oIHsnLzroZwg7KG07J6s7ZWoDQo+IC0NCj4gLeyXrOq4sOyEnOydmCDsk7DquLAg66mU66qo66as
+IOuwsOumrOyWtOuKlCBDUFUgMSDsnZgg7LqQ7Iuc6rCAIOyYrOuwlOuluCDsiJzshJzroZwg7JeF
+642w7J207Yq4IOuQnCDqsoPsnLzroZwNCj4gLeyLnOyKpO2FnOydmCDri6TrpbggQ1BVIOuTpOyd
+tCDsnbjsp4DtlZjqsowg66eM65Ot64uI64ukLiAg7ZWY7KeA66eMLCDsnbTsoJwg65GQ67KI7Ke4
+IENQVSDqsIAg6re4IOqwkuuTpOydhA0KPiAt7J297Jy866CkIO2VmOuKlCDsg4HtmansnYQg7IOd
+6rCB7ZW0IOu0heyLnOuLpDoNCj4gLQ0KPiAtICAgICAgIENQVSAxICAgICAgICAgICBDUFUgMiAg
+ICAgICAgICAgQ09NTUVOVA0KPiAtICAgICAgID09PT09PT09PT09PT09PSA9PT09PT09PT09PT09
+PT0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+IC0gICAgICAgLi4u
+DQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHEgPSBwOw0KPiAtICAgICAgICAgICAgICAgICAg
+ICAgICB4ID0gKnE7DQo+IC0NCj4gLeychOydmCDrkZDqsJzsnZgg7J296riwIOyYpO2NvOugiOyd
+tOyFmOydgCDsmIjsg4HrkJwg7Iic7ISc66GcIOydvOyWtOuCmOyngCDrqrvtlaAg7IiYIOyeiOuK
+lOuNsCwg65GQ67KI7Ke4IENQVQ0KPiAt7J2YIO2VnCDsupDsi5zsl5Ag64uk66W4IOy6kOyLnCDs
+nbTrsqTtirjqsIAg67Cc7IOd7ZW0IHYg66W8IOuLtOqzoCDsnojripQg7LqQ7Iuc65287J247J2Y
+IO2VtOuLuSDsupDsi5zsl5DsnZgNCj4gLeyXheuNsOydtO2KuOqwgCDsp4Dsl7DrkJjripQg7IKs
+7J20LCBwIOulvCDri7Tqs6Ag7J6I64qUIOy6kOyLnOudvOyduOydgCDrkZDrsojsp7ggQ1BVIOyd
+mCDri6Trpbgg7LqQ7Iuc7JeQDQo+IC3sl4XrjbDsnbTtirgg65CY7Ja067KE66C47J2EIOyImCDs
+nojquLAg65WM66y47J6F64uI64ukLg0KPiAtDQo+IC0gICAgICAgQ1BVIDEgICAgICAgICAgIENQ
+VSAyICAgICAgICAgICBDT01NRU5UDQo+IC0gICAgICAgPT09PT09PT09PT09PT09ID09PT09PT09
+PT09PT09PSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHUgPT0gMCwgdiA9PSAxIGFuZCBwID09
+ICZ1LCBxID09ICZ1DQo+IC0gICAgICAgdiA9IDI7DQo+IC0gICAgICAgc21wX3dtYigpOw0KPiAt
+ICAgICAgIDxBOm1vZGlmeSB2PTI+ICA8QzpidXN5Pg0KPiAtICAgICAgICAgICAgICAgICAgICAg
+ICA8QzpxdWV1ZSB2PTI+DQo+IC0gICAgICAgcCA9ICZ2OyAgICAgICAgIHEgPSBwOw0KPiAtICAg
+ICAgICAgICAgICAgICAgICAgICA8RDpyZXF1ZXN0IHA+DQo+IC0gICAgICAgPEI6bW9kaWZ5IHA9
+JnY+IDxEOmNvbW1pdCBwPSZ2Pg0KPiAtICAgICAgICAgICAgICAgICAgICAgICA8RDpyZWFkIHA+
+DQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHggPSAqcTsNCj4gLSAgICAgICAgICAgICAgICAg
+ICAgICAgPEM6cmVhZCAqcT4gICAgIOy6kOyLnOyXkCDsl4XrjbDsnbTtirgg65CY6riwIOyghOyd
+mCB2IOulvCDsnb3snYwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgPEM6dW5idXN5Pg0KPiAt
+ICAgICAgICAgICAgICAgICAgICAgICA8Qzpjb21taXQgdj0yPg0KPiAtDQo+IC3quLDrs7jsoIHs
+nLzroZwsIOuRkOqwnOydmCDsupDsi5zrnbzsnbgg66qo65GQIENQVSAyIOyXkCDstZzsooXsoIHs
+nLzroZzripQg7JeF642w7J207Yq4IOuQoCDqsoPsnbTsp4Drp4wsDQo+IC3rs4Trj4TsnZgg6rCc
+7J6FIOyXhuydtOuKlCwg7JeF642w7J207Yq47J2YIOyInOyEnOqwgCBDUFUgMSDsl5DshJwg66eM
+65Ok7Ja07KeEIOyInOyEnOyZgCDrj5nsnbztlaANCj4gLeqyg+ydtOudvOuKlCDrs7TsnqXsnbQg
+7JeG7Iq164uI64ukLg0KPiAtDQo+IC0NCj4gLeyXrOq4sOyXkCDqsJzsnoXtlZjquLAg7JyE7ZW0
+7ISgLCDrjbDsnbTthLAg7J2Y7KG07ISxIOuwsOumrOyWtOuCmCDsnb3quLAg67Cw66as7Ja066W8
+IOuhnOuTnCDsmKTtjbzroIjsnbTshZjrk6QNCj4gLeyCrOydtOyXkCDrhKPslrTslbwg7ZWp64uI
+64ukICh2NC4xNSDrtoDthLDripQgUkVBRF9PTkNFKCkg66ek7YGs66Gc7JeQIOydmO2VtCDrrLTs
+obDqsbTsoIHsnLzroZwNCj4gLeq3uOugh+qyjCDrkKnri4jri6QpLiAg7J2066CH6rKMIO2VqOyc
+vOuhnOyNqCDsupDsi5zqsIAg64uk7J2MIOyalOyyreydhCDsspjrpqztlZjquLAg7KCE7JeQIOyd
+vOq0gOyEsSDtgZDrpbwNCj4gLeyymOumrO2VmOuPhOuhnSDqsJXsoJztlZjqsowg65Cp64uI64uk
+Lg0KPiAtDQo+IC0gICAgICAgQ1BVIDEgICAgICAgICAgIENQVSAyICAgICAgICAgICBDT01NRU5U
+DQo+IC0gICAgICAgPT09PT09PT09PT09PT09ID09PT09PT09PT09PT09PSA9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHUgPT0gMCwgdiA9PSAxIGFuZCBwID09ICZ1LCBxID09ICZ1DQo+IC0gICAg
+ICAgdiA9IDI7DQo+IC0gICAgICAgc21wX3dtYigpOw0KPiAtICAgICAgIDxBOm1vZGlmeSB2PTI+
+ICA8QzpidXN5Pg0KPiAtICAgICAgICAgICAgICAgICAgICAgICA8QzpxdWV1ZSB2PTI+DQo+IC0g
+ICAgICAgcCA9ICZ2OyAgICAgICAgIHEgPSBwOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICA8
+RDpyZXF1ZXN0IHA+DQo+IC0gICAgICAgPEI6bW9kaWZ5IHA9JnY+IDxEOmNvbW1pdCBwPSZ2Pg0K
+PiAtICAgICAgICAgICAgICAgICAgICAgICA8RDpyZWFkIHA+DQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgIHNtcF9yZWFkX2JhcnJpZXJfZGVwZW5kcygpDQo+IC0gICAgICAgICAgICAgICAgICAg
+ICAgIDxDOnVuYnVzeT4NCj4gLSAgICAgICAgICAgICAgICAgICAgICAgPEM6Y29tbWl0IHY9Mj4N
+Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgeCA9ICpxOw0KPiAtICAgICAgICAgICAgICAgICAg
+ICAgICA8QzpyZWFkICpxPiAgICAg7LqQ7Iuc7JeQIOyXheuNsOydtO2KuCDrkJwgdiDrpbwg7J29
+7J2MDQo+IC0NCj4gLQ0KPiAt7J2065+wIOu2gOulmOydmCDrrLjsoJzripQgREVDIEFscGhhIOqz
+hOyXtCDtlITroZzshLjshJzrk6Tsl5DshJwg67Cc6rKs65CgIOyImCDsnojripTrjbAsIOydtOuT
+pOydgA0KPiAt642w7J207YSwIOuyhOyKpOulvCDsooAg642UIOyemCDsgqzsmqntlbQg7ISx64ql
+7J2EIOqwnOyEoO2VoCDsiJgg7J6I64qULCDrtoTtlaDrkJwg7LqQ7Iuc66W8IOqwgOyngOqzoCDs
+nojquLANCj4gLeuVjOusuOyeheuLiOuLpC4gIOuMgOu2gOu2hOydmCBDUFUg64qUIO2VmOuCmOyd
+mCDsnb3quLAg7Jik7Y2866CI7J207IWY7J2YIOuplOuqqOumrCDslaHshLjsiqTqsIAg64uk66W4
+IOydveq4sA0KPiAt7Jik7Y2866CI7J207IWY7JeQIOydmOyhtOyggeydtOudvOuptCDrjbDsnbTt
+hLAg7J2Y7KG07ISxIOuwsOumrOyWtOulvCDrgrTtj6zsi5ztgrXri4jri6Trp4wsIOuqqOuRkOqw
+gCDqt7jrn7DqsbQNCj4gLeyVhOuLiOq4sCDrlYzrrLjsl5Ag7J207KCQ7JeQIOydmOyhtO2VtOyE
+oCDslYjrkKnri4jri6QuDQo+IC0NCj4gLeuLpOuluCBDUFUg65Ok64+EIOu2hO2VoOuQnCDsupDs
+i5zrpbwg6rCA7KeA6rOgIOyeiOydhCDsiJgg7J6I7KeA66eMLCDqt7jrn7AgQ1BVIOuTpOydgCDt
+j4nrspTtlZwg66mU66qo66asDQo+IC3slaHshLjsiqTrpbwg7JyE7ZW07ISc64+EIOydtCDrtoTt
+laDrkJwg7LqQ7Iuc65OkIOyCrOydtOydmCDsobDsoJXsnYQg7ZW07JW866eMIO2VqeuLiOuLpC4g
+IEFscGhhIOuKlCDqsIDsnqUNCj4gLeyVve2VnCDrqZTrqqjrpqwg7Iic7IScIOyLnOunqO2LsSAo
+c2VtYW50aWMpIOydhCDshKDtg53tlajsnLzroZzsjagg66mU66qo66asIOuwsOumrOyWtOqwgCDr
+qoXsi5zsoIHsnLzroZwNCj4gLeyCrOyaqeuQmOyngCDslYrslZjsnYQg65WM7JeQ64qUIOq3uOuf
+sCDsobDsoJXsnbQg7ZWE7JqU7ZWY7KeAIOyViuqyjCDtlojsnLzrqbAsIOydtOuKlCBBbHBoYSDq
+sIAg64u57Iuc7JeQDQo+IC3rjZQg64aS7J2AIENQVSDtgbTrnb0g7IaN64+E66W8IOqwgOyniCDs
+iJgg7J6I6rKMIO2WiOyKteuLiOuLpC4gIO2VmOyngOunjCwgKOuLpOyLnCDrp5DtlZjqsbTrjIAs
+IHY0LjE1DQo+IC3snbTtm4TrtoDthLDripQpIEFscGhhIOyVhO2CpO2FjeyzkCDsoITsmqkg7L2U
+65Oc7JmAIFJFQURfT05DRSgpIOunpO2BrOuhnCDrgrTrtoDsl5DshJzrpbwg7KCc7Jm47ZWY6rOg
+64qUDQo+IC1zbXBfcmVhZF9iYXJyaWVyX2RlcGVuZHMoKSDqsIAg7IKs7Jqp65CY7KeAIOyViuyV
+hOyVvCDtlajsnYQg7JWM7JWE65GQ7Iuc6riwIOuwlOuejeuLiOuLpC4NCj4gLQ0KPiAtDQo+ICDs
+upDsi5wg7J286rSA7ISxIFZTIERNQQ0KPiAgLS0tLS0tLS0tLS0tLS0tLS0tDQo+DQo+IEBAIC0y
+OTU5LDEwICsyODIxLDggQEAgQWxwaGEgQ1BVIOydmCDsnbzrtoAg67KE7KCE7J2AIOu2hO2VoOuQ
+nCDrjbDsnbTthLAg7LqQ7Iuc66W8IOqwgOyngOqzoCDsnojslrTshJwNCj4gIOuNsOydtO2EsOyd
+mCDrsJzqsqzsnYQg7Jis67CU66W4IOyInOyEnOuhnCDsnbzslrTrgpjqsowg7ZWY6riwIOuVjOus
+uOyeheuLiOuLpC4NCj4NCj4gIOumrOuIheyKpCDsu6TrhJDsnZgg66mU66qo66asIOuwsOumrOyW
+tCDrqqjrjbjsnYAgQWxwaGEg7JeQIOq4sOy0iO2VtOyEnCDsoJXsnZjrkJjsl4jsirXri4jri6Tr
+p4wsIHY0LjE1DQo+IC3rtoDthLDripQg66as64iF7IqkIOy7pOuEkOydtCBSRUFEX09OQ0UoKSDr
+grTsl5Agc21wX3JlYWRfYmFycmllcl9kZXBlbmRzKCkg66W8IOy2lOqwgO2VtOyEnA0KPiAtQWxw
+aGEg7J2YIOuplOuqqOumrCDrqqjrjbjroZzsnZgg7JiB7Zal66Cl7J20IO2BrOqyjCDspITslrTr
+k6TquLQg7ZaI7Iq164uI64ukLg0KPiAtDQo+IC3snITsnZggIuy6kOyLnCDsnbzqtIDshLEiIOyE
+nOu4jOyEueyFmOydhCDssLjqs6DtlZjshLjsmpQuDQo+ICvrtoDthLDripQgQWxwaGEg7JqpIFJF
+QURfT05DRSgpIOy9lOuTnCDrgrTsl5Agc21wX21iKCkg6rCAIOy2lOqwgOuQmOyWtOyEnCDrqZTr
+qqjrpqwg66qo642466Gc7J2YDQo+ICtBbHBoYSDsnZgg7JiB7Zal66Cl7J20IO2BrOqyjCDspITs
+lrTrk6Tsl4jsirXri4jri6QuDQo+DQo+DQo+ICDqsIDsg4Eg66i47IugIOqyjOyKpO2KuA0KPiAt
+LQ0KPiAyLjE3LjINCj4NCg==
