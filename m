@@ -7,143 +7,81 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC543C43603
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB55C2BBE2
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 809CD21835
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:46:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FE4924670
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575636406;
-	bh=SiHbrHvdA3rQHB7384b21HC7KlecqzAg0pEqLEmEU+k=;
+	s=default; t=1575636431;
+	bh=og6KKe2K7dAFnSp325n/4O+Bt50cX/53Q+uN3903lDU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=zifVBLIF4E9QNAlQxpTr0GSHDtWuagNe8N7OEek4W8Y7xn3IbuPSevJX1bzdBBrmO
-	 +oca8rM+7rWKv+0z8VqwXQji0ZfDDvz9vtqMvk5Y72Fwv2L7WHm7p3ULyj6H7JFxTI
-	 otfrC1s07F5GWUDBjBzjKu74LToSrUvEI3lQCFxc=
+	b=a0ZddRtffd/qS3gtpSiUCquVuJXieVA6pNf3mj0LxJdfOCdc0PJoofGRMXXy1ujYQ
+	 n7o60B4I/IRCibzf/aXBfS3ytjpd8QMeRBroBTro6LdcwnRevsHJZXXolq9vTN/pcf
+	 HGcdpc7Ct2Jdv/ScbmoVZpSEzF7UAa9+tgD5R4vU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbfLFMqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 07:46:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50700 "EHLO mail.kernel.org"
+        id S1726366AbfLFMrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 07:47:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50874 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726124AbfLFMqq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Dec 2019 07:46:46 -0500
+        id S1726287AbfLFMrK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Dec 2019 07:47:10 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A2891205F4;
-        Fri,  6 Dec 2019 12:46:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8BC8521835;
+        Fri,  6 Dec 2019 12:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575636405;
-        bh=SiHbrHvdA3rQHB7384b21HC7KlecqzAg0pEqLEmEU+k=;
+        s=default; t=1575636430;
+        bh=og6KKe2K7dAFnSp325n/4O+Bt50cX/53Q+uN3903lDU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bvhYDo2l759TzwwMNJLmF2Upiy+Z2dSlP5KZtcVmlnmshB0fLqoxbBswp4UckLaGT
-         vTPUiOopAy4WPsaIpb7t5X32xmR8tMNG0qF2AaRpTQ0acMimrlD6kB14SwXO/O10SA
-         lESz9K0w2rqU90/c66FvdbnAaj9KbNvXrb2s2lvk=
-Date:   Fri, 6 Dec 2019 13:46:42 +0100
+        b=G7g5njdjGl+Prucau4q/Ic/m0l3VSaQp+6xQqxkilP7wmt3GG3idFy3hb3CjeJNMk
+         Yq/GiVylp+lofW6vi+ek5oi0H6bIphA0irWdWI1C6iHAxrjZ/WSeKaq7AkR4pBBV2w
+         TIe7ZVkrkM4g1a8VnfBcjSKnxgbCpNh+jaGOS/zg=
+Date:   Fri, 6 Dec 2019 13:47:07 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Sourabh Jain <sourabhjain@linux.ibm.com>
 Cc:     mpe@ellerman.id.au, mahesh@linux.vnet.ibm.com,
         hbathini@linux.ibm.com, linux-kernel@vger.kernel.org,
         linuxppc-dev@ozlabs.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/6] sysfs: wrap
- __compat_only_sysfs_link_entry_to_kobj function to change the symlink name
-Message-ID: <20191206124642.GB1360047@kroah.com>
+Subject: Re: [PATCH v4 1/6] Documentation/ABI: add ABI documentation for
+ /sys/kernel/fadump_*
+Message-ID: <20191206124707.GC1360047@kroah.com>
 References: <20191206122434.29587-1-sourabhjain@linux.ibm.com>
- <20191206122434.29587-3-sourabhjain@linux.ibm.com>
+ <20191206122434.29587-2-sourabhjain@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191206122434.29587-3-sourabhjain@linux.ibm.com>
+In-Reply-To: <20191206122434.29587-2-sourabhjain@linux.ibm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 06, 2019 at 05:54:30PM +0530, Sourabh Jain wrote:
-> The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
-> kobject but doesn't provide an option to change the symlink file name.
-> 
-> This patch adds a wrapper function create_sysfs_symlink_entry_to_kobj that
-> extends the __compat_only_sysfs_link_entry_to_kobj functionality which
-> allows function caller to customize the symlink name.
+On Fri, Dec 06, 2019 at 05:54:29PM +0530, Sourabh Jain wrote:
+> Add missing ABI documentation for existing FADump sysfs files.
 > 
 > Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 > ---
->  fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
->  include/linux/sysfs.h | 12 ++++++++++++
->  2 files changed, 37 insertions(+), 3 deletions(-)
+>  Documentation/ABI/testing/sysfs-kernel-fadump_enabled     | 7 +++++++
+>  Documentation/ABI/testing/sysfs-kernel-fadump_registered  | 8 ++++++++
+>  Documentation/ABI/testing/sysfs-kernel-fadump_release_mem | 8 ++++++++
+>  .../ABI/testing/sysfs-kernel-fadump_release_opalcore      | 7 +++++++
+>  4 files changed, 30 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump_enabled
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump_registered
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump_release_mem
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump_release_opalcore
 > 
-> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-> index d41c21fef138..5eb38145b957 100644
-> --- a/fs/sysfs/group.c
-> +++ b/fs/sysfs/group.c
-> @@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
->  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  				      struct kobject *target_kobj,
->  				      const char *target_name)
-> +{
-> +	return create_sysfs_symlink_entry_to_kobj(kobj, target_kobj,
-> +						target_name, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
-> +
-> +/**
-> + * create_sysfs_symlink_entry_to_kobj - add a symlink to a kobject pointing
-> + * to a group or an attribute
-> + * @kobj:		The kobject containing the group.
-> + * @target_kobj:	The target kobject.
-> + * @target_name:	The name of the target group or attribute.
-> + * @symlink_name:	The name of the symlink file (target_name will be
-> + *			considered if symlink_name is NULL).
-> + */
-> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
-> +				       struct kobject *target_kobj,
-> +				       const char *target_name,
-> +				       const char *symlink_name)
->  {
->  	struct kernfs_node *target;
->  	struct kernfs_node *entry;
-> @@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  		return -ENOENT;
->  	}
->  
-> -	link = kernfs_create_link(kobj->sd, target_name, entry);
-> +	if (!symlink_name)
-> +		symlink_name = target_name;
-> +
-> +	link = kernfs_create_link(kobj->sd, symlink_name, entry);
->  	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
-> -		sysfs_warn_dup(kobj->sd, target_name);
-> +		sysfs_warn_dup(kobj->sd, symlink_name);
->  
->  	kernfs_put(entry);
->  	kernfs_put(target);
->  	return PTR_ERR_OR_ZERO(link);
->  }
-> -EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
-> +EXPORT_SYMBOL_GPL(create_sysfs_symlink_entry_to_kobj);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index 5420817ed317..123c6f10333a 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
->  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  				      struct kobject *target_kobj,
->  				      const char *target_name);
-> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
-> +				       struct kobject *target_kobj,
-> +				       const char *target_name,
-> +				       const char *symlink_name);
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump_enabled b/Documentation/ABI/testing/sysfs-kernel-fadump_enabled
+> new file mode 100644
+> index 000000000000..f73632b1c006
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump_enabled
+> @@ -0,0 +1,7 @@
+> +What:		/sys/kernel/fadump_enabled
 
-sysfs_create_symlink_entry_to_kobj()?
-
-I can't remember why we put __compat_only there, perhaps because we do
-not want people to really use this unless you really really have to?
-
-So then keep compat_only here as well?
-
-What breaks if you remove those undocumented sysfs files?  What
-userspace tool do you have that will even notice?
-
-thanks,
+Ugh, no wonder no one wanted to document these, that would have been
+noticed right away :(
 
 greg k-h
