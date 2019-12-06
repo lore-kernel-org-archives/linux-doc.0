@@ -2,150 +2,141 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DB8C43603
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:48:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6FBC2D0DD
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 13:54:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B619621835
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575636539;
-	bh=RcAid3Q85jwRgv30uwm5l3b6o2yOnXW3SLXq6APNSfk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=OtAkgteQ0V4XLbzEopEI0R+bH4rUBZzmtC0LpYQUgO9U0QOkbOFefFEUumsFOZZbJ
-	 gXLxbOank2E1snLXgmUSY4bBf5LI1WN2zDsE/FCzf1/Gp32CFbE6564gIEKKaEUdMn
-	 jzpn+xmDzwGXadlypdaefQ9y/TfHmN/DB5wbLJwg=
+	by mail.kernel.org (Postfix) with ESMTP id AB1992467A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 13:54:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fQpEoIR3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbfLFMs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 07:48:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51408 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726128AbfLFMs7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Dec 2019 07:48:59 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C6665205F4;
-        Fri,  6 Dec 2019 12:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575636538;
-        bh=RcAid3Q85jwRgv30uwm5l3b6o2yOnXW3SLXq6APNSfk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mq6KZ0gLrxaZO23IUL/dIcoNXVplyKO2N1F/AmlUgbvXsbymiL7rtfoxlvtt6CkB9
-         hxPxNmzW0R4BOePNeBwnH3okTWl8xlBcu2bF4WG+RH4rBWLBRISiqp3jRAN6bIVbxQ
-         6W4/DcMJ9YNECSVgkaECzhfCgTzccVdw5YVVfBZE=
-Date:   Fri, 6 Dec 2019 13:48:55 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc:     mpe@ellerman.id.au, mahesh@linux.vnet.ibm.com,
-        hbathini@linux.ibm.com, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 6/6] powerpc/fadump: sysfs for fadump memory
- reservation
-Message-ID: <20191206124855.GE1360047@kroah.com>
-References: <20191206122434.29587-1-sourabhjain@linux.ibm.com>
- <20191206122434.29587-7-sourabhjain@linux.ibm.com>
+        id S1727010AbfLFNys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 08:54:48 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:59360 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726975AbfLFNyr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 08:54:47 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB6DsLMA189904;
+        Fri, 6 Dec 2019 13:54:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : in-reply-to : message-id : references : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=mnbDjzi+t8U359ofhgGJEJTb4vIsS6/RiU9IOJRnczw=;
+ b=fQpEoIR3DU8LApVJVbMF+hPqXvUW+V9cbqH516L2mmSa6bW3kp8BByYh0G3ogenxXe8S
+ x7XuDELaCdpb6emkhLYihYZM/rG+eDe3vSaXt/X3lLo3CFXul4jxwEeHqdWEUoVDQPpz
+ LX4zdgcQdBUqJ1A+QU74pHtlU/Eo7U+inIsjcULS1xpmKy4t4UujGFGXXPlMIqEAz8f6
+ 4ZX4stfp6rC7Tfprfm1WOuO8IDyKYoXZ+T/thEZG0xaCvBpy7LiZ57nlljkbB0Gm0cOT
+ drZ3npH4TE5udLGxxLcDIVBqQUTFQ8CVSATdLnPJHLvUqFexGRA20r4344Jp/dwDep9q JQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2wkh2rv513-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 06 Dec 2019 13:54:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB6Ds686156099;
+        Fri, 6 Dec 2019 13:54:21 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2wqerahcpq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 06 Dec 2019 13:54:20 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xB6DrqtH013467;
+        Fri, 6 Dec 2019 13:53:52 GMT
+Received: from dhcp-10-175-208-120.vpn.oracle.com (/10.175.208.120)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 06 Dec 2019 05:53:51 -0800
+Date:   Fri, 6 Dec 2019 13:53:38 +0000 (GMT)
+From:   Alan Maguire <alan.maguire@oracle.com>
+X-X-Sender: alan@dhcp-10-175-208-120.vpn.oracle.com
+To:     Iurii Zaikin <yzaikin@google.com>
+cc:     Alan Maguire <alan.maguire@oracle.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        David Gow <davidgow@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
+        andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>, adilger.kernel@dilger.ca,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Knut Omang <knut.omang@oracle.com>
+Subject: Re: [PATCH v5 linux-kselftest-test 3/6] kunit: allow kunit tests to
+ be loaded as a module
+In-Reply-To: <CAAXuY3qekjWBUTxzAjCs+87nVXpigvzqm7TpG7MtJagTSG-xtg@mail.gmail.com>
+Message-ID: <alpine.LRH.2.20.1912061349001.28856@dhcp-10-175-208-120.vpn.oracle.com>
+References: <1575374868-32601-1-git-send-email-alan.maguire@oracle.com> <1575374868-32601-4-git-send-email-alan.maguire@oracle.com> <CAFd5g47dRP9HvsZD3sqzzfbAthNq8gxEdh57owo3CqVHLNOf6w@mail.gmail.com> <20191204003851.GF86484@mit.edu>
+ <alpine.LRH.2.20.1912041531160.5511@dhcp-10-175-179-22.vpn.oracle.com> <CAAXuY3qekjWBUTxzAjCs+87nVXpigvzqm7TpG7MtJagTSG-xtg@mail.gmail.com>
+User-Agent: Alpine 2.20 (LRH 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191206122434.29587-7-sourabhjain@linux.ibm.com>
+Content-Type: text/plain; charset=US-ASCII
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9462 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912060120
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9462 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912060120
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 06, 2019 at 05:54:34PM +0530, Sourabh Jain wrote:
-> Add a sys interface to allow querying the memory reserved by FADump for
-> saving the crash dump.
+
+On Wed, 4 Dec 2019, Iurii Zaikin wrote:
+
+> > I've also got a patch that I was hoping to send out soon
+> > that might help.  The idea is that each test suite would create
+> > a debugfs representation under /sys/kernel/debug/kunit;
+> > specifically:
+> >
+> > /sys/kernel/debug/kunit/results/<suite>
+> > /sys/kernel/debug/kunit/results/<suite>-tests
+> >
+> > ...where cat'ing the former shows the full set of results,
+> > and the latter is a directory within which we can display
+> > individual test results in test-case-specific files.
+> >
+> > This is all done by ensuring that when tests log information,
+> > they log to a per-test-case log buffer as well as to dmesg.
+> >
+> > If the above sounds useful, I'll try and polish up the patch
+> > for submission. Thanks!
+> What would be the best way for kunit_tool to:
+> 1. Know that the tests have completed as QEMU will be just sitting
+> there with kernel complaining about the absence of init (or running
+> whatever we give it as init)?
+> 2. Read the test results from debugfs under QEMU virtual machine while
+> the kernel is still there?
+> I think supplying an init script/binary that copies the
+> /sys/kernel/debug/kunit/results/* to a 9p shared dir set up by
+> kunit_tool would work but it would add a step of cross-compiling and
+> packaging a userspace binary.
 > 
-> Also added Documentation/ABI for the new sysfs file.
-> 
-> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> ---
->  Documentation/ABI/testing/sysfs-kernel-fadump    |  7 +++++++
->  Documentation/powerpc/firmware-assisted-dump.rst |  5 +++++
->  arch/powerpc/kernel/fadump.c                     | 15 +++++++++++++++
->  3 files changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-fadump b/Documentation/ABI/testing/sysfs-kernel-fadump
-> index 5d988b919e81..8f7a64a81783 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-fadump
-> +++ b/Documentation/ABI/testing/sysfs-kernel-fadump
-> @@ -31,3 +31,10 @@ Description:	write only
->  		the system is booted to capture the vmcore using FADump.
->  		It is used to release the memory reserved by FADump to
->  		save the crash dump.
-> +
-> +What:		/sys/kernel/fadump/mem_reserved
-> +Date:		Dec 2019
-> +Contact:	linuxppc-dev@lists.ozlabs.org
-> +Description:	read only
-> +		Provide information about the amount of memory reserved by
-> +		FADump to save the crash dump in bytes.
-> diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
-> index 365c10209ef3..04993eaf3113 100644
-> --- a/Documentation/powerpc/firmware-assisted-dump.rst
-> +++ b/Documentation/powerpc/firmware-assisted-dump.rst
-> @@ -268,6 +268,11 @@ Here is the list of files under kernel sysfs:
->      be handled and vmcore will not be captured. This interface can be
->      easily integrated with kdump service start/stop.
->  
-> + /sys/kernel/fadump/mem_reserved
-> +
-> +   This is used to display the memory reserved by FADump for saving the
-> +   crash dump.
-> +
->   /sys/kernel/fadump_release_mem
->      This file is available only when FADump is active during
->      second kernel. This is used to release the reserved memory
-> diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
-> index 41a3cda81791..b2af51b7c750 100644
-> --- a/arch/powerpc/kernel/fadump.c
-> +++ b/arch/powerpc/kernel/fadump.c
-> @@ -1357,6 +1357,13 @@ static ssize_t fadump_enabled_show(struct kobject *kobj,
->  	return sprintf(buf, "%d\n", fw_dump.fadump_enabled);
->  }
->  
-> +static ssize_t fadump_mem_reserved_show(struct kobject *kobj,
-> +					struct kobj_attribute *attr,
-> +					char *buf)
-> +{
-> +	return sprintf(buf, "%ld\n", fw_dump.reserve_dump_area_size);
-> +}
-> +
->  static ssize_t fadump_register_show(struct kobject *kobj,
->  					struct kobj_attribute *attr,
->  					char *buf)
-> @@ -1430,6 +1437,10 @@ static struct kobj_attribute enable_attr = __ATTR(enabled,
->  static struct kobj_attribute register_attr = __ATTR(registered,
->  						0644, fadump_register_show,
->  						fadump_register_store);
-> +static struct kobj_attribute mem_reserved_attr = __ATTR(mem_reserved,
-> +						0444, fadump_mem_reserved_show,
-> +						NULL);
 
-__ATTRI_RO()?
+I confess I'd only been thinking about supporting the case of a user 
+modprobe-ing a kunit test suite module directly and wanting a clean set 
+of results separated from other dmesg output. However the scheme you 
+describe does seem workable for the UML case also.  With the 
+late_initcalls the builtin kunit suites will likely run early in boot but perhaps we could tweak the 
+semantics such that the full results debugfs file is not populated until 
+the tests have run to simplify script-based probing. I'll try some 
+experiments with the debugfs patch once it's ready. Thanks!
 
-> +
->  
->  DEFINE_SHOW_ATTRIBUTE(fadump_region);
->  
-> @@ -1464,6 +1475,10 @@ static void fadump_init_files(void)
->  			pr_err("unable to create release_mem sysfs file (%d)\n",
->  			       rc);
->  	}
-> +	rc = sysfs_create_file(fadump_kobj, &mem_reserved_attr.attr);
-> +	if (rc)
-> +		pr_err("unable to create mem_reserved sysfs file (%d)\n",
-> +		       rc);
+Alan 
 
-Again, put it in an attribute group, that would have only required one
-line, and not this mess of not cleaning up if something went wrong.
-
-thanks,
-
-greg k-h
