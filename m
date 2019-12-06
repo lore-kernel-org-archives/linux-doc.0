@@ -2,213 +2,192 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F57C43603
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 17:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB4CC2BBE2
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 18:28:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 914212245C
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 17:39:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YQ+P0k13"
+	by mail.kernel.org (Postfix) with ESMTP id 4A28424673
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 18:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbfLFRjj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 12:39:39 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38383 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbfLFRjj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 12:39:39 -0500
-Received: by mail-qt1-f195.google.com with SMTP id 14so7873193qtf.5
-        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2019 09:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rvJbez3t1i6gr8sW7DfacyqP3hxyEs0+ty+IefO5wYc=;
-        b=YQ+P0k1376rwyy3MBhYUhCp2SRitHFce3O8IugmZBj1pL9dPvREWJPn1d8zzQZAniw
-         qDJzdjH9aC3MzUVBnDgyrpbm+sl3YifPM4EBevE6a7nvp4TzvqC6sCs3TdepvktZy2C9
-         4ViYAsqTqbdCNqw6nw+4JEYDjGCmeBFU/LlO+oRO9Hrs2P+yzQkn7YkqeYlwePPbodXL
-         O1HXKExMpXxbNaJyuF5Q9mWiegLSXXXpJiY/9rdlniiIBAZ+kHibGOhoGp1wwv2zUL7Q
-         gzuTrHvBs90qrPMgQHKvcH/oe8e0jHjsJzW4BnC3nwW2gjWs2i/ghUAZVKBT3X9xE9L+
-         9kjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rvJbez3t1i6gr8sW7DfacyqP3hxyEs0+ty+IefO5wYc=;
-        b=UJQjHeh/9QgAM0kR9HEhFGkCd2fBvKwC0WVkvPKjotzEWBVR6JgkSO3kVjMtZSckyB
-         Chnazf+W/HoD3Y5aZkrhVvHq1Ny+vVKkUprHf3W7lfPw33Xz+QG4+oRztXlG8Ww1ikke
-         x4A2bMHJZH4qgcUWf70jHZ8Xda7InxUrs+PFQ+ouua85phQ3ellrznrcukNkZXaS7edQ
-         TeIkiNIClxAM2HkI5pt4qqCiS4qyDBnBsRT+mgAW4Jwm3a/SozOYRuXFTiGZdvQrSu3G
-         GMaVsJmrFieaYtQCdpWBXlhPsxJKbGoaTy8pe3xHckt+7mWnDQAaCBwulg8Dz9XB2zZP
-         Ul0Q==
-X-Gm-Message-State: APjAAAUohFriIzKek1cgSAG+XS3BNCWzaSXIpWeY3u6yWJuHDTMcr2A1
-        AwAEculINbHY6NOcElGpVnwx38dfI4pxGuiyz3bbYOkp
-X-Google-Smtp-Source: APXvYqyHH54J9471sJiemYPbjSsd/iWk1KAbT0Z6XDcC/wDdzcfnGvRyl7sOz0RxbO5t9sO6YaaRCLtT96aXrWAGNcc=
-X-Received: by 2002:ac8:41c3:: with SMTP id o3mr13647714qtm.88.1575653978018;
- Fri, 06 Dec 2019 09:39:38 -0800 (PST)
+        id S1726298AbfLFS2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 13:28:05 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39676 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726350AbfLFS2E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 13:28:04 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB6IIqYh063676
+        for <linux-doc@vger.kernel.org>; Fri, 6 Dec 2019 13:28:03 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wq905vtd8-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2019 13:28:02 -0500
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Fri, 6 Dec 2019 18:28:00 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 6 Dec 2019 18:27:57 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB6IRujK46203136
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 6 Dec 2019 18:27:56 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CED3552052;
+        Fri,  6 Dec 2019 18:27:56 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.199.33.202])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E5A8752050;
+        Fri,  6 Dec 2019 18:27:54 +0000 (GMT)
+Subject: Re: [PATCH v4 2/6] sysfs: wrap __compat_only_sysfs_link_entry_to_kobj
+ function to change the symlink name
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mpe@ellerman.id.au, mahesh@linux.vnet.ibm.com,
+        hbathini@linux.ibm.com, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org, corbet@lwn.net, linux-doc@vger.kernel.org
+References: <20191206122434.29587-1-sourabhjain@linux.ibm.com>
+ <20191206122434.29587-3-sourabhjain@linux.ibm.com>
+ <20191206124642.GB1360047@kroah.com>
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+Date:   Fri, 6 Dec 2019 23:57:53 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20191119231912.12768-1-mike.leach@linaro.org> <20191119231912.12768-14-mike.leach@linaro.org>
- <1076b0e3-6b50-7be9-0a25-cb003bd77674@arm.com>
-In-Reply-To: <1076b0e3-6b50-7be9-0a25-cb003bd77674@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 6 Dec 2019 17:39:27 +0000
-Message-ID: <CAJ9a7VjUmDA6Sx2CQzttXnptSJDVhobiSj_8z5ez_SFMC7L14Q@mail.gmail.com>
-Subject: Re: [PATCH v5 13/14] docs: coresight: Update documentation for
- CoreSight to cover CTI.
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-Cc:     Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191206124642.GB1360047@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19120618-0016-0000-0000-000002D25BFE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19120618-0017-0000-0000-0000333467BE
+Message-Id: <3aabdf19-ccbf-e99a-c560-2b110e8b536a@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-06_06:2019-12-05,2019-12-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 adultscore=0
+ malwarescore=0 impostorscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1912060149
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mathieu, Suzuki,
-
-Fixed per you suggestions.
-
-Thanks
-
-Mike
-
-On Mon, 2 Dec 2019 at 10:43, Suzuki Kuruppassery Poulose
-<suzuki.poulose@arm.com> wrote:
->
-> On 19/11/2019 23:19, Mike Leach wrote:
-> > Add new document covering CTI / CTM usage in CoreSight.
-> >
-> > Add section in coresight.rst introducing CTI and CTM modules with link
-> > to new document.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >   .../trace/coresight/coresight-ect.rst         | 200 ++++++++++++++++++
-> >   Documentation/trace/coresight/coresight.rst   |  13 ++
-> >   2 files changed, 213 insertions(+)
-> >   create mode 100644 Documentation/trace/coresight/coresight-ect.rst
-> >
-> > diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
-> > new file mode 100644
-> > index 000000000000..6448cf910f20
-> > --- /dev/null
-> > +++ b/Documentation/trace/coresight/coresight-ect.rst
-> > @@ -0,0 +1,200 @@
-> > +=============================================
-> > +CoreSight Embedded Cross Trigger (CTI & CTM).
-> > +=============================================
-> > +
-> > +    :Author:   Mike Leach <mike.leach@linaro.org>
-> > +    :Date:     November 2019
-> > +
->
-> ...
->
->
-> > +
-> > +Channels API Directory
-> > +~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +This provides an easy way to attach triggers to channels, without needing
-> > +the multiple register operations that are required if manipluating the
-> > +'regs' sub-dir elements directly.
-> > +
-> > +A number of files provide this API::
-> > +
-> > +   >$ ls ./cti_sys0/channels/
-> > +   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
-> > +   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
-> > +   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
-> > +   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
-> > +
-> > +Most access to these elements take the form::
-> > +
-> > +  echo <chan> [<trigger>] > /<device_path>/<operation>
-> > +
-> > +where the optional <trigger> is only needed for trigXX_attach | detach
-> > +operations.
-> > +
-> > +e.g.::
-> > +
-> > +   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
-> > +   >$ echo 0 > ./cti_sys0/channels/chan_set
-> > +
-> > +Attaches trigout(1) to channel(0), then activates channel(0) generating a
-> > +set state on cti_sys0.trigout(1)
-> > +
-> > +
-> > +*API operations*
-> > +
-> > +   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
-> > +   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
-> > +   * ``chan_set``: Set the channel - the set state will be propogated around
-> > +     the CTM to other connected devices.
-> > +   * ``chan_clear``: Clear the channel.
-> > +   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
-> > +   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
-> > +     (enable) the channel to other devices. This operation takes a channel
-> > +     number. CTI gate is enabled for all channels by default at power up. Read
-> > +     to list the currently enabled channels on the gate.
-> > +   * ``chan_gate_disable``: Write channel number to disable gate for that
-> > +     channel.
-> > +   * ``chan_inuse``: Show the current channels attached to any signal
-> > +   * ``chan_free``: Show channels with no attached signals.
-> > +   * ``chan_xtrig_view``: write a channel number to select a channel to view,
-> > +     read to show the cross triggers programmed for the selected channel.
-> > +   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
-> > +     dangerous output signals to be set.
-> > +   * ``trigout_filtered``: Trigger out signals that are prevented from being
-> > +     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
-> > +     accidental ``EDBGREQ`` signals stopping a core.
-> > +   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
-> > +     Resets device hardware to default state.
-> > +
-> > +e.g.::
-> > +
-> > +   .../cti_sys0/channels# echo 2 1 > trigin_attach
-> > +   .../cti_sys0/channels# echo 2 6 > trigout_attach
->
-> minor nit: It may be a good idea to add a comment to describe what you
-> are doing with the above operations, to avoid looking up and mapping it
-> for someone looking it up. I am not too keen, but it is definitely
-> helpful.
->
-> > +   .../cti_sys0/channels# cat chan_free
-> > +   0-1,3
-> > +   .../cti_sys0/channels# cat chan_inuse
-> > +   2
-> > +   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
-> > +   .../cti_sys0/channels# cat chan_xtrigs_view
-> > +   [2] IN: 1 OUT: 6
-> > +   .../cti_sys0/# echo 1 > enable
-> > +   .../cti_sys0/channels# echo 2 > chan_set
-> > +   .../cti_sys0/channels# cat ../regs/choutstatus
-> > +   0x4
-> > +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> > +   0x40
-> > +   .../cti_sys0/channels# echo 2 > chan_clear
->
-> > +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> > +   0x0
-> > +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> > +   0x0
->
-> nit: duplicate lines ?
->
-> Otherwise:
->
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
 
+On 12/6/19 6:16 PM, Greg KH wrote:
+> On Fri, Dec 06, 2019 at 05:54:30PM +0530, Sourabh Jain wrote:
+>> The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
+>> kobject but doesn't provide an option to change the symlink file name.
+>>
+>> This patch adds a wrapper function create_sysfs_symlink_entry_to_kobj that
+>> extends the __compat_only_sysfs_link_entry_to_kobj functionality which
+>> allows function caller to customize the symlink name.
+>>
+>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+>> ---
+>>  fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
+>>  include/linux/sysfs.h | 12 ++++++++++++
+>>  2 files changed, 37 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+>> index d41c21fef138..5eb38145b957 100644
+>> --- a/fs/sysfs/group.c
+>> +++ b/fs/sysfs/group.c
+>> @@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
+>>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>>  				      struct kobject *target_kobj,
+>>  				      const char *target_name)
+>> +{
+>> +	return create_sysfs_symlink_entry_to_kobj(kobj, target_kobj,
+>> +						target_name, NULL);
+>> +}
+>> +EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
+>> +
+>> +/**
+>> + * create_sysfs_symlink_entry_to_kobj - add a symlink to a kobject pointing
+>> + * to a group or an attribute
+>> + * @kobj:		The kobject containing the group.
+>> + * @target_kobj:	The target kobject.
+>> + * @target_name:	The name of the target group or attribute.
+>> + * @symlink_name:	The name of the symlink file (target_name will be
+>> + *			considered if symlink_name is NULL).
+>> + */
+>> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
+>> +				       struct kobject *target_kobj,
+>> +				       const char *target_name,
+>> +				       const char *symlink_name)
+>>  {
+>>  	struct kernfs_node *target;
+>>  	struct kernfs_node *entry;
+>> @@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>>  		return -ENOENT;
+>>  	}
+>>  
+>> -	link = kernfs_create_link(kobj->sd, target_name, entry);
+>> +	if (!symlink_name)
+>> +		symlink_name = target_name;
+>> +
+>> +	link = kernfs_create_link(kobj->sd, symlink_name, entry);
+>>  	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
+>> -		sysfs_warn_dup(kobj->sd, target_name);
+>> +		sysfs_warn_dup(kobj->sd, symlink_name);
+>>  
+>>  	kernfs_put(entry);
+>>  	kernfs_put(target);
+>>  	return PTR_ERR_OR_ZERO(link);
+>>  }
+>> -EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
+>> +EXPORT_SYMBOL_GPL(create_sysfs_symlink_entry_to_kobj);
+>> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+>> index 5420817ed317..123c6f10333a 100644
+>> --- a/include/linux/sysfs.h
+>> +++ b/include/linux/sysfs.h
+>> @@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
+>>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>>  				      struct kobject *target_kobj,
+>>  				      const char *target_name);
+>> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
+>> +				       struct kobject *target_kobj,
+>> +				       const char *target_name,
+>> +				       const char *symlink_name);
+> 
+> sysfs_create_symlink_entry_to_kobj()?
+> 
+> I can't remember why we put __compat_only there, perhaps because we do
+> not want people to really use this unless you really really have to?
 
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+We don't have much option here. I tried replicating the sysfs files
+in older patch series but creating symlink at old location is much
+better approach.
+
+The __compat_only_sysfs_link_entry_to_kobj function is pretty generic,
+unable to understand the reason behind restricting its usage.
+
+> 
+> So then keep compat_only here as well?
+
+Sure, I will rename the wrapper function.
+
+But how about changing the function signature instead of creating
+a wrapper function?
+
+Considering the fact that there are only two places this function
+has called.
+
+> 
+> What breaks if you remove those undocumented sysfs files?  What
+> userspace tool do you have that will even notice?
+
+The scripts used in kdump service need those sysfs files to control
+the dump collection. So we can't just move the sysfs files to the
+new location.
+
+Thanks,
+Sourabh Jain
+
