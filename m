@@ -2,182 +2,116 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6B7C2D0B1
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 05:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9459AC43603
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 07:49:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EFADE24679
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 05:47:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D06424677
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 07:49:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="cnxkcM2z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbfLFFq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 00:46:56 -0500
-Received: from mail-eopbgr760057.outbound.protection.outlook.com ([40.107.76.57]:62791
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726214AbfLFFqy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Dec 2019 00:46:54 -0500
-Received: from BL0PR02CA0086.namprd02.prod.outlook.com (2603:10b6:208:51::27)
- by CY4PR02MB3288.namprd02.prod.outlook.com (2603:10b6:910:7d::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2495.22; Fri, 6 Dec
- 2019 05:46:51 +0000
-Received: from CY1NAM02FT062.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::205) by BL0PR02CA0086.outlook.office365.com
- (2603:10b6:208:51::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.13 via Frontend
- Transport; Fri, 6 Dec 2019 05:46:51 +0000
-Authentication-Results: spf=softfail (sender IP is 149.199.60.83)
- smtp.mailfrom=gmail.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=fail action=none header.from=gmail.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- gmail.com discourages use of 149.199.60.83 as permitted sender)
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT062.mail.protection.outlook.com (10.152.75.60) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2474.17
- via Frontend Transport; Fri, 6 Dec 2019 05:46:51 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-        (envelope-from <shubhrajyoti.datta@gmail.com>)
-        id 1id6Lv-0000Nd-LN; Thu, 05 Dec 2019 21:40:31 -0800
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <shubhrajyoti.datta@gmail.com>)
-        id 1id6Lq-0004Sm-HD; Thu, 05 Dec 2019 21:40:26 -0800
-Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
-        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id xB65ePR1007317;
-        Thu, 5 Dec 2019 21:40:25 -0800
-Received: from [10.140.6.59] (helo=xhdshubhraj40.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <shubhrajyoti.datta@gmail.com>)
-        id 1id6Lp-0003rO-8o; Thu, 05 Dec 2019 21:40:25 -0800
-From:   shubhrajyoti.datta@gmail.com
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     arnd@arndb.de, gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Subject: [PATCH v2 3/3] Documentation: short descriptions for Flexnoc Performance Monitor driver
-Date:   Fri,  6 Dec 2019 11:09:58 +0530
-Message-Id: <b3ff8f0fe3cb758c6b385465ad44580553e011b0.1575609926.git.shubhrajyoti.datta@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <19bb1ad0783e66aef45b140ccf409917ef94e63b.1575609926.git.shubhrajyoti.datta@xilinx.com>
-References: <19bb1ad0783e66aef45b140ccf409917ef94e63b.1575609926.git.shubhrajyoti.datta@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-Result: No--8.169-7.0-31-1
-X-imss-scan-details: No--8.169-7.0-31-1;No--8.169-5.0-31-1
-X-TM-AS-User-Approved-Sender: No;No
-X-TM-AS-Result-Xfilter: Match text exemption rules:No
-X-EOPAttributedMessage: 0
-X-Matching-Connectors: 132200848112472141;(f9e945fa-a09a-4caa-7158-08d2eb1d8c44);()
-X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(376002)(346002)(396003)(39860400002)(136003)(189003)(199004)(450100002)(305945005)(81166006)(426003)(50226002)(336012)(118296001)(48376002)(73392003)(8676002)(36756003)(5660300002)(70206006)(70586007)(16586007)(81156014)(50466002)(82202003)(14444005)(8936002)(316002)(76482006)(2906002)(86362001)(11346002)(7696005)(51416003)(9686003)(356004)(76176011)(6666004)(26005)(4326008)(107886003)(9786002)(498600001);DIR:OUT;SFP:1101;SCL:1;SRVR:CY4PR02MB3288;H:xsj-pvapsmtpgw01;FPR:;SPF:SoftFail;LANG:en;PTR:unknown-60-83.xilinx.com;MX:1;A:1;
+        id S1726551AbfLFHtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 02:49:24 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:35201 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726453AbfLFHtY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 02:49:24 -0500
+Received: by mail-lf1-f68.google.com with SMTP id 15so4553778lfr.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2019 23:49:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=kmy/hqtYsjJdqSxe1RXY3ysFVnTDOWj+4UzNeSbXyQ0=;
+        b=cnxkcM2zBCw501wJ8H5ubD377z1l0CWx0Em/20T7JYyuEYICO/QR0xiCDpWHlSqXCt
+         JjWLfxgjwWgB54GyOzKMnLh1bB6nsh4ImXgzI1MeSR4Di1aNIVrjKE/cS51QrcznZZ1W
+         JkjfcBgRrm+7vlzN5nXW89Na8ZWKr3ivSkAfc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kmy/hqtYsjJdqSxe1RXY3ysFVnTDOWj+4UzNeSbXyQ0=;
+        b=oVWocjjfq9NXnn0vZQuN9lFgCVZutr8LETDlV/3UetEV6wY6ysLJidw9gZwCmOYFN4
+         PH606AW5FMLic3CKqXLfoh06NxXckJgKptv5m/VArDcR6UL5CX/vtBgalD7U9TwEyeqw
+         sBSlJSKfdl3aN1A0Fu9Juagreknzf1rxcSDDZc07ycxXlwn8JJOymajgfxa8DSW1wvyj
+         DiE3pEM7Fbm8xzb2W1kSMGdmKtH92haCAMN72z15V2R9Hnmb161cktwoAUZdk6qF90fp
+         JH8Jca3/um9WFnRgiGCKT83516szZwg1ho0Qu2cAzFw0GU9q9p3FBdeCTTswVWVYFsod
+         ZIRw==
+X-Gm-Message-State: APjAAAXZizASVHDGQ7NF+BwwadGHJQoZI0SuFqKtgAWNl6LhWbVIHgxm
+        FrUI8VJsMtlWu6NXLv1O+ZyhW+7qVBCmYl6C
+X-Google-Smtp-Source: APXvYqzWK9nbn2UUY59BW9P/8Slwo/2W/+Hi1HaS8kg5zC9iRhpU7XfAl0CMdm/YK0/eeVy3i4vXKg==
+X-Received: by 2002:a19:f80a:: with SMTP id a10mr7621557lff.107.1575618562000;
+        Thu, 05 Dec 2019 23:49:22 -0800 (PST)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id g85sm6094899lfd.66.2019.12.05.23.49.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Dec 2019 23:49:21 -0800 (PST)
+Subject: Re: [PATCH 17/18] dyndbg: rename dynamic_debug to dyndbg
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jim Cromie <jim.cromie@gmail.com>
+Cc:     jbaron@akamai.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Gary Hook <Gary.Hook@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+References: <20191205215151.421926-1-jim.cromie@gmail.com>
+ <20191205215151.421926-20-jim.cromie@gmail.com>
+ <CAHp75VcSkm4M7VOuMWnNUOMAPbbvmodGfn9_Pu25H213pMuxFA@mail.gmail.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <4e758f68-f1f3-432b-7bc0-2691012ec831@rasmusvillemoes.dk>
+Date:   Fri, 6 Dec 2019 08:49:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4b43dfab-04b0-4720-e5bd-08d77a0fb135
-X-MS-TrafficTypeDiagnostic: CY4PR02MB3288:
-X-Microsoft-Antispam-PRVS: <CY4PR02MB3288B73AB272C9D8A593C312875F0@CY4PR02MB3288.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:569;
-X-Forefront-PRVS: 0243E5FD68
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BcS8DySAQA1wuhzJLAfnhnSwevorsgfNTmK6tpjlXxPWTusKhCuZX/DcwB77jFAYGekk80dFZvwYbWtAd7DGVyAbrzlM38hbuzJQjODVrw9dMaLvSkF+iu1lPwIEtflrkKtkFM5zYMP1TFM0rL6rgS1CqTL8f0n7e6yHz4BgYIE+x+chQSpfOKSWoBN5YxHo8JBIZkHq+p0LxQ9y8CcNj2FZFxpKisZppKN42/2fYDn0rGjMaY01eZZVSVjVVWrPlP+eTbqSOVxUxlENPDRzUSq59GSSznR6rgj7LmwtWB978K0vbmRey9tQ6F/JHBnflmi6nBc5hVQqjHLpD3nfORx32VlWI3Fif2IB6EEH/YFQmHR2wZeH/te9c4v/86DrubUS83Cdptcis38fSo6KvXuc81jM7EMfLhJuqRV3wRi9K7gOt3QXqDm1JXr6UB6O
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2019 05:46:51.0690
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b43dfab-04b0-4720-e5bd-08d77a0fb135
-X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3288
+In-Reply-To: <CAHp75VcSkm4M7VOuMWnNUOMAPbbvmodGfn9_Pu25H213pMuxFA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+On 05/12/2019 23.24, Andy Shevchenko wrote:
+> On Thu, Dec 5, 2019 at 11:54 PM Jim Cromie <jim.cromie@gmail.com> wrote:
+>>
+>> This rename fixes a subtle usage wrinkle; the __setup() names didn't
+>> match the fake "dyndbg" module parameter used to enable dynamic-printk
+>> callsites in modules.  See the last change in Docs for the effect.
+>>
+>> It also shortens the "__FILE__:__func__" prefix in dyndbg.verbose
+>> messages, effectively s/dynamic_debug/dyndbg/
+>>
+>> This is a 99.9% rename; trim_prefix and debugfs_create_dir arg excepted.
+>> Nonetheless, it also changes both /sys appearances:
+>>
+>> bash-5.0# ls -R /sys/kernel/debug/dyndbg/ /sys/module/dyndbg/parameters/
+>> /sys/kernel/debug/dyndbg/:
+>> control
+> 
+>> /sys/module/dyndbg/parameters/:
+> 
+> Isn't this path a part of ABI?
 
-Add short documentation for FlexNoc Performance Monitor driver.
+Yeah, I think this is a somewhat dangerous change, and I don't really
+see the point.
 
-Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
----
- Documentation/misc-devices/xilinx_flex.txt | 66 ++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
- create mode 100644 Documentation/misc-devices/xilinx_flex.txt
+Unrelated: Jim, if you want these patches picked up eventually, you have
+to put akpm on the recipient list (he is on this one, but AFAICT not on
+any of the others).
 
-diff --git a/Documentation/misc-devices/xilinx_flex.txt b/Documentation/misc-devices/xilinx_flex.txt
-new file mode 100644
-index 0000000..c075934
---- /dev/null
-+++ b/Documentation/misc-devices/xilinx_flex.txt
-@@ -0,0 +1,66 @@
-+Kernel driver xilinx_flex
-+============================
-+
-+Supported chips:
-+Versal SOC
-+
-+Author:
-+	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-+
-+Description
-+-----------
-+
-+Versal uses the Arteris FlexNoC interconnect instead of the ARM NIC. FlexNoC
-+provides the capability to integrate performance counters in the interconnect.
-+It has configurable probe points to monitor the packet and forwards it to
-+observer for logging. It supports read and write transaction counts for
-+request and response.
-+
-+Features:
-+---> Run-time programmable selection of packet probe points.
-+---> Recording of traffic and link statistics.
-+---> Separate read and write response and request count.
-+
-+SYSFS:
-+
-+counteridfpd
-+	RW - shows the counter number selected for the FPD Flexnoc.
-+
-+counterfpd_rdreq
-+	RO - shows the read request count for the FPD counters.
-+
-+counterfpdsrc
-+	WO - sets the source of the FPD counter.
-+
-+counterfpd_wrrsp
-+	RO - shows the write response count for the FPD counters.
-+
-+counterfpd_rdrsp
-+	RO - shows the read response count for the FPD counters.
-+
-+counterfpd_wrreq
-+	RO - shows the write request count for the FPD counters.
-+
-+counterfpdport
-+	WO - sets the port number selected for the FPD Flexnoc.
-+
-+counteridlpd
-+	RW - shows the counter number selected for the LPD Flexnoc.
-+
-+counterlpdport
-+	WO - sets the port number selected for the LPD Flexnoc.
-+
-+counterlpd_rdreq
-+	RO - shows the read request count for the LPD counters.
-+
-+counterlpd_wrreq
-+	RO - shows the write request count for the LPD counters.
-+
-+counterlpd_wrrsp
-+	RO - shows the write response count for the LPD counters.
-+
-+counterlpdsrc
-+	WO - sets the source of the LPD counter.
-+
-+counterlpd_rdrsp
-+	RO - shows the read response count for the LPD counters.
--- 
-2.1.1
-
+Rasmus
