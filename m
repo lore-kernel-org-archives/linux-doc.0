@@ -2,178 +2,132 @@ Return-Path: <SRS0=eakK=Z4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AC8C2BD09
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 09:18:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C909C43603
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:24:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 864212173E
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 09:18:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0631E21823
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Dec 2019 12:24:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbfLFJR7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 04:17:59 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39686 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbfLFJR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 04:17:56 -0500
-Received: by mail-ot1-f67.google.com with SMTP id 77so5236469oty.6;
-        Fri, 06 Dec 2019 01:17:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LnYDT3hI/k51rxu2RaEtNc8OwzQHfHd+q89Ne01SQkk=;
-        b=i8XqSJ8EyU3t8phhK3P1n3Vpc58AD0GLFDx0f4/nFn2f7RC6nQnbb0pWWTomGtoA2C
-         c5fFw5n1hdHBUfIzjfHj/TlTmpDVFq92dwDPMcNUVbg6yFf+lOo3JXNOQ/6WaO3IZuXr
-         o+DKK/R4H2fUcnU2NGEXmDwIBYIXirkX2hLgcTwbfDqIiTT0qdjfe9FKZQRHWa98kUJX
-         7MGEmmhIrZPOUM546BLPDx6niA8YOmicOJxLwbBnEVg/xxSWJ34T+OK0HaZcShj4TM8h
-         +BWA4dmM+2CmZ7E80E8liDjhaDBAMQAlkJsKeGfBcEgYlXNhj5FAg2J7Rq/JauAvcWt6
-         u81w==
-X-Gm-Message-State: APjAAAWf+Ot67oMaGFU3qjlFzOdyil+x382sF+mHh/XNzFi9ghDueMM0
-        6EVsQlWJh1lQqrQhCAEftW8AIMktCL/6ewfiC54=
-X-Google-Smtp-Source: APXvYqywT7RKZxy4+aQ3yqIAX1ukNQgZt1Pm6duFwv33bTsc5FszW5c30r7KI+ch+vUt5vv52/IvfRSxlMnY6lawJl4=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr5241089otm.297.1575623875215;
- Fri, 06 Dec 2019 01:17:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be> <20191205210653.GA29969@bogus>
-In-Reply-To: <20191205210653.GA29969@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 Dec 2019 10:17:43 +0100
-Message-ID: <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726160AbfLFMYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Dec 2019 07:24:46 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32808 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726124AbfLFMYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 07:24:46 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB6CHOWe121020
+        for <linux-doc@vger.kernel.org>; Fri, 6 Dec 2019 07:24:45 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wq9g6248m-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2019 07:24:44 -0500
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Fri, 6 Dec 2019 12:24:42 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 6 Dec 2019 12:24:40 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB6COclV38207704
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 6 Dec 2019 12:24:38 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B0FDA4C040;
+        Fri,  6 Dec 2019 12:24:38 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 16A064C044;
+        Fri,  6 Dec 2019 12:24:37 +0000 (GMT)
+Received: from localhost.in.ibm.com (unknown [9.124.35.191])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri,  6 Dec 2019 12:24:36 +0000 (GMT)
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+To:     mpe@ellerman.id.au
+Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
+        linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org,
+        Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: [PATCH v4 0/6] reorganize and add FADump sysfs files
+Date:   Fri,  6 Dec 2019 17:54:28 +0530
+X-Mailer: git-send-email 2.17.2
+X-TM-AS-GCONF: 00
+x-cbid: 19120612-0020-0000-0000-00000394F60D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19120612-0021-0000-0000-000021EC28EA
+Message-Id: <20191206122434.29587-1-sourabhjain@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-06_03:2019-12-05,2019-12-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 clxscore=1015 mlxscore=0 impostorscore=0 bulkscore=0
+ mlxlogscore=836 suspectscore=1 adultscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912060105
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Currently, FADump sysfs files are present inside /sys/kernel directory.
+But as the number of FADump sysfs file increases it is not a good idea to
+push all of them in /sys/kernel directory. It is better to have separate
+directory to keep all the FADump sysfs files.
 
-On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
-> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
-> > Add Device Tree bindings for a GPIO repeater, with optional translation
-> > of physical signal properties.  This is useful for describing explicitly
-> > the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> > non-YAML gpio-inverter bindings by Harish Jenny K N
-> > <harish_kandiga@mentor.com>[1].
-> >
-> > Note that this is different from a GPIO Nexus Node[2], which cannot do
-> > physical signal property translation.
->
-> It can't? Why not? The point of the passthru mask is to not do
-> translation of flags, but without it you are always doing translation of
-> cells.
+Patch series reorganizes the FADump sysfs files and avail all the existing
+FADump sysfs files present inside /sys/kernel into a new directory
+/sys/kernel/fadump. The backward compatibility is maintained by adding a
+symlink for every sysfs file that has moved to new location. Also a new
+FADump sys interface is added to get the amount of memory reserved by FADump
+for saving the crash dump.
 
-Thanks for pushing me deeper into nexuses!
-You're right, you can map from one type to another.
-However, you cannot handle the "double inversion" of an ACTIVE_LOW
-signal with a physical inverter added:
+Changelog:
+v1 -> v2:
+ - Move fadump_release_opalcore sysfs to FADump Kobject instead of
+   replicating.
+ - Changed the patch order 1,2,3,4 -> 2,1,3,4 (First add the ABI doc for
+   exisiting sysfs file then replicate them under FADump kobject).
 
-        nexus: led-nexus {
-                #gpio-cells = <2>;
-                gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
-                           <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
-                           <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
-                gpio-map-mask = <3 0>;
-                // default gpio-map-pass-thru = <0 0>;
-        };
+v2 -> v3:
+ - Remove the fadump_ prefix from replicated FADump sysfs file names.
 
-        leds {
-                compatible = "gpio-leds";
-                led6-inverted {
-                        gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
-                };
-                led7-noninverted {
-                        gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
-                };
-                led8-double-inverted {  // FAILS: still inverted
-                        gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
-                };
-        };
+ v3 -> v4:
+ - New patch that adds a wrapper function to create symlink with
+   custom symlink file name.
+ - Add symlink instead of replicating the FADump sysfs files.
+ - Move the OPAL core rel
 
-It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
-Still, the consumer would see the final translated polarity, and not the
-actual one it needs to program the consumer for.
+Sourabh Jain (6):
+  Documentation/ABI: add ABI documentation for /sys/kernel/fadump_*
+  sysfs: wrap __compat_only_sysfs_link_entry_to_kobj function to change
+    the symlink name
+  powerpc/fadump: reorganize /sys/kernel/fadump_* sysfs files
+  powerpc/powernv: move core and fadump_release_opalcore under new
+    kobject
+  Documentation/ABI: mark /sys/kernel/fadump_* sysfs files deprecated
+  powerpc/fadump: sysfs for fadump memory reservation
 
-> > While an inverter can be described implicitly by exchanging the
-> > GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> > Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> > th provider and consumer sides:
-> >   1. The GPIO provider (controller) looks at the flags to know the
-> >      polarity, so it can translate between logical (active/not active)
-> >      and physical (high/low) signal levels.
-> >   2. While the signal polarity is usually fixed on the GPIO consumer
-> >      side (e.g. an LED is tied to either the supply voltage or GND),
-> >      it may be configurable on some devices, and both sides need to
-> >      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
-> >      match the actual polarity.
-> >      There exists a similar issue with interrupt flags, where both the
-> >      interrupt controller and the device generating the interrupt need
-> >      to agree, which breaks in the presence of a physical inverter not
-> >      described in DT (see e.g. [3]).
->
-> Adding an inverted flag as I've suggested would also solve this issue.
+ .../ABI/obsolete/sysfs-kernel-fadump_enabled  |  9 +++
+ .../obsolete/sysfs-kernel-fadump_registered   | 10 +++
+ .../obsolete/sysfs-kernel-fadump_release_mem  | 10 +++
+ .../sysfs-kernel-fadump_release_opalcore      |  9 +++
+ Documentation/ABI/testing/sysfs-kernel-fadump | 40 +++++++++
+ .../powerpc/firmware-assisted-dump.rst        | 28 +++++--
+ arch/powerpc/kernel/fadump.c                  | 81 +++++++++++++++----
+ arch/powerpc/platforms/powernv/opal-core.c    | 31 +++++--
+ fs/sysfs/group.c                              | 28 ++++++-
+ include/linux/sysfs.h                         | 12 +++
+ 10 files changed, 225 insertions(+), 33 deletions(-)
+ create mode 100644 Documentation/ABI/obsolete/sysfs-kernel-fadump_enabled
+ create mode 100644 Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
+ create mode 100644 Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
+ create mode 100644 Documentation/ABI/removed/sysfs-kernel-fadump_release_opalcore
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-fadump
 
-As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
-the inverter bindings"?
-https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
+-- 
+2.17.2
 
-Oh, now I understand. I was misguided by Harish' interpretation
-https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
-which assumed an "inverted" property, e.g.
-
-    inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
-
-But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
-cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
-
-    /* Bit 6 expresses the presence of a physical inverter */
-    #define GPIO_INVERTED 64
-
-We need to be very careful in defining to which side the GPIO_ACTIVE_*
-applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
-Still, this doesn't help if e.g. a FET is used instead of a push-pull
-inverter, as the former needs translation of other flags (which the
-nexus can do, the caveats above still applies, though).
-
-Same for adding IRQ_TYPE_INVERTED.
-
-Related issue: how to handle physical inverters on SPI chip select lines,
-if the SPI slave can be configured for both polarities?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
