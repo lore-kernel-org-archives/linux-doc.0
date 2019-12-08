@@ -1,210 +1,112 @@
-Return-Path: <SRS0=G5NX=Z5=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=Mr5S=Z6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 729DAC43603
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Dec 2019 03:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF62DC43603
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Dec 2019 19:34:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4078E217BA
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Dec 2019 03:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3F8320692
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Dec 2019 19:34:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HQmIHIGh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726400AbfLGDWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Dec 2019 22:22:09 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16258 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726395AbfLGDWJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Dec 2019 22:22:09 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB737vZq033831
-        for <linux-doc@vger.kernel.org>; Fri, 6 Dec 2019 22:22:08 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2wq8uk51bg-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2019 22:22:08 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
-        Sat, 7 Dec 2019 03:22:06 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 7 Dec 2019 03:22:02 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB73M1vt47448568
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 7 Dec 2019 03:22:01 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 63BE9AE04D;
-        Sat,  7 Dec 2019 03:22:01 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B91A8AE045;
-        Sat,  7 Dec 2019 03:21:59 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.92.151])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Sat,  7 Dec 2019 03:21:59 +0000 (GMT)
-Subject: Re: [PATCH v4 2/6] sysfs: wrap __compat_only_sysfs_link_entry_to_kobj
- function to change the symlink name
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
-        mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com
-References: <20191206122434.29587-1-sourabhjain@linux.ibm.com>
- <20191206122434.29587-3-sourabhjain@linux.ibm.com>
- <20191206124642.GB1360047@kroah.com>
- <3aabdf19-ccbf-e99a-c560-2b110e8b536a@linux.ibm.com>
- <20191206191420.GA192422@kroah.com>
-From:   Sourabh Jain <sourabhjain@linux.ibm.com>
-Date:   Sat, 7 Dec 2019 08:51:58 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1726508AbfLHTeg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Dec 2019 14:34:36 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38324 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbfLHTef (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Dec 2019 14:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=opNmX6AL5pe9BiEApgh4safJJRAYoGJDanS+73QXh4o=; b=HQmIHIGh6pFM4c8sq8vsdzEol
+        FJJw4CAdpQu5FBEmzwuax5uP7Pqqh0+86C6fUfExA4wQjHa0tQGL/xx2Sa04/NaX/Ui9VI+GYjzKl
+        3JFLiO+qaqc2ru18YySDKhzus/TBG6/PICSlaW9fMncAwYvw0OxmUfyhk7Mc2YQRVz7l9XPpG91ie
+        NeTRF5CPu3c/omskP0kYKkKyYLGPZeeAETo6CsDCo77R2lpl1+t2bE1vJa164rlGEdafeg3wGRzPa
+        thKQSfpuBY2Lu4KysTSnCp7sX4EHuGk/P//OqbDEozZzaXGFOaWFD6qH0A8MsdVeB+WJIAhhS0hjq
+        CTkxk4vyQ==;
+Received: from [2601:1c0:6280:3f0::3deb]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ie2K9-0005In-LR; Sun, 08 Dec 2019 19:34:33 +0000
+Subject: Re: [RFC PATCH v4 01/22] bootconfig: Add Extra Boot Config support
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <157528159833.22451.14878731055438721716.stgit@devnote2>
+ <157528160980.22451.2034344493364709160.stgit@devnote2>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <02b132dd-6f50-cf1d-6cc1-ff6bbbcf79cd@infradead.org>
+Date:   Sun, 8 Dec 2019 11:34:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191206191420.GA192422@kroah.com>
+In-Reply-To: <157528160980.22451.2034344493364709160.stgit@devnote2>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19120703-0008-0000-0000-0000033E70F5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120703-0009-0000-0000-00004A5D99AB
-Message-Id: <51893cad-e8df-a240-bc60-db245420d811@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-06_08:2019-12-05,2019-12-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1912070022
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+
+On 12/2/19 2:13 AM, Masami Hiramatsu wrote:
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 67a602ee17f1..13bb3eac804c 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1235,6 +1235,17 @@ source "usr/Kconfig"
+>  
+>  endif
+>  
+> +config BOOT_CONFIG
+> +	bool "Boot config support"
+> +	select LIBXBC
+> +	default y
+
+questionable "default y".
+That needs lots of justification.
+
+> +	help
+> +	 Extra boot config allows system admin to pass a config file as
+> +	 complemental extension of kernel cmdline when boot.
+
+	                                          when booting.
+
+> +	 The boot config file is usually attached at the end of initramfs.
+
+The 3 help text lines above should be indented with one tab + 2 spaces,
+like the "If" line below.
+
+> +
+> +	  If unsure, say Y.
+> +
+>  choice
+>  	prompt "Compiler optimization level"
+>  	default CC_OPTIMIZE_FOR_PERFORMANCE
 
 
-On 12/7/19 12:44 AM, Greg KH wrote:
-> On Fri, Dec 06, 2019 at 11:57:53PM +0530, Sourabh Jain wrote:
->>
->>
->> On 12/6/19 6:16 PM, Greg KH wrote:
->>> On Fri, Dec 06, 2019 at 05:54:30PM +0530, Sourabh Jain wrote:
->>>> The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
->>>> kobject but doesn't provide an option to change the symlink file name.
->>>>
->>>> This patch adds a wrapper function create_sysfs_symlink_entry_to_kobj that
->>>> extends the __compat_only_sysfs_link_entry_to_kobj functionality which
->>>> allows function caller to customize the symlink name.
->>>>
->>>> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
->>>> ---
->>>>  fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
->>>>  include/linux/sysfs.h | 12 ++++++++++++
->>>>  2 files changed, 37 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
->>>> index d41c21fef138..5eb38145b957 100644
->>>> --- a/fs/sysfs/group.c
->>>> +++ b/fs/sysfs/group.c
->>>> @@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
->>>>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->>>>  				      struct kobject *target_kobj,
->>>>  				      const char *target_name)
->>>> +{
->>>> +	return create_sysfs_symlink_entry_to_kobj(kobj, target_kobj,
->>>> +						target_name, NULL);
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
->>>> +
->>>> +/**
->>>> + * create_sysfs_symlink_entry_to_kobj - add a symlink to a kobject pointing
->>>> + * to a group or an attribute
->>>> + * @kobj:		The kobject containing the group.
->>>> + * @target_kobj:	The target kobject.
->>>> + * @target_name:	The name of the target group or attribute.
->>>> + * @symlink_name:	The name of the symlink file (target_name will be
->>>> + *			considered if symlink_name is NULL).
->>>> + */
->>>> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
->>>> +				       struct kobject *target_kobj,
->>>> +				       const char *target_name,
->>>> +				       const char *symlink_name)
->>>>  {
->>>>  	struct kernfs_node *target;
->>>>  	struct kernfs_node *entry;
->>>> @@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->>>>  		return -ENOENT;
->>>>  	}
->>>>  
->>>> -	link = kernfs_create_link(kobj->sd, target_name, entry);
->>>> +	if (!symlink_name)
->>>> +		symlink_name = target_name;
->>>> +
->>>> +	link = kernfs_create_link(kobj->sd, symlink_name, entry);
->>>>  	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
->>>> -		sysfs_warn_dup(kobj->sd, target_name);
->>>> +		sysfs_warn_dup(kobj->sd, symlink_name);
->>>>  
->>>>  	kernfs_put(entry);
->>>>  	kernfs_put(target);
->>>>  	return PTR_ERR_OR_ZERO(link);
->>>>  }
->>>> -EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
->>>> +EXPORT_SYMBOL_GPL(create_sysfs_symlink_entry_to_kobj);
->>>> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
->>>> index 5420817ed317..123c6f10333a 100644
->>>> --- a/include/linux/sysfs.h
->>>> +++ b/include/linux/sysfs.h
->>>> @@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
->>>>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->>>>  				      struct kobject *target_kobj,
->>>>  				      const char *target_name);
->>>> +int create_sysfs_symlink_entry_to_kobj(struct kobject *kobj,
->>>> +				       struct kobject *target_kobj,
->>>> +				       const char *target_name,
->>>> +				       const char *symlink_name);
->>>
->>> sysfs_create_symlink_entry_to_kobj()?
->>>
->>> I can't remember why we put __compat_only there, perhaps because we do
->>> not want people to really use this unless you really really have to?
->>
->> We don't have much option here. I tried replicating the sysfs files
->> in older patch series but creating symlink at old location is much
->> better approach.
->>
->> The __compat_only_sysfs_link_entry_to_kobj function is pretty generic,
->> unable to understand the reason behind restricting its usage.
->>
->>>
->>> So then keep compat_only here as well?
->>
->> Sure, I will rename the wrapper function.
->>
->> But how about changing the function signature instead of creating
->> a wrapper function?
->>
->> Considering the fact that there are only two places this function
->> has called.
->>
->>>
->>> What breaks if you remove those undocumented sysfs files?  What
->>> userspace tool do you have that will even notice?
->>
->> The scripts used in kdump service need those sysfs files to control
->> the dump collection. So we can't just move the sysfs files to the
->> new location.
-> 
-> If you can not change them, then just document them and live with it.
-> Why do this extra work to create a symlink for something you will never
-> use?
-
-Eventually the scripts will change but I think it is better to have some
-overlap time to avoid breaking those scripts.
-
-
-Thanks,
-Sourabh Jain
+-- 
+~Randy
 
