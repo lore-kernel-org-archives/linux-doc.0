@@ -2,121 +2,115 @@ Return-Path: <SRS0=5fBo=Z7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE11C00454
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 15:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C59DC43603
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 16:14:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8DB332077B
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 15:54:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B1DC207FD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 16:14:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="giGlsQnr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbfLIPyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 10:54:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47000 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726080AbfLIPyH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Dec 2019 10:54:07 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 900B82073D;
-        Mon,  9 Dec 2019 15:54:04 +0000 (UTC)
-Date:   Mon, 9 Dec 2019 10:54:03 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726290AbfLIQOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 11:14:20 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:46796 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfLIQOU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 11:14:20 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB9GALHN047053;
+        Mon, 9 Dec 2019 16:13:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=DDBb3Lws0Bln7Q3yPsjcV6BrBWhAmpQz0iFXZoZdVaE=;
+ b=giGlsQnrCGDqDgomc4UoquZSV7PRsD2k7cQm2RfMgqNza20kUYpjCUHilFp0DkiKE5fb
+ QOr6dPrfdHR2ilzpjtJxaqs1CU0KfDs3l53gRkg0rytjH1rQqGnnI28q4v4E7S799y/r
+ 4PwFmhkSRXehyzRjvFsAHVNY5IO0my80aOWjRPaEFUZDpYr2l7Xf6F71R3V+aOhXrNWA
+ tN87Czw3clxzuxnoipdMDJOHfpgh4eThRyThiq7InI6TfeASDL6Q6iVlT9m/mKf7EMw8
+ usL47NtHCR2+P7E3mp/qI67Fz5pUEbL/7RYQJocZqx31YCG+lOpcHWXVe7oQhyxx6YRt Tg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2wrw4mwd1h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 09 Dec 2019 16:13:49 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xB9GALFE107601;
+        Mon, 9 Dec 2019 16:13:49 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2wrp7nkv16-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 09 Dec 2019 16:13:49 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xB9GDjD5015770;
+        Mon, 9 Dec 2019 16:13:45 GMT
+Received: from tomti.i.net-space.pl (/10.175.212.194)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 09 Dec 2019 08:13:45 -0800
+Date:   Mon, 9 Dec 2019 17:13:40 +0100
+From:   Daniel Kiper <daniel.kiper@oracle.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v4 01/22] bootconfig: Add Extra Boot Config support
-Message-ID: <20191209105403.788f492a@gandalf.local.home>
-In-Reply-To: <20191209145009.502ece2e58ffab5e31430a0e@kernel.org>
-References: <157528159833.22451.14878731055438721716.stgit@devnote2>
-        <157528160980.22451.2034344493364709160.stgit@devnote2>
-        <02b132dd-6f50-cf1d-6cc1-ff6bbbcf79cd@infradead.org>
-        <20191209145009.502ece2e58ffab5e31430a0e@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH] Documentation: x86: fix boot.rst warning and format
+Message-ID: <20191209161340.kdsikc2hvbhmpi6k@tomti.i.net-space.pl>
+References: <c6fbf592-0aca-69d9-e903-e869221a041a@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c6fbf592-0aca-69d9-e903-e869221a041a@infradead.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9465 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=988
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912090139
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9465 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912090139
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Dec 2019 14:50:09 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
-
-> Hi Randy,
-> 
-> Thank you for your review!
-> 
-> On Sun, 8 Dec 2019 11:34:32 -0800
-> Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
-> > Hi,
-> > 
-> > On 12/2/19 2:13 AM, Masami Hiramatsu wrote:  
-> > > diff --git a/init/Kconfig b/init/Kconfig
-> > > index 67a602ee17f1..13bb3eac804c 100644
-> > > --- a/init/Kconfig
-> > > +++ b/init/Kconfig
-> > > @@ -1235,6 +1235,17 @@ source "usr/Kconfig"
-> > >  
-> > >  endif
-> > >  
-> > > +config BOOT_CONFIG
-> > > +	bool "Boot config support"
-> > > +	select LIBXBC
-> > > +	default y  
-> > 
-> > questionable "default y".
-> > That needs lots of justification.  
-> 
-> OK, I can make it 'n' by default.
-> 
-> I thought that was OK because most of the memories for the
-> bootconfig support were released after initialization.
-> If user doesn't pass the bootconfig, only the code for
-> /proc/bootconfig remains on runtime memory.
-
-As 'n' is usually the default, I will argue this should be 'y'!
-
-This is not some new fancy feature, or device that Linus
-complains about "my X is important!". I will say this X *is* important!
-This will (I hope) become standard in all kernel configs. One could even
-argue that there shouldn't even be a config for this at all (forced
-'y'). This would hurt more not to have than to have. I would hate to
-try to load special options only to find out that the kernel was
-compiled with default configs and this wasn't enabled.
-
-This is extended boot config support that can be useful for most
-developers. The only ones that should say 'n' are those that are
-working to get a "tiny" kernel at boot up. As Masami said, the memory
-is freed after init, thus this should not be an issue for 99.9% of
-kernel users.
-
--- Steve
-
-
-> 
-> > > +	help
-> > > +	 Extra boot config allows system admin to pass a config file as
-> > > +	 complemental extension of kernel cmdline when boot.  
-> > 
-> > 	                                          when booting.  
+On Sun, Dec 08, 2019 at 08:25:10PM -0800, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
 >
+> Fix a Sphinx documentation format warning by breaking a long line
+> into 2 lines.
+>
+> Also drop the ':' usage after the Protocol version numbers since
+> other Protocol versions don't use colons.
+>
+> Documentation/x86/boot.rst:72: WARNING: Malformed table.
+> Text in column margin in table line 57.
+>
+> Fixes: 2c33c27fd603 ("x86/boot: Introduce kernel_info")
+> Fixes: 00cd1c154d56 ("x86/boot: Introduce kernel_info.setup_type_max")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: x86@kernel.org
+> Cc: Daniel Kiper <daniel.kiper@oracle.com>
+
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+What can I do next time to avoid mistakes like that? I suppose that
+I can run something to get this warning but I do not know what exactly
+it should be.
+
+Daniel
