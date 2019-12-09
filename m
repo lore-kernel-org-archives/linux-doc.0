@@ -2,49 +2,78 @@ Return-Path: <SRS0=5fBo=Z7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 794E3C43603
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7B3C43603
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:47:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4FA88206E0
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:35:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCEC6206E0
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfLITf0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 14:35:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45446 "EHLO mail.kernel.org"
+        id S1726532AbfLITrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 14:47:24 -0500
+Received: from mga04.intel.com ([192.55.52.120]:48858 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726602AbfLITf0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Dec 2019 14:35:26 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E791A20637;
-        Mon,  9 Dec 2019 19:35:25 +0000 (UTC)
-Date:   Mon, 9 Dec 2019 20:35:24 +0100
-From:   Greg KH <greg@kroah.com>
-To:     corbet@lwn.net, tglx@linutronix.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Process: provide hardware-security list details
-Message-ID: <20191209193524.GA1694922@kroah.com>
-References: <20191209192611.GA1688548@chatter.i7.local>
+        id S1726342AbfLITrY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Dec 2019 14:47:24 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Dec 2019 11:47:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,296,1571727600"; 
+   d="scan'208";a="215199721"
+Received: from nshalmon-mobl.ger.corp.intel.com (HELO localhost) ([10.252.8.146])
+  by orsmga006.jf.intel.com with ESMTP; 09 Dec 2019 11:47:17 -0800
+Date:   Mon, 9 Dec 2019 21:47:15 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        'Mauro Carvalho Chehab' <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+Message-ID: <20191209194715.GD19243@linux.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49096521@shsmsx102.ccr.corp.intel.com>
+ <1575057916.6220.7.camel@linux.ibm.com>
+ <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
+ <1575260220.4080.17.camel@linux.ibm.com>
+ <A888B25CD99C1141B7C254171A953E8E4909D360@shsmsx102.ccr.corp.intel.com>
+ <1575267453.4080.26.camel@linux.ibm.com>
+ <A888B25CD99C1141B7C254171A953E8E4909E381@shsmsx102.ccr.corp.intel.com>
+ <1575269075.4080.31.camel@linux.ibm.com>
+ <A888B25CD99C1141B7C254171A953E8E4909E399@shsmsx102.ccr.corp.intel.com>
+ <1575312932.24227.13.camel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191209192611.GA1688548@chatter.i7.local>
+In-Reply-To: <1575312932.24227.13.camel@linux.ibm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 09, 2019 at 02:26:11PM -0500, Konstantin Ryabitsev wrote:
-> Fill in "..." stubs with proper links to the mailing lists's encryption
-> keys and service description URLs. Similarly, fix wording to specify
-> that multiple members of Linux Foundation's IT team have access to
-> internal kernel.org infrastructure, and that all of them have similar
-> confidentiality obligations as the IT team director.
-> 
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+On Mon, Dec 02, 2019 at 10:55:32AM -0800, James Bottomley wrote:
+> blob but it looks like we need to fix the API.  I suppose the good news
+> is given this failure that we have the opportunity to rewrite the API
+> since no-one else can have used it for anything because of this.  The
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I did successfully run this test when I wrote it 5 years ago:
+
+https://github.com/jsakkine-intel/tpm2-scripts/blob/master/keyctl-smoke.sh
+
+Given that there is API a way must be found that backwards compatibility
+is not broken. New format is fine but it must co-exist.
+
+/Jarkko
