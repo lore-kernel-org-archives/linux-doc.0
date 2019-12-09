@@ -2,80 +2,98 @@ Return-Path: <SRS0=5fBo=Z7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82966C43603
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 08:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3299C3F68F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 09:44:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4B098206D3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 08:10:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B979620726
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 09:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575879026;
-	bh=iTTgNq9RENesPj9dq9RXmXWCptL56RAD7KSlfOxJCCw=;
+	s=default; t=1575884680;
+	bh=imotwJ4gICaZ02FoqooFcZsxweEm3UFRbehyTXXWTKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=sIGJb1/KFYBXzu8Ic+o8nBIRez2NlDDKxkFnseWwTYnZ2ZslQ+nbt9tvwgAqzGf8z
-	 819ilmjF5WUxYLinmRIOHPsZIwV9MZwQg5krZwX0w774uyxIVuzXmDMby2R+JdOffJ
-	 sIBSo5eDlepNLZ04Igoj+vjga5GYf5ppI1AFKFsQ=
+	b=t7jiUP7w6L3gP22rNMI3QGmEBOhouwIM8zo91VkONU6Wh0y0bQZJr4rePPVwi1FX5
+	 cdrKFNDdmS2W/V/vn0z3c/7ExjZBZQ2dwdaEawFcImwk1fDcBm1x1GQAnKEO1H215z
+	 TSJbO26Q4sUP1xULvP8Z8WJg4YM7wEXyEeoFAnEs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbfLIIK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 03:10:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53846 "EHLO mail.kernel.org"
+        id S1727434AbfLIJok (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 04:44:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57272 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727044AbfLIIKZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Dec 2019 03:10:25 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1727350AbfLIJoj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Dec 2019 04:44:39 -0500
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB7C8205ED;
-        Mon,  9 Dec 2019 08:10:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3AAD720726;
+        Mon,  9 Dec 2019 09:44:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575879025;
-        bh=iTTgNq9RENesPj9dq9RXmXWCptL56RAD7KSlfOxJCCw=;
+        s=default; t=1575884678;
+        bh=imotwJ4gICaZ02FoqooFcZsxweEm3UFRbehyTXXWTKs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W4PAq+1v4SGp/ZC4mYVV7bkWkkmkMeSJN+xHAOiJzVl2h/doEl1GKjIvH5q+6RYhq
-         gMLOvR7IoUhVnPu8dES0A6xwdvMRlcUpogiTH7lyvohxD6WvV+UK1kZu1e5Q/qMsZJ
-         T6v3PF7wMHVW2NSsTGCJpMFoQKJcGMMPH7delpuo=
-Date:   Mon, 9 Dec 2019 09:10:23 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc:     mpe@ellerman.id.au, mahesh@linux.vnet.ibm.com,
-        hbathini@linux.ibm.com, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] powerpc/fadump: reorganize /sys/kernel/fadump_*
- sysfs files
-Message-ID: <20191209081023.GC706232@kroah.com>
-References: <20191209045826.30076-1-sourabhjain@linux.ibm.com>
- <20191209045826.30076-4-sourabhjain@linux.ibm.com>
+        b=SmMvhnhGIWsZOdi+RMzfniaJ+94EMedHgnL+d+RxHRwLvG+q+EihVC4tU2P5SmuRl
+         J54YIH/aKb8LkZzI2HFd6+rwqAdD5cQoivfoINv1IwuAlfwXUzMPUmlaNy+Oq2Orgs
+         Si257mCJ1/JWZj8r9K+/njClLcptsysHWwGBsvb8=
+Date:   Mon, 9 Dec 2019 09:44:33 +0000
+From:   Will Deacon <will@kernel.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     SeongJae Park <sj38.park@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>, notify@kernel.org,
+        SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH v2] Documentation/barriers/kokr: Remove references to
+ [smp_]read_barrier_depends()
+Message-ID: <20191209094432.GA3306@willie-the-truck>
+References: <20191121193209.15687-1-sj38.park@gmail.com>
+ <20191129180837.7233-1-sjpark@amazon.de>
+ <CAEjAshpsnrfkb83738rtkPbQohoFP0LZbP_45rUqyBX-RvsVwg@mail.gmail.com>
+ <20191206204406.GK2889@paulmck-ThinkPad-P72>
+ <CAEjAshrGRafO4-k0tDD_XjC8EDq11AOh3PX+bPUhrjkuo+N76A@mail.gmail.com>
+ <20191206220858.GL2889@paulmck-ThinkPad-P72>
+ <CAEjAshosihoc7YR4WrseZDe_oquiJPeP+2yyCDRJuMJ4rzsp8w@mail.gmail.com>
+ <20191206225156.GM2889@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191209045826.30076-4-sourabhjain@linux.ibm.com>
+In-Reply-To: <20191206225156.GM2889@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 09, 2019 at 10:28:23AM +0530, Sourabh Jain wrote:
-> +#define CREATE_SYMLINK(target, symlink_name) do {\
-> +	rc = compat_only_sysfs_link_entry_to_kobj(kernel_kobj, fadump_kobj, \
-> +						  target, symlink_name); \
-> +	if (rc) \
-> +		pr_err("unable to create %s symlink (%d)", symlink_name, rc); \
-> +} while (0)
+On Fri, Dec 06, 2019 at 02:51:56PM -0800, Paul E. McKenney wrote:
+> On Fri, Dec 06, 2019 at 11:38:22PM +0100, SeongJae Park wrote:
+> > On Fri, Dec 6, 2019 at 11:08 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > But since Jon seems to be taking these in his capacity and Documentation
+> > > maintainer, could you please resend CCing him?  If we have these changes
+> > > scattered across too many trees, someone is going to get confused,
+> > > and it probably will be me.  ;-)
+> > 
+> > Agreed, CC-ing Jon to this mail.  That said, this is a followup of Will's
+> > patch[1] and the patch is also not queued in Jon's tree.  So, I would like to
+> > hear Will's opinion either, if possible.
+> > 
+> > [1]  https://lore.kernel.org/lkml/20191108170120.22331-10-will@kernel.org/
+> 
+> Ah, this one got caught out in the conversion from .html to .rst.
+> 
+> I did get an ack on one of those, and thus queued it.  I clearly need to
+> take another look at Will's series, and thank you for the reminder!
 
+I was planning to include this in the next posting of my series, but I was
+waiting for the merge window to close first. Now that we have -rc1, I'll
+post it this week, although the patches are also queued up in my tree here
+[1] (warning -- rebasing development branch).
 
-No need for a macro, just spell it all out.  And properly clean up if an
-error happens, you are just printing it out and moving on, which is
-probably NOT what you want to do, right?
+I'll leave the patches that are unrelated to smp_read_barrier_depends() to
+Paul and Jon, unless they indicate a preference to the contrary.
 
-> +static struct attribute_group fadump_group = {
-> +	.attrs = fadump_attrs,
-> +};
+Will
 
-ATTRIBUTE_GROUPS()?
-
-thanks,
-
-greg k-h
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=lto
