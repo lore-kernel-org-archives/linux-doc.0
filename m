@@ -2,68 +2,117 @@ Return-Path: <SRS0=5fBo=Z7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB4DC04E30
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F02DC00454
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 20:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 39D522077B
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 19:51:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AD4520692
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Dec 2019 20:32:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726665AbfLITvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 14:51:53 -0500
-Received: from mga05.intel.com ([192.55.52.43]:31913 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726522AbfLITvx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Dec 2019 14:51:53 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Dec 2019 11:51:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,296,1571727600"; 
-   d="scan'208";a="215200585"
-Received: from nshalmon-mobl.ger.corp.intel.com (HELO localhost) ([10.252.8.146])
-  by orsmga006.jf.intel.com with ESMTP; 09 Dec 2019 11:51:46 -0800
-Date:   Mon, 9 Dec 2019 21:51:44 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     jmorris@namei.org, sashal@kernel.org, peterhuewe@gmx.de,
-        jgg@ziepe.ca, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        ilias.apalodimas@linaro.org, sumit.garg@linaro.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v4 1/1] tpm/tpm_ftpm_tee: add shutdown call back
-Message-ID: <20191209195144.GF19243@linux.intel.com>
-References: <20191204154038.2276810-1-pasha.tatashin@soleen.com>
- <20191204154038.2276810-2-pasha.tatashin@soleen.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191204154038.2276810-2-pasha.tatashin@soleen.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726816AbfLIUcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 15:32:11 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63454 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726787AbfLIUcK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 15:32:10 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB9KMkoV092333;
+        Mon, 9 Dec 2019 15:31:56 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2wrt59sytm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 09 Dec 2019 15:31:56 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xB9KVcoR031171;
+        Mon, 9 Dec 2019 20:31:55 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
+        by ppma05wdc.us.ibm.com with ESMTP id 2wr3q65nwh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 09 Dec 2019 20:31:55 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xB9KVtJ642861030
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 9 Dec 2019 20:31:55 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 29667B206B;
+        Mon,  9 Dec 2019 20:31:55 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C37FCB205F;
+        Mon,  9 Dec 2019 20:31:53 +0000 (GMT)
+Received: from jarvis.ext.hansenpartnership.com (unknown [9.85.200.101])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon,  9 Dec 2019 20:31:53 +0000 (GMT)
+Message-ID: <1575923513.31378.22.camel@linux.ibm.com>
+Subject: Re: One question about trusted key of keyring in Linux kernel.
+From:   James Bottomley <jejb@linux.ibm.com>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     "Zhao, Shirley" <shirley.zhao@intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "'Mauro Carvalho Chehab'" <mchehab+samsung@kernel.org>,
+        "Zhu, Bing" <bing.zhu@intel.com>,
+        "Chen, Luhai" <luhai.chen@intel.com>
+Date:   Mon, 09 Dec 2019 12:31:53 -0800
+In-Reply-To: <20191209194715.GD19243@linux.intel.com>
+References: <A888B25CD99C1141B7C254171A953E8E49096521@shsmsx102.ccr.corp.intel.com>
+         <1575057916.6220.7.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E4909BA3B@shsmsx102.ccr.corp.intel.com>
+         <1575260220.4080.17.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E4909D360@shsmsx102.ccr.corp.intel.com>
+         <1575267453.4080.26.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E4909E381@shsmsx102.ccr.corp.intel.com>
+         <1575269075.4080.31.camel@linux.ibm.com>
+         <A888B25CD99C1141B7C254171A953E8E4909E399@shsmsx102.ccr.corp.intel.com>
+         <1575312932.24227.13.camel@linux.ibm.com>
+         <20191209194715.GD19243@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-09_04:2019-12-09,2019-12-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 mlxlogscore=987 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912090160
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 04, 2019 at 10:40:38AM -0500, Pavel Tatashin wrote:
-> Add shutdown call back to close existing session with fTPM TA
-> to support kexec scenario.
+On Mon, 2019-12-09 at 21:47 +0200, Jarkko Sakkinen wrote:
+> On Mon, Dec 02, 2019 at 10:55:32AM -0800, James Bottomley wrote:
+> > blob but it looks like we need to fix the API.  I suppose the good
+> > news is given this failure that we have the opportunity to rewrite
+> > the API since no-one else can have used it for anything because of
+> > this.  The
 > 
-> Add parentheses to function names in comments as specified in kdoc.
+> I did successfully run this test when I wrote it 5 years ago:
 > 
-> Signed-off-by: Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> Tested-by: Sasha Levin <sashal@kernel.org>
+> https://github.com/jsakkine-intel/tpm2-scripts/blob/master/keyctl-smo
+> ke.sh
+> 
+> Given that there is API a way must be found that backwards
+> compatibility
+> is not broken. New format is fine but it must co-exist.
 
-LGTM, can apply the patch soon'ish.
+The old API is unsupportable in the combination of policy + auth as I
+already explained.  The kernel doesn't have access to the nonces to
+generate the HMAC because the session was created by the user and the
+API has no way to pass them in (plus passing them in would be a huge
+security failure if we tried).  Given that Shirley appears to be the
+first person ever to try this, I don't think the old API has grown any
+policy users so its safe to remove it.  If we get a complaint, we can
+discuss adding it back.
 
-/Jarkko
+James
+
