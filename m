@@ -2,174 +2,140 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D220FC04E30
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF98AC2D0BE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 05:51:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A9EC720828
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:28:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96DDD206E0
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 05:51:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0Yyu8US"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jHN/De11"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbfLJC2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 21:28:15 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:40752 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbfLJC2O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 21:28:14 -0500
-Received: by mail-il1-f193.google.com with SMTP id b15so14705381ila.7;
-        Mon, 09 Dec 2019 18:28:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
-        b=k0Yyu8USNcaLlkHLr1B2BcnbMxfeLqsgcdeCk30tdl+88Jrs4sGl+0KEhBOrBLqjMT
-         O9Su00GeCbS1xk/D8bGigNzX1PSTHFxX4KVTdFO09uyAzMHV70dxWNHcbkzaOiaGzfy8
-         Z7aijmS8JHgCXFXwLVgE3AJJn7mLeh2NCPakaFmMmbJn6G63DrS8ce6g3Ogza4UluU7R
-         CK/SZgphugg0cMyBS+OPKlbhowzQOIWuIepiGcdySqykNCYns2M71k6iKyP+047Kaa9P
-         8NDgs5hCL3MiyUmjgt7OB3x5qMfD+w/d2uGvAfxbv3bz2YMwds/Dzkq8zCRxMmI767P6
-         XyOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=grd1rakogw2BEn4tAE432N08EqUy4BjMhxHYtZmywo4=;
-        b=YHP4jNOcfHRK7z0UxOf7DF07K0Lwe9SCcAofJmvheHwqVS1z+X+SsJnI5YzlHEynw/
-         EAMV6v+k3mVNQrYUhQjhtXCq5eKTKMdem2lVPlUwlFP6fANie/mLczy+CbBV+52SYrrM
-         08uzdoecpU+YZ0w7+aJjBcWgU3lc0d3aNHYgsmPRv7i4+5E1mDPXeyjIe1qgi7Ttsu65
-         YO8D+SDMqx1uckqEgdd1/16fE2rIl4RnGoLp7Dg81m7BSdRn5rSuenyDRCLzT6XwS/yO
-         8RRHI7LPNtn/zQntuTo5Dp6AQzJCFcEOJ2IgF9HnZ+65GyZKxWua2pVoONn5Fc/vh+v3
-         S7Bg==
-X-Gm-Message-State: APjAAAWuqaTo5m95rrU+69b/JkeZshZ0KkNyteK9go9t8N0GcYBk3qU3
-        E5BbXnWgAMlQYLzT5qnZg/A=
-X-Google-Smtp-Source: APXvYqx5QiYPCh/OEvK9vTgkiwrPVEZ8QFbFvMiFCda72UL+2WFQIuxLpLsm6mCu4ayYTYKU+DFs4Q==
-X-Received: by 2002:a92:6e09:: with SMTP id j9mr28712626ilc.178.1575944893656;
-        Mon, 09 Dec 2019 18:28:13 -0800 (PST)
-Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id l9sm334052ioh.77.2019.12.09.18.28.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2019 18:28:13 -0800 (PST)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
-        akpm@linuxfoundation.org
-Cc:     gregkh@linuxfoundation.org, linux@rasmusvillemoes.dk,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v4 08/16] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-Date:   Mon,  9 Dec 2019 19:27:34 -0700
-Message-Id: <20191210022742.822686-9-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191210022742.822686-1-jim.cromie@gmail.com>
-References: <20191210022742.822686-1-jim.cromie@gmail.com>
+        id S1726955AbfLJFvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Dec 2019 00:51:18 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12417 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726085AbfLJFvR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Dec 2019 00:51:17 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5def324d0000>; Mon, 09 Dec 2019 21:51:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 09 Dec 2019 21:51:16 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 09 Dec 2019 21:51:16 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 05:51:15 +0000
+Received: from [10.2.166.216] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 05:51:14 +0000
+Subject: Re: [PATCH v8 17/26] media/v4l2-core: set pages dirty upon releasing
+ DMA buffers
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <stable@vger.kernel.org>
+References: <20191209225344.99740-1-jhubbard@nvidia.com>
+ <20191209225344.99740-18-jhubbard@nvidia.com>
+ <20191209165627.bf657cb8fdf660e8f91e966c@linux-foundation.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <fc100f4b-2c14-b56b-488a-e2d54d61d575@nvidia.com>
+Date:   Mon, 9 Dec 2019 21:48:24 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191209165627.bf657cb8fdf660e8f91e966c@linux-foundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575957070; bh=KRjfdSXWCfXtj0zEL6nFRN1GkUl6vp+XI3HBba/YpY8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=jHN/De11w2qJ/2Whqsz+5DRlqwutNcV+vDNiSEKXdDcKWt78VSxoGM0nLPdizxgSb
+         M4m/UOUskWnEyCPODO9f1DYcD6hEBbJk74+kHw/LlXQq1xUnySbFRplwJNaq5NrVaz
+         jsqdkry+cVNaNaRw3VxAVr3+cs8cvcJ783ZVBXMfF/rtOeLzgMzsIx2ydS3WZJvth1
+         OfB3+NCkepaNAqgI1WYky+kXprKnYMmI09kgA9JzYnAnbh34pgq9lGMtxcjGnUZ1yV
+         PAP6rWIOB+cdLSKZhfV+SBX5T+eEKD+BSQbO+Vj2XcjLK4iwQtiCrGuqh1R5ggXhEY
+         xtGKcG+Qp/n6Q==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Accept these additional query forms:
+On 12/9/19 4:56 PM, Andrew Morton wrote:
+> On Mon, 9 Dec 2019 14:53:35 -0800 John Hubbard <jhubbard@nvidia.com> wrote:
+> 
+>> After DMA is complete, and the device and CPU caches are synchronized,
+>> it's still required to mark the CPU pages as dirty, if the data was
+>> coming from the device. However, this driver was just issuing a
+>> bare put_page() call, without any set_page_dirty*() call.
+>>
+>> Fix the problem, by calling set_page_dirty_lock() if the CPU pages
+>> were potentially receiving data from the device.
+>>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Cc: <stable@vger.kernel.org>
+> 
+> What are the user-visible effects of this change?
 
-   echo "file $filestr +_" > control
+I'll have to defer to Hans or other experts, because I merely spotted
+this by reading the code.
 
-       path/to/file.c:100	# as from control, column 1
-       path/to/file.c:1-100	# or any legal line-range
-       path/to/file.c:func_A	# as from an editor/browser
-       path/to/file.c:drm_\*	# wildcards still work
-       path/to/file.c:*_foo	# lead wildcard too
+> 
+> As it's cc:stable I'd normally send this to Linus within 1-2 weeks, or
+> sooner.  Please confirm that this is a standalone fix, independent of
+> the rest of this series.
+> 
+> 
 
-1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+Yes, this is a stand-alone fix. Of course, as part of this series, the
+put_page() gets converted to put_user_pages_dirty() in the next patch,
+and that in turn gets renamed to unpin_user_pages_dirty() in a later
+patch. Just so we keep that in mind when moving patches around.
 
-Doc these changes, and sprinkle in a few extra wild-card examples and
-trailing # explanation texts.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
- lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index e011f8907116..689a30316589 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -156,6 +156,7 @@ func
-     of each callsite.  Example::
- 
- 	func svc_tcp_accept
-+	func *recv*		# in rfcomm, bluetooth, ping, tcp
- 
- file
-     The given string is compared against either the src-root relative
-@@ -164,6 +165,9 @@ file
- 
- 	file svcsock.c
- 	file kernel/freezer.c	# ie column 1 of control file
-+	file drivers/usb/*	# all callsites under it
-+	file inode.c:start_*	# parse :tail as a func (above)
-+	file inode.c:1-100	# parse :tail as a line-range (above)
- 
- module
-     The given string is compared against the module name
-@@ -173,6 +177,7 @@ module
- 
- 	module sunrpc
- 	module nfsd
-+	module drm*	# both drm, drm_kms_helper
- 
- format
-     The given string is searched for in the dynamic debug format
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index f0cf90e672b8..9fa6d4eeae5c 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -322,6 +322,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
- 	} else {
- 		query->last_lineno = query->first_lineno;
- 	}
-+	vpr_info("parsed line %d-%d\n", query->first_lineno,
-+		 query->last_lineno);
- 	return 0;
- }
- 
-@@ -358,6 +360,7 @@ static int ddebug_parse_query(char *words[], int nwords,
- {
- 	unsigned int i;
- 	int rc = 0;
-+	char *fline;
- 
- 	/* check we have an even number of words */
- 	if (nwords % 2 != 0) {
-@@ -374,7 +377,22 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (!strcmp(words[i], "func")) {
- 			rc = check_set(&query->function, words[i+1], "func");
- 		} else if (!strcmp(words[i], "file")) {
--			rc = check_set(&query->filename, words[i+1], "file");
-+			if (check_set(&query->filename, words[i+1], "file"))
-+				return -EINVAL;
-+
-+			/* tail :$info is function or line-range */
-+			fline = strchr(query->filename, ':');
-+			if (!fline)
-+				break;
-+			*fline++ = '\0';
-+			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
-+				/* take as function name */
-+				if (check_set(&query->function, fline, "func"))
-+					return -EINVAL;
-+			} else
-+				if (parse_linerange(query, fline))
-+					return -EINVAL;
-+
- 		} else if (!strcmp(words[i], "module")) {
- 			rc = check_set(&query->module, words[i+1], "module");
- 		} else if (!strcmp(words[i], "format")) {
+thanks,
 -- 
-2.23.0
-
+John Hubbard
+NVIDIA
