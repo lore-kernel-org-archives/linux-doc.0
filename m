@@ -2,180 +2,122 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E69C2D0C5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 11:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B32BC43603
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 12:11:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE8C1208C3
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 11:52:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dfou0yC1"
+	by mail.kernel.org (Postfix) with ESMTP id 59E1E207FF
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 12:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575979893;
+	bh=VoTZ+YSXt6jYeDOFmlVbX/TCJXliKP5PCwhjpNG3DIg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=gBv6w2SsFTvWAqubD1R8C4EwSEpk62UZ3bMXiyenMYN61ktJDGz/4rWSv7h7x4y5D
+	 UlBUYoSCjn4JfrQ9t5ymL5eCweuZOelrfAGNZTud7OJqagigMDohCzGyN9irg/Rjne
+	 93lU6tGZ8w3Mc4M0HqPGDKsf6OnLAxHh5ZWLT9DE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727664AbfLJLvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Dec 2019 06:51:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27605 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727625AbfLJLvs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Dec 2019 06:51:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575978706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fUWUkAQNAvMtZ8EbtAtuhCe7GW5wk+XJnd8sLndlYtw=;
-        b=Dfou0yC1e5ceUn17l7g/gwfROV1gCXV/8wO0zlHW8ZYaxE3Ge+nnqffg9y5/uY5ZeJlA5H
-        xlhMqpmE4QyOOhXD2Vs50wo8LSNnKBZ3wWrhwbFyCoVjPdLrNre9XUzKNb7mpufmh3D55l
-        xTHxj9S/2SzOXl2FoBazABnOXONtky8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-3JDbasoaP2qIcH6A8m7Bdw-1; Tue, 10 Dec 2019 06:51:39 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEBFFB06CE;
-        Tue, 10 Dec 2019 11:51:36 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F0DF05DA2C;
-        Tue, 10 Dec 2019 11:51:32 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v10 03/10] firmware: Rename FW_OPT_NOFALLBACK to FW_OPT_NOFALLBACK_SYSFS
-Date:   Tue, 10 Dec 2019 12:51:10 +0100
-Message-Id: <20191210115117.303935-4-hdegoede@redhat.com>
-In-Reply-To: <20191210115117.303935-1-hdegoede@redhat.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
+        id S1727440AbfLJMLd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Dec 2019 07:11:33 -0500
+Received: from foss.arm.com ([217.140.110.172]:41922 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727272AbfLJMLc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Dec 2019 07:11:32 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D3D71FB;
+        Tue, 10 Dec 2019 04:11:31 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C62F3F6CF;
+        Tue, 10 Dec 2019 04:11:31 -0800 (PST)
+Date:   Tue, 10 Dec 2019 12:11:29 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191210121129.GA6110@sirena.org.uk>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191118162502.GJ9761@sirena.org.uk>
+ <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+ <20191119181325.GD3634@sirena.org.uk>
+ <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+ <20191119193636.GH3634@sirena.org.uk>
+ <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+ <20191129120925.GA5747@sirena.org.uk>
+ <ccc533df4e00bdcbe18ea45a0e0679161ff41354.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 3JDbasoaP2qIcH6A8m7Bdw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Disposition: inline
+In-Reply-To: <ccc533df4e00bdcbe18ea45a0e0679161ff41354.camel@fi.rohmeurope.com>
+X-Cookie: We have ears, earther...FOUR OF THEM!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a preparation patch for adding a new platform fallback mechanism,
-which will have its own enable/disable FW_OPT_xxx option.
 
-Note this also fixes a typo in one of the re-wordwrapped comments:
-enfoce -> enforce.
+--xHFwDpU9dbj6ez1V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/base/firmware_loader/fallback.c | 11 ++++++-----
- drivers/base/firmware_loader/firmware.h | 16 ++++++++--------
- drivers/base/firmware_loader/main.c     |  2 +-
- 3 files changed, 15 insertions(+), 14 deletions(-)
+On Tue, Dec 10, 2019 at 11:14:48AM +0000, Vaittinen, Matti wrote:
 
-diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmwar=
-e_loader/fallback.c
-index 62ee90b4db56..8704e1bae175 100644
---- a/drivers/base/firmware_loader/fallback.c
-+++ b/drivers/base/firmware_loader/fallback.c
-@@ -606,7 +606,7 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_flags=
-)
- =09=09return false;
- =09}
-=20
--=09if ((opt_flags & FW_OPT_NOFALLBACK))
-+=09if ((opt_flags & FW_OPT_NOFALLBACK_SYSFS))
- =09=09return false;
-=20
- =09/* Also permit LSMs and IMA to fail firmware sysfs fallback */
-@@ -630,10 +630,11 @@ static bool fw_run_sysfs_fallback(enum fw_opt opt_fla=
-gs)
-  * interface. Userspace is in charge of loading the firmware through the s=
-ysfs
-  * loading interface. This sysfs fallback mechanism may be disabled comple=
-tely
-  * on a system by setting the proc sysctl value ignore_sysfs_fallback to t=
-rue.
-- * If this false we check if the internal API caller set the @FW_OPT_NOFAL=
-LBACK
-- * flag, if so it would also disable the fallback mechanism. A system may =
-want
-- * to enfoce the sysfs fallback mechanism at all times, it can do this by
-- * setting ignore_sysfs_fallback to false and force_sysfs_fallback to true=
-.
-+ * If this is false we check if the internal API caller set the
-+ * @FW_OPT_NOFALLBACK_SYSFS flag, if so it would also disable the fallback
-+ * mechanism. A system may want to enforce the sysfs fallback mechanism at=
- all
-+ * times, it can do this by setting ignore_sysfs_fallback to false and
-+ * force_sysfs_fallback to true.
-  * Enabling force_sysfs_fallback is functionally equivalent to build a ker=
-nel
-  * with CONFIG_FW_LOADER_USER_HELPER_FALLBACK.
-  **/
-diff --git a/drivers/base/firmware_loader/firmware.h b/drivers/base/firmwar=
-e_loader/firmware.h
-index 7ecd590e67fe..8656e5239a80 100644
---- a/drivers/base/firmware_loader/firmware.h
-+++ b/drivers/base/firmware_loader/firmware.h
-@@ -27,16 +27,16 @@
-  *=09firmware file lookup on storage is avoided. Used for calls where the
-  *=09file may be too big, or where the driver takes charge of its own
-  *=09firmware caching mechanism.
-- * @FW_OPT_NOFALLBACK: Disable the fallback mechanism. Takes precedence ov=
-er
-- *=09&FW_OPT_UEVENT and &FW_OPT_USERHELPER.
-+ * @FW_OPT_NOFALLBACK_SYSFS: Disable the sysfs fallback mechanism. Takes
-+ *=09precedence over &FW_OPT_UEVENT and &FW_OPT_USERHELPER.
-  */
- enum fw_opt {
--=09FW_OPT_UEVENT =3D         BIT(0),
--=09FW_OPT_NOWAIT =3D         BIT(1),
--=09FW_OPT_USERHELPER =3D     BIT(2),
--=09FW_OPT_NO_WARN =3D        BIT(3),
--=09FW_OPT_NOCACHE =3D        BIT(4),
--=09FW_OPT_NOFALLBACK =3D     BIT(5),
-+=09FW_OPT_UEVENT=09=09=09=3D BIT(0),
-+=09FW_OPT_NOWAIT=09=09=09=3D BIT(1),
-+=09FW_OPT_USERHELPER=09=09=3D BIT(2),
-+=09FW_OPT_NO_WARN=09=09=09=3D BIT(3),
-+=09FW_OPT_NOCACHE=09=09=09=3D BIT(4),
-+=09FW_OPT_NOFALLBACK_SYSFS=09=09=3D BIT(5),
- };
-=20
- enum fw_status {
-diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_lo=
-ader/main.c
-index 249add8c5e05..57133a9dad09 100644
---- a/drivers/base/firmware_loader/main.c
-+++ b/drivers/base/firmware_loader/main.c
-@@ -877,7 +877,7 @@ int request_firmware_direct(const struct firmware **fir=
-mware_p,
- =09__module_get(THIS_MODULE);
- =09ret =3D _request_firmware(firmware_p, name, device, NULL, 0,
- =09=09=09=09FW_OPT_UEVENT | FW_OPT_NO_WARN |
--=09=09=09=09FW_OPT_NOFALLBACK);
-+=09=09=09=09FW_OPT_NOFALLBACK_SYSFS);
- =09module_put(THIS_MODULE);
- =09return ret;
- }
---=20
-2.23.0
+> Problem is that if no default voltages are given from DT, the the first
+> voltage changes are likely to be slow (require register access - I
+> guess the HW defaults are not working for many use-cases) - which may
+> be undesirable.
 
+I don't think that's likely to be a practical problem, and it's not
+likely it'd be worse than always doing writes.  A lot of things are
+slower the first time you do them and you're still going to have to
+do the writes no matter what.
+
+--xHFwDpU9dbj6ez1V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3vi24ACgkQJNaLcl1U
+h9D/zwgAgJGg4Rzbjb/3neARAW2iuL6cC3Z2NQEUh8aJUuljcByF/iXTtlKuups0
+bGOmzkA+eYmrW2wPZPoV88r4feU8A4ri9lzgR3G8cO5n3tAT3lvMiA0ENfYm99nk
+h+YwnKi6WIhhQw4BNNdIfmqr+UfNCUIKLwpmdo2hqm8ALwp/2O9Ge1tpdqVMWfk4
+bV+sqZQW/yxKYYl2vBz9YVw2WGQV7me/vK4fPbxcjUe1nIDJ2MSR2ZZL3Io5RRZ5
+f/V3zG3Ao8ak6Hgg8HaAmZKGsJqtSn1AFwm//zV8BNDHkHC745uTnvIs702ytDgl
+o4pdZZNbPIMmyOtLJtueNJUHBCIwsw==
+=S22J
+-----END PGP SIGNATURE-----
+
+--xHFwDpU9dbj6ez1V--
