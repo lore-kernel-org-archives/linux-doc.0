@@ -2,123 +2,146 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E70DC04E30
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D97DC43603
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:28:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7A30920726
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:22:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6372620726
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 02:28:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g271pfas"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfLJCWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 21:22:03 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:50650 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726598AbfLJCWD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 21:22:03 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07486;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TkUheNY_1575944515;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TkUheNY_1575944515)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 10 Dec 2019 10:21:58 +0800
-Subject: Re: [PATCH v5 0/2] sched/numa: introduce numa locality
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
-Message-ID: <96342524-142e-c616-1e7e-ce05dfd9ca09@linux.alibaba.com>
-Date:   Tue, 10 Dec 2019 10:19:58 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1726605AbfLJC2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 21:28:02 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40559 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbfLJC2C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 21:28:02 -0500
+Received: by mail-io1-f65.google.com with SMTP id x1so17110877iop.7;
+        Mon, 09 Dec 2019 18:28:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
+        b=g271pfas04vYMUSXwPtChhe1b2ZNy5dgqbW+jolbsj9hSY+XC+oqUSime39t7tELTQ
+         0n/M//oeYDvhCY886wJrRpIIxWV3vytHnw597xacTMZFbqLNhwQdMdQfj2GocbVkLgMs
+         8IRl1Ve5hK/WhqWBDyLSmFmTKF4Ly8tJp3zeFNBEakioUnTlnjIfg7e2bz6VcL6BlUCN
+         BqdKymLcR+IeVuOkXkDBfoujUgNxcJblC+TAc7csDYZJz5nb/tlEKFsFvMso0AFVv++p
+         c6OxlzIyuZQBGdMgODVorfUBdW252yGDiMs/LxKLp/lXnGoWWay7QPCAknN3mYre9zc/
+         wdVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=04rJ1IYwNSIyJOHKJi4xXfEFHxSBSW+n5iwgukHRDYo=;
+        b=iSkkTpAaxs0oOLZGwXEI8ybTDhkD9+XlLGq/GOWly8Ly9HLDtdkHvaI74bj/3Iu4g3
+         SA/XjhCN+To3mzUa/fncZRinGmvm8KiHM2eQ/QlPP24fVv+wSrDvzhHF6kc2kVf1w8S6
+         IZsmULQbERLaJcJuvb83wlOJSmnzgm2O8yjMIgNSD4P9LIPnM/NBK3bOMiOLNoMfp4cH
+         qjJ8rutOQpttMYsDnf2Q+HpYg+ShRCfcjxOah0usLaqHN5tJIhmvnLebCN4qHG8ZUTPB
+         gCMKosmJ2ErpossEPzkjIt1aZuMft+uuw2zK3rEUoyYxAY6BKhN7gFkIkr5JJ4qXbFhn
+         zzww==
+X-Gm-Message-State: APjAAAWxYVynHo3tUNE5hUlUBygpEC0JBXJHnGsfMNyCX20iUftUborD
+        xR/omAN5WUsJMY87y7IxRuE=
+X-Google-Smtp-Source: APXvYqx5I2O5dQp+GMaFmZgAFGJEd9esF+AcqosZZP1zuH+/vhb1FySDAaFFO3prBsaVJJYw4M5Ofg==
+X-Received: by 2002:a02:cc75:: with SMTP id j21mr29650457jaq.113.1575944881724;
+        Mon, 09 Dec 2019 18:28:01 -0800 (PST)
+Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
+        by smtp.googlemail.com with ESMTPSA id l9sm334052ioh.77.2019.12.09.18.28.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2019 18:28:01 -0800 (PST)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org
+Cc:     gregkh@linuxfoundation.org, linux@rasmusvillemoes.dk,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v4 01/16] dyndbg-docs: eschew file /full/path query in docs
+Date:   Mon,  9 Dec 2019 19:27:27 -0700
+Message-Id: <20191210022742.822686-2-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191210022742.822686-1-jim.cromie@gmail.com>
+References: <20191210022742.822686-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter, Ingo
+Regarding:
+commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
+commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
 
-We have reformed the implementation for several times, now it's very
-simple and easy to use, there are also a document to guide admin on
-how to use not only the NUMA locality, but also other per-cgroup NUMA
-statistics, we hope this could make things easier for other NUMA users.
+2nd commit broke dynamic-debug's "file $fullpath" query form, but
+nobody noticed because 1st commit trimmed prefixes from control-file
+output, so the click-copy-pasting of fullpaths into new queries had
+ceased; that query form became unused.
 
-As now there are no more comments, would you please take a look at this
-patch set, see if it's good enough to be picked?
+Removing the function is cleanest, but it could be useful in
+old-compiler corner cases, where __FILE__ still has /full/path,
+and it safely does nothing otherwize.
 
-Regards,
-Michael Wang
+So instead, quietly deprecate "file /full/path" query form, by
+removing all /full/paths examples in the docs.  I skipped adding a
+back-compat note.
 
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-On 2019/12/5 下午2:53, 王贇 wrote:
-> Since v4:
->   * improved documentation
-> Since v3:
->   * fix comments and improved documentation
-> Since v2:
->   * simplified the locality concept & implementation
-> Since v1:
->   * improved documentation
-> 
-> Modern production environment could use hundreds of cgroup to control
-> the resources for different workloads, along with the complicated
-> resource binding.
-> 
-> On NUMA platforms where we have multiple nodes, things become even more
-> complicated, we hope there are more local memory access to improve the
-> performance, and NUMA Balancing keep working hard to achieve that,
-> however, wrong memory policy or node binding could easily waste the
-> effort, result a lot of remote page accessing.
-> 
-> We need to notice such problems, then we got chance to fix it before
-> there are too much damages, however, there are no good monitoring
-> approach yet to help catch the mouse who introduced the remote access.
-> 
-> This patch set is trying to fill in the missing pieces， by introduce
-> the per-cgroup NUMA locality info, with this new statistics, we could
-> achieve the daily monitoring on NUMA efficiency, to give warning when
-> things going too wrong.
-> 
-> Please check the second patch for more details.
-> 
-> Michael Wang (2):
->   sched/numa: introduce per-cgroup NUMA locality info
->   sched/numa: documentation for per-cgroup numa statistics
-> 
->  Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
->  Documentation/admin-guide/index.rst             |   1 +
->  Documentation/admin-guide/kernel-parameters.txt |   4 +
->  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
->  include/linux/sched.h                           |  15 ++
->  include/linux/sched/sysctl.h                    |   6 +
->  init/Kconfig                                    |  11 ++
->  kernel/sched/core.c                             |  75 ++++++++++
->  kernel/sched/fair.c                             |  62 +++++++++
->  kernel/sched/sched.h                            |  12 ++
->  kernel/sysctl.c                                 |  11 ++
->  11 files changed, 384 insertions(+)
->  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
-> 
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 252e5ef324e5..e011f8907116 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -62,10 +62,10 @@ statements via::
+ 
+   nullarbor:~ # cat <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
++  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
++  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
++  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
++  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+   ...
+ 
+ 
+@@ -85,7 +85,7 @@ the debug statement callsites with any non-default flags::
+ 
+   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 
+ Command Language Reference
+ ==========================
+@@ -158,13 +158,12 @@ func
+ 	func svc_tcp_accept
+ 
+ file
+-    The given string is compared against either the full pathname, the
+-    src-root relative pathname, or the basename of the source file of
+-    each callsite.  Examples::
++    The given string is compared against either the src-root relative
++    pathname, or the basename of the source file of each callsite.
++    Examples::
+ 
+ 	file svcsock.c
+-	file kernel/freezer.c
+-	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
++	file kernel/freezer.c	# ie column 1 of control file
+ 
+ module
+     The given string is compared against the module name
+-- 
+2.23.0
+
