@@ -2,122 +2,131 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD36C43603
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 10:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCE43C2D0C8
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 10:40:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9A2E92053B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 10:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE2AC2073D
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 10:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbfLJK2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Dec 2019 05:28:25 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58544 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726574AbfLJK2Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Dec 2019 05:28:24 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 769B2B280;
-        Tue, 10 Dec 2019 10:28:20 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id E89EB1E0B23; Tue, 10 Dec 2019 11:28:18 +0100 (CET)
-Date:   Tue, 10 Dec 2019 11:28:18 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@mellanox.com>
-Subject: Re: [PATCH v8 08/26] mm/gup: allow FOLL_FORCE for
- get_user_pages_fast()
-Message-ID: <20191210102818.GF1551@quack2.suse.cz>
-References: <20191209225344.99740-1-jhubbard@nvidia.com>
- <20191209225344.99740-9-jhubbard@nvidia.com>
+        id S1727259AbfLJKkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Dec 2019 05:40:06 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:50958 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726574AbfLJKkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Dec 2019 05:40:06 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-8f-5def76030a76
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 42.1B.08102.3067FED5; Tue, 10 Dec 2019 11:40:03 +0100 (CET)
+Received: from WILL-MAIL001.REu.RohmEu.com ([fe80::2915:304f:d22c:c6ba]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Tue, 10 Dec 2019 11:39:58 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Thread-Topic: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Thread-Index: AQHVndzxthsd4Y8wKkm7W/92Uslk+KeRDPcAgAAbkICAAZUNgIAACqYAgAAMmACADvFigIAASP2AgARwk4CAAFfQAIAADk+AgAMPioCAAAc/gIAAESOAgAkyBwA=
+Date:   Tue, 10 Dec 2019 10:39:57 +0000
+Message-ID: <aea80c251dbafa8f2cd433eaf397a754812338d8.camel@fi.rohmeurope.com>
+References: <20191119181325.GD3634@sirena.org.uk>
+         <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+         <20191119193636.GH3634@sirena.org.uk>
+         <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+         <20191129120925.GA5747@sirena.org.uk>
+         <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
+         <20191202131140.GD1998@sirena.org.uk>
+         <72a1f4c5768b8c08c2669ea01e60d1b614095a43.camel@fi.rohmeurope.com>
+         <20191204124717.GR1998@sirena.org.uk>
+         <6f7b96c71bd1257b0b218a092f8aca7f32ef5468.camel@fi.rohmeurope.com>
+         <20191204141433.GU1998@sirena.org.uk>
+In-Reply-To: <20191204141433.GU1998@sirena.org.uk>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7EDEB04F51B872489D3A15D2A5378E04@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191209225344.99740-9-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0wUVxjNnffiDh0XKFeqpN3U2NoAYvxxE03RJtaxbZq2/jAxpTiUKbtx
+        2V1ndo2PGqkGYReCWKEtW96P8nCtFUFbAxa2IHR9UFpWMbqYVbSilkWrKGppZ5gq/Lrnfuc7
+        53w3+S6DG7x0HGO2OkTJKliMVATR2fjkSAK+JZy6ZE8jh+oGAjTKHfuORvfL/QQqCY1QaKQz
+        F6DK7nMkyj/dSqKa8DckcrnySHSp7QcC9R29AtCVBz0ATQzmYaj4aQOG7hYMk6h6bx2BjlY+
+        BeiPE2UUarvzPUCnDg5S6FB3kEb1FwYwVFbfR6DwPReGBvyrUdDfQ6E9A0M4yunoptHU+SME
+        Kjy3ZmU8763wAj48lEPzFd4d/E+eIM3Xto9ifEuzi+Ivn2+n+NrCAyR/s+AXgp84s5/gC1ub
+        AX+j+jDB9w4dx/ivKyYxvvHgQ5r/uyX+A27DnBXpgmPLOnOmNenNjXNMx/t7aHt75NbcyhI8
+        GxREuoGOgdwy+PuxfNoNIhgDFwCw0XcX1y59AAZ+HlcuDENxK6D7Iq0KorkEWPK4llJ7cK5U
+        Dx9NTlIqEcVthK23rxFakwCrJp5gGnYDePLPhSomuIXQnVNGqpjl3ofB0/WYFnaZgHmFXdOE
+        jlsKG6bGp40AtwC6ssemjXAuFrbceEhqY3Owrr0f13AMHL029X/dCDsmQ4Q6NM69Dg+fSNKk
+        K2FX7z1aw6/A4vwQrc0wF/5aOkIUgRc9sxI8M2rPLLVnltozS10FyGYAswSzJVNwiMmJkuhM
+        lGymLOX41JbVArTtu/8j+Ne31gcwBvjAPAYzxrCHLOFUQ2S6LWObSZBNaZLTIso+ABncGM32
+        7h1LNbAZwrbtomR7Rr3EEMZYdlFof6qBU7M2iaJdlJ6x8xnGCNkmh2I6VxIzxa2fmS2OGRpj
+        dKp5RFy0LFozRElwOkxp6oKkycqGqJReydU7FTkr24UspapJ/eANpmi0vAZnusvra3ADYbVZ
+        xbhYtlRN4tRWk9P6POgWiGWAMYrNVI30yhd87nNLicCUCFeG+jTZIcxQcdmg68MiLPDxqt6o
+        f3Y+fut6fMP4eLHJKicNr1r+8pmlbVfZHS+crdqQ8uqp94qDTYu/NI8l0+A13WD15pTVHcw7
+        Qd3Nk8Nr0uZd2tfs/TbmkcjuMzT57e+mNB0ILX/wW8TuTQs6wfqPvnp7/hefLCmXNgcWeRPS
+        ye1nd19fu+svvF9vT/z8mJGQTULyYlyShf8AEWHJOj8EAAA=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 09-12-19 14:53:26, John Hubbard wrote:
-> Commit 817be129e6f2 ("mm: validate get_user_pages_fast flags") allowed
-> only FOLL_WRITE and FOLL_LONGTERM to be passed to get_user_pages_fast().
-> This, combined with the fact that get_user_pages_fast() falls back to
-> "slow gup", which *does* accept FOLL_FORCE, leads to an odd situation:
-> if you need FOLL_FORCE, you cannot call get_user_pages_fast().
-> 
-> There does not appear to be any reason for filtering out FOLL_FORCE.
-> There is nothing in the _fast() implementation that requires that we
-> avoid writing to the pages. So it appears to have been an oversight.
-> 
-> Fix by allowing FOLL_FORCE to be set for get_user_pages_fast().
-> 
-> Fixes: 817be129e6f2 ("mm: validate get_user_pages_fast flags")
-> Cc: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Leon Romanovsky <leonro@mellanox.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-
-Looks good to me. You can add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  mm/gup.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index c0c56888e7cc..958ab0757389 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -2414,7 +2414,8 @@ int get_user_pages_fast(unsigned long start, int nr_pages,
->  	unsigned long addr, len, end;
->  	int nr = 0, ret = 0;
->  
-> -	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM)))
-> +	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
-> +				       FOLL_FORCE)))
->  		return -EINVAL;
->  
->  	start = untagged_addr(start) & PAGE_MASK;
-> -- 
-> 2.24.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+DQpPbiBXZWQsIDIwMTktMTItMDQgYXQgMTQ6MTQgKzAwMDAsIE1hcmsgQnJvd24gd3JvdGU6DQo+
+IE9uIFdlZCwgRGVjIDA0LCAyMDE5IGF0IDAxOjEzOjA4UE0gKzAwMDAsIFZhaXR0aW5lbiwgTWF0
+dGkgd3JvdGU6DQo+IA0KPiA+IEkgdGhpbmsgSSBvbmNlIGFnYWluIGV4cGxhaW5lZCBteXNlbGYg
+YmFkbHkuIFRoZXJlIGNhbiBiZSBvbmx5IG9uZQ0KPiA+IGdyb3VwIHdpdGggNCBSVU4gc3RhdGVz
+IHNlbGVjdGVkIGJ5IGNvbWJpbmF0aW9uIG9mIDIgR1BJTyBsaW5lcy4NCj4gPiBidWNrcw0KPiA+
+IDEsMiw2IGFuZCA3IGNhbiBlYWNoIGVpdGhlciBiZSBhc3NpZ25lZCBpbnRvIHRoaXMgb25lIGdy
+b3VwIG9yDQo+ID4gY29udHJvbGxlZCBpbmRpdmlkdWFsbHkgdmlhIEkyQy4gQnV0IEkgZG91YnQg
+YXNzaWduaW5nIG9ubHkgb25lIG9mDQo+ID4gdGhlDQo+ID4gYnVja3MgaW4gdGhpcyBncm91cCBp
+cyB0aGUgdHlwaWNhbCB1c2UtY2FzZS4gV2hhdCB3ZSB3b3VsZCBuZWVkDQo+ID4gd291bGQNCj4g
+DQo+IEkgZG9uJ3QgdGhpbmsgdGhpcyBpcyBhcyB1bnVzdWFsIGFzIHlvdSdyZSB0aGlua2luZyAt
+IHRoZQ0KPiByZWd1bGF0b3JzIHBlb3BsZSB3YW50IHRvIGNvbnRyb2wgcXVpY2tseSBhcmUgdXN1
+YWxseSB0aGUgbWFpbg0KPiBDUFUgc3VwcGx5IHJlZ3VsYXRvcnMgYW5kIHRoZXNlIG9mdGVuIHZh
+cnkgaW5kZXBlbmRlbnRseSBvZg0KPiBhbnl0aGluZyBlbHNlLg0KDQpIbW0uIEkgc2VlIHlvdXIg
+cG9pbnQuIFlvdSBtaWdodCBiZSBjb3JyZWN0LiBBbGxvd2luZyBvbmx5IG9uZSBidWNrIHRvDQpi
+ZSBhc3NpZ25lZCBpbiAncnVuLWxldmVsIGdyb3VwJyAodG8gYmUgY29udHJvbGxlZCBieSBHUElP
+cykgd291bGQgYmUNCnRvdGFsbHkgcG9zc2libGUgd2l0aCBjdXJyZW50IHJlZ3VsYXRvciBBUEkg
+LSBhbmQgaXQgbWlnaHQgYmUgdXNlZnVsDQpmb3Igc2NhbGluZyB0aGUgQ1BVIHZvbHRhZ2UuIEkg
+YXBwcmVjaWF0ZSB5b3VyIGhlbHAgYW5kIGV4cGVyaWVuY2UgaGVyZQ0KOikgSW1wbGVtZW50aW5n
+IGl0IHdvdWxkIGJlIGFsc28gcHJldHR5IHNpbXBsZSwgY2FjaGluZyBhbmQgY29udHJvbGxpbmcN
+CnRoZSBydW4tbGV2ZWwgdm9sdGFnZXMgaXMgYWxyZWFkeSB0aGVyZSBpbiBwYXRjaCAxMiwgSSBq
+dXN0IHNob3VsZA0KcmVzdHJpY3QgdGhlIGdyb3VwIHNpemUgdG8gb25lIGJ1Y2suIEkgd2lsbCBz
+ZWUgaG93IGl0IHdvcmtzIGFuZCBhbHNvDQphc2sgaWYgbXkgY29sbGVhZ3VlcyBrbm93IHdoZXRo
+ZXIgdGhpcyBpcyB2YWx1YWJsZSB3aXRoIG91ciBjdXJyZW50DQpjdXN0b21lcidzIFNPQ3MuIFRo
+YW5rcyBhIGJ1bmNoIQ0KDQpCciwNCglNYXR0aSBWYWl0dGluZW4NCg==
