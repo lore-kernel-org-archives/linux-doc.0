@@ -2,108 +2,83 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0376C3F68F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 00:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDC4C43603
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 01:38:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 910212080D
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 00:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575939391;
-	bh=BbLBjR8wcrsANoTlWrEqQPyK+DvAKxv254F1InccAcs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=dKDaNdDESmvyJiSDY78FC6PxUNPcX3XQY0wKDzJ3wiPfGozUFnkwUO6ApM+N7mSv3
-	 qiBQlfb40ck5rZNjeu5rsImdqbDvx6+b0wzRXUrVi31RXoQrcM+5hUJNn/wzsKBVDS
-	 9IIeJ+2xiqIx3qOp1h8i5suIywCHrdmSUE76sCGw=
+	by mail.kernel.org (Postfix) with ESMTP id 76F492073D
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 01:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727306AbfLJA4b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Dec 2019 19:56:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726743AbfLJA4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Dec 2019 19:56:30 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE73720637;
-        Tue, 10 Dec 2019 00:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575939389;
-        bh=BbLBjR8wcrsANoTlWrEqQPyK+DvAKxv254F1InccAcs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uQ6utAA370KB9xY5+qeGGsoo1HH/Hnt/LDZgeHbTSoRMRHkI8VQJNf4H7ZKlSmj42
-         WZSNKaK/IM6JgWSl9QfalBJQuyJfmeZpwpLLwj0NmbsOrQL4FJSoG0TjuPsUzwfCOi
-         N9YkLgu4ONG2hyyuwLyRSMczlQwBZdl/iQWpJ6W0=
-Date:   Mon, 9 Dec 2019 16:56:27 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?ISO-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-1?Q?J=E9r?= =?ISO-8859-1?Q?=F4me?= Glisse 
-        <jglisse@redhat.com>, Magnus Karlsson <magnus.karlsson@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        "Christoph Hellwig" <hch@lst.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <stable@vger.kernel.org>
-Subject: Re: [PATCH v8 17/26] media/v4l2-core: set pages dirty upon
- releasing DMA buffers
-Message-Id: <20191209165627.bf657cb8fdf660e8f91e966c@linux-foundation.org>
-In-Reply-To: <20191209225344.99740-18-jhubbard@nvidia.com>
-References: <20191209225344.99740-1-jhubbard@nvidia.com>
-        <20191209225344.99740-18-jhubbard@nvidia.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726642AbfLJBiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Dec 2019 20:38:02 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:54841 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbfLJBiB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Dec 2019 20:38:01 -0500
+Received: by mail-io1-f71.google.com with SMTP id h10so10525967iov.21
+        for <linux-doc@vger.kernel.org>; Mon, 09 Dec 2019 17:38:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=d/rLwgpGcOLrJAfYzylpfLq8TO3Ppq0ukiadwzb7btY=;
+        b=tMmLBe/mlRPqrgAaSzQcscv2oGKGqySr4s1N57fTMw40Bo1pXALKnuQu9WyST9Ty4Q
+         LWRVdR58wxCn/h8yET5AhgajZZStrjcQwd4X4yVJPxnApOOxmtfg8/4EpnYD4y3de3zI
+         8q9uJuC4FfKM+0Ml+aZeFohCARJovS2yid4o+OIQBTrwkd7TZVvWUI5VfzjH9Nbl9lB0
+         vok+/ghwNAdKX6t8Ol46K+1sk2nGnFZKja93ApSgQwN07XiRMMxUEfgzuYHr3rxWlcz6
+         CWOe/toCvTe8mcHnjFD8+uB/15LnHC/kQcaRis0m7UV+gY2DhXxQUCFHqsNwG4FIH9qg
+         I9Ag==
+X-Gm-Message-State: APjAAAXBXfjdRdodi/U0PkjB6jJlCIFzPFP0/JMqn21rNIkla06YzQw1
+        hBvkkS0xASdMbA1eeSC87fzp99ykU7/2HTTs5bhOkgAR6bM9
+X-Google-Smtp-Source: APXvYqx3F0Ru+DmMowW3EN6d2QYATYtlFpjQe/HbQv1AYpW3UNnTiZ8L2MNSyTDTtQA/qzP66Ug/fqFZPiweGeK/5P/FGvCtPAyx
+MIME-Version: 1.0
+X-Received: by 2002:a6b:5b12:: with SMTP id v18mr24150486ioh.112.1575941881185;
+ Mon, 09 Dec 2019 17:38:01 -0800 (PST)
+Date:   Mon, 09 Dec 2019 17:38:01 -0800
+In-Reply-To: <00000000000044a65205994a7e13@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000003cc8505994f9036@google.com>
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference in mem16_serial_out
+From:   syzbot <syzbot+92f32d4e21fb246d31a2@syzkaller.appspotmail.com>
+To:     andriy.shevchenko@linux.intel.com, asierra@xes-inc.com,
+        corbet@lwn.net, ext-kimmo.rautkoski@vaisala.com,
+        gregkh@linuxfoundation.org, jslaby@suse.com,
+        kai.heng.feng@canonical.com, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, mika.westerberg@linux.intel.com,
+        paulburton@kernel.org, peter@hurleysoftware.com, sr@denx.de,
+        syzkaller-bugs@googlegroups.com, yamada.masahiro@socionext.com,
+        yegorslists@googlemail.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Dec 2019 14:53:35 -0800 John Hubbard <jhubbard@nvidia.com> wrote:
+syzbot has bisected this bug to:
 
-> After DMA is complete, and the device and CPU caches are synchronized,
-> it's still required to mark the CPU pages as dirty, if the data was
-> coming from the device. However, this driver was just issuing a
-> bare put_page() call, without any set_page_dirty*() call.
-> 
-> Fix the problem, by calling set_page_dirty_lock() if the CPU pages
-> were potentially receiving data from the device.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: <stable@vger.kernel.org>
+commit bd94c4077a0b2ecc35562c294f80f3659ecd8499
+Author: Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed Oct 28 03:46:05 2015 +0000
 
-What are the user-visible effects of this change?
+     serial: support 16-bit register interface for console
 
-As it's cc:stable I'd normally send this to Linus within 1-2 weeks, or
-sooner.  Please confirm that this is a standalone fix, independent of
-the rest of this series.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13723196e00000
+start commit:   e42617b8 Linux 5.5-rc1
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=10f23196e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17723196e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3754e2c78c1adb82
+dashboard link: https://syzkaller.appspot.com/bug?extid=92f32d4e21fb246d31a2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=136f7e41e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112b7c82e00000
 
+Reported-by: syzbot+92f32d4e21fb246d31a2@syzkaller.appspotmail.com
+Fixes: bd94c4077a0b ("serial: support 16-bit register interface for  
+console")
 
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
