@@ -2,200 +2,140 @@ Return-Path: <SRS0=aN+I=2A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09571C2D0BF
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 12:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B02EDC2D0BF
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 13:07:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DCEF62073B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 12:50:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9044520652
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Dec 2019 13:07:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfLJMuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Dec 2019 07:50:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37718 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727131AbfLJMuE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Dec 2019 07:50:04 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E26C9AF76;
-        Tue, 10 Dec 2019 12:49:59 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 84F101E0B23; Tue, 10 Dec 2019 13:49:57 +0100 (CET)
-Date:   Tue, 10 Dec 2019 13:49:57 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v8 23/26] mm/gup: pass flags arg to __gup_device_*
- functions
-Message-ID: <20191210124957.GG1551@quack2.suse.cz>
-References: <20191209225344.99740-1-jhubbard@nvidia.com>
- <20191209225344.99740-24-jhubbard@nvidia.com>
+        id S1727334AbfLJNHj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Dec 2019 08:07:39 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:56292 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727306AbfLJNHi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Dec 2019 08:07:38 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-fa-5def9897233e
+Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 81.2C.08102.7989FED5; Tue, 10 Dec 2019 14:07:35 +0100 (CET)
+Received: from WILL-MAIL001.REu.RohmEu.com ([fe80::2915:304f:d22c:c6ba]) by
+ WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
+ 14.03.0439.000; Tue, 10 Dec 2019 14:07:29 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Thread-Topic: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Thread-Index: AQHVndzxthsd4Y8wKkm7W/92Uslk+KeRDPcAgAAbkICAAZUNgIAACqYAgAAMmACADvFigIAASP2AgBE6YYCAAA/YgIAACHeAgAABEoCAAAYbAA==
+Date:   Tue, 10 Dec 2019 13:07:28 +0000
+Message-ID: <ad8bb62352137b7142fce12e3d78f5c60ebc16a4.camel@fi.rohmeurope.com>
+References: <20191118162502.GJ9761@sirena.org.uk>
+         <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+         <20191119181325.GD3634@sirena.org.uk>
+         <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+         <20191119193636.GH3634@sirena.org.uk>
+         <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+         <20191129120925.GA5747@sirena.org.uk>
+         <ccc533df4e00bdcbe18ea45a0e0679161ff41354.camel@fi.rohmeurope.com>
+         <20191210121129.GA6110@sirena.org.uk>
+         <557a4c5993a6fb16710342438f74f92bdfb40ec0.camel@fi.rohmeurope.com>
+         <20191210124537.GD6110@sirena.org.uk>
+In-Reply-To: <20191210124537.GD6110@sirena.org.uk>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1548C81BFAE2DE45A32CFD65DD6D7B43@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191209225344.99740-24-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTVxjOuff03gty3aWFcWRKZo0KI+pc9uNkMcyY2N1liSHZEs0Sgpf1
+        SrtBS26LUxYNi+GjYBhkmmJHQT6qrEXRAnEQcK4rK6uOjU2UTahr7Bw40+6D4fwYW2+vCr/O
+        c97ned7nPcl7GFLdQ2cyRpNVlExCiZZKhpe6H3o32ZtjBS+2+NJw18QkjWuip2g87wxCfDwc
+        oXDkUg3Abf5xFa6/3K/CHbFmFbbZalX4xsA5iMf6bgJ88+9RgBeu1hL42KPTBP7jaEiF26u7
+        IO5rewTwD0MtFB64exbgrzxXKXzGP0Nj1/UJAre4xiCO/Wkj8ERwJ54JjlL4yMQUiatG/DRe
+        vHYe4obx17Zn8T2tPYCPTVXRfGvPB/ygY4bmO4fnCN7rtlH89LVhiu9s+FjFzx79EvILV5og
+        39DvBvzt9l7IB6YuELy99T7Bd3vu0fxf3qx87u0V24oE6/43jcWmLXl7VxhqjnxHlv2kOXDx
+        7mmyEjRr6kASg7iXkbu9l6oDyYyamwSov7uaVC5jAE2Nfxq/MAzFbUN1P9KyIY3bhI4/6EwY
+        SO5ECpqNDiUIDbcX9f92CyoiAZ1ceEgo+DAKhX6mZAy59ejy76MJPcvtQmfOewglbBqi2dBi
+        QpTEvYRCgesqGQNuDbJVRhONSC4DeW/fUyljc6hr+FtSwelo7tbi47oWjdwPQ3lokstBvUNb
+        FOt2dMP3EangtehYffjxDKno6xMR2AiedSxLcCy5HcvcjmVuxzL3SaByA1QqGEuKBau4dbMk
+        lm+WzIbS+PGOudQLlO2b/wz853vdBwgG+MAqhtCms5GKWIF6ZZFZf9AgWAyFUnmJaPEBxJDa
+        NDZQHS1Qs3rhYIUomZ9QzzFQm8FuDDcVqDk56z1RLBOlJ+xqhtEiVmePN02VxGLxwD5jiXWJ
+        JpgkuXlyZppFNOlFSSi3GgrlBSm0xDdEplLiuTbZzlrKhNJ4VbEGQS7TOOfsIBm/09VBqqHJ
+        bBIzM9gdspSTpYZy09OgOyCDAVoNOy2zKfEv+LTPnXgEIUfo5adZrMISlVkJ8kJDFa4Pnc/o
+        vvj81YGALTd/5Pkcl47NXzlepKuNzAf1a6GU7Tq7ypPkib2xM/DL8PeDUXfxAgleseeYD7my
+        9uxhs3XzTWHr4eQref+krts1Offg/ez1u9uCvdOw/sKO9F+rsmJOEMsdfNdor9Osxv9uaNy3
+        Zj//zSd6f9+6tw5pocUgbH2BlCzC/yQ5kKU/BAAA
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 09-12-19 14:53:41, John Hubbard wrote:
-> A subsequent patch requires access to gup flags, so pass the flags
-> argument through to the __gup_device_* functions.
-> 
-> Also placate checkpatch.pl by shortening a nearby line.
-> 
-> TODO: Christoph Hellwig requested folding this into the patch the uses
-> the gup flags arguments.
-
-You should probably implement this TODO? :)
-
-								Honza
-
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-> ---
->  mm/gup.c | 28 ++++++++++++++++++----------
->  1 file changed, 18 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 73aedcefa4bd..687d48506f04 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -1957,7 +1957,8 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
->  
->  #if defined(CONFIG_ARCH_HAS_PTE_DEVMAP) && defined(CONFIG_TRANSPARENT_HUGEPAGE)
->  static int __gup_device_huge(unsigned long pfn, unsigned long addr,
-> -		unsigned long end, struct page **pages, int *nr)
-> +			     unsigned long end, unsigned int flags,
-> +			     struct page **pages, int *nr)
->  {
->  	int nr_start = *nr;
->  	struct dev_pagemap *pgmap = NULL;
-> @@ -1983,13 +1984,14 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->  }
->  
->  static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-> -		unsigned long end, struct page **pages, int *nr)
-> +				 unsigned long end, unsigned int flags,
-> +				 struct page **pages, int *nr)
->  {
->  	unsigned long fault_pfn;
->  	int nr_start = *nr;
->  
->  	fault_pfn = pmd_pfn(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> -	if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
-> +	if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
->  		return 0;
->  
->  	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
-> @@ -2000,13 +2002,14 @@ static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->  }
->  
->  static int __gup_device_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
-> -		unsigned long end, struct page **pages, int *nr)
-> +				 unsigned long end, unsigned int flags,
-> +				 struct page **pages, int *nr)
->  {
->  	unsigned long fault_pfn;
->  	int nr_start = *nr;
->  
->  	fault_pfn = pud_pfn(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-> -	if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
-> +	if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
->  		return 0;
->  
->  	if (unlikely(pud_val(orig) != pud_val(*pudp))) {
-> @@ -2017,14 +2020,16 @@ static int __gup_device_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
->  }
->  #else
->  static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-> -		unsigned long end, struct page **pages, int *nr)
-> +				 unsigned long end, unsigned int flags,
-> +				 struct page **pages, int *nr)
->  {
->  	BUILD_BUG();
->  	return 0;
->  }
->  
->  static int __gup_device_huge_pud(pud_t pud, pud_t *pudp, unsigned long addr,
-> -		unsigned long end, struct page **pages, int *nr)
-> +				 unsigned long end, unsigned int flags,
-> +				 struct page **pages, int *nr)
->  {
->  	BUILD_BUG();
->  	return 0;
-> @@ -2136,7 +2141,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->  	if (pmd_devmap(orig)) {
->  		if (unlikely(flags & FOLL_LONGTERM))
->  			return 0;
-> -		return __gup_device_huge_pmd(orig, pmdp, addr, end, pages, nr);
-> +		return __gup_device_huge_pmd(orig, pmdp, addr, end, flags,
-> +					     pages, nr);
->  	}
->  
->  	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> @@ -2157,7 +2163,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->  }
->  
->  static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
-> -		unsigned long end, unsigned int flags, struct page **pages, int *nr)
-> +			unsigned long end, unsigned int flags,
-> +			struct page **pages, int *nr)
->  {
->  	struct page *head, *page;
->  	int refs;
-> @@ -2168,7 +2175,8 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
->  	if (pud_devmap(orig)) {
->  		if (unlikely(flags & FOLL_LONGTERM))
->  			return 0;
-> -		return __gup_device_huge_pud(orig, pudp, addr, end, pages, nr);
-> +		return __gup_device_huge_pud(orig, pudp, addr, end, flags,
-> +					     pages, nr);
->  	}
->  
->  	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-> -- 
-> 2.24.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+DQpPbiBUdWUsIDIwMTktMTItMTAgYXQgMTI6NDUgKzAwMDAsIE1hcmsgQnJvd24gd3JvdGU6DQo+
+IE9uIFR1ZSwgRGVjIDEwLCAyMDE5IGF0IDEyOjQxOjQ3UE0gKzAwMDAsIFZhaXR0aW5lbiwgTWF0
+dGkgd3JvdGU6DQo+IA0KPiA+IFRoZSB0aGluZyBpcyB0aGF0IGlmIHdlIGRvIGluaXRpYWwgc2V0
+dGluZyBvZiB2b2x0YWdlcyAoYmFzZWQgb24NCj4gPiBiaW5kaW5nIGRhdGEpIHdlIGNhbiBzZXQg
+dGhlIHZvbHRhZ2VzIHRvIHJlZ2lzdGVycyBiZWZvcmUgd2Ugc3dpdGNoDQo+ID4gdG8NCj4gPiB0
+aGF0IHJ1bi1sZXZlbC4gSWYgd2UgZG9uJ3QgZG8gaW5pdGlhbCBzZXR0aW5nIHRoZW4gd2Ugd2ls
+bCBvbmx5IGRvDQo+ID4gc2V0dGluZyB3aGVuIHZvbHRhZ2UgY2hhbmdlIGlzIGFjdHVhbGx5IHJl
+cXVlc3RlZCAtIHdoaWNoIG1heSBiZQ0KPiA+IHRvbw0KPiA+IGxhdGUuIChJIGFjdHVhbGx5IGhl
+YXJkIHNvbWV3aGVyZSB0aGF0IHRoZXJlIGlzIDQwIHVTIHRpbWUgbGltaXQgLQ0KPiA+IGJ1dA0K
+PiA+IEkgZG9uJ3Qgc2VlIGhvdyB0aGlzIGlzIGNvdW50ZWQuIFN0YXJ0aW5nIGZyb20gd2hhdD8g
+LSBhbmQgSSBkb24ndA0KPiA+IHNlZQ0KPiA+IGhvdyB0aGlzIGlzIGd1YXJhbnRlZWQgZXZlbiB3
+aXRoIEdQSU8gaWYgaW50ZXJydXB0cyBhcmUgdG8gYmUNCj4gPiBzZXJ2ZWQpLg0KPiANCj4gSSBz
+dXNwZWN0IHRoYXQgaWYgdGhhdCBsaW1pdCBpcyBhIHJlYWwgdGhpbmcgaXQncyBmcm9tIHNvbWUg
+cnVudGltZQ0KPiBwZXJmb3JtYW5jZSBtZXRyaWNzIHdoZXJlIHBlb3BsZSBhcmUgZG9pbmcgYmVu
+Y2htYXJraW5nIHRvIHZlcmlmeQ0KPiB0aGF0DQo+IGV2ZXJ5dGhpbmcgaXMgd29ya2luZyBmaW5l
+IHJhdGhlciB0aGFuIGFuIGFic29sdXRlIHRoaW5nIHRoYXQgaXMgYQ0KPiBiYXNpYw0KPiByZXF1
+aXJlbWVudCBmb3Igb3BlcmF0aW9uLg0KPiANCj4gPiBTbywgSSBhbSBhZ2FpbiB3b25kZXJpbmcg
+aWYgSSBzaG91bGQganVzdCB1cHN0cmVhbSB0aGUgYmFzaWMNCj4gPiBjb250cm9sDQo+ID4gd2l0
+aCBJMkMgZm9yIFNvQ3Mgd2hpY2ggZG8gbm90IHJlcXVpcmUgZmFzdCBEVlMgdm9sdGFnZSBjaGFu
+Z2VzIGFuZA0KPiA+IHBlcmhhcHMgbWFpbnRhaW4vcHJvdmlkZSBvd24gc2V0IG9mIHBhdGNoZXMg
+d2l0aCBhZGRpdGlvbmFsDQo+ID4gaW50ZXJmYWNlDQo+ID4gZm9yIHJ1bi1sZXZlbCBjb250cm9s
+IGZvciB0aG9zZSBjdXN0b21lcnMgd2hvIHJlcXVpcmUgaXQuLi4gU29ycnkNCj4gPiBmb3INCj4g
+PiBiZWluZyBzdWNoIGEgZGlmZmljdWx0IGd1eS4gRGVjaXNpb24gbWFraW5nIHNlZW1zIHRvIG5v
+dCBiZSBteQ0KPiA+IHN0cm9uZw0KPiA+IHBvaW50IDovDQo+IA0KPiBZZXMsIGRlZmluaXRlbHkg
+c3VibWl0IHRoZSBiYXNpYyBzdHVmZiBzZXBhcmF0ZWx5IC0gdGhlIEdQSU8gY2hhbmdlcw0KPiBj
+YW4NCj4gYmUgcmV2aWV3ZWQgYXMgYSBzZXBhcmF0ZSwgaW5jcmVtZW50YWwgcGF0Y2guDQoNClJp
+Z2h0LiBUaGF0IHdhcyByYXRpb25hbGUgYmVoaW5kIHNwbGl0dGluZyB0aGUgcmVndWxhdG9yIHN1
+cHBvcnQgaW4gdHdvDQpwYXRjaGVzLiBJIHdhcyBqdXN0IHVuc3VyZSBpZiBJIHNob3VsZCBhZGQg
+YWxsIHRoZSBEVCBiaW5kaW5ncyBhbHJlYWR5DQpoZXJlLiBXZWxsLCBJIGd1ZXNzIEkgd2lsbCBk
+cm9wIHRoZSBydW4tbGV2ZWwgb25lcyBmb3Igbm93LiBBZGRpbmcgbmV3DQpiaW5kaW5ncyBsYXRl
+ciBtaWdodCBub3QgYmUgYXMgaGFyZCBhcyByZW1vdmluZyB0aGVtLiBUaGFua3MgZm9yDQpzdXBw
+b3J0ISBEaXNjdXNzaW5nIHRoaXMgd2l0aCBzb21lb25lIGlzIGRlZmluaXRlbHkgaGVscGZ1bCA6
+KQ0KDQpCciwNCglNYXR0aQ0K
