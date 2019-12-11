@@ -2,34 +2,39 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF82C2D0CC
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 19:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F1BDC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 20:28:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE08521556
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 19:47:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AF292173E
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 20:28:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbfLKTqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 14:46:39 -0500
-Received: from mga06.intel.com ([134.134.136.31]:17648 "EHLO mga06.intel.com"
+        id S1726463AbfLKU23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 15:28:29 -0500
+Received: from mga11.intel.com ([192.55.52.93]:60169 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728005AbfLKTqj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 14:46:39 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
+        id S1726242AbfLKU23 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Dec 2019 15:28:29 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 11:46:38 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 12:28:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,303,1571727600"; 
-   d="scan'208";a="216033844"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO ubuntu.jf.intel.com) ([10.7.153.143])
-  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2019 11:46:38 -0800
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+   d="scan'208";a="245423821"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Dec 2019 12:28:20 -0800
+Received: from andy by smile with local (Exim 4.93-RC7)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1if8ao-0005om-8s; Wed, 11 Dec 2019 22:28:18 +0200
+Date:   Wed, 11 Dec 2019 22:28:18 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Lee Jones <lee.jones@linaro.org>,
         Jean Delvare <jdelvare@suse.com>,
@@ -61,145 +66,98 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Juergen Gross <jgross@suse.com>,
         Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
-Date:   Wed, 11 Dec 2019 11:46:17 -0800
-Message-Id: <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+        openbmc@lists.ozlabs.org, Robin Murphy <robin.murphy@arm.com>,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v11 06/14] peci: Add Aspeed PECI adapter driver
+Message-ID: <20191211202818.GD32742@smile.fi.intel.com>
 References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+ <20191211194624.2872-7-jae.hyun.yoo@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191211194624.2872-7-jae.hyun.yoo@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tomer Maimon <tmaimon77@gmail.com>
+On Wed, Dec 11, 2019 at 11:46:16AM -0800, Jae Hyun Yoo wrote:
+> This commit adds Aspeed PECI adapter driver for Aspeed
+> AST24xx/25xx/26xx SoCs.
 
-Added device tree binding documentation for Nuvoton BMC
-NPCM Platform Environment Control Interface(PECI).
+...
 
-Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
-Changes since v10:
-- Newly added in v11.
+> +#define   ASPEED_PECI_CMD_IDLE_MASK		(ASPEED_PECI_CMD_STS_MASK | \
+> +						 ASPEED_PECI_CMD_PIN_MON)
 
- .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
- 1 file changed, 102 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
+Better looking when the value completely occupies second line without touching
+the first.
 
-diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
-new file mode 100644
-index 000000000000..bcd5626e68e7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
-@@ -0,0 +1,102 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Nuvoton NPCM PECI Bus Device Tree Bindings
-+
-+maintainers:
-+  - Tomer Maimon <tmaimon77@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    # Required to define a client address.
-+    const: 1
-+
-+  "#size-cells":
-+    # Required to define a client address.
-+    const: 0
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    # PECI reference clock.
-+    maxItems: 1
-+
-+  cmd-timeout-ms:
-+    # Command timeout in units of ms.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 1
-+        maximum: 60000
-+        default: 1000
-+
-+  pull-down:
-+    description: |
-+      Defines the PECI I/O internal pull down operation.
-+        0: pull down always enable
-+        1: pull down only during transactions.
-+        2: pull down always disable.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 0
-+        maximum: 2
-+        default: 0
-+
-+  host-neg-bit-rate:
-+    description: |
-+      Define host negotiation bit rate divider.
-+      the host negotiation bit rate calculate with formula:
-+      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - minimum: 7
-+        maximum: 31
-+        default: 15
-+
-+  high-volt-range:
-+    description: |
-+      Adapts PECI I/O interface to voltage range.
-+        0: PECI I/O interface voltage range of 0.8-1.06V (default)
-+        1: PECI I/O interface voltage range of 0.95-1.26V
-+    type: boolean
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+  - interrupts
-+  - clocks
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
-+    peci: bus@100000 {
-+        compatible = "simple-bus";
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges = <0x0 0x100000 0x200>;
-+
-+        peci0: peci-bus@0 {
-+            compatible = "nuvoton,npcm750-peci";
-+            reg = <0x0 0x200>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&clk NPCM7XX_CLK_APB3>;
-+            cmd-timeout-ms = <1000>;
-+            pull-down = <0>;
-+            host-neg-bit-rate = <15>;
-+        };
-+    };
-+...
+...
+
+> +static int aspeed_peci_check_idle(struct aspeed_peci *priv)
+> +{
+> +	ulong timeout = jiffies + usecs_to_jiffies(ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
+> +	u32 cmd_sts;
+
+Like in the previous patch this one has hard to read timeout loops with inefficient code.
+
+> +	for (;;) {
+> +		cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
+> +		if (!(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK))
+> +			break;
+
+> +		if (time_after(jiffies, timeout)) {
+
+This is actually main exit condition (vs. infinite loop).
+
+> +			cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
+
+This make no sense. If you would like to have one more iteration, just spell it
+explicitly.
+
+> +			break;
+> +		}
+
+> +		usleep_range((ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC >> 2) + 1,
+> +			     ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC);
+> +	}
+> +
+
+> +	return !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK) ? 0 : -ETIMEDOUT;
+
+Ditto.
+
+> +}
+
+Now look at the other variant:
+
+	do {
+		...do something...
+		if (success)
+			return 0;
+		usleep(...);
+	} while (time_before(...));
+
+	return -ETIMEDOUT;
+
+* Easy
+* less LOCs
+* guaranteed always to be at least one iteration
+* has explicitly spelled exit condition
+
+BUT!
+
+In this very case you may do even better if you read iopoll.h, i.e
+readl_poll_timeout() has this functionality embedded in the macro.
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
