@@ -2,135 +2,195 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DEEC43603
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56212C2D0C6
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:25:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 129B92173E
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:05:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B9C622527
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:25:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="n8ng2gW+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbfLKVFx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 16:05:53 -0500
-Received: from ms.lwn.net ([45.79.88.28]:58294 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726141AbfLKVFx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 16:05:53 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 603E97DF;
-        Wed, 11 Dec 2019 21:05:52 +0000 (UTC)
-Date:   Wed, 11 Dec 2019 14:05:51 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, y2038@lists.linaro.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kent Overstreet <kent.overstreet@gmail.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 24/24] Documentation: document ioctl interfaces better
-Message-ID: <20191211140551.00520269@lwn.net>
-In-Reply-To: <20191211204306.1207817-25-arnd@arndb.de>
-References: <20191211204306.1207817-1-arnd@arndb.de>
-        <20191211204306.1207817-25-arnd@arndb.de>
-Organization: LWN.net
+        id S1726411AbfLKVZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 16:25:36 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1456 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726313AbfLKVZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 16:25:36 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df15eb80000>; Wed, 11 Dec 2019 13:25:12 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 11 Dec 2019 13:25:34 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 11 Dec 2019 13:25:34 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
+ 2019 21:25:34 +0000
+Subject: Re: [PATCH v9 10/25] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>
+References: <20191211025318.457113-1-jhubbard@nvidia.com>
+ <20191211025318.457113-11-jhubbard@nvidia.com>
+ <20191211135737.581add2f@lwn.net>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <c8930e77-9c99-2d3d-743d-9d58176ea690@nvidia.com>
+Date:   Wed, 11 Dec 2019 13:25:33 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191211135737.581add2f@lwn.net>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576099513; bh=h8WoxBOtUL7d4aBHwikvS71dFoLle6Q1qJcgfYlGzoI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=n8ng2gW+8yccOTJ0sb0qKZBSBkMzrO2w+mX1jwAwhVYYv3FE21MXjsfMjjhApcnib
+         wo8d+ZRlDZwi9+66AYkoZtFFMIJupZ7au9saOmm/kNh3KbsRApo1SSaYZzqpFUg9dv
+         APDY2cvczFMX0P05ANDG9Wpe8w2DHHN7/JdQsO1AuudRaAw4keF3jV1uyq3uA82xUI
+         ieCnDqXdxIHT69mdMVDE/JA7qgs+lLHW/JROAhLDlkZchTV8THtwKre9xUIr3vtdDd
+         8O/vqZHRFo4GrCktOUJaI0JiNxox7/Ns2xEUIaiCnKWdDSbo4DOz0JmZdD1qJCvncm
+         kDdssHEUgirjg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 Dec 2019 21:42:58 +0100
-Arnd Bergmann <arnd@arndb.de> wrote:
-
-> Documentation/process/botching-up-ioctls.rst was orignally
-> written as a blog post for DRM driver writers, so it it misses
-> some points while going into a lot of detail on others.
+On 12/11/19 12:57 PM, Jonathan Corbet wrote:
+> On Tue, 10 Dec 2019 18:53:03 -0800
+> John Hubbard <jhubbard@nvidia.com> wrote:
 > 
-> Try to provide a replacement that addresses typical issues
-> across a wider range of subsystems, and follows the style of
-> the core-api documentation better.
+>> Introduce pin_user_pages*() variations of get_user_pages*() calls,
+>> and also pin_longterm_pages*() variations.
 > 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Just a couple of nits on the documentation patch
+> 
+>> +++ b/Documentation/core-api/pin_user_pages.rst
+>> @@ -0,0 +1,232 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +====================================================
+>> +pin_user_pages() and related calls
+>> +====================================================
+>> +
+>> +.. contents:: :local:
+>> +
+>> +Overview
+>> +========
+>> +
+>> +This document describes the following functions: ::
+>> +
+>> + pin_user_pages
+>> + pin_user_pages_fast
+>> + pin_user_pages_remote
+> 
+> You could just say "the following functions::" and get the result you're
+> after with a slightly less alien plain-text reading experience.
 
-Thanks for improving the docs!  I have a few nits outside of the content
-itself.
+I see. That works nicely: same result with fewer :'s. 
 
->  Documentation/core-api/index.rst |   1 +
->  Documentation/core-api/ioctl.rst | 250 +++++++++++++++++++++++++++++++
->  2 files changed, 251 insertions(+)
->  create mode 100644 Documentation/core-api/ioctl.rst
+> 
+> Of course, you could also just say "This document describes
+> pin_user_pages(), pin_user_pages_fast(), and pin_user_pages_remote()." But
+> that's a matter of personal taste, I guess.  Using the function() notation
+> will cause the docs system to automatically link to the kerneldoc info,
+> though.  
 
-So you left the old document in place; was that intentional?
+OK. I did try the single-sentence approach just now, but to me the one-per-line
+seems to make both the text and the generated HTML slightly easier to look at. 
+Of course, like you say, different people will have different preferences. So 
+in the end I've combined the tips, like this:
 
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index ab0eae1c153a..3f28b2f668be 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -39,6 +39,7 @@ Core utilities
->     ../RCU/index
->     gcc-plugins
->     symbol-namespaces
-> +   ioctl
->  
->  
->  Interfaces for kernel debugging
-> diff --git a/Documentation/core-api/ioctl.rst b/Documentation/core-api/ioctl.rst
-> new file mode 100644
-> index 000000000000..cb2c86ae63e7
-> --- /dev/null
-> +++ b/Documentation/core-api/ioctl.rst
-> @@ -0,0 +1,250 @@
-> +======================
-> +ioctl based interfaces
-> +======================
-> +
-> +:c:func:`ioctl` is the most common way for applications to interface
++Overview
++========
++
++This document describes the following functions::
++
++ pin_user_pages()
++ pin_user_pages_fast()
++ pin_user_pages_remote()
 
-Please don't use :c:func: anymore.  If you just say "ioctl()" the right
-thing will happen (which is nothing here, since there isn't anything that
-makes sense to link to in the internal kernel context).
 
-We need a checkpatch rule for :c:func: I guess.
+> 
+>> +Basic description of FOLL_PIN
+>> +=============================
+>> +
+>> +FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
+>> +("gup") family of functions. FOLL_PIN has significant interactions and
+>> +interdependencies with FOLL_LONGTERM, so both are covered here.
+>> +
+>> +FOLL_PIN is internal to gup, meaning that it should not appear at the gup call
+>> +sites. This allows the associated wrapper functions  (pin_user_pages*() and
+>> +others) to set the correct combination of these flags, and to check for problems
+>> +as well.
+>> +
+>> +FOLL_LONGTERM, on the other hand, *is* allowed to be set at the gup call sites.
+>> +This is in order to avoid creating a large number of wrapper functions to cover
+>> +all combinations of get*(), pin*(), FOLL_LONGTERM, and more. Also, the
+>> +pin_user_pages*() APIs are clearly distinct from the get_user_pages*() APIs, so
+>> +that's a natural dividing line, and a good point to make separate wrapper calls.
+>> +In other words, use pin_user_pages*() for DMA-pinned pages, and
+>> +get_user_pages*() for other cases. There are four cases described later on in
+>> +this document, to further clarify that concept.
+>> +
+>> +FOLL_PIN and FOLL_GET are mutually exclusive for a given gup call. However,
+>> +multiple threads and call sites are free to pin the same struct pages, via both
+>> +FOLL_PIN and FOLL_GET. It's just the call site that needs to choose one or the
+>> +other, not the struct page(s).
+>> +
+>> +The FOLL_PIN implementation is nearly the same as FOLL_GET, except that FOLL_PIN
+>> +uses a different reference counting technique.
+>> +
+>> +FOLL_PIN is a prerequisite to FOLL_LONGTGERM. Another way of saying that is,
+> 
+> FOLL_LONGTERM typoed there.
+> 
 
-Similarly, later on you have:
+Good catch. Fixed.
 
-> +Timeout values and timestamps should ideally use CLOCK_MONOTONIC time,
-> +as returned by ``ktime_get_ns()`` or ``ktime_get_ts64()``.  Unlike
-> +CLOCK_REALTIME, this makes the timestamps immune from jumping backwards
-> +or forwards due to leap second adjustments and clock_settime() calls.
+thanks,
+-- 
+John Hubbard
+NVIDIA
 
-Making those functions ``literal`` will defeat the automatic
-cross-referencing.  Better to just say ktime_get_ns() without quotes.
 
-[...]
-
-> +* On the x86-32 (i386) architecture, the alignment of 64-bit variables
-> +  is only 32 bit, but they are naturally aligned on most other
-> +  architectures including x86-64. This means a structure like
-> +
-> +  ::
-
-You don't need the extra lines here; just say "...a structure like::"
-
-> +    struct foo {
-> +        __u32 a;
-> +        __u64 b;
-> +        __u32 c;
-> +    };
-> +
-
-Thanks,
-
-jon
