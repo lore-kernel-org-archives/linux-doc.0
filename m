@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0262CC2D0C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF82C2D0CC
 	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 19:47:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D327E22B48
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 19:47:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE08521556
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 19:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbfLKTqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 14:46:43 -0500
-Received: from mga06.intel.com ([134.134.136.31]:17658 "EHLO mga06.intel.com"
+        id S1728176AbfLKTqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 14:46:39 -0500
+Received: from mga06.intel.com ([134.134.136.31]:17648 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728730AbfLKTqn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 14:46:43 -0500
+        id S1728005AbfLKTqj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Dec 2019 14:46:39 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 11:46:42 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 11:46:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,303,1571727600"; 
-   d="scan'208";a="216033873"
+   d="scan'208";a="216033844"
 Received: from yoojae-mobl1.amr.corp.intel.com (HELO ubuntu.jf.intel.com) ([10.7.153.143])
-  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2019 11:46:42 -0800
+  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2019 11:46:38 -0800
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -65,13 +65,10 @@ To:     Rob Herring <robh+dt@kernel.org>,
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         openbmc@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: [PATCH v11 10/14] dt-bindings: mfd: Add Intel PECI client bindings document
-Date:   Wed, 11 Dec 2019 11:46:20 -0800
-Message-Id: <20191211194624.2872-11-jae.hyun.yoo@linux.intel.com>
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
+Date:   Wed, 11 Dec 2019 11:46:17 -0800
+Message-Id: <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
 References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
@@ -80,96 +77,126 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds Intel PECI client bindings document.
+From: Tomer Maimon <tmaimon77@gmail.com>
 
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: James Feist <james.feist@linux.intel.com>
-Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
+Added device tree binding documentation for Nuvoton BMC
+NPCM Platform Environment Control Interface(PECI).
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
 Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 ---
 Changes since v10:
-- Changed documents format to DT schema format so I dropped all review tags.
-  Please review it again.
+- Newly added in v11.
 
- .../bindings/mfd/intel,peci-client.yaml       | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/intel,peci-client.yaml
+ .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
+ 1 file changed, 102 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
 
-diff --git a/Documentation/devicetree/bindings/mfd/intel,peci-client.yaml b/Documentation/devicetree/bindings/mfd/intel,peci-client.yaml
+diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
 new file mode 100644
-index 000000000000..7baddce0a92c
+index 000000000000..bcd5626e68e7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/intel,peci-client.yaml
-@@ -0,0 +1,67 @@
++++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
+@@ -0,0 +1,102 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/mfd/intel,peci-client.yaml#
++$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Intel PECI Client Device Tree Bindings
++title: Nuvoton NPCM PECI Bus Device Tree Bindings
 +
 +maintainers:
-+  - Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+
-+description: |
-+  PECI (Platform Environment Control Interface) is a one-wire bus interface
-+  that provides a communication channel from PECI clients in Intel processors
-+  and chipset components to external monitoring or control devices. PECI is
-+  designed to support the following sideband functions:
-+  - Processor and DRAM thermal management
-+  - Platform Manageability
-+  - Processor Interface Tuning and Diagnostics
-+  - Failure Analysis
++  - Tomer Maimon <tmaimon77@gmail.com>
 +
 +properties:
 +  compatible:
-+    const: intel,peci-client
++    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
 +
 +  reg:
-+    description: |
-+      Address of a client CPU. According to the PECI specification, client
-+      addresses start from 0x30.
 +    maxItems: 1
++
++  "#address-cells":
++    # Required to define a client address.
++    const: 1
++
++  "#size-cells":
++    # Required to define a client address.
++    const: 0
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    # PECI reference clock.
++    maxItems: 1
++
++  cmd-timeout-ms:
++    # Command timeout in units of ms.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 1
++        maximum: 60000
++        default: 1000
++
++  pull-down:
++    description: |
++      Defines the PECI I/O internal pull down operation.
++        0: pull down always enable
++        1: pull down only during transactions.
++        2: pull down always disable.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++        maximum: 2
++        default: 0
++
++  host-neg-bit-rate:
++    description: |
++      Define host negotiation bit rate divider.
++      the host negotiation bit rate calculate with formula:
++      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 7
++        maximum: 31
++        default: 15
++
++  high-volt-range:
++    description: |
++      Adapts PECI I/O interface to voltage range.
++        0: PECI I/O interface voltage range of 0.8-1.06V (default)
++        1: PECI I/O interface voltage range of 0.95-1.26V
++    type: boolean
 +
 +required:
 +  - compatible
 +  - reg
++  - "#address-cells"
++  - "#size-cells"
++  - interrupts
++  - clocks
 +
 +examples:
 +  - |
 +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/ast2600-clock.h>
-+    peci: bus@1e78b000 {
++    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
++    peci: bus@100000 {
 +        compatible = "simple-bus";
 +        #address-cells = <1>;
 +        #size-cells = <1>;
-+        ranges = <0x0 0x1e78b000 0x60>;
++        ranges = <0x0 0x100000 0x200>;
 +
 +        peci0: peci-bus@0 {
-+            compatible = "aspeed,ast2600-peci";
-+            reg = <0x0 0x100>;
++            compatible = "nuvoton,npcm750-peci";
++            reg = <0x0 0x200>;
 +            #address-cells = <1>;
 +            #size-cells = <0>;
-+            interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
-+            resets = <&syscon ASPEED_RESET_PECI>;
-+            clock-frequency = <24000000>;
-+
-+            peci-client@30 {
-+                compatible = "intel,peci-client";
-+                reg = <0x30>;
-+            };
-+
-+            peci-client@31 {
-+                compatible = "intel,peci-client";
-+                reg = <0x31>;
-+            };
++            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&clk NPCM7XX_CLK_APB3>;
++            cmd-timeout-ms = <1000>;
++            pull-down = <0>;
++            host-neg-bit-rate = <15>;
 +        };
 +    };
 +...
