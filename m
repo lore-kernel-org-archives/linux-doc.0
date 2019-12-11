@@ -2,103 +2,171 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092E3C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 11:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC1EC00454
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 16:09:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BFB34214AF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 11:49:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ACB020836
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 16:09:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbfLKLtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 06:49:05 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:49254 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727477AbfLKLtF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 06:49:05 -0500
-X-AuditID: c0a8fbf4-183ff70000001fa6-9a-5df0d7ae1537
-Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 34.B2.08102.EA7D0FD5; Wed, 11 Dec 2019 12:49:02 +0100 (CET)
-Received: from WILL-MAIL001.REu.RohmEu.com ([fe80::2915:304f:d22c:c6ba]) by
- WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
- 14.03.0439.000; Wed, 11 Dec 2019 12:48:56 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>
-Subject: Re: [PATCH v6 12/15] rtc: bd70528 add BD71828 support
-Thread-Topic: [PATCH v6 12/15] rtc: bd70528 add BD71828 support
-Thread-Index: AQHVsAgtLDOE1gVnBUinFPzstDImkqe0vi8AgAAC8oA=
-Date:   Wed, 11 Dec 2019 11:48:56 +0000
-Message-ID: <830dad816b6d7f375e7c821e8e435931d1cd4afa.camel@fi.rohmeurope.com>
-References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-         <16a2492d4c70a80628dbf1a64a85c5b554c7f6e4.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191211113828.GW1463890@piout.net>
-In-Reply-To: <20191211113828.GW1463890@piout.net>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0A0135D61D3D4542ABB9B3608955BE32@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxjfuff23gN49VBwHOo08266OSOORJOTxTkX5nb5ZzHRZK8QvI47
-        SoS2uS0bbv/gCNWiM+jAzQaq1qIMG6sFHyMwXcOzGpQOCmaiKyKJOis6wfkY7t4Whb/Od77f
-        63zJdyCtr+MMsMBkkxWTVCiwicy5+icnlh0bGMt5u/GHBcTT28+RbdHDHPlvTwdHHtQGGVId
-        GWHJyLltgOxv69GRHeebdKTskI8lf548zpBr4+2ATPRtp0jV0yMUubfzqo4ctHsY0rj/KSB/
-        NNew5OTfxwDpONrHkrqBXorU1HUx5O59B0V6g2tJdTDKkaFgO0vKegdpUt7axpHJ8AmG7Or5
-        aM180evyAvHJ4z1AvDtYzoku73fir84hTvQ3OFjxSriFFc/Wejnx0K4fdeLEhd2MOHrQx4id
-        g6cp8SfXI0r07WwDYv3Rh5z4j3/BOvR50qpNku3r9QX5puWrNyYZw6eyLMN0yeVLIaoU9NEV
-        IAFitAKHIj9zFSAR6lE/wK7AMzZ+6QK4vO+6ikDIolW44jKnCVJRFnZdtDMah0a/JeEbVQdi
-        TiloNf634fYU6T0cqqli4vU7+N54S4zDoEXYPzAc8+TRx7ijZyr4PMB3fLcpjZOAMnHpmJ/V
-        aoDmY0dpNNanURr2jz7UxV+NsKfl4tQEc/HN65NTfQG3Poowmj+NlmBf8/K4dA3eXjPMxeuF
-        uGpHJFbzKBl37xthKsHLzhkJzmm1c4baOUPtnKE+AHQNABdJBYX5kk3OzFDk4gzFbCxSjy/N
-        RX4QX7sHZ8CzQHYAUBAEQDqkhLk83T2Wo5+9yZy3xShZjblKcaFsDQAMaSGV77RHc/R8nrTl
-        W1kxP4fmQUZI49+I7M7RIy1rsyxbZOU5+gqEAua5ftU0WZHz5ZKvCgpt0zAFEzTzREOqVTbl
-        yYpUbDPmauuRa1X3Q4NmqbmWsCrnrRapSO3GpUGwFFberHXTsK22zk3rGZPZJBvSeLuWhDSq
-        sdj0IugWSINASOHdmtEs9e+98LmlRlBqhCNPG81qk6YhQylo8Fa+u6G1uvnS1tnu9O55uGRF
-        lhC6L7c8HvZcG+0SGqO/eyLuiGWyiZQ3dW6YsL/efuRKwgdnK7t/Wfm9dOGzJVdXfug3LD3z
-        ycDE0J2y9GV0fcberW9mfTMJx19ljKHjn4b3/WXI/uKlU4eT39+4+DXY5ECG7M1z8N4bGYtS
-        sGMtLTBWo5T5Fq1Ypf8B6qHyojgEAAA=
+        id S2387485AbfLKQJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 11:09:35 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17206 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388961AbfLKQJd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 11:09:33 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xBBG8LlK141416
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 11:09:31 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wtf8j5107-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 11:09:31 -0500
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sourabhjain@linux.ibm.com>;
+        Wed, 11 Dec 2019 16:09:29 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 11 Dec 2019 16:09:26 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xBBG9O5454853638
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 11 Dec 2019 16:09:24 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7F21FA405B;
+        Wed, 11 Dec 2019 16:09:24 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 30AD8A4054;
+        Wed, 11 Dec 2019 16:09:22 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.74.172])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 11 Dec 2019 16:09:21 +0000 (GMT)
+From:   Sourabh Jain <sourabhjain@linux.ibm.com>
+To:     mpe@ellerman.id.au
+Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
+        linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org,
+        Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: [PATCH v6 2/6] sysfs: wrap __compat_only_sysfs_link_entry_to_kobj function to change the symlink name
+Date:   Wed, 11 Dec 2019 21:39:06 +0530
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20191211160910.21656-1-sourabhjain@linux.ibm.com>
+References: <20191211160910.21656-1-sourabhjain@linux.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 19121116-4275-0000-0000-0000038E019D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121116-4276-0000-0000-000038A1B82A
+Message-Id: <20191211160910.21656-3-sourabhjain@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-11_04:2019-12-11,2019-12-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=1 bulkscore=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0
+ mlxlogscore=999 impostorscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912110136
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGVsbG8gQWxleGFuZHJlLA0KDQpPbiBXZWQsIDIwMTktMTItMTEgYXQgMTI6MzggKzAxMDAsIEFs
-ZXhhbmRyZSBCZWxsb25pIHdyb3RlOg0KPiBIaSwNCj4gDQo+IEkganVzdCByZWFsaXNlZCB0aGUg
-c3ViamVjdCBpcyBtaXNzaW5nIGEgY29sb24sIGl0IHNob3VsZCBiZToNCj4gDQo+IHJ0YzogYmQ3
-MDUyODogYWRkIEJENzE4Mjggc3VwcG9ydA0KDQpSaWdodC4gVGhhbmtzIGZvciBwb2ludGluZyBp
-dCBvdXQgOikNCg0KPiBQbGVhc2UgZml4IGl0IGluIGNhc2UgeW91IGV2ZXIgaGF2ZSB0byByZXNl
-bmQgZm9yIGFub3RoZXIgcmVhc29uLg0KDQpXaWxsIGRvIDopDQoNCkJyLA0KCU1hdHRpIFZhaXR0
-aW5lbg0KDQo=
+The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
+kobject but doesn't provide an option to change the symlink file name.
+
+This patch adds a wrapper function compat_only_sysfs_link_entry_to_kobj
+that extends the __compat_only_sysfs_link_entry_to_kobj functionality
+which allows function caller to customize the symlink name.
+
+Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+---
+ fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
+ include/linux/sysfs.h | 12 ++++++++++++
+ 2 files changed, 37 insertions(+), 3 deletions(-)
+
+diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+index d41c21fef138..0993645f0b59 100644
+--- a/fs/sysfs/group.c
++++ b/fs/sysfs/group.c
+@@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
+ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+ 				      struct kobject *target_kobj,
+ 				      const char *target_name)
++{
++	return compat_only_sysfs_link_entry_to_kobj(kobj, target_kobj,
++						target_name, NULL);
++}
++EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
++
++/**
++ * compat_only_sysfs_link_entry_to_kobj - add a symlink to a kobject pointing
++ * to a group or an attribute
++ * @kobj:		The kobject containing the group.
++ * @target_kobj:	The target kobject.
++ * @target_name:	The name of the target group or attribute.
++ * @symlink_name:	The name of the symlink file (target_name will be
++ *			considered if symlink_name is NULL).
++ */
++int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
++					 struct kobject *target_kobj,
++					 const char *target_name,
++					 const char *symlink_name)
+ {
+ 	struct kernfs_node *target;
+ 	struct kernfs_node *entry;
+@@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+ 		return -ENOENT;
+ 	}
+ 
+-	link = kernfs_create_link(kobj->sd, target_name, entry);
++	if (!symlink_name)
++		symlink_name = target_name;
++
++	link = kernfs_create_link(kobj->sd, symlink_name, entry);
+ 	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
+-		sysfs_warn_dup(kobj->sd, target_name);
++		sysfs_warn_dup(kobj->sd, symlink_name);
+ 
+ 	kernfs_put(entry);
+ 	kernfs_put(target);
+ 	return PTR_ERR_OR_ZERO(link);
+ }
+-EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
++EXPORT_SYMBOL_GPL(compat_only_sysfs_link_entry_to_kobj);
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index 5420817ed317..15b195a4529d 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
+ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+ 				      struct kobject *target_kobj,
+ 				      const char *target_name);
++int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
++					 struct kobject *target_kobj,
++					 const char *target_name,
++					 const char *symlink_name);
+ 
+ void sysfs_notify(struct kobject *kobj, const char *dir, const char *attr);
+ 
+@@ -508,6 +512,14 @@ static inline int __compat_only_sysfs_link_entry_to_kobj(
+ 	return 0;
+ }
+ 
++static int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
++						struct kobject *target_kobj,
++						const char *target_name,
++						const char *symlink_name)
++{
++	return 0;
++}
++
+ static inline void sysfs_notify(struct kobject *kobj, const char *dir,
+ 				const char *attr)
+ {
+-- 
+2.17.2
+
