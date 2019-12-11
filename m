@@ -2,195 +2,328 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56212C2D0C6
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9791C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 23:10:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B9C622527
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 21:25:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7D5B2073D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 23:10:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="n8ng2gW+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t3anmmEp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbfLKVZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 16:25:36 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1456 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbfLKVZg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 16:25:36 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df15eb80000>; Wed, 11 Dec 2019 13:25:12 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 11 Dec 2019 13:25:34 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 11 Dec 2019 13:25:34 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
- 2019 21:25:34 +0000
-Subject: Re: [PATCH v9 10/25] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-References: <20191211025318.457113-1-jhubbard@nvidia.com>
- <20191211025318.457113-11-jhubbard@nvidia.com>
- <20191211135737.581add2f@lwn.net>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <c8930e77-9c99-2d3d-743d-9d58176ea690@nvidia.com>
-Date:   Wed, 11 Dec 2019 13:25:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <20191211135737.581add2f@lwn.net>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576099513; bh=h8WoxBOtUL7d4aBHwikvS71dFoLle6Q1qJcgfYlGzoI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=n8ng2gW+8yccOTJ0sb0qKZBSBkMzrO2w+mX1jwAwhVYYv3FE21MXjsfMjjhApcnib
-         wo8d+ZRlDZwi9+66AYkoZtFFMIJupZ7au9saOmm/kNh3KbsRApo1SSaYZzqpFUg9dv
-         APDY2cvczFMX0P05ANDG9Wpe8w2DHHN7/JdQsO1AuudRaAw4keF3jV1uyq3uA82xUI
-         ieCnDqXdxIHT69mdMVDE/JA7qgs+lLHW/JROAhLDlkZchTV8THtwKre9xUIr3vtdDd
-         8O/vqZHRFo4GrCktOUJaI0JiNxox7/Ns2xEUIaiCnKWdDSbo4DOz0JmZdD1qJCvncm
-         kDdssHEUgirjg==
+        id S1726959AbfLKXKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 18:10:10 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55112 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726787AbfLKXKK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 18:10:10 -0500
+Received: by mail-wm1-f66.google.com with SMTP id b11so149444wmj.4
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 15:10:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=MMPaX6bYjskKoD2dUn18sC+qrXYTRoDlLYey+OLqKes=;
+        b=t3anmmEpr0K+MO/PuELJZ58/oCqCYcoGuD1+IfiHAUkwBGlBKI0HINaTwZEyLbeYZE
+         k7BKOYF2ATqUTwbTgk9JMTMWYwKQYjCGodiAPzYIze02i25M/+4nmM7I9YWTEt/gGdF+
+         5bZRebyr+twOyNCT+jtBy8jWwRHlhkxoTNuWq8wc3zzm1lKEKyDJgcddUPo7oGuO8//Q
+         +rHLtAV2Gra1w5Mwx2TIjz32NgekYWFLPCOTnRagFU9RzIl5+9QaxhPCQ54T45LnPmcn
+         gFnv+/xzoRO4vN1XZBlVMy6dlhI6a+EKN7W0DOSqbIhBspvlrSUB9xDm2nmZIAHMwFAt
+         rnmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MMPaX6bYjskKoD2dUn18sC+qrXYTRoDlLYey+OLqKes=;
+        b=h1+2n+S2N0B/pAswgJ7Dys3Qf183P6xdQ+bDUyn1xg3uobUMqJqi9DUBiz+7Cfq+8+
+         Bbo22KVrmAYTPZymXzatAENwPaoP4lIIGRtjj+k5qJT2dyYbIx025bR1si2x2ZGaT2qA
+         vsSZlTqXwKGG0MMMgXfWjd6n8yoz+NhuMKhA4pcpWviycMcOLaYulinr0VzmEEeC85LJ
+         r9YrcQeRLVH4nMyfuP/XYGIHjeU3hvcF/1u3+0zRvfILi7SrdaH2iNrV7EFopUCuLNcm
+         bHGuBc2Gyqu1BPpU7Fji3VwBANQo5L48EMLl01uR4dJXswFLr+ZZCVmPdXcFV2SKPXcX
+         XGKg==
+X-Gm-Message-State: APjAAAUyxxq7MpELgWBztlvrc0LDV/+7aFabj4Y+BbQJPye7LhnRzfKm
+        aw9hyJNzZat8a0iZgZukarB5BA==
+X-Google-Smtp-Source: APXvYqxbU558IHIIJIal3sJm2ouSJi1f6bmcNnmKDSl/OK73TecawkplU4ZG5FrXT14e6XBrUhmBRw==
+X-Received: by 2002:a05:600c:d5:: with SMTP id u21mr2494030wmm.85.1576105806144;
+        Wed, 11 Dec 2019 15:10:06 -0800 (PST)
+Received: from linaro.org ([2a00:23c5:6815:3901:140f:3f8d:647c:49b0])
+        by smtp.gmail.com with ESMTPSA id l2sm3934559wmi.5.2019.12.11.15.10.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2019 15:10:05 -0800 (PST)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
+        robh+dt@kernel.org, liviu.dudau@arm.com, sudeep.holla@arm.com,
+        lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net
+Subject: [PATCH v6 13/15] docs: coresight: Update documentation for CoreSight to cover CTI.
+Date:   Wed, 11 Dec 2019 23:09:59 +0000
+Message-Id: <20191211230959.5577-1-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/11/19 12:57 PM, Jonathan Corbet wrote:
-> On Tue, 10 Dec 2019 18:53:03 -0800
-> John Hubbard <jhubbard@nvidia.com> wrote:
-> 
->> Introduce pin_user_pages*() variations of get_user_pages*() calls,
->> and also pin_longterm_pages*() variations.
-> 
-> Just a couple of nits on the documentation patch
-> 
->> +++ b/Documentation/core-api/pin_user_pages.rst
->> @@ -0,0 +1,232 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +====================================================
->> +pin_user_pages() and related calls
->> +====================================================
->> +
->> +.. contents:: :local:
->> +
->> +Overview
->> +========
->> +
->> +This document describes the following functions: ::
->> +
->> + pin_user_pages
->> + pin_user_pages_fast
->> + pin_user_pages_remote
-> 
-> You could just say "the following functions::" and get the result you're
-> after with a slightly less alien plain-text reading experience.
+Add new document covering CTI / CTM usage in CoreSight.
 
-I see. That works nicely: same result with fewer :'s. 
+Add section in coresight.rst introducing CTI and CTM modules with link
+to new document.
 
-> 
-> Of course, you could also just say "This document describes
-> pin_user_pages(), pin_user_pages_fast(), and pin_user_pages_remote()." But
-> that's a matter of personal taste, I guess.  Using the function() notation
-> will cause the docs system to automatically link to the kerneldoc info,
-> though.  
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+---
+ .../trace/coresight/coresight-ect.rst         | 211 ++++++++++++++++++
+ Documentation/trace/coresight/coresight.rst   |  13 ++
+ 2 files changed, 224 insertions(+)
+ create mode 100644 Documentation/trace/coresight/coresight-ect.rst
 
-OK. I did try the single-sentence approach just now, but to me the one-per-line
-seems to make both the text and the generated HTML slightly easier to look at. 
-Of course, like you say, different people will have different preferences. So 
-in the end I've combined the tips, like this:
-
-+Overview
-+========
+diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
+new file mode 100644
+index 000000000000..3e06588f24fa
+--- /dev/null
++++ b/Documentation/trace/coresight/coresight-ect.rst
+@@ -0,0 +1,211 @@
++=============================================
++CoreSight Embedded Cross Trigger (CTI & CTM).
++=============================================
 +
-+This document describes the following functions::
++    :Author:   Mike Leach <mike.leach@linaro.org>
++    :Date:     November 2019
 +
-+ pin_user_pages()
-+ pin_user_pages_fast()
-+ pin_user_pages_remote()
-
-
-> 
->> +Basic description of FOLL_PIN
->> +=============================
->> +
->> +FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
->> +("gup") family of functions. FOLL_PIN has significant interactions and
->> +interdependencies with FOLL_LONGTERM, so both are covered here.
->> +
->> +FOLL_PIN is internal to gup, meaning that it should not appear at the gup call
->> +sites. This allows the associated wrapper functions  (pin_user_pages*() and
->> +others) to set the correct combination of these flags, and to check for problems
->> +as well.
->> +
->> +FOLL_LONGTERM, on the other hand, *is* allowed to be set at the gup call sites.
->> +This is in order to avoid creating a large number of wrapper functions to cover
->> +all combinations of get*(), pin*(), FOLL_LONGTERM, and more. Also, the
->> +pin_user_pages*() APIs are clearly distinct from the get_user_pages*() APIs, so
->> +that's a natural dividing line, and a good point to make separate wrapper calls.
->> +In other words, use pin_user_pages*() for DMA-pinned pages, and
->> +get_user_pages*() for other cases. There are four cases described later on in
->> +this document, to further clarify that concept.
->> +
->> +FOLL_PIN and FOLL_GET are mutually exclusive for a given gup call. However,
->> +multiple threads and call sites are free to pin the same struct pages, via both
->> +FOLL_PIN and FOLL_GET. It's just the call site that needs to choose one or the
->> +other, not the struct page(s).
->> +
->> +The FOLL_PIN implementation is nearly the same as FOLL_GET, except that FOLL_PIN
->> +uses a different reference counting technique.
->> +
->> +FOLL_PIN is a prerequisite to FOLL_LONGTGERM. Another way of saying that is,
-> 
-> FOLL_LONGTERM typoed there.
-> 
-
-Good catch. Fixed.
-
-thanks,
++Hardware Description
++--------------------
++
++The CoreSight Cross Trigger Interface (CTI) is a hardware device that takes
++individual input and output hardware signals known as triggers to and from
++devices and interconnects them via the Cross Trigger Matrix (CTM) to other
++devices via numbered channels, in order to propagate events between devices.
++
++e.g.::
++
++ 0000000  in_trigs  :::::::
++ 0 C   0----------->:     :             +======>(other CTI channel IO)
++ 0  P  0<-----------:     :             v
++ 0   U 0  out_trigs :     : Channels  *****      :::::::
++ 0000000            : CTI :<=========>*CTM*<====>: CTI :---+
++ #######  in_trigs  :     : (id 0-3)  *****      :::::::   v
++ # ETM #----------->:     :                         ^   #######
++ #     #<-----------:     :                         +---# ETR #
++ ####### out_trigs  :::::::                             #######
++
++The CTI driver enables the programming of the CTI to attach triggers to
++channels. When an input trigger becomes active, the attached channel will
++become active. Any output trigger attached to that channel will also
++become active. The active channel is propagated to other CTIs via the CTM,
++activating connected output triggers there, unless filtered by the CTI
++channel gate.
++
++It is also possible to activate a channel using system software directly
++programming registers in the CTI.
++
++The CTIs are registered by the system to be associated with CPUs and/or other
++CoreSight devices on the trace data path. When these devices are enabled the
++attached CTIs will also be enabled. By default/on power up the CTIs have
++no programmed trigger/channel attachments, so will not affect the system
++until explicitly programmed.
++
++The hardware trigger connections between CTIs and devices is implementation
++defined, unless the CPU/ETM combination is a v8 architecture, in which case
++the connections have an architecturally defined standard layout.
++
++The hardware trigger signals can also be connected to non-CoreSight devices
++(e.g. UART), or be propagated off chip as hardware IO lines.
++
++All the CTI devices are associated with a CTM. On many systems there will be a
++single effective CTM (one CTM, or multiple CTMs all interconnected), but it is
++possible that systems can have nets of CTIs+CTM that are not interconnected by
++a CTM to each other. On these systems a CTM index is declared to associate
++CTI devices that are interconnected via a given CTM.
++
++Sysfs files and directories
++---------------------------
++
++The CTI devices appear on the existing CoreSight bus alongside the other
++CoreSight devices::
++
++    >$ ls /sys/bus/coresight/devices
++     cti_cpu0  cti_cpu2  cti_sys0  etm0  etm2  funnel0  replicator0  tmc_etr0
++     cti_cpu1  cti_cpu3  cti_sys1  etm1  etm3  funnel1  tmc_etf0     tpiu0
++
++The ``cti_cpu<N>`` named CTIs are associated with a CPU, and any ETM used by
++that core. the ``cti_sys<N>`` CTIs are general system infrastructure CTIs that
++can be associated with other CoreSight devices, or other system hardware
++capable of generating or using trigger signals.::
++
++  >$ ls /sys/bus/coresight/devices/etm0/cti_cpu0
++  channels  ctmid  enable  nr_trigger_cons mgmt  power  regs  subsystem
++  triggers0 triggers1  uevent
++
++*Key file items are:-*
++   * ``enable``: enables/disables the CTI.
++   * ``ctmid`` : associated CTM - only relevant if system has multiple CTI+CTM
++     clusters that are not interconnected.
++   * ``nr_trigger_cons`` : total connections - triggers<N> directories.
++
++*Sub-directories:-*
++   * ``triggers<N>``: contains list of triggers for an individual connection.
++   * ``channels``: Contains the channel API - CTI main programming interface.
++   * ``regs``: Gives access to the raw programmable CTI regs.
++   * ``mgmt``: the standard CoreSight management registers.
++
++
++triggers<N> directories
++~~~~~~~~~~~~~~~~~~~~~~~
++
++Individual trigger connection information. This describes trigger signals for
++CoreSight and non-CoreSight connections.
++
++Each triggers directory has a set of parameters describing the triggers for
++the connection.
++
++   * ``name`` : name of connection
++   * ``in_signals`` : input trigger signal indexes used in this connection.
++   * ``in_types`` : functional types for in signals.
++   * ``out_signals`` : output trigger signals for this connection.
++   * ``out_types`` : functional types for out signals.
++
++e.g::
++
++    >$ ls ./cti_cpu0/triggers0/
++    in_signals  in_types  name  out_signals  out_types
++    >$ cat ./cti_cpu0/triggers0/name
++    cpu0
++    >$ cat ./cti_cpu0/triggers0/out_signals
++    0-2
++    >$ cat ./cti_cpu0/triggers0/out_types
++    pe_edbgreq pe_dbgrestart pe_ctiirq
++    >$ cat ./cti_cpu0/triggers0/in_signals
++    0-1
++    >$ cat ./cti_cpu0/triggers0/in_types
++    pe_dbgtrigger pe_pmuirq
++
++If a connection has zero signals in either the 'in' or 'out' triggers then
++those parameters will be omitted.
++
++Channels API Directory
++~~~~~~~~~~~~~~~~~~~~~~
++
++This provides an easy way to attach triggers to channels, without needing
++the multiple register operations that are required if manipulating the
++'regs' sub-dir elements directly.
++
++A number of files provide this API::
++
++   >$ ls ./cti_sys0/channels/
++   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
++   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
++   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
++   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
++
++Most access to these elements take the form::
++
++  echo <chan> [<trigger>] > /<device_path>/<operation>
++
++where the optional <trigger> is only needed for trigXX_attach | detach
++operations.
++
++e.g.::
++
++   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
++   >$ echo 0 > ./cti_sys0/channels/chan_set
++
++Attaches trigout(1) to channel(0), then activates channel(0) generating a
++set state on cti_sys0.trigout(1)
++
++
++*API operations*
++
++   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
++   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
++   * ``chan_set``: Set the channel - the set state will be propagated around
++     the CTM to other connected devices.
++   * ``chan_clear``: Clear the channel.
++   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
++   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
++     (enable) the channel to other devices. This operation takes a channel
++     number. CTI gate is enabled for all channels by default at power up. Read
++     to list the currently enabled channels on the gate.
++   * ``chan_gate_disable``: Write channel number to disable gate for that
++     channel.
++   * ``chan_inuse``: Show the current channels attached to any signal
++   * ``chan_free``: Show channels with no attached signals.
++   * ``chan_xtrig_view``: write a channel number to select a channel to view,
++     read to show the cross triggers programmed for the selected channel.
++   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
++     dangerous output signals to be set.
++   * ``trigout_filtered``: Trigger out signals that are prevented from being
++     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
++     accidental ``EDBGREQ`` signals stopping a core.
++   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
++     Resets device hardware to default state.
++
++
++The example below attaches input trigger index 1 to channel 2, and output
++trigger index 6 to the same channel. It then examines the state of the
++channel / trigger connections using the appropriate sysfs attributes.
++
++The settings mean that if either input trigger 1, or channel 2 go active then
++trigger out 6 will go active. We then enable the CTI, and use the software
++channel control to activate channel 2. We see the active channel on the
++``choutstatus`` register and the active signal on the ``trigoutstatus``
++register. Finally clearing the channel removes this.
++
++e.g.::
++
++   .../cti_sys0/channels# echo 2 1 > trigin_attach
++   .../cti_sys0/channels# echo 2 6 > trigout_attach
++   .../cti_sys0/channels# cat chan_free
++   0-1,3
++   .../cti_sys0/channels# cat chan_inuse
++   2
++   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
++   .../cti_sys0/channels# cat chan_xtrigs_view
++   [2] IN: 1 OUT: 6
++   .../cti_sys0/# echo 1 > enable
++   .../cti_sys0/channels# echo 2 > chan_set
++   .../cti_sys0/channels# cat ../regs/choutstatus
++   0x4
++   .../cti_sys0/channels# cat ../regs/trigoutstatus
++   0x40
++   .../cti_sys0/channels# echo 2 > chan_clear
++   .../cti_sys0/channels# cat ../regs/trigoutstatus
++   0x0
++   .../cti_sys0/channels# cat ../regs/choutstatus
++   0x0
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index a566719f8e7e..108600ee1e12 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -491,8 +491,21 @@ interface provided for that purpose by the generic STM API::
+ 
+ Details on how to use the generic STM API can be found here:- :doc:`../stm` [#second]_.
+ 
++The CTI & CTM Modules
++---------------------
++
++The CTI (Cross Trigger Interface) provides a set of trigger signals between
++individual CTIs and components, and can propagate these between all CTIs via
++channels on the CTM (Cross Trigger Matrix).
++
++A separate documentation file is provided to explain the use of these devices.
++(:doc:`coresight-ect`) [#fourth]_.
++
++
+ .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+ 
+ .. [#second] Documentation/trace/stm.rst
+ 
+ .. [#third] https://github.com/Linaro/perf-opencsd
++
++.. [#fourth] Documentation/trace/coresight/coresight-ect.rst
 -- 
-John Hubbard
-NVIDIA
-
+2.17.1
 
