@@ -2,221 +2,330 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AECC2D0C4
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 05:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 415C5C2D0C7
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 09:34:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CBCC214AF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 05:57:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oMpWaVYh"
+	by mail.kernel.org (Postfix) with ESMTP id 0D7D720637
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 09:34:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbfLKF52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 00:57:28 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:33679 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfLKF52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 00:57:28 -0500
-Received: by mail-pj1-f67.google.com with SMTP id r67so8492596pjb.0;
-        Tue, 10 Dec 2019 21:57:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=V1z4CnyL3vaFU5di2fW8JaESd5vrN6gXo8REKlU0IHE=;
-        b=oMpWaVYhbS6/S2DwY4jMKB/K77Bxlv7L5muzU6qOD17UaI96otfmXj30fJMHI9F1AM
-         bGkhaW7Cza6EclGAR4CQhRASPCpegLrjD/lTTCBiq840f6Gi3ryj3b9UxyGv/897Vnqm
-         8BD/4EpT4zWqX+fT5lDJTXqn/mOyxWOI1VjZno2O75V7qk9rFyhE6bdxWaszpj0Iwd1v
-         cZZ2LmlirJfqSRrHUe39tqhJi713+oK/2WxOHsdwWEmqPo8Dxiwb3n0tuYFrcq0OwJjw
-         BHV3Kkhs6zM8PMcurIOjDdMsFX8dtwHhUA7j7BRBAxVn6hi5APZHpMCRO6miTbNWUGIP
-         ajxQ==
+        id S1728030AbfLKJdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 04:33:55 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39123 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727493AbfLKJdz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 04:33:55 -0500
+Received: by mail-lj1-f194.google.com with SMTP id e10so23238760ljj.6;
+        Wed, 11 Dec 2019 01:33:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=V1z4CnyL3vaFU5di2fW8JaESd5vrN6gXo8REKlU0IHE=;
-        b=rZ0eAP4O5hJ2ELb02/Xjet1vO+tz1yD/hSXwMoT2nAxe+0xfew9zIMwTVL58NhVDdF
-         jtITtMCMfvC8A1DQX2RV2H8cyRNvjHAIbAbFPIFYa+xKUev5saZAp7+QsSJJm9KlnV01
-         1F9kERuBhJjqTixeOrs9L7kffYot+/bP+YFwqtxPd8EdADLe2jPNS+y4K/DA2HOi2aG+
-         2v0eoZMM9nA/nKtG2Iid0CUkReLM4kn1Uzoi8prZ0m0hU7zNoMYIRkOFnWUhxIyQDbf7
-         vC03Z6D7HdJ+UiSVfrJhPshJG7cLYE8GZncJ/xczWm/TPbLVg7Ujla0hFkHK2UK0aRdX
-         hLzg==
-X-Gm-Message-State: APjAAAVIgqVxHSlgFfO/q2/FkgaEB34B/Nujt3htd62DT0I3obJ0GryL
-        qQFam7J327JLqhY7jJcwvj0DhmSN
-X-Google-Smtp-Source: APXvYqy0xa3OZvG6JsEDVhji1MGlsG5ZsNmSjOva8TPWeHXDmIGQKnHq3z+biQHL71vKoS3YHBEYFg==
-X-Received: by 2002:a17:902:a404:: with SMTP id p4mr1463174plq.266.1576043846703;
-        Tue, 10 Dec 2019 21:57:26 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s7sm912914pjk.22.2019.12.10.21.57.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2019 21:57:25 -0800 (PST)
-Subject: Re: [PATCH 0/1] Summary: hwmon driver for temperature sensors on SATA
- drives
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org
-References: <20191209052119.32072-1-linux@roeck-us.net>
- <yq15zinmrmj.fsf@oracle.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <67b75394-801d-ce91-55f2-f0c0db9cfffc@roeck-us.net>
-Date:   Tue, 10 Dec 2019 21:57:24 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=TlYw4x/tHwVI0dRLY0QzV+kpny0bo02jjIsi/oQ03gU=;
+        b=nCck7R90EpD9xDsjVpymDmX6/wD1e797gXNP+6zJxkTEfUf/GYcuLXnwc0WIeXbpco
+         YFBTwnTtkzBFeXqu6+7mEfDqTYLOGliW8sK27tWMjgNmlRbjvbWwfxwqr2CDG/uCrG6Q
+         T7Ivb7u7KF9PES4wKfpkNxqapS+hz0WNCuYgMTRtyCo6lBTmEALppQrzlHnBYyBYoNvE
+         ZomeM90Rv+SYwzCQUT9evjfnvfgkOTZ//ktjfLLK4wqZPUSIE2gVCwEoZQTD59tBXWeT
+         45nLbFJPuqeLbpbO7yHaO6dMRN5/kitZmsH12nwXmh58T0AAzPgYv4sr/oGQXBVSZkHZ
+         slBw==
+X-Gm-Message-State: APjAAAWnssG/iL8ZOWBwWGL01wEGeWWeFk8VztjWR99KpZ0KvYURahzn
+        BnkYYu15kQvenhtagRhOda0=
+X-Google-Smtp-Source: APXvYqy+UY0L5JsVLPiSqpWo2g55mt10zvhkCTZu9sH5Ez2g+pG6biqXkIkDCjH/b77xpF4sLo75Ow==
+X-Received: by 2002:a2e:9b05:: with SMTP id u5mr1345153lji.59.1576056830465;
+        Wed, 11 Dec 2019 01:33:50 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id n11sm814317ljg.15.2019.12.11.01.33.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2019 01:33:49 -0800 (PST)
+Date:   Wed, 11 Dec 2019 11:33:42 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org
+Subject: [PATCH v6 00/15] Support ROHM BD71828 PMIC
+Message-ID: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-In-Reply-To: <yq15zinmrmj.fsf@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Martin,
+Patch series introducing support for ROHM BD71828 PMIC
 
-On 12/10/19 8:08 PM, Martin K. Petersen wrote:
-> 
-> Hi Guenter,
-> 
->> The most recent attempt was [1] by Linus Walleij. It went through a total
->> of seven iterations. At the end, it was rejected for a number of reasons;
->> see the provided link for details. This implementation resides in the
->> SCSI core. It originally resided in libata but was moved to SCSI per
->> maintainer request, where it was ultimately rejected.
-> 
-> While I am sure I come across as a curmudgeon, regressions is a major
-> concern for me. That, and making sure we pick the right architecture. I
-> thought we were making good progress in that department when Linus
-> abandoned the effort.
-> 
+ROHM BD71828 is a power management IC containing 7 bucks and 7 LDOs. All
+regulators can be controlled individually via I2C. Bucks 1,2,6 and
+7 can also be assigned to a "regulator group" controlled by run-levels.
+Eg. Run level specific voltages and enable/disable statuses for each of
+these bucks can be set via register interface. The buck run-level group
+assignment (selection if buck is to be controlled individually or via
+run-levels) can be changed at run-time via I2C.
 
-If anything, I am surprised that he did not give up earlier. Personally
-I did not see a path to success after v7 of the patch set was rejected.
+This patch series brings only the basic support for controlling
+regulators individually via I2C.
 
-I also no longer believe that temperature monitoring of SATA drives
-should be implemented within the ATA or SCSI subsystem. I came to the
-conclusion that it is much better suited as separate hardware monitoring
-driver. As separate driver, its instantiation is in full control of
-the user. If it causes trouble (or, as mentioned separately, if it adds
-too much instantiation time, or if it is considered to be too large),
-it can simply be disabled in a given system by blacklisting it (or,
-rather, by not explicitly loading it in the first place). With that,
-there is no real compatibility concern. If and when drives are detected
-which report bad information, such drives can be added to a blacklist
-without impact on the core SCSI or ATA code. Until that happens, not
-loading the driver solves the problem on any affected system.
+In addition to the bucks and LDOs there are:
 
->> The feedback on this approach suggests to use the SCSI Temperature log
->> page [0x0d] as means to access drive temperature information. It is
->> unknown if this is implemented in any real SCSI drive.
-> 
-> Almost every SCSI drive has it.
-> 
-Good to hear.
+- The usual clk gate
+- 4 IO pins (mostly usable as GPO or tied to specific purpose)
+- power button support
+- RTC
+- two LEDs
+- battery charger
+- HALL sensor input
 
->> The feedback also suggests to obtain temperature from ATA drives,
->> convert it into the SCSI temperature log page in libata-scsi, and to
->> use that information in a hardware monitoring driver. The format and
->> method to do this is documented in [3]. This is not currently
->> implemented in the Linux kernel.
-> 
-> Correct, but I have no qualms over exporting the SCSI temperature log
-> page. The devices that export that page are generally well-behaved.
-> 
-Also good to hear. However, for my part, I have no means to test such
-code since I don't have any SCSI drives.
+This patch series adds support to regulators, clk, RTC, GPIOs and LEDs.
 
-> My concerns are wrt. identifying whether SMART data is available for
-> USB/UAS. I am not too worried about ATA and "real" SCSI (ignoring RAID
-> controllers that hide the real drives in various ways).
-> 
+Power-supply driver for charger is not included in this series.
 
-The one USB/UAS connected SATA drive I have (a WD passport) reports
-itself as "WD      ", not as "ATA     ". I would expect other drives
-to do the same. That drive reports (via smartctl) that it supports
-both SCT and SMART data. It doesn't report temperatures through SCT,
-but it does report the drive temperature with SMART attribute 194.
-I did not attempt to add support for this and similar drives since
-I don't know if I can reliably detect it. The potential benefit
-compared to the risk seemed too low (we would be getting into
-possible regression space) for me to try. Such code (effectively
-it boils down to relaxing SATA drive detection) can always be added
-at a later time.
+The series also adds LED DT-node lookup based on node name or given
+property name/value pair in LED core. It also adds generic default-state
+and default-trigger property handling to LED core. Follow-up patches
+simplifying few other LED drivers should follow.
 
-> I am not sure why the SCSI temperature log page parsing would be
-> complex. I will have to go check smartmontools to see what that is all
+In GPIO framework this series adds devm-support for gpio_array getting
+for MFD sub-devices whose GPIO consumer information may be in parent
+device's DT node. And while I was at it I also added few missing GPIO devm
+functions to the documentaton listing.
 
-Not as much the parsing, but detection if the information is there.
+Changelog v6:
+  Rebased on top of v5.5-rc1
+  LED core:
+    - Do new fw-node look-up only if the new match data is given. That
+      way behaviour for existing drivers is not changed
+    - Handle generic LED properties by core only if explisitly requested
+      in init-data. That way behaviour for existing drivers is not changed
+      until they are verified to work.
+  BD71828 LEDs:
+    - Fix module loading by adding "dummy" of_device_id table.
+  DT bindings:
+    All:
+    - Remove regulator run-level properties as run-level support was
+      dropped for now.
+    - Change SPDX to dual lisence
+    LED:
+    - added select: false
+    - replace oneOf + const by enum
+    Regulator:
+    - remove forgotten comments
+    - comment indenting
+    MFD:
+    - remove unnecessary descriptions
+  Regulators:
+    - Dropped patch 12 with run-level controls
+    - Dropped unnecessary ramp_delay_supported() - ram_delay ops were
+      already only filled for DVS bucks.
+  GPIO:
+    - rename internal function.
+  RTC:
+    - Added missing blank line
+  
+Changelog v5:
+  Only LED patch (patch 15) changed, rest as in v4.
+  LED:
+    - Fixed issues reported by Dan Carpenter and kbuild-bot static
+      analysis.
+Changelog v4 (first non RFC):
+  General:
+    - Changed subdevice loading and chip version identification to use
+      platform ID.
+    - License identifiers changed to GPL-2.0-only
+  MFD:
+    - Styling fixes mostly
+  DT-Bindings:
+    - a few more checks as suggested by Rob Herring.
+    - Order of DT patches changed.
+    - me as maintainer
+    - standard units to new properties (microvolts, ohms)
+    - runlevel values in an array
+  LED:
+    - BD71828 driver added (back)
+      - Added DT support
+    - Added LED DT node lookup in led framework when init_data is given
+      with DT node match information.
+    - Added common property parsing for default-state and
+      default-trigger.
+  Regulators:
+    - dropped sysfs interfaces
+    - fixed module unload/reload by binding gpio consumer information to
+      regulator device not to MFD.
+  GPIO:
+    - Added devm_gpiod_get_parent_array
+    - added few missing devm functions to documentation
 
-> about. The spec is as simple as can be.
-> 
+Changelog v3:
+  DT-Bindings:
+    - yamlify
+    - add LED binding doc
+  CLK:
+    - Move clk register definitions from MFD headers to clk driver
+  GPIO:
+    - Add generic direction define and use it.
+  LED:
+    - Drop LED driver from the series (for now).
 
-Possibly. I personally also find it quite vague. It is definitely not
-something I would want to try to implement without ability to see how
-the data actually looks like as reported by a real drive, and without
-ability to test the code.
+Changelog v2: Mainly RTC and GPIO fixes suggested by Alexandre and Bartosz
+  General:
+    -Patch ordering changed to provide dt binding documents right after the
+     MFD core.
+  DT-Bindings for regulators (Patch 3)
+    -Fix typo in PMIC model number
+  RTC (patch 11)
+    -Reverted renaming in order to reduce patch size.
+    -Reworded commit message
+  BD71828 regulator (patch 7)
+    -Add MODULE_ALIAS
+  GPIO (patch 12)
+    -Remove file-name from comment
+    -prefix IN and OUT defines with chip type
+    -improved documentation for the INPUT only pin.
+    -removed empty left-over function
+    -removed unnecessary #ifdef CONFIG_OF_GPIO
+    -removed unnecessary error print
+    -Add MODULE_ALIAS
 
-> Anyway. I think the overall approach wrt. SCT and falling back to
-> well-known SMART fields is reasonably sane and fine for libata. But I
-> don't understand the pushback wrt. using the SCSI temperature log page
-> as a conduit. I think it would be fine if this worked out of the box for
+Patch 1:
+        dt-bindings for regulators on BD71828 PMIC
+Patch 2:
+        dt-bindings for LEDs on BD71828 PMIC
+Patch 3:
+	dt-bindings for BD71828 PMIC
+Patch 4:
+	Convert rohm PMICs with common sub-devices to use platform_
+	device_id to match MFD sub-devices
+Patch 5:
+        BD71828 MFD core.
+Patch 6:
+	Power button support using GPIO keys.
+Patch 7:
+        CLK gate support using existing clk-bd718x7
+Patch 8:
+        Split existing bd718x7 regulator driver to generic ROHM dt
+        parsing portion (used by more than one ROHM drivers) and
+        bd718x8 specific parts
+Patch 9:
+        Basic regulator support (individual control via I2C). This
+        should be pretty standard stuff.
+Patch 10:
+	Add devm_gpiod_get_parent_array
+Patch 11:
+	Add missing managed GPIO array get functions to documentation
+Patch 12:
+        Support BD71828 RTC block using BD70528 RTC driver
+Patch 13:
+        Allow control of GP(I)O pins on BD71828 via GPIO subsystem
+Patch 14:
+	Add LED node lookup and common LED binding parsing support
+	to LED class/core
+Patch 15:
+        Support toggling the LEDs on BD71828.
 
-This is not a pushback per se. It is simply a matter of ability (or lack
-of it) to test any such code.
+This patch series is based on v5.5-rc1
 
-Regarding "conduit", I assume you mean converting SATA/SCT information
-into SCST temperature pages and reporting temperature purely based
-on those. I personally think that this would be the wrong approach:
-It would effectively require code in the ATA core which is not really
-needed there. This would bloat the ATA code with no real advantage.
-In my opinion, available temperature information should be interpreted
-where it is needed, and only there, not in several places. I see that
-as much less risky and error prone than spreading the code to multiple
-places.
+---
 
-> both SCSI and ATA drives.
-> 
-The elegance of my approach is that adding support for reading temperatures
-from SCSI drives (or, for that matter, USB/UAS drives) would be
-straightforward. All one would need to do is to implement the necessary
-detection code as well as a function to actually read the information
-from the drive. This can be done at any time, and, again, it should be
-done by someone with the ability to test the code.
+Matti Vaittinen (15):
+  dt-bindings: regulator: Document ROHM BD71282 regulator bindings
+  dt-bindings: leds: ROHM BD71282 PMIC LED driver
+  dt-bindings: mfd: Document ROHM BD71828 bindings
+  mfd: rohm PMICs - use platform_device_id to match MFD sub-devices
+  mfd: bd71828: Support ROHM BD71828 PMIC - core
+  mfd: input: bd71828: Add power-key support
+  clk: bd718x7: Support ROHM BD71828 clk block
+  regulator: bd718x7: Split driver to common and bd718x7 specific parts
+  regulator: bd71828: Basic support for ROHM bd71828 PMIC regulators
+  gpio: devres: Add devm_gpiod_get_parent_array
+  docs: driver-model: Add missing managed GPIO array get functions
+  rtc: bd70528 add BD71828 support
+  gpio: bd71828: Initial support for ROHM BD71828 PMIC GPIOs
+  leds: Add common LED binding parsing support to LED class/core
+  led: bd71828: Support LED outputs on ROHM BD71828 PMIC
 
-> The elephant in the room remains USB. And coming up with a way we can
-> reliably detect whether it is safe to start poking at the device to
-> discover if SMART is provided. If we eventually want to pursue USB,  > think your heuristic stuff needs to be a library that can be leveraged
-> by both libata and USB. But that doesn't have to be part of the initial
-> effort.
-> 
-> And finally, my concerns wrt. reacting to bad sensors remain. Not too
-> familiar with hwmon, but I would still like any actions based on
-> reported temperatures to be under user control and not the kernel.
-> 
-All sensors can report bad information, and quite often they do.
-This is actually quite normal in any given system. That doesn't mean
-that the available (connected) sensors should be ignored.
+ .../bindings/leds/rohm,bd71828-leds.yaml      |  52 ++
+ .../bindings/mfd/rohm,bd71828-pmic.yaml       | 193 +++++
+ .../regulator/rohm,bd71828-regulator.yaml     | 107 +++
+ .../driver-api/driver-model/devres.rst        |   3 +
+ drivers/clk/Kconfig                           |   6 +-
+ drivers/clk/clk-bd718x7.c                     |  50 +-
+ drivers/gpio/Kconfig                          |  12 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-bd71828.c                   | 159 ++++
+ drivers/gpio/gpiolib-devres.c                 |  65 +-
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/led-class.c                      |  99 ++-
+ drivers/leds/led-core.c                       | 258 +++++-
+ drivers/leds/leds-bd71828.c                   | 118 +++
+ drivers/mfd/Kconfig                           |  15 +
+ drivers/mfd/Makefile                          |   2 +-
+ drivers/mfd/rohm-bd70528.c                    |   3 +-
+ drivers/mfd/rohm-bd71828.c                    | 345 ++++++++
+ drivers/mfd/rohm-bd718x7.c                    |  39 +-
+ drivers/regulator/Kconfig                     |  16 +
+ drivers/regulator/Makefile                    |   2 +
+ drivers/regulator/bd71828-regulator.c         | 812 ++++++++++++++++++
+ drivers/regulator/bd718x7-regulator.c         | 200 ++---
+ drivers/regulator/rohm-regulator.c            |  95 ++
+ drivers/rtc/Kconfig                           |   3 +-
+ drivers/rtc/rtc-bd70528.c                     | 168 +++-
+ include/linux/gpio/consumer.h                 |   5 +
+ include/linux/leds.h                          |  94 +-
+ include/linux/mfd/rohm-bd70528.h              |  19 +-
+ include/linux/mfd/rohm-bd71828.h              | 423 +++++++++
+ include/linux/mfd/rohm-bd718x7.h              |   6 -
+ include/linux/mfd/rohm-generic.h              |  48 +-
+ include/linux/mfd/rohm-shared.h               |  27 +
+ 34 files changed, 3177 insertions(+), 279 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
+ create mode 100644 drivers/gpio/gpio-bd71828.c
+ create mode 100644 drivers/leds/leds-bd71828.c
+ create mode 100644 drivers/mfd/rohm-bd71828.c
+ create mode 100644 drivers/regulator/bd71828-regulator.c
+ create mode 100644 drivers/regulator/rohm-regulator.c
+ create mode 100644 include/linux/mfd/rohm-bd71828.h
+ create mode 100644 include/linux/mfd/rohm-shared.h
 
-Also, when it comes to actions, the one subsystem performing any actions
-in the kernel based on temperature sensor information is the thermal
-subsystem, and that is on purpose implemented in the kernel.
-The hardware monitoring subsystem, on its own, is purely passive
-and only reports sensor information; it does not act on it. Any action
-will either be done by userspace (eg with fancontrol) or by the thermal
-subsystem.
+-- 
+2.21.0
 
-Overall, I understand the desire to also support temperature reporting
-for SCSI and USB/UAS drives. As hardware monitoring maintainer, I'd
-be happy to accept patches implementing that support. However, I don't
-see this as immediately necessary, and I would want to have some
-reassurance that such code is well tested and doesn't cause any
-regressions (especially since concerns about possible regressions were
-mentioned several times in the context of the previous submissions).
 
-Thanks,
-Guenter
+-- 
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =] 
