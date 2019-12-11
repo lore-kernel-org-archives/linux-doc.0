@@ -2,109 +2,113 @@ Return-Path: <SRS0=QhhO=2B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 330A4C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 17:33:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D02C2D0C6
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 17:40:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1469F206C3
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 17:33:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B08E2222C4
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Dec 2019 17:40:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THkd5/sM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729705AbfLKRd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 12:33:29 -0500
-Received: from mga04.intel.com ([192.55.52.120]:57826 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729609AbfLKRd3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 12:33:29 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 09:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,302,1571727600"; 
-   d="scan'208";a="210837617"
-Received: from cmclough-mobl.ger.corp.intel.com (HELO localhost) ([10.251.85.152])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Dec 2019 09:33:23 -0800
-Date:   Wed, 11 Dec 2019 19:33:22 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     "Zhao, Shirley" <shirley.zhao@intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        'Mauro Carvalho Chehab' <mchehab+samsung@kernel.org>,
-        "Zhu, Bing" <bing.zhu@intel.com>,
-        "Chen, Luhai" <luhai.chen@intel.com>
-Subject: Re: One question about trusted key of keyring in Linux kernel.
-Message-ID: <20191211173322.GD4516@linux.intel.com>
-References: <1575260220.4080.17.camel@linux.ibm.com>
- <A888B25CD99C1141B7C254171A953E8E4909D360@shsmsx102.ccr.corp.intel.com>
- <1575267453.4080.26.camel@linux.ibm.com>
- <A888B25CD99C1141B7C254171A953E8E4909E381@shsmsx102.ccr.corp.intel.com>
- <1575269075.4080.31.camel@linux.ibm.com>
- <A888B25CD99C1141B7C254171A953E8E4909E399@shsmsx102.ccr.corp.intel.com>
- <1575312932.24227.13.camel@linux.ibm.com>
- <20191209194715.GD19243@linux.intel.com>
- <1575923513.31378.22.camel@linux.ibm.com>
- <20191211172345.GB4516@linux.intel.com>
+        id S1730108AbfLKRke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 12:40:34 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:35823 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729512AbfLKRke (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 12:40:34 -0500
+Received: by mail-lj1-f194.google.com with SMTP id j6so25053238lja.2;
+        Wed, 11 Dec 2019 09:40:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xHNe/Yqfgpy3S9fO7I4bSqFvrI1vIc8c/PjlGfBZDQY=;
+        b=THkd5/sMvoWbf9UyKW0AbrpgZ9BE2d8hfLaEQB+I14Diub31RDnCRsU20R7KCaXjpN
+         UAOjbsbXLS5vCddmaHoUJXrN2NXPFIOsu7sBYiXc5Ib3PcPxoq+eQ5IPSKL+zvygoQte
+         mWKTxvhHznQClUeeCFwH7xslKJFHyMsjgun4OTRAbOwJzBOG/9KpZDARYsCr1UvAJup4
+         QleZw4JLBqlyj0GQjnavq3BU5r+sY0l20p8NurV+r0kAiJ54MxkOxKf11viGT4N96R3n
+         18BPyJ0wxWuoIi23dXYXExCYxqSRVoIbhxVxLM+9N3vUfNTiF0fFpGygn6qeJUHbvf79
+         EzEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xHNe/Yqfgpy3S9fO7I4bSqFvrI1vIc8c/PjlGfBZDQY=;
+        b=MKRPwwt0Z6FaWdhealTGgLGpbWKnOQ8ZgtYtIOVrfC2H+IuY+pnmeSE/kCvGDNxuFe
+         oisbiWQW6t8CIdaCXvUktZfdQH/yf9tOE0LYeWBYYkAEuHJKHt1woozebXTj2vhg1WcG
+         MIqDudR6+qcQyBulX9lCwOP33oMBC+/0oBH9yDZBW7XnIh/7U6izx8imzOb7THkOh2VP
+         6Sr4HinJxUlaTmbMhGqVSGBQ2sQG0Nj5EyAXAvnFcyrsIujTLKyeLH9YJ+o8+PIgyoPe
+         XElbEZzeR4zEyavxNtvQMv+i0YPBuv5orlAZIlgIzhYYg0x7sDOv2eN2rlOf8wktb0X3
+         aKyg==
+X-Gm-Message-State: APjAAAXREzyCDw+POTaRZslkZAT5kjIFzehXUe9JgSuNC6MGQwEZ8lBg
+        iRe8Z6nCqGiNf3XB1XYH6dzLlDcWfOff5LQekfNHsp3u
+X-Google-Smtp-Source: APXvYqwXYcdWREeEGLWMl6g/WmqXcAKn/eRGAxh1th5CLy4FEjntZLJeZTgM4oiKx6bx8e6DUwt8aWT9Opg0rNNrWZk=
+X-Received: by 2002:a05:651c:152:: with SMTP id c18mr2972027ljd.146.1576086031635;
+ Wed, 11 Dec 2019 09:40:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191211172345.GB4516@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191211163310.4788-1-sj38.park@gmail.com> <3dab421e-6aa5-90e4-791e-53482f5c1fe8@kernel.org>
+In-Reply-To: <3dab421e-6aa5-90e4-791e-53482f5c1fe8@kernel.org>
+From:   SeongJae Park <sj38.park@gmail.com>
+Date:   Wed, 11 Dec 2019 18:40:05 +0100
+Message-ID: <CAEjAshqjjVgtf_JxNvi3WOvkrjOp_-YjK=rY7GE0Mt40Y1EMqQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] Fix nits in the kunit
+To:     shuah <shuah@kernel.org>
+Cc:     SeongJae Park <sjpark@amazon.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 07:23:59PM +0200, Jarkko Sakkinen wrote:
-> On Mon, Dec 09, 2019 at 12:31:53PM -0800, James Bottomley wrote:
-> > On Mon, 2019-12-09 at 21:47 +0200, Jarkko Sakkinen wrote:
-> > > On Mon, Dec 02, 2019 at 10:55:32AM -0800, James Bottomley wrote:
-> > > > blob but it looks like we need to fix the API.  I suppose the good
-> > > > news is given this failure that we have the opportunity to rewrite
-> > > > the API since no-one else can have used it for anything because of
-> > > > this.  The
-> > > 
-> > > I did successfully run this test when I wrote it 5 years ago:
-> > > 
-> > > https://github.com/jsakkine-intel/tpm2-scripts/blob/master/keyctl-smo
-> > > ke.sh
-> > > 
-> > > Given that there is API a way must be found that backwards
-> > > compatibility
-> > > is not broken. New format is fine but it must co-exist.
-> > 
-> > The old API is unsupportable in the combination of policy + auth as I
-> > already explained.  The kernel doesn't have access to the nonces to
-> > generate the HMAC because the session was created by the user and the
-> > API has no way to pass them in (plus passing them in would be a huge
-> > security failure if we tried).  Given that Shirley appears to be the
-> > first person ever to try this, I don't think the old API has grown any
-> > policy users so its safe to remove it.  If we get a complaint, we can
-> > discuss adding it back.
-> 
-> It works within limits so it can be definitely be maintained for
-> backwards compatibility.
-> 
-> Also, you are making a claim of the users that we cannot verify.
-> 
-> Finally, the new feature neither handles sessions. You claim that
-> it could be added later. I have to deny that because until session
-> handling is there we have no ways to be sure about that.
-> 
-> I see your point but this needs more consideration. It does not
-> make sense to rush.
+On Wed, Dec 11, 2019 at 6:22 PM shuah <shuah@kernel.org> wrote:
+>
+> On 12/11/19 9:33 AM, SeongJae Park wrote:
+> > May I ask some comments?
+> >
+> >
+> > Thanks,
+> > SeongJae Park
+> >
+>
+> + Brendan
+>
+> > On Thu, 5 Dec 2019 10:34:34 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> >>
+> >> This patchset contains trivial fixes for the kunit documentations and
+> >> the wrapper python scripts.
+> >>
+> >> This patchset is based on 'kselftest/test' branch of linux-kselftest[1]
+> >> and depends on Heidi's patch[2].  A complete tree is available at my repo:
+> >> https://github.com/sjp38/linux/tree/kunit_fix/20191205_v5
+> >>
+> >> Changes from v4
+> >> (https://lore.kernel.org/linux-doc/1575490683-13015-1-git-send-email-sj38.park@gmail.com/):
+> >>   - Rebased on Heidi Fahim's patch[2]
+> >>   - Fix failing kunit_tool_test test
+> >>   - Add 'build_dir' option test in 'kunit_tool_test.py'
+> >>
+>
+> Please include Brendana Higgins on kunit patches.
 
-Also can test the current patch set as soon as I've done with
-release critical tpm_tis bug even if I don't agree on every
-point.
+Not sure how I could forgot adding him.  I will never forget from next time.
 
-/Jarkko
+
+Thanks,
+SeongJae Park
+
+>
+> thanks,
+> -- Shuah
