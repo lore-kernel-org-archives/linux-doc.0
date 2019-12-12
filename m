@@ -2,65 +2,62 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0580C2D0C9
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 14:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BA2C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 14:42:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8807922527
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 14:36:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 475DE2253D
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 14:42:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CYTDu33S"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cCFmmoTX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729825AbfLLOgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 09:36:52 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44070 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729709AbfLLOgg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 09:36:36 -0500
-Received: by mail-lj1-f196.google.com with SMTP id c19so2524105lji.11
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 06:36:35 -0800 (PST)
+        id S1729710AbfLLOmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 09:42:14 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:46691 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729266AbfLLOmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 09:42:14 -0500
+Received: by mail-lf1-f66.google.com with SMTP id f15so1862337lfl.13
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 06:42:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mFBaysu79yDikUBKmCJOSK+/KcLNsfSxo1Kg6RMTYzo=;
-        b=CYTDu33S/uRKGhVT7parvwID0Z4EEkvon8ISEhgQg581I+1vygWkVRJfIX6VyR90IP
-         5s90on/IBWtzNCkfiPg7uk+yBQZZgeRl/SRSDr7c+w33usVVyP+MJiAG1YhQEWLjO/Lm
-         P/0CD0GARye2OYMRl25h1tC04+CXoKFn2YTnfaKWCVyq0RUQtJskTe7aNXDDUW4mR74/
-         t7GoesEcr1oPDRiIJXWl4xt+DmU6FKcdogFEPM7GJ0MbM1/bRU5TyZ/4OU2CRtiJtNg9
-         8b733kTi7YVBHa42ZnE/qE1MABlz/YuyRm0mRdXrwoA54K3MFcLxF9VgrBgIm71NLVT5
-         m2mg==
+        bh=tZEozXho8/b7kOqmVnapq/xyhPGY85u/Fazs9Eblm1E=;
+        b=cCFmmoTXOmDLfgP+nSgeOYumVAZUrCnARZzWT6kYYgCKF1bePY08qH25uoDIaIHIIP
+         xy8kMJ6JQ2UyEvDyewbvtPrrH9UtNKJVImB4NokJIoH/R67zMUh04sKFC2b9DZZNNYUs
+         aUGcMes7TUb5SFaiVdEGG5DyRqBgacd0FAD4lAf+ICRsdMe3e2j3QZ8mi0budLFypHnU
+         Q9CAtFfX69QmpkYitVwIFJ08foJUmu7rOTj1ckh5yeQ90ov1O2obpxX2rMKf54BvokNm
+         ude9UZXPiRBYKsQ2CDcY3DczzV6WI8NM6/9D9PHWpM76xo1IPmfR6iBERCj82PcqPI0L
+         ppSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mFBaysu79yDikUBKmCJOSK+/KcLNsfSxo1Kg6RMTYzo=;
-        b=sEz3r6yRq6uD+1TpzUbW7sugMiSF4v6H72z9UVD7RDypkXbmEn4jJ8X/iYI7XyvcZ0
-         NFlcoVWBysJYQhzD4edqPcKlphE0FYRhu+MSfAUYEX9EDyfAN/+o5LH8JS3ASUDOLhDh
-         wYD1RFEKOrJgGWlVSjtFR246LyI+EIS7WMXusa094OsNUnhhtY92DzP9SBJxwy4naUDY
-         x7JZ8XJLjr1NSw5y2e9OHd/bDpUv64UQo1kfhrvHHKP5bXhesMGiLt4Ix+Yo1H1K8w5d
-         1X+SfXQNYGGr3+DC/B8IMh/RSczuWTuuikYIX/TcEfQnBHObWeheJmehyLZBOHIG63Tf
-         B0Zw==
-X-Gm-Message-State: APjAAAXLi8PxqqdggVC7/0qcK0LEBxw3L870I92A+i23+aVnvbAhvKOA
-        Mp8R0JbbDmwcKuP90Smqe/IIDAztTmscCWWa8OSR8A==
-X-Google-Smtp-Source: APXvYqz/zPYVnRmIpLFYccngv9dixRG8YUx2SGeQvmu/20Gvhakgo9h/gmYehDYbcCI+QIDTfrgweSqbzBJTINCecCM=
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr6119798ljh.183.1576161394471;
- Thu, 12 Dec 2019 06:36:34 -0800 (PST)
+        bh=tZEozXho8/b7kOqmVnapq/xyhPGY85u/Fazs9Eblm1E=;
+        b=GbWBNnGBUijAK7qKDz/oL0KthqWcrsmK6u4giin6GfswvSleuYtAaooea0TH+BlXbI
+         0R0okV3wBOIM2fMKrrHkmrJIrdqeV1Oj+o6wkeGfeAJrSrb5Tqi3LgEOJ9RdpguBq5Ay
+         7HM2ZQsfqXl4v2Nv8NqtXizdgkY4Do83PuoxfNwEIVj6/+LTbyf3TmwqRcOOvRwVTUNb
+         MgIehZAxrJf4Ks7X/bIXcIazP2ipz1YgZIv5ssmgIb89I99/XsD/vKr14fK97HIPRDXh
+         HiDrN7+rsWToIbvhC7Z6yt39DOt6E4iI4z5ZHLGs3xX92g35EG9Q7HyBd8YAeBh6/lJA
+         U+KA==
+X-Gm-Message-State: APjAAAXxEtmPWUru7Vjna5mSjqnJrTWq0y0VXLY5X8G9yERF7MV0G+dE
+        ka4BqeN3LkMb+j6T9U3I35Pyo5zk+0Y49XGcmqip+w==
+X-Google-Smtp-Source: APXvYqzNd5E12+tK1syFHjNwCOV5eMNSPBpGptit7BvfAlgSkslbOpdSmdz3b8GlBGkJlIqKTDmvgy11rgnCB3iAN8w=
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr5702467lfi.93.1576161732769;
+ Thu, 12 Dec 2019 06:42:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-3-geert+renesas@glider.be> <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
- <CAMuHMdVL2w=DzOHTh-Tq6NZLTNUKxUneMi3wX71Z83mdsy3LTA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVL2w=DzOHTh-Tq6NZLTNUKxUneMi3wX71Z83mdsy3LTA@mail.gmail.com>
+References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-7-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-7-geert+renesas@glider.be>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Dec 2019 15:36:22 +0100
-Message-ID: <CACRpkdZ0geBk4oBkjb3w9kep-jWMUdpegngspN0yhKRaNY0ZKQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table lookup
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+Date:   Thu, 12 Dec 2019 15:42:01 +0100
+Message-ID: <CACRpkdb1XZAeSThxWmJtnm80T4aPufXV2UvJdVdgnw-TJe3trg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] docs: gpio: Add GPIO Aggregator/Repeater documentation
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -86,27 +83,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 2:33 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Dec 12, 2019 at 2:20 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Currently GPIO controllers can only be referred to by label in GPIO
-> > > lookup tables.
-> > >
-> > > Add support for looking them up by "gpiochipN" name, with "N" either the
-> > > corresponding GPIO device's ID number, or the GPIO controller's first
-> > > GPIO number.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > What the commit message is missing is a rationale, why is this needed?
->
-> Right. To be added: so they can be looked up in the GPIO lookup table
-> using either the chip's label, or the "gpiochipN" name.
+On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-After reading the aggregator/forwarder driver I am not convinced
-that this is needed at all and I think this patch can be dropped,
-but check my review and see what you think!
+> +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+> +them into a new gpio_chip, which can be assigned to a group or user using
+> +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> +which not, reducing the attack surface.
+> +
+> +Aggregated GPIO controllers are instantiated and destroyed by writing to
+> +write-only attribute files in sysfs.
 
-Thanks,
+I suppose virtual machines will have a lengthy config file where
+they specify which GPIO lines to pick and use for their GPIO
+aggregator, and that will all be fine, the VM starts and the aggregator
+is there and we can start executing.
+
+I would perhaps point out a weakness as with all sysfs and with the current
+gpio sysfs: if a process creates an aggregator device, and then that
+process crashes, what happens when you try to restart the process and
+run e.g. your VM again?
+
+Time for a hard reboot? Or should we add some design guidelines for
+these machines so that they can cleanly tear down aggregators
+previously created by the crashed VM?
+
+Yours,
 Linus Walleij
