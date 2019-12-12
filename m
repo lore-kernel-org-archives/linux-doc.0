@@ -2,146 +2,89 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B701AC00454
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2E7C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:50:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 83FF8227BF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:40:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FE712077B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:50:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DRzJQiVQ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Y5fgt64o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729405AbfLLNks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 08:40:48 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42297 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729439AbfLLNkr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 08:40:47 -0500
-Received: by mail-lj1-f195.google.com with SMTP id e28so2313846ljo.9
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 05:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7PbHPLSXQGj0yJrSH192TMtAaxNo5rw41NetJ/dcUfw=;
-        b=DRzJQiVQg/nQ/ASUfL3q6cDwUxWJ56eQnZWGgR+JOoveYSxcv7+j9kjbi9XlxA1AEO
-         A02/XOPXYlK843ecHoWeaRH53jfl/cx5u3XSjbfE6QXM6s9uUsm05zfWWRKxADesDQaV
-         PnpOe4EYjBF5MZNs5FNBPAYxERQpmPL1TeloXm3jpv3+AB/lT3PvU4ZBj/VaARR4vYaR
-         uJAZHSCgQIgMRkQV60ebT26TmXAs0cOXjT+DYySEPkfd4IKU4kJpTPp6/Mka/ayB4hXZ
-         fNwhN8IIW0TkBhIE6JdShsrKJP3KtegCAZBZzOcTXVPJ7RuZIJLfrFV04K8VZIFI/qoI
-         sOeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7PbHPLSXQGj0yJrSH192TMtAaxNo5rw41NetJ/dcUfw=;
-        b=r8ABVUW4uEEK7NhWxyPIWb8GYTZXoOUN8RzL5fFlF8Vw/vgJUGaySux9nYwid77Wca
-         xmB6MHuMZNKmnlpM+sldVaxpBzwAoLd3RkYtMhMIdXaKqyyfs53ftSJS2UGOqWIyWVAy
-         9jS4MMI9s0gpl4HxLLjiw5UcoapwNcBwO/KyBP++CdnQt86fAMqzmEB9oZYBaisAjDFB
-         JhXjhvt8UzDH3GkozbbQIyszYkjfPjR0orWY8dbrsKfn7Xj9xBImMU4GjsUByJdy6gSQ
-         Hd/T/alFCTVrc5arA6oUXeo5M+WII6F4Kq3CezTXMj0mCqoFVyBayK9r3NbIK4BXv1Rl
-         YBIg==
-X-Gm-Message-State: APjAAAXs1Wg9AFSOwB6XoXJlL1itIdDoFzmNgR6bWNg8czJxye8PR3+G
-        FVKYA9GG3Hmh/TVusIBTBJsnViDUrVRAJDTWEtl0Yg==
-X-Google-Smtp-Source: APXvYqz4WIPVD6RaEfzhjt2nRL8Q3ReinXWMfS2taUKWfU1ppqbKjrPvuAhDEVOow4IVqRo34vof7KNX/xH9rfQS/Dc=
-X-Received: by 2002:a2e:9ec4:: with SMTP id h4mr6024597ljk.77.1576158044254;
- Thu, 12 Dec 2019 05:40:44 -0800 (PST)
+        id S1729485AbfLLNuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 08:50:23 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:59036 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729418AbfLLNuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 08:50:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=XLmXJp8+ii9eSodSB5zreRiOjChLvck97k4PO2HaBzI=; b=Y5fgt64oeF7OU2lnonzLDrFAz
+        sRxQA0O+JkMRFJJOe7sBNjsWY5SPvwist/QHC1bohGmXTJ5SxQ41Vp6eghkPAaD6ZnT+z0HQgf2yr
+        onpKUfsa0Fu2JQjzsG6vZAcFT2R2lZCgbZshRKLaBWIWKBqP2/edRtgBX3Fj/0ASU+s/1ZHLPCGrf
+        57Ti/8Pxc3l8WTAfK/ldi6fCreN37jwJ+ERJGPL2vkCZioirHruMatwaVJqO1M0qnF/GjK5+m9HY+
+        9cpXkBijqEMrGYZrh3vivxDsh+3xYnFY7k6IA8RoDg6kunH9JYXtVpewn/UCsXZNg6ROjitfM4sNQ
+        ZnSPt16Cg==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:40338)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1ifOrC-00070B-1c; Thu, 12 Dec 2019 13:50:18 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1ifOrA-0006rD-6i; Thu, 12 Dec 2019 13:50:16 +0000
+Date:   Thu, 12 Dec 2019 13:50:16 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Link: documentation seems to be misplaced
+Message-ID: <20191212135016.GH25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-4-geert+renesas@glider.be>
-In-Reply-To: <20191127084253.16356-4-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Dec 2019 14:40:29 +0100
-Message-ID: <CACRpkdZs0_VvfpE34bgrMtBVeamCsq6BaqfyJc1tyvWCornSUw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] gpiolib: Add support for GPIO line table lookup
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi,
 
-> Currently GPIOs can only be referred to by GPIO controller and offset in
-> GPIO lookup tables.
->
-> Add support for looking them up by line name.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+It seems that the documentation for the Link: attribute in commit
+messages is misplaced in the Documentation/ subtree.
 
-OK I see what you want to do...
+There are two workflows:
 
-> +               if (p->chip_hwnum == (u16)-1) {
+1) maintainer committing external patches that have come from a
+   mailing list.
 
-If you want to use this then use:
+2) maintainer committing local patches that have been discussed on
+   a mailing list.
 
-if (p->chip_hwnum == U16_MAX)
+While the current documentation seems to target initial setup for
+new people becoming maintainers, but it is way less obvious for
+existing maintainers or for case 2 - I came across this because I
+wanted to add a Link: tag for a discussion on a patch I'd posted,
+and could find nothing to describe it.  My grep for it failed:
 
-from <linux/limits.h>
+  grep Link: Documentation/*/*ubmitting*
 
-> +                       desc = gpio_name_to_desc(p->chip_label);
-> +                       if (desc) {
-> +                               *flags = p->flags;
-> +                               return desc;
-> +                       }
-> +
-> +                       dev_warn(dev, "cannot find GPIO line %s, deferring\n",
-> +                                p->chip_label);
-> +                       return ERR_PTR(-EPROBE_DEFER);
-> +               }
-> +
->                 chip = find_chip_by_name(p->chip_label);
->
->                 if (!chip) {
-> diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
-> index 1ebe5be05d5f81fa..84c1c097e55eefaf 100644
-> --- a/include/linux/gpio/machine.h
-> +++ b/include/linux/gpio/machine.h
-> @@ -31,7 +31,7 @@ enum gpio_lookup_flags {
->   */
->  struct gpiod_lookup {
->         const char *chip_label;
-> -       u16 chip_hwnum;
-> +       u16 chip_hwnum;                 /* if -1, chip_label is named line */
+Surely, the format of the Link: tag should be documented in the
+submitting-patches document with all the other attributations that
+we define in a commit message, with a reference to that from
+Documentation/maintainer/configure-git.rst ?
 
-/* if U16_MAX then chip_label is the named line we are looking for */
+Thanks to Jiri Kosina for pointing out that it is in configure-git.rst.
 
-But the member name "chip_label" is completely abused with this
-setup, it should then be renamed as part of the patch set to something
-like chip_label_or_line_name so it is clear what it is or
-just name it "const char *key".
-
-But I'm not entirely convinced about reusing the existing
-struct gpio_lookup for this.
-
-What about constructing a new lookup struct specifically for this?
-I understand it is more work, but will that not be more
-maintainable and readable?
-
-Yours,
-Linus Walleij
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
