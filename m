@@ -2,179 +2,87 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F4EC2D0C6
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA72C2D0C5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:17:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B397B24653
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:50:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F02E205C9
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:17:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LUw50vEO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbfLLAuF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 19:50:05 -0500
-Received: from mga04.intel.com ([192.55.52.120]:30335 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726673AbfLLAuF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 19:50:05 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 16:50:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,303,1571727600"; 
-   d="scan'208";a="388124032"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga005.jf.intel.com with ESMTP; 11 Dec 2019 16:50:04 -0800
-Subject: Re: [PATCH v11 06/14] peci: Add Aspeed PECI adapter driver
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org, Robin Murphy <robin.murphy@arm.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-7-jae.hyun.yoo@linux.intel.com>
- <20191211202818.GD32742@smile.fi.intel.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <e05cdec0-1120-7e2d-bac0-e4a1ba1ceb3d@linux.intel.com>
-Date:   Wed, 11 Dec 2019 16:50:04 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727420AbfLLBRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 20:17:31 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40912 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbfLLBRa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 20:17:30 -0500
+Received: by mail-pf1-f196.google.com with SMTP id q8so202178pfh.7
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 17:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o9boV3Hg7emjeyUoekMzbEkEybPyhPn+8n735mHoCvA=;
+        b=LUw50vEOj3BhWqCbIUbgX8ki5Vxlrc7te2m0hHZCilkluhkZlnh/GkOzqWJxDb3zV/
+         /ZUELgAvbVzxkwGkuip2yFdzIbCG1GnGI6EKAXlm4KqjP2yOdhKhBnix4IdQ84LKTh8f
+         dbeoWkQt50mdgf5d0IK5950WS5qFUn6r2DaYBsu1jabxJD6xU6VD+WG2fnSitB6Ts/s5
+         gFxl7ImMAYZhpHfIbUyW+9r031qaB/BAUnldyMxCzLZQg7NQ+iPK8WflCmtWIe5BsIBm
+         jw4rWE65xM78tSwtI2SHKyw4LYU5wMHQZCYcJKRbiPJST+9i69pLZcJ+7Ks4O9U0CDN2
+         q1DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o9boV3Hg7emjeyUoekMzbEkEybPyhPn+8n735mHoCvA=;
+        b=Iv5g3+HvrGVj7b1UFVKwAGumKPrSldR2vCZXLN2yBOQ1culc84mLuHRz3qmaUTDRK7
+         k04ybmvyjnVQGfE3+N+Bax1Xrdf7h3HX7PreTpWDyolAmow+NOiYxh0I3QTnKqRFyanc
+         5tMxMrlD2xS4i/rnfilh52Tt7RepYC2X8G5PFb7yv+tAXyeLyxEjE+PQealoZCLllh69
+         znPPydqlFKoYmCGaq420QXiXcuJVpAY7Jy6NQUeD1QPBc83hnFnlQM7oGLcPl3ncgLao
+         45cfzTzftPjT+NHe8+C2w0+tPnSZL7Z10wnswBdzsVPXxj1im2QcxbtFDM/STzXGY+aT
+         wlQQ==
+X-Gm-Message-State: APjAAAWRt+tOHxDQD7sjvVAJwcWn/++DkhliZYmeNrfQ2E72PuMxINK2
+        5XvlanYpe9l0KtbKDsZqYKnsSYiYUUg6Okh1G/dlaA==
+X-Google-Smtp-Source: APXvYqzwKtBT8eiw5GuI3onlZz20uo+ZdmqbenynXPURvRO9f7Mcuh9oJQDwIhCknNgHXBLKYn7wQBvqXUgpWpWN8Lo=
+X-Received: by 2002:a63:cc4f:: with SMTP id q15mr7630209pgi.159.1576113449800;
+ Wed, 11 Dec 2019 17:17:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191211202818.GD32742@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191205093440.21824-1-sjpark@amazon.com> <20191205093440.21824-4-sjpark@amazon.com>
+In-Reply-To: <20191205093440.21824-4-sjpark@amazon.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 11 Dec 2019 17:17:18 -0800
+Message-ID: <CAFd5g453HrF-P9K8gCWKhTmCxoSODQ9RP3t+7njeHovT-_wpYQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] kunit: Create default config in '--build_dir'
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     SeongJae Park <sj38.park@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>,
+        SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andy,
+On Thu, Dec 5, 2019 at 1:35 AM SeongJae Park <sjpark@amazon.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> If both '--build_dir' and '--defconfig' are given, the handling of
+> '--defconfig' ignores '--build_dir' option.  This commit modifies the
+> behavior to respect '--build_dir' option.
+>
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Suggested-by: Brendan Higgins <brendanhiggins@google.com>
+> Reported-by: Brendan Higgins <brendanhiggins@google.com>
 
-On 12/11/2019 12:28 PM, Andy Shevchenko wrote:
-> On Wed, Dec 11, 2019 at 11:46:16AM -0800, Jae Hyun Yoo wrote:
->> This commit adds Aspeed PECI adapter driver for Aspeed
->> AST24xx/25xx/26xx SoCs.
-> 
-> ...
-> 
->> +#define   ASPEED_PECI_CMD_IDLE_MASK		(ASPEED_PECI_CMD_STS_MASK | \
->> +						 ASPEED_PECI_CMD_PIN_MON)
-> 
-> Better looking when the value completely occupies second line without touching
-> the first.
-
-Yes. Will change it.
-
-> ...
-> 
->> +static int aspeed_peci_check_idle(struct aspeed_peci *priv)
->> +{
->> +	ulong timeout = jiffies + usecs_to_jiffies(ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
->> +	u32 cmd_sts;
-> 
-> Like in the previous patch this one has hard to read timeout loops with inefficient code.
-> 
->> +	for (;;) {
->> +		cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
->> +		if (!(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK))
->> +			break;
-> 
->> +		if (time_after(jiffies, timeout)) {
-> 
-> This is actually main exit condition (vs. infinite loop).
-> 
->> +			cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
-> 
-> This make no sense. If you would like to have one more iteration, just spell it
-> explicitly.
-> 
->> +			break;
->> +		}
-> 
->> +		usleep_range((ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC >> 2) + 1,
->> +			     ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC);
->> +	}
->> +
-> 
->> +	return !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK) ? 0 : -ETIMEDOUT;
-> 
-> Ditto.
-> 
->> +}
-> 
-> Now look at the other variant:
-> 
-> 	do {
-> 		...do something...
-> 		if (success)
-> 			return 0;
-> 		usleep(...);
-> 	} while (time_before(...));
-> 
-> 	return -ETIMEDOUT;
-> 
-> * Easy
-> * less LOCs
-> * guaranteed always to be at least one iteration
-> * has explicitly spelled exit condition
-> 
-> BUT!
-> 
-> In this very case you may do even better if you read iopoll.h, i.e
-> readl_poll_timeout() has this functionality embedded in the macro.
-> 
-
-I see. I'll simplify this function like below:
-
-#include <linux/iopoll.h>
-
-static inline int aspeed_peci_check_idle(struct aspeed_peci *priv)
-{
-	u32 cmd_sts;
-
-	return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
-				  cmd_sts,
-				  !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
-				  ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC,
-				  ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
-}
-
-Thanks a lot for your review!
-
--Jae
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Tested-by: Brendan Higgins <brendanhiggins@google.com>
