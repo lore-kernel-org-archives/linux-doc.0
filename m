@@ -2,319 +2,159 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46192C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 21:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1D9C2D0C9
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 22:33:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 125E8214D8
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 21:58:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D309621556
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 22:33:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gpQRyl32"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730827AbfLLV6J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 16:58:09 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:64733 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730779AbfLLV6J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 16:58:09 -0500
-Received: from 79.184.255.82.ipv4.supernova.orange.pl (79.184.255.82) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.320)
- id 4b046476770ca264; Thu, 12 Dec 2019 22:58:06 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     lenb@kernel.org, rui.zhang@intel.com, corbet@lwn.net,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [UPDATE][PATCH] ACPI / fan: Display fan performance state information
-Date:   Thu, 12 Dec 2019 22:58:05 +0100
-Message-ID: <6696353.AiZ2R3frsK@kreacher>
-In-Reply-To: <20191205012309.23868-1-srinivas.pandruvada@linux.intel.com>
-References: <20191205012309.23868-1-srinivas.pandruvada@linux.intel.com>
+        id S1731002AbfLLWdf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 17:33:35 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:36580 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730979AbfLLWde (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 17:33:34 -0500
+Received: by mail-lf1-f66.google.com with SMTP id n12so489248lfe.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 14:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uNFsQyJIBMP610s+itpyeXuJ5AUNsir6dpBt7MH9KCs=;
+        b=gpQRyl32JgLNoYvplD3NJnHKCMfmAtJwwP/Uje32i2vycfQId3lC7NGwJ02bPHxkPl
+         416/v8p3WKzukSO9ASd6S83IL+etsV7SDfX6Ei4AfcyKmGzdpQkTC6K6780v/HUGj3RR
+         iLUfie1VoKjVKeIGJT87YTn0GXTHkKQi7NqNy/9KSjErrhDPtSknZgkYNBhXB0T/pE2d
+         y0moZcvaKx6gmRQ4SegnrlCg+6OhLNIwi27yH3HnFB8LmmmZPhmcqxjFh1dxsy+5pV7P
+         i2pAe++sZ0c+QzV1r+3l8WmQ8Y9hGv/sFjnVAC/HxIM+9lEQVAmXNGxNi5Vh7wSJ4bDW
+         WWFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uNFsQyJIBMP610s+itpyeXuJ5AUNsir6dpBt7MH9KCs=;
+        b=NgQfdHec6Ew+EHp1IUSsIRUFgXPuJIP8Wh7xbm8RIIvPggXbmlHw8yFOcun3OqAT4h
+         nkeBvjY/zGqx/sW1jH1Xqd/TKv3Bzu7yRnSBm/hflB+Pq6l0aHdJxwFlbCDvyOqfroMP
+         zGoPIIfPdw8ZWVYtOOkfLtYlm3QHgLBCcRRXNB9qRKwN0tpRDhL7qbv4bMPn9irYHVs0
+         LQBdfsI99l1D+JB2yIdZXMIT251b+cmx/Nok2/BLsB6q5/OP1ImgZ4DVnN5ndY0v8LMB
+         IoXibLWtS901h/iLzGXRyQblTsjLu9ttA4zA5zuQw0XGDUid1jVgr0+nTs3lyIoeEdUw
+         3FDA==
+X-Gm-Message-State: APjAAAXTN6eoydoLDbjSNTUsM+kFUzVxLiRmhVC66CMmbXtMLcwJVJo4
+        n14+44zcnKvapX0qpyvhCO8I01dPhXeW86m2csic+A==
+X-Google-Smtp-Source: APXvYqxBNleWcBiVw8vm+KLiN9cqlOqFb4vt8UFlmyhiMj4gyQ/eihgXoJiUMkAfFT3r7gvQyvk8XyGDODnEWS6zG6M=
+X-Received: by 2002:ac2:55a8:: with SMTP id y8mr6997366lfg.117.1576190012878;
+ Thu, 12 Dec 2019 14:33:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20191209052119.32072-1-linux@roeck-us.net> <20191209052119.32072-2-linux@roeck-us.net>
+In-Reply-To: <20191209052119.32072-2-linux@roeck-us.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Dec 2019 23:33:21 +0100
+Message-ID: <CACRpkdYjidQHB0=S_brDxH3k+qJ2mfXCTF9A3SVZkPvBaVg6JQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] hwmon: Driver for temperature sensors on SATA drives
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+        Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, December 5, 2019 2:23:09 AM CET Srinivas Pandruvada wrote:
-> When _FPS object indicates support of variable speed fan, thermal cooling
-> devices for fan shows max performance state count using attribute
-> "max_state" greater than or equal to 1.
-> 
-> But the thermal cooling device doesn't display properties of each
-> performance state. This is not enough for smart fan control user space
-> software, which also considers speed, power and noise level.
-> 
-> This change presents fan performance states attributes under acpi
-> device for the fan. This will be under:
-> /sys/bus/acpi/devices/devices/INT3404:00
-> or
-> /sys/bus/platform/devices/PNP0C0B:00.
-> 
-> For more information refer to:
-> Documentation/acpi/fan_performance_states.txt
-> 
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Tested-by: Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>
-> ---
-> updated version:
-> 	Removed one unnecessary platoform_device* conversion from
-> 	acpi_device* in the function argument.
-> 
->  Documentation/acpi/fan_performance_states.txt |  39 +++++++
+Hi Guenther,
 
-Documentation/acpi/ is not there any more.
+needless to say I am a big fan of this patch, so:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-It looks like this could go into admin-guide/acpi/ in the RST format.
+It's a nice addition with the SCT command, I never
+figured that part out. Also nice how you register the
+scsi class interface I never saw that before, it makes it
+a very neat plug-in.
 
->  drivers/acpi/fan.c                            | 106 ++++++++++++++++--
->  2 files changed, 138 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/acpi/fan_performance_states.txt
-> 
-> diff --git a/Documentation/acpi/fan_performance_states.txt b/Documentation/acpi/fan_performance_states.txt
-> new file mode 100644
-> index 000000000000..06fd8eb002f2
-> --- /dev/null
-> +++ b/Documentation/acpi/fan_performance_states.txt
-> @@ -0,0 +1,39 @@
-> +When the optional object _FPS is present for ACPI devices PNP0C0B or INT3404,
-> +additional attributes are displayed under acpi device object. These attributes
-> +display information about each performance state.
-> +
-> +For example
-> +$ ls /sys/bus/acpi/devices/INT3404\:00
-> +description        fan_perf_state_11  fan_perf_state_5  fan_perf_state_9  physical_node  uevent
-> +fan_perf_state_0   fan_perf_state_2   fan_perf_state_6  hid               power          uid
-> +fan_perf_state_1   fan_perf_state_3   fan_perf_state_7  modalias          status         wakeup
-> +fan_perf_state_10  fan_perf_state_4   fan_perf_state_8  path              subsystem
+The comments are more discussion points on how to
+(maybe) take it further after this.
 
-This looks kind of messy IMO.
+On Mon, Dec 9, 2019 at 6:21 AM Guenter Roeck <linux@roeck-us.net> wrote:
 
-I would drop the "fan_perf_" prefix and the underline between "state" and the
-number, so they become "state0" through "state11".
+> If the drive supports SCT transport and reports temperature limits,
+> those are reported as well.
 
-There shouldn't be any confusion related to that.
+If I understand the patch correctly it will prefer to use
+SCT transport to read the temperature, and only fall back
+to the SMART attributes if this is not working, so I guess the
+commit message should state the heuristics used here.
 
-> +
-> +Each fan_perf_state_* contains the information about the fields for each state as
-> +defined by the ACPI specification.
-> +
-> +For example
-> +$ grep . /sys/bus/acpi/devices/INT3404\:00/fan_perf_state_1/*
-> +/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/control_percent:25
-> +/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/noise_level_mdb:12500
-> +/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/power_mw:1250
-> +/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/speed_rpm:3200
-> +/sys/bus/acpi/devices/INT3404:00/fan_perf_state_1/trip_point_index:invalid
+> +++ b/Documentation/hwmon/satatemp.rst
 
-Alternatively, the states could be represented as individual files each
-in the
+Excellent doc.
 
-control_percent:noise_level_mdb:power_mw:speed_rpm:trip_point_index
+> + * If the SCT Command Transport feature set is not available, drive temperatures
+> + * may be readable through SMART attributes. Since SMART attributes are not well
+> + * defined, this method is only used as fallback mechanism.
 
-format (ie. colon-separated list of values).  Then you'd not need to
-use the new ktype etc.
+So this maybe cut/paste to commit message as well so people understand
+the commit fully.
 
+> +       for (i = 0; i < ATA_MAX_SMART_ATTRS; i++) {
+> +               u8 *attr = buf + i * 12;
+> +               int id = attr[2];
 > +
-> +Fields
-> +control_percent: Indicates the value to be used to set the fan speed to a
-> +specific level using the _FSL object. The value here is from 0-100 percent.
+> +               if (!id)
+> +                       continue;
 > +
-> +noise_level_mdb: Indicates the audible noise emitted by the fan. By the
-> +specification the value represents the noise in 10ths of decibels. Here
-> +it is multiplied with 100 to present in milli-db, to avoid loss of
-> +precision. When not populated, "not-defined" is displayed.
+> +               if (id == SMART_TEMP_PROP_190) {
+> +                       temp_raw = attr[7];
+> +                       have_temp = true;
+> +               }
+> +               if (id == SMART_TEMP_PROP_194) {
+> +                       temp_raw = attr[7];
+> +                       have_temp = true;
+> +                       break;
+> +               }
+> +       }
 > +
-> +speed_rpm: Indicates the speed of the fan in revolutions per minute.
-> +
-> +power_mw: Indicates the power consumption in milliwatts. When not populated,
-> +"not-defined" is displayed.
-> +
-> +trip_point_index: The active cooling trip point number that corresponds to this
-> +performance state. The range is from 0-9. For any other values, "invalid" is
-> +be displayed.
-> diff --git a/drivers/acpi/fan.c b/drivers/acpi/fan.c
-> index 816b0803f7fb..f5e9f67e6a5f 100644
-> --- a/drivers/acpi/fan.c
-> +++ b/drivers/acpi/fan.c
-> @@ -50,6 +50,7 @@ struct acpi_fan_fps {
->  	u64 speed;
->  	u64 noise_level;
->  	u64 power;
-> +	struct kobject kobj;
->  };
->  
->  struct acpi_fan_fif {
-> @@ -265,6 +266,64 @@ static int acpi_fan_speed_cmp(const void *a, const void *b)
->  	return fps1->speed - fps2->speed;
->  }
->  
-> +#define to_fps_state(k) container_of(k, struct acpi_fan_fps, kobj)
-> +
-> +#define DEFINE_ONE_FPS_ATTR_RO(_name)\
-> +	static struct kobj_attribute _name =\
-> +		__ATTR(_name, 0444, show_##_name, NULL)
-> +
-> +#define FPS_INFO_SHOW(name, object, multiplier)\
-> +static ssize_t show_##name(struct kobject *kobj,\
-> +			   struct kobj_attribute *attr,\
-> +			   char *buf)\
-> +{\
-> +	struct acpi_fan_fps *fps = to_fps_state(kobj);\
-> +\
-> +	if (fps->object == 0xFFFFFFFF)\
-> +		return sprintf(buf, "not-defined\n");\
-> +\
-> +	return sprintf(buf, "%llu\n", multiplier * fps->object);\
-> +}
-> +
-> +FPS_INFO_SHOW(control_percent, control, 1)
-> +FPS_INFO_SHOW(speed_rpm, speed, 1)
-> +FPS_INFO_SHOW(power_mw, power, 1)
-> +FPS_INFO_SHOW(noise_level_mdb, noise_level, 100)
-> +
-> +static ssize_t show_trip_point_index(struct kobject *kobj,
-> +				     struct kobj_attribute *attr,
-> +				     char *buf)
-> +{
-> +	struct acpi_fan_fps *fps = to_fps_state(kobj);
-> +
-> +	if (fps->trip_point > 9)
-> +		return sprintf(buf, "invalid\n");
-> +
-> +	return sprintf(buf, "%llu\n", fps->trip_point);
-> +}
-> +
-> +DEFINE_ONE_FPS_ATTR_RO(control_percent);
-> +DEFINE_ONE_FPS_ATTR_RO(trip_point_index);
-> +DEFINE_ONE_FPS_ATTR_RO(speed_rpm);
-> +DEFINE_ONE_FPS_ATTR_RO(noise_level_mdb);
-> +DEFINE_ONE_FPS_ATTR_RO(power_mw);
-> +
-> +static struct attribute *fps_attrs[] = {
-> +	&control_percent.attr,
-> +	&trip_point_index.attr,
-> +	&speed_rpm.attr,
-> +	&noise_level_mdb.attr,
-> +	&power_mw.attr,
-> +	NULL
-> +};
-> +
-> +static struct kobj_type fps_ktype = {
-> +	.sysfs_ops = &kobj_sysfs_ops,
-> +	.default_attrs = fps_attrs,
-> +};
-> +
-> +#define ACPI_FPS_NAME_LEN	20
-> +
->  static int acpi_fan_get_fps(struct acpi_device *device)
->  {
->  	struct acpi_fan *fan = acpi_driver_data(device);
-> @@ -295,12 +354,13 @@ static int acpi_fan_get_fps(struct acpi_device *device)
->  	}
->  	for (i = 0; i < fan->fps_count; i++) {
->  		struct acpi_buffer format = { sizeof("NNNNN"), "NNNNN" };
-> -		struct acpi_buffer fps = { sizeof(fan->fps[i]), &fan->fps[i] };
-> +		struct acpi_buffer fps = { offsetof(struct acpi_fan_fps, kobj),
-> +						&fan->fps[i] };
->  		status = acpi_extract_package(&obj->package.elements[i + 1],
->  					      &format, &fps);
->  		if (ACPI_FAILURE(status)) {
->  			dev_err(&device->dev, "Invalid _FPS element\n");
-> -			break;
-> +			goto err;
->  		}
->  	}
->  
-> @@ -308,6 +368,21 @@ static int acpi_fan_get_fps(struct acpi_device *device)
->  	sort(fan->fps, fan->fps_count, sizeof(*fan->fps),
->  	     acpi_fan_speed_cmp, NULL);
->  
-> +	for (i = 0; i < fan->fps_count; ++i) {
-> +		char name[ACPI_FPS_NAME_LEN];
-> +
-> +		snprintf(name, ACPI_FPS_NAME_LEN, "fan_perf_state_%d", i);
-> +		status = kobject_init_and_add(&fan->fps[i].kobj, &fps_ktype,
-> +					      &device->dev.kobj, name);
-> +		if (status) {
-> +			int j;
-> +
-> +			for (j = 0; j < i; ++j)
-> +				kobject_put(&fan->fps[j].kobj);
-> +			break;
-> +		}
-> +	}
-> +
->  err:
->  	kfree(obj);
->  	return status;
-> @@ -331,13 +406,13 @@ static int acpi_fan_probe(struct platform_device *pdev)
->  
->  	if (acpi_fan_is_acpi4(device)) {
->  		if (acpi_fan_get_fif(device) || acpi_fan_get_fps(device))
-> -			goto end;
-> +			goto err_end;
->  		fan->acpi4 = true;
->  	} else {
->  		result = acpi_device_update_power(device, NULL);
->  		if (result) {
->  			dev_err(&device->dev, "Failed to set initial power state\n");
-> -			goto end;
-> +			goto err_end;
->  		}
->  	}
->  
-> @@ -350,7 +425,7 @@ static int acpi_fan_probe(struct platform_device *pdev)
->  						&fan_cooling_ops);
->  	if (IS_ERR(cdev)) {
->  		result = PTR_ERR(cdev);
-> -		goto end;
-> +		goto err_end;
->  	}
->  
->  	dev_dbg(&pdev->dev, "registered as cooling_device%d\n", cdev->id);
-> @@ -365,10 +440,21 @@ static int acpi_fan_probe(struct platform_device *pdev)
->  	result = sysfs_create_link(&cdev->device.kobj,
->  				   &pdev->dev.kobj,
->  				   "device");
-> -	if (result)
-> +	if (result) {
->  		dev_err(&pdev->dev, "Failed to create sysfs link 'device'\n");
-> +		goto err_end;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_end:
-> +	if (fan->acpi4) {
-> +		int i;
-> +
-> +		for (i = 0; i < fan->fps_count; ++i)
-> +			kobject_put(&fan->fps[i].kobj);
-> +	}
->  
-> -end:
->  	return result;
->  }
->  
-> @@ -376,6 +462,12 @@ static int acpi_fan_remove(struct platform_device *pdev)
->  {
->  	struct acpi_fan *fan = platform_get_drvdata(pdev);
->  
-> +	if (fan->acpi4) {
-> +		int i;
-> +
-> +		for (i = 0; i < fan->fps_count; ++i)
-> +			kobject_put(&fan->fps[i].kobj);
-> +	}
->  	sysfs_remove_link(&pdev->dev.kobj, "thermal_cooling");
->  	sysfs_remove_link(&fan->cdev->device.kobj, "device");
->  	thermal_cooling_device_unregister(fan->cdev);
-> 
+> +       if (have_temp) {
+> +               *temp = temp_raw * 1000;
+> +               return 0;
+> +       }
 
+This looks like it will work fine, I had some heuristics to determine
+the vendor-specific max/min temperatures in property 194 in my
+patch, but I can certainly add that back in later.
 
+> +static const struct hwmon_channel_info *satatemp_info[] = {
+> +       HWMON_CHANNEL_INFO(chip,
+> +                          HWMON_C_REGISTER_TZ),
 
+I suppose this means I will also have a temperature zone as
+I want :D
 
+When I read the comments from the previous thread I got the
+impression the SCSI people wanted me to use something like
+the SCT transport and the hook in the SMART thing in the
+libata back-end specifically for [S]ATA in response to the
+SCT read log command.
+
+In  drivers/ata/libata-scsi.c I suppose.
+
+I guess one thing doesn't exclude the other though.
+
+We can attempt to move the code for [S]ATA over to libata
+at some point and respond to the SCT read log command
+from within the library in that case.
+
+I don't understand if that means the SCT read log also works
+on some SCSI drives, or if it is just a slot-in thing for
+ATA translation that has no meaning on SCSI drives.
+But that can be resolved by people who want to use this
+for SCSI drives and not by us.
+
+Yours,
+Linus Walleij
