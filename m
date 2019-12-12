@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD11C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF67C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:31:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62204208C3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:24:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4D3021655
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:31:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bRXwJmZH"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UQbDOg48"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbfLLBY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 20:24:26 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:35358 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727224AbfLLBYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 20:24:25 -0500
-Received: by mail-pl1-f194.google.com with SMTP id s10so315663plp.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 17:24:25 -0800 (PST)
+        id S1727498AbfLLBbk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 20:31:40 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42085 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727351AbfLLBbk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 20:31:40 -0500
+Received: by mail-pf1-f194.google.com with SMTP id 4so213464pfz.9
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 17:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yxfmdDL7T65vpl8mxodCbmEtdWkrwaTZC5+tzyhVGaA=;
-        b=bRXwJmZHFv0/DvcR8LfYtM1OzaacaOYEZFWDRRvs+auLJumkDckP/tK4HXzXX0EDsA
-         5a+xu78dCM+F+leSzcpQcllZzKsh/bltxO7tR0PDqSlBEzwhxPMDZOCjfPxKOdqjMzH4
-         hjZKFpu0D9hv3HL6Y6H33Q949WW4CYgG0kQz0l5EwDy9d5WW9JCw0XngN9mLAZAYW/bh
-         mD9VlPuPCpzqEdwPBII9BTNK2VTOEj+y0ixQXJX3Xj+qc6MaZ6txvGH5zovaunDkhpeo
-         0gZzNR5sxFf+mbnAwvYvp/ZabyNwah5oDZ1c5ZUfoo+Co9G+yemh/eV7s0OFZL8Ix+5V
-         j/kw==
+        bh=I7BY6Zcq9XcTFG0Efu7gJTSZE5NTVFX3CybfHRAtqtY=;
+        b=UQbDOg483encmWh2POkOoxh3EtPNdlowu1onPBvjs+LEHmho0x1YQHxScWT8Lw2ZYa
+         amX44rro/c8kF1RngDJ4y7YLNnOkInXJR3Xf42xL/HFiM0ThutqYXs0pkYpOpDo2vcp8
+         pkKdibHstn567lChfANcg93TN51oSPI9dObLCNYs3FETzDV8qmA/lWDAS65BG9AdRErg
+         9KIgjG81kXN11FlfsMNKnN3iw9bePVKFWXMb8lww+N4ihJFE3FUnsdnHeh6v9NVRDewc
+         3wX7KipMI53+sCF3NtOh8RTHE7cvEDUnvdEUx7KfyYNzuodiEd3yr0yLkjI3Iq2Tgv6S
+         8iMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yxfmdDL7T65vpl8mxodCbmEtdWkrwaTZC5+tzyhVGaA=;
-        b=I9ZGqfVMZK6XFVWCo/e2Bkzlel2g9tZY4SsJWJmOKE1zLnRZxC5UY9JZIIx5eBrQwE
-         WaX4oPwvV+dYf/sDunXYhSzhWlrU1aVyMYDB/SNcRqQOQBCwsZI9JpkImb2fWoHZjDWz
-         zTzQzW8Y0poL+tvC/qJkc1kvI9epjlJTVSRKHLx1U/Ww6IL/GOl9B7TYaFO1mG3uRVfi
-         0xmXjg3ETms1yaFXZxwxuqfkKBexoG2dvhaPu6P48+GVSg5k9dEP/eEP+lOkCGsePnrq
-         JQ/DKjrNHP0W5x2XCQZENUESJZxKSPd1VFejgJ06VeAVcjWjOqt9JOIg2CNeRW4cqHTL
-         OTGA==
-X-Gm-Message-State: APjAAAWEbrj0IDbcXZjGWK0HBchnC63le4eZLF/3boyywQ69r3H4fQ3Q
-        I1ktVtN6RQn9Ce+APFlRUFKM7MCJyiKfa+4w2WcYnw==
-X-Google-Smtp-Source: APXvYqwh1XJUkOPCF0dyTQQeW2Obj5SdR1i9KBjXveDUQi9/tEWPhx3U7JPzGxqbNmrqdb2cgomvPt7qSdwYBUlbqFc=
-X-Received: by 2002:a17:902:9f98:: with SMTP id g24mr6788276plq.325.1576113864508;
- Wed, 11 Dec 2019 17:24:24 -0800 (PST)
+        bh=I7BY6Zcq9XcTFG0Efu7gJTSZE5NTVFX3CybfHRAtqtY=;
+        b=sR4S8aI1eTIv1G7goJdDaQeZn7fSIOzQzPjx1+61ekvcVUzhdV18z1I0jHuSM8ll5L
+         7cZhoPMoCfkJ9zZ3BVdhmBXSniwnpjlPVHlx0NeZEBnM3EjLUaOJeqJ7U2hok4QTwpsk
+         /fZpzuS/NriJ1P43JNjzQqIY1TiU7I5AR/JVs4Pv75dtkP7kpQLV+JBnyLXeU/4QlQVs
+         g6IX6GVzFahZMMjl8f7WtVz6+OGPzmbPgsaFWBbrY5UVFL1yNz/58NvB91gAa3lfyagk
+         3Qg7JYJD/A970NxoA7YX8RumKY7URskk6hdO8zkazBplyK+4YfBBnhuMh/Zm+f9T1MKl
+         SEPQ==
+X-Gm-Message-State: APjAAAWgv7gDUCg/wmpunpIaoHOJbGwjl3NHJi/cyPkdo/hMRQsBBvhr
+        rXCpGPL1t1NIT8mjVvhP6kal0Jf8sHPbPBBzWVNhmA==
+X-Google-Smtp-Source: APXvYqzyx0bJdLaOoxD/m3x6xqpPQF57TiXxv/pys7PBdDRAXjsm1+KcpFNaAqUbxMNbAJJ7ANa4I+kOvw45zq9nDgs=
+X-Received: by 2002:aa7:961b:: with SMTP id q27mr7136357pfg.23.1576114299143;
+ Wed, 11 Dec 2019 17:31:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20191205093440.21824-1-sjpark@amazon.com> <20191205093440.21824-5-sjpark@amazon.com>
-In-Reply-To: <20191205093440.21824-5-sjpark@amazon.com>
+References: <20191205093440.21824-1-sjpark@amazon.com> <20191205093831.22925-1-sjpark@amazon.com>
+In-Reply-To: <20191205093831.22925-1-sjpark@amazon.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 11 Dec 2019 17:24:13 -0800
-Message-ID: <CAFd5g46j137egWyACg-op7q1gQVMhYzbUdG9_a0hO8Zc9By0sw@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] kunit: Place 'test.log' under the 'build_dir'
+Date:   Wed, 11 Dec 2019 17:31:28 -0800
+Message-ID: <CAFd5g45fBjcVV-ZTvYVOM=1sbdCnjQdcEs5KQ8cXz5JJUdoSrw@mail.gmail.com>
+Subject: Re: [PATCH v5 6/6] kunit/kunit_tool_test: Test '--build_dir' option run
 To:     SeongJae Park <sjpark@amazon.com>
 Cc:     SeongJae Park <sj38.park@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -72,14 +72,11 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 5, 2019 at 1:35 AM SeongJae Park <sjpark@amazon.com> wrote:
+On Thu, Dec 5, 2019 at 1:38 AM SeongJae Park <sjpark@amazon.com> wrote:
 >
 > From: SeongJae Park <sjpark@amazon.de>
 >
-> 'kunit' writes the 'test.log' under the kernel source directory even
-> though a 'build_dir' option is given.  As users who use the option might
-> expect the outputs to be placed under the specified directory, this
-> commit modifies the logic to write the log file under the 'build_dir'.
+> This commit adds kunit tool test for the '--build_dir' option.
 >
 > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
