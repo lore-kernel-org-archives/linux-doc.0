@@ -2,66 +2,75 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AE6C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 11:14:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2530EC43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 12:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 630962173E
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 11:14:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 039F3227BF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 12:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728889AbfLLLOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 06:14:54 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58830 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728458AbfLLLOx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Dec 2019 06:14:53 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id B4AAB51F6902C67E2F34;
-        Thu, 12 Dec 2019 19:14:50 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.173.222.27) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 12 Dec 2019 19:14:43 +0800
-From:   Zenghui Yu <yuzenghui@huawei.com>
-To:     <bhelgaas@google.com>, <corbet@lwn.net>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <wanghaibin.wang@huawei.com>,
-        Zenghui Yu <yuzenghui@huawei.com>
-Subject: [PATCH] Documentation: PCI: msi-howto.rst: Fix wrong function name
-Date:   Thu, 12 Dec 2019 19:13:38 +0800
-Message-ID: <20191212111338.1848-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+        id S1729277AbfLLMvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 07:51:53 -0500
+Received: from foss.arm.com ([217.140.110.172]:45770 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729226AbfLLMvx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Dec 2019 07:51:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC82930E;
+        Thu, 12 Dec 2019 04:51:52 -0800 (PST)
+Received: from localhost (unknown [10.37.6.20])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 247893F718;
+        Thu, 12 Dec 2019 04:51:51 -0800 (PST)
+Date:   Thu, 12 Dec 2019 12:51:49 +0000
+From:   Andrew Murray <andrew.murray@arm.com>
+To:     Zenghui Yu <yuzenghui@huawei.com>
+Cc:     bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wanghaibin.wang@huawei.com
+Subject: Re: [PATCH] Documentation: PCI: msi-howto.rst: Fix wrong function
+ name
+Message-ID: <20191212125149.GG24359@e119886-lin.cambridge.arm.com>
+References: <20191212111338.1848-1-yuzenghui@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191212111338.1848-1-yuzenghui@huawei.com>
+User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-pci_irq_alloc_vectors() -> pci_alloc_irq_vectors().
+On Thu, Dec 12, 2019 at 07:13:38PM +0800, Zenghui Yu wrote:
+> pci_irq_alloc_vectors() -> pci_alloc_irq_vectors().
+> 
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>  Documentation/PCI/msi-howto.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+> index 994cbb660ade..aa2046af69f7 100644
+> --- a/Documentation/PCI/msi-howto.rst
+> +++ b/Documentation/PCI/msi-howto.rst
+> @@ -283,5 +283,5 @@ or disabled (0).  If 0 is found in any of the msi_bus files belonging
+>  to bridges between the PCI root and the device, MSIs are disabled.
+>  
+>  It is also worth checking the device driver to see whether it supports MSIs.
+> -For example, it may contain calls to pci_irq_alloc_vectors() with the
+> +For example, it may contain calls to pci_alloc_irq_vectors() with the
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
----
- Documentation/PCI/msi-howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Andrew Murray <andrew.murray@arm.com>
 
-diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
-index 994cbb660ade..aa2046af69f7 100644
---- a/Documentation/PCI/msi-howto.rst
-+++ b/Documentation/PCI/msi-howto.rst
-@@ -283,5 +283,5 @@ or disabled (0).  If 0 is found in any of the msi_bus files belonging
- to bridges between the PCI root and the device, MSIs are disabled.
- 
- It is also worth checking the device driver to see whether it supports MSIs.
--For example, it may contain calls to pci_irq_alloc_vectors() with the
-+For example, it may contain calls to pci_alloc_irq_vectors() with the
- PCI_IRQ_MSI or PCI_IRQ_MSIX flags.
--- 
-2.19.1
+Thanks,
 
+Andrew Murray
 
+>  PCI_IRQ_MSI or PCI_IRQ_MSIX flags.
+> -- 
+> 2.19.1
+> 
+> 
