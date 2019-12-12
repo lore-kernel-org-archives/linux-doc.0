@@ -2,323 +2,279 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EECC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:16:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA4CC2D0CC
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:19:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72765214AF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:16:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38F3A2464B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:19:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="D6AhFX1N"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbfLLIQz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 03:16:55 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42710 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726382AbfLLIQy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 03:16:54 -0500
-Received: by mail-ot1-f68.google.com with SMTP id 66so863931otd.9;
-        Thu, 12 Dec 2019 00:16:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ewr89PonhWcgQjjMfRXnUYggn4igO3v85xYb+oGoz0c=;
-        b=XNT1JDqjfoaOHfMOlVUsVNvOgfjlLXhYnufQ1cU0/Fa6fDHBopULqfi63PkFPeVFlg
-         znXK5xmMa7S8B7Leg+rhfoUKja/rPLSOlb7uhX2u5iL5GCaTd4mn9oEt048Ec/BjIrfX
-         XgRrx1AIZIkUwSZV/3kW6088Tr7NRHIC1kC0OV3y5vqaL9rIa5RAu3APZ00CHYb+51gt
-         96qSgi1NgLqwJp0bVTgNinjOoOwnLWSYRuVKlRgKyjIE0tR7zlrf5NJLv0K6aQcbZGfp
-         pi7wtWRk9m+X+n4JN9BxE28/dFmTThVC/yA1m6Hu/U83RfMgKgFSFSVeYjpSrFxp5TJ8
-         1kTw==
-X-Gm-Message-State: APjAAAU4Q/2vbuHVRYOTq1lAqtuZk4jhQDC24NPrag/of9lzcHpFfGcw
-        EoP8SvN7Rw1Vn4VwHEfdD7YEvHS/nxMQ7tV0Xsc=
-X-Google-Smtp-Source: APXvYqzG9ZYt3uBwcdCm4dU8hq16ZX7u/oPyLUqMuF3MVZpIJkp+3Lze2iN7nOOizTD0C1A2hDfmvNSvEV/OKJdYmNA=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr6910500otm.297.1576138612708;
- Thu, 12 Dec 2019 00:16:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20191211204306.1207817-1-arnd@arndb.de> <20191211204306.1207817-25-arnd@arndb.de>
-In-Reply-To: <20191211204306.1207817-25-arnd@arndb.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Dec 2019 09:16:41 +0100
-Message-ID: <CAMuHMdW=eG9WWbeL0Od6dVzE7ydpBvVybvkn+cGFtyBR77sP6A@mail.gmail.com>
-Subject: Re: [PATCH 24/24] Documentation: document ioctl interfaces better
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1728436AbfLLITd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 03:19:33 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8662 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728422AbfLLITc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 03:19:32 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df1f8020004>; Thu, 12 Dec 2019 00:19:15 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 12 Dec 2019 00:19:22 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 12 Dec 2019 00:19:22 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
+ 2019 08:19:19 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 12 Dec 2019 08:19:20 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5df1f8070008>; Thu, 12 Dec 2019 00:19:19 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kent Overstreet <kent.overstreet@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        "Jason Gunthorpe" <jgg@mellanox.com>
+Subject: [PATCH v10 12/25] IB/{core,hw,umem}: set FOLL_PIN via pin_user_pages*(), fix up ODP
+Date:   Thu, 12 Dec 2019 00:19:04 -0800
+Message-ID: <20191212081917.1264184-13-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191212081917.1264184-1-jhubbard@nvidia.com>
+References: <20191212081917.1264184-1-jhubbard@nvidia.com>
+MIME-Version: 1.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576138755; bh=aCmqlvTLwMPCbPaoupMZ4E36vMkyUX1WUItANkWAgkQ=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Transfer-Encoding:Content-Type;
+        b=D6AhFX1NsUzhJjRdbM4TZX37KPrvKP3l/EUl9vYvYSWmQyuhQa0boGxSMbUGCdk+u
+         W8NuK0wGPI3aG7LJvhM3/tyqnbc5W5HqrePpm6xIIw1MPTMTExCaj9dC/fitugis/S
+         /GA8Axa8kCagFYb8v56FgFhAxprW1AMo1YcqztCgNIVkQoyKCyB3NvLVhWEUrYQi3I
+         CHJpNvw7uiFFxQtkXlEKFdFw4epGGW9WuZ8DxFaWBE4xKSPk5mQ8d2o2uFYDumcim8
+         rrKgzBhBn+aI9AplAjsnMAqLNSEYicQ+96D8d7j15fQ8O/tzH6w9pma3WnD1WEiGRR
+         XLwvIdLtUeTgQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnd,
+Convert infiniband to use the new pin_user_pages*() calls.
 
-On Wed, Dec 11, 2019 at 9:53 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> Documentation/process/botching-up-ioctls.rst was orignally
-> written as a blog post for DRM driver writers, so it it misses
-> some points while going into a lot of detail on others.
->
-> Try to provide a replacement that addresses typical issues
-> across a wider range of subsystems, and follows the style of
-> the core-api documentation better.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Also, revert earlier changes to Infiniband ODP that had it using
+put_user_page(). ODP is "Case 3" in
+Documentation/core-api/pin_user_pages.rst, which is to say, normal
+get_user_pages() and put_page() is the API to use there.
 
-Thanks for your patch!
+The new pin_user_pages*() calls replace corresponding get_user_pages*()
+calls, and set the FOLL_PIN flag. The FOLL_PIN flag requires that the
+caller must return the pages via put_user_page*() calls, but infiniband
+was already doing that as part of an earlier commit.
 
-> --- /dev/null
-> +++ b/Documentation/core-api/ioctl.rst
-> @@ -0,0 +1,250 @@
-> +======================
-> +ioctl based interfaces
-> +======================
-> +
-> +:c:func:`ioctl` is the most common way for applications to interface
-> +with device drivers. It is flexible and easily extended by adding new
-> +commands and can be passed through character devices, block devices as
-> +well as sockets and other special file descriptors.
-> +
-> +However, it is also very easy to get ioctl command definitions wrong,
-> +and hard to fix them later without breaking existing applications,
-> +so this documentation tries to help developers get it right.
-> +
-> +Command number definitions
-> +==========================
-> +
-> +The command number, or request number, is the second argument passed to
-> +the ioctl system call. While this can be any 32-bit number that uniquely
-> +identifies an action for a particular driver, there are a number of
-> +conventions around defining them.
+Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ drivers/infiniband/core/umem.c              |  2 +-
+ drivers/infiniband/core/umem_odp.c          | 13 ++++++-------
+ drivers/infiniband/hw/hfi1/user_pages.c     |  2 +-
+ drivers/infiniband/hw/mthca/mthca_memfree.c |  2 +-
+ drivers/infiniband/hw/qib/qib_user_pages.c  |  2 +-
+ drivers/infiniband/hw/qib/qib_user_sdma.c   |  2 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c    |  2 +-
+ drivers/infiniband/sw/siw/siw_mem.c         |  2 +-
+ 8 files changed, 13 insertions(+), 14 deletions(-)
 
-Interesting. I never realized the action is 32-bit in the kernel, but
-unsigned long in userspace...
+diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.=
+c
+index 214e87aa609d..55daefaa9b88 100644
+--- a/drivers/infiniband/core/umem.c
++++ b/drivers/infiniband/core/umem.c
+@@ -266,7 +266,7 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, uns=
+igned long addr,
+ 	sg =3D umem->sg_head.sgl;
+=20
+ 	while (npages) {
+-		ret =3D get_user_pages_fast(cur_base,
++		ret =3D pin_user_pages_fast(cur_base,
+ 					  min_t(unsigned long, npages,
+ 						PAGE_SIZE /
+ 						sizeof(struct page *)),
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/u=
+mem_odp.c
+index e42d44e501fd..abc3bb6578cc 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -308,9 +308,8 @@ EXPORT_SYMBOL(ib_umem_odp_release);
+  * The function returns -EFAULT if the DMA mapping operation fails. It ret=
+urns
+  * -EAGAIN if a concurrent invalidation prevents us from updating the page=
+.
+  *
+- * The page is released via put_user_page even if the operation failed. Fo=
+r
+- * on-demand pinning, the page is released whenever it isn't stored in the
+- * umem.
++ * The page is released via put_page even if the operation failed. For on-=
+demand
++ * pinning, the page is released whenever it isn't stored in the umem.
+  */
+ static int ib_umem_odp_map_dma_single_page(
+ 		struct ib_umem_odp *umem_odp,
+@@ -363,7 +362,7 @@ static int ib_umem_odp_map_dma_single_page(
+ 	}
+=20
+ out:
+-	put_user_page(page);
++	put_page(page);
+ 	return ret;
+ }
+=20
+@@ -473,7 +472,7 @@ int ib_umem_odp_map_dma_pages(struct ib_umem_odp *umem_=
+odp, u64 user_virt,
+ 					ret =3D -EFAULT;
+ 					break;
+ 				}
+-				put_user_page(local_page_list[j]);
++				put_page(local_page_list[j]);
+ 				continue;
+ 			}
+=20
+@@ -500,8 +499,8 @@ int ib_umem_odp_map_dma_pages(struct ib_umem_odp *umem_=
+odp, u64 user_virt,
+ 			 * ib_umem_odp_map_dma_single_page().
+ 			 */
+ 			if (npages - (j + 1) > 0)
+-				put_user_pages(&local_page_list[j+1],
+-					       npages - (j + 1));
++				release_pages(&local_page_list[j+1],
++					      npages - (j + 1));
+ 			break;
+ 		}
+ 	}
+diff --git a/drivers/infiniband/hw/hfi1/user_pages.c b/drivers/infiniband/h=
+w/hfi1/user_pages.c
+index 469acb961fbd..9a94761765c0 100644
+--- a/drivers/infiniband/hw/hfi1/user_pages.c
++++ b/drivers/infiniband/hw/hfi1/user_pages.c
+@@ -106,7 +106,7 @@ int hfi1_acquire_user_pages(struct mm_struct *mm, unsig=
+ned long vaddr, size_t np
+ 	int ret;
+ 	unsigned int gup_flags =3D FOLL_LONGTERM | (writable ? FOLL_WRITE : 0);
+=20
+-	ret =3D get_user_pages_fast(vaddr, npages, gup_flags, pages);
++	ret =3D pin_user_pages_fast(vaddr, npages, gup_flags, pages);
+ 	if (ret < 0)
+ 		return ret;
+=20
+diff --git a/drivers/infiniband/hw/mthca/mthca_memfree.c b/drivers/infiniba=
+nd/hw/mthca/mthca_memfree.c
+index edccfd6e178f..8269ab040c21 100644
+--- a/drivers/infiniband/hw/mthca/mthca_memfree.c
++++ b/drivers/infiniband/hw/mthca/mthca_memfree.c
+@@ -472,7 +472,7 @@ int mthca_map_user_db(struct mthca_dev *dev, struct mth=
+ca_uar *uar,
+ 		goto out;
+ 	}
+=20
+-	ret =3D get_user_pages_fast(uaddr & PAGE_MASK, 1,
++	ret =3D pin_user_pages_fast(uaddr & PAGE_MASK, 1,
+ 				  FOLL_WRITE | FOLL_LONGTERM, pages);
+ 	if (ret < 0)
+ 		goto out;
+diff --git a/drivers/infiniband/hw/qib/qib_user_pages.c b/drivers/infiniban=
+d/hw/qib/qib_user_pages.c
+index 6bf764e41891..7fc4b5f81fcd 100644
+--- a/drivers/infiniband/hw/qib/qib_user_pages.c
++++ b/drivers/infiniband/hw/qib/qib_user_pages.c
+@@ -108,7 +108,7 @@ int qib_get_user_pages(unsigned long start_page, size_t=
+ num_pages,
+=20
+ 	down_read(&current->mm->mmap_sem);
+ 	for (got =3D 0; got < num_pages; got +=3D ret) {
+-		ret =3D get_user_pages(start_page + got * PAGE_SIZE,
++		ret =3D pin_user_pages(start_page + got * PAGE_SIZE,
+ 				     num_pages - got,
+ 				     FOLL_LONGTERM | FOLL_WRITE | FOLL_FORCE,
+ 				     p + got, NULL);
+diff --git a/drivers/infiniband/hw/qib/qib_user_sdma.c b/drivers/infiniband=
+/hw/qib/qib_user_sdma.c
+index 05190edc2611..1a3cc2957e3a 100644
+--- a/drivers/infiniband/hw/qib/qib_user_sdma.c
++++ b/drivers/infiniband/hw/qib/qib_user_sdma.c
+@@ -670,7 +670,7 @@ static int qib_user_sdma_pin_pages(const struct qib_dev=
+data *dd,
+ 		else
+ 			j =3D npages;
+=20
+-		ret =3D get_user_pages_fast(addr, j, FOLL_LONGTERM, pages);
++		ret =3D pin_user_pages_fast(addr, j, FOLL_LONGTERM, pages);
+ 		if (ret !=3D j) {
+ 			i =3D 0;
+ 			j =3D ret;
+diff --git a/drivers/infiniband/hw/usnic/usnic_uiom.c b/drivers/infiniband/=
+hw/usnic/usnic_uiom.c
+index 62e6ffa9ad78..600896727d34 100644
+--- a/drivers/infiniband/hw/usnic/usnic_uiom.c
++++ b/drivers/infiniband/hw/usnic/usnic_uiom.c
+@@ -141,7 +141,7 @@ static int usnic_uiom_get_pages(unsigned long addr, siz=
+e_t size, int writable,
+ 	ret =3D 0;
+=20
+ 	while (npages) {
+-		ret =3D get_user_pages(cur_base,
++		ret =3D pin_user_pages(cur_base,
+ 				     min_t(unsigned long, npages,
+ 				     PAGE_SIZE / sizeof(struct page *)),
+ 				     gup_flags | FOLL_LONGTERM,
+diff --git a/drivers/infiniband/sw/siw/siw_mem.c b/drivers/infiniband/sw/si=
+w/siw_mem.c
+index e99983f07663..e53b07dcfed5 100644
+--- a/drivers/infiniband/sw/siw/siw_mem.c
++++ b/drivers/infiniband/sw/siw/siw_mem.c
+@@ -426,7 +426,7 @@ struct siw_umem *siw_umem_get(u64 start, u64 len, bool =
+writable)
+ 		while (nents) {
+ 			struct page **plist =3D &umem->page_chunk[i].plist[got];
+=20
+-			rv =3D get_user_pages(first_page_va, nents,
++			rv =3D pin_user_pages(first_page_va, nents,
+ 					    foll_flags | FOLL_LONGTERM,
+ 					    plist, NULL);
+ 			if (rv < 0)
+--=20
+2.24.0
 
-> +
-> +``include/uapi/asm-generic/ioctl.h`` provides four macros for defining
-> +ioctl commands that follow modern conventions: ``_IOC``, ``_IOR``,
-> +``_IOW``, and ``_IORW``. These should be used for all new commands,
-> +with the correct parameters:
-> +
-> +_IO/_IOR/_IOW/_IOWR
-
-This says _IO....
-
-> +   The macro name determines whether the argument is used for passing
-> +   data into kernel (_IOW), from the kernel (_IOR), both (_IOWR) or is
-
-into the kernel
-, or is
-
-> +   not a pointer (_IOC). It is possible but not recommended to pass an
-> +   integer value instead of a pointer with _IOC.
-
-...which is not explained here, but _IOC is?
-
-> +
-> +type
-> +   An 8-bit number, often a character literal, specific to a subsystem
-> +   or driver, and listed in :doc:`../ioctl/ioctl-number`
-> +
-> +nr
-> +  An 8-bit number identifying the specific command, unique for a give
-> +  value of 'type'
-> +
-> +size
-> +  The name of the data type pointed to by the argument, the command
-> +  number encodes the ``sizeof(size)`` value in a 13-bit or 14-bit integer,
-> +  leading to a limit of 8191 bytes for the maximum size of the argument.
-> +  Note: do not pass sizeof(type) type into _IOR/IOW, as that will lead
-> +  to encoding sizeof(sizeof(type)), i.e. sizeof(size_t).
-
-Looks like "size" could be renamed, to make this more obvious?
-
-> +Timestamps
-> +==========
-> +
-> +Traditionally, timestamps and timeout values are passed as ``struct
-> +timespec`` or ``struct timeval``, but these are problematic because of
-> +incompatible definitions of these structures in user space after the
-> +move to 64-bit time_t.
-> +
-> +The __kernel_timespec type can be used instead to be embedded in other
-> +data structures when separate second/nanosecond values are desired,
-> +or passed to user space directly. This is still not ideal though,
-> +as the structure matches neither the kernel's timespec64 nor the user
-> +space timespec exactly. The get_timespec64() and put_timespec64() helper
-> +functions canbe used to ensure that the layout remains compatible with
-
-can be
-
-> +user space and the padding is treated correctly.
-> +
-> +As it is cheap to convert seconds to nanoseconds, but the opposite
-> +requires an expensive 64-bit division, a simple __u64 nanosecond value
-> +can be simpler and more efficient.
-> +
-> +Timeout values and timestamps should ideally use CLOCK_MONOTONIC time,
-> +as returned by ``ktime_get_ns()`` or ``ktime_get_ts64()``.  Unlike
-> +CLOCK_REALTIME, this makes the timestamps immune from jumping backwards
-> +or forwards due to leap second adjustments and clock_settime() calls.
-> +
-> +``ktime_get_real_ns()`` can be used for CLOCK_REALTIME timestamps that
-> +may be required for timestamps that need to be persistent across a reboot
-
-Drop "may be required for timestamps that"?
-
-> +or between multiple machines.
-
-> +Structure layout
-> +----------------
-> +
-> +Compatible data structures have the same layout on all architectures,
-> +avoiding all problematic members:
-> +
-> +* ``long`` and ``unsigned long`` are the size of a register, so
-> +  they can be either 32 bit or 64 bit wide and cannot be used in portable
-
-32-bit or 64-bit (for consistency with the rest of the document)
-
-> +  data structures. Fixed-length replacements are ``__s32``, ``__u32``,
-> +  ``__s64`` and ``__u64``.
-> +
-> +* Pointers have the same problem, in addition to requiring the
-> +  use of ``compat_ptr()``. The best workaround is to use ``__u64``
-> +  in place of pointers, which requires a cast to ``uintptr_t`` in user
-> +  space, and the use of ``u64_to_user_ptr()`` in the kernel to convert
-> +  it back into a user pointer.
-> +
-> +* On the x86-32 (i386) architecture, the alignment of 64-bit variables
-> +  is only 32 bit, but they are naturally aligned on most other
-
-32-bit
-
-> +  architectures including x86-64. This means a structure like
-> +
-> +  ::
-> +
-> +    struct foo {
-> +        __u32 a;
-> +        __u64 b;
-> +        __u32 c;
-> +    };
-> +
-> +  has four bytes of padding between a and b on x86-64, plus another four
-> +  bytes of padding at the end, but no padding on i386, and it needs a
-> +  compat_ioctl conversion handler to translate between the two formats.
-> +
-> +  To avoid this problem, all structures should have their members
-> +  naturally aligned, or explicit reserved fields added in place of the
-> +  implicit padding.
-> +
-> +* On ARM OABI user space, 16-bit member variables have 32-bit
-> +  alignment, making them incompatible with modern EABI kernels.
-> +  Conversely, on the m68k architecture, all struct members have at most
-> +  16-bit alignment. These rarely cause problems as neither ARM-OABI nor
-
-"have at most 16-bit alignment" sounds a bit weird to me, as a member
-may have a greater alignment.
-"struct members are not guaranteed to have an alignment greater than 16-bit"?
-
-> +  m68k are supported by any compat mode, but for consistency, it is best
-> +  to completely avoid 16-bit member variables.
-> +
-> +
-> +* Bitfields and enums generally work as one would expect them to,
-> +  but some properties of them are implementation-defined, so it is better
-> +  to avoid them completely in ioctl interfaces.
-> +
-> +* ``char`` members can be either signed or unsigned, depending on
-> +  the architecture, so the __u8 and __s8 types should be used for 8-bit
-> +  integer values, though char arrays are clearer for fixed-length strings.
-> +
-> +Information leaks
-> +=================
-> +
-> +Uninitialized data must not be copied back to user space, as this can
-> +cause an information leak, which can be used to defeat kernel address
-> +space layout randomization (KASLR), helping in an attack.
-> +
-> +As explained for the compat mode, it is best to not avoid any padding in
-
-best to avoid any implicit padding?
-
-> +data structures, but if there is already padding in existing structures,
-> +the kernel driver must be careful to zero out the padding using
-> +``memset()`` or similar before copying it to user space.
-> +
-> +Subsystem abstractions
-> +======================
-> +
-> +While some device drivers implement their own ioctl function, most
-> +subsystems implement the same command for multiple drivers.  Ideally the
-> +subsystem has an .ioctl() handler that copies the arguments from and
-> +to user space, passing them into subsystem specific callback functions
-> +through normal kernel pointers.
-> +
-> +This helps in various ways:
-> +
-> +* Applications written for one driver are more likely to work for
-> +  another one in the same subsystem if there are no subtle differences
-> +  in the user space ABI.
-> +
-> +* The complexity of user space access and data structure layout at done
-
-is done
-
-> +  in one place, reducing the potential for implementation bugs.
-> +
-> +* It is more likely to be reviewed by experienced developers
-> +  that can spot problems in the interface when the ioctl is shared
-> +  between multiple drivers than when it is only used in a single driver.
-> +
-> +Alternatives to ioctl
-> +=====================
-> +
-> +There are many cases in which ioctl is not the best solution for a
-> +problem. Alternatives include
-
-:
-
-> +
-> +* System calls are a better choice for a system-wide feature that
-> +  is not tied to a physical device or constrained by the file system
-> +  permissions of a character device node
-> +
-> +* netlink is the preferred way of configuring any network related
-> +  objects through sockets.
-> +
-> +* debugfs is used for ad-hoc interfaces for debugging functionality
-> +  that does not need to be exposed as a stable interface to applications.
-> +
-> +* sysfs is a good way to expose the state of an in-kernel object
-> +  that is not tied to a file descriptor.
-> +
-> +* configfs can be used for more complex configuration than sysfs
-> +
-> +* A custom file system can provide extra flexibility with a simple
-> +  user interface but add a lot of complexity in the implementation.
-
-adds ... to
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
