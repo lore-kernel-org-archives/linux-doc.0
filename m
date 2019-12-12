@@ -2,119 +2,196 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687F5C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C37C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:06:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44F6A214AF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 08:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3E9721655
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728302AbfLLIsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 03:48:13 -0500
-Received: from mga06.intel.com ([134.134.136.31]:13439 "EHLO mga06.intel.com"
+        id S1728345AbfLLKGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 05:06:43 -0500
+Received: from foss.arm.com ([217.140.110.172]:40748 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728220AbfLLIsM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Dec 2019 03:48:12 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2019 00:48:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; 
-   d="scan'208";a="238866800"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2019 00:47:59 -0800
-Received: from andy by smile with local (Exim 4.93-RC7)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1ifK8c-0007tI-Bw; Thu, 12 Dec 2019 10:47:58 +0200
-Date:   Thu, 12 Dec 2019 10:47:58 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        id S1728302AbfLLKGn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Dec 2019 05:06:43 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41F39328;
+        Thu, 12 Dec 2019 02:06:42 -0800 (PST)
+Received: from p8cg001049571a15.arm.com (unknown [10.163.1.199])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 343F13F6CF;
+        Thu, 12 Dec 2019 02:06:35 -0800 (PST)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org, Robin Murphy <robin.murphy@arm.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v11 06/14] peci: Add Aspeed PECI adapter driver
-Message-ID: <20191212084758.GE32742@smile.fi.intel.com>
-References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-7-jae.hyun.yoo@linux.intel.com>
- <20191211202818.GD32742@smile.fi.intel.com>
- <e05cdec0-1120-7e2d-bac0-e4a1ba1ceb3d@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e05cdec0-1120-7e2d-bac0-e4a1ba1ceb3d@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64/elf_hwcap: Add new flags for BFloat-16 extension
+Date:   Thu, 12 Dec 2019 15:37:12 +0530
+Message-Id: <1576145232-8311-1-git-send-email-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 04:50:04PM -0800, Jae Hyun Yoo wrote:
-> On 12/11/2019 12:28 PM, Andy Shevchenko wrote:
-> > On Wed, Dec 11, 2019 at 11:46:16AM -0800, Jae Hyun Yoo wrote:
+Expose the availability of the BFloat16 (BF16) format support in the CPUs.
+BF16 is a new 16-bit floating point format different from the half
+precision format defined by the IEEE-754-2008.
 
-> > Like in the previous patch...
+BF16 extensions add support for new instructions for both FP/SIMD and SVE.
+Advertise these features individually to the userspace via ELF HWCAP.
 
-(1)
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ Documentation/arm64/elf_hwcaps.rst  | 7 +++++++
+ arch/arm64/include/asm/hwcap.h      | 2 ++
+ arch/arm64/include/asm/sysreg.h     | 4 ++++
+ arch/arm64/include/uapi/asm/hwcap.h | 2 ++
+ arch/arm64/kernel/cpufeature.c      | 5 +++++
+ arch/arm64/kernel/cpuinfo.c         | 2 ++
+ 6 files changed, 22 insertions(+)
 
-> I see. I'll simplify this function like below:
-> 
-> #include <linux/iopoll.h>
-> 
-> static inline int aspeed_peci_check_idle(struct aspeed_peci *priv)
-> {
-> 	u32 cmd_sts;
-> 
-> 	return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
-> 				  cmd_sts,
-> 				  !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
-> 				  ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC,
-> 				  ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
-> }
-
-Good for *this* case, but please fix all the rest accordingly.
-
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index 7fa3d21..776b2fe 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -204,6 +204,13 @@ HWCAP2_FRINT
+ 
+     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
+ 
++HWCAP2_BF16
++
++    Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
++
++HWCAP2_SVEBF16
++
++    Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
+ 
+ 4. Unused AT_HWCAP bits
+ -----------------------
+diff --git a/arch/arm64/include/asm/hwcap.h b/arch/arm64/include/asm/hwcap.h
+index 3d2f247..bd8bf48 100644
+--- a/arch/arm64/include/asm/hwcap.h
++++ b/arch/arm64/include/asm/hwcap.h
+@@ -86,6 +86,8 @@
+ #define KERNEL_HWCAP_SVESM4		__khwcap2_feature(SVESM4)
+ #define KERNEL_HWCAP_FLAGM2		__khwcap2_feature(FLAGM2)
+ #define KERNEL_HWCAP_FRINT		__khwcap2_feature(FRINT)
++#define KERNEL_HWCAP_BF16		__khwcap2_feature(BF16)
++#define KERNEL_HWCAP_SVEBF16		__khwcap2_feature(SVEBF16)
+ 
+ /*
+  * This yields a mask that user programs can use to figure out what
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index 6e919fa..6db3a9b 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -553,6 +553,7 @@
+ #define ID_AA64ISAR0_AES_SHIFT		4
+ 
+ /* id_aa64isar1 */
++#define ID_AA64ISAR1_BF16_SHIFT		44
+ #define ID_AA64ISAR1_SB_SHIFT		36
+ #define ID_AA64ISAR1_FRINTTS_SHIFT	32
+ #define ID_AA64ISAR1_GPI_SHIFT		28
+@@ -564,6 +565,7 @@
+ #define ID_AA64ISAR1_APA_SHIFT		4
+ #define ID_AA64ISAR1_DPB_SHIFT		0
+ 
++#define ID_AA64ISAR1_BF16		0x1
+ #define ID_AA64ISAR1_APA_NI		0x0
+ #define ID_AA64ISAR1_APA_ARCHITECTED	0x1
+ #define ID_AA64ISAR1_API_NI		0x0
+@@ -607,12 +609,14 @@
+ /* id_aa64zfr0 */
+ #define ID_AA64ZFR0_SM4_SHIFT		40
+ #define ID_AA64ZFR0_SHA3_SHIFT		32
++#define ID_AA64ZFR0_BF16_SHIFT		20
+ #define ID_AA64ZFR0_BITPERM_SHIFT	16
+ #define ID_AA64ZFR0_AES_SHIFT		4
+ #define ID_AA64ZFR0_SVEVER_SHIFT	0
+ 
+ #define ID_AA64ZFR0_SM4			0x1
+ #define ID_AA64ZFR0_SHA3		0x1
++#define ID_AA64ZFR0_BF16		0x1
+ #define ID_AA64ZFR0_BITPERM		0x1
+ #define ID_AA64ZFR0_AES			0x1
+ #define ID_AA64ZFR0_AES_PMULL		0x2
+diff --git a/arch/arm64/include/uapi/asm/hwcap.h b/arch/arm64/include/uapi/asm/hwcap.h
+index a1e72886..095090c 100644
+--- a/arch/arm64/include/uapi/asm/hwcap.h
++++ b/arch/arm64/include/uapi/asm/hwcap.h
+@@ -65,5 +65,7 @@
+ #define HWCAP2_SVESM4		(1 << 6)
+ #define HWCAP2_FLAGM2		(1 << 7)
+ #define HWCAP2_FRINT		(1 << 8)
++#define HWCAP2_BF16		(1 << 9)
++#define HWCAP2_SVEBF16		(1 << 10)
+ 
+ #endif /* _UAPI__ASM_HWCAP_H */
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 04cf64e..f344cea 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -149,6 +149,7 @@ static const struct arm64_ftr_bits ftr_id_aa64isar1[] = {
+ 	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_PTR_AUTH),
+ 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_APA_SHIFT, 4, 0),
+ 	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_DPB_SHIFT, 4, 0),
++	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_BF16_SHIFT, 4, 0),
+ 	ARM64_FTR_END,
+ };
+ 
+@@ -186,6 +187,8 @@ static const struct arm64_ftr_bits ftr_id_aa64zfr0[] = {
+ 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_AES_SHIFT, 4, 0),
+ 	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_SVE),
+ 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_SVEVER_SHIFT, 4, 0),
++	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_SVE),
++		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_BF16_SHIFT, 4, 0),
+ 	ARM64_FTR_END,
+ };
+ 
+@@ -1652,6 +1655,7 @@ static const struct arm64_cpu_capabilities arm64_elf_hwcaps[] = {
+ 	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_FRINTTS_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_FRINT),
+ 	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_SB_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_SB),
+ 	HWCAP_CAP(SYS_ID_AA64MMFR2_EL1, ID_AA64MMFR2_AT_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_USCAT),
++	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_BF16_SHIFT, FTR_UNSIGNED, ID_AA64ISAR1_BF16, CAP_HWCAP, KERNEL_HWCAP_BF16),
+ #ifdef CONFIG_ARM64_SVE
+ 	HWCAP_CAP(SYS_ID_AA64PFR0_EL1, ID_AA64PFR0_SVE_SHIFT, FTR_UNSIGNED, ID_AA64PFR0_SVE, CAP_HWCAP, KERNEL_HWCAP_SVE),
+ 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SVEVER_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SVEVER_SVE2, CAP_HWCAP, KERNEL_HWCAP_SVE2),
+@@ -1660,6 +1664,7 @@ static const struct arm64_cpu_capabilities arm64_elf_hwcaps[] = {
+ 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_BITPERM_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_BITPERM, CAP_HWCAP, KERNEL_HWCAP_SVEBITPERM),
+ 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SHA3_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SHA3, CAP_HWCAP, KERNEL_HWCAP_SVESHA3),
+ 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SM4_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SM4, CAP_HWCAP, KERNEL_HWCAP_SVESM4),
++	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_BF16_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_BF16, CAP_HWCAP, KERNEL_HWCAP_SVEBF16),
+ #endif
+ 	HWCAP_CAP(SYS_ID_AA64PFR1_EL1, ID_AA64PFR1_SSBS_SHIFT, FTR_UNSIGNED, ID_AA64PFR1_SSBS_PSTATE_INSNS, CAP_HWCAP, KERNEL_HWCAP_SSBS),
+ #ifdef CONFIG_ARM64_PTR_AUTH
+diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
+index 56bba74..10121f5 100644
+--- a/arch/arm64/kernel/cpuinfo.c
++++ b/arch/arm64/kernel/cpuinfo.c
+@@ -84,6 +84,8 @@ static const char *const hwcap_str[] = {
+ 	"svesm4",
+ 	"flagm2",
+ 	"frint",
++	"bf16",
++	"svebf16",
+ 	NULL
+ };
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.7.4
 
