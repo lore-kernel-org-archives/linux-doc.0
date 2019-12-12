@@ -2,129 +2,86 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B054C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD11C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:24:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF0A92173E
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576113603;
-	bh=2xneQyJ26LjPKcfQUBVtoZqwvkEND8rpRB+N5P9GBjM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=GoMxtj3SZxK84Vtjb+RAQqH8QuOW+rlwey8vpdQmmSQMtx5I361/vj3dk1TNlT4JK
-	 E9ZhJ/g/YU+95sn79EldC8ICzjiIAIjlhiebhlQPFDxEpzfJ3Zm7vaEHzRjqUSyBLy
-	 gXYT9ugBrIvlFIe/AXQF+2zzqQu3qX2LNYnBEMuo=
+	by mail.kernel.org (Postfix) with ESMTP id 62204208C3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 01:24:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bRXwJmZH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727351AbfLLBUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 20:20:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33558 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727297AbfLLBUC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Dec 2019 20:20:02 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06904214D8;
-        Thu, 12 Dec 2019 01:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576113601;
-        bh=2xneQyJ26LjPKcfQUBVtoZqwvkEND8rpRB+N5P9GBjM=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=L5fWSRXdjhHTiYZMsMkQ3arn/RcFsM7zwX9vMQbnajx/dd/SnKF02EfuCqBra5/gW
-         Nmkrh9iMg3UG4qEBSdANw0+26B0fUK+zAC5gBL9BbsuhoWGn3kaOjnrPgnSduOQnAr
-         vNsmPLX1Vlvkjzn0DKmnMl6msJRaMx/HmxtYvnKc=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 8DCB535203C6; Wed, 11 Dec 2019 17:20:00 -0800 (PST)
-Date:   Wed, 11 Dec 2019 17:20:00 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     torvalds@linux-foundation.org, mingo@kernel.org,
-        peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
-        akpm@linux-foundation.org, stern@rowland.harvard.edu,
-        dvyukov@google.com, mark.rutland@arm.com, parri.andrea@gmail.com,
-        edumazet@google.com, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -rcu/kcsan 1/2] kcsan: Document static blacklisting
- options
-Message-ID: <20191212012000.GP2889@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191212000709.166889-1-elver@google.com>
+        id S1727469AbfLLBY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 20:24:26 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:35358 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727224AbfLLBYZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 20:24:25 -0500
+Received: by mail-pl1-f194.google.com with SMTP id s10so315663plp.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 17:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yxfmdDL7T65vpl8mxodCbmEtdWkrwaTZC5+tzyhVGaA=;
+        b=bRXwJmZHFv0/DvcR8LfYtM1OzaacaOYEZFWDRRvs+auLJumkDckP/tK4HXzXX0EDsA
+         5a+xu78dCM+F+leSzcpQcllZzKsh/bltxO7tR0PDqSlBEzwhxPMDZOCjfPxKOdqjMzH4
+         hjZKFpu0D9hv3HL6Y6H33Q949WW4CYgG0kQz0l5EwDy9d5WW9JCw0XngN9mLAZAYW/bh
+         mD9VlPuPCpzqEdwPBII9BTNK2VTOEj+y0ixQXJX3Xj+qc6MaZ6txvGH5zovaunDkhpeo
+         0gZzNR5sxFf+mbnAwvYvp/ZabyNwah5oDZ1c5ZUfoo+Co9G+yemh/eV7s0OFZL8Ix+5V
+         j/kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yxfmdDL7T65vpl8mxodCbmEtdWkrwaTZC5+tzyhVGaA=;
+        b=I9ZGqfVMZK6XFVWCo/e2Bkzlel2g9tZY4SsJWJmOKE1zLnRZxC5UY9JZIIx5eBrQwE
+         WaX4oPwvV+dYf/sDunXYhSzhWlrU1aVyMYDB/SNcRqQOQBCwsZI9JpkImb2fWoHZjDWz
+         zTzQzW8Y0poL+tvC/qJkc1kvI9epjlJTVSRKHLx1U/Ww6IL/GOl9B7TYaFO1mG3uRVfi
+         0xmXjg3ETms1yaFXZxwxuqfkKBexoG2dvhaPu6P48+GVSg5k9dEP/eEP+lOkCGsePnrq
+         JQ/DKjrNHP0W5x2XCQZENUESJZxKSPd1VFejgJ06VeAVcjWjOqt9JOIg2CNeRW4cqHTL
+         OTGA==
+X-Gm-Message-State: APjAAAWEbrj0IDbcXZjGWK0HBchnC63le4eZLF/3boyywQ69r3H4fQ3Q
+        I1ktVtN6RQn9Ce+APFlRUFKM7MCJyiKfa+4w2WcYnw==
+X-Google-Smtp-Source: APXvYqwh1XJUkOPCF0dyTQQeW2Obj5SdR1i9KBjXveDUQi9/tEWPhx3U7JPzGxqbNmrqdb2cgomvPt7qSdwYBUlbqFc=
+X-Received: by 2002:a17:902:9f98:: with SMTP id g24mr6788276plq.325.1576113864508;
+ Wed, 11 Dec 2019 17:24:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191212000709.166889-1-elver@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20191205093440.21824-1-sjpark@amazon.com> <20191205093440.21824-5-sjpark@amazon.com>
+In-Reply-To: <20191205093440.21824-5-sjpark@amazon.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 11 Dec 2019 17:24:13 -0800
+Message-ID: <CAFd5g46j137egWyACg-op7q1gQVMhYzbUdG9_a0hO8Zc9By0sw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] kunit: Place 'test.log' under the 'build_dir'
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     SeongJae Park <sj38.park@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>,
+        SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 01:07:08AM +0100, Marco Elver wrote:
-> Updates the section on "Selective analysis", listing all available
-> options to blacklist reporting data races for: specific accesses,
-> functions, compilation units, and entire directories.
-> 
-> These options should provide adequate control for maintainers to opt out
-> of KCSAN analysis at varying levels of granularity. It is hoped to
-> provide the required control to reflect preferences for handling data
-> races across the kernel.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
+On Thu, Dec 5, 2019 at 1:35 AM SeongJae Park <sjpark@amazon.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> 'kunit' writes the 'test.log' under the kernel source directory even
+> though a 'build_dir' option is given.  As users who use the option might
+> expect the outputs to be placed under the specified directory, this
+> commit modifies the logic to write the log file under the 'build_dir'.
+>
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-Both queued for testing and review, thank you!
-
-							Thanx, Paul
-
-> ---
->  Documentation/dev-tools/kcsan.rst | 24 +++++++++++++++++-------
->  1 file changed, 17 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-> index a6f4f92df2fa..65a0be513b7d 100644
-> --- a/Documentation/dev-tools/kcsan.rst
-> +++ b/Documentation/dev-tools/kcsan.rst
-> @@ -101,18 +101,28 @@ instrumentation or e.g. DMA accesses.
->  Selective analysis
->  ~~~~~~~~~~~~~~~~~~
->  
-> -To disable KCSAN data race detection for an entire subsystem, add to the
-> -respective ``Makefile``::
-> +It may be desirable to disable data race detection for specific accesses,
-> +functions, compilation units, or entire subsystems.  For static blacklisting,
-> +the below options are available:
->  
-> -    KCSAN_SANITIZE := n
-> +* KCSAN understands the ``data_race(expr)`` annotation, which tells KCSAN that
-> +  any data races due to accesses in ``expr`` should be ignored and resulting
-> +  behaviour when encountering a data race is deemed safe.
-> +
-> +* Disabling data race detection for entire functions can be accomplished by
-> +  using the function attribute ``__no_kcsan`` (or ``__no_kcsan_or_inline`` for
-> +  ``__always_inline`` functions). To dynamically control for which functions
-> +  data races are reported, see the `debugfs`_ blacklist/whitelist feature.
->  
-> -To disable KCSAN on a per-file basis, add to the ``Makefile``::
-> +* To disable data race detection for a particular compilation unit, add to the
-> +  ``Makefile``::
->  
->      KCSAN_SANITIZE_file.o := n
->  
-> -KCSAN also understands the ``data_race(expr)`` annotation, which tells KCSAN
-> -that any data races due to accesses in ``expr`` should be ignored and resulting
-> -behaviour when encountering a data race is deemed safe.
-> +* To disable data race detection for all compilation units listed in a
-> +  ``Makefile``, add to the respective ``Makefile``::
-> +
-> +    KCSAN_SANITIZE := n
->  
->  debugfs
->  ~~~~~~~
-> -- 
-> 2.24.0.525.g8f36a354ae-goog
-> 
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Tested-by: Brendan Higgins <brendanhiggins@google.com>
