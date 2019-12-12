@@ -2,127 +2,179 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A6BC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F4EC2D0C6
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:50:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 38373205C9
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:07:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XfXWPnMa"
+	by mail.kernel.org (Postfix) with ESMTP id B397B24653
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 00:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727162AbfLLAHk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Dec 2019 19:07:40 -0500
-Received: from mail-wr1-f73.google.com ([209.85.221.73]:35187 "EHLO
-        mail-wr1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727198AbfLLAHj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Dec 2019 19:07:39 -0500
-Received: by mail-wr1-f73.google.com with SMTP id f15so293465wrr.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2019 16:07:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=tqxzx3Ju5IffICSGxw8fWf7dGguiPyd/gZ03a4SjbqI=;
-        b=XfXWPnMa5C9owrCf/+ji/xMeTE8wXtHYUTdluQHNxwxu1kNLVP4Usmfz1rO3gCpCqy
-         1Y4iw4ANp7BcDigb936glzSvlGiVWf2wSEXIAHjJhBhHpem9rHOxnxRLVqi5AQTe84Bl
-         QLSFpqDTEUCY8tcQdMX2nS3zXP/ulwACZzb5dNDnXKg5yjL4ubnzTO7OK5Z8k+Bc2YJn
-         U4ZdkD2Ji8v2Vc0nkpuh73BuHmjov3jpacvuA4T0a83v7iKy2WTJolZI0rYn1CBJ/ulq
-         LTPHHiZnr5lyZ87WNs+jWae6FVjlxJTf3RS/aYTNgYzZuUUre/Y196fLP/RrVBNjIkoS
-         +0sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=tqxzx3Ju5IffICSGxw8fWf7dGguiPyd/gZ03a4SjbqI=;
-        b=PTncepixmjpClM9sv/G0+3HEP0x75TGhpPS8/Yj05F1kahhGO4PxaGhAO1pAI5b5Js
-         pJwHiNXhhpHW4xnbCSnrCKaMzwIj92svjMK0Kj5Qq3wp2x66BQcRiU5Qg9xxUS2p0Py+
-         ULKO7XoATaPbdhjYPgMU4zWCh9wY0AlWIbpZLM2SC/SLaUSMOyZlylFeXXD0enxWpMge
-         gT4RTV7FqBENT09GNQEBtP545sjKYewYmZoTd5WFrUTeFrs/yYAIrfKykhkkHHUjAyAf
-         1hp4xJHekU5vR29A1XwbG5wEEeArkVrnSy7SqN0SwVHf+YayGVtlI1ohr/PgKnaR9QYc
-         UdAw==
-X-Gm-Message-State: APjAAAXamFtu4Ldr+nYEK5T+6gdy5McXIb7E8QyXu3i3+vadT7W49mIY
-        cdm2W8x/Lv+9Km8WnqyQ8QNfRmoQ1w==
-X-Google-Smtp-Source: APXvYqxHsDRHohoVn3rn1JK7XS/6MbnhgdNntqQ/XqwtvzLlREaWFG236xbibKPak1cqL4C6Fh4OggzePA==
-X-Received: by 2002:adf:ffc7:: with SMTP id x7mr2678183wrs.159.1576109257933;
- Wed, 11 Dec 2019 16:07:37 -0800 (PST)
-Date:   Thu, 12 Dec 2019 01:07:09 +0100
-In-Reply-To: <20191212000709.166889-1-elver@google.com>
-Message-Id: <20191212000709.166889-2-elver@google.com>
-Mime-Version: 1.0
-References: <20191212000709.166889-1-elver@google.com>
-X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
-Subject: [PATCH -rcu/kcsan 2/2] kcsan: Add __no_kcsan function attribute
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com
-Cc:     torvalds@linux-foundation.org, paulmck@kernel.org,
-        mingo@kernel.org, peterz@infradead.org, will@kernel.org,
-        tglx@linutronix.de, akpm@linux-foundation.org,
-        stern@rowland.harvard.edu, dvyukov@google.com,
-        mark.rutland@arm.com, parri.andrea@gmail.com, edumazet@google.com,
-        linux-doc@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1727360AbfLLAuF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Dec 2019 19:50:05 -0500
+Received: from mga04.intel.com ([192.55.52.120]:30335 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbfLLAuF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Dec 2019 19:50:05 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 16:50:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,303,1571727600"; 
+   d="scan'208";a="388124032"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
+  by orsmga005.jf.intel.com with ESMTP; 11 Dec 2019 16:50:04 -0800
+Subject: Re: [PATCH v11 06/14] peci: Add Aspeed PECI adapter driver
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org, Robin Murphy <robin.murphy@arm.com>,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+ <20191211194624.2872-7-jae.hyun.yoo@linux.intel.com>
+ <20191211202818.GD32742@smile.fi.intel.com>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <e05cdec0-1120-7e2d-bac0-e4a1ba1ceb3d@linux.intel.com>
+Date:   Wed, 11 Dec 2019 16:50:04 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191211202818.GD32742@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the use of -fsanitize=thread is an implementation detail of KCSAN,
-the name __no_sanitize_thread could be misleading if used widely.
-Instead, we introduce the __no_kcsan attribute which is shorter and more
-accurate in the context of KCSAN.
+Hi Andy,
 
-This matches the attribute name __no_kcsan_or_inline. The use of
-__kcsan_or_inline itself is still required for __always_inline functions
-to retain compatibility with older compilers.
+On 12/11/2019 12:28 PM, Andy Shevchenko wrote:
+> On Wed, Dec 11, 2019 at 11:46:16AM -0800, Jae Hyun Yoo wrote:
+>> This commit adds Aspeed PECI adapter driver for Aspeed
+>> AST24xx/25xx/26xx SoCs.
+> 
+> ...
+> 
+>> +#define   ASPEED_PECI_CMD_IDLE_MASK		(ASPEED_PECI_CMD_STS_MASK | \
+>> +						 ASPEED_PECI_CMD_PIN_MON)
+> 
+> Better looking when the value completely occupies second line without touching
+> the first.
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- include/linux/compiler-gcc.h | 3 +--
- include/linux/compiler.h     | 7 +++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Yes. Will change it.
 
-diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-index 0eb2a1cc411d..cf294faec2f8 100644
---- a/include/linux/compiler-gcc.h
-+++ b/include/linux/compiler-gcc.h
-@@ -146,8 +146,7 @@
- #endif
- 
- #if defined(__SANITIZE_THREAD__) && __has_attribute(__no_sanitize_thread__)
--#define __no_sanitize_thread                                                   \
--	__attribute__((__noinline__)) __attribute__((no_sanitize_thread))
-+#define __no_sanitize_thread __attribute__((no_sanitize_thread))
- #else
- #define __no_sanitize_thread
- #endif
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index 7d3e77781578..a35d5493eeaa 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -207,12 +207,15 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
- # define __no_kasan_or_inline __always_inline
- #endif
- 
-+#define __no_kcsan __no_sanitize_thread
- #ifdef __SANITIZE_THREAD__
- /*
-  * Rely on __SANITIZE_THREAD__ instead of CONFIG_KCSAN, to avoid not inlining in
-- * compilation units where instrumentation is disabled.
-+ * compilation units where instrumentation is disabled. The attribute 'noinline'
-+ * is required for older compilers, where implicit inlining of very small
-+ * functions renders __no_sanitize_thread ineffective.
-  */
--# define __no_kcsan_or_inline __no_sanitize_thread notrace __maybe_unused
-+# define __no_kcsan_or_inline __no_kcsan noinline notrace __maybe_unused
- # define __no_sanitize_or_inline __no_kcsan_or_inline
- #else
- # define __no_kcsan_or_inline __always_inline
--- 
-2.24.0.525.g8f36a354ae-goog
+> ...
+> 
+>> +static int aspeed_peci_check_idle(struct aspeed_peci *priv)
+>> +{
+>> +	ulong timeout = jiffies + usecs_to_jiffies(ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
+>> +	u32 cmd_sts;
+> 
+> Like in the previous patch this one has hard to read timeout loops with inefficient code.
+> 
+>> +	for (;;) {
+>> +		cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
+>> +		if (!(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK))
+>> +			break;
+> 
+>> +		if (time_after(jiffies, timeout)) {
+> 
+> This is actually main exit condition (vs. infinite loop).
+> 
+>> +			cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
+> 
+> This make no sense. If you would like to have one more iteration, just spell it
+> explicitly.
+> 
+>> +			break;
+>> +		}
+> 
+>> +		usleep_range((ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC >> 2) + 1,
+>> +			     ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC);
+>> +	}
+>> +
+> 
+>> +	return !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK) ? 0 : -ETIMEDOUT;
+> 
+> Ditto.
+> 
+>> +}
+> 
+> Now look at the other variant:
+> 
+> 	do {
+> 		...do something...
+> 		if (success)
+> 			return 0;
+> 		usleep(...);
+> 	} while (time_before(...));
+> 
+> 	return -ETIMEDOUT;
+> 
+> * Easy
+> * less LOCs
+> * guaranteed always to be at least one iteration
+> * has explicitly spelled exit condition
+> 
+> BUT!
+> 
+> In this very case you may do even better if you read iopoll.h, i.e
+> readl_poll_timeout() has this functionality embedded in the macro.
+> 
 
+I see. I'll simplify this function like below:
+
+#include <linux/iopoll.h>
+
+static inline int aspeed_peci_check_idle(struct aspeed_peci *priv)
+{
+	u32 cmd_sts;
+
+	return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
+				  cmd_sts,
+				  !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
+				  ASPEED_PECI_IDLE_CHECK_INTERVAL_USEC,
+				  ASPEED_PECI_IDLE_CHECK_TIMEOUT_USEC);
+}
+
+Thanks a lot for your review!
+
+-Jae
