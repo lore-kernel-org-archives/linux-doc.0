@@ -2,196 +2,336 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C37C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BF9C2D0CA
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:17:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3E9721655
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:06:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87EC4206DA
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 10:17:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbfLLKGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 05:06:43 -0500
-Received: from foss.arm.com ([217.140.110.172]:40748 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728302AbfLLKGn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Dec 2019 05:06:43 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41F39328;
-        Thu, 12 Dec 2019 02:06:42 -0800 (PST)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.1.199])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 343F13F6CF;
-        Thu, 12 Dec 2019 02:06:35 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64/elf_hwcap: Add new flags for BFloat-16 extension
-Date:   Thu, 12 Dec 2019 15:37:12 +0530
-Message-Id: <1576145232-8311-1-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
+        id S1728435AbfLLKRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 05:17:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33086 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726382AbfLLKRv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Dec 2019 05:17:51 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 340DEB16C;
+        Thu, 12 Dec 2019 10:17:45 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 66CA41E0B8F; Thu, 12 Dec 2019 11:17:41 +0100 (CET)
+Date:   Thu, 12 Dec 2019 11:17:41 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v10 23/25] mm/gup: track FOLL_PIN pages
+Message-ID: <20191212101741.GD10065@quack2.suse.cz>
+References: <20191212081917.1264184-1-jhubbard@nvidia.com>
+ <20191212081917.1264184-24-jhubbard@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191212081917.1264184-24-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Expose the availability of the BFloat16 (BF16) format support in the CPUs.
-BF16 is a new 16-bit floating point format different from the half
-precision format defined by the IEEE-754-2008.
+On Thu 12-12-19 00:19:15, John Hubbard wrote:
+> Add tracking of pages that were pinned via FOLL_PIN.
+> 
+> As mentioned in the FOLL_PIN documentation, callers who effectively set
+> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
+> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
+> for DIO and/or RDMA use".
+> 
+> Pages that have been pinned via FOLL_PIN are identifiable via a
+> new function call:
+> 
+>    bool page_dma_pinned(struct page *page);
+> 
+> What to do in response to encountering such a page, is left to later
+> patchsets. There is discussion about this in [1], [2], and [3].
+> 
+> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
+> 
+> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
+>     https://lwn.net/Articles/784574/
+> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
+>     https://lwn.net/Articles/774411/
+> [3] The trouble with get_user_pages() (Apr 30, 2018):
+>     https://lwn.net/Articles/753027/
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-BF16 extensions add support for new instructions for both FP/SIMD and SVE.
-Advertise these features individually to the userspace via ELF HWCAP.
+Thanks for the patch. As a side note, given this series is rather big, it
+may be better to send just individual updated patches (as replies to the
+review comments) instead of resending the whole series every time. And then
+you can resend the whole series once enough changes accumulate or we reach
+seemingly final state.  That way people don't have to crawl through lots of
+uninteresing emails...  Just something to keep in mind for the future.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- Documentation/arm64/elf_hwcaps.rst  | 7 +++++++
- arch/arm64/include/asm/hwcap.h      | 2 ++
- arch/arm64/include/asm/sysreg.h     | 4 ++++
- arch/arm64/include/uapi/asm/hwcap.h | 2 ++
- arch/arm64/kernel/cpufeature.c      | 5 +++++
- arch/arm64/kernel/cpuinfo.c         | 2 ++
- 6 files changed, 22 insertions(+)
+I've spotted just one issue in this patch (see below), the rest are just
+small style nits.
 
-diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-index 7fa3d21..776b2fe 100644
---- a/Documentation/arm64/elf_hwcaps.rst
-+++ b/Documentation/arm64/elf_hwcaps.rst
-@@ -204,6 +204,13 @@ HWCAP2_FRINT
- 
-     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
- 
-+HWCAP2_BF16
-+
-+    Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
-+
-+HWCAP2_SVEBF16
-+
-+    Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
- 
- 4. Unused AT_HWCAP bits
- -----------------------
-diff --git a/arch/arm64/include/asm/hwcap.h b/arch/arm64/include/asm/hwcap.h
-index 3d2f247..bd8bf48 100644
---- a/arch/arm64/include/asm/hwcap.h
-+++ b/arch/arm64/include/asm/hwcap.h
-@@ -86,6 +86,8 @@
- #define KERNEL_HWCAP_SVESM4		__khwcap2_feature(SVESM4)
- #define KERNEL_HWCAP_FLAGM2		__khwcap2_feature(FLAGM2)
- #define KERNEL_HWCAP_FRINT		__khwcap2_feature(FRINT)
-+#define KERNEL_HWCAP_BF16		__khwcap2_feature(BF16)
-+#define KERNEL_HWCAP_SVEBF16		__khwcap2_feature(SVEBF16)
- 
- /*
-  * This yields a mask that user programs can use to figure out what
-diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-index 6e919fa..6db3a9b 100644
---- a/arch/arm64/include/asm/sysreg.h
-+++ b/arch/arm64/include/asm/sysreg.h
-@@ -553,6 +553,7 @@
- #define ID_AA64ISAR0_AES_SHIFT		4
- 
- /* id_aa64isar1 */
-+#define ID_AA64ISAR1_BF16_SHIFT		44
- #define ID_AA64ISAR1_SB_SHIFT		36
- #define ID_AA64ISAR1_FRINTTS_SHIFT	32
- #define ID_AA64ISAR1_GPI_SHIFT		28
-@@ -564,6 +565,7 @@
- #define ID_AA64ISAR1_APA_SHIFT		4
- #define ID_AA64ISAR1_DPB_SHIFT		0
- 
-+#define ID_AA64ISAR1_BF16		0x1
- #define ID_AA64ISAR1_APA_NI		0x0
- #define ID_AA64ISAR1_APA_ARCHITECTED	0x1
- #define ID_AA64ISAR1_API_NI		0x0
-@@ -607,12 +609,14 @@
- /* id_aa64zfr0 */
- #define ID_AA64ZFR0_SM4_SHIFT		40
- #define ID_AA64ZFR0_SHA3_SHIFT		32
-+#define ID_AA64ZFR0_BF16_SHIFT		20
- #define ID_AA64ZFR0_BITPERM_SHIFT	16
- #define ID_AA64ZFR0_AES_SHIFT		4
- #define ID_AA64ZFR0_SVEVER_SHIFT	0
- 
- #define ID_AA64ZFR0_SM4			0x1
- #define ID_AA64ZFR0_SHA3		0x1
-+#define ID_AA64ZFR0_BF16		0x1
- #define ID_AA64ZFR0_BITPERM		0x1
- #define ID_AA64ZFR0_AES			0x1
- #define ID_AA64ZFR0_AES_PMULL		0x2
-diff --git a/arch/arm64/include/uapi/asm/hwcap.h b/arch/arm64/include/uapi/asm/hwcap.h
-index a1e72886..095090c 100644
---- a/arch/arm64/include/uapi/asm/hwcap.h
-+++ b/arch/arm64/include/uapi/asm/hwcap.h
-@@ -65,5 +65,7 @@
- #define HWCAP2_SVESM4		(1 << 6)
- #define HWCAP2_FLAGM2		(1 << 7)
- #define HWCAP2_FRINT		(1 << 8)
-+#define HWCAP2_BF16		(1 << 9)
-+#define HWCAP2_SVEBF16		(1 << 10)
- 
- #endif /* _UAPI__ASM_HWCAP_H */
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 04cf64e..f344cea 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -149,6 +149,7 @@ static const struct arm64_ftr_bits ftr_id_aa64isar1[] = {
- 	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_PTR_AUTH),
- 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_APA_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_DPB_SHIFT, 4, 0),
-+	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ISAR1_BF16_SHIFT, 4, 0),
- 	ARM64_FTR_END,
- };
- 
-@@ -186,6 +187,8 @@ static const struct arm64_ftr_bits ftr_id_aa64zfr0[] = {
- 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_AES_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_SVE),
- 		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_SVEVER_SHIFT, 4, 0),
-+	ARM64_FTR_BITS(FTR_VISIBLE_IF_IS_ENABLED(CONFIG_ARM64_SVE),
-+		       FTR_STRICT, FTR_LOWER_SAFE, ID_AA64ZFR0_BF16_SHIFT, 4, 0),
- 	ARM64_FTR_END,
- };
- 
-@@ -1652,6 +1655,7 @@ static const struct arm64_cpu_capabilities arm64_elf_hwcaps[] = {
- 	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_FRINTTS_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_FRINT),
- 	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_SB_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_SB),
- 	HWCAP_CAP(SYS_ID_AA64MMFR2_EL1, ID_AA64MMFR2_AT_SHIFT, FTR_UNSIGNED, 1, CAP_HWCAP, KERNEL_HWCAP_USCAT),
-+	HWCAP_CAP(SYS_ID_AA64ISAR1_EL1, ID_AA64ISAR1_BF16_SHIFT, FTR_UNSIGNED, ID_AA64ISAR1_BF16, CAP_HWCAP, KERNEL_HWCAP_BF16),
- #ifdef CONFIG_ARM64_SVE
- 	HWCAP_CAP(SYS_ID_AA64PFR0_EL1, ID_AA64PFR0_SVE_SHIFT, FTR_UNSIGNED, ID_AA64PFR0_SVE, CAP_HWCAP, KERNEL_HWCAP_SVE),
- 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SVEVER_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SVEVER_SVE2, CAP_HWCAP, KERNEL_HWCAP_SVE2),
-@@ -1660,6 +1664,7 @@ static const struct arm64_cpu_capabilities arm64_elf_hwcaps[] = {
- 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_BITPERM_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_BITPERM, CAP_HWCAP, KERNEL_HWCAP_SVEBITPERM),
- 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SHA3_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SHA3, CAP_HWCAP, KERNEL_HWCAP_SVESHA3),
- 	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_SM4_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_SM4, CAP_HWCAP, KERNEL_HWCAP_SVESM4),
-+	HWCAP_CAP(SYS_ID_AA64ZFR0_EL1, ID_AA64ZFR0_BF16_SHIFT, FTR_UNSIGNED, ID_AA64ZFR0_BF16, CAP_HWCAP, KERNEL_HWCAP_SVEBF16),
- #endif
- 	HWCAP_CAP(SYS_ID_AA64PFR1_EL1, ID_AA64PFR1_SSBS_SHIFT, FTR_UNSIGNED, ID_AA64PFR1_SSBS_PSTATE_INSNS, CAP_HWCAP, KERNEL_HWCAP_SSBS),
- #ifdef CONFIG_ARM64_PTR_AUTH
-diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
-index 56bba74..10121f5 100644
---- a/arch/arm64/kernel/cpuinfo.c
-+++ b/arch/arm64/kernel/cpuinfo.c
-@@ -84,6 +84,8 @@ static const char *const hwcap_str[] = {
- 	"svesm4",
- 	"flagm2",
- 	"frint",
-+	"bf16",
-+	"svebf16",
- 	NULL
- };
- 
+> +#define page_ref_zero_or_close_to_bias_overflow(page) \
+> +	((unsigned int) page_ref_count(page) + \
+> +		GUP_PIN_COUNTING_BIAS <= GUP_PIN_COUNTING_BIAS)
+> +
+
+...
+
+> +/**
+> + * page_dma_pinned() - report if a page is pinned for DMA.
+> + *
+> + * This function checks if a page has been pinned via a call to
+> + * pin_user_pages*().
+> + *
+> + * The return value is partially fuzzy: false is not fuzzy, because it means
+> + * "definitely not pinned for DMA", but true means "probably pinned for DMA, but
+> + * possibly a false positive due to having at least GUP_PIN_COUNTING_BIAS worth
+> + * of normal page references".
+> + *
+> + * False positives are OK, because: a) it's unlikely for a page to get that many
+> + * refcounts, and b) all the callers of this routine are expected to be able to
+> + * deal gracefully with a false positive.
+> + *
+> + * For more information, please see Documentation/vm/pin_user_pages.rst.
+> + *
+> + * @page:	pointer to page to be queried.
+> + * @Return:	True, if it is likely that the page has been "dma-pinned".
+> + *		False, if the page is definitely not dma-pinned.
+> + */
+> +static inline bool page_dma_pinned(struct page *page)
+> +{
+> +	return (page_ref_count(compound_head(page))) >= GUP_PIN_COUNTING_BIAS;
+> +}
+> +
+
+I realized one think WRT handling of page refcount overflow: Page refcount is
+signed and e.g. try_get_page() fails once the refcount is negative. That
+means that:
+
+a) page_ref_zero_or_close_to_bias_overflow() is not necessary - all places
+that use pinning (i.e., advance refcount by GUP_PIN_COUNTING_BIAS) are not
+necesary, we should just rely on the check for negative value for
+consistency.
+
+b) page_dma_pinned() has to be careful and type page_ref_count() to
+unsigned type for comparison as otherwise overflowed refcount would
+suddently appear as not-pinned.
+
+> +/**
+> + * try_pin_compound_head() - mark a compound page as being used by
+> + * pin_user_pages*().
+> + *
+> + * This is the FOLL_PIN counterpart to try_get_compound_head().
+> + *
+> + * @page:	pointer to page to be marked
+> + * @Return:	the compound head page, with ref appropriately incremented,
+> + * or NULL upon failure.
+> + */
+> +__must_check struct page *try_pin_compound_head(struct page *page, int refs)
+> +{
+> +	struct page *head = try_get_compound_head(page,
+> +						  GUP_PIN_COUNTING_BIAS * refs);
+> +	if (!head)
+> +		return NULL;
+> +
+> +	__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, refs);
+> +	return head;
+> +}
+> +
+> +/*
+> + * try_grab_compound_head() - attempt to elevate a page's refcount, by a
+> + * flags-dependent amount.
+> + *
+> + * "grab" names in this file mean, "look at flags to decide whether to use
+> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
+> + *
+> + * Either FOLL_PIN or FOLL_GET (or neither) must be set, but not both at the
+> + * same time. (That's true throughout the get_user_pages*() and
+> + * pin_user_pages*() APIs.) Cases:
+> + *
+> + *	FOLL_GET: page's refcount will be incremented by 1.
+> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
+
+Some tab vs space issue here... Generally we don't use tabs inside comments
+for indenting so I'd wote for using just spaces.
+
+> + *
+> + * Return: head page (with refcount appropriately incremented) for success, or
+> + * NULL upon failure. If neither FOLL_GET nor FOLL_PIN was set, that's
+> + * considered failure, and furthermore, a likely bug in the caller, so a warning
+> + * is also emitted.
+> + */
+> +static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+> +							  int refs,
+> +							  unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		return try_get_compound_head(page, refs);
+> +	else if (flags & FOLL_PIN)
+> +		return try_pin_compound_head(page, refs);
+> +
+> +	WARN_ON_ONCE((flags & (FOLL_GET | FOLL_PIN)) == 0);
+
+This could be just WARN_ON_ONCE(1), right?
+
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * try_grab_page() - elevate a page's refcount by a flag-dependent amount
+> + *
+> + * This might not do anything at all, depending on the flags argument.
+> + *
+> + * "grab" names in this file mean, "look at flags to decide whether to use
+> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
+> + *
+> + * @page:	pointer to page to be grabbed
+> + * @flags:	gup flags: these are the FOLL_* flag values.
+> + *
+> + * Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at the same
+> + * time. Cases:
+> + *
+> + *	FOLL_GET: page's refcount will be incremented by 1.
+> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
+
+Again tab vs space difference here.
+
+> + *
+> + * Return: true for success, or if no action was required (if neither FOLL_PIN
+> + * nor FOLL_GET was set, nothing is done). False for failure: FOLL_GET or
+> + * FOLL_PIN was set, but the page could not be grabbed.
+> + */
+> +bool __must_check try_grab_page(struct page *page, unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		return try_get_page(page);
+> +	else if (flags & FOLL_PIN) {
+> +		page = compound_head(page);
+> +		WARN_ON_ONCE(flags & FOLL_GET);
+> +
+> +		if (WARN_ON_ONCE(page_ref_zero_or_close_to_bias_overflow(page)))
+> +			return false;
+
+As I mentioned above, this will need "negative refcount" check instead...
+
+> +
+> +		page_ref_add(page, GUP_PIN_COUNTING_BIAS);
+> +		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
+> +	}
+> +
+> +	return true;
+> +}
+
+...
+
+> @@ -1468,6 +1482,7 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+>  {
+>  	struct mm_struct *mm = vma->vm_mm;
+>  	struct page *page = NULL;
+> +	struct page *subpage = NULL;
+>  
+>  	assert_spin_locked(pmd_lockptr(mm, pmd));
+>  
+> @@ -1486,6 +1501,14 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+>  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
+>  	if (flags & FOLL_TOUCH)
+>  		touch_pmd(vma, addr, pmd, flags);
+> +
+> +	subpage = page;
+> +	subpage += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
+> +	VM_BUG_ON_PAGE(!PageCompound(subpage) &&
+> +		       !is_zone_device_page(subpage), subpage);
+> +	if (!try_grab_page(subpage, flags))
+> +		return ERR_PTR(-EFAULT);
+> +
+
+Hum, I think you've made this change more complex than it has to be.
+try_grab_page() is the same for head page or subpage because we increment
+the refcount on the compound_head(page) anyway. So I'd leave this function
+as is (not add subpage or move VM_BUG_ON_PAGE()), just have at this place:
+
+	if (!try_grab_page(page, flags))
+		return ERR_PTR(-EFAULT);
+
+Also one comment regarding the error code. Some places seem to return -ENOMEM
+when they fail to grab page reference. Shouldn't we rather return that one
+for consistency?
+
+>  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
+>  		/*
+>  		 * We don't mlock() pte-mapped THPs. This way we can avoid
+> @@ -1509,24 +1532,18 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+>  		 */
+>  
+>  		if (PageAnon(page) && compound_mapcount(page) != 1)
+> -			goto skip_mlock;
+> +			goto out;
+>  		if (PageDoubleMap(page) || !page->mapping)
+> -			goto skip_mlock;
+> +			goto out;
+>  		if (!trylock_page(page))
+> -			goto skip_mlock;
+> +			goto out;
+>  		lru_add_drain();
+>  		if (page->mapping && !PageDoubleMap(page))
+>  			mlock_vma_page(page);
+>  		unlock_page(page);
+>  	}
+> -skip_mlock:
+> -	page += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
+> -	VM_BUG_ON_PAGE(!PageCompound(page) && !is_zone_device_page(page), page);
+> -	if (flags & FOLL_GET)
+> -		get_page(page);
+> -
+>  out:
+> -	return page;
+> +	return subpage;
+>  }
+>  
+
+									Honza
 -- 
-2.7.4
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
