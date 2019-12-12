@@ -2,75 +2,149 @@ Return-Path: <SRS0=cTBG=2C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2530EC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 12:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4985BC2D0C9
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:21:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 039F3227BF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 12:51:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C0EE2464B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Dec 2019 13:21:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SSsBUJhx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729277AbfLLMvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 07:51:53 -0500
-Received: from foss.arm.com ([217.140.110.172]:45770 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729226AbfLLMvx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Dec 2019 07:51:53 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC82930E;
-        Thu, 12 Dec 2019 04:51:52 -0800 (PST)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 247893F718;
-        Thu, 12 Dec 2019 04:51:51 -0800 (PST)
-Date:   Thu, 12 Dec 2019 12:51:49 +0000
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Zenghui Yu <yuzenghui@huawei.com>
-Cc:     bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        wanghaibin.wang@huawei.com
-Subject: Re: [PATCH] Documentation: PCI: msi-howto.rst: Fix wrong function
- name
-Message-ID: <20191212125149.GG24359@e119886-lin.cambridge.arm.com>
-References: <20191212111338.1848-1-yuzenghui@huawei.com>
+        id S1729404AbfLLNU7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 08:20:59 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38343 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729369AbfLLNU6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 08:20:58 -0500
+Received: by mail-lj1-f194.google.com with SMTP id k8so2264437ljh.5
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 05:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hg7Wl/6CET3pvbTGNm/tGvdeGMQk6gSudBEEyfBygCo=;
+        b=SSsBUJhxA1aRWawSyAxOR8XEmSe8IeDhUogI22JjnRdTk3guoUUCNE18wU5spaIBSN
+         Tge40xKNTf2c46f/Ct3PtBV62vLDyTgN2F3kU/LEPoq1BJ2nnzBXF8JYtD2eEX1mqIJz
+         rW7wDkFNi5MxHljIDydZyIjHe6qK9dZp/ZzKZFTU8OzgxhvVNWUmlr/+DUAbJCPCYqdT
+         SZmfh20Q3fi5Bhn0MuHL9ePyN6uLVtDrP1daGTkTkZZvu5ew56B9/mLwobAy+2/ftSrB
+         0Q9aN+TRxhkjgCuoZ7lNHssuUGfAJkwH65uRfr9oM3Du3HhN0ra9yv9gV/v3pVzTcRo0
+         0k3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hg7Wl/6CET3pvbTGNm/tGvdeGMQk6gSudBEEyfBygCo=;
+        b=AtSk/ikAbk5MIDlGhQUORUBMAT+4e3NNkhhPQ6AdNlm21SjSnIMBK2P9LJQKx6CmTE
+         eGOivxG1Cyh47xDk0bu6xYMnvQNWMFPEWmISYBLgKKamI3yaqNRyEwKSTPT1HpIgd3gT
+         MEyFgHrrKxWKl4HJcc9ozN13Q6AXPAFvOXTablnJfeSvJ/EyTfdFHz64rWPbdquFJGZC
+         MmKeIcT7w3Kgi3YtahnIicNU+z8yCb4Q4XLlOLf+WCYE4w7zImpX+1ZUwh9U7k+rNcnh
+         ivTO9biv3aSCrlG2wkfRctXm/eH9OMsrSw9acUcbXkyl5n1zgx0+lOge0T1uKIrEuapv
+         Fv2Q==
+X-Gm-Message-State: APjAAAU4Vz19ZnSu0bC4dE1Sy4J0J6FoawZJiK+bE36aODZ1RSz+zRoV
+        0PiyHx38GsmbVvM25Yv9g4V01Z94u/95pICYFMrCdg==
+X-Google-Smtp-Source: APXvYqw5fhzsAgc+HL+XC84iHcSjemi0g8V+vxBZMQOSmUPecN5cY5o5jyiYAB8ZURwvkZwuG5+myIg9qUaLJdi8vHI=
+X-Received: by 2002:a2e:844e:: with SMTP id u14mr5871004ljh.183.1576156856527;
+ Thu, 12 Dec 2019 05:20:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191212111338.1848-1-yuzenghui@huawei.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-3-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-3-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Dec 2019 14:20:45 +0100
+Message-ID: <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table lookup
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 07:13:38PM +0800, Zenghui Yu wrote:
-> pci_irq_alloc_vectors() -> pci_alloc_irq_vectors().
-> 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> ---
->  Documentation/PCI/msi-howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
-> index 994cbb660ade..aa2046af69f7 100644
-> --- a/Documentation/PCI/msi-howto.rst
-> +++ b/Documentation/PCI/msi-howto.rst
-> @@ -283,5 +283,5 @@ or disabled (0).  If 0 is found in any of the msi_bus files belonging
->  to bridges between the PCI root and the device, MSIs are disabled.
->  
->  It is also worth checking the device driver to see whether it supports MSIs.
-> -For example, it may contain calls to pci_irq_alloc_vectors() with the
-> +For example, it may contain calls to pci_alloc_irq_vectors() with the
+Hi Geert!
 
-Reviewed-by: Andrew Murray <andrew.murray@arm.com>
+On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Thanks,
+> Currently GPIO controllers can only be referred to by label in GPIO
+> lookup tables.
+>
+> Add support for looking them up by "gpiochipN" name, with "N" either the
+> corresponding GPIO device's ID number, or the GPIO controller's first
+> GPIO number.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Andrew Murray
+What the commit message is missing is a rationale, why is this needed?
 
->  PCI_IRQ_MSI or PCI_IRQ_MSIX flags.
-> -- 
-> 2.19.1
-> 
-> 
+> If this is rejected, the GPIO Aggregator documentation must be updated.
+>
+> The second variant is currently used by the legacy sysfs interface only,
+> so perhaps the chip->base check should be dropped?
+
+Anything improving the sysfs is actively discouraged by me.
+If it is just about staying compatible it is another thing.
+
+> +static int gpiochip_match_id(struct gpio_chip *chip, void *data)
+> +{
+> +       int id = (uintptr_t)data;
+> +
+> +       return id == chip->base || id == chip->gpiodev->id;
+> +}
+>  static struct gpio_chip *find_chip_by_name(const char *name)
+>  {
+> -       return gpiochip_find((void *)name, gpiochip_match_name);
+> +       struct gpio_chip *chip;
+> +       int id;
+> +
+> +       chip = gpiochip_find((void *)name, gpiochip_match_name);
+> +       if (chip)
+> +               return chip;
+> +
+> +       if (!str_has_prefix(name, GPIOCHIP_NAME))
+> +               return NULL;
+> +
+> +       if (kstrtoint(name + strlen(GPIOCHIP_NAME), 10, &id))
+> +               return NULL;
+> +
+> +       return gpiochip_find((void *)(uintptr_t)id, gpiochip_match_id);
+
+Isn't it easier to just  augment the existing match function to
+check like this:
+
+static int gpiochip_match_name(struct gpio_chip *chip, void *data)
+{
+        const char *name = data;
+
+        if (!strcmp(chip->label, name))
+               return 0;
+        return !strcmp(dev_name(&chip->gpiodev->dev), name);
+}
+
+We should I guess also add some kerneldoc to say we first
+match on the label and second on dev_name().
+
+Yours,
+Linus Walleij
