@@ -2,142 +2,127 @@ Return-Path: <SRS0=dZE6=2D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D81C34008
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 20:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECCF9C35254
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 20:37:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9BEBF24776
+	by mail.kernel.org (Postfix) with ESMTP id 2CC3624796
 	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 20:37:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wnNIGn1B"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GMXNLsI0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727818AbfLMOyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Dec 2019 09:54:45 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41130 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727673AbfLMOyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Dec 2019 09:54:45 -0500
-Received: by mail-wr1-f66.google.com with SMTP id c9so6942816wrw.8
-        for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2019 06:54:44 -0800 (PST)
+        id S1727816AbfLMOyn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Dec 2019 09:54:43 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34211 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727673AbfLMOyn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Dec 2019 09:54:43 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t2so6978503wrr.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2019 06:54:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=mcjy2CEkG4vUV/6rKn0LaYo72M9aNFWzBHIkohtYboo=;
-        b=wnNIGn1B5TtcrOvFBT+lw2uwRDQK0/kBwC/5nDBJDferrWsJrMexG4vPKcIyEOkbED
-         KIT/I6Q3b8DxJsoVSedBdLevSlpPbgmBv/BraYXxl2sXvOYGQ3l8HlbIQgJUVWKh+r/5
-         VL2nJk5lbA0QnGXR/Hh9iJE6Cbc9gxfq4OoSwrk5iyP0GW0NjWFaP3Rpm7FO+mt9QYsM
-         p97KuMnfFojGVq1+nJzFIOOwq7R5lsx3jYHGpCEiNBeJf+pUN0KYZycftw3WiEn+rafc
-         ZFOsT1XvG7K/RBdg8PksrVfF+OM4S+OuWNYbwkDv2oJc0f7goinDR2xOec/9Raezpkpd
-         WNOg==
+        h=from:to:cc:subject:date:message-id;
+        bh=Uo6+XZGMNTkft0H6aZfy4bG5kDxQR0Iolx1l0XRUcio=;
+        b=GMXNLsI0WWja/RR+HGlhdm3ZA3pmxghfYWYqBVMdP7AiaL+MXIf+YZQmltb7doRgFV
+         EDsLpRgqRbOJtUZJHLlXGvGdvYQji91fTSN/Nhcw6vzc+i1BfcOdD6mDf+C9bnc1Be8O
+         36LWJu5d/s+jH9jWBZVinuJ0mpuz/CkJ/w/OhenH9i2ezoAxyuGGQjhpOpPgKWovJekv
+         YLDFX01/dNXB5P3jQo4VnJFE4PNYIPckEFZMkl6Htm5mhdoJg2+pRRu044fFPFgKvM7+
+         2JpRL5tJJdTw8+Uwk27fQXEvOi2aPy6aGp7wvJG/VCvKR0MwB/PpSvLTFF45VlbBtPPC
+         L42w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=mcjy2CEkG4vUV/6rKn0LaYo72M9aNFWzBHIkohtYboo=;
-        b=iwdr6+zaiKTiIsQaG6ZOKJX1NS+fExbP9sNgSX6YjyXPoUdLsXl0ge4uXvzhqh5wJI
-         KKltqyiyV4kIP6qmuDMwRD67e3qWD/53TvX51WzOZj4cgNDuUcyZuKuiEEV5eeKWBpBb
-         PA+jckvXGHxZedxlS70Iq3O+ABN/vAGWdZwAVed1Q42rI2h2iaCpk9X9xCrs0OV/IWF0
-         dsFA9pnZ6JaQp49GFQsprtJ69ZmHazp2qMpQoRec5J7/mb40veUfMJJGUsd3WWy5OcI/
-         jZkg05OaSNXDWDYxzCmQfD06cE4CFW8YKTEClBIvTv0YE/VNAAKRsqLYE43XzD1os+1K
-         USDg==
-X-Gm-Message-State: APjAAAV7UesBzPwUcgcFe60co4LOkrkl10X8T0QURwY1dPlLBfP+e+8m
-        +Mdz7vbrBNE63+meYk49wqUU1A==
-X-Google-Smtp-Source: APXvYqyAJsTZzlkoo9vrJp2WXJLSdtMLg5J0zEt0TZ7uXB00KGdQ57L5DY0i5i+81w+Q+rotzTA12Q==
-X-Received: by 2002:a5d:4b8f:: with SMTP id b15mr14036255wrt.100.1576248883413;
-        Fri, 13 Dec 2019 06:54:43 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Uo6+XZGMNTkft0H6aZfy4bG5kDxQR0Iolx1l0XRUcio=;
+        b=WEOtdtg1g4z0D3CxowQJPp7vWqQsjh15V2LHJdwbszhUlFYWZCDUwaazhEfqsiZo/N
+         1g2fDimP3G7JG5dE6xYCFYBgzEGIjl2Lgb78Cg/es1NSjulS6h1q6mxoWWgluGamPNQt
+         A2csHRA7SJCxz4KSQ0DHkO61PZXpfc3+GOBLPEpClK28E1JB8vgqE31MSMrfRHIP7G6J
+         OF8mZ73atXlrIy5D0mma2H5rZsNaYbfrOvHYconNahnOpYLx7fosDznKBKAgdyT8ScZ2
+         HnCKhtegbwjQX3aLM3LG+4QQuHzOnzdAC+NOTLTMKXFybf2khnzdjC8if6jLIslCZtRK
+         jpDg==
+X-Gm-Message-State: APjAAAWCVWI7pmXm8ChJ0QLOEPaPTGMh3CN4zjaqE5AfUelvhwFsw3Rs
+        EQCXFx1BINj1i7S9Q2U7paMo3A==
+X-Google-Smtp-Source: APXvYqynfeDaiazOqnf+uPa0CaJht8vTImScZqHs/rULucW5sFyMc6N54mDM1cJXTFkrzsZ0H6bLjg==
+X-Received: by 2002:adf:ef49:: with SMTP id c9mr13026144wrp.292.1576248881480;
+        Fri, 13 Dec 2019 06:54:41 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:54:d457:4f7b:f42c])
-        by smtp.gmail.com with ESMTPSA id n189sm10002979wme.33.2019.12.13.06.54.42
+        by smtp.gmail.com with ESMTPSA id n189sm10002979wme.33.2019.12.13.06.54.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2019 06:54:42 -0800 (PST)
+        Fri, 13 Dec 2019 06:54:40 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
         linux-doc@vger.kernel.org
 Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v3 2/6] coresight: add return value for fixup connections
-Date:   Fri, 13 Dec 2019 14:54:27 +0000
-Message-Id: <20191213145431.24067-3-mike.leach@linaro.org>
+Subject: [PATCH v3 0/6] Describe CoreSight topology using sysfs links.
+Date:   Fri, 13 Dec 2019 14:54:25 +0000
+Message-Id: <20191213145431.24067-1-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191213145431.24067-1-mike.leach@linaro.org>
-References: <20191213145431.24067-1-mike.leach@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
+The connections between CoreSight sources, links and sinks is not obvious
+without documentation or access to the device tree / ACPI definitions for
+the platform.
 
-Handle failures in fixing up connections for a newly registered
-device. This will be useful to handle cases where we fail to expose
-the links via sysfs for the connections.
+This patchset provides sysfs links to enable the user to follow the trace
+patch from source to sink.
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
----
- drivers/hwtracing/coresight/coresight.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+Components in the trace path are updated to have a connections sysfs
+group, which collates all the links for that component.
 
-diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-index 10e756410d3c..07f66a3968f1 100644
---- a/drivers/hwtracing/coresight/coresight.c
-+++ b/drivers/hwtracing/coresight/coresight.c
-@@ -1073,18 +1073,14 @@ static int coresight_orphan_match(struct device *dev, void *data)
- 	return 0;
- }
- 
--static void coresight_fixup_orphan_conns(struct coresight_device *csdev)
-+static int coresight_fixup_orphan_conns(struct coresight_device *csdev)
- {
--	/*
--	 * No need to check for a return value as orphan connection(s)
--	 * are hooked-up with each newly added component.
--	 */
--	bus_for_each_dev(&coresight_bustype, NULL,
-+	return bus_for_each_dev(&coresight_bustype, NULL,
- 			 csdev, coresight_orphan_match);
- }
- 
- 
--static void coresight_fixup_device_conns(struct coresight_device *csdev)
-+static int coresight_fixup_device_conns(struct coresight_device *csdev)
- {
- 	int i;
- 
-@@ -1096,6 +1092,8 @@ static void coresight_fixup_device_conns(struct coresight_device *csdev)
- 		if (!conn->child_dev)
- 			csdev->orphan = true;
- 	}
-+
-+	return 0;
- }
- 
- static int coresight_remove_match(struct device *dev, void *data)
-@@ -1305,11 +1303,17 @@ struct coresight_device *coresight_register(struct coresight_desc *desc)
- 
- 	mutex_lock(&coresight_mutex);
- 
--	coresight_fixup_device_conns(csdev);
--	coresight_fixup_orphan_conns(csdev);
--	cti_add_assoc_to_csdev(csdev);
-+	ret = coresight_fixup_device_conns(csdev);
-+	if (!ret)
-+		ret = coresight_fixup_orphan_conns(csdev);
-+	if (!ret)
-+		cti_add_assoc_to_csdev(csdev);
- 
- 	mutex_unlock(&coresight_mutex);
-+	if (ret) {
-+		coresight_unregister(csdev);
-+		return ERR_PTR(ret);
-+	}
- 
- 	return csdev;
- 
+The CTI components which exist aside from the main trace patch, also
+have an added connections directory showing connections to other
+CoreSight devices.
+
+This patchset applies on top of the recent CTI patchset [1].
+
+Adaptation of an original patchset [2] from Suzuki, reusing 2 patches
+unchanged with update to 3rd adapt to the new common code for trace
+path and CTI component links & add a default connections group.
+
+Tested on Juno r1, DB410c; kernel 5.5-rc1
+
+[1] https://lists.linaro.org/pipermail/coresight/2019-December/003504.html
+[2] https://lists.linaro.org/pipermail/coresight/2019-May/002803.html
+
+Changes since v2:
+1) Fixed issues with signature ordering noted by Suzuki.
+2) Alterations to main CTI set[1] to overcome issue noted by Matthieu.
+
+Changes since v1:
+1) Code from original v4 CTI set moved here so that all connections related
+code in this set.
+2) Connections directory mandatory for all CoreSight components and
+generated as part of the registration process.
+
+Mike Leach (3):
+  coresight: Add generic sysfs link creation functions.
+  coresight: cti: Add in sysfs links to other coresight devices.
+  coresight: docs: Add information about the topology representations.
+
+Suzuki K Poulose (3):
+  coresight: Pass coresight_device for coresight_release_platform_data
+  coresight: add return value for fixup connections
+  coresight: Expose device connections via sysfs
+
+ .../trace/coresight/coresight-ect.rst         |   5 +-
+ Documentation/trace/coresight/coresight.rst   |  85 ++++++++
+ drivers/hwtracing/coresight/Makefile          |   3 +-
+ drivers/hwtracing/coresight/coresight-cti.c   |  41 +++-
+ .../hwtracing/coresight/coresight-platform.c  |   2 +-
+ drivers/hwtracing/coresight/coresight-priv.h  |  12 +-
+ drivers/hwtracing/coresight/coresight-sysfs.c | 204 ++++++++++++++++++
+ drivers/hwtracing/coresight/coresight.c       |  75 ++++---
+ include/linux/coresight.h                     |  22 ++
+ 9 files changed, 420 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/hwtracing/coresight/coresight-sysfs.c
+
 -- 
 2.17.1
 
