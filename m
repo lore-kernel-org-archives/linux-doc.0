@@ -2,328 +2,165 @@ Return-Path: <SRS0=dZE6=2D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB86C43603
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5D2C2D0CE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 04:18:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9FA0621655
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:50:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9ED824656
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 04:18:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ksDmDwZw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731680AbfLMBu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 20:50:27 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:33692 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731529AbfLMBu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 20:50:27 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tkka5UH_1576201821;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tkka5UH_1576201821)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 13 Dec 2019 09:50:23 +0800
-Subject: [PATCH v6 2/2] sched/numa: documentation for per-cgroup numa
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
- <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
-Message-ID: <cf51744e-1c3b-a9d2-6ea2-995ee7863559@linux.alibaba.com>
-Date:   Fri, 13 Dec 2019 09:48:15 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S1731631AbfLMESP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 23:18:15 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37750 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727299AbfLMESP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 23:18:15 -0500
+Received: by mail-pf1-f196.google.com with SMTP id p14so766598pfn.4;
+        Thu, 12 Dec 2019 20:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=J+VXXEpqpT1b0Kt78pCe+xpHKloAmNUpN7ezOmJ2NB0=;
+        b=ksDmDwZwpGeEFBHqIZzt8KKfMIYgWH5S5NsW05L0CjlXsVFWSChJeZ+xC+VC/X0auG
+         /gvQeFbOfkBqLuX4qu6xCgDBpJS3EYiYCSgTausXPWxTTU+TuehXNF5PiuNOpw6Rv8if
+         yXH3e/lwIm22D9qlN81HSa8SmFPEp92pkfsc/jwgLZh3XGP2PNJlVrqRqrJpNzfNV07X
+         SiHNNgQDdo7xBw2Z/Q5PziQtRpzfqcHxtFjR9WmL9LrWyUvYJNKkAGMLuaOXXtDA4UTB
+         SQNkozDBYCYPLCPN+iiwI9Li70BvZemw0o/qAY20vUr/qSks8wYH/IStnMLig4s3KTru
+         +Aow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=J+VXXEpqpT1b0Kt78pCe+xpHKloAmNUpN7ezOmJ2NB0=;
+        b=g48hSp0Q02R41l8iMUE3d/OjWKM2t878MCyeg/IkqLDf++/ExhDkXSUKiYi2cpbs5M
+         AJkZrd4Z6ixCuB5uPZRY3Yw+zkg4Q1YlRSKOz//gUXSx3TN1Gp8M/N4putRQVBxYe7kG
+         4P/Y0hjEfOeq+wAZ2SyAxfqt1EMNN56CQ7iEOBJsGoi+A9ZTrYqK6E0jhL1UNJ1hSH11
+         5TPMSoBkTph3KsbgG0fvTWObnXMhKttxfaSxpZcyCb0U9ngIUKvpXXzl2EAXw1a3L5Xl
+         v09lU5fLiztgJV7kqF2HE2+2ZiyhYLscRhEaKF8TigkliYNUF0tUSSa3Jx9nTBz2nTiP
+         XGNw==
+X-Gm-Message-State: APjAAAUUpopGfY40/oY36APZ50iwbqzu9TwkPa0UfOZ3aHQQnusXmIGh
+        +Tv0roa+Ds6Jjl8qgpq1LVI=
+X-Google-Smtp-Source: APXvYqyu9bam4Mq+Jdr4Xf4RkjFCzPnnKOKiqla8LydRYnEZ6HNk9qndLr9uuzCyMPiQqzSmDrMEuQ==
+X-Received: by 2002:a63:4b52:: with SMTP id k18mr14579197pgl.371.1576210694052;
+        Thu, 12 Dec 2019 20:18:14 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g18sm9275813pfi.80.2019.12.12.20.18.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2019 20:18:13 -0800 (PST)
+Subject: Re: [PATCH 1/1] hwmon: Driver for temperature sensors on SATA drives
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+        Chris Healy <cphealy@gmail.com>
+References: <20191209052119.32072-1-linux@roeck-us.net>
+ <20191209052119.32072-2-linux@roeck-us.net>
+ <CACRpkdYjidQHB0=S_brDxH3k+qJ2mfXCTF9A3SVZkPvBaVg6JQ@mail.gmail.com>
+ <yq1wob1jfjm.fsf@oracle.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <541a7ddd-f4c9-5d5f-4f43-0ae5bc46aef6@roeck-us.net>
+Date:   Thu, 12 Dec 2019 20:18:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <yq1wob1jfjm.fsf@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the description for 'numa_locality', also a new doc to explain
-the details on how to deal with the per-cgroup numa statistics.
+On 12/12/19 3:21 PM, Martin K. Petersen wrote:
+> 
+> Linus,
+> 
+>> It's a nice addition with the SCT command, I never figured that part
+>> out. Also nice how you register the scsi class interface I never saw
+>> that before, it makes it a very neat plug-in.
+> 
+> Yep, I agree that the patch looks pretty good in general. There are just
+> a few wrinkles in the detection heuristics I would like to tweak. More
+> on that later.
+> 
+> Yesterday I added support for the SCSI temperature log page and am
+> working through some kinks wrt. making this work for USB as well.
+> 
+>> When I read the comments from the previous thread I got the impression
+>> the SCSI people wanted me to use something like the SCT transport and
+>> the hook in the SMART thing in the libata back-end specifically for
+>> [S]ATA in response to the SCT read log command.
+> 
+> Our recommendation was for libata-scsi.c to export the SCSI temperature
+> log page, just like we do for all the other ATA parameters.
+> 
+> However, in tinkering with this the last couple of days, I find myself
+> torn on the subject. For two reasons. First of all, there is no 1:1
+> sensor mapping unless you implement the slightly more complex
+> environmental log page. Which isn't a big deal, except out of the
+> hundred or so SCSI devices I have here there isn't a single one that
+> supports it it. So in practice this interface would probably only exist
+> for the purpose of the libata SATL.
+> 
+> The other reason the libata approach is slightly less attractive is that
+> we need all the same SMART parsing for USB as well. So while it is
+> cleaner to hide everything ATA in libata, the reality of USB-ATA bridges
+> gets in the way. That is why I previously suggested having a libsmart or
+> similar with those common bits.
+> 
+> Anyway, based on what I've worked on today, I'm not sure that libata is
+> necessarily the way to go. Sorry about giving bad advice! We've
+> successfully implemented translations for everything else in libata over
+> the years without too much trouble. And it's not really that the
+> translation is bad. It's more the need to support it for USB as well
+> that makes things clunky.
+> 
+>> I don't understand if that means the SCT read log also works
+>> on some SCSI drives, or if it is just a slot-in thing for
+>> ATA translation that has no meaning on SCSI drives.
+> 
+> It's an ATA command.
+> 
+> One concern I have is wrt. to sensor naming. Maybe my /usr/bin/sensors
+> command is too old. But it's pretty hopeless to get sensor readings for
 
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Michal Koutný <mkoutny@suse.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Iurii Zaikin <yzaikin@google.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
----
- Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
- Documentation/admin-guide/index.rst             |   1 +
- Documentation/admin-guide/kernel-parameters.txt |   4 +
- Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
- init/Kconfig                                    |   2 +
- 5 files changed, 194 insertions(+)
- create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+You'll need the command (and libsensors) from the lm-sensors package version
+3.5 or later for it to recognize SCSI/ATA drives.
 
-diff --git a/Documentation/admin-guide/cg-numa-stat.rst b/Documentation/admin-guide/cg-numa-stat.rst
-new file mode 100644
-index 000000000000..30ebe5d6404f
---- /dev/null
-+++ b/Documentation/admin-guide/cg-numa-stat.rst
-@@ -0,0 +1,178 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============================
-+Per-cgroup NUMA statistics
-+===============================
-+
-+Background
-+----------
-+
-+On NUMA platforms, remote memory accessing always has a performance penalty.
-+Although we have NUMA balancing working hard to maximize the access locality,
-+there are still situations it can't help.
-+
-+This could happen in modern production environment. When a large number of
-+cgroups are used to classify and control resources, this creates a complex
-+configuration for memory policy, CPUs and NUMA nodes. In such cases NUMA
-+balancing could end up with the wrong memory policy or exhausted local NUMA
-+node, which would lead to low percentage of local page accesses.
-+
-+We need to detect such cases, figure out which workloads from which cgroup
-+have introduced the issues, then we get chance to do adjustment to avoid
-+performance degradation.
-+
-+However, there are no hardware counters for per-task local/remote accessing
-+info, we don't know how many remote page accesses have occurred for a
-+particular task.
-+
-+NUMA Locality
-+-------------
-+
-+Fortunately, we have NUMA Balancing which scans task's mapping and triggers
-+page fault periodically, giving us the opportunity to record per-task page
-+accessing info, when the CPU fall into PF is from the same node of pages, we
-+consider task as doing local page accessing, otherwise the remote page
-+accessing, we call these two counter the locality info.
-+
-+On each tick, we acquire the locality info of current task on that CPU, update
-+the increments into its cgroup, becoming the group locality info.
-+
-+By "echo 1 > /proc/sys/kernel/numa_locality" at runtime or adding boot parameter
-+'numa_locality', we will enable the accounting of per-cgroup NUMA locality info,
-+the 'cpu.numa_stat' entry of CPU cgroup will show statistics::
-+
-+  page_access local=NR_LOCAL_PAGE_ACCESS remote=NR_REMOTE_PAGE_ACCESS
-+
-+We define 'NUMA locality' as::
-+
-+  NR_LOCAL_PAGE_ACCESS * 100 / (NR_LOCAL_PAGE_ACCESS + NR_REMOTE_PAGE_ACCESS)
-+
-+This per-cgroup percentage number helps to represent the NUMA Balancing behavior.
-+
-+Note that the accounting is hierarchical, which means the NUMA locality info for
-+a given group represent not only the workload of this group, but also the
-+workloads of all its descendants.
-+
-+For example the 'cpu.numa_stat' shows::
-+
-+  page_access local=129909383 remote=18265810
-+
-+The NUMA locality calculated as::
-+
-+  129909383 * 100 / (129909383 + 18265810) = 87.67
-+
-+Thus we know the workload of this group and its descendants have totally done
-+129909383 times of local page accessing and 18265810 times of remotes, locality
-+is 87.67% which imply most of the memory access are local.
-+
-+NUMA Consumption
-+----------------
-+
-+There are also other cgroup entry help us to estimate NUMA efficiency, which is
-+'cpuacct.usage_percpu' and 'memory.numa_stat'.
-+
-+By reading 'cpuacct.usage_percpu' we will get per-cpu runtime (in nanoseconds)
-+info (in hierarchy) as::
-+
-+  CPU_0_RUNTIME CPU_1_RUNTIME CPU_2_RUNTIME ... CPU_X_RUNTIME
-+
-+Combined with the info from::
-+
-+  cat /sys/devices/system/node/nodeX/cpulist
-+
-+We would be able to accumulate the runtime of CPUs into NUMA nodes, to get the
-+per-cgroup node runtime info.
-+
-+By reading 'memory.numa_stat' we will get per-cgroup node memory consumption
-+info as::
-+
-+  total=TOTAL_MEM N0=MEM_ON_NODE0 N1=MEM_ON_NODE1 ... NX=MEM_ON_NODEX
-+
-+Together we call these the per-cgroup NUMA consumption info, tell us how many
-+resources a particular workload has consumed, on a particular NUMA node.
-+
-+Monitoring
-+----------
-+
-+By monitoring the increments of locality info, we can easily know whether NUMA
-+Balancing is working well for a particular workload.
-+
-+For example we take a 5 seconds sample period, then on each sampling we have::
-+
-+  local_diff = last_nr_local_page_access - nr_local_page_access
-+  remote_diff = last_nr_remote_page_access - nr_remote_page_access
-+
-+and we get the locality in this period as::
-+
-+  locality = local_diff * 100 / (local_diff + remote_diff)
-+
-+We can plot a line for locality, when the line close to 100% things are good,
-+when getting close to 0% something is wrong, we can pick a proper watermark to
-+trigger warning message.
-+
-+You may want to drop the data if the local/remote_diff is too small, which
-+implies there are not many available pages for NUMA Balancing to scan, ignoring
-+would be fine since most likely the workload is insensitive to NUMA, or the
-+memory topology is already good enough.
-+
-+Monitoring root group helps you control the overall situation, while you may
-+also want to monitor all the leaf groups which contain the workloads, this
-+helps to catch the mouse.
-+
-+Try to put your workload into also the cpuacct & memory cgroup, when NUMA
-+Balancing is disabled or locality becomes too small, we may want to monitor
-+the per-node runtime & memory info to see if the node consumption meet the
-+requirements.
-+
-+For NUMA node X on each sampling we have::
-+
-+  runtime_X_diff = runtime_X - last_runtime_X
-+  runtime_all_diff = runtime_all - last_runtime_all
-+
-+  runtime_percent_X = runtime_X_diff * 100 / runtime_all_diff
-+  memory_percent_X = memory_X * 100 / memory_all
-+
-+These two percentages are usually matched on each node, workload should execute
-+mostly on the node that contains most of its memory, but it's not guaranteed.
-+
-+The workload may only access a small part of its memory, in such cases although
-+the majority of memory are remotely, locality could still be good.
-+
-+Thus to tell if things are fine or not depends on the understanding of system
-+resource deployment, however, if you find node X got 100% memory percent but 0%
-+runtime percent, definitely something is wrong.
-+
-+Troubleshooting
-+---------------
-+
-+After identifying which workload introduced the bad locality, check:
-+
-+1). Is the workload bound to a particular NUMA node?
-+2). Has any NUMA node run out of resources?
-+
-+There are several ways to bind task's memory with a NUMA node, the strict way
-+like the MPOL_BIND memory policy or 'cpuset.mems' will limit the memory
-+node where to allocate pages. In this situation, admin should make sure the
-+task is allowed to run on the CPUs of that NUMA node, and make sure there are
-+available CPU resource there.
-+
-+There are also ways to bind task's CPU with a NUMA node, like 'cpuset.cpus' or
-+sched_setaffinity() syscall. In this situation, NUMA Balancing help to migrate
-+pages into that node, admin should make sure there are available memory there.
-+
-+Admin could try to rebind or unbind the NUMA node to erase the damage, make a
-+change then observe the statistics to see if things get better until the
-+situation is acceptable.
-+
-+Highlights
-+----------
-+
-+For some tasks, NUMA Balancing may be found to be unnecessary to scan pages,
-+and locality could always be 0 or small number, don't pay attention to them
-+since they most likely insensitive to NUMA.
-+
-+There is no accounting until the option is turned on, so enable it in advance
-+if you want to have the whole history.
-+
-+We have per-task migfailed counter to tell how many page migration has been
-+failed for a particular task, you will find it in /proc/PID/sched entry.
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 4405b7485312..c75a3fdfcd94 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -112,6 +112,7 @@ configure specific aspects of kernel behavior to your liking.
-    video-output
-    wimax/index
-    xfs
-+   cg-numa-stat
+> 100 drives without being able to tell which sensor is for which
+> device. Haven't looked into that yet. The links exist in
+> /sys/class/hwmon that would allow vendor/model/serial to be queried.
+> 
 
- .. only::  subproject and html
+There is a device/ subdirectory which points to that information.
+Is that what you are looking for ? "sensors" displays something
+like satatemp-scsi-5-0, which matches sd 5:0:0:0:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0945611b3877..9d9e57d19af3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3227,6 +3227,10 @@
- 	numa_balancing=	[KNL,X86] Enable or disable automatic NUMA balancing.
- 			Allowed values are enable and disable
+> Oh, and another issue. While technically legal according to the spec, I
+> am not sure it's a good idea to export a sensor per scsi_device. I have
+> moved things to scsi_target instead to avoid having bazillions of
+> sensors show up. Multi-actuator drives are already shipping.
+> 
 
-+	numa_locality	[KNL] Enable per-cgroup numa locality info.
-+			Useful to debug NUMA efficiency problems when there are
-+			lots of per-cgroup workloads.
-+
- 	numa_zonelist_order= [KNL, BOOT] Select zonelist order for NUMA.
- 			'node', 'default' can be specified
- 			This can be set from sysctl after boot.
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 7e203b3ed331..efa995e757fd 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -572,6 +572,15 @@ rate for each task.
- numa_balancing_scan_size_mb is how many megabytes worth of pages are
- scanned for a given scan.
+Not sure I understand what you mean with 'bazillions of sensors' and
+'sensor per scsi_device'. Can you elaborate ? I see one sensor per drive,
+which is what I would expect.
 
-+numa_locality:
-+=============
-+
-+Enables/disables per-cgroup NUMA locality info.
-+
-+0: disabled (default).
-+1: enabled.
-+
-+Check Documentation/admin-guide/cg-numa-stat.rst for details.
+Thanks,
+Guenter
 
- osrelease, ostype & version:
- ============================
-diff --git a/init/Kconfig b/init/Kconfig
-index c614ba6bdcc2..3538fdd73387 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -825,6 +825,8 @@ config CGROUP_NUMA_LOCALITY
- 	  This option enables the collection of per-cgroup NUMA locality info,
- 	  to tell whether NUMA Balancing is working well for a particular
- 	  workload, also imply the NUMA efficiency.
-+	  See
-+		-  Documentation/admin-guide/cg-numa-stat.rst
-
- menuconfig CGROUPS
- 	bool "Control Group support"
--- 
-2.14.4.44.g2045bb6
+> If I recall correctly, though, I seem to recall that you had some sort
+> of multi-LUN external disk box that warranted you working on this in the
+> first place. Is that correct? Can you refresh my memory?
+> 
 
