@@ -2,115 +2,113 @@ Return-Path: <SRS0=dZE6=2D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4607AC43603
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E031C2D0CA
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:45:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 169AD2173E
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:12:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B4QfLAbq"
+	by mail.kernel.org (Postfix) with ESMTP id 7F8602253D
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 01:45:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731607AbfLMBME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 20:12:04 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36776 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727491AbfLMBME (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 20:12:04 -0500
-Received: by mail-pg1-f194.google.com with SMTP id k3so670946pgc.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2019 17:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OB/PpPf9DqYQf2Qw7tk2Kuy8kuD5wsJrhVi2dlqE7Sw=;
-        b=B4QfLAbqAM/M4tT0D/uQ37jaQjF2YFpQR7QbFzgjVP1wMSrjvfxL+DT4sxickn293d
-         pgaKxNvMbGrS9X2aVHL/W5rBxjeH7JPg/UAi0zUeUxSP7KPImmBYq+8Nf63RSlrZ8fN5
-         ZqQvtgOVa1bBRAwhr1TSh/3FU85gmuZGU0tARN+s/bKlXCC8Mydbng0a1YJkd0wNy/ov
-         9pcd6dLzTP7GXjagVVNyQla5nwJ74U9mOR8ii4Gi4R7LWQdGTIDjztuwrZ9w0PlU6W5I
-         vOHEvyHmACYgub1FJK3zGtzCKug61Zwwnwz4iSUCsdeEsJlJLPQy2muUnw3Cg3PnMySd
-         kBtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OB/PpPf9DqYQf2Qw7tk2Kuy8kuD5wsJrhVi2dlqE7Sw=;
-        b=CsI8jsGzV3NCAiuuRArmdv+4W0ia+mHIETInUBtTIl2ZYkSj1++oFoNH6IQMHKvLRz
-         sOz8SITCyRiP43lYT+uk0jwnQRidcAzcwPjtoKiSrbD4iJfaFkbbuzeX8ctJVSRRm4be
-         jF340g/juN+nm37i6vCWAwG/nrLmngfYG5wo7TAerfnUMz2+qiB34ILLk8pzkdEaNsQj
-         PmgvJBIRbFtGRsKqrqnPAVdTT85Kl23BMqNwQlstKzuZLtHyihsMzZRaUqXC+/zliTDY
-         IqvtSpyKlCHidvnqchrEtcp7tDRa2L5tRxW1HE/mFduqgTJXpJtEcGgg6wP6dqE+uWVz
-         j9YQ==
-X-Gm-Message-State: APjAAAXWUe3aoxqlNAz4agVUAvZ6XAXy9tPX66vOatfSGwnNZJGO7Zeb
-        P1POawtYIh+tRW98yxVzdM9afJhEgl+HF5FODn3uvA==
-X-Google-Smtp-Source: APXvYqxWvzd3ydWQnsw8GTi9x1x/1qLazZpUOpXIcE70GeNhhVCT1RDLbbb0t/qplulkQg7PwzhEf/OQh6tEoY3p+k8=
-X-Received: by 2002:a63:cc4f:: with SMTP id q15mr14061181pgi.159.1576199523237;
- Thu, 12 Dec 2019 17:12:03 -0800 (PST)
-MIME-Version: 1.0
-References: <1575473234-5443-1-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1575473234-5443-1-git-send-email-alan.maguire@oracle.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 12 Dec 2019 17:11:52 -0800
-Message-ID: <CAFd5g47KswC47H=0sDr+EFQUGJ3DSMSU2X=1dZc-5D_tZ3ZbOA@mail.gmail.com>
-Subject: Re: [PATCH v6 linux-kselftest-test 0/6] kunit: support building
- core/tests as modules
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
+        id S1727569AbfLMBp0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Dec 2019 20:45:26 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:36134 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727084AbfLMBpZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 20:45:25 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tkka4D._1576201519;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tkka4D._1576201519)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 13 Dec 2019 09:45:20 +0800
+Subject: [PATCH v6 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Iurii Zaikin <yzaikin@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Gow <davidgow@google.com>, adilger.kernel@dilger.ca,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+Message-ID: <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+Date:   Fri, 13 Dec 2019 09:43:13 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 4, 2019 at 7:27 AM Alan Maguire <alan.maguire@oracle.com> wrote:
->
-> The current kunit execution model is to provide base kunit functionality
-> and tests built-in to the kernel.  The aim of this series is to allow
-> building kunit itself and tests as modules.  This in turn allows a
-> simple form of selective execution; load the module you wish to test.
-> In doing so, kunit itself (if also built as a module) will be loaded as
-> an implicit dependency.
->
-> Because this requires a core API modification - if a module delivers
-> multiple suites, they must be declared with the kunit_test_suites()
-> macro - we're proposing this patch set as a candidate to be applied to the
-> test tree before too many kunit consumers appear.  We attempt to deal
-> with existing consumers in patch 3.
+Since v5:
+  * fix compile failure when NUMA disabled
+Since v4:
+  * improved documentation
+Since v3:
+  * fix comments and improved documentation
+Since v2:
+  * simplified the locality concept & implementation
+Since v1:
+  * improved documentation
 
-Hey Alan,
+Modern production environment could use hundreds of cgroup to control
+the resources for different workloads, along with the complicated
+resource binding.
 
-I just wanted to make sure you're not in the dark and wondering what
-happened in regards to this patchset. To my knowledge, I believe you
-have all necessary acks/reviewed-bys. As far as I am concerned,
-everything looks good here and is ready to go. The only remaining bit
-is Shuah picking it up, and sending it out in a pull request. Based on
-the nature of this series, it will have to wait until 5.6; however, I
-think we can accept it into kselftest/test (we are planning on
-renaming it to kunit-next or something like that) as soon as we cut
-that, which should be pretty soon.
+On NUMA platforms where we have multiple nodes, things become even more
+complicated, we hope there are more local memory access to improve the
+performance, and NUMA Balancing keep working hard to achieve that,
+however, wrong memory policy or node binding could easily waste the
+effort, result a lot of remote page accessing.
 
-Feel free to poke us if you have any questions!
+We need to notice such problems, then we got chance to fix it before
+there are too much damages, however, there are no good monitoring
+approach yet to help catch the mouse who introduced the remote access.
 
-Thanks again for all your hard work on this! I think this is going to
-be a valuable addition to KUnit.
+This patch set is trying to fill in the missing pieces， by introduce
+the per-cgroup NUMA locality info, with this new statistics, we could
+achieve the daily monitoring on NUMA efficiency, to give warning when
+things going too wrong.
 
-Cheers
+Please check the second patch for more details.
+
+Michael Wang (2):
+  sched/numa: introduce per-cgroup NUMA locality info
+  sched/numa: documentation for per-cgroup numa statistics
+
+ Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
+ Documentation/admin-guide/index.rst             |   1 +
+ Documentation/admin-guide/kernel-parameters.txt |   4 +
+ Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+ include/linux/sched.h                           |  15 ++
+ include/linux/sched/sysctl.h                    |   6 +
+ init/Kconfig                                    |  11 ++
+ kernel/sched/core.c                             |  75 ++++++++++
+ kernel/sched/fair.c                             |  62 +++++++++
+ kernel/sched/sched.h                            |  12 ++
+ kernel/sysctl.c                                 |  11 ++
+ 11 files changed, 384 insertions(+)
+ create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+
+-- 
+2.14.4.44.g2045bb6
+
