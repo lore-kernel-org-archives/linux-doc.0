@@ -2,77 +2,110 @@ Return-Path: <SRS0=dZE6=2D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5D2C2D0CE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 04:18:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD52EC43603
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 06:24:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D9ED824656
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 04:18:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7292722527
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 06:24:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ksDmDwZw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/EB4Ynu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731631AbfLMESP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Dec 2019 23:18:15 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:37750 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727299AbfLMESP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Dec 2019 23:18:15 -0500
-Received: by mail-pf1-f196.google.com with SMTP id p14so766598pfn.4;
-        Thu, 12 Dec 2019 20:18:14 -0800 (PST)
+        id S1727221AbfLMGYY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Dec 2019 01:24:24 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35886 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725468AbfLMGYY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Dec 2019 01:24:24 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k3so1045771pgc.3;
+        Thu, 12 Dec 2019 22:24:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J+VXXEpqpT1b0Kt78pCe+xpHKloAmNUpN7ezOmJ2NB0=;
-        b=ksDmDwZwpGeEFBHqIZzt8KKfMIYgWH5S5NsW05L0CjlXsVFWSChJeZ+xC+VC/X0auG
-         /gvQeFbOfkBqLuX4qu6xCgDBpJS3EYiYCSgTausXPWxTTU+TuehXNF5PiuNOpw6Rv8if
-         yXH3e/lwIm22D9qlN81HSa8SmFPEp92pkfsc/jwgLZh3XGP2PNJlVrqRqrJpNzfNV07X
-         SiHNNgQDdo7xBw2Z/Q5PziQtRpzfqcHxtFjR9WmL9LrWyUvYJNKkAGMLuaOXXtDA4UTB
-         SQNkozDBYCYPLCPN+iiwI9Li70BvZemw0o/qAY20vUr/qSks8wYH/IStnMLig4s3KTru
-         +Aow==
+        bh=8sYi4Hv5FIXsEqGlGXvnFEGY1XTSggTQlaMwNJRojME=;
+        b=D/EB4Ynuk5PynIQEhnn+OpqGcvBTxf2yRY10NmtgSPLkqiIRLJQ1P3MCs5xcMVJuy6
+         OQtCTZ7BC8aX/agOD40UvjhCmPhtQGjkHMbYe5i6p0rvEYJa6nJlHy2mlB31bquIf7i2
+         4gfYYwidYFXypOs6hFuPflVjzNjxGOSKWMuRg/jLpA0AkonAbiRmGiAiGx9rrs/ZmGNz
+         4F+KQvIwIeOI2KcVwuo+s7FD43eS4QjYLMZkKrJWdeBnmUR32Trowi8XVbmwSNof4ZFX
+         tFTo0QGZ68GnNCo69aRPWSibPbTua7gMyUo+jomTNaYOyp8Kdv0OEB0whM2jhAp7Qu4O
+         TiOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=J+VXXEpqpT1b0Kt78pCe+xpHKloAmNUpN7ezOmJ2NB0=;
-        b=g48hSp0Q02R41l8iMUE3d/OjWKM2t878MCyeg/IkqLDf++/ExhDkXSUKiYi2cpbs5M
-         AJkZrd4Z6ixCuB5uPZRY3Yw+zkg4Q1YlRSKOz//gUXSx3TN1Gp8M/N4putRQVBxYe7kG
-         4P/Y0hjEfOeq+wAZ2SyAxfqt1EMNN56CQ7iEOBJsGoi+A9ZTrYqK6E0jhL1UNJ1hSH11
-         5TPMSoBkTph3KsbgG0fvTWObnXMhKttxfaSxpZcyCb0U9ngIUKvpXXzl2EAXw1a3L5Xl
-         v09lU5fLiztgJV7kqF2HE2+2ZiyhYLscRhEaKF8TigkliYNUF0tUSSa3Jx9nTBz2nTiP
-         XGNw==
-X-Gm-Message-State: APjAAAUUpopGfY40/oY36APZ50iwbqzu9TwkPa0UfOZ3aHQQnusXmIGh
-        +Tv0roa+Ds6Jjl8qgpq1LVI=
-X-Google-Smtp-Source: APXvYqyu9bam4Mq+Jdr4Xf4RkjFCzPnnKOKiqla8LydRYnEZ6HNk9qndLr9uuzCyMPiQqzSmDrMEuQ==
-X-Received: by 2002:a63:4b52:: with SMTP id k18mr14579197pgl.371.1576210694052;
-        Thu, 12 Dec 2019 20:18:14 -0800 (PST)
+        bh=8sYi4Hv5FIXsEqGlGXvnFEGY1XTSggTQlaMwNJRojME=;
+        b=rFJkA7pDNwmcgVlPeiHs78j7Dynt1scealeokvHgT4rkh6yUu8HpzHT1duDR9eV1rG
+         lchqPlLAMTWG3L1t9Z8cRCRukIlVQh56cIv4hIyKW2T7R4eg9tsR8JJ7cq6lBGAGHz/b
+         +YEorFFyoMNbnX1+6AZU9LiIL3QSUBb/loHT4iiRATgUvAnNsxPq1EMzQp/OwqFDxo00
+         QSXT6T02YWD8Hxf1/X+Z1W1V6euk8hKtYjs5Nith78fL+EORVcsD4yTNdS7ZL5EK/Ta/
+         k7rqGhd2d322+/Z4UmLpI4LJnXSMsrjwca3ba5u886b1OcejYTQyJIzeQAz5p4IwfMF3
+         YnJg==
+X-Gm-Message-State: APjAAAUQxr7FWeLLhZDBVtpx5ycGzVwy9f8oYy0FI4dxsYXaSx0/Fes9
+        PbfUU6nBhibGR2rWDbSNYoM=
+X-Google-Smtp-Source: APXvYqx66xx9Cjr2AUu1Bs5zinMCURXm/6hv8c+itDyFW5taC1raFV8fjXS6Hz4D04U7BPP5rL1B7Q==
+X-Received: by 2002:a63:1106:: with SMTP id g6mr15024511pgl.13.1576218263350;
+        Thu, 12 Dec 2019 22:24:23 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g18sm9275813pfi.80.2019.12.12.20.18.12
+        by smtp.gmail.com with ESMTPSA id a195sm9770666pfa.120.2019.12.12.22.24.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2019 20:18:13 -0800 (PST)
-Subject: Re: [PATCH 1/1] hwmon: Driver for temperature sensors on SATA drives
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
-        Chris Healy <cphealy@gmail.com>
-References: <20191209052119.32072-1-linux@roeck-us.net>
- <20191209052119.32072-2-linux@roeck-us.net>
- <CACRpkdYjidQHB0=S_brDxH3k+qJ2mfXCTF9A3SVZkPvBaVg6JQ@mail.gmail.com>
- <yq1wob1jfjm.fsf@oracle.com>
+        Thu, 12 Dec 2019 22:24:22 -0800 (PST)
+Subject: Re: [PATCH v11 13/14] hwmon: Add PECI cputemp driver
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        Tomer Maimon <tmaimon77@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org, Alan Cox <alan@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>
+References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+ <20191211194624.2872-14-jae.hyun.yoo@linux.intel.com>
 From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <541a7ddd-f4c9-5d5f-4f43-0ae5bc46aef6@roeck-us.net>
-Date:   Thu, 12 Dec 2019 20:18:11 -0800
+Message-ID: <28432b99-0c04-c123-0391-d502053a39ab@roeck-us.net>
+Date:   Thu, 12 Dec 2019 22:24:19 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <yq1wob1jfjm.fsf@oracle.com>
+In-Reply-To: <20191211194624.2872-14-jae.hyun.yoo@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -81,86 +114,598 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/12/19 3:21 PM, Martin K. Petersen wrote:
+On 12/11/19 11:46 AM, Jae Hyun Yoo wrote:
+> This commit adds PECI cputemp hwmon driver.
 > 
-> Linus,
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Alan Cox <alan@linux.intel.com>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Stef van Os <stef.van.os@prodrive-technologies.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+> Reviewed-by: James Feist <james.feist@linux.intel.com>
+> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+> Changes since v10:
+> - Added Skylake Xeon D support.
+> - Added DTS temperature which is more thermal control friendlier than Die
+>    temperature.
+> - Fixed minor bugs and style issues.
 > 
->> It's a nice addition with the SCT command, I never figured that part
->> out. Also nice how you register the scsi class interface I never saw
->> that before, it makes it a very neat plug-in.
+>   drivers/hwmon/Kconfig        |  14 ++
+>   drivers/hwmon/Makefile       |   1 +
+>   drivers/hwmon/peci-cputemp.c | 448 +++++++++++++++++++++++++++++++++++
+>   drivers/hwmon/peci-hwmon.h   |  46 ++++
+>   4 files changed, 509 insertions(+)
+>   create mode 100644 drivers/hwmon/peci-cputemp.c
+>   create mode 100644 drivers/hwmon/peci-hwmon.h
 > 
-> Yep, I agree that the patch looks pretty good in general. There are just
-> a few wrinkles in the detection heuristics I would like to tweak. More
-> on that later.
-> 
-> Yesterday I added support for the SCSI temperature log page and am
-> working through some kinks wrt. making this work for USB as well.
-> 
->> When I read the comments from the previous thread I got the impression
->> the SCSI people wanted me to use something like the SCT transport and
->> the hook in the SMART thing in the libata back-end specifically for
->> [S]ATA in response to the SCT read log command.
-> 
-> Our recommendation was for libata-scsi.c to export the SCSI temperature
-> log page, just like we do for all the other ATA parameters.
-> 
-> However, in tinkering with this the last couple of days, I find myself
-> torn on the subject. For two reasons. First of all, there is no 1:1
-> sensor mapping unless you implement the slightly more complex
-> environmental log page. Which isn't a big deal, except out of the
-> hundred or so SCSI devices I have here there isn't a single one that
-> supports it it. So in practice this interface would probably only exist
-> for the purpose of the libata SATL.
-> 
-> The other reason the libata approach is slightly less attractive is that
-> we need all the same SMART parsing for USB as well. So while it is
-> cleaner to hide everything ATA in libata, the reality of USB-ATA bridges
-> gets in the way. That is why I previously suggested having a libsmart or
-> similar with those common bits.
-> 
-> Anyway, based on what I've worked on today, I'm not sure that libata is
-> necessarily the way to go. Sorry about giving bad advice! We've
-> successfully implemented translations for everything else in libata over
-> the years without too much trouble. And it's not really that the
-> translation is bad. It's more the need to support it for USB as well
-> that makes things clunky.
-> 
->> I don't understand if that means the SCT read log also works
->> on some SCSI drives, or if it is just a slot-in thing for
->> ATA translation that has no meaning on SCSI drives.
-> 
-> It's an ATA command.
-> 
-> One concern I have is wrt. to sensor naming. Maybe my /usr/bin/sensors
-> command is too old. But it's pretty hopeless to get sensor readings for
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 23dfe848979a..b6604759579c 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1349,6 +1349,20 @@ config SENSORS_PCF8591
+>   	  These devices are hard to detect and rarely found on mainstream
+>   	  hardware. If unsure, say N.
+>   
+> +config SENSORS_PECI_CPUTEMP
+> +	tristate "PECI CPU temperature monitoring client"
+> +	depends on PECI
+> +	select MFD_INTEL_PECI_CLIENT
+> +	help
+> +	  If you say yes here you get support for the generic Intel PECI
+> +	  cputemp driver which provides Digital Thermal Sensor (DTS) thermal
+> +	  readings of the CPU package and CPU cores that are accessible using
+> +	  the PECI Client Command Suite via the processor PECI client.
+> +	  Check <file:Documentation/hwmon/peci-cputemp.rst> for details.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called peci-cputemp.
+> +
+>   source "drivers/hwmon/pmbus/Kconfig"
+>   
+>   config SENSORS_PWM_FAN
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 6db5db9cdc29..d6fea48697af 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -144,6 +144,7 @@ obj-$(CONFIG_SENSORS_NTC_THERMISTOR)	+= ntc_thermistor.o
+>   obj-$(CONFIG_SENSORS_PC87360)	+= pc87360.o
+>   obj-$(CONFIG_SENSORS_PC87427)	+= pc87427.o
+>   obj-$(CONFIG_SENSORS_PCF8591)	+= pcf8591.o
+> +obj-$(CONFIG_SENSORS_PECI_CPUTEMP)	+= peci-cputemp.o
+>   obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
+>   obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
+>   obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
+> diff --git a/drivers/hwmon/peci-cputemp.c b/drivers/hwmon/peci-cputemp.c
+> new file mode 100644
+> index 000000000000..70ced9f9299f
+> --- /dev/null
+> +++ b/drivers/hwmon/peci-cputemp.c
+> @@ -0,0 +1,448 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (c) 2018-2019 Intel Corporation
+> +
+> +#include <linux/hwmon.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/mfd/intel-peci-client.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include "peci-hwmon.h"
+> +
+> +#define DEFAULT_CHANNEL_NUMS   5
+> +#define CORETEMP_CHANNEL_NUMS  CORE_NUMS_MAX
 
-You'll need the command (and libsensors) from the lm-sensors package version
-3.5 or later for it to recognize SCSI/ATA drives.
+Why not just use CORE_NUMS_MAX ?
 
-> 100 drives without being able to tell which sensor is for which
-> device. Haven't looked into that yet. The links exist in
-> /sys/class/hwmon that would allow vendor/model/serial to be queried.
-> 
+> +#define CPUTEMP_CHANNEL_NUMS   (DEFAULT_CHANNEL_NUMS + CORETEMP_CHANNEL_NUMS)
+> +
+> +struct temp_group {
+> +	struct peci_sensor_data die;
+> +	struct peci_sensor_data dts;
+> +	struct peci_sensor_data tcontrol;
+> +	struct peci_sensor_data tthrottle;
+> +	struct peci_sensor_data tjmax;
+> +	struct peci_sensor_data core[CORETEMP_CHANNEL_NUMS];
+> +};
+> +
+> +struct peci_cputemp {
+> +	struct peci_client_manager *mgr;
+> +	struct device *dev;
+> +	char name[PECI_NAME_SIZE];
+> +	const struct cpu_gen_info *gen_info;
+> +	struct temp_group temp;
+> +	u64 core_mask;
+> +	u32 temp_config[CPUTEMP_CHANNEL_NUMS + 1];
+> +	uint config_idx;
+> +	struct hwmon_channel_info temp_info;
+> +	const struct hwmon_channel_info *info[2];
+> +	struct hwmon_chip_info chip;
+> +};
+> +
+> +enum cputemp_channels {
+> +	channel_die,
+> +	channel_dts,
+> +	channel_tcontrol,
+> +	channel_tthrottle,
+> +	channel_tjmax,
+> +	channel_core,
+> +};
+> +
+> +static const u32 config_table[DEFAULT_CHANNEL_NUMS + 1] = {
+> +	/* Die temperature */
+> +	HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> +	HWMON_T_CRIT_HYST,
+> +
+> +	/* DTS margin */
+> +	HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> +	HWMON_T_CRIT_HYST,
+> +
+> +	/* Tcontrol temperature */
+> +	HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_CRIT,
+> +
+> +	/* Tthrottle temperature */
+> +	HWMON_T_LABEL | HWMON_T_INPUT,
+> +
+> +	/* Tjmax temperature */
+> +	HWMON_T_LABEL | HWMON_T_INPUT,
+> +
+> +	/* Core temperature - for all core channels */
+> +	HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> +	HWMON_T_CRIT_HYST,
+> +};
+> +
+> +static const char *cputemp_label[CPUTEMP_CHANNEL_NUMS] = {
+> +	"Die",
+> +	"DTS",
+> +	"Tcontrol",
+> +	"Tthrottle",
+> +	"Tjmax",
+> +	"Core 0", "Core 1", "Core 2", "Core 3",
+> +	"Core 4", "Core 5", "Core 6", "Core 7",
+> +	"Core 8", "Core 9", "Core 10", "Core 11",
+> +	"Core 12", "Core 13", "Core 14", "Core 15",
+> +	"Core 16", "Core 17", "Core 18", "Core 19",
+> +	"Core 20", "Core 21", "Core 22", "Core 23",
+> +	"Core 24", "Core 25", "Core 26", "Core 27",
+> +};
+> +
 
-There is a device/ subdirectory which points to that information.
-Is that what you are looking for ? "sensors" displays something
-like satatemp-scsi-5-0, which matches sd 5:0:0:0:
+What happens if CPUTEMP_CHANNEL_NUMS is increased in the future,
+and some of this array includes NULL pointers because this file
+doesn't track CORE_NUMS_MAX ?
 
-> Oh, and another issue. While technically legal according to the spec, I
-> am not sure it's a good idea to export a sensor per scsi_device. I have
-> moved things to scsi_target instead to avoid having bazillions of
-> sensors show up. Multi-actuator drives are already shipping.
-> 
+> +static s32 ten_dot_six_to_millidegree(s32 val)
+> +{
+> +	return ((val ^ 0x8000) - 0x8000) * 1000 / 64;
 
-Not sure I understand what you mean with 'bazillions of sensors' and
-'sensor per scsi_device'. Can you elaborate ? I see one sensor per drive,
-which is what I would expect.
+Normally I suggest to use DIV_ROUND_CLOSEST in situations like this
+to improve rounding, but ultimately that is your call.
 
-Thanks,
-Guenter
+> +}
+> +
+> +static int get_temp_targets(struct peci_cputemp *priv)
+> +{
+> +	s32 tthrottle_offset;
+> +	s32 tcontrol_margin;
+> +	u8  pkg_cfg[4];
+> +	int ret;
+> +
+> +	/*
+> +	 * Just use only the tcontrol marker to determine if target values need
+> +	 * update.
+> +	 */
+> +	if (!peci_sensor_need_update(&priv->temp.tcontrol))
+> +		return 0;
+> +
+> +	ret = peci_client_read_package_config(priv->mgr,
+> +					      PECI_MBX_INDEX_TEMP_TARGET, 0,
+> +					      pkg_cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->temp.tjmax.value = pkg_cfg[2] * 1000;
+> +
+> +	tcontrol_margin = pkg_cfg[1];
+> +	tcontrol_margin = ((tcontrol_margin ^ 0x80) - 0x80) * 1000;
+> +	priv->temp.tcontrol.value = priv->temp.tjmax.value - tcontrol_margin;
+> +
+> +	tthrottle_offset = (pkg_cfg[3] & 0x2f) * 1000;
+> +	priv->temp.tthrottle.value = priv->temp.tjmax.value - tthrottle_offset;
+> +
+> +	peci_sensor_mark_updated(&priv->temp.tcontrol);
+> +
+> +	return 0;
+> +}
+> +
+> +static int get_die_temp(struct peci_cputemp *priv)
+> +{
+> +	struct peci_get_temp_msg msg;
+> +	int ret;
+> +
+> +	if (!peci_sensor_need_update(&priv->temp.die))
+> +		return 0;
+> +
+> +	msg.addr = priv->mgr->client->addr;
+> +
+> +	ret = peci_command(priv->mgr->client->adapter, PECI_CMD_GET_TEMP, &msg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Note that the tjmax should be available before calling it */
+> +	priv->temp.die.value = priv->temp.tjmax.value +
+> +			       (msg.temp_raw * 1000 / 64);
+> +
+> +	peci_sensor_mark_updated(&priv->temp.die);
+> +
+> +	return 0;
+> +}
+> +
+> +static int get_dts(struct peci_cputemp *priv)
+> +{
+> +	s32 dts_margin;
+> +	u8  pkg_cfg[4];
+> +	int ret;
+> +
+> +	if (!peci_sensor_need_update(&priv->temp.dts))
+> +		return 0;
+> +
+> +	ret = peci_client_read_package_config(priv->mgr,
+> +					      PECI_MBX_INDEX_DTS_MARGIN, 0,
+> +					      pkg_cfg);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	dts_margin = (pkg_cfg[1] << 8) | pkg_cfg[0];
+> +
+> +	/**
+> +	 * Processors return a value of DTS reading in 10.6 format
+> +	 * (10 bits signed decimal, 6 bits fractional).
+> +	 * Error codes:
+> +	 *   0x8000: General sensor error
+> +	 *   0x8001: Reserved
+> +	 *   0x8002: Underflow on reading value
+> +	 *   0x8003-0x81ff: Reserved
+> +	 */
+> +	if (dts_margin >= 0x8000 && dts_margin <= 0x81ff)
+> +		return -EIO;
+> +
+> +	dts_margin = ten_dot_six_to_millidegree(dts_margin);
+> +
+> +	/* Note that the tcontrol should be available before calling it */
+> +	priv->temp.dts.value = priv->temp.tcontrol.value - dts_margin;
+> +
+> +	peci_sensor_mark_updated(&priv->temp.dts);
+> +
+> +	return 0;
+> +}
+> +
+> +static int get_core_temp(struct peci_cputemp *priv, int core_index)
+> +{
+> +	s32 core_dts_margin;
+> +	u8  pkg_cfg[4];
+> +	int ret;
+> +
+> +	if (!peci_sensor_need_update(&priv->temp.core[core_index]))
+> +		return 0;
+> +
+> +	ret = peci_client_read_package_config(priv->mgr,
+> +					      PECI_MBX_INDEX_PER_CORE_DTS_TEMP,
+> +					      core_index, pkg_cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	core_dts_margin = le16_to_cpup((__le16 *)pkg_cfg);
+> +
 
-> If I recall correctly, though, I seem to recall that you had some sort
-> of multi-LUN external disk box that warranted you working on this in the
-> first place. Is that correct? Can you refresh my memory?
+Any special readon for using the helper function here but not
+above ?
+
+> +	/*
+> +	 * Processors return a value of the core DTS reading in 10.6 format
+> +	 * (10 bits signed decimal, 6 bits fractional).
+> +	 * Error codes:
+> +	 *   0x8000: General sensor error
+> +	 *   0x8001: Reserved
+> +	 *   0x8002: Underflow on reading value
+> +	 *   0x8003-0x81ff: Reserved
+> +	 */
+> +	if (core_dts_margin >= 0x8000 && core_dts_margin <= 0x81ff)
+> +		return -EIO;
+> +
+> +	core_dts_margin = ten_dot_six_to_millidegree(core_dts_margin);
+> +
+> +	/* Note that the tjmax should be available before calling it */
+> +	priv->temp.core[core_index].value = priv->temp.tjmax.value +
+> +					    core_dts_margin;
+> +
+> +	peci_sensor_mark_updated(&priv->temp.core[core_index]);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cputemp_read_string(struct device *dev,
+> +			       enum hwmon_sensor_types type,
+> +			       u32 attr, int channel, const char **str)
+> +{
+> +	if (attr != hwmon_temp_label)
+> +		return -EOPNOTSUPP;
+> +
+> +	*str = cputemp_label[channel];
+> +
+> +	return 0;
+> +}
+> +
+> +static int cputemp_read(struct device *dev,
+> +			enum hwmon_sensor_types type,
+> +			u32 attr, int channel, long *val)
+> +{
+> +	struct peci_cputemp *priv = dev_get_drvdata(dev);
+> +	int ret, core_index;
+> +
+> +	if (channel >= CPUTEMP_CHANNEL_NUMS ||
+> +	    !(priv->temp_config[channel] & BIT(attr)))
+> +		return -EOPNOTSUPP;
+> +
+> +	ret = get_temp_targets(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_input:
+> +		switch (channel) {
+> +		case channel_die:
+> +			ret = get_die_temp(priv);
+> +			if (ret)
+> +				break;
+> +
+> +			*val = priv->temp.die.value;
+> +			break;
+> +		case channel_dts:
+> +			ret = get_dts(priv);
+> +			if (ret)
+> +				break;
+> +
+> +			*val = priv->temp.dts.value;
+> +			break;
+> +		case channel_tcontrol:
+> +			*val = priv->temp.tcontrol.value;
+> +			break;
+> +		case channel_tthrottle:
+> +			*val = priv->temp.tthrottle.value;
+> +			break;
+> +		case channel_tjmax:
+> +			*val = priv->temp.tjmax.value;
+> +			break;
+> +		default:
+> +			core_index = channel - DEFAULT_CHANNEL_NUMS;
+> +			ret = get_core_temp(priv, core_index);
+> +			if (ret)
+> +				break;
+> +
+> +			*val = priv->temp.core[core_index].value;
+> +			break;
+> +		}
+> +		break;
+> +	case hwmon_temp_max:
+> +		*val = priv->temp.tcontrol.value;
+> +		break;
+> +	case hwmon_temp_crit:
+> +		*val = priv->temp.tjmax.value;
+> +		break;
+> +	case hwmon_temp_crit_hyst:
+> +		*val = priv->temp.tjmax.value - priv->temp.tcontrol.value;
+> +		break;
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static umode_t cputemp_is_visible(const void *data,
+> +				  enum hwmon_sensor_types type,
+> +				  u32 attr, int channel)
+> +{
+> +	const struct peci_cputemp *priv = data;
+> +
+> +	if (channel < ARRAY_SIZE(priv->temp_config) &&
+> +	    (priv->temp_config[channel] & BIT(attr)) &&
+> +	    (channel < DEFAULT_CHANNEL_NUMS ||
+> +	     (channel >= DEFAULT_CHANNEL_NUMS &&
+> +	      (priv->core_mask & BIT(channel - DEFAULT_CHANNEL_NUMS)))))
+> +		return 0444;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops cputemp_ops = {
+> +	.is_visible = cputemp_is_visible,
+> +	.read_string = cputemp_read_string,
+> +	.read = cputemp_read,
+> +};
+> +
+> +static int check_resolved_cores(struct peci_cputemp *priv)
+> +{
+> +	struct peci_rd_pci_cfg_local_msg msg;
+> +	int ret;
+> +
+> +	/* Get the RESOLVED_CORES register value */
+> +	msg.addr = priv->mgr->client->addr;
+> +	msg.device = 30;
+> +	msg.function = 3;
+> +	msg.rx_len = 4;
+> +	msg.bus = 1;
+> +	msg.reg = 0xb4;
+> +
+> +	ret = peci_command(priv->mgr->client->adapter,
+> +			   PECI_CMD_RD_PCI_CFG_LOCAL, &msg);
+> +	if (msg.cc != PECI_DEV_CC_SUCCESS)
+> +		ret = -EAGAIN;
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->core_mask = le32_to_cpup((__le32 *)msg.pci_config);
+> +	if (!priv->core_mask)
+> +		return -EAGAIN;
+> +
+> +	dev_dbg(priv->dev, "Scanned resolved cores: 0x%llx\n", priv->core_mask);
+> +
+> +	return 0;
+> +}
+> +
+> +static int create_core_temp_info(struct peci_cputemp *priv)
+> +{
+> +	int ret, i;
+> +
+> +	ret = check_resolved_cores(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i = 0; i < priv->gen_info->core_max; i++)
+> +		if (priv->core_mask & BIT(i))
+> +			while (priv->config_idx <= i + DEFAULT_CHANNEL_NUMS)
+> +				priv->temp_config[priv->config_idx++] =
+> +					config_table[channel_core];
+> +
+> +	return 0;
+> +}
+> +
+> +static int peci_cputemp_probe(struct platform_device *pdev)
+> +{
+> +	struct peci_client_manager *mgr = dev_get_drvdata(pdev->dev.parent);
+> +	struct device *dev = &pdev->dev;
+> +	struct peci_cputemp *priv;
+> +	struct device *hwmon_dev;
+> +	int ret;
+> +
+> +	if ((mgr->client->adapter->cmd_mask &
+> +	    (BIT(PECI_CMD_GET_TEMP) | BIT(PECI_CMD_RD_PKG_CFG))) !=
+> +	    (BIT(PECI_CMD_GET_TEMP) | BIT(PECI_CMD_RD_PKG_CFG)))
+> +		return -ENODEV;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, priv);
+> +	priv->mgr = mgr;
+> +	priv->dev = dev;
+> +	priv->gen_info = mgr->gen_info;
+> +
+> +	snprintf(priv->name, PECI_NAME_SIZE, "peci_cputemp.cpu%d",
+> +		 mgr->client->addr - PECI_BASE_ADDR);
+> +
+> +	priv->temp_config[priv->config_idx++] = config_table[channel_die];
+> +	priv->temp_config[priv->config_idx++] = config_table[channel_dts];
+> +	priv->temp_config[priv->config_idx++] = config_table[channel_tcontrol];
+> +	priv->temp_config[priv->config_idx++] = config_table[channel_tthrottle];
+> +	priv->temp_config[priv->config_idx++] = config_table[channel_tjmax];
+> +
+> +	ret = create_core_temp_info(priv);
+> +	if (ret)
+> +		dev_dbg(dev, "Skipped creating core temp info\n");
+> +
+> +	priv->chip.ops = &cputemp_ops;
+> +	priv->chip.info = priv->info;
+> +
+> +	priv->info[0] = &priv->temp_info;
+> +
+> +	priv->temp_info.type = hwmon_temp;
+> +	priv->temp_info.config = priv->temp_config;
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(priv->dev,
+> +							 priv->name,
+> +							 priv,
+> +							 &priv->chip,
+> +							 NULL);
+> +
+> +	if (IS_ERR(hwmon_dev))
+> +		return PTR_ERR(hwmon_dev);
+> +
+> +	dev_dbg(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), priv->name);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct platform_device_id peci_cputemp_ids[] = {
+> +	{ .name = "peci-cputemp", .driver_data = 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(platform, peci_cputemp_ids);
+> +
+> +static struct platform_driver peci_cputemp_driver = {
+> +	.probe    = peci_cputemp_probe,
+> +	.id_table = peci_cputemp_ids,
+> +	.driver   = { .name = KBUILD_MODNAME, },
+> +};
+> +module_platform_driver(peci_cputemp_driver);
+> +
+> +MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
+> +MODULE_DESCRIPTION("PECI cputemp driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/hwmon/peci-hwmon.h b/drivers/hwmon/peci-hwmon.h
+> new file mode 100644
+> index 000000000000..e0e3c901c6e4
+> --- /dev/null
+> +++ b/drivers/hwmon/peci-hwmon.h
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright (c) 2018-2019 Intel Corporation */
+> +
+> +#ifndef __PECI_HWMON_H
+> +#define __PECI_HWMON_H
+> +
+> +#include <linux/peci.h>
+> +
+> +#define TEMP_TYPE_PECI   6 /* Sensor type 6: Intel PECI */
+> +#define UPDATE_INTERVAL  HZ
+> +
+> +/**
+> + * struct peci_sensor_data - PECI sensor information
+> + * @valid: flag to indicate the sensor value is valid
+> + * @value: sensor value in millidegree Celsius
+> + * @last_updated: time of the last update in jiffies
+> + */
+> +struct peci_sensor_data {
+> +	uint  valid;
+> +	s32   value;
+> +	ulong last_updated;
+> +};
+> +
+> +/**
+> + * peci_sensor_need_update - check whether sensor update is needed or not
+> + * @sensor: pointer to sensor data struct
+> + *
+> + * Return: true if update is needed, false if not.
+> + */
+> +static inline bool peci_sensor_need_update(struct peci_sensor_data *sensor)
+> +{
+> +	return !sensor->valid ||
+> +	       time_after(jiffies, sensor->last_updated + UPDATE_INTERVAL);
+> +}
+> +
+> +/**
+> + * peci_sensor_mark_updated - mark the sensor is updated
+> + * @sensor: pointer to sensor data struct
+> + */
+> +static inline void peci_sensor_mark_updated(struct peci_sensor_data *sensor)
+> +{
+> +	sensor->valid = 1;
+> +	sensor->last_updated = jiffies;
+> +}
+> +
+> +#endif /* __PECI_HWMON_H */
 > 
 
