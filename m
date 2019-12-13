@@ -2,104 +2,68 @@ Return-Path: <SRS0=dZE6=2D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FDDC43603
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 09:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593BBC2D0DA
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 20:37:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C92E5206D8
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 09:05:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B7sZGUc8"
+	by mail.kernel.org (Postfix) with ESMTP id 9922024712
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Dec 2019 20:37:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbfLMJFY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Dec 2019 04:05:24 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:33969 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbfLMJFY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Dec 2019 04:05:24 -0500
-Received: by mail-qk1-f196.google.com with SMTP id d202so1513410qkb.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2019 01:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h8q9Wm8aWVtXxqEWvO1buQUPSO+i3sBYZTuEX4LXTnk=;
-        b=B7sZGUc8JMAembbK0ltQ8ygFW5+jdF27WXh6jv4xGx0+SQH8pPq60FfC1rxPPNFSWM
-         ynlfSsLwdeE44UAoRgY5Wx9AdrNkg6MAI+FNvmEjDg5BNR10MCd4Hmh/jdZg6Y8Uxjqg
-         iKcCDOf3npPlr60ooocTqEfv2KvAicMmKNyP6kZEhZ12i3gnz7yBR881B8lImFTrNiC+
-         jGkt+YX8msoEdB9UzmMCcQ6/1jXSFAtsj3Y3fgwEPt+oPfu4WbMR4KoJmdKkTYxbt10Z
-         zVx5EYTTNftyuxVnD1xxZi9Lclm/Ka5x1XOXojG35QNi51E25KSUGsdkeKK9W5K9103I
-         pswQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h8q9Wm8aWVtXxqEWvO1buQUPSO+i3sBYZTuEX4LXTnk=;
-        b=KqOiydSLNGrdDd6M9xeABgGLQIbNS4jfvX2GTFK0EC/2qV3MKjZ+YOopdPn6/FOGUx
-         Q7NXm7agtqWIjvGGnZGeM/wWt3JdWdshv/3GisvCcELgdrHOMIIO7GdhaZGYAaDSQF+o
-         QhrJLtwitlJX8Nys5TVFCfGMQ5yjVpURBHP0E+fnmKLdFYlEpi9EODZW70H19XXyg6Mu
-         zehY8EpmTeEKjel21FlCCJRnQIfjS4XFpzcbrEGyMYpaxOT0J1H+Zct5KKnw6dhUn6TH
-         CfjBg4yNf1oxksFmwVak5uhPh76iiwypyvT6cLYZ2rFlBQKL+BoVTwGq+iNLIHLvIUPu
-         JKhw==
-X-Gm-Message-State: APjAAAXefp2mU9RyBKfuQYMOHh85ZCIBPG72ksSrGz3pwT5ve1cCF5b0
-        R4NieQMGaR0p7Cv6kG6gDcVP0Y7VZYKWYxMBWEx6GQ==
-X-Google-Smtp-Source: APXvYqwucBZ+KePWjNxfbIQ0iGzvUQbCnGpqVbIzovLpVsu/xVnANjMnnkecD2sqjMx92nOXSoJwmkoHly3Hn7ULSJo=
-X-Received: by 2002:a37:e312:: with SMTP id y18mr12834178qki.250.1576227922838;
- Fri, 13 Dec 2019 01:05:22 -0800 (PST)
+        id S1727639AbfLMOQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Dec 2019 09:16:21 -0500
+Received: from foss.arm.com ([217.140.110.172]:60830 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727569AbfLMOQU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Dec 2019 09:16:20 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5ED0513A1;
+        Fri, 13 Dec 2019 06:16:20 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EBB63F52E;
+        Fri, 13 Dec 2019 06:16:19 -0800 (PST)
+Subject: Re: [PATCH] arm64/elf_hwcap: Add new flags for BFloat-16 extension
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1576145232-8311-1-git-send-email-anshuman.khandual@arm.com>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <7730f07d-8560-d354-875b-ee49bc000e64@arm.com>
+Date:   Fri, 13 Dec 2019 14:16:18 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <00000000000044a65205994a7e13@google.com> <00000000000003cc8505994f9036@google.com>
- <20191212105754.GC1476206@kroah.com>
-In-Reply-To: <20191212105754.GC1476206@kroah.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 13 Dec 2019 10:05:11 +0100
-Message-ID: <CACT4Y+amUGgm178SkrDHef9As5WkNHAyx5U9OdjgkFd-wY2ZqA@mail.gmail.com>
-Subject: Re: BUG: unable to handle kernel NULL pointer dereference in mem16_serial_out
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     syzbot <syzbot+92f32d4e21fb246d31a2@syzkaller.appspotmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asierra@xes-inc.com, Jonathan Corbet <corbet@lwn.net>,
-        ext-kimmo.rautkoski@vaisala.com, Jiri Slaby <jslaby@suse.com>,
-        kai heng feng <kai.heng.feng@canonical.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        mika.westerberg@linux.intel.com, paulburton@kernel.org,
-        Peter Hurley <peter@hurleysoftware.com>, sr@denx.de,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        yegorslists@googlemail.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1576145232-8311-1-git-send-email-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 11:57 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Dec 09, 2019 at 05:38:01PM -0800, syzbot wrote:
-> > syzbot has bisected this bug to:
-> >
-> > commit bd94c4077a0b2ecc35562c294f80f3659ecd8499
-> > Author: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > Date:   Wed Oct 28 03:46:05 2015 +0000
-> >
-> >     serial: support 16-bit register interface for console
->
-> That would be because that is when this function was added to the kernel
-> :)
->
-> Again, you are asking the kernel to write to a bad place in memory, and
-> then crash when that happens.  That sounds like the correct
-> functionality to me...
+On 12/12/2019 10:07, Anshuman Khandual wrote:
+> Expose the availability of the BFloat16 (BF16) format support in the CPUs.
+> BF16 is a new 16-bit floating point format different from the half
+> precision format defined by the IEEE-754-2008.
+> 
+> BF16 extensions add support for new instructions for both FP/SIMD and SVE.
+> Advertise these features individually to the userspace via ELF HWCAP.
+> 
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 
-This looks like:
 
-#syz dup:
-BUG: unable to handle kernel NULL pointer dereference in mem_serial_out
+Looks good to me.
 
-Let's continue in that thread.
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
