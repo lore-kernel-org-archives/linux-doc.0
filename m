@@ -2,258 +2,125 @@ Return-Path: <SRS0=XnAq=2G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AB9C2D0CF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 08:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05890C2D0BF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 08:30:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4830B2072B
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 08:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6D7E2075A
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 08:30:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TCtroBNy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GJ6KAmw6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfLPIUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 03:20:38 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:34513 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726742AbfLPIUi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 03:20:38 -0500
-Received: by mail-ed1-f68.google.com with SMTP id l8so4310644edw.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2019 00:20:36 -0800 (PST)
+        id S1726926AbfLPIaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 03:30:04 -0500
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:43762 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726788AbfLPIaD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 03:30:03 -0500
+Received: by mail-ua1-f66.google.com with SMTP id o42so1768519uad.10
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2019 00:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=B42kf8tcfOTM0hEAUoK/Z+JIyTieV2qindWOz+4c/qU=;
-        b=TCtroBNy/TJhIfc+CbYSxQwFvZ4+pRl7WBHNZgOAbOpYCpoIU5Hy4NuYVgYAU51Ynv
-         yEEBAUaj2xGRilx+BcY93DykOcJD3ahYSQNoa4SvQaN2M/O/gOlCcDC6KSnpqWHpzh29
-         Q2sdZfhXtlc+bFgc08PGxrU8hxwQsg+W2ozvXXpE+VaRBzIBUPqEmQemLGVUr7hXQR8I
-         yIeoOQLUfEyc5+1AmyzT3Sd1c6rDfHLNr2gjwOT85J1u5ikS9sluGvYyuSwTq7xWnwk9
-         0UskzF/pJjczFfj6moHNycMjbgkRnaes5/t+YVPtRA1Bk3iF0jwzLtBHYQ5tsRShJNaI
-         H9bw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kDxQhaeLo6rNMVFT3CBcpOhBFhoVMYpLfsYqZHIsllM=;
+        b=GJ6KAmw6S+sq3Ccetl/H3ixiZVhos+PR0jEMWgPCzfx0kYdnBXsUmmddRDGHKCa+IW
+         XpoIFbLS8+19HgHvj1aji88fMJFyb1lR/OZ36673QRjkhDqdlzrIFkgM8oE+oLQDArnf
+         b7+9QxLZM6bFfD0TyRkuo4e0dVkdBL0SKoIBmAyTVM1uFsJHNelZ/+e0ANXGZ4aezkeZ
+         o4gb0cTRAp9bOD/PgQ9vQbyM+lGwK9Ok7JQXcF4SJ5b4Kw9UhJJL2BCwrf0d2BtMgGGk
+         5R3A+AL4JyWngHzSseIzNmoBzR/zYQxFslU5c3tgyAMleZF6TpW7mWEL4HtKwSHPi2AZ
+         9W7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=B42kf8tcfOTM0hEAUoK/Z+JIyTieV2qindWOz+4c/qU=;
-        b=aGnH5qpX/0jfy5/CujtKxd+nahGxf1l2i1rinqwRalmqcpCeLLp84ykIJg0vWhzFL0
-         VtnHacmZLgd+WxmQ2JLKBVw6o4SLuu1vj/npyROzZgRN2LON9tdy63VD6GhU0ioENFCq
-         QoZ4iPMtsoINPRQ3HCtXtrT0JDAv6uJ7bDWf5X2Oq3e9Mbf/7gUZu2gguQEA1oHWT1gy
-         Iw+S7IlOjyvA+0hIqRJdARWIOMDYapKLzSRtTzb7uxyUnm7H2lp6WQG7DkGYt6le8XI1
-         zg5IqeLJDzqBqeDFtvEmzZADGoFQWdhtlPyIjAnyC/68abV2XXQ+9jOriJevKi9qrVq8
-         xe5A==
-X-Gm-Message-State: APjAAAUIALr17tFhQEnTswUIy6AozXFplN/8hjtrWGU7DlRIdNTPTRD2
-        8bUWiOFUZKCqcbRryGhWMSdi3Eg1nyM=
-X-Google-Smtp-Source: APXvYqzgdrFCVcNyHD61BwhFd/MwWmE9Uem6R2GyqU5L1b6Zmtu7fUSeaHro/1BAt8jmU2G0yjqNeQ==
-X-Received: by 2002:a17:907:2179:: with SMTP id rl25mr627839ejb.8.1576484435622;
-        Mon, 16 Dec 2019 00:20:35 -0800 (PST)
-Received: from [192.168.27.135] ([37.157.136.193])
-        by smtp.googlemail.com with ESMTPSA id hk19sm1054338ejb.41.2019.12.16.00.20.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Dec 2019 00:20:34 -0800 (PST)
-Subject: Re: [PATCH v2] interconnect: Add interconnect_graph file to debugfs
-To:     Leonard Crestez <leonard.crestez@nxp.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Evan Green <evgreen@chromium.org>,
-        David Dai <daidavid1@codeaurora.org>,
-        Jordan Crouse <jcrouse@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <6798d1469dd31609e76d13f5ac6249f7af48456a.1574116163.git.leonard.crestez@nxp.com>
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-Message-ID: <ba2bea60-5a19-ba10-6653-4200ac046782@linaro.org>
-Date:   Mon, 16 Dec 2019 10:20:32 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kDxQhaeLo6rNMVFT3CBcpOhBFhoVMYpLfsYqZHIsllM=;
+        b=CO/ZD+PmOq6m+JTedYwp2DGo8BwCbmzE11jQGeXD7gRnK7cHaPeSpo509anH+ha77p
+         VtPDQ7asi08nib1u0IhzapfUbifoFKR4AhWNjFntZ5JVDchL+ia8WX7Zdq1Rou6fCazS
+         /g810vfnkmZU34ZdIS/noEfSce/pZi3iXnE0kBr7oCC3YCy21up1YI3hi1Pndvz+FRn6
+         5ZAwgQWZpW4T8UeF+aC1X3+LJcOYlWnRO5OWR/UKoyZvC4ZZ1bhXAOFMMOnKppVSEI82
+         iwT4pNZSBFJJRZmPSHn/k5QbnopIWOfmtjFjTnHby2+xQ+Qchd7dOND9usvd1xs2CH+Q
+         ojbg==
+X-Gm-Message-State: APjAAAWyPivP9SBrYTY5VLKyf1J0kIzHdGDA3V056Vuk2zDJJPcSI44D
+        IbrjZ/ngO2B66yossIVSXeDjYhMpJZ0WsBimuRIJpQ==
+X-Google-Smtp-Source: APXvYqwni+l6XxPCyreJYxRHqzJXidyE2iM9tvx9B737sdIeXKOHoRA6FLpVo5xoUtWtnIiiMdWW6jDBBKJSinB1wok=
+X-Received: by 2002:ab0:5512:: with SMTP id t18mr22623715uaa.128.1576485002794;
+ Mon, 16 Dec 2019 00:30:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6798d1469dd31609e76d13f5ac6249f7af48456a.1574116163.git.leonard.crestez@nxp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com> <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 16 Dec 2019 09:29:51 +0100
+Message-ID: <CACRpkdbUS7WeQ7OoTtjGnB7L=uhYncwwcHxkJ1Uj6GqYCGNGJA@mail.gmail.com>
+Subject: Re: [PATCH v6 10/15] gpio: devres: Add devm_gpiod_get_parent_array
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Leonard,
+On Wed, Dec 11, 2019 at 10:47 AM Matti Vaittinen
+<matti.vaittinen@fi.rohmeurope.com> wrote:
 
-On 19.11.19 г. 0:34 ч., Leonard Crestez wrote:
-> The interconnect graphs can be difficult to understand and the current
-> "interconnect_summary" file doesn't even display links in any way.
-> 
-> Add a new "interconnect_graph" file to debugfs in the graphviz "dot"
-> format which describes interconnect providers, nodes and links.
-> 
-> The file is human-readable and can be visualized by piping through
-> graphviz. Example:
-> 
-> ssh $TARGET cat /sys/kernel/debug/interconnect/interconnect_graph \
-> 	| dot -Tsvg > interconnect_graph.svg
-> 
-> Signed-off-by: Leonard Crestez <leonard.crestez@nxp.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Bunch of MFD sub-devices which are instantiated by MFD do not have
+> own device-tree nodes but have (for example) the GPIO consumer
+> information in parent device's DT node. Add resource managed
+> devm_gpiod_get_array() for such devices so that they can get the
+> consumer information from parent DT while still binding the GPIO
+> reservation life-time to this sub-device life time.
+>
+> If devm_gpiod_get_array is used as such - then unloading and then
+> re-loading the child device fails as the GPIOs reserved during first
+> load are not freed when driver for sub-device is unload (if parent
+> stays there).
+>
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 > ---
->   Documentation/driver-api/interconnect.rst | 23 ++++++++
->   drivers/interconnect/core.c               | 66 +++++++++++++++++++++++
->   2 files changed, 89 insertions(+)
-> 
-> Example output as a github gist:
-> https://gist.github.com/cdleonard/2f74a7efe74587e3d4b57cf7983b46a8
-> 
-> The qcs404 driver was hacked to probe on imx, the links to "0" seem to
-> from incorrect trailing 0s on DEFINE_QNODE. Possibly fallout from
-> switching to ARRAY_SIZE(__VA_ARGS__)?
-> 
-> This makes it easier to understand the interconnect graph than just
-> staring at registration code.
-> 
-> Changes since RFC v1:
-> * Document under driver-api/interconnect.rst
-> * Collect reviews
-> Link to v1: https://patchwork.kernel.org/patch/11242921/
-> 
-> diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
-> index cdeb5825f314..77a85aad8d2f 100644
-> --- a/Documentation/driver-api/interconnect.rst
-> +++ b/Documentation/driver-api/interconnect.rst
-> @@ -89,5 +89,28 @@ Interconnect consumers
->   
->   Interconnect consumers are the clients which use the interconnect APIs to
->   get paths between endpoints and set their bandwidth/latency/QoS requirements
->   for these interconnect paths.  These interfaces are not currently
->   documented.
-> +
-> +Interconnect debugfs interfaces
-> +-------------------------------
-> +
-> +Like several other subsystems interconnect will create some files for debugging
-> +and introspection. Files in debugfs are not considered ABI so application
-> +software shouldn't rely on format details
-> +change between kernel versions.
-> +
-> +``/sys/kernel/debug/interconnect/interconnect_summary``:
-> +
-> +Show all interconnect nodes in the system with their aggregated bandwith
+>
+> Changes since v5:
+> - renamed internal function (no __ - prefixes for Linus :] )
 
-s/bandwith/bandwidth/
+Thanks, as there are things happening in the GPIO subsystem I
+have put this one patch on an immutable branch here:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git/log/?h=ib-devm-gpiod-get-parent-array
 
-> +request. Indented under each node show bandwith requests from each device.
+Please ask the maintainer (I guess Lee?) to pull this into wherever
+the rest of the patches should be merged if you want patches beyond
+this point to be applied for the next (v5.6) merge window, then this
+patch is not needed in the series.
 
-s/bandwith/bandwidth/
-
-> +
-> +``/sys/kernel/debug/interconnect/interconnect_graph``:
-> +
-> +Show the interconnect graph in the graphviz dot format. It shows all
-> +interconnect nodes and links in the system and groups together nodes from the
-> +same provider as subgraphs. The format is human-readable and can also be piped
-> +through dot to generate diagrams in many graphical formats::
-> +
-> +        $ cat /sys/kernel/debug/interconnect/interconnect_graph | \
-> +                dot -Tsvg > interconnect_graph.svg
-> diff --git a/drivers/interconnect/core.c b/drivers/interconnect/core.c
-> index c498796adc07..07e91288c7f4 100644
-> --- a/drivers/interconnect/core.c
-> +++ b/drivers/interconnect/core.c
-> @@ -92,10 +92,74 @@ static int icc_summary_show(struct seq_file *s, void *data)
->   
->   	return 0;
->   }
->   DEFINE_SHOW_ATTRIBUTE(icc_summary);
->   
-> +static void icc_graph_show_link(struct seq_file *s, int level,
-> +				struct icc_node *n, struct icc_node *m)
-> +{
-> +	seq_printf(s, "%s\"%d:%s\" -> \"%d:%s\"\n",
-> +			level == 2 ? "\t\t" : "\t",
-> +			n->id, n->name, m->id, m->name);
-
-Nit: Should be aligned to the open parenthesis.
-
-> +}
-> +
-> +static void icc_graph_show_node(struct seq_file *s, struct icc_node *n)
-> +{
-> +	seq_printf(s, "\t\t\"%d:%s\" [label=\"%d:%s",
-> +		   n->id, n->name, n->id, n->name);
-> +	seq_printf(s, "\n\t\t\t|avg_bw=%ukBps", n->avg_bw);
-> +	seq_printf(s, "\n\t\t\t|peak_bw=%ukBps", n->peak_bw);
-> +	seq_puts(s, "\"]\n");
-> +}
-> +
-> +static int icc_graph_show(struct seq_file *s, void *data)
-> +{
-> +	struct icc_provider *provider;
-> +	struct icc_node *n;
-> +	int cluster_index = 0;
-> +	int i;
-> +
-> +	seq_puts(s, "digraph {\n\trankdir = LR\n\tnode [shape = record]\n");
-> +	mutex_lock(&icc_lock);
-> +
-> +	/* draw providers as cluster subgraphs */
-> +	cluster_index = 0;
-> +	list_for_each_entry(provider, &icc_providers, provider_list) {
-> +		seq_printf(s, "\tsubgraph cluster_%d {\n", ++cluster_index);
-> +		if (provider->dev)
-> +			seq_printf(s, "\t\tlabel = \"%s\"\n",
-> +				   dev_name(provider->dev));
-> +
-> +		/* draw nodes */
-> +		list_for_each_entry(n, &provider->nodes, node_list)
-> +			icc_graph_show_node(s, n);
-> +
-> +		/* draw internal links */
-> +		list_for_each_entry(n, &provider->nodes, node_list)
-> +			for (i = 0; i < n->num_links; ++i)
-> +				if (n->provider == n->links[i]->provider)
-> +					icc_graph_show_link(s, 2, n,
-> +							    n->links[i]);
-> +
-> +		seq_puts(s, "\t}\n");
-> +	}
-> +
-> +	/* draw external links */
-> +	list_for_each_entry(provider, &icc_providers, provider_list)
-> +		list_for_each_entry(n, &provider->nodes, node_list)
-> +			for (i = 0; i < n->num_links; ++i)
-> +				if (n->provider != n->links[i]->provider)
-> +					icc_graph_show_link(s, 1, n,
-> +							    n->links[i]);
-> +
-> +	mutex_unlock(&icc_lock);
-> +	seq_puts(s, "}");
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(icc_graph);
-> +
->   static struct icc_node *node_find(const int id)
->   {
->   	return idr_find(&icc_idr, id);
->   }
->   
-> @@ -800,10 +864,12 @@ EXPORT_SYMBOL_GPL(icc_provider_del);
->   static int __init icc_init(void)
->   {
->   	icc_debugfs_dir = debugfs_create_dir("interconnect", NULL);
->   	debugfs_create_file("interconnect_summary", 0444,
->   			    icc_debugfs_dir, NULL, &icc_summary_fops);
-> +	debugfs_create_file("interconnect_graph", 0444,
-> +			    icc_debugfs_dir, NULL, &icc_graph_fops);
->   	return 0;
->   }
->   
->   static void __exit icc_exit(void)
->   {
-
-This is good stuff! Thank you! I will fix up the typos while applying,
-no need to resend it.
-
-BR,
-Georgi
-
+Yours,
+Linus Walleij
