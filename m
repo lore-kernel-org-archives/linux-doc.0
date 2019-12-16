@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D66A9C2D0D2
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 22:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 911E1C2D0BF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 22:29:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ABBAA21D7D
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 22:29:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6646821D7D
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 22:29:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="mG3Hrq8a"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ipUKROua"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbfLPW20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726984AbfLPW20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 16 Dec 2019 17:28:26 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11957 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727875AbfLPWZt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 17:25:49 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df804480001>; Mon, 16 Dec 2019 14:25:12 -0800
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12079 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727967AbfLPWZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 17:25:51 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df8045d0002>; Mon, 16 Dec 2019 14:25:33 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 16 Dec 2019 14:25:39 -0800
+  Mon, 16 Dec 2019 14:25:42 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 14:25:39 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
- 2019 22:25:39 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 16 Dec 2019 22:25:39 +0000
+        by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 14:25:42 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
+ 2019 22:25:41 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 16 Dec 2019 22:25:41 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5df804630003>; Mon, 16 Dec 2019 14:25:39 -0800
+        id <B5df804650004>; Mon, 16 Dec 2019 14:25:41 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -66,11 +66,10 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v11 02/25] mm/gup: move try_get_compound_head() to top, fix minor issues
-Date:   Mon, 16 Dec 2019 14:25:14 -0800
-Message-ID: <20191216222537.491123-3-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v11 21/25] mm/gup_benchmark: use proper FOLL_WRITE flags instead of hard-coding "1"
+Date:   Mon, 16 Dec 2019 14:25:33 -0800
+Message-ID: <20191216222537.491123-22-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191216222537.491123-1-jhubbard@nvidia.com>
 References: <20191216222537.491123-1-jhubbard@nvidia.com>
@@ -79,86 +78,90 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576535113; bh=XAFazVB6GX0KNVD1P+Ofm8THmXo2gzm5b8e/w0Hu5RE=;
+        t=1576535133; bh=QtH6vY6OEO3Be/+XPl0nLNSuin0ZowwCu4OyNgllrWs=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=mG3Hrq8aBKbXw7jbZlxid+y0TvVXo4ja2G7kQJqgiocDd5ujk2oDQe+J11hK0OKlN
-         2EGsWjVv7u10fuCklydensXHmIEqSWou7ZSJ2QgNp8N5cNhTp3R2v6iupGKn+c32D4
-         Jiy5NBxF2Eon4eZd8VWRz5iHBTw77H6un5CnaajXFAlH0vO9xugddpYzwW8Ybbf+NX
-         Tou1gxhq40fgXxaJ0m57B2SQS4bIcPYmmU5wdbodq+/BuLn/R78BolVAAGPIjOl/oo
-         s0jDhaNRC5FiCwhKGB5aYc1FdhvoEZFRmXo3mE+oDp68RJc/CkLHwURCPaQ9gzI0D+
-         LrrFbqtgrG/Ig==
+        b=ipUKROuaRhOUwigc8Y92jCYwr+O2agysriz835cn/x0NmJMR2VX8WJlN1HjP0wEoC
+         yHatSg9uf87R8hOvY/JCyOt6sc2Sw064NFUeptqY4N0z9GF81AWMlv31QiMcszYM02
+         xqs5QshE1UlrtM3wJtWlJr5zVSEA+mKyJLWipnuy50YYNLPtbfKSgRgp75TTWlic2H
+         8O+1YKA6bJZIjnQrd1yIYT4xuwRatSLHmPWSDkSC8T0g+XDTKrEBbEckofkJB+hBMD
+         3OuehKJnQnrTyX7MJJHSY0GcfD35B8a1rjjBumii4TMVVxaFDpX1ctCh4+x0gYI82l
+         yvPWHTxZCWsuQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An upcoming patch uses try_get_compound_head() more widely,
-so move it to the top of gup.c.
+Fix the gup benchmark flags to use the symbolic FOLL_WRITE,
+instead of a hard-coded "1" value.
 
-Also fix a tiny spelling error and a checkpatch.pl warning.
+Also, clean up the filtering of gup flags a little, by just doing
+it once before issuing any of the get_user_pages*() calls. This
+makes it harder to overlook, instead of having little "gup_flags & 1"
+phrases in the function calls.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/gup.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ mm/gup_benchmark.c                         | 9 ++++++---
+ tools/testing/selftests/vm/gup_benchmark.c | 6 +++++-
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index f764432914c4..3ecce297a47f 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -29,6 +29,21 @@ struct follow_page_context {
- 	unsigned int page_mask;
- };
+diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
+index 7dd602d7f8db..7fc44d25eca7 100644
+--- a/mm/gup_benchmark.c
++++ b/mm/gup_benchmark.c
+@@ -48,18 +48,21 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
+ 			nr =3D (next - addr) / PAGE_SIZE;
+ 		}
 =20
-+/*
-+ * Return the compound head page with ref appropriately incremented,
-+ * or NULL if that failed.
-+ */
-+static inline struct page *try_get_compound_head(struct page *page, int re=
-fs)
-+{
-+	struct page *head =3D compound_head(page);
++		/* Filter out most gup flags: only allow a tiny subset here: */
++		gup->flags &=3D FOLL_WRITE;
 +
-+	if (WARN_ON_ONCE(page_ref_count(head) < 0))
-+		return NULL;
-+	if (unlikely(!page_cache_add_speculative(head, refs)))
-+		return NULL;
-+	return head;
-+}
+ 		switch (cmd) {
+ 		case GUP_FAST_BENCHMARK:
+-			nr =3D get_user_pages_fast(addr, nr, gup->flags & 1,
++			nr =3D get_user_pages_fast(addr, nr, gup->flags,
+ 						 pages + i);
+ 			break;
+ 		case GUP_LONGTERM_BENCHMARK:
+ 			nr =3D get_user_pages(addr, nr,
+-					    (gup->flags & 1) | FOLL_LONGTERM,
++					    gup->flags | FOLL_LONGTERM,
+ 					    pages + i, NULL);
+ 			break;
+ 		case GUP_BENCHMARK:
+-			nr =3D get_user_pages(addr, nr, gup->flags & 1, pages + i,
++			nr =3D get_user_pages(addr, nr, gup->flags, pages + i,
+ 					    NULL);
+ 			break;
+ 		default:
+diff --git a/tools/testing/selftests/vm/gup_benchmark.c b/tools/testing/sel=
+ftests/vm/gup_benchmark.c
+index 485cf06ef013..389327e9b30a 100644
+--- a/tools/testing/selftests/vm/gup_benchmark.c
++++ b/tools/testing/selftests/vm/gup_benchmark.c
+@@ -18,6 +18,9 @@
+ #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
+ #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
+=20
++/* Just the flags we need, copied from mm.h: */
++#define FOLL_WRITE	0x01	/* check pte is writable */
 +
- /**
-  * put_user_pages_dirty_lock() - release and optionally dirty gup-pinned p=
-ages
-  * @pages:  array of pages to be maybe marked dirty, and definitely releas=
-ed.
-@@ -1807,20 +1822,6 @@ static void __maybe_unused undo_dev_pagemap(int *nr,=
- int nr_start,
+ struct gup_benchmark {
+ 	__u64 get_delta_usec;
+ 	__u64 put_delta_usec;
+@@ -85,7 +88,8 @@ int main(int argc, char **argv)
  	}
- }
 =20
--/*
-- * Return the compund head page with ref appropriately incremented,
-- * or NULL if that failed.
-- */
--static inline struct page *try_get_compound_head(struct page *page, int re=
-fs)
--{
--	struct page *head =3D compound_head(page);
--	if (WARN_ON_ONCE(page_ref_count(head) < 0))
--		return NULL;
--	if (unlikely(!page_cache_add_speculative(head, refs)))
--		return NULL;
--	return head;
--}
--
- #ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
- static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
- 			 unsigned int flags, struct page **pages, int *nr)
+ 	gup.nr_pages_per_call =3D nr_pages;
+-	gup.flags =3D write;
++	if (write)
++		gup.flags |=3D FOLL_WRITE;
+=20
+ 	fd =3D open("/sys/kernel/debug/gup_benchmark", O_RDWR);
+ 	if (fd =3D=3D -1)
 --=20
 2.24.1
 
