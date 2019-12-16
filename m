@@ -2,136 +2,411 @@ Return-Path: <SRS0=XnAq=2G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 217CAC43603
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 20:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF04FC43603
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 20:43:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F325A207FF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 20:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87E7A21835
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 20:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbfLPUhQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 15:37:16 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:49504 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726401AbfLPUhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 15:37:16 -0500
-Received: from callcc.thunk.org (guestnat-104-133-0-111.corp.google.com [104.133.0.111] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xBGKat9W025315
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Dec 2019 15:36:56 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 47F0C420821; Mon, 16 Dec 2019 15:36:55 -0500 (EST)
-Date:   Mon, 16 Dec 2019 15:36:55 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Document the Link: tag formally
-Message-ID: <20191216203655.GB785904@mit.edu>
-References: <20191216093859.9196-1-linus.walleij@linaro.org>
- <877e2w1kfj.fsf@intel.com>
- <20191216133322.GJ25745@shell.armlinux.org.uk>
- <874ky01i8z.fsf@intel.com>
- <20191216141611.GK25745@shell.armlinux.org.uk>
- <871rt41gvb.fsf@intel.com>
- <20191216144348.GL25745@shell.armlinux.org.uk>
- <87woawz4kv.fsf@intel.com>
- <20191216092255.3adb1202@lwn.net>
+        id S1726512AbfLPUn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 15:43:58 -0500
+Received: from mga02.intel.com ([134.134.136.20]:14429 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725805AbfLPUn6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Dec 2019 15:43:58 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Dec 2019 12:43:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,322,1571727600"; 
+   d="scan'208";a="205238953"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.147]) ([10.7.153.147])
+  by orsmga007.jf.intel.com with ESMTP; 16 Dec 2019 12:43:55 -0800
+Subject: Re: [PATCH v11 13/14] hwmon: Add PECI cputemp driver
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        Tomer Maimon <tmaimon77@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org, Alan Cox <alan@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>
+References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+ <20191211194624.2872-14-jae.hyun.yoo@linux.intel.com>
+ <28432b99-0c04-c123-0391-d502053a39ab@roeck-us.net>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <b27d91f5-38f5-eddb-afff-b2c6e457bf19@linux.intel.com>
+Date:   Mon, 16 Dec 2019 12:43:55 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191216092255.3adb1202@lwn.net>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <28432b99-0c04-c123-0391-d502053a39ab@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 16, 2019 at 09:22:55AM -0700, Jonathan Corbet wrote:
-> On Mon, 16 Dec 2019 17:13:20 +0200
-> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+Hi Guenter,
+
+On 12/12/2019 10:24 PM, Guenter Roeck wrote:
+> On 12/11/19 11:46 AM, Jae Hyun Yoo wrote:
+>> This commit adds PECI cputemp hwmon driver.
+>>
+>> Cc: Guenter Roeck <linux@roeck-us.net>
+>> Cc: Jean Delvare <jdelvare@suse.com>
+>> Cc: Alan Cox <alan@linux.intel.com>
+>> Cc: Andrew Jeffery <andrew@aj.id.au>
+>> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+>> Cc: Joel Stanley <joel@jms.id.au>
+>> Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+>> Cc: Andrew Lunn <andrew@lunn.ch>
+>> Cc: Stef van Os <stef.van.os@prodrive-technologies.com>
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+>> Reviewed-by: James Feist <james.feist@linux.intel.com>
+>> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+>> Acked-by: Guenter Roeck <linux@roeck-us.net>
+>> ---
+>> Changes since v10:
+>> - Added Skylake Xeon D support.
+>> - Added DTS temperature which is more thermal control friendlier than Die
+>>    temperature.
+>> - Fixed minor bugs and style issues.
+>>
+>>   drivers/hwmon/Kconfig        |  14 ++
+>>   drivers/hwmon/Makefile       |   1 +
+>>   drivers/hwmon/peci-cputemp.c | 448 +++++++++++++++++++++++++++++++++++
+>>   drivers/hwmon/peci-hwmon.h   |  46 ++++
+>>   4 files changed, 509 insertions(+)
+>>   create mode 100644 drivers/hwmon/peci-cputemp.c
+>>   create mode 100644 drivers/hwmon/peci-hwmon.h
+>>
+>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>> index 23dfe848979a..b6604759579c 100644
+>> --- a/drivers/hwmon/Kconfig
+>> +++ b/drivers/hwmon/Kconfig
+>> @@ -1349,6 +1349,20 @@ config SENSORS_PCF8591
+>>         These devices are hard to detect and rarely found on mainstream
+>>         hardware. If unsure, say N.
+>> +config SENSORS_PECI_CPUTEMP
+>> +    tristate "PECI CPU temperature monitoring client"
+>> +    depends on PECI
+>> +    select MFD_INTEL_PECI_CLIENT
+>> +    help
+>> +      If you say yes here you get support for the generic Intel PECI
+>> +      cputemp driver which provides Digital Thermal Sensor (DTS) thermal
+>> +      readings of the CPU package and CPU cores that are accessible 
+>> using
+>> +      the PECI Client Command Suite via the processor PECI client.
+>> +      Check <file:Documentation/hwmon/peci-cputemp.rst> for details.
+>> +
+>> +      This driver can also be built as a module. If so, the module
+>> +      will be called peci-cputemp.
+>> +
+>>   source "drivers/hwmon/pmbus/Kconfig"
+>>   config SENSORS_PWM_FAN
+>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>> index 6db5db9cdc29..d6fea48697af 100644
+>> --- a/drivers/hwmon/Makefile
+>> +++ b/drivers/hwmon/Makefile
+>> @@ -144,6 +144,7 @@ obj-$(CONFIG_SENSORS_NTC_THERMISTOR)    += 
+>> ntc_thermistor.o
+>>   obj-$(CONFIG_SENSORS_PC87360)    += pc87360.o
+>>   obj-$(CONFIG_SENSORS_PC87427)    += pc87427.o
+>>   obj-$(CONFIG_SENSORS_PCF8591)    += pcf8591.o
+>> +obj-$(CONFIG_SENSORS_PECI_CPUTEMP)    += peci-cputemp.o
+>>   obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
+>>   obj-$(CONFIG_SENSORS_PWM_FAN)    += pwm-fan.o
+>>   obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)    += raspberrypi-hwmon.o
+>> diff --git a/drivers/hwmon/peci-cputemp.c b/drivers/hwmon/peci-cputemp.c
+>> new file mode 100644
+>> index 000000000000..70ced9f9299f
+>> --- /dev/null
+>> +++ b/drivers/hwmon/peci-cputemp.c
+>> @@ -0,0 +1,448 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +// Copyright (c) 2018-2019 Intel Corporation
+>> +
+>> +#include <linux/hwmon.h>
+>> +#include <linux/jiffies.h>
+>> +#include <linux/mfd/intel-peci-client.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_device.h>
+>> +#include <linux/platform_device.h>
+>> +#include "peci-hwmon.h"
+>> +
+>> +#define DEFAULT_CHANNEL_NUMS   5
+>> +#define CORETEMP_CHANNEL_NUMS  CORE_NUMS_MAX
 > 
-> > The *only* question is, whether we should both use the tag Foo: for the
-> > different meanings and different workflows, or whether one should use
-> > Foo: and the other should use Bar:.
+> Why not just use CORE_NUMS_MAX ?
+
+For better readability in below code to represent max core numbers
+as core temp channel numbers. If you don't like it, I'll use
+CORE_NUMS_MAX as it is for the core temp channel numbers.
+
+>> +#define CPUTEMP_CHANNEL_NUMS   (DEFAULT_CHANNEL_NUMS + 
+>> CORETEMP_CHANNEL_NUMS)
+>> +
+>> +struct temp_group {
+>> +    struct peci_sensor_data die;
+>> +    struct peci_sensor_data dts;
+>> +    struct peci_sensor_data tcontrol;
+>> +    struct peci_sensor_data tthrottle;
+>> +    struct peci_sensor_data tjmax;
+>> +    struct peci_sensor_data core[CORETEMP_CHANNEL_NUMS];
+>> +};
+>> +
+>> +struct peci_cputemp {
+>> +    struct peci_client_manager *mgr;
+>> +    struct device *dev;
+>> +    char name[PECI_NAME_SIZE];
+>> +    const struct cpu_gen_info *gen_info;
+>> +    struct temp_group temp;
+>> +    u64 core_mask;
+>> +    u32 temp_config[CPUTEMP_CHANNEL_NUMS + 1];
+>> +    uint config_idx;
+>> +    struct hwmon_channel_info temp_info;
+>> +    const struct hwmon_channel_info *info[2];
+>> +    struct hwmon_chip_info chip;
+>> +};
+>> +
+>> +enum cputemp_channels {
+>> +    channel_die,
+>> +    channel_dts,
+>> +    channel_tcontrol,
+>> +    channel_tthrottle,
+>> +    channel_tjmax,
+>> +    channel_core,
+>> +};
+>> +
+>> +static const u32 config_table[DEFAULT_CHANNEL_NUMS + 1] = {
+>> +    /* Die temperature */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+>> +    HWMON_T_CRIT_HYST,
+>> +
+>> +    /* DTS margin */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+>> +    HWMON_T_CRIT_HYST,
+>> +
+>> +    /* Tcontrol temperature */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_CRIT,
+>> +
+>> +    /* Tthrottle temperature */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT,
+>> +
+>> +    /* Tjmax temperature */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT,
+>> +
+>> +    /* Core temperature - for all core channels */
+>> +    HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+>> +    HWMON_T_CRIT_HYST,
+>> +};
+>> +
+>> +static const char *cputemp_label[CPUTEMP_CHANNEL_NUMS] = {
+>> +    "Die",
+>> +    "DTS",
+>> +    "Tcontrol",
+>> +    "Tthrottle",
+>> +    "Tjmax",
+>> +    "Core 0", "Core 1", "Core 2", "Core 3",
+>> +    "Core 4", "Core 5", "Core 6", "Core 7",
+>> +    "Core 8", "Core 9", "Core 10", "Core 11",
+>> +    "Core 12", "Core 13", "Core 14", "Core 15",
+>> +    "Core 16", "Core 17", "Core 18", "Core 19",
+>> +    "Core 20", "Core 21", "Core 22", "Core 23",
+>> +    "Core 24", "Core 25", "Core 26", "Core 27",
+>> +};
+>> +
 > 
-> This is, of course, a part of the wider discussion on patch tracking IDs
-> and such; I kind of doubt that this relatively small group can resolve
-> it for the community as a whole.  It seems to be agreed that it's good
-> for a patch submission to reference previous postings; I'm not sure that
-> we've decided on Link: as the way to do that.
+> What happens if CPUTEMP_CHANNEL_NUMS is increased in the future,
+> and some of this array includes NULL pointers because this file
+> doesn't track CORE_NUMS_MAX ?
 
-I believe that at least amongst the maintainers at the Maintainer's
-Summit and on the follow-on workflows@vger.kernel.org, there is
-general consensus for *maintainers* to add a
+Okay. It's reasonable concern. I'll fix it to make this driver generate
+the core temp label strings dynamically based on detected CPU generation
+information.
 
-	Link: https://lore.kernel.org/r/...
+>> +static s32 ten_dot_six_to_millidegree(s32 val)
+>> +{
+>> +    return ((val ^ 0x8000) - 0x8000) * 1000 / 64;
+> 
+> Normally I suggest to use DIV_ROUND_CLOSEST in situations like this
+> to improve rounding, but ultimately that is your call.
 
-tag to the patch that they are accepting into their trees.  There are
-even some git hook scripts being circulated which automate this.
+This is for conversion of 16-bit signed 10.6
+(10 bits signed decimal, 6 bits fractional) format to 32-bits signed
+integer in millidegree units. It's right as it is.
 
-What there isn't consensus yet on is a way for patch *submitters* to
-reference earler versions of a particular patch.  There is one school
-of thought saying that you just match on subject lines, looking for
-V<n-1>: commit description to find it.  There are others who don't
-like this, because it requires manual searching work, and it doesn't
-handle the case where a patch gets split, or merged, or where the
-patch description is modified for clarity's sake.
+>> +}
+>> +
+>> +static int get_temp_targets(struct peci_cputemp *priv)
+>> +{
+>> +    s32 tthrottle_offset;
+>> +    s32 tcontrol_margin;
+>> +    u8  pkg_cfg[4];
+>> +    int ret;
+>> +
+>> +    /*
+>> +     * Just use only the tcontrol marker to determine if target 
+>> values need
+>> +     * update.
+>> +     */
+>> +    if (!peci_sensor_need_update(&priv->temp.tcontrol))
+>> +        return 0;
+>> +
+>> +    ret = peci_client_read_package_config(priv->mgr,
+>> +                          PECI_MBX_INDEX_TEMP_TARGET, 0,
+>> +                          pkg_cfg);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    priv->temp.tjmax.value = pkg_cfg[2] * 1000;
+>> +
+>> +    tcontrol_margin = pkg_cfg[1];
+>> +    tcontrol_margin = ((tcontrol_margin ^ 0x80) - 0x80) * 1000;
+>> +    priv->temp.tcontrol.value = priv->temp.tjmax.value - 
+>> tcontrol_margin;
+>> +
+>> +    tthrottle_offset = (pkg_cfg[3] & 0x2f) * 1000;
+>> +    priv->temp.tthrottle.value = priv->temp.tjmax.value - 
+>> tthrottle_offset;
+>> +
+>> +    peci_sensor_mark_updated(&priv->temp.tcontrol);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int get_die_temp(struct peci_cputemp *priv)
+>> +{
+>> +    struct peci_get_temp_msg msg;
+>> +    int ret;
+>> +
+>> +    if (!peci_sensor_need_update(&priv->temp.die))
+>> +        return 0;
+>> +
+>> +    msg.addr = priv->mgr->client->addr;
+>> +
+>> +    ret = peci_command(priv->mgr->client->adapter, PECI_CMD_GET_TEMP, 
+>> &msg);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    /* Note that the tjmax should be available before calling it */
+>> +    priv->temp.die.value = priv->temp.tjmax.value +
+>> +                   (msg.temp_raw * 1000 / 64);
+>> +
+>> +    peci_sensor_mark_updated(&priv->temp.die);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int get_dts(struct peci_cputemp *priv)
+>> +{
+>> +    s32 dts_margin;
+>> +    u8  pkg_cfg[4];
+>> +    int ret;
+>> +
+>> +    if (!peci_sensor_need_update(&priv->temp.dts))
+>> +        return 0;
+>> +
+>> +    ret = peci_client_read_package_config(priv->mgr,
+>> +                          PECI_MBX_INDEX_DTS_MARGIN, 0,
+>> +                          pkg_cfg);
+>> +
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    dts_margin = (pkg_cfg[1] << 8) | pkg_cfg[0];
+>> +
+>> +    /**
+>> +     * Processors return a value of DTS reading in 10.6 format
+>> +     * (10 bits signed decimal, 6 bits fractional).
+>> +     * Error codes:
+>> +     *   0x8000: General sensor error
+>> +     *   0x8001: Reserved
+>> +     *   0x8002: Underflow on reading value
+>> +     *   0x8003-0x81ff: Reserved
+>> +     */
+>> +    if (dts_margin >= 0x8000 && dts_margin <= 0x81ff)
+>> +        return -EIO;
+>> +
+>> +    dts_margin = ten_dot_six_to_millidegree(dts_margin);
+>> +
+>> +    /* Note that the tcontrol should be available before calling it */
+>> +    priv->temp.dts.value = priv->temp.tcontrol.value - dts_margin;
+>> +
+>> +    peci_sensor_mark_updated(&priv->temp.dts);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int get_core_temp(struct peci_cputemp *priv, int core_index)
+>> +{
+>> +    s32 core_dts_margin;
+>> +    u8  pkg_cfg[4];
+>> +    int ret;
+>> +
+>> +    if (!peci_sensor_need_update(&priv->temp.core[core_index]))
+>> +        return 0;
+>> +
+>> +    ret = peci_client_read_package_config(priv->mgr,
+>> +                          PECI_MBX_INDEX_PER_CORE_DTS_TEMP,
+>> +                          core_index, pkg_cfg);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    core_dts_margin = le16_to_cpup((__le16 *)pkg_cfg);
+>> +
+> 
+> Any special readon for using the helper function here but not
+> above ?
 
-Another school of thought is just keeping the V1, V2, V3, etc.,
-versions of the patch as replies to earlier one, so they can be found
-via e-mail chaining.  Some people believe this gets ugly, especially
-for patches which go through a large number of revisions, and for
-patch series with a large number of patches.
+Ah, I have to use le16_to_cpup for the above one too. Thanks!
 
+Thanks a lot for your review!
 
-What *I've* been doing for ext4 is in the Vn+1 update of a patch, I've
-been manually adding a:
+-Jae
 
-Previous-Version-Link: https://lore.kernel.org/r/...
-
-to the commit before mailing it out, and trusting that the maintainer
-(me, myself, and I :-) will strip out the Previous-Version-Link: and
-adding a Link: trailer to the final version on the mailing list.
-
-This allows someone who is doing code archeology to find the mailing
-list reference via the Link: tag in the git tree, and that version of
-the patch in the mailing list archive will have a
-Previous-Version-Link in the previous version of the commit, going all
-the way back to the V1 version of the commit.  That is, the
-Previous-Version-Link: trailer never appears in the git commit which
-is pushed to Linus; but it *is* in all but the first version of the
-patch in the mailing list.
-
-I think this scheme is perfect, without flaw, and Solomonic in meeting
-the needs for people to be able to find all of the various versions of
-the patch and its discussions while not leaving extra hair in the git
-commit found in the repository.  But, I'd also be the first to admit
-that it's not general community consensus at this point.  :-)
-
-
-> That creates a bit of a problem for me; I don't want to be trying to
-> create community policy through the docs; I'd rather accept patches that
-> I know reflect an existing consensus.
-
-Yeah, I think it's too early at this point for anythig in
-submitting-patches.  It may or may not be too early to put in the git
-hook automation for automatically adding a pointer to the version of
-the patch which the maintainer is actually pulling her repository
-using "git am", though.
-
-I'd also suggest redirecting discussions about how to annotate commits
-to find previous versions of patches to the workflows@vger.kernel.org
-list; that's where most of the discussions on this topic have taken
-place since Lisbon.
-
-Cheers,
-
-					- Ted
