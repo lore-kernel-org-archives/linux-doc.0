@@ -2,171 +2,113 @@ Return-Path: <SRS0=XnAq=2G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F26C43603
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:52:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A466EC2D0BF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:55:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9033F206E0
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:52:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 762C620CC7
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576508134;
+	bh=G5qmjCDdT1w/WFe2hlox5kS/aHkrbDR0OUGRD1SamhA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=OzhmZrxu5e61AnO8QQdLnzCb9aanlfYcyPRM9Sxe2FvUDPSwwwp435Sxj3zCy7slW
+	 nJ42CqgIUKi+5A86O8wLmDrxcTog3RSe8AiPKIEQLWd6oA0EllwvygJ18IRjgm2KHy
+	 VVfCdhyfvvSDBBRHBunUoK6v9vM6o/aigJdo3pXo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbfLPOwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 09:52:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49156 "EHLO mail.kernel.org"
+        id S1728158AbfLPOzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 09:55:33 -0500
+Received: from foss.arm.com ([217.140.110.172]:57962 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728008AbfLPOwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Dec 2019 09:52:55 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 53992206A5;
-        Mon, 16 Dec 2019 14:52:53 +0000 (UTC)
-Date:   Mon, 16 Dec 2019 09:52:51 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        joel@joelfernandes.org, nachukannan@gmail.com,
-        saiprakash.ranjan@outlook.com
-Subject: Re: [PATCH] docs: ftrace: Specifies when buffers get clear
-Message-ID: <20191216095251.4bee634e@gandalf.local.home>
-In-Reply-To: <20191216042756.qnho3v2upqg4wm7o@frank-laptop>
-References: <20191216042756.qnho3v2upqg4wm7o@frank-laptop>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728008AbfLPOzd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Dec 2019 09:55:33 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6664A1FB;
+        Mon, 16 Dec 2019 06:55:32 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D91B93F718;
+        Mon, 16 Dec 2019 06:55:31 -0800 (PST)
+Date:   Mon, 16 Dec 2019 14:55:28 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v6 09/15] regulator: bd71828: Basic support for ROHM
+ bd71828 PMIC regulators
+Message-ID: <20191216145528.GE4161@sirena.org.uk>
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vv4Sf/kQfcwinyKX"
+Content-Disposition: inline
+In-Reply-To: <5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+X-Cookie: Backed up the system lately?
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 15 Dec 2019 23:27:56 -0500
-"Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
 
-> Clarify in a few places where the ring buffer and the "snapshot"
-> buffer are cleared as a side effect of an operation.
-> 
-> This will avoid users lost of tracing data because of these so far
-> undocumented behavior.
-> 
-> Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
-> ---
->  Documentation/trace/ftrace.rst | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index d2b5657ed33e..5cc65314e16d 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -95,7 +95,8 @@ of ftrace. Here is a list of some of the key files:
->    current_tracer:
->  
->  	This is used to set or display the current tracer
-> -	that is configured.
-> +	that is configured. Changing the current tracer clears
-> +        the ring buffer content as well as the "snapshot" buffer.
->  
->    available_tracers:
->  
-> @@ -126,7 +127,9 @@ of ftrace. Here is a list of some of the key files:
->  	This file holds the output of the trace in a human
->  	readable format (described below). Note, tracing is temporarily
->  	disabled when the file is open for reading. Once all readers
-> -	are closed, tracing is re-enabled.
-> +	are closed, tracing is re-enabled. Opening this file for
-> +        writing with the O_TRUNC flag clears the ring buffer content
-> +        as well as the "snapshot" buffer.
+--vv4Sf/kQfcwinyKX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Writing O_TRUNC into trace does not touch the snapshot buffer. I just
-tested to make sure (because that's not the behavior I remember making):
+On Wed, Dec 11, 2019 at 11:46:11AM +0200, Matti Vaittinen wrote:
 
- # cd /sys/kernel/tracing
- # echo 1 > events/sched/enable
- # echo 1 > snapshot
- # head -15 snapshot  
-# tracer: nop
-#
-# entries-in-buffer/entries-written: 3563/3563   #P:8
-#
-#                              _-----=> irqs-off
-#                             / _----=> need-resched
-#                            | / _---=> hardirq/softirq
-#                            || / _--=> preempt-depth
-#                            ||| /     delay
-#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
-#              | |       |   ||||       |         |
-            bash-20130 [007] d.h. 243924.135391: sched_stat_runtime: comm=bash pid=20130 runtime=584815 [ns] vruntime=116509213 [ns]
-            bash-20130 [007] d... 243924.135853: sched_waking: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
-            bash-20130 [007] d... 243924.135859: sched_wake_idle_without_ipi: cpu=2
-            bash-20130 [007] d... 243924.135861: sched_wakeup: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
- # echo 0 > tracing_on
- # head -15 trace
-# tracer: nop
-#
-# entries-in-buffer/entries-written: 1697/1697   #P:8
-#
-#                              _-----=> irqs-off
-#                             / _----=> need-resched
-#                            | / _---=> hardirq/softirq
-#                            || / _--=> preempt-depth
-#                            ||| /     delay
-#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
-#              | |       |   ||||       |         |
-            sshd-20125 [005] d... 244126.123095: sched_stat_runtime: comm=sshd pid=20125 runtime=101555 [ns] vruntime=153686839 [ns]
-            sshd-20125 [005] d... 244126.123100: sched_switch: prev_comm=sshd prev_pid=20125 prev_prio=120 prev_state=S ==> next_comm=swapper/5 next_pid=0 next_prio=120
-            bash-20130 [007] d... 244126.123173: sched_waking: comm=kworker/u16:3 pid=20190 prio=120 target_cpu=006
-            bash-20130 [007] d... 244126.123177: sched_wake_idle_without_ipi: cpu=6
- # echo > trace
- # head -15 trace
-# tracer: nop
-#
-# entries-in-buffer/entries-written: 0/0   #P:8
-#
-#                              _-----=> irqs-off
-#                             / _----=> need-resched
-#                            | / _---=> hardirq/softirq
-#                            || / _--=> preempt-depth
-#                            ||| /     delay
-#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
-#              | |       |   ||||       |         |
- # head -15 snapshot
- # tracer: nop
-#
-# entries-in-buffer/entries-written: 3563/3563   #P:8
-#
-#                              _-----=> irqs-off
-#                             / _----=> need-resched
-#                            | / _---=> hardirq/softirq
-#                            || / _--=> preempt-depth
-#                            ||| /     delay
-#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
-#              | |       |   ||||       |         |
-            bash-20130 [007] d.h. 243924.135391: sched_stat_runtime: comm=bash pid=20130 runtime=584815 [ns] vruntime=116509213 [ns]
-            bash-20130 [007] d... 243924.135853: sched_waking: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
-            bash-20130 [007] d... 243924.135859: sched_wake_idle_without_ipi: cpu=2
-            bash-20130 [007] d... 243924.135861: sched_wakeup: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
-
->  
->    trace_pipe:
->  
-> @@ -490,6 +493,9 @@ of ftrace. Here is a list of some of the key files:
->  
->  	  # echo global > trace_clock
->  
-> +        Setting a clock clears the ring buffer content as well as the
-> +        "snapshot" buffer.
+> +static int bd71828_ldo6_get_voltage(struct regulator_dev *rdev)
+> +{
+> +	return BD71828_LDO_6_VOLTAGE;
+> +}
 > +
+> +static const struct regulator_ops bd71828_ldo6_ops = {
+> +	.enable = regulator_enable_regmap,
+> +	.disable = regulator_disable_regmap,
+> +	.get_voltage = bd71828_ldo6_get_voltage,
 
-Yeah, this is true, because the sorting algorithm relies on the trace
-clocks matching in the buffers. If this becomes an issue, I'm sure we
-could change it.
+You can just set fixed_uV in the regulator_desc, you don't need a
+get_voltage() operation here.  Otherwise this looks good, I'll apply it
+and please send an incremental fix for this.
 
--- Steve
+--vv4Sf/kQfcwinyKX
+Content-Type: application/pgp-signature; name="signature.asc"
 
->    trace_marker:
->  
->  	This is a very useful file for synchronizing user space
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl33mt8ACgkQJNaLcl1U
+h9DPqggAhcsF1ZeRBaP6Lzz9ZA0lX48wnM91c45AzpXxhBPVmVU8EJrJFkmUT+zI
+VYHCWzrWqZoUwoxRDUntTg0W7omOi4CoU10/2SGjxkdxHiAmutKvaV8e155DaKRj
+hhZGeaSRdWgD3uYUZGBB1W9OYmzuHx6NtlL76FfabMt6TTPQCq7X3VjSuI4wi4oN
+7JLtu6Gzf2WNSmP1uqZLMSqk1RvgZa2K1rgRwf+SYhTD21VWliTuq/qGtg0zmijW
+BA398k1yTl123ecTnS9Fnk+IsqPSTd/mBJT4TmFkdakxVm3JSYIqpqIiJYZtGOBs
+aUVTHrBVlYfYIk4raTP8w2l2xYiNdg==
+=0wbA
+-----END PGP SIGNATURE-----
+
+--vv4Sf/kQfcwinyKX--
