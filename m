@@ -2,196 +2,171 @@ Return-Path: <SRS0=XnAq=2G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2150AC43603
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F26C43603
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:52:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DE517206EC
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:43:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="NhldL4qb"
+	by mail.kernel.org (Postfix) with ESMTP id 9033F206E0
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:52:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbfLPOn4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 09:43:56 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:40478 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728056AbfLPOn4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 09:43:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jy4x/kgGhRno21TIG0l1O8UFAlziIiXJTHGmZhDv5zE=; b=NhldL4qbw05vhdWynxivrs3CJ
-        kqYJR67ti6fgwJKQTg9HPZqaGfc7zEtvAkHwau3Q4Q1HFplr43i7V+z9zjAlWclWkx3CiqrX2Rte4
-        oQ/K4MTqKOcS6GVk4AVok4A8OX3mbjfTtAyrXjHqtzJhtP5I8J9DW7G8DakmU6tH9aILsJbS3OM3d
-        zrakxrDH3drJQ/C0/86farEY7Zp20RslCTLwhgUxPrNGeobufD9kR3qvnqjnXiwXL7Lu/fGxAiDBJ
-        GhU7ecFBY1FAWcgHLtIr+P182r+umM258iP41FyYH4Y2itBCkrcFDkC6+mMdNpGjD3pYOYv+Z1otG
-        knph8csuA==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:49668)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1igrbC-000878-A7; Mon, 16 Dec 2019 14:43:50 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1igrbA-0002UA-IJ; Mon, 16 Dec 2019 14:43:48 +0000
-Date:   Mon, 16 Dec 2019 14:43:48 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Document the Link: tag formally
-Message-ID: <20191216144348.GL25745@shell.armlinux.org.uk>
-References: <20191216093859.9196-1-linus.walleij@linaro.org>
- <877e2w1kfj.fsf@intel.com>
- <20191216133322.GJ25745@shell.armlinux.org.uk>
- <874ky01i8z.fsf@intel.com>
- <20191216141611.GK25745@shell.armlinux.org.uk>
- <871rt41gvb.fsf@intel.com>
+        id S1728014AbfLPOwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 09:52:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49156 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728008AbfLPOwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Dec 2019 09:52:55 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 53992206A5;
+        Mon, 16 Dec 2019 14:52:53 +0000 (UTC)
+Date:   Mon, 16 Dec 2019 09:52:51 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        joel@joelfernandes.org, nachukannan@gmail.com,
+        saiprakash.ranjan@outlook.com
+Subject: Re: [PATCH] docs: ftrace: Specifies when buffers get clear
+Message-ID: <20191216095251.4bee634e@gandalf.local.home>
+In-Reply-To: <20191216042756.qnho3v2upqg4wm7o@frank-laptop>
+References: <20191216042756.qnho3v2upqg4wm7o@frank-laptop>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871rt41gvb.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 16, 2019 at 04:31:52PM +0200, Jani Nikula wrote:
-> On Mon, 16 Dec 2019, Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
-> > On Mon, Dec 16, 2019 at 04:02:04PM +0200, Jani Nikula wrote:
-> >> On Mon, 16 Dec 2019, Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
-> >> > On Mon, Dec 16, 2019 at 03:14:56PM +0200, Jani Nikula wrote:
-> >> >> On Mon, 16 Dec 2019, Linus Walleij <linus.walleij@linaro.org> wrote:
-> >> >> > We have a lot of Link: tags in commits these days and they are
-> >> >> > not formally defined in the kernel documentation. Let's put
-> >> >> > a separate paragraph about it in submitting-patches.rst where
-> >> >> > most other tags are defined.
-> >> >> >
-> >> >> > Cc: Jonathan Corbet <corbet@lwn.net>
-> >> >> > Cc: Russell King <linux@armlinux.org.uk>
-> >> >> > Reported-by: Russell King <linux@armlinux.org.uk>
-> >> >> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> >> >> > ---
-> >> >> >  Documentation/process/submitting-patches.rst | 21 ++++++++++++++++----
-> >> >> >  1 file changed, 17 insertions(+), 4 deletions(-)
-> >> >> >
-> >> >> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> >> >> > index ba5e944c7a63..20ef984aa743 100644
-> >> >> > --- a/Documentation/process/submitting-patches.rst
-> >> >> > +++ b/Documentation/process/submitting-patches.rst
-> >> >> > @@ -643,9 +643,22 @@ which stable kernel versions should receive your fix. This is the preferred
-> >> >> >  method for indicating a bug fixed by the patch. See :ref:`describe_changes`
-> >> >> >  for more details.
-> >> >> >  
-> >> >> > +14) Link: tags
-> >> >> > +--------------
-> >> >> > +
-> >> >> > +A Link: attribute can be used to provide a link back to a protocol of a
-> >> >> > +discussion pertaining to the patch. A typical link looks like this:
-> >> >> > +
-> >> >> > +    Link: https://lore.kernel.org/r/<message-id>
-> >> >> > +
-> >> >> > +Any HTTP[S] links can be referenced. It is customary for maintainers to add
-> >> >> > +Link: tags to reference discussions on mailing lists, and this can be done
-> >> >> > +automatically with the git tool when applying patches in mailbox format, see
-> >> >> > +:ref:`Documentation/maintainer/configure-git.rst <configure git>`.
-> >> >> 
-> >> >> I'd like to emphasize even more strongly that it is applied by the
-> >> >> maintainer or committer, and should reference the patch that got
-> >> >> applied. And that the patch submitters shouldn't try to add it
-> >> >> themselves. (Which makes you wonder about the placement in
-> >> >> submitting-patches.rst.) IMO other references should use References:
-> >> >> that is already widely used.
-> >> >
-> >> > I'm the maintainer of phylink.  During discussions, I may propose a
-> >> > patch for someone to try.  When successful, I'll send a new email
-> >> > submitting the patch officially to davem as the networking maintainer
-> >> > as an entirely separate thread.
-> >> >
-> >> > Using Link: to the patch that was submitted officially is obviously
-> >> > impossible, but you would want to link to the discussion that resulted
-> >> > in the patch, rather than the official submission - which would
-> >> > generally be the submission plus an "applied" reply.
-> >> 
-> >> If there are N versions of the patch with discussion that eventually
-> >> lead to the final version that was applied, which one of the previous
-> >> patch versions or discussions do you think should be linked to? IMO the
-> >> only one that actually is unambiguous is the patch that got applied. IMO
-> >> only patches that were submitted to a mailing list should be applied.
-> >
-> > Even if it's just the patch submission and an "applied" reply.  To me,
-> > that seems to be just noise.
-> >
-> > My point with the above scenario is that the discussion that resulted
-> > in the patch being proposed is the relevant discussion that needs to
-> > be linked to the patch - which will include the context about why the
-> > patch was generated and its testing.  The official submission will
-> > contain none of that.
-> >
-> > I guess what this is highlighting is that different people have
-> > different ways of working, and trying to force one thing (Link:) to
-> > be used with one way of working doesn't scale across the whole kernel.
-> >
-> > So, stating that Link: should only be added by a maintainer or
-> > committer will have a detrimental effect on workflows that do not
-> > match the one you have in mind.
+On Sun, 15 Dec 2019 23:27:56 -0500
+"Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
+
+> Clarify in a few places where the ring buffer and the "snapshot"
+> buffer are cleared as a side effect of an operation.
 > 
-> Basically this boils down to the question whether it is generally more
-> useful to have a Link: tag with a very specific meaning and potentially
-> *other* less specific additional tags for other purposes, or to not
-> define a specific meaning to the Link: tag at all.
+> This will avoid users lost of tracing data because of these so far
+> undocumented behavior.
 > 
-> I promote the former, with e.g. References: used for more free form
-> references. I'm really fine with either, but with the latter I'll just
-> filter out submitter added Link: tags and turn them to References: or
-> something in my corner of the kernel. (Meaning that lax Link: tags will
-> have a detrimental effect on workflows that do not match the one you
-> have in mind... ;)
+> Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
+> ---
+>  Documentation/trace/ftrace.rst | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index d2b5657ed33e..5cc65314e16d 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -95,7 +95,8 @@ of ftrace. Here is a list of some of the key files:
+>    current_tracer:
+>  
+>  	This is used to set or display the current tracer
+> -	that is configured.
+> +	that is configured. Changing the current tracer clears
+> +        the ring buffer content as well as the "snapshot" buffer.
+>  
+>    available_tracers:
+>  
+> @@ -126,7 +127,9 @@ of ftrace. Here is a list of some of the key files:
+>  	This file holds the output of the trace in a human
+>  	readable format (described below). Note, tracing is temporarily
+>  	disabled when the file is open for reading. Once all readers
+> -	are closed, tracing is re-enabled.
+> +	are closed, tracing is re-enabled. Opening this file for
+> +        writing with the O_TRUNC flag clears the ring buffer content
+> +        as well as the "snapshot" buffer.
 
-Well, I've just done it again:
+Writing O_TRUNC into trace does not touch the snapshot buffer. I just
+tested to make sure (because that's not the behavior I remember making):
 
-- Patch submitted sends a patch series that uses some of my code
-- I review the series, and spot deficiencies in it which can be
-  solved by patching my code to add additional functionality.
-- I create a patch for my code, and send it as a reply to that
-  thread.  The discussion in the thread is entirely relevant to
-  the patch.
-- They review it and decide whether or not it solves their problem
-  and whether they want to use that approach.
-- If successful, I send it "officially" as an entirely separate
-  thread.
-- Maybe Andrew Lunn reviews it and sends a reviewed-by tag.
-- DaveM applies it and sends an "applied" message.
+ # cd /sys/kernel/tracing
+ # echo 1 > events/sched/enable
+ # echo 1 > snapshot
+ # head -15 snapshot  
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 3563/3563   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+            bash-20130 [007] d.h. 243924.135391: sched_stat_runtime: comm=bash pid=20130 runtime=584815 [ns] vruntime=116509213 [ns]
+            bash-20130 [007] d... 243924.135853: sched_waking: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
+            bash-20130 [007] d... 243924.135859: sched_wake_idle_without_ipi: cpu=2
+            bash-20130 [007] d... 243924.135861: sched_wakeup: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
+ # echo 0 > tracing_on
+ # head -15 trace
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 1697/1697   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+            sshd-20125 [005] d... 244126.123095: sched_stat_runtime: comm=sshd pid=20125 runtime=101555 [ns] vruntime=153686839 [ns]
+            sshd-20125 [005] d... 244126.123100: sched_switch: prev_comm=sshd prev_pid=20125 prev_prio=120 prev_state=S ==> next_comm=swapper/5 next_pid=0 next_prio=120
+            bash-20130 [007] d... 244126.123173: sched_waking: comm=kworker/u16:3 pid=20190 prio=120 target_cpu=006
+            bash-20130 [007] d... 244126.123177: sched_wake_idle_without_ipi: cpu=6
+ # echo > trace
+ # head -15 trace
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 0/0   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+ # head -15 snapshot
+ # tracer: nop
+#
+# entries-in-buffer/entries-written: 3563/3563   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+            bash-20130 [007] d.h. 243924.135391: sched_stat_runtime: comm=bash pid=20130 runtime=584815 [ns] vruntime=116509213 [ns]
+            bash-20130 [007] d... 243924.135853: sched_waking: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
+            bash-20130 [007] d... 243924.135859: sched_wake_idle_without_ipi: cpu=2
+            bash-20130 [007] d... 243924.135861: sched_wakeup: comm=kworker/u16:2 pid=20112 prio=120 target_cpu=002
 
-With Link: pointing at the "official" submission, all the context
-behind why the patch was necessary gets lost.
+>  
+>    trace_pipe:
+>  
+> @@ -490,6 +493,9 @@ of ftrace. Here is a list of some of the key files:
+>  
+>  	  # echo global > trace_clock
+>  
+> +        Setting a clock clears the ring buffer content as well as the
+> +        "snapshot" buffer.
+> +
 
-With Link: pointing at the email in the original discussion that
-contained the patch proposal, the discussion for the patch (including
-all the things that you're talking about) get properly linked to.
-So, I would much rather have Link: pointing to this discussion rather
-than a useless "it was reviewed and applied" set of emails, which we
-know anyway from the attributation tags that are on the commit.
+Yeah, this is true, because the sorting algorithm relies on the trace
+clocks matching in the buffers. If this becomes an issue, I'm sure we
+could change it.
 
-I guess with your workflow is along the lines of:
+-- Steve
 
-- Patch gets officially submitted
-- Patch gets reviewed and some discussion happens
-- Result of the discussion is to apply the patch
-- Patch gets applied with Link: to the official submission
+>    trace_marker:
+>  
+>  	This is a very useful file for synchronizing user space
 
-which does seem appropriate to ensure that the Link: tag is added
-when the patch is applied.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
