@@ -6,78 +6,101 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5977C2D0BF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 09:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79084C43603
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 12:21:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 720C4206D7
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 09:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FBCF206CB
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 12:21:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IeceTOiP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DZZyv8KM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfLPJkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 04:40:07 -0500
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:38641 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726881AbfLPJkH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 04:40:07 -0500
-Received: by mail-vs1-f42.google.com with SMTP id y195so3710422vsy.5
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2019 01:40:06 -0800 (PST)
+        id S1727574AbfLPMVu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 07:21:50 -0500
+Received: from mail-vk1-f195.google.com ([209.85.221.195]:43440 "EHLO
+        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727557AbfLPMVu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Dec 2019 07:21:50 -0500
+Received: by mail-vk1-f195.google.com with SMTP id h13so1535399vkn.10
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2019 04:21:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=efbgTWq8E30bo1goC1Duh6RnWJItngSdLLJmSmuEoCQ=;
-        b=IeceTOiP/bP5mLWy6gexUgBuP0MKYDGPWylM/W5iUxdPtrbnLOCXqdgQOSlQZmsf5I
-         WPTqE/EBeYAC6RyL/f326H5ADcf3h6RzfpRDWROV0jSNRtphHY/N+qX7f1T8KxUiz1Wc
-         XaERWbd3adzRFB4UTgjOKlNGyCP8gNeF5ZFXoFbb/YLnQ8QdJTAD2OFL3NnH0Ci1Wb3O
-         kyguCiBbNZa/XFGRk5R1dM0BZw5g56GYPzVkNEr0Aa9+dXnWZlSGmUN5QB0VbWoCjEaj
-         uHnFCpIzs3LvWfbfBsOAEhIlmTdCYhApk6HD5rluMzRhGYozvn2J8dqTI/ecRBmlMFXu
-         8UXg==
+        bh=4Osz9VkIv77cDwS5TcCegl7t+g2vcc4c6bR2gC0bBTE=;
+        b=DZZyv8KM/AkMijIzHa1GdiQtmMM5jFO5/iApv4ZaWBvNM353Ymxg2+pnW5EC9h1d10
+         raOcV/4ZpE2mLiy9niImgy6S2uIbA8AxH7zU77oNYUJK5xvF07asZDBu2dJQL1Nt3X8x
+         6HN96msV5Xasoa7rvuf7T9sxjtSopJk43dVkSSJ1RkjWKxqXtfKtVaWoc6wECXGLbsW6
+         +5KQFjSFWGoSMFLp4WestwfyV+ESb9MvghUFcvSOF1K4p1gyWUHq00PnIs22QsYnLQ66
+         zzcsQnc5XGu/COfqK2j7KirCwaIBS0mSgbm1k2K1q1CxtYxlAMMyEMywAX2JwUw3AoxK
+         cEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=efbgTWq8E30bo1goC1Duh6RnWJItngSdLLJmSmuEoCQ=;
-        b=Voi6nEvDzrlfcfXbul20uaSFnphbsMV1FER1EJo5X+H5W+PI8HFrDUNUn4wbv9/uMj
-         4KelhD+Zy7ymWf2fye0EqJ5aVnvy5cZt0o5Wqq1U+2DmduIbSgwLNVDWU3rkrZHahvno
-         Q45KQk0/laVCkLxCwHohAv8fTyFgIzOYRoTSyjnh2bpCygH1iLHJqNlrvgH+Q6Y/YDz9
-         ErDPcFrODYpxctxHWqYmOdsLftSrkxu1SybJMUCbXfzehdZf135rBLyOSr3F29Ig+vcK
-         zka6SaWjyGhwtOZX6BBjpYTnaDnoKvN3q27wAtnsOlXKgpqOuoIZtXdq9zfAJpkGjWBO
-         Td3w==
-X-Gm-Message-State: APjAAAXvEbTRBKas5A2Va23Q1fhfNfg5omBE+yrQv8lyYYgv38kxXFBb
-        hOCOyp/UqV7mGkvzW+iPOBx+Cj6Wlnhzh5ndy+ajOlJGj9TY4g==
-X-Google-Smtp-Source: APXvYqygsUmNTJXK7DCAfnCkmj0NTzev1RnLNm4j1bpfg63GyKPTUK5gJhsgCmXCmCJc7a5Vu0oHcyWwruDqsIwR8HI=
-X-Received: by 2002:a67:d592:: with SMTP id m18mr20795571vsj.85.1576489205893;
- Mon, 16 Dec 2019 01:40:05 -0800 (PST)
+        bh=4Osz9VkIv77cDwS5TcCegl7t+g2vcc4c6bR2gC0bBTE=;
+        b=PKJpsOs5MP4cMI4zJdRecSj4sTxXa0jC7OwXLtqaNMHR0bbYZg95oPhJdK/Yil49da
+         mO2ZvBEXk1o1KLkH4w6491REISLYtmjRWuASqqH86MFQ+o/DKTaFGXYgnq5gyNTTP9wG
+         Pq2zImEYELxaO6zfqdlointMjJ2h/1zXReXKJZ3SJDMNtxjC0BHBsLJkeaLIX3HjIshm
+         bfbxIWY+TU4reJsi7MjteOX9qylX5Q05hQJe0+vTTcIZ/0ZmEeofD68dbgqUF1uTP0aO
+         O3PQpW0QWmMYg6EflBWHgDHT1362a5NtykqfzAQL1u67xZ3w2twh16yJ7M9cnjKf9MyD
+         1Y7g==
+X-Gm-Message-State: APjAAAVHd87qfuZbpxbtGzEkyu9BJE6+cXhBXLderZMTTFvnoiNgU/xl
+        I03GGo6BQXKcb1mqMMm6w6SAyd+epjjQmXIG0XcYUg==
+X-Google-Smtp-Source: APXvYqx0xjbvyReO9ph3sJ/hbSdKSuPIz6dCp5eLmtjvK0OiHzZ5p261fyvWyE0OL/9Yo5d+jJByHNJNcdJ2/e/Yeww=
+X-Received: by 2002:a1f:add3:: with SMTP id w202mr2070054vke.30.1576498909436;
+ Mon, 16 Dec 2019 04:21:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20191212135016.GH25745@shell.armlinux.org.uk>
-In-Reply-To: <20191212135016.GH25745@shell.armlinux.org.uk>
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <CACRpkdbUS7WeQ7OoTtjGnB7L=uhYncwwcHxkJ1Uj6GqYCGNGJA@mail.gmail.com> <812acba9df70c4bb6975580c7965b61e923a3a13.camel@fi.rohmeurope.com>
+In-Reply-To: <812acba9df70c4bb6975580c7965b61e923a3a13.camel@fi.rohmeurope.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 16 Dec 2019 10:39:54 +0100
-Message-ID: <CACRpkdbAWkuyVK8uejvvKgpg4qhVfZ_a3dNmXAKsK5fu=Ns6zQ@mail.gmail.com>
-Subject: Re: Link: documentation seems to be misplaced
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+Date:   Mon, 16 Dec 2019 13:21:38 +0100
+Message-ID: <CACRpkdbi9AhGnG3hBwXNQV9foK=JNBH8WUNvXZVxbEX4LyDCig@mail.gmail.com>
+Subject: Re: [PATCH v6 10/15] gpio: devres: Add devm_gpiod_get_parent_array
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Russell,
+On Mon, Dec 16, 2019 at 9:59 AM Vaittinen, Matti
+<Matti.Vaittinen@fi.rohmeurope.com> wrote:
 
-On Thu, Dec 12, 2019 at 2:50 PM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
+> I dropped the run-level support from regulator patch (for now at
+> least). This means that I no longer have GPIO consumers needing this
+> new API in the series.
 
-> Surely, the format of the Link: tag should be documented in the
-> submitting-patches document with all the other attributations that
-> we define in a commit message, with a reference to that from
-> Documentation/maintainer/configure-git.rst ?
-
-I agree, so I sent a rough patch as a starting point so we get
-something going here.
+OK I dropped it for now, we can add it when needed.
 
 Yours,
 Linus Walleij
