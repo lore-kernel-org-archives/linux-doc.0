@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A9EC2D0C3
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 971C3C2D0D1
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:06:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45506206A5
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:06:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7863D206A5
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Dec 2019 14:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbfLPOGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Dec 2019 09:06:53 -0500
-Received: from foss.arm.com ([217.140.110.172]:56596 "EHLO foss.arm.com"
+        id S1728032AbfLPOGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Dec 2019 09:06:48 -0500
+Received: from foss.arm.com ([217.140.110.172]:56568 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728103AbfLPOGw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Dec 2019 09:06:52 -0500
+        id S1727952AbfLPOGr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Dec 2019 09:06:47 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 251EF1FB;
-        Mon, 16 Dec 2019 06:06:52 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA8001045;
+        Mon, 16 Dec 2019 06:06:46 -0800 (PST)
 Received: from e123648.arm.com (unknown [10.37.12.145])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D86363F718;
-        Mon, 16 Dec 2019 06:06:49 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 894E93F718;
+        Mon, 16 Dec 2019 06:06:44 -0800 (PST)
 From:   lukasz.luba@arm.com
 To:     linux-kernel@vger.kernel.org, rui.zhang@intel.com,
         daniel.lezcano@linaro.org, linux-pm@vger.kernel.org,
         linux-doc@vger.kernel.org
 Cc:     amit.kucheria@verdurent.com, corbet@lwn.net, lukasz.luba@arm.com,
         dietmar.eggemann@arm.com
-Subject: [PATCH  3/3] thermal: Add sysfs binding for cooling device and thermal zone
-Date:   Mon, 16 Dec 2019 14:06:22 +0000
-Message-Id: <20191216140622.25467-4-lukasz.luba@arm.com>
+Subject: [PATCH  1/3] docs: thermal: Add bind, unbind information together with trip point
+Date:   Mon, 16 Dec 2019 14:06:20 +0000
+Message-Id: <20191216140622.25467-2-lukasz.luba@arm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191216140622.25467-1-lukasz.luba@arm.com>
 References: <20191216140622.25467-1-lukasz.luba@arm.com>
@@ -43,106 +43,72 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Lukasz Luba <lukasz.luba@arm.com>
 
-Make it possible to bind from userspace a cooling device to an existing
-thermal zone. It adds more flexibility in addition to static device tree
-definitions. There is also a code for changing trip point connected to
-cooling device instance in the thermal zone.
-
-In order to bind a device to a zone, first the proper thermal zone name
-must be checked from file:
-cat /sys/class/thermal/thermal_zoneX/type
-Then that name must be set into cooling device 'bind_tz' file:
-echo 'gpu-thermal' > /sys/class/thermal/cooling_deviceY/bind_tz
-Next a proper trip point must be chosen for this cooling device:
-echo 2 > /sys/class/thermal/thermal_zoneX/cdev_Z_trip_point
-
-To unbind, first set -1 to connected trip point:
-echo -1 > /sys/class/thermal/thermal_zoneX/cdev_Z_trip_point
-Then unbind the thermal zone from the cooling device:
-echo 'gpu-thermal' > /sys/class/thermal/cooling_deviceY/unbind_tz
+Update sysfs interface documentation about new attributes in the cooling
+device folder: bind and unbind. It also updates the changed cooling device
+associated trip point interface extending it by information about writable
+values.
 
 Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 ---
- drivers/thermal/thermal_sysfs.c | 57 +++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ .../driver-api/thermal/sysfs-api.rst          | 30 +++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-index 80c8bae6dd1c..473449b41d55 100644
---- a/drivers/thermal/thermal_sysfs.c
-+++ b/drivers/thermal/thermal_sysfs.c
-@@ -722,15 +722,72 @@ cur_state_store(struct device *dev, struct device_attribute *attr,
- 	return result ? result : count;
- }
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index b40b1f839148..605f0d9ffe71 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -407,6 +407,8 @@ Thermal cooling device sys I/F, created once it's registered::
+     |---stats/time_in_state_ms:	Time (msec) spent in various cooling states
+     |---stats/total_trans:	Total number of times cooling state is changed
+     |---stats/trans_table:	Cooing state transition table
++    |---bind_tz:	Interface for binding cooling device to thermal zone
++    |---unbind_tz:	Interface for unbinding cooling device from thermal zone
  
-+static ssize_t
-+bind_tz_store(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct thermal_zone_device *tz;
-+	char *orig, *name;
-+	int res = 0;
-+
-+	orig = kstrndup(buf, count, GFP_KERNEL);
-+	if (!orig)
-+		return -ENOMEM;
-+
-+	name = strstrip(orig);
-+
-+	tz = thermal_zone_get_zone_by_name(name);
-+	if (IS_ERR_OR_NULL(tz))
-+		return -EINVAL;
-+
-+	res = thermal_zone_bind_cooling_device(tz, THERMAL_TRIPS_NONE, cdev,
-+					       THERMAL_NO_LIMIT,
-+					       THERMAL_NO_LIMIT,
-+					       THERMAL_WEIGHT_DEFAULT);
-+
-+	kfree(orig);
-+	return res ? res : count;
-+}
-+
-+static ssize_t
-+unbind_tz_store(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct thermal_zone_device *tz;
-+	char *name, *orig;
-+	int res = 0;
-+
-+	orig = kstrndup(buf, count, GFP_KERNEL);
-+	if (!orig)
-+		return -ENOMEM;
-+
-+	name = strstrip(orig);
-+
-+	tz = thermal_zone_get_zone_by_name(name);
-+	if (IS_ERR_OR_NULL(tz))
-+		return -EINVAL;
-+
-+	res = thermal_zone_unbind_cooling_device(tz, THERMAL_TRIPS_NONE, cdev);
-+
-+	kfree(orig);
-+	return res ? res : count;
-+}
-+
- static struct device_attribute
- dev_attr_cdev_type = __ATTR(type, 0444, cdev_type_show, NULL);
- static DEVICE_ATTR_RO(max_state);
- static DEVICE_ATTR_RW(cur_state);
-+static DEVICE_ATTR_WO(bind_tz);
-+static DEVICE_ATTR_WO(unbind_tz);
  
- static struct attribute *cooling_device_attrs[] = {
- 	&dev_attr_cdev_type.attr,
- 	&dev_attr_max_state.attr,
- 	&dev_attr_cur_state.attr,
-+	&dev_attr_bind_tz.attr,
-+	&dev_attr_unbind_tz.attr,
- 	NULL,
- };
+ Then next two dynamic attributes are created/removed in pairs. They represent
+@@ -507,9 +509,12 @@ available_policies
+ `cdev[0-*]_trip_point`
+ 	The trip point in this thermal zone which `cdev[0-*]` is associated
+ 	with; -1 means the cooling device is not associated with any trip
+-	point.
++	point. Writing a value (a proper integer) will set new trip point
++	to this cooling device. The value -1 will cause the cooling device
++	is not associated to any trip point and can be unbind from the
++	thermal zone.
  
+-	RO, Optional
++	RW, Optional
+ 
+ `cdev[0-*]_weight`
+ 	The influence of `cdev[0-*]` in this thermal zone. This value
+@@ -637,6 +642,27 @@ max_state
+ 
+ 	RO, Required
+ 
++bind_tz
++	Writing the thermal zone name binds this cooling device with the
++	specified thermal zone. A new dynamic attributes 'cdev*' will be
++	created inside the thermal zone directory.
++	The proper thermal zone name can be from read the attribute:
++	/sys/class/thermal/thermal_zone*/type
++	The default (-1) trip point will be set into the cooling instance,
++	which should be updated later using 'cdev*_trip_point' interface.
++
++	WO, Required
++
++unbind_tz
++	Writing the thermal zone name unbinds this cooling device from
++	the specified thermal zone. The cooling instance needs to set -1
++	into the associated cooling device instance 'cdev*_trip_point'
++	first.
++	The proper thermal zone name can be read from the attribute:
++	/sys/class/thermal/thermal_zone*/type
++
++	WO, Required
++
+ cur_state
+ 	The current cooling state of this cooling device.
+ 	The value can any integer numbers between 0 and max_state:
 -- 
 2.17.1
 
