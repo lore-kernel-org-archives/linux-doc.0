@@ -2,144 +2,298 @@ Return-Path: <SRS0=IxZW=2H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C077C2D0D2
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5EBC43603
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:08:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 585F22465E
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:00:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="GbGZzaEh"
+	by mail.kernel.org (Postfix) with ESMTP id 450052176D
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576591695;
+	bh=ms+aXOE3EdejqpGn+s3s9ci5ddw4kV2jIv1YOjsFUks=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=RRJZKqAqDuR72H0dZFv4a5JpY6s5LHP/xI6fOw3YSdmj1aTTiN9hG/xB95hLNvOBK
+	 cFFpKD1LHzIFFl8S2tuFGIAaCL+uo5y/CSOrWlXfBmry76kw4gLub5uvbYoeqWqr/f
+	 NBk+wj2SaOswQnr8AV4GZ4UcpmkECv1PeYD7HE5c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728724AbfLQN7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 08:59:50 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15008 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728539AbfLQN7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 08:59:50 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df8df4b0000>; Tue, 17 Dec 2019 05:59:40 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 17 Dec 2019 05:59:49 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 05:59:49 -0800
-Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
- 2019 13:59:48 +0000
-Subject: Re: [RFC PATCH] mm/gup: try_pin_compound_head() can be static
-To:     kbuild test robot <lkp@intel.com>
-CC:     <kbuild-all@lists.01.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20191211025318.457113-24-jhubbard@nvidia.com>
- <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <7828a101-e422-8e2a-ef9b-9c0285065ed5@nvidia.com>
-Date:   Tue, 17 Dec 2019 05:56:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1728656AbfLQOIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 09:08:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51176 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728575AbfLQOIO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Dec 2019 09:08:14 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9702D21582;
+        Tue, 17 Dec 2019 14:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576591693;
+        bh=ms+aXOE3EdejqpGn+s3s9ci5ddw4kV2jIv1YOjsFUks=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IZf3rYkXbIEYiApuYswptT8vlxYzci3pkhoMeBz5u/K9mft/ZYrtxZBRrciWm/exV
+         LH7MUCTS4pevFSn6oMbLL1kmud09E3YGeBKdzxP/ZBH14EbCSwwTX7zC4J5uBXh3BY
+         u1UKy/m0ucZPyTm1RdNmqD73DNVtlwqeqah80uDM=
+Date:   Tue, 17 Dec 2019 15:08:10 +0100
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v6 05/15] mfd: bd71828: Support ROHM BD71828 PMIC - core
+Message-ID: <20191217140810.GD3489463@kroah.com>
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <252de5646fedfec7c575269843a47091fe199c79.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191216164641.GC18955@dell>
+ <5593db6b3328c0a1a7069d839f5c777b4b3822b6.camel@fi.rohmeurope.com>
+ <20191217135430.GM18955@dell>
 MIME-Version: 1.0
-In-Reply-To: <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576591180; bh=+kY6WrbKA7lSfaR6JiJsMhpW0kY3DW4edAlAk5Ve1Ws=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=GbGZzaEh7giluV7bpN/IIAOj3Mc18AXcjLeuEGsTgM8/schRNFGUqCq00YAc4ARRK
-         0PVe1s7+qdvFmh1Ttru614AJtLodM6wJzZ2UNnA1jIm2+JCvQssDVh7rwrwji91hSp
-         Dmomrx8a2mkRdKDi+zuehTjS+cK+ceZUGuV2qS+Q00TgS6unnj2J/spZ+jPwNEGl3X
-         xJTAKof+O0alRzDH3cC7VTlXjNJwIWhcBZya8mbb62MvfcrAHYE78VekfobHefcZXx
-         ueLyg5p/jxUNWHBbbcLlFxuQBAi3TiHxhM/GsO23RipjSLUTZwruxA+61/WfeUhUby
-         xcvllM2I0K27A==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191217135430.GM18955@dell>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/17/19 12:03 AM, kbuild test robot wrote:
+On Tue, Dec 17, 2019 at 01:54:30PM +0000, Lee Jones wrote:
+> On Tue, 17 Dec 2019, Vaittinen, Matti wrote:
 > 
-> Fixes: 8086d1c61970 ("mm/gup: track FOLL_PIN pages")
-> Signed-off-by: kbuild test robot <lkp@intel.com>
-> ---
->   gup.c |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> > Hello Lee,
+> > 
+> > On Mon, 2019-12-16 at 16:46 +0000, Lee Jones wrote:
+> > > On Wed, 11 Dec 2019, Matti Vaittinen wrote:
+> > > 
+> > > > BD71828GW is a single-chip power management IC for battery-powered
+> > > > portable
+> > > > devices. The IC integrates 7 buck converters, 7 LDOs, and a 1500 mA
+> > > > single-cell linear charger. Also included is a Coulomb counter, a
+> > > > real-time
+> > > > clock (RTC), 3 GPO/regulator control pins, HALL input and a 32.768
+> > > > kHz
+> > > > clock gate.
+> > > > 
+> > > > Add MFD core driver providing interrupt controller facilities and
+> > > > i2c
+> > > > access to sub device drivers.
+> > > > 
+> > > > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> > > > ---
+> > > > 
+> > > > Changes since v5:
+> > > > - No changes
+> > > > 
+> > > >  drivers/mfd/Kconfig              |  15 ++
+> > > >  drivers/mfd/Makefile             |   2 +-
+> > > >  drivers/mfd/rohm-bd71828.c       | 319 +++++++++++++++++++++++
+> > > >  include/linux/mfd/rohm-bd71828.h | 425
+> > > > +++++++++++++++++++++++++++++++
+> > > >  include/linux/mfd/rohm-generic.h |   1 +
+> > > >  5 files changed, 761 insertions(+), 1 deletion(-)
+> > > >  create mode 100644 drivers/mfd/rohm-bd71828.c
+> > > >  create mode 100644 include/linux/mfd/rohm-bd71828.h
+> > > 
+> > > Couple of small nits.  Once fixed, please apply my:
+> > > 
+> > > For my own reference:
+> > >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> > > 
+> > > > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> > > > index 420900852166..c3c9432ef51c 100644
+> > > > --- a/drivers/mfd/Kconfig
+> > > > +++ b/drivers/mfd/Kconfig
+> > > > @@ -1906,6 +1906,21 @@ config MFD_ROHM_BD70528
+> > > >  	  10 bits SAR ADC for battery temperature monitor and 1S
+> > > > battery
+> > > >  	  charger.
+> > > >  
+> > > > +config MFD_ROHM_BD71828
+> > > > +	tristate "ROHM BD71828 Power Management IC"
+> > > > +	depends on I2C=y
+> > > > +	depends on OF
+> > > > +	select REGMAP_I2C
+> > > > +	select REGMAP_IRQ
+> > > > +	select MFD_CORE
+> > > > +	help
+> > > > +	  Select this option to get support for the ROHM BD71828 Power
+> > > > +	  Management IC. BD71828GW is a single-chip power management IC
+> > > > for
+> > > > +	  battery-powered portable devices. The IC integrates 7 buck
+> > > > +	  converters, 7 LDOs, and a 1500 mA single-cell linear charger.
+> > > > +	  Also included is a Coulomb counter, a real-time clock (RTC),
+> > > > and
+> > > > +	  a 32.768 kHz clock gate.
+> > > > +
+> > > >  config MFD_STM32_LPTIMER
+> > > >  	tristate "Support for STM32 Low-Power Timer"
+> > > >  	depends on (ARCH_STM32 && OF) || COMPILE_TEST
+> > > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> > > > index aed99f08739f..ca2d55c679c5 100644
+> > > > --- a/drivers/mfd/Makefile
+> > > > +++ b/drivers/mfd/Makefile
+> > > > @@ -252,6 +252,6 @@ obj-$(CONFIG_MFD_MXS_LRADC)     += mxs-lradc.o
+> > > >  obj-$(CONFIG_MFD_SC27XX_PMIC)	+= sprd-sc27xx-spi.o
+> > > >  obj-$(CONFIG_RAVE_SP_CORE)	+= rave-sp.o
+> > > >  obj-$(CONFIG_MFD_ROHM_BD70528)	+= rohm-bd70528.o
+> > > > +obj-$(CONFIG_MFD_ROHM_BD71828)	+= rohm-bd71828.o
+> > > >  obj-$(CONFIG_MFD_ROHM_BD718XX)	+= rohm-bd718x7.o
+> > > >  obj-$(CONFIG_MFD_STMFX) 	+= stmfx.o
+> > > > -
+> > > 
+> > > Nit: This is an unrelated change and should not really be in this
+> > > patch.
+> > 
+> > Ok. Will get rid of it.
+> > 
+> > > 
+> > > > diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-
+> > > > bd71828.c
+> > > > new file mode 100644
+> > > > index 000000000000..7f445d699fd9
+> > > > --- /dev/null
+> > > > +++ b/drivers/mfd/rohm-bd71828.c
+> > > > @@ -0,0 +1,319 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > +//
+> > > > +// Copyright (C) 2019 ROHM Semiconductors
+> > > > +//
+> > > > +// ROHM BD71828 PMIC driver
+> > > > +
+> > 
+> > //snip
+> > 
+> > > > +
+> > > > +static struct i2c_driver bd71828_drv = {
+> > > > +	.driver = {
+> > > > +		.name = "rohm-bd71828",
+> > > > +		.of_match_table = bd71828_of_match,
+> > > > +	},
+> > > > +	.probe_new = &bd71828_i2c_probe,
+> > > > +};
+> > > > +
+> > > 
+> > > Nit: You can remove this line.
+> > 
+> > Will do.
+> > 
+> > > 
+> > > > +module_i2c_driver(bd71828_drv);
+> > > > +
+> > > > +MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> > > > ");
+> > > > +MODULE_DESCRIPTION("ROHM BD71828 Power Management IC driver");
+> > > > +MODULE_LICENSE("GPL");
+> > > 
+> > > This does not match the header.
+> > 
+> > How is that? This is what is stated in module.h for the 
+> > MODULE_LICENSE:
+> > 
+> > /*
+> >  * The following license idents are currently accepted as indicating
+> > free
+> >  * software modules
+> >  *
+> >  *	"GPL"				[GNU Public License v2]
+> >  *	"GPL v2"			[GNU Public License v2]
+> >  *	"GPL and additional rights"	[GNU Public License v2 rights
+> > and more]
+> >  *	"Dual BSD/GPL"			[GNU Public License v2
+> >  *					 or BSD license choice]
+> >  *	"Dual MIT/GPL"			[GNU Public License v2
+> >  *					 or MIT license choice]
+> >  *	"Dual MPL/GPL"			[GNU Public License v2
+> >  *					 or Mozilla license choice]
+> >  *
+> >  * The following other idents are available
+> >  *
+> >  *	"Proprietary"			[Non free products]
+> >  *
+> >  * Both "GPL v2" and "GPL" (the latter also in dual licensed strings)
+> > are
+> >  * merely stating that the module is licensed under the GPL v2, but are
+> > not
+> >  * telling whether "GPL v2 only" or "GPL v2 or later". The reason why
+> > there
+> >  * are two variants is a historic and failed attempt to convey more
+> >  * information in the MODULE_LICENSE string. For module loading the
+> >  * "only/or later" distinction is completely irrelevant and does
+> > neither
+> >  * replace the proper license identifiers in the corresponding source
+> > file
+> >  * nor amends them in any way. The sole purpose is to make the
+> >  * 'Proprietary' flagging work and to refuse to bind symbols which are
+> >  * exported with EXPORT_SYMBOL_GPL when a non free module is loaded.
+> >  *
+> >  * In the same way "BSD" is not a clear license information. It merely
+> >  * states, that the module is licensed under one of the compatible BSD
+> >  * license variants. The detailed and correct license information is
+> > again
+> >  * to be found in the corresponding source files.
+> >  *
+> >  * There are dual licensed components, but when running with Linux it
+> > is the
+> >  * GPL that is relevant so this is a non issue. Similarly LGPL linked
+> > with GPL
+> >  * is a GPL combined work.
+> >  *
+> >  * This exists for several reasons
+> >  * 1.	So modinfo can show license info for users wanting to vet their
+> > setup
+> >  *	is free
+> >  * 2.	So the community can ignore bug reports including proprietary
+> > modules
+> >  * 3.	So vendors can do likewise based on their own policies
+> >  */
+> > #define MODULE_LICENSE(_license) MODULE_INFO(license, _license)
+> > 
+> > I have no objections on changing the license if needed but can you
+> > please tell me what is Ok combos then - I am having hard time when
+> > trying to select licenses which are acceptable for all.
 > 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 038b71165a761..849a6f55938e6 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -75,7 +75,7 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
->    * @Return:	the compound head page, with ref appropriately incremented,
->    * or NULL upon failure.
->    */
-> -__must_check struct page *try_pin_compound_head(struct page *page, int refs)
-> +static __must_check struct page *try_pin_compound_head(struct page *page, int refs)
->   {
->   	struct page *head = try_get_compound_head(page,
->   						  GUP_PIN_COUNTING_BIAS * refs);
+> If you have this in your header:
 > 
+>   GPL-2.0-only
+> 
+> Your MODULE tags should read:
+> 
+> MODULE_LICENSE("GPL v2");
 
-Yes, it should have been declared static. And this also applies to the latest version
-(v11). The preferred fix would stay within 80 columns, like this:
-
-diff --git a/mm/gup.c b/mm/gup.c
-index c2793a86450e..39b2f683bd2e 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -75,7 +75,8 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
-   * @Return:    the compound head page, with ref appropriately incremented,
-   * or NULL upon failure.
-   */
--__must_check struct page *try_pin_compound_head(struct page *page, int refs)
-+static __must_check struct page *try_pin_compound_head(struct page *page,
-+                                                      int refs)
-  {
-         struct page *head = try_get_compound_head(page,
-                                                   GUP_PIN_COUNTING_BIAS * refs);
-
+Nope, as per module.h, which is quoted here, either:
+	MODULE_LICENSE("GPL");
+or:
+	MODULE_LICENSE("GPL v2");
+mean the exact same thing.
 
 thanks,
--- 
-John Hubbard
-NVIDIA
+
+greg k-h
