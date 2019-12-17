@@ -2,230 +2,94 @@ Return-Path: <SRS0=IxZW=2H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4177DC2D0D4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 12:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A80BC43603
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 13:49:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0EC3C21775
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 12:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576586375;
-	bh=4lc/ehSQDI9aWx5ZLmJtKG/CFsG3TglET/wIcWT4JM8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=k0ZSWAhgMajXWFQZ1D9AUdZnY/X/NH1GD7+dGHiqXDRm7PsPIqIvQturGUwdoV89E
-	 Jyvtwq5i5vPT1WzyiPOeoQD0Sm/b0ul4jfQwEeMMNocWlXQymF8eb1zJzu2J2LdM3Q
-	 NCu3PowWu+QB1mCfoWfI0U3gaX8/3ml0RSeQBFQw=
+	by mail.kernel.org (Postfix) with ESMTP id 13C0620733
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 13:49:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="TJ/Scu83"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728167AbfLQMja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 07:39:30 -0500
-Received: from foss.arm.com ([217.140.110.172]:35638 "EHLO foss.arm.com"
+        id S1728309AbfLQNti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 08:49:38 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:55230 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728051AbfLQMj3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Dec 2019 07:39:29 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4CBD6328;
-        Tue, 17 Dec 2019 04:39:28 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98D8C3F718;
-        Tue, 17 Dec 2019 04:39:27 -0800 (PST)
-Date:   Tue, 17 Dec 2019 12:39:26 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        id S1726962AbfLQNti (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Dec 2019 08:49:38 -0500
+Received: from zn.tnic (p200300EC2F0BBF009DDBE489521279C1.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:bf00:9ddb:e489:5212:79c1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 629771EC0419;
+        Tue, 17 Dec 2019 14:49:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1576590572;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=NnxRmWgXR04lov5uUe4Y9eBEjC/dJ8PLB6ALjMhspEU=;
+        b=TJ/Scu83qAvDm1yqbm7OqNy1WIybTlQX6dv1VHY4h42q+MTkWzjoQk34XOqwo3EiK3kmem
+        ecsKz+yWWT5zvbpfqkBM7vYYWEFsFKi6TYdBB2AD1ej7S9TxcqKgFZjK346LuAqiCR3IXe
+        xDzQYaVhKbpk/VZlK+03kUkkzkdmuS0=
+Date:   Tue, 17 Dec 2019 14:49:23 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Bhupesh Sharma <bhsharma@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bhupesh SHARMA <bhupesh.linux@gmail.com>, x86@kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
+        James Morse <james.morse@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        matti.vaittinen@fi.rohmeurope.com,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        mazziesaccount@gmail.com,
-        Michael Turquette <mturquette@baylibre.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Applied "dt-bindings: regulator: Document ROHM BD71282 regulator bindings" to the regulator tree
-In-Reply-To: <0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-Message-Id: <applied-0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-X-Patchwork-Hint: ignore
+        Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Subject: Re: [PATCH v5 0/5] Append new variables to vmcoreinfo (TCR_EL1.T1SZ
+ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Message-ID: <20191217134923.GE28788@zn.tnic>
+References: <1574972621-25750-1-git-send-email-bhsharma@redhat.com>
+ <20191214122734.GC28635@zn.tnic>
+ <CACi5LpP2PPcmaQw95V4MUzhvENq9+mB7UR7eib2HADCDHLz4oA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACi5LpP2PPcmaQw95V4MUzhvENq9+mB7UR7eib2HADCDHLz4oA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The patch
+On Mon, Dec 16, 2019 at 12:16:12PM +0530, Bhupesh Sharma wrote:
+> I remember there was a suggestion during the review of an earlier
+> version to keep them as a separate patch(es) so that the documentation
+> text is easier to review,
 
-   dt-bindings: regulator: Document ROHM BD71282 regulator bindings
+Documentation text is one sentence, respectively. Not really worth a
+separate patch.
 
-has been applied to the regulator tree at
+> I can merge the documentation patches with the respective patches
+> (which export the variables/defines to vmcoreinfo) in v6,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-5.6
+Please do.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+Thx.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 84a867c078136887dea64fa6e336333b657bc6a1 Mon Sep 17 00:00:00 2001
-From: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Date: Wed, 11 Dec 2019 11:35:57 +0200
-Subject: [PATCH] dt-bindings: regulator: Document ROHM BD71282 regulator
- bindings
-
-Document ROHM BD71828 PMIC regulator device tree bindings.
-
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Link: https://lore.kernel.org/r/0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- .../regulator/rohm,bd71828-regulator.yaml     | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-new file mode 100644
-index 000000000000..71ce032b8cf8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/regulator/rohm,bd71828-regulator.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ROHM BD71828 Power Management Integrated Circuit regulators
-+
-+maintainers:
-+  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+
-+description: |
-+  This module is part of the ROHM BD71828 MFD device. For more details
-+  see Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml.
-+
-+  The regulator controller is represented as a sub-node of the PMIC node
-+  on the device tree.
-+
-+  Regulator nodes should be named to BUCK_<number> and LDO_<number>.
-+  The valid names for BD71828 regulator nodes are
-+  BUCK1, BUCK2, BUCK3, BUCK4, BUCK5, BUCK6, BUCK7
-+  LDO1, LDO2, LDO3, LDO4, LDO5, LDO6, LDO7
-+
-+patternProperties:
-+  "^LDO[1-7]$":
-+    type: object
-+    allOf:
-+      - $ref: regulator.yaml#
-+    description:
-+      Properties for single LDO regulator.
-+
-+    properties:
-+      regulator-name:
-+        pattern: "^ldo[1-7]$"
-+        description:
-+          should be "ldo1", ..., "ldo7"
-+
-+  "^BUCK[1-7]$":
-+    type: object
-+    allOf:
-+      - $ref: regulator.yaml#
-+    description:
-+      Properties for single BUCK regulator.
-+
-+    properties:
-+      regulator-name:
-+        pattern: "^buck[1-7]$"
-+        description:
-+          should be "buck1", ..., "buck7"
-+
-+      rohm,dvs-run-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "RUN" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-idle-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "IDLE" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-suspend-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "SUSPEND" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-lpsr-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "LPSR" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+        # Supported default DVS states:
-+        #     buck       |    run     |   idle    | suspend  | lpsr
-+        #--------------------------------------------------------------
-+        # 1, 2, 6, and 7 | supported  | supported | supported (*)
-+        #--------------------------------------------------------------
-+        # 3, 4, and 5    |                    supported (**)
-+        #--------------------------------------------------------------
-+        #
-+        #(*)  LPSR and SUSPEND states use same voltage but both states have own
-+        #     enable /
-+        #     disable settings. Voltage 0 can be specified for a state to make
-+        #     regulator disabled on that state.
-+        #
-+        #(**) All states use same voltage but have own enable / disable
-+        #     settings. Voltage 0 can be specified for a state to make
-+        #     regulator disabled on that state.
-+
-+    required:
-+      - regulator-name
-+  additionalProperties: false
-+additionalProperties: false
 -- 
-2.20.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
