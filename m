@@ -2,169 +2,149 @@ Return-Path: <SRS0=IxZW=2H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B479DC2D0C8
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 723D4C43603
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:28:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 89AF824680
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:25:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nDOQqhZN"
+	by mail.kernel.org (Postfix) with ESMTP id 4EBF421D7D
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729026AbfLQOZk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 09:25:40 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36134 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729022AbfLQOZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 09:25:40 -0500
-Received: by mail-wm1-f66.google.com with SMTP id p17so3404010wma.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2019 06:25:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=6kERw8dQIBACWsW0c+lQf/JA1vmIIx6c9Yg7JLLE81M=;
-        b=nDOQqhZNRhoqSIT9ygYhf6sYksvjQo/V0MI0iG8xAI89/NE0iO63AgxOdrYKa917lh
-         cV57WmnloRdU8ZjuMMbUdWOmp2MgBXI2WEQ5WqGnLOoJOFyKMPsabxDfUcaNKPAPeiM2
-         zv4czVKjcJqiWovFGXwRRlP2dVy0h+1BS1p9/h4xdRTva3rVoO1B1OcPZ/XgmnA+sJ40
-         vWKeXt+JEwXo0VccppBW2PHy+gJw6MXFYRlbIzyrMoKTbuZ7A7Y74SobzBvgiX6bUQpV
-         WikCepIxqMQ9K/Ngfgj9jIUxHUgZNtMRIlArBYGinPF/qsIGu7SOJYhQd1ZXTxJwZQUR
-         5tkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=6kERw8dQIBACWsW0c+lQf/JA1vmIIx6c9Yg7JLLE81M=;
-        b=YtP9nW4Pu0PoMpR6CH0J4Iyo40Nhq7pae1ZRMN8ds4GUvlKkWTBWDeFirSFTURqAyE
-         dipaQQNBUTUiVo5X0fOiGYi/iVK1ihLk1ynXL4cRyWzPBwxq2ukhXlspkckf3rxU9psT
-         zoiEoHSEAh3NIe5FQ/OJOK++ifHG8EiIrtygrCPFPWvBlbIx9C7+/QLpFUtxmxGSB4N5
-         uaAxJa5q8iRutnFL098kFH9yvtZTkwzyRmmzZ68Bc6ai8F2Ks/aMVCUPbLYkG98xsZSc
-         Zrap2vWA3EgcN1ZoXz6AWoQbAIgElgEC49jKLw+sU2Ea7Sr5dtde87ixmq4Ae5Ev6as4
-         S0+Q==
-X-Gm-Message-State: APjAAAWnye1MkwknCcuZN9WUYjreP70/eU0VrQsCpuUk4Vswntdi4gU0
-        btBgN8/4pKjkkwkBkQhhyhxUwA==
-X-Google-Smtp-Source: APXvYqxwCwi38Wr5D9A/L2wvMeZPSaKLDoI2uWPVSQnU9lhUcxlxXv46EcbtmUS5uruundfigIgz8w==
-X-Received: by 2002:a05:600c:2207:: with SMTP id z7mr5654182wml.138.1576592738272;
-        Tue, 17 Dec 2019 06:25:38 -0800 (PST)
-Received: from dell ([2.27.35.132])
-        by smtp.gmail.com with ESMTPSA id s65sm3189680wmf.48.2019.12.17.06.25.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2019 06:25:37 -0800 (PST)
-Date:   Tue, 17 Dec 2019 14:25:37 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
+        id S1729076AbfLQO2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 09:28:53 -0500
+Received: from foss.arm.com ([217.140.110.172]:38860 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728896AbfLQO2x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Dec 2019 09:28:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F3E71FB;
+        Tue, 17 Dec 2019 06:28:52 -0800 (PST)
+Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.196.56])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A44063F67D;
+        Tue, 17 Dec 2019 06:28:50 -0800 (PST)
+Date:   Tue, 17 Dec 2019 14:28:48 +0000
+From:   Steven Price <steven.price@arm.com>
+To:     "yezengruan@huawei.com" <yezengruan@huawei.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v6 05/15] mfd: bd71828: Support ROHM BD71828 PMIC - core
-Message-ID: <20191217142537.GN18955@dell>
-References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <252de5646fedfec7c575269843a47091fe199c79.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <20191216164641.GC18955@dell>
- <5593db6b3328c0a1a7069d839f5c777b4b3822b6.camel@fi.rohmeurope.com>
- <20191217135430.GM18955@dell>
- <20191217140810.GD3489463@kroah.com>
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        James Morse <James.Morse@arm.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        Suzuki Poulose <Suzuki.Poulose@arm.com>,
+        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
+        Catalin Marinas <Catalin.Marinas@arm.com>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
+Subject: Re: [PATCH 2/5] KVM: arm64: Implement PV_LOCK_FEATURES call
+Message-ID: <20191217142848.GB38811@arm.com>
+References: <20191217135549.3240-1-yezengruan@huawei.com>
+ <20191217135549.3240-3-yezengruan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191217140810.GD3489463@kroah.com>
+In-Reply-To: <20191217135549.3240-3-yezengruan@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 17 Dec 2019, gregkh@linuxfoundation.org wrote:
-> On Tue, Dec 17, 2019 at 01:54:30PM +0000, Lee Jones wrote:
-> > On Tue, 17 Dec 2019, Vaittinen, Matti wrote:
-> > > On Mon, 2019-12-16 at 16:46 +0000, Lee Jones wrote:
-> > > > On Wed, 11 Dec 2019, Matti Vaittinen wrote:
-> > > > 
-> > > > > BD71828GW is a single-chip power management IC for battery-powered
-> > > > > portable
-> > > > > devices. The IC integrates 7 buck converters, 7 LDOs, and a 1500 mA
-> > > > > single-cell linear charger. Also included is a Coulomb counter, a
-> > > > > real-time
-> > > > > clock (RTC), 3 GPO/regulator control pins, HALL input and a 32.768
-> > > > > kHz
-> > > > > clock gate.
-> > > > > 
-> > > > > Add MFD core driver providing interrupt controller facilities and
-> > > > > i2c
-> > > > > access to sub device drivers.
-> > > > > 
-> > > > > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> > > > > ---
-> > > > > 
-> > > > > Changes since v5:
-> > > > > - No changes
-> > > > > 
-> > > > >  drivers/mfd/Kconfig              |  15 ++
-> > > > >  drivers/mfd/Makefile             |   2 +-
-> > > > >  drivers/mfd/rohm-bd71828.c       | 319 +++++++++++++++++++++++
-> > > > >  include/linux/mfd/rohm-bd71828.h | 425
-> > > > > +++++++++++++++++++++++++++++++
-> > > > >  include/linux/mfd/rohm-generic.h |   1 +
-> > > > >  5 files changed, 761 insertions(+), 1 deletion(-)
-> > > > >  create mode 100644 drivers/mfd/rohm-bd71828.c
-> > > > >  create mode 100644 include/linux/mfd/rohm-bd71828.h
-
-[...]
-> > 
-> > If you have this in your header:
-> > 
-> >   GPL-2.0-only
-> > 
-> > Your MODULE tags should read:
-> > 
-> > MODULE_LICENSE("GPL v2");
+On Tue, Dec 17, 2019 at 01:55:46PM +0000, yezengruan@huawei.com wrote:
+> From: Zengruan Ye <yezengruan@huawei.com>
 > 
-> Nope, as per module.h, which is quoted here, either:
-> 	MODULE_LICENSE("GPL");
-> or:
-> 	MODULE_LICENSE("GPL v2");
-> mean the exact same thing.
+> This provides a mechanism for querying which paravirtualized lock
+> features are available in this hypervisor.
+> 
+> Also add the header file which defines the ABI for the paravirtualized
+> lock features we're about to add.
+> 
+> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
+> ---
+>  arch/arm64/include/asm/pvlock-abi.h | 16 ++++++++++++++++
+>  include/linux/arm-smccc.h           | 13 +++++++++++++
+>  virt/kvm/arm/hypercalls.c           |  3 +++
+>  3 files changed, 32 insertions(+)
+>  create mode 100644 arch/arm64/include/asm/pvlock-abi.h
+> 
+> diff --git a/arch/arm64/include/asm/pvlock-abi.h b/arch/arm64/include/asm/pvlock-abi.h
+> new file mode 100644
+> index 000000000000..06e0c3d7710a
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/pvlock-abi.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright(c) 2019 Huawei Technologies Co., Ltd
+> + * Author: Zengruan Ye <yezengruan@huawei.com>
+> + */
+> +
+> +#ifndef __ASM_PVLOCK_ABI_H
+> +#define __ASM_PVLOCK_ABI_H
+> +
+> +struct pvlock_vcpu_state {
+> +	__le64 preempted;
 
-Interesting.  I always took a non-specified version to mean:
+Somewhere we need to document when 'preempted' is. It looks like it's a
+1-bit field from the later patches.
 
-  "... and any other future version of the licence"
+> +	/* Structure must be 64 byte aligned, pad to that size */
+> +	u8 padding[56];
+> +} __packed;
+> +
+> +#endif
+> diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+> index 59494df0f55b..59e65a951959 100644
+> --- a/include/linux/arm-smccc.h
+> +++ b/include/linux/arm-smccc.h
+> @@ -377,5 +377,18 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
+>  			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+>  			   0x21)
+>  
+> +/* Paravirtualised lock calls */
+> +#define ARM_SMCCC_HV_PV_LOCK_FEATURES				\
+> +	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
+> +			   ARM_SMCCC_SMC_64,			\
+> +			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+> +			   0x40)
+> +
+> +#define ARM_SMCCC_HV_PV_LOCK_PREEMPTED				\
+> +	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
+> +			   ARM_SMCCC_SMC_64,			\
+> +			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+> +			   0x41)
+> +
+>  #endif /*__ASSEMBLY__*/
+>  #endif /*__LINUX_ARM_SMCCC_H*/
+> diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+> index 550dfa3e53cd..ff13871fd85a 100644
+> --- a/virt/kvm/arm/hypercalls.c
+> +++ b/virt/kvm/arm/hypercalls.c
+> @@ -52,6 +52,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+>  		case ARM_SMCCC_HV_PV_TIME_FEATURES:
+>  			val = SMCCC_RET_SUCCESS;
+>  			break;
+> +		case ARM_SMCCC_HV_PV_LOCK_FEATURES:
+> +			val = SMCCC_RET_SUCCESS;
+> +			break;
 
-Educated, thanks!
+Ideally you wouldn't report that PV_LOCK_FEATURES exists until the
+actual hypercalls are wired up to avoid breaking a bisect.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Steve
+
+>  		}
+>  		break;
+>  	case ARM_SMCCC_HV_PV_TIME_FEATURES:
+> -- 
+> 2.19.1
+> 
+> 
