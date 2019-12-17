@@ -2,272 +2,136 @@ Return-Path: <SRS0=IxZW=2H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8589C2D0C8
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E9FC43603
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 15:47:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF31424655
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 998192465E
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 15:47:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rqk/w/lO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728576AbfLQOki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 09:40:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:39214 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728532AbfLQOki (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Dec 2019 09:40:38 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 474501FB;
-        Tue, 17 Dec 2019 06:40:37 -0800 (PST)
-Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.196.56])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B9183F67D;
-        Tue, 17 Dec 2019 06:40:35 -0800 (PST)
-Date:   Tue, 17 Dec 2019 14:40:33 +0000
-From:   Steven Price <steven.price@arm.com>
-To:     "yezengruan@huawei.com" <yezengruan@huawei.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        id S1727805AbfLQPrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 10:47:08 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:38565 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbfLQPrH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 10:47:07 -0500
+Received: by mail-pl1-f193.google.com with SMTP id f20so4516041plj.5;
+        Tue, 17 Dec 2019 07:47:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vOtwYzlf5BFOGPS2i3uFK7gceSiUI5q9A1BDB60vRjo=;
+        b=Rqk/w/lOd9uHLGdW1G/qZzQfTemaMfGD4hQOOtBGTgUWHKhRZNu3P9rjW1IsUJgzdt
+         G5aOMQVpp3oilAUveyqVWlgwEydUiDkWMRCZoCWgmBll1Dmck30d/HVzJO2rI0su7TyQ
+         f1hr5Gtnt8TaHLZkHpF+JmIo6TJu/UJ9B92NvHn1YrBXLZJdhV0uRBvXZfttZKC1Uukp
+         fgpUUI5HnfVo/cvULo2C8aWxZAUrDHMtZHUg1JyRIbJqYrQM7Cl1bXMNmACW4IVloUEv
+         EJJTd1XpWzKBqxSjnWUiZS7dSrXeR97UHEVbcgQZS1cYNIsSDIMyF5tX+5CQZFZUmjQw
+         h9bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vOtwYzlf5BFOGPS2i3uFK7gceSiUI5q9A1BDB60vRjo=;
+        b=P0M3jdupyS4eBy9G5K1XJurJpb0SuzVKShz3KXovVgysgNhQbKKDD8T6GI8e4xTgjj
+         tTx94q5oIDqvgTGeB8ZamTZKYkwK+Cxq3jqCGnqcdKOSPHE58rdkRDrH4Oyy72eZJSSo
+         gMwAc65J8w/bHMRjmkSThBUKcdFcVF5H/WHPgWAiSemc0OKDh6shIgyicSyw1jk5GcYE
+         2t87ewV+ZppWLs/7BVv6Z4WWSHLNh+dy+6lK+mvReiCUHKEmE1mqZLzsp6mqZAvUX6+f
+         A6bAn7uMA2RoZq0CIJiGqqs+98c3NRhGQ2cuJ9eu4J7dnoiXXRJNSUkVGiUY15wiRhIY
+         gizw==
+X-Gm-Message-State: APjAAAXlg8mfrXSzsf5Oyq/PuUZsdLdVWA8b+M1luda1HxPDQeVhj4oO
+        2PtfSWbkbblSo9LGoBwadhE=
+X-Google-Smtp-Source: APXvYqwAMrF5r62qmk0u1vRjUs5ls5a3I5G16sxctobohr3j5fkV44s5Ng4U89e82VuPRn7IcUEXhQ==
+X-Received: by 2002:a17:90a:a010:: with SMTP id q16mr6994619pjp.115.1576597626942;
+        Tue, 17 Dec 2019 07:47:06 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u1sm26067232pfn.133.2019.12.17.07.47.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 17 Dec 2019 07:47:06 -0800 (PST)
+Date:   Tue, 17 Dec 2019 07:47:04 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Damien Le Moal <Damien.LeMoal@wdc.com>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        James Morse <James.Morse@arm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        Suzuki Poulose <Suzuki.Poulose@arm.com>,
-        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
-        Catalin Marinas <Catalin.Marinas@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
-Subject: Re: [PATCH 5/5] KVM: arm64: Support the vcpu preemption check
-Message-ID: <20191217144032.GD38811@arm.com>
-References: <20191217135549.3240-1-yezengruan@huawei.com>
- <20191217135549.3240-6-yezengruan@huawei.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>
+Subject: Re: [PATCH 0/1] Summary: hwmon driver for temperature sensors on
+ SATA drives
+Message-ID: <20191217154704.GA32673@roeck-us.net>
+References: <20191209052119.32072-1-linux@roeck-us.net>
+ <yq15zinmrmj.fsf@oracle.com>
+ <67b75394-801d-ce91-55f2-f0c0db9cfffc@roeck-us.net>
+ <yq1y2vbhe6i.fsf@oracle.com>
+ <83d528fc-42b7-aa3f-5dd9-a000268da38e@roeck-us.net>
+ <BYAPR04MB5816CA0C1CAFC21F7955F79FE7500@BYAPR04MB5816.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191217135549.3240-6-yezengruan@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <BYAPR04MB5816CA0C1CAFC21F7955F79FE7500@BYAPR04MB5816.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 01:55:49PM +0000, yezengruan@huawei.com wrote:
-> From: Zengruan Ye <yezengruan@huawei.com>
+On Tue, Dec 17, 2019 at 05:50:17AM +0000, Damien Le Moal wrote:
+> On 2019/12/17 12:57, Guenter Roeck wrote:
+> > On 12/16/19 6:35 PM, Martin K. Petersen wrote:
+> >>
+> >> Guenter,
+> >>
+> >>> If and when drives are detected which report bad information, such
+> >>> drives can be added to a blacklist without impact on the core SCSI or
+> >>> ATA code. Until that happens, not loading the driver solves the
+> >>> problem on any affected system.
+> >>
+> >> My only concern with that is that we'll have blacklisting several
+> >> places. We already have ATA and SCSI blacklists. If we now add a third
+> >> place, that's going to be a maintenance nightmare.
+> >>
+> >> More on that below.
+> >>
+> >>>> My concerns are wrt. identifying whether SMART data is available for
+> >>>> USB/UAS. I am not too worried about ATA and "real" SCSI (ignoring RAID
+> >>>> controllers that hide the real drives in various ways).
+> >>
+> >> OK, so I spent my weekend tinkering with 15+ years of accumulated USB
+> >> devices. And my conclusion is that no, we can't in any sensible manner,
+> >> support USB storage monitoring in the kernel. There is no heuristic that
+> >> I can find that identifies that "this is a hard drive or an SSD and
+> >> attempting one of the various SMART methods may be safe". As opposed to
+> >> "this is a USB key that's likely to lock up if you try". And that's
+> >> ignoring the drives with USB-ATA bridges that I managed to wedge in my
+> >> attempt at sending down commands.
+> >>
+> >> Even smartmontools is failing to work on a huge part of my vintage
+> >> collection.  Thanks to a wide variety of bridges with random, custom
+> >> interfaces.
+> >>
+> >> So my stance on all this is that I'm fine with your general approach for
+> >> ATA. I will post a patch adding the required bits for SCSI. And if a
+> >> device does not implement either of the two standard methods, people
+> >> should use smartmontools.
+> >>
+> >> Wrt. name, since I've added SCSI support, satatemp is a bit of a
+> >> misnomer. drivetemp, maybe? No particular preference.
+> >>
+> > Agreed, if we extend this to SCSI, satatemp is less than perfect.
+> > drivetemp ? disktemp ? I am open to suggestions, with maybe a small
+> > personal preference for disktemp out of those two.
 > 
-> Support the vcpu_is_preempted() functionality under KVM/arm64. This will
-> enhance lock performance on overcommitted hosts (more runnable vcpus
-> than physical cpus in the system) as doing busy waits for preempted
-> vcpus will hurt system performance far worse than early yielding.
+> "disk" tend to imply HDD, excluding SSDs. So my vote goes to
+> "drivetemp", or even the more generic, "devtemp".
 > 
-> unix benchmark result:
->   host:  kernel 5.5.0-rc1, HiSilicon Kunpeng920, 8 cpus
->   guest: kernel 5.5.0-rc1, 16 vcpus
-> 
->                test-case                |    after-patch    |   before-patch
-> ----------------------------------------+-------------------+------------------
->  Dhrystone 2 using register variables   | 334600751.0 lps   | 335319028.3 lps
->  Double-Precision Whetstone             |     32856.1 MWIPS |     32849.6 MWIPS
->  Execl Throughput                       |      3662.1 lps   |      2718.0 lps
->  File Copy 1024 bufsize 2000 maxblocks  |    432906.4 KBps  |    158011.8 KBps
->  File Copy 256 bufsize 500 maxblocks    |    116023.0 KBps  |     37664.0 KBps
->  File Copy 4096 bufsize 8000 maxblocks  |   1432769.8 KBps  |    441108.8 KBps
->  Pipe Throughput                        |   6405029.6 lps   |   6021457.6 lps
->  Pipe-based Context Switching           |    185872.7 lps   |    184255.3 lps
->  Process Creation                       |      4025.7 lps   |      3706.6 lps
->  Shell Scripts (1 concurrent)           |      6745.6 lpm   |      6436.1 lpm
->  Shell Scripts (8 concurrent)           |       998.7 lpm   |       931.1 lpm
->  System Call Overhead                   |   3913363.1 lps   |   3883287.8 lps
-> ----------------------------------------+-------------------+------------------
->  System Benchmarks Index Score          |      1835.1       |      1327.6
-> 
-> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
-> ---
->  arch/arm64/include/asm/paravirt.h |  3 +
->  arch/arm64/kernel/paravirt.c      | 91 +++++++++++++++++++++++++++++++
->  arch/arm64/kernel/setup.c         |  2 +
->  include/linux/cpuhotplug.h        |  1 +
->  4 files changed, 97 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/paravirt.h b/arch/arm64/include/asm/paravirt.h
-> index 7b1c81b544bb..a2cd0183bbef 100644
-> --- a/arch/arm64/include/asm/paravirt.h
-> +++ b/arch/arm64/include/asm/paravirt.h
-> @@ -29,6 +29,8 @@ static inline u64 paravirt_steal_clock(int cpu)
->  
->  int __init pv_time_init(void);
->  
-> +int __init kvm_guest_init(void);
-> +
+"devtemp" would apply to all devices with temperature sensors, which
+would be a bit too generic. I'll take that as a vote for "drivetemp".
 
-This is a *very* generic name - I suggest something like pv_lock_init()
-so it's clear what the function actually does.
-
->  __visible bool __native_vcpu_is_preempted(int cpu);
->  
->  static inline bool pv_vcpu_is_preempted(int cpu)
-> @@ -39,6 +41,7 @@ static inline bool pv_vcpu_is_preempted(int cpu)
->  #else
->  
->  #define pv_time_init() do {} while (0)
-> +#define kvm_guest_init() do {} while (0)
->  
->  #endif // CONFIG_PARAVIRT
->  
-> diff --git a/arch/arm64/kernel/paravirt.c b/arch/arm64/kernel/paravirt.c
-> index d8f1ba8c22ce..a86dead40473 100644
-> --- a/arch/arm64/kernel/paravirt.c
-> +++ b/arch/arm64/kernel/paravirt.c
-> @@ -22,6 +22,7 @@
->  #include <asm/paravirt.h>
->  #include <asm/pvclock-abi.h>
->  #include <asm/smp_plat.h>
-> +#include <asm/pvlock-abi.h>
->  
->  struct static_key paravirt_steal_enabled;
->  struct static_key paravirt_steal_rq_enabled;
-> @@ -158,3 +159,93 @@ int __init pv_time_init(void)
->  
->  	return 0;
->  }
-> +
-> +DEFINE_PER_CPU(struct pvlock_vcpu_state, pvlock_vcpu_region) __aligned(64);
-> +EXPORT_PER_CPU_SYMBOL(pvlock_vcpu_region);
-> +
-> +static int pvlock_vcpu_state_dying_cpu(unsigned int cpu)
-> +{
-> +	struct pvlock_vcpu_state *reg;
-> +
-> +	reg = this_cpu_ptr(&pvlock_vcpu_region);
-> +	if (!reg)
-> +		return -EFAULT;
-> +
-> +	memset(reg, 0, sizeof(*reg));
-
-I might be missing something obvious here - but I don't see the point of
-this. The hypervisor might immediately overwrite the structure again.
-Indeed you should conside a mechanism for the guest to "unregister" the
-region - otherwise you will face issues with the likes of kexec.
-
-For pv_time the memory is allocated by the hypervisor not the guest to
-avoid lifetime issues about kexec.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int init_pvlock_vcpu_state(unsigned int cpu)
-> +{
-> +	struct pvlock_vcpu_state *reg;
-> +	struct arm_smccc_res res;
-> +
-> +	reg = this_cpu_ptr(&pvlock_vcpu_region);
-> +	if (!reg)
-> +		return -EFAULT;
-> +
-> +	/* Pass the memory address to host via hypercall */
-> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_LOCK_PREEMPTED,
-> +			     virt_to_phys(reg), &res);
-> +
-> +	return 0;
-> +}
-> +
-> +static bool kvm_vcpu_is_preempted(int cpu)
-> +{
-> +	struct pvlock_vcpu_state *reg = &per_cpu(pvlock_vcpu_region, cpu);
-> +
-> +	if (reg)
-> +		return !!(reg->preempted & 1);
-> +
-> +	return false;
-> +}
-> +
-> +static int kvm_arm_init_pvlock(void)
-> +{
-> +	int ret;
-> +
-> +	ret = cpuhp_setup_state(CPUHP_AP_ARM_KVM_PVLOCK_STARTING,
-> +				"hypervisor/arm/pvlock:starting",
-> +				init_pvlock_vcpu_state,
-> +				pvlock_vcpu_state_dying_cpu);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	pv_ops.lock.vcpu_is_preempted = kvm_vcpu_is_preempted;
-> +
-> +	pr_info("using PV-lock preempted\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static bool has_kvm_pvlock(void)
-> +{
-> +	struct arm_smccc_res res;
-> +
-> +	/* To detect the presence of PV lock support we require SMCCC 1.1+ */
-> +	if (psci_ops.smccc_version < SMCCC_VERSION_1_1)
-> +		return false;
-> +
-> +	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
-> +			     ARM_SMCCC_HV_PV_LOCK_FEATURES, &res);
-> +
-> +	if (res.a0 != SMCCC_RET_SUCCESS)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +int __init kvm_guest_init(void)
-> +{
-> +	if (is_hyp_mode_available())
-> +		return 0;
-> +
-> +	if (!has_kvm_pvlock())
-> +		return 0;
-> +
-> +	kvm_arm_init_pvlock();
-
-Consider reporting errors from kvm_arm_init_pvlock()? At the moment
-it's impossible to tell the difference between pvlock not being
-supported and something failing in the setup.
-
-Steve
-
-> +
-> +	return 0;
-> +}
-> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-> index 56f664561754..64c4d515ba2d 100644
-> --- a/arch/arm64/kernel/setup.c
-> +++ b/arch/arm64/kernel/setup.c
-> @@ -341,6 +341,8 @@ void __init setup_arch(char **cmdline_p)
->  	smp_init_cpus();
->  	smp_build_mpidr_hash();
->  
-> +	kvm_guest_init();
-> +
->  	/* Init percpu seeds for random tags after cpus are set up. */
->  	kasan_init_tags();
->  
-> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-> index e51ee772b9f5..f72ff95ab63a 100644
-> --- a/include/linux/cpuhotplug.h
-> +++ b/include/linux/cpuhotplug.h
-> @@ -138,6 +138,7 @@ enum cpuhp_state {
->  	CPUHP_AP_DUMMY_TIMER_STARTING,
->  	CPUHP_AP_ARM_XEN_STARTING,
->  	CPUHP_AP_ARM_KVMPV_STARTING,
-> +	CPUHP_AP_ARM_KVM_PVLOCK_STARTING,
->  	CPUHP_AP_ARM_CORESIGHT_STARTING,
->  	CPUHP_AP_ARM64_ISNDEP_STARTING,
->  	CPUHP_AP_SMPCFD_DYING,
-> -- 
-> 2.19.1
-> 
-> 
+Guenter
