@@ -2,131 +2,144 @@ Return-Path: <SRS0=IxZW=2H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49386C43603
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 13:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C077C2D0D2
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B36921739
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 13:56:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 585F22465E
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Dec 2019 14:00:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="GbGZzaEh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728598AbfLQN4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 08:56:33 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8134 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726164AbfLQN4c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Dec 2019 08:56:32 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 5E5388D9205F537191E2;
-        Tue, 17 Dec 2019 21:56:30 +0800 (CST)
-Received: from DESKTOP-1NISPDV.china.huawei.com (10.173.221.248) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 17 Dec 2019 21:56:22 +0800
-From:   <yezengruan@huawei.com>
-To:     <yezengruan@huawei.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>
-CC:     <maz@kernel.org>, <james.morse@arm.com>, <linux@armlinux.org.uk>,
-        <suzuki.poulose@arm.com>, <julien.thierry.kdev@gmail.com>,
-        <catalin.marinas@arm.com>, <mark.rutland@arm.com>,
-        <will@kernel.org>, <steven.price@arm.com>,
-        <daniel.lezcano@linaro.org>
-Subject: [PATCH 2/5] KVM: arm64: Implement PV_LOCK_FEATURES call
-Date:   Tue, 17 Dec 2019 21:55:46 +0800
-Message-ID: <20191217135549.3240-3-yezengruan@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
-In-Reply-To: <20191217135549.3240-1-yezengruan@huawei.com>
-References: <20191217135549.3240-1-yezengruan@huawei.com>
+        id S1728724AbfLQN7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 08:59:50 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15008 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728539AbfLQN7u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 08:59:50 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df8df4b0000>; Tue, 17 Dec 2019 05:59:40 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 17 Dec 2019 05:59:49 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 05:59:49 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 13:59:48 +0000
+Subject: Re: [RFC PATCH] mm/gup: try_pin_compound_head() can be static
+To:     kbuild test robot <lkp@intel.com>
+CC:     <kbuild-all@lists.01.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20191211025318.457113-24-jhubbard@nvidia.com>
+ <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <7828a101-e422-8e2a-ef9b-9c0285065ed5@nvidia.com>
+Date:   Tue, 17 Dec 2019 05:56:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.173.221.248]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576591180; bh=+kY6WrbKA7lSfaR6JiJsMhpW0kY3DW4edAlAk5Ve1Ws=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=GbGZzaEh7giluV7bpN/IIAOj3Mc18AXcjLeuEGsTgM8/schRNFGUqCq00YAc4ARRK
+         0PVe1s7+qdvFmh1Ttru614AJtLodM6wJzZ2UNnA1jIm2+JCvQssDVh7rwrwji91hSp
+         Dmomrx8a2mkRdKDi+zuehTjS+cK+ceZUGuV2qS+Q00TgS6unnj2J/spZ+jPwNEGl3X
+         xJTAKof+O0alRzDH3cC7VTlXjNJwIWhcBZya8mbb62MvfcrAHYE78VekfobHefcZXx
+         ueLyg5p/jxUNWHBbbcLlFxuQBAi3TiHxhM/GsO23RipjSLUTZwruxA+61/WfeUhUby
+         xcvllM2I0K27A==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Zengruan Ye <yezengruan@huawei.com>
+On 12/17/19 12:03 AM, kbuild test robot wrote:
+> 
+> Fixes: 8086d1c61970 ("mm/gup: track FOLL_PIN pages")
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> ---
+>   gup.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 038b71165a761..849a6f55938e6 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -75,7 +75,7 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+>    * @Return:	the compound head page, with ref appropriately incremented,
+>    * or NULL upon failure.
+>    */
+> -__must_check struct page *try_pin_compound_head(struct page *page, int refs)
+> +static __must_check struct page *try_pin_compound_head(struct page *page, int refs)
+>   {
+>   	struct page *head = try_get_compound_head(page,
+>   						  GUP_PIN_COUNTING_BIAS * refs);
+> 
 
-This provides a mechanism for querying which paravirtualized lock
-features are available in this hypervisor.
+Yes, it should have been declared static. And this also applies to the latest version
+(v11). The preferred fix would stay within 80 columns, like this:
 
-Also add the header file which defines the ABI for the paravirtualized
-lock features we're about to add.
+diff --git a/mm/gup.c b/mm/gup.c
+index c2793a86450e..39b2f683bd2e 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -75,7 +75,8 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+   * @Return:    the compound head page, with ref appropriately incremented,
+   * or NULL upon failure.
+   */
+-__must_check struct page *try_pin_compound_head(struct page *page, int refs)
++static __must_check struct page *try_pin_compound_head(struct page *page,
++                                                      int refs)
+  {
+         struct page *head = try_get_compound_head(page,
+                                                   GUP_PIN_COUNTING_BIAS * refs);
 
-Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
----
- arch/arm64/include/asm/pvlock-abi.h | 16 ++++++++++++++++
- include/linux/arm-smccc.h           | 13 +++++++++++++
- virt/kvm/arm/hypercalls.c           |  3 +++
- 3 files changed, 32 insertions(+)
- create mode 100644 arch/arm64/include/asm/pvlock-abi.h
 
-diff --git a/arch/arm64/include/asm/pvlock-abi.h b/arch/arm64/include/asm/pvlock-abi.h
-new file mode 100644
-index 000000000000..06e0c3d7710a
---- /dev/null
-+++ b/arch/arm64/include/asm/pvlock-abi.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright(c) 2019 Huawei Technologies Co., Ltd
-+ * Author: Zengruan Ye <yezengruan@huawei.com>
-+ */
-+
-+#ifndef __ASM_PVLOCK_ABI_H
-+#define __ASM_PVLOCK_ABI_H
-+
-+struct pvlock_vcpu_state {
-+	__le64 preempted;
-+	/* Structure must be 64 byte aligned, pad to that size */
-+	u8 padding[56];
-+} __packed;
-+
-+#endif
-diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-index 59494df0f55b..59e65a951959 100644
---- a/include/linux/arm-smccc.h
-+++ b/include/linux/arm-smccc.h
-@@ -377,5 +377,18 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
- 			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
- 			   0x21)
- 
-+/* Paravirtualised lock calls */
-+#define ARM_SMCCC_HV_PV_LOCK_FEATURES				\
-+	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
-+			   ARM_SMCCC_SMC_64,			\
-+			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
-+			   0x40)
-+
-+#define ARM_SMCCC_HV_PV_LOCK_PREEMPTED				\
-+	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
-+			   ARM_SMCCC_SMC_64,			\
-+			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
-+			   0x41)
-+
- #endif /*__ASSEMBLY__*/
- #endif /*__LINUX_ARM_SMCCC_H*/
-diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
-index 550dfa3e53cd..ff13871fd85a 100644
---- a/virt/kvm/arm/hypercalls.c
-+++ b/virt/kvm/arm/hypercalls.c
-@@ -52,6 +52,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
- 		case ARM_SMCCC_HV_PV_TIME_FEATURES:
- 			val = SMCCC_RET_SUCCESS;
- 			break;
-+		case ARM_SMCCC_HV_PV_LOCK_FEATURES:
-+			val = SMCCC_RET_SUCCESS;
-+			break;
- 		}
- 		break;
- 	case ARM_SMCCC_HV_PV_TIME_FEATURES:
+thanks,
 -- 
-2.19.1
-
-
+John Hubbard
+NVIDIA
