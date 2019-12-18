@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C26E8C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 08:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CEBC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 09:10:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 94D99218AC
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 08:54:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 283B120717
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 09:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbfLRIyE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 03:54:04 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:41325 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726090AbfLRIyE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 03:54:04 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R451e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07417;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TlG4OWV_1576659203;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TlG4OWV_1576659203)
+        id S1726551AbfLRJKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 04:10:52 -0500
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:37245 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbfLRJKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 04:10:52 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R271e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TlGDtfU_1576660250;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TlGDtfU_1576660250)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 18 Dec 2019 16:53:24 +0800
+          Wed, 18 Dec 2019 17:10:50 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         Harry Wei <harryxiyou@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] docs/zh_CN: add translator info for embargoed-hardware-issues
-Date:   Wed, 18 Dec 2019 16:53:10 +0800
-Message-Id: <1576659191-75904-2-git-send-email-alex.shi@linux.alibaba.com>
+Subject: [PATCH v2 2/4] docs/zh_CN: add translator info for embargoed-hardware-issues
+Date:   Wed, 18 Dec 2019 17:10:41 +0800
+Message-Id: <1576660243-84140-2-git-send-email-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576659191-75904-1-git-send-email-alex.shi@linux.alibaba.com>
-References: <1576659191-75904-1-git-send-email-alex.shi@linux.alibaba.com>
+In-Reply-To: <1576660243-84140-1-git-send-email-alex.shi@linux.alibaba.com>
+References: <1576660243-84140-1-git-send-email-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
