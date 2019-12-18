@@ -2,275 +2,132 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6BCC43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 02:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6368DC3F68F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 03:40:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88E5F21582
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 02:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576637825;
-	bh=e0LQF0690GEbbzak/OIhEet/HIbXA9Glfc3oGPIlvrU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=k+DU5FRDcLRep0bLDxfZyFPG24lY9F8dFh5iAhAuD8BQz8r5s4VvgTRH1mZ6qBa9t
-	 UByDLQy3T2qrSgH9K4A4LBH737hVWNKbuL6QGOIY7Aio1WIF++iBU/4VIRc0R4tCDs
-	 7JGb0jKYbylGsARMxnQEI5IW0PDevitMExx67K/Q=
+	by mail.kernel.org (Postfix) with ESMTP id 344CD21582
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 03:40:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jVGSSstu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfLRC5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Dec 2019 21:57:04 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46948 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbfLRC5E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 21:57:04 -0500
-Received: by mail-ot1-f65.google.com with SMTP id c22so476586otj.13;
-        Tue, 17 Dec 2019 18:57:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HnATBlbL+eZiW12mo0hwrch2CUsppmWX32lWHiTL+YQ=;
-        b=Jgo1huTigPUR1AY/o/D0YacwMxw9gZ3Xjv7awgDj+C1WK3QqalQcyN89hZaeOuhwcG
-         xYG2UBlu6FwAtxf9PKJYodGyVFKfebHLpkXXNV64eoumg/Av3gcq2DBc6Apdc3quSAfp
-         dp38X0iYGS+b/7jUzDQkwHmFmEuKWKomdfF2msQnflJE75QVpxu6lHoiYm30hJeOYW0O
-         c9XCQccYUmkDNEcdQma4WfI55doAYIgwQeLPi31PEYbQLp2kGb07TJz411065evzNR2P
-         8jh2gZlxtVH5cbDh5gU5H/AgPgtrbYD48VxD60MOzH9bcMPvC7Qsqce0lvq4ogTb7rs3
-         idlg==
-X-Gm-Message-State: APjAAAX8wXm8nI2rOgxMJQFoDl98QjbPtv2tN/eKO6tStvZ3rbNpz57v
-        IqqgKQs3UKNgHeX+iMrtqA==
-X-Google-Smtp-Source: APXvYqyihxi8JukdWSv/sqB94AVfuF+A3sZ6QOp7w2twJ4p+CCqPcHedgqwNmZ40BJJHYASG2nIe0Q==
-X-Received: by 2002:a05:6830:20c6:: with SMTP id z6mr43585otq.272.1576637823440;
-        Tue, 17 Dec 2019 18:57:03 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z21sm288506oto.52.2019.12.17.18.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2019 18:57:02 -0800 (PST)
-Date:   Tue, 17 Dec 2019 20:57:02 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v11 04/14] dt-bindings: Add bindings document of Aspeed
- PECI adapter
-Message-ID: <20191218025702.GA18998@bogus>
-References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-5-jae.hyun.yoo@linux.intel.com>
+        id S1726496AbfLRDkB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Dec 2019 22:40:01 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:59848 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726454AbfLRDkB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Dec 2019 22:40:01 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBI3dbKd117311;
+        Wed, 18 Dec 2019 03:39:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=8IAu41A0ROVfnDWMZhCpBuGeJC+jZ2Wigf/4tr6lnzM=;
+ b=jVGSSstumhiA6eWydK51KgVcr9RgGcwslrbhh28s0pNJalGmNqBqg2x8/GDGsslkrH9E
+ Suzgnc7JfszD2CH+QQ1vgu0XAAHZFVLXbiyr0BzZqeP3ypK9g7SknPmnpE6uPqanM7lT
+ UaykzEV+5ZG0i7OFamBFq7NUm+DufGD2i2awn+/YXlE+PBfc1U0kWxPwCEPU0Sts+X+3
+ K6kN27SlC+i8DXVvudga8LXIuqzdO91Bgu1S17UCUOtfGcqvwq7aRAXS3AbBlt8p5X7D
+ PSXnO6FONm3LwqSUR7Sao8c4pOCYJMwUeuM0nxhnpyTNX7/eo4ngl3u192OPEr7M+0bE wA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2wvqpqav23-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Dec 2019 03:39:37 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBI3dPB7078330;
+        Wed, 18 Dec 2019 03:39:37 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 2wxm5pbcdv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Dec 2019 03:39:36 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBI3dTJu021649;
+        Wed, 18 Dec 2019 03:39:29 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 17 Dec 2019 19:39:29 -0800
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+        Chris Healy <cphealy@gmail.com>
+Subject: Re: [PATCH 1/1] hwmon: Driver for temperature sensors on SATA drives
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20191209052119.32072-1-linux@roeck-us.net>
+        <20191209052119.32072-2-linux@roeck-us.net>
+        <CACRpkdYjidQHB0=S_brDxH3k+qJ2mfXCTF9A3SVZkPvBaVg6JQ@mail.gmail.com>
+        <yq1wob1jfjm.fsf@oracle.com>
+        <541a7ddd-f4c9-5d5f-4f43-0ae5bc46aef6@roeck-us.net>
+        <yq1tv5zhdn5.fsf@oracle.com>
+        <c5689126-46bc-b551-11d7-e5bd8c01f82c@roeck-us.net>
+Date:   Tue, 17 Dec 2019 22:39:26 -0500
+In-Reply-To: <c5689126-46bc-b551-11d7-e5bd8c01f82c@roeck-us.net> (Guenter
+        Roeck's message of "Mon, 16 Dec 2019 20:20:57 -0800")
+Message-ID: <yq14kxygv4h.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191211194624.2872-5-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9474 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=790
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912180026
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9474 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=848 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912180026
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 11:46:14AM -0800, Jae Hyun Yoo wrote:
-> This commit adds bindings document of Aspeed PECI adapter for ASPEED
-> AST24xx/25xx/26xx SoCs.
-> 
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-> Cc: Milton Miller II <miltonm@us.ibm.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ryan Chen <ryan_chen@aspeedtech.com>
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
-> Changes since v10:
-> - Changed documents format to DT schema format so I dropped all review tags.
->   Please review it again.
-> 
->  .../devicetree/bindings/peci/peci-aspeed.yaml | 124 ++++++++++++++++++
->  1 file changed, 124 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-> new file mode 100644
-> index 000000000000..0f5c2993fe9b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/peci/peci-aspeed.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed PECI Bus Device Tree Bindings
-> +
-> +maintainers:
-> +  - Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-peci
-> +      - aspeed,ast2500-peci
-> +      - aspeed,ast2600-peci
-> +
-> +  reg:
-> +    maxItems: 1
-> +
 
-> +  "#address-cells":
-> +    # Required to define a client address.
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    # Required to define a client address.
-> +    const: 0
+Guenter,
 
-These 2 can be defined by the bus schema.
+> If there are 100 physical drives, you would actually want to see the
+> temperature of each drive separately, as one of them might be
+> overheating due to some internal failure.
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: |
+Yep. However, for "big boxes" you'll typically get that information from
+SAF-TE or SES enclosure services and not from the drive itself.
 
-You can drop the '|' if there's no formatting to preserve.
+SES allows you to monitor power supplies, drive bays, hot swap events,
+thermals, etc. We have a SES driver in SCSI that exposes all these
+things in sysfs. It is not currently tied into hwmon.
 
-> +      Clock source for PECI controller. Should reference the external
-> +      oscillator clock.
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    # Operation frequency of PECI controller in units of Hz.
-> +    minimum: 187500
-> +    maximum: 24000000
-> +
-> +  msg-timing:
-> +    description: |
-> +      Message timing negotiation period. This value will determine the period
-> +      of message timing negotiation to be issued by PECI controller. The unit
-> +      of the programmed value is four times of PECI clock period.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 0
-> +        maximum: 255
-> +        default: 1
-> +
-> +  addr-timing:
-> +    description: |
-> +      Address timing negotiation period. This value will determine the period
-> +      of address timing negotiation to be issued by PECI controller. The unit
-> +      of the programmed value is four times of PECI clock period.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 0
-> +        maximum: 255
-> +        default: 1
-> +
-> +  rd-sampling-point:
-> +    description: |
-> +      Read sampling point selection. The whole period of a bit time will be
-> +      divided into 16 time frames. This value will determine the time frame
-> +      in which the controller will sample PECI signal for data read back.
-> +      Usually in the middle of a bit time is the best.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 0
-> +        maximum: 15
-> +        default: 8
-> +
-> +  cmd-timeout-ms:
-> +    # Command timeout in units of ms.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 1
-> +        maximum: 60000
-> +        default: 1000
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - interrupts
-> +  - clocks
-> +  - resets
-> +  - clock-frequency
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +    peci: bus@1e78b000 {
-> +        compatible = "simple-bus";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges = <0x0 0x1e78b000 0x60>;
+> If the storage array is represented to the system as single huge
+> physical drive, which is then split into logical entities not related
+> to physical drives, I guess that would represent a problem for system
+> management overall.
 
-You can drop this node in the examples.
+Yep. That's why there's dedicated plumbing in smartmontools to handle
+various RAID controller interfaces for accessing physical drive
+information. It's typically highly vendor-specific.
 
-> +
-> +        peci0: peci-bus@0 {
-> +            compatible = "aspeed,ast2600-peci";
-> +            reg = <0x0 0x100>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
-> +            resets = <&syscon ASPEED_RESET_PECI>;
-> +            clock-frequency = <24000000>;
-> +            msg-timing = <1>;
-> +            addr-timing = <1>;
-> +            rd-sampling-point = <8>;
-> +            cmd-timeout-ms = <1000>;
-> +        };
-> +    };
-> +...
-> -- 
-> 2.17.1
-> 
+> I would not mind to tie the hardware monitoring device to something
+> else than the scsi device if the scsi device does not always have a
+> physical representation. Is there a way to determine if a scsi device
+> is virtual or real ?
+
+Not really. Target is usually a pretty good approximation, although some
+arrays introduce virtual targets because of limited LUN (scsi_device)
+numbering capabilities. However, arrays generally don't support per-LUN
+temperature because it makes no sense.
+
+I'm trying to gauge how much a pain potentially redundant sensors would
+be for userland monitoring tooling vs. how many oddball devices we'd not
+be able to support if we were to use scsi_target as parent (or restrict
+the sensor binding to LUN 0).
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
