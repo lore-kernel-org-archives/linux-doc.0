@@ -2,236 +2,125 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 613C6C2D0CD
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C566C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 15:52:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3699724650
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576680130;
-	bh=XAHtcB/xfSIUB2s3mlEQp7fM2NwWkhZ3oMuOgtCrr0U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=1qpyfKXmokGIZfLuPXt3p1ohu+24uBdSnR4Bi2KqskuHPDRYMAvrnIfww249F2iSw
-	 SUbYQHtm69CvWt9LGHHqB7criw0tw5+HJ4+fAuCIqE7ZLBslAMuu4FDMo/VrJQjYqS
-	 7b4RUbPfk7mUk2xnRaHEGQJL0Zg8frciAUxpJZAA=
+	by mail.kernel.org (Postfix) with ESMTP id 4EDDC2146E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 15:52:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="KDdHHJJR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbfLROmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 09:42:09 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37707 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727024AbfLROmJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 09:42:09 -0500
-Received: by mail-ot1-f65.google.com with SMTP id k14so2771419otn.4;
-        Wed, 18 Dec 2019 06:42:08 -0800 (PST)
+        id S1727121AbfLRPwP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 10:52:15 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46213 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbfLRPwO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 10:52:14 -0500
+Received: by mail-lj1-f195.google.com with SMTP id m26so250546ljc.13
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2019 07:52:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9SaCbmKz1ngtAKjewhoah2l6ODU7+VciCnZ7nlhe26A=;
+        b=KDdHHJJR0qVpHZqAH81m6HqiNucHS6+DyOVljs3zJhGM2FtVdbdAm0v2Xxx2kkMzcc
+         COndoaW+YFAjiesHFNY+QGvBhkVduyh7QLCQeLwcNzFcgoRSyGgSLcKxln6/f1EUD6yP
+         0y/6+ZumAIbzC9iZaVPFSydS1BkjYoeUFSafS/fB2OWFlpyQaG5ZPEXYvAMbIqCKuFSL
+         vWtk3rEHKc5uyahuOPC2nUQfw14PqKcbFsQXhuikgf46s/H3eDyiCMpavZwnwbAsy3mj
+         YXZ/SZZpNe1V4549MQIslp0gnIgv8CLO8jjGejFKXWpzPMIfXWxDiYo5N9hhWPoVV8yK
+         Z+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gwW7OiM+WjSZ4UZ1VJQamoPYCMV0Usyl4Dcq40hWMN4=;
-        b=Pe1ZcEUeuvNgRAlA/WFlAfSd99u7ucXPQwlHvGdsGoawzUtX7SIJ/ejhnlJcSXniNP
-         TKhigv8eWzFRjm8QzKhsQEVGICW/N5MO6tj45Rg5EpIoA2oJLCM0SsR6BE9CVr2l4HWP
-         4CFTr8y/jG2sC5q03tMFMZu3bwzUImIbSxH7EtQbexVBwBFGCB/BYUHAzljsqsB7/twP
-         eECNnbTOdtfBkj+w7/xU/6AhUihbtMivaM0lbVLVQnkeWbuFpwFpNFcTm1XDwF+tRY96
-         ABIR3C7oVr8/a3XMzh+cckh6S1plnLSNWAQCCLTXWZ9LQcRYpvqUBhNqkpXob/T4ewaz
-         2IJA==
-X-Gm-Message-State: APjAAAUtRdckG0pjaFDeR0o5bX0qmnExiGJYKO7tK8hrQrthEraZ6ZOJ
-        WoInZUrj4sTyPyKfzcmLTQ==
-X-Google-Smtp-Source: APXvYqwp0BEH7qea/GKGyW/LOejvqTbdWK+z/qoZkQL0jYWPDg6Ufh1KKYai1of0WRYU42rRzsqYxQ==
-X-Received: by 2002:a05:6830:1d59:: with SMTP id p25mr3090159oth.308.1576680128293;
-        Wed, 18 Dec 2019 06:42:08 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u18sm846613otq.26.2019.12.18.06.42.07
+        bh=9SaCbmKz1ngtAKjewhoah2l6ODU7+VciCnZ7nlhe26A=;
+        b=FJ2/wSCo7Z4z8qyR60fwj9GnmwwtEzTWhI2AJ0AO16ycDU9L2WHW0dLOCibdflpHJL
+         xug3uAneS9cqo6G2NX7Z4ShTG6bnRtLUI4qRc6qeqjpwSFBdx5jrmQ8D3IF3gxvfTAGS
+         GMi0pe5OfwWcZRzkG8dcFWSWON/710B1g8v7mYECOLU7cJmOYH5CNsroA8TlMiRJpb92
+         HoNKeG6u6yNScT+eZEQrHKfI1OPg4wrhLW3i5aj3dpGZx9QqF3akk4RzpvJpIf6gQbMp
+         HB736EQnTzfenrJHkZGpuZvy8s6sKrKibxGUypGrMrDwMhLKn82kO9DM/S224F1qoqW7
+         SxCA==
+X-Gm-Message-State: APjAAAU5xeR4TdqDMc5MJZHwF0apnQvYCzXYxAk5yNx2ueOWYYUfMAGZ
+        0/3RnEde2p0kek49n1PS07HDZQ==
+X-Google-Smtp-Source: APXvYqwSmzkDxFfUqfRx+ol+ctreHSER3AZEkxHGbqQ5sNtLr5I/0+mwtD90Owb4uveY0c44Ujy5Kw==
+X-Received: by 2002:a2e:3312:: with SMTP id d18mr2333248ljc.222.1576684332255;
+        Wed, 18 Dec 2019 07:52:12 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id s16sm1351312lfc.35.2019.12.18.07.52.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 06:42:07 -0800 (PST)
-Date:   Wed, 18 Dec 2019 08:42:06 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        Wed, 18 Dec 2019 07:52:11 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 66C2E1012CF; Wed, 18 Dec 2019 18:52:11 +0300 (+03)
+Date:   Wed, 18 Dec 2019 18:52:11 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
         "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
-Message-ID: <20191218144206.GA26118@bogus>
-References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH v11 01/25] mm/gup: factor out duplicate code from four
+ routines
+Message-ID: <20191218155211.emcegdp5uqgorfwe@box>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191216222537.491123-2-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191216222537.491123-2-jhubbard@nvidia.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 11:46:17AM -0800, Jae Hyun Yoo wrote:
-> From: Tomer Maimon <tmaimon77@gmail.com>
-> 
-> Added device tree binding documentation for Nuvoton BMC
-> NPCM Platform Environment Control Interface(PECI).
-> 
-> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
-> Changes since v10:
-> - Newly added in v11.
-> 
->  .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
->  1 file changed, 102 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
-> new file mode 100644
-> index 000000000000..bcd5626e68e7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NPCM PECI Bus Device Tree Bindings
-> +
-> +maintainers:
-> +  - Tomer Maimon <tmaimon77@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    # Required to define a client address.
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    # Required to define a client address.
-> +    const: 0
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    # PECI reference clock.
-> +    maxItems: 1
-> +
-> +  cmd-timeout-ms:
-> +    # Command timeout in units of ms.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
+On Mon, Dec 16, 2019 at 02:25:13PM -0800, John Hubbard wrote:
+> +static void put_compound_head(struct page *page, int refs)
+> +{
+> +	/* Do a get_page() first, in case refs == page->_refcount */
+> +	get_page(page);
+> +	page_ref_sub(page, refs);
+> +	put_page(page);
+> +}
 
-You can drop this as standard units already have a type.
+It's not terribly efficient. Maybe something like:
 
-> +      - minimum: 1
-> +        maximum: 60000
-> +        default: 1000
-> +
-> +  pull-down:
-> +    description: |
-> +      Defines the PECI I/O internal pull down operation.
-> +        0: pull down always enable
-> +        1: pull down only during transactions.
-> +        2: pull down always disable.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 0
-> +        maximum: 2
-> +        default: 0
-> +
-> +  host-neg-bit-rate:
-> +    description: |
-> +      Define host negotiation bit rate divider.
-> +      the host negotiation bit rate calculate with formula:
-> +      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - minimum: 7
-> +        maximum: 31
-> +        default: 15
-> +
-> +  high-volt-range:
-> +    description: |
-> +      Adapts PECI I/O interface to voltage range.
-> +        0: PECI I/O interface voltage range of 0.8-1.06V (default)
-> +        1: PECI I/O interface voltage range of 0.95-1.26V
-> +    type: boolean
+	VM_BUG_ON_PAGE(page_ref_count(page) < ref, page);
+	if (refs > 2)
+		page_ref_sub(page, refs - 1);
+	put_page(page);
 
-These last 4 properties are vendor specific or PECI common. For the 
-former, needs a vendor prefix. For the latter, needs to be moved to 
-common location.
+?
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - interrupts
-> +  - clocks
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
-> +    peci: bus@100000 {
-> +        compatible = "simple-bus";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges = <0x0 0x100000 0x200>;
-> +
-> +        peci0: peci-bus@0 {
-> +            compatible = "nuvoton,npcm750-peci";
-> +            reg = <0x0 0x200>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&clk NPCM7XX_CLK_APB3>;
-> +            cmd-timeout-ms = <1000>;
-> +            pull-down = <0>;
-> +            host-neg-bit-rate = <15>;
-> +        };
-> +    };
-> +...
-> -- 
-> 2.17.1
-> 
+-- 
+ Kirill A. Shutemov
