@@ -2,114 +2,236 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C8EC2D0C3
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 613C6C2D0CD
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:42:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 191C2227BF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:17:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3699724650
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 14:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576678637;
-	bh=CbTM/XWLgQMskf8QEYlrwd6uyfR0NyMnsxmItpMtX70=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=KeIDiC+brHn/FsWHeZFCir8R00d8mG1t6wGkR24/AkJQH1HuHarNG2sWA6Ka7as/M
-	 SkCYCN5Qz6GT9ElAHJmQntVIo/siLb1CRUG73JOBEah2unwXblmoO4DcOjcxvfRg14
-	 rtPTEcsqXjdM4r/z+FnFdK+XMfMr+KTUNHwfMlRs=
+	s=default; t=1576680130;
+	bh=XAHtcB/xfSIUB2s3mlEQp7fM2NwWkhZ3oMuOgtCrr0U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1qpyfKXmokGIZfLuPXt3p1ohu+24uBdSnR4Bi2KqskuHPDRYMAvrnIfww249F2iSw
+	 SUbYQHtm69CvWt9LGHHqB7criw0tw5+HJ4+fAuCIqE7ZLBslAMuu4FDMo/VrJQjYqS
+	 7b4RUbPfk7mUk2xnRaHEGQJL0Zg8frciAUxpJZAA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbfLRORQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 09:17:16 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:17557 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726932AbfLRORQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 09:17:16 -0500
-X-Greylist: delayed 95084 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Dec 2019 09:17:15 EST
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id xBIEGjfI021877;
-        Wed, 18 Dec 2019 23:16:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xBIEGjfI021877
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576678606;
-        bh=qmHvB4juxMPU3zIuVI2Brd26weLsZ6/2g5Iqv2+p7W0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PlMB2e7Pe4segIaQQANKREfkxM4abkGhBdOT9ubs8R2TAUALxN2Dd2c2kWGllC8YU
-         MJs6+wUTYcQGGc3suk0E1jrf+uEoDLbiHLN26mW9SHtAL0/KMSXvdvfZw6bFChsfLk
-         dFgvfGp9lOhvuZ/BmmZWAKENRX/qh0+Id4EHKXCppJoQ4hbYpKEpa3slfLdnqTigpI
-         aUtLAx0BmzGvMpn6gIPLPKfjibEq0xDmEa/PjWSLDmXEeCEQci7jci/YGBk/mZEso7
-         vCajyN8Ij6WBMF9HFdKZo6DxG9ADiG5y5mT09r8F/Jb6T9YITyTsJQmQuXU9yqio/+
-         s6WyCTNcrK4Ew==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id u14so1474134vsu.3;
-        Wed, 18 Dec 2019 06:16:45 -0800 (PST)
-X-Gm-Message-State: APjAAAWBwFtBwiez2OLd2S7Xb6D3g+UfTejFCa2xjHrV8d+u22ekKQEk
-        sCrXLIs8hWepwZcQBmxh6Nj7+gCq6XBjMaHwakE=
-X-Google-Smtp-Source: APXvYqxMRyzTjfqlEpXcNMIZydJI68nPt3I8yfvImlkDJE7pX8UDC+Xba8CQeMVSUXXDVjStScD7bmst/DsXb6G7tx8=
-X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr1515570vsh.179.1576678604346;
- Wed, 18 Dec 2019 06:16:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20191217115151.12465-1-masahiroy@kernel.org>
-In-Reply-To: <20191217115151.12465-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Dec 2019 23:16:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQj3Hsv7Nbd3qVj-ie2z+DsPmBseh4tS9hfk+6mg4PpYw@mail.gmail.com>
-Message-ID: <CAK7LNAQj3Hsv7Nbd3qVj-ie2z+DsPmBseh4tS9hfk+6mg4PpYw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: remove ---help--- from documentation
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Ulf Magnusson <ulfalizer@gmail.com>,
+        id S1727025AbfLROmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 09:42:09 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37707 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727024AbfLROmJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 09:42:09 -0500
+Received: by mail-ot1-f65.google.com with SMTP id k14so2771419otn.4;
+        Wed, 18 Dec 2019 06:42:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gwW7OiM+WjSZ4UZ1VJQamoPYCMV0Usyl4Dcq40hWMN4=;
+        b=Pe1ZcEUeuvNgRAlA/WFlAfSd99u7ucXPQwlHvGdsGoawzUtX7SIJ/ejhnlJcSXniNP
+         TKhigv8eWzFRjm8QzKhsQEVGICW/N5MO6tj45Rg5EpIoA2oJLCM0SsR6BE9CVr2l4HWP
+         4CFTr8y/jG2sC5q03tMFMZu3bwzUImIbSxH7EtQbexVBwBFGCB/BYUHAzljsqsB7/twP
+         eECNnbTOdtfBkj+w7/xU/6AhUihbtMivaM0lbVLVQnkeWbuFpwFpNFcTm1XDwF+tRY96
+         ABIR3C7oVr8/a3XMzh+cckh6S1plnLSNWAQCCLTXWZ9LQcRYpvqUBhNqkpXob/T4ewaz
+         2IJA==
+X-Gm-Message-State: APjAAAUtRdckG0pjaFDeR0o5bX0qmnExiGJYKO7tK8hrQrthEraZ6ZOJ
+        WoInZUrj4sTyPyKfzcmLTQ==
+X-Google-Smtp-Source: APXvYqwp0BEH7qea/GKGyW/LOejvqTbdWK+z/qoZkQL0jYWPDg6Ufh1KKYai1of0WRYU42rRzsqYxQ==
+X-Received: by 2002:a05:6830:1d59:: with SMTP id p25mr3090159oth.308.1576680128293;
+        Wed, 18 Dec 2019 06:42:08 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u18sm846613otq.26.2019.12.18.06.42.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 06:42:07 -0800 (PST)
+Date:   Wed, 18 Dec 2019 08:42:06 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
+Message-ID: <20191218144206.GA26118@bogus>
+References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
+ <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 8:52 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit 84af7a6194e4 ("checkpatch: kconfig: prefer 'help' over
-> '---help---'"), scripts/checkpatch.pl warns the use of ---help---.
->
-> This still exists, but new code should avoid using it.
-> Let's stop advertising it in documentation.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Wed, Dec 11, 2019 at 11:46:17AM -0800, Jae Hyun Yoo wrote:
+> From: Tomer Maimon <tmaimon77@gmail.com>
+> 
+> Added device tree binding documentation for Nuvoton BMC
+> NPCM Platform Environment Control Interface(PECI).
+> 
+> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > ---
+> Changes since v10:
+> - Newly added in v11.
+> 
+>  .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
+> new file mode 100644
+> index 000000000000..bcd5626e68e7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
+> @@ -0,0 +1,102 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NPCM PECI Bus Device Tree Bindings
+> +
+> +maintainers:
+> +  - Tomer Maimon <tmaimon77@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    # Required to define a client address.
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    # Required to define a client address.
+> +    const: 0
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    # PECI reference clock.
+> +    maxItems: 1
+> +
+> +  cmd-timeout-ms:
+> +    # Command timeout in units of ms.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
 
-Applied to linux-kbuild.
+You can drop this as standard units already have a type.
 
->
->  Documentation/kbuild/kconfig-language.rst | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 74bef19f69f0..231e6a64957f 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -196,14 +196,11 @@ applicable everywhere (see syntax).
->    or equal to the first symbol and smaller than or equal to the second
->    symbol.
->
-> -- help text: "help" or "---help---"
-> +- help text: "help"
->
->    This defines a help text. The end of the help text is determined by
->    the indentation level, this means it ends at the first line which has
->    a smaller indentation than the first line of the help text.
-> -  "---help---" and "help" do not differ in behaviour, "---help---" is
-> -  used to help visually separate configuration logic from help within
-> -  the file as an aid to developers.
->
->  - misc options: "option" <symbol>[=<value>]
->
-> --
+> +      - minimum: 1
+> +        maximum: 60000
+> +        default: 1000
+> +
+> +  pull-down:
+> +    description: |
+> +      Defines the PECI I/O internal pull down operation.
+> +        0: pull down always enable
+> +        1: pull down only during transactions.
+> +        2: pull down always disable.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - minimum: 0
+> +        maximum: 2
+> +        default: 0
+> +
+> +  host-neg-bit-rate:
+> +    description: |
+> +      Define host negotiation bit rate divider.
+> +      the host negotiation bit rate calculate with formula:
+> +      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - minimum: 7
+> +        maximum: 31
+> +        default: 15
+> +
+> +  high-volt-range:
+> +    description: |
+> +      Adapts PECI I/O interface to voltage range.
+> +        0: PECI I/O interface voltage range of 0.8-1.06V (default)
+> +        1: PECI I/O interface voltage range of 0.95-1.26V
+> +    type: boolean
+
+These last 4 properties are vendor specific or PECI common. For the 
+former, needs a vendor prefix. For the latter, needs to be moved to 
+common location.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - interrupts
+> +  - clocks
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
+> +    peci: bus@100000 {
+> +        compatible = "simple-bus";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0x0 0x100000 0x200>;
+> +
+> +        peci0: peci-bus@0 {
+> +            compatible = "nuvoton,npcm750-peci";
+> +            reg = <0x0 0x200>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&clk NPCM7XX_CLK_APB3>;
+> +            cmd-timeout-ms = <1000>;
+> +            pull-down = <0>;
+> +            host-neg-bit-rate = <15>;
+> +        };
+> +    };
+> +...
+> -- 
 > 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+> 
