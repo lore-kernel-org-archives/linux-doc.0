@@ -2,127 +2,112 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79641C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 19:15:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BE7C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 19:28:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A73A21D7D
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 19:15:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="vn0WHtPs"
+	by mail.kernel.org (Postfix) with ESMTP id 8346A227BF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 19:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbfLRTP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 14:15:56 -0500
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:41741 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727281AbfLRTPz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 14:15:55 -0500
-Received: by mail-vs1-f44.google.com with SMTP id f8so2121623vsq.8
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2019 11:15:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=E4X+tp6ZlTv3HTGbUp4WMcWmcsmZ7lp6RfccYvi6Rck=;
-        b=vn0WHtPsCeyB7ZuaJQJMj9mWysnldTc9xeZIdeqP4+3+d6ztsAqgfknx/TbZf7tMiz
-         dTatR/527dMLtlSjdJOoQdqXk0ck/fo8OdYWa4FOUxcWhnFRvDCZV2AU7D0W8vTLVOVy
-         zRS9VZjW62b+l1LWQHOAAtPeQeokxxFaXe+Muz4UVhxdcnY1lkrsydWzcgo5wQXyYO2y
-         I+vwWhlZWFPpHN7nh2J5kWgb3FomQueE2cxTLKyWLlmE51zMbNEPgQ+dfQnuZkAog/k8
-         1DU2OP7LcPhyJ6etZfE6vMm+FVC9n5FQ37MyctT3tAfdTH1fPfUcDJZ8zFkA5pGlBly+
-         qU0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=E4X+tp6ZlTv3HTGbUp4WMcWmcsmZ7lp6RfccYvi6Rck=;
-        b=Ex860LCoxrEQFlbS9XIrKZgOBsltSi/ZZQfcXnR+v5sjtamXxAdXiw03cuVT66P0yW
-         48P7WllZTbA+f95T+k5GiM0EsHXutzA/FmzJn7noX+qjKEdgOjYSgdwEmyhAyhoF0Gl1
-         p9q6YSQ0HWI/xbGYUcSwqIQQcmkAKUFw9Q/g2UeaB3XSOerZVV6ex663z5ewb3e5kY8E
-         1Hu34kR9sJCw0aLb0Lvnf/yMWVuPG4ZHM7Oz3yKfLjfTRMUS7HNnJ/A6nr6q7AsQ8Bp9
-         4lAlC7C6sIbUGPnoBABsIUDsLk1UyNTpb6Av6mx+OhagwjweSLFy6qh/2lUhDwP+zaKD
-         bf9w==
-X-Gm-Message-State: APjAAAVJ94gxngp4pmVUsYYwQLyzVk6C1/oIEZE+CFbW7RIzMSoPTBU5
-        CPuvYUo6QHJOjrgjKp3wqJhYOw==
-X-Google-Smtp-Source: APXvYqw/ttgnVScl28xFvl7VA6vFHiQp9lh7gssrEstHml3An690zz7rANxDuaUFIWc7ge2X7Jaygg==
-X-Received: by 2002:a67:fe50:: with SMTP id m16mr2520466vsr.114.1576696554730;
-        Wed, 18 Dec 2019 11:15:54 -0800 (PST)
-Received: from frank-laptop ([172.97.41.74])
-        by smtp.gmail.com with ESMTPSA id p18sm788913vsq.0.2019.12.18.11.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 11:15:54 -0800 (PST)
-Date:   Wed, 18 Dec 2019 14:15:53 -0500
-From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     joel@joelfernandes.org, nachukannan@gmail.com,
-        saiprakash.ranjan@outlook.com
-Subject: [PATCH v2] docs: ftrace: Specifies when buffers get clear
-Message-ID: <20191218191553.q4lwyxmquvtjzjfz@frank-laptop>
+        id S1726698AbfLRT2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 14:28:40 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:47279 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726824AbfLRT2k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 14:28:40 -0500
+Received: from mail-qk1-f171.google.com ([209.85.222.171]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MTRIg-1iG2tF3jeW-00Ti9k; Wed, 18 Dec 2019 20:28:38 +0100
+Received: by mail-qk1-f171.google.com with SMTP id z76so2927960qka.2;
+        Wed, 18 Dec 2019 11:28:37 -0800 (PST)
+X-Gm-Message-State: APjAAAVfjcA7mI13fASLcHDnctNIKUVBX9pBPJlJVZFDZiM8uRVlsMBh
+        L+kOOq9Cnib0lO0pErZuFEI8NN8/vYuMPvB/t/Q=
+X-Google-Smtp-Source: APXvYqwz+7AWjFh2K6hb1XV5mEQKNUiiATaBP2AbIqTPq+kukh7Z/1ivxqWRQftGY5n/Oyrty7jVKBXVMumZ36bF1Hc=
+X-Received: by 2002:a37:a8d4:: with SMTP id r203mr4410998qke.394.1576697316373;
+ Wed, 18 Dec 2019 11:28:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: NeoMutt/20171215
+References: <20191217221708.3730997-1-arnd@arndb.de> <20191217221708.3730997-18-arnd@arndb.de>
+ <22903f0af805452bfabf9c0b476a1b67646e544c.camel@codethink.co.uk>
+In-Reply-To: <22903f0af805452bfabf9c0b476a1b67646e544c.camel@codethink.co.uk>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 18 Dec 2019 20:28:20 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3QGa-U_-G6n1A=aFpci5GHksP_t+x8yLLAjOtB2WcqYA@mail.gmail.com>
+Message-ID: <CAK8P3a3QGa-U_-G6n1A=aFpci5GHksP_t+x8yLLAjOtB2WcqYA@mail.gmail.com>
+Subject: Re: [PATCH v2 17/27] compat_ioctl: ide: floppy: add handler
+To:     Ben Hutchings <ben.hutchings@codethink.co.uk>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:bws3PSOvf3g5yZkCroDyZoyvmQiUgaMMGhPbGb8PrQ/F11oCNy3
+ slGIeureTHmPT+6BvWj0xdmJObzSSvZcEN+VntuQzQqOIGCRM2ZT/Ewlzi8r/AobXu3yM/B
+ C3t9O74YW5uQ8FgSl25gMBnzScg1Z2U8FRAUUUgOtDrv/WjFI60C9CerQiSMejBkbq2+G88
+ awsAM0ruloDtqZHZTtJ2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RtI4sFgW1go=:tWnTBofzrSf0Xh2O74C0v8
+ ZNpsx7NETLv3opuY3O/Jh/T5GZgVXBFwCPQ/j6uYc2HeQGu3S0OLB0ZtoKCxQcMnNuqq5Mrq7
+ tbmUR9nFVVRPZ8bRMdczHn8hANav34i6GtDr7FDCWlXwO9DtHEP0yX6bz18tNP8IXQ8acOjjh
+ Q8PRei/EYXlFH065ZFY+RLHYxLTdRKUABhNXCxApc1vK2j20EKB7aDUB+DY70GCv5X3/C1lPC
+ V2H8x29gyv1GcXcrBVl34L6HarJ+TNlxeZUPzMV5ZKv84PiF3/nxDsB4h+hyUu1Ipa8pYtbd4
+ hvHAOGLUNCCqZIjQu6TnJUElYmmCJ9LvvpjBgBNZ7dGWPAscV+zzBRt9FXrgqdCeIC3EkRBfb
+ UGw8IH+H3cvlWqEQcBfCmguLzpxIuniJ7H76rSWvEPtwm1buNLjESWGGtCT5eTvAmzXm9qOD+
+ nsOJhx6YLKpQ9nA1F2T4jNJUCJwKvhNZ4++COgmSYl5q37xEFYqv0/ZLyHACXBj/w44VyoazE
+ BjOnISQuR4VvSCL1W4EN2oXa8ZugIsVdrGnCRoqbmHzKKsxDEDVYI8VjQdjjdqowfgjszzGlN
+ i5o3gtCzMSRegt8TgVTxnfFEOt8BQZh+KsfMcSSZ78Y/Xj43gPTM+IcrobQIQUP0CZeJL86a3
+ Kz4txIHFPHSYKlVOwQaUy3z7qwR30nNR7wOD1QuPYbUTOfpXLC9RLcp4G2BeJSeQSIWqUWxWP
+ cUPLQg/u+sCBGdeQMBTlfuB+fDJ1XmBHST21OypwE87u2SymL+2fcm/1N4x4Kgld7DGI1V9uY
+ u5ENcw6iUWK1jSuisuKT60vrie0QnCxHXoIlKByhnJ8I4sHrOcvSLNQTXW+FUb5aQzm4X6FkO
+ 0/oi8aAsmpctiQMiYUxg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clarify a few places where the ring buffer and the "snapshot" buffer
-are cleared as a side effect of an operation.
+On Wed, Dec 18, 2019 at 7:45 PM Ben Hutchings
+<ben.hutchings@codethink.co.uk> wrote:
+>
+> On Tue, 2019-12-17 at 23:16 +0100, Arnd Bergmann wrote:
+> > Rather than relying on fs/compat_ioctl.c, this adds support
+> > for a compat_ioctl() callback in the ide-floppy driver directly,
+> > which lets it translate the scsi commands.
+> [...]
+>
+> After this, and before "compat_ioctl: move HDIO ioctl handling into
+> drivers/ide", compat ioctls on an IDE hard drive will result in a null
+> pointer dereference in ide_gd_compat_ioctl().  Not sure how much that
+> really matters though.
 
-This will avoid users lost of tracing data because of these so far
-undocumented behavior.
+I'm sure it makes no difference in the end, but you are of course right that
+this is a bug. I've folded in a check now, and leaving that in place
+even after it is no longer needed:
 
-Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
----
-Changes in v2:
-  - Per Steven comment correct the fact that the "snapshot" buffer is
-    not touched when writing in the "trace" file.
-  - Use tab instead of spaces for alignment.
+--- a/drivers/ide/ide-gd.c
++++ b/drivers/ide/ide-gd.c
+@@ -348,6 +348,9 @@ static int ide_gd_compat_ioctl(struct block_device
+*bdev, fmode_t mode,
+        struct ide_disk_obj *idkp = ide_drv_g(bdev->bd_disk, ide_disk_obj);
+        ide_drive_t *drive = idkp->drive;
 
- Documentation/trace/ftrace.rst | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index d2b5657ed33e..46df39300d22 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -95,7 +95,8 @@ of ftrace. Here is a list of some of the key files:
-   current_tracer:
- 
- 	This is used to set or display the current tracer
--	that is configured.
-+	that is configured. Changing the current tracer clears
-+	the ring buffer content as well as the "snapshot" buffer.
- 
-   available_tracers:
- 
-@@ -126,7 +127,8 @@ of ftrace. Here is a list of some of the key files:
- 	This file holds the output of the trace in a human
- 	readable format (described below). Note, tracing is temporarily
- 	disabled when the file is open for reading. Once all readers
--	are closed, tracing is re-enabled.
-+	are closed, tracing is re-enabled. Opening this file for
-+	writing with the O_TRUNC flag clears the ring buffer content.
- 
-   trace_pipe:
- 
-@@ -490,6 +492,9 @@ of ftrace. Here is a list of some of the key files:
- 
- 	  # echo global > trace_clock
- 
-+	Setting a clock clears the ring buffer content as well as the
-+	"snapshot" buffer.
++       if (!drive->disk_ops->compat_ioctl)
++               return -ENOIOCTLCMD;
 +
-   trace_marker:
- 
- 	This is a very useful file for synchronizing user space
--- 
-2.17.1
+        return drive->disk_ops->compat_ioctl(drive, bdev, mode, cmd, arg);
+ }
+ #endif
 
+I pushed out an updated signed tag with this change.
+
+Thanks for the continued careful review!
+
+       Arnd
