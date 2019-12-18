@@ -2,55 +2,58 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B1DC43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC4CC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 18:08:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1797320717
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:27:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6603B2072B
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 18:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576690051;
-	bh=CQsdge4NCxqpLjoNvbR0B5NKYDWJiCmYgei2y6A1s8s=;
+	s=default; t=1576692495;
+	bh=8QceqfckdODoaPKg6/IkQok3XjM0pu0xRkpfXmk4JBQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=bvaP3Q83GofFao1Zhl0DG59DAvUvl0LZmZIMFWqMSFSMFuyoUwdjGB599a1XTIKPy
-	 K8cPMRCV+UmQURGeHwZYDIBoYblqP48k+h3bf4n1orgTCOMUtM3xGdtOpcQQkMTKds
-	 M5jB07XblyURYQT4bMybzaYU64VPvA/Mmwr1uMf0=
+	b=FDbS6COjW0YXSvudC14b8gW9IrvaqoArpfiGwGKLPLul2VCVAGU8i+lknlHWys1DF
+	 UfkTeBnnnwwDkIC4NJbrE6oVFCi3/WZrBiHoZVC84nS/k5/05Ix/pdfCQ+E1dzgc/T
+	 90AXDq2f2xHXJ/IGTOrGnFnxBn9yoac8MUhH/cLM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727130AbfLRR1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 12:27:30 -0500
-Received: from foss.arm.com ([217.140.110.172]:54920 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727089AbfLRR1a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 12:27:30 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7EB9F1FB;
-        Wed, 18 Dec 2019 09:27:29 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0E2D3F67D;
-        Wed, 18 Dec 2019 09:27:28 -0800 (PST)
-Date:   Wed, 18 Dec 2019 17:27:27 +0000
-From:   Mark Brown <broonie@kernel.org>
+        id S1727730AbfLRSIK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 13:08:10 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39560 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727725AbfLRSIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 13:08:10 -0500
+Received: by mail-oi1-f193.google.com with SMTP id a67so1545698oib.6;
+        Wed, 18 Dec 2019 10:08:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DFlpwK3AxGJVLFi7l3r97G6DWX/N2u0QA0ZvIo1IjIs=;
+        b=Cy9elW83IRvo8FqtZwlKeNNyEImOWnbMThpJkjADghFFD52K5+ejZQRarbxDvlsQG7
+         RFWkPOQgvgcKFxhlNxPFXIrM+e2ThjU2W9wUII4F1TLuNoyea0ZREOztBPczdXSzfLIP
+         Sk1iQNM4DCxuNo0rY+HRL1pi96aydtDfO0L+7PB+N0P+mpFjEno12dFVqMYnIfljg+54
+         WFOWHDeeVRoSavIFYMrjibUYbR2LxsdJWPT24m16tCVusNJjF7Vc08tPzVnRB8NqmQoJ
+         pjO/k7EnTgemE+d8CxFRlqbymp3N7BkfHzUq3UnslUNLqjPqAxFpT62BKU5NZxCE3qRf
+         dflw==
+X-Gm-Message-State: APjAAAVTHMrFwebaXcQAmjZFciEHXkHfOA0Fs6aheixhRaXM9yzpH7zY
+        /uUF9ATe355JCYklbzfH5g==
+X-Google-Smtp-Source: APXvYqxV3PQgsNKWechNRemE0G3OUmYxE4aKcrp20lSkDN5QSvgGAnJKNyOqxoZGsjHlbI5X+3IITw==
+X-Received: by 2002:a05:6808:3c5:: with SMTP id o5mr1201077oie.142.1576692489561;
+        Wed, 18 Dec 2019 10:08:09 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m2sm1022649oim.13.2019.12.18.10.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 10:08:09 -0800 (PST)
+Date:   Wed, 18 Dec 2019 12:08:08 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com,
+Cc:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
@@ -58,52 +61,37 @@ Cc:     mazziesaccount@gmail.com,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v6 08/15] regulator: bd718x7: Split driver to common and
- bd718x7 specific parts
-Message-ID: <20191218172727.GL3219@sirena.org.uk>
+Subject: Re: [PATCH v6 03/15] dt-bindings: mfd: Document ROHM BD71828 bindings
+Message-ID: <20191218180808.GA6226@bogus>
 References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <fea73fd89f0db81fac30eba3b523c2232c401eae.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <c910b9a057e76044291a4d669530ccf19225675f.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7l042bGvurpep9Wg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fea73fd89f0db81fac30eba3b523c2232c401eae.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-X-Cookie: Power is poison.
+In-Reply-To: <c910b9a057e76044291a4d669530ccf19225675f.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 11 Dec 2019 11:37:59 +0200, Matti Vaittinen wrote:
+> ROHM BD71828 Power management IC integrates 7 buck converters, 7 LDOs,
+> a real-time clock (RTC), 3 GPO/regulator control pins, HALL input
+> and a 32.768 kHz clock gate.
+> 
+> Document the dt bindings drivers are using.
+> 
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+> Changes since v5:
+> - Remove regulator run-level properties
+> - Change SPDX to dual lisence
+> - remove trivial descriptions
+> 
+>  .../bindings/mfd/rohm,bd71828-pmic.yaml       | 193 ++++++++++++++++++
+>  1 file changed, 193 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
+> 
 
---7l042bGvurpep9Wg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Dec 11, 2019 at 11:44:51AM +0200, Matti Vaittinen wrote:
-> Few ROHM PMICs allow setting the voltage states for different system states
-> like RUN, IDLE, SUSPEND and LPSR. States are then changed via SoC specific
-> mechanisms. bd718x7 driver implemented device-tree parsing functions for
-> these state specific voltages. The parsing functions can be re-used by
-> other ROHM chip drivers like bd71828. Split the generic functions from
-> bd718x7-regulator.c to rohm-regulator.c and export them for other modules
-> to use.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---7l042bGvurpep9Wg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl36YX4ACgkQJNaLcl1U
-h9AI5Qf8DyMoeOZZ3b1i5ellMm0RDOYSYPZHH/HbNVc9POUCUqAmocPri1eOtfK7
-oEitUxGtbX9FohXmvBoVgR4+FqSitzPP3tnkOYXGpMUhnor0LT44YCFRfay6Plc9
-uxAsYj8nzSfu/yvOfDMlX2iRMS1zkERyxbCc5ug7/7GF6kM/+zsrctS2mzd7wbJc
-GY4PCC70UuCLim+qts5yQ1lFAtgkn0tg2Xn7O70bWyte5EjA/GZE12cz4ol2yHxr
-AygfcwT1YPBkyrtT2ydvn1kRa2LJjO9mc/PVMZSTS6b3yh+gm50nybfNvQMh1l7Q
-a7CveVrWl7/1JJtHwRbW5hT+tH+CKQ==
-=PWlS
------END PGP SIGNATURE-----
-
---7l042bGvurpep9Wg--
+Reviewed-by: Rob Herring <robh@kernel.org>
