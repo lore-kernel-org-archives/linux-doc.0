@@ -2,108 +2,132 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFEA6C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A66AC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:25:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C3173218AC
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:17:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D170227BF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576675023;
-	bh=WXxfk0jPYGSGiUdU+fiC21+RW+v+2OecpzqxZNu56Kc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=NQjoh8wqL0dkyXzF7wlJU2t3ptjJK+PhCSxuZCltOJjeCNDfVExqpox2RDQ0u/NFQ
-	 nGun758VjYMDYhmuxtNBRLERQElUgf51QHRcyKTegc17e0PkISra9RIskAT3va+cSH
-	 0fqduln2u07Bskhxpa9Q9cF99Y0y+/hZM+FjrwWQ=
+	s=default; t=1576675556;
+	bh=9dtjGIQ5Qoox81UNGfLHKGGtqfpxNpzDQimQEyCVQH0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=CTSXX6EJR5K1mmU5nSdCpF1m4DwC992YkREdFTYeb3Gj8i6zCPRQuEko1yrkCHokp
+	 j+mq/eKRImG71CJ/zxSYNb1qh4QA70t4n5zIkc2F2Jz1OleoNmvxVjYYQ8uu5k9vei
+	 wlhKweo/16mGb1dwCnnSBZf4Q7QOUMBJj9UFDS+g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726743AbfLRNRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 08:17:03 -0500
-Received: from foss.arm.com ([217.140.110.172]:45986 "EHLO foss.arm.com"
+        id S1726945AbfLRNZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 08:25:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726710AbfLRNRD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 08:17:03 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F51430E;
-        Wed, 18 Dec 2019 05:17:02 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7F223F718;
-        Wed, 18 Dec 2019 05:17:01 -0800 (PST)
-Date:   Wed, 18 Dec 2019 13:17:00 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        id S1726846AbfLRNZz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Dec 2019 08:25:55 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F10DE2146E;
+        Wed, 18 Dec 2019 13:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576675555;
+        bh=9dtjGIQ5Qoox81UNGfLHKGGtqfpxNpzDQimQEyCVQH0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pnHpjtfQ2mKvo1sD/uItIJF3vGLuPYLsazzOQ+tHdrl6ElZgP5qIhWrS0TLf7PIP+
+         lhjWsLgcVV9oOpqgjPkPZccioJhFq5yZHOqwlRaz0tUN+miH11WjT2n5e7AmPy8SHd
+         gwgVQsy4ulBglwDaRYrEyQFX8KkwYEnIAC4E2ISU=
+Date:   Wed, 18 Dec 2019 22:25:50 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Cc:     "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "naveen.n.rao@linux.vnet.ibm.com" <naveen.n.rao@linux.vnet.ibm.com>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>
-Subject: Re: Applied "regulator: bd71828: Basic support for ROHM bd71828 PMIC
- regulators" to the regulator tree
-Message-ID: <20191218131700.GB42175@sirena.org.uk>
-References: <applied-5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <de7424126e285d9bbd21a70945415d78203c2ba7.camel@fi.rohmeurope.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZoaI/ZTpAVc4A5k6"
-Content-Disposition: inline
-In-Reply-To: <de7424126e285d9bbd21a70945415d78203c2ba7.camel@fi.rohmeurope.com>
-X-Cookie: In the next world, you're on your own.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v6] arm64: implement KPROBES_ON_FTRACE
+Message-Id: <20191218222550.51f0b681de7bbab7e49b09a9@kernel.org>
+In-Reply-To: <20191218140622.57bbaca5@xhacker.debian>
+References: <20191218140622.57bbaca5@xhacker.debian>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 18 Dec 2019 06:21:35 +0000
+Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
 
---ZoaI/ZTpAVc4A5k6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
+> eliminates the need for a trap, as well as the need to emulate or
+> single-step instructions.
+> 
+> Tested on berlin arm64 platform.
+> 
+> ~ # mount -t debugfs debugfs /sys/kernel/debug/
+> ~ # cd /sys/kernel/debug/
+> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
+> 
+> before the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
+> 
+> after the patch:
+> 
+> /sys/kernel/debug # cat kprobes/list
+> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
 
-On Wed, Dec 18, 2019 at 08:06:04AM +0000, Vaittinen, Matti wrote:
+BTW, it seems this automatically changes the offset without
+user's intention or any warnings. How would you manage if the user
+pass a new probe on _do_fork+0x4?
 
-> I think you missed the [PATCH v6 08/15] regulator: bd718x7: Split
-> driver to common and bd718x7 specific parts
+IOW, it is still the question who really wants to probe on
+the _do_fork+"0", if kprobes modifies it automatically,
+no one can do that anymore.
+This can be happen if the user want to record LR or SP value
+at the function call for debug. If kprobe always modifies it,
+we will lose the way to do it.
 
-I didn't miss it, it was queued but it doesn't apply.
+Could you remove below function at this moment?
 
---ZoaI/ZTpAVc4A5k6
-Content-Type: application/pgp-signature; name="signature.asc"
+> +kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
+> +{
+> +	unsigned long addr = kallsyms_lookup_name(name);
+> +
+> +	if (addr && !offset) {
+> +		unsigned long faddr;
+> +		/*
+> +		 * with -fpatchable-function-entry=2, the first 4 bytes is the
+> +		 * LR saver, then the actual call insn. So ftrace location is
+> +		 * always on the first 4 bytes offset.
+> +		 */
+> +		faddr = ftrace_location_range(addr,
+> +					      addr + AARCH64_INSN_SIZE);
+> +		if (faddr)
+> +			return (kprobe_opcode_t *)faddr;
+> +	}
+> +	return (kprobe_opcode_t *)addr;
+> +}
+> +
+> +bool arch_kprobe_on_func_entry(unsigned long offset)
+> +{
+> +	return offset <= AARCH64_INSN_SIZE;
+> +}
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl36JssACgkQJNaLcl1U
-h9CIwwf/XGxw7qI5+W4mZUmXbHBLRi2mSDCtLaIN9ZXkq0cxNLHz+arkHxlXRnGH
-TgXToL545RFyVMoMsNJ9mgx6N/K6dKycIoz6e2R2KMshQXgG1vsR00SqpzOmWSTD
-vuLsweAjda+fSnq8LOxaYCjSyCuC7+kg1OyRToeYUanBAEHL0nnNPc0LaodC2mmz
-5oIVqN5KtXLuc9yHBuHn9E6DQpyFFdDwGxscWVVuNKXGbh1YezDw44dIZtb/ZMK5
-piw8gK+P9piymdh1rSw0W2dgHojmNgaZWGa1qhbf/9JmaWwc1Wu4q0NZ/dED0JJj
-6xQL1PTl40C8GA7Hfd20UUQ/YMu5MQ==
-=1AaP
------END PGP SIGNATURE-----
+Without this automatic change, we still can change the offset
+in upper layer.
 
---ZoaI/ZTpAVc4A5k6--
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
