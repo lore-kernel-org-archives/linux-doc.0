@@ -4,31 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40932C2D0CD
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BF2C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:30:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E82B21582
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:22:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 023E921582
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:30:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbfLRXWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 18:22:03 -0500
-Received: from mga12.intel.com ([192.55.52.136]:51739 "EHLO mga12.intel.com"
+        id S1726559AbfLRXaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 18:30:02 -0500
+Received: from mga09.intel.com ([134.134.136.24]:32550 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726569AbfLRXWD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 18:22:03 -0500
+        id S1726518AbfLRXaC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Dec 2019 18:30:02 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Dec 2019 15:22:02 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Dec 2019 15:30:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; 
-   d="scan'208";a="365889145"
+   d="scan'208";a="365890260"
 Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga004.jf.intel.com with ESMTP; 18 Dec 2019 15:21:56 -0800
-Subject: Re: [PATCH v11 04/14] dt-bindings: Add bindings document of Aspeed
- PECI adapter
+  by orsmga004.jf.intel.com with ESMTP; 18 Dec 2019 15:30:01 -0800
+Subject: Re: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
 To:     Rob Herring <robh@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Lee Jones <lee.jones@linaro.org>,
@@ -64,23 +63,17 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tomer Maimon <tmaimon77@gmail.com>,
         linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
+        openbmc@lists.ozlabs.org
 References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-5-jae.hyun.yoo@linux.intel.com>
- <20191218025702.GA18998@bogus>
+ <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
+ <20191218144206.GA26118@bogus>
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <c203251d-125a-0d41-927d-0ce237622f71@linux.intel.com>
-Date:   Wed, 18 Dec 2019 15:21:56 -0800
+Message-ID: <a86e253a-5ef6-f448-0c0b-15be0467a9ef@linux.intel.com>
+Date:   Wed, 18 Dec 2019 15:30:00 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191218025702.GA18998@bogus>
+In-Reply-To: <20191218144206.GA26118@bogus>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,59 +84,47 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Rob,
 
-On 12/17/2019 6:57 PM, Rob Herring wrote:
-> On Wed, Dec 11, 2019 at 11:46:14AM -0800, Jae Hyun Yoo wrote:
->> This commit adds bindings document of Aspeed PECI adapter for ASPEED
->> AST24xx/25xx/26xx SoCs.
+On 12/18/2019 6:42 AM, Rob Herring wrote:
+> On Wed, Dec 11, 2019 at 11:46:17AM -0800, Jae Hyun Yoo wrote:
+>> From: Tomer Maimon <tmaimon77@gmail.com>
 >>
->> Cc: Mark Rutland <mark.rutland@arm.com>
->> Cc: Joel Stanley <joel@jms.id.au>
->> Cc: Andrew Jeffery <andrew@aj.id.au>
->> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
->> Cc: Milton Miller II <miltonm@us.ibm.com>
->> Cc: Pavel Machek <pavel@ucw.cz>
->> Cc: Robin Murphy <robin.murphy@arm.com>
->> Cc: Ryan Chen <ryan_chen@aspeedtech.com>
+>> Added device tree binding documentation for Nuvoton BMC
+>> NPCM Platform Environment Control Interface(PECI).
+>>
+>> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
 >> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 >> ---
 >> Changes since v10:
->> - Changed documents format to DT schema format so I dropped all review tags.
->>    Please review it again.
+>> - Newly added in v11.
 >>
->>   .../devicetree/bindings/peci/peci-aspeed.yaml | 124 ++++++++++++++++++
->>   1 file changed, 124 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+>>   .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
+>>   1 file changed, 102 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
 >>
->> diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+>> diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
 >> new file mode 100644
->> index 000000000000..0f5c2993fe9b
+>> index 000000000000..bcd5626e68e7
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
->> @@ -0,0 +1,124 @@
+>> +++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
+>> @@ -0,0 +1,102 @@
 >> +# SPDX-License-Identifier: GPL-2.0
 >> +%YAML 1.2
 >> +---
->> +$id: http://devicetree.org/schemas/peci/peci-aspeed.yaml#
+>> +$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +title: Aspeed PECI Bus Device Tree Bindings
+>> +title: Nuvoton NPCM PECI Bus Device Tree Bindings
 >> +
 >> +maintainers:
->> +  - Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> +  - Tomer Maimon <tmaimon77@gmail.com>
 >> +
 >> +properties:
 >> +  compatible:
->> +    enum:
->> +      - aspeed,ast2400-peci
->> +      - aspeed,ast2500-peci
->> +      - aspeed,ast2600-peci
+>> +    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
 >> +
 >> +  reg:
 >> +    maxItems: 1
 >> +
-> 
 >> +  "#address-cells":
 >> +    # Required to define a client address.
 >> +    const: 1
@@ -151,75 +132,69 @@ On 12/17/2019 6:57 PM, Rob Herring wrote:
 >> +  "#size-cells":
 >> +    # Required to define a client address.
 >> +    const: 0
-> 
-> These 2 can be defined by the bus schema.
-
-I see. I'll add these to peci-bus schema.
-
 >> +
 >> +  interrupts:
 >> +    maxItems: 1
 >> +
 >> +  clocks:
->> +    description: |
-> 
-> You can drop the '|' if there's no formatting to preserve.
-
-Will check this for all bindings in this patch set.
-
->> +      Clock source for PECI controller. Should reference the external
->> +      oscillator clock.
+>> +    # PECI reference clock.
 >> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  clock-frequency:
->> +    # Operation frequency of PECI controller in units of Hz.
->> +    minimum: 187500
->> +    maximum: 24000000
->> +
->> +  msg-timing:
->> +    description: |
->> +      Message timing negotiation period. This value will determine the period
->> +      of message timing negotiation to be issued by PECI controller. The unit
->> +      of the programmed value is four times of PECI clock period.
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
->> +      - minimum: 0
->> +        maximum: 255
->> +        default: 1
->> +
->> +  addr-timing:
->> +    description: |
->> +      Address timing negotiation period. This value will determine the period
->> +      of address timing negotiation to be issued by PECI controller. The unit
->> +      of the programmed value is four times of PECI clock period.
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
->> +      - minimum: 0
->> +        maximum: 255
->> +        default: 1
->> +
->> +  rd-sampling-point:
->> +    description: |
->> +      Read sampling point selection. The whole period of a bit time will be
->> +      divided into 16 time frames. This value will determine the time frame
->> +      in which the controller will sample PECI signal for data read back.
->> +      Usually in the middle of a bit time is the best.
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
->> +      - minimum: 0
->> +        maximum: 15
->> +        default: 8
 >> +
 >> +  cmd-timeout-ms:
 >> +    # Command timeout in units of ms.
 >> +    allOf:
 >> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> You can drop this as standard units already have a type.
+
+I'm assuming you pointed the timeout-ms as one of standard
+units, right? I'll drop this ref.
+
 >> +      - minimum: 1
 >> +        maximum: 60000
 >> +        default: 1000
+>> +
+>> +  pull-down:
+>> +    description: |
+>> +      Defines the PECI I/O internal pull down operation.
+>> +        0: pull down always enable
+>> +        1: pull down only during transactions.
+>> +        2: pull down always disable.
+>> +    allOf:
+>> +      - $ref: /schemas/types.yaml#/definitions/uint32
+>> +      - minimum: 0
+>> +        maximum: 2
+>> +        default: 0
+>> +
+>> +  host-neg-bit-rate:
+>> +    description: |
+>> +      Define host negotiation bit rate divider.
+>> +      the host negotiation bit rate calculate with formula:
+>> +      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
+>> +    allOf:
+>> +      - $ref: /schemas/types.yaml#/definitions/uint32
+>> +      - minimum: 7
+>> +        maximum: 31
+>> +        default: 15
+>> +
+>> +  high-volt-range:
+>> +    description: |
+>> +      Adapts PECI I/O interface to voltage range.
+>> +        0: PECI I/O interface voltage range of 0.8-1.06V (default)
+>> +        1: PECI I/O interface voltage range of 0.95-1.26V
+>> +    type: boolean
+> 
+> These last 4 properties are vendor specific or PECI common. For the
+> former, needs a vendor prefix. For the latter, needs to be moved to
+> common location.
+
+These are Nuvoton vendor specifics. I'll add prefix for them and will
+check Aspeed bindings too.
+
+Thanks a lot for your review!
+
+-Jae
+
 >> +
 >> +required:
 >> +  - compatible
@@ -228,41 +203,27 @@ Will check this for all bindings in this patch set.
 >> +  - "#size-cells"
 >> +  - interrupts
 >> +  - clocks
->> +  - resets
->> +  - clock-frequency
 >> +
 >> +examples:
 >> +  - |
 >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/clock/ast2600-clock.h>
->> +    peci: bus@1e78b000 {
+>> +    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
+>> +    peci: bus@100000 {
 >> +        compatible = "simple-bus";
 >> +        #address-cells = <1>;
 >> +        #size-cells = <1>;
->> +        ranges = <0x0 0x1e78b000 0x60>;
-> 
-> You can drop this node in the examples.
-
-I see. Will drop the parent node in this example.
-
-Thanks a lot for your review!
-
--Jae
-
+>> +        ranges = <0x0 0x100000 0x200>;
 >> +
 >> +        peci0: peci-bus@0 {
->> +            compatible = "aspeed,ast2600-peci";
->> +            reg = <0x0 0x100>;
+>> +            compatible = "nuvoton,npcm750-peci";
+>> +            reg = <0x0 0x200>;
 >> +            #address-cells = <1>;
 >> +            #size-cells = <0>;
->> +            interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
->> +            clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
->> +            resets = <&syscon ASPEED_RESET_PECI>;
->> +            clock-frequency = <24000000>;
->> +            msg-timing = <1>;
->> +            addr-timing = <1>;
->> +            rd-sampling-point = <8>;
+>> +            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+>> +            clocks = <&clk NPCM7XX_CLK_APB3>;
 >> +            cmd-timeout-ms = <1000>;
+>> +            pull-down = <0>;
+>> +            host-neg-bit-rate = <15>;
 >> +        };
 >> +    };
 >> +...
