@@ -2,132 +2,112 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A66AC43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E04FBC2D0D1
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:33:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5D170227BF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576675556;
-	bh=9dtjGIQ5Qoox81UNGfLHKGGtqfpxNpzDQimQEyCVQH0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=CTSXX6EJR5K1mmU5nSdCpF1m4DwC992YkREdFTYeb3Gj8i6zCPRQuEko1yrkCHokp
-	 j+mq/eKRImG71CJ/zxSYNb1qh4QA70t4n5zIkc2F2Jz1OleoNmvxVjYYQ8uu5k9vei
-	 wlhKweo/16mGb1dwCnnSBZf4Q7QOUMBJj9UFDS+g=
+	by mail.kernel.org (Postfix) with ESMTP id B8882227BF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 13:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfLRNZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 08:25:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48302 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726846AbfLRNZz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 08:25:55 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F10DE2146E;
-        Wed, 18 Dec 2019 13:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576675555;
-        bh=9dtjGIQ5Qoox81UNGfLHKGGtqfpxNpzDQimQEyCVQH0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pnHpjtfQ2mKvo1sD/uItIJF3vGLuPYLsazzOQ+tHdrl6ElZgP5qIhWrS0TLf7PIP+
-         lhjWsLgcVV9oOpqgjPkPZccioJhFq5yZHOqwlRaz0tUN+miH11WjT2n5e7AmPy8SHd
-         gwgVQsy4ulBglwDaRYrEyQFX8KkwYEnIAC4E2ISU=
-Date:   Wed, 18 Dec 2019 22:25:50 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "naveen.n.rao@linux.vnet.ibm.com" <naveen.n.rao@linux.vnet.ibm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S1726939AbfLRNdO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 08:33:14 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:58044 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726735AbfLRNdN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 08:33:13 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-7b-5dfa2a97b167
+Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 01.2F.08102.79A2AFD5; Wed, 18 Dec 2019 14:33:11 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
+ 14.03.0439.000; Wed, 18 Dec 2019 14:33:05 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6] arm64: implement KPROBES_ON_FTRACE
-Message-Id: <20191218222550.51f0b681de7bbab7e49b09a9@kernel.org>
-In-Reply-To: <20191218140622.57bbaca5@xhacker.debian>
-References: <20191218140622.57bbaca5@xhacker.debian>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: Re: Applied "regulator: bd71828: Basic support for ROHM bd71828
+ PMIC regulators" to the regulator tree
+Thread-Topic: Applied "regulator: bd71828: Basic support for ROHM bd71828
+ PMIC regulators" to the regulator tree
+Thread-Index: AQHVtNcCPO+Kt0OMfE2l+CzrBWADfqe/eY8AgABW2wCAAAR/gA==
+Date:   Wed, 18 Dec 2019 13:33:05 +0000
+Message-ID: <60906cc2c51c726a8d7f4fbfd31deb72489ceb04.camel@fi.rohmeurope.com>
+References: <applied-5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+         <de7424126e285d9bbd21a70945415d78203c2ba7.camel@fi.rohmeurope.com>
+         <20191218131700.GB42175@sirena.org.uk>
+In-Reply-To: <20191218131700.GB42175@sirena.org.uk>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4D3FA5736842F04EAD470EBE9F8DE766@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0wTZxjH895d7w7wtrMivHa6uEs2h0bU6ZI3hhi2ZPGWmc3MbFm2VDzH
+        jevsD7iWRbYsYRomBcYAIcTG1smvNVitVtGNYGwqOtepS7UC4pQ0NEwIgYyhUBDcXW8Kf73P
+        83yf7/N5/nheGte3UQbaZHWIslUwc2QqEfTOBtY3rp0xbhwZfBG1RO5Q6NBYG4Xm6q5SaNId
+        JlBDLE6iePAQQMe6b+pQ5R/ndOhgs59E9zpOE2jg0RWAHkfLMVT/5GcM/VP1QIeOf99CoLPH
+        ngB0u/MoiTpGTwF09USURK29EQwdbb1GoPEJJ4Yi4XdQQ3iMQvfDV0h0MNKHo7KL3RSa7zlD
+        oOqb23NX8T6PD/CzM3WAH+8ro3iP7xv+V9d9ig+0O0n+r54ukr/k9lF8c/VhHf/4ei3BDx33
+        E/xvfRcwvtGTwHh/VTfgvSemKP7fwMs72U/TcvYKjq92mQqsG7btSZNuPP0RK6yh909PnwSl
+        YJKqACk0ZLfAvuAEWQFSaT17B8ByTwOlJdcAbJw+qSQ0TbI5sOJu0pDOrocNM81JA85G02BT
+        9DCuCsvYIvjD2TCuNcmwf26Y0OK34W3PIKHOIdhXYfvpHLXMsO/DA74I0FgDALo7R3WqkMJu
+        hv1tdUkYYFdBZ+kYpsY4mwkDQ1M6bWsWtnT9iWvxcjg8OP9/nYMXE7EkC2ezoL9zg2bNhaNn
+        xnEtfgXWV8YobYel8PcjcaIGZLgWEVwLbtcit2uR27XI/RPQtQNoEUzmAsEhbsqWxeJs2SZZ
+        lOdzmyUAtLub/AU8Db0bAhgNQmAFjXHLGU5KGPUv7LXll0iCXcqTi82iPQQgjXPpzL1yRWPy
+        hZKvRdn2THqJJrhMZk2s1qhnVdY+USwU5WfqSprmIFP/+oxRv1QWC8T9X5jMjgUZo1PU4amG
+        dLtozRdlodgh5an3kWdXDkSVlijch6qdsRcKFqWqWcNgHV0z7G7C6W53axOuJ6w2q2jIZJjX
+        lFZWbZWKrc9BIyCTBtwy5nKWoi5RPt/zOSMKAlMQdFYS4RAWJEMpyPe7gh+sTv8sr3Br9se2
+        +IG5pqH6T8zBjJKp2iMfTmz7aF124u9dlaa7CL25h/zSd+FyRny7rac/ZfNq83vznt27nVtb
+        Z3fs3HGeJApiFqvzEmGAiY7eN7xEyfm3Ho70DnRFT50rGm3bOBi6Vb2yrIozr4gYvVsk7yN7
+        0Xffrsl9wBF2Sdi0Fpftwn8xKXZtOQQAAA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Dec 2019 06:21:35 +0000
-Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
-
-> KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> eliminates the need for a trap, as well as the need to emulate or
-> single-step instructions.
-> 
-> Tested on berlin arm64 platform.
-> 
-> ~ # mount -t debugfs debugfs /sys/kernel/debug/
-> ~ # cd /sys/kernel/debug/
-> /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
-> 
-> before the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
-> 
-> after the patch:
-> 
-> /sys/kernel/debug # cat kprobes/list
-> ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]
-
-BTW, it seems this automatically changes the offset without
-user's intention or any warnings. How would you manage if the user
-pass a new probe on _do_fork+0x4?
-
-IOW, it is still the question who really wants to probe on
-the _do_fork+"0", if kprobes modifies it automatically,
-no one can do that anymore.
-This can be happen if the user want to record LR or SP value
-at the function call for debug. If kprobe always modifies it,
-we will lose the way to do it.
-
-Could you remove below function at this moment?
-
-> +kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
-> +{
-> +	unsigned long addr = kallsyms_lookup_name(name);
-> +
-> +	if (addr && !offset) {
-> +		unsigned long faddr;
-> +		/*
-> +		 * with -fpatchable-function-entry=2, the first 4 bytes is the
-> +		 * LR saver, then the actual call insn. So ftrace location is
-> +		 * always on the first 4 bytes offset.
-> +		 */
-> +		faddr = ftrace_location_range(addr,
-> +					      addr + AARCH64_INSN_SIZE);
-> +		if (faddr)
-> +			return (kprobe_opcode_t *)faddr;
-> +	}
-> +	return (kprobe_opcode_t *)addr;
-> +}
-> +
-> +bool arch_kprobe_on_func_entry(unsigned long offset)
-> +{
-> +	return offset <= AARCH64_INSN_SIZE;
-> +}
-
-
-Without this automatic change, we still can change the offset
-in upper layer.
-
-Thank you,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+DQpPbiBXZWQsIDIwMTktMTItMTggYXQgMTM6MTcgKzAwMDAsIE1hcmsgQnJvd24gd3JvdGU6DQo+
+IE9uIFdlZCwgRGVjIDE4LCAyMDE5IGF0IDA4OjA2OjA0QU0gKzAwMDAsIFZhaXR0aW5lbiwgTWF0
+dGkgd3JvdGU6DQo+IA0KPiA+IEkgdGhpbmsgeW91IG1pc3NlZCB0aGUgW1BBVENIIHY2IDA4LzE1
+XSByZWd1bGF0b3I6IGJkNzE4eDc6IFNwbGl0DQo+ID4gZHJpdmVyIHRvIGNvbW1vbiBhbmQgYmQ3
+MTh4NyBzcGVjaWZpYyBwYXJ0cw0KPiANCj4gSSBkaWRuJ3QgbWlzcyBpdCwgaXQgd2FzIHF1ZXVl
+ZCBidXQgaXQgZG9lc24ndCBhcHBseS4NCg0KQWxscmlnaHQuIEkgdGhvdWdodCB5b3UgbWlzc2Vk
+IGl0IGFzIHlvdSBhcGxpZWQgdGhlIDkvMTUgYWxyZWFkeS4gSQ0KdGhpbmsgSSBoYWQgdGhlIHY2
+IHdyaXR0ZW4gb24gdG9wIG9mIGxpbnV4IHRhZyB2NS41LXJjMS4NCg0KQW55d2F5cywgSSdsbCBj
+bG9uZSB0aGUgcmVndWxhdG9yIHRyZWUgYW5kIHJlYmFzZSB0aGlzIHBhdGNoIG9uIHRvcCBvZg0K
+Zm9yLTUuNiBoZWFkLiAoSXQnbGwgbWVhbiB0aGVzZSBwYXRjaGVzIGNvbWUgaW4gd3Jvbmcgb3Jk
+ZXIgYXMgdGhlDQphbHJlYWR5IGFwcGxpZWQgMDkgZGVwZW5kcyBvbiBub3QteWV0LWFwcGxpZWQg
+MDggLSBidXQgYXMgd2UgZG9uJ3QgaGF2ZQ0KdGhlIGNvbmZpZyBmb3IgQkQ3MTgyOCBpbi10cmVl
+IHlldCB0aGlzIHdvbid0IG1hdHRlciwgcmlnaHQ/KQ0KDQpUaGFua3MgZm9yIHRha2luZyB0aGlz
+Lg0KDQpCciwNCglNYXR0aQ0K
