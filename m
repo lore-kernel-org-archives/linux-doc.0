@@ -2,232 +2,130 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BF2C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5D3C2D0D2
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:55:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 023E921582
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:30:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4560D21D7D
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 23:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576713351;
+	bh=zzopRiTPMCxiWVybiJHDiNfTH61sV+ErSnPbGBAT7ZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=h8ToJ43BZa0ne84uTsr63jUliH/RDAcJ0aESfhzZ7SGQ0pnNyTfC3g77mXmZWrHRt
+	 /7b2rtzNbMLZcd9apf4I5ayIpmtpYI8QzOuHs27m1YFW1RdRvFAZrGKnx3y1dq0Yeq
+	 YakTrvkzif+KqUbideHbpTiaRs7LV/dtQbez6UPY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbfLRXaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 18:30:02 -0500
-Received: from mga09.intel.com ([134.134.136.24]:32550 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726518AbfLRXaC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 18:30:02 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Dec 2019 15:30:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; 
-   d="scan'208";a="365890260"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga004.jf.intel.com with ESMTP; 18 Dec 2019 15:30:01 -0800
-Subject: Re: [PATCH v11 07/14] dt-bindings: peci: add NPCM PECI documentation
-To:     Rob Herring <robh@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-References: <20191211194624.2872-1-jae.hyun.yoo@linux.intel.com>
- <20191211194624.2872-8-jae.hyun.yoo@linux.intel.com>
- <20191218144206.GA26118@bogus>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <a86e253a-5ef6-f448-0c0b-15be0467a9ef@linux.intel.com>
-Date:   Wed, 18 Dec 2019 15:30:00 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726668AbfLRXzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 18:55:44 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:39424 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726700AbfLRXzo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 18:55:44 -0500
+Received: by mail-ot1-f66.google.com with SMTP id 77so4645667oty.6;
+        Wed, 18 Dec 2019 15:55:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GJ9qxY4LI6XeQxc2KHrHxexDGoJoWaVGO4ER5mSWmaI=;
+        b=jqU3qgYc6A4EaSO33f1iE3TTE80uLlsj09Veh04zlEGM1E44mLRnNm+W6UfRkCv86x
+         jBV2+TCSsgM0UAnq4mvKTPGX4UIxpvDPiR1RLkBag0s2uLf5Opbwn+NLz3dU6QzQvdQe
+         uCKJZW9YJ0lVlwmY05dhw4jJ9EGnAZ7UJ+4VybhDp/UJeRTmqFLbFLFPOGDINtA7V7bi
+         O5Ac+k2mN2Dy73L4ylUExArMJjIloGEkWWP+JFk794veOVEmBvDNZ6JNAqbU5QsMm2qe
+         HXZIF3MHQ9oJKmDusIC810AfsfXK9wAiTStKsdlrvnICwsxBb6OnD0D4JY7kku9k4mhs
+         SPTw==
+X-Gm-Message-State: APjAAAX9X7LekhLwmGQRPkMXEXRVC/AR4mFS27UIby9tqlAGhV1RnEm7
+        bUYlwFeFY+cdOBCyiZm/NP/oRKNvmA==
+X-Google-Smtp-Source: APXvYqyKXJqhNqKyRPGAs2JVV5SiXMGR8LphNu4Udo9MvYFaBLQ15ECTHXk1NIpRYcegBFFN+UOE9A==
+X-Received: by 2002:a9d:7cd9:: with SMTP id r25mr5163459otn.326.1576713343017;
+        Wed, 18 Dec 2019 15:55:43 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id r205sm1387626oih.54.2019.12.18.15.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 15:55:42 -0800 (PST)
+Date:   Wed, 18 Dec 2019 17:55:41 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     shubhrajyoti.datta@gmail.com
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, michal.simek@xilinx.com,
+        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: misc: Add dt bindings for traffic
+ generator
+Message-ID: <20191218235541.GA31319@bogus>
+References: <8b3a446fc60cdd7d085203ce00c3f6bfba642437.1575871828.git.shubhrajyoti.datta@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <20191218144206.GA26118@bogus>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8b3a446fc60cdd7d085203ce00c3f6bfba642437.1575871828.git.shubhrajyoti.datta@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
-
-On 12/18/2019 6:42 AM, Rob Herring wrote:
-> On Wed, Dec 11, 2019 at 11:46:17AM -0800, Jae Hyun Yoo wrote:
->> From: Tomer Maimon <tmaimon77@gmail.com>
->>
->> Added device tree binding documentation for Nuvoton BMC
->> NPCM Platform Environment Control Interface(PECI).
->>
->> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> ---
->> Changes since v10:
->> - Newly added in v11.
->>
->>   .../devicetree/bindings/peci/peci-npcm.yaml   | 102 ++++++++++++++++++
->>   1 file changed, 102 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/peci/peci-npcm.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/peci/peci-npcm.yaml b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
->> new file mode 100644
->> index 000000000000..bcd5626e68e7
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/peci/peci-npcm.yaml
->> @@ -0,0 +1,102 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/peci/peci-npcm.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Nuvoton NPCM PECI Bus Device Tree Bindings
->> +
->> +maintainers:
->> +  - Tomer Maimon <tmaimon77@gmail.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: nuvoton,npcm750-peci # for the NPCM7XX BMC.
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  "#address-cells":
->> +    # Required to define a client address.
->> +    const: 1
->> +
->> +  "#size-cells":
->> +    # Required to define a client address.
->> +    const: 0
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    # PECI reference clock.
->> +    maxItems: 1
->> +
->> +  cmd-timeout-ms:
->> +    # Command timeout in units of ms.
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
+On Mon, Dec 09, 2019 at 11:41:26AM +0530, shubhrajyoti.datta@gmail.com wrote:
+> From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
 > 
-> You can drop this as standard units already have a type.
-
-I'm assuming you pointed the timeout-ms as one of standard
-units, right? I'll drop this ref.
-
->> +      - minimum: 1
->> +        maximum: 60000
->> +        default: 1000
->> +
->> +  pull-down:
->> +    description: |
->> +      Defines the PECI I/O internal pull down operation.
->> +        0: pull down always enable
->> +        1: pull down only during transactions.
->> +        2: pull down always disable.
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
->> +      - minimum: 0
->> +        maximum: 2
->> +        default: 0
->> +
->> +  host-neg-bit-rate:
->> +    description: |
->> +      Define host negotiation bit rate divider.
->> +      the host negotiation bit rate calculate with formula:
->> +      clock frequency[Hz] / [4 x {host-neg-bit-rate + 1}]
->> +    allOf:
->> +      - $ref: /schemas/types.yaml#/definitions/uint32
->> +      - minimum: 7
->> +        maximum: 31
->> +        default: 15
->> +
->> +  high-volt-range:
->> +    description: |
->> +      Adapts PECI I/O interface to voltage range.
->> +        0: PECI I/O interface voltage range of 0.8-1.06V (default)
->> +        1: PECI I/O interface voltage range of 0.95-1.26V
->> +    type: boolean
+> Add dt bindings for xilinx traffic generator IP.
 > 
-> These last 4 properties are vendor specific or PECI common. For the
-> former, needs a vendor prefix. For the latter, needs to be moved to
-> common location.
+> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+> ---
+>  .../bindings/misc/xlnx,axi-traffic-gen.txt         | 25 ++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/misc/xlnx,axi-traffic-gen.txt
 
-These are Nuvoton vendor specifics. I'll add prefix for them and will
-check Aspeed bindings too.
+Please convert to a DT schema.
 
-Thanks a lot for your review!
+> 
+> diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-traffic-gen.txt b/Documentation/devicetree/bindings/misc/xlnx,axi-traffic-gen.txt
+> new file mode 100644
+> index 0000000..6edb8f6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/misc/xlnx,axi-traffic-gen.txt
+> @@ -0,0 +1,25 @@
+> +* Xilinx AXI Traffic generator IP
+> +
+> +Required properties:
+> +- compatible: "xlnx,axi-traffic-gen"
+> +- interrupts: Should contain AXI Traffic Generator interrupts.
 
--Jae
+How many and what are they.
 
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - "#address-cells"
->> +  - "#size-cells"
->> +  - interrupts
->> +  - clocks
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/clock/nuvoton,npcm7xx-clock.h>
->> +    peci: bus@100000 {
->> +        compatible = "simple-bus";
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +        ranges = <0x0 0x100000 0x200>;
->> +
->> +        peci0: peci-bus@0 {
->> +            compatible = "nuvoton,npcm750-peci";
->> +            reg = <0x0 0x200>;
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +            interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
->> +            clocks = <&clk NPCM7XX_CLK_APB3>;
->> +            cmd-timeout-ms = <1000>;
->> +            pull-down = <0>;
->> +            host-neg-bit-rate = <15>;
->> +        };
->> +    };
->> +...
->> -- 
->> 2.17.1
->>
+> +- interrupt-parent: Must be core interrupt controller.
+
+Drop this. It could be in a parent node.
+
+> +- reg: Should contain AXI Traffic Generator registers location and length.
+> +- interrupt-names: Should contain both the intr names of device - error
+> +		   and completion.
+
+Needs exact strings.
+
+> +- xlnx,device-id: Device instance Id.
+> +
+> +Optional properties:
+> +- clocks: Input clock specifier. Refer to common clock bindings.
+> +
+> +Example:
+> +++++++++
+> +axi_traffic_gen_1: axi-traffic-gen@76000000 {
+> +	compatible = "xlnx,axi-traffic-gen-1.0", "xlnx,axi-traffic-gen";
+
+Doesn't match the above. I'd drop the 2nd string.
+
+> +	clocks = <&clkc 15>;
+> +	interrupts = <0 2 2 2>;
+> +	interrupt-parent = <&axi_intc_1>;
+> +	interrupt-names = "err-out", "irq-out";
+> +	reg = <0x76000000 0x800000>;
+> +	xlnx,device-id = <0x0>;
+> +} ;
+> -- 
+> 2.1.1
 > 
