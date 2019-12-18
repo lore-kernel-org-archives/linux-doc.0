@@ -2,86 +2,95 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C695FC43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 09:56:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABEBC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 11:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A5D4F2072B
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 09:56:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59CD32072B
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 11:57:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726141AbfLRJ4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 04:56:43 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:59431 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725799AbfLRJ4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 04:56:43 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R591e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TlGTrIG_1576662982;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TlGTrIG_1576662982)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 18 Dec 2019 17:56:22 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>,
+        id S1726710AbfLRL5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 06:57:45 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:57528 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726141AbfLRL5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 06:57:44 -0500
+Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tip-bot2@linutronix.de>)
+        id 1ihXxQ-0000ek-Me; Wed, 18 Dec 2019 12:57:36 +0100
+Received: from [127.0.1.1] (localhost [IPv6:::1])
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id E1F3D1C268E;
+        Wed, 18 Dec 2019 12:57:35 +0100 (CET)
+Date:   Wed, 18 Dec 2019 11:57:35 -0000
+From:   "tip-bot2 for Enrico Weigelt" <tip-bot2@linutronix.de>
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: x86/cleanups] Documentation/x86/boot: Fix typo
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Borislav Petkov <bp@suse.de>, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs/zh_CN: add translator info and link to Chinese process index
-Date:   Wed, 18 Dec 2019 17:56:20 +0800
-Message-Id: <1576662980-103843-2-git-send-email-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576662980-103843-1-git-send-email-alex.shi@linux.alibaba.com>
-References: <1576662980-103843-1-git-send-email-alex.shi@linux.alibaba.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        "x86-ml" <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <20191203113314.26810-1-info@metux.net>
+References: <20191203113314.26810-1-info@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Message-ID: <157667025572.30329.18057346282277945641.tip-bot2@tip-bot2>
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To make it could be found in htmldocs.
+The following commit has been merged into the x86/cleanups branch of tip:
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com> 
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
+Commit-ID:     e156c6176c9d6e69e166fb20e3b4e9f85ead8d77
+Gitweb:        https://git.kernel.org/tip/e156c6176c9d6e69e166fb20e3b4e9f85ead8d77
+Author:        Enrico Weigelt <info@metux.net>
+AuthorDate:    Tue, 03 Dec 2019 12:33:14 +01:00
+Committer:     Borislav Petkov <bp@suse.de>
+CommitterDate: Wed, 18 Dec 2019 12:50:27 +01:00
+
+Documentation/x86/boot: Fix typo
+
+s/Fileds/Fields/g
+
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191203113314.26810-1-info@metux.net
 ---
- Documentation/translations/zh_CN/process/index.rst                   | 1 +
- Documentation/translations/zh_CN/process/kernel-driver-statement.rst | 5 +++++
- 2 files changed, 6 insertions(+)
+ Documentation/x86/boot.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index f7a84eff6e93..47a2af54fb13 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -31,6 +31,7 @@
-    development-process
-    email-clients
-    license-rules
-+   kernel-driver-statement
+diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+index 90bb8f5..692ce57 100644
+--- a/Documentation/x86/boot.rst
++++ b/Documentation/x86/boot.rst
+@@ -251,7 +251,7 @@ setting fields in the header, you must make sure only to set fields
+ supported by the protocol version in use.
  
- 其它大多数开发人员感兴趣的社区指南：
  
-diff --git a/Documentation/translations/zh_CN/process/kernel-driver-statement.rst b/Documentation/translations/zh_CN/process/kernel-driver-statement.rst
-index eb029ed79ef7..2b3375bcccfd 100644
---- a/Documentation/translations/zh_CN/process/kernel-driver-statement.rst
-+++ b/Documentation/translations/zh_CN/process/kernel-driver-statement.rst
-@@ -1,5 +1,10 @@
- .. _cn_process_statement_driver:
+-Details of Harder Fileds
++Details of Header Fields
+ ========================
  
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
-+:Translator: Alex Shi <alex.shi@linux.alibaba.com>
-+
- 内核驱动声明
- ------------
- 
--- 
-1.8.3.1
-
+ For each field, some are information from the kernel to the bootloader
