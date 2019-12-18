@@ -2,80 +2,82 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21193C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 06:57:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7659EC43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 07:06:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3DDA2176D
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 06:57:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53EB62176D
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 07:06:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfLRG5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 01:57:53 -0500
-Received: from mga01.intel.com ([192.55.52.88]:56001 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725797AbfLRG5x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 01:57:53 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 22:57:52 -0800
-X-IronPort-AV: E=Sophos;i="5.69,328,1571727600"; 
-   d="scan'208";a="209984460"
-Received: from asama-mobl.amr.corp.intel.com (HELO localhost) ([10.252.50.109])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 22:57:50 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     jim.cromie@gmail.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Cc:     Jason Baron <jbaron@akamai.com>
-Subject: Re: is there a preferred form of root-prompt example ?
-In-Reply-To: <CAJfuBxxJptTBpEY-HYmVCy325=UZTm4BLrO0kJ2B27eKy+dx-A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAJfuBxxJptTBpEY-HYmVCy325=UZTm4BLrO0kJ2B27eKy+dx-A@mail.gmail.com>
-Date:   Wed, 18 Dec 2019 08:57:55 +0200
-Message-ID: <87d0cm15os.fsf@intel.com>
+        id S1726671AbfLRHGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 02:06:01 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:44795 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726545AbfLRHGB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 02:06:01 -0500
+Received: by mail-il1-f198.google.com with SMTP id h87so1032305ild.11
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2019 23:06:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=G6GWGSCGYBM0pdmoLce8hCcVh4IRjkjoIvq92n6KsqA=;
+        b=ie4Rv0SocPrgv4gwtLnl7REbSEr+idwhMMGWVx85GCE3wMGZ9LQ1y7Dnzbhf1lWvWe
+         SDlBnn1cEYM+VXyjwYyqVSg3HtNm62/X66z2zV1ciSTOcCoBdIQ8DWLRoVVrmiMiF1Cp
+         0a6KKfPiP1UW/VtjOzk5U5VIIeojyDVjOup7CybV9AThrKEbw0l03Ld4mgfX9sb957MT
+         Tb1J7wv0XVjdpIdl7WuzO+PraPYkH+xSaBWv6QnusJRSkeJHQs+LE4LXreY6RoK1vNVq
+         lLWOSM/jrrnB+zp6jtvNaX+sML+SV0ajkv+Jqq71FMSdidEz66tg/qCD9ZBvCxX2zkw5
+         P+Gw==
+X-Gm-Message-State: APjAAAW0NgEC2c1w/BaX3ju4W/12MoY+PChsYKrzTCqpmekzmhlFEtN7
+        8wRP9nlb48/pM+LcHZzeRwpstoMTZkN0HvxnSU4i+iEA+B4U
+X-Google-Smtp-Source: APXvYqy725bW+YQJ+KhlbU4uCwlb37sWXU+LVyGIf+hBtmotYyM03RfqBfzAwZnudC2KpWSUF9vy3+uzRWPHqx44bx/R0Vpqzhy5
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a5d:9f51:: with SMTP id u17mr533695iot.258.1576652760916;
+ Tue, 17 Dec 2019 23:06:00 -0800 (PST)
+Date:   Tue, 17 Dec 2019 23:06:00 -0800
+In-Reply-To: <00000000000024aa520599f4c933@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000bfac3c0599f513fe@google.com>
+Subject: Re: KASAN: slab-out-of-bounds Write in watch_queue_ioctl
+From:   syzbot <syzbot+5a774ffe70862ca9ebc7@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, axboe@kernel.dk, corbet@lwn.net,
+        derek.kiernan@xilinx.com, dhowells@redhat.com,
+        dragan.cvetic@xilinx.com, ebiggers@google.com,
+        gregkh@linuxfoundation.org, hare@suse.com, jaegeuk@kernel.org,
+        james.morris@microsoft.com, jannh@google.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+samsung@kernel.org, syzkaller-bugs@googlegroups.com,
+        tytso@mit.edu
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 17 Dec 2019, jim.cromie@gmail.com wrote:
-> so Im looking at Documentation/admin-guide/dynamic-debug-howto.rst
->
-> its a typical root-shell command environment.
->
-> there are a lot of different example prompts scattered about,
-> which is objectively inconvenient for copy-pasting.
->
-> I briefly played with aliasing away the prompts, and it seems like it
-> might work,
-> but it seems way too magical to put into examples just to make the
-> various example prompts play nice with copy-paste.
->
-> At minimum, it seems good to reduce this to one or few variations,
-> dir-agnostic preferred, and ideally evaluates to nil (without an ugly
-> alias), leaving 1st token as the command itself.
->
-> Also '//' is not a legit comment char in root-shell-environ, # is better.
-> I have this and several other doc patches, this is the right place to
-> send them ?
->
-> comments ?
+syzbot has bisected this bug to:
 
-Cc: Jason, dynamic debug maintainer per MAINTAINERS
+commit fe78d401ca6b3639385cf7a9a1597b9cd48f64eb
+Author: David Howells <dhowells@redhat.com>
+Date:   Fri Oct 11 07:48:08 2019 +0000
 
-FWIW, I'd unify on single # as root prompt or just throw away the prompt
-altogether, and assume /sys/kernel/debug as the debugfs path. You can
-mention somewhere the privileges the examples assume, as well as tell
-people to replace /sys/kernel/debug with the actual debugfs path. I'd
-also unwrap the lines instead of splitting to several lines.
+     General notification queue with user mmap()'able ring buffer
 
-BR,
-Jani.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1163cafee00000
+start commit:   fca4fe89 Add linux-next specific files for 20191217
+git tree:       linux-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=1363cafee00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1563cafee00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=634b7ce01f79423d
+dashboard link: https://syzkaller.appspot.com/bug?extid=5a774ffe70862ca9ebc7
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13df92fee00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1003cafee00000
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Reported-by: syzbot+5a774ffe70862ca9ebc7@syzkaller.appspotmail.com
+Fixes: fe78d401ca6b ("General notification queue with user mmap()'able ring  
+buffer")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
