@@ -2,116 +2,91 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C68C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 22:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5407C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 22:27:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02FB9218AC
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 22:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 770AE2176D
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 22:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576708044;
+	bh=gGZPk+XOvZuE4SMrBN9CIW5wz+ODCIU18ZTHsnDJA00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=gROIC6rGcgBJWSGveJrHzszkzD+KA9Z9vsc0Zo0g1J2T34NBV5e6izeYJ9QXOmac+
+	 AP3dtEZdOK5v4JCdCj9+dzL0Pgt0bkFHNECW5vLYxr7FDKeAN1Hs6hEB6PxhZP38z9
+	 NvKKsjtxwz23/7y17cLnaHajpBReEgEUaioRHMiQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbfLRWU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 17:20:26 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:43988 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726463AbfLRWU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 17:20:26 -0500
-Received: from [167.98.27.226] (helo=xylophone)
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1ihhg1-0004b8-9k; Wed, 18 Dec 2019 22:20:17 +0000
-Message-ID: <50aa62939858f36007d84b97ad02626f32d0c477.camel@codethink.co.uk>
-Subject: Re: [PATCH v2 23/27] compat_ioctl: move HDIO ioctl handling into
- drivers/ide
-From:   Ben Hutchings <ben.hutchings@codethink.co.uk>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>
-Date:   Wed, 18 Dec 2019 22:20:16 +0000
-In-Reply-To: <CAK8P3a28Qn22Cx-bVhY5rjZVuhRXE2Jb0rezCozAhC0DZqxcUg@mail.gmail.com>
-References: <20191217221708.3730997-1-arnd@arndb.de>
-         <20191217221708.3730997-24-arnd@arndb.de>
-         <a75a7d44ebd9ff65499445dd6b087c92345af2e4.camel@codethink.co.uk>
-         <CAK8P3a28Qn22Cx-bVhY5rjZVuhRXE2Jb0rezCozAhC0DZqxcUg@mail.gmail.com>
-Organization: Codethink Ltd.
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        id S1726620AbfLRW1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 17:27:20 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:42055 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726387AbfLRW1U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 17:27:20 -0500
+Received: by mail-oi1-f195.google.com with SMTP id 18so1340403oin.9;
+        Wed, 18 Dec 2019 14:27:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DPx76fdrtNFryPt1bqjLnMiDt/+RbhXxSWMZR+o48kk=;
+        b=TzMKeX4fuhLrR124RTRxvBjqgzDeP5tFAZBWQb3fvPjmXqzRKDg+G3BpRcbESS14gQ
+         jk4kNoleZ9MSWZfhPK3FdgWGKbgUzzE9NiUmeOv5h+pQ4TlsWN8QVG2ZhkBH4BwOykrX
+         Du6QBNzDo7M58XDrcLqm4AmqYYTbV0WMnR/PSWLstUyQYhG/dySL0s4AxxYvH0OMtcY0
+         ptEB984aUYlwS6uIP7ETVXdOSwjC7yT4+/CP0VdvXIrtSgIwHwZW2wzKW3FPJJXVEo3s
+         kRkZ2ytPNOlZX8NdGheABpKOuTcPYt/rB1DUQ9oFa8QIk8GmHNoPWRAOOg030f4HEees
+         eCxg==
+X-Gm-Message-State: APjAAAVsFHVsYNbRAw9fvzvlDdZKx1ki9u//4bwc8kvkcw8rljozA1oC
+        AeG/w3jbVLmkVLZMR9kTdA==
+X-Google-Smtp-Source: APXvYqwJ2EwcOT9FHyK5oTO5jZO1RaodG2vRem5BdHLYTRgbkWrURqnTXm4e0vS7WkNGgWnFiiOd2w==
+X-Received: by 2002:aca:b7c5:: with SMTP id h188mr1610228oif.100.1576708039683;
+        Wed, 18 Dec 2019 14:27:19 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b3sm1271775oie.25.2019.12.18.14.27.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 14:27:19 -0800 (PST)
+Date:   Wed, 18 Dec 2019 16:27:18 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     shubhrajyoti.datta@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, arnd@arndb.de,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: Add dt bindings for flex noc
+ Performance Monitor
+Message-ID: <20191218222718.GA4028@bogus>
+References: <19bb1ad0783e66aef45b140ccf409917ef94e63b.1575609926.git.shubhrajyoti.datta@xilinx.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19bb1ad0783e66aef45b140ccf409917ef94e63b.1575609926.git.shubhrajyoti.datta@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-12-18 at 23:17 +0100, Arnd Bergmann wrote:
-> On Wed, Dec 18, 2019 at 10:11 PM Ben Hutchings
-> <ben.hutchings@codethink.co.uk> wrote:
-> > On Tue, 2019-12-17 at 23:17 +0100, Arnd Bergmann wrote:
-> > > Most of the HDIO ioctls are only used by the obsolete drivers/ide
-> > > subsystem, these can be handled by changing ide_cmd_ioctl() to be aware
-> > > of compat mode and doing the correct transformations in place and using
-> > > it as both native and compat handlers for all drivers.
-> > > 
-> > > The SCSI drivers implementing the same commands are already doing
-> > > this in the drivers, so the compat_blkdev_driver_ioctl() function
-> > > is no longer needed now.
-> > > 
-> > > The BLKSECTSET and HDIO_GETGEO_BIG ioctls are not implemented
-> > > in any driver any more and no longer need any conversion.
-> > [...]
-> > 
-> > I noticed that HDIO_DRIVE_TASKFILE, handled by ide_taskfile_ioctl() in
-> > drivers/ide/ide-taskfile.c, never had compat handling before.  After
-> > this patch it does, but its argument isn't passed through compat_ptr().
-> > Again, doesn't really matter because IDE isn't a thing on s390.
+On Fri,  6 Dec 2019 11:09:56 +0530, shubhrajyoti.datta@gmail.com wrote:
+> From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
 > 
-> I checked again, and I think it's worse than that: ide_taskfile_ioctl()
-> takes an ide_task_request_t argument, which is not compatible
-> at all (it has two long members). I suspect what happened here
-> is that I confused it with ide_cmd_ioctl(), which takes a 'struct
-> ide_taskfile' argument that /is/ compatible.
+> Add dt bindings for flexnoc Performance Monitor.
+> The flexnoc counters for read and write response and requests are
+> supported.
 > 
-> I don't think there is a point in adding a handler now: most
-> users of drivers/ide are 32-bit only, and nobody complained
-> so far, but I would add this change if you agree:
+> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+> ---
+> changes from RFC:
+> moved to schema / yaml
+> v2:
+> Add additionalProperties
+> Update the License
+> 
+>  .../devicetree/bindings/perf/xlnx-flexnoc-pm.yaml  | 46 ++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml
+> 
 
-Looks good to me.
-
-Ben.
-
-> diff --git a/drivers/ide/ide-ioctls.c b/drivers/ide/ide-ioctls.c
-> index f6497c817493..83afee3983fe 100644
-> --- a/drivers/ide/ide-ioctls.c
-> +++ b/drivers/ide/ide-ioctls.c
-> @@ -270,6 +270,9 @@ int generic_ide_ioctl(ide_drive_t *drive, struct
-> block_device *bdev,
->         case HDIO_DRIVE_TASKFILE:
->                 if (!capable(CAP_SYS_ADMIN) || !capable(CAP_SYS_RAWIO))
->                         return -EACCES;
-> +               /* missing compat handler for HDIO_DRIVE_TASKFILE */
-> +               if (in_compat_syscall())
-> +                       return -ENOTTY;
->                 if (drive->media == ide_disk)
->                         return ide_taskfile_ioctl(drive, arg);
->                 return -ENOMSG;
-> 
-> 
-> 
->          Arnd
-> 
--- 
-Ben Hutchings, Software Developer                         Codethink Ltd
-https://www.codethink.co.uk/                 Dale House, 35 Dale Street
-                                     Manchester, M1 2HF, United Kingdom
-
+Reviewed-by: Rob Herring <robh@kernel.org>
