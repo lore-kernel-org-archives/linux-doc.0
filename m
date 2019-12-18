@@ -2,118 +2,91 @@ Return-Path: <SRS0=pwJD=2I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5691EC2D0CD
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:24:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E62C6C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:24:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 308982146E
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576689856;
-	bh=J9mVnpcPRlh0mvJgCzhidZ1PLmoyNm+FA0e8Ks3E2p4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=lM33ORhSmVJfvJyoQxG6WB/PtvKlNZmPWfJU+A5CbF3k/bf7Q/eBNQzxyfdoC6JFh
-	 +DPAI/UbQAtK2QTR4b3ZSh5AoD5lCxMoYpjiPLeuPUHaEwQt9iiH68OaGYne7cwbn+
-	 uvVhFQfwO/L4qSTipQFu8e2HJgpYt6yg7bpXaW44=
+	by mail.kernel.org (Postfix) with ESMTP id C95B520717
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Dec 2019 17:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727335AbfLRRYP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Dec 2019 12:24:15 -0500
-Received: from foss.arm.com ([217.140.110.172]:54788 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727193AbfLRRYP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Dec 2019 12:24:15 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2610231B;
-        Wed, 18 Dec 2019 09:24:14 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 984363F67D;
-        Wed, 18 Dec 2019 09:24:13 -0800 (PST)
-Date:   Wed, 18 Dec 2019 17:24:12 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>
-Subject: Re: Applied "regulator: bd71828: Basic support for ROHM bd71828 PMIC
- regulators" to the regulator tree
-Message-ID: <20191218172412.GK3219@sirena.org.uk>
-References: <applied-5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <de7424126e285d9bbd21a70945415d78203c2ba7.camel@fi.rohmeurope.com>
- <20191218131700.GB42175@sirena.org.uk>
- <b72cd22df0bbbb159cda08e556037f1ccf490b3d.camel@fi.rohmeurope.com>
+        id S1727510AbfLRRYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Dec 2019 12:24:52 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:56179 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727421AbfLRRYw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Dec 2019 12:24:52 -0500
+Received: from mail-qk1-f178.google.com ([209.85.222.178]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M9Ezx-1ie4xy3w9P-006OkQ; Wed, 18 Dec 2019 18:24:50 +0100
+Received: by mail-qk1-f178.google.com with SMTP id x1so2188813qkl.12;
+        Wed, 18 Dec 2019 09:24:49 -0800 (PST)
+X-Gm-Message-State: APjAAAVXfTLNz8CslELgOfx/whf7bJynMYr+1RoXR7XgH0b/wBmABeaa
+        K5S/8uy/H00fG/L6wYmbH856Lhm56mOcPG7rTOs=
+X-Google-Smtp-Source: APXvYqyNJEBloZ1YqNMcwCEEBSPalbN1+SGYcbTZM7WF7GsOI/WVULRZC6cWixz2rQbuIblJbLHmDbv7N0/KEb50vz0=
+X-Received: by 2002:a37:b283:: with SMTP id b125mr3790918qkf.352.1576689888424;
+ Wed, 18 Dec 2019 09:24:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vk/v8fjDPiDepTtA"
-Content-Disposition: inline
-In-Reply-To: <b72cd22df0bbbb159cda08e556037f1ccf490b3d.camel@fi.rohmeurope.com>
-X-Cookie: Power is poison.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191217221708.3730997-1-arnd@arndb.de>
+In-Reply-To: <20191217221708.3730997-1-arnd@arndb.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 18 Dec 2019 18:24:32 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3fsDRsZh--vn4SWA-NfeeSpzueqGDvjF5jDSZ91P9+Hw@mail.gmail.com>
+Message-ID: <CAK8P3a3fsDRsZh--vn4SWA-NfeeSpzueqGDvjF5jDSZ91P9+Hw@mail.gmail.com>
+Subject: Re: [GIT PULL v2 00/27] block, scsi: final compat_ioctl cleanup
+To:     Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:2yS9E+h3iiHLMSpr5Oh8QkPIqh/ADGCowjCUJa4BCmSJZisJXDU
+ 9FQQIivHcX6CjxWkchwJ5jtwZ78lyJnp7HGjOWtGkQM7R6W2haa9g/EWb8BARbQxEafXQjd
+ cHFBF68pN/FQPhSJ8d2u6zzngsRMJih9uhI501zg4jSLvB1Mdfd9ZiRvnuP1WjMogC0fW8n
+ PCKXpGfe6dIy3kLQ+NtkQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Nsc1mGgJPC8=:l98U0iLtPWXLaCrol5kh8i
+ 5jxpqkJxR8p/2dDN9RZuOgt+RItYvjwTnYFTqwScAIbHbkjDAPuZvWZEmCQoAM2e1v495lZda
+ CSrsVs8izEjV6eVvWFGcV0z3dIU49G5DrhyFonUiuiI4260okE8wXfvcgPWVeR4O58UkoPvmg
+ VS9KgIz7snMm5W9F27h9nXnjLSmUHgG+UcVPsQq7uuKgDyTomltqfmfmzreN8amH8B1Xf9f1b
+ CnpJj+pHKeZDwwpSALnHU6rkwmoWJGwY2zrgVvlbhwAr6ow5+RfOEMcUj0Qy8PnhnkiHiS2Q/
+ xFTHkWN8u5jvNSwKSP4O2Le+pAl/LmowS6mCqRjPrXsRei4k90YEqyyZkoRXzqf1pJ5pWc4o4
+ oM2mEJb1kRL+w4mscgkEVMFuFv2hsZExn/HqIfp5qHzURkBkPT6FKoNALuCOZ7k/fR5MlR8F3
+ eJ6k66mnlvVQ3ZTZ7iWuA+EbVjfyt6tdaFtyoFgfrkId7L/f1HoTsx3XcUzHza5UrtfhPk54m
+ ZRc77vl9b/HRWBIeNGWTP/7C4JoIBHImj9LyHk25mkWybdac2fDvPOgUBRPj3f5RaLFyhFAFX
+ c7JgaZpsuuEwniRmBeUZHmQunx48BiGNf7M2XugatqoyD3gLZEWB37cuYoEMmCjHT7pUE2+Na
+ g+m49nPBcGpRonpFEA/3eKtTFaD9OxRC7T4giRBioFpL/5YnmCEsf40Ev68OSo6Hzu04NGvKg
+ B9iMjyQlhQBIgtKBGvYa+MnTiI8qylh5IwW4AtXAWsTtPo89C/EhTAZhzzMQK0IXhlL4IvU6S
+ nTQE60gykztYji474VdaTc0t5K02c3sJazbA2bA3R8s80EGme8CqkMbhkPdFp0F8s6WL2DQhV
+ qOIqjWjFptnMpgjs5BKw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Dec 17, 2019 at 11:17 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> My plan was originally to keep the SCSI and block parts separate.
+> This did not work easily because of interdependencies: I cannot
+> do the final SCSI cleanup in a good way without first addressing the
+> CDROM ioctls, so this is one series that I hope could be merged through
+> either the block or the scsi git trees, or possibly both if you can
+> pull in the same branch.
 
---vk/v8fjDPiDepTtA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I have included the branch in my y2038 branch now, it should show up
+in the following linux-next snapshots, but I'm still hoping for the block
+or scsi maintainers to merge the pull request into their trees for v5.6
 
-On Wed, Dec 18, 2019 at 02:01:27PM +0000, Vaittinen, Matti wrote:
-> On Wed, 2019-12-18 at 13:17 +0000, Mark Brown wrote:
-> > On Wed, Dec 18, 2019 at 08:06:04AM +0000, Vaittinen, Matti wrote:
+Jens, James, Martin:
 
-> > > I think you missed the [PATCH v6 08/15] regulator: bd718x7: Split
-> > > driver to common and bd718x7 specific parts
+Any suggestion for how this should be merged?
 
-> > I didn't miss it, it was queued but it doesn't apply.
-
-> Right. The rohm-generic.h is changed by
-> [PATCH v6 04/15] mfd: rohm PMICs - use platform_device_id to match MFD
-> sub-devices
-
-Ugh, right.  I guess that'll have to go in with the MFD changes then.
-
---vk/v8fjDPiDepTtA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl36YLsACgkQJNaLcl1U
-h9BkDAf/XSz4D3T25M0yYqmY2TIMQ+uimSMMMoiwsyS2ivd9XZXc66Y8aQJ68D4k
-phnZsmDtIQL/WPGbI85z8igy1eup0r7RABEbUJsRFELudd9udrnrWBLBVKFdb5BF
-3WoB7YBfUOaIm22ktVjVLyawXe/hvxqaAvpiWdRM80GBqGufRnf3fcT/Auv15ImJ
-+q5BE6k24FErC519kY8ZFw8B4fszmqCCK6UfOTVyFNvOlLMYcUFGs3BDbgWNxpSF
-fOhGp47IZj2RPA85Ut6fGeYuL/dpVa6VaPYPxpkwnDflZeIlY1U/hKpqAd4y+MTv
-aEKbFYlOE0P6HfjnUDEyZIs0eIORJQ==
-=fXt1
------END PGP SIGNATURE-----
-
---vk/v8fjDPiDepTtA--
+        Arnd
