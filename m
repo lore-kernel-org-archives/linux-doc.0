@@ -2,133 +2,122 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,GAPPY_SUBJECT,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99DABC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CFFC43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:53:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6E602227BF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576774165;
-	bh=mOTJam9jgr1MEbyK5aOP3Sc64MI0jRUY03zRp9MZzPk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=fDQ5la1ZAREUgJ9vqz/oeMm0BBJV8lszTjMF8VGyQ6G15YMYYOGUquRoyMA4eMWTr
-	 8qpka/XnnVkhN01OIXx/nPSr4uQuPT1oqb/ucnSQuYqEzeOhvueQkyynObPelOqH1g
-	 DKnxl2FpQDDxYmJeOrmLKq4tY3W0Pvjtk6Ynnk50=
+	by mail.kernel.org (Postfix) with ESMTP id C013A2146E
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbfLSQtW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 11:49:22 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44024 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbfLSQtV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 11:49:21 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 9so4815002lfq.10;
-        Thu, 19 Dec 2019 08:49:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WE2WXEHobAtFaKSC5ahqXYcN8VdT1sBo35QYjIRF4RY=;
-        b=Tv85NBDZt8fQQohw0frLYLcVpjK/OatRq26QucOW7zksSQDTqV1xn4in2mOfkgsxJC
-         sDjpTrJ7bX3wfmeTu1mRPSD7Ujw99DPct46g1+cPMT+zI3H8HLD+8ZP/Ue+QA9R8cmIm
-         QZzEUzxJ1E7JLXNgETVBQnwtL5APcQKHhbHTu7yH49MdVD2lLIjYWHg/tbLdo4s5IRdo
-         vblkOfM8heEUUe1DaA9b55e3t2ne38Hv86VkkuvHCUm4EWdZ1CQNb9IoPc4EBkwVIcnj
-         x9MGnfRQOXzd521xjPyzcG/g1cNwODDGNu9dexzQY55fioX5gK4n+Xj4tg2Oe+vkH/fd
-         nzYw==
-X-Gm-Message-State: APjAAAVjno59fiTaOV1eFPYlKx38ulxXHOuy1SYtc9Ts2y0zl77FQXHg
-        IPSL2vppT6PacIYftzxcyeE=
-X-Google-Smtp-Source: APXvYqzp14RJ669Fg6GM0NVmqvVcjWt/Bm5wxrknP4frrRfuVYa/vzOF6bdMihkgowHLajytukdOFQ==
-X-Received: by 2002:ac2:43af:: with SMTP id t15mr6130492lfl.154.1576774159351;
-        Thu, 19 Dec 2019 08:49:19 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id r20sm2832384lfi.91.2019.12.19.08.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 08:49:18 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1ihyzD-0001vm-Kr; Thu, 19 Dec 2019 17:49:15 +0100
-Date:   Thu, 19 Dec 2019 17:49:15 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
- w.r.t. descending
-Message-ID: <20191219164915.GS22665@localhost>
-References: <20191219115100.958-1-masahiroy@kernel.org>
+        id S1726890AbfLSQx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 11:53:59 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37284 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726855AbfLSQx7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 11:53:59 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C8DD92E5;
+        Thu, 19 Dec 2019 16:53:57 +0000 (UTC)
+Date:   Thu, 19 Dec 2019 09:53:56 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     miklos@szeredi.hu, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: filesystems: convert fuse to RST
+Message-ID: <20191219095356.4a3ad965@lwn.net>
+In-Reply-To: <20191120192655.33709-1-dwlsalmeida@gmail.com>
+References: <20191120192655.33709-1-dwlsalmeida@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191219115100.958-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
-> Kbuild descends into a directory by either 'y' or 'm', but there is an
-> important difference.
-> 
-> Kbuild combines the built-in objects into built-in.a in each directory.
-> The built-in.a in the directory visited by obj-y is merged into the
-> built-in.a in the parent directory. This merge happens recursively when
-> Kbuild is ascending back towards the top directory, so built-in objects
-> are linked into vmlinux eventually. This works properly only when the
-> Makefile that specifies obj-y is reachable by the chain of obj-y.
-> 
-> On the other hand, Kbuild does not take built-in.a from the directory
-> visited by obj-m. This it, all the objects in that directory are supposed
-> to be modular. If Kbuild descends into a directory by obj-m, but the
-> Makefile in the sub-directory specifies obj-y, those objects are just
-> left orphan.
-> 
-> The current statement "Kbuild only uses this information to decide that
-> it needs to visit the directory" is misleading. Clarify the difference.
-> 
-> Reported-by: Johan Hovold <johan@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Wed, 20 Nov 2019 16:26:55 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-Looks good! Thanks for fixing this.
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-> ---
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
->  Documentation/kbuild/makefiles.rst | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index b9b50553bfc5..d7e6534a8505 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -297,9 +297,19 @@ more details, with real examples.
->  	If CONFIG_EXT2_FS is set to either 'y' (built-in) or 'm' (modular)
->  	the corresponding obj- variable will be set, and kbuild will descend
->  	down in the ext2 directory.
-> -	Kbuild only uses this information to decide that it needs to visit
-> -	the directory, it is the Makefile in the subdirectory that
-> -	specifies what is modular and what is built-in.
-> +
-> +	Kbuild uses this information not only to decide that it needs to visit
-> +	the directory, but also to decide whether or not to link objects from
-> +	the directory into vmlinux.
-> +
-> +	When Kbuild descends into the directory with 'y', all built-in objects
-> +	from that directory are combined into the built-in.a, which will be
-> +	eventually linked into vmlinux.
-> +
-> +	When Kbuild descends into the directory with 'm', in contrast, nothing
-> +	from that directory will be linked into vmlinux. If the Makefile in
-> +	that directory specifies obj-y, those objects will be left orphan.
-> +	It is very likely a bug of the Makefile or of dependencies in Kconfig.
+> Converts fuse.txt to reStructuredText format, improving the presentation
+> without changing much of the underlying content.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> -----------------------------------------------------------
+> Changes in v2:
+> -Copied FUSE maintainer (Miklos Szeredi)
+> -Fixed the reference in the MAINTAINERS file
+> -Removed some of the excessive markup in fuse.rst
+> -Moved fuse.rst into admin-guide
+> -Updated index.rst
+
+So I have to confess that I've lost track of where we stand with this.
+Holidays and moving house will do that...apologies.  In any case, I have a
+couple of additional comments.
+
+[...]
+
+> -There's a control filesystem for FUSE, which can be mounted by:
+> +There's a control filesystem for FUSE, which can be mounted by: ::
 >  
->  	It is good practice to use a `CONFIG_` variable when assigning directory
->  	names. This allows kbuild to totally skip the directory if the
+>    mount -t fusectl none /sys/fs/fuse/connections
+
+Please just do "...can be mounted by::"; it will do what you want.
+
+> -Mounting it under the '/sys/fs/fuse/connections' directory makes it
+> +Mounting it under the ``'/sys/fs/fuse/connections'`` directory makes it
+
+There's still a lot of extra markup, and this seems like *way* too many
+quotes... 
+
+> -INTERRUPT requests take precedence over other requests, so the
+> +*INTERRUPT* requests take precedence over other requests, so the
+>  userspace filesystem will receive queued INTERRUPTs before any others.
+
+Not sure you need to add that markup either, but beyond that...
+
+> -The userspace filesystem may ignore the INTERRUPT requests entirely,
+> -or may honor them by sending a reply to the _original_ request, with
+> -the error set to EINTR.
+> +The userspace filesystem may ignore the *INTERRUPT* requests entirely,
+> +or may honor them by sending a reply to the *original* request, with
+> +the error set to ``EINTR``.
+>  
+>  It is also possible that there's a race between processing the
+>  original request and its INTERRUPT request.  There are two possibilities:
+>  
+> -  1) The INTERRUPT request is processed before the original request is
+> +  #. The *INTERRUPT* request is processed before the original request is
+>       processed
+>  
+> -  2) The INTERRUPT request is processed after the original request has
+> +  #. The *INTERRUPT* request is processed after the original request has
+>       been answered
+>  
+>  If the filesystem cannot find the original request, it should wait for
+>  some timeout and/or a number of new requests to arrive, after which it
+> -should reply to the INTERRUPT request with an EAGAIN error.  In case
+> -1) the INTERRUPT request will be requeued.  In case 2) the INTERRUPT
+> +should reply to the INTERRUPT request with an ``EAGAIN`` error.  In case
+> +1) the ``INTERRUPT`` request will be requeued.  In case 2) the ``INTERRUPT``
+>  reply will be ignored.
+
+Here you are marking up the same term in a different way.  That can only
+create confusion, which is generally not the goal for the docs.
+
+Please make another pass and try to get the markup down to a minimum;
+remember that the plain-text reading experience matters too.
+
+Thanks,
+
+jon
