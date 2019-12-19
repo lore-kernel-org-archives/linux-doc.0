@@ -2,116 +2,178 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,GAPPY_SUBJECT,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F111C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BB6C2D0C1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E324B24650
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576756344;
-	bh=LcrmCaN5uDXEpt4OoWn+E8iVhyr7DZdG10rCcpysVYs=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=hIcv2dIIZ0h9Ga+e6WOWOz+TxMihfP87bdhOsSD42Lm9mzKVYDkpSgl55iqWtYdE2
-	 D+5NqF7SvlRIOGPhwgy+qfC90ENa4DpnTdDUhAFion39DxwQfYPPWnikhKrJi5k7AG
-	 cv9cliKju36yTadVnUmQEQeqJsFnU+oZRICa6Cgg=
+	by mail.kernel.org (Postfix) with ESMTP id 167A324672
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbfLSLwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 06:52:23 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:53153 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726730AbfLSLwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 06:52:23 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id xBJBpA5E025113;
-        Thu, 19 Dec 2019 20:51:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com xBJBpA5E025113
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576756271;
-        bh=13lrGAJJ2x/6FuBvyBEwfGd2aNby5ZIL20FfDY8lhqI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=b7IHOHfY0A0wMqmrhiyzNrbSEJOen74MGyrMd7xy6fRQ1TpVOpyYLshSMpw8sRqAM
-         VKirQRVgkBjDthaeqrpOW5bc0D2Xeliw5wHcx7hRneRSfWyB3ovVIFwAbnz54hnvzn
-         CjJRFv7SCSy769UzDCXBQjBE3LWXAKc5B2owJsXtOvbyZKCEfz3wsCNaWY9eHJreFV
-         SyLATB43U+HCCA2k7cVrh7Q46BW8FTDmmyEUDa7SpyUOUC8tnnJvHXDskXOtjpbW3b
-         GHZLGy9ME2FniUai6YL0m30AksBpwv0PpmWh2FoRshDz96BpVZjpUrOvyRha7JNDkw
-         mPsg99rnxkWsQ==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Johan Hovold <johan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: clarify the difference between obj-y and obj-m w.r.t. descending
-Date:   Thu, 19 Dec 2019 20:51:00 +0900
-Message-Id: <20191219115100.958-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726692AbfLSL7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 06:59:12 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2109 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726668AbfLSL7M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 06:59:12 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.56])
+        by Forcepoint Email with ESMTP id 271993F2B861E22293DF;
+        Thu, 19 Dec 2019 19:59:08 +0800 (CST)
+Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 19 Dec 2019 19:59:07 +0800
+Received: from [127.0.0.1] (10.173.221.248) by dggeme755-chm.china.huawei.com
+ (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 19
+ Dec 2019 19:59:06 +0800
+Subject: Re: [PATCH 2/5] KVM: arm64: Implement PV_LOCK_FEATURES call
+To:     Steven Price <steven.price@arm.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        James Morse <James.Morse@arm.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        Suzuki Poulose <Suzuki.Poulose@arm.com>,
+        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
+        "Catalin Marinas" <Catalin.Marinas@arm.com>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
+References: <20191217135549.3240-1-yezengruan@huawei.com>
+ <20191217135549.3240-3-yezengruan@huawei.com>
+ <20191217142848.GB38811@arm.com>
+From:   yezengruan <yezengruan@huawei.com>
+Message-ID: <21910175-c89a-7a14-66a9-7b53d72a4543@huawei.com>
+Date:   Thu, 19 Dec 2019 19:59:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <20191217142848.GB38811@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.221.248]
+X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
+ dggeme755-chm.china.huawei.com (10.3.19.101)
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kbuild descends into a directory by either 'y' or 'm', but there is an
-important difference.
+Hi Steve,
 
-Kbuild combines the built-in objects into built-in.a in each directory.
-The built-in.a in the directory visited by obj-y is merged into the
-built-in.a in the parent directory. This merge happens recursively when
-Kbuild is ascending back towards the top directory, so built-in objects
-are linked into vmlinux eventually. This works properly only when the
-Makefile that specifies obj-y is reachable by the chain of obj-y.
+On 2019/12/17 22:28, Steven Price wrote:
+> On Tue, Dec 17, 2019 at 01:55:46PM +0000, yezengruan@huawei.com wrote:
+>> From: Zengruan Ye <yezengruan@huawei.com>
+>>
+>> This provides a mechanism for querying which paravirtualized lock
+>> features are available in this hypervisor.
+>>
+>> Also add the header file which defines the ABI for the paravirtualized
+>> lock features we're about to add.
+>>
+>> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
+>> ---
+>>  arch/arm64/include/asm/pvlock-abi.h | 16 ++++++++++++++++
+>>  include/linux/arm-smccc.h           | 13 +++++++++++++
+>>  virt/kvm/arm/hypercalls.c           |  3 +++
+>>  3 files changed, 32 insertions(+)
+>>  create mode 100644 arch/arm64/include/asm/pvlock-abi.h
+>>
+>> diff --git a/arch/arm64/include/asm/pvlock-abi.h b/arch/arm64/include/asm/pvlock-abi.h
+>> new file mode 100644
+>> index 000000000000..06e0c3d7710a
+>> --- /dev/null
+>> +++ b/arch/arm64/include/asm/pvlock-abi.h
+>> @@ -0,0 +1,16 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright(c) 2019 Huawei Technologies Co., Ltd
+>> + * Author: Zengruan Ye <yezengruan@huawei.com>
+>> + */
+>> +
+>> +#ifndef __ASM_PVLOCK_ABI_H
+>> +#define __ASM_PVLOCK_ABI_H
+>> +
+>> +struct pvlock_vcpu_state {
+>> +	__le64 preempted;
+> 
+> Somewhere we need to document when 'preempted' is. It looks like it's a
+> 1-bit field from the later patches.
 
-On the other hand, Kbuild does not take built-in.a from the directory
-visited by obj-m. This it, all the objects in that directory are supposed
-to be modular. If Kbuild descends into a directory by obj-m, but the
-Makefile in the sub-directory specifies obj-y, those objects are just
-left orphan.
+Good point, I'll document this in the pvlock doc.
 
-The current statement "Kbuild only uses this information to decide that
-it needs to visit the directory" is misleading. Clarify the difference.
+> 
+>> +	/* Structure must be 64 byte aligned, pad to that size */
+>> +	u8 padding[56];
+>> +} __packed;
+>> +
+>> +#endif
+>> diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+>> index 59494df0f55b..59e65a951959 100644
+>> --- a/include/linux/arm-smccc.h
+>> +++ b/include/linux/arm-smccc.h
+>> @@ -377,5 +377,18 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
+>>  			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+>>  			   0x21)
+>>  
+>> +/* Paravirtualised lock calls */
+>> +#define ARM_SMCCC_HV_PV_LOCK_FEATURES				\
+>> +	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
+>> +			   ARM_SMCCC_SMC_64,			\
+>> +			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+>> +			   0x40)
+>> +
+>> +#define ARM_SMCCC_HV_PV_LOCK_PREEMPTED				\
+>> +	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,			\
+>> +			   ARM_SMCCC_SMC_64,			\
+>> +			   ARM_SMCCC_OWNER_STANDARD_HYP,	\
+>> +			   0x41)
+>> +
+>>  #endif /*__ASSEMBLY__*/
+>>  #endif /*__LINUX_ARM_SMCCC_H*/
+>> diff --git a/virt/kvm/arm/hypercalls.c b/virt/kvm/arm/hypercalls.c
+>> index 550dfa3e53cd..ff13871fd85a 100644
+>> --- a/virt/kvm/arm/hypercalls.c
+>> +++ b/virt/kvm/arm/hypercalls.c
+>> @@ -52,6 +52,9 @@ int kvm_hvc_call_handler(struct kvm_vcpu *vcpu)
+>>  		case ARM_SMCCC_HV_PV_TIME_FEATURES:
+>>  			val = SMCCC_RET_SUCCESS;
+>>  			break;
+>> +		case ARM_SMCCC_HV_PV_LOCK_FEATURES:
+>> +			val = SMCCC_RET_SUCCESS;
+>> +			break;
+> 
+> Ideally you wouldn't report that PV_LOCK_FEATURES exists until the
+> actual hypercalls are wired up to avoid breaking a bisect.
 
-Reported-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Thanks for pointing it out to me! I'll update the code.
 
- Documentation/kbuild/makefiles.rst | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> Steve
+> 
+>>  		}
+>>  		break;
+>>  	case ARM_SMCCC_HV_PV_TIME_FEATURES:
+>> -- 
+>> 2.19.1
+>>
+>>
+> 
+> .
+> 
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index b9b50553bfc5..d7e6534a8505 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -297,9 +297,19 @@ more details, with real examples.
- 	If CONFIG_EXT2_FS is set to either 'y' (built-in) or 'm' (modular)
- 	the corresponding obj- variable will be set, and kbuild will descend
- 	down in the ext2 directory.
--	Kbuild only uses this information to decide that it needs to visit
--	the directory, it is the Makefile in the subdirectory that
--	specifies what is modular and what is built-in.
-+
-+	Kbuild uses this information not only to decide that it needs to visit
-+	the directory, but also to decide whether or not to link objects from
-+	the directory into vmlinux.
-+
-+	When Kbuild descends into the directory with 'y', all built-in objects
-+	from that directory are combined into the built-in.a, which will be
-+	eventually linked into vmlinux.
-+
-+	When Kbuild descends into the directory with 'm', in contrast, nothing
-+	from that directory will be linked into vmlinux. If the Makefile in
-+	that directory specifies obj-y, those objects will be left orphan.
-+	It is very likely a bug of the Makefile or of dependencies in Kconfig.
- 
- 	It is good practice to use a `CONFIG_` variable when assigning directory
- 	names. This allows kbuild to totally skip the directory if the
--- 
-2.17.1
+Thanks,
+
+Zengruan
+
 
