@@ -2,81 +2,93 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.9 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	GAPPY_SUBJECT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88096C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5A2C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 19:53:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CEB624672
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576776102;
-	bh=W+DNykC37RqfPj4trEBzgzpFECNymEArMcSSbX63dz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ggJ/OEgVIoc6vYGD8S6RcbYJVevH41PhO7KxNW12ZknpxQt57ZXb0O7BmHSuuE7Fw
-	 Csn1jHZDxGbJiW0nt5rGzD3CAfif8jmgkVKEJD8D2dK4Xl6beN9/SZo6/OBunM+Ihg
-	 dpeQomXzlM+FWGRac39Exn30GV5pt1UiKnHGi8X4=
+	by mail.kernel.org (Postfix) with ESMTP id B3A42222C2
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 19:53:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M7RH+lIC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbfLSRVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 12:21:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44508 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726840AbfLSRVl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 12:21:41 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AFD88227BF;
-        Thu, 19 Dec 2019 17:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576776101;
-        bh=W+DNykC37RqfPj4trEBzgzpFECNymEArMcSSbX63dz8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=puTIlALeKB1hcYSZhniRoqvABUQ7gJoFBGPj7Yw2j7iGPP7IJEZP4eflOkSfRIoyz
-         /bGGWJzEInJbpPKXdpjn9OCaEwtzqgxhbi7poPoJAHla600iid8NOM4r5r6cS9hFeW
-         suugbyReFtb072k5ERmxPQon4ywZShZVNsBimX5I=
-Date:   Thu, 19 Dec 2019 18:21:39 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     shubhrajyoti.datta@gmail.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, arnd@arndb.de, robh+dt@kernel.org,
-        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Subject: Re: [PATCH v2 2/3] misc: xilinx_flex: Add support for the flex noc
- Performance Monitor
-Message-ID: <20191219172139.GB2092676@kroah.com>
-References: <19bb1ad0783e66aef45b140ccf409917ef94e63b.1575609926.git.shubhrajyoti.datta@xilinx.com>
- <469d8bdde24055e01141b79a936dbd64c2481cc2.1575609926.git.shubhrajyoti.datta@xilinx.com>
+        id S1726907AbfLSTxF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 14:53:05 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47976 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726906AbfLSTxF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 14:53:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=qJw64LD7zJyT8BUXk7jEe7SP15JODV5psaJwB35+yl8=; b=M7RH+lIClBp3oVqj9u9ThFnLk
+        Zn1ewN8entymF3LEt5wzeCLjFvy3RIAPabxVcUZevXG/5zig7Kp1GpYdwqqNH0gckDP6VnFKl+pA2
+        jmmlt1VjPv+jPSdRphxADDGFyBfH0KxYeWaP9MOFjFNSdPrFRsoMyMxTqKu7yMEnJir/IyKhabZhN
+        WGpX9A6gshFyZIrhsvqKkoHi6govGD29KUukNrWsIC2GuVepjqE/0pS/xM5JR0f5fm9IA1UmqkUF6
+        WwsprIPUsmh5RLjwHTPwfoW29EtBKV9fUMY5I9LYFgO3ly+vmgDIqAJPPu6CGotg9knwbZJuHwRa9
+        1h8k9bv8w==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ii1r4-00054h-Hl; Thu, 19 Dec 2019 19:53:02 +0000
+Date:   Thu, 19 Dec 2019 11:53:02 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
+ w.r.t. descending
+Message-ID: <20191219195302.GG32169@bombadil.infradead.org>
+References: <20191219115100.958-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <469d8bdde24055e01141b79a936dbd64c2481cc2.1575609926.git.shubhrajyoti.datta@xilinx.com>
+In-Reply-To: <20191219115100.958-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 06, 2019 at 11:09:57AM +0530, shubhrajyoti.datta@gmail.com wrote:
-> +/**
-> + * xflex_remove - Driver remove function
-> + * @pdev: Pointer to the platform_device structure
-> + *
-> + * This function frees all the resources allocated to the device.
-> + *
-> + * Return: 0 always
-> + */
+On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
+> Kbuild descends into a directory by either 'y' or 'm', but there is an
+> important difference.
+> 
+> Kbuild combines the built-in objects into built-in.a in each directory.
+> The built-in.a in the directory visited by obj-y is merged into the
+> built-in.a in the parent directory. This merge happens recursively when
+> Kbuild is ascending back towards the top directory, so built-in objects
+> are linked into vmlinux eventually. This works properly only when the
+> Makefile that specifies obj-y is reachable by the chain of obj-y.
+> 
+> On the other hand, Kbuild does not take built-in.a from the directory
+> visited by obj-m. This it, all the objects in that directory are supposed
+> to be modular. If Kbuild descends into a directory by obj-m, but the
+> Makefile in the sub-directory specifies obj-y, those objects are just
+> left orphan.
+> 
+> The current statement "Kbuild only uses this information to decide that
+> it needs to visit the directory" is misleading. Clarify the difference.
 
-No need for kerneldoc documentation for static functions.
+> +	Kbuild uses this information not only to decide that it needs to visit
+> +	the directory, but also to decide whether or not to link objects from
+> +	the directory into vmlinux.
+> +
+> +	When Kbuild descends into the directory with 'y', all built-in objects
+> +	from that directory are combined into the built-in.a, which will be
+> +	eventually linked into vmlinux.
+> +
+> +	When Kbuild descends into the directory with 'm', in contrast, nothing
+> +	from that directory will be linked into vmlinux. If the Makefile in
+> +	that directory specifies obj-y, those objects will be left orphan.
+> +	It is very likely a bug of the Makefile or of dependencies in Kconfig.
 
-> +static int xflex_remove(struct platform_device *pdev)
-> +{
-> +	sysfs_remove_groups(&pdev->dev.kobj, xflex_groups);
-
-Your attribute groups can, and should, be automatically created by the
-driver core.  Set the driver's dev_groups pointer and that will happen
-for you.
-
-thanks,
-
-greg k-h
+Perhaps the implementation should be changed to match the documentation?
+This seems like a very subtle point for people to know.
