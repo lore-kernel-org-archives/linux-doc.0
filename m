@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79917C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:19:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 480DBC3F68F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:19:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4EF532146E
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:19:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19CE524679
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:19:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="okHsloGI"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BwMuhclq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbfLSQTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 11:19:00 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:36558 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbfLSQS6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 11:18:58 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBJGEQcW126815;
-        Thu, 19 Dec 2019 16:18:35 GMT
+        id S1726928AbfLSQTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 11:19:16 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:49928 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726760AbfLSQTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 11:19:15 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBJGETXG144130;
+        Thu, 19 Dec 2019 16:18:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=IBHUrbxXeC6DnYcqeaqy5UWhmDj6nIM5i+OhyMX8NaM=;
- b=okHsloGISbdWKTWhibTnFclV5csIocxNtVBSoGwWeGCkDnJsisj7+2KmmW4MCdYxZyVr
- gkO5E6yx1qYx+hiKQp/iVL7901cLqu+MLtcdBm4e26tmNi6UALlmg5VByPH3QimswhOn
- HQHU2vIvfWeEzVTM5fWXEOKvlMaXBSY1BZCe+wqud9x9GoWm2vmwT0b9tIyTXqkp5J+R
- KWiV+GCq0ZLn5aAzRuLlomquT5muQqDDs+tNhLq/Dd3j1OYBcLLir4tHvLgS/mEAgDCg
- R4tVwhHawOYYDrjcqzTcY2A9afWHzjEWXsjgLeQHD9ZDiOVapo+YhJ3E2X/hkgZKho2H yA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2x01knkur2-1
+ bh=UtF7imOhmPSAXDklZ55E8gWyotvBGV1fxPBlvWgNXg4=;
+ b=BwMuhclqCDRk/5p5+uSr1dgeBFeUMHqNZJZEgt6NDMAFdZDSU9YvfQCndcso1xY/tvEM
+ b1c7SGbeZOfqsicbnwWD7Mhw6ifyFuxI9pkmFeQ5W9tsexpv8GZjtkQ3a6jNAOGMO5uU
+ plvrVCzA8ubGr5DLLEdYbNM/It4ScnW1zd/QVi/VfsUYdjf6HX2Rlmw1aEEKO7r4t6cC
+ QpYWhoJx0im7XtIyQP1/NZ+bEeLQpeLf8t2q7JgWm+NQ/SWbX6e7m6yea7RelGf+b32f
+ wNrUxJ3jwCS25iHM1iuQQWnm1JlZNHmfiER/F8t6hU/9C3++mKoEfKPfE5inq4n8F7Yn Yg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2x01jabu2v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 Dec 2019 16:18:35 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBJGEM7O035212;
-        Thu, 19 Dec 2019 16:18:34 GMT
+        Thu, 19 Dec 2019 16:18:46 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBJGENdo192678;
+        Thu, 19 Dec 2019 16:18:46 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 2wyxqhwya2-1
+        by userp3020.oracle.com with ESMTP id 2x0bgm3770-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 Dec 2019 16:18:34 +0000
+        Thu, 19 Dec 2019 16:18:46 +0000
 Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xBJGIWC8019817;
-        Thu, 19 Dec 2019 16:18:32 GMT
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xBJGIir0019985;
+        Thu, 19 Dec 2019 16:18:44 GMT
 Received: from dhcp-10-175-212-35.vpn.oracle.com (/10.175.212.35)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 19 Dec 2019 08:18:32 -0800
+        with ESMTP ; Thu, 19 Dec 2019 08:18:44 -0800
 From:   Alan Maguire <alan.maguire@oracle.com>
 To:     brendanhiggins@google.com, linux-kselftest@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
@@ -63,20 +63,20 @@ Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
         krzk@kernel.org, linux-pm@vger.kernel.org,
         linux-ext4@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>,
         Knut Omang <knut.omang@oracle.com>
-Subject: [PATCH v7 linux-kselftest-test 4/6] kunit: remove timeout dependence on sysctl_hung_task_timeout_seconds
-Date:   Thu, 19 Dec 2019 16:17:37 +0000
-Message-Id: <1576772259-31382-5-git-send-email-alan.maguire@oracle.com>
+Subject: [PATCH v7 linux-kselftest-test 6/6] kunit: update documentation to describe module-based build
+Date:   Thu, 19 Dec 2019 16:17:39 +0000
+Message-Id: <1576772259-31382-7-git-send-email-alan.maguire@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576772259-31382-1-git-send-email-alan.maguire@oracle.com>
 References: <1576772259-31382-1-git-send-email-alan.maguire@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9476 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4 malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1911140001 definitions=main-1912190135
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9476 signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=4 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
  definitions=main-1912190135
@@ -85,72 +85,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In discussion of how to handle timeouts, it was noted that if
-sysctl_hung_task_timeout_seconds is exceeded for a kunit test,
-the test task will be killed and an oops generated.  This should
-suffice as a means of debugging such timeout issues for now.
-
-Hence remove use of sysctl_hung_task_timeout_secs, which has the
-added benefit of avoiding the need to export that symbol from
-the core kernel.
+Documentation should describe how to build kunit and tests as
+modules.
 
 Co-developed-by: Knut Omang <knut.omang@oracle.com>
 Signed-off-by: Knut Omang <knut.omang@oracle.com>
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-Acked-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- lib/kunit/try-catch.c | 22 ++++------------------
- 1 file changed, 4 insertions(+), 18 deletions(-)
+ Documentation/dev-tools/kunit/faq.rst   |  3 ++-
+ Documentation/dev-tools/kunit/index.rst |  3 +++
+ Documentation/dev-tools/kunit/usage.rst | 16 ++++++++++++++++
+ 3 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
-index 0247a28..0dd434e 100644
---- a/lib/kunit/try-catch.c
-+++ b/lib/kunit/try-catch.c
-@@ -11,7 +11,6 @@
- #include <linux/completion.h>
- #include <linux/kernel.h>
- #include <linux/kthread.h>
--#include <linux/sched/sysctl.h>
+diff --git a/Documentation/dev-tools/kunit/faq.rst b/Documentation/dev-tools/kunit/faq.rst
+index bf20951..ea55b24 100644
+--- a/Documentation/dev-tools/kunit/faq.rst
++++ b/Documentation/dev-tools/kunit/faq.rst
+@@ -29,7 +29,8 @@ Yes, well, mostly.
  
- #include "try-catch-impl.h"
+ For the most part, the KUnit core framework (what you use to write the tests)
+ can compile to any architecture; it compiles like just another part of the
+-kernel and runs when the kernel boots. However, there is some infrastructure,
++kernel and runs when the kernel boots, or when built as a module, when the
++module is loaded.  However, there is some infrastructure,
+ like the KUnit Wrapper (``tools/testing/kunit/kunit.py``) that does not support
+ other architectures.
  
-@@ -33,8 +32,6 @@ static int kunit_generic_run_threadfn_adapter(void *data)
+diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
+index 26ffb46..7ddc385 100644
+--- a/Documentation/dev-tools/kunit/index.rst
++++ b/Documentation/dev-tools/kunit/index.rst
+@@ -48,6 +48,9 @@ to a standalone program that can be run like any other program directly inside
+ of a host operating system; to be clear, it does not require any virtualization
+ support; it is just a regular program.
  
- static unsigned long kunit_test_timeout(void)
- {
--	unsigned long timeout_msecs;
--
- 	/*
- 	 * TODO(brendanhiggins@google.com): We should probably have some type of
- 	 * variable timeout here. The only question is what that timeout value
-@@ -51,22 +48,11 @@ static unsigned long kunit_test_timeout(void)
- 	 *
- 	 * For more background on this topic, see:
- 	 * https://mike-bland.com/2011/11/01/small-medium-large.html
-+	 *
-+	 * If tests timeout due to exceeding sysctl_hung_task_timeout_secs,
-+	 * the task will be killed and an oops generated.
- 	 */
--	if (sysctl_hung_task_timeout_secs) {
--		/*
--		 * If sysctl_hung_task is active, just set the timeout to some
--		 * value less than that.
--		 *
--		 * In regards to the above TODO, if we decide on variable
--		 * timeouts, this logic will likely need to change.
--		 */
--		timeout_msecs = (sysctl_hung_task_timeout_secs - 1) *
--				MSEC_PER_SEC;
--	} else {
--		timeout_msecs = 300 * MSEC_PER_SEC; /* 5 min */
--	}
--
--	return timeout_msecs;
-+	return 300 * MSEC_PER_SEC; /* 5 min */
- }
++Alternatively, kunit and kunit tests can be built as modules and tests will
++run when the test module is loaded.
++
+ KUnit is fast. Excluding build time, from invocation to completion KUnit can run
+ several dozen tests in only 10 to 20 seconds; this might not sound like a big
+ deal to some people, but having such fast and easy to run tests fundamentally
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index c6e6963..82f9213 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -539,6 +539,22 @@ Interspersed in the kernel logs you might see the following:
  
- void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ Congratulations, you just ran a KUnit test on the x86 architecture!
+ 
++In a similar manner, kunit and kunit tests can also be built as modules,
++so if you wanted to run tests in this way you might add the following config
++options to your ``.config``:
++
++.. code-block:: none
++
++	CONFIG_KUNIT=m
++	CONFIG_KUNIT_EXAMPLE_TEST=m
++
++Once the kernel is built and installed, a simple
++
++.. code-block:: bash
++	modprobe example-test
++
++...will run the tests.
++
+ Writing new tests for other architectures
+ -----------------------------------------
+ 
 -- 
 1.8.3.1
 
