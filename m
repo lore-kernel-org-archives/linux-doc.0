@@ -2,129 +2,434 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE66EC2D0C0
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 07:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ECC5C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 08:34:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82C4A2146E
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 07:37:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RppPDfWt"
+	by mail.kernel.org (Postfix) with ESMTP id D5436206D8
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 08:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576744474;
+	bh=1Y0HcvMKE0RRiHQoWfgpaT38XUdj7hTZFhEq9in9qKk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=u44Qd5AWaFqGo127FgvXtzFriwyEjKjey8/u0xbAtizEUBlbZdkMhpAW6v9dfw+xh
+	 2PFobI/0AGS0/12dh1XS/feeW6YaXlXE+k2P3tBkPk5pFgXKo3f89HuOxB3A2wKHAp
+	 w3lgzPMRv1cS6YmmrsS8BOCUcuPKU0SbeBaY4bNs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbfLSHhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 02:37:51 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:50584 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726498AbfLSHhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 02:37:51 -0500
-Received: by mail-pj1-f67.google.com with SMTP id r67so2098204pjb.0;
-        Wed, 18 Dec 2019 23:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0nx8L7SUVUpwZ2hHI379dkMfkYdwVJx/h+xm8bvbJTk=;
-        b=RppPDfWtAF2/78ZaqvoheL1TQLs+e51ZH1gVEgdKQIpkiez/5Q8Wr/YF9Ffs87OlWh
-         +0QTXE9zrmiP10IM+/vBzP1urUkk0hgLRFQp3+Nnaj6QroNO2EMUYcRJfuq4sGLNZwBM
-         flUyjTnsuqI5WEoOsW33M3wGm0x3jYpNr1RfUZTcP97rDyfpOvjJ6CorymapkR/GJp+p
-         Qd4cAYqeyMiW0sGir5FaaYfgSRomJ6wCCkenp1i7P+l6zTQ0E6RkMe6PpZjE8pdZW845
-         Q8aq5GwowoxjemsBR0ZbmGJYQrj5mhD5jIXnD25lPeoU38JYt+BipmcK6VEylZouupzG
-         sv9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0nx8L7SUVUpwZ2hHI379dkMfkYdwVJx/h+xm8bvbJTk=;
-        b=Em1vPcc7BTxmQU8woXy20JfdqqScdU2Ob8EgiU/BFrrCqUjxDlzPg/NOusa+DV9xi1
-         dhqhFk4UB0BzIyGh64WKf6wwB3I90Ww98K7DWIIDBba74Y4NJO/Zl45NC9hGN/v6XM0m
-         sZPqp6v3SMAXc2SYxfYR8kaFZRsszMI1ALWZYT4WxTgObWu+pu17yl+N8f6RuaOMpu6e
-         ZwVmrLNSCktytUhgr81L0cE/KHn8sKVy3fYczYzYBgnaYlrGXhOxe+4i7AOQXt89bhfK
-         di63812aaReZgGcFxzSYL3/pUVDytV8EUl6xgdZeXNGNPqdevYWJT0HwAmmd1lSA7fUF
-         n8AA==
-X-Gm-Message-State: APjAAAU2EaRF6Q0kMhomLCdO8hhqFCZ30v5GAsHg1FGHbRFykuCpAL1k
-        qEkO7gRiCjPaaWFkklk8lnO3GKTH
-X-Google-Smtp-Source: APXvYqy6Zi45dKUBsN0A3zZlJRUeD/RU79k4wl44YxSfuWyLsO/jzk8oOCtvuT8Isz69mo20xLT4ZA==
-X-Received: by 2002:a17:90a:94c1:: with SMTP id j1mr8181360pjw.2.1576741070618;
-        Wed, 18 Dec 2019 23:37:50 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i22sm4714674pfd.19.2019.12.18.23.37.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2019 23:37:48 -0800 (PST)
-Subject: Re: [PATCH v2] hwmon: Driver for temperature sensors on SATA drives
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
-        Chris Healy <cphealy@gmail.com>
-References: <20191215174509.1847-1-linux@roeck-us.net>
- <20191215174509.1847-2-linux@roeck-us.net> <yq1r211dvck.fsf@oracle.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <f2b90347-66db-16f9-44b1-b6c7df319331@roeck-us.net>
-Date:   Wed, 18 Dec 2019 23:37:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <yq1r211dvck.fsf@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726622AbfLSIed (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 03:34:33 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:36689 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbfLSIed (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 03:34:33 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id xBJ8XVeE026051;
+        Thu, 19 Dec 2019 17:33:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xBJ8XVeE026051
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576744414;
+        bh=hqbUenuvR6fw/8XNviC6Tz21TG63y2gIQKK3vmfTNtg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PoCBUhPLUdYEynfkqvs/ctHyV4QOMmDldlt4RgwnjO6CBCbF77hpe47TpAiup5HVI
+         Vn8/WWCspyb7lJtoK3O6B7/eDJzqzC/nKnoe+bf8cosR7r9X4EqDQWyvNSHttsNp+u
+         5PFvP0zguibQxV7ikGALaxKcBXT5uZqi9mBJmYpKlwySHK7U9+39akUpKG7ivM+W6K
+         QEMlH3frtrXoqHuBrG9REmfOTSqHpYtoVNmUq6LFhZHGwJBZ0/gKiuOeTo9TCVPx8a
+         Ai7F5Lvq2c9ty14msvuT9K0K7N/wUnlWoolqBDgqlCk5VvmCmBk4SyrlLf/2ETZ2W2
+         UMHPElmRqhIpA==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] kbuild: create modules.builtin without Makefile.modbuiltin or tristate.conf
+Date:   Thu, 19 Dec 2019 17:33:29 +0900
+Message-Id: <20191219083329.5926-4-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191219083329.5926-1-masahiroy@kernel.org>
+References: <20191219083329.5926-1-masahiroy@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Martin,
+Commit bc081dd6e9f6 ("kbuild: generate modules.builtin") added
+infrastructure to generate modules.builtin, the list of all
+builtin modules.
 
-On 12/18/19 4:15 PM, Martin K. Petersen wrote:
-> 
-> Guenter,
-> 
->> This driver solves this problem by adding support for reading the
->> temperature of SATA drives from the kernel using the hwmon API and
->> by adding a temperature zone for each drive.
-> 
-> My working tree is available here:
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git/log/?h=5.6/drivetemp
-> 
+Basically, it works like this:
 
-I had a quick look at the patch. Looks good overall. I think you should be able
-to use the buffer allocated in struct drivetemp_data (named smartdata). Maybe
-rename it to something more generic. If it needs to be dma-aligned, maybe we
-can use kzalloc() to allocate it. Only reason I didn't use it for vpd was because
-that needed 1024 bytes.
+  - Kconfig generates include/config/tristate.conf, the list of
+    tristate CONFIG options with a value in a capital letter.
 
-> A few notes:
-> 
->   - Before applying your patch I did s/satatemp/drivetemp/
-> 
->   - I get a crash in the driver core during probe if the drivetemp module
->     is loaded prior to loading ahci or a SCSI HBA driver. This crash is
->     unrelated to my changes. Haven't had time to debug.
-> 
-Definitely something we'll need to look into. Do you have a traceback ?
+  - scripts/Makefile.modbuiltin makes Kbuild descend into
+    directories to collect the information of builtin modules.
 
-Thanks,
-Guenter
+I am not a big fan of it because Kbuild ends up with traversing
+the source tree twice.
 
->   - I tweaked your ATA detection heuristics and now use the cached VPD
->     page 0x89 instead of fetching one from the device.
-> 
->   - I also added support for reading the temperature log page on SCSI
->     drives.
-> 
->   - Tested with a mixed bag of about 40 SCSI and SATA drives attached.
-> 
->   - I still think sensor naming needs work. How and where are the
->     "drivetemp-scsi-8-140" names generated?
-> 
-> I'll tinker some more but thought I'd share what I have for now.
-> 
+I am not sure how perfectly it should work, but this approach cannot
+avoid false positives; even if the relevant CONFIG option is tristate,
+some Makefiles forces obj-m to obj-y.
+
+Some examples are:
+
+  arch/powerpc/platforms/powermac/Makefile:
+    obj-$(CONFIG_NVRAM:m=y)         += nvram.o
+
+  net/ipv6/Makefile:
+    obj-$(subst m,y,$(CONFIG_IPV6)) += inet6_hashtables.o
+
+  net/netlabel/Makefile:
+    obj-$(subst m,y,$(CONFIG_IPV6)) += netlabel_calipso.o
+
+Nobody has complained about (or noticed) it, so it is probably fine to
+have false positives in modules.builtin.
+
+This commit simplifies the implementation. Let's exploit the fact
+that every module has MODULE_LICENSE(). (modpost shows a warning if
+MODULE_LICENSE is missing. If so, 0-day bot would already have blocked
+such a module.)
+
+I added MODULE_FILE to <linux/module.h>. When the code is being compiled
+as builtin, it will be filled with the file path of the module, and
+collected into modules.builtin.info. Then, scripts/link-vmlinux.sh
+extracts the list of builtin modules out of it.
+
+This new approach fixes the false-positives above, but adds another
+type of false-positives; non-modular code may have MODULE_LICENSE()
+by mistake. This is not a big deal, it is just the code is always
+orphan. We can clean it up if we like. You can see cleanup examples by:
+
+  $ git log --grep='make.* explicitly non-modular'
+
+To sum up, this commits deletes lots of code, but still produces almost
+equivalent results. Please note it does not increase the vmlinux size at
+all. As you can see in include/asm-generic/vmlinux.lds.h, the .modinfo
+section is discarded in the link stage.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/kconfig.rst |  5 ---
+ Makefile                         | 21 +++---------
+ include/linux/module.h           | 12 ++++++-
+ scripts/Kbuild.include           |  6 ----
+ scripts/Makefile.modbuiltin      | 57 --------------------------------
+ scripts/kconfig/confdata.c       | 45 ++-----------------------
+ scripts/link-vmlinux.sh          |  4 +++
+ 7 files changed, 22 insertions(+), 128 deletions(-)
+ delete mode 100644 scripts/Makefile.modbuiltin
+
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index a9a855f894b3..dce6801d66c9 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -154,11 +154,6 @@ KCONFIG_AUTOCONFIG
+ This environment variable can be set to specify the path & name of the
+ "auto.conf" file.  Its default value is "include/config/auto.conf".
+ 
+-KCONFIG_TRISTATE
+-----------------
+-This environment variable can be set to specify the path & name of the
+-"tristate.conf" file.  Its default value is "include/config/tristate.conf".
+-
+ KCONFIG_AUTOHEADER
+ ------------------
+ This environment variable can be set to specify the path & name of the
+diff --git a/Makefile b/Makefile
+index f900c23b8291..a9fa0f2975e2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -673,7 +673,7 @@ $(KCONFIG_CONFIG):
+ #
+ # This exploits the 'multi-target pattern rule' trick.
+ # The syncconfig should be executed only once to make all the targets.
+-%/auto.conf %/auto.conf.cmd %/tristate.conf: $(KCONFIG_CONFIG)
++%/auto.conf %/auto.conf.cmd: $(KCONFIG_CONFIG)
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
+ else # !may-sync-config
+ # External modules and some install targets need include/generated/autoconf.h
+@@ -1277,24 +1277,13 @@ all: modules
+ # using awk while concatenating to the final file.
+ 
+ PHONY += modules
+-modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order modules.builtin
++modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
+ 
+ modules.order: descend
+ 	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
+ 
+-modbuiltin-dirs := $(addprefix _modbuiltin_, $(build-dirs))
+-
+-modules.builtin: $(modbuiltin-dirs)
+-	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
+-
+-PHONY += $(modbuiltin-dirs)
+-# tristate.conf is not included from this Makefile. Add it as a prerequisite
+-# here to make it self-healing in case somebody accidentally removes it.
+-$(modbuiltin-dirs): include/config/tristate.conf
+-	$(Q)$(MAKE) $(modbuiltin)=$(patsubst _modbuiltin_%,%,$@)
+-
+ # Target to prepare building external modules
+ PHONY += modules_prepare
+ modules_prepare: prepare
+@@ -1314,7 +1303,7 @@ _modinst_:
+ 		ln -s $(CURDIR) $(MODLIB)/build ; \
+ 	fi
+ 	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
+-	@sed 's:^:kernel/:' modules.builtin > $(MODLIB)/modules.builtin
++	@cp -f modules.builtin $(MODLIB)/
+ 	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
+ 
+@@ -1356,7 +1345,7 @@ endif # CONFIG_MODULES
+ 
+ # Directories & files removed with 'make clean'
+ CLEAN_DIRS  += include/ksym
+-CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
++CLEAN_FILES += modules.builtin modules.builtin.modinfo modules.nsdeps
+ 
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_DIRS  += include/config include/generated          \
+@@ -1711,7 +1700,7 @@ clean: $(clean-dirs)
+ 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
+ 		-o -name '*.asn1.[ch]' \
+ 		-o -name '*.symtypes' -o -name 'modules.order' \
+-		-o -name modules.builtin -o -name '.tmp_*.o.*' \
++		-o -name '.tmp_*.o.*' \
+ 		-o -name '*.c.[012]*.*' \
+ 		-o -name '*.ll' \
+ 		-o -name '*.gcno' \) -type f -print | xargs rm -f
+diff --git a/include/linux/module.h b/include/linux/module.h
+index bd165ba68617..6877b3b191d0 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -169,6 +169,16 @@ extern void cleanup_module(void);
+  */
+ #define MODULE_SOFTDEP(_softdep) MODULE_INFO(softdep, _softdep)
+ 
++/*
++ * MODULE_FILE is used for generating modules.builtin
++ * So, make it no-op when this is being built as a module
++ */
++#ifdef MODULE
++#define MODULE_FILE
++#else
++#define MODULE_FILE	MODULE_INFO(file, KBUILD_MODFILE);
++#endif
++
+ /*
+  * The following license idents are currently accepted as indicating free
+  * software modules
+@@ -213,7 +223,7 @@ extern void cleanup_module(void);
+  * 2.	So the community can ignore bug reports including proprietary modules
+  * 3.	So vendors can do likewise based on their own policies
+  */
+-#define MODULE_LICENSE(_license) MODULE_INFO(license, _license)
++#define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
+ 
+ /*
+  * Author(s), use "Name <email>" or just "Name", for multiple
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 88c144787e57..3da8321efb74 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -163,12 +163,6 @@ ld-ifversion = $(shell [ $(ld-version) $(1) $(2) ] && echo $(3) || echo $(4))
+ # $(Q)$(MAKE) $(build)=dir
+ build := -f $(srctree)/scripts/Makefile.build obj
+ 
+-###
+-# Shorthand for $(Q)$(MAKE) -f scripts/Makefile.modbuiltin obj=
+-# Usage:
+-# $(Q)$(MAKE) $(modbuiltin)=dir
+-modbuiltin := -f $(srctree)/scripts/Makefile.modbuiltin obj
+-
+ ###
+ # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.dtbinst obj=
+ # Usage:
+diff --git a/scripts/Makefile.modbuiltin b/scripts/Makefile.modbuiltin
+deleted file mode 100644
+index 7d4711b88656..000000000000
+--- a/scripts/Makefile.modbuiltin
++++ /dev/null
+@@ -1,57 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-# ==========================================================================
+-# Generating modules.builtin
+-# ==========================================================================
+-
+-src := $(obj)
+-
+-PHONY := __modbuiltin
+-__modbuiltin:
+-
+-include include/config/auto.conf
+-# tristate.conf sets tristate variables to uppercase 'Y' or 'M'
+-# That way, we get the list of built-in modules in obj-Y
+-include include/config/tristate.conf
+-
+-include scripts/Kbuild.include
+-
+-ifdef building_out_of_srctree
+-# Create output directory if not already present
+-_dummy := $(shell [ -d $(obj) ] || mkdir -p $(obj))
+-endif
+-
+-# The filename Kbuild has precedence over Makefile
+-kbuild-dir := $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+-kbuild-file := $(if $(wildcard $(kbuild-dir)/Kbuild),$(kbuild-dir)/Kbuild,$(kbuild-dir)/Makefile)
+-include $(kbuild-file)
+-
+-include scripts/Makefile.lib
+-__subdir-Y     := $(patsubst %/,%,$(filter %/, $(obj-Y)))
+-subdir-Y       += $(__subdir-Y)
+-subdir-ym      := $(sort $(subdir-y) $(subdir-Y) $(subdir-m))
+-subdir-ym      := $(addprefix $(obj)/,$(subdir-ym))
+-obj-Y          := $(addprefix $(obj)/,$(obj-Y))
+-
+-modbuiltin-subdirs := $(patsubst %,%/modules.builtin, $(subdir-ym))
+-modbuiltin-mods    := $(filter %.ko, $(obj-Y:.o=.ko))
+-modbuiltin-target  := $(obj)/modules.builtin
+-
+-__modbuiltin: $(modbuiltin-target) $(subdir-ym)
+-	@:
+-
+-$(modbuiltin-target): $(subdir-ym) FORCE
+-	$(Q)(for m in $(modbuiltin-mods); do echo $$m; done;	\
+-	cat /dev/null $(modbuiltin-subdirs)) > $@
+-
+-PHONY += FORCE
+-
+-FORCE:
+-
+-# Descending
+-# ---------------------------------------------------------------------------
+-
+-PHONY += $(subdir-ym)
+-$(subdir-ym):
+-	$(Q)$(MAKE) $(modbuiltin)=$@
+-
+-.PHONY: $(PHONY)
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 3569d2dec37c..fb675bd9a809 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -710,25 +710,6 @@ static struct conf_printer header_printer_cb =
+ 	.print_comment = header_print_comment,
+ };
+ 
+-/*
+- * Tristate printer
+- *
+- * This printer is used when generating the `include/config/tristate.conf' file.
+- */
+-static void
+-tristate_print_symbol(FILE *fp, struct symbol *sym, const char *value, void *arg)
+-{
+-
+-	if (sym->type == S_TRISTATE && *value != 'n')
+-		fprintf(fp, "%s%s=%c\n", CONFIG_, sym->name, (char)toupper(*value));
+-}
+-
+-static struct conf_printer tristate_printer_cb =
+-{
+-	.print_symbol = tristate_print_symbol,
+-	.print_comment = kconfig_print_comment,
+-};
+-
+ static void conf_write_symbol(FILE *fp, struct symbol *sym,
+ 			      struct conf_printer *printer, void *printer_arg)
+ {
+@@ -1062,7 +1043,7 @@ int conf_write_autoconf(int overwrite)
+ 	struct symbol *sym;
+ 	const char *name;
+ 	const char *autoconf_name = conf_get_autoconfig_name();
+-	FILE *out, *tristate, *out_h;
++	FILE *out, *out_h;
+ 	int i;
+ 
+ 	if (!overwrite && is_present(autoconf_name))
+@@ -1077,23 +1058,13 @@ int conf_write_autoconf(int overwrite)
+ 	if (!out)
+ 		return 1;
+ 
+-	tristate = fopen(".tmpconfig_tristate", "w");
+-	if (!tristate) {
+-		fclose(out);
+-		return 1;
+-	}
+-
+ 	out_h = fopen(".tmpconfig.h", "w");
+ 	if (!out_h) {
+ 		fclose(out);
+-		fclose(tristate);
+ 		return 1;
+ 	}
+ 
+ 	conf_write_heading(out, &kconfig_printer_cb, NULL);
+-
+-	conf_write_heading(tristate, &tristate_printer_cb, NULL);
+-
+ 	conf_write_heading(out_h, &header_printer_cb, NULL);
+ 
+ 	for_all_symbols(i, sym) {
+@@ -1101,15 +1072,11 @@ int conf_write_autoconf(int overwrite)
+ 		if (!(sym->flags & SYMBOL_WRITE) || !sym->name)
+ 			continue;
+ 
+-		/* write symbol to auto.conf, tristate and header files */
++		/* write symbols to auto.conf and autoconf.h */
+ 		conf_write_symbol(out, sym, &kconfig_printer_cb, (void *)1);
+-
+-		conf_write_symbol(tristate, sym, &tristate_printer_cb, (void *)1);
+-
+ 		conf_write_symbol(out_h, sym, &header_printer_cb, NULL);
+ 	}
+ 	fclose(out);
+-	fclose(tristate);
+ 	fclose(out_h);
+ 
+ 	name = getenv("KCONFIG_AUTOHEADER");
+@@ -1120,14 +1087,6 @@ int conf_write_autoconf(int overwrite)
+ 	if (rename(".tmpconfig.h", name))
+ 		return 1;
+ 
+-	name = getenv("KCONFIG_TRISTATE");
+-	if (!name)
+-		name = "include/config/tristate.conf";
+-	if (make_parent_dir(name))
+-		return 1;
+-	if (rename(".tmpconfig_tristate", name))
+-		return 1;
+-
+ 	if (make_parent_dir(autoconf_name))
+ 		return 1;
+ 	/*
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 436379940356..bf0bf9063aaf 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -250,6 +250,10 @@ ${MAKE} -f "${srctree}/scripts/Makefile.modpost" MODPOST_VMLINUX=1
+ 
+ info MODINFO modules.builtin.modinfo
+ ${OBJCOPY} -j .modinfo -O binary vmlinux.o modules.builtin.modinfo
++info GEN modules.builtin
++# The second line aids cases where multiple modules share the same object.
++tr '\0' '\n' < modules.builtin.modinfo | sed -n 's/^[[:alnum:]:_]*\.file=//p' |
++	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$/.ko/' > modules.builtin
+ 
+ btf_vmlinux_bin_o=""
+ if [ -n "${CONFIG_DEBUG_INFO_BTF}" ]; then
+-- 
+2.17.1
 
