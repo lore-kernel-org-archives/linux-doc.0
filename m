@@ -2,70 +2,67 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A1EC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3AFC43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:41:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8BC00227BF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:39:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFD25227BF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbfLSQjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 11:39:21 -0500
-Received: from ms.lwn.net ([45.79.88.28]:37184 "EHLO ms.lwn.net"
+        id S1726875AbfLSQlQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 11:41:16 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37202 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726801AbfLSQjU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 11:39:20 -0500
+        id S1726801AbfLSQlQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 11:41:16 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6745E382;
-        Thu, 19 Dec 2019 16:39:20 +0000 (UTC)
-Date:   Thu, 19 Dec 2019 09:39:19 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id BCC852E5;
+        Thu, 19 Dec 2019 16:41:15 +0000 (UTC)
+Date:   Thu, 19 Dec 2019 09:41:14 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc:locking: fix locktorture parameter description
-Message-ID: <20191219093919.59de5cf6@lwn.net>
-In-Reply-To: <20191201121941.6971-1-federico.vaga@vaga.pv.it>
-References: <20191201121941.6971-1-federico.vaga@vaga.pv.it>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     paulmck@kernel.org, will@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH] docs/memory-barriers.txt.kokr: Minor wordsmith
+Message-ID: <20191219094114.6380a69f@lwn.net>
+In-Reply-To: <20191129182823.8710-1-sjpark@amazon.de>
+References: <20191127142707.GB2889@paulmck-ThinkPad-P72>
+        <20191129182823.8710-1-sjpark@amazon.de>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun,  1 Dec 2019 13:19:41 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Fri, 29 Nov 2019 19:28:23 +0100
+SeongJae Park <sj38.park@gmail.com> wrote:
 
-> The description was talking about two default values: I removed the
-> wrong one.
+> As suggested by Paul, I got a review from another Korean hacker Yunjae.
+>  From the review, I got not only 'Reviewed-by:' tags, but also found a
+> few minor nits.  So I made a second version of the patchset but just
+> realized that the first version has already sent to Linus.  I therefore
+> send only the nit fixes as another patch.
 > 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ----------------------------- >8 ----------------------------------------  
+> docs/memory-barriers.txt.kokr: Minor wordsmith
+> 
+> This commit fixes a couple of minor nits in the Korean translation of
+> 'memory-barriers.txt'.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Reviewed-by: Yunjae Lee <lyj7694@gmail.com>
 > ---
->  Documentation/locking/locktorture.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/locking/locktorture.rst b/Documentation/locking/locktorture.rst
-> index 54899c95e45e..e49da0a0bf94 100644
-> --- a/Documentation/locking/locktorture.rst
-> +++ b/Documentation/locking/locktorture.rst
-> @@ -105,8 +105,7 @@ stat_interval
->  		  Number of seconds between statistics-related printk()s.
->  		  By default, locktorture will report stats every 60 seconds.
->  		  Setting the interval to zero causes the statistics to
-> -		  be printed -only- when the module is unloaded, and this
-> -		  is the default.
-> +		  be printed -only- when the module is unloaded.
->  
->  stutter
->  		  The length of time to run the test before pausing for this
+>  Documentation/translations/ko_KR/memory-barriers.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied (finally) thanks.
+I've applied this; thanks and apologies for the delay,
 
 jon
