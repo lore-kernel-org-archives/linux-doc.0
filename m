@@ -2,102 +2,96 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 778D0C3F68F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D90C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:00:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 410AA24679
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576774563;
-	bh=PMSrHvqg0gemRV++ytAtKoOkAvugTmkmbonktzFyE18=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=rwM8/rQaypugf6cbdBsDiQpbLTJpDMNsWlBjhUbMmMg5u5SUizu9ZSYodZceyPWqb
-	 KV8T8626vLE52fgGIZiZclI9hTboLmJMsz7I/o31J/cd2ykHbnCCx5Yim0uEdm4Sxl
-	 71c8ZLJTypL++bX/G6XDbGjFCwKbat3OTEp4eRrY=
+	by mail.kernel.org (Postfix) with ESMTP id 452282146E
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbfLSQ4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 11:56:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55368 "EHLO mail.kernel.org"
+        id S1726840AbfLSRA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 12:00:28 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37334 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726760AbfLSQ4C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 11:56:02 -0500
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        id S1726760AbfLSRA1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 12:00:27 -0500
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B48DE2146E;
-        Thu, 19 Dec 2019 16:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576774561;
-        bh=PMSrHvqg0gemRV++ytAtKoOkAvugTmkmbonktzFyE18=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=kOWy03CFpwgpXw2oFdpVHUn7E+twuJwx204ffHmEP3rX5xAhmL0yn3pJryLeHzsM/
-         9mHGJBz4Lz4LHdvx1jUkbqzyiNnllYhG2ubYHjX6ory+oEl2IBwYYEKMx28ZlHvUDQ
-         +gMlaF8T9cykSqBWbLdfxDfbcLvFvApGmIPpgPC0=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 8483E352274B; Thu, 19 Dec 2019 08:56:01 -0800 (PST)
-Date:   Thu, 19 Dec 2019 08:56:01 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Amol Grover <frextrite@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Subject: Re: [PATCH v2] doc: listRCU: Add some more listRCU patterns in the
- kernel
-Message-ID: <20191219165601.GA2889@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191203063941.6981-1-frextrite@gmail.com>
- <20191206080750.21745-1-frextrite@gmail.com>
- <20191219092913.76ca933e@lwn.net>
+        by ms.lwn.net (Postfix) with ESMTPSA id F41BF2E5;
+        Thu, 19 Dec 2019 17:00:26 +0000 (UTC)
+Date:   Thu, 19 Dec 2019 10:00:25 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     hirofumi@mail.parknet.co.jp, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] Documentation: filesystems: convert vfat.txt to RST
+Message-ID: <20191219100025.255003e6@lwn.net>
+In-Reply-To: <20191121130605.29074-1-dwlsalmeida@gmail.com>
+References: <20191121130605.29074-1-dwlsalmeida@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191219092913.76ca933e@lwn.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 09:29:13AM -0700, Jonathan Corbet wrote:
-> On Fri,  6 Dec 2019 13:37:51 +0530
-> Amol Grover <frextrite@gmail.com> wrote:
-> 
-> > - Add more information about listRCU patterns taking examples
-> > from audit subsystem in the linux kernel.
-> > 
-> > - The initially written audit examples are kept, even though they are
-> > slightly different in the kernel.
-> > 
-> > - Modify inline text for better passage quality.
-> > 
-> > - Fix typo in code-blocks and improve code comments.
-> > 
-> > - Add text formatting (italics, bold and code) for better emphasis.
-> > 
-> > Patch originally submitted at
-> > https://lore.kernel.org/patchwork/patch/1082804/
-> > 
-> > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> 
-> Paul, what's your wish regarding this one?  Do you want to pick it up, or
-> should I ... ?
+On Thu, 21 Nov 2019 10:06:05 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-I was waiting for replies agreeing that Amol's changes addressed the
-feedback to v1 of this patch.  I take this to mean that you are OK
-with his v2, so will queue Amol's patch.  ;-)
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Converts vfat.txt to the reStructuredText format, improving presentation
+> without changing the underlying content.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> -----------------------------------------------------------
+> Changes in v2:
+> Refactored long lines as pointed out by Jonathan
+> Copied the maintainer
+> Updated the reference in the MAINTAINERS file for vfat
+> 
+> I did not move this into admin-guide, waiting on what the 
+> maintainer has to say about this and also about old sections
+> in the text, if any.
 
-							Thanx, Paul
+This one, too, could user a bit less markup, and more consistent markup.
+If you have to mark up literal text, for example, it should be ``literal``,
+not *emphasis*.  But please think about whether it needs marking up at all.
+
+I have one other thing here, that could use input from the vfat maintainer:
+
+[...]
+
+> +BUG REPORTS
+> +===========
+> +If you have trouble with the *VFAT* filesystem, mail bug reports to
+> +chaffee@bmrc.cs.berkeley.edu.
+> +
+> +Please specify the filename and the operation that gave you trouble.
+> +
+> +TEST SUITE
+> +==========
+> +If you plan to make any modifications to the vfat filesystem, please
+> +get the test suite that comes with the vfat distribution at
+> +
+> +`<http://web.archive.org/web/*/http://bmrc.berkeley.edu/people/chaffee/vfat.html>`_
+> +
+> +This tests quite a few parts of the vfat filesystem and additional
+> +tests for new features or untested features would be appreciated.
+
+What are the chances that the above email address works at all, especially
+given that the associated web page has to be dug out of the wayback
+machine?  We should really try to avoid perpetuating obviously wrong
+information when we can.  Hirofumi, do you have any thoughts on what might
+replace this section?
+
+Thanks,
+
+jon
