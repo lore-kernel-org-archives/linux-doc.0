@@ -2,288 +2,214 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBEAC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 21:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353A2C2D0D2
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 23:01:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0F7CE2467B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 21:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576791525;
-	bh=vNNXsSF1RT2PGfJOuKkiCAk2XmR2ntB3ApKZt0dfxhA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=2GieGim1GjkhyvZJepoGESPV3wVKkapfpJnC0ogocubmaGbtLFZOgOy7ds9Y4OYFF
-	 QGR/yhNOSkrqO9ziPrUdiBLkA/6Qo35cAA+dUObBlK1D4mAGOqQpbN8jDXJgFIvLR9
-	 k8uVL4UL57uwK3qSfN2o14yT4LPJ9smJENjhPPVM=
+	by mail.kernel.org (Postfix) with ESMTP id EFFF32467B
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 23:01:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ax5pfVwR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfLSVik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 16:38:40 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:36190 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726880AbfLSVik (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 16:38:40 -0500
-Received: by mail-ot1-f66.google.com with SMTP id w1so8982798otg.3;
-        Thu, 19 Dec 2019 13:38:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FfeeNW3xmudQC/YFevQ3lQ5kCZ4yhVzFGlZeZB9E96Y=;
-        b=Ah0GDw8W2qjGBTk2I7oVK6i2oNgtuzGUpaAGtxWWLAaPYFkCp3A+oBvIuGIetPIpml
-         nlZtd7PpMDDVGs+IIbUVxHytPn7kFzjmmTILBQGBdcTFS+10RIJNGn6HdPc2e1EtnMrh
-         F2LnWxXqMeXQ8V2LCfnlY9odzOq6rnM6UsXLvsvfx6HahM2xDYQzPs3QclORcfLAv9Ua
-         jAsxOn3UGuPnMS8UnO8lfhWoyLqRkFC5sNIX1Mb7w763PHDDFg80i4UnD7pO/8z/Lr9c
-         7N8VxzLhcJCgWbGwJV6gQBUaJSk9hGzVRC1hH16rRrPmtmUeGhnx1slRXTAzCVC7Nw9O
-         uwrQ==
-X-Gm-Message-State: APjAAAV7C/WOgDvzIT50NSf/oyVv3iav2Nc8OZok5RUg7WvGP+T63emT
-        eF/l4HCVIRy+BeQ8MT/A090tvuOM5zL3FBhPyoQ=
-X-Google-Smtp-Source: APXvYqx1CsqYneLcCG4qS1okfo+QFG62HuZxc1DLLTS+LfqIoajjt3Gf/tUwLuikiL2JlnbHmr4P9ptMCWG//laxGT8=
-X-Received: by 2002:a9d:62c7:: with SMTP id z7mr5758606otk.189.1576791519567;
- Thu, 19 Dec 2019 13:38:39 -0800 (PST)
+        id S1726967AbfLSXBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 18:01:41 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15328 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726880AbfLSXBl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 18:01:41 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dfc01460000>; Thu, 19 Dec 2019 15:01:26 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 19 Dec 2019 15:01:36 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 19 Dec 2019 15:01:36 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
+ 2019 23:01:32 +0000
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Leon Romanovsky <leon@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Alex Williamson" <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <f10b2a18-a109-d87d-f156-2e5941cbf4a0@nvidia.com>
+Date:   Thu, 19 Dec 2019 14:58:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-References: <20191213234840.9791-1-srinivas.pandruvada@linux.intel.com> <20191213234840.9791-3-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20191213234840.9791-3-srinivas.pandruvada@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 19 Dec 2019 22:38:28 +0100
-Message-ID: <CAJZ5v0j7nQxLt55Q-+jqNwmW7RNvjGsQws5bUDSv7X3iojX6Dg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ACPI / fan: Display fan performance state information
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        "Zhang, Rui" <rui.zhang@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191219210743.GN17227@ziepe.ca>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576796486; bh=tiz2hjGylLUwQicEfM7bbVznNfOI7NYEds0c0vA1QMM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ax5pfVwRTOuRMGRTTENUug1V5pL/RA0R/ro68Ef6qbAC2dMIpaMVof5lAjrJh/YsQ
+         tzguzyOG/LzutEbtWDwyfHV9sKc8B+QE/oAsfQggRxnppIAZTNjdwjoShd1hqL3Scp
+         PwDEgdunQ5+3RZaDnDjRY1Ma0ZpDqQcVz1QAXQFHukq22+SRzGz1hOWdS1Kam2nyY2
+         CDT0AZ+Yyg+ZRHDTJHnr4JvmQTB2CGF09WlCJB69OrCNdaPzyZjzlP0CWvWnN5wMNt
+         lrxupzD+I8Xm9/TBpPiZ2SZw5etOEm+wZ4cFWC8o/KBZNRn3emLZ8rxxX3WRl4ZX7o
+         4lpXlR7HRSRdg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 14, 2019 at 12:48 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> When _FPS object indicates support of variable speed fan, thermal cooling
-> devices for fan shows max performance state count using attribute
-> "max_state" greater than or equal to 1.
->
-> But the thermal cooling device doesn't display properties of each
-> performance state. This is not enough for smart fan control user space
-> software, which also considers speed, power and noise level.
->
-> This change presents fan performance states attributes under acpi
-> device for the fan. This will be under:
-> /sys/bus/acpi/devices/devices/INT3404:00
-> or
-> /sys/bus/platform/devices/PNP0C0B:00.
->
-> For example:
-> $ ls /sys/bus/acpi/devices/INT3404\:00
-> description  path           state0   state11  state4  state7  status
-> hid          physical_node  state1   state2   state5  state8  subsystem
-> modalias     power          state10  state3   state6  state9  uevent
-> uid          wakeup
->
-> Here each state* attribute is representing a performance state.
->
-> Contents of state* attribute are formatted using:
-> control_percent:trip_point:speed_rpm:noise_level_mdb:power_mw
->
-> $ cat /sys/bus/acpi/devices/INT3404\:00/state10
-> 95:0:11600:47500:4500
->
-> For more information refer to:
-> Documentation/acpi/fan_performance_states.txt
->
-> While here, return correct error from acpi_fan_probe() when
-> acpi_fan_get_fps() or acpi_fan_get_fif() fails.
->
-> Suggested-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
+...
+>> 3. It would be nice if I could reproduce this. I have a two-node mlx5 Infiniband
+>> test setup, but I have done only the tiniest bit of user space IB coding, so
+>> if you have any test programs that aren't too hard to deal with that could
+>> possibly hit this, or be tweaked to hit it, I'd be grateful. Keeping in mind
+>> that I'm not an advanced IB programmer. At all. :)
+> 
+> Clone this:
+> 
+> https://github.com/linux-rdma/rdma-core.git
+> 
+> Install all the required deps to build it (notably cython), see the README.md
+> 
+> $ ./build.sh
+> $ build/bin/run_tests.py
+> 
+> If you get things that far I think Leon can get a reproduction for you
+> 
 
-Folded the (rewritten) [1/2] into this one and queued it up for 5.6, thanks!
+Cool, it's up and running (1 failure, 3 skipped, out of 67 tests).
 
-> ---
->  drivers/acpi/fan.c | 96 ++++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 88 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/acpi/fan.c b/drivers/acpi/fan.c
-> index 816b0803f7fb..86d2417953b5 100644
-> --- a/drivers/acpi/fan.c
-> +++ b/drivers/acpi/fan.c
-> @@ -44,12 +44,16 @@ static const struct dev_pm_ops acpi_fan_pm = {
->  #define FAN_PM_OPS_PTR NULL
->  #endif
->
-> +#define ACPI_FPS_NAME_LEN      20
-> +
->  struct acpi_fan_fps {
->         u64 control;
->         u64 trip_point;
->         u64 speed;
->         u64 noise_level;
->         u64 power;
-> +       char name[ACPI_FPS_NAME_LEN];
-> +       struct device_attribute dev_attr;
->  };
->
->  struct acpi_fan_fif {
-> @@ -265,6 +269,39 @@ static int acpi_fan_speed_cmp(const void *a, const void *b)
->         return fps1->speed - fps2->speed;
->  }
->
-> +static ssize_t show_state(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +       struct acpi_fan_fps *fps = container_of(attr, struct acpi_fan_fps, dev_attr);
-> +       int count;
-> +
-> +       if (fps->control == 0xFFFFFFFF || fps->control > 100)
-> +               count = snprintf(buf, PAGE_SIZE, "not-defined:");
-> +       else
-> +               count = snprintf(buf, PAGE_SIZE, "%lld:", fps->control);
-> +
-> +       if (fps->trip_point == 0xFFFFFFFF || fps->trip_point > 9)
-> +               count += snprintf(&buf[count], PAGE_SIZE, "not-defined:");
-> +       else
-> +               count += snprintf(&buf[count], PAGE_SIZE, "%lld:", fps->trip_point);
-> +
-> +       if (fps->speed == 0xFFFFFFFF)
-> +               count += snprintf(&buf[count], PAGE_SIZE, "not-defined:");
-> +       else
-> +               count += snprintf(&buf[count], PAGE_SIZE, "%lld:", fps->speed);
-> +
-> +       if (fps->noise_level == 0xFFFFFFFF)
-> +               count += snprintf(&buf[count], PAGE_SIZE, "not-defined:");
-> +       else
-> +               count += snprintf(&buf[count], PAGE_SIZE, "%lld:", fps->noise_level * 100);
-> +
-> +       if (fps->power == 0xFFFFFFFF)
-> +               count += snprintf(&buf[count], PAGE_SIZE, "not-defined\n");
-> +       else
-> +               count += snprintf(&buf[count], PAGE_SIZE, "%lld\n", fps->power);
-> +
-> +       return count;
-> +}
-> +
->  static int acpi_fan_get_fps(struct acpi_device *device)
->  {
->         struct acpi_fan *fan = acpi_driver_data(device);
-> @@ -295,12 +332,13 @@ static int acpi_fan_get_fps(struct acpi_device *device)
->         }
->         for (i = 0; i < fan->fps_count; i++) {
->                 struct acpi_buffer format = { sizeof("NNNNN"), "NNNNN" };
-> -               struct acpi_buffer fps = { sizeof(fan->fps[i]), &fan->fps[i] };
-> +               struct acpi_buffer fps = { offsetof(struct acpi_fan_fps, name),
-> +                                               &fan->fps[i] };
->                 status = acpi_extract_package(&obj->package.elements[i + 1],
->                                               &format, &fps);
->                 if (ACPI_FAILURE(status)) {
->                         dev_err(&device->dev, "Invalid _FPS element\n");
-> -                       break;
-> +                       goto err;
->                 }
->         }
->
-> @@ -308,6 +346,24 @@ static int acpi_fan_get_fps(struct acpi_device *device)
->         sort(fan->fps, fan->fps_count, sizeof(*fan->fps),
->              acpi_fan_speed_cmp, NULL);
->
-> +       for (i = 0; i < fan->fps_count; ++i) {
-> +               struct acpi_fan_fps *fps = &fan->fps[i];
-> +
-> +               snprintf(fps->name, ACPI_FPS_NAME_LEN, "state%d", i);
-> +               fps->dev_attr.show = show_state;
-> +               fps->dev_attr.store = NULL;
-> +               fps->dev_attr.attr.name = fps->name;
-> +               fps->dev_attr.attr.mode = 0444;
-> +               status = sysfs_create_file(&device->dev.kobj, &fps->dev_attr.attr);
-> +               if (status) {
-> +                       int j;
-> +
-> +                       for (j = 0; j < i; ++j)
-> +                               sysfs_remove_file(&device->dev.kobj, &fan->fps[j].dev_attr.attr);
-> +                       break;
-> +               }
-> +       }
-> +
->  err:
->         kfree(obj);
->         return status;
-> @@ -330,14 +386,20 @@ static int acpi_fan_probe(struct platform_device *pdev)
->         platform_set_drvdata(pdev, fan);
->
->         if (acpi_fan_is_acpi4(device)) {
-> -               if (acpi_fan_get_fif(device) || acpi_fan_get_fps(device))
-> -                       goto end;
-> +               result = acpi_fan_get_fif(device);
-> +               if (result)
-> +                       return result;
-> +
-> +               result = acpi_fan_get_fps(device);
-> +               if (result)
-> +                       return result;
-> +
->                 fan->acpi4 = true;
->         } else {
->                 result = acpi_device_update_power(device, NULL);
->                 if (result) {
->                         dev_err(&device->dev, "Failed to set initial power state\n");
-> -                       goto end;
-> +                       goto err_end;
->                 }
->         }
->
-> @@ -350,7 +412,7 @@ static int acpi_fan_probe(struct platform_device *pdev)
->                                                 &fan_cooling_ops);
->         if (IS_ERR(cdev)) {
->                 result = PTR_ERR(cdev);
-> -               goto end;
-> +               goto err_end;
->         }
->
->         dev_dbg(&pdev->dev, "registered as cooling_device%d\n", cdev->id);
-> @@ -365,10 +427,21 @@ static int acpi_fan_probe(struct platform_device *pdev)
->         result = sysfs_create_link(&cdev->device.kobj,
->                                    &pdev->dev.kobj,
->                                    "device");
-> -       if (result)
-> +       if (result) {
->                 dev_err(&pdev->dev, "Failed to create sysfs link 'device'\n");
-> +               goto err_end;
-> +       }
-> +
-> +       return 0;
-> +
-> +err_end:
-> +       if (fan->acpi4) {
-> +               int i;
-> +
-> +               for (i = 0; i < fan->fps_count; ++i)
-> +                       sysfs_remove_file(&device->dev.kobj, &fan->fps[i].dev_attr.attr);
-> +       }
->
-> -end:
->         return result;
->  }
->
-> @@ -376,6 +449,13 @@ static int acpi_fan_remove(struct platform_device *pdev)
->  {
->         struct acpi_fan *fan = platform_get_drvdata(pdev);
->
-> +       if (fan->acpi4) {
-> +               struct acpi_device *device = ACPI_COMPANION(&pdev->dev);
-> +               int i;
-> +
-> +               for (i = 0; i < fan->fps_count; ++i)
-> +                       sysfs_remove_file(&device->dev.kobj, &fan->fps[i].dev_attr.attr);
-> +       }
->         sysfs_remove_link(&pdev->dev.kobj, "thermal_cooling");
->         sysfs_remove_link(&fan->cdev->device.kobj, "device");
->         thermal_cooling_device_unregister(fan->cdev);
-> --
-> 2.17.2
->
+This is a great test suite to have running, I'll add it to my scripts. Here's the
+full output in case the failure or skip cases are a problem:
+
+$ sudo ./build/bin/run_tests.py --verbose
+
+test_create_ah (tests.test_addr.AHTest) ... ok
+test_create_ah_roce (tests.test_addr.AHTest) ... skipped "Can't run RoCE tests on IB link layer"
+test_destroy_ah (tests.test_addr.AHTest) ... ok
+test_create_comp_channel (tests.test_cq.CCTest) ... ok
+test_destroy_comp_channel (tests.test_cq.CCTest) ... ok
+test_create_cq_ex (tests.test_cq.CQEXTest) ... ok
+test_create_cq_ex_bad_flow (tests.test_cq.CQEXTest) ... ok
+test_destroy_cq_ex (tests.test_cq.CQEXTest) ... ok
+test_create_cq (tests.test_cq.CQTest) ... ok
+test_create_cq_bad_flow (tests.test_cq.CQTest) ... ok
+test_destroy_cq (tests.test_cq.CQTest) ... ok
+test_rc_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
+test_ud_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
+test_xrc_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
+test_create_dm (tests.test_device.DMTest) ... ok
+test_create_dm_bad_flow (tests.test_device.DMTest) ... ok
+test_destroy_dm (tests.test_device.DMTest) ... ok
+test_destroy_dm_bad_flow (tests.test_device.DMTest) ... ok
+test_dm_read (tests.test_device.DMTest) ... ok
+test_dm_write (tests.test_device.DMTest) ... ok
+test_dm_write_bad_flow (tests.test_device.DMTest) ... ok
+test_dev_list (tests.test_device.DeviceTest) ... ok
+test_open_dev (tests.test_device.DeviceTest) ... ok
+test_query_device (tests.test_device.DeviceTest) ... ok
+test_query_device_ex (tests.test_device.DeviceTest) ... ok
+test_query_gid (tests.test_device.DeviceTest) ... ok
+test_query_port (tests.test_device.DeviceTest) ... FAIL
+test_query_port_bad_flow (tests.test_device.DeviceTest) ... ok
+test_create_dm_mr (tests.test_mr.DMMRTest) ... ok
+test_destroy_dm_mr (tests.test_mr.DMMRTest) ... ok
+test_buffer (tests.test_mr.MRTest) ... ok
+test_dereg_mr (tests.test_mr.MRTest) ... ok
+test_dereg_mr_twice (tests.test_mr.MRTest) ... ok
+test_lkey (tests.test_mr.MRTest) ... ok
+test_read (tests.test_mr.MRTest) ... ok
+test_reg_mr (tests.test_mr.MRTest) ... ok
+test_reg_mr_bad_flags (tests.test_mr.MRTest) ... ok
+test_reg_mr_bad_flow (tests.test_mr.MRTest) ... ok
+test_rkey (tests.test_mr.MRTest) ... ok
+test_write (tests.test_mr.MRTest) ... ok
+test_dereg_mw_type1 (tests.test_mr.MWTest) ... ok
+test_dereg_mw_type2 (tests.test_mr.MWTest) ... ok
+test_reg_mw_type1 (tests.test_mr.MWTest) ... ok
+test_reg_mw_type2 (tests.test_mr.MWTest) ... ok
+test_reg_mw_wrong_type (tests.test_mr.MWTest) ... ok
+test_odp_rc_traffic (tests.test_odp.OdpTestCase) ... ok
+test_odp_ud_traffic (tests.test_odp.OdpTestCase) ... skipped 'ODP is not supported - ODP recv not supported'
+test_odp_xrc_traffic (tests.test_odp.OdpTestCase) ... ok
+test_default_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
+test_mem_align_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
+test_without_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
+test_alloc_pd (tests.test_pd.PDTest) ... ok
+test_create_pd_none_ctx (tests.test_pd.PDTest) ... ok
+test_dealloc_pd (tests.test_pd.PDTest) ... ok
+test_destroy_pd_twice (tests.test_pd.PDTest) ... ok
+test_multiple_pd_creation (tests.test_pd.PDTest) ... ok
+test_create_qp_ex_no_attr (tests.test_qp.QPTest) ... ok
+test_create_qp_ex_no_attr_connected (tests.test_qp.QPTest) ... ok
+test_create_qp_ex_with_attr (tests.test_qp.QPTest) ... ok
+test_create_qp_ex_with_attr_connected (tests.test_qp.QPTest) ... ok
+test_create_qp_no_attr (tests.test_qp.QPTest) ... ok
+test_create_qp_no_attr_connected (tests.test_qp.QPTest) ... ok
+test_create_qp_with_attr (tests.test_qp.QPTest) ... ok
+test_create_qp_with_attr_connected (tests.test_qp.QPTest) ... ok
+test_modify_qp (tests.test_qp.QPTest) ... ok
+test_query_qp (tests.test_qp.QPTest) ... ok
+test_rdmacm_sync_traffic (tests.test_rdmacm.CMTestCase) ... skipped 'No devices with net interface'
+
+======================================================================
+FAIL: test_query_port (tests.test_device.DeviceTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+   File "/kernel_work/rdma-core/tests/test_device.py", line 129, in test_query_port
+     self.verify_port_attr(port_attr)
+   File "/kernel_work/rdma-core/tests/test_device.py", line 113, in verify_port_attr
+     assert 'Invalid' not in d.speed_to_str(attr.active_speed)
+AssertionError
+
+----------------------------------------------------------------------
+Ran 67 tests in 10.058s
+
+FAILED (failures=1, skipped=3)
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
