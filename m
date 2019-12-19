@@ -2,122 +2,102 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CFFC43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 778D0C3F68F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C013A2146E
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:53:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 410AA24679
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576774563;
+	bh=PMSrHvqg0gemRV++ytAtKoOkAvugTmkmbonktzFyE18=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=rwM8/rQaypugf6cbdBsDiQpbLTJpDMNsWlBjhUbMmMg5u5SUizu9ZSYodZceyPWqb
+	 KV8T8626vLE52fgGIZiZclI9hTboLmJMsz7I/o31J/cd2ykHbnCCx5Yim0uEdm4Sxl
+	 71c8ZLJTypL++bX/G6XDbGjFCwKbat3OTEp4eRrY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbfLSQx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 11:53:59 -0500
-Received: from ms.lwn.net ([45.79.88.28]:37284 "EHLO ms.lwn.net"
+        id S1726840AbfLSQ4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 11:56:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55368 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726855AbfLSQx7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 11:53:59 -0500
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726760AbfLSQ4C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 11:56:02 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C8DD92E5;
-        Thu, 19 Dec 2019 16:53:57 +0000 (UTC)
-Date:   Thu, 19 Dec 2019 09:53:56 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     miklos@szeredi.hu, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        by mail.kernel.org (Postfix) with ESMTPSA id B48DE2146E;
+        Thu, 19 Dec 2019 16:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576774561;
+        bh=PMSrHvqg0gemRV++ytAtKoOkAvugTmkmbonktzFyE18=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=kOWy03CFpwgpXw2oFdpVHUn7E+twuJwx204ffHmEP3rX5xAhmL0yn3pJryLeHzsM/
+         9mHGJBz4Lz4LHdvx1jUkbqzyiNnllYhG2ubYHjX6ory+oEl2IBwYYEKMx28ZlHvUDQ
+         +gMlaF8T9cykSqBWbLdfxDfbcLvFvApGmIPpgPC0=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 8483E352274B; Thu, 19 Dec 2019 08:56:01 -0800 (PST)
+Date:   Thu, 19 Dec 2019 08:56:01 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Amol Grover <frextrite@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: filesystems: convert fuse to RST
-Message-ID: <20191219095356.4a3ad965@lwn.net>
-In-Reply-To: <20191120192655.33709-1-dwlsalmeida@gmail.com>
-References: <20191120192655.33709-1-dwlsalmeida@gmail.com>
-Organization: LWN.net
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Subject: Re: [PATCH v2] doc: listRCU: Add some more listRCU patterns in the
+ kernel
+Message-ID: <20191219165601.GA2889@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191203063941.6981-1-frextrite@gmail.com>
+ <20191206080750.21745-1-frextrite@gmail.com>
+ <20191219092913.76ca933e@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191219092913.76ca933e@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Nov 2019 16:26:55 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
-
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On Thu, Dec 19, 2019 at 09:29:13AM -0700, Jonathan Corbet wrote:
+> On Fri,  6 Dec 2019 13:37:51 +0530
+> Amol Grover <frextrite@gmail.com> wrote:
 > 
+> > - Add more information about listRCU patterns taking examples
+> > from audit subsystem in the linux kernel.
+> > 
+> > - The initially written audit examples are kept, even though they are
+> > slightly different in the kernel.
+> > 
+> > - Modify inline text for better passage quality.
+> > 
+> > - Fix typo in code-blocks and improve code comments.
+> > 
+> > - Add text formatting (italics, bold and code) for better emphasis.
+> > 
+> > Patch originally submitted at
+> > https://lore.kernel.org/patchwork/patch/1082804/
+> > 
+> > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
 > 
-> Converts fuse.txt to reStructuredText format, improving the presentation
-> without changing much of the underlying content.
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> -----------------------------------------------------------
-> Changes in v2:
-> -Copied FUSE maintainer (Miklos Szeredi)
-> -Fixed the reference in the MAINTAINERS file
-> -Removed some of the excessive markup in fuse.rst
-> -Moved fuse.rst into admin-guide
-> -Updated index.rst
+> Paul, what's your wish regarding this one?  Do you want to pick it up, or
+> should I ... ?
 
-So I have to confess that I've lost track of where we stand with this.
-Holidays and moving house will do that...apologies.  In any case, I have a
-couple of additional comments.
+I was waiting for replies agreeing that Amol's changes addressed the
+feedback to v1 of this patch.  I take this to mean that you are OK
+with his v2, so will queue Amol's patch.  ;-)
 
-[...]
-
-> -There's a control filesystem for FUSE, which can be mounted by:
-> +There's a control filesystem for FUSE, which can be mounted by: ::
->  
->    mount -t fusectl none /sys/fs/fuse/connections
-
-Please just do "...can be mounted by::"; it will do what you want.
-
-> -Mounting it under the '/sys/fs/fuse/connections' directory makes it
-> +Mounting it under the ``'/sys/fs/fuse/connections'`` directory makes it
-
-There's still a lot of extra markup, and this seems like *way* too many
-quotes... 
-
-> -INTERRUPT requests take precedence over other requests, so the
-> +*INTERRUPT* requests take precedence over other requests, so the
->  userspace filesystem will receive queued INTERRUPTs before any others.
-
-Not sure you need to add that markup either, but beyond that...
-
-> -The userspace filesystem may ignore the INTERRUPT requests entirely,
-> -or may honor them by sending a reply to the _original_ request, with
-> -the error set to EINTR.
-> +The userspace filesystem may ignore the *INTERRUPT* requests entirely,
-> +or may honor them by sending a reply to the *original* request, with
-> +the error set to ``EINTR``.
->  
->  It is also possible that there's a race between processing the
->  original request and its INTERRUPT request.  There are two possibilities:
->  
-> -  1) The INTERRUPT request is processed before the original request is
-> +  #. The *INTERRUPT* request is processed before the original request is
->       processed
->  
-> -  2) The INTERRUPT request is processed after the original request has
-> +  #. The *INTERRUPT* request is processed after the original request has
->       been answered
->  
->  If the filesystem cannot find the original request, it should wait for
->  some timeout and/or a number of new requests to arrive, after which it
-> -should reply to the INTERRUPT request with an EAGAIN error.  In case
-> -1) the INTERRUPT request will be requeued.  In case 2) the INTERRUPT
-> +should reply to the INTERRUPT request with an ``EAGAIN`` error.  In case
-> +1) the ``INTERRUPT`` request will be requeued.  In case 2) the ``INTERRUPT``
->  reply will be ignored.
-
-Here you are marking up the same term in a different way.  That can only
-create confusion, which is generally not the goal for the docs.
-
-Please make another pass and try to get the markup down to a minimum;
-remember that the plain-text reading experience matters too.
-
-Thanks,
-
-jon
+							Thanx, Paul
