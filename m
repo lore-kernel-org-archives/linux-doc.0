@@ -2,107 +2,85 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0848C2D0D1
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC59BC2D0C1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:05:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 95F7524672
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:02:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rxe+ElQQ"
+	by mail.kernel.org (Postfix) with ESMTP id B6A87222C2
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 17:05:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfLSRCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 12:02:05 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39463 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbfLSRCE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 12:02:04 -0500
-Received: by mail-pg1-f193.google.com with SMTP id b137so3432298pga.6;
-        Thu, 19 Dec 2019 09:02:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=QmZHBv3VTqpxW/+akPp/0Up5TSxjNx51R37o6VFJo/8=;
-        b=Rxe+ElQQdLHhw9LCWF1MT+SEbUVbP6UBVHaNYlY8Y655lU5jeO2JXQ4vuSKHpar2Bx
-         evQIWX3uKVu1nLpE4Jpk4DbtISWARtGqBhJBxoQdPqsuP2KxYFNEhRiR0qcKOs4mXRjM
-         YESOA+egwGyNcxg9KwICjh6RlwcuqTtPs32YF4w529lg8+J1FsqORTNH0Crom2oKc2nO
-         2yWTE8Q54pbpzcrogjN7XTiM7UecKzIWaZttpMXY2M0c32z6CYiYTol+CkQNjEIx9wc1
-         +aEOGC8noMRzk9kkCrgW6dSsIJ4GCYMGwVvQc01ronCGari5RXeHqUw7o9VTlRs1PWtA
-         sv5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=QmZHBv3VTqpxW/+akPp/0Up5TSxjNx51R37o6VFJo/8=;
-        b=BxVoafVSWrxDH7drp6eYwN8zaMRgibT/17YhuvDMQhOJgyafTYQdGHHnGEZzpV12av
-         asbU+orKXLIQGD4tZARBSZyG9QZ5tzURRdIcUtMblbHSwKnpqT2m/w2/MtnurVQUMEZx
-         6ocVkSXC/S6rYll152lI54grt6cHSD13HkS/Vz8e+nabxz3CidYksBjFWe9cO4iJfId4
-         OyYAkS/19wtSJTX4VvvxTZ4iHAK3l+sVo5CmDZ/IDfoxOY4vd0/EHXOdKiquxg529R1h
-         5Qs+RmzE+72+PNGD5U7J+zWdYHtiMglq+u3Sq3uJyOHmsSfbbmkxguMp8zpa0BXOhFO6
-         BuYg==
-X-Gm-Message-State: APjAAAVQUajvqh0xmQSrku59UJnwpBh2jAufO6Gr8XgV8JNrVUX5J1Nc
-        WHwbfm+R0OglDEQTPAdNORqtFeXy5VM=
-X-Google-Smtp-Source: APXvYqyebZwOJg1dT7jXsy0er9lcMqa/aeNpp2VMPO3d+LC5lWQ7Ugfd7hJLcic/CSI7Ym+uGIn6Vg==
-X-Received: by 2002:a63:e042:: with SMTP id n2mr10338201pgj.308.1576774923465;
-        Thu, 19 Dec 2019 09:02:03 -0800 (PST)
-Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac? ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id v4sm9038094pgo.63.2019.12.19.09.02.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 09:02:03 -0800 (PST)
-Subject: Re: [PATCH v2] Documentation: filesystems: convert fuse to RST
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     miklos@szeredi.hu, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-fsdevel@vger.kernel.org
-References: <20191120192655.33709-1-dwlsalmeida@gmail.com>
- <20191219095356.4a3ad965@lwn.net>
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <2eba770a-f566-d704-35b3-7c00995bbc76@gmail.com>
-Date:   Thu, 19 Dec 2019 14:01:58 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1726897AbfLSRFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 12:05:36 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37360 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726760AbfLSRFg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Dec 2019 12:05:36 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7C16E2E5;
+        Thu, 19 Dec 2019 17:05:35 +0000 (UTC)
+Date:   Thu, 19 Dec 2019 10:05:34 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] docs/zh_CN: add translator info for
+ embargoed-hardware-issues
+Message-ID: <20191219100534.707c0f36@lwn.net>
+In-Reply-To: <1576660243-84140-2-git-send-email-alex.shi@linux.alibaba.com>
+References: <1576660243-84140-1-git-send-email-alex.shi@linux.alibaba.com>
+        <1576660243-84140-2-git-send-email-alex.shi@linux.alibaba.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20191219095356.4a3ad965@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Jonathan! I hope you're doing fine.
+On Wed, 18 Dec 2019 17:10:41 +0800
+Alex Shi <alex.shi@linux.alibaba.com> wrote:
 
+> Let the people know where to complain... ;)
 
-> So I have to confess that I've lost track of where we stand with this.
-> Holidays and moving house will do that...apologies.  In any case, I have a
-> couple of additional comments.
+So I'd like to apply all of these changes; they look fine to me given that
+I don't read Chinese...:)  But I do have a couple of requests:
 
+ - Please combine the changes into a single patch; adding the translated
+   file, putting it into the toctree, and adding translator credit are all
+   a single action, in the end.  There is no reason to split them apart.
 
-Actually Miklos replied. While he did not comment on the amount of 
-markup used, he had this to add:
+ - Changelogs like the above are not particularly helpful; please provide
+   changelogs in the usual kernel style describing what was done and why.
 
-> Hmm, most of this document is*not*  an admin-guide at all.  The only
-> sections that really belong in that category are "What is FUSE?" and
-> "Control filesystem" and maybe some of the definitions as well.   The
-> mount options for fuse filesystem are not generally usable for
-> actually performing a mount, most of those are actually internal
-> details of the filesystem implementation.
->
-> So I suggest leaving this file under Documentation/filesystems/ for
-> now and later work towards splitting out the admin-guide parts into a
-> separate document.
+Thanks,
 
-Please let me know what you think? I can do another pass to clean this 
-up and remove more markup, no problem!
+jon
 
-
--Daniel.
-
+> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+> Cc: Harry Wei <harryxiyou@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  .../translations/zh_CN/process/embargoed-hardware-issues.rst         | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+> index 5bc583a41188..a0b956946ebf 100644
+> --- a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+> @@ -1,3 +1,8 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/process/embargoed-hardware-issues.rst`
+> +:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+> +
+>  被限制的硬件问题
+>  ================
+>  
