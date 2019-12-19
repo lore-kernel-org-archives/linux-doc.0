@@ -2,166 +2,116 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,GAPPY_SUBJECT,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D86C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F111C43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:52:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B87524672
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:46:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E324B24650
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 11:52:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576756344;
+	bh=LcrmCaN5uDXEpt4OoWn+E8iVhyr7DZdG10rCcpysVYs=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=hIcv2dIIZ0h9Ga+e6WOWOz+TxMihfP87bdhOsSD42Lm9mzKVYDkpSgl55iqWtYdE2
+	 D+5NqF7SvlRIOGPhwgy+qfC90ENa4DpnTdDUhAFion39DxwQfYPPWnikhKrJi5k7AG
+	 cv9cliKju36yTadVnUmQEQeqJsFnU+oZRICa6Cgg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbfLSLqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 06:46:01 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2108 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726668AbfLSLqB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 06:46:01 -0500
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.54])
-        by Forcepoint Email with ESMTP id 0245EC08727047931738;
-        Thu, 19 Dec 2019 19:45:58 +0800 (CST)
-Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 19 Dec 2019 19:45:57 +0800
-Received: from [127.0.0.1] (10.173.221.248) by dggeme755-chm.china.huawei.com
- (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 19
- Dec 2019 19:45:56 +0800
-Subject: Re: [PATCH 1/5] KVM: arm64: Document PV-lock interface
-To:     Steven Price <steven.price@arm.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        James Morse <James.Morse@arm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        Suzuki Poulose <Suzuki.Poulose@arm.com>,
-        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
-        "Catalin Marinas" <Catalin.Marinas@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
-References: <20191217135549.3240-1-yezengruan@huawei.com>
- <20191217135549.3240-2-yezengruan@huawei.com>
- <20191217142138.GA38811@arm.com>
-From:   yezengruan <yezengruan@huawei.com>
-Message-ID: <49120a3c-405d-d2e3-2a88-ba590feccbcc@huawei.com>
-Date:   Thu, 19 Dec 2019 19:45:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <20191217142138.GA38811@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.221.248]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
+        id S1726907AbfLSLwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 06:52:23 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:53153 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726730AbfLSLwX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 06:52:23 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id xBJBpA5E025113;
+        Thu, 19 Dec 2019 20:51:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com xBJBpA5E025113
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576756271;
+        bh=13lrGAJJ2x/6FuBvyBEwfGd2aNby5ZIL20FfDY8lhqI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b7IHOHfY0A0wMqmrhiyzNrbSEJOen74MGyrMd7xy6fRQ1TpVOpyYLshSMpw8sRqAM
+         VKirQRVgkBjDthaeqrpOW5bc0D2Xeliw5wHcx7hRneRSfWyB3ovVIFwAbnz54hnvzn
+         CjJRFv7SCSy769UzDCXBQjBE3LWXAKc5B2owJsXtOvbyZKCEfz3wsCNaWY9eHJreFV
+         SyLATB43U+HCCA2k7cVrh7Q46BW8FTDmmyEUDa7SpyUOUC8tnnJvHXDskXOtjpbW3b
+         GHZLGy9ME2FniUai6YL0m30AksBpwv0PpmWh2FoRshDz96BpVZjpUrOvyRha7JNDkw
+         mPsg99rnxkWsQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Johan Hovold <johan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: clarify the difference between obj-y and obj-m w.r.t. descending
+Date:   Thu, 19 Dec 2019 20:51:00 +0900
+Message-Id: <20191219115100.958-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
+Kbuild descends into a directory by either 'y' or 'm', but there is an
+important difference.
 
-On 2019/12/17 22:21, Steven Price wrote:
-> On Tue, Dec 17, 2019 at 01:55:45PM +0000, yezengruan@huawei.com wrote:
->> From: Zengruan Ye <yezengruan@huawei.com>
->>
->> Introduce a paravirtualization interface for KVM/arm64 to obtain the vcpu
->> is currently running or not.
->>
->> A hypercall interface is provided for the guest to interrogate the
->> hypervisor's support for this interface and the location of the shared
->> memory structures.
->>
->> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
->> ---
->>  Documentation/virt/kvm/arm/pvlock.rst | 31 +++++++++++++++++++++++++++
->>  1 file changed, 31 insertions(+)
->>  create mode 100644 Documentation/virt/kvm/arm/pvlock.rst
->>
->> diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm/arm/pvlock.rst
->> new file mode 100644
->> index 000000000000..eec0c36edf17
->> --- /dev/null
->> +++ b/Documentation/virt/kvm/arm/pvlock.rst
->> @@ -0,0 +1,31 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +Paravirtualized lock support for arm64
->> +======================================
->> +
->> +KVM/arm64 provids some hypervisor service calls to support a paravirtualized
->> +guest obtaining the vcpu is currently running or not.
->> +
->> +Two new SMCCC compatible hypercalls are defined:
->> +
->> +* PV_LOCK_FEATURES:   0xC5000040
->> +* PV_LOCK_PREEMPTED:  0xC5000041
-> 
-> These values are in the "Standard Hypervisor Service Calls" section of
-> SMCCC - so is there a document that describes this features such that
-> other OSes or hypervisors can implement it? I'm also not entirely sure
-> of the process of ensuring that the IDs picked are non-conflicting.
-> 
-> Otherwise if this is a KVM specific interface this should probably
-> belong within the "Vendor Specific Hypervisor Service Calls" section
-> along with some probing that the hypervisor is actually KVM. Although I
-> don't see anything KVM specific.
+Kbuild combines the built-in objects into built-in.a in each directory.
+The built-in.a in the directory visited by obj-y is merged into the
+built-in.a in the parent directory. This merge happens recursively when
+Kbuild is ascending back towards the top directory, so built-in objects
+are linked into vmlinux eventually. This works properly only when the
+Makefile that specifies obj-y is reachable by the chain of obj-y.
 
-Thanks for pointing it out to me! Actually, I also don't see any documents
-or KVM specific that describes this features. The values in the "Vendor
-Specific Hypervisor Service Calls" section may be more appropriate, such as
-the following
+On the other hand, Kbuild does not take built-in.a from the directory
+visited by obj-m. This it, all the objects in that directory are supposed
+to be modular. If Kbuild descends into a directory by obj-m, but the
+Makefile in the sub-directory specifies obj-y, those objects are just
+left orphan.
 
-* PV_LOCK_FEATURES:   0xC6000020
-* PV_LOCK_PREEMPTED:  0xC6000021
+The current statement "Kbuild only uses this information to decide that
+it needs to visit the directory" is misleading. Clarify the difference.
 
-Please let me know if you have any suggestions.
+Reported-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> 
->> +
->> +The existence of the PV_LOCK hypercall should be probed using the SMCCC 1.1
->> +ARCH_FEATURES mechanism before calling it.
->> +
->> +PV_LOCK_FEATURES
->> +    ============= ========    ==========
->> +    Function ID:  (uint32)    0xC5000040
->> +    PV_call_id:   (uint32)    The function to query for support.
->> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
->> +                              PV-lock feature is supported by the hypervisor.
->> +    ============= ========    ==========
->> +
->> +PV_LOCK_PREEMPTED
->> +    ============= ========    ==========
->> +    Function ID:  (uint32)    0xC5000041
->> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the IPA of
->> +                              this vcpu's pv data structure is configured by
->> +                              the hypervisor.
->> +    ============= ========    ==========
-> 
->>From the code it looks like there's another argument for this SMC - the
-> physical address (or IPA) of a struct pvlock_vcpu_state. This structure
-> also needs to be described as it is part of the ABI.
+ Documentation/kbuild/makefiles.rst | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Will update.
-
-> 
-> Steve
-> 
-> .
-> 
-
-Thanks,
-
-Zengruan
-
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index b9b50553bfc5..d7e6534a8505 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -297,9 +297,19 @@ more details, with real examples.
+ 	If CONFIG_EXT2_FS is set to either 'y' (built-in) or 'm' (modular)
+ 	the corresponding obj- variable will be set, and kbuild will descend
+ 	down in the ext2 directory.
+-	Kbuild only uses this information to decide that it needs to visit
+-	the directory, it is the Makefile in the subdirectory that
+-	specifies what is modular and what is built-in.
++
++	Kbuild uses this information not only to decide that it needs to visit
++	the directory, but also to decide whether or not to link objects from
++	the directory into vmlinux.
++
++	When Kbuild descends into the directory with 'y', all built-in objects
++	from that directory are combined into the built-in.a, which will be
++	eventually linked into vmlinux.
++
++	When Kbuild descends into the directory with 'm', in contrast, nothing
++	from that directory will be linked into vmlinux. If the Makefile in
++	that directory specifies obj-y, those objects will be left orphan.
++	It is very likely a bug of the Makefile or of dependencies in Kconfig.
+ 
+ 	It is good practice to use a `CONFIG_` variable when assigning directory
+ 	names. This allows kbuild to totally skip the directory if the
+-- 
+2.17.1
 
