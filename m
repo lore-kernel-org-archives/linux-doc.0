@@ -2,93 +2,275 @@ Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	GAPPY_SUBJECT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5A2C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 19:53:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40CFAC43603
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 20:05:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B3A42222C2
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 19:53:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M7RH+lIC"
+	by mail.kernel.org (Postfix) with ESMTP id 0CA232467B
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 20:05:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbfLSTxF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 14:53:05 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47976 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726906AbfLSTxF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 14:53:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qJw64LD7zJyT8BUXk7jEe7SP15JODV5psaJwB35+yl8=; b=M7RH+lIClBp3oVqj9u9ThFnLk
-        Zn1ewN8entymF3LEt5wzeCLjFvy3RIAPabxVcUZevXG/5zig7Kp1GpYdwqqNH0gckDP6VnFKl+pA2
-        jmmlt1VjPv+jPSdRphxADDGFyBfH0KxYeWaP9MOFjFNSdPrFRsoMyMxTqKu7yMEnJir/IyKhabZhN
-        WGpX9A6gshFyZIrhsvqKkoHi6govGD29KUukNrWsIC2GuVepjqE/0pS/xM5JR0f5fm9IA1UmqkUF6
-        WwsprIPUsmh5RLjwHTPwfoW29EtBKV9fUMY5I9LYFgO3ly+vmgDIqAJPPu6CGotg9knwbZJuHwRa9
-        1h8k9bv8w==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ii1r4-00054h-Hl; Thu, 19 Dec 2019 19:53:02 +0000
-Date:   Thu, 19 Dec 2019 11:53:02 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
- w.r.t. descending
-Message-ID: <20191219195302.GG32169@bombadil.infradead.org>
-References: <20191219115100.958-1-masahiroy@kernel.org>
+        id S1726869AbfLSUFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 15:05:33 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:43243 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbfLSUFd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 15:05:33 -0500
+Received: from mail-qv1-f54.google.com ([209.85.219.54]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MUokB-1iHKGZ3brF-00Qflk; Thu, 19 Dec 2019 21:05:31 +0100
+Received: by mail-qv1-f54.google.com with SMTP id x1so2719740qvr.8;
+        Thu, 19 Dec 2019 12:05:30 -0800 (PST)
+X-Gm-Message-State: APjAAAU0p4byrv7r1t29nrbPdk3EDYRod6/vXXo4fDv114znkPPuzoaH
+        aMgrcBnjbQXZ76S/u3LihT/kB+ARYclEDR1vZDU=
+X-Google-Smtp-Source: APXvYqw2a1l7eEIr13cHLyNlsGkSNHsp1JQwEETwWf2YAkPJRiT6U8vWTcmVEngBVA+PLBF5rXJPEjsI8UqbgQa0lUc=
+X-Received: by 2002:a0c:e7c7:: with SMTP id c7mr9408634qvo.222.1576785929164;
+ Thu, 19 Dec 2019 12:05:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191219115100.958-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191217221708.3730997-1-arnd@arndb.de> <20191217221708.3730997-28-arnd@arndb.de>
+ <53cd123fdcb893df36e0b3bf9dddbfe08f9c545e.camel@codethink.co.uk>
+In-Reply-To: <53cd123fdcb893df36e0b3bf9dddbfe08f9c545e.camel@codethink.co.uk>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 19 Dec 2019 21:05:13 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3Zv4+WUtCNMpNi_TUW2ytCbX6e3KTc2a+0uRiU7aesnQ@mail.gmail.com>
+Message-ID: <CAK8P3a3Zv4+WUtCNMpNi_TUW2ytCbX6e3KTc2a+0uRiU7aesnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 27/27] Documentation: document ioctl interfaces better
+To:     Ben Hutchings <ben.hutchings@codethink.co.uk>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Vf6A7wnHdwUV1mmBQc//xZwBN4G9rpUAs4Cf4Gurwa8dpNwlzny
+ yA5SEKDQ8ARq4LcXLCcAR2Y76nL5f3TZ45mo4Nv0oHAQiTBuj2DpGJwHFlkiEr8MPEU4vLx
+ OGpVOMZvPhrFs3h7PUuXLWbmsNxUe5bqcg65a+l0FN6P0EtkVMptMtHfyhH+KbWOxJUF/MI
+ 3mx3Ul4nOUwn8a/J0+2ZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EtSIYLuNofc=:aNaf3WD9WlDBC4TeeToiHz
+ INZlLA0W/3aaXz5vfdAESg4qKaeaE/24uCsbyzu9ptJrYZC25l/IEM0M7CI+SSv75dnJREONO
+ msIqOP0JJ6SzYnIF9rEB/yD1rWreXDh2B4lryehLhq7ktZuoP6ZC/t0GfM5OSON5/LCh0Fo5/
+ S4cdJkq5Lde2COSnOSoc+nfLv7vxYY3GXj5wt6yRx41b52v5UFql8W3D5lp2Aeihs5beVt186
+ MKSW91lEPWJAAknHRX5gbDUHLHAaIZvno9mXKyH4cmthspA8zKP18hZ+BG6MAjlJM8eOlNDZd
+ C6QO5cjDuIM5Qe3JF9wSbNSwhPTnUilLAGFsHEU1YNAKi74wPdpaBa8hoKk7/opvKtCHinRjV
+ hL9hV3aEWqjjOtNhc71qmSNEolRZlHkOVsdCucmOl2kC6ktJev4nB6Z6lW9P1JHU0QDNwvNdW
+ 0xK03ZgmDNgTk8S2+iKQ9pab5G6Apks6s4zjmnsqwH4ppY9XEQbJjRBgvNvKangVYfiP/vyuf
+ WUfJ/9Iyl7JrsVFD35sQDy5DOzIBOW3avRQDzxvvEzDeR57n+SI57KcSUqnv/yu5zEYadlI3x
+ Jx+20+QRlhGe9hjd4ztAlJCmi9c6ZpbhrpKF2fcTkWutm8SXzQ3VQv3Ihi5UO0lJ69qTR7pqJ
+ RG2mYyPLS4Q+MneyoTqzcAAzOSUJGCI/CZtc/Wg4/CX+SIWSb/PEdzQs9TmxW8Eahf9DG5daT
+ H94WbscY5xfyxctzrR4116woLeMi1+lnPk2EU5fd/0qEOIZcpB9naEPzC2+MtAu5lZQ6+uDgS
+ tsIPna3XCSisaN/5ra1TAL9uJj0Tt9L7V74SBspfIRPL2xOpzrsx8cNj2g4ywxLP774WRXzyA
+ loFRkhfTdchtAWID9RMg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
-> Kbuild descends into a directory by either 'y' or 'm', but there is an
-> important difference.
-> 
-> Kbuild combines the built-in objects into built-in.a in each directory.
-> The built-in.a in the directory visited by obj-y is merged into the
-> built-in.a in the parent directory. This merge happens recursively when
-> Kbuild is ascending back towards the top directory, so built-in objects
-> are linked into vmlinux eventually. This works properly only when the
-> Makefile that specifies obj-y is reachable by the chain of obj-y.
-> 
-> On the other hand, Kbuild does not take built-in.a from the directory
-> visited by obj-m. This it, all the objects in that directory are supposed
-> to be modular. If Kbuild descends into a directory by obj-m, but the
-> Makefile in the sub-directory specifies obj-y, those objects are just
-> left orphan.
-> 
-> The current statement "Kbuild only uses this information to decide that
-> it needs to visit the directory" is misleading. Clarify the difference.
+On Wed, Dec 18, 2019 at 11:45 PM Ben Hutchings
+<ben.hutchings@codethink.co.uk> wrote:
+> On Tue, 2019-12-17 at 23:17 +0100, Arnd Bergmann wrote:
+> > --- /dev/null
+> > +++ b/Documentation/core-api/ioctl.rst
+> > +``include/uapi/asm-generic/ioctl.h`` provides four macros for defining
+> > +ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
+> > +``_IOW``, and ``_IORW``. These should be used for all new commands,
+>
+> Typo: "_IORW" should be "_IOWR".
 
-> +	Kbuild uses this information not only to decide that it needs to visit
-> +	the directory, but also to decide whether or not to link objects from
-> +	the directory into vmlinux.
-> +
-> +	When Kbuild descends into the directory with 'y', all built-in objects
-> +	from that directory are combined into the built-in.a, which will be
-> +	eventually linked into vmlinux.
-> +
-> +	When Kbuild descends into the directory with 'm', in contrast, nothing
-> +	from that directory will be linked into vmlinux. If the Makefile in
-> +	that directory specifies obj-y, those objects will be left orphan.
-> +	It is very likely a bug of the Makefile or of dependencies in Kconfig.
+Fixed now
 
-Perhaps the implementation should be changed to match the documentation?
-This seems like a very subtle point for people to know.
+> > +with the correct parameters:
+> > +
+> > +_IO/_IOR/_IOW/_IOWR
+> > +   The macro name determines whether the argument is used for passing
+> > +   data into kernel (_IOW), from the kernel (_IOR), both (_IOWR) or is
+> > +   not a pointer (_IO). It is possible but not recommended to pass an
+> > +   integer value instead of a pointer with _IO.
+>
+> I feel the explanation of _IO here could be confusing.  I think what
+> you meant to say was that it is possible, but not recommended, to pass
+> integers directly (arg is integer) rather than indirectly (arg is
+> pointer to integer).  I suggest the alternate wording:
+>
+> The macro name specifies how the argument will be used.  It may be a
+> pointer to data to be passed into the kernel (_IOW), out of the kernel
+> (_IOR), or both (_IOWR).  The argument may also be an integer value
+> instead of a pointer (_IO), but this is not recommended.
+
+That's probably better than my version, but I find that misleading as well:
+it sounds like _IO() is not recommended, but having no argument with
+_IO() is actually fine. This is what I have now:
+
+   The macro name specifies how the argument will be used.  It may be a
+   pointer to data to be passed into the kernel (_IOW), out of the kernel
+   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
+   argument or those passing an integer value instead of a pointer.
+   It is recommended to only use _IO for commands without arguments,
+   and use pointers for passing data.
+
+
+> > +data_type
+> > +  The name of the data type pointed to by the argument, the command number
+> > +  encodes the ``sizeof(data_type)`` value in a 13-bit or 14-bit integer,
+> > +  leading to a limit of 8191 bytes for the maximum size of the argument.
+> > +  Note: do not pass sizeof(data_type) type into _IOR/IOW, as that will
+> > +  lead to encoding sizeof(sizeof(data_type)), i.e. sizeof(size_t).
+>
+> You left out _IOWR here.  It might also be worth mentioning that _IO
+> doesn't have this parameter.
+
+Changed now.
+
+> [...]
+> > +Return code
+> > +===========
+> > +
+> > +ioctl commands can return negative error codes as documented in errno(3),
+> > +these get turned into errno values in user space.
+>
+> Use a semi-colon instead of a comma, or change "these" to "which".
+
+done
+
+> > On success, the return
+> > +code should be zero. It is also possible but not recommended to return
+> > +a positive 'long' value.
+> > +
+> > +When the ioctl callback is called with an unknown command number, the
+> > +handler returns either -ENOTTY or -ENOIOCTLCMD, which also results in
+> > +-ENOTTY being returned from the system call. Some subsystems return
+> > +-ENOSYS or -EINVAL here for historic reasons, but this is wrong.
+> > +
+> > +Prior to Linux-5.5, compat_ioctl handlers were required to return
+>
+> Space instead of hyphen.
+
+done
+
+> > +-ENOIOCTLCMD in order to use the fallback conversion into native
+> > +commands. As all subsystems are now responsible for handling compat
+> > +mode themselves, this is no longer needed, but it may be important to
+> > +consider when backporting bug fixes to older kernels.
+> > +
+> > +Timestamps
+> > +==========
+> > +
+> > +Traditionally, timestamps and timeout values are passed as ``struct
+> > +timespec`` or ``struct timeval``, but these are problematic because of
+> > +incompatible definitions of these structures in user space after the
+> > +move to 64-bit time_t.
+> > +
+> > +The __kernel_timespec type can be used instead to be embedded in other
+>
+> It's not a typedef, so ``struct __kernel_timespec``.
+
+done
+
+> [...]
+> > +32-bit compat mode
+> > +==================
+> > +
+> > +In order to support 32-bit user space running on a 64-bit machine, each
+> > +subsystem or driver that implements an ioctl callback handler must also
+> > +implement the corresponding compat_ioctl handler.
+> > +
+> > +As long as all the rules for data structures are followed, this is as
+> > +easy as setting the .compat_ioctl pointer to a helper function such as
+> > +compat_ptr_ioctl() or blkdev_compat_ptr_ioctl().
+> > +
+> > +compat_ptr()
+> > +------------
+> > +
+> > +On the s/390 architecture, 31-bit user space has ambiguous representations
+>
+> IBM never used the name "S/390" for the 64-bit mainframe architecture,
+> but they have rebranded it several times.  Rather than trying to follow
+> what it's called this year, maybe just write "s390" to match what we
+> usually call it?
+
+ok, done
+
+> > +
+> > +  has four bytes of padding between a and b on x86-64, plus another four
+> > +  bytes of padding at the end, but no padding on i386, and it needs a
+> > +  compat_ioctl conversion handler to translate between the two formats.
+> > +
+> > +  To avoid this problem, all structures should have their members
+> > +  naturally aligned, or explicit reserved fields added in place of the
+> > +  implicit padding.
+>
+> This should explain how to check that - presumably by running pahole on
+> some sensible architecture.
+
+Ok, added "The ``pahole`` tool can be used for checking the alignment.".
+
+> > +* On ARM OABI user space, 16-bit member variables have 32-bit
+> > +  alignment, making them incompatible with modern EABI kernels.
+>
+> I thought that OABI required structures as a whole to have alignment of
+> 4, not individual members?  Which obviously does affect small
+> structures as members of other structures.
+
+You are right, I clearly misunderstood that. Changed the paragraph now to
+
+* On ARM OABI user space, structures are padded to multiples of 32-bit,
+  making some structs incompatible with modern EABI kernels if they
+  do not end on a 32-bit boundary.
+
+* On the m68k architecture, struct members are not guaranteed to have an
+  alignment greater than 16-bit, which is a problem when relying on
+  implicit padding.
+
+> [...]
+> > +Information leaks
+> > +=================
+> > +
+> > +Uninitialized data must not be copied back to user space, as this can
+> > +cause an information leak, which can be used to defeat kernel address
+> > +space layout randomization (KASLR), helping in an attack.
+> > +
+> > +As explained for the compat mode, it is best to not avoid any implicit
+>
+> Delete "not".
+
+Done.
+
+ > +padding in data structures, but if there is already padding in existing
+> > +structures, the kernel driver must be careful to zero out the padding
+> > +using memset() or similar before copying it to user space.
+>
+> This sentence is rather too long.  Also it can be read as suggesting
+> that one should somehow identify and memset() the padding just before
+> copying to user-space.  I suggest an alternate wording:
+>
+> For this reason (and for compat support) it is best to avoid any
+> implicit padding in data structures.  Where there is implicit padding
+> in an existing structure, kernel drivers must be careful to fully
+> initialize an instance of the structure before copying it to user
+> space.  This is usually done by calling memset() before assigning to
+> individual members.
+
+Sounds good, I've taken that paragraph now.
+
+> [...]
+> > +Alternatives to ioctl
+> > +=====================
+> [...]
+> > +* A custom file system can provide extra flexibility with a simple
+> > +  user interface but add a lot of complexity to the implementation.
+>
+> Typo: "add" should be "adds".
+
+Fixed
+
+Thanks for all the good suggestions!
+
+      Arnd
