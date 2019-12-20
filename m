@@ -2,281 +2,118 @@ Return-Path: <SRS0=+i2I=2K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D243DC43603
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 03:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7E5C43603
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 05:00:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A1297227BF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 03:06:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39F622465E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 05:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbfLTDGG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 22:06:06 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:35303 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727063AbfLTDGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 22:06:06 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TlOTnMv_1576811092;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TlOTnMv_1576811092)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 20 Dec 2019 11:04:53 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>, lizefan@huawei.com,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/3] docs/zh_CN: translate kernel driver statement into Chinese
-Date:   Fri, 20 Dec 2019 11:04:44 +0800
-Message-Id: <1576811085-30544-2-git-send-email-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576811085-30544-1-git-send-email-alex.shi@linux.alibaba.com>
-References: <1576811085-30544-1-git-send-email-alex.shi@linux.alibaba.com>
+        id S1725801AbfLTFAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Dec 2019 00:00:54 -0500
+Received: from mail.parknet.co.jp ([210.171.160.6]:39866 "EHLO
+        mail.parknet.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbfLTFAy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Dec 2019 00:00:54 -0500
+X-Greylist: delayed 435 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Dec 2019 00:00:54 EST
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+        by mail.parknet.co.jp (Postfix) with ESMTPSA id 96E0115CBE3;
+        Fri, 20 Dec 2019 13:53:37 +0900 (JST)
+Received: from devron.myhome.or.jp (foobar@devron.myhome.or.jp [192.168.0.3])
+        by ibmpc.myhome.or.jp (8.15.2/8.15.2/Debian-15) with ESMTPS id xBK4raVv037128
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 20 Dec 2019 13:53:37 +0900
+Received: from devron.myhome.or.jp (foobar@localhost [127.0.0.1])
+        by devron.myhome.or.jp (8.15.2/8.15.2/Debian-15) with ESMTPS id xBK4raLR170506
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 20 Dec 2019 13:53:36 +0900
+Received: (from hirofumi@localhost)
+        by devron.myhome.or.jp (8.15.2/8.15.2/Submit) id xBK4rZcW170504;
+        Fri, 20 Dec 2019 13:53:35 +0900
+From:   OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] Documentation: filesystems: convert vfat.txt to RST
+References: <20191121130605.29074-1-dwlsalmeida@gmail.com>
+        <20191219100025.255003e6@lwn.net>
+Date:   Fri, 20 Dec 2019 13:53:35 +0900
+In-Reply-To: <20191219100025.255003e6@lwn.net> (Jonathan Corbet's message of
+        "Thu, 19 Dec 2019 10:00:25 -0700")
+Message-ID: <87immbwqb4.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.0.50 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel driver statement is a great statement in kernel community. This
-patch translate the statement into Chinese and add it into toctree.
+Jonathan Corbet <corbet@lwn.net> writes:
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com>
-Cc: lizefan@huawei.com
-Cc: Fengguang Wu <fengguang.wu@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- Documentation/translations/zh_CN/process/index.rst |   1 +
- .../zh_CN/process/kernel-driver-statement.rst      | 199 +++++++++++++++++++++
- 2 files changed, 200 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/process/kernel-driver-statement.rst
+> On Thu, 21 Nov 2019 10:06:05 -0300
+> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
+>
+>> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+>> 
+>> Converts vfat.txt to the reStructuredText format, improving presentation
+>> without changing the underlying content.
+>> 
+>> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+>> -----------------------------------------------------------
+>> Changes in v2:
+>> Refactored long lines as pointed out by Jonathan
+>> Copied the maintainer
+>> Updated the reference in the MAINTAINERS file for vfat
+>> 
+>> I did not move this into admin-guide, waiting on what the 
+>> maintainer has to say about this and also about old sections
+>> in the text, if any.
+>
+> This one, too, could user a bit less markup, and more consistent markup.
+> If you have to mark up literal text, for example, it should be ``literal``,
+> not *emphasis*.  But please think about whether it needs marking up at all.
+>
+> I have one other thing here, that could use input from the vfat maintainer:
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index f7a84eff6e93..47a2af54fb13 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -31,6 +31,7 @@
-    development-process
-    email-clients
-    license-rules
-+   kernel-driver-statement
- 
- 其它大多数开发人员感兴趣的社区指南：
- 
-diff --git a/Documentation/translations/zh_CN/process/kernel-driver-statement.rst b/Documentation/translations/zh_CN/process/kernel-driver-statement.rst
-new file mode 100644
-index 000000000000..2b3375bcccfd
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/kernel-driver-statement.rst
-@@ -0,0 +1,199 @@
-+.. _cn_process_statement_driver:
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
-+:Translator: Alex Shi <alex.shi@linux.alibaba.com>
-+
-+内核驱动声明
-+------------
-+
-+关于Linux内核模块的立场声明
-+===========================
-+
-+我们，以下署名的Linux内核开发人员，认为任何封闭源Linux内核模块或驱动程序都是
-+有害的和不可取的。我们已经一再发现它们对Linux用户，企业和更大的Linux生态系统
-+有害。这样的模块否定了Linux开发模型的开放性，稳定性，灵活性和可维护性，并使
-+他们的用户无法使用Linux社区的专业知识。提供闭源内核模块的供应商迫使其客户
-+放弃Linux的主要优势或选择新的供应商。因此，为了充分利用开源所提供的成本节省和
-+共享支持优势，我们敦促供应商采取措施，以开源内核代码在Linux上为其客户提供支持。
-+
-+我们只为自己说话，而不是我们今天可能会为之工作，过去或将来会为之工作的任何公司。
-+
-+ - Dave Airlie
-+ - Nick Andrew
-+ - Jens Axboe
-+ - Ralf Baechle
-+ - Felipe Balbi
-+ - Ohad Ben-Cohen
-+ - Muli Ben-Yehuda
-+ - Jiri Benc
-+ - Arnd Bergmann
-+ - Thomas Bogendoerfer
-+ - Vitaly Bordug
-+ - James Bottomley
-+ - Josh Boyer
-+ - Neil Brown
-+ - Mark Brown
-+ - David Brownell
-+ - Michael Buesch
-+ - Franck Bui-Huu
-+ - Adrian Bunk
-+ - François Cami
-+ - Ralph Campbell
-+ - Luiz Fernando N. Capitulino
-+ - Mauro Carvalho Chehab
-+ - Denis Cheng
-+ - Jonathan Corbet
-+ - Glauber Costa
-+ - Alan Cox
-+ - Magnus Damm
-+ - Ahmed S. Darwish
-+ - Robert P. J. Day
-+ - Hans de Goede
-+ - Arnaldo Carvalho de Melo
-+ - Helge Deller
-+ - Jean Delvare
-+ - Mathieu Desnoyers
-+ - Sven-Thorsten Dietrich
-+ - Alexey Dobriyan
-+ - Daniel Drake
-+ - Alex Dubov
-+ - Randy Dunlap
-+ - Michael Ellerman
-+ - Pekka Enberg
-+ - Jan Engelhardt
-+ - Mark Fasheh
-+ - J. Bruce Fields
-+ - Larry Finger
-+ - Jeremy Fitzhardinge
-+ - Mike Frysinger
-+ - Kumar Gala
-+ - Robin Getz
-+ - Liam Girdwood
-+ - Jan-Benedict Glaw
-+ - Thomas Gleixner
-+ - Brice Goglin
-+ - Cyrill Gorcunov
-+ - Andy Gospodarek
-+ - Thomas Graf
-+ - Krzysztof Halasa
-+ - Harvey Harrison
-+ - Stephen Hemminger
-+ - Michael Hennerich
-+ - Tejun Heo
-+ - Benjamin Herrenschmidt
-+ - Kristian Høgsberg
-+ - Henrique de Moraes Holschuh
-+ - Marcel Holtmann
-+ - Mike Isely
-+ - Takashi Iwai
-+ - Olof Johansson
-+ - Dave Jones
-+ - Jesper Juhl
-+ - Matthias Kaehlcke
-+ - Kenji Kaneshige
-+ - Jan Kara
-+ - Jeremy Kerr
-+ - Russell King
-+ - Olaf Kirch
-+ - Roel Kluin
-+ - Hans-Jürgen Koch
-+ - Auke Kok
-+ - Peter Korsgaard
-+ - Jiri Kosina
-+ - Aaro Koskinen
-+ - Mariusz Kozlowski
-+ - Greg Kroah-Hartman
-+ - Michael Krufky
-+ - Aneesh Kumar
-+ - Clemens Ladisch
-+ - Christoph Lameter
-+ - Gunnar Larisch
-+ - Anders Larsen
-+ - Grant Likely
-+ - John W. Linville
-+ - Yinghai Lu
-+ - Tony Luck
-+ - Pavel Machek
-+ - Matt Mackall
-+ - Paul Mackerras
-+ - Roland McGrath
-+ - Patrick McHardy
-+ - Kyle McMartin
-+ - Paul Menage
-+ - Thierry Merle
-+ - Eric Miao
-+ - Akinobu Mita
-+ - Ingo Molnar
-+ - James Morris
-+ - Andrew Morton
-+ - Paul Mundt
-+ - Oleg Nesterov
-+ - Luca Olivetti
-+ - S.Çağlar Onur
-+ - Pierre Ossman
-+ - Keith Owens
-+ - Venkatesh Pallipadi
-+ - Nick Piggin
-+ - Nicolas Pitre
-+ - Evgeniy Polyakov
-+ - Richard Purdie
-+ - Mike Rapoport
-+ - Sam Ravnborg
-+ - Gerrit Renker
-+ - Stefan Richter
-+ - David Rientjes
-+ - Luis R. Rodriguez
-+ - Stefan Roese
-+ - Francois Romieu
-+ - Rami Rosen
-+ - Stephen Rothwell
-+ - Maciej W. Rozycki
-+ - Mark Salyzyn
-+ - Yoshinori Sato
-+ - Deepak Saxena
-+ - Holger Schurig
-+ - Amit Shah
-+ - Yoshihiro Shimoda
-+ - Sergei Shtylyov
-+ - Kay Sievers
-+ - Sebastian Siewior
-+ - Rik Snel
-+ - Jes Sorensen
-+ - Alexey Starikovskiy
-+ - Alan Stern
-+ - Timur Tabi
-+ - Hirokazu Takata
-+ - Eliezer Tamir
-+ - Eugene Teo
-+ - Doug Thompson
-+ - FUJITA Tomonori
-+ - Dmitry Torokhov
-+ - Marcelo Tosatti
-+ - Steven Toth
-+ - Theodore Tso
-+ - Matthias Urlichs
-+ - Geert Uytterhoeven
-+ - Arjan van de Ven
-+ - Ivo van Doorn
-+ - Rik van Riel
-+ - Wim Van Sebroeck
-+ - Hans Verkuil
-+ - Horst H. von Brand
-+ - Dmitri Vorobiev
-+ - Anton Vorontsov
-+ - Daniel Walker
-+ - Johannes Weiner
-+ - Harald Welte
-+ - Matthew Wilcox
-+ - Dan J. Williams
-+ - Darrick J. Wong
-+ - David Woodhouse
-+ - Chris Wright
-+ - Bryan Wu
-+ - Rafael J. Wysocki
-+ - Herbert Xu
-+ - Vlad Yasevich
-+ - Peter Zijlstra
-+ - Bartlomiej Zolnierkiewicz
+Sorry, I have very small knowledge in Documentation stuff. So I was
+thinking no need my input...
+
+I don't know what markup is proper here. My opinion would be, let's
+make it be consistent with other Documents/*.
+
+>> +BUG REPORTS
+>> +===========
+>> +If you have trouble with the *VFAT* filesystem, mail bug reports to
+>> +chaffee@bmrc.cs.berkeley.edu.
+>> +
+>> +Please specify the filename and the operation that gave you trouble.
+>> +
+>> +TEST SUITE
+>> +==========
+>> +If you plan to make any modifications to the vfat filesystem, please
+>> +get the test suite that comes with the vfat distribution at
+>> +
+>> +`<http://web.archive.org/web/*/http://bmrc.berkeley.edu/people/chaffee/vfat.html>`_
+>> +
+>> +This tests quite a few parts of the vfat filesystem and additional
+>> +tests for new features or untested features would be appreciated.
+>
+> What are the chances that the above email address works at all, especially
+> given that the associated web page has to be dug out of the wayback
+> machine?  We should really try to avoid perpetuating obviously wrong
+> information when we can.  Hirofumi, do you have any thoughts on what might
+> replace this section?
+
+Those sections are so long years didn't work, IIRC. So IMHO, we can
+remove those simply. The address for bug report would work from
+MAINTAINER, lkml as usual, and even bugzilla.
+
+Thanks.
 -- 
-1.8.3.1
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
