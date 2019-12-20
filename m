@@ -1,130 +1,69 @@
-Return-Path: <SRS0=yCYq=2J=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=+i2I=2K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F20C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 23:37:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE949C43603
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 03:03:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E1BB92467B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Dec 2019 23:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576798654;
-	bh=TVRQG3kGxLcaflQgexfZOzjAw+ucRl9lCwZ7Ly95CtY=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=iNgvmNoeZokSKoCnNE+R+59yWsSCuEpt68wc8xLSq8SWPqdnAyHY9AChfHLeHnOiw
-	 M1MUcTgNmGH8Jm+VVL0XjaEnINf0IcwJvRSw90ffhEvWkS7ByQZ75b3I7M+zJDeuY6
-	 GwxIyfa711ydAckWPAr9YaG64vN5o0NHMltHgxuo=
+	by mail.kernel.org (Postfix) with ESMTP id BFA5124680
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 03:03:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726964AbfLSXha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Dec 2019 18:37:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36260 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726930AbfLSXh3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Dec 2019 18:37:29 -0500
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BB42D21655;
-        Thu, 19 Dec 2019 23:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576798649;
-        bh=TVRQG3kGxLcaflQgexfZOzjAw+ucRl9lCwZ7Ly95CtY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=c/9erncIOl5W9NMWTGV+g2E3/pQsO8n6Z6XosU2vbFLwES50WxbczRWZKaz9BlTep
-         Sl0cB+CPiHUJWUMzWBsvmw6U5n/ji8i1YUnRsNTj/PdWA8SB70FnC/tmPFkJXeaejn
-         Mr4EmUlRr78pEmFT1jEMAvoRGIn81+GIP0jidRjU=
-Subject: Re: [PATCH v6 0/6] Fix nits in the kunit
-To:     SeongJae Park <sj38.park@gmail.com>, brendanhiggins@google.com
-Cc:     sjpark@amazon.com, corbet@lwn.net, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, sjpark@amazon.de,
-        shuah <shuah@kernel.org>
-References: <20191212022711.10062-1-sjpark@amazon.de>
-From:   shuah <shuah@kernel.org>
-Message-ID: <13f1203e-030d-699e-d12d-d9fea335ca36@kernel.org>
-Date:   Thu, 19 Dec 2019 16:37:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1727071AbfLTDDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Dec 2019 22:03:52 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:53063 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727020AbfLTDDw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Dec 2019 22:03:52 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0TlOPdih_1576811025;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TlOPdih_1576811025)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 20 Dec 2019 11:03:45 +0800
+Subject: Re: [PATCH v2 2/4] docs/zh_CN: add translator info for
+ embargoed-hardware-issues
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1576660243-84140-1-git-send-email-alex.shi@linux.alibaba.com>
+ <1576660243-84140-2-git-send-email-alex.shi@linux.alibaba.com>
+ <20191219100534.707c0f36@lwn.net>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <ac7c33f8-a00b-5360-b3b5-5c6f037590e9@linux.alibaba.com>
+Date:   Fri, 20 Dec 2019 11:03:42 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191212022711.10062-1-sjpark@amazon.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20191219100534.707c0f36@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/11/19 7:27 PM, SeongJae Park wrote:
-> This patchset contains trivial fixes for the kunit documentations and
-> the wrapper python scripts.
+
+
+在 2019/12/20 上午1:05, Jonathan Corbet 写道:
+> Alex Shi <alex.shi@linux.alibaba.com> wrote:
 > 
+>> Let the people know where to complain... ;)
+> So I'd like to apply all of these changes; they look fine to me given that
+> I don't read Chinese...:)  But I do have a couple of requests:
 > 
-> Baseline
-> --------
+>  - Please combine the changes into a single patch; adding the translated
+>    file, putting it into the toctree, and adding translator credit are all
+>    a single action, in the end.  There is no reason to split them apart.
 > 
-> This patchset is based on 'kselftest/fixes' branch of
-> linux-kselftest[1].  A complete tree is available at my repo:
-> https://github.com/sjp38/linux/tree/kunit_fix/20191205_v6
-> 
-> 
-> Version History
-> ---------------
-> 
-> Changes from v5
-> (https://lore.kernel.org/linux-kselftest/20191205093440.21824-1-sjpark@amazon.com):
->   - Rebased on kselftest/fixes
->   - Add 'Reviewed-by' and 'Tested-by' from Brendan Higgins
-> 
-> Changes from v4
-> (https://lore.kernel.org/linux-doc/1575490683-13015-1-git-send-email-sj38.park@gmail.com/):
->   - Rebased on Heidi Fahim's patch[2]
->   - Fix failing kunit_tool_test test
->   - Add 'build_dir' option test in 'kunit_tool_test.py'
-> 
-> Changes from v3
-> (https://lore.kernel.org/linux-kselftest/20191204192141.GA247851@google.com):
->   - Fix the 4th patch, "kunit: Place 'test.log' under the 'build_dir'" to
->     set default value of 'build_dir' as '' instead of NULL so that kunit
->     can run even though '--build_dir' option is not given.
-> 
-> Changes from v2
-> (https://lore.kernel.org/linux-kselftest/1575361141-6806-1-git-send-email-sj38.park@gmail.com):
->   - Make 'build_dir' if not exists (missed from v3 by mistake)
-> 
-> Changes from v1
-> (https://lore.kernel.org/linux-doc/1575242724-4937-1-git-send-email-sj38.park@gmail.com):
->   - Remove "docs/kunit/start: Skip wrapper run command" (A similar
->     approach is ongoing)
->   - Make 'build_dir' if not exists
-> 
-> SeongJae Park (6):
->    docs/kunit/start: Use in-tree 'kunit_defconfig'
->    kunit: Remove duplicated defconfig creation
->    kunit: Create default config in '--build_dir'
->    kunit: Place 'test.log' under the 'build_dir'
->    kunit: Rename 'kunitconfig' to '.kunitconfig'
->    kunit/kunit_tool_test: Test '--build_dir' option run
-> 
->   Documentation/dev-tools/kunit/start.rst | 13 +++++--------
->   tools/testing/kunit/kunit.py            | 18 +++++++++++-------
->   tools/testing/kunit/kunit_kernel.py     | 10 +++++-----
->   tools/testing/kunit/kunit_tool_test.py  | 10 +++++++++-
->   4 files changed, 30 insertions(+), 21 deletions(-)
+>  - Changelogs like the above are not particularly helpful; please provide
+>    changelogs in the usual kernel style describing what was done and why.
 > 
 
-Hi SeongJae Park,
+Thanks for quick response, Jon!
 
-Please make sure your From and Signed-off-by addresses match. I tried
-applying these patches and I am seeing warnings.
+I will modified all yesterday patches according to your suggestion and Cc to more Chinese as reviewer.
 
-WARNING: Missing Signed-off-by: line by nominal patch author 'SeongJae 
-Park <sj38.park@gmail.com>'
-
-thanks,
--- Shuah
+Thanks
+Alex
