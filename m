@@ -2,69 +2,117 @@ Return-Path: <SRS0=+i2I=2K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,GAPPY_SUBJECT,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B19EC43603
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 15:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4134C43603
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 16:01:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45E322465E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 15:19:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B791621D7E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 16:01:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576857677;
+	bh=nss522fjsc4IMQgNirpgmqAWul7eLY6E+zwfShik6rQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=q99h6mEEQdpX/FRb+Y9UehMiT236eBEV32zr24Q27YwJNBvIxWKbm576Li9ilFZV9
+	 gry2jOpbmF7wxBBmuznjpktaZXl+3gw9TufROyDhhrzPFFZxpGpJGy7lkKKQiFykr4
+	 rOd/c2GWEPawkjsr0vYSGLq0RmzNKjnHoum+zpwE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbfLTPTy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Dec 2019 10:19:54 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:60324 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727233AbfLTPTy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Dec 2019 10:19:54 -0500
-Received: from callcc.thunk.org (guestnat-104-133-0-111.corp.google.com [104.133.0.111] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xBKFJkke015295
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Dec 2019 10:19:49 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 8749A420822; Fri, 20 Dec 2019 10:19:45 -0500 (EST)
-Date:   Fri, 20 Dec 2019 10:19:45 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Improving documentation for programming interfaces
-Message-ID: <20191220151945.GD59959@mit.edu>
-References: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
+        id S1727359AbfLTQBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Dec 2019 11:01:17 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:52435 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727400AbfLTQBR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Dec 2019 11:01:17 -0500
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id xBKG0xIR030187;
+        Sat, 21 Dec 2019 01:01:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBKG0xIR030187
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576857660;
+        bh=JBuboHPmNik0ZyiwIictN4KeobZ3dSMDBlvswdJAN1Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=N8suPW5iMMTgQpTfKkpYa1su5lB5daMEQJFrqp23jtmgma+NW9aKRGHGG98bJyTmb
+         MbEZCfQRoG6G0Qc4Pi7irDB3vqvM/fbIyvep7penqC6EeDsZaRQOZpcSDSCK2dS/RM
+         5TJMHrP0U72OtIBzZGeZmYNpWR7x3Z8hmsPYCTlFlUz8I/MIUK2QAFayQtRwZhMCF5
+         cjJipHIKxrlopjyFSTl/pUhOP0xLtqeaFQagKxhFkCPjVYonco08BEy26lGQfw3JLg
+         e75YNvtrk0+ZSxOEUOO0xaLJI3h0FOiBsctSzutyjbucsHpbbWcIO+l5RNl9U64+fr
+         eazArGdy84JFw==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id g15so6354709vsf.1;
+        Fri, 20 Dec 2019 08:01:00 -0800 (PST)
+X-Gm-Message-State: APjAAAUNzXZkXwmhkuZa+ckG/cSTp0H1RBzYbh4As4sW84dBOVGdwVws
+        IxOxHD/jnd+BGYcEbGAWAoPhqaoiTVGAehJhqME=
+X-Google-Smtp-Source: APXvYqyf2+mR65DbEIYHCtHErAD0DJUeTFqmUFTgm9371QmntjF5JtbnI0f7yAkOzt5lC3WpCJl5apomzmiwZaBt2YE=
+X-Received: by 2002:a67:7ac4:: with SMTP id v187mr9102940vsc.181.1576857658971;
+ Fri, 20 Dec 2019 08:00:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20191219115100.958-1-masahiroy@kernel.org> <20191219195302.GG32169@bombadil.infradead.org>
+In-Reply-To: <20191219195302.GG32169@bombadil.infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 21 Dec 2019 01:00:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQsD5KMA-DrDS-9krNdQLfHJEnJ2NB6mq2aLemY2xs+-w@mail.gmail.com>
+Message-ID: <CAK7LNAQsD5KMA-DrDS-9krNdQLfHJEnJ2NB6mq2aLemY2xs+-w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
+ w.r.t. descending
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 20, 2019 at 02:30:10PM +0100, Markus Elfring wrote:
-> Linux supports some programming interfaces. Several functions are provided
-> as usual. Their application documentation is an ongoing development challenge.
-> 
-> Now I would like to clarify possibilities for the specification of desired
-> information together with data types besides properties which are handled by
-> the programming language “C” so far.
-> It seems that no customised attributes are supported at the moment.
-> Thus I imagine to specify helpful annotations as macros.
-> 
-> Example:
-> Some functions allocate resources to which a pointer (or handle) is returned.
-> I would find it nice then if such a pointer would contain also the background
-> information by which functions the resource should usually be released.
-> 
-> Can it become easier to determine such data?
+On Fri, Dec 20, 2019 at 4:53 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
+> > Kbuild descends into a directory by either 'y' or 'm', but there is an
+> > important difference.
+> >
+> > Kbuild combines the built-in objects into built-in.a in each directory.
+> > The built-in.a in the directory visited by obj-y is merged into the
+> > built-in.a in the parent directory. This merge happens recursively when
+> > Kbuild is ascending back towards the top directory, so built-in objects
+> > are linked into vmlinux eventually. This works properly only when the
+> > Makefile that specifies obj-y is reachable by the chain of obj-y.
+> >
+> > On the other hand, Kbuild does not take built-in.a from the directory
+> > visited by obj-m. This it, all the objects in that directory are supposed
+> > to be modular. If Kbuild descends into a directory by obj-m, but the
+> > Makefile in the sub-directory specifies obj-y, those objects are just
+> > left orphan.
+> >
+> > The current statement "Kbuild only uses this information to decide that
+> > it needs to visit the directory" is misleading. Clarify the difference.
+>
+> > +     Kbuild uses this information not only to decide that it needs to visit
+> > +     the directory, but also to decide whether or not to link objects from
+> > +     the directory into vmlinux.
+> > +
+> > +     When Kbuild descends into the directory with 'y', all built-in objects
+> > +     from that directory are combined into the built-in.a, which will be
+> > +     eventually linked into vmlinux.
+> > +
+> > +     When Kbuild descends into the directory with 'm', in contrast, nothing
+> > +     from that directory will be linked into vmlinux. If the Makefile in
+> > +     that directory specifies obj-y, those objects will be left orphan.
+> > +     It is very likely a bug of the Makefile or of dependencies in Kconfig.
+>
+> Perhaps the implementation should be changed to match the documentation?
+> This seems like a very subtle point for people to know.
 
-Markus,
+I also considered this, but
+I do not think the current behavior is too odd.
+So, I am not changing it.
 
-It's unclear to me what you are requesting/proposing?  Can you be a
-bit more concrete?
-
-						- Ted
+-- 
+Best Regards
+Masahiro Yamada
