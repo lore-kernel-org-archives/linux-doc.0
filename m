@@ -2,169 +2,136 @@ Return-Path: <SRS0=+i2I=2K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F74C43603
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 13:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3890AC43603
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 14:33:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 20C4C206DA
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 13:34:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CA0521D7E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 14:33:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="gS91bsS4"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="PdJtT2L7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727407AbfLTNe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Dec 2019 08:34:27 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:36303 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727359AbfLTNe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Dec 2019 08:34:26 -0500
-Received: by mail-qv1-f65.google.com with SMTP id m14so3614424qvl.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2019 05:34:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
-        b=gS91bsS4NjRyWzEDV454oc5qOgomjYBCltRmKzH7Nu9vdI8tQd65a6Yp2TVGSlgA1T
-         37v5Lb1zFtvOvSi94i0Yt83/4AqEpVzmzRwSkFPiESUgqKx4PUFqFCjV/s3xXBOVi9U4
-         w+ZUvVeXy6xbZ8B7zSi+DLnr0w1yjX7v6UIJiebq6UOkRZYcGvU4/THsXU/G/ZDo26P9
-         Xc2y8nF265eAeIX5xgl66hBVWEixNbJ1XzQjNRNan6ViT+Wn6RFHm+C8bWOAWNCFyUU3
-         D0D+BCr//3+mjkgiCcFfBfObTFOz8gI7nHowmgBdF1XYr9LIFcBR6SXbWA6e0W7l8hfH
-         tNRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
-        b=gGSDiF+1iX8R2n2vrIVzXGzSLMA5gm/3QC2XMz/m+rR/nlwpyb8G+lFJe5g35hmcPQ
-         3b/YSj07IWXdOOd1Ht8BogcUb6qi0hy+VfLpZuIGAwM6EqWSPQ+Td/Z7pKyyOOt7jEwV
-         OmiSxZB1auAwpOaU+mPV5gNXAeEtTV3mOQ3tluAAeWv8kf2O6dLMnzDozj9JCM5M4W0+
-         EFNggl+gP9+wPZ+QC7CVimvZIQDqZb0HNSFnPdrHYU0pp3MjdydBFpPnbxmV+kCT/UJx
-         WIuLjzNY29p5BUrdFrR0PqXC66RgRSjZjtRP59mQ3aqQ/IdvmA4EO9nKK1SeLWG7CUvm
-         W2DQ==
-X-Gm-Message-State: APjAAAUy8VpD79EGlGyvnr6Grsm37zvUGKADdxHAGBdLT7DTFu/NiSGB
-        4nO8Lm7IvsxKENTHY3ZLklUfDA==
-X-Google-Smtp-Source: APXvYqz9az5JjtCMEl1OLVSzBMZYIFm7RbLMGJ3PjpAUx1pKMUVrf5ynor78RCoLoFWtbwHwcCO7NQ==
-X-Received: by 2002:a0c:893d:: with SMTP id 58mr4949386qvp.4.1576848864984;
-        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id q73sm2786969qka.56.2019.12.20.05.34.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iiIQB-0003cq-Co; Fri, 20 Dec 2019 09:34:23 -0400
-Date:   Fri, 20 Dec 2019 09:34:23 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191220133423.GA13506@ziepe.ca>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+        id S1728103AbfLTOdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Dec 2019 09:33:19 -0500
+Received: from mout.web.de ([217.72.192.78]:45775 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727585AbfLTOdT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Dec 2019 09:33:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1576852368;
+        bh=+C6MFj3s6IODdFsx+eagSNyCsVBad3UUv97++hQqWtg=;
+        h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
+        b=PdJtT2L7N42Ax8ywQLZ2x2T1r8dQ3IRKqGSPyj5lO6Kt+JQ24Lar7sA6LKoq75HhK
+         8PRVWpXAXSDQ1OHs9zG+Lx39dYNMucltyC17JLbwl8eiwlE4W9EU9TkaQwIpKkrAaZ
+         xy9YZLTsFrD52n7+cLPrWsn2h32hkIqY8zonesos=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.244.94.196]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lhev7-1hw4Dh1IUj-00mv9p; Fri, 20
+ Dec 2019 15:32:48 +0100
+To:     Zengruan Ye <yezengruan@huawei.com>, kvm@vger.kernel.org,
+        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Steven Price <steven.price@arm.com>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Will Deacon <will@kernel.org>
+References: <20191217135549.3240-2-yezengruan@huawei.com>
+Subject: Re: [PATCH 1/5] KVM: arm64: Document PV-lock interface
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <2337a083-499f-7778-7bf3-9f525a04e17a@web.de>
+Date:   Fri, 20 Dec 2019 15:32:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191217135549.3240-2-yezengruan@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:eJYxpqmJrjI8l7uVlPbVM9B8T1kMzgJFfkbBbqKHGvl6gjBpJJw
+ C42j0xdiOOJKFfA4VTeZNgusOx8YeKknXaQibjgixcLUtFa4nYRpyQZpoucxp1SKWgjhI9w
+ /rkiqNIKQaH85shrWQrcuaZNB7jXcwZSpVQHfu0xItAWBjjD03P9Tm6feNl/ZgumAfO3/jk
+ 9J8QaNxyfifXBhzD/DD8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ckc/dqP8/+Q=:eBlZwjc9kktQVftlyG/Rbs
+ HF2tUUNsb4a6tgPoleDcI+0dcmYqjfGmLKzPr6KLI6Tq9IRTCCyYlh86dh4oNC3dARsG12H3d
+ YhsfgMQIJU92Tkkc4wqM3k1vsBu3OD4Y3j3lU3f5ZVzUgGMrSvoQFhhkxdWKl/YE9tlOIWAC9
+ usyPCZgIYPXMDLcZk/LcJvB2MUlRdcOdGi6/AR3hfV8g/KMJU8AFh9vRQHLgIMzknqz9hHNFr
+ eonFzVZEBwSo5LOXd8cPHTZ4UuO6sypD0Bdt93mkqQwtnn2lH5z9cNSDeD2El3Y0MnUx0eUjI
+ 5LaUGPdte/MZOXQ3CVEHdUFgQdXzpRYfoGMAujHpz3xhTs6glY8dntXMVo68QHLuAeGGDrcz9
+ OYvxifZg1erlIqBIZY8zJI/LAghtsFPKy5CqygL83j9E/er1cWjo7zE4TbHnRvAHE0nn0WKD1
+ fF1re7ZikB3fNctI/KeiZbozB2OYXQBNuQYIS9/J3U4v1dnuzCmphL7+sn2/OCJ/pLMNmavEg
+ 77GxRFmYJSqJEKYMAUY5YJx9PDPfC5cOI+Y6FhlSENAXGPJsyndipfiX3fEyInEUFSPp+1MjS
+ AYhglQzM2sReOmoIiFX7OHFLcQrECh5BWopsfoG40OWyjbUv5THXGcRinKv2S8mJQuclDm1gR
+ wWKtzhNHU8aKuViW7bKMzYqyJ89arVe0WUZv79OK/fhfk/e0msTMa5YBs5KN0OtKK6xQR1Jxj
+ mxyu2xPFrh8Lxs7CjeW8leJnhrTCKrmDTevieU8p0X1M5mEI2mO8WFbBt5uHhw3QfBpzf5dMH
+ cx3mtkMF9Zxr1wj/wGBYXe89IPtae/1HGnH38OYn2mfA+z5MJK0Lt+Lnb3B4RpokR2itZQEBf
+ +/Gr8bMAbXjzERzvbH01PMVOul1jpTj91Y/BExrGpj1YSGvpJA4vyUslNklaAmcjERSZFfiCj
+ 0Jf67dtSXaPhAR6hlcCfNHJXDL2JMPCTY2vNBf1nNCh7jolGUi6WoSvUtsAPARdsHocgUgzDY
+ ojpCcWJK0jZFVQ79qLCc5uBKMCS01hlMfNztZnS2i2YKJLSKnFeFE9XDYQNhZSWApKDmUZFGU
+ fWIicYLhOnuYJKRZj+awmts+TnjzSr2XR8GLmjB5OSmwoTl3V9/Oa3ngrDIWKa/42hS8YO+gm
+ VPksdPl251aFkwH22pmix8NDetfS2E8QXTOiuLdMMJ43rWll2tFroU0QpS2DQhI/5NFZGy/Q+
+ BLTgWp92CbaCPX1wgPB287F+/0LyDqTNxJ5AGdajR2T5hop/TsnD6TlFe7sk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 01:13:54PM -0800, John Hubbard wrote:
-> On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
-> > On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
-> > > On 12/19/19 5:26 AM, Leon Romanovsky wrote:
-> > > > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > This implements an API naming change (put_user_page*() -->
-> > > > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-> > > > > extends that tracking to a few select subsystems. More subsystems will
-> > > > > be added in follow up work.
-> > > > 
-> > > > Hi John,
-> > > > 
-> > > > The patchset generates kernel panics in our IB testing. In our tests, we
-> > > > allocated single memory block and registered multiple MRs using the single
-> > > > block.
-> > > > 
-> > > > The possible bad flow is:
-> > > >    ib_umem_geti() ->
-> > > >     pin_user_pages_fast(FOLL_WRITE) ->
-> > > >      internal_get_user_pages_fast(FOLL_WRITE) ->
-> > > >       gup_pgd_range() ->
-> > > >        gup_huge_pd() ->
-> > > >         gup_hugepte() ->
-> > > >          try_grab_compound_head() ->
-> > > 
-> > > Hi Leon,
-> > > 
-> > > Thanks very much for the detailed report! So we're overflowing...
-> > > 
-> > > At first look, this seems likely to be hitting a weak point in the
-> > > GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
-> > > (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
-> > > 99-121). Basically it's pretty easy to overflow the page->_refcount
-> > > with huge pages if the pages have a *lot* of subpages.
-> > > 
-> > > We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
-> > 
-> > Considering that establishing these pins is entirely under user
-> > control, we can't have a limit here.
-> 
-> There's already a limit, it's just a much larger one. :) What does "no limit"
-> really mean, numerically, to you in this case?
-
-I guess I mean 'hidden limit' - hitting the limit and failing would
-be managable.
-
-I think 7 is probably too low though, but we are not using 1GB huge
-pages, only 2M..
-
-> > If the number of allowed pins are exhausted then the
-> > pin_user_pages_fast() must fail back to the user.
-> 
-> I'll poke around the IB call stack and see how much of that return
-> path is in place, if any. Because it's the same situation for
-> get_user_pages_fast().  This code just added a warning on overflow
-> so we could spot it early.
-
-All GUP callers must be prepared for failure, IB should be fine...
-
-Jason
+4oCmDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdmlydC9rdm0vYXJtL3B2bG9jay5yc3QNCuKApg0K
+PiArUGFyYXZpcnR1YWxpemVkIGxvY2sgc3VwcG9ydCBmb3IgYXJtNjQNCj4gKz09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gK0tWTS9hcm02NCBwcm92aWRzIHNv
+bWUg4oCmDQrigKYNCg0KSSBzdWdnZXN0IHRvIGF2b2lkIGEgdHlwbyBoZXJlLg0KDQpSZWdhcmRz
+LA0KTWFya3VzDQo=
