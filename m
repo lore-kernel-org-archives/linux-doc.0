@@ -2,187 +2,140 @@ Return-Path: <SRS0=+i2I=2K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6688C43603
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 11:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F197C43603
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 13:30:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 99B862467F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 11:43:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CC62206DA
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Dec 2019 13:30:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="aLIDCm0c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727191AbfLTLnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Dec 2019 06:43:55 -0500
-Received: from foss.arm.com ([217.140.110.172]:49772 "EHLO foss.arm.com"
+        id S1727384AbfLTNaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Dec 2019 08:30:19 -0500
+Received: from mout.web.de ([212.227.17.11]:56129 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727177AbfLTLnz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Dec 2019 06:43:55 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0555B30E;
-        Fri, 20 Dec 2019 03:43:54 -0800 (PST)
-Received: from [10.1.194.52] (e112269-lin.cambridge.arm.com [10.1.194.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 228E83F719;
-        Fri, 20 Dec 2019 03:43:52 -0800 (PST)
-Subject: Re: [PATCH 1/5] KVM: arm64: Document PV-lock interface
-To:     yezengruan <yezengruan@huawei.com>
-Cc:     Mark Rutland <Mark.Rutland@arm.com>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        Suzuki Poulose <Suzuki.Poulose@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        James Morse <James.Morse@arm.com>,
-        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
-        Catalin Marinas <Catalin.Marinas@arm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "will@kernel.org" <will@kernel.org>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20191217135549.3240-1-yezengruan@huawei.com>
- <20191217135549.3240-2-yezengruan@huawei.com>
- <20191217142138.GA38811@arm.com>
- <49120a3c-405d-d2e3-2a88-ba590feccbcc@huawei.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <e326cd81-7e22-72a8-7b80-8258e8f6a5c6@arm.com>
-Date:   Fri, 20 Dec 2019 11:43:50 +0000
+        id S1727346AbfLTNaT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Dec 2019 08:30:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1576848617;
+        bh=cI6AYJUnh8pWd1W0cxEpgJYIwvjTtzuqJraTqNbsfiM=;
+        h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
+        b=aLIDCm0cVTZ8wBBg4sNhXDX0vBSf/8GXPNUCyXF+0coF454voRdeQc+WgYllWEWTP
+         4TqHsAm/aJ6lPFWk5jQ1ZfwiLgXH45U3eCayqIIJpGkLf5TEM9tBtwCcRjhwxe8ZhC
+         ZAxNY1F7pevzz1eXTRwKltJ+7Ie1OqWl8gURBmoQ=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.244.94.196]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MEEeC-1iSwHB0Yye-00FVIX; Fri, 20
+ Dec 2019 14:30:17 +0100
+To:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc:     LKML <linux-kernel@vger.kernel.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Subject: Improving documentation for programming interfaces
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
+Date:   Fri, 20 Dec 2019 14:30:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <49120a3c-405d-d2e3-2a88-ba590feccbcc@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:1BudEKRhl8kLMveIOn15uFBzOJOMQN9WihPu/dckERqp8uzqQtO
+ 3MNnf/5CIO7g+ON5iwI8/UFMloQi0xwYK2WFkgZo4x8sJxrOVboukj3l2N/VZk5+mvjzzGP
+ 2XHniE0b5KKCH/qiUt+z8ATRIyaU0EuaWBIbnZifqE1ZZ8KwM0+0ffpaUovCW79vloaRLbM
+ evLyZlkj8bRQCMLQwafAg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/EZgPWnVHLk=:HHrw+1orFmebAw13DwgnJh
+ 5Uy8T1nSzfrerVT+o2A54+2cZ+ij2e6s1OGMAvkWGs6xcmagzS6RaBqe+E9WgTjW9y7sG8gfE
+ xKByH4rYoBMn4SZwWwzop8Lj5Lm6C4s6GdGZHeMYlMqQzP86rWpwK2DIULtTnbQtR5iRqvK/C
+ Y7sw/G0BShFtolobssRjRLNwKbGMJzXI/7J3+kNB12QrtmhnFh+KD3xuIZ4ajr9QmckaARxdl
+ XABJ2mDq8TWwb56UnAauGLgk71jCMhbKv61IRgLZqmLL/94TifbRZKmTFLd16tlK+jAjH4WuM
+ 0VZbPrgO5cSEoG5+4u1FhTlVd1XNuIKWztHK55GmaVD+LRDTk9z4yvPqR1+/knT65U7EXoN8J
+ RYORF4uM8BqJHFBvTiAvkBjB8oL366kSs+wv0i/7m+PFL7uftF/jiZ0cbEOqJvqYzPQ9d3Cnm
+ bUmBQ54hmuHhlQdxG6CMyemo4snYGI7RaTUgMuWkl8Wl5e3cZmnPm+z4Ost5sBnpRIhEei2yC
+ QvolH5z9VCbFhF92xKthBMtcZEp63xAawxE2OIYBtXmRZAQQtrbCsy5e3l8IcDGddF4Xeef2Z
+ I81t/ts432Dmy22OB4Ali9ZqrFscl31RIE93diXBAgiLyfyfO+VpE2t4DWdgGD9k0UP94/enr
+ 4rS1yblM3hYDDRhlptkYyq1WgTspdJfZuepbffNuGIQCjujwYcSHRTUUrLvE9tHxcP/TkFwoD
+ Yw12AqzM8aH95qPI7haW6JfZDaFxWfT1uG1TfLZliVTbecoZ/Nmi25lwQsBHuha8aSklJblLW
+ m0N+hCydS2rQAIL+IP28V6i6CAkVcCnKeE4IG+sIHR5xb0hoU6ArM+fdz062sD+ADfg+1zmmt
+ rhQ1FhnWHEkhuTSM+4dkb/ykKMulizZTFzUxC3BtJH3NdrGH37OKWgO9pM4ZcLMqcpWZM05ar
+ Ky279XX8jNVvQr2r4XviLJC7KkcHAihOlXbfveikO7Gkt9juQ+M7pLZc1A58CXFjnrDxJPZaU
+ IWdQFWPO/daRP6TCsYEZfc3CNDalG0NywjMGxDKf71ODNQ4JzGtMOGi1mdH3HJ0icVsZ35Q1Z
+ wQi9Us+onz7Fs2vlm3w0UwRAekJBaILGa/WiqIusbnpdcGEMyaF7DZUlIm0tQLZrhnlqJKZdE
+ dRGOmKvt8+k3wuw0X2En8cBca6wnSfkDc7Ow8LbWwe1skTUp/DmYtlxbvH5yPn5FiYGwaQTXa
+ 8+1nN0g/Pst0RzImCRRxdpeNMcfkGJJcBUZNKxRomVwDqW+zvRSsiKkerg7U=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/12/2019 11:45, yezengruan wrote:
-> Hi Steve,
-> 
-> On 2019/12/17 22:21, Steven Price wrote:
->> On Tue, Dec 17, 2019 at 01:55:45PM +0000, yezengruan@huawei.com wrote:
->>> From: Zengruan Ye <yezengruan@huawei.com>
->>>
->>> Introduce a paravirtualization interface for KVM/arm64 to obtain the vcpu
->>> is currently running or not.
->>>
->>> A hypercall interface is provided for the guest to interrogate the
->>> hypervisor's support for this interface and the location of the shared
->>> memory structures.
->>>
->>> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
->>> ---
->>>  Documentation/virt/kvm/arm/pvlock.rst | 31 +++++++++++++++++++++++++++
->>>  1 file changed, 31 insertions(+)
->>>  create mode 100644 Documentation/virt/kvm/arm/pvlock.rst
->>>
->>> diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm/arm/pvlock.rst
->>> new file mode 100644
->>> index 000000000000..eec0c36edf17
->>> --- /dev/null
->>> +++ b/Documentation/virt/kvm/arm/pvlock.rst
->>> @@ -0,0 +1,31 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +Paravirtualized lock support for arm64
->>> +======================================
->>> +
->>> +KVM/arm64 provids some hypervisor service calls to support a paravirtualized
->>> +guest obtaining the vcpu is currently running or not.
->>> +
->>> +Two new SMCCC compatible hypercalls are defined:
->>> +
->>> +* PV_LOCK_FEATURES:   0xC5000040
->>> +* PV_LOCK_PREEMPTED:  0xC5000041
->>
->> These values are in the "Standard Hypervisor Service Calls" section of
->> SMCCC - so is there a document that describes this features such that
->> other OSes or hypervisors can implement it? I'm also not entirely sure
->> of the process of ensuring that the IDs picked are non-conflicting.
->>
->> Otherwise if this is a KVM specific interface this should probably
->> belong within the "Vendor Specific Hypervisor Service Calls" section
->> along with some probing that the hypervisor is actually KVM. Although I
->> don't see anything KVM specific.
-> 
-> Thanks for pointing it out to me! Actually, I also don't see any documents
-> or KVM specific that describes this features. The values in the "Vendor
-> Specific Hypervisor Service Calls" section may be more appropriate, such as
-> the following
-> 
-> * PV_LOCK_FEATURES:   0xC6000020
-> * PV_LOCK_PREEMPTED:  0xC6000021
-> 
-> Please let me know if you have any suggestions.
+Hello,
 
-I don't have strong feelings on whether this should be KVM-specific or
-generic. I'm not familiar with whether there are competing solutions to
-this problem - it's obviously ideal if all hypervisors can make use of
-the same interface if possible, but maybe that ship has sailed already?
+Linux supports some programming interfaces. Several functions are provided
+as usual. Their application documentation is an ongoing development challe=
+nge.
 
-However if this going to be KVM-specific then you'll need to add the
-probing logic for checking whether the hypervisor is KVM or not. Will
-has a couple of patches on a branch which do this [1] and [2]. Then you
-can use kvm_arm_hyp_services_available() as the first step to probe
-whether the hypervisor is KVM.
+Now I would like to clarify possibilities for the specification of desired
+information together with data types besides properties which are handled =
+by
+the programming language =E2=80=9CC=E2=80=9D so far.
+It seems that no customised attributes are supported at the moment.
+Thus I imagine to specify helpful annotations as macros.
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?h=kvm/hvc&id=464f5a1741e5959c3e4d2be1966ae0093b4dce06
+Example:
+Some functions allocate resources to which a pointer (or handle) is return=
+ed.
+I would find it nice then if such a pointer would contain also the backgro=
+und
+information by which functions the resource should usually be released.
 
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?h=kvm/hvc&id=6597490e005d0eeca8ed8c1c1d7b4318ee014681
+Can it become easier to determine such data?
 
-Steve
-
->>
->>> +
->>> +The existence of the PV_LOCK hypercall should be probed using the SMCCC 1.1
->>> +ARCH_FEATURES mechanism before calling it.
->>> +
->>> +PV_LOCK_FEATURES
->>> +    ============= ========    ==========
->>> +    Function ID:  (uint32)    0xC5000040
->>> +    PV_call_id:   (uint32)    The function to query for support.
->>> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
->>> +                              PV-lock feature is supported by the hypervisor.
->>> +    ============= ========    ==========
->>> +
->>> +PV_LOCK_PREEMPTED
->>> +    ============= ========    ==========
->>> +    Function ID:  (uint32)    0xC5000041
->>> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the IPA of
->>> +                              this vcpu's pv data structure is configured by
->>> +                              the hypervisor.
->>> +    ============= ========    ==========
->>
->> >From the code it looks like there's another argument for this SMC - the
->> physical address (or IPA) of a struct pvlock_vcpu_state. This structure
->> also needs to be described as it is part of the ABI.
-> 
-> Will update.
-> 
->>
->> Steve
->>
->> .
->>
-> 
-> Thanks,
-> 
-> Zengruan
-> 
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-
+Regards,
+Markus
