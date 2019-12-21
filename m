@@ -2,145 +2,141 @@ Return-Path: <SRS0=usMi=2L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,GAPPY_SUBJECT,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB3D3C2D0D4
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Dec 2019 10:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B07C2D0C0
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Dec 2019 15:33:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 921C221D7E
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Dec 2019 10:08:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5B5021D7E
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Dec 2019 15:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576922930;
-	bh=9acaA/8fKn1399pza9UZM74CCEP9IQOiAcwxAFB8uv0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0CwV9IedH1UIkNqOv9wNKlGjIyhLKSZQnsxFuxBVZ2dF250BQUlWRvVqtmYnDMxWo
-	 PfKeHXVbXdQAmpd9r9Mzgl3NY1fayAj0wu0m6V+ASoSeAZLvCpPPLNf/SJUEvQSy8U
-	 6T+S1NVjV3rm19MdK54+uziFq+azoRjgpWobUAEw=
+	s=default; t=1576942409;
+	bh=zdoXt58X1r1gsHn2LLI5QiHIpJdL1X7t3v/hbXqgTWY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=in27Ssnk5DP0Ni8Gj8Q3JJYxfw5Vd4o8JTeol/JPZhe+dJA8jTk4w6cx9B0ZxLXCk
+	 TLzmrto6u1AYjOgt9tQsbb2VlqfXfe7yR8pn0jaOYe8ERysFqYRNbmF2gZQEVQsF0V
+	 zDNlcGsDC4hWGJfNYHu3z6veJND2phRSVtYjArHE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfLUKIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Dec 2019 05:08:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37090 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726087AbfLUKIt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 21 Dec 2019 05:08:49 -0500
-Received: from localhost (unknown [5.29.147.182])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A0D0206EC;
-        Sat, 21 Dec 2019 10:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576922927;
-        bh=9acaA/8fKn1399pza9UZM74CCEP9IQOiAcwxAFB8uv0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C5VL6ejrikwv/fPR/5hW1vC5g7ZxqQArLHZI9V0Acv45zpCoEu7KVSUG363aSOh1d
-         8mWTxU92Mkz/MNea4rOvwk4lPkm3QVmugiAJmAPtyzW4ix2JAMqI4I9mKaT4oTHqTx
-         danVQGmjzaX4h7HmaTFOuro/EjXVdeZW+yY0HmyE=
-Date:   Sat, 21 Dec 2019 12:08:43 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191221100843.GB13335@unreal>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+        id S1726139AbfLUPd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Dec 2019 10:33:29 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:32604 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726114AbfLUPd3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Dec 2019 10:33:29 -0500
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id xBLFXGSH025928;
+        Sun, 22 Dec 2019 00:33:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com xBLFXGSH025928
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576942397;
+        bh=Q/Pi25U6wZzXySudemKHTKehy6ZVA3RmVQyI3kuCXqI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vkweo5dQVVb2IVK8a2c0QgGsEdI10Qsoq9eiCPENnmokW/0X7bFPZAZo3oJ7G8Mtr
+         ddw3kbMN2EPY6IEcGLbOqYfX0930cUAvslk/yt5j7C22DbhAdW729dfcxtuPopQz/T
+         YB/1KoAdxYs7IoRTIXVImi43RT2fx6gdviZ4Z84zIDzbIDg43F1RmbcGI5oK92Yoi8
+         icTSVQxqiGZc8MPBeXmtObx+X4CB1O2jHvr/xfQNrhHt2jFD2+cvAtEIS6yT1SPnXu
+         d9y846abwcNVT3cCf3MkbXbRWNGBdko06aPZxm+PXUPPQSG442HG1aCaf2Q2LKYbjD
+         qy5lohbg5yo0w==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id x123so8027311vsc.2;
+        Sat, 21 Dec 2019 07:33:17 -0800 (PST)
+X-Gm-Message-State: APjAAAUehvma2VsDObd1LlbN0v7+dYEjd/9z6/GZ6HAX9rG/vO0sLkYC
+        whpVDw/FAVWDZ+v4M2u4C1s+fmr8ETcrtYi/byw=
+X-Google-Smtp-Source: APXvYqybYh+DGLDabsLVHn2MENs8kIxAwMehbZhNJo5bzv2fd+vymBCdQVmUrzSeb0ADMxUW5JBx0DyOJhF3CYDxIOM=
+X-Received: by 2002:a05:6102:48b:: with SMTP id n11mr1172403vsa.181.1576942396146;
+ Sat, 21 Dec 2019 07:33:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+References: <20191219115100.958-1-masahiroy@kernel.org> <20191219164915.GS22665@localhost>
+In-Reply-To: <20191219164915.GS22665@localhost>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 22 Dec 2019 00:32:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS-G6GQC=HTDdbgAAWx-YaL65LPhm1SfGsarZq-HtGJ8Q@mail.gmail.com>
+Message-ID: <CAK7LNAS-G6GQC=HTDdbgAAWx-YaL65LPhm1SfGsarZq-HtGJ8Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
+ w.r.t. descending
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
-> On 12/20/19 10:29 AM, Leon Romanovsky wrote:
-> ...
-> >> $ ./build.sh
-> >> $ build/bin/run_tests.py
-> >>
-> >> If you get things that far I think Leon can get a reproduction for you
+On Fri, Dec 20, 2019 at 1:49 AM Johan Hovold <johan@kernel.org> wrote:
+>
+> On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
+> > Kbuild descends into a directory by either 'y' or 'm', but there is an
+> > important difference.
 > >
-> > I'm not so optimistic about that.
+> > Kbuild combines the built-in objects into built-in.a in each directory.
+> > The built-in.a in the directory visited by obj-y is merged into the
+> > built-in.a in the parent directory. This merge happens recursively when
+> > Kbuild is ascending back towards the top directory, so built-in objects
+> > are linked into vmlinux eventually. This works properly only when the
+> > Makefile that specifies obj-y is reachable by the chain of obj-y.
 > >
+> > On the other hand, Kbuild does not take built-in.a from the directory
+> > visited by obj-m. This it, all the objects in that directory are supposed
+> > to be modular. If Kbuild descends into a directory by obj-m, but the
+> > Makefile in the sub-directory specifies obj-y, those objects are just
+> > left orphan.
+> >
+> > The current statement "Kbuild only uses this information to decide that
+> > it needs to visit the directory" is misleading. Clarify the difference.
+> >
+> > Reported-by: Johan Hovold <johan@kernel.org>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 >
-> OK, I'm going to proceed for now on the assumption that I've got an overflow
-> problem that happens when huge pages are pinned. If I can get more information,
-> great, otherwise it's probably enough.
+> Looks good! Thanks for fixing this.
 >
-> One thing: for your repro, if you know the huge page size, and the system
-> page size for that case, that would really help. Also the number of pins per
-> page, more or less, that you'd expect. Because Jason says that only 2M huge
-> pages are used...
->
-> Because the other possibility is that the refcount really is going negative,
-> likely due to a mismatched pin/unpin somehow.
->
-> If there's not an obvious repro case available, but you do have one (is it easy
-> to repro, though?), then *if* you have the time, I could point you to a github
-> branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
+> Reviewed-by: Johan Hovold <johan@kernel.org>
 
-I'll see what I can do this Sunday.
+Applied to linux-kbuild.
 
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index bb44c4d2ada7..8526fd03b978 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1077,7 +1077,7 @@ static inline void put_page(struct page *page)
->   * get_user_pages and page_mkclean and other calls that race to set up page
->   * table entries.
->   */
-> -#define GUP_PIN_COUNTING_BIAS (1U << 10)
-> +#define GUP_PIN_COUNTING_BIAS (1U << 8)
->
->  void unpin_user_page(struct page *page);
->  void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
->
-> If that fails to repro, then we would be zeroing in on the root cause.
->
-> The branch is here (I just tested it and it seems healthy):
->
-> git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
->
->
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
+> > ---
+> >
+> >  Documentation/kbuild/makefiles.rst | 16 +++++++++++++---
+> >  1 file changed, 13 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> > index b9b50553bfc5..d7e6534a8505 100644
+> > --- a/Documentation/kbuild/makefiles.rst
+> > +++ b/Documentation/kbuild/makefiles.rst
+> > @@ -297,9 +297,19 @@ more details, with real examples.
+> >       If CONFIG_EXT2_FS is set to either 'y' (built-in) or 'm' (modular)
+> >       the corresponding obj- variable will be set, and kbuild will descend
+> >       down in the ext2 directory.
+> > -     Kbuild only uses this information to decide that it needs to visit
+> > -     the directory, it is the Makefile in the subdirectory that
+> > -     specifies what is modular and what is built-in.
+> > +
+> > +     Kbuild uses this information not only to decide that it needs to visit
+> > +     the directory, but also to decide whether or not to link objects from
+> > +     the directory into vmlinux.
+> > +
+> > +     When Kbuild descends into the directory with 'y', all built-in objects
+> > +     from that directory are combined into the built-in.a, which will be
+> > +     eventually linked into vmlinux.
+> > +
+> > +     When Kbuild descends into the directory with 'm', in contrast, nothing
+> > +     from that directory will be linked into vmlinux. If the Makefile in
+> > +     that directory specifies obj-y, those objects will be left orphan.
+> > +     It is very likely a bug of the Makefile or of dependencies in Kconfig.
+> >
+> >       It is good practice to use a `CONFIG_` variable when assigning directory
+> >       names. This allows kbuild to totally skip the directory if the
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
