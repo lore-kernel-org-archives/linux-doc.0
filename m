@@ -2,69 +2,70 @@ Return-Path: <SRS0=lVd4=2N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858CEC2D0C8
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Dec 2019 01:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9575EC2D0C8
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Dec 2019 01:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2D41020708
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Dec 2019 01:00:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 483C3206B7
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Dec 2019 01:23:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fpAcyImD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tKFcLQjo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726291AbfLWBA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Dec 2019 20:00:58 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:43077 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726190AbfLWBA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Dec 2019 20:00:58 -0500
-Received: by mail-pg1-f193.google.com with SMTP id k197so7965471pga.10;
-        Sun, 22 Dec 2019 17:00:57 -0800 (PST)
+        id S1726291AbfLWBXC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Dec 2019 20:23:02 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36040 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726190AbfLWBXB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Dec 2019 20:23:01 -0500
+Received: by mail-pf1-f196.google.com with SMTP id x184so8376330pfb.3;
+        Sun, 22 Dec 2019 17:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pXvXondYXgEoXDp7e6lZcjwXuNT5uXEEr/NpJGbpE2Q=;
-        b=fpAcyImDLKJnWZtYsB405meSwRLj3fRPDnmE8hxqAFRkwZ5lAtB7KlyO6wkyDUWosN
-         NuVAv3f28B/wPB+bIGPS8qQR3I3MgwUU9/0pDDFx25nCBQkpeSC2YMpDBIDRGUc7FGyx
-         rvR5MuIcFCMEUjcfxIW5ZKd7IRHqriqX5f5o07d8bH0TSGu57L7cpti4bJVwIbcUA5XT
-         GTimpvQ61XUtMkmNH1DFpp2l/HJwDTWCz5ZMvxJl7cFozF2U5IbZ+6QWql7CqYBHnWEc
-         hdzyZTYYdaDXsUU7l4l1XPQl+RiIo8Wz5/35rxc6N9YxvO8Pm9IDLL5KifSVdyhu/3zi
-         nuIA==
+        bh=QL01XVEbluQLIV+Em/VgivS7olxE7tMQamBuebDTV4I=;
+        b=tKFcLQjo0vhJOOJb2TwIeZ3gQJ/Ru34pN5a7bH1EH7D4z+Ts8ZHEBU/kqYzPt1JPSC
+         TZH+mxUmAb4L3JopkVxbeO1szttiQSkkbJp0HYXLyVi/TFYNxlWbmNwzyxlTX/YdkKRi
+         aRVD0blQ3xnAq/tPPVJh0ehp7uvZvi5eCyqH8vP6pYDS2KInYMxYBrYf6Myvc4ZbeFqA
+         3DjxX5QelSx936kQOR65oRgCheYtyq9PDVjOs09nkQkdOWjYBZMrTtaxeT0kpZZw+qIu
+         GM0zmufb04jQVKbicrJ3rCzX/1iOxAFiHZ9nkAsXlQuNm2zcP5DLoFrKcQbQwHol/vKw
+         6wEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pXvXondYXgEoXDp7e6lZcjwXuNT5uXEEr/NpJGbpE2Q=;
-        b=YhB/p6Z+Nxt2tocF/S32TbfA9DBLVO6li0FB12sMwNhUFmHe7YTQpYVtj7HgRPS9V9
-         FtklkH/U+M+CZeOi6HFJaZADlmMLReZT1vih+qPeiCly4jZs7vPEIhMEJjXsskfVbFrV
-         ocmjoOzYZrKOf9F/56FyH9P/g4hhfSezYhdY8bCmQg81d7Gj+zuBvmNXyEczI5zc622Q
-         FMHJzHQadj4qb7p+y63QLpOuGg3E6fs+w5CpEJ/KFbbEfiQQIDGwOUacedyJbcwJc0L1
-         /gslkBgI+Wtw/2t/cPjEwG4HJAQzmCieGebOHf+GqtcFcXK3sSWcnMJCg4lhj6AVmVQR
-         lCLw==
-X-Gm-Message-State: APjAAAUELgW8WplQLchU2R1zIPTVM8QX6WkygZb9ZjpbsmbW2OOLEHr4
-        18lxgBWpNunIZ97lksX2VJs=
-X-Google-Smtp-Source: APXvYqxDZni6XrVIC2JSrkd0P/M71eaPqdjEM5KSQ4YeXdIc49eF5gYx9SR0taWq7eQhPc2iaqxfBQ==
-X-Received: by 2002:a63:f901:: with SMTP id h1mr28560765pgi.445.1577062856312;
-        Sun, 22 Dec 2019 17:00:56 -0800 (PST)
+        bh=QL01XVEbluQLIV+Em/VgivS7olxE7tMQamBuebDTV4I=;
+        b=bPNXcBrjogdEdnJuyNxIMhIkgnlH2HwoDNnpqoddxr0QTxOEKg4Xcrm/nqZcvxAYYr
+         yPcMe3iRxwlf72V3k7F6IpV3ZwsBGeJ6deN2IbwO7g1XaPOzdVkPo1/vXFjdnRDn+N8K
+         YLK9k349pb/ylLJZGOEI6J5/LsbL6WPu434sLr+MWZr1fA/C7OrUQpeHmzVgFo3gdtQR
+         Cf+aSbLb2h4V/D1t0AycfTBNpOdC0OTfUSmt5dcbNJ2R0Trg9ECNydH+QRVLHCelZZGM
+         uvWqzSAZHqwbkSXzL2nV2Ioo+AhIkzgWEVooe8tWZ9HU66ppr1H1ftVy5i4IAKBZO8Jj
+         8fnA==
+X-Gm-Message-State: APjAAAW+mdSuZY/6Rf6po95UJ9fKTqGuU2sLi4sNxGNV6PM1NHaPBFbR
+        uH3Y8kdk0P6rDQ8v7CC2QiQ=
+X-Google-Smtp-Source: APXvYqxnP0EP/8MszDILRaWBQcelGpwOB4CLU1UVuWgQX/jDMfa3HIbmoiRqpGZYRilGJB6kiEcibQ==
+X-Received: by 2002:a63:d406:: with SMTP id a6mr28931615pgh.264.1577064180465;
+        Sun, 22 Dec 2019 17:23:00 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id b42sm14402256pjc.27.2019.12.22.17.00.51
+        by smtp.gmail.com with ESMTPSA id s7sm22048728pfb.60.2019.12.22.17.22.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Dec 2019 17:00:55 -0800 (PST)
+        Sun, 22 Dec 2019 17:22:59 -0800 (PST)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To:     corbet@lwn.net, hirofumi@mail.parknet.co.jp
+To:     corbet@lwn.net, miklos@szeredi.hu
 Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3] Documentation: filesystems: convert vfat.txt to RST
-Date:   Sun, 22 Dec 2019 22:00:30 -0300
-Message-Id: <20191223010030.434902-1-dwlsalmeida@gmail.com>
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3] Documentation: filesystems: convert fuse to RST
+Date:   Sun, 22 Dec 2019 22:22:48 -0300
+Message-Id: <20191223012248.606168-1-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -75,801 +76,427 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Converts vfat.txt to the reStructuredText format, improving presentation
-without changing the underlying content.
+Converts fuse.txt to reStructuredText format, improving the presentation
+without changing much of the underlying content.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 -----------------------------------------------------------
 Changes in v3:
 Removed unnecessary markup.
-Removed section "BUG REPORTS" as recommended by the maintainer.
+Moved document back to Documentation/filesystems as per request from the
+maintainer.
 
 Changes in v2:
-Refactored long lines as pointed out by Jonathan
-Copied the maintainer
-Updated the reference in the MAINTAINERS file for vfat
-
-I did not move this into admin-guide, waiting on what the
-maintainer has to say about this and also about old sections
-in the text, if any.
-
+-Copied FUSE maintainer (Miklos Szeredi)
+-Fixed the reference in the MAINTAINERS file
+-Removed some of the excessive markup in fuse.rst
+-Moved fuse.rst into admin-guide
+-Updated index.rst
 ---
- Documentation/filesystems/index.rst |   1 +
- Documentation/filesystems/vfat.rst  | 387 ++++++++++++++++++++++++++++
- Documentation/filesystems/vfat.txt  | 347 -------------------------
- MAINTAINERS                         |   2 +-
- 4 files changed, 389 insertions(+), 348 deletions(-)
- create mode 100644 Documentation/filesystems/vfat.rst
- delete mode 100644 Documentation/filesystems/vfat.txt
+ .../filesystems/{fuse.txt => fuse.rst}        | 174 ++++++++----------
+ Documentation/filesystems/index.rst           |   1 +
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 82 insertions(+), 95 deletions(-)
+ rename Documentation/filesystems/{fuse.txt => fuse.rst} (79%)
 
+diff --git a/Documentation/filesystems/fuse.txt b/Documentation/filesystems/fuse.rst
+similarity index 79%
+rename from Documentation/filesystems/fuse.txt
+rename to Documentation/filesystems/fuse.rst
+index 13af4a49e7db..1ca3aac04606 100644
+--- a/Documentation/filesystems/fuse.txt
++++ b/Documentation/filesystems/fuse.rst
+@@ -1,41 +1,39 @@
+-Definitions
+-~~~~~~~~~~~
++==============
++FUSE
++==============
+ 
+-Userspace filesystem:
++Definitions
++===========
+ 
++**Userspace filesystem:**
+   A filesystem in which data and metadata are provided by an ordinary
+   userspace process.  The filesystem can be accessed normally through
+   the kernel interface.
+ 
+-Filesystem daemon:
+-
++**Filesystem daemon:**
+   The process(es) providing the data and metadata of the filesystem.
+ 
+-Non-privileged mount (or user mount):
+-
++**Non-privileged mount (or user mount):**
+   A userspace filesystem mounted by a non-privileged (non-root) user.
+   The filesystem daemon is running with the privileges of the mounting
+   user.  NOTE: this is not the same as mounts allowed with the "user"
+   option in /etc/fstab, which is not discussed here.
+ 
+-Filesystem connection:
+-
++**Filesystem connection:**
+   A connection between the filesystem daemon and the kernel.  The
+   connection exists until either the daemon dies, or the filesystem is
+   umounted.  Note that detaching (or lazy umounting) the filesystem
+-  does _not_ break the connection, in this case it will exist until
++  does *not* break the connection, in this case it will exist until
+   the last reference to the filesystem is released.
+ 
+-Mount owner:
+-
++**Mount owner:**
+   The user who does the mounting.
+ 
+-User:
+-
++**User:**
+   The user who is performing filesystem operations.
+ 
+ What is FUSE?
+-~~~~~~~~~~~~~
++=============
+ 
+ FUSE is a userspace filesystem framework.  It consists of a kernel
+ module (fuse.ko), a userspace library (libfuse.*) and a mount utility
+@@ -46,50 +44,43 @@ non-privileged mounts.  This opens up new possibilities for the use of
+ filesystems.  A good example is sshfs: a secure network filesystem
+ using the sftp protocol.
+ 
+-The userspace library and utilities are available from the FUSE
+-homepage:
+-
+-  http://fuse.sourceforge.net/
++The userspace library and utilities are available from the
++`FUSE homepage: <http://fuse.sourceforge.net/>`_
+ 
+ Filesystem type
+-~~~~~~~~~~~~~~~
++===============
+ 
+ The filesystem type given to mount(2) can be one of the following:
+ 
+-'fuse'
++    **fuse**
+ 
+-  This is the usual way to mount a FUSE filesystem.  The first
+-  argument of the mount system call may contain an arbitrary string,
+-  which is not interpreted by the kernel.
++    This is the usual way to mount a FUSE filesystem.  The first
++    argument of the mount system call may contain an arbitrary string,
++    which is not interpreted by the kernel.
+ 
+-'fuseblk'
++    **fuseblk**
+ 
+-  The filesystem is block device based.  The first argument of the
+-  mount system call is interpreted as the name of the device.
++    The filesystem is block device based.  The first argument of the
++    mount system call is interpreted as the name of the device.
+ 
+ Mount options
+-~~~~~~~~~~~~~
+-
+-'fd=N'
++=============
+ 
++**fd=N**
+   The file descriptor to use for communication between the userspace
+   filesystem and the kernel.  The file descriptor must have been
+   obtained by opening the FUSE device ('/dev/fuse').
+ 
+-'rootmode=M'
+-
++**rootmode=M**
+   The file mode of the filesystem's root in octal representation.
+ 
+-'user_id=N'
+-
++**user_id=N**
+   The numeric user id of the mount owner.
+ 
+-'group_id=N'
+-
++**group_id=N**
+   The numeric group id of the mount owner.
+ 
+-'default_permissions'
+-
++**default_permissions**
+   By default FUSE doesn't check file access permissions, the
+   filesystem is free to implement its access policy or leave it to
+   the underlying file access mechanism (e.g. in case of network
+@@ -97,28 +88,25 @@ Mount options
+   access based on file mode.  It is usually useful together with the
+   'allow_other' mount option.
+ 
+-'allow_other'
+-
++**allow_other**
+   This option overrides the security measure restricting file access
+   to the user mounting the filesystem.  This option is by default only
+   allowed to root, but this restriction can be removed with a
+   (userspace) configuration option.
+ 
+-'max_read=N'
+-
++**max_read=N**
+   With this option the maximum size of read operations can be set.
+   The default is infinite.  Note that the size of read requests is
+   limited anyway to 32 pages (which is 128kbyte on i386).
+ 
+-'blksize=N'
+-
++**blksize=N**
+   Set the block size for the filesystem.  The default is 512.  This
+   option is only valid for 'fuseblk' type mounts.
+ 
+ Control filesystem
+-~~~~~~~~~~~~~~~~~~
++==================
+ 
+-There's a control filesystem for FUSE, which can be mounted by:
++There's a control filesystem for FUSE, which can be mounted by::
+ 
+   mount -t fusectl none /sys/fs/fuse/connections
+ 
+@@ -130,53 +118,51 @@ named by a unique number.
+ 
+ For each connection the following files exist within this directory:
+ 
+- 'waiting'
++	**waiting**
++	  The number of requests which are waiting to be transferred to
++	  userspace or being processed by the filesystem daemon.  If there is
++	  no filesystem activity and 'waiting' is non-zero, then the
++	  filesystem is hung or deadlocked.
+ 
+-  The number of requests which are waiting to be transferred to
+-  userspace or being processed by the filesystem daemon.  If there is
+-  no filesystem activity and 'waiting' is non-zero, then the
+-  filesystem is hung or deadlocked.
+-
+- 'abort'
+-
+-  Writing anything into this file will abort the filesystem
+-  connection.  This means that all waiting requests will be aborted an
+-  error returned for all aborted and new requests.
++ 	**abort**
++	  Writing anything into this file will abort the filesystem
++	  connection.  This means that all waiting requests will be aborted an
++	  error returned for all aborted and new requests.
+ 
+ Only the owner of the mount may read or write these files.
+ 
+ Interrupting filesystem operations
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++##################################
+ 
+ If a process issuing a FUSE filesystem request is interrupted, the
+ following will happen:
+ 
+-  1) If the request is not yet sent to userspace AND the signal is
++  #. If the request is not yet sent to userspace AND the signal is
+      fatal (SIGKILL or unhandled fatal signal), then the request is
+      dequeued and returns immediately.
+ 
+-  2) If the request is not yet sent to userspace AND the signal is not
+-     fatal, then an 'interrupted' flag is set for the request.  When
++  #. If the request is not yet sent to userspace AND the signal is not
++     fatal, then an interrupted flag is set for the request.  When
+      the request has been successfully transferred to userspace and
+      this flag is set, an INTERRUPT request is queued.
+ 
+-  3) If the request is already sent to userspace, then an INTERRUPT
++  #. If the request is already sent to userspace, then an INTERRUPT
+      request is queued.
+ 
+ INTERRUPT requests take precedence over other requests, so the
+ userspace filesystem will receive queued INTERRUPTs before any others.
+ 
+ The userspace filesystem may ignore the INTERRUPT requests entirely,
+-or may honor them by sending a reply to the _original_ request, with
++or may honor them by sending a reply to the *original* request, with
+ the error set to EINTR.
+ 
+ It is also possible that there's a race between processing the
+ original request and its INTERRUPT request.  There are two possibilities:
+ 
+-  1) The INTERRUPT request is processed before the original request is
++  #. The INTERRUPT request is processed before the original request is
+      processed
+ 
+-  2) The INTERRUPT request is processed after the original request has
++  #. The INTERRUPT request is processed after the original request has
+      been answered
+ 
+ If the filesystem cannot find the original request, it should wait for
+@@ -186,7 +172,7 @@ should reply to the INTERRUPT request with an EAGAIN error.  In case
+ reply will be ignored.
+ 
+ Aborting a filesystem connection
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++================================
+ 
+ It is possible to get into certain situations where the filesystem is
+ not responding.  Reasons for this may be:
+@@ -216,7 +202,7 @@ the filesystem.  There are several ways to do this:
+     powerful method, always works.
+ 
+ How do non-privileged mounts work?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++==================================
+ 
+ Since the mount() system call is a privileged operation, a helper
+ program (fusermount) is needed, which is installed setuid root.
+@@ -235,15 +221,13 @@ system.  Obvious requirements arising from this are:
+     other users' or the super user's processes
+ 
+ How are requirements fulfilled?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++===============================
+ 
+  A) The mount owner could gain elevated privileges by either:
+ 
+-     1) creating a filesystem containing a device file, then opening
+-	this device
++    1. creating a filesystem containing a device file, then opening this device
+ 
+-     2) creating a filesystem containing a suid or sgid application,
+-	then executing this application
++    2. creating a filesystem containing a suid or sgid application, then executing this application
+ 
+     The solution is not to allow opening device files and ignore
+     setuid and setgid bits when executing programs.  To ensure this
+@@ -275,16 +259,16 @@ How are requirements fulfilled?
+         of other users' processes.
+ 
+          i) It can slow down or indefinitely delay the execution of a
+-           filesystem operation creating a DoS against the user or the
+-           whole system.  For example a suid application locking a
+-           system file, and then accessing a file on the mount owner's
+-           filesystem could be stopped, and thus causing the system
+-           file to be locked forever.
++            filesystem operation creating a DoS against the user or the
++            whole system.  For example a suid application locking a
++            system file, and then accessing a file on the mount owner's
++            filesystem could be stopped, and thus causing the system
++            file to be locked forever.
+ 
+          ii) It can present files or directories of unlimited length, or
+-           directory structures of unlimited depth, possibly causing a
+-           system process to eat up diskspace, memory or other
+-           resources, again causing DoS.
++             directory structures of unlimited depth, possibly causing a
++             system process to eat up diskspace, memory or other
++             resources, again causing *DoS*.
+ 
+ 	The solution to this as well as B) is not to allow processes
+ 	to access the filesystem, which could otherwise not be
+@@ -294,28 +278,27 @@ How are requirements fulfilled?
+ 	ptrace can be used to check if a process is allowed to access
+ 	the filesystem or not.
+ 
+-	Note that the ptrace check is not strictly necessary to
++	Note that the *ptrace* check is not strictly necessary to
+ 	prevent B/2/i, it is enough to check if mount owner has enough
+ 	privilege to send signal to the process accessing the
+-	filesystem, since SIGSTOP can be used to get a similar effect.
++	filesystem, since *SIGSTOP* can be used to get a similar effect.
+ 
+ I think these limitations are unacceptable?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++===========================================
+ 
+ If a sysadmin trusts the users enough, or can ensure through other
+ measures, that system processes will never enter non-privileged
+-mounts, it can relax the last limitation with a "user_allow_other"
++mounts, it can relax the last limitation with a 'user_allow_other'
+ config option.  If this config option is set, the mounting user can
+-add the "allow_other" mount option which disables the check for other
++add the 'allow_other' mount option which disables the check for other
+ users' processes.
+ 
+ Kernel - userspace interface
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++============================
+ 
+ The following diagram shows how a filesystem operation (in this
+-example unlink) is performed in FUSE.
++example unlink) is performed in FUSE. ::
+ 
+-NOTE: everything in this description is greatly simplified
+ 
+  |  "rm /mnt/fuse/file"               |  FUSE filesystem daemon
+  |                                    |
+@@ -357,12 +340,15 @@ NOTE: everything in this description is greatly simplified
+  |    <fuse_unlink()                  |
+  |  <sys_unlink()                     |
+ 
++.. note:: Everything in the description above is greatly simplified
++
+ There are a couple of ways in which to deadlock a FUSE filesystem.
+ Since we are talking about unprivileged userspace programs,
+ something must be done about these.
+ 
+-Scenario 1 -  Simple deadlock
+------------------------------
++**Scenario 1 -  Simple deadlock**
++
++::
+ 
+  |  "rm /mnt/fuse/file"               |  FUSE filesystem daemon
+  |                                    |
+@@ -379,12 +365,12 @@ Scenario 1 -  Simple deadlock
+ 
+ The solution for this is to allow the filesystem to be aborted.
+ 
+-Scenario 2 - Tricky deadlock
+-----------------------------
++**Scenario 2 - Tricky deadlock**
++
+ 
+ This one needs a carefully crafted filesystem.  It's a variation on
+ the above, only the call back to the filesystem is not explicit,
+-but is caused by a pagefault.
++but is caused by a pagefault. ::
+ 
+  |  Kamikaze filesystem thread 1      |  Kamikaze filesystem thread 2
+  |                                    |
+@@ -410,7 +396,7 @@ but is caused by a pagefault.
+  |                                    |           [lock page]
+  |                                    |           * DEADLOCK *
+ 
+-Solution is basically the same as above.
++The solution is basically the same as above.
+ 
+ An additional problem is that while the write buffer is being copied
+ to the request, the request must not be interrupted/aborted.  This is
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 2c3a9f761205..aaffaa9042c3 100644
+index 2c3a9f761205..03a7c4ed7f15 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -47,3 +47,4 @@ Documentation for filesystem implementations.
+@@ -46,4 +46,5 @@ Documentation for filesystem implementations.
+ .. toctree::
     :maxdepth: 2
  
++   fuse
     virtiofs
-+   vfat
-diff --git a/Documentation/filesystems/vfat.rst b/Documentation/filesystems/vfat.rst
-new file mode 100644
-index 000000000000..e85d74e91295
---- /dev/null
-+++ b/Documentation/filesystems/vfat.rst
-@@ -0,0 +1,387 @@
-+====
-+VFAT
-+====
-+
-+USING VFAT
-+==========
-+
-+To use the vfat filesystem, use the filesystem type 'vfat'.  i.e.::
-+
-+  mount -t vfat /dev/fd0 /mnt
-+
-+
-+No special partition formatter is required,
-+'mkdosfs' will work fine if you want to format from within Linux.
-+
-+VFAT MOUNT OPTIONS
-+==================
-+
-+**uid=###**
-+	Set the owner of all files on this filesystem.
-+	The default is the uid of current process.
-+
-+**gid=###**
-+	Set the group of all files on this filesystem.
-+	The default is the gid of current process.
-+
-+**umask=###**
-+	The permission mask (for files and directories, see *umask(1)*).
-+	The default is the umask of current process.
-+
-+**dmask=###**
-+	The permission mask for the directory.
-+	The default is the umask of current process.
-+
-+**fmask=###**
-+	The permission mask for files.
-+	The default is the umask of current process.
-+
-+**allow_utime=###**
-+	This option controls the permission check of mtime/atime.
-+
-+		**-20**: If current process is in group of file's group ID,
-+                you can change timestamp.
-+
-+		**-2**: Other users can change timestamp.
-+
-+	The default is set from dmask option. If the directory is
-+	writable, utime(2) is also allowed. i.e. ~dmask & 022.
-+
-+	Normally utime(2) checks current process is owner of
-+	the file, or it has CAP_FOWNER capability. But FAT
-+	filesystem doesn't have uid/gid on disk, so normal
-+	check is too unflexible. With this option you can
-+	relax it.
-+
-+**codepage=###**
-+	Sets the codepage number for converting to shortname
-+	characters on FAT filesystem.
-+	By default, FAT_DEFAULT_CODEPAGE setting is used.
-+
-+**iocharset=<name>**
-+	Character set to use for converting between the
-+	encoding is used for user visible filename and 16 bit
-+	Unicode characters. Long filenames are stored on disk
-+	in Unicode format, but Unix for the most part doesn't
-+	know how to deal with Unicode.
-+	By default, FAT_DEFAULT_IOCHARSET setting is used.
-+
-+	There is also an option of doing UTF-8 translations
-+	with the utf8 option.
-+
-+.. note:: ``iocharset=utf8`` is not recommended. If unsure, you should consider
-+	  the utf8 option instead.
-+
-+**utf8=<bool>**
-+	UTF-8 is the filesystem safe version of Unicode that
-+	is used by the console. It can be enabled or disabled
-+	for the filesystem with this option.
-+	If 'uni_xlate' gets set, UTF-8 gets disabled.
-+	By default, FAT_DEFAULT_UTF8 setting is used.
-+
-+**uni_xlate=<bool>**
-+	Translate unhandled Unicode characters to special
-+	escaped sequences.  This would let you backup and
-+	restore filenames that are created with any Unicode
-+	characters.  Until Linux supports Unicode for real,
-+	this gives you an alternative.  Without this option,
-+	a '?' is used when no translation is possible.  The
-+	escape character is ':' because it is otherwise
-+	illegal on the vfat filesystem.  The escape sequence
-+	that gets used is ':' and the four digits of hexadecimal
-+	unicode.
-+
-+**nonumtail=<bool>**
-+	When creating 8.3 aliases, normally the alias will
-+	end in '~1' or tilde followed by some number.  If this
-+	option is set, then if the filename is
-+	"longfilename.txt" and "longfile.txt" does not
-+	currently exist in the directory, longfile.txt will
-+	be the short alias instead of longfi~1.txt.
-+
-+**usefree**
-+	Use the "free clusters" value stored on FSINFO. It will
-+	be used to determine number of free clusters without
-+	scanning disk. But it's not used by default, because
-+	recent Windows don't update it correctly in some
-+	case. If you are sure the "free clusters" on FSINFO is
-+	correct, by this option you can avoid scanning disk.
-+
-+**quiet**
-+	Stops printing certain warning messages.
-+
-+**check=s|r|n**
-+	Case sensitivity checking setting.
-+
-+	**s**: strict, case sensitive
-+
-+	**r**: relaxed, case insensitive
-+
-+	**n**: normal, default setting, currently case insensitive
-+
-+**nocase**
-+	This was deprecated for vfat. Use ``shortname=win95`` instead.
-+
-+**shortname=lower|win95|winnt|mixed**
-+	Shortname display/create setting.
-+
-+	**lower**: convert to lowercase for display,
-+	emulate the Windows 95 rule for create.
-+
-+	**win95**: emulate the Windows 95 rule for display/create.
-+
-+	**winnt**: emulate the Windows NT rule for display/create.
-+
-+	**mixed**: emulate the Windows NT rule for display,
-+	emulate the Windows 95 rule for create.
-+
-+	Default setting is `mixed`.
-+
-+**tz=UTC**
-+	Interpret timestamps as UTC rather than local time.
-+	This option disables the conversion of timestamps
-+	between local time (as used by Windows on FAT) and UTC
-+	(which Linux uses internally).  This is particularly
-+	useful when mounting devices (like digital cameras)
-+	that are set to UTC in order to avoid the pitfalls of
-+	local time.
-+
-+**time_offset=minutes**
-+	Set offset for conversion of timestamps from local time
-+	used by FAT to UTC. I.e. <minutes> minutes will be subtracted
-+	from each timestamp to convert it to UTC used internally by
-+	Linux. This is useful when time zone set in ``sys_tz`` is
-+	not the time zone used by the filesystem. Note that this
-+	option still does not provide correct time stamps in all
-+	cases in presence of DST - time stamps in a different DST
-+	setting will be off by one hour.
-+
-+**showexec**
-+	If set, the execute permission bits of the file will be
-+	allowed only if the extension part of the name is .EXE,
-+	.COM, or .BAT. Not set by default.
-+
-+**debug**
-+	Can be set, but unused by the current implementation.
-+
-+**sys_immutable**
-+	If set, ATTR_SYS attribute on FAT is handled as
-+	IMMUTABLE flag on Linux. Not set by default.
-+
-+**flush**
-+	If set, the filesystem will try to flush to disk more
-+	early than normal. Not set by default.
-+
-+**rodir**
-+	FAT has the ATTR_RO (read-only) attribute. On Windows,
-+	the ATTR_RO of the directory will just be ignored,
-+	and is used only by applications as a flag (e.g. it's set
-+	for the customized folder).
-+
-+	If you want to use ATTR_RO as read-only flag even for
-+	the directory, set this option.
-+
-+**errors=panic|continue|remount-ro**
-+	specify FAT behavior on critical errors: panic, continue
-+	without doing anything or remount the partition in
-+	read-only mode (default behavior).
-+
-+**discard**
-+	If set, issues discard/TRIM commands to the block
-+	device when blocks are freed. This is useful for SSD devices
-+	and sparse/thinly-provisoned LUNs.
-+
-+**nfs=stale_rw|nostale_ro**
-+	Enable this only if you want to export the FAT filesystem
-+	over NFS.
-+
-+		**stale_rw**: This option maintains an index (cache) of directory
-+		*inodes* by *i_logstart* which is used by the nfs-related code to
-+		improve look-ups. Full file operations (read/write) over NFS is
-+		supported but with cache eviction at NFS server, this could
-+		result in ESTALE issues.
-+
-+		**nostale_ro**: This option bases the *inode* number and filehandle
-+		on the on-disk location of a file in the MS-DOS directory entry.
-+		This ensures that ESTALE will not be returned after a file is
-+		evicted from the inode cache. However, it means that operations
-+		such as rename, create and unlink could cause filehandles that
-+		previously pointed at one file to point at a different file,
-+		potentially causing data corruption. For this reason, this
-+		option also mounts the filesystem readonly.
-+
-+	To maintain backward compatibility, ``'-o nfs'`` is also accepted,
-+	defaulting to "stale_rw".
-+
-+**dos1xfloppy  <bool>: 0,1,yes,no,true,false**
-+	If set, use a fallback default BIOS Parameter Block
-+	configuration, determined by backing device size. These static
-+	parameters match defaults assumed by DOS 1.x for 160 kiB,
-+	180 kiB, 320 kiB, and 360 kiB floppies and floppy images.
-+
-+
-+
-+LIMITATION
-+==========
-+
-+The fallocated region of file is discarded at umount/evict time
-+when using fallocate with FALLOC_FL_KEEP_SIZE.
-+So, User should assume that fallocated region can be discarded at
-+last close if there is memory pressure resulting in eviction of
-+the inode from the memory. As a result, for any dependency on
-+the fallocated region, user should make sure to recheck fallocate
-+after reopening the file.
-+
-+TODO
-+====
-+Need to get rid of the raw scanning stuff.  Instead, always use
-+a get next directory entry approach.  The only thing left that uses
-+raw scanning is the directory renaming code.
-+
-+
-+POSSIBLE PROBLEMS
-+=================
-+
-+- vfat_valid_longname does not properly checked reserved names.
-+- When a volume name is the same as a directory name in the root
-+  directory of the filesystem, the directory name sometimes shows
-+  up as an empty file.
-+- autoconv option does not work correctly.
-+
-+
-+TEST SUITE
-+==========
-+If you plan to make any modifications to the vfat filesystem, please
-+get the test suite that comes with the vfat distribution at
-+
-+`<http://web.archive.org/web/*/http://bmrc.berkeley.edu/people/chaffee/vfat.html>`_
-+
-+This tests quite a few parts of the vfat filesystem and additional
-+tests for new features or untested features would be appreciated.
-+
-+NOTES ON THE STRUCTURE OF THE VFAT FILESYSTEM
-+=============================================
-+This documentation was provided by Galen C. Hunt gchunt@cs.rochester.edu and
-+lightly annotated by Gordon Chaffee.
-+
-+This document presents a very rough, technical overview of my
-+knowledge of the extended FAT file system used in Windows NT 3.5 and
-+Windows 95.  I don't guarantee that any of the following is correct,
-+but it appears to be so.
-+
-+The extended FAT file system is almost identical to the FAT
-+file system used in DOS versions up to and including *6.223410239847*
-+:-).  The significant change has been the addition of long file names.
-+These names support up to 255 characters including spaces and lower
-+case characters as opposed to the traditional 8.3 short names.
-+
-+Here is the description of the traditional FAT entry in the current
-+Windows 95 filesystem::
-+
-+        struct directory { // Short 8.3 names
-+                unsigned char name[8];          // file name
-+                unsigned char ext[3];           // file extension
-+                unsigned char attr;             // attribute byte
-+		unsigned char lcase;		// Case for base and extension
-+		unsigned char ctime_ms;		// Creation time, milliseconds
-+		unsigned char ctime[2];		// Creation time
-+		unsigned char cdate[2];		// Creation date
-+		unsigned char adate[2];		// Last access date
-+		unsigned char reserved[2];	// reserved values (ignored)
-+                unsigned char time[2];          // time stamp
-+                unsigned char date[2];          // date stamp
-+                unsigned char start[2];         // starting cluster number
-+                unsigned char size[4];          // size of the file
-+        };
-+
-+
-+The lcase field specifies if the base and/or the extension of an 8.3
-+name should be capitalized.  This field does not seem to be used by
-+Windows 95 but it is used by Windows NT.  The case of filenames is not
-+completely compatible from Windows NT to Windows 95.  It is not completely
-+compatible in the reverse direction, however.  Filenames that fit in
-+the 8.3 namespace and are written on Windows NT to be lowercase will
-+show up as uppercase on Windows 95.
-+
-+.. note:: Note that the ``start`` and ``size`` values are actually little
-+          endian integer values.  The descriptions of the fields in this
-+          structure are public knowledge and can be found elsewhere.
-+
-+With the extended FAT system, Microsoft has inserted extra
-+directory entries for any files with extended names.  (Any name which
-+legally fits within the old 8.3 encoding scheme does not have extra
-+entries.)  I call these extra entries slots.  Basically, a slot is a
-+specially formatted directory entry which holds up to 13 characters of
-+a file's extended name.  Think of slots as additional labeling for the
-+directory entry of the file to which they correspond.  Microsoft
-+prefers to refer to the 8.3 entry for a file as its alias and the
-+extended slot directory entries as the file name.
-+
-+The C structure for a slot directory entry follows::
-+
-+        struct slot { // Up to 13 characters of a long name
-+                unsigned char id;               // sequence number for slot
-+                unsigned char name0_4[10];      // first 5 characters in name
-+                unsigned char attr;             // attribute byte
-+                unsigned char reserved;         // always 0
-+                unsigned char alias_checksum;   // checksum for 8.3 alias
-+                unsigned char name5_10[12];     // 6 more characters in name
-+                unsigned char start[2];         // starting cluster number
-+                unsigned char name11_12[4];     // last 2 characters in name
-+        };
-+
-+
-+If the layout of the slots looks a little odd, it's only
-+because of Microsoft's efforts to maintain compatibility with old
-+software.  The slots must be disguised to prevent old software from
-+panicking.  To this end, a number of measures are taken:
-+
-+        1) The attribute byte for a slot directory entry is always set
-+           to 0x0f.  This corresponds to an old directory entry with
-+           attributes of "hidden", "system", "read-only", and "volume
-+           label".  Most old software will ignore any directory
-+           entries with the "volume label" bit set.  Real volume label
-+           entries don't have the other three bits set.
-+
-+        2) The starting cluster is always set to 0, an impossible
-+           value for a DOS file.
-+
-+Because the extended FAT system is backward compatible, it is
-+possible for old software to modify directory entries.  Measures must
-+be taken to ensure the validity of slots.  An extended FAT system can
-+verify that a slot does in fact belong to an 8.3 directory entry by
-+the following:
-+
-+        1) Positioning.  Slots for a file always immediately proceed
-+           their corresponding 8.3 directory entry.  In addition, each
-+           slot has an id which marks its order in the extended file
-+           name.  Here is a very abbreviated view of an 8.3 directory
-+           entry and its corresponding long name slots for the file
-+           "My Big File.Extension which is long"::
-+
-+                <proceeding files...>
-+                <slot #3, id = 0x43, characters = "h is long">
-+                <slot #2, id = 0x02, characters = "xtension whic">
-+                <slot #1, id = 0x01, characters = "My Big File.E">
-+                <directory entry, name = "MYBIGFIL.EXT">
-+
-+
-+           .. note:: Note that the slots are stored from last to first.  Slots
-+		     are numbered from 1 to N.  The Nth slot is ``or'ed`` with
-+		     0x40 to mark it as the last one.
-+
-+        2) Checksum.  Each slot has an alias_checksum value.  The
-+           checksum is calculated from the 8.3 name using the
-+           following algorithm::
-+
-+                for (sum = i = 0; i < 11; i++) {
-+                        sum = (((sum&1)<<7)|((sum&0xfe)>>1)) + name[i]
-+                }
-+
-+
-+	3) If there is free space in the final slot, a Unicode ``NULL (0x0000)``
-+	   is stored after the final character.  After that, all unused
-+	   characters in the final slot are set to Unicode 0xFFFF.
-+
-+Finally, note that the extended name is stored in Unicode.  Each Unicode
-+character takes either two or four bytes, UTF-16LE encoded.
-diff --git a/Documentation/filesystems/vfat.txt b/Documentation/filesystems/vfat.txt
-deleted file mode 100644
-index 91031298beb1..000000000000
---- a/Documentation/filesystems/vfat.txt
-+++ /dev/null
-@@ -1,347 +0,0 @@
--USING VFAT
------------------------------------------------------------------------
--To use the vfat filesystem, use the filesystem type 'vfat'.  i.e.
--  mount -t vfat /dev/fd0 /mnt
--
--No special partition formatter is required.  mkdosfs will work fine
--if you want to format from within Linux.
--
--VFAT MOUNT OPTIONS
------------------------------------------------------------------------
--uid=###       -- Set the owner of all files on this filesystem.
--		 The default is the uid of current process.
--
--gid=###       -- Set the group of all files on this filesystem.
--		 The default is the gid of current process.
--
--umask=###     -- The permission mask (for files and directories, see umask(1)).
--                 The default is the umask of current process.
--
--dmask=###     -- The permission mask for the directory.
--                 The default is the umask of current process.
--
--fmask=###     -- The permission mask for files.
--                 The default is the umask of current process.
--
--allow_utime=### -- This option controls the permission check of mtime/atime.
--
--                  20 - If current process is in group of file's group ID,
--                       you can change timestamp.
--                   2 - Other users can change timestamp.
--
--                 The default is set from `dmask' option. (If the directory is
--                 writable, utime(2) is also allowed. I.e. ~dmask & 022)
--
--                 Normally utime(2) checks current process is owner of
--                 the file, or it has CAP_FOWNER capability.  But FAT
--                 filesystem doesn't have uid/gid on disk, so normal
--                 check is too unflexible. With this option you can
--                 relax it.
--
--codepage=###  -- Sets the codepage number for converting to shortname
--		 characters on FAT filesystem.
--		 By default, FAT_DEFAULT_CODEPAGE setting is used.
--
--iocharset=<name> -- Character set to use for converting between the
--		 encoding is used for user visible filename and 16 bit
--		 Unicode characters. Long filenames are stored on disk
--		 in Unicode format, but Unix for the most part doesn't
--		 know how to deal with Unicode.
--		 By default, FAT_DEFAULT_IOCHARSET setting is used.
--
--		 There is also an option of doing UTF-8 translations
--		 with the utf8 option.
--
--		 NOTE: "iocharset=utf8" is not recommended. If unsure,
--		 you should consider the following option instead.
--
--utf8=<bool>   -- UTF-8 is the filesystem safe version of Unicode that
--		 is used by the console. It can be enabled or disabled
--		 for the filesystem with this option.
--		 If 'uni_xlate' gets set, UTF-8 gets disabled.
--		 By default, FAT_DEFAULT_UTF8 setting is used.
--
--uni_xlate=<bool> -- Translate unhandled Unicode characters to special
--		 escaped sequences.  This would let you backup and
--		 restore filenames that are created with any Unicode
--		 characters.  Until Linux supports Unicode for real,
--		 this gives you an alternative.  Without this option,
--		 a '?' is used when no translation is possible.  The
--		 escape character is ':' because it is otherwise
--		 illegal on the vfat filesystem.  The escape sequence
--		 that gets used is ':' and the four digits of hexadecimal
--		 unicode.
--
--nonumtail=<bool> -- When creating 8.3 aliases, normally the alias will
--                 end in '~1' or tilde followed by some number.  If this
--                 option is set, then if the filename is 
--                 "longfilename.txt" and "longfile.txt" does not
--                 currently exist in the directory, 'longfile.txt' will
--                 be the short alias instead of 'longfi~1.txt'. 
--                  
--usefree       -- Use the "free clusters" value stored on FSINFO. It'll
--                 be used to determine number of free clusters without
--                 scanning disk. But it's not used by default, because
--                 recent Windows don't update it correctly in some
--                 case. If you are sure the "free clusters" on FSINFO is
--                 correct, by this option you can avoid scanning disk.
--
--quiet         -- Stops printing certain warning messages.
--
--check=s|r|n   -- Case sensitivity checking setting.
--                 s: strict, case sensitive
--                 r: relaxed, case insensitive
--                 n: normal, default setting, currently case insensitive
--
--nocase        -- This was deprecated for vfat. Use shortname=win95 instead.
--
--shortname=lower|win95|winnt|mixed
--	      -- Shortname display/create setting.
--		 lower: convert to lowercase for display,
--			emulate the Windows 95 rule for create.
--		 win95: emulate the Windows 95 rule for display/create.
--		 winnt: emulate the Windows NT rule for display/create.
--		 mixed: emulate the Windows NT rule for display,
--			emulate the Windows 95 rule for create.
--		 Default setting is `mixed'.
--
--tz=UTC        -- Interpret timestamps as UTC rather than local time.
--                 This option disables the conversion of timestamps
--                 between local time (as used by Windows on FAT) and UTC
--                 (which Linux uses internally).  This is particularly
--                 useful when mounting devices (like digital cameras)
--                 that are set to UTC in order to avoid the pitfalls of
--                 local time.
--time_offset=minutes
--	      -- Set offset for conversion of timestamps from local time
--		 used by FAT to UTC. I.e. <minutes> minutes will be subtracted
--		 from each timestamp to convert it to UTC used internally by
--		 Linux. This is useful when time zone set in sys_tz is
--		 not the time zone used by the filesystem. Note that this
--		 option still does not provide correct time stamps in all
--		 cases in presence of DST - time stamps in a different DST
--		 setting will be off by one hour.
--
--showexec      -- If set, the execute permission bits of the file will be
--		 allowed only if the extension part of the name is .EXE,
--		 .COM, or .BAT. Not set by default.
--
--debug         -- Can be set, but unused by the current implementation.
--
--sys_immutable -- If set, ATTR_SYS attribute on FAT is handled as
--		 IMMUTABLE flag on Linux. Not set by default.
--
--flush         -- If set, the filesystem will try to flush to disk more
--		 early than normal. Not set by default.
--
--rodir	      -- FAT has the ATTR_RO (read-only) attribute. On Windows,
--		 the ATTR_RO of the directory will just be ignored,
--		 and is used only by applications as a flag (e.g. it's set
--		 for the customized folder).
--
--		 If you want to use ATTR_RO as read-only flag even for
--		 the directory, set this option.
--
--errors=panic|continue|remount-ro
--	      -- specify FAT behavior on critical errors: panic, continue
--		 without doing anything or remount the partition in
--		 read-only mode (default behavior).
--
--discard       -- If set, issues discard/TRIM commands to the block
--		 device when blocks are freed. This is useful for SSD devices
--		 and sparse/thinly-provisoned LUNs.
--
--nfs=stale_rw|nostale_ro
--		Enable this only if you want to export the FAT filesystem
--		over NFS.
--
--		stale_rw: This option maintains an index (cache) of directory
--		inodes by i_logstart which is used by the nfs-related code to
--		improve look-ups. Full file operations (read/write) over NFS is
--		supported but with cache eviction at NFS server, this could
--		result in ESTALE issues.
--
--		nostale_ro: This option bases the inode number and filehandle
--		on the on-disk location of a file in the MS-DOS directory entry.
--		This ensures that ESTALE will not be returned after a file is
--		evicted from the inode cache. However, it means that operations
--		such as rename, create and unlink could cause filehandles that
--		previously pointed at one file to point at a different file,
--		potentially causing data corruption. For this reason, this
--		option also mounts the filesystem readonly.
--
--		To maintain backward compatibility, '-o nfs' is also accepted,
--		defaulting to stale_rw
--
--dos1xfloppy  -- If set, use a fallback default BIOS Parameter Block
--		configuration, determined by backing device size. These static
--		parameters match defaults assumed by DOS 1.x for 160 kiB,
--		180 kiB, 320 kiB, and 360 kiB floppies and floppy images.
--
--
--<bool>: 0,1,yes,no,true,false
--
--LIMITATION
-----------------------------------------------------------------------
--* The fallocated region of file is discarded at umount/evict time
--  when using fallocate with FALLOC_FL_KEEP_SIZE.
--  So, User should assume that fallocated region can be discarded at
--  last close if there is memory pressure resulting in eviction of
--  the inode from the memory. As a result, for any dependency on
--  the fallocated region, user should make sure to recheck fallocate
--  after reopening the file.
--
--TODO
------------------------------------------------------------------------
--* Need to get rid of the raw scanning stuff.  Instead, always use
--  a get next directory entry approach.  The only thing left that uses
--  raw scanning is the directory renaming code.
--
--
--POSSIBLE PROBLEMS
------------------------------------------------------------------------
--* vfat_valid_longname does not properly checked reserved names.
--* When a volume name is the same as a directory name in the root
--  directory of the filesystem, the directory name sometimes shows
--  up as an empty file.
--* autoconv option does not work correctly.
--
--BUG REPORTS
------------------------------------------------------------------------
--If you have trouble with the VFAT filesystem, mail bug reports to
--chaffee@bmrc.cs.berkeley.edu.  Please specify the filename
--and the operation that gave you trouble.
--
--TEST SUITE
------------------------------------------------------------------------
--If you plan to make any modifications to the vfat filesystem, please
--get the test suite that comes with the vfat distribution at
--
--  http://web.archive.org/web/*/http://bmrc.berkeley.edu/
--  people/chaffee/vfat.html
--
--This tests quite a few parts of the vfat filesystem and additional
--tests for new features or untested features would be appreciated.
--
--NOTES ON THE STRUCTURE OF THE VFAT FILESYSTEM
------------------------------------------------------------------------
--(This documentation was provided by Galen C. Hunt <gchunt@cs.rochester.edu>
-- and lightly annotated by Gordon Chaffee).
--
--This document presents a very rough, technical overview of my
--knowledge of the extended FAT file system used in Windows NT 3.5 and
--Windows 95.  I don't guarantee that any of the following is correct,
--but it appears to be so.
--
--The extended FAT file system is almost identical to the FAT
--file system used in DOS versions up to and including 6.223410239847
--:-).  The significant change has been the addition of long file names.
--These names support up to 255 characters including spaces and lower
--case characters as opposed to the traditional 8.3 short names.
--
--Here is the description of the traditional FAT entry in the current
--Windows 95 filesystem:
--
--        struct directory { // Short 8.3 names 
--                unsigned char name[8];          // file name 
--                unsigned char ext[3];           // file extension 
--                unsigned char attr;             // attribute byte 
--		unsigned char lcase;		// Case for base and extension
--		unsigned char ctime_ms;		// Creation time, milliseconds
--		unsigned char ctime[2];		// Creation time
--		unsigned char cdate[2];		// Creation date
--		unsigned char adate[2];		// Last access date
--		unsigned char reserved[2];	// reserved values (ignored) 
--                unsigned char time[2];          // time stamp 
--                unsigned char date[2];          // date stamp 
--                unsigned char start[2];         // starting cluster number 
--                unsigned char size[4];          // size of the file 
--        };
--
--The lcase field specifies if the base and/or the extension of an 8.3
--name should be capitalized.  This field does not seem to be used by
--Windows 95 but it is used by Windows NT.  The case of filenames is not
--completely compatible from Windows NT to Windows 95.  It is not completely
--compatible in the reverse direction, however.  Filenames that fit in
--the 8.3 namespace and are written on Windows NT to be lowercase will
--show up as uppercase on Windows 95.
--
--Note that the "start" and "size" values are actually little
--endian integer values.  The descriptions of the fields in this
--structure are public knowledge and can be found elsewhere.
--
--With the extended FAT system, Microsoft has inserted extra
--directory entries for any files with extended names.  (Any name which
--legally fits within the old 8.3 encoding scheme does not have extra
--entries.)  I call these extra entries slots.  Basically, a slot is a
--specially formatted directory entry which holds up to 13 characters of
--a file's extended name.  Think of slots as additional labeling for the
--directory entry of the file to which they correspond.  Microsoft
--prefers to refer to the 8.3 entry for a file as its alias and the
--extended slot directory entries as the file name. 
--
--The C structure for a slot directory entry follows:
--
--        struct slot { // Up to 13 characters of a long name 
--                unsigned char id;               // sequence number for slot 
--                unsigned char name0_4[10];      // first 5 characters in name 
--                unsigned char attr;             // attribute byte
--                unsigned char reserved;         // always 0 
--                unsigned char alias_checksum;   // checksum for 8.3 alias 
--                unsigned char name5_10[12];     // 6 more characters in name
--                unsigned char start[2];         // starting cluster number
--                unsigned char name11_12[4];     // last 2 characters in name
--        };
--
--If the layout of the slots looks a little odd, it's only
--because of Microsoft's efforts to maintain compatibility with old
--software.  The slots must be disguised to prevent old software from
--panicking.  To this end, a number of measures are taken:
--
--        1) The attribute byte for a slot directory entry is always set
--           to 0x0f.  This corresponds to an old directory entry with
--           attributes of "hidden", "system", "read-only", and "volume
--           label".  Most old software will ignore any directory
--           entries with the "volume label" bit set.  Real volume label
--           entries don't have the other three bits set.
--
--        2) The starting cluster is always set to 0, an impossible
--           value for a DOS file.
--
--Because the extended FAT system is backward compatible, it is
--possible for old software to modify directory entries.  Measures must
--be taken to ensure the validity of slots.  An extended FAT system can
--verify that a slot does in fact belong to an 8.3 directory entry by
--the following:
--
--        1) Positioning.  Slots for a file always immediately proceed
--           their corresponding 8.3 directory entry.  In addition, each
--           slot has an id which marks its order in the extended file
--           name.  Here is a very abbreviated view of an 8.3 directory
--           entry and its corresponding long name slots for the file
--           "My Big File.Extension which is long":
--
--                <proceeding files...>
--                <slot #3, id = 0x43, characters = "h is long">
--                <slot #2, id = 0x02, characters = "xtension whic">
--                <slot #1, id = 0x01, characters = "My Big File.E">
--                <directory entry, name = "MYBIGFIL.EXT">
--
--           Note that the slots are stored from last to first.  Slots
--           are numbered from 1 to N.  The Nth slot is or'ed with 0x40
--           to mark it as the last one.
--
--        2) Checksum.  Each slot has an "alias_checksum" value.  The
--           checksum is calculated from the 8.3 name using the
--           following algorithm:
--
--                for (sum = i = 0; i < 11; i++) {
--                        sum = (((sum&1)<<7)|((sum&0xfe)>>1)) + name[i]
--                }
--
--	3) If there is free space in the final slot, a Unicode NULL (0x0000) 
--	   is stored after the final character.  After that, all unused 
--	   characters in the final slot are set to Unicode 0xFFFF.
--
--Finally, note that the extended name is stored in Unicode.  Each Unicode
--character takes either two or four bytes, UTF-16LE encoded.
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2a427d1e9f01..60a1b05c46a0 100644
+index 2a427d1e9f01..b17a079dff8e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -17104,7 +17104,7 @@ F:	drivers/mtd/nand/raw/vf610_nfc.c
- VFAT/FAT/MSDOS FILESYSTEM
- M:	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+@@ -6758,7 +6758,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
  S:	Maintained
--F:	Documentation/filesystems/vfat.txt
-+F:	Documentation/filesystems/vfat.rst
- F:	fs/fat/
+ F:	fs/fuse/
+ F:	include/uapi/linux/fuse.h
+-F:	Documentation/filesystems/fuse.txt
++F:	Documentation/filesystems/fuse.rst
  
- VFIO DRIVER
+ FUTEX SUBSYSTEM
+ M:	Thomas Gleixner <tglx@linutronix.de>
 -- 
 2.24.1
 
