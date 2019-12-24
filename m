@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C22C2D0D2
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:52:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C00C2D0D0
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:52:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CCFF920828
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:52:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98843206D3
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:52:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="rNUdDPYi"
+	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="X2kIE41s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbfLXXwE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Dec 2019 18:52:04 -0500
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:44900 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726244AbfLXXwE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Dec 2019 18:52:04 -0500
-Received: by mail-ua1-f68.google.com with SMTP id c14so5903231uaq.11
-        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2019 15:52:03 -0800 (PST)
+        id S1726317AbfLXXwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Dec 2019 18:52:54 -0500
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:43016 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbfLXXwx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Dec 2019 18:52:53 -0500
+Received: by mail-vk1-f194.google.com with SMTP id h13so5406163vkn.10
+        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2019 15:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Idc35g1w0/GlmcsF+XXoVkvDVls2Q3kl8rta/LhgxNI=;
-        b=rNUdDPYiCzhEgMM1U8c8mrjmiMCjqJFPZ+r2DygvtQ78GHZ/4jmOx6Fzkg48+U4wtR
-         wypDZgaLCWWo0aLI3AMt66KI45rDKW01/1eVrwLdi9dIFXveceCrwoz+lhCMTmULVGqR
-         nPaIALs/FT6v2LmL6PjjDO9mQyXliibiHakeDVTNvzxplhANkR+q8v5j7qFEDP062Icr
-         CdM+GRjdxuZu9X9gDa5zJ8rTMZISVaD+Fv235eGN1SiUinNFDtRt/0rTUrRPqOoNbfCc
-         haD8AoKJ6JfVdofWHxXjfLvWEJG/Sy6sfQo2yxRgbs2jnVm8K/y8Jnjr8hbdPsCS/Sz7
-         EZxQ==
+        bh=4E/2wqIKz28ubvLgIUjPVPO4AakvBg1lZqS8m4r8eSs=;
+        b=X2kIE41s46grKzpmcuW6/7CNY+JcRLYvIilA91dE/yHnHhmJS14VWCKQUHMkULyE9V
+         0eDvHd0Ng+dQNCrxKaHG+mjTxj/VM8z59lwXavB++vYQswHpqOt1hcIrVIqX2TWSmL4d
+         ZI6WT2MD+C1oS30urS4pX/ExUvOteXyLjsPnlZEyrBvTRTBRYGzrVX0ilYvrdnwrL+zO
+         3/B1F+AmUOTMIGjr1SWN+4edlg3BTTphMyAaQSdyY/wxLhgqMOHzxD4dEBZ54TPpq1GL
+         r/8nbmbwkh1feqnYwhAbHJSoNAGiYKGh/OG/0fyXqW7yOgrUEEOIh/W69a6Ir6m7hZzP
+         HZVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Idc35g1w0/GlmcsF+XXoVkvDVls2Q3kl8rta/LhgxNI=;
-        b=iAX48YWyaMiXNjiDtDZdk5CMmPuwJG5HW4p2BKajEekV3t22pvDROoLgGi6Ncxz4F3
-         t8Z1BemgQ8PHbIbt8BvOUm8NR88wWZ5VUykz/Valu15k1XQwIx2AcNJ3IinlRGj/vdOC
-         Rgss/Ob627fAyPFSZpBm2rrAoC4w43R4urjjbbdaUADvI6a383ThhiW5G+u0n3HSyQk+
-         sUFPFaIgBr5m7/+CcUdx98R1/yS6OvVSDfIGIWR3u4rtaJTt+T7Vv0aFZNUHuufpeRMH
-         F9HHR5uwt252eEO+2C3gN2swUT//UvTKkQ2vFIHeCxeqQA34BtUCDYO5iknK3M4WeguZ
-         ze7A==
-X-Gm-Message-State: APjAAAV1D4w+de9daOHt51z3Sd4FFXYAcWWUu0stO1hpyVD0cQGOp6uq
-        a4UtFkhVo69kzjtRTQ2v/WBckA==
-X-Google-Smtp-Source: APXvYqxv7vc0KCp6Bc1Na95c3RUTHz1zfLjCxHUHEjfKcA2EG8fbxxU0Hx+YsyrqqsRde9cDed4fYQ==
-X-Received: by 2002:ab0:5c8:: with SMTP id e66mr23539394uae.120.1577231522820;
-        Tue, 24 Dec 2019 15:52:02 -0800 (PST)
+        bh=4E/2wqIKz28ubvLgIUjPVPO4AakvBg1lZqS8m4r8eSs=;
+        b=ZeDsl9pGZ7oFMEvPBWI9x0KlwE9MpwAi/oohPlgRnf3gPd/oItczl431H9tVeZPnOE
+         xxelIPAPQWxirn44Z1AdZDfIMmTzz7mVQuCFZgPR7J2fvizSUHzLJ6uQUJHtLOlEe0VJ
+         qmSg+hIUVD0rDN8FThPw+98dNP8O6CTyG8marmOEqqz5V3BXjhwqba0Pd48hjE1zJdXv
+         aiouAMVEUqu18Tn+BzrlDall2VL98cIhHp0g1xN65+cwx9mJv7ikM3sqZ0pWHExTfk4L
+         aQXn28nRmDxKmvn339yZOmDH15Ruzq+prklNwAWtSDRY4imT0sMjcm9spCXCHEDA+n5c
+         2NeQ==
+X-Gm-Message-State: APjAAAV+DzXZBjUXvPYi60SZ8gFnzQDSOihuA6bCeAUHC92UiMidt/Ya
+        YhtXliIhujMAySYZBx9THqJ3jQ==
+X-Google-Smtp-Source: APXvYqypYJpDPduu3tGRpslbAykmUyby9NfpS892YqjPMp/fmzMHbTAr2aQhkFvIA62Di7U1ed1owA==
+X-Received: by 2002:a1f:ae0c:: with SMTP id x12mr23229162vke.88.1577231572942;
+        Tue, 24 Dec 2019 15:52:52 -0800 (PST)
 Received: from frank-laptop ([172.97.41.74])
-        by smtp.gmail.com with ESMTPSA id w125sm7331085vkh.50.2019.12.24.15.52.02
+        by smtp.gmail.com with ESMTPSA id g140sm7534052vkf.18.2019.12.24.15.52.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2019 15:52:02 -0800 (PST)
-Date:   Tue, 24 Dec 2019 18:52:01 -0500
+        Tue, 24 Dec 2019 15:52:52 -0800 (PST)
+Date:   Tue, 24 Dec 2019 18:52:51 -0500
 From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -62,8 +62,8 @@ To:     Steven Rostedt <rostedt@goodmis.org>,
         linux-kernel@vger.kernel.org
 Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org,
         nachukannan@gmail.com, rdunlap@infradead.org
-Subject: [PATCH 2/3] docs: ftrace: Fix typos
-Message-ID: <9ef705d0208a4ca0852fed69bc0838a589a4df85.1577230982.git.frank@generalsoftwareinc.com>
+Subject: [PATCH 3/3] docs: ftrace: Fix small notation mistake
+Message-ID: <22f9a98a972c3155c7b478247a087a5efafde774.1577230982.git.frank@generalsoftwareinc.com>
 References: <cover.1577230982.git.frank@generalsoftwareinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -75,45 +75,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix minor typos in the doc.
+The use of iff ("if and only if") notation is not accurate in this case.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
 ---
- Documentation/trace/ftrace.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/trace/ring-buffer-design.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 5a037bedbf6a..1f6e0a794b1c 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -236,7 +236,7 @@ of ftrace. Here is a list of some of the key files:
- 	This interface also allows for commands to be used. See the
- 	"Filter commands" section for more details.
+diff --git a/Documentation/trace/ring-buffer-design.txt b/Documentation/trace/ring-buffer-design.txt
+index ff747b6fa39b..2d53c6f25b91 100644
+--- a/Documentation/trace/ring-buffer-design.txt
++++ b/Documentation/trace/ring-buffer-design.txt
+@@ -37,7 +37,7 @@ commit_page - a pointer to the page with the last finished non-nested write.
  
--	As a speed up, since processing strings can't be quite expensive
-+	As a speed up, since processing strings can be quite expensive
- 	and requires a check of all functions registered to tracing, instead
- 	an index can be written into this file. A number (starting with "1")
- 	written will instead select the same corresponding at the line position
-@@ -383,7 +383,7 @@ of ftrace. Here is a list of some of the key files:
+ cmpxchg - hardware-assisted atomic transaction that performs the following:
  
- 	By default, 128 comms are saved (see "saved_cmdlines" above). To
- 	increase or decrease the amount of comms that are cached, echo
--	in a the number of comms to cache, into this file.
-+	the number of comms to cache into this file.
+-   A = B iff previous A == C
++   A = B if previous A == C
  
-   saved_tgids:
- 
-@@ -3325,7 +3325,7 @@ directories after it is created.
- 
- As you can see, the new directory looks similar to the tracing directory
- itself. In fact, it is very similar, except that the buffer and
--events are agnostic from the main director, or from any other
-+events are agnostic from the main directory, or from any other
- instances that are created.
- 
- The files in the new directory work just like the files with the
+    R = cmpxchg(A, C, B) is saying that we replace A with B if and only if
+       current A is equal to C, and we put the old (current) A into R
 -- 
 2.17.1
 
