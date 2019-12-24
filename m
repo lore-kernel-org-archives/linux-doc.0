@@ -2,197 +2,108 @@ Return-Path: <SRS0=zI6K=2O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE846C2D0CF
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 10:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E254C2D0C3
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 17:55:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBE3D20643
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 10:09:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1577182163;
-	bh=OcYvU6R9hPJgmJg3UwAfVCin1mEXqh7FP8N9hsHQNeU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=VJLKktYC+k9uIzDMTTDt9McaakA8BEtKrjw3R03HjlY3MxsbHDzilaNJGeXMPOpOf
-	 J/G7v71Pbt8DmW3oSzLJ+bxy4HQ7/NZrmJYG44Ip933bg5g2gpwvNNzhDiMMXqlOvt
-	 NCXitr30yui7J5TQXx5MPJmiTuYN37j0Jn4gGa/M=
+	by mail.kernel.org (Postfix) with ESMTP id 16DD520706
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 17:55:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="Y/RNqmVr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbfLXKJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Dec 2019 05:09:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726084AbfLXKJX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Dec 2019 05:09:23 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4EAF72071A;
-        Tue, 24 Dec 2019 10:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577182161;
-        bh=OcYvU6R9hPJgmJg3UwAfVCin1mEXqh7FP8N9hsHQNeU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=X8ogjSxmBHca5nsL5BInqifxvj7nOhyh902O2b0NIdrXPscb+r1ItHnf9hJoLzZAv
-         L9q7c04rXqWTvPYBsAVWDiyIXedtoYN+67rSjcq52yqNI50HL88+uCnLSaNFE3+I5Y
-         ztzJ8syVplerh7dv0AfnWbgdi+rci75L2/USw358=
-Date:   Tue, 24 Dec 2019 19:09:16 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "naveen.n.rao@linux.vnet.ibm.com" <naveen.n.rao@linux.vnet.ibm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6] arm64: implement KPROBES_ON_FTRACE
-Message-Id: <20191224190916.2e47478445fb179e88f60cc3@kernel.org>
-In-Reply-To: <20191223153300.30281a93@xhacker.debian>
-References: <20191218140622.57bbaca5@xhacker.debian>
-        <20191218222550.51f0b681de7bbab7e49b09a9@kernel.org>
-        <20191223153300.30281a93@xhacker.debian>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726184AbfLXRz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Dec 2019 12:55:57 -0500
+Received: from mail-vs1-f44.google.com ([209.85.217.44]:41823 "EHLO
+        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726171AbfLXRz5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Dec 2019 12:55:57 -0500
+Received: by mail-vs1-f44.google.com with SMTP id f8so12873752vsq.8
+        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2019 09:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=qAQiP9imOCYoI9n+AcXLTq7zfRlO4PU4XGOsmdEoMlw=;
+        b=Y/RNqmVrVUQbA5WiGAT0yPj2GRXKyVySRqoZQ8ImgqyLqczo1wfmav26rKuUGyQ516
+         Q1bkXCLSJBl0/iiTeM2HvNaallxah2FB1etjsaVZn79Rk7GLp5vpBYsEt9lGhv5WnF4r
+         hTIfYnmxPkDXitFkkdcxfnERTEnSRr0xClDC0EUVaDYePAX31Myl2Ez22W0W4uv8Rqx+
+         8iwHxvpFYvqaed4YEvkY/Q/6qSB6crRihoTlPBvGz85b8reOmFSGpXleWuWr/xYZH74z
+         iM5N62OvJeByoNmLxcbxe4OKDTEvqIGFOt7+p86pXyW6vKibv7OQ4BNn6R7EmR9j4EdZ
+         f5uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=qAQiP9imOCYoI9n+AcXLTq7zfRlO4PU4XGOsmdEoMlw=;
+        b=X/PHb7CoU0+0ta08/G+KasttHroJrBPov9wpmGi2VeYd28jlxWTWPbEn/qpIzs9uSj
+         6cwJ9M7pivlCdiKpSeYPIKYGIac8hHfXYDFJu4S9phJKv3b7pDO4qibAUTrnqsCCIulE
+         npoSphBtTi63tvbuZ1llTq0G2lqVuTaw65bTXVVpiFXp+UoO2XhMYCPQGHDHYRzROLum
+         JvBFauki4QWAiYTJPrkbcTxRZjITdwR/7axPZQg+0p9uORBPoCsiylNLJx3Wdq1E+XXx
+         pJXZH+u2tGaadA/t/6K1kIkpPmrRD97jfpJFAwuC03SBme+40yKmlwjwdjqBYk8fynnv
+         nxUQ==
+X-Gm-Message-State: APjAAAVa2vRYMhXlTpNa+tIICcWVr5jxfEzJkTz47AuUZS03pKHCxyDv
+        LERG2752B2Df5gpWI29m8xj2Zw==
+X-Google-Smtp-Source: APXvYqx6KjAfDoXnQzQCFG4LBLgdECoUQzcLgp3MLB3z6dzXOnZRCdq++5kRrv/au+YCw4o7TtJh7w==
+X-Received: by 2002:a05:6102:5ea:: with SMTP id w10mr6042478vsf.183.1577210156063;
+        Tue, 24 Dec 2019 09:55:56 -0800 (PST)
+Received: from frank-laptop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id b4sm3003190vsr.5.2019.12.24.09.55.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Dec 2019 09:55:55 -0800 (PST)
+Date:   Tue, 24 Dec 2019 12:55:54 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org,
+        nachukannan@gmail.com
+Subject: [PATCH 0/3] docs: ftrace: Fix minor issues in the doc
+Message-ID: <cover.1577209218.git.frank@generalsoftwareinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jisheng,
+I didn't want to be pushy with these minor fixes but occur to me
+now that, even all seem to be clear in the latest version of the
+RFC (v2) related to these fixes, a clean patchset could be expected
+after the RFC. So here we go:
 
-On Mon, 23 Dec 2019 07:47:24 +0000
-Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
+Clarifies the RAM footprint of buffer_size_kb without getting into
+implementation details.
 
-> Hi Masami,
-> 
-> On Wed, 18 Dec 2019 22:25:50 +0900 Masami Hiramatsu wrote:
-> 
-> 
-> > 
-> > 
-> > On Wed, 18 Dec 2019 06:21:35 +0000
-> > Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
-> > 
-> > > KPROBES_ON_FTRACE avoids much of the overhead with regular kprobes as it
-> > > eliminates the need for a trap, as well as the need to emulate or
-> > > single-step instructions.
-> > >
-> > > Tested on berlin arm64 platform.
-> > >
-> > > ~ # mount -t debugfs debugfs /sys/kernel/debug/
-> > > ~ # cd /sys/kernel/debug/
-> > > /sys/kernel/debug # echo 'p _do_fork' > tracing/kprobe_events
-> > >
-> > > before the patch:
-> > >
-> > > /sys/kernel/debug # cat kprobes/list
-> > > ffffff801009fe28  k  _do_fork+0x0    [DISABLED]
-> > >
-> > > after the patch:
-> > >
-> > > /sys/kernel/debug # cat kprobes/list
-> > > ffffff801009ff54  k  _do_fork+0x4    [DISABLED][FTRACE]  
-> > 
-> > BTW, it seems this automatically changes the offset without
-> > user's intention or any warnings. How would you manage if the user
-> > pass a new probe on _do_fork+0x4?
-> 
-> In current implementation, two probes at the same address _do_fork+0x4
+Fix typos and a small notation mistakes in the doc.
 
-OK, that is my point.
+Changes in this patchset (since RFC v2)
+  - Take out the notation mistake into its own commit because it
+    is not a typo.
 
-> > IOW, it is still the question who really wants to probe on
-> > the _do_fork+"0", if kprobes modifies it automatically,
-> > no one can do that anymore.
-> > This can be happen if the user want to record LR or SP value
-> > at the function call for debug. If kprobe always modifies it,
-> > we will lose the way to do it.
-> 
-> arm64's DYNAMIC_FTRACE_WITH_REGS implementation makes use of GCC
-> -fpatchable-function-entry=2 option to insert two nops. When the function
-> is traced, the first nop will be modified to the LR saver, then the
-> second nop to "bl <ftrace-entry>", commit 3b23e4991fb6("
-> arm64: implement ftrace with regs") explains the mechanism.
+Changes in RFC v2:
+  - Removes implementation description of the RAM footprint of
+    buffer_size_kb, but still make the corresponded clarification.
 
-So both of the instruction at func+0 and func+4 are replaced.
+  - Removes a patch that was just for illustration purposes because
+    Steven already got the issue that I was referring to.
 
-> So on arm64(in fact any arch makes use of -fpatchable-function-entry will
-> behave similarly), when DYNAMIC_FTRACE_WITH_REGS is enabled, the ftrace location
-> is always on the first 4 bytes offset.
-> 
-> I think when users want to register a kprobe on _do_fork+0, what he really want
-> is to kprobe on the patched(by -fpatchable-function-entry)_do_fork+4
+  - Adds a patch to fix other typos in the doc.
 
-OK, in this case, kprobe should treat the first 2 instructions as a
-single virtual instruction. This means,
+Frank A. Cancio Bello (3):
+  docs: ftrace: Clarify the RAM impact of buffer_size_kb
+  docs: ftrace: Fix typos
+  docs: ftrace: Fix small notation mistake
 
- - kprobes can probe func+0, but not func+4 if the function is ftraced.
-    (-EILSEQ must be returned)
- - both debugfs/kprobes/list and tracefs/kprobe_events should show the
-   probed address as func+0. Not func+4.
-
-Then, user can use kprobes as if there is one big (8-byte) instruction
-at the entry of the function. Since probing on func+4 is rejected and
-the call-site LR/SP is restored in ftrace, there should be no
-contradiction. It should work as if we put a breakpoint on the func + 0.
-
-> 
-> PS: per my understanding, powerpc's kprobes_on_ftrace also introduces an
-> extra automatic offset due to its implementation.
-
-Uh, that is also ugly.... must be fixed.
-
-
-> > 
-> > Could you remove below function at this moment?
-> > 
-> > > +kprobe_opcode_t *kprobe_lookup_name(const char *name, unsigned int offset)
-> > > +{
-> > > +     unsigned long addr = kallsyms_lookup_name(name);
-> > > +
-> > > +     if (addr && !offset) {
-> > > +             unsigned long faddr;
-> > > +             /*
-> > > +              * with -fpatchable-function-entry=2, the first 4 bytes is the
-> > > +              * LR saver, then the actual call insn. So ftrace location is
-> > > +              * always on the first 4 bytes offset.
-> > > +              */
-> > > +             faddr = ftrace_location_range(addr,
-> > > +                                           addr + AARCH64_INSN_SIZE);
-> > > +             if (faddr)
-> > > +                     return (kprobe_opcode_t *)faddr;
-> > > +     }
-> > > +     return (kprobe_opcode_t *)addr;
-> > > +}
-> > > +
-> > > +bool arch_kprobe_on_func_entry(unsigned long offset)
-> > > +{
-> > > +     return offset <= AARCH64_INSN_SIZE;
-> > > +}  
-> > 
-> > 
-> > Without this automatic change, we still can change the offset
-> > in upper layer.
-> 
-> If remove the two functions, kprobe on  _do_fork can't ride on
-> ftrace infrastructure, but kprobe on _do_fork+4 can. I'm not sure
-> whether this is reasonable. Every kprobe users on arm64 will need to
-> remember to pass an extra offset +4 to make use of kprobe_on_ftrace, could
-> we hide the "+4"?
-
-Yes, OK, as I said above, please hide +4. We will see the virtual
-"call" instruction (= "mov x9, lr; br <addr>") at the entry of ftraced
-function. :)
-
-Thank you,
-
+ Documentation/trace/ftrace.rst             | 9 +++++----
+ Documentation/trace/ring-buffer-design.txt | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+2.17.1
+
