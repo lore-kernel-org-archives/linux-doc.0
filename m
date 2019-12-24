@@ -2,112 +2,111 @@ Return-Path: <SRS0=zI6K=2O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA03C2D0C3
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E60B2C2D0C3
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:50:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3799206D3
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:11:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82B8620663
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Dec 2019 23:50:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dtpCqSr5"
+	dkim=pass (2048-bit key) header.d=generalsoftwareinc-com.20150623.gappssmtp.com header.i=@generalsoftwareinc-com.20150623.gappssmtp.com header.b="o60An8ci"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726225AbfLXXLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Dec 2019 18:11:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:45714 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726224AbfLXXLj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Dec 2019 18:11:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=0pRi+c65pSscSRiXyp6K1Nirdvxio/XKkWahRVr+k5k=; b=dtpCqSr51k0Ij2NXEXoUKxejj
-        EjrQ8KTFowTSxzlTMXe9vvPVDBVWaIedobHxAuD+v1aGY25eV56jYkZI5POtE2JRvaEMHzvxgKtyy
-        UshspwY+3EsVli4mlkwzrYLI9FxYZo7XHiaMaQ9OBmncIeiKqSeMYEd0Spur3yybaTYSU84htgGqs
-        IMiEOmeY+rmKSeYPCT2S1wa6TQlercm17LFvCnnwK6KVaLt8qoZn++y1PTLovh7PdQMOtw1y209Rf
-        hg/OTBWyIFfKK2ZaQNRe5W1BzA/QnyB5v27NydKyR2XxxGNqmTTB0CuOwM2mmX444SvRmBQ0KedGH
-        Kold8zqXA==;
-Received: from [2601:1c0:6280:3f0::fee9]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ijtKy-0004wi-8o; Tue, 24 Dec 2019 23:11:36 +0000
-Subject: Re: [PATCH 2/3] docs: ftrace: Fix typos
-To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
+        id S1726245AbfLXXuQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Dec 2019 18:50:16 -0500
+Received: from mail-vs1-f48.google.com ([209.85.217.48]:33126 "EHLO
+        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726237AbfLXXuP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Dec 2019 18:50:15 -0500
+Received: by mail-vs1-f48.google.com with SMTP id n27so13246286vsa.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2019 15:50:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=generalsoftwareinc-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=9RoNF4Z2jcPEa4/TK6na/OHMz4yt8pFgIcIm/Vj56dw=;
+        b=o60An8ciy04JGEFRx6GAw9TXFtgbkULhimdWX0NNCtRzyDrcmeWfJyAvf45rx9/5N7
+         BSYV82QGd4SvGwhMKW7wTk9jTYWBLcAqV4AogM+M52N1fMsVDRb6kIlxNKpLAqHoGMTb
+         CIvqidR7xElaJbDuYzJ35NVHg++j9BDEkjapx4PRr+SpQSaVZqyRfS2v7W84Lh57OSJI
+         ubsJhnZ5NlqRxKhC95vDtOaeOd8t7jyx9rV4J7VrJRh+Au7S8qXSKGW2+uZA2Yao9fkJ
+         +I+TAE6bzC1tawvkwTj5gTS3a6HrGFrmRJY76nHjQX7zZgBmyICRjwJl6SuwrqfyNsuS
+         acWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=9RoNF4Z2jcPEa4/TK6na/OHMz4yt8pFgIcIm/Vj56dw=;
+        b=rwItVdxmiRR0BW1GNEulc/6acBOmOjGQh8UV5WjRp4v7UVW0JW6AqDaoEvIv1ohmTh
+         wvgYGjRx+SLbVYkx7MrZtCJ47lXZKx6zPRgLMY5SXsOVbH3z1fdknfRH6GWwpVT/v4o3
+         eFy1NLvMayriDrB1/sse8YrKRdaBYqa9eFgu7I8r1bsGNB8NROIqpcYtYbOolpKGas2P
+         AENEtf5wTw/f8klendWo2m+nd0+W4Hky+sRKt1grjsJ5N54BV599W+sYfaApkHgx3n7d
+         zOd84Yc2QDPaQ3JMLhR2FNAJLMNZ/Dis9DVCCDnfjggOtkvw0qsI8Ct+aNvewJFBlio6
+         yfMA==
+X-Gm-Message-State: APjAAAXx7WJrWOchi0XpC42jiS5oqMG4M0OvI7ZgKbaMEc7vFj867d4W
+        Dtk0qK7gow5uXgsiYroP6p8NKA==
+X-Google-Smtp-Source: APXvYqx7s9Ha+h8SH/MTJPKlM0Nh/XMguFOgNs1AEyuWB40qrXDqfPmP7ItHSSCKFg2w4Ms5Tz27Wg==
+X-Received: by 2002:a67:b30b:: with SMTP id a11mr21261188vsm.154.1577231414822;
+        Tue, 24 Dec 2019 15:50:14 -0800 (PST)
+Received: from frank-laptop ([172.97.41.74])
+        by smtp.gmail.com with ESMTPSA id n25sm7348705vkk.56.2019.12.24.15.50.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Dec 2019 15:50:13 -0800 (PST)
+Date:   Tue, 24 Dec 2019 18:50:13 -0500
+From:   "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org,
-        nachukannan@gmail.com
-References: <cover.1577209218.git.frank@generalsoftwareinc.com>
- <638f1c8b6f4a47e4e25b62a01fe960e70a8364bc.1577209218.git.frank@generalsoftwareinc.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4d8a764c-88fe-56c0-e655-ed4052ab6d2d@infradead.org>
-Date:   Tue, 24 Dec 2019 15:11:34 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        nachukannan@gmail.com, rdunlap@infradead.org
+Subject: [PATCH 0/3] docs: ftrace: Fix minor issues in the doc
+Message-ID: <cover.1577230982.git.frank@generalsoftwareinc.com>
 MIME-Version: 1.0
-In-Reply-To: <638f1c8b6f4a47e4e25b62a01fe960e70a8364bc.1577209218.git.frank@generalsoftwareinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/24/19 9:57 AM, Frank A. Cancio Bello wrote:
-> Fix minor typos in the doc.
-> 
-> Signed-off-by: Frank A. Cancio Bello <frank@generalsoftwareinc.com>
-> ---
->  Documentation/trace/ftrace.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index 5a037bedbf6a..6c9f40d5a2f9 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -236,7 +236,7 @@ of ftrace. Here is a list of some of the key files:
->  	This interface also allows for commands to be used. See the
->  	"Filter commands" section for more details.
->  
-> -	As a speed up, since processing strings can't be quite expensive
-> +	As a speed up, since processing strings can be quite expensive
->  	and requires a check of all functions registered to tracing, instead
->  	an index can be written into this file. A number (starting with "1")
->  	written will instead select the same corresponding at the line position
-> @@ -383,7 +383,7 @@ of ftrace. Here is a list of some of the key files:
->  
->  	By default, 128 comms are saved (see "saved_cmdlines" above). To
->  	increase or decrease the amount of comms that are cached, echo
-> -	in a the number of comms to cache, into this file.
-> +	in the number of comms to cache, into this file.
+I didn't want to be pushy with these minor fixes but occur to me
+now that, even all seem to be clear in the latest version of the
+RFC (v2) related to these fixes, a clean patchset could be expected
+after such RFC. So here we go:
 
-That repeats the inwardness of the echo (in + into).  How about:
+Clarifies the RAM footprint of buffer_size_kb without getting into
+implementation details.
 
-+	the number of comms to cache into this file.
+Fix typos and a small notation mistakes in the doc.
 
->  
->    saved_tgids:
->  
-> @@ -3325,7 +3325,7 @@ directories after it is created.
->  
->  As you can see, the new directory looks similar to the tracing directory
->  itself. In fact, it is very similar, except that the buffer and
-> -events are agnostic from the main director, or from any other
-> +events are agnostic from the main directory, or from any other
->  instances that are created.
->  
->  The files in the new directory work just like the files with the
-> 
+Changes since PATCH v1:
+  - Improves the redaction as per Randy suggestion.
 
+Changes since RFC v2:
+  - Take out the notation mistake into its own commit because it
+    is not a typo.
+
+Changes since RFC v1:
+  - Removes implementation description of the RAM footprint of
+    buffer_size_kb, but still make the corresponded clarification.
+
+  - Removes a patch that was just for illustration purposes because
+    Steven already got the issue that I was referring to.
+
+  - Adds a patch to fix other typos in the doc.
+
+Frank A. Cancio Bello (3):
+  docs: ftrace: Clarify the RAM impact of buffer_size_kb
+  docs: ftrace: Fix typos
+  docs: ftrace: Fix small notation mistake
+
+ Documentation/trace/ftrace.rst             | 9 +++++----
+ Documentation/trace/ring-buffer-design.txt | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
 -- 
-~Randy
+2.17.1
 
