@@ -2,303 +2,147 @@ Return-Path: <SRS0=8M+Y=2Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95536C2D0DA
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 08:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10997C2D0DA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 09:26:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 683A12071E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 08:34:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D605320838
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 09:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1577352374;
+	bh=6asAChZGLqkA6kNuizNIWoIAN2lunfQ0xFCnSMNqwvU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=0wfseqyhtStN/D+fnx7HWKEZw8f9awFHQoBIdzVYUaCwzb/3+bH0L2Uqx/UDfW/yN
+	 SdJKZ/QydBFbHxYSOvVa3IArFTq3stQ/NugSQbWqGb7PihBf4pXXu5YG9gRpEknOFR
+	 Na4f+avgRekGlo9Ld8oORvtQYAUYwjiDGHq+riYQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbfLZIeq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 03:34:46 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2546 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725878AbfLZIep (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Dec 2019 03:34:45 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.53])
-        by Forcepoint Email with ESMTP id 7577A6BC005611B887E2;
-        Thu, 26 Dec 2019 16:34:42 +0800 (CST)
-Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Dec 2019 16:34:41 +0800
-Received: from [127.0.0.1] (10.173.221.248) by dggeme755-chm.china.huawei.com
- (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 26
- Dec 2019 16:34:41 +0800
-Subject: Re: [PATCH 5/5] KVM: arm64: Support the vcpu preemption check
-To:     Steven Price <steven.price@arm.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        id S1726440AbfLZJ0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 04:26:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55464 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726023AbfLZJ0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Dec 2019 04:26:14 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BA2AA20828;
+        Thu, 26 Dec 2019 09:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577352372;
+        bh=6asAChZGLqkA6kNuizNIWoIAN2lunfQ0xFCnSMNqwvU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GDEijHdH+fS2OpJ8NizE3hyQLJMY7yVxc6vR8dsGzeVCgPbbShA69taRiT00O2/Q/
+         eYVHv071VAMVsV58S2RK4tfqDrqIX/ifiHfUexpBx69iQ9bIXU/r4CPiWQPpJNBLcZ
+         6myeBCBMdGencmtdph9n1UWcRWDVcpHjmXCS8EvY=
+Date:   Thu, 26 Dec 2019 18:26:07 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        James Morse <James.Morse@arm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        Suzuki Poulose <Suzuki.Poulose@arm.com>,
-        "julien.thierry.kdev@gmail.com" <julien.thierry.kdev@gmail.com>,
-        "Catalin Marinas" <Catalin.Marinas@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
-References: <20191217135549.3240-1-yezengruan@huawei.com>
- <20191217135549.3240-6-yezengruan@huawei.com>
- <20191217144032.GD38811@arm.com>
-From:   yezengruan <yezengruan@huawei.com>
-Message-ID: <eab5db1c-84d1-5160-3d29-33bbb72f328a@huawei.com>
-Date:   Thu, 26 Dec 2019 16:34:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <20191217144032.GD38811@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v7 3/3] arm64: implement KPROBES_ON_FTRACE
+Message-Id: <20191226182607.06770598a00507090a046951@kernel.org>
+In-Reply-To: <20191226121108.0cd1b078@xhacker.debian>
+References: <20191225172625.69811b3e@xhacker.debian>
+        <20191225173001.6c0e3fb2@xhacker.debian>
+        <20191226115707.902545688aa90b34e2e550b3@kernel.org>
+        <20191226110348.146bb80b@xhacker.debian>
+        <20191226121108.0cd1b078@xhacker.debian>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.221.248]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
+On Thu, 26 Dec 2019 04:25:24 +0000
+Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
 
-On 2019/12/17 22:40, Steven Price wrote:
-> On Tue, Dec 17, 2019 at 01:55:49PM +0000, yezengruan@huawei.com wrote:
->> From: Zengruan Ye <yezengruan@huawei.com>
->>
->> Support the vcpu_is_preempted() functionality under KVM/arm64. This will
->> enhance lock performance on overcommitted hosts (more runnable vcpus
->> than physical cpus in the system) as doing busy waits for preempted
->> vcpus will hurt system performance far worse than early yielding.
->>
->> unix benchmark result:
->>   host:  kernel 5.5.0-rc1, HiSilicon Kunpeng920, 8 cpus
->>   guest: kernel 5.5.0-rc1, 16 vcpus
->>
->>                test-case                |    after-patch    |   before-patch
->> ----------------------------------------+-------------------+------------------
->>  Dhrystone 2 using register variables   | 334600751.0 lps   | 335319028.3 lps
->>  Double-Precision Whetstone             |     32856.1 MWIPS |     32849.6 MWIPS
->>  Execl Throughput                       |      3662.1 lps   |      2718.0 lps
->>  File Copy 1024 bufsize 2000 maxblocks  |    432906.4 KBps  |    158011.8 KBps
->>  File Copy 256 bufsize 500 maxblocks    |    116023.0 KBps  |     37664.0 KBps
->>  File Copy 4096 bufsize 8000 maxblocks  |   1432769.8 KBps  |    441108.8 KBps
->>  Pipe Throughput                        |   6405029.6 lps   |   6021457.6 lps
->>  Pipe-based Context Switching           |    185872.7 lps   |    184255.3 lps
->>  Process Creation                       |      4025.7 lps   |      3706.6 lps
->>  Shell Scripts (1 concurrent)           |      6745.6 lpm   |      6436.1 lpm
->>  Shell Scripts (8 concurrent)           |       998.7 lpm   |       931.1 lpm
->>  System Call Overhead                   |   3913363.1 lps   |   3883287.8 lps
->> ----------------------------------------+-------------------+------------------
->>  System Benchmarks Index Score          |      1835.1       |      1327.6
->>
->> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
->> ---
->>  arch/arm64/include/asm/paravirt.h |  3 +
->>  arch/arm64/kernel/paravirt.c      | 91 +++++++++++++++++++++++++++++++
->>  arch/arm64/kernel/setup.c         |  2 +
->>  include/linux/cpuhotplug.h        |  1 +
->>  4 files changed, 97 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/paravirt.h b/arch/arm64/include/asm/paravirt.h
->> index 7b1c81b544bb..a2cd0183bbef 100644
->> --- a/arch/arm64/include/asm/paravirt.h
->> +++ b/arch/arm64/include/asm/paravirt.h
->> @@ -29,6 +29,8 @@ static inline u64 paravirt_steal_clock(int cpu)
->>  
->>  int __init pv_time_init(void);
->>  
->> +int __init kvm_guest_init(void);
->> +
+> > > > +/*
+> > > > + * In arm64 FTRACE_WITH_REGS implementation, we patch two nop instructions:
+> > > > + * the lr saver and bl ftrace-entry. Both these instructions are claimed
+> > > > + * by ftrace and we should allow probing on either instruction.  
+> > >
+> > > No, the 2nd bl ftrace-entry must not be probed.
+> > > The pair of lr-saver and bl ftrace-entry is tightly coupled. You can not
+> > > decouple it.  
+> > 
+> > This is the key. different viewing of this results in different implementation.
+> > I'm just wondering why are the two instructions considered as coupled. I think
+> > here we met similar situation as powerpc: https://lkml.org/lkml/2019/6/18/646
+> > the "mflr r0" equals to lr-saver here, branch to _mcount equals to bl ftrace-entry
+> > could you please kindly comment more?
+> > 
+> > Thanks in advance
+> > 
 > 
-> This is a *very* generic name - I suggest something like pv_lock_init()
-> so it's clear what the function actually does.
+> hmm, I think I may get some part of your opinion. In v7 implementation:
 > 
->>  __visible bool __native_vcpu_is_preempted(int cpu);
->>  
->>  static inline bool pv_vcpu_is_preempted(int cpu)
->> @@ -39,6 +41,7 @@ static inline bool pv_vcpu_is_preempted(int cpu)
->>  #else
->>  
->>  #define pv_time_init() do {} while (0)
->> +#define kvm_guest_init() do {} while (0)
->>  
->>  #endif // CONFIG_PARAVIRT
->>  
->> diff --git a/arch/arm64/kernel/paravirt.c b/arch/arm64/kernel/paravirt.c
->> index d8f1ba8c22ce..a86dead40473 100644
->> --- a/arch/arm64/kernel/paravirt.c
->> +++ b/arch/arm64/kernel/paravirt.c
->> @@ -22,6 +22,7 @@
->>  #include <asm/paravirt.h>
->>  #include <asm/pvclock-abi.h>
->>  #include <asm/smp_plat.h>
->> +#include <asm/pvlock-abi.h>
->>  
->>  struct static_key paravirt_steal_enabled;
->>  struct static_key paravirt_steal_rq_enabled;
->> @@ -158,3 +159,93 @@ int __init pv_time_init(void)
->>  
->>  	return 0;
->>  }
->> +
->> +DEFINE_PER_CPU(struct pvlock_vcpu_state, pvlock_vcpu_region) __aligned(64);
->> +EXPORT_PER_CPU_SYMBOL(pvlock_vcpu_region);
->> +
->> +static int pvlock_vcpu_state_dying_cpu(unsigned int cpu)
->> +{
->> +	struct pvlock_vcpu_state *reg;
->> +
->> +	reg = this_cpu_ptr(&pvlock_vcpu_region);
->> +	if (!reg)
->> +		return -EFAULT;
->> +
->> +	memset(reg, 0, sizeof(*reg));
+> if probe on func+4, that's bl ftrace-entry, similar as mcount call on
+> other architectures, we allow this probe as normal.
 > 
-> I might be missing something obvious here - but I don't see the point of
-> this. The hypervisor might immediately overwrite the structure again.
-> Indeed you should conside a mechanism for the guest to "unregister" the
-> region - otherwise you will face issues with the likes of kexec.
-> 
-> For pv_time the memory is allocated by the hypervisor not the guest to
-> avoid lifetime issues about kexec.
+> if probe on func+0, the first param ip in kprobe_ftrace_handler() points
+> to func+4(this is adjusted by ftrace), regs->ip points to func+8, so in
+> kprobe_ftrace_handler() we modify regs->ip to func+0 to call kprobe
+> pre handler, then modify regs->ip to func+8 to call kprobe post handler.
+> As can be seen, the first two instructions are considered as a virtual
+> mcount call. From this point of view, lr saver and the bl <ftrace-entry>
+> is coupled.
 
+Yes, this is good. But probing on func+4 is meaningless. Both func+0 and
+func+4 call a handler with same pt_regs. And it should have the stack
+pointer which is NOT modified by lr-saver and regs->lr must point original
+call address. (ftrace regs caller must do this fixup for supporting live
+patching correctly)
 
-Thanks for pointing it out to me! I'll update the memory allocation
-mechanism of the PV lock structure to avoid lifetime issues about
-kexec.
+And in this case, func+4 has fake pt_regs because it skips lr-saver's
+effects.
+
+And even if you fixed up the pt_regs, there is another problem of what
+user expects on the target instructions.
+
+As you know, dynamic ftrace will fill the instruction with NOP (2 NOPs
+in arm64), in this case, maybe pt_regs are same except pc on func+0 and
+func+4. But if ftrace already enabled on the function, user will see
+there are lr-saver and bl, oops. In this case we have to change pt_regs
+between func+0 and func+4. So it depends on the current mode.
+
+However, IMHO, it is not worth to pay such simulation cost. No one want
+to probe such simulated intermediate address. It is easy to expect the
+result from the code. Moreover, the func+4 will not appear on debuginfo
+because those 2 special insturctions are just appended by the compiler,
+not generated by the code.
+
+So I don't think we need to support func+4. We only need func+0, or func+8
+(this must be same as func+0 except regs->pc anyway)
+
+Thank you,
 
 > 
->> +
->> +	return 0;
->> +}
->> +
->> +static int init_pvlock_vcpu_state(unsigned int cpu)
->> +{
->> +	struct pvlock_vcpu_state *reg;
->> +	struct arm_smccc_res res;
->> +
->> +	reg = this_cpu_ptr(&pvlock_vcpu_region);
->> +	if (!reg)
->> +		return -EFAULT;
->> +
->> +	/* Pass the memory address to host via hypercall */
->> +	arm_smccc_1_1_invoke(ARM_SMCCC_HV_PV_LOCK_PREEMPTED,
->> +			     virt_to_phys(reg), &res);
->> +
->> +	return 0;
->> +}
->> +
->> +static bool kvm_vcpu_is_preempted(int cpu)
->> +{
->> +	struct pvlock_vcpu_state *reg = &per_cpu(pvlock_vcpu_region, cpu);
->> +
->> +	if (reg)
->> +		return !!(reg->preempted & 1);
->> +
->> +	return false;
->> +}
->> +
->> +static int kvm_arm_init_pvlock(void)
->> +{
->> +	int ret;
->> +
->> +	ret = cpuhp_setup_state(CPUHP_AP_ARM_KVM_PVLOCK_STARTING,
->> +				"hypervisor/arm/pvlock:starting",
->> +				init_pvlock_vcpu_state,
->> +				pvlock_vcpu_state_dying_cpu);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	pv_ops.lock.vcpu_is_preempted = kvm_vcpu_is_preempted;
->> +
->> +	pr_info("using PV-lock preempted\n");
->> +
->> +	return 0;
->> +}
->> +
->> +static bool has_kvm_pvlock(void)
->> +{
->> +	struct arm_smccc_res res;
->> +
->> +	/* To detect the presence of PV lock support we require SMCCC 1.1+ */
->> +	if (psci_ops.smccc_version < SMCCC_VERSION_1_1)
->> +		return false;
->> +
->> +	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
->> +			     ARM_SMCCC_HV_PV_LOCK_FEATURES, &res);
->> +
->> +	if (res.a0 != SMCCC_RET_SUCCESS)
->> +		return false;
->> +
->> +	return true;
->> +}
->> +
->> +int __init kvm_guest_init(void)
->> +{
->> +	if (is_hyp_mode_available())
->> +		return 0;
->> +
->> +	if (!has_kvm_pvlock())
->> +		return 0;
->> +
->> +	kvm_arm_init_pvlock();
+> If we split patch3 into two:
+> one to support kprobes func+4
+> the second to support kprobe on func+0
+> it would be much clearer.
 > 
-> Consider reporting errors from kvm_arm_init_pvlock()? At the moment
-> it's impossible to tell the difference between pvlock not being
-> supported and something failing in the setup.
-
-Good point, I'll update the code.
-
+> Then the key here is whether we could allow both kprobes on func+0 and func+4
 > 
-> Steve
-> 
->> +
->> +	return 0;
->> +}
->> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
->> index 56f664561754..64c4d515ba2d 100644
->> --- a/arch/arm64/kernel/setup.c
->> +++ b/arch/arm64/kernel/setup.c
->> @@ -341,6 +341,8 @@ void __init setup_arch(char **cmdline_p)
->>  	smp_init_cpus();
->>  	smp_build_mpidr_hash();
->>  
->> +	kvm_guest_init();
->> +
->>  	/* Init percpu seeds for random tags after cpus are set up. */
->>  	kasan_init_tags();
->>  
->> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
->> index e51ee772b9f5..f72ff95ab63a 100644
->> --- a/include/linux/cpuhotplug.h
->> +++ b/include/linux/cpuhotplug.h
->> @@ -138,6 +138,7 @@ enum cpuhp_state {
->>  	CPUHP_AP_DUMMY_TIMER_STARTING,
->>  	CPUHP_AP_ARM_XEN_STARTING,
->>  	CPUHP_AP_ARM_KVMPV_STARTING,
->> +	CPUHP_AP_ARM_KVM_PVLOCK_STARTING,
->>  	CPUHP_AP_ARM_CORESIGHT_STARTING,
->>  	CPUHP_AP_ARM64_ISNDEP_STARTING,
->>  	CPUHP_AP_SMPCFD_DYING,
->> -- 
->> 2.19.1
->>
->>
-> 
-> .
-> 
+> Thanks
 
-Thanks,
 
-Zengruan
-
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
