@@ -2,147 +2,128 @@ Return-Path: <SRS0=8M+Y=2Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10997C2D0DA
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 09:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C286FC2D0DA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 13:59:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D605320838
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 09:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1577352374;
-	bh=6asAChZGLqkA6kNuizNIWoIAN2lunfQ0xFCnSMNqwvU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=0wfseqyhtStN/D+fnx7HWKEZw8f9awFHQoBIdzVYUaCwzb/3+bH0L2Uqx/UDfW/yN
-	 SdJKZ/QydBFbHxYSOvVa3IArFTq3stQ/NugSQbWqGb7PihBf4pXXu5YG9gRpEknOFR
-	 Na4f+avgRekGlo9Ld8oORvtQYAUYwjiDGHq+riYQ=
+	by mail.kernel.org (Postfix) with ESMTP id 915ED2075E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 13:59:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbfLZJ0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 04:26:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726023AbfLZJ0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Dec 2019 04:26:14 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA2AA20828;
-        Thu, 26 Dec 2019 09:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577352372;
-        bh=6asAChZGLqkA6kNuizNIWoIAN2lunfQ0xFCnSMNqwvU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GDEijHdH+fS2OpJ8NizE3hyQLJMY7yVxc6vR8dsGzeVCgPbbShA69taRiT00O2/Q/
-         eYVHv071VAMVsV58S2RK4tfqDrqIX/ifiHfUexpBx69iQ9bIXU/r4CPiWQPpJNBLcZ
-         6myeBCBMdGencmtdph9n1UWcRWDVcpHjmXCS8EvY=
-Date:   Thu, 26 Dec 2019 18:26:07 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v7 3/3] arm64: implement KPROBES_ON_FTRACE
-Message-Id: <20191226182607.06770598a00507090a046951@kernel.org>
-In-Reply-To: <20191226121108.0cd1b078@xhacker.debian>
-References: <20191225172625.69811b3e@xhacker.debian>
-        <20191225173001.6c0e3fb2@xhacker.debian>
-        <20191226115707.902545688aa90b34e2e550b3@kernel.org>
-        <20191226110348.146bb80b@xhacker.debian>
-        <20191226121108.0cd1b078@xhacker.debian>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726074AbfLZN7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 08:59:01 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:41178 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725954AbfLZN7A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Dec 2019 08:59:00 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 17720E927BC04C10696D;
+        Thu, 26 Dec 2019 21:58:57 +0800 (CST)
+Received: from DESKTOP-1NISPDV.china.huawei.com (10.173.221.248) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 26 Dec 2019 21:58:51 +0800
+From:   Zengruan Ye <yezengruan@huawei.com>
+To:     <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>
+CC:     <yezengruan@huawei.com>, <maz@kernel.org>, <james.morse@arm.com>,
+        <linux@armlinux.org.uk>, <suzuki.poulose@arm.com>,
+        <julien.thierry.kdev@gmail.com>, <catalin.marinas@arm.com>,
+        <mark.rutland@arm.com>, <will@kernel.org>, <steven.price@arm.com>,
+        <daniel.lezcano@linaro.org>
+Subject: [PATCH v2 0/6] KVM: arm64: VCPU preempted check support
+Date:   Thu, 26 Dec 2019 21:58:27 +0800
+Message-ID: <20191226135833.1052-1-yezengruan@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.173.221.248]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Dec 2019 04:25:24 +0000
-Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
+This patch set aims to support the vcpu_is_preempted() functionality
+under KVM/arm64, which allowing the guest to obtain the VCPU is
+currently running or not. This will enhance lock performance on
+overcommitted hosts (more runnable VCPUs than physical CPUs in the
+system) as doing busy waits for preempted VCPUs will hurt system
+performance far worse than early yielding.
 
-> > > > +/*
-> > > > + * In arm64 FTRACE_WITH_REGS implementation, we patch two nop instructions:
-> > > > + * the lr saver and bl ftrace-entry. Both these instructions are claimed
-> > > > + * by ftrace and we should allow probing on either instruction.  
-> > >
-> > > No, the 2nd bl ftrace-entry must not be probed.
-> > > The pair of lr-saver and bl ftrace-entry is tightly coupled. You can not
-> > > decouple it.  
-> > 
-> > This is the key. different viewing of this results in different implementation.
-> > I'm just wondering why are the two instructions considered as coupled. I think
-> > here we met similar situation as powerpc: https://lkml.org/lkml/2019/6/18/646
-> > the "mflr r0" equals to lr-saver here, branch to _mcount equals to bl ftrace-entry
-> > could you please kindly comment more?
-> > 
-> > Thanks in advance
-> > 
-> 
-> hmm, I think I may get some part of your opinion. In v7 implementation:
-> 
-> if probe on func+4, that's bl ftrace-entry, similar as mcount call on
-> other architectures, we allow this probe as normal.
-> 
-> if probe on func+0, the first param ip in kprobe_ftrace_handler() points
-> to func+4(this is adjusted by ftrace), regs->ip points to func+8, so in
-> kprobe_ftrace_handler() we modify regs->ip to func+0 to call kprobe
-> pre handler, then modify regs->ip to func+8 to call kprobe post handler.
-> As can be seen, the first two instructions are considered as a virtual
-> mcount call. From this point of view, lr saver and the bl <ftrace-entry>
-> is coupled.
+We have observed some performace improvements in uninx benchmark tests.
 
-Yes, this is good. But probing on func+4 is meaningless. Both func+0 and
-func+4 call a handler with same pt_regs. And it should have the stack
-pointer which is NOT modified by lr-saver and regs->lr must point original
-call address. (ftrace regs caller must do this fixup for supporting live
-patching correctly)
+unix benchmark result:
+  host:  kernel 5.5.0-rc1, HiSilicon Kunpeng920, 8 CPUs
+  guest: kernel 5.5.0-rc1, 16 VCPUs
 
-And in this case, func+4 has fake pt_regs because it skips lr-saver's
-effects.
+               test-case                |    after-patch    |   before-patch
+----------------------------------------+-------------------+------------------
+ Dhrystone 2 using register variables   | 334600751.0 lps   | 335319028.3 lps
+ Double-Precision Whetstone             |     32856.1 MWIPS |     32849.6 MWIPS
+ Execl Throughput                       |      3662.1 lps   |      2718.0 lps
+ File Copy 1024 bufsize 2000 maxblocks  |    432906.4 KBps  |    158011.8 KBps
+ File Copy 256 bufsize 500 maxblocks    |    116023.0 KBps  |     37664.0 KBps
+ File Copy 4096 bufsize 8000 maxblocks  |   1432769.8 KBps  |    441108.8 KBps
+ Pipe Throughput                        |   6405029.6 lps   |   6021457.6 lps
+ Pipe-based Context Switching           |    185872.7 lps   |    184255.3 lps
+ Process Creation                       |      4025.7 lps   |      3706.6 lps
+ Shell Scripts (1 concurrent)           |      6745.6 lpm   |      6436.1 lpm
+ Shell Scripts (8 concurrent)           |       998.7 lpm   |       931.1 lpm
+ System Call Overhead                   |   3913363.1 lps   |   3883287.8 lps
+----------------------------------------+-------------------+------------------
+ System Benchmarks Index Score          |      1835.1       |      1327.6
 
-And even if you fixed up the pt_regs, there is another problem of what
-user expects on the target instructions.
+Changes from v1:
+https://lore.kernel.org/lkml/20191217135549.3240-1-yezengruan@huawei.com/
+ * Guest kernel no longer allocates the PV lock structure, instead it
+   is allocated by user space to avoid lifetime issues about kexec.
+ * Provide VCPU attributes for PV lock.
+ * Update SMC number of PV lock features.
+ * Report some basic validation when PV lock init.
+ * Document preempted field.
+ * Bunch of typo fixes.
 
-As you know, dynamic ftrace will fill the instruction with NOP (2 NOPs
-in arm64), in this case, maybe pt_regs are same except pc on func+0 and
-func+4. But if ftrace already enabled on the function, user will see
-there are lr-saver and bl, oops. In this case we have to change pt_regs
-between func+0 and func+4. So it depends on the current mode.
+Zengruan Ye (6):
+  KVM: arm64: Document PV-lock interface
+  KVM: arm64: Add SMCCC paravirtualised lock calls
+  KVM: arm64: Support pvlock preempted via shared structure
+  KVM: arm64: Provide VCPU attributes for PV lock
+  KVM: arm64: Add interface to support VCPU preempted check
+  KVM: arm64: Support the VCPU preemption check
 
-However, IMHO, it is not worth to pay such simulation cost. No one want
-to probe such simulated intermediate address. It is easy to expect the
-result from the code. Moreover, the func+4 will not appear on debuginfo
-because those 2 special insturctions are just appended by the compiler,
-not generated by the code.
-
-So I don't think we need to support func+4. We only need func+0, or func+8
-(this must be same as func+0 except regs->pc anyway)
-
-Thank you,
-
-> 
-> If we split patch3 into two:
-> one to support kprobes func+4
-> the second to support kprobe on func+0
-> it would be much clearer.
-> 
-> Then the key here is whether we could allow both kprobes on func+0 and func+4
-> 
-> Thanks
-
+ Documentation/virt/kvm/arm/pvlock.rst   |  63 ++++++++++++
+ Documentation/virt/kvm/devices/vcpu.txt |  14 +++
+ arch/arm/include/asm/kvm_host.h         |  18 ++++
+ arch/arm64/include/asm/kvm_host.h       |  28 ++++++
+ arch/arm64/include/asm/paravirt.h       |  15 +++
+ arch/arm64/include/asm/pvlock-abi.h     |  16 ++++
+ arch/arm64/include/asm/spinlock.h       |   7 ++
+ arch/arm64/include/uapi/asm/kvm.h       |   2 +
+ arch/arm64/kernel/Makefile              |   2 +-
+ arch/arm64/kernel/paravirt-spinlocks.c  |  13 +++
+ arch/arm64/kernel/paravirt.c            | 121 +++++++++++++++++++++++-
+ arch/arm64/kernel/setup.c               |   2 +
+ arch/arm64/kvm/Makefile                 |   1 +
+ arch/arm64/kvm/guest.c                  |   9 ++
+ include/linux/arm-smccc.h               |  14 +++
+ include/linux/cpuhotplug.h              |   1 +
+ include/uapi/linux/kvm.h                |   2 +
+ virt/kvm/arm/arm.c                      |   8 ++
+ virt/kvm/arm/hypercalls.c               |   8 ++
+ virt/kvm/arm/pvlock.c                   | 103 ++++++++++++++++++++
+ 20 files changed, 445 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/virt/kvm/arm/pvlock.rst
+ create mode 100644 arch/arm64/include/asm/pvlock-abi.h
+ create mode 100644 arch/arm64/kernel/paravirt-spinlocks.c
+ create mode 100644 virt/kvm/arm/pvlock.c
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+2.19.1
+
+
