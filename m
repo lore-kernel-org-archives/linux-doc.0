@@ -2,294 +2,100 @@ Return-Path: <SRS0=8M+Y=2Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7EE7C2D0DA
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 14:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BF8C2D0DA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 16:21:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9123C2075E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 14:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1577369303;
-	bh=68QczFihr50eg5oPUMSzLxefqKYVYgseUliIbohltlc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=E/JtH1EAwYs9TYTP/t0BBzfdiaCxUqn+Uwg2nenRPX3c9EdiP2XS0M/Q80dfdmGWp
-	 D5LvaV4s8mdofnj93YDeV3J74CLPknv+ixmF2JwZBVBhYuwT1g0T7HuQLEajYZIxhp
-	 R3TP9o8xYsACtSW1X/zEk39PNs6vAdHKV8ixy/sc=
+	by mail.kernel.org (Postfix) with ESMTP id 1736020838
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 16:21:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dcJ8Fhrh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbfLZOIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 09:08:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726074AbfLZOIX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Dec 2019 09:08:23 -0500
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2927206CB;
-        Thu, 26 Dec 2019 14:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577369302;
-        bh=68QczFihr50eg5oPUMSzLxefqKYVYgseUliIbohltlc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0Pj32rujIe738L+k2rOiE4ZBYw9aBTFynAATUGiGMBVKecZyK128h7Tt4vDC2uvOL
-         nS3UZVjqw6TwWOfAeVIcGGImN01Y0+qQ0kqjBHVOWodpbw/iJpg7/llKh9h0RDYIxY
-         yD6VYUYwqwsiDwjI02BiluqXhCBT4zzXulyXe/Js=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 22/22] Documentation: tracing: Add boot-time tracing document
-Date:   Thu, 26 Dec 2019 23:08:15 +0900
-Message-Id: <157736929501.11126.16770778428672326735.stgit@devnote2>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <157736902773.11126.2531161235817081873.stgit@devnote2>
-References: <157736902773.11126.2531161235817081873.stgit@devnote2>
-User-Agent: StGit/0.17.1-dirty
+        id S1726336AbfLZQVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 11:21:42 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:37769 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbfLZQVm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 11:21:42 -0500
+Received: by mail-pj1-f66.google.com with SMTP id m13so3633391pjb.2;
+        Thu, 26 Dec 2019 08:21:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dNzBbsBAeD8tPqRqiqpZEThvA8x3leCImQZb/BG9x4Q=;
+        b=dcJ8Fhrh7zoSXEsaf+C3T/Q0LqszfowWt/z7VLgChyxXm0pQPLIP+DplXNKdrnu7qf
+         SZay23pSuZd1w54Ak1fbvBLp5ITG4A4AKnVHe+c+9R+OU8susPdCMq8DnHz2EY+Hc+BW
+         23Tve2JXWPDz7hoVEuuz0OS7VFysCGEUpoaxh5J2yw4dzUJNV5WLKabwjLMmQLh1drHO
+         lFEbOImWwiONuIkiKGeg/mGWaY41/+VRKpnczJwQR4JFqnyv9R7/cTsqqqHcZg+5YNgZ
+         AWD7Jco/xqChiaC1V7/jpYQ/weB6EYv38sX78OvJ1pIjDg0LeFbDrre6PrgQb/rYLtiq
+         Dhbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dNzBbsBAeD8tPqRqiqpZEThvA8x3leCImQZb/BG9x4Q=;
+        b=dniT7eWsahPzjgqACl5XePSKPcpPbxM2l24GyLMVGDDs0KRQsBvA40ksBThk2YSjno
+         vX8tT6N5G50n62XqXaC66ys0sFqagN+/UNcYGX/NZ5YKE4pgLrr+uu4PUZGFBmO8NKbk
+         7iV7/vlIQCZ5GKAs8ctnbJJ3DVUTti6QtgJx9Ah9uizukzzCY1+xO40uki8o75qBO+55
+         sIenLN4U4LmgksYOE3XtK59Wz0kYhM7i8b9ww8S7lbJqXTCffvs8Uoq7v5Su6fwK8ZOI
+         NXIV9x4Q7Tvy16rvSCz8DgFzTF/I/QqAoza0sVvSspC1GRzdLS9dGxYJpkSHPb70Cfl9
+         m6XA==
+X-Gm-Message-State: APjAAAWEKayyGXOqxTQikrktwZ/EE+0BEqoS/rEAKOUC4hAqs48KYlTV
+        iZsgI5mBw+wmZ1Pmwb5FeAM=
+X-Google-Smtp-Source: APXvYqwZjkqHi0IWZYgQS/yv8ZAQz+xxniSvgOV2ig8Ro0xeeUrvv7zjZg9uIj7SBWZiGDoYzdBYvw==
+X-Received: by 2002:a17:90a:930f:: with SMTP id p15mr20497612pjo.2.1577377301564;
+        Thu, 26 Dec 2019 08:21:41 -0800 (PST)
+Received: from masabert (i118-21-156-233.s30.a048.ap.plala.or.jp. [118.21.156.233])
+        by smtp.gmail.com with ESMTPSA id s24sm11098063pjp.17.2019.12.26.08.21.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Dec 2019 08:21:41 -0800 (PST)
+Received: by masabert (Postfix, from userid 1000)
+        id D60F420123E; Fri, 27 Dec 2019 01:21:39 +0900 (JST)
+From:   Masanari Iida <standby24x7@gmail.com>
+To:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        x86@kernel.org
+Cc:     Masanari Iida <standby24x7@gmail.com>
+Subject: [PATCH] Doc: x86: Fix a typo in mm.rst
+Date:   Fri, 27 Dec 2019 01:21:38 +0900
+Message-Id: <20191226162138.17601-1-standby24x7@gmail.com>
+X-Mailer: git-send-email 2.24.1.590.gb02fd2accad4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a documentation about boot-time tracing options in
-boot config.
+This patch fix a spelling typo in mm.rst.
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 ---
- 0 files changed
+ Documentation/x86/x86_64/mm.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index 6f31c775c25a..57ff02f82c40 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -1,5 +1,7 @@
+diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
+index 267fc4808945..e5053404a1ae 100644
+--- a/Documentation/x86/x86_64/mm.rst
++++ b/Documentation/x86/x86_64/mm.rst
+@@ -1,8 +1,8 @@
  .. SPDX-License-Identifier: GPL-2.0
  
-+.. _bootconfig:
-+
- ==================
- Boot Configuration
- ==================
-diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-new file mode 100644
-index 000000000000..1d10fdebf1b2
---- /dev/null
-+++ b/Documentation/trace/boottime-trace.rst
-@@ -0,0 +1,184 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
+-================
+-Memory Managment
+-================
 +=================
-+Boot-time tracing
++Memory Management
 +=================
-+
-+:Author: Masami Hiramatsu <mhiramat@kernel.org>
-+
-+Overview
-+========
-+
-+Boot-time tracing allows users to trace boot-time process including
-+device initialization with full features of ftrace including per-event
-+filter and actions, histograms, kprobe-events and synthetic-events,
-+and trace instances.
-+Since kernel cmdline is not enough to control these complex features,
-+this uses bootconfig file to describe tracing feature programming.
-+
-+Options in the Boot Config
-+==========================
-+
-+Here is the list of available options list for boot time tracing in
-+boot config file [1]_. All options are under "ftrace." or "kernel."
-+refix. See kernel parameters for the options which starts
-+with "kernel." prefix [2]_.
-+
-+.. [1] See :ref:`Documentation/admin-guide/bootconfig.rst <bootconfig>`
-+.. [2] See :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
-+
-+Ftrace Global Options
-+---------------------
-+
-+Ftrace global options have "kernel." prefix in boot config, which means
-+these options are passed as a part of kernel legacy command line.
-+
-+kernel.tp_printk
-+   Output trace-event data on printk buffer too.
-+
-+kernel.dump_on_oops [= MODE]
-+   Dump ftrace on Oops. If MODE = 1 or omitted, dump trace buffer
-+   on all CPUs. If MODE = 2, dump a buffer on a CPU which kicks Oops.
-+
-+kernel.traceoff_on_warning
-+   Stop tracing if WARN_ON() occurs.
-+
-+kernel.fgraph_max_depth = MAX_DEPTH
-+   Set MAX_DEPTH to maximum depth of fgraph tracer.
-+
-+kernel.fgraph_filters = FILTER[, FILTER2...]
-+   Add fgraph tracing function filters.
-+
-+kernel.fgraph_notraces = FILTER[, FILTER2...]
-+   Add fgraph non tracing function filters.
-+
-+
-+Ftrace Per-instance Options
-+---------------------------
-+
-+These options can be used for each instance including global ftrace node.
-+
-+ftrace.[instance.INSTANCE.]options = OPT1[, OPT2[...]]
-+   Enable given ftrace options.
-+
-+ftrace.[instance.INSTANCE.]trace_clock = CLOCK
-+   Set given CLOCK to ftrace's trace_clock.
-+
-+ftrace.[instance.INSTANCE.]buffer_size = SIZE
-+   Configure ftrace buffer size to SIZE. You can use "KB" or "MB"
-+   for that SIZE.
-+
-+ftrace.[instance.INSTANCE.]alloc_snapshot
-+   Allocate snapshot buffer.
-+
-+ftrace.[instance.INSTANCE.]cpumask = CPUMASK
-+   Set CPUMASK as trace cpu-mask.
-+
-+ftrace.[instance.INSTANCE.]events = EVENT[, EVENT2[...]]
-+   Enable given events on boot. You can use a wild card in EVENT.
-+
-+ftrace.[instance.INSTANCE.]tracer = TRACER
-+   Set TRACER to current tracer on boot. (e.g. function)
-+
-+ftrace.[instance.INSTANCE.]ftrace.filters
-+   This will take an array of tracing function filter rules
-+
-+ftrace.[instance.INSTANCE.]ftrace.notraces
-+   This will take an array of NON-tracing function filter rules
-+
-+
-+Ftrace Per-Event Options
-+------------------------
-+
-+These options are setting per-event options.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.enable
-+   Enables GROUP:EVENT tracing.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.filter = FILTER
-+   Set FILTER rule to the GROUP:EVENT.
-+
-+ftrace.[instance.INSTANCE.]event.GROUP.EVENT.actions = ACTION[, ACTION2[...]]
-+   Set ACTIONs to the GROUP:EVENT.
-+
-+ftrace.[instance.INSTANCE.]event.kprobes.EVENT.probes = PROBE[, PROBE2[...]]
-+   Defines new kprobe event based on PROBEs. It is able to define
-+   multiple probes on one event, but those must have same type of
-+   arguments. This option is available only for the event which
-+   group name is "kprobes".
-+
-+ftrace.[instance.INSTANCE.]event.synthetic.EVENT.fields = FIELD[, FIELD2[...]]
-+   Defines new synthetic event with FIELDs. Each field should be
-+   "type varname".
-+
-+Note that kprobe and synthetic event definitions can be written under
-+instance node, but those are also visible from other instances. So please
-+take care for event name conflict.
-+
-+
-+Examples
-+========
-+
-+For example, to add filter and actions for each event, define kprobe
-+events, and synthetic events with histogram, write a boot config like
-+below::
-+
-+  ftrace.event {
-+        task.task_newtask {
-+                filter = "pid < 128"
-+                enable
-+        }
-+        kprobes.vfs_read {
-+                probes = "vfs_read $arg1 $arg2"
-+                filter = "common_pid < 200"
-+                enable
-+        }
-+        synthetic.initcall_latency {
-+                fields = "unsigned long func", "u64 lat"
-+                actions = "hist:keys=func.sym,lat:vals=lat:sort=lat"
-+        }
-+        initcall.initcall_start {
-+                actions = "hist:keys=func:ts0=common_timestamp.usecs"
-+        }
-+        initcall.initcall_finish {
-+                actions = "hist:keys=func:lat=common_timestamp.usecs-$ts0:onmatch(initcall.initcall_start).initcall_latency(func,$lat)"
-+        }
-+  }
-+
-+Also, boottime tracing supports "instance" node, which allows us to run
-+several tracers for different purpose at once. For example, one tracer
-+is for tracing functions start with "user\_", and others tracing "kernel\_"
-+functions, you can write boot config as below::
-+
-+  ftrace.instance {
-+        foo {
-+                tracer = "function"
-+                ftrace.filters = "user_*"
-+        }
-+        bar {
-+                tracer = "function"
-+                ftrace.filters = "kernel_*"
-+        }
-+  }
-+
-+The instance node also accepts event nodes so that each instance
-+can customize its event tracing.
-+
-+This boot-time tracing also supports ftrace kernel parameters via boot
-+config.
-+For example, following kernel parameters::
-+
-+ trace_options=sym-addr trace_event=initcall:* tp_printk trace_buf_size=1M ftrace=function ftrace_filter="vfs*"
-+
-+This can be written in boot config like below::
-+
-+  kernel {
-+        trace_options = sym-addr
-+        trace_event = "initcall:*"
-+        tp_printk
-+        trace_buf_size = 1M
-+        ftrace = function
-+        ftrace_filter = "vfs*"
-+  }
-+
-+Note that parameters start with "kernel" prefix instead of "ftrace".
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 04acd277c5f6..fa9e1c730f6a 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -19,6 +19,7 @@ Linux Tracing Technologies
-    events-msr
-    mmiotrace
-    histogram
-+   boottime-trace
-    hwlat_detector
-    intel_th
-    stm
+ 
+ Complete virtual memory map with 4-level page tables
+ ====================================================
+-- 
+2.24.1.590.gb02fd2accad4
 
