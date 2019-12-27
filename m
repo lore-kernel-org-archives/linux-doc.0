@@ -1,181 +1,98 @@
-Return-Path: <SRS0=8M+Y=2Q=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=2aqv=2R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F5BC2D0C0
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBBC8C2D0C0
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 01:08:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8ACCD20828
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A885320740
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 01:08:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAkqAQb8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="moPTOwvT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727120AbfLZVUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 16:20:24 -0500
-Received: from mail-pf1-f175.google.com ([209.85.210.175]:43727 "EHLO
-        mail-pf1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbfLZVUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 16:20:23 -0500
-Received: by mail-pf1-f175.google.com with SMTP id x6so12659206pfo.10;
-        Thu, 26 Dec 2019 13:20:23 -0800 (PST)
+        id S1726550AbfL0BIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 20:08:31 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40968 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbfL0BIb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 20:08:31 -0500
+Received: by mail-wr1-f65.google.com with SMTP id c9so24872480wrw.8;
+        Thu, 26 Dec 2019 17:08:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uR3f0Y5+qpw7GzuSpDtOazUC6VJQJeKwTwbFDTwTBCA=;
-        b=TAkqAQb8No2gy7WzN1sJvFtaIfh8yR6jVnzKPh7zRvKgXiQxja4X2M/R8OI1JXRqfF
-         iYtXBLMIgVSmOF6z2BWWtb//uG//yPyUnGgUaCULLT9gLIx0jgoQSpZ53pZciMn5M4Ip
-         J2fcJY0R8UBSDb4eX338kif7aYA4OnO8vcfsRqUtKLnF6ok1zB5UAqBExVRgryuD17bB
-         sthhKA+lkMr3qV6t/6S939dSTXV4j3np3q/S82YHeePtaOZpB0XuoXUJUaQ+F5ut0JaJ
-         6apzLl8L2g2eormOs4rfwrb9M7OGtUGOwZBFoVZHIWtwdKFT2oonqMf+B1q44eafBbdF
-         gtkA==
+        h=from:to:cc:subject:date:message-id;
+        bh=5qBV6ew8s1N9fYUvOO0//bKF0z9LM7TG1Jue/fyKu08=;
+        b=moPTOwvT8uvt49GZN7zaIzKkufqm9i+wrMk1WQjL7iqiq/frC9V8v0wCSbBdo9wKBK
+         0OSPOav6J++wUCdNQWdM19K8y51HPGN/y31Nas3hEDQxODhlwqLF2IQ5hs7TV8Vbchyw
+         0+znjNEqqA2Cu1zR6w1gejouUSlCPPbjHV+Wty7XJYY2s+oKX5Dibpv81z67CuoElo2v
+         EjF5uuwi9Q7V1MQJSLyMAbNvIQlSkkeZbbczjh+zVcuoaeTu9/0ZxeM44Sm3T75deusV
+         9YXSkhUtC+pvQyem0lei7ZYdz55Opi3eu7HJ4Wwc8f3MFfn8TCIpwVv74NqdvNj+ro84
+         pzAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uR3f0Y5+qpw7GzuSpDtOazUC6VJQJeKwTwbFDTwTBCA=;
-        b=td2R5zRMn1DTJxK88/rPSbUQsAZxBcxkCKAzVT6UBG3Yj8o2D9Tgytng1mA4DNJ8n0
-         whATARcTWs2bkP1Hq+lFcJTom+9qXZye7DELA80a6iyM08VK8LkCDonp0OAN339EBKTN
-         BperQN90UFezhzuxCf2VzBPKEjUwXC2HnvzcgqeIV/IK81gGFL0Yyp/9LQ55yiZwLJET
-         qk6nMaVQUNumBFaBaXq+bXwsp9hNRMNlnkS0opqtnDuoyvLmaQTqHSQsbifRxOEv/8ip
-         6DB1g8Ymuh0JGMy/XoBz4yxN9yzuJ0zz8bwru5Q3twHn/Alyau8q9DB3HFinn4zSzraY
-         5sHg==
-X-Gm-Message-State: APjAAAU+o/Abz1xgEVrUXY3vaVuU/vU36wMny59enV65pcap/H/8fRLC
-        SKlydtS4X3wJd2iFFTYouME=
-X-Google-Smtp-Source: APXvYqyorNqryvPglf+3L6Xcx1pzgUGp18X2qoTYM00yT7qKT8hr4MaI5L+8dEWB6eb3t6lIXDxQKg==
-X-Received: by 2002:aa7:9296:: with SMTP id j22mr21795997pfa.201.1577395222683;
-        Thu, 26 Dec 2019 13:20:22 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id b22sm35114380pft.110.2019.12.26.13.20.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=5qBV6ew8s1N9fYUvOO0//bKF0z9LM7TG1Jue/fyKu08=;
+        b=QLntxK1szxXG5NUn/NciHGTIpucqmWLpUAEoRhOo72d4m1jxYEY5WDgJ1aPEvP3JX2
+         pfLa3KrTU9N59QR2b3P90rkTnv5HUpYNCuaVTtfM6wrmmpqBZitkiWUFSYo39zUG2UYT
+         +wSIbcPmKtsXyYeDzAGXHXmmJ8Y7W5AKt6N5kcS8wGnFQ5qBgrmYUC/ujXDVy9UtAT56
+         c3pHhtJVBLHjRNXvvVjsgWHAtkD15mEI9NCATHvx74SEuIas4MPEXvZmTo6ifIB5S7pN
+         055AL98hhGJBa+5hBHRZ4l567NLk0sh+Ny0vzqQcedIAS1Xc6XNv2RRsD1eg3SeSVP7o
+         tXDQ==
+X-Gm-Message-State: APjAAAUkd7sLueTtTyly2BbZw49gJPAM9eVbzGweFiF6RM2s0olayjdB
+        P+oGYn5Hv0AlzicHAsYGinnPIc4f
+X-Google-Smtp-Source: APXvYqzIZAa89bWOQ/ThgJghnMhYymq2HvJKTz8l8x8HNIL818T+lRZCrFZYqZJymlRGHTx0HdpYaQ==
+X-Received: by 2002:a5d:53c1:: with SMTP id a1mr45680029wrw.373.1577408908840;
+        Thu, 26 Dec 2019 17:08:28 -0800 (PST)
+Received: from localhost.localdomain ([188.25.254.226])
+        by smtp.gmail.com with ESMTPSA id f1sm33506409wrp.93.2019.12.26.17.08.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2019 13:20:22 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     corbet@lwn.net, mchehab+samsung@kernel.org
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH 5/5] Documentation: nfs: idmapper: convert to ReST
-Date:   Thu, 26 Dec 2019 18:19:47 -0300
-Message-Id: <0063476e939087c87678a68dfd7fbab2e2d57bb9.1577394517.git.dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1577394517.git.dwlsalmeida@gmail.com>
-References: <cover.1577394517.git.dwlsalmeida@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 26 Dec 2019 17:08:28 -0800 (PST)
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     corbet@lwn.net
+Cc:     davem@davemloft.net, mchehab+samsung@kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Vladimir Oltean <olteanv@gmail.com>
+Subject: [PATCH] Documentation: net: dsa: sja1105: Remove text about taprio base-time limitation
+Date:   Fri, 27 Dec 2019 03:08:07 +0200
+Message-Id: <20191227010807.28162-1-olteanv@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Since commit 86db36a347b4 ("net: dsa: sja1105: Implement state machine
+for TAS with PTP clock source"), this paragraph is no longer true. So
+remove it.
 
-Convert idmapper.txt to ReST and move it to admin-guide.
-Content remains mostly unchanged otherwise.
-
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
 ---
- Documentation/admin-guide/nfs/index.rst       |  1 +
- .../nfs/nfs-idmapper.rst}                     | 31 ++++++++++---------
- 2 files changed, 18 insertions(+), 14 deletions(-)
- rename Documentation/{filesystems/nfs/idmapper.txt => admin-guide/nfs/nfs-idmapper.rst} (81%)
+ Documentation/networking/dsa/sja1105.rst | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
-index c73ba9c16b77..c90fd5ebc640 100644
---- a/Documentation/admin-guide/nfs/index.rst
-+++ b/Documentation/admin-guide/nfs/index.rst
-@@ -9,4 +9,5 @@ NFS
-     nfsroot
-     nfs-rdma
-     nfsd-admin-interfaces
-+    nfs-idmapper
+diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
+index 21a288aa7692..35d0643f1377 100644
+--- a/Documentation/networking/dsa/sja1105.rst
++++ b/Documentation/networking/dsa/sja1105.rst
+@@ -245,12 +245,6 @@ simultaneously on two ports. The driver checks the consistency of the schedules
+ against this restriction and errors out when appropriate. Schedule analysis is
+ needed to avoid this, which is outside the scope of the document.
  
-diff --git a/Documentation/filesystems/nfs/idmapper.txt b/Documentation/admin-guide/nfs/nfs-idmapper.rst
-similarity index 81%
-rename from Documentation/filesystems/nfs/idmapper.txt
-rename to Documentation/admin-guide/nfs/nfs-idmapper.rst
-index b86831acd583..58b8e63412d5 100644
---- a/Documentation/filesystems/nfs/idmapper.txt
-+++ b/Documentation/admin-guide/nfs/nfs-idmapper.rst
-@@ -1,7 +1,7 @@
-+=============
-+NFS ID Mapper
-+=============
+-At the moment, the time-aware scheduler can only be triggered based on a
+-standalone clock and not based on PTP time. This means the base-time argument
+-from tc-taprio is ignored and the schedule starts right away. It also means it
+-is more difficult to phase-align the scheduler with the other devices in the
+-network.
+-
+ Device Tree bindings and board design
+ =====================================
  
--=========
--ID Mapper
--=========
- Id mapper is used by NFS to translate user and group ids into names, and to
- translate user and group names into ids.  Part of this translation involves
- performing an upcall to userspace to request the information.  There are two
-@@ -20,22 +20,24 @@ legacy rpc.idmap daemon for the id mapping.  This result will be stored
- in a custom NFS idmap cache.
- 
- 
--===========
- Configuring
- ===========
-+
- The file /etc/request-key.conf will need to be modified so /sbin/request-key can
- direct the upcall.  The following line should be added:
- 
--#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
--#======	=======	===============	===============	===============================
--create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
-+``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
-+``#======	=======	===============	===============	===============================``
-+``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
-+
- 
- This will direct all id_resolver requests to the program /usr/sbin/nfs.idmap.
- The last parameter, 600, defines how many seconds into the future the key will
- expire.  This parameter is optional for /usr/sbin/nfs.idmap.  When the timeout
- is not specified, nfs.idmap will default to 600 seconds.
- 
--id mapper uses for key descriptions:
-+id mapper uses for key descriptions::
-+
- 	  uid:  Find the UID for the given user
- 	  gid:  Find the GID for the given group
- 	 user:  Find the user  name for the given UID
-@@ -45,23 +47,24 @@ You can handle any of these individually, rather than using the generic upcall
- program.  If you would like to use your own program for a uid lookup then you
- would edit your request-key.conf so it look similar to this:
- 
--#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
--#======	=======	===============	===============	===============================
--create	id_resolver	uid:*	*		/some/other/program %k %d 600
--create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
-+``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
-+``#======	=======	===============	===============	===============================``
-+``create	id_resolver	uid:*	*		/some/other/program %k %d 600``
-+``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
-+
- 
- Notice that the new line was added above the line for the generic program.
- request-key will find the first matching line and corresponding program.  In
- this case, /some/other/program will handle all uid lookups and
- /usr/sbin/nfs.idmap will handle gid, user, and group lookups.
- 
--See <file:Documentation/security/keys/request-key.rst> for more information
-+See Documentation/security/keys/request-key.rst for more information
- about the request-key function.
- 
- 
--=========
- nfs.idmap
- =========
-+
- nfs.idmap is designed to be called by request-key, and should not be run "by
- hand".  This program takes two arguments, a serialized key and a key
- description.  The serialized key is first converted into a key_serial_t, and
 -- 
-2.24.1
+2.17.1
 
