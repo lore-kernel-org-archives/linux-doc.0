@@ -2,117 +2,184 @@ Return-Path: <SRS0=2aqv=2R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 644EBC2D0C0
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB741C2D0C0
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:56:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 37FC620828
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:23:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9A3620838
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1577415407;
+	bh=0YahA+kvULGCzgYTT42hVi0RhV0OrR9aY60pCf42HFs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=BqmpiBxl3a2ffIC7MXg93kJfNmTZrTaWtI0AQalwIXhj895riSqktwqzxVjhqgLNO
+	 rLN56TbbQlQpZNkHvmHrg98XRVVEgHnI40Y1E+9TSOkMZPXKyKCjWZ0mULtVSc7LKk
+	 XbqbexjXuvIJpNbxqd4SULBZb6X0VGD/sFQAbN3E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbfL0CXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 21:23:18 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:34816 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726115AbfL0CXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 21:23:18 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tm.XzN1_1577413365;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tm.XzN1_1577413365)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 27 Dec 2019 10:22:46 +0800
-Subject: Re: [PATCH v6 0/2] sched/numa: introduce numa locality
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        id S1726804AbfL0C4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 21:56:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52852 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbfL0C4r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Dec 2019 21:56:47 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0627E2080D;
+        Fri, 27 Dec 2019 02:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577415406;
+        bh=0YahA+kvULGCzgYTT42hVi0RhV0OrR9aY60pCf42HFs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sSeru6vWGtL9u3Fpf4KCIntPCRYwJCs1WtLdg2U6hnAIsq7JAL+R3jxHlMRDKmVF9
+         Z7eN83Ar28MkrbRRvYBbjorunwCzgwxtb7IFCR5ysSpPmUiko2ovtE5ULv/JkhrjkG
+         +k1pqaNG0Fs23lKT4ED8wuVeLQr+QfwwP5raKSCc=
+Date:   Fri, 27 Dec 2019 11:56:39 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, Steven Rostedt <rostedt@goodmis.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
- <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
-Message-ID: <42800224-ed45-2e37-1960-0da29eb3bc38@linux.alibaba.com>
-Date:   Fri, 27 Dec 2019 10:22:45 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 21/22] tracing/boot: Add function tracer filter
+ options
+Message-Id: <20191227115639.d6c33d51d2b10f33dbd05796@kernel.org>
+In-Reply-To: <201912270227.Dwa2YddH%lkp@intel.com>
+References: <157736928302.11126.8760178688093051786.stgit@devnote2>
+        <201912270227.Dwa2YddH%lkp@intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi folks, is there any more comments?
 
-Regards,
-Michael Wang
+Oops, the ftrace_set_filter/notrace_filter depend on CONFIG_DYNAMIC_FTRACE, not CONFIG_FUNCTION_TRACER
 
-On 2019/12/13 上午9:43, 王贇 wrote:
-> Since v5:
->   * fix compile failure when NUMA disabled
-> Since v4:
->   * improved documentation
-> Since v3:
->   * fix comments and improved documentation
-> Since v2:
->   * simplified the locality concept & implementation
-> Since v1:
->   * improved documentation
+Thanks, I'll fix it.
+
+On Fri, 27 Dec 2019 02:05:11 +0800
+kbuild test robot <lkp@intel.com> wrote:
+
+> Hi Masami,
 > 
-> Modern production environment could use hundreds of cgroup to control
-> the resources for different workloads, along with the complicated
-> resource binding.
+> I love your patch! Yet something to improve:
 > 
-> On NUMA platforms where we have multiple nodes, things become even more
-> complicated, we hope there are more local memory access to improve the
-> performance, and NUMA Balancing keep working hard to achieve that,
-> however, wrong memory policy or node binding could easily waste the
-> effort, result a lot of remote page accessing.
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on lwn/docs-next linus/master v5.5-rc3]
+> [cannot apply to tip/perf/core next-20191220]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 > 
-> We need to notice such problems, then we got chance to fix it before
-> there are too much damages, however, there are no good monitoring
-> approach yet to help catch the mouse who introduced the remote access.
+> url:    https://github.com/0day-ci/linux/commits/Masami-Hiramatsu/tracing-bootconfig-Boot-time-tracing-and-Extra-boot-config/20191227-002009
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+> config: xtensa-allyesconfig (attached as .config)
+> compiler: xtensa-linux-gcc (GCC) 7.5.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.5.0 make.cross ARCH=xtensa 
 > 
-> This patch set is trying to fill in the missing pieces， by introduce
-> the per-cgroup NUMA locality info, with this new statistics, we could
-> achieve the daily monitoring on NUMA efficiency, to give warning when
-> things going too wrong.
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
 > 
-> Please check the second patch for more details.
+> All error/warnings (new ones prefixed by >>):
 > 
-> Michael Wang (2):
->   sched/numa: introduce per-cgroup NUMA locality info
->   sched/numa: documentation for per-cgroup numa statistics
+>    In file included from kernel/trace/trace_boot.c:9:0:
+> >> include/linux/ftrace.h:719:50: error: expected identifier or '(' before '{' token
+>     #define ftrace_set_filter(ops, buf, len, reset) ({ -ENODEV; })
+>                                                      ^
+> >> kernel/trace/trace_boot.c:249:12: note: in expansion of macro 'ftrace_set_filter'
+>     extern int ftrace_set_filter(struct ftrace_ops *ops, unsigned char *buf,
+>                ^~~~~~~~~~~~~~~~~
+>    include/linux/ftrace.h:720:51: error: expected identifier or '(' before '{' token
+>     #define ftrace_set_notrace(ops, buf, len, reset) ({ -ENODEV; })
+>                                                       ^
+> >> kernel/trace/trace_boot.c:251:12: note: in expansion of macro 'ftrace_set_notrace'
+>     extern int ftrace_set_notrace(struct ftrace_ops *ops, unsigned char *buf,
+>                ^~~~~~~~~~~~~~~~~~
+> --
+>    In file included from kernel//trace/trace_boot.c:9:0:
+> >> include/linux/ftrace.h:719:50: error: expected identifier or '(' before '{' token
+>     #define ftrace_set_filter(ops, buf, len, reset) ({ -ENODEV; })
+>                                                      ^
+>    kernel//trace/trace_boot.c:249:12: note: in expansion of macro 'ftrace_set_filter'
+>     extern int ftrace_set_filter(struct ftrace_ops *ops, unsigned char *buf,
+>                ^~~~~~~~~~~~~~~~~
+>    include/linux/ftrace.h:720:51: error: expected identifier or '(' before '{' token
+>     #define ftrace_set_notrace(ops, buf, len, reset) ({ -ENODEV; })
+>                                                       ^
+>    kernel//trace/trace_boot.c:251:12: note: in expansion of macro 'ftrace_set_notrace'
+>     extern int ftrace_set_notrace(struct ftrace_ops *ops, unsigned char *buf,
+>                ^~~~~~~~~~~~~~~~~~
 > 
->  Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
->  Documentation/admin-guide/index.rst             |   1 +
->  Documentation/admin-guide/kernel-parameters.txt |   4 +
->  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
->  include/linux/sched.h                           |  15 ++
->  include/linux/sched/sysctl.h                    |   6 +
->  init/Kconfig                                    |  11 ++
->  kernel/sched/core.c                             |  75 ++++++++++
->  kernel/sched/fair.c                             |  62 +++++++++
->  kernel/sched/sched.h                            |  12 ++
->  kernel/sysctl.c                                 |  11 ++
->  11 files changed, 384 insertions(+)
->  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+> vim +/ftrace_set_filter +249 kernel/trace/trace_boot.c
 > 
+>    246	
+>    247	#ifdef CONFIG_FUNCTION_TRACER
+>    248	extern bool ftrace_filter_param __initdata;
+>  > 249	extern int ftrace_set_filter(struct ftrace_ops *ops, unsigned char *buf,
+>    250				     int len, int reset);
+>  > 251	extern int ftrace_set_notrace(struct ftrace_ops *ops, unsigned char *buf,
+>    252				      int len, int reset);
+>    253	static void __init
+>    254	trace_boot_set_ftrace_filter(struct trace_array *tr, struct xbc_node *node)
+>    255	{
+>    256		struct xbc_node *anode;
+>    257		const char *p;
+>    258		char *q;
+>    259	
+>    260		xbc_node_for_each_array_value(node, "ftrace.filters", anode, p) {
+>    261			q = kstrdup(p, GFP_KERNEL);
+>    262			if (!q)
+>    263				return;
+>    264			if (ftrace_set_filter(tr->ops, q, strlen(q), 0) < 0)
+>    265				pr_err("Failed to add %s to ftrace filter\n", p);
+>    266			else
+>    267				ftrace_filter_param = true;
+>    268			kfree(q);
+>    269		}
+>    270		xbc_node_for_each_array_value(node, "ftrace.notraces", anode, p) {
+>    271			q = kstrdup(p, GFP_KERNEL);
+>    272			if (!q)
+>    273				return;
+>    274			if (ftrace_set_notrace(tr->ops, q, strlen(q), 0) < 0)
+>    275				pr_err("Failed to add %s to ftrace filter\n", p);
+>    276			else
+>    277				ftrace_filter_param = true;
+>    278			kfree(q);
+>    279		}
+>    280	}
+>    281	#else
+>    282	#define trace_boot_set_ftrace_filter(tr, node) do {} while (0)
+>    283	#endif
+>    284	
+> 
+> ---
+> 0-DAY kernel test infrastructure                 Open Source Technology Center
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
