@@ -2,97 +2,117 @@ Return-Path: <SRS0=2aqv=2R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBBC8C2D0C0
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 01:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 644EBC2D0C0
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:23:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A885320740
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 01:08:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="moPTOwvT"
+	by mail.kernel.org (Postfix) with ESMTP id 37FC620828
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Dec 2019 02:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfL0BIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Dec 2019 20:08:31 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40968 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbfL0BIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 20:08:31 -0500
-Received: by mail-wr1-f65.google.com with SMTP id c9so24872480wrw.8;
-        Thu, 26 Dec 2019 17:08:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=5qBV6ew8s1N9fYUvOO0//bKF0z9LM7TG1Jue/fyKu08=;
-        b=moPTOwvT8uvt49GZN7zaIzKkufqm9i+wrMk1WQjL7iqiq/frC9V8v0wCSbBdo9wKBK
-         0OSPOav6J++wUCdNQWdM19K8y51HPGN/y31Nas3hEDQxODhlwqLF2IQ5hs7TV8Vbchyw
-         0+znjNEqqA2Cu1zR6w1gejouUSlCPPbjHV+Wty7XJYY2s+oKX5Dibpv81z67CuoElo2v
-         EjF5uuwi9Q7V1MQJSLyMAbNvIQlSkkeZbbczjh+zVcuoaeTu9/0ZxeM44Sm3T75deusV
-         9YXSkhUtC+pvQyem0lei7ZYdz55Opi3eu7HJ4Wwc8f3MFfn8TCIpwVv74NqdvNj+ro84
-         pzAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=5qBV6ew8s1N9fYUvOO0//bKF0z9LM7TG1Jue/fyKu08=;
-        b=QLntxK1szxXG5NUn/NciHGTIpucqmWLpUAEoRhOo72d4m1jxYEY5WDgJ1aPEvP3JX2
-         pfLa3KrTU9N59QR2b3P90rkTnv5HUpYNCuaVTtfM6wrmmpqBZitkiWUFSYo39zUG2UYT
-         +wSIbcPmKtsXyYeDzAGXHXmmJ8Y7W5AKt6N5kcS8wGnFQ5qBgrmYUC/ujXDVy9UtAT56
-         c3pHhtJVBLHjRNXvvVjsgWHAtkD15mEI9NCATHvx74SEuIas4MPEXvZmTo6ifIB5S7pN
-         055AL98hhGJBa+5hBHRZ4l567NLk0sh+Ny0vzqQcedIAS1Xc6XNv2RRsD1eg3SeSVP7o
-         tXDQ==
-X-Gm-Message-State: APjAAAUkd7sLueTtTyly2BbZw49gJPAM9eVbzGweFiF6RM2s0olayjdB
-        P+oGYn5Hv0AlzicHAsYGinnPIc4f
-X-Google-Smtp-Source: APXvYqzIZAa89bWOQ/ThgJghnMhYymq2HvJKTz8l8x8HNIL818T+lRZCrFZYqZJymlRGHTx0HdpYaQ==
-X-Received: by 2002:a5d:53c1:: with SMTP id a1mr45680029wrw.373.1577408908840;
-        Thu, 26 Dec 2019 17:08:28 -0800 (PST)
-Received: from localhost.localdomain ([188.25.254.226])
-        by smtp.gmail.com with ESMTPSA id f1sm33506409wrp.93.2019.12.26.17.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2019 17:08:28 -0800 (PST)
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     corbet@lwn.net
-Cc:     davem@davemloft.net, mchehab+samsung@kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: [PATCH] Documentation: net: dsa: sja1105: Remove text about taprio base-time limitation
-Date:   Fri, 27 Dec 2019 03:08:07 +0200
-Message-Id: <20191227010807.28162-1-olteanv@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726138AbfL0CXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Dec 2019 21:23:18 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:34816 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726115AbfL0CXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Dec 2019 21:23:18 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0Tm.XzN1_1577413365;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0Tm.XzN1_1577413365)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 27 Dec 2019 10:22:46 +0800
+Subject: Re: [PATCH v6 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+ <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+Message-ID: <42800224-ed45-2e37-1960-0da29eb3bc38@linux.alibaba.com>
+Date:   Fri, 27 Dec 2019 10:22:45 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 86db36a347b4 ("net: dsa: sja1105: Implement state machine
-for TAS with PTP clock source"), this paragraph is no longer true. So
-remove it.
+Hi folks, is there any more comments?
 
-Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
----
- Documentation/networking/dsa/sja1105.rst | 6 ------
- 1 file changed, 6 deletions(-)
+Regards,
+Michael Wang
 
-diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
-index 21a288aa7692..35d0643f1377 100644
---- a/Documentation/networking/dsa/sja1105.rst
-+++ b/Documentation/networking/dsa/sja1105.rst
-@@ -245,12 +245,6 @@ simultaneously on two ports. The driver checks the consistency of the schedules
- against this restriction and errors out when appropriate. Schedule analysis is
- needed to avoid this, which is outside the scope of the document.
- 
--At the moment, the time-aware scheduler can only be triggered based on a
--standalone clock and not based on PTP time. This means the base-time argument
--from tc-taprio is ignored and the schedule starts right away. It also means it
--is more difficult to phase-align the scheduler with the other devices in the
--network.
--
- Device Tree bindings and board design
- =====================================
- 
--- 
-2.17.1
-
+On 2019/12/13 上午9:43, 王贇 wrote:
+> Since v5:
+>   * fix compile failure when NUMA disabled
+> Since v4:
+>   * improved documentation
+> Since v3:
+>   * fix comments and improved documentation
+> Since v2:
+>   * simplified the locality concept & implementation
+> Since v1:
+>   * improved documentation
+> 
+> Modern production environment could use hundreds of cgroup to control
+> the resources for different workloads, along with the complicated
+> resource binding.
+> 
+> On NUMA platforms where we have multiple nodes, things become even more
+> complicated, we hope there are more local memory access to improve the
+> performance, and NUMA Balancing keep working hard to achieve that,
+> however, wrong memory policy or node binding could easily waste the
+> effort, result a lot of remote page accessing.
+> 
+> We need to notice such problems, then we got chance to fix it before
+> there are too much damages, however, there are no good monitoring
+> approach yet to help catch the mouse who introduced the remote access.
+> 
+> This patch set is trying to fill in the missing pieces， by introduce
+> the per-cgroup NUMA locality info, with this new statistics, we could
+> achieve the daily monitoring on NUMA efficiency, to give warning when
+> things going too wrong.
+> 
+> Please check the second patch for more details.
+> 
+> Michael Wang (2):
+>   sched/numa: introduce per-cgroup NUMA locality info
+>   sched/numa: documentation for per-cgroup numa statistics
+> 
+>  Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
+>  Documentation/admin-guide/index.rst             |   1 +
+>  Documentation/admin-guide/kernel-parameters.txt |   4 +
+>  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+>  include/linux/sched.h                           |  15 ++
+>  include/linux/sched/sysctl.h                    |   6 +
+>  init/Kconfig                                    |  11 ++
+>  kernel/sched/core.c                             |  75 ++++++++++
+>  kernel/sched/fair.c                             |  62 +++++++++
+>  kernel/sched/sched.h                            |  12 ++
+>  kernel/sysctl.c                                 |  11 ++
+>  11 files changed, 384 insertions(+)
+>  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+> 
