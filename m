@@ -2,59 +2,58 @@ Return-Path: <SRS0=vAtP=2U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBD24C2D0C3
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 04:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA10C2D0DA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 05:04:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE9D0222C2
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 04:56:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9169520663
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 05:04:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I26Kt6BX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SsJhNicN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727145AbfL3E4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Dec 2019 23:56:47 -0500
-Received: from mail-pj1-f54.google.com ([209.85.216.54]:51871 "EHLO
-        mail-pj1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727079AbfL3E4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Dec 2019 23:56:46 -0500
-Received: by mail-pj1-f54.google.com with SMTP id j11so7335234pjs.1;
-        Sun, 29 Dec 2019 20:56:45 -0800 (PST)
+        id S1727104AbfL3FEz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Dec 2019 00:04:55 -0500
+Received: from mail-pl1-f177.google.com ([209.85.214.177]:38874 "EHLO
+        mail-pl1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726775AbfL3FEz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Dec 2019 00:04:55 -0500
+Received: by mail-pl1-f177.google.com with SMTP id f20so14188079plj.5;
+        Sun, 29 Dec 2019 21:04:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rHonOFx9xvoaxw9VR4rjUajN0rQFPRRu1qbwdwLtluM=;
-        b=I26Kt6BXe/bs3RKdS7TvuPHoQLPP36DaaylbkeUGm07p/tsj6+xrKZ8EcqzLlX8S3T
-         XHtvjSnrV1miNibMIgdxH39rQN0WDy6XpwrnJnjcPStIayC3XCf/8E+ga0u7hwPvW86/
-         FoHQPUjKV9xrDq1ScZw/7f0TAV7x8GMg7GirZxEfZIgjlGGmIXvhUoPXM94Ao/lEhU1n
-         5lRRonDDEpCUJOZ9JJJizl1fiLsrQZLqLOHkZxLG3DRb/+LLxC7SG07jK/UKi6/Al+To
-         PjHHtBeWt3ycq3MQsVRyf1TDmzab7dXLHw3SIEm4dk8NdV3qZdPXb73lFb+dKQdv+k2C
-         ESNA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5wS2IrMaQZTiI9oJtmOwRkQukdb+P4omdMqN1yhWXY0=;
+        b=SsJhNicNBuR0+0m1WCqa3TOIKJdbehKSJ+OcgZ+UNMdRswGsKau5fPieyPoN6otn7e
+         UvbNom9oZ4ijzIIB+lO3Iu1XcVnAJ1BoIUWFzC6Xo9gBG3/iWplqvMoAvFeJFZRj+9yB
+         T5t1Df4TFiA2tja6hiSjO6KIQbIBFGwxa2AvWh/wCYkqKEnzAOX/ONzKbGwoyhlN2kiW
+         pYHC3dtJ0EesYBVsKI4Glwq/zOos/H2zBpJhp+UN3QDypFCXfJBdulUEXvh4Rb8AtVEy
+         Jmk5oYAYDspe+P43S+OJszBAx2HAiY3afziP65UWMpPclQ+TRIack/CCcEcoD8rEZFPS
+         KVyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rHonOFx9xvoaxw9VR4rjUajN0rQFPRRu1qbwdwLtluM=;
-        b=CosqAuiyT77rt1f0g+OGtvzcDdC/Rhr2er8oQdheIXl5m6N36c765+uwlZhlRl30Ys
-         //h6cwEuJOY5qvlU95Va7D2BoX0fiDHw6/R+Gj6Zeqj7FR7kql2JL/XAR4++L8VwRq4/
-         D3LXFPsx94LjUwTZW5u5CfNQTzxt4yXxdZojVymqk77YESO7hg2HBXQebTgcYGIrls67
-         NHcayvzpZiWC4Zh2tWvDNi0x1CeOSKfd1IvhXRmLnNPcfH6osyrGDVT/Mr56zfjKAG9p
-         c2VKHLCtCZuKapv7MaNiTwXPPESF4OejA7PmDeN3uIDQe757l2bj2mBS66KS3g3z0xaN
-         D2bA==
-X-Gm-Message-State: APjAAAW6ky21n/v0R4rCZLU2ReuQr7xT0c0JAYSaAjyQXJ1x+a48f6n3
-        tq3vfn+i0FfSzlcnWrC5WN0=
-X-Google-Smtp-Source: APXvYqw1++iHS5nGi4FAQv302tgaxvpsufWb8c0MrnMXtzyVHTs/XWuByUtQY2feaQbTHjYI56VjUg==
-X-Received: by 2002:a17:90a:fe02:: with SMTP id ck2mr43104676pjb.10.1577681805492;
-        Sun, 29 Dec 2019 20:56:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5wS2IrMaQZTiI9oJtmOwRkQukdb+P4omdMqN1yhWXY0=;
+        b=PgX1PspXNsHB1P4Ey9ZieCIKgvPsvG9v++ZifkWdICphS3erN3ygo4AqNnUH3A2N3l
+         zEZqbbcPDdEgegny9e3gufM/u22OW6zNT/Xt4eiJHUiCL56p/iUXrUo1qn6f+ZHajkE9
+         Dsi4o1WyBqO9vrqkfpLy4Bydz2buaq9z46DhFK1bw3cMP/KpPs+3jzBwWDqZ/GZbNxXt
+         KdIJrizfA52p7AmKwld7wr7wyVybQPuPdepM4/0SIJbvpPtmCb+nt+7vaAhtlXARY/Vc
+         tcep2qVojIm/hIHQ7yXWf1jR0e3Egm97l3AOSeEhKs7QbHST758tvZNtzbIcn5jdWxtP
+         OQLQ==
+X-Gm-Message-State: APjAAAVQKn4E8R4kTObOrZ0LJ8d3odOPVx8Bum87J9P2AqBDSLlFVrJ7
+        exbWpyqZlDOuurkSB/djVv8=
+X-Google-Smtp-Source: APXvYqwCNL+eGFhE9EXNh11lwrXcCRKTQPaNUiZYwK7Fwvolj1nrhVaq5BkIHlAckfQuu8AHr5p1xQ==
+X-Received: by 2002:a17:902:407:: with SMTP id 7mr11012274ple.226.1577682294245;
+        Sun, 29 Dec 2019 21:04:54 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
-        by smtp.gmail.com with ESMTPSA id b1sm22373189pjw.4.2019.12.29.20.56.42
+        by smtp.gmail.com with ESMTPSA id r2sm45054727pgv.16.2019.12.29.21.04.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Dec 2019 20:56:45 -0800 (PST)
+        Sun, 29 Dec 2019 21:04:53 -0800 (PST)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     corbet@lwn.net, mchehab+samsung@kernel.org
@@ -62,12 +61,10 @@ Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2 8/8] Documentation: nfs: fault_injection: convert to ReST
-Date:   Mon, 30 Dec 2019 01:56:02 -0300
-Message-Id: <5f2dfdb34ef391d63e126867937ae0216c31cf2e.1577681164.git.dwlsalmeida@gmail.com>
+Subject: [PATCH 0/5] Documentation: nfs: convert remaining files to ReST.
+Date:   Mon, 30 Dec 2019 02:04:42 -0300
+Message-Id: <cover.1577681894.git.dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1577681164.git.dwlsalmeida@gmail.com>
-References: <cover.1577681164.git.dwlsalmeida@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -77,42 +74,38 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Convert fault_injection.txt to ReST and move it to admin-guide.
+This series completes the conversion of Documentation/filesystems/nfs to ReST.
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- .../nfs/fault_injection.rst}                                 | 5 +++--
- Documentation/admin-guide/nfs/index.rst                      | 1 +
- 2 files changed, 4 insertions(+), 2 deletions(-)
- rename Documentation/{filesystems/nfs/fault_injection.txt => admin-guide/nfs/fault_injection.rst} (98%)
+Note that I chose csv-table over list-table because csv files are easier
+to export from other software. 
 
-diff --git a/Documentation/filesystems/nfs/fault_injection.txt b/Documentation/admin-guide/nfs/fault_injection.rst
-similarity index 98%
-rename from Documentation/filesystems/nfs/fault_injection.txt
-rename to Documentation/admin-guide/nfs/fault_injection.rst
-index f3a5b0a8ac05..eb029c0c15ce 100644
---- a/Documentation/filesystems/nfs/fault_injection.txt
-+++ b/Documentation/admin-guide/nfs/fault_injection.rst
-@@ -1,6 +1,7 @@
-+===================
-+NFS Fault Injection
-+===================
- 
--Fault Injection
--===============
- Fault injection is a method for forcing errors that may not normally occur, or
- may be difficult to reproduce.  Forcing these errors in a controlled environment
- can help the developer find and fix bugs before their code is shipped in a
-diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
-index c96e93b61744..410b8ccad11b 100644
---- a/Documentation/admin-guide/nfs/index.rst
-+++ b/Documentation/admin-guide/nfs/index.rst
-@@ -12,4 +12,5 @@ NFS
-     nfs-idmapper
-     pnfs-block-server
-     pnfs-scsi-server
-+    fault_injection
- 
+I did not think these rst files were supposed to be
+in admin-guide, so I left them where they are.
+
+Daniel W. S. Almeida (5):
+  Documentation: nfs: convert pnfs.txt to ReST
+  Documentation: nfs: rpc-cache: convert to ReST
+  Documentation: nfs: rpc-server-gss: convert to ReST
+  Documentation: nfs: nfs41-server: convert to ReST
+  Documentation: nfs: knfsd-stats: convert to ReST
+
+ Documentation/filesystems/index.rst           |   1 +
+ Documentation/filesystems/nfs/index.rst       |  13 ++
+ .../nfs/{knfsd-stats.txt => knfsd-stats.rst}  |  17 +-
+ .../filesystems/nfs/nfs41-server.rst          | 181 ++++++++++++++++++
+ .../filesystems/nfs/nfs41-server.txt          | 173 -----------------
+ .../filesystems/nfs/{pnfs.txt => pnfs.rst}    |  25 ++-
+ .../nfs/{rpc-cache.txt => rpc-cache.rst}      | 136 +++++++------
+ ...{rpc-server-gss.txt => rpc-server-gss.rst} |  19 +-
+ 8 files changed, 306 insertions(+), 259 deletions(-)
+ create mode 100644 Documentation/filesystems/nfs/index.rst
+ rename Documentation/filesystems/nfs/{knfsd-stats.txt => knfsd-stats.rst} (95%)
+ create mode 100644 Documentation/filesystems/nfs/nfs41-server.rst
+ delete mode 100644 Documentation/filesystems/nfs/nfs41-server.txt
+ rename Documentation/filesystems/nfs/{pnfs.txt => pnfs.rst} (87%)
+ rename Documentation/filesystems/nfs/{rpc-cache.txt => rpc-cache.rst} (66%)
+ rename Documentation/filesystems/nfs/{rpc-server-gss.txt => rpc-server-gss.rst} (92%)
+
 -- 
 2.24.1
 
