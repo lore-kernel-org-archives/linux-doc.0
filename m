@@ -2,469 +2,330 @@ Return-Path: <SRS0=vAtP=2U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 477E4C2D0DA
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 05:05:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D76C2D0D3
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 16:44:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F101A20748
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 05:05:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20A6220658
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 16:44:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WehwM/dA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sLppxT7U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbfL3FFM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Dec 2019 00:05:12 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:45609 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726775AbfL3FFL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Dec 2019 00:05:11 -0500
-Received: by mail-pf1-f193.google.com with SMTP id 2so17689589pfg.12;
-        Sun, 29 Dec 2019 21:05:10 -0800 (PST)
+        id S1727242AbfL3Qos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Dec 2019 11:44:48 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36298 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727200AbfL3Qos (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Dec 2019 11:44:48 -0500
+Received: by mail-wr1-f66.google.com with SMTP id z3so33200365wru.3
+        for <linux-doc@vger.kernel.org>; Mon, 30 Dec 2019 08:44:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9wG3B56mFaZQZJLeS0bRdj9c2w1Lk+MjODegFMa9Tsw=;
-        b=WehwM/dAD+p0ItFyI3MYE39QVUrdAfrXGBwg+edUhS2c5mDGNY0qMOP3KOmS91fiKL
-         Y6JWPjC0WHn4L7clDqkvi3IMFyqQbBXNUDyaSJmOlJWYX0P23A+4w/2DufJZ6w94epa5
-         DtfyYTtTkpL3WhkDvp/jtpkUzE6T/cJS/EkohwM/wp4s46MKnqF5LqQD8AM6u7qtYPg3
-         k8fp2Wz2qGQEYYJCgCbko4zGikkGNpDgPcNEMoyR9WFH550z8ghlno+gxOG0zO6m0vSB
-         PcpTOm+EXc9E3WKEWU6Ojy5E833sIB9dqP4HllV6ZEI7XrwXNwMOST7VSqvf1uU8mux0
-         j+pA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=fUE7vYaM/ILwC1SQip70Pq0/D83Q7w0FggJOaCd6ypQ=;
+        b=sLppxT7UilQJxJWn/IiDlmnil71SEphQBcJkQF79C2E2exgbOAuhzyCVWdPjX5fRac
+         P67vKDYeefSH/iwFWMa5OXL/TyKcSbamvAusH5kk73Bf3Mo1GWGtVvZjMSHhAcGt+TU/
+         qalu7XqixY04MfDG1OqgkmLbR3oVBgRqTvneM2K4k97/E1CVg6RDMalrLIEO5D5oh4e9
+         p0bVW5IRSlVVaYIjPwHifrTQ6zr89/GKJ/2ZLrB+Gmamm7Y305FTOA2g3cr9XyvDOtxS
+         SSg/oqe8y6k4m7tDZfkOao7O6Dbp2n/vFmMCZ1ZUoCW++rP2vJAkRPl0lE0oPEgCiRiG
+         oDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9wG3B56mFaZQZJLeS0bRdj9c2w1Lk+MjODegFMa9Tsw=;
-        b=FPtC93nTVbb4ezxNvNlXqviJnti9McYrm7a1bKOT75Die5pNP9iA+ep5SVrcnJ0/Rr
-         kj4cAMngKkAIxikGG7lh+/tV98OTu1xncHS5vL2+lioPeZUUcWUxsYnGuUS9o3+i0pPH
-         JA5nHBDPqC9/xWhOGgNuSi6FitvbWiZbVFb2xtA492q7rDGrPlEa19uOkljcxYhbo0UC
-         PW+GnH6JMQUoqj4UlnyHbFBWyNtYAu9wQ2/ORLInEauCJInL4sOH10EZu/YGGhroJPko
-         pP1Ya4QZzeGKkknMt69OPmai3oGRy2D5vWvZEFfzYyTfMAmn3vJN9ChzPYOVpmfC3z/4
-         jzxg==
-X-Gm-Message-State: APjAAAWdWCG3WQjngFeRXwyv7K2QT+kz6Y4wAPQZipRPj+LDxTjVj01s
-        PoJu4I4x7z17XSbBnKlkrt0=
-X-Google-Smtp-Source: APXvYqyG1Xg3ySuCMy63XhZNRHPkWF3aiijaj0wqhJcHJZymfHo6OBBCcsjUQTsFLdHjIKOQDiOHng==
-X-Received: by 2002:a05:6a00:11:: with SMTP id h17mr68125791pfk.209.1577682309863;
-        Sun, 29 Dec 2019 21:05:09 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
-        by smtp.gmail.com with ESMTPSA id r2sm45054727pgv.16.2019.12.29.21.05.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fUE7vYaM/ILwC1SQip70Pq0/D83Q7w0FggJOaCd6ypQ=;
+        b=bZtu8AHfUjo6zOYLFLKg34iRaCKbuxFV60pIchRa3cyro3t9mUEgWjMlG64W18mroi
+         mnAL+AIj3YmU4dIV1F44WKiaNHKYNS1I9VofUwkuUbIThmn5dzt63zDCErk5OcrCUig/
+         qXqciduXcBUoYcu9h7/nbIMitlEYO/8hKJZbCAZD8IDyuGoXX3lYW47T2somXRM5xxJC
+         T+3+BJGsZdgLI8MhuDMPEJknaOtIlsl43f7I5o7xjTx3IyTUunZkF1ePoIAfz05sh23H
+         YuvHXopqK4asMoLUbvGvvOuAFMUYIPCefljirb887WfFnClgkE/m47CCJvQ60EC4W8Zx
+         jEHQ==
+X-Gm-Message-State: APjAAAWi1sKs2R/rubr2E8m8C5Cl5gcAc71GTxLX2sHbau3q1af+bYP+
+        0dFWtQA14U7ySItTtKGIos9u1Q==
+X-Google-Smtp-Source: APXvYqzliieArciTvepyNqx7sa9enJFXgJYOOZ9MaVptOuVFVSZ936VwzyVoyQwsBRDq/WE82h2UXw==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr67091135wre.156.1577724284639;
+        Mon, 30 Dec 2019 08:44:44 -0800 (PST)
+Received: from linaro.org ([2a00:23c5:6815:3901:a1cf:b00b:5683:ed40])
+        by smtp.gmail.com with ESMTPSA id r62sm22276842wma.32.2019.12.30.08.44.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Dec 2019 21:05:09 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     corbet@lwn.net, mchehab+samsung@kernel.org
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH 4/5] Documentation: nfs: nfs41-server: convert to ReST
-Date:   Mon, 30 Dec 2019 02:04:46 -0300
-Message-Id: <5523e5ad8da2c9b7af16c26e368f17804e8841cc.1577681894.git.dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1577681894.git.dwlsalmeida@gmail.com>
-References: <cover.1577681894.git.dwlsalmeida@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 30 Dec 2019 08:44:44 -0800 (PST)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
+        suzuki.poulose@arm.com, robh+dt@kernel.org, maxime@cerno.tech,
+        liviu.dudau@arm.com, sudeep.holla@arm.com,
+        lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net,
+        Mike Leach <mike.leach@linaro.org>
+Subject: [PATCH v7 13/15] docs: coresight: Update documentation for CoreSight to cover CTI.
+Date:   Mon, 30 Dec 2019 16:44:40 +0000
+Message-Id: <20191230164441.28375-1-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Add new document covering CTI / CTM usage in CoreSight.
 
-Convert nfs41-server.txt to ReST. The ASCII tables were converted to
-csv-tables and not list-tables because the former is easier to export
-from spreadsheets.
+Add section in coresight.rst introducing CTI and CTM modules with link
+to new document.
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- Documentation/filesystems/nfs/index.rst       |   1 +
- .../filesystems/nfs/nfs41-server.rst          | 181 ++++++++++++++++++
- .../filesystems/nfs/nfs41-server.txt          | 173 -----------------
- 3 files changed, 182 insertions(+), 173 deletions(-)
- create mode 100644 Documentation/filesystems/nfs/nfs41-server.rst
- delete mode 100644 Documentation/filesystems/nfs/nfs41-server.txt
+ .../trace/coresight/coresight-ect.rst         | 211 ++++++++++++++++++
+ Documentation/trace/coresight/coresight.rst   |  13 ++
+ 2 files changed, 224 insertions(+)
+ create mode 100644 Documentation/trace/coresight/coresight-ect.rst
 
-diff --git a/Documentation/filesystems/nfs/index.rst b/Documentation/filesystems/nfs/index.rst
-index 9d5365cbe2c3..a0a678af921b 100644
---- a/Documentation/filesystems/nfs/index.rst
-+++ b/Documentation/filesystems/nfs/index.rst
-@@ -9,3 +9,4 @@ NFS
-    pnfs
-    rpc-cache
-    rpc-server-gss
-+   nfs41-server
-diff --git a/Documentation/filesystems/nfs/nfs41-server.rst b/Documentation/filesystems/nfs/nfs41-server.rst
+diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
 new file mode 100644
-index 000000000000..e1e818ec3571
+index 000000000000..3e06588f24fa
 --- /dev/null
-+++ b/Documentation/filesystems/nfs/nfs41-server.rst
-@@ -0,0 +1,181 @@
-+=============================
-+NFSv4.1 Server Implementation
-+=============================
++++ b/Documentation/trace/coresight/coresight-ect.rst
+@@ -0,0 +1,211 @@
++=============================================
++CoreSight Embedded Cross Trigger (CTI & CTM).
++=============================================
 +
-+Server support for minorversion 1 can be controlled using the
-+/proc/fs/nfsd/versions control file.  The string output returned
-+by reading this file will contain either "+4.1" or "-4.1"
-+correspondingly.
++    :Author:   Mike Leach <mike.leach@linaro.org>
++    :Date:     November 2019
 +
-+Currently, server support for minorversion 1 is enabled by default.
-+It can be disabled at run time by writing the string "-4.1" to
-+the /proc/fs/nfsd/versions control file.  Note that to write this
-+control file, the nfsd service must be taken down.  You can use rpc.nfsd
-+for this; see rpc.nfsd(8).
++Hardware Description
++--------------------
 +
-+(Warning: older servers will interpret "+4.1" and "-4.1" as "+4" and
-+"-4", respectively.  Therefore, code meant to work on both new and old
-+kernels must turn 4.1 on or off *before* turning support for version 4
-+on or off; rpc.nfsd does this correctly.)
++The CoreSight Cross Trigger Interface (CTI) is a hardware device that takes
++individual input and output hardware signals known as triggers to and from
++devices and interconnects them via the Cross Trigger Matrix (CTM) to other
++devices via numbered channels, in order to propagate events between devices.
 +
-+The NFSv4 minorversion 1 (NFSv4.1) implementation in nfsd is based
-+on RFC 5661.
++e.g.::
 +
-+From the many new features in NFSv4.1 the current implementation
-+focuses on the mandatory-to-implement NFSv4.1 Sessions, providing
-+"exactly once" semantics and better control and throttling of the
-+resources allocated for each client.
++ 0000000  in_trigs  :::::::
++ 0 C   0----------->:     :             +======>(other CTI channel IO)
++ 0  P  0<-----------:     :             v
++ 0   U 0  out_trigs :     : Channels  *****      :::::::
++ 0000000            : CTI :<=========>*CTM*<====>: CTI :---+
++ #######  in_trigs  :     : (id 0-3)  *****      :::::::   v
++ # ETM #----------->:     :                         ^   #######
++ #     #<-----------:     :                         +---# ETR #
++ ####### out_trigs  :::::::                             #######
 +
-+The table below, taken from the NFSv4.1 document, lists
-+the operations that are mandatory to implement (REQ), optional
-+(OPT), and NFSv4.0 operations that are required not to implement (MNI)
-+in minor version 1.  The first column indicates the operations that
-+are not supported yet by the linux server implementation.
++The CTI driver enables the programming of the CTI to attach triggers to
++channels. When an input trigger becomes active, the attached channel will
++become active. Any output trigger attached to that channel will also
++become active. The active channel is propagated to other CTIs via the CTM,
++activating connected output triggers there, unless filtered by the CTI
++channel gate.
 +
-+The OPTIONAL features identified and their abbreviations are as follows:
++It is also possible to activate a channel using system software directly
++programming registers in the CTI.
 +
-+- **pNFS**	Parallel NFS
-+- **FDELG**	File Delegations
-+- **DDELG**	Directory Delegations
++The CTIs are registered by the system to be associated with CPUs and/or other
++CoreSight devices on the trace data path. When these devices are enabled the
++attached CTIs will also be enabled. By default/on power up the CTIs have
++no programmed trigger/channel attachments, so will not affect the system
++until explicitly programmed.
 +
-+The following abbreviations indicate the linux server implementation status.
++The hardware trigger connections between CTIs and devices is implementation
++defined, unless the CPU/ETM combination is a v8 architecture, in which case
++the connections have an architecturally defined standard layout.
 +
-+- **I**	Implemented NFSv4.1 operations.
-+- **NS**	Not Supported.
-+- **NS\***	Unimplemented optional feature.
++The hardware trigger signals can also be connected to non-CoreSight devices
++(e.g. UART), or be propagated off chip as hardware IO lines.
 +
-+Operations
-+==========
++All the CTI devices are associated with a CTM. On many systems there will be a
++single effective CTM (one CTM, or multiple CTMs all interconnected), but it is
++possible that systems can have nets of CTIs+CTM that are not interconnected by
++a CTM to each other. On these systems a CTM index is declared to associate
++CTI devices that are interconnected via a given CTM.
 +
-+.. csv-table::
-+   :header: "Implementation status", "Operation", "REQ, REC, OPT or NMI", "Feature (REQ, REC or OPT)", "Definition"
-+   :widths: auto
-+   :delim: ;
++Sysfs files and directories
++---------------------------
 +
-+   ;"ACCESS";"REQ";;"Section 18.1"
-+   "I";"BACKCHANNEL_CTL";"REQ";;"Section 18.33"
-+   "I";"BIND_CONN_TO_SESSION";"REQ";;"Section 18.34"
-+   ;"CLOSE";"REQ";;"Section 18.2"
-+   ;"COMMIT";"REQ";;"Section 18.3"
-+   ;"CREATE";"REQ";;"Section 18.4"
-+   "I";"CREATE_SESSION";"REQ";;"Section 18.36"
-+   "NS*";"DELEGPURGE";"OPT";"FDELG (REQ)";"Section 18.5"
-+   ;"DELEGRETURN";"OPT";"FDELG,";"Section 18.6"
-+   ;;;"DDELG, pNFS";
-+   ;;;"(REQ)";
-+   "I";"DESTROY_CLIENTID";"REQ";;"Section 18.50"
-+   "I";"DESTROY_SESSION";"REQ";;"Section 18.37"
-+   "I";"EXCHANGE_ID";"REQ";;"Section 18.35"
-+   "I";"FREE_STATEID";"REQ";;"Section 18.38"
-+   ;"GETATTR";"REQ";;"Section 18.7"
-+   "I";"GETDEVICEINFO";"OPT";"pNFS (REQ)";"Section 18.40"
-+   "NS*";"GETDEVICELIST";"OPT";"pNFS (OPT)";"Section 18.41"
-+   ;"GETFH";"REQ";;"Section 18.8"
-+   "NS*";"GET_DIR_DELEGATION";"OPT";"DDELG (REQ)";"Section 18.39"
-+   "I";"LAYOUTCOMMIT";"OPT";"pNFS (REQ)";"Section 18.42"
-+   "I";"LAYOUTGET";"OPT";"pNFS (REQ)";"Section 18.43"
-+   "I";"LAYOUTRETURN";"OPT";"pNFS (REQ)";"Section 18.44"
-+   ;"LINK";"OPT";;"Section 18.9"
-+   ;"LOCK";"REQ";;"Section 18.10"
-+   ;"LOCKT";"REQ";;"Section 18.11"
-+   ;"LOCKU";"REQ";;"Section 18.12"
-+   ;"LOOKUP";"REQ";;"Section 18.13"
-+   ;"LOOKUPP";"REQ";;"Section 18.14"
-+   ;"NVERIFY";"REQ";;"Section 18.15"
-+   ;"OPEN";"REQ";;"Section 18.16"
-+   "NS*";"OPENATTR";"OPT";;"Section 18.17"
-+   ;"OPEN_CONFIRM";"MNI";;"N/A"
-+   ;"OPEN_DOWNGRADE";"REQ";;"Section 18.18"
-+   ;"PUTFH";"REQ";;"Section 18.19"
-+   ;"PUTPUBFH";"REQ";;"Section 18.20"
-+   ;"PUTROOTFH";"REQ";;"Section 18.21"
-+   ;"READ";"REQ";;"Section 18.22"
-+   ;"READDIR";"REQ";;"Section 18.23"
-+   ;"READLINK";"OPT";;"Section 18.24"
-+   ;"RECLAIM_COMPLETE";"REQ";;"Section 18.51"
-+   ;"RELEASE_LOCKOWNER";"MNI";;"N/A"
-+   ;"REMOVE";"REQ";;"Section 18.25"
-+   ;"RENAME";"REQ";;"Section 18.26"
-+   ;"RENEW";"MNI";;"N/A"
-+   ;"RESTOREFH";"REQ";;"Section 18.27"
-+   ;"SAVEFH";"REQ";;"Section 18.28"
-+   ;"SECINFO";"REQ";;"Section 18.29"
-+   "I";"SECINFO_NO_NAME";"REC";"pNFS files";"Section 18.45,"
-+   ;;;"layout (REQ)";"Section 13.12"
-+   "I";"SEQUENCE";"REQ";;"Section 18.46"
-+   ;"SETATTR";"REQ";;"Section 18.30"
-+   ;"SETCLIENTID";"MNI";;"N/A"
-+   ;"SETCLIENTID_CONFIRM";"MNI";;"N/A"
-+   "NS";"SET_SSV";"REQ";;"Section 18.47"
-+   "I";"TEST_STATEID";"REQ";;"Section 18.48"
-+   ;"VERIFY";"REQ";;"Section 18.31"
-+   "NS*";"WANT_DELEGATION";"OPT";"FDELG (OPT)";"Section 18.49"
-+   ;"WRITE";"REQ";;"Section 18.32"
++The CTI devices appear on the existing CoreSight bus alongside the other
++CoreSight devices::
++
++    >$ ls /sys/bus/coresight/devices
++     cti_cpu0  cti_cpu2  cti_sys0  etm0  etm2  funnel0  replicator0  tmc_etr0
++     cti_cpu1  cti_cpu3  cti_sys1  etm1  etm3  funnel1  tmc_etf0     tpiu0
++
++The ``cti_cpu<N>`` named CTIs are associated with a CPU, and any ETM used by
++that core. the ``cti_sys<N>`` CTIs are general system infrastructure CTIs that
++can be associated with other CoreSight devices, or other system hardware
++capable of generating or using trigger signals.::
++
++  >$ ls /sys/bus/coresight/devices/etm0/cti_cpu0
++  channels  ctmid  enable  nr_trigger_cons mgmt  power  regs  subsystem
++  triggers0 triggers1  uevent
++
++*Key file items are:-*
++   * ``enable``: enables/disables the CTI.
++   * ``ctmid`` : associated CTM - only relevant if system has multiple CTI+CTM
++     clusters that are not interconnected.
++   * ``nr_trigger_cons`` : total connections - triggers<N> directories.
++
++*Sub-directories:-*
++   * ``triggers<N>``: contains list of triggers for an individual connection.
++   * ``channels``: Contains the channel API - CTI main programming interface.
++   * ``regs``: Gives access to the raw programmable CTI regs.
++   * ``mgmt``: the standard CoreSight management registers.
 +
 +
-+Callback Operations
-+===================
++triggers<N> directories
++~~~~~~~~~~~~~~~~~~~~~~~
 +
-+.. csv-table::
-+   :header: "Implementation status", "Operation", "REQ, REC, OPT or NMI", "Feature (REQ, REC or OPT)", "Definition"
-+   :widths: auto
-+   :delim: ;
++Individual trigger connection information. This describes trigger signals for
++CoreSight and non-CoreSight connections.
 +
-+   ;"CB_GETATTR";"OPT";"FDELG (REQ)";"Section 20.1"
-+   "I";"CB_LAYOUTRECALL";"OPT";"pNFS (REQ)";"Section 20.3"
-+   "NS*";"CB_NOTIFY";"OPT";"DDELG (REQ)";"Section 20.4"
-+   "NS*";"CB_NOTIFY_DEVICEID";"OPT";"pNFS (OPT)";"Section 20.12"
-+   "NS*";"CB_NOTIFY_LOCK";"OPT";;"Section 20.11"
-+   "NS*";"CB_PUSH_DELEG";"OPT";"FDELG (OPT)";"Section 20.5"
-+   ;"CB_RECALL";"OPT";"FDELG,";"Section 20.2"
-+   ;;;"DDELG, pNFS";
-+   ;;;"(REQ)";
-+   "NS*";"CB_RECALL_ANY";"OPT";"FDELG,";"Section 20.6"
-+   ;;;"DDELG, pNFS";
-+   ;;;"(REQ)";
-+   "NS";"CB_RECALL_SLOT";"REQ";;"Section 20.8"
-+   "NS*";"CB_RECALLABLE_OBJ_AVAIL";"OPT";"DDELG, pNFS";"Section 20.7"
-+   ;;;"(REQ)";
-+   "I";"CB_SEQUENCE";"OPT";"FDELG,";"Section 20.9"
-+   ;;;"DDELG, pNFS";
-+   ;;;"(REQ)";
-+   "NS*";"CB_WANTS_CANCELLED";"OPT";"FDELG,";"Section 20.10"
-+   ;;;"DDELG, pNFS";
-+   ;;;"(REQ)";
++Each triggers directory has a set of parameters describing the triggers for
++the connection.
++
++   * ``name`` : name of connection
++   * ``in_signals`` : input trigger signal indexes used in this connection.
++   * ``in_types`` : functional types for in signals.
++   * ``out_signals`` : output trigger signals for this connection.
++   * ``out_types`` : functional types for out signals.
++
++e.g::
++
++    >$ ls ./cti_cpu0/triggers0/
++    in_signals  in_types  name  out_signals  out_types
++    >$ cat ./cti_cpu0/triggers0/name
++    cpu0
++    >$ cat ./cti_cpu0/triggers0/out_signals
++    0-2
++    >$ cat ./cti_cpu0/triggers0/out_types
++    pe_edbgreq pe_dbgrestart pe_ctiirq
++    >$ cat ./cti_cpu0/triggers0/in_signals
++    0-1
++    >$ cat ./cti_cpu0/triggers0/in_types
++    pe_dbgtrigger pe_pmuirq
++
++If a connection has zero signals in either the 'in' or 'out' triggers then
++those parameters will be omitted.
++
++Channels API Directory
++~~~~~~~~~~~~~~~~~~~~~~
++
++This provides an easy way to attach triggers to channels, without needing
++the multiple register operations that are required if manipulating the
++'regs' sub-dir elements directly.
++
++A number of files provide this API::
++
++   >$ ls ./cti_sys0/channels/
++   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
++   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
++   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
++   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
++
++Most access to these elements take the form::
++
++  echo <chan> [<trigger>] > /<device_path>/<operation>
++
++where the optional <trigger> is only needed for trigXX_attach | detach
++operations.
++
++e.g.::
++
++   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
++   >$ echo 0 > ./cti_sys0/channels/chan_set
++
++Attaches trigout(1) to channel(0), then activates channel(0) generating a
++set state on cti_sys0.trigout(1)
 +
 +
-+Implementation notes:
-+=====================
++*API operations*
 +
-+SSV:
-+  The spec claims this is mandatory, but we don't actually know of any
-+  implementations, so we're ignoring it for now.  The server returns
-+  NFS4ERR_ENCR_ALG_UNSUPP on EXCHANGE_ID, which should be future-proof.
++   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
++   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
++   * ``chan_set``: Set the channel - the set state will be propagated around
++     the CTM to other connected devices.
++   * ``chan_clear``: Clear the channel.
++   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
++   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
++     (enable) the channel to other devices. This operation takes a channel
++     number. CTI gate is enabled for all channels by default at power up. Read
++     to list the currently enabled channels on the gate.
++   * ``chan_gate_disable``: Write channel number to disable gate for that
++     channel.
++   * ``chan_inuse``: Show the current channels attached to any signal
++   * ``chan_free``: Show channels with no attached signals.
++   * ``chan_xtrig_view``: write a channel number to select a channel to view,
++     read to show the cross triggers programmed for the selected channel.
++   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
++     dangerous output signals to be set.
++   * ``trigout_filtered``: Trigger out signals that are prevented from being
++     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
++     accidental ``EDBGREQ`` signals stopping a core.
++   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
++     Resets device hardware to default state.
 +
-+GSS on the backchannel:
-+  Again, theoretically required but not widely implemented (in
-+  particular, the current Linux client doesn't request it).  We return
-+  NFS4ERR_ENCR_ALG_UNSUPP on CREATE_SESSION.
 +
-+DELEGPURGE:
-+  mandatory only for servers that support CLAIM_DELEGATE_PREV and/or
-+  CLAIM_DELEG_PREV_FH (which allows clients to keep delegations that
-+  persist across client reboots).  Thus we need not implement this for
-+  now.
++The example below attaches input trigger index 1 to channel 2, and output
++trigger index 6 to the same channel. It then examines the state of the
++channel / trigger connections using the appropriate sysfs attributes.
 +
-+EXCHANGE_ID:
-+  implementation ids are ignored
++The settings mean that if either input trigger 1, or channel 2 go active then
++trigger out 6 will go active. We then enable the CTI, and use the software
++channel control to activate channel 2. We see the active channel on the
++``choutstatus`` register and the active signal on the ``trigoutstatus``
++register. Finally clearing the channel removes this.
 +
-+CREATE_SESSION:
-+  backchannel attributes are ignored
++e.g.::
 +
-+SEQUENCE:
-+  no support for dynamic slot table renegotiation (optional)
++   .../cti_sys0/channels# echo 2 1 > trigin_attach
++   .../cti_sys0/channels# echo 2 6 > trigout_attach
++   .../cti_sys0/channels# cat chan_free
++   0-1,3
++   .../cti_sys0/channels# cat chan_inuse
++   2
++   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
++   .../cti_sys0/channels# cat chan_xtrigs_view
++   [2] IN: 1 OUT: 6
++   .../cti_sys0/# echo 1 > enable
++   .../cti_sys0/channels# echo 2 > chan_set
++   .../cti_sys0/channels# cat ../regs/choutstatus
++   0x4
++   .../cti_sys0/channels# cat ../regs/trigoutstatus
++   0x40
++   .../cti_sys0/channels# echo 2 > chan_clear
++   .../cti_sys0/channels# cat ../regs/trigoutstatus
++   0x0
++   .../cti_sys0/channels# cat ../regs/choutstatus
++   0x0
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index a566719f8e7e..108600ee1e12 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -491,8 +491,21 @@ interface provided for that purpose by the generic STM API::
+ 
+ Details on how to use the generic STM API can be found here:- :doc:`../stm` [#second]_.
+ 
++The CTI & CTM Modules
++---------------------
 +
-+Nonstandard compound limitations:
-+  No support for a sessions fore channel RPC compound that requires both a
-+  ca_maxrequestsize request and a ca_maxresponsesize reply, so we may
-+  fail to live up to the promise we made in CREATE_SESSION fore channel
-+  negotiation.
++The CTI (Cross Trigger Interface) provides a set of trigger signals between
++individual CTIs and components, and can propagate these between all CTIs via
++channels on the CTM (Cross Trigger Matrix).
 +
-+See also http://wiki.linux-nfs.org/wiki/index.php/Server_4.0_and_4.1_issues.
-diff --git a/Documentation/filesystems/nfs/nfs41-server.txt b/Documentation/filesystems/nfs/nfs41-server.txt
-deleted file mode 100644
-index 682a59fabe3f..000000000000
---- a/Documentation/filesystems/nfs/nfs41-server.txt
-+++ /dev/null
-@@ -1,173 +0,0 @@
--NFSv4.1 Server Implementation
--
--Server support for minorversion 1 can be controlled using the
--/proc/fs/nfsd/versions control file.  The string output returned
--by reading this file will contain either "+4.1" or "-4.1"
--correspondingly.
--
--Currently, server support for minorversion 1 is enabled by default.
--It can be disabled at run time by writing the string "-4.1" to
--the /proc/fs/nfsd/versions control file.  Note that to write this
--control file, the nfsd service must be taken down.  You can use rpc.nfsd
--for this; see rpc.nfsd(8).
--
--(Warning: older servers will interpret "+4.1" and "-4.1" as "+4" and
--"-4", respectively.  Therefore, code meant to work on both new and old
--kernels must turn 4.1 on or off *before* turning support for version 4
--on or off; rpc.nfsd does this correctly.)
--
--The NFSv4 minorversion 1 (NFSv4.1) implementation in nfsd is based
--on RFC 5661.
--
--From the many new features in NFSv4.1 the current implementation
--focuses on the mandatory-to-implement NFSv4.1 Sessions, providing
--"exactly once" semantics and better control and throttling of the
--resources allocated for each client.
--
--The table below, taken from the NFSv4.1 document, lists
--the operations that are mandatory to implement (REQ), optional
--(OPT), and NFSv4.0 operations that are required not to implement (MNI)
--in minor version 1.  The first column indicates the operations that
--are not supported yet by the linux server implementation.
--
--The OPTIONAL features identified and their abbreviations are as follows:
--	pNFS	Parallel NFS
--	FDELG	File Delegations
--	DDELG	Directory Delegations
--
--The following abbreviations indicate the linux server implementation status.
--	I	Implemented NFSv4.1 operations.
--	NS	Not Supported.
--	NS*	Unimplemented optional feature.
--
--Operations
--
--   +----------------------+------------+--------------+----------------+
--   | Operation            | REQ, REC,  | Feature      | Definition     |
--   |                      | OPT, or    | (REQ, REC,   |                |
--   |                      | MNI        | or OPT)      |                |
--   +----------------------+------------+--------------+----------------+
--   | ACCESS               | REQ        |              | Section 18.1   |
--I  | BACKCHANNEL_CTL      | REQ        |              | Section 18.33  |
--I  | BIND_CONN_TO_SESSION | REQ        |              | Section 18.34  |
--   | CLOSE                | REQ        |              | Section 18.2   |
--   | COMMIT               | REQ        |              | Section 18.3   |
--   | CREATE               | REQ        |              | Section 18.4   |
--I  | CREATE_SESSION       | REQ        |              | Section 18.36  |
--NS*| DELEGPURGE           | OPT        | FDELG (REQ)  | Section 18.5   |
--   | DELEGRETURN          | OPT        | FDELG,       | Section 18.6   |
--   |                      |            | DDELG, pNFS  |                |
--   |                      |            | (REQ)        |                |
--I  | DESTROY_CLIENTID     | REQ        |              | Section 18.50  |
--I  | DESTROY_SESSION      | REQ        |              | Section 18.37  |
--I  | EXCHANGE_ID          | REQ        |              | Section 18.35  |
--I  | FREE_STATEID         | REQ        |              | Section 18.38  |
--   | GETATTR              | REQ        |              | Section 18.7   |
--I  | GETDEVICEINFO        | OPT        | pNFS (REQ)   | Section 18.40  |
--NS*| GETDEVICELIST        | OPT        | pNFS (OPT)   | Section 18.41  |
--   | GETFH                | REQ        |              | Section 18.8   |
--NS*| GET_DIR_DELEGATION   | OPT        | DDELG (REQ)  | Section 18.39  |
--I  | LAYOUTCOMMIT         | OPT        | pNFS (REQ)   | Section 18.42  |
--I  | LAYOUTGET            | OPT        | pNFS (REQ)   | Section 18.43  |
--I  | LAYOUTRETURN         | OPT        | pNFS (REQ)   | Section 18.44  |
--   | LINK                 | OPT        |              | Section 18.9   |
--   | LOCK                 | REQ        |              | Section 18.10  |
--   | LOCKT                | REQ        |              | Section 18.11  |
--   | LOCKU                | REQ        |              | Section 18.12  |
--   | LOOKUP               | REQ        |              | Section 18.13  |
--   | LOOKUPP              | REQ        |              | Section 18.14  |
--   | NVERIFY              | REQ        |              | Section 18.15  |
--   | OPEN                 | REQ        |              | Section 18.16  |
--NS*| OPENATTR             | OPT        |              | Section 18.17  |
--   | OPEN_CONFIRM         | MNI        |              | N/A            |
--   | OPEN_DOWNGRADE       | REQ        |              | Section 18.18  |
--   | PUTFH                | REQ        |              | Section 18.19  |
--   | PUTPUBFH             | REQ        |              | Section 18.20  |
--   | PUTROOTFH            | REQ        |              | Section 18.21  |
--   | READ                 | REQ        |              | Section 18.22  |
--   | READDIR              | REQ        |              | Section 18.23  |
--   | READLINK             | OPT        |              | Section 18.24  |
--   | RECLAIM_COMPLETE     | REQ        |              | Section 18.51  |
--   | RELEASE_LOCKOWNER    | MNI        |              | N/A            |
--   | REMOVE               | REQ        |              | Section 18.25  |
--   | RENAME               | REQ        |              | Section 18.26  |
--   | RENEW                | MNI        |              | N/A            |
--   | RESTOREFH            | REQ        |              | Section 18.27  |
--   | SAVEFH               | REQ        |              | Section 18.28  |
--   | SECINFO              | REQ        |              | Section 18.29  |
--I  | SECINFO_NO_NAME      | REC        | pNFS files   | Section 18.45, |
--   |                      |            | layout (REQ) | Section 13.12  |
--I  | SEQUENCE             | REQ        |              | Section 18.46  |
--   | SETATTR              | REQ        |              | Section 18.30  |
--   | SETCLIENTID          | MNI        |              | N/A            |
--   | SETCLIENTID_CONFIRM  | MNI        |              | N/A            |
--NS | SET_SSV              | REQ        |              | Section 18.47  |
--I  | TEST_STATEID         | REQ        |              | Section 18.48  |
--   | VERIFY               | REQ        |              | Section 18.31  |
--NS*| WANT_DELEGATION      | OPT        | FDELG (OPT)  | Section 18.49  |
--   | WRITE                | REQ        |              | Section 18.32  |
--
--Callback Operations
--
--   +-------------------------+-----------+-------------+---------------+
--   | Operation               | REQ, REC, | Feature     | Definition    |
--   |                         | OPT, or   | (REQ, REC,  |               |
--   |                         | MNI       | or OPT)     |               |
--   +-------------------------+-----------+-------------+---------------+
--   | CB_GETATTR              | OPT       | FDELG (REQ) | Section 20.1  |
--I  | CB_LAYOUTRECALL         | OPT       | pNFS (REQ)  | Section 20.3  |
--NS*| CB_NOTIFY               | OPT       | DDELG (REQ) | Section 20.4  |
--NS*| CB_NOTIFY_DEVICEID      | OPT       | pNFS (OPT)  | Section 20.12 |
--NS*| CB_NOTIFY_LOCK          | OPT       |             | Section 20.11 |
--NS*| CB_PUSH_DELEG           | OPT       | FDELG (OPT) | Section 20.5  |
--   | CB_RECALL               | OPT       | FDELG,      | Section 20.2  |
--   |                         |           | DDELG, pNFS |               |
--   |                         |           | (REQ)       |               |
--NS*| CB_RECALL_ANY           | OPT       | FDELG,      | Section 20.6  |
--   |                         |           | DDELG, pNFS |               |
--   |                         |           | (REQ)       |               |
--NS | CB_RECALL_SLOT          | REQ       |             | Section 20.8  |
--NS*| CB_RECALLABLE_OBJ_AVAIL | OPT       | DDELG, pNFS | Section 20.7  |
--   |                         |           | (REQ)       |               |
--I  | CB_SEQUENCE             | OPT       | FDELG,      | Section 20.9  |
--   |                         |           | DDELG, pNFS |               |
--   |                         |           | (REQ)       |               |
--NS*| CB_WANTS_CANCELLED      | OPT       | FDELG,      | Section 20.10 |
--   |                         |           | DDELG, pNFS |               |
--   |                         |           | (REQ)       |               |
--   +-------------------------+-----------+-------------+---------------+
--
--Implementation notes:
--
--SSV:
--* The spec claims this is mandatory, but we don't actually know of any
--  implementations, so we're ignoring it for now.  The server returns
--  NFS4ERR_ENCR_ALG_UNSUPP on EXCHANGE_ID, which should be future-proof.
--
--GSS on the backchannel:
--* Again, theoretically required but not widely implemented (in
--  particular, the current Linux client doesn't request it).  We return
--  NFS4ERR_ENCR_ALG_UNSUPP on CREATE_SESSION.
--
--DELEGPURGE:
--* mandatory only for servers that support CLAIM_DELEGATE_PREV and/or
--  CLAIM_DELEG_PREV_FH (which allows clients to keep delegations that
--  persist across client reboots).  Thus we need not implement this for
--  now.
--
--EXCHANGE_ID:
--* implementation ids are ignored
--
--CREATE_SESSION:
--* backchannel attributes are ignored
--
--SEQUENCE:
--* no support for dynamic slot table renegotiation (optional)
--
--Nonstandard compound limitations:
--* No support for a sessions fore channel RPC compound that requires both a
--  ca_maxrequestsize request and a ca_maxresponsesize reply, so we may
--  fail to live up to the promise we made in CREATE_SESSION fore channel
--  negotiation.
--
--See also http://wiki.linux-nfs.org/wiki/index.php/Server_4.0_and_4.1_issues.
++A separate documentation file is provided to explain the use of these devices.
++(:doc:`coresight-ect`) [#fourth]_.
++
++
+ .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+ 
+ .. [#second] Documentation/trace/stm.rst
+ 
+ .. [#third] https://github.com/Linaro/perf-opencsd
++
++.. [#fourth] Documentation/trace/coresight/coresight-ect.rst
 -- 
-2.24.1
+2.17.1
 
