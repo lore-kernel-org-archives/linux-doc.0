@@ -1,314 +1,441 @@
-Return-Path: <SRS0=vAtP=2U=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=w2yy=2V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE6AC2D0C3
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 22:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9304EC2D0C3
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 01:40:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CBC612071E
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Dec 2019 22:31:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RjQsh5TN"
+	by mail.kernel.org (Postfix) with ESMTP id 5C4F920722
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 01:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727734AbfL3Wb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Dec 2019 17:31:56 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60868 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727695AbfL3Wb4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Dec 2019 17:31:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=VMKfHLqRT2R2sg5Nk4++uNSF4hBm9QlbBpbhWdr26ug=; b=RjQsh5TNuMgwnnYYgIj/heu4M
-        ayZy1FSJtnRYOsoEJ275SOfMfTJqSdoLh9krotEEcuAVlsFBb07bJ1XEZkHeI8WdW+zNx4zLwEahv
-        GkbipATHefXtqGNj8AV82A+ngRJkHJRlgeFQBpqsrI1pF2X66C6LC48NvN2wWlbXv+V76ccJqHiM6
-        y7a5Xm3wFDE8UJV/3TD0BKYkXa2TeDsWGFB+LD1bcWSLSo26Xzro5Jz6K4FL3Xq0E5n3KudwlcB+/
-        2XDR4aE+QN/sN/iUfs+CJapcEY7ZsX5/L9YQHyAz1VFcyegzdjgFj764o5ypzprXAVwSFZtenvP+1
-        kwAjWKayw==;
-Received: from [2601:1c0:6280:3f0::34d9]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1im3Zm-0006NR-Du; Mon, 30 Dec 2019 22:31:50 +0000
-Subject: Re: [PATCH v7 13/15] docs: coresight: Update documentation for
- CoreSight to cover CTI.
-To:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
-        suzuki.poulose@arm.com, robh+dt@kernel.org, maxime@cerno.tech,
-        liviu.dudau@arm.com, sudeep.holla@arm.com,
-        lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net
-References: <20191230164441.28375-1-mike.leach@linaro.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5948ee00-c3e8-749d-2354-5089b0103cee@infradead.org>
-Date:   Mon, 30 Dec 2019 14:31:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        id S1725813AbfLaBkI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Dec 2019 20:40:08 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:8652 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725379AbfLaBkI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Dec 2019 20:40:08 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 64F32C6CC611BE425C36;
+        Tue, 31 Dec 2019 09:40:06 +0800 (CST)
+Received: from [127.0.0.1] (10.177.131.64) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 31 Dec 2019
+ 09:39:59 +0800
+Subject: Re: [PATCH v7 1/4] x86: kdump: move reserve_crashkernel_low() into
+ crash_core.c
+To:     Dave Young <dyoung@redhat.com>
+References: <20191223152349.180172-1-chenzhou10@huawei.com>
+ <20191223152349.180172-2-chenzhou10@huawei.com>
+ <20191227055458.GA14893@dhcp-128-65.nay.redhat.com>
+ <09d42854-461b-e85c-ba3f-0e1173dc95b5@huawei.com>
+ <20191228093227.GA19720@dhcp-128-65.nay.redhat.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <bhsharma@redhat.com>, <horms@verge.net.au>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <xiexiuqi@huawei.com>,
+        kbuild test robot <lkp@intel.com>
+From:   Chen Zhou <chenzhou10@huawei.com>
+Message-ID: <75429528-ba74-cfd3-b5bc-df5425ac0496@huawei.com>
+Date:   Tue, 31 Dec 2019 09:39:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <20191230164441.28375-1-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20191228093227.GA19720@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.131.64]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+Hi Dave,
 
-Just a couple of small nits below.
-
-
-On 12/30/19 8:44 AM, Mike Leach wrote:
-> Add new document covering CTI / CTM usage in CoreSight.
+On 2019/12/28 17:32, Dave Young wrote:
+> On 12/27/19 at 07:04pm, Chen Zhou wrote:
+>> Hi Dave
+>>
+>> On 2019/12/27 13:54, Dave Young wrote:
+>>> Hi,
+>>> On 12/23/19 at 11:23pm, Chen Zhou wrote:
+>>>> In preparation for supporting reserve_crashkernel_low in arm64 as
+>>>> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
+>>>>
+>>>> Note, in arm64, we reserve low memory if and only if crashkernel=X,low
+>>>> is specified. Different with x86_64, don't set low memory automatically.
+>>>
+>>> Do you have any reason for the difference?  I'd expect we have same
+>>> logic if possible and remove some of the ifdefs.
+>>
+>> In x86_64, if we reserve crashkernel above 4G, then we call reserve_crashkernel_low()
+>> to reserve low memory.
+>>
+>> In arm64, to simplify, we call reserve_crashkernel_low() at the beginning of reserve_crashkernel()
+>> and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low() allocated something.
+>> In this case, if reserve crashkernel below 4G there will be 256M low memory set automatically
+>> and this needs extra considerations.
 > 
-> Add section in coresight.rst introducing CTI and CTM modules with link
-> to new document.
+> Sorry that I did not read the old thread details and thought that is
+> arch dependent.  But rethink about that, it would be better that we can
+> have same semantic about crashkernel parameters across arches.  If we
+> make them different then it causes confusion, especially for
+> distributions.
 > 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->  .../trace/coresight/coresight-ect.rst         | 211 ++++++++++++++++++
->  Documentation/trace/coresight/coresight.rst   |  13 ++
->  2 files changed, 224 insertions(+)
->  create mode 100644 Documentation/trace/coresight/coresight-ect.rst
+> OTOH, I thought if we reserve high memory then the low memory should be
+> needed.  There might be some exceptions, but I do not know the exact
+> one, can we make the behavior same, and special case those systems which
+> do not need low memory reservation.
 > 
-> diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
-> new file mode 100644
-> index 000000000000..3e06588f24fa
-> --- /dev/null
-> +++ b/Documentation/trace/coresight/coresight-ect.rst
-> @@ -0,0 +1,211 @@
-> +=============================================
-> +CoreSight Embedded Cross Trigger (CTI & CTM).
-> +=============================================
-> +
-> +    :Author:   Mike Leach <mike.leach@linaro.org>
-> +    :Date:     November 2019
-> +
-> +Hardware Description
-> +--------------------
-> +
-> +The CoreSight Cross Trigger Interface (CTI) is a hardware device that takes
-> +individual input and output hardware signals known as triggers to and from
-> +devices and interconnects them via the Cross Trigger Matrix (CTM) to other
-> +devices via numbered channels, in order to propagate events between devices.
-> +
-> +e.g.::
-> +
-> + 0000000  in_trigs  :::::::
-> + 0 C   0----------->:     :             +======>(other CTI channel IO)
-> + 0  P  0<-----------:     :             v
-> + 0   U 0  out_trigs :     : Channels  *****      :::::::
-> + 0000000            : CTI :<=========>*CTM*<====>: CTI :---+
-> + #######  in_trigs  :     : (id 0-3)  *****      :::::::   v
-> + # ETM #----------->:     :                         ^   #######
-> + #     #<-----------:     :                         +---# ETR #
-> + ####### out_trigs  :::::::                             #######
-> +
-> +The CTI driver enables the programming of the CTI to attach triggers to
-> +channels. When an input trigger becomes active, the attached channel will
-> +become active. Any output trigger attached to that channel will also
-> +become active. The active channel is propagated to other CTIs via the CTM,
-> +activating connected output triggers there, unless filtered by the CTI
-> +channel gate.
-> +
-> +It is also possible to activate a channel using system software directly
-> +programming registers in the CTI.
-> +
-> +The CTIs are registered by the system to be associated with CPUs and/or other
-> +CoreSight devices on the trace data path. When these devices are enabled the
-> +attached CTIs will also be enabled. By default/on power up the CTIs have
-> +no programmed trigger/channel attachments, so will not affect the system
-> +until explicitly programmed.
-> +
-> +The hardware trigger connections between CTIs and devices is implementation
-> +defined, unless the CPU/ETM combination is a v8 architecture, in which case
-> +the connections have an architecturally defined standard layout.
-> +
-> +The hardware trigger signals can also be connected to non-CoreSight devices
-> +(e.g. UART), or be propagated off chip as hardware IO lines.
-> +
-> +All the CTI devices are associated with a CTM. On many systems there will be a
-> +single effective CTM (one CTM, or multiple CTMs all interconnected), but it is
-> +possible that systems can have nets of CTIs+CTM that are not interconnected by
-> +a CTM to each other. On these systems a CTM index is declared to associate
-> +CTI devices that are interconnected via a given CTM.
-> +
-> +Sysfs files and directories
-> +---------------------------
-> +
-> +The CTI devices appear on the existing CoreSight bus alongside the other
-> +CoreSight devices::
-> +
-> +    >$ ls /sys/bus/coresight/devices
-> +     cti_cpu0  cti_cpu2  cti_sys0  etm0  etm2  funnel0  replicator0  tmc_etr0
-> +     cti_cpu1  cti_cpu3  cti_sys1  etm1  etm3  funnel1  tmc_etf0     tpiu0
-> +
-> +The ``cti_cpu<N>`` named CTIs are associated with a CPU, and any ETM used by
-> +that core. the ``cti_sys<N>`` CTIs are general system infrastructure CTIs that
+I thought like this and did implement with crashkernel parameters arch independent.
+This is my v4: https://lkml.org/lkml/2019/5/6/1361, i implemented according to x86_64's
+behavior.
 
-              The
+>>
+>> previous discusses:
+>> 	https://lkml.org/lkml/2019/6/5/670
+>> 	https://lkml.org/lkml/2019/6/13/229
+> 
+> Another concern from James:
+> "
+> With both crashk_low_res and crashk_res, we end up with two entries in /proc/iomem called
+> "Crash kernel". Because its sorted by address, and kexec-tools stops searching when it
+> find "Crash kernel", you are always going to get the kernel placed in the lower portion.
+> "
+> 
+> The kexec-tools code is iterating all "Crash kernel" ranges and add them
+> in an array.  In X86 code, it uses the higher range to locate memory.
 
-> +can be associated with other CoreSight devices, or other system hardware
-> +capable of generating or using trigger signals.::
-> +
-> +  >$ ls /sys/bus/coresight/devices/etm0/cti_cpu0
-> +  channels  ctmid  enable  nr_trigger_cons mgmt  power  regs  subsystem
-> +  triggers0 triggers1  uevent
-> +
-> +*Key file items are:-*
-> +   * ``enable``: enables/disables the CTI.
-> +   * ``ctmid`` : associated CTM - only relevant if system has multiple CTI+CTM
-> +     clusters that are not interconnected.
-> +   * ``nr_trigger_cons`` : total connections - triggers<N> directories.
-> +
-> +*Sub-directories:-*
-> +   * ``triggers<N>``: contains list of triggers for an individual connection.
-> +   * ``channels``: Contains the channel API - CTI main programming interface.
-> +   * ``regs``: Gives access to the raw programmable CTI regs.
-> +   * ``mgmt``: the standard CoreSight management registers.
-> +
-> +
-> +triggers<N> directories
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Individual trigger connection information. This describes trigger signals for
-> +CoreSight and non-CoreSight connections.
-> +
-> +Each triggers directory has a set of parameters describing the triggers for
-> +the connection.
-> +
-> +   * ``name`` : name of connection
-> +   * ``in_signals`` : input trigger signal indexes used in this connection.
-> +   * ``in_types`` : functional types for in signals.
-> +   * ``out_signals`` : output trigger signals for this connection.
-> +   * ``out_types`` : functional types for out signals.
-> +
-> +e.g::
-> +
-> +    >$ ls ./cti_cpu0/triggers0/
-> +    in_signals  in_types  name  out_signals  out_types
-> +    >$ cat ./cti_cpu0/triggers0/name
-> +    cpu0
-> +    >$ cat ./cti_cpu0/triggers0/out_signals
-> +    0-2
-> +    >$ cat ./cti_cpu0/triggers0/out_types
-> +    pe_edbgreq pe_dbgrestart pe_ctiirq
-> +    >$ cat ./cti_cpu0/triggers0/in_signals
-> +    0-1
-> +    >$ cat ./cti_cpu0/triggers0/in_types
-> +    pe_dbgtrigger pe_pmuirq
-> +
-> +If a connection has zero signals in either the 'in' or 'out' triggers then
-> +those parameters will be omitted.
-> +
-> +Channels API Directory
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +This provides an easy way to attach triggers to channels, without needing
-> +the multiple register operations that are required if manipulating the
-> +'regs' sub-dir elements directly.
+We also discussed about this: https://lkml.org/lkml/2019/6/13/227.
+I guess James's opinion is that kexec-tools should take forward compatibility into account.
+"But we can't rely on people updating user-space when they update the kernel!" -- James
 
-spell out: sub-directory
+> 
+>>
+>>>
+>>>>
+>>>> Reported-by: kbuild test robot <lkp@intel.com>
+>>>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>>>> ---
+>>>>  arch/x86/kernel/setup.c    | 62 ++++-----------------------------
+>>>>  include/linux/crash_core.h |  3 ++
+>>>>  include/linux/kexec.h      |  2 --
+>>>>  kernel/crash_core.c        | 87 ++++++++++++++++++++++++++++++++++++++++++++++
+>>>>  kernel/kexec_core.c        | 17 ---------
+>>>>  5 files changed, 96 insertions(+), 75 deletions(-)
+>>>>
+>>>> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+>>>> index cedfe20..5f38942 100644
+>>>> --- a/arch/x86/kernel/setup.c
+>>>> +++ b/arch/x86/kernel/setup.c
+>>>> @@ -486,59 +486,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>>>>  # define CRASH_ADDR_HIGH_MAX	SZ_64T
+>>>>  #endif
+>>>>  
+>>>> -static int __init reserve_crashkernel_low(void)
+>>>> -{
+>>>> -#ifdef CONFIG_X86_64
+>>>> -	unsigned long long base, low_base = 0, low_size = 0;
+>>>> -	unsigned long total_low_mem;
+>>>> -	int ret;
+>>>> -
+>>>> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+>>>> -
+>>>> -	/* crashkernel=Y,low */
+>>>> -	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
+>>>> -	if (ret) {
+>>>> -		/*
+>>>> -		 * two parts from kernel/dma/swiotlb.c:
+>>>> -		 * -swiotlb size: user-specified with swiotlb= or default.
+>>>> -		 *
+>>>> -		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>>>> -		 * to 8M for other buffers that may need to stay low too. Also
+>>>> -		 * make sure we allocate enough extra low memory so that we
+>>>> -		 * don't run out of DMA buffers for 32-bit devices.
+>>>> -		 */
+>>>> -		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+>>>> -	} else {
+>>>> -		/* passed with crashkernel=0,low ? */
+>>>> -		if (!low_size)
+>>>> -			return 0;
+>>>> -	}
+>>>> -
+>>>> -	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
+>>>> -	if (!low_base) {
+>>>> -		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>>>> -		       (unsigned long)(low_size >> 20));
+>>>> -		return -ENOMEM;
+>>>> -	}
+>>>> -
+>>>> -	ret = memblock_reserve(low_base, low_size);
+>>>> -	if (ret) {
+>>>> -		pr_err("%s: Error reserving crashkernel low memblock.\n", __func__);
+>>>> -		return ret;
+>>>> -	}
+>>>> -
+>>>> -	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
+>>>> -		(unsigned long)(low_size >> 20),
+>>>> -		(unsigned long)(low_base >> 20),
+>>>> -		(unsigned long)(total_low_mem >> 20));
+>>>> -
+>>>> -	crashk_low_res.start = low_base;
+>>>> -	crashk_low_res.end   = low_base + low_size - 1;
+>>>> -	insert_resource(&iomem_resource, &crashk_low_res);
+>>>> -#endif
+>>>> -	return 0;
+>>>> -}
+>>>> -
+>>>>  static void __init reserve_crashkernel(void)
+>>>>  {
+>>>>  	unsigned long long crash_size, crash_base, total_mem;
+>>>> @@ -602,9 +549,12 @@ static void __init reserve_crashkernel(void)
+>>>>  		return;
+>>>>  	}
+>>>>  
+>>>> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+>>>> -		memblock_free(crash_base, crash_size);
+>>>> -		return;
+>>>> +	if (crash_base >= (1ULL << 32)) {
+>>>> +		if (reserve_crashkernel_low()) {
+>>>> +			memblock_free(crash_base, crash_size);
+>>>> +			return;
+>>>> +		}
+>>>> +		insert_resource(&iomem_resource, &crashk_low_res);
+>>>
+>>> Some specific reason to move insert_resouce out of the
+>>> reserve_crashkernel_low function?
+>>
+>> No specific reason.
+>> I just exposed arm64 "Crash kernel low" in request_standard_resources() as other resources,
+>> so did this change.
+> 
+> Ok.
+> 
+>>
+>>>
+>>>>  	}
+>>>>  
+>>>>  	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
+>>>> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
+>>>> index 525510a..4df8c0b 100644
+>>>> --- a/include/linux/crash_core.h
+>>>> +++ b/include/linux/crash_core.h
+>>>> @@ -63,6 +63,8 @@ phys_addr_t paddr_vmcoreinfo_note(void);
+>>>>  extern unsigned char *vmcoreinfo_data;
+>>>>  extern size_t vmcoreinfo_size;
+>>>>  extern u32 *vmcoreinfo_note;
+>>>> +extern struct resource crashk_res;
+>>>> +extern struct resource crashk_low_res;
+>>>>  
+>>>>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>>>>  			  void *data, size_t data_len);
+>>>> @@ -74,5 +76,6 @@ int parse_crashkernel_high(char *cmdline, unsigned long long system_ram,
+>>>>  		unsigned long long *crash_size, unsigned long long *crash_base);
+>>>>  int parse_crashkernel_low(char *cmdline, unsigned long long system_ram,
+>>>>  		unsigned long long *crash_size, unsigned long long *crash_base);
+>>>> +int __init reserve_crashkernel_low(void);
+>>>>  
+>>>>  #endif /* LINUX_CRASH_CORE_H */
+>>>> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+>>>> index 1776eb2..5d5d963 100644
+>>>> --- a/include/linux/kexec.h
+>>>> +++ b/include/linux/kexec.h
+>>>> @@ -330,8 +330,6 @@ extern int kexec_load_disabled;
+>>>>  
+>>>>  /* Location of a reserved region to hold the crash kernel.
+>>>>   */
+>>>> -extern struct resource crashk_res;
+>>>> -extern struct resource crashk_low_res;
+>>>>  extern note_buf_t __percpu *crash_notes;
+>>>>  
+>>>>  /* flag to track if kexec reboot is in progress */
+>>>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>>>> index 9f1557b..eb72fd6 100644
+>>>> --- a/kernel/crash_core.c
+>>>> +++ b/kernel/crash_core.c
+>>>> @@ -7,6 +7,8 @@
+>>>>  #include <linux/crash_core.h>
+>>>>  #include <linux/utsname.h>
+>>>>  #include <linux/vmalloc.h>
+>>>> +#include <linux/memblock.h>
+>>>> +#include <linux/swiotlb.h>
+>>>>  
+>>>>  #include <asm/page.h>
+>>>>  #include <asm/sections.h>
+>>>> @@ -19,6 +21,22 @@ u32 *vmcoreinfo_note;
+>>>>  /* trusted vmcoreinfo, e.g. we can make a copy in the crash memory */
+>>>>  static unsigned char *vmcoreinfo_data_safecopy;
+>>>>  
+>>>> +/* Location of the reserved area for the crash kernel */
+>>>> +struct resource crashk_res = {
+>>>> +	.name  = "Crash kernel",
+>>>> +	.start = 0,
+>>>> +	.end   = 0,
+>>>> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>>>> +	.desc  = IORES_DESC_CRASH_KERNEL
+>>>> +};
+>>>> +struct resource crashk_low_res = {
+>>>> +	.name  = "Crash kernel",
+>>>> +	.start = 0,
+>>>> +	.end   = 0,
+>>>> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>>>> +	.desc  = IORES_DESC_CRASH_KERNEL
+>>>> +};
+>>>> +
+>>>>  /*
+>>>>   * parsing the "crashkernel" commandline
+>>>>   *
+>>>> @@ -292,6 +310,75 @@ int __init parse_crashkernel_low(char *cmdline,
+>>>>  				"crashkernel=", suffix_tbl[SUFFIX_LOW]);
+>>>>  }
+>>>>  
+>>>> +#if defined(CONFIG_X86_64)
+>>>> +#define CRASH_ALIGN		SZ_16M
+>>>> +#elif defined(CONFIG_ARM64)
+>>>> +#define CRASH_ALIGN		SZ_2M
+>>>> +#endif
+>>>
+>>> I think no need to have the #ifdef, although I can not think out of
+>>> reason we have 16M for X86, maybe move it to 2M as well if no other
+>>> objections.  Then it will be easier to reserve crashkernel successfully
+>>> considering nowadays we have KASLR and other stuff it becomes harder.
+>>
+>> I also don't figure out why it is 16M in x86.
+> 
+> IMHO, if we do not know why and in theory it should work with 2M, can
+> you do some basic testing and move it to 2M?
+> 
+> We can easily move back to 16M if someone really report something, but
+> if we do not change it will always stay there but we do not know why.
 
-> +
-> +A number of files provide this API::
-> +
-> +   >$ ls ./cti_sys0/channels/
-> +   chan_clear         chan_inuse         chan_xtrigs_view      trigin_detach
-> +   chan_free          chan_pulse         chan_xtrigs_view_sel  trigout_attach
-> +   chan_gate_disable  chan_set           trig_filter_enable    trigout_detach
-> +   chan_gate_enable   chan_xtrigs_reset  trigin_attach         trigout_filtered
-> +
-> +Most access to these elements take the form::
-> +
-> +  echo <chan> [<trigger>] > /<device_path>/<operation>
-> +
-> +where the optional <trigger> is only needed for trigXX_attach | detach
-> +operations.
-> +
-> +e.g.::
-> +
-> +   >$ echo 0 1 > ./cti_sys0/channels/trigout_attach
-> +   >$ echo 0 > ./cti_sys0/channels/chan_set
-> +
-> +Attaches trigout(1) to channel(0), then activates channel(0) generating a
-> +set state on cti_sys0.trigout(1)
-> +
-> +
-> +*API operations*
-> +
-> +   * ``trigin_attach, trigout_attach``: Attach a channel to a trigger signal.
-> +   * ``trigin_detach, trigout_detach``: Detach a channel from a trigger signal.
-> +   * ``chan_set``: Set the channel - the set state will be propagated around
-> +     the CTM to other connected devices.
-> +   * ``chan_clear``: Clear the channel.
-> +   * ``chan_pulse``: Set the channel for a single CoreSight clock cycle.
-> +   * ``chan_gate_enable``: Write operation sets the CTI gate to propagate
-> +     (enable) the channel to other devices. This operation takes a channel
-> +     number. CTI gate is enabled for all channels by default at power up. Read
-> +     to list the currently enabled channels on the gate.
-> +   * ``chan_gate_disable``: Write channel number to disable gate for that
-> +     channel.
-> +   * ``chan_inuse``: Show the current channels attached to any signal
-> +   * ``chan_free``: Show channels with no attached signals.
-> +   * ``chan_xtrig_view``: write a channel number to select a channel to view,
-> +     read to show the cross triggers programmed for the selected channel.
-> +   * ``trig_filter_enable``: Defaults to enabled, disable to allow potentially
-> +     dangerous output signals to be set.
-> +   * ``trigout_filtered``: Trigger out signals that are prevented from being
-> +     set if filtering ``trig_filter_enable`` is enabled. One use is to prevent
-> +     accidental ``EDBGREQ`` signals stopping a core.
-> +   * ``chan_xtrigs_reset``: Write 1 to clear all channel / trigger programming.
-> +     Resets device hardware to default state.
-> +
-> +
-> +The example below attaches input trigger index 1 to channel 2, and output
-> +trigger index 6 to the same channel. It then examines the state of the
-> +channel / trigger connections using the appropriate sysfs attributes.
-> +
-> +The settings mean that if either input trigger 1, or channel 2 go active then
-> +trigger out 6 will go active. We then enable the CTI, and use the software
-> +channel control to activate channel 2. We see the active channel on the
-> +``choutstatus`` register and the active signal on the ``trigoutstatus``
-> +register. Finally clearing the channel removes this.
-> +
-> +e.g.::
-> +
-> +   .../cti_sys0/channels# echo 2 1 > trigin_attach
-> +   .../cti_sys0/channels# echo 2 6 > trigout_attach
-> +   .../cti_sys0/channels# cat chan_free
-> +   0-1,3
-> +   .../cti_sys0/channels# cat chan_inuse
-> +   2
-> +   .../cti_sys0/channels# echo 2 > chan_xtrigs_view
-> +   .../cti_sys0/channels# cat chan_xtrigs_view
-> +   [2] IN: 1 OUT: 6
-> +   .../cti_sys0/# echo 1 > enable
-> +   .../cti_sys0/channels# echo 2 > chan_set
-> +   .../cti_sys0/channels# cat ../regs/choutstatus
-> +   0x4
-> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> +   0x40
-> +   .../cti_sys0/channels# echo 2 > chan_clear
-> +   .../cti_sys0/channels# cat ../regs/trigoutstatus
-> +   0x0
-> +   .../cti_sys0/channels# cat ../regs/choutstatus
-> +   0x0
+Ok. I will do some test later.
 
+> 
+>>
+>>>
+>>>> +
+>>>> +int __init reserve_crashkernel_low(void)
+>>>> +{
+>>>> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+>>>> +	unsigned long long base, low_base = 0, low_size = 0;
+>>>> +	unsigned long total_low_mem;
+>>>> +	int ret;
+>>>> +
+>>>> +	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+>>>> +
+>>>> +	/* crashkernel=Y,low */
+>>>> +	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size,
+>>>> +			&base);
+>>>> +	if (ret) {
+>>>> +#ifdef CONFIG_X86_64
+>>>> +		/*
+>>>> +		 * two parts from lib/swiotlb.c:
+>>>> +		 * -swiotlb size: user-specified with swiotlb= or default.
+>>>> +		 *
+>>>> +		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>>>> +		 * to 8M for other buffers that may need to stay low too. Also
+>>>> +		 * make sure we allocate enough extra low memory so that we
+>>>> +		 * don't run out of DMA buffers for 32-bit devices.
+>>>> +		 */
+>>>> +		low_size = max(swiotlb_size_or_default() + (8UL << 20),
+>>>> +				256UL << 20);
+>>>> +#else
+>>>> +		/*
+>>>> +		 * in arm64, reserve low memory if and only if crashkernel=X,low
+>>>> +		 * specified.
+>>>> +		 */
+>>>> +		return -EINVAL;
+>>>> +#endif
+>>>
+>>> As said before, can you explore about why it needs different logic, it
+>>> would be good to keep two arches same.
+>>>
+>>>> +	} else {
+>>>> +		/* passed with crashkernel=0,low ? */
+>>>> +		if (!low_size)
+>>>> +			return 0;
+>>>> +	}
+>>>> +
+>>>> +	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
+>>>> +	if (!low_base) {
+>>>> +		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>>>> +		       (unsigned long)(low_size >> 20));
+>>>> +		return -ENOMEM;
+>>>> +	}
+>>>> +
+>>>> +	ret = memblock_reserve(low_base, low_size);
+>>>> +	if (ret) {
+>>>> +		pr_err("%s: Error reserving crashkernel low memblock.\n",
+>>>> +				__func__);
+>>>> +		return ret;
+>>>> +	}
+>>>> +
+>>>> +	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
+>>>> +		(unsigned long)(low_size >> 20),
+>>>> +		(unsigned long)(low_base >> 20),
+>>>> +		(unsigned long)(total_low_mem >> 20));
+>>>> +
+>>>> +	crashk_low_res.start = low_base;
+>>>> +	crashk_low_res.end   = low_base + low_size - 1;
+>>>> +#endif
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>>>>  			  void *data, size_t data_len)
+>>>>  {
+>>>> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+>>>> index 15d70a9..458d093 100644
+>>>> --- a/kernel/kexec_core.c
+>>>> +++ b/kernel/kexec_core.c
+>>>> @@ -53,23 +53,6 @@ note_buf_t __percpu *crash_notes;
+>>>>  /* Flag to indicate we are going to kexec a new kernel */
+>>>>  bool kexec_in_progress = false;
+>>>>  
+>>>> -
+>>>> -/* Location of the reserved area for the crash kernel */
+>>>> -struct resource crashk_res = {
+>>>> -	.name  = "Crash kernel",
+>>>> -	.start = 0,
+>>>> -	.end   = 0,
+>>>> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>>>> -	.desc  = IORES_DESC_CRASH_KERNEL
+>>>> -};
+>>>> -struct resource crashk_low_res = {
+>>>> -	.name  = "Crash kernel",
+>>>> -	.start = 0,
+>>>> -	.end   = 0,
+>>>> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>>>> -	.desc  = IORES_DESC_CRASH_KERNEL
+>>>> -};
+>>>> -
+>>>>  int kexec_should_crash(struct task_struct *p)
+>>>>  {
+>>>>  	/*
+>>>> -- 
+>>>> 2.7.4
+>>>>
+>>>
+>>> Thanks
+>>> Dave
+>>>
+>>>
+>>> .
+>>>
+>> Thanks,
+>> Chen Zhou
+>>
+> 
+> Thanks
+> Dave
+> 
+> 
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
--- 
-~Randy
+Thanks,
+Chen Zhou
 
