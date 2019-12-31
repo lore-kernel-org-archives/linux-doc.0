@@ -2,71 +2,125 @@ Return-Path: <SRS0=w2yy=2V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8C9C2D0CE
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 06:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31917C2D0C2
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 11:34:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3EF3B205ED
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 06:24:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0105820409
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Dec 2019 11:34:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xpYlx9RH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbfLaGYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Dec 2019 01:24:36 -0500
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:54307 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725536AbfLaGYg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Dec 2019 01:24:36 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0TmOH5Vc_1577773471;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TmOH5Vc_1577773471)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 31 Dec 2019 14:24:32 +0800
-Subject: Re: [PATCH v3 1/3] docs/zh_CN: add Chinese version of embargoed
- hardware issues
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Fengguang Wu <fengguang.wu@intel.com>, lizefan@huawei.com,
-        Harry Wei <harryxiyou@gmail.com>,
+        id S1727068AbfLaLeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Dec 2019 06:34:07 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:33404 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfLaLeH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Dec 2019 06:34:07 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBVBXdPS121093;
+        Tue, 31 Dec 2019 05:33:39 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1577792019;
+        bh=Pajx8yxPYy9hpNMBr5wGSpnGBlMhhMxaOBX8Gt0CXWc=;
+        h=From:To:CC:Subject:Date;
+        b=xpYlx9RH8ZH2mpS8/0vaGZcJSzosrfpZvtfmjD+XskBPHD7wRj7lmrQdKnAWcps01
+         XgIP7Jx1gW8KBXspH1MtP0jXF0Q77WwGlKCgrA48SkReVbeZJcBVVk2QFkuuCJCIPA
+         Xe+tPtDK3uDAHChnP0yA5QxGTW6jrGSnfDLfS2NA=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBVBXd3M090029
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 31 Dec 2019 05:33:39 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 31
+ Dec 2019 05:33:39 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 31 Dec 2019 05:33:39 -0600
+Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBVBXX31024759;
+        Tue, 31 Dec 2019 05:33:34 -0600
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1576811085-30544-1-git-send-email-alex.shi@linux.alibaba.com>
- <20191230120105.7776cbb4@lwn.net>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <52513678-9ec4-b472-edc2-9656d8a3c3fa@linux.alibaba.com>
-Date:   Tue, 31 Dec 2019 14:23:52 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.3.1
+        <linux-doc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 0/7] Add SR-IOV support in PCIe Endpoint Core
+Date:   Tue, 31 Dec 2019 17:05:27 +0530
+Message-ID: <20191231113534.30405-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191230120105.7776cbb4@lwn.net>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Patch series
+*) Adds support to add virtual functions to enable endpoint controller
+   which supports SR-IOV capability
+*) Add support in Cadence endpoint driver to configure virtual functions
+*) Enable pci_endpoint_test driver to create pci_device for virtual
+   functions
 
+Here both physical functions and virtual functions use the same
+pci_endpoint_test driver and existing pcitest utility can be used
+to test virtual functions also.
 
-ÔÚ 2019/12/31 ÉÏÎç3:01, Jonathan Corbet Ð´µÀ:
-> On Fri, 20 Dec 2019 11:04:43 +0800
-> Alex Shi <alex.shi@linux.alibaba.com> wrote:
-> 
->> Embargoed hardware issues is a necessary process guide, but leak of
->> Chinese version, since there is more Chinese hardware vendors in market.
->> We'd better have a Chinese version of this guide.
->>
->> This patch translate the guide, add it into toctree. and also add a link
->> stub for the original doc.
-> 
-> I've applied this (and the other two as well), thanks.
-> 
+This series is created on top of [1], [2], [3] & [4]
+[1] -> http://lore.kernel.org/r/20191209092147.22901-1-kishon@ti.com
+[2] -> http://lore.kernel.org/r/20191211124608.887-1-kishon@ti.com
+[3] -> http://lore.kernel.org/r/20191230123315.31037-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20191231100331.6316-1-kishon@ti.com
 
-Thanks a lot! :)
-Alex
+Kishon Vijay Abraham I (7):
+  Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
+  dt-bindings: PCI: cadence: Add binding to specify max virtual
+    functions
+  PCI: endpoint: Add support to add virtual function in endpoint core
+  PCI: endpoint: Add support to link a physical function to a virtual
+    function
+  PCI: endpoint: Add virtual function number in pci_epc ops
+  PCI: cadence: Add support to configure virtual functions
+  misc: pci_endpoint_test: Populate sriov_configure ops to configure
+    SR-IOV device
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+ .../bindings/pci/cdns,cdns-pcie-ep.txt        |   2 +
+ .../bindings/pci/ti,j721e-pci-ep.yaml         |   8 +
+ drivers/misc/pci_endpoint_test.c              |   1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 232 +++++++++++++++---
+ drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
+ drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |  64 ++---
+ drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c           | 126 +++++++---
+ drivers/pci/endpoint/pci-epf-core.c           |  92 ++++++-
+ include/linux/pci-epc.h                       |  53 ++--
+ include/linux/pci-epf.h                       |  16 +-
+ 14 files changed, 541 insertions(+), 150 deletions(-)
+
+-- 
+2.17.1
+
