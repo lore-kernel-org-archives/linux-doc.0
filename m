@@ -2,125 +2,91 @@ Return-Path: <SRS0=24Yb=2X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639BCC2D0DD
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jan 2020 03:47:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B21C2D0DD
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jan 2020 04:14:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B1AF21655
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jan 2020 03:47:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D939A20848
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jan 2020 04:14:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="lkrN6Y3s"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="XMQhnmkw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727526AbgABDro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jan 2020 22:47:44 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42066 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727509AbgABDro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jan 2020 22:47:44 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 66so55281669otd.9
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jan 2020 19:47:43 -0800 (PST)
+        id S1727566AbgABEOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jan 2020 23:14:50 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44583 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbgABEOu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jan 2020 23:14:50 -0500
+Received: by mail-pg1-f194.google.com with SMTP id x7so21293024pgl.11
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jan 2020 20:14:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sifive.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/rh9q6153m34prHm4tORWlNz9EKvypr1EIdcld9Y+es=;
-        b=lkrN6Y3s6jYVS82ZyE0DHMRUjNhpHd1g2b6oJ4zb7XIx/c8X4Kvv6x2brkCBdUVrgR
-         rnDOWe0iuGuf7mMnFEmT2ZF3vHDl6PvOMLXaoSHaTxlrYL7sn809stmYwGhsCDrVzK28
-         5/SOIKVsUpUOggXVsP2nBlg0C4lHYdSU1hjP1ncezHYsN99gNaupvSxKr7w3J4djzIBz
-         fHjsqsn7BNL526ptCgpRX3O7NEUrGNdw5Dbpgnu3JCKirG1GrWP86Tb0rsPGm7eEqwIK
-         NFvrNNgB/x0c0PJDt/fdwWpGAVPperNbSOCmhr+nCTjZ0x+Nc3gSsCT+/uXdSYk0nvMJ
-         qarg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CVJyLIJlyzyIsfGFqktPVcu6xkYJBJCCJvQZrRch0yg=;
+        b=XMQhnmkwvdV2wjNx6x8J51g/Xa7k3567jdmjC3ntNFMi83hUqZF2qqMCeJ4TZxZ2bB
+         VmjWzDF8ZNHsZA+ZxGHfD2wyKZgLs+eu5j/qWrw/TrMZa1emW/8vUuGrMQnbxRQrPJiV
+         3f+Xcni3Gi/2OARKG9Z7le0mjVAkCvmydW2CPrTFQSUp7RVm+gycXB/gJB5Gp8D7OlSH
+         oSmJP1pXJsqqv+cG/cNMNw3mDvw/ReVo0HMqp5AI3BnhVGn9v4IzI28mczmxoavbgj1N
+         lWHFD41tijcTPmPiY2pKkMcjAc+hQGVHfIofktWSiYlHLqlYHDPl9dOd/NiOPc2n9L21
+         uC9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/rh9q6153m34prHm4tORWlNz9EKvypr1EIdcld9Y+es=;
-        b=WoFMnZ1LAPDzlPQlyb5ODUu+tltXRFyAwih5aT1SBFp6PczPnQIbg+k9UbQ4vhIM4t
-         dTTCqIF033+8fBqxpQJF8KSqCsnoN/yo7kyf+EY0rXQyJyxhz5S6KRohV933HCm1dvyx
-         Bv0Y+pIKEQP1psA2cJvffuwbNhsma+37QxHNkQ+e7MSWMot5UfAJB+nxvGGcLFHLMS1L
-         Hvt/kIKV9EiOEHVsZQ0odk+lNfrAkCIvFtombasz5nzKmeqCWpBA+fBm56VD3uJ8xBgq
-         6iize1ajeOFfOLprg+sOmmaPLSiZvovCXW9xSA4VaL1qBmmO6OXbukuW+6SCKHX9KU9h
-         i+GA==
-X-Gm-Message-State: APjAAAWZUKuK9bRgcRhUelFMXoU5/FAwIghBabB5jOHaet/6Tvscb0cI
-        yK07f+5D4CVhEU8Nvtjb7BU4iKgANL7CPSKYp7cfeQ==
-X-Google-Smtp-Source: APXvYqxJ1al3wj1gg8p8+6+WCfuZGLWekGcYeGb8eiGZqGbKRPhALLO2kxgQQjiss4qQ9EcTNN0X4O4sj2Q3Ht7FHMk=
-X-Received: by 2002:a9d:2028:: with SMTP id n37mr93593953ota.127.1577936863434;
- Wed, 01 Jan 2020 19:47:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20200102030954.41225-1-zong.li@sifive.com> <CAAhSdy0NW9OTGOGoyZ7QmAOVbR_iF2ZM7b9eKDW0U1L+as-oaA@mail.gmail.com>
-In-Reply-To: <CAAhSdy0NW9OTGOGoyZ7QmAOVbR_iF2ZM7b9eKDW0U1L+as-oaA@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CVJyLIJlyzyIsfGFqktPVcu6xkYJBJCCJvQZrRch0yg=;
+        b=pfPFOR3UdWcHOb2wlPaDqPS2TEIPn5TozpXVU2pXzWX5xfPjfTxSDQTyxhf9xgCtzz
+         V5/HTLXs7xC8LqSCkkLwBheU1R2f53J/M1mEENKwqF2kTAVdaunujEqWU+LrJFhYO5S4
+         ySmgDyq2yPfLm5KkQMbehvwiUaNDH6hMcs4cmiYqEpUg8GpuytL4wAa0NBldwB1wtOSd
+         +aqDP7uSnHN0deAWVEOGKGBJ7Zof9D0lkSFscIxbPLUmJZt93rTTyenCL2Cztusr6ge0
+         y0gfrcMFB22ZV6aRQU95QPyKAKu1Faue9MZLMI8ekrpStPr2bpUKNrcUZN23txHoDSWv
+         Nqog==
+X-Gm-Message-State: APjAAAXr/QniXzoWWY+oZYuia0G9QM96naclATL2kmMoTLzkPuiEZd/+
+        x9ruFMzkN9gy4EKI7fvM5J6Uyg==
+X-Google-Smtp-Source: APXvYqyHtz4yoWif8cwTQc0pKIJlw7G0c8aH5It4yZeh8zfBsW0BBhcu76XrY3B9xYJe0ile17tFHQ==
+X-Received: by 2002:aa7:968d:: with SMTP id f13mr84085549pfk.67.1577938489514;
+        Wed, 01 Jan 2020 20:14:49 -0800 (PST)
+Received: from hsinchu02.internal.sifive.com (220-132-236-182.HINET-IP.hinet.net. [220.132.236.182])
+        by smtp.gmail.com with ESMTPSA id i127sm63870336pfc.55.2020.01.01.20.14.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jan 2020 20:14:49 -0800 (PST)
 From:   Zong Li <zong.li@sifive.com>
-Date:   Thu, 2 Jan 2020 11:47:33 +0800
-Message-ID: <CANXhq0qP1hq9gBr19iHSmtSrfs=V4wKjjTXQGiqZ140i+eH+Lg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: gcov: enable gcov for RISC-V
-To:     Anup Patel <anup@brainfault.org>
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Cc:     Zong Li <zong.li@sifive.com>
+Subject: [PATCH v2 0/2] Enable gcov for RISC-V
+Date:   Thu,  2 Jan 2020 12:14:43 +0800
+Message-Id: <20200102041445.98195-1-zong.li@sifive.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 2, 2020 at 11:37 AM Anup Patel <anup@brainfault.org> wrote:
->
-> On Thu, Jan 2, 2020 at 8:40 AM Zong Li <zong.li@sifive.com> wrote:
-> >
-> > This patch enables GCOV code coverage measurement on RISC-V.
-> > Lightly tested on QEMU and Hifive Unleashed board, seems to work as
-> > expected.
-> >
-> > Signed-off-by: Zong Li <zong.li@sifive.com>
-> > ---
-> >  Documentation/features/debug/gcov-profile-all/arch-support.txt | 2 +-
-> >  arch/riscv/Kconfig                                             | 1 +
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> > index 059d58a549c7..6fb2b0671994 100644
-> > --- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> > +++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> > @@ -23,7 +23,7 @@
-> >      |    openrisc: | TODO |
-> >      |      parisc: | TODO |
-> >      |     powerpc: |  ok  |
-> > -    |       riscv: | TODO |
-> > +    |       riscv: |  ok  |
-> >      |        s390: |  ok  |
-> >      |          sh: |  ok  |
-> >      |       sparc: | TODO |
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index d8efbaa78d67..a31169b02ec0 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -64,6 +64,7 @@ config RISCV
-> >         select SPARSEMEM_STATIC if 32BIT
-> >         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
-> >         select HAVE_ARCH_MMAP_RND_BITS if MMU
-> > +       select ARCH_HAS_GCOV_PROFILE_ALL
-> >
-> >  config ARCH_MMAP_RND_BITS_MIN
-> >         default 18 if 64BIT
-> > --
-> > 2.24.1
-> >
->
-> Looks good to me.
->
-> Reviewed-by: Anup Patel <anup@brainfault.org>
->
-> May be (not 100% sure) split this into two patches so that
-> Documentation patch can be taken by Jonathan.
+These patches enable GCOV code coverage measurement on RISC-V and update
+the status of RISC-V arch in documentation.
 
-OK, let me split this patch in next version.
+Lightly tested on QEMU and Hifive Unleashed board, seems to work as
+expected.
 
->
-> Regards,
-> Anup
+Changes in v2:
+ - Split into two patches for kconfig and documentation respectively.
+
+Zong Li (2):
+  riscv: gcov: enable gcov for RISC-V
+  Documentation/features: support gcov on RISC-V
+
+ Documentation/features/debug/gcov-profile-all/arch-support.txt | 2 +-
+ arch/riscv/Kconfig                                             | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+-- 
+2.24.1
+
