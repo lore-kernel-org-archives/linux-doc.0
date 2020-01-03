@@ -2,72 +2,67 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 467F9C2D0C2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 16:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EA7C2D0C2
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 16:48:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 130272072C
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 16:47:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="c/P6DUyJ"
+	by mail.kernel.org (Postfix) with ESMTP id 14D0B2085B
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 16:48:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbgACQrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 11:47:55 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:46676 "EHLO vps0.lunn.ch"
+        id S1727996AbgACQsb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 11:48:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35078 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727912AbgACQrz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jan 2020 11:47:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=3aXMrkKOicDj+Xuhu+/Su5Nn/ZXQ5Fj+Ba8BuVhIHPM=; b=c/P6DUyJpiXqEFuUsQDWvUAvNq
-        wDWDRHf3kxb7xSqfWA0JA651XgVAxlOtKPsYrsCX41CTqh6H+nZeZap7kBMdkcoW/awOhLFVPbHag
-        AjIJa2TcLIh4X8ln1JWj5vbbY2fD+CmtgCMD/lYRZjbu6ZvkYQQOK4Xec0i/s/8YeTwA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
-        (envelope-from <andrew@lunn.ch>)
-        id 1inQ6z-0000BO-Cj; Fri, 03 Jan 2020 17:47:45 +0100
-Date:   Fri, 3 Jan 2020 17:47:45 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
-Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next 0/2] Fix 10G PHY interface types
-Message-ID: <20200103164745.GL1397@lunn.ch>
-References: <20200103115125.GC25745@shell.armlinux.org.uk>
- <DB8PR04MB698593C7DB07A82577562348EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
- <20200103141743.GC22988@lunn.ch>
- <DB8PR04MB698518D97251CB15938279C3EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
+        id S1727912AbgACQsb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jan 2020 11:48:31 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 214C62072C;
+        Fri,  3 Jan 2020 16:48:30 +0000 (UTC)
+Date:   Fri, 3 Jan 2020 11:48:28 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        joel@joelfernandes.org, saiprakash.ranjan@codeaurora.org,
+        nachukannan@gmail.com, rdunlap@infradead.org
+Subject: Re: [PATCH v3 0/3] docs: ftrace: Fix minor issues in the doc
+Message-ID: <20200103114828.15581051@gandalf.local.home>
+In-Reply-To: <cover.1577231751.git.frank@generalsoftwareinc.com>
+References: <cover.1577231751.git.frank@generalsoftwareinc.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB8PR04MB698518D97251CB15938279C3EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> And here is a LS1046A SoC document that describes XFI and 10GBASE_KR:
+On Tue, 24 Dec 2019 19:05:38 -0500
+"Frank A. Cancio Bello" <frank@generalsoftwareinc.com> wrote:
+
+> I didn't want to be pushy with these minor fixes but occur to me
+> now that, even all seem to be clear in the latest version of the
+> RFC (v2) related to these fixes, a clean patchset could be expected
+> after such RFC. So here we go:
 > 
-> https://www.mouser.com/pdfdocs/LS1046A.pdf
+> Clarifies the RAM footprint of buffer_size_kb without getting into
+> implementation details.
+> 
+> Fix typos and a small notation mistakes in the doc.
+> 
 
-I don't see any register descriptions here. So you failed to answer my
-question. What do you actually need to configure? What needs to go
-into DT? 
+Jon,
 
-You keep avoiding the questions Russell and I pose, which is not
-helping your argument. We need details, not hand waiving.
+Can you take these in your tree?
 
-	Andrew
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+Thanks!
+
+-- Steve
