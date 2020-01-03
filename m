@@ -2,92 +2,121 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 848A8C2D0C2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4138EC2D0C2
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:42:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 16BDD21835
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:41:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1014B21835
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:42:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="K5PeTgGw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="RALZd11s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbgACUlO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 15:41:14 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:46200 "EHLO
+        id S1727894AbgACUmv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 15:42:51 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:46228 "EHLO
         pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727894AbgACUlO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 15:41:14 -0500
+        with ESMTP id S1727848AbgACUmv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 15:42:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=gZbVNET/OsPO6V0htj252KliMtNNo0ubo1kZRWnZxlw=; b=K5PeTgGwEi2PwE6XaJjHqxB1d
-        rOOlymHIeg1XA3BkfViXNpTtv8phIzqcuQ4xfWfQayxySmy9Z0ulHZ5le+WnEaCeoBCokHLTqPK09
-        +TOavuxY10OI1xLOA2la3pyMOnuOCfYgvEcwOC5qciCPcBqSOGDf9fwoZ4A9lu1YzNQMyBfoygpPj
-        li0daymWz3GH7t94guvImkLuGTtsZbt3By1DIjzBkOhXQOXhRPvWte4PhORWA+1XneVlqMIuYtA46
-        hoTRQh6aMrc+svRU5tAt8M2VqiXaWHX12fJysJ6P1zkddPfoxhT9mlpdiD757I6NUce5Wy+0ht/3W
-        GCMW2p6oA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33588)
+         bh=HQAN5pCZ3OEUSsZVMz3kttKXQaXiFzJoiHxs5Ucm9IU=; b=RALZd11sW4GmmxReaIXucSj8e
+        aO4el05yrqDpJKMwRBnNxYMvgof6wdHxsjX4H/+qJDKzxk9F4xHH0xwU3wiL9t9TSrkUtEhuUduNe
+        Me0Wy41v91mSy8b6lil7hvtIVReDXU2bF7sVcbivaU1bZCGCs8Tq/LkhQkjqKIR6WNDtGtxlqPE9Q
+        EWiNU0XeT/J0arSVVHHQqwsW0TKFenmbz5N+nSBq59CBJFus5E24wZGjpYlr6TBemUXYo3CkYaKfc
+        /yPAC0iOLFd9h4LJbNPtsppGwy9RweKl6RFpGO39THh7h+iRnyiuU45bjPalmRCwSq4dKIo6ggsFP
+        yIP5UNruQ==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:50168)
         by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
         (Exim 4.90_1)
         (envelope-from <linux@armlinux.org.uk>)
-        id 1inTkn-0004B1-04; Fri, 03 Jan 2020 20:41:05 +0000
+        id 1inTmN-0004BW-9P; Fri, 03 Jan 2020 20:42:43 +0000
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
         (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1inTkk-0003RO-A6; Fri, 03 Jan 2020 20:41:02 +0000
-Date:   Fri, 3 Jan 2020 20:41:02 +0000
+        id 1inTmM-0003RY-1W; Fri, 03 Jan 2020 20:42:42 +0000
+Date:   Fri, 3 Jan 2020 20:42:42 +0000
 From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 2/2] net: switch to using
- PHY_INTERFACE_MODE_10GBASER rather than 10GKR
-Message-ID: <20200103204102.GI25745@shell.armlinux.org.uk>
-References: <20200103115125.GC25745@shell.armlinux.org.uk>
- <E1inLVE-0006gO-0S@rmk-PC.armlinux.org.uk>
- <20200103202504.GQ1397@lunn.ch>
+Subject: [PATCH net-next v2 0/2] Fix 10G PHY interface types
+Message-ID: <20200103204241.GB18808@shell.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200103202504.GQ1397@lunn.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 09:25:04PM +0100, Andrew Lunn wrote:
-> > For Marvell mvpp2, we detect 10GBASE-KR, and rewrite it to 10GBASE-R
-> > for compatibility with existing DT - this is the only network driver
-> > at present that makes use of PHY_INTERFACE_MODE_10GKR.
-> > 
-> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-> > @@ -5247,6 +5247,9 @@ static int mvpp2_port_probe(struct platform_device *pdev,
-> >  		goto err_free_netdev;
-> >  	}
-> >  
-> > +	if (phy_mode == PHY_INTERFACE_MODE_10GKR)
-> > +		phy_mode = PHY_INTERFACE_MODE_10GBASER;
-> 
-> Hi Russell
-> 
-> Maybe consider adding a comment here, or suggest readers to read the
-> commit message of the patch that added these two lines to get the full
-> story.
+Recent discussion has revealed that our current usage of the 10GKR
+phy_interface_t is not correct. This is based on a misunderstanding
+caused in part by the various specifications being difficult to
+obtain. Now that a better understanding has been reached, we ought
+to correct this.
 
-It's a bit difficult to refer to the commit SHA in the commit itself,
-but yes, that's a good idea. I'll send v2 shortly.
+This series introduce PHY_INTERFACE_MODE_10GBASER to replace the
+existing usage of 10GKR mode, and document their differences in the
+phylib documentation. Then switch PHY, SFP/phylink, the Marvell
+PP2 network driver, and its associated comphy driver over to use
+the correct interface mode. None of the existing platform usage
+was actually using 10GBASE-KR.
 
-Thanks.
+In order to maintain compatibility with existing DT files, arrange
+for the Marvell PP2 driver to rewrite the phy interface mode; this
+allows other drivers to adopt correct behaviour w.r.t whether the
+10G connection conforms to the backplane 10GBASE-KR protocol vs
+normal 10GBASE-R protocol.
+
+After applying these locally to net-next I've validated that the
+only places which mention the old PHY_INTERFACE_MODE_10GKR
+definition are:
+
+Documentation/networking/phy.rst:``PHY_INTERFACE_MODE_10GKR``
+drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:        if (phy_mode == PHY_INTERFACE_MODE_10GKR)
+drivers/net/phy/aquantia_main.c:                phydev->interface = PHY_INTERFACE_MODE_10GKR;
+drivers/net/phy/aquantia_main.c:            phydev->interface != PHY_INTERFACE_MODE_10GKR &&
+include/linux/phy.h:    PHY_INTERFACE_MODE_10GKR,
+include/linux/phy.h:    case PHY_INTERFACE_MODE_10GKR:
+
+which is as expected.  The only users of "10gbase-kr" in DT are:
+
+arch/arm64/boot/dts/marvell/armada-7040-db.dts: phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dts:     phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode = "10gbase-kr";arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode = "10gbase-kr";arch/arm64/boot/dts/marvell/cn9130-db.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/cn9131-db.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/cn9132-db.dts:      phy-mode = "10gbase-kr";
+
+which all use the mvpp2 driver, and these will be updated in a
+separate patch to be submitted in the following kernel cycle.
+
+v2: add comment to mvpp2 driver.
+
+ Documentation/networking/phy.rst                | 18 ++++++++++++++++++
+ drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c | 19 ++++++++++++++-----
+ drivers/net/phy/aquantia_main.c                 |  7 +++++--
+ drivers/net/phy/bcm84881.c                      |  4 ++--
+ drivers/net/phy/marvell10g.c                    | 11 ++++++-----
+ drivers/net/phy/phylink.c                       |  1 +
+ drivers/net/phy/sfp-bus.c                       |  2 +-
+ drivers/phy/marvell/phy-mvebu-cp110-comphy.c    | 20 ++++++++++----------
+ include/linux/phy.h                             | 12 ++++++++----
+ 9 files changed, 65 insertions(+), 29 deletions(-)
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
