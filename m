@@ -2,345 +2,160 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CEAC2D0C2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:52:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2227C3F68F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:55:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F3F3D222C4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:52:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE68B206E6
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:55:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pgeyOYxY"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="GVz1q89G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727700AbgACLwj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 06:52:39 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:40044 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727489AbgACLwj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 06:52:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-        In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wrkXre3RB2c8lZLiX8hGv7W7WHPd2d4YoiltVqbubhc=; b=pgeyOYxYuKlLsIjyVBTnCfRoAj
-        wdnIO575LrpqHG7l5U4r+1l4nXWVmLgFJ9FmPr00DUETKLipOilYyFCNhQgtnBaoZhXHetrX8O6cF
-        2mmlQPq8yqlwlSmF8AphM9LGRJsgwjMa1V7Ei+e4k3NjK05i+LXBvvOKRMW1B9TvUMWqiD8Fefz8C
-        MKXJzYl8CD2xJdrrp/7ejVqHj+DCJ/CixyGTI8M4/Pi7Ggh16CaKAiHkdFWg/E9pvMzXqvLycYSSS
-        b9ELWDSOLbyJWWJB4KOVDANdvbL80ACbXYEdldwS9wkMHxFgX5Q3Fc2wXTsdxAOXfPjW5uXgWwXmR
-        0xqKFL1A==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:49140 helo=rmk-PC.armlinux.org.uk)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1inLVF-0001sG-Ao; Fri, 03 Jan 2020 11:52:29 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1inLVE-0006gO-0S; Fri, 03 Jan 2020 11:52:28 +0000
-In-Reply-To: <20200103115125.GC25745@shell.armlinux.org.uk>
-References: <20200103115125.GC25745@shell.armlinux.org.uk>
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
+        id S1727470AbgACLzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 06:55:49 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:49507 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727436AbgACLzt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 06:55:49 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200103115546euoutp022e7363d6062c83fce5cb98ece5b0c1d9~mXm471Ga90807308073euoutp02R
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jan 2020 11:55:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200103115546euoutp022e7363d6062c83fce5cb98ece5b0c1d9~mXm471Ga90807308073euoutp02R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1578052547;
+        bh=lEKW45zmvnRN0vF53EoEcDpmZafzTqHkiGrjf7zgl9w=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=GVz1q89GlzWXHqEE+v9uA1KiX1fVhaynsRulZicOaqp/WH91VYS1DmukEJajRYEg0
+         oZ0B1l7wUwH//3VBNHxYKZxnznCzkeGyrNygDfSokicPP1uSOiI0f8kwqwtl+yca7c
+         uFcCXmBExjxby90I1tl8YRJWJQwSDWrWy3Sqh3ek=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200103115546eucas1p20ee271b3660224259fd7bec0bbbb1ff8~mXm4fQDb20639906399eucas1p2D;
+        Fri,  3 Jan 2020 11:55:46 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 57.18.61286.2CB2F0E5; Fri,  3
+        Jan 2020 11:55:46 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200103115545eucas1p168a060a62814c15b9601828d73c198e0~mXm3_CWoN2845928459eucas1p19;
+        Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200103115545eusmtrp29cb448521fdc6bb7c6e4a46b70d267cc~mXm39aYjb1423314233eusmtrp2E;
+        Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-3f-5e0f2bc24421
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id D9.82.08375.1CB2F0E5; Fri,  3
+        Jan 2020 11:55:45 +0000 (GMT)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200103115545eusmtip14000199567ee48d8f534f8bb71e8e436~mXm3QkXCw2310523105eusmtip1L;
+        Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
+Subject: Re: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
+To:     Peter Rosin <peda@axentia.se>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH net-next 2/2] net: switch to using PHY_INTERFACE_MODE_10GBASER
- rather than 10GKR
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <f248b742-37c8-356f-3128-628b578e896e@samsung.com>
+Date:   Fri, 3 Jan 2020 12:55:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKKsWRmVeSWpSXmKPExsWy7djP87qHtPnjDB7MFbd4cqCd0eLK1/ds
+        Fs9u7WWyWNi2hMXiRN8HVovLu+awWew9NJ/R4vePOWwOHB7TDsxm99i8Qsvj0OEORo/73ceZ
+        PBb3TWb1+LxJLoAtissmJTUnsyy1SN8ugSuj6ewiloJ+7opvs9cwNjA2cXYxcnJICJhI9C2f
+        yd7FyMUhJLCCUWLCi3NQzhdGif7tXYwQzmdGiaYvR4EcDrCWX1OcIOLLGSWur7jJAuG8ZZTY
+        MH0FM8hcYQEPif/nZrCC2CICPhIPnv1gAyliFjjDJNF48ioTSIJNwEpiYvsqRhCbV8BO4vCh
+        NnYQm0VARWLKsT9gtqhAhMSnB4dZIWoEJU7OfMICYnMC1R9bvgFsGbOAuMStJ/OZIGx5ie1v
+        5zCDLJMQOMQucWTSJjaIT10kZvybD2ULS7w6voUdwpaR+L8TpBmkYR2jxN+OF1Dd2xkllk/+
+        B9VhLXHn3C82UAAwC2hKrN+lDxF2lJjZ94YZEi58EjfeCkIcwScxadt0qDCvREebEES1msSG
+        ZRvYYNZ27VzJPIFRaRaS12YheWcWkndmIexdwMiyilE8tbQ4Nz212DAvtVyvODG3uDQvXS85
+        P3cTIzAxnf53/NMOxq+Xkg4xCnAwKvHwJijzxwmxJpYVV+YeYpTgYFYS4S0P5I0T4k1JrKxK
+        LcqPLyrNSS0+xCjNwaIkzmu86GWskEB6YklqdmpqQWoRTJaJg1OqgdH23a+jPV8XuZX5fUhK
+        nW64wW1L56HumUmbG6zr3vVZzXT8P7NI0DRE8ohZ3Db+aY7PZ50qYqnsXDAzuJNjylndeZuS
+        RNdE3f/+9clB7h8zD757qaJ67LXQnWa1A7P/r1YNnPbJw2VTVjtTqVr4w1mMx0ouV01uNrcU
+        fNk08fqtr78WamzZcrpWiaU4I9FQi7moOBEAkVVKBkgDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRmVeSWpSXmKPExsVy+t/xu7oHtfnjDLY+Mrd4cqCd0eLK1/ds
+        Fs9u7WWyWNi2hMXiRN8HVovLu+awWew9NJ/R4vePOWwOHB7TDsxm99i8Qsvj0OEORo/73ceZ
+        PBb3TWb1+LxJLoAtSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUn
+        syy1SN8uQS+j6ewiloJ+7opvs9cwNjA2cXYxcnBICJhI/Jri1MXIySEksJRR4vbsIIiwjMTx
+        9WUgYQkBYYk/17rYuhi5gEpeM0r8O9nPDJIQFvCQ+H9uBiuILSLgI/Hg2Q+wImaBc0wSe0+0
+        QXWsY5I4uWoBO0gVm4CVxMT2VYwgNq+AncThQ21gcRYBFYkpx/6A2aICERKHd8yCqhGUODnz
+        CQuIzQlUf2z5BrDNzALqEn/mXYKyxSVuPZnPBGHLS2x/O4d5AqPQLCTts5C0zELSMgtJywJG
+        llWMIqmlxbnpucWGesWJucWleel6yfm5mxiBUbjt2M/NOxgvbQw+xCjAwajEw5ugzB8nxJpY
+        VlyZe4hRgoNZSYS3PJA3Tog3JbGyKrUoP76oNCe1+BCjKdBzE5mlRJPzgQkiryTe0NTQ3MLS
+        0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFMHxMHp1QDo6T6h6B1HcesIjzmfJF32nb0ca/n
+        o45p7qzPIow3sV9exVmWd9A2eePNjnu9PzUFjRariHx/WrQzbYNYyeE+7b2MfIsd9oXsO9I0
+        fdMzkbxjDz/FHzrUpt5RsfuKiI6D5L4XrM9mzFTz7fx298qizJXXrj1/lqPylLVQX9K+6dST
+        pJa/nMv3+iixFGckGmoxFxUnAgBcKJ5A2AIAAA==
+X-CMS-MailID: 20200103115545eucas1p168a060a62814c15b9601828d73c198e0
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1inLVE-0006gO-0S@rmk-PC.armlinux.org.uk>
-Date:   Fri, 03 Jan 2020 11:52:28 +0000
+X-RootMTR: 20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab
+References: <20190827110854.12574-1-peda@axentia.se>
+        <20190827110854.12574-4-peda@axentia.se>
+        <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
+        <CGME20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab@epcas1p2.samsung.com>
+        <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Switch network drivers, phy drivers, and SFP/phylink over to use the
-more correct 10GBASE-R, rather than 10GBASE-KR. 10GBASE-KR is backplane
-ethernet, which is 10GBASE-R with autonegotiation on top, which our
-current usage on the affected platforms does not have.
 
-The only remaining user of PHY_INTERFACE_MODE_10GKR is the Aquantia
-PHY, which has a separate mode for 10GBASE-KR.
+On 8/29/19 9:08 AM, Peter Rosin wrote:
+> On 2019-08-27 13:35, Geert Uytterhoeven wrote:
+>> Hi Peter,
+>>
+>> On Tue, Aug 27, 2019 at 1:09 PM Peter Rosin <peda@axentia.se> wrote:
+>>> The variable is only ever used from fbcon.c which is linked into the
+>>> same module. Therefore, the export is not needed.
+>>>
+>>> Signed-off-by: Peter Rosin <peda@axentia.se>
+>>
+>> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-For Marvell mvpp2, we detect 10GBASE-KR, and rewrite it to 10GBASE-R
-for compatibility with existing DT - this is the only network driver
-at present that makes use of PHY_INTERFACE_MODE_10GKR.
+Thanks, patch queued for v5.6 (also sorry for the delay).
 
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
- .../net/ethernet/marvell/mvpp2/mvpp2_main.c   | 13 +++++++-----
- drivers/net/phy/aquantia_main.c               |  7 +++++--
- drivers/net/phy/bcm84881.c                    |  4 ++--
- drivers/net/phy/marvell10g.c                  | 11 +++++-----
- drivers/net/phy/phylink.c                     |  1 +
- drivers/net/phy/sfp-bus.c                     |  2 +-
- drivers/phy/marvell/phy-mvebu-cp110-comphy.c  | 20 +++++++++----------
- 7 files changed, 33 insertions(+), 25 deletions(-)
+>> But note that the same is true for fb_class, so perhaps it can be added
+>> (or better, removed ;-)?
+> 
+> Right. Someone please let me know if 3/3 needs to be extended. I'm also
+> happy to just drop it...
 
-diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-index cd32c7196a7f..5113dae11906 100644
---- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-+++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-@@ -1114,7 +1114,7 @@ mvpp2_shared_interrupt_mask_unmask(struct mvpp2_port *port, bool mask)
- /* Port configuration routines */
- static bool mvpp2_is_xlg(phy_interface_t interface)
- {
--	return interface == PHY_INTERFACE_MODE_10GKR ||
-+	return interface == PHY_INTERFACE_MODE_10GBASER ||
- 	       interface == PHY_INTERFACE_MODE_XAUI;
- }
- 
-@@ -1200,7 +1200,7 @@ static int mvpp22_gop_init(struct mvpp2_port *port)
- 	case PHY_INTERFACE_MODE_2500BASEX:
- 		mvpp22_gop_init_sgmii(port);
- 		break;
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 		if (port->gop_id != 0)
- 			goto invalid_conf;
- 		mvpp22_gop_init_10gkr(port);
-@@ -1649,7 +1649,7 @@ static void mvpp22_pcs_reset_deassert(struct mvpp2_port *port)
- 	xpcs = priv->iface_base + MVPP22_XPCS_BASE(port->gop_id);
- 
- 	switch (port->phy_interface) {
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 		val = readl(mpcs + MVPP22_MPCS_CLK_RESET);
- 		val |= MAC_CLK_RESET_MAC | MAC_CLK_RESET_SD_RX |
- 		       MAC_CLK_RESET_SD_TX;
-@@ -4758,7 +4758,7 @@ static void mvpp2_phylink_validate(struct phylink_config *config,
- 
- 	/* Invalid combinations */
- 	switch (state->interface) {
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 	case PHY_INTERFACE_MODE_XAUI:
- 		if (port->gop_id != 0)
- 			goto empty_set;
-@@ -4780,7 +4780,7 @@ static void mvpp2_phylink_validate(struct phylink_config *config,
- 	phylink_set(mask, Asym_Pause);
- 
- 	switch (state->interface) {
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 	case PHY_INTERFACE_MODE_XAUI:
- 	case PHY_INTERFACE_MODE_NA:
- 		if (port->gop_id == 0) {
-@@ -5247,6 +5247,9 @@ static int mvpp2_port_probe(struct platform_device *pdev,
- 		goto err_free_netdev;
- 	}
- 
-+	if (phy_mode == PHY_INTERFACE_MODE_10GKR)
-+		phy_mode = PHY_INTERFACE_MODE_10GBASER;
-+
- 	if (port_node) {
- 		comphy = devm_of_phy_get(&pdev->dev, port_node, NULL);
- 		if (IS_ERR(comphy)) {
-diff --git a/drivers/net/phy/aquantia_main.c b/drivers/net/phy/aquantia_main.c
-index 975789d9349d..31927b2c7d5a 100644
---- a/drivers/net/phy/aquantia_main.c
-+++ b/drivers/net/phy/aquantia_main.c
-@@ -358,9 +358,11 @@ static int aqr107_read_status(struct phy_device *phydev)
- 
- 	switch (FIELD_GET(MDIO_PHYXS_VEND_IF_STATUS_TYPE_MASK, val)) {
- 	case MDIO_PHYXS_VEND_IF_STATUS_TYPE_KR:
--	case MDIO_PHYXS_VEND_IF_STATUS_TYPE_XFI:
- 		phydev->interface = PHY_INTERFACE_MODE_10GKR;
- 		break;
-+	case MDIO_PHYXS_VEND_IF_STATUS_TYPE_XFI:
-+		phydev->interface = PHY_INTERFACE_MODE_10GBASER;
-+		break;
- 	case MDIO_PHYXS_VEND_IF_STATUS_TYPE_USXGMII:
- 		phydev->interface = PHY_INTERFACE_MODE_USXGMII;
- 		break;
-@@ -493,7 +495,8 @@ static int aqr107_config_init(struct phy_device *phydev)
- 	    phydev->interface != PHY_INTERFACE_MODE_2500BASEX &&
- 	    phydev->interface != PHY_INTERFACE_MODE_XGMII &&
- 	    phydev->interface != PHY_INTERFACE_MODE_USXGMII &&
--	    phydev->interface != PHY_INTERFACE_MODE_10GKR)
-+	    phydev->interface != PHY_INTERFACE_MODE_10GKR &&
-+	    phydev->interface != PHY_INTERFACE_MODE_10GBASER)
- 		return -ENODEV;
- 
- 	WARN(phydev->interface == PHY_INTERFACE_MODE_XGMII,
-diff --git a/drivers/net/phy/bcm84881.c b/drivers/net/phy/bcm84881.c
-index db59911b9b3c..14d55a77eb28 100644
---- a/drivers/net/phy/bcm84881.c
-+++ b/drivers/net/phy/bcm84881.c
-@@ -53,7 +53,7 @@ static int bcm84881_config_init(struct phy_device *phydev)
- 	switch (phydev->interface) {
- 	case PHY_INTERFACE_MODE_SGMII:
- 	case PHY_INTERFACE_MODE_2500BASEX:
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 		break;
- 	default:
- 		return -ENODEV;
-@@ -218,7 +218,7 @@ static int bcm84881_read_status(struct phy_device *phydev)
- 	if (mode == 1 || mode == 2)
- 		phydev->interface = PHY_INTERFACE_MODE_SGMII;
- 	else if (mode == 3)
--		phydev->interface = PHY_INTERFACE_MODE_10GKR;
-+		phydev->interface = PHY_INTERFACE_MODE_10GBASER;
- 	else if (mode == 4)
- 		phydev->interface = PHY_INTERFACE_MODE_2500BASEX;
- 	switch (mode & 7) {
-diff --git a/drivers/net/phy/marvell10g.c b/drivers/net/phy/marvell10g.c
-index 512f27b0b5cd..64c9f3bba2cd 100644
---- a/drivers/net/phy/marvell10g.c
-+++ b/drivers/net/phy/marvell10g.c
-@@ -216,7 +216,7 @@ static int mv3310_sfp_insert(void *upstream, const struct sfp_eeprom_id *id)
- 	sfp_parse_support(phydev->sfp_bus, id, support);
- 	iface = sfp_select_interface(phydev->sfp_bus, support);
- 
--	if (iface != PHY_INTERFACE_MODE_10GKR) {
-+	if (iface != PHY_INTERFACE_MODE_10GBASER) {
- 		dev_err(&phydev->mdio.dev, "incompatible SFP module inserted\n");
- 		return -EINVAL;
- 	}
-@@ -304,7 +304,7 @@ static int mv3310_config_init(struct phy_device *phydev)
- 	    phydev->interface != PHY_INTERFACE_MODE_2500BASEX &&
- 	    phydev->interface != PHY_INTERFACE_MODE_XAUI &&
- 	    phydev->interface != PHY_INTERFACE_MODE_RXAUI &&
--	    phydev->interface != PHY_INTERFACE_MODE_10GKR)
-+	    phydev->interface != PHY_INTERFACE_MODE_10GBASER)
- 		return -ENODEV;
- 
- 	return 0;
-@@ -386,16 +386,17 @@ static void mv3310_update_interface(struct phy_device *phydev)
- {
- 	if ((phydev->interface == PHY_INTERFACE_MODE_SGMII ||
- 	     phydev->interface == PHY_INTERFACE_MODE_2500BASEX ||
--	     phydev->interface == PHY_INTERFACE_MODE_10GKR) && phydev->link) {
-+	     phydev->interface == PHY_INTERFACE_MODE_10GBASER) &&
-+	    phydev->link) {
- 		/* The PHY automatically switches its serdes interface (and
--		 * active PHYXS instance) between Cisco SGMII, 10GBase-KR and
-+		 * active PHYXS instance) between Cisco SGMII, 10GBase-R and
- 		 * 2500BaseX modes according to the speed.  Florian suggests
- 		 * setting phydev->interface to communicate this to the MAC.
- 		 * Only do this if we are already in one of the above modes.
- 		 */
- 		switch (phydev->speed) {
- 		case SPEED_10000:
--			phydev->interface = PHY_INTERFACE_MODE_10GKR;
-+			phydev->interface = PHY_INTERFACE_MODE_10GBASER;
- 			break;
- 		case SPEED_2500:
- 			phydev->interface = PHY_INTERFACE_MODE_2500BASEX;
-diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-index ba9468cc8e13..cf9ce4b67826 100644
---- a/drivers/net/phy/phylink.c
-+++ b/drivers/net/phy/phylink.c
-@@ -298,6 +298,7 @@ static int phylink_parse_mode(struct phylink *pl, struct fwnode_handle *fwnode)
- 			break;
- 
- 		case PHY_INTERFACE_MODE_10GKR:
-+		case PHY_INTERFACE_MODE_10GBASER:
- 			phylink_set(pl->supported, 10baseT_Half);
- 			phylink_set(pl->supported, 10baseT_Full);
- 			phylink_set(pl->supported, 100baseT_Half);
-diff --git a/drivers/net/phy/sfp-bus.c b/drivers/net/phy/sfp-bus.c
-index 06e6429b8b71..d949ea7b4f8c 100644
---- a/drivers/net/phy/sfp-bus.c
-+++ b/drivers/net/phy/sfp-bus.c
-@@ -373,7 +373,7 @@ phy_interface_t sfp_select_interface(struct sfp_bus *bus,
- 	    phylink_test(link_modes, 10000baseLRM_Full) ||
- 	    phylink_test(link_modes, 10000baseER_Full) ||
- 	    phylink_test(link_modes, 10000baseT_Full))
--		return PHY_INTERFACE_MODE_10GKR;
-+		return PHY_INTERFACE_MODE_10GBASER;
- 
- 	if (phylink_test(link_modes, 2500baseX_Full))
- 		return PHY_INTERFACE_MODE_2500BASEX;
-diff --git a/drivers/phy/marvell/phy-mvebu-cp110-comphy.c b/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-index e3b87c94aaf6..e41367f36ee1 100644
---- a/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-+++ b/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-@@ -221,7 +221,7 @@ static const struct mvebu_comphy_conf mvebu_comphy_cp110_modes[] = {
- 	ETH_CONF(2, 0, PHY_INTERFACE_MODE_SGMII, 0x1, COMPHY_FW_MODE_SGMII),
- 	ETH_CONF(2, 0, PHY_INTERFACE_MODE_2500BASEX, 0x1, COMPHY_FW_MODE_HS_SGMII),
- 	ETH_CONF(2, 0, PHY_INTERFACE_MODE_RXAUI, 0x1, COMPHY_FW_MODE_RXAUI),
--	ETH_CONF(2, 0, PHY_INTERFACE_MODE_10GKR, 0x1, COMPHY_FW_MODE_XFI),
-+	ETH_CONF(2, 0, PHY_INTERFACE_MODE_10GBASER, 0x1, COMPHY_FW_MODE_XFI),
- 	GEN_CONF(2, 0, PHY_MODE_USB_HOST_SS, COMPHY_FW_MODE_USB3H),
- 	GEN_CONF(2, 0, PHY_MODE_SATA, COMPHY_FW_MODE_SATA),
- 	GEN_CONF(2, 0, PHY_MODE_PCIE, COMPHY_FW_MODE_PCIE),
-@@ -235,14 +235,14 @@ static const struct mvebu_comphy_conf mvebu_comphy_cp110_modes[] = {
- 	/* lane 4 */
- 	ETH_CONF(4, 0, PHY_INTERFACE_MODE_SGMII, 0x2, COMPHY_FW_MODE_SGMII),
- 	ETH_CONF(4, 0, PHY_INTERFACE_MODE_2500BASEX, 0x2, COMPHY_FW_MODE_HS_SGMII),
--	ETH_CONF(4, 0, PHY_INTERFACE_MODE_10GKR, 0x2, COMPHY_FW_MODE_XFI),
-+	ETH_CONF(4, 0, PHY_INTERFACE_MODE_10GBASER, 0x2, COMPHY_FW_MODE_XFI),
- 	ETH_CONF(4, 0, PHY_INTERFACE_MODE_RXAUI, 0x2, COMPHY_FW_MODE_RXAUI),
- 	GEN_CONF(4, 0, PHY_MODE_USB_DEVICE_SS, COMPHY_FW_MODE_USB3D),
- 	GEN_CONF(4, 1, PHY_MODE_USB_HOST_SS, COMPHY_FW_MODE_USB3H),
- 	GEN_CONF(4, 1, PHY_MODE_PCIE, COMPHY_FW_MODE_PCIE),
- 	ETH_CONF(4, 1, PHY_INTERFACE_MODE_SGMII, 0x1, COMPHY_FW_MODE_SGMII),
- 	ETH_CONF(4, 1, PHY_INTERFACE_MODE_2500BASEX, -1, COMPHY_FW_MODE_HS_SGMII),
--	ETH_CONF(4, 1, PHY_INTERFACE_MODE_10GKR, -1, COMPHY_FW_MODE_XFI),
-+	ETH_CONF(4, 1, PHY_INTERFACE_MODE_10GBASER, -1, COMPHY_FW_MODE_XFI),
- 	/* lane 5 */
- 	ETH_CONF(5, 1, PHY_INTERFACE_MODE_RXAUI, 0x2, COMPHY_FW_MODE_RXAUI),
- 	GEN_CONF(5, 1, PHY_MODE_SATA, COMPHY_FW_MODE_SATA),
-@@ -342,7 +342,7 @@ static int mvebu_comphy_ethernet_init_reset(struct mvebu_comphy_lane *lane)
- 		 MVEBU_COMPHY_SERDES_CFG0_RXAUI_MODE);
- 
- 	switch (lane->submode) {
--	case PHY_INTERFACE_MODE_10GKR:
-+	case PHY_INTERFACE_MODE_10GBASER:
- 		val |= MVEBU_COMPHY_SERDES_CFG0_GEN_RX(0xe) |
- 		       MVEBU_COMPHY_SERDES_CFG0_GEN_TX(0xe);
- 		break;
-@@ -417,7 +417,7 @@ static int mvebu_comphy_ethernet_init_reset(struct mvebu_comphy_lane *lane)
- 	/* refclk selection */
- 	val = readl(priv->base + MVEBU_COMPHY_MISC_CTRL0(lane->id));
- 	val &= ~MVEBU_COMPHY_MISC_CTRL0_REFCLK_SEL;
--	if (lane->submode == PHY_INTERFACE_MODE_10GKR)
-+	if (lane->submode == PHY_INTERFACE_MODE_10GBASER)
- 		val |= MVEBU_COMPHY_MISC_CTRL0_ICP_FORCE;
- 	writel(val, priv->base + MVEBU_COMPHY_MISC_CTRL0(lane->id));
- 
-@@ -564,7 +564,7 @@ static int mvebu_comphy_set_mode_rxaui(struct phy *phy)
- 	return mvebu_comphy_init_plls(lane);
- }
- 
--static int mvebu_comphy_set_mode_10gkr(struct phy *phy)
-+static int mvebu_comphy_set_mode_10gbaser(struct phy *phy)
- {
- 	struct mvebu_comphy_lane *lane = phy_get_drvdata(phy);
- 	struct mvebu_comphy_priv *priv = lane->priv;
-@@ -735,8 +735,8 @@ static int mvebu_comphy_power_on_legacy(struct phy *phy)
- 	case PHY_INTERFACE_MODE_RXAUI:
- 		ret = mvebu_comphy_set_mode_rxaui(phy);
- 		break;
--	case PHY_INTERFACE_MODE_10GKR:
--		ret = mvebu_comphy_set_mode_10gkr(phy);
-+	case PHY_INTERFACE_MODE_10GBASER:
-+		ret = mvebu_comphy_set_mode_10gbaser(phy);
- 		break;
- 	default:
- 		return -ENOTSUPP;
-@@ -782,8 +782,8 @@ static int mvebu_comphy_power_on(struct phy *phy)
- 				lane->id);
- 			fw_speed = COMPHY_FW_SPEED_3125;
- 			break;
--		case PHY_INTERFACE_MODE_10GKR:
--			dev_dbg(priv->dev, "set lane %d to 10G-KR mode\n",
-+		case PHY_INTERFACE_MODE_10GBASER:
-+			dev_dbg(priv->dev, "set lane %d to 10GBASE-R mode\n",
- 				lane->id);
- 			fw_speed = COMPHY_FW_SPEED_103125;
- 			break;
--- 
-2.20.1
+Please send incremental patch for fb_class. 
 
+>> Once drivers/staging/olpc_dcon/olpc_dcon.c stops abusing registered_fb[]
+>> and num_registered_fb, those can go, too.
+>>
+>> Does anyone remembe why au1200fb calls fb_prepare_logo() and fb_show_logo()
+>> itself?
+> 
+> Maybe there should be a small drivers/video/fbdev/core/fbmem.h file (or
+> something) with these "internal" declarations, to hide some clutter currently
+> in include/linux/fb.h?
+
+Sounds like a good idea.
+
+> Feels like that could be done later, after these other cleanups you mention,
+> so that the new file has a few more things to declare.
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
