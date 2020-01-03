@@ -2,68 +2,96 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A26C3276C
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 00:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC42C3F68F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 03:03:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 864702085B
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 00:22:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3B8621582
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 03:03:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="R/1jD1Nn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbgACAWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jan 2020 19:22:44 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:55542 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725900AbgACAWo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jan 2020 19:22:44 -0500
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126] helo=xylophone)
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1inAjd-0006T5-0m; Fri, 03 Jan 2020 00:22:37 +0000
-Message-ID: <dc17d939c813b004e0a50af2813a1eef1fbf9574.camel@codethink.co.uk>
-Subject: Re: [GIT PULL v3 00/27] block, scsi: final compat_ioctl cleanup
-From:   Ben Hutchings <ben.hutchings@codethink.co.uk>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+        id S1727397AbgACDDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jan 2020 22:03:32 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:60482 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726481AbgACDDc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jan 2020 22:03:32 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0032xkfC086712;
+        Fri, 3 Jan 2020 03:03:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=7Uzhms73a+KJbfSORtunBkSoE2Z7DP+Q+lxT3XVHdoA=;
+ b=R/1jD1NnKGX7/K3I27fBOLJWsRClXryip95BkQ+8YVeXm05fjOyQvTYaan/e64Qweoac
+ 9udVPmiijnZJip7nuPT9UYtOikEjK0dhCKfuF0falCYoXNVpaG92oppNY0xtkiz0wwUS
+ q8PGnsdBaFUpTvkUWKZ9H6Q4BgCdb2HWRnaZc4+eRkDlJXFQ+Gpn18gyBxxtssT4QjgP
+ Ufa+IN9kLk4waD2v2cGe877meQz5hE+5fXjT0BwjcWzM84bPT6ut9zA9yiAxcyPsnLig
+ YIdQOj80nD1q1w29iYyMNNlp0t4qcTnlRmgDe9pA/m9LWvtNxVKTNXribNcntMaMSG8C 6A== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2x5ypqta06-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 03 Jan 2020 03:03:07 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0032xHrY183017;
+        Fri, 3 Jan 2020 03:03:07 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 2x8bsttj74-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 03 Jan 2020 03:03:07 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00332pLK000715;
+        Fri, 3 Jan 2020 03:02:51 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 02 Jan 2020 19:02:51 -0800
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
         y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>, linux-doc@vger.kernel.org,
-        corbet@lwn.net, viro@zeniv.linux.org.uk,
+        Christoph Hellwig <hch@lst.de>,
+        Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        linux-doc@vger.kernel.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
         linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Date:   Fri, 03 Jan 2020 00:22:36 +0000
-In-Reply-To: <20200102145552.1853992-1-arnd@arndb.de>
+Subject: Re: [GIT PULL v3 00/27] block, scsi: final compat_ioctl cleanup
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
 References: <20200102145552.1853992-1-arnd@arndb.de>
-Organization: Codethink Ltd.
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+Date:   Thu, 02 Jan 2020 22:02:47 -0500
+In-Reply-To: <20200102145552.1853992-1-arnd@arndb.de> (Arnd Bergmann's message
+        of "Thu, 2 Jan 2020 15:55:18 +0100")
+Message-ID: <yq1woa944yw.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9488 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=965
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001030026
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9488 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001030027
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-01-02 at 15:55 +0100, Arnd Bergmann wrote:
-[...]
-> Changes since v2:
-> - Rebase to v5.5-rc4, which contains the earlier bugfixes
-> - Fix sr_block_compat_ioctl() error handling bug found by
->   Ben Hutchings
-[...]
 
-Unfortunately that fix was squashed into "compat_ioctl: move
-sys_compat_ioctl() to ioctl.c" whereas it belongs in "compat_ioctl:
-scsi: move ioctl handling into drivers".
+Arnd,
 
-If you decide to rebase again, you can add my Reviewed-by to all
-patches.
+> If this version seems ok to everyone, please pull into the scsi tree.
 
-Ben.
+Looks good to me. Please address Ben's comment and I'll pull it in.
 
 -- 
-Ben Hutchings, Software Developer                         Codethink Ltd
-https://www.codethink.co.uk/                 Dale House, 35 Dale Street
-                                     Manchester, M1 2HF, United Kingdom
-
+Martin K. Petersen	Oracle Linux Engineering
