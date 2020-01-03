@@ -2,105 +2,249 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FCDC2D0CE
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 08:57:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CE2C2D0C2
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:27:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 912512253D
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 08:57:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7D2921835
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 11:27:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="enI2VYUG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727404AbgACI5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 03:57:17 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:43873 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbgACI5R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 03:57:17 -0500
-Received: from mail-qv1-f49.google.com ([209.85.219.49]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MXXdn-1jE6oX3zhv-00Z0Or; Fri, 03 Jan 2020 09:57:15 +0100
-Received: by mail-qv1-f49.google.com with SMTP id n8so15948781qvg.11;
-        Fri, 03 Jan 2020 00:57:14 -0800 (PST)
-X-Gm-Message-State: APjAAAVzLmqwU93oflz90OayHaRkEtlgScMlOuLS/3OTCZ8ZWWg0eGOl
-        mflxRaKgKsis3TorOKBNsDywfOcYAuSaQxGCies=
-X-Google-Smtp-Source: APXvYqzTMjLfB/djZfKHN6GJc8U6SPp+bLcFseejCOHPAhzRIWhN2S9BjSwrezU2LR8WsFgGtj/vSg4385pE/8QPXy8=
-X-Received: by 2002:a0c:e7c7:: with SMTP id c7mr67496854qvo.222.1578041833501;
- Fri, 03 Jan 2020 00:57:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20200102145552.1853992-1-arnd@arndb.de> <dc17d939c813b004e0a50af2813a1eef1fbf9574.camel@codethink.co.uk>
-In-Reply-To: <dc17d939c813b004e0a50af2813a1eef1fbf9574.camel@codethink.co.uk>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 3 Jan 2020 09:56:57 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1tTCk_qYQ+iLp_L50biemmz+vh8kHYHL7hRPgirhxxLA@mail.gmail.com>
-Message-ID: <CAK8P3a1tTCk_qYQ+iLp_L50biemmz+vh8kHYHL7hRPgirhxxLA@mail.gmail.com>
-Subject: Re: [GIT PULL v3 00/27] block, scsi: final compat_ioctl cleanup
-To:     Ben Hutchings <ben.hutchings@codethink.co.uk>
-Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        id S1727507AbgACL1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 06:27:38 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36314 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727456AbgACL1h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 06:27:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578050856;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AKOOwHs2ZDIRxWjWlTFCn8p7FYAVgQaVXWf4ImCfYuo=;
+        b=enI2VYUGfJ7wpSqc/gAvmfK93kmJPjWqawxUo8N/uD/Sg0VFFLezEwsWBXtE+83k5HocSr
+        KSHiMKMySaUsoaeVQ19d11CPpjr25cdHsX9UPQdjg4/MtV7lPOfGZ+h4/YMcAPPjzwm/cj
+        V8VRbFkYq4KptT5h9zj/P4OlbTJQ77o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-E6eT8nAzMou3Lqt_ybJ6Qg-1; Fri, 03 Jan 2020 06:27:35 -0500
+X-MC-Unique: E6eT8nAzMou3Lqt_ybJ6Qg-1
+Received: by mail-wm1-f72.google.com with SMTP id l11so1276064wmi.0
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jan 2020 03:27:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AKOOwHs2ZDIRxWjWlTFCn8p7FYAVgQaVXWf4ImCfYuo=;
+        b=t1Q2nTmdBLLA83ShPL5PUHJ2gR8fi/ABKSf6FA1yfn/Jmg9sODVcmsF2phgkqQt5Sq
+         U2FZl07y5HB/0DdkOqbjLwntxA/PF19HVXq31YVx1echC/KkJu0B7TnzNW0HyxwNVAeF
+         flA/8Ak3Y+dvbIaAa5zI2lDJRu/vCzMpeLzwyNJtGLmN2teOO0AJIziG+Qg1di6xqq9o
+         zVoYCUjH8K03/I7uCTmZRX9Z6QjTjfTSf4W86ez3ztobFjdTy3gzmHebLnzoKhU8LBjP
+         PWvbYBtPx4hYjCslaH1o2X6N40SDIissnXxcP2OE4Pp0TGiS/As+RzKcVayZgojEDalc
+         I1zA==
+X-Gm-Message-State: APjAAAUjjGHf9pyJ/UEsC8COGBYV921UORxKxPizi1TVSDMXFWIbjX+w
+        EcVkUT5CGD+hp5KspwIS2Ia3B22Hys7KvtSdYB/klkp1gGWw/N3n9W7rO1ZaYVwqsGIUqm6M7pZ
+        L8vbT64k33glbf1YHbrA2
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr19221978wme.40.1578050853966;
+        Fri, 03 Jan 2020 03:27:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyZFNItZbvteC2IYwnmx0jlBP0nRcHjtSlcxUvpNI4Px9I2AyLJtHNp/+ME2brZ+/LsbjnDSw==
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr19221951wme.40.1578050853665;
+        Fri, 03 Jan 2020 03:27:33 -0800 (PST)
+Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+        by smtp.gmail.com with ESMTPSA id h8sm62312534wrx.63.2020.01.03.03.27.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jan 2020 03:27:32 -0800 (PST)
+Subject: Re: [PATCH v10 00/10] efi/firmware/platform-x86: Add EFI embedded fw
+ support
+To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:I1cvh4okryzhKcNilmC8/jvbYZfVuC7Gu3zL5E1dw1nhWS1IsPm
- G5Ds416TnXhCHX4N3OqQef6+9rsjiCiGuKfWmAtK/kFOnOyvcSN/CM27gw3dr311C5NSxAG
- ZK+7kxKBQVfr2hmw+eOxuNVU4n+uzNKY6ER9uc6wUCq/po24V2cfsgPkO6+Glgb5QjnctA4
- 71SZQChXFWIiX0RFKbYmg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lmKs5T3XinI=:vpspqsdsexs7fkhPmpGBPe
- +oi0veEcyaz8JCYiR15ghmGkLyeZ6HJHk179W7e5mfPsKuxTRJXeQzjsCfg072D68yi9izXvO
- WsL1ZfDUZEtWNc0cq7jGaKe8rsGuFPzoT2kQ06jrb+pT4/i4CCNb1A7MK6VY/InoR/D7jGcag
- jp8ZCPVPU9vA0SryIbqhkPKjkGdJ0FZcDQCNJNf2cvEt065jp91OY5vYQ2fcZZ/otbszo31t6
- HCXDmRfd6/ZBQYpbQ0qpv5P9oL0TIGbj1pEQFPc9bku1ODtXZAaqKrhi/TkgXpi5DBv7km1Iu
- uvOQDQcbSm2CZNtJ7cPaybjnc0JADX/zTOU3JvsJvzke28q6A8bwYN1H0RcrEvaLS573+42uM
- 3GfIfenhzmZkbuxNUiqZbJ/UCe/9/+sCqXsZBZVu3tzP4KOOEz7AJLiRlhCgjVSPLYrcXbLt4
- bbp0QaNhxPMbX0fMM2UwBcsHbEXec9lf56bTcwVT9B+IhMOAndTZA7/wWYFBpPbUWJAY06ofO
- dIizah+LcSpUN3KoZVstllojgWETUEBuOkpq+zCR5JyTTxDjw/D197lBWdTCB5CvmAuvjkZKM
- 1EJ8zSPWzopPoQt4xncQLEm+dwXoK5Is8WMisZ2uXX3xAeYpHn7ORJPni9rGPQlUWq6wj+Wwe
- IjqE0m7ovG8fbl7sGAVbfy7KsiHjJHTHs/p5nrciWUGlITYfILc6dg5xH0psdXNS7jJH/j3hr
- nu/MleWWupSZPSFaS1USBZOKGgUa0uEt8rwzess6PcjplX8ebeRSK+Elfd9tGEtI4bfpSEbrJ
- +P+lnbheWzNL8jYl5oMMz7zZr7eKm9RV9eysM8hYhnU/kPr28qeHCTelYTPL3y1RD6vj7Q6F2
- bIu5/3/E/zoju4Tpu+3A==
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Peter Jones <pjones@redhat.com>, Dave Olsthoorn <dave@bewaar.me>,
+        x86@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-input@vger.kernel.org
+References: <20191210115117.303935-1-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
+Date:   Fri, 3 Jan 2020 12:27:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20191210115117.303935-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 3, 2020 at 1:22 AM Ben Hutchings
-<ben.hutchings@codethink.co.uk> wrote:
->
-> On Thu, 2020-01-02 at 15:55 +0100, Arnd Bergmann wrote:
-> [...]
-> > Changes since v2:
-> > - Rebase to v5.5-rc4, which contains the earlier bugfixes
-> > - Fix sr_block_compat_ioctl() error handling bug found by
-> >   Ben Hutchings
-> [...]
->
-> Unfortunately that fix was squashed into "compat_ioctl: move
-> sys_compat_ioctl() to ioctl.c" whereas it belongs in "compat_ioctl:
-> scsi: move ioctl handling into drivers".
+Hi All,
 
-Fixed now.
+Since I send this out, efi-next has seen some changes causing the first
+2 patches to no longer cleanly apply. So it looks like we need to
+merge this one bit at a time with immutable branches.
 
-> If you decide to rebase again, you can add my Reviewed-by to all
-> patches.
+Ard, the first 2 patches in this series should be merged through your
+efi tree. AFAIK everyone is happy with them in their current state
+so they are ready for merging. Can you create an immutable branch
+with these 2 patches and merge that into your efi-next branch?
 
-Done, and pushed out to the same tag as before
+Note if you do the immutable branch on 5.5-rc1 + just these 2 patches,
+there will be a conflict when you merge this into efi-next, but it is
+trivial to resolve.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/
-block-ioctl-cleanup-5.6
+Luis, the rest of the series is almost ready for merging, it just needs
+your review of the 2 new patches (patch 5 and 6) adding the selftests for
+the new firmware_request_platform api, if you can review those that would
+be great.
 
-Thank you again for the careful review!
+Regards,
 
-Martin, please pull the URL above to get the latest version, the top commit
-is 8ce156deca718 ("Documentation: document ioctl interfaces better").
+Hans
 
-       Arnd
+
+
+On 10-12-2019 12:51, Hans de Goede wrote:
+> Hi All,
+> 
+> Here is v10 of my patch-set to add support for EFI embedded fw to the
+> kernel. This version has been rebased on top 5.5-rc1 to fix 2 conflicts
+> with the first 2 (efi) patches in the series. There are no changes
+> versus v9 other then the rebase.
+> 
+> Below is the cover-letter of v9:
+> 
+> The main new feature in this version is the addition of some selftests for
+> the new firmware_request_platform api (patch 5 and 6, both new). My plan
+> was to send the patches adding the selftests out as a follow up series.
+> 
+> But during unrelated testing of my personal tree I found a small but nasty
+> bug in the "efi: Add embedded peripheral firmware support" patch, the minor
+> refactoring done in v8 exposed a bug which causes a hard crash on boot for
+> devices which have a DMI match in the touchscreen_dmi_table but do not use
+> EFI-embedded fw, this is fixed in this new version.
+> 
+> Assuming the 2 new patches adding the selftests are ok, I believe that
+> this series is ready for merging now.  I believe it would be best to merge
+> patches 1-8 through Greg's driver-core tree where firmware-loader changes go.
+> The non firmware patches already have Acked-by-s from the maintainers of
+> the EFI/input trees.
+> 
+> Patches 9-10 touch a quirks file under drivers/platform/x86 which sees
+> multipe updates each cycle. So my proposal is that once 1-8 has landed
+> Greg creates an immutable branch with those changes and then
+> Andy and/or Darren can merge in that branch and then apply 9 and 10.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> Changes in v10:
+> - Rebase on top of 5.5-rc1
+> 
+> Changes in v9:
+> - Add 2 new patches adding selftests
+> - At least touchscreen_dmi.c uses the same dmi_table for its own private
+>    data and the fw_desc structs, putting the fw_desc struct first in the
+>    data driver_data points to so that the dmi_table can be shared with
+>    efi_check_for_embedded_firmwares(). But not all entries there have
+>    embedded-fw so in some cases the fw_desc is empty (zero-ed out).
+>    This can lead to a possible crash because fw_desc->length now is
+>    less then 8, so if the segment size is close enough to a multiple of the
+>    page_size, then the memcmp to check the prefix my segfault. Crashing the
+>    machine. v9 checks for and skips these empty fw_desc entries avoiding this.
+> - Add static inline wrapper for firmware_request_platform() to firmware.h,
+>    for when CONFIG_FW_LOADER is not set
+> 
+> Changes in v8:
+> - Add pr_warn if there are mode then EFI_DEBUGFS_MAX_BLOBS boot service segments
+> - Document how the EFI debugfs boot_service_code? files can be used to check for
+>    embedded firmware
+> - Properly deal with the case of an EFI segment being smaller then the fw we
+>    are looking for
+> - Log a warning when efi_get_embedded_fw get called while we did not (yet)
+>    check for embedded firmwares
+> - Only build fallback_platform.c if CONFIG_EFI_EMBEDDED_FIRMWARE is defined,
+>    otherwise make firmware_fallback_platform() a static inline stub
+> 
+> Changes in v7:
+> - Split drivers/firmware/efi and drivers/base/firmware_loader changes into
+>    2 patches
+> - Use new, standalone, lib/crypto/sha256.c code
+> - Address kdoc comments from Randy Dunlap
+> - Add new FW_OPT_FALLBACK_PLATFORM flag and firmware_request_platform()
+>    _request_firmware() wrapper, as requested by Luis R. Rodriguez
+> - Stop using "efi-embedded-firmware" device-property, now that drivers need to
+>    use the new firmware_request_platform() to enable fallback to a device fw
+>    copy embedded in the platform's main firmware, we no longer need a property
+>    on the device to trigger this behavior
+> - Use security_kernel_load_data instead of calling
+>    security_kernel_read_file with a NULL file pointer argument
+> - Move the docs to Documentation/driver-api/firmware/fallback-mechanisms.rst
+> - Document the new firmware_request_platform() function in
+>    Documentation/driver-api/firmware/request_firmware.rst
+> - Add 2 new patches for the silead and chipone-icn8505 touchscreen drivers
+>    to use the new firmware_request_platform() method
+> - Rebased on top of 5.4-rc1
+> 
+> Changes in v6:
+> -Rework code to remove casts from if (prefix == mem) comparison
+> -Use SHA256 hashes instead of crc32 sums
+> -Add new READING_FIRMWARE_EFI_EMBEDDED read_file_id and use it
+> -Call security_kernel_read_file(NULL, READING_FIRMWARE_EFI_EMBEDDED)
+>   to check if this is allowed before looking at EFI embedded fw
+> -Document why we are not using the PI Firmware Volume protocol
+> 
+> Changes in v5:
+> -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
+> 
+> Changes in v4:
+> -Drop note in docs about EFI_FIRMWARE_VOLUME_PROTOCOL, it is not part of
+>   UEFI proper, so the EFI maintainers don't want us referring people to it
+> -Use new EFI_BOOT_SERVICES flag
+> -Put the new fw_get_efi_embedded_fw() function in its own fallback_efi.c
+>   file which only gets built when EFI_EMBEDDED_FIRMWARE is selected
+> -Define an empty stub for fw_get_efi_embedded_fw() in fallback.h hwen
+>   EFI_EMBEDDED_FIRMWARE is not selected, to avoid the need for #ifdefs
+>   in firmware_loader/main.c
+> -Properly call security_kernel_post_read_file() on the firmware returned
+>   by efi_get_embedded_fw() to make sure that we are allowed to use it
+> 
+> Changes in v2:
+> -Rebased on driver-core/driver-core-next
+> -Add documentation describing the EFI embedded firmware mechanism to:
+>   Documentation/driver-api/firmware/request_firmware.rst
+> -Add a new EFI_EMBEDDED_FIRMWARE Kconfig bool and only build the embedded
+>   fw support if this is set. This is an invisible option which should be
+>   selected by drivers which need this
+> -Remove the efi_embedded_fw_desc and dmi_system_id-s for known devices
+>   from the efi-embedded-fw code, instead drivers using this are expected to
+>   export a dmi_system_id array, with each entries' driver_data pointing to a
+>   efi_embedded_fw_desc struct and register this with the efi-embedded-fw code
+> -Use kmemdup to make a copy instead of efi_mem_reserve()-ing the firmware,
+>   this avoids us messing with the EFI memmap and avoids the need to make
+>   changes to efi_mem_desc_lookup()
+> -Make the firmware-loader code only fallback to efi_get_embedded_fw() if the
+>   passed in device has the "efi-embedded-firmware" device-property bool set
+> -Skip usermodehelper fallback when "efi-embedded-firmware" device-property
+>   is set
+> 
+> 
+
