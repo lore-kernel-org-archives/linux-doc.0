@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F853C2D0C2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B7EC2D0C2
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:25:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1559620866
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:22:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F10D20866
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 20:25:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="SIyeeLJQ"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Z3vMqoJv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgACUWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 15:22:11 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:46992 "EHLO vps0.lunn.ch"
+        id S1727221AbgACUZL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 15:25:11 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:47012 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727221AbgACUWL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jan 2020 15:22:11 -0500
+        id S1728490AbgACUZK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jan 2020 15:25:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
         Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=DXlmvzGIFZg8e5QLUFHILq1iokX6z7xR+KUOugOpcFk=; b=SIyeeLJQqmZ/2qTmaHrZ9qQARN
-        7X+wcB5fwelP5ttPn5BJGuir3VwzgpFIqZue/nh9qs2Dt8Q75j9PT7xgU00KPHeY1Ecb9bvnzXJEP
-        cIk5Z5fjE5AciDvMJV6H0j/qXPgwJJfED73cETIUlrAhrsUS/q3mlM9yFXGL7JidKZ7Y=;
+        bh=9mxXhdbtgN94d+uB0sJfQe/q2KayN2aAHVTKpNWCx6k=; b=Z3vMqoJvM9r53K1Dq/uexXxWwU
+        jsaxIMsOOH8gK/gmoSnSp5dGjECGLPbWdIK96x1ROs4Ab35f2A3QB9C2xku5kJVhVXI3WhvtonBeO
+        l5no/SL5S94DyFBeZQ0Z87L1+He4EuaEE20+ueca4tPUqmxuBezEY9Lgiai5foupmXl4=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
         (envelope-from <andrew@lunn.ch>)
-        id 1inTSK-0002mu-Q5; Fri, 03 Jan 2020 21:22:00 +0100
-Date:   Fri, 3 Jan 2020 21:22:00 +0100
+        id 1inTVI-0002pw-OO; Fri, 03 Jan 2020 21:25:04 +0100
+Date:   Fri, 3 Jan 2020 21:25:04 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Russell King <rmk+kernel@armlinux.org.uk>
 Cc:     Florian Fainelli <f.fainelli@gmail.com>,
@@ -41,26 +41,40 @@ Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] net: phy: add PHY_INTERFACE_MODE_10GBASER
-Message-ID: <20200103202200.GP1397@lunn.ch>
+Subject: Re: [PATCH net-next 2/2] net: switch to using
+ PHY_INTERFACE_MODE_10GBASER rather than 10GKR
+Message-ID: <20200103202504.GQ1397@lunn.ch>
 References: <20200103115125.GC25745@shell.armlinux.org.uk>
- <E1inLV8-0006gD-P7@rmk-PC.armlinux.org.uk>
+ <E1inLVE-0006gO-0S@rmk-PC.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1inLV8-0006gD-P7@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1inLVE-0006gO-0S@rmk-PC.armlinux.org.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 11:52:22AM +0000, Russell King wrote:
-> Recent discussion has revealed that the use of PHY_INTERFACE_MODE_10GKR
-> is incorrect. Add a 10GBASE-R definition, document both the -R and -KR
-> versions, and the fact that 10GKR was used incorrectly.
+> For Marvell mvpp2, we detect 10GBASE-KR, and rewrite it to 10GBASE-R
+> for compatibility with existing DT - this is the only network driver
+> at present that makes use of PHY_INTERFACE_MODE_10GKR.
 > 
 > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> @@ -5247,6 +5247,9 @@ static int mvpp2_port_probe(struct platform_device *pdev,
+>  		goto err_free_netdev;
+>  	}
+>  
+> +	if (phy_mode == PHY_INTERFACE_MODE_10GKR)
+> +		phy_mode = PHY_INTERFACE_MODE_10GBASER;
+
+Hi Russell
+
+Maybe consider adding a comment here, or suggest readers to read the
+commit message of the patch that added these two lines to get the full
+story.
+
+Apart from that:
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
