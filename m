@@ -2,83 +2,96 @@ Return-Path: <SRS0=LeVL=2Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8140AC2D0C2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 14:17:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C298C3F68F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 15:15:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49D0F217F4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 14:17:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="w+U8h2Nm"
+	by mail.kernel.org (Postfix) with ESMTP id 7497C246A8
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jan 2020 15:15:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727543AbgACORy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 09:17:54 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:46546 "EHLO vps0.lunn.ch"
+        id S1727786AbgACPO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 10:14:58 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43996 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727523AbgACORx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jan 2020 09:17:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=SPSoKaVWvvfOmi0iWxF8OTB5u3tMvNZWBpDZy5pArsw=; b=w+U8h2NmPqJUSto7bxoXcsRufT
-        /1hIhKGWL/t/JVAD/9mVUNzRGe5KfY5ET5CZ9FwIOgZLUE4rUzB6WRb3qwJe5biCwWDZgGeuUaygK
-        1FnauURFWaoTB9yOvUDEtHy4MDLsZfOj91aEbax511bFa3GvwLSxptfy33fHO2+YnfbI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
-        (envelope-from <andrew@lunn.ch>)
-        id 1inNln-0006of-Np; Fri, 03 Jan 2020 15:17:43 +0100
-Date:   Fri, 3 Jan 2020 15:17:43 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
-Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next 0/2] Fix 10G PHY interface types
-Message-ID: <20200103141743.GC22988@lunn.ch>
-References: <20200103115125.GC25745@shell.armlinux.org.uk>
- <DB8PR04MB698593C7DB07A82577562348EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
+        id S1727646AbgACPO6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jan 2020 10:14:58 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id CF604AC69;
+        Fri,  3 Jan 2020 15:14:55 +0000 (UTC)
+Date:   Fri, 3 Jan 2020 16:14:49 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     =?utf-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 1/2] sched/numa: introduce per-cgroup NUMA locality
+ info
+Message-ID: <20200103151449.GA25747@blackbody.suse.cz>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+ <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+ <275a98ed-35b8-b65f-3600-64ab722dd836@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DB8PR04MB698593C7DB07A82577562348EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <275a98ed-35b8-b65f-3600-64ab722dd836@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Describing the actual interface at chip to chip level (RGMII, SGMII, XAUI,
-> XFI, etc.). This may be incomplete for people trying to configure their HW
-> that supports multiple modes (reminder - device trees describe HW, they do
-> not configure SW). More details would be required and the list would be...
-> eclectic.
+Hi.
 
-Hi Madalin
+On Fri, Dec 13, 2019 at 09:47:36AM +0800, 王贇 <yun.wang@linux.alibaba.com> wrote:
+> By monitoring the increments, we will be able to locate the per-cgroup
+> workload which NUMA Balancing can't helpwith (usually caused by wrong
+> CPU and memory node bindings), then we got chance to fix that in time.
+I just wonder do the data based on increments match with those you
+obtained previously?
 
-Please forget the existing DT binding for the moment. Please describe
-what values you need to program into your hardware to make it
-work. Please don't use the existing DT naming when describing what you
-need. Maybe use the terms from the reference manual?
+> +static inline void
+> +update_task_locality(struct task_struct *p, int pnid, int cnid, int pages)
+> +{
+> +	if (!static_branch_unlikely(&sched_numa_locality))
+> +		return;
+> +
+> +	/*
+> +	 * pnid != cnid --> remote idx 0
+> +	 * pnid == cnid --> local idx 1
+> +	 */
+> +	p->numa_page_access[!!(pnid == cnid)] += pages;
+If the per-task information isn't used anywhere, why not accumulate
+directly into task's cfs_rq->{local,remote}_page_access?
 
-Once we have a list, we can figure out what could be generic, what
-could be vendor specific, and how to describe it in ACPI, DT, etc.
+> @@ -4298,6 +4359,7 @@ entity_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr, int queued)
+>  	 */
+>  	update_load_avg(cfs_rq, curr, UPDATE_TG);
+>  	update_cfs_group(curr);
+> +	update_group_locality(cfs_rq);
+With the per-NUMA node time tracked separately, isn't it unnecessary
+doing group updates inside entity_tick? 
 
-At LPC 2019, Claudiu and Vladimir talked about wanting to describe the
-eye configuration for some hardware. It would be interesting if there
-is any overlap. Aquantia also have some values used to configure the
-SERDES of their PHYs. I think this is a board specific binary blob
-which is loaded into the PHY as part of the firmware. That then limits
-their firmware to a specific board, which is not so nice. But does
-that also indicate that how the MAC is configured might also depend on
-how the PHY configures its electrical properties?
 
-    Andrew
+Regards,
+Michal
