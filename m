@@ -2,187 +2,128 @@ Return-Path: <SRS0=cmS/=2Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE7FAC00523
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 01:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28A3C32767
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 04:51:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C8E721835
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 01:40:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="DdTUmNJN"
+	by mail.kernel.org (Postfix) with ESMTP id A8DCF222C4
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 04:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727194AbgADBkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 20:40:16 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:37612 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727173AbgADBkP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 20:40:15 -0500
-Received: by mail-il1-f193.google.com with SMTP id t8so38103616iln.4
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jan 2020 17:40:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:message-id:user-agent:mime-version;
-        bh=p+aEtGvZStTHC748i1i28Ty2kT6MGPJhRV1hrUdmKEg=;
-        b=DdTUmNJNzy5afvjihoYOCyO8r92df2ViburJnJy+i8JQzvGeGwuYuInZsZynms5w7M
-         u4BeFPjaAt/57JdqjiFc8k1ZkpaG1SpFN4KVxND46xBwj5s7+jUPaY4XlsGkM3rDStMx
-         d8eP9f8837MDgHrMuU/hgWrUXXnyinuAxf6Jm62LRLjnp+vY/PogtuD1kT3RmyXTvA3i
-         NX9R2S0KpgFEeMCQJJ9rXewTw6Vc2TTQFmh8uEKG87ga/G/npvR2umS5+GDyM70Uy+aj
-         V3uhNgAo+Tr804pt70xnQWcKADWgcVn6w8prGzwp3ppQeMUUOuWhnfbHrf4hMVDftC+W
-         RffA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:user-agent
-         :mime-version;
-        bh=p+aEtGvZStTHC748i1i28Ty2kT6MGPJhRV1hrUdmKEg=;
-        b=tSEtcyiyAFX1NGPDIwzLWpI73f/H3tE8R8CrwUNYbkEAkC+HIMXPDuTOdu5v6Mlpdn
-         r4KUetokB9Q7sF+uM1wlYvRUS71XHWIlwpNIQuMN9SunCUDxxroOpu9ZdolQyv3TW5Lx
-         t45DSITUIyrDNc1Qs8Q7/mPDu8JwvPzClHd1lHcmooDJY+oiTEZzU8FAqCxFx0kKhUQy
-         3NOXRjuM9F8IgQsPG2guyekAS/9aKpQcLF/s48ytYXrBvCPGt56KjHhTaSMdWklo2cM0
-         SWCVH+ZddIgLCZ16Cw+oXLfjHrKYKmu6ueSthMwt3Ojo+7RFupJmhBXRLb0reL7O0xr8
-         qvAQ==
-X-Gm-Message-State: APjAAAV9X5MewQtJTz0jLGdCWi2pEQ0YCV92Kmr6mZOgsJrasQHrJuWy
-        9Zmu9dG3ramrHlh+tW2gcDnndw==
-X-Google-Smtp-Source: APXvYqyMp321Ylu46R8IUF7IaH1YMOc8pagfSw6DeM7bdnF1DglzSua5LidZ/hkqj5YhWwxjpD8KYA==
-X-Received: by 2002:a92:1553:: with SMTP id v80mr80196819ilk.49.1578102014700;
-        Fri, 03 Jan 2020 17:40:14 -0800 (PST)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id z15sm21439290ill.20.2020.01.03.17.40.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2020 17:40:14 -0800 (PST)
-Date:   Fri, 3 Jan 2020 17:40:12 -0800 (PST)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     linux-riscv@lists.infradead.org, corbet@lwn.net
-cc:     palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
-        waterman@eecs.berkeley.edu, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, willy@infradead.org,
-        dan.j.williams@intel.com
-Subject: [PATCH v3] Documentation: riscv: add patch acceptance guidelines
-Message-ID: <alpine.DEB.2.21.9999.2001031738380.283180@viisi.sifive.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        id S1725862AbgADEvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 23:51:46 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:36249 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725790AbgADEvp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 23:51:45 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R691e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TmmVgCV_1578113497;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TmmVgCV_1578113497)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 04 Jan 2020 12:51:38 +0800
+Subject: Re: [PATCH v6 1/2] sched/numa: introduce per-cgroup NUMA locality
+ info
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+ <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+ <275a98ed-35b8-b65f-3600-64ab722dd836@linux.alibaba.com>
+ <20200103151449.GA25747@blackbody.suse.cz>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Message-ID: <b32569f2-3f5c-06f3-dba7-67351a019c42@linux.alibaba.com>
+Date:   Sat, 4 Jan 2020 12:51:37 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200103151449.GA25747@blackbody.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Formalize, in kernel documentation, the patch acceptance policy for
-arch/riscv.  In summary, it states that as maintainers, we plan to
-only accept patches for new modules or extensions that have been
-frozen or ratified by the RISC-V Foundation.
 
-We've been following these guidelines for the past few months.  In the
-meantime, we've received quite a bit of feedback that it would be
-helpful to have these guidelines formally documented.
+On 2020/1/3 下午11:14, Michal Koutný wrote:
+> Hi.
+> 
+> On Fri, Dec 13, 2019 at 09:47:36AM +0800, 王贇 <yun.wang@linux.alibaba.com> wrote:
+>> By monitoring the increments, we will be able to locate the per-cgroup
+>> workload which NUMA Balancing can't helpwith (usually caused by wrong
+>> CPU and memory node bindings), then we got chance to fix that in time.
+> I just wonder do the data based on increments match with those you
+> obtained previously?
 
-Based on a suggestion from Matthew Wilcox, we also add a link to this
-file to Documentation/process/index.rst, to make this document easier
-to find.  The format of this document has also been changed to align
-to the format outlined in the maintainer entry profiles, in accordance
-with comments from Jon Corbet and Dan Williams.
+They have different meaning, since now it's just the accumulation of
+local/remote page access counter, we have to increasing the sample
+period into the maximum NUMA balancing scan period, to my system it's
+1 minute.
 
-Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Krste Asanovic <krste@berkeley.edu>
-Cc: Andrew Waterman <waterman@eecs.berkeley.edu>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Queued for v5.5-rc through the arch/riscv tree.
+We still get useful information from the increments, for example:
+  local 100 remote 1000 <-- bad locality in last period
+  local 0 remote 0 <-- no scan or NUMA PF happened in last period
+  local 100 remote 0 <-- good locality but not much PF happened
 
- Documentation/process/index.rst          |  1 +
- Documentation/riscv/index.rst            |  1 +
- Documentation/riscv/patch-acceptance.rst | 35 ++++++++++++++++++++++++
- MAINTAINERS                              |  1 +
- 4 files changed, 38 insertions(+)
- create mode 100644 Documentation/riscv/patch-acceptance.rst
+So I won't say they are matched, they tell the story in different way :-P
 
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index 21aa7d5358e6..6399d92f0b21 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -60,6 +60,7 @@ lack of a better place.
-    volatile-considered-harmful
-    botching-up-ioctls
-    clang-format
-+   ../riscv/patch-acceptance
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index 215fd3c1f2d5..fa33bffd8992 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -7,6 +7,7 @@ RISC-V architecture
- 
-     boot-image-header
-     pmu
-+    patch-acceptance
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
-new file mode 100644
-index 000000000000..dfe0ac5624fb
---- /dev/null
-+++ b/Documentation/riscv/patch-acceptance.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+arch/riscv maintenance guidelines for developers
-+================================================
-+
-+Overview
-+--------
-+The RISC-V instruction set architecture is developed in the open:
-+in-progress drafts are available for all to review and to experiment
-+with implementations.  New module or extension drafts can change
-+during the development process - sometimes in ways that are
-+incompatible with previous drafts.  This flexibility can present a
-+challenge for RISC-V Linux maintenance.  Linux maintainers disapprove
-+of churn, and the Linux development process prefers well-reviewed and
-+tested code over experimental code.  We wish to extend these same
-+principles to the RISC-V-related code that will be accepted for
-+inclusion in the kernel.
-+
-+Submit Checklist Addendum
-+-------------------------
-+We'll only accept patches for new modules or extensions if the
-+specifications for those modules or extensions are listed as being
-+"Frozen" or "Ratified" by the RISC-V Foundation.  (Developers may, of
-+course, maintain their own Linux kernel trees that contain code for
-+any draft extensions that they wish.)
-+
-+Additionally, the RISC-V specification allows implementors to create
-+their own custom extensions.  These custom extensions aren't required
-+to go through any review or ratification process by the RISC-V
-+Foundation.  To avoid the maintenance complexity and potential
-+performance impact of adding kernel code for implementor-specific
-+RISC-V extensions, we'll only to accept patches for extensions that
-+have been officially frozen or ratified by the RISC-V Foundation.
-+(Implementors, may, of course, maintain their own Linux kernel trees
-+containing code for any custom extensions that they wish.)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e09bd92a1e44..2987d1e16d20 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14119,6 +14119,7 @@ M:	Paul Walmsley <paul.walmsley@sifive.com>
- M:	Palmer Dabbelt <palmer@dabbelt.com>
- M:	Albert Ou <aou@eecs.berkeley.edu>
- L:	linux-riscv@lists.infradead.org
-+P:	Documentation/riscv/patch-acceptance.rst
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
- S:	Supported
- F:	arch/riscv/
--- 
-2.24.0
+> 
+>> +static inline void
+>> +update_task_locality(struct task_struct *p, int pnid, int cnid, int pages)
+>> +{
+>> +	if (!static_branch_unlikely(&sched_numa_locality))
+>> +		return;
+>> +
+>> +	/*
+>> +	 * pnid != cnid --> remote idx 0
+>> +	 * pnid == cnid --> local idx 1
+>> +	 */
+>> +	p->numa_page_access[!!(pnid == cnid)] += pages;
+> If the per-task information isn't used anywhere, why not accumulate
+> directly into task's cfs_rq->{local,remote}_page_access?
+> 
 
+This is try to avoid hierarchy update in each PF, accumulate the counter
+and update together should cost less.
+
+Besides, as they won't be reset now, maybe we could expose them too.
+
+>> @@ -4298,6 +4359,7 @@ entity_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr, int queued)
+>>  	 */
+>>  	update_load_avg(cfs_rq, curr, UPDATE_TG);
+>>  	update_cfs_group(curr);
+>> +	update_group_locality(cfs_rq);
+> With the per-NUMA node time tracked separately, isn't it unnecessary
+> doing group updates inside entity_tick? 
+
+The hierarchy update can't be saved, and this is a good place where we
+already holding rq lock, iterate cfs_rq in hierarchy for current task.
+
+Regards,
+Michael Wang
+
+> 
+> 
+> Regards,
+> Michal
+> 
