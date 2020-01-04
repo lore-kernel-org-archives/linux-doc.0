@@ -2,140 +2,187 @@ Return-Path: <SRS0=cmS/=2Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6CDC32771
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 00:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE7FAC00523
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 01:40:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1238C20866
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 00:38:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C8E721835
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 01:40:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MuL59PMN"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="DdTUmNJN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726229AbgADAiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 19:38:51 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:47030 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbgADAiv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 19:38:51 -0500
-Received: by mail-lf1-f65.google.com with SMTP id f15so32888100lfl.13
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jan 2020 16:38:50 -0800 (PST)
+        id S1727194AbgADBkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jan 2020 20:40:16 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:37612 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727173AbgADBkP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 20:40:15 -0500
+Received: by mail-il1-f193.google.com with SMTP id t8so38103616iln.4
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jan 2020 17:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7uC7JWFx9OYNnl310U+ygwv67SYyeHmDQsyNae/VGhA=;
-        b=MuL59PMNVVu75FiAbIkclAny8nz760/4Z2GfHF30DCsopTe93BZOBYrLPjR6gD61X2
-         Ia+4C7u+qJ4p2FyZtfAjId1AXzKlKxic1WMzqQg3NK3gBNXV+ez2toaBlaN1/drja0og
-         tIKURSFgHmO9j4DdW9Kg1qqGdU8X4KroveTVqF1A7gOlP2tT27bciMW13pYilBQg6pZn
-         a+2PY4wz/bporm9hUJNRMPypAoDIa3/U2adVPtQMJv9LEO7KBcF8N+TWsqrpBnJmw+aM
-         gkmDtXdZ7UfMFin1mBsGFfPqu0VvKDX866NlPztG0aOz3SZpNjkSJgcIgQz5IArawDNs
-         HyBg==
+        d=sifive.com; s=google;
+        h=date:from:to:cc:subject:message-id:user-agent:mime-version;
+        bh=p+aEtGvZStTHC748i1i28Ty2kT6MGPJhRV1hrUdmKEg=;
+        b=DdTUmNJNzy5afvjihoYOCyO8r92df2ViburJnJy+i8JQzvGeGwuYuInZsZynms5w7M
+         u4BeFPjaAt/57JdqjiFc8k1ZkpaG1SpFN4KVxND46xBwj5s7+jUPaY4XlsGkM3rDStMx
+         d8eP9f8837MDgHrMuU/hgWrUXXnyinuAxf6Jm62LRLjnp+vY/PogtuD1kT3RmyXTvA3i
+         NX9R2S0KpgFEeMCQJJ9rXewTw6Vc2TTQFmh8uEKG87ga/G/npvR2umS5+GDyM70Uy+aj
+         V3uhNgAo+Tr804pt70xnQWcKADWgcVn6w8prGzwp3ppQeMUUOuWhnfbHrf4hMVDftC+W
+         RffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7uC7JWFx9OYNnl310U+ygwv67SYyeHmDQsyNae/VGhA=;
-        b=rMK/lyv66c3KLqDPU9ZPdJYBqytG297xDWRrU/Fsi/uSnrF2bDU7hC8q5CKzAaR15X
-         TT/GixiVjXYrVyfWWRwpzm/TyW5wT+YZYjplNHXIqoe30eaTfsAObTR1WQ1hOOhICQ3W
-         quxYrTGugojaZhVLeHmD+uzo7mcUQgOUrLB323V3Sk82ZoYB5M3Sdqh16YVfVT3dC4/M
-         PfcpD1Y1PdXBkcf4AlPoOxlJ1l7XrJuacAq5pWg+5u3jRZXcJK47H+IeI39Q02MUUOZd
-         11eMl8qbjhZrG3rxXQtrv8/sd3Z2bQWsb7HdAYU1iHGPNQSYzyJvIAgep1SD0NqpGXVT
-         ymyg==
-X-Gm-Message-State: APjAAAXDAZ2TfPNlWG9Syc95pyJXhVEPhEqJT1EoU4ckCm0gDUC4dD8/
-        7nalSHSsJn1XIbqzKQEvYWeV+YHuTUcOlQzyO+FK7A==
-X-Google-Smtp-Source: APXvYqx7qnNmzEGHh3l0ybIURRNlv3h+0jMWrPNsddLXYBAWaFoIfBU2PrBmBZ6fwZizOYviRGZkOY/zqCQGjuwVAnQ=
-X-Received: by 2002:a19:c0b:: with SMTP id 11mr52456055lfm.135.1578098329258;
- Fri, 03 Jan 2020 16:38:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:user-agent
+         :mime-version;
+        bh=p+aEtGvZStTHC748i1i28Ty2kT6MGPJhRV1hrUdmKEg=;
+        b=tSEtcyiyAFX1NGPDIwzLWpI73f/H3tE8R8CrwUNYbkEAkC+HIMXPDuTOdu5v6Mlpdn
+         r4KUetokB9Q7sF+uM1wlYvRUS71XHWIlwpNIQuMN9SunCUDxxroOpu9ZdolQyv3TW5Lx
+         t45DSITUIyrDNc1Qs8Q7/mPDu8JwvPzClHd1lHcmooDJY+oiTEZzU8FAqCxFx0kKhUQy
+         3NOXRjuM9F8IgQsPG2guyekAS/9aKpQcLF/s48ytYXrBvCPGt56KjHhTaSMdWklo2cM0
+         SWCVH+ZddIgLCZ16Cw+oXLfjHrKYKmu6ueSthMwt3Ojo+7RFupJmhBXRLb0reL7O0xr8
+         qvAQ==
+X-Gm-Message-State: APjAAAV9X5MewQtJTz0jLGdCWi2pEQ0YCV92Kmr6mZOgsJrasQHrJuWy
+        9Zmu9dG3ramrHlh+tW2gcDnndw==
+X-Google-Smtp-Source: APXvYqyMp321Ylu46R8IUF7IaH1YMOc8pagfSw6DeM7bdnF1DglzSua5LidZ/hkqj5YhWwxjpD8KYA==
+X-Received: by 2002:a92:1553:: with SMTP id v80mr80196819ilk.49.1578102014700;
+        Fri, 03 Jan 2020 17:40:14 -0800 (PST)
+Received: from localhost ([64.62.168.194])
+        by smtp.gmail.com with ESMTPSA id z15sm21439290ill.20.2020.01.03.17.40.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2020 17:40:14 -0800 (PST)
+Date:   Fri, 3 Jan 2020 17:40:12 -0800 (PST)
+From:   Paul Walmsley <paul.walmsley@sifive.com>
+X-X-Sender: paulw@viisi.sifive.com
+To:     linux-riscv@lists.infradead.org, corbet@lwn.net
+cc:     palmer@dabbelt.com, aou@eecs.berkeley.edu, krste@berkeley.edu,
+        waterman@eecs.berkeley.edu, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, willy@infradead.org,
+        dan.j.williams@intel.com
+Subject: [PATCH v3] Documentation: riscv: add patch acceptance guidelines
+Message-ID: <alpine.DEB.2.21.9999.2001031738380.283180@viisi.sifive.com>
+User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be> <CACRpkdaW7nmpE99FAvBDBTmkTZOTQ5WdM=JbMzBTLk7cbLRXPw@mail.gmail.com>
- <CAMuHMdVbk5S__8OK-zNXmiW66=WVA8Jzyc=hUvf_hJSU=u9TFg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVbk5S__8OK-zNXmiW66=WVA8Jzyc=hUvf_hJSU=u9TFg@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 4 Jan 2020 01:38:38 +0100
-Message-ID: <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for slowness... christmas.
 
-On Thu, Dec 12, 2019 at 4:24 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Dec 12, 2019 at 3:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+Formalize, in kernel documentation, the patch acceptance policy for
+arch/riscv.  In summary, it states that as maintainers, we plan to
+only accept patches for new modules or extensions that have been
+frozen or ratified by the RISC-V Foundation.
 
-> > > +         This can serve the following purposes:
-> > > +           1. Assign a collection of GPIOs to a user, or export them to a
-> > > +              virtual machine,
-> >
-> > This is ambiguous. What is a "user"? A process calling from
-> > userspace? A device tree node?
->
-> A user is an entity with a UID, typically listed in /etc/passwd.
-> This is similar to letting some, not all, people on the machine access
-> the CD-ROM drive.
+We've been following these guidelines for the past few months.  In the
+meantime, we've received quite a bit of feedback that it would be
+helpful to have these guidelines formally documented.
 
-Ah I get it. Maybe we can say "assign permissions for a collection
-of GPIOs to a user".
+Based on a suggestion from Matthew Wilcox, we also add a link to this
+file to Documentation/process/index.rst, to make this document easier
+to find.  The format of this document has also been changed to align
+to the format outlined in the maintainer entry profiles, in accordance
+with comments from Jon Corbet and Dan Williams.
 
-> > I would write "assign a collection of GPIO lines from any lines on
-> > existing physical GPIO chips to form a new virtual GPIO chip"
-> >
-> > That should be to the point, right?
->
-> Yes, that's WHAT it does. The WHY is the granular access control.
+Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: Krste Asanovic <krste@berkeley.edu>
+Cc: Andrew Waterman <waterman@eecs.berkeley.edu>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+Queued for v5.5-rc through the arch/riscv tree.
 
-So I guess we can write both?
+ Documentation/process/index.rst          |  1 +
+ Documentation/riscv/index.rst            |  1 +
+ Documentation/riscv/patch-acceptance.rst | 35 ++++++++++++++++++++++++
+ MAINTAINERS                              |  1 +
+ 4 files changed, 38 insertions(+)
+ create mode 100644 Documentation/riscv/patch-acceptance.rst
 
-> > > +           3. Provide a generic driver for a GPIO-operated device, to be
-> > > +               controlled from userspace using the GPIO chardev interface.
-> >
-> > I don't understand this, it needs to be elaborated. What is meant
-> > by a "GPIO-operated device" in this context? Example?
->
-> E.g. a motor. Or a door opener.
->
->         door-opener {
->                 compatible = "mydoor,opener";
->
->                 gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>;
->         };
->
-> You don't need a full-featured kernel driver for that, so just bind the
-> gpio-aggregator to the door-opener, and control it through libgpiod.
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 21aa7d5358e6..6399d92f0b21 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -60,6 +60,7 @@ lack of a better place.
+    volatile-considered-harmful
+    botching-up-ioctls
+    clang-format
++   ../riscv/patch-acceptance
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+index 215fd3c1f2d5..fa33bffd8992 100644
+--- a/Documentation/riscv/index.rst
++++ b/Documentation/riscv/index.rst
+@@ -7,6 +7,7 @@ RISC-V architecture
+ 
+     boot-image-header
+     pmu
++    patch-acceptance
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
+new file mode 100644
+index 000000000000..dfe0ac5624fb
+--- /dev/null
++++ b/Documentation/riscv/patch-acceptance.rst
+@@ -0,0 +1,35 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++arch/riscv maintenance guidelines for developers
++================================================
++
++Overview
++--------
++The RISC-V instruction set architecture is developed in the open:
++in-progress drafts are available for all to review and to experiment
++with implementations.  New module or extension drafts can change
++during the development process - sometimes in ways that are
++incompatible with previous drafts.  This flexibility can present a
++challenge for RISC-V Linux maintenance.  Linux maintainers disapprove
++of churn, and the Linux development process prefers well-reviewed and
++tested code over experimental code.  We wish to extend these same
++principles to the RISC-V-related code that will be accepted for
++inclusion in the kernel.
++
++Submit Checklist Addendum
++-------------------------
++We'll only accept patches for new modules or extensions if the
++specifications for those modules or extensions are listed as being
++"Frozen" or "Ratified" by the RISC-V Foundation.  (Developers may, of
++course, maintain their own Linux kernel trees that contain code for
++any draft extensions that they wish.)
++
++Additionally, the RISC-V specification allows implementors to create
++their own custom extensions.  These custom extensions aren't required
++to go through any review or ratification process by the RISC-V
++Foundation.  To avoid the maintenance complexity and potential
++performance impact of adding kernel code for implementor-specific
++RISC-V extensions, we'll only to accept patches for extensions that
++have been officially frozen or ratified by the RISC-V Foundation.
++(Implementors, may, of course, maintain their own Linux kernel trees
++containing code for any custom extensions that they wish.)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e09bd92a1e44..2987d1e16d20 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14119,6 +14119,7 @@ M:	Paul Walmsley <paul.walmsley@sifive.com>
+ M:	Palmer Dabbelt <palmer@dabbelt.com>
+ M:	Albert Ou <aou@eecs.berkeley.edu>
+ L:	linux-riscv@lists.infradead.org
++P:	Documentation/riscv/patch-acceptance.rst
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
+ S:	Supported
+ F:	arch/riscv/
+-- 
+2.24.0
 
-Yep it's a perfect industrial control example, I get it.
-
-Maybe we should blurb something about industrial control?
-
-The rest I think we cleared out else I will see it when I review again.
-
-Yours,
-Linus Walleij
