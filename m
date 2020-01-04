@@ -2,128 +2,169 @@ Return-Path: <SRS0=cmS/=2Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D28A3C32767
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 04:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A76C3276F
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 15:22:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8DCF222C4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 04:51:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3627B2464E
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 15:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1578151332;
+	bh=Bq3wSGweNgUnUR2ScgkLGNaGTFe493jXCOPTmwaWkAQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=GrSL9In1wDBeKcx+rTkTpmearq46XtvGouDFhxzGp1P/t6MzSWrrnn7m+gt8cilop
+	 Ey6R/i05JEJ6DHr8AjJXUmBGFVeAdZyhISXNN/LXUcEgGqJt++79a3Ip+F4217bNGi
+	 od8fh3sAeaRcSPl5EzSSpwwFV7ReQb5A428aEUhI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725862AbgADEvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jan 2020 23:51:46 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:36249 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725790AbgADEvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jan 2020 23:51:45 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R691e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TmmVgCV_1578113497;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TmmVgCV_1578113497)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 04 Jan 2020 12:51:38 +0800
-Subject: Re: [PATCH v6 1/2] sched/numa: introduce per-cgroup NUMA locality
- info
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
- <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
- <275a98ed-35b8-b65f-3600-64ab722dd836@linux.alibaba.com>
- <20200103151449.GA25747@blackbody.suse.cz>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <b32569f2-3f5c-06f3-dba7-67351a019c42@linux.alibaba.com>
-Date:   Sat, 4 Jan 2020 12:51:37 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <20200103151449.GA25747@blackbody.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1726373AbgADPWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jan 2020 10:22:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59762 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726080AbgADPWI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 4 Jan 2020 10:22:08 -0500
+Received: from localhost.localdomain (unknown [194.230.155.149])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA90A2464E;
+        Sat,  4 Jan 2020 15:22:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578151326;
+        bh=Bq3wSGweNgUnUR2ScgkLGNaGTFe493jXCOPTmwaWkAQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=KKhmPrZfrU1Y+AD2SvVoDbIiTf6U9ofMcOVSslLGy1lXv0B9aCVzy1xAjiKqlULG+
+         YsGpS+ZEyATCAaJ0gu3tQf/8JOFwg9qobOf+MlCfVzpdVQYqnt/qpN/PlhCcWKjYgY
+         Ea8jENCBIb79do/+/2IwniWPS4VUHhZ2GK8brqdI=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 06/20] thermal: exynos: Rename Samsung and Exynos to lowercase
+Date:   Sat,  4 Jan 2020 16:20:53 +0100
+Message-Id: <20200104152107.11407-7-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200104152107.11407-1-krzk@kernel.org>
+References: <20200104152107.11407-1-krzk@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix up inconsistent usage of upper and lowercase letters in "Samsung"
+and "Exynos" names.
 
+"SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
+names.  Therefore they should be written with lowercase letters starting
+with capital letter.
 
-On 2020/1/3 下午11:14, Michal Koutný wrote:
-> Hi.
-> 
-> On Fri, Dec 13, 2019 at 09:47:36AM +0800, 王贇 <yun.wang@linux.alibaba.com> wrote:
->> By monitoring the increments, we will be able to locate the per-cgroup
->> workload which NUMA Balancing can't helpwith (usually caused by wrong
->> CPU and memory node bindings), then we got chance to fix that in time.
-> I just wonder do the data based on increments match with those you
-> obtained previously?
+The lowercase "Exynos" name is promoted by its manufacturer Samsung
+Electronics Co., Ltd., in advertisement materials and on website.
 
-They have different meaning, since now it's just the accumulation of
-local/remote page access counter, we have to increasing the sample
-period into the maximum NUMA balancing scan period, to my system it's
-1 minute.
+Although advertisement materials usually use uppercase "SAMSUNG", the
+lowercase version is used in all legal aspects (e.g. on Wikipedia and in
+privacy/legal statements on
+https://www.samsung.com/semiconductor/privacy-global/).
 
-We still get useful information from the increments, for example:
-  local 100 remote 1000 <-- bad locality in last period
-  local 0 remote 0 <-- no scan or NUMA PF happened in last period
-  local 100 remote 0 <-- good locality but not much PF happened
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ Documentation/driver-api/thermal/exynos_thermal.rst | 6 +++---
+ drivers/thermal/samsung/Kconfig                     | 2 +-
+ drivers/thermal/samsung/exynos_tmu.c                | 4 ++--
+ include/dt-bindings/thermal/thermal_exynos.h        | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-So I won't say they are matched, they tell the story in different way :-P
+diff --git a/Documentation/driver-api/thermal/exynos_thermal.rst b/Documentation/driver-api/thermal/exynos_thermal.rst
+index d4e4a5b75805..764df4ab584d 100644
+--- a/Documentation/driver-api/thermal/exynos_thermal.rst
++++ b/Documentation/driver-api/thermal/exynos_thermal.rst
+@@ -4,7 +4,7 @@ Kernel driver exynos_tmu
+ 
+ Supported chips:
+ 
+-* ARM SAMSUNG EXYNOS4, EXYNOS5 series of SoC
++* ARM Samsung Exynos4, Exynos5 series of SoC
+ 
+   Datasheet: Not publicly available
+ 
+@@ -14,7 +14,7 @@ Authors: Amit Daniel <amit.daniel@samsung.com>
+ TMU controller Description:
+ ---------------------------
+ 
+-This driver allows to read temperature inside SAMSUNG EXYNOS4/5 series of SoC.
++This driver allows to read temperature inside Samsung Exynos4/5 series of SoC.
+ 
+ The chip only exposes the measured 8-bit temperature code value
+ through a register.
+@@ -43,7 +43,7 @@ The three equations are:
+        Trimming info for 85 degree Celsius (stored at TRIMINFO register)
+        Temperature code measured at 85 degree Celsius which is unchanged
+ 
+-TMU(Thermal Management Unit) in EXYNOS4/5 generates interrupt
++TMU(Thermal Management Unit) in Exynos4/5 generates interrupt
+ when temperature exceeds pre-defined levels.
+ The maximum number of configurable threshold is five.
+ The threshold levels are defined as follows::
+diff --git a/drivers/thermal/samsung/Kconfig b/drivers/thermal/samsung/Kconfig
+index fe0d2ba51392..f4eff5a41a84 100644
+--- a/drivers/thermal/samsung/Kconfig
++++ b/drivers/thermal/samsung/Kconfig
+@@ -5,7 +5,7 @@ config EXYNOS_THERMAL
+ 	depends on HAS_IOMEM
+ 	help
+ 	  If you say yes here you get support for the TMU (Thermal Management
+-	  Unit) driver for SAMSUNG EXYNOS series of SoCs. This driver initialises
++	  Unit) driver for Samsung Exynos series of SoCs. This driver initialises
+ 	  the TMU, reports temperature and handles cooling action if defined.
+ 	  This driver uses the Exynos core thermal APIs and TMU configuration
+ 	  data from the supported SoCs.
+diff --git a/drivers/thermal/samsung/exynos_tmu.c b/drivers/thermal/samsung/exynos_tmu.c
+index 8193b66a3f83..fd4a17812f33 100644
+--- a/drivers/thermal/samsung/exynos_tmu.c
++++ b/drivers/thermal/samsung/exynos_tmu.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+- * exynos_tmu.c - Samsung EXYNOS TMU (Thermal Management Unit)
++ * exynos_tmu.c - Samsung Exynos TMU (Thermal Management Unit)
+  *
+  *  Copyright (C) 2014 Samsung Electronics
+  *  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+@@ -1186,7 +1186,7 @@ static struct platform_driver exynos_tmu_driver = {
+ 
+ module_platform_driver(exynos_tmu_driver);
+ 
+-MODULE_DESCRIPTION("EXYNOS TMU Driver");
++MODULE_DESCRIPTION("Exynos TMU Driver");
+ MODULE_AUTHOR("Donggeun Kim <dg77.kim@samsung.com>");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("platform:exynos-tmu");
+diff --git a/include/dt-bindings/thermal/thermal_exynos.h b/include/dt-bindings/thermal/thermal_exynos.h
+index 642e4e7f4084..52fcb51dda3c 100644
+--- a/include/dt-bindings/thermal/thermal_exynos.h
++++ b/include/dt-bindings/thermal/thermal_exynos.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * thermal_exynos.h - Samsung EXYNOS TMU device tree definitions
++ * thermal_exynos.h - Samsung Exynos TMU device tree definitions
+  *
+  *  Copyright (C) 2014 Samsung Electronics
+  *  Lukasz Majewski <l.majewski@samsung.com>
+-- 
+2.17.1
 
-> 
->> +static inline void
->> +update_task_locality(struct task_struct *p, int pnid, int cnid, int pages)
->> +{
->> +	if (!static_branch_unlikely(&sched_numa_locality))
->> +		return;
->> +
->> +	/*
->> +	 * pnid != cnid --> remote idx 0
->> +	 * pnid == cnid --> local idx 1
->> +	 */
->> +	p->numa_page_access[!!(pnid == cnid)] += pages;
-> If the per-task information isn't used anywhere, why not accumulate
-> directly into task's cfs_rq->{local,remote}_page_access?
-> 
-
-This is try to avoid hierarchy update in each PF, accumulate the counter
-and update together should cost less.
-
-Besides, as they won't be reset now, maybe we could expose them too.
-
->> @@ -4298,6 +4359,7 @@ entity_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr, int queued)
->>  	 */
->>  	update_load_avg(cfs_rq, curr, UPDATE_TG);
->>  	update_cfs_group(curr);
->> +	update_group_locality(cfs_rq);
-> With the per-NUMA node time tracked separately, isn't it unnecessary
-> doing group updates inside entity_tick? 
-
-The hierarchy update can't be saved, and this is a good place where we
-already holding rq lock, iterate cfs_rq in hierarchy for current task.
-
-Regards,
-Michael Wang
-
-> 
-> 
-> Regards,
-> Michal
-> 
