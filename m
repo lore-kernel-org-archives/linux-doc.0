@@ -2,169 +2,90 @@ Return-Path: <SRS0=cmS/=2Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A76C3276F
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 15:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6952CC2D0C2
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 16:24:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3627B2464E
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 15:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578151332;
-	bh=Bq3wSGweNgUnUR2ScgkLGNaGTFe493jXCOPTmwaWkAQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GrSL9In1wDBeKcx+rTkTpmearq46XtvGouDFhxzGp1P/t6MzSWrrnn7m+gt8cilop
-	 Ey6R/i05JEJ6DHr8AjJXUmBGFVeAdZyhISXNN/LXUcEgGqJt++79a3Ip+F4217bNGi
-	 od8fh3sAeaRcSPl5EzSSpwwFV7ReQb5A428aEUhI=
+	by mail.kernel.org (Postfix) with ESMTP id 32C4821734
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jan 2020 16:24:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="kC0TUgMw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbgADPWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jan 2020 10:22:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59762 "EHLO mail.kernel.org"
+        id S1726101AbgADQYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jan 2020 11:24:22 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:23893 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726080AbgADPWI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 4 Jan 2020 10:22:08 -0500
-Received: from localhost.localdomain (unknown [194.230.155.149])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA90A2464E;
-        Sat,  4 Jan 2020 15:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578151326;
-        bh=Bq3wSGweNgUnUR2ScgkLGNaGTFe493jXCOPTmwaWkAQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KKhmPrZfrU1Y+AD2SvVoDbIiTf6U9ofMcOVSslLGy1lXv0B9aCVzy1xAjiKqlULG+
-         YsGpS+ZEyATCAaJ0gu3tQf/8JOFwg9qobOf+MlCfVzpdVQYqnt/qpN/PlhCcWKjYgY
-         Ea8jENCBIb79do/+/2IwniWPS4VUHhZ2GK8brqdI=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v2 06/20] thermal: exynos: Rename Samsung and Exynos to lowercase
-Date:   Sat,  4 Jan 2020 16:20:53 +0100
-Message-Id: <20200104152107.11407-7-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200104152107.11407-1-krzk@kernel.org>
-References: <20200104152107.11407-1-krzk@kernel.org>
+        id S1726016AbgADQYW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 4 Jan 2020 11:24:22 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47qnCl6JwHzGW;
+        Sat,  4 Jan 2020 17:24:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1578155060; bh=0Ibkxtl3RMglzBvk5sTiwiF51FZCh2BbOtGA/FEpe/c=;
+        h=Date:From:Subject:To:Cc:From;
+        b=kC0TUgMw/wFF8OMRJHdIQDOzxU0Deg6UcNU+t2n5gu2+Tvt1SCZj8JiCf4/vlJBFF
+         Dfwso0e+m7V+BtPchWNrdkLy/kIw8rQhYWZfOndKrMrhLpgVxGs3c89pYzVMXUCfAt
+         woux21TrLbT5eLVKdzg7RALch83A19Z/PtZFctldisDme8/HOaOOdHsR+/MJqNFpM7
+         Y726YMMgtnBrJKCsUsKby6mjTJqIjz3fsTP2gB3+Gd9+0+PO/6xrml2K9F7l6UBy3E
+         O8jpOK8/U332q0NprBRcqxnq8bDnrO8yxyPjrFkrM4S5CitLYdqfRfjgjKsseIpktP
+         iY+k/9v6W2CNg==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Sat, 04 Jan 2020 17:24:18 +0100
+Message-Id: <6e542430795eeddb718db88cb08224d2e1bc6b4b.1578154967.git.mirq-linux@rere.qmqm.pl>
+From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Subject: [PATCH 1/2] block: parse cmdline partitions first
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix up inconsistent usage of upper and lowercase letters in "Samsung"
-and "Exynos" names.
+Make sure cmdline-provided partitions override anything that is
+on the disk.
 
-"SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
-names.  Therefore they should be written with lowercase letters starting
-with capital letter.
-
-The lowercase "Exynos" name is promoted by its manufacturer Samsung
-Electronics Co., Ltd., in advertisement materials and on website.
-
-Although advertisement materials usually use uppercase "SAMSUNG", the
-lowercase version is used in all legal aspects (e.g. on Wikipedia and in
-privacy/legal statements on
-https://www.samsung.com/semiconductor/privacy-global/).
-
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 ---
- Documentation/driver-api/thermal/exynos_thermal.rst | 6 +++---
- drivers/thermal/samsung/Kconfig                     | 2 +-
- drivers/thermal/samsung/exynos_tmu.c                | 4 ++--
- include/dt-bindings/thermal/thermal_exynos.h        | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ block/partitions/check.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/driver-api/thermal/exynos_thermal.rst b/Documentation/driver-api/thermal/exynos_thermal.rst
-index d4e4a5b75805..764df4ab584d 100644
---- a/Documentation/driver-api/thermal/exynos_thermal.rst
-+++ b/Documentation/driver-api/thermal/exynos_thermal.rst
-@@ -4,7 +4,7 @@ Kernel driver exynos_tmu
+diff --git a/block/partitions/check.c b/block/partitions/check.c
+index ffe408fead0c..f0b6454b7767 100644
+--- a/block/partitions/check.c
++++ b/block/partitions/check.c
+@@ -40,6 +40,13 @@
+ int warn_no_part = 1; /*This is ugly: should make genhd removable media aware*/
  
- Supported chips:
+ static int (*check_part[])(struct parsed_partitions *) = {
++	/*
++	 * Let cmdline override whatever there is on disk.
++	 */
++#ifdef CONFIG_CMDLINE_PARTITION
++	cmdline_partition,
++#endif
++
+ 	/*
+ 	 * Probe partition formats with tables at disk address 0
+ 	 * that also have an ADFS boot block at 0xdc0.
+@@ -67,9 +74,6 @@ static int (*check_part[])(struct parsed_partitions *) = {
+ 	adfspart_check_ADFS,
+ #endif
  
--* ARM SAMSUNG EXYNOS4, EXYNOS5 series of SoC
-+* ARM Samsung Exynos4, Exynos5 series of SoC
- 
-   Datasheet: Not publicly available
- 
-@@ -14,7 +14,7 @@ Authors: Amit Daniel <amit.daniel@samsung.com>
- TMU controller Description:
- ---------------------------
- 
--This driver allows to read temperature inside SAMSUNG EXYNOS4/5 series of SoC.
-+This driver allows to read temperature inside Samsung Exynos4/5 series of SoC.
- 
- The chip only exposes the measured 8-bit temperature code value
- through a register.
-@@ -43,7 +43,7 @@ The three equations are:
-        Trimming info for 85 degree Celsius (stored at TRIMINFO register)
-        Temperature code measured at 85 degree Celsius which is unchanged
- 
--TMU(Thermal Management Unit) in EXYNOS4/5 generates interrupt
-+TMU(Thermal Management Unit) in Exynos4/5 generates interrupt
- when temperature exceeds pre-defined levels.
- The maximum number of configurable threshold is five.
- The threshold levels are defined as follows::
-diff --git a/drivers/thermal/samsung/Kconfig b/drivers/thermal/samsung/Kconfig
-index fe0d2ba51392..f4eff5a41a84 100644
---- a/drivers/thermal/samsung/Kconfig
-+++ b/drivers/thermal/samsung/Kconfig
-@@ -5,7 +5,7 @@ config EXYNOS_THERMAL
- 	depends on HAS_IOMEM
- 	help
- 	  If you say yes here you get support for the TMU (Thermal Management
--	  Unit) driver for SAMSUNG EXYNOS series of SoCs. This driver initialises
-+	  Unit) driver for Samsung Exynos series of SoCs. This driver initialises
- 	  the TMU, reports temperature and handles cooling action if defined.
- 	  This driver uses the Exynos core thermal APIs and TMU configuration
- 	  data from the supported SoCs.
-diff --git a/drivers/thermal/samsung/exynos_tmu.c b/drivers/thermal/samsung/exynos_tmu.c
-index 8193b66a3f83..fd4a17812f33 100644
---- a/drivers/thermal/samsung/exynos_tmu.c
-+++ b/drivers/thermal/samsung/exynos_tmu.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * exynos_tmu.c - Samsung EXYNOS TMU (Thermal Management Unit)
-+ * exynos_tmu.c - Samsung Exynos TMU (Thermal Management Unit)
-  *
-  *  Copyright (C) 2014 Samsung Electronics
-  *  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-@@ -1186,7 +1186,7 @@ static struct platform_driver exynos_tmu_driver = {
- 
- module_platform_driver(exynos_tmu_driver);
- 
--MODULE_DESCRIPTION("EXYNOS TMU Driver");
-+MODULE_DESCRIPTION("Exynos TMU Driver");
- MODULE_AUTHOR("Donggeun Kim <dg77.kim@samsung.com>");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:exynos-tmu");
-diff --git a/include/dt-bindings/thermal/thermal_exynos.h b/include/dt-bindings/thermal/thermal_exynos.h
-index 642e4e7f4084..52fcb51dda3c 100644
---- a/include/dt-bindings/thermal/thermal_exynos.h
-+++ b/include/dt-bindings/thermal/thermal_exynos.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * thermal_exynos.h - Samsung EXYNOS TMU device tree definitions
-+ * thermal_exynos.h - Samsung Exynos TMU device tree definitions
-  *
-  *  Copyright (C) 2014 Samsung Electronics
-  *  Lukasz Majewski <l.majewski@samsung.com>
+-#ifdef CONFIG_CMDLINE_PARTITION
+-	cmdline_partition,
+-#endif
+ #ifdef CONFIG_EFI_PARTITION
+ 	efi_partition,		/* this must come before msdos */
+ #endif
 -- 
-2.17.1
+2.20.1
 
