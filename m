@@ -2,96 +2,114 @@ Return-Path: <SRS0=CRv1=22=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AABC33C9A
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 19:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B7BC3F68F
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:43:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C512C206F0
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 19:52:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VrTXnHNK"
+	by mail.kernel.org (Postfix) with ESMTP id 113D821775
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgAETwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Jan 2020 14:52:24 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35914 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726092AbgAETwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 14:52:23 -0500
-Received: by mail-wm1-f65.google.com with SMTP id p17so13259729wma.1;
-        Sun, 05 Jan 2020 11:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7eXrRrejXo5cY1s8ikFeeHu4Vmh0gYXwb9IV/BMbSdM=;
-        b=VrTXnHNKjx1Bgwv5ROAzLRxL39MWdd/yk8k/yMK2eaP06Fd4kHeVNwchYZFifJ02XI
-         WefXs6YVWJ5yEMfe1VptI35mkjA86Fxt9f8v5WhNcW26ci8i2O7Ti5Pd5vnbw6cocjgK
-         Ni7QateIZF9shgfkO2+4+hWCWxy5SHp3tJUYspjjF/VSdJIHhnGocCCmt6NTnjEoF0bO
-         4hLfihkuzTiQ1Y+OmMxH2usaSGz8dZsH0rIdP6dmkG8jqRtoJU6USLTFIq5tqPXLYjvb
-         6tjhP+rMti8O3Xg1MO3r0p1lKteIOc7rOS5gT1gd40QRbgQMpjxU+ZhZ6kwPKvxiLHmP
-         XL6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7eXrRrejXo5cY1s8ikFeeHu4Vmh0gYXwb9IV/BMbSdM=;
-        b=TS9bIMIMbW91jqeeenjvm+JPcvt+iS2kxoLHoYV4rfMU7/ONk0FRGM79tygpe8FcZR
-         gLyry5ceb8BfZ145ovUsQ7TwCTLLLQ+fUyZxFtzCZcL5dmidhvM3AHRh/xStV31JLUxJ
-         7MUJJszX7nqOWRVIAvcnLwi33ktZXq91iATjKcgQSRREHaVHZSuJXmLY2xZu0AiZTxDc
-         GOkbCmPqBYo++Qvzv3f0O9m4+JwjkonEj+foPj7A5+2QpWmUXEk4J6QLLETamL8cHEOu
-         JzeKXp5qOPyQ9exq1+3w19/TNbsDdb4XXZsvAEFVgQHp5zL+LDTQWAW61hbl7F8Fulj3
-         UpxA==
-X-Gm-Message-State: APjAAAUlKElxqG9NgrltWwzA3j/EbVz2C6vAx8lke3LwrvCZL2vF5Fsw
-        mAD/5u9K0JRuvbHCVVZNe2aqaiA+JEpqRA==
-X-Google-Smtp-Source: APXvYqy/8DaerA+VPEjKP+Bf0WTY7J+6iCjArVKTjkd1gL6/pzsJMUoSyeYv9cbDpugIkc+GCv2bSA==
-X-Received: by 2002:a1c:4c10:: with SMTP id z16mr32226967wmf.136.1578253941444;
-        Sun, 05 Jan 2020 11:52:21 -0800 (PST)
-Received: from localhost.localdomain ([37.152.140.242])
-        by smtp.gmail.com with ESMTPSA id s1sm20979413wmc.23.2020.01.05.11.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2020 11:52:20 -0800 (PST)
-From:   carlosteniswarrior@gmail.com
-To:     corbet@lwm.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Carlos Guerrero Alvarez <carlosteniswarrior@gmail.com>
-Subject: [PATCH] Documentation: filesystems: qnx6: fixed a typo 
-Date:   Sun,  5 Jan 2020 19:52:14 +0000
-Message-Id: <20200105195214.8684-1-carlosteniswarrior@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        id S1727099AbgAEWnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jan 2020 17:43:15 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:48572 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726851AbgAEWnO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 17:43:14 -0500
+Received: from [81.174.41.21] (port=58572 helo=melee.fritz.box)
+        by hostingweb31.netsons.net with esmtpa (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1ioEbs-00GPCc-B9; Sun, 05 Jan 2020 23:43:11 +0100
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/26] docs: i2c: rework I2C documentation, part I
+Date:   Sun,  5 Jan 2020 23:39:40 +0100
+Message-Id: <20200105224006.10321-1-luca@lucaceresoli.net>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Carlos Guerrero Alvarez <carlosteniswarrior@gmail.com>
+Hi,
 
-Fixed a typo.
+this series is a list of improvements to the I2C documentation.
 
-Signed-off-by: Carlos Guerrero Alvarez <carlosteniswarrior@gmail.com>
----
- Documentation/filesystems/qnx6.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It started as a simple reordering of index.rst from alphabetical order to a
+logical order. Then it grew to a mixture of various improvements to each
+section. I wanted to rework all the sections in a unique series, but after
+covering about one third of them the number of patches has already grown
+pretty long so I'm sending it in its current state.
 
-diff --git a/Documentation/filesystems/qnx6.txt b/Documentation/filesystems/qnx6.txt
-index 48ea68f15845..28e40a7f310f 100644
---- a/Documentation/filesystems/qnx6.txt
-+++ b/Documentation/filesystems/qnx6.txt
-@@ -163,7 +163,7 @@ tree structures are treated as system blocks.
- 
- The rational behind that is that a write request can work on a new snapshot
- (system area of the inactive - resp. lower serial numbered superblock) while
--at the same time there is still a complete stable filesystem structer in the
-+at the same time there is still a complete stable filesystem structure in the
- other half of the system area.
- 
- When finished with writing (a sync write is completed, the maximum sync leap
+Let's see how this series is received, I will continue to cover the rest of
+the sections later.
+
+Each patch is quite self-standing, and most are trivial, so have a good
+reading.
+
+Luca
+
+Luca Ceresoli (26):
+  docs: i2c: sort index logically
+  docs: i2c: summary: extend introduction
+  docs: i2c: summary: rewrite the "terminology" section
+  docs: i2c: call it "I2C" consistently
+  docs: i2c: fix typo
+  docs: i2c: replace "I2C-transfer" -> "I2C transfer" consistently
+  docs: i2c: i2c-protocol: fix kernel-doc function syntax
+  docs: i2c: i2c-protocol: properly name start and stop conditions
+  docs: i2c: i2c-protocol: remove unneeded colons from table
+  docs: i2c: i2c-protocol: use proper names for ACK and NACK
+  docs: i2c: smbus: fix link syntax
+  docs: i2c: smbus-protocol: properly name start and stop conditions
+  docs: i2c: smbus-protocol: remove unneeded colons from table
+  docs: i2c: smbus-protocol: use proper names for ACK and NACK
+  docs: i2c: smbus-protocol: enable kernel-doc function syntax
+  docs: i2c: smbus-protocol: fix kernel-doc function syntax
+  docs: i2c: i2c-protocol: fix typo
+  docs: i2c: i2c-protocol: fix punctuation
+  docs: i2c: smbus-protocol: improve I2C Block transactions description
+  docs: i2c: instantiating-devices: fix internal hyperlink
+  docs: i2c: instantiating-devices: rearrange static instatiation
+  docs: i2c: instantiating-devices: use monospace for filenames
+  docs: i2c: old-module-parameters: fix internal hyperlink
+  docs: i2c: old-module-parameters: clarify this is for obsolete kernels
+  docs: i2c: old-module-parameters: use monospace for filenames
+  docs: i2c: rename sections so the overall picture is clearer
+
+ Documentation/i2c/dev-interface.rst         |   24 +-
+ Documentation/i2c/dma-considerations.rst    |    2 +-
+ Documentation/i2c/i2c-protocol.rst          |   45 +-
+ Documentation/i2c/i2c-topology.rst          |   72 +-
+ Documentation/i2c/i2c.svg                   | 1341 +++++++++++++++++++
+ Documentation/i2c/index.rst                 |   21 +-
+ Documentation/i2c/instantiating-devices.rst |  116 +-
+ Documentation/i2c/old-module-parameters.rst |   30 +-
+ Documentation/i2c/slave-interface.rst       |    4 +-
+ Documentation/i2c/smbus-protocol.rst        |  107 +-
+ Documentation/i2c/summary.rst               |   61 +-
+ Documentation/i2c/writing-clients.rst       |   10 +-
+ 12 files changed, 1611 insertions(+), 222 deletions(-)
+ create mode 100644 Documentation/i2c/i2c.svg
+
 -- 
-2.24.0
+2.24.1
 
