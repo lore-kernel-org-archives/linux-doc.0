@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4705DC33C9A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E07C33C99
 	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 23:14:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E4B62085B
+	by mail.kernel.org (Postfix) with ESMTP id 6069D21734
 	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 23:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbgAEXOt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Jan 2020 18:14:49 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:41224 "EHLO
+        id S1727272AbgAEXOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jan 2020 18:14:55 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:54464 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726494AbgAEXOs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 18:14:48 -0500
+        by vger.kernel.org with ESMTP id S1727256AbgAEXOx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 18:14:53 -0500
 Received: from [37.160.42.38] (port=5507 helo=melee.fritz.box)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1ioEkE-00GSqI-Qz; Sun, 05 Jan 2020 23:51:39 +0100
+        id 1ioEkG-00GSqI-Dp; Sun, 05 Jan 2020 23:51:40 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-Subject: [PATCH 20/26] docs: i2c: instantiating-devices: fix internal hyperlink
-Date:   Sun,  5 Jan 2020 23:50:06 +0100
-Message-Id: <20200105225012.11701-20-luca@lucaceresoli.net>
+Subject: [PATCH 22/26] docs: i2c: instantiating-devices: use monospace for filenames
+Date:   Sun,  5 Jan 2020 23:50:08 +0100
+Message-Id: <20200105225012.11701-22-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200105225012.11701-1-luca@lucaceresoli.net>
 References: <20200105224006.10321-1-luca@lucaceresoli.net>
@@ -51,26 +51,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use ReST syntax so that a proper hyperlink is generated.
+Use a monospace (literal) formatting for better readability of filenames.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 ---
- Documentation/i2c/instantiating-devices.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/i2c/instantiating-devices.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/Documentation/i2c/instantiating-devices.rst b/Documentation/i2c/instantiating-devices.rst
-index cf5d9828e823..5debaafef64d 100644
+index cbcafb36b417..f06d44c5b692 100644
 --- a/Documentation/i2c/instantiating-devices.rst
 +++ b/Documentation/i2c/instantiating-devices.rst
-@@ -86,7 +86,7 @@ Method 1c: Declare the I2C devices via ACPI
- -------------------------------------------
+@@ -224,15 +224,15 @@ In general, the kernel should know which I2C devices are connected and
+ what addresses they live at. However, in certain cases, it does not, so a
+ sysfs interface was added to let the user provide the information. This
+ interface is made of 2 attribute files which are created in every I2C bus
+-directory: new_device and delete_device. Both files are write only and you
+-must write the right parameters to them in order to properly instantiate,
+-respectively delete, an I2C device.
++directory: ``new_device`` and ``delete_device``. Both files are write
++only and you must write the right parameters to them in order to properly
++instantiate, respectively delete, an I2C device.
  
- ACPI can also describe I2C devices. There is special documentation for this
--which is currently located at Documentation/firmware-guide/acpi/enumeration.rst.
-+which is currently located at :doc:`../firmware-guide/acpi/enumeration` .
+-File new_device takes 2 parameters: the name of the I2C device (a string)
+-and the address of the I2C device (a number, typically expressed in
+-hexadecimal starting with 0x, but can also be expressed in decimal.)
++File ``new_device`` takes 2 parameters: the name of the I2C device (a
++string) and the address of the I2C device (a number, typically expressed
++in hexadecimal starting with 0x, but can also be expressed in decimal.)
  
- 
- Method 2: Instantiate the devices explicitly
+-File delete_device takes a single parameter: the address of the I2C
++File ``delete_device`` takes a single parameter: the address of the I2C
+ device. As no two devices can live at the same address on a given I2C
+ segment, the address is sufficient to uniquely identify the device to be
+ deleted.
 -- 
 2.24.1
 
