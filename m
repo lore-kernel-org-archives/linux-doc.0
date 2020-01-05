@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D243EC33C9A
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AFEC33C8C
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:51:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A0CC524650
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:51:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D26BD20678
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jan 2020 22:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbgAEWvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Jan 2020 17:51:39 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:40685 "EHLO
+        id S1727146AbgAEWvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jan 2020 17:51:35 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:57252 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727186AbgAEWvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 17:51:38 -0500
+        by vger.kernel.org with ESMTP id S1727189AbgAEWvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jan 2020 17:51:35 -0500
 Received: from [37.160.42.38] (port=5507 helo=melee.fritz.box)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1ioEkC-00GSqI-8c; Sun, 05 Jan 2020 23:51:36 +0100
+        id 1ioEk8-00GSqI-Qn; Sun, 05 Jan 2020 23:51:33 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-Subject: [PATCH 17/26] docs: i2c: i2c-protocol: fix typo
-Date:   Sun,  5 Jan 2020 23:50:03 +0100
-Message-Id: <20200105225012.11701-17-luca@lucaceresoli.net>
+Subject: [PATCH 14/26] docs: i2c: smbus-protocol: use proper names for ACK and NACK
+Date:   Sun,  5 Jan 2020 23:50:00 +0100
+Message-Id: <20200105225012.11701-14-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200105225012.11701-1-luca@lucaceresoli.net>
 References: <20200105224006.10321-1-luca@lucaceresoli.net>
@@ -51,7 +51,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The subject is plural, fix the verb.
+Use the proper ACK and NACK naming from the I2C specification instead of
+"accept" and "reverse accept".
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 ---
@@ -59,18 +60,18 @@ Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
-index 3c0fb3a2044d..de7285de5e93 100644
+index fbadd4d25ad5..10c4a989982c 100644
 --- a/Documentation/i2c/smbus-protocol.rst
 +++ b/Documentation/i2c/smbus-protocol.rst
-@@ -145,7 +145,7 @@ SMBus Write Word
- Implemented by i2c_smbus_write_word_data()
- 
- This is the opposite of the Read Word operation. 16 bits
--of data is written to a device, to the designated register that is
-+of data are written to a device, to the designated register that is
- specified through the Comm byte.::
- 
-   S Addr Wr [A] Comm [A] DataLow [A] DataHigh [A] P
+@@ -38,7 +38,7 @@ Key to symbols
+ S               Start condition
+ P               Stop condition
+ Rd/Wr (1 bit)   Read/Write bit. Rd equals 1, Wr equals 0.
+-A, NA (1 bit)   Accept and reverse accept bit.
++A, NA (1 bit)   Acknowledge (ACK) and Not Acknowledge (NACK) bit
+ Addr  (7 bits)  I2C 7 bit address. Note that this can be expanded as usual to
+                 get a 10 bit I2C address.
+ Comm  (8 bits)  Command byte, a data byte which often selects a register on
 -- 
 2.24.1
 
