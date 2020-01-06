@@ -2,126 +2,229 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 878F1C33C9E
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 21:35:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 370B8C33C8C
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 22:29:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5E2662146E
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 21:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578346508;
-	bh=ImuT7QasAEumpFYS+d5DxYJyizDtZbc+TYx7DAquXhM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=mpd9wxMma48O3j136uUElgghajjxzmCR+owsGTwEsQ1wKck+j571MD50wq6MqXpM9
-	 va9mP+1EKkkMLIxmpZGysjDCSepfthJwibwaXBJS8/1qe8SkAqo1oMNV0hmwYgHxbh
-	 jBfZlML7CQ7C/Cb+hvW7JPBnnFbVmh9gmvZkNMmg=
+	by mail.kernel.org (Postfix) with ESMTP id 0C29524677
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 22:29:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FPNWtNSS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbgAFVfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 16:35:08 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44558 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgAFVfH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 16:35:07 -0500
-Received: by mail-pg1-f196.google.com with SMTP id x7so27439383pgl.11;
-        Mon, 06 Jan 2020 13:35:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m5JbUZHGVS7KhF/eteOGbVRmf/p5dDdWHItMOmdV+PY=;
-        b=KXEBFPr7uLQ4erGLtuIgSp+jERI4sICam+LtekOisclwM/7Qx2N3YufOUEUvR5OLLO
-         XdTzdU8wj6aTXkVgZQghUWNKX8HHrujLuUn7U/6QdzzfigQDunDmhBZPk7pTbg4HAn09
-         8ux3h6/ue1ptdVg7cPXq2UwMXsxX3J3i0cCAbZXn4HTwJig05+Ff2b8/ARSw65Au3Z4c
-         WDfXSfvuEh9BNLMKuAY1hTMyoLvov63knvGkpmFO2OaYyzPQivH3SevLolpROMrsxRba
-         mpsaWA5DwVT6nUFBEWYEFJ7GnNTFP0nIBGlGku150zrhA4iZjYHmjachj/FdlaSVvnle
-         omPg==
-X-Gm-Message-State: APjAAAUaDyzvedV6CbNNLujbyp3HLCfwfxN1tinkfl0NdZXKzsJpBi6I
-        DUjEMlCNofyeOBCdPVIJ0v8=
-X-Google-Smtp-Source: APXvYqw182QJjFmapUgFthZkzGtp0VoNIvjQLkmo3FZplcl6V6fewGd0Km+oD9FveLcEgGfjcf+wSw==
-X-Received: by 2002:a62:486:: with SMTP id 128mr111783695pfe.236.1578346506948;
-        Mon, 06 Jan 2020 13:35:06 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id g22sm74464874pgk.85.2020.01.06.13.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2020 13:35:05 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 2F19740321; Mon,  6 Jan 2020 21:35:05 +0000 (UTC)
-Date:   Mon, 6 Jan 2020 21:35:05 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v10 00/10] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20200106213505.GW11244@42.do-not-panic.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
- <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
- <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727268AbgAFW3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 17:29:21 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:58908 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgAFW3T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 17:29:19 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 006MJGJe051730;
+        Mon, 6 Jan 2020 22:29:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
+ bh=K+A93ZAv9I878HBX82hzx7n9260RnjvxaGQwnMGdHIs=;
+ b=FPNWtNSS7aOSP97Na2BssgVdTTIbTbnQcQPDrnow9xQ0PW+GQe7fyNrx44lseXsxvsfi
+ xoW41zaFvvmvxQJ7p3VG1bToS+pApnQEykoDrtNigETV+l01i4VT5Djz8+QHbkkCImS3
+ BntER7lMqIlrXAECZvXEHyHFxs/nYvPWZls8CqHScaabiOxHNxefE0s3ZAz4LkiuCI69
+ g48j/z2HMirhR0unIOBjb1k2h5ARZn5niv5+0QOKkfi2yQoQau5RxChYGOkC6RNfE4Ig
+ OfnTCVxjt1y71PH3720fcEnzAgMkuWplt0KTUGspcnv1K/xR9FYyHQATG/N6+UL5b53e Jg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2xaj4tt4yg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 06 Jan 2020 22:29:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 006MJeQh120782;
+        Mon, 6 Jan 2020 22:29:00 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2xb4v1swnx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 06 Jan 2020 22:29:00 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 006MStjI005195;
+        Mon, 6 Jan 2020 22:28:55 GMT
+Received: from dhcp-10-175-162-40.vpn.oracle.com (/10.175.162.40)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 06 Jan 2020 14:28:54 -0800
+From:   Alan Maguire <alan.maguire@oracle.com>
+To:     shuah@kernel.org, brendanhiggins@google.com,
+        linux-kselftest@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
+        catalin.marinas@arm.com, joe.lawrence@redhat.com,
+        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        davidgow@google.com, adilger.kernel@dilger.ca, tytso@mit.edu,
+        mcgrof@kernel.org, linux-doc@vger.kernel.org,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>
+Subject: [RESEND PATCH v7 linux-kselftest-test 2/6] kunit: hide unexported try-catch interface in try-catch-impl.h
+Date:   Mon,  6 Jan 2020 22:28:19 +0000
+Message-Id: <1578349703-15650-3-git-send-email-alan.maguire@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1578349703-15650-1-git-send-email-alan.maguire@oracle.com>
+References: <1578349703-15650-1-git-send-email-alan.maguire@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001060185
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001060185
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 12:36:04PM +0100, Ard Biesheuvel wrote:
-> On Fri, 3 Jan 2020 at 12:27, Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi All,
-> >
-> > Since I send this out, efi-next has seen some changes causing the first
-> > 2 patches to no longer cleanly apply. So it looks like we need to
-> > merge this one bit at a time with immutable branches.
-> >
-> > Ard, the first 2 patches in this series should be merged through your
-> > efi tree. AFAIK everyone is happy with them in their current state
-> > so they are ready for merging. Can you create an immutable branch
-> > with these 2 patches and merge that into your efi-next branch?
-> >
-> > Note if you do the immutable branch on 5.5-rc1 + just these 2 patches,
-> > there will be a conflict when you merge this into efi-next, but it is
-> > trivial to resolve.
-> >
-> 
-> I will need to defer to Ingo here, as he usually applies the EFI
-> changes piecemeal rather than merging my branches directly.
-> 
-> I'd be fine with just annotating the conflict in the pull request if
-> it is trivial, though, but it is really up to Luis and Ingo to align
-> here.
+Define function as static inline in try-catch-impl.h to allow it to
+be used in kunit itself and tests.  Also remove unused
+kunit_generic_try_catch
 
-I don't have a tree, and firmware goes Greg's driver core tree so
-actually its up to Greg and Ingo on how this gets merged. But it seems
-you just have one issue to fix:
+Co-developed-by: Knut Omang <knut.omang@oracle.com>
+Signed-off-by: Knut Omang <knut.omang@oracle.com>
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Tested-by: Brendan Higgins <brendanhiggins@google.com>
+---
+ include/kunit/try-catch.h  | 10 ----------
+ lib/kunit/test-test.c      |  2 ++
+ lib/kunit/test.c           |  2 +-
+ lib/kunit/try-catch-impl.h | 27 +++++++++++++++++++++++++++
+ lib/kunit/try-catch.c      | 13 ++-----------
+ 5 files changed, 32 insertions(+), 22 deletions(-)
+ create mode 100644 lib/kunit/try-catch-impl.h
 
-[PATCH v10 05/10] test_firmware: add support for firmware_request_platform
+diff --git a/include/kunit/try-catch.h b/include/kunit/try-catch.h
+index 404f336..c507dd4 100644
+--- a/include/kunit/try-catch.h
++++ b/include/kunit/try-catch.h
+@@ -53,11 +53,6 @@ struct kunit_try_catch {
+ 	void *context;
+ };
+ 
+-void kunit_try_catch_init(struct kunit_try_catch *try_catch,
+-			  struct kunit *test,
+-			  kunit_try_catch_func_t try,
+-			  kunit_try_catch_func_t catch);
+-
+ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context);
+ 
+ void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch);
+@@ -67,9 +62,4 @@ static inline int kunit_try_catch_get_result(struct kunit_try_catch *try_catch)
+ 	return try_catch->try_result;
+ }
+ 
+-/*
+- * Exposed for testing only.
+- */
+-void kunit_generic_try_catch_init(struct kunit_try_catch *try_catch);
+-
+ #endif /* _KUNIT_TRY_CATCH_H */
+diff --git a/lib/kunit/test-test.c b/lib/kunit/test-test.c
+index 5ebe059..5a6cc04 100644
+--- a/lib/kunit/test-test.c
++++ b/lib/kunit/test-test.c
+@@ -7,6 +7,8 @@
+  */
+ #include <kunit/test.h>
+ 
++#include "try-catch-impl.h"
++
+ struct kunit_try_catch_test_context {
+ 	struct kunit_try_catch *try_catch;
+ 	bool function_called;
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index 36ebf47..58a6227 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -7,11 +7,11 @@
+  */
+ 
+ #include <kunit/test.h>
+-#include <kunit/try-catch.h>
+ #include <linux/kernel.h>
+ #include <linux/sched/debug.h>
+ 
+ #include "string-stream.h"
++#include "try-catch-impl.h"
+ 
+ static void kunit_set_failure(struct kunit *test)
+ {
+diff --git a/lib/kunit/try-catch-impl.h b/lib/kunit/try-catch-impl.h
+new file mode 100644
+index 0000000..203ba6a
+--- /dev/null
++++ b/lib/kunit/try-catch-impl.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Internal kunit try catch implementation to be shared with tests.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#ifndef _KUNIT_TRY_CATCH_IMPL_H
++#define _KUNIT_TRY_CATCH_IMPL_H
++
++#include <kunit/try-catch.h>
++#include <linux/types.h>
++
++struct kunit;
++
++static inline void kunit_try_catch_init(struct kunit_try_catch *try_catch,
++					struct kunit *test,
++					kunit_try_catch_func_t try,
++					kunit_try_catch_func_t catch)
++{
++	try_catch->test = test;
++	try_catch->try = try;
++	try_catch->catch = catch;
++}
++
++#endif /* _KUNIT_TRY_CATCH_IMPL_H */
+diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+index 55686839..4a66d16 100644
+--- a/lib/kunit/try-catch.c
++++ b/lib/kunit/try-catch.c
+@@ -8,12 +8,13 @@
+  */
+ 
+ #include <kunit/test.h>
+-#include <kunit/try-catch.h>
+ #include <linux/completion.h>
+ #include <linux/kernel.h>
+ #include <linux/kthread.h>
+ #include <linux/sched/sysctl.h>
+ 
++#include "try-catch-impl.h"
++
+ void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)
+ {
+ 	try_catch->try_result = -EFAULT;
+@@ -106,13 +107,3 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ 
+ 	try_catch->catch(try_catch->context);
+ }
+-
+-void kunit_try_catch_init(struct kunit_try_catch *try_catch,
+-			  struct kunit *test,
+-			  kunit_try_catch_func_t try,
+-			  kunit_try_catch_func_t catch)
+-{
+-	try_catch->test = test;
+-	try_catch->try = try;
+-	try_catch->catch = catch;
+-}
+-- 
+1.8.3.1
 
-There is a few set of empty lines added and I had one comment on the
-release of the firmware.
-
-Other than this, I agree this seems ready to be merged.
-
-  Luis
