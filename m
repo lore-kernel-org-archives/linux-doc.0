@@ -2,63 +2,158 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C34FBC33C9B
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:04:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C21C32771
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:07:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A24E021734
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:04:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39A2E21775
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725446AbgAFIED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 03:04:03 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:55020 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725843AbgAFIED (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 03:04:03 -0500
-Received: from [81.174.41.21] (port=40880 helo=[192.168.77.51])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1ioNMm-002TYA-SF; Mon, 06 Jan 2020 09:04:00 +0100
-Subject: Re: [PATCH 00/26] docs: i2c: rework I2C documentation, part I
-To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>, Peter Rosin <peda@axentia.se>,
-        linux-kernel@vger.kernel.org
-References: <20200105224006.10321-1-luca@lucaceresoli.net>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <617f077d-1615-80a3-31f3-e6a053055e48@lucaceresoli.net>
-Date:   Mon, 6 Jan 2020 09:03:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726296AbgAFIHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 03:07:06 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38285 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbgAFIHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 03:07:06 -0500
+Received: by mail-ot1-f67.google.com with SMTP id d7so66167981otf.5;
+        Mon, 06 Jan 2020 00:07:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DW1SIti7NHYB1AbqgFvyF14dNMwa3qPTzBW09JetqYs=;
+        b=fLBvsDRjAp27Ry4z3ybY4TWK2AC39HDKg34iIBO0JHpK4ZW8DIG1X0FLVIcoaFKQPl
+         FcnASseG3YV7gK9AzPCfrox2rjHnRyOSipoEyNKXwGcFFAr30aIEn5KWFdaHrUWaP8sg
+         n8YLlfwpGwRBi7DndS5zY0CSnLwdZeUvyur4u+IrJr/GjJFnn5e0SV8PwOgD5QxajggX
+         GpPTfAuE8jxPWVJ5ZdfdCOhDlZckyYGQmpZ4jNGMQGaOXu2yFjnpx6aV04qnhqKXsmJ+
+         ssGU5M8L6v9M9e3oOx/tIo3A+JENrzYd/59yzbk/ZCZ9GS10i08SoBX1FERJnR3L3Qs6
+         25mA==
+X-Gm-Message-State: APjAAAVOtT996oCGUCAki2uSbSzYITPnZYYhM2djUur4DzuhvbVL9rQn
+        M4Mz7A9vSrpKvjWYnukfm26QXsOikh8nIZxQS6s=
+X-Google-Smtp-Source: APXvYqxAKJhctUL3mn7UzaLw+sqHKf++PDfXB8dUrOnMMXR6h0t2N8/KpR/0X7vcb8CRnhjsdWQ+ZW4+Y5nwyAvTH3w=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr15235457ots.250.1578298025342;
+ Mon, 06 Jan 2020 00:07:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200105224006.10321-1-luca@lucaceresoli.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-7-geert+renesas@glider.be> <CACRpkdb1XZAeSThxWmJtnm80T4aPufXV2UvJdVdgnw-TJe3trg@mail.gmail.com>
+ <CAMuHMdV+Ww5Y9G7+bS-SyHtm4dC89V37yuaYvrS3kYW=PRTkFA@mail.gmail.com> <CACRpkdZwos9Dtt9E3OkxWf4rqMALNTge5NGduzGm-7MhQyLZuQ@mail.gmail.com>
+In-Reply-To: <CACRpkdZwos9Dtt9E3OkxWf4rqMALNTge5NGduzGm-7MhQyLZuQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Jan 2020 09:06:53 +0100
+Message-ID: <CAMuHMdWZ7Wh9rq7SGt7edgCXL1e5UwtSUfxLc0exHa-TEB=W5w@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] docs: gpio: Add GPIO Aggregator/Repeater documentation
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Linus,
 
-my apologies for the incorrect threading of these e-mails. I've been
-having troubles while sending them out, so I had to resend them manually
-in chunks and while doing that I didn't manage to recreate the proper
-threading.
+On Sat, Jan 4, 2020 at 1:21 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Thu, Dec 12, 2019 at 3:48 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Dec 12, 2019 at 3:42 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+> > > <geert+renesas@glider.be> wrote:
+> > > > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+> > > > +them into a new gpio_chip, which can be assigned to a group or user using
+> > > > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > > > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > > > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > > > +which not, reducing the attack surface.
+> > > > +
+> > > > +Aggregated GPIO controllers are instantiated and destroyed by writing to
+> > > > +write-only attribute files in sysfs.
+> > >
+> > > I suppose virtual machines will have a lengthy config file where
+> > > they specify which GPIO lines to pick and use for their GPIO
+> > > aggregator, and that will all be fine, the VM starts and the aggregator
+> > > is there and we can start executing.
+> > >
+> > > I would perhaps point out a weakness as with all sysfs and with the current
+> > > gpio sysfs: if a process creates an aggregator device, and then that
+> > > process crashes, what happens when you try to restart the process and
+> > > run e.g. your VM again?
+> > >
+> > > Time for a hard reboot? Or should we add some design guidelines for
+> > > these machines so that they can cleanly tear down aggregators
+> > > previously created by the crashed VM?
+> >
+> > No, the VM does not create the aggregator.
+> >
+> > The idea is for the user to create one or more aggregators, set up
+> > permissions on /dev/gpiochipX, and launch the VM, passing the aggregated
+> > /dev/gpiochipX as parameters.
+> > If the VM crashes, just launch it again.
+> >
+> > Destroying the aggregators is a manual and independent process, after
+> > the VM has exited.
+>
+> I'm thinking about someone making some industrial application for some
+> control of a machinery say a robotic arm.
+>
+> And do make sure this VM is only controlling these GPIOs related to
+> this robotic arm, they create a GPIO aggregator. And we care about
+> cases like that since we provide this security argument.
+>
+> Surely that machine will be rebooted.
+>
+> Surely they don't have a printed paper with all the commands lying
+> at the console, and asking whoever powers it back on to manually
+> type it all in again. That feels a bit 1981.
+>
+> So they will have a script for this I suppose. Possibly in some
+> initscript so it is set up on boot. And this script echos stuff
+> all over the place to set up the aggregator.
+>
+> Is this the use case you're thinking of?
+
+Exactly.
+
+And they can configure that by echoing the GPIO specifiers to
+/sys/bus/platform/drivers/gpio-aggregator/new_device.
+
+If their system has DT, another option is to describe the device in DT,
+and add its compatible value to gpio_aggregator_dt_ids[], cfr. the
+frobnicator example.
+
+> I just like to have the whole picture here.
+
+Sure. If anything is still unclear, please let me know!
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Luca
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
