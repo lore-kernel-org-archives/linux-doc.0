@@ -2,62 +2,66 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42688C33C9E
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 18:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B60DAC33C8C
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 18:56:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A6DA2146E
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 18:55:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8865A2072C
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 18:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578336902;
-	bh=yVdtCtKT4wuNUclV+dp7A5m3+vWo+hXaOhVzb4vGJZs=;
+	s=default; t=1578337000;
+	bh=B/kWhHx1btx8ugLNBM9UY7cdDolaEByVRoHh+OX9Nx4=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=zC9HpLDG3Pf6Hx+zXBfHJsdtKP1tcNrah1EVviclqFLcaR3HukGv87AgS+0uAZjUW
-	 QmZoHEcphlj05Xm6qeQpvNvnoE3ieFfi+fmslnL4UHqEdzXcebe9mXYkrxVxZVzyNT
-	 ml3y1UWA+737u/pz48qjX66klT9xpnQJ30i9+u4k=
+	b=uyQuB4gGpYDv5hJXUAjWWG59lTN8JzlYOJStcwya++GiD4CIZSNM7RqkmERCGPfgh
+	 dDexCDojnvQlgbG1Sh8mlrizTqWr6NHkpnfqRynqs8Xr7B8oD1jk4j2q57qFHD01my
+	 XR87L/VGIRUmRCPq5X5JQ6kUgD2HAvNZOG/EuCrM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgAFSy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 13:54:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40186 "EHLO mail.kernel.org"
+        id S1726695AbgAFS4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 13:56:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42532 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726719AbgAFSy6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Jan 2020 13:54:58 -0500
+        id S1726690AbgAFS4k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jan 2020 13:56:40 -0500
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 995EF2070E;
-        Mon,  6 Jan 2020 18:54:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1310B2072A;
+        Mon,  6 Jan 2020 18:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578336897;
-        bh=yVdtCtKT4wuNUclV+dp7A5m3+vWo+hXaOhVzb4vGJZs=;
+        s=default; t=1578336999;
+        bh=B/kWhHx1btx8ugLNBM9UY7cdDolaEByVRoHh+OX9Nx4=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=pCkeZrlJvzfB8bumYbfPweUD3s/YmyupadzGUiQCATziose1uTbTNx0S8N+8uhBj3
-         szoeKcBntLiyh7PM7NaZ4//cvaXZZckNRWoHTO3LmLgTXEAuQ9wqlpbn9dew6Kfo7e
-         CYqIQ5U9wQCa5qSsiNt+uP9wnmMOESfiGsdJpOvs=
-Subject: Re: [PATCH v6 linux-kselftest-test 0/6] kunit: support building
- core/tests as modules
-To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
-        linux-kselftest@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        davidgow@google.com, adilger.kernel@dilger.ca, tytso@mit.edu,
-        mcgrof@kernel.org, linux-doc@vger.kernel.org,
-        shuah <shuah@kernel.org>
-References: <1575473234-5443-1-git-send-email-alan.maguire@oracle.com>
+        b=wFB5cCk6ZBpaS/EqqKbo5pIKR+rsp94ZcY9zSFOsbabe5bOQG+RPLOjinJj9CYhfV
+         zGVAr6t+miSuHWR62tfbt/nFiaAwYJuehtQup86EKEFGyMfGOoWEStJnsT45bwEcEe
+         +VnUJX0LWJM/pNqWLI5ivdY70s4gznekvt1E2byc=
+Subject: Re: [PATCH v6 linux-kselftest-test 3/6] kunit: allow kunit tests to
+ be loaded as a module
+To:     Alan Maguire <alan.maguire@oracle.com>,
+        kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, brendanhiggins@google.com,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, keescook@chromium.org,
+        yzaikin@google.com, akpm@linux-foundation.org,
+        yamada.masahiro@socionext.com, catalin.marinas@arm.com,
+        joe.lawrence@redhat.com, penguin-kernel@i-love.sakura.ne.jp,
+        urezki@gmail.com, andriy.shevchenko@linux.intel.com,
+        corbet@lwn.net, davidgow@google.com, adilger.kernel@dilger.ca,
+        tytso@mit.edu, mcgrof@kernel.org, linux-doc@vger.kernel.org,
+        Knut Omang <knut.omang@oracle.com>, shuah <shuah@kernel.org>
+References: <1575473234-5443-4-git-send-email-alan.maguire@oracle.com>
+ <201912190658.JKOfMs2i%lkp@intel.com>
+ <alpine.LRH.2.20.1912191424440.27984@dhcp-10-175-218-218.vpn.oracle.com>
 From:   shuah <shuah@kernel.org>
-Message-ID: <b03a80a8-c887-7d85-4ca5-92446ee28054@kernel.org>
-Date:   Mon, 6 Jan 2020 11:54:39 -0700
+Message-ID: <5671f077-d2ed-2e26-7588-29d1e4b8123e@kernel.org>
+Date:   Mon, 6 Jan 2020 11:56:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1575473234-5443-1-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <alpine.LRH.2.20.1912191424440.27984@dhcp-10-175-218-218.vpn.oracle.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -66,30 +70,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alan,
+On 12/19/19 7:28 AM, Alan Maguire wrote:
+> On Thu, 19 Dec 2019, kbuild test robot wrote:
+> 
+>> Hi Alan,
+>>
+>> Thank you for the patch! Yet something to improve:
+>>
+>> [auto build test ERROR on linus/master]
+>> [also build test ERROR on linux/master v5.5-rc2 next-20191218]
+>> [cannot apply to ext4/dev]
+>> [if your patch is applied to the wrong git tree, please drop us a note to help
+>> improve the system. BTW, we also suggest to use '--base' option to specify the
+>> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+>>
+>> url:    https://github.com/0day-ci/linux/commits/Alan-Maguire/kunit-support-building-core-tests-as-modules/20191207-021244
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git b0d4beaa5a4b7d31070c41c2e50740304a3f1138
+>> config: x86_64-randconfig-e002-20191218 (attached as .config)
+>> compiler: gcc-7 (Debian 7.5.0-1) 7.5.0
+>> reproduce:
+>>          # save the attached .config to linux build tree
+>>          make ARCH=x86_64
+>>
+>> If you fix the issue, kindly add following tag
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     drivers/base/power/qos-test.c:117:1: warning: data definition has no type or storage class
+>>      kunit_test_suite(pm_qos_test_module);
+>>      ^~~~~~~~~~~~~~~~
+> 
+> I hadn't thought about the possibility that other trees
+> would have added kunit tests in the interim; it probably
+> makes most sense to not retire the kunit_test_suite()
+> definition (it can be trivially defined via kunit_test_suites().
+> Converting the test suite isn't an option as it's not in
+> the kselftest-test tree.
+> 
+> I'll spin up a v7 patchset with that 1-line change to patch 3
+> as I don't _think_ these changes have been pulled in yet.
+> 
 
-On 12/4/19 8:27 AM, Alan Maguire wrote:
-> The current kunit execution model is to provide base kunit functionality
-> and tests built-in to the kernel.  The aim of this series is to allow
-> building kunit itself and tests as modules.  This in turn allows a
-> simple form of selective execution; load the module you wish to test.
-> In doing so, kunit itself (if also built as a module) will be loaded as
-> an implicit dependency.
-> 
-> Because this requires a core API modification - if a module delivers
-> multiple suites, they must be declared with the kunit_test_suites()
-> macro - we're proposing this patch set as a candidate to be applied to the
-> test tree before too many kunit consumers appear.  We attempt to deal
-> with existing consumers in patch 3.
-> 
-> Changes since v5:
->   - fixed fs/ext4/Makefile to remove unneeded conditional compilation
->     (Iurii, patch 3)
->   - added Reviewed-by, Acked-by to patches 3, 4, 5 and 6
-> 
 
-Are you planning to send v7 to address the kbuild issue? I can pull
-them in for 5.6
+Alan,
+
+Please do send v7. I will pull it for 5.6.
 
 thanks,
 -- Shuah
