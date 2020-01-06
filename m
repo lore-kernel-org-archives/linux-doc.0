@@ -2,156 +2,136 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C67C32771
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:23:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C614AC33C9B
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:02:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1BCC721775
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:23:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A67CD20848
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgAFIXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 03:23:21 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:46958 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgAFIXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 03:23:21 -0500
-Received: by mail-ot1-f67.google.com with SMTP id q3so2128320otr.13;
-        Mon, 06 Jan 2020 00:23:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nHzx9oIm8dg3P3nAkMNDZNXQcdUHwPZVhWt4WLorDDs=;
-        b=phYeE/Wdm+GEGSJpXs8lIGU9xe2PFAgc/bp6jYq4tL24MIDALkO3x7PU7voblRy/wb
-         1FkNODmqSZPxYMWA8qvi8lSFsLsbiBdYqh+mQgjPSmZwm2viBLF/51rWFp0nUM58KBgf
-         UUK2JyckwPeGBbcURpBod2F30WY/X3iFvuVtMrCWAFwwm1wv13Jk+edsWhX4lo+V+PFT
-         PJSL8BqlyXpn++7FMJ8ly60IZJFh20lUHcE5EvFbth6VEeGXoCz8OW1J7BCsmqkU7KbZ
-         eeQhTCKtxpGui/kVsm+EyUG9HxhGGRyJfGlLTOK+beFe0H5Hnx4Y8SI6c6wOTYlyyffg
-         Q8Qg==
-X-Gm-Message-State: APjAAAX9x+PoW+5c5eYPyMAhIT2kjTJtKMnplH1Lj3URpWTDwDPTaq/L
-        9AO1WK8m633VPh6/SzooWjbxcnz7OTvqkGpE+mY=
-X-Google-Smtp-Source: APXvYqxZfWCvC2DArnr5YYOlNTu+kHHp6uV+60W8n8M+iR8ajrYCZBArT5eRAfUPNTXNYH8DRrkE60PZKONNJiX/Ig4=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr116835949otm.297.1578298999867;
- Mon, 06 Jan 2020 00:23:19 -0800 (PST)
+        id S1726292AbgAFJCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 04:02:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50152 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgAFJCA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jan 2020 04:02:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id B2328B027;
+        Mon,  6 Jan 2020 09:01:55 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 821931E0B47; Mon,  6 Jan 2020 10:01:47 +0100 (CET)
+Date:   Mon, 6 Jan 2020 10:01:47 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Ran Rozenstein <ranro@mellanox.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20200106090147.GA9176@quack2.suse.cz>
+References: <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <20191220182939.GA10944@unreal>
+ <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+ <20191222132357.GF13335@unreal>
+ <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+ <20191225052612.GA212002@unreal>
+ <b879d191-a07c-e808-e48f-2b9bd8ba4fa3@nvidia.com>
+ <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be> <CACRpkdaW7nmpE99FAvBDBTmkTZOTQ5WdM=JbMzBTLk7cbLRXPw@mail.gmail.com>
- <CAMuHMdVbk5S__8OK-zNXmiW66=WVA8Jzyc=hUvf_hJSU=u9TFg@mail.gmail.com> <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com>
-In-Reply-To: <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Jan 2020 09:23:08 +0100
-Message-ID: <CAMuHMdUGGcjoX8TDDS5qGLtJZxizUK=BpasSQK3t1K-dhEgZCg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+On Sat 28-12-19 20:33:32, John Hubbard wrote:
+> On 12/27/19 1:56 PM, John Hubbard wrote:
+> ...
+> >> It is ancient verification test (~10y) which is not an easy task to
+> >> make it understandable and standalone :).
+> >>
+> > 
+> > Is this the only test that fails, btw? No other test failures or hints of
+> > problems?
+> > 
+> > (Also, maybe hopeless, but can *anyone* on the RDMA list provide some
+> > characterization of the test, such as how many pins per page, what page
+> > sizes are used? I'm still hoping to write a test to trigger something
+> > close to this...)
+> > 
+> > I do have a couple more ideas for test runs:
+> > 
+> > 1. Reduce GUP_PIN_COUNTING_BIAS to 1. That would turn the whole override of
+> > page->_refcount into a no-op, and so if all is well (it may not be!) with the
+> > rest of the patch, then we'd expect this problem to not reappear.
+> > 
+> > 2. Active /proc/vmstat *foll_pin* statistics unconditionally (just for these
+> > tests, of course), so we can see if there is a get/put mismatch. However, that
+> > will change the timing, and so it must be attempted independently of (1), in
+> > order to see if it ends up hiding the repro.
+> > 
+> > I've updated this branch to implement (1), but not (2), hoping you can give
+> > this one a spin?
+> > 
+> >     git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
+> > 
+> > 
+> 
+> Also, looking ahead:
+> 
+> a) if the problem disappears with the latest above test, then we likely have
+>    a huge page refcount overflow, and there are a couple of different ways to
+>    fix it. 
+> 
+> b) if it still reproduces with the above, then it's some other random mistake,
+>    and in that case I'd be inclined to do a sort of guided (or classic, unguided)
+>    git bisect of the series. Because it could be any of several patches.
+> 
+>    If that's too much trouble, then I'd have to fall back to submitting a few
+>    patches at a time and working my way up to the tracking patch...
 
-On Sat, Jan 4, 2020 at 1:38 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> Sorry for slowness... christmas.
+It could also be that an ordinary page reference is dropped with 'unpin'
+thus underflowing the page refcount...
 
-Np. Happy New Year!
+								Honza
 
-> On Thu, Dec 12, 2019 at 4:24 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Dec 12, 2019 at 3:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > > > +         This can serve the following purposes:
-> > > > +           1. Assign a collection of GPIOs to a user, or export them to a
-> > > > +              virtual machine,
-> > >
-> > > This is ambiguous. What is a "user"? A process calling from
-> > > userspace? A device tree node?
-> >
-> > A user is an entity with a UID, typically listed in /etc/passwd.
-> > This is similar to letting some, not all, people on the machine access
-> > the CD-ROM drive.
->
-> Ah I get it. Maybe we can say "assign permissions for a collection
-> of GPIOs to a user".
-
-OK
-
-> > > I would write "assign a collection of GPIO lines from any lines on
-> > > existing physical GPIO chips to form a new virtual GPIO chip"
-> > >
-> > > That should be to the point, right?
-> >
-> > Yes, that's WHAT it does. The WHY is the granular access control.
->
-> So I guess we can write both?
-
-OK.
-
-> > > > +           3. Provide a generic driver for a GPIO-operated device, to be
-> > > > +               controlled from userspace using the GPIO chardev interface.
-> > >
-> > > I don't understand this, it needs to be elaborated. What is meant
-> > > by a "GPIO-operated device" in this context? Example?
-> >
-> > E.g. a motor. Or a door opener.
-> >
-> >         door-opener {
-> >                 compatible = "mydoor,opener";
-> >
-> >                 gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>;
-> >         };
-> >
-> > You don't need a full-featured kernel driver for that, so just bind the
-> > gpio-aggregator to the door-opener, and control it through libgpiod.
->
-> Yep it's a perfect industrial control example, I get it.
->
-> Maybe we should blurb something about industrial control?
-
-OK.
-
-> The rest I think we cleared out else I will see it when I review again.
-
-The remaining discussion point is "GPIO Repeater in Device Tree", i.e.
-the GPIO inverter usecase, which might be solved better by adding a
-GPIO_INVERTED flag.
-
-Shall I rip that out, incorporate review comments, and report?
-
-Thanks!
-
-
-
---
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
