@@ -2,150 +2,268 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 483EDC32771
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF22C33C9E
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 12:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A3E8207FD
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:16:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D3392467A
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 12:47:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="W31nvTwV"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VSPR1kNh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbgAFJQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 04:16:44 -0500
-Received: from mail-eopbgr80073.outbound.protection.outlook.com ([40.107.8.73]:24898
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725996AbgAFJQo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Jan 2020 04:16:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JDcHJ7cWx+HJ4I+H4fQ+hRNPBg1TlZGspKwpPVA3EIhj+eRUyCMlETWQNfywWQ7NQUpyx5Zkv0LsxihG9oVBPjTTgx+yKIbL5uJr4cIVERK4TrEBUItetVgYDfCAIvp+qifKL0B17Lz6xquY9eol234KDJwC5VvGkM3tQlqB+KCBCbzndwH000Kwp8NXxUsD/VKW0Ibr2eKDssQgeV0tQK2NiOScFQyl1dyS/QRZrSHWHmS5f+H7yLyBPAsVp6hr6sNkAsjlYtyOAYGEj7Q8ajCwQkmaKb/4MEcRJv8w9iQpbKd11YtyK8HxnhQeTI2W0O3lFTf2Oy1PWELosBksyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tv/BzuUXPdsYm1fS1Z7aqY8AiYxcVcTveiJ7OSibLiw=;
- b=dBq5DJFJ79032xXBJ47Ct0rnTBRbpaPttbbeMDBNFJP0YpS1PxKTRpK6ussNEdp7pY+nGTiENmUUTvxoIGaJuL+DlaEoNgYe36lxdIjBK408qLqXLord61Rfz7esT/1hSz6fsY6WCM+HvxeEBzyDrCmihP6kNPWkdASvjhRtGeagKVZLFBJPoBRYYn69QZpxcUiPLMq0hpg1aV8lZXUWHdQfL9/aESjsYwVf1/2UA/Ky7cbY5sUsJ72AMXpV2n0esm8mr9nxAznAAcAEpoMGdXyhZ7qVBtAAVW/MCXwtuFmvP7BUdAxSxdWBrbnLdLLiipYoRcB15vNnT8RG4oHgBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tv/BzuUXPdsYm1fS1Z7aqY8AiYxcVcTveiJ7OSibLiw=;
- b=W31nvTwVgxt5eYSmfb/ly+irars1OFnCt1O4P3lcUEpYlHAjuAJWzyEE/6fZBPtKSZLNPiF0dY3ycqSzXoVYV/vDoMnJk1L2WLzPr1KOPDMxuEgx183mcCrCby3jKgYvBvOp/SS5+gPP3Jaj0EWO53y4z2ojVNcv3iB67S3BybI=
-Received: from DB8PR04MB6985.eurprd04.prod.outlook.com (52.133.243.85) by
- DB8PR04MB5867.eurprd04.prod.outlook.com (20.179.11.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.12; Mon, 6 Jan 2020 09:16:40 +0000
-Received: from DB8PR04MB6985.eurprd04.prod.outlook.com
- ([fe80::c181:4a83:14f2:27e3]) by DB8PR04MB6985.eurprd04.prod.outlook.com
- ([fe80::c181:4a83:14f2:27e3%6]) with mapi id 15.20.2602.015; Mon, 6 Jan 2020
- 09:16:40 +0000
-From:   "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
-CC:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: RE: [PATCH net-next 0/2] Fix 10G PHY interface types
-Thread-Topic: [PATCH net-next 0/2] Fix 10G PHY interface types
-Thread-Index: AQHVwiwrxFflOt73iU6BRITH1hAO2KfY2OpQgAAj3oCAACKCoIAAB2mAgAQ2asA=
-Date:   Mon, 6 Jan 2020 09:16:40 +0000
-Message-ID: <DB8PR04MB6985B617539D2E909B30822FEC3C0@DB8PR04MB6985.eurprd04.prod.outlook.com>
-References: <20200103115125.GC25745@shell.armlinux.org.uk>
- <DB8PR04MB698593C7DB07A82577562348EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
- <20200103141743.GC22988@lunn.ch>
- <DB8PR04MB698518D97251CB15938279C3EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
- <20200103164745.GL1397@lunn.ch>
-In-Reply-To: <20200103164745.GL1397@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=madalin.bucur@oss.nxp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: efc8429f-8a38-470f-38b6-08d7928923d6
-x-ms-traffictypediagnostic: DB8PR04MB5867:|DB8PR04MB5867:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR04MB5867681D8F010CA4382231EFAD3C0@DB8PR04MB5867.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 0274272F87
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(199004)(189003)(13464003)(9686003)(86362001)(26005)(53546011)(2906002)(4326008)(110136005)(54906003)(186003)(316002)(7696005)(71200400001)(8676002)(81156014)(81166006)(52536014)(66476007)(66946007)(76116006)(66556008)(8936002)(66446008)(64756008)(6506007)(5660300002)(966005)(55016002)(33656002)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:DB8PR04MB5867;H:DB8PR04MB6985.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: oss.nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: x3Ze6GHJAtz/qTxSWaXKfj6Yr/qKrcmRWhoXqptBfjFf9/E+9UlWwoG+z5019zHYohoO2CWPEmKlTeuOz/FjWRKb1VxUGnGrw7zfxxz8inlz+3Tg4ittYgpGZg0AD/h/p+8vTMhSD5meMhFZ9dG3nDLSa+h/+eJGVvYmMh5iIX5BhJ9xV5IyLn/CZ/Wa9AucFged+iIuitDnBRgLiYG8EqH4/QQC9i+vEfYtch9qMoCTOeU02IrceKupwpbEcv0gwssPpFljnTmJqotmqiM5nC100RTHtY5aJ/2zIbaDnieA5sBw2fBJWOawariXkfhoO6lGbIWLjvLBfLzvkJtK9Cm/FNYiW9wOXzzstW0O9+0mMILAvA5WPwirJFJR/QlS3d+zE9RQSYT5peDhk4WoITiZ7U9F2aEuCvUjAhKi55MyFGwwcidnrFhgCeiGN0ZwSWMufrWnfSP0973Bb1s+OA8zolduw6F9y6lsK6p7FY1EqEJB9MaZuyMi6ILwpVOhiUrd7jknTStJd/LGkXMgsui31eNltj1TbN77Hm4Eif4=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726518AbgAFMrK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 07:47:10 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44282 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726300AbgAFMrK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 07:47:10 -0500
+Received: by mail-ot1-f67.google.com with SMTP id h9so68983228otj.11
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2020 04:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0cokz+TzxrpaxvG5nOS6eF++kPejXpiqRHh7qCMSQec=;
+        b=VSPR1kNh7jcvbYeM40HUkgvv2juwOOJPMTYyKKYC5vhjpIsMb2xhi15fRuQgOvTPL5
+         V1a7AS8J87afZ4yaptjdIoKtaI2Br/pox8NJ+XTBZ1VIx66jhfSBr4w2B+82VTr4ZpF8
+         mTSLujM1kuGSTfnTqjV/UFcERGeFaLCLh7Dbp1EDXvkanPImgReiGuBkDcz2vOfcb5kZ
+         bj59nBD2Z7qiiBxv+jZn/e4k7BNy1/AZgBVpHXrf5FZAAPPQ96r5YQp5z6EuxPbiwCRk
+         UYOKLLzjTmm1R4heMg8ILqzLXpcvyspEAyZYqkGEo7fLDfqGiZxdo5WvSLSMgYK+HlN9
+         AWLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0cokz+TzxrpaxvG5nOS6eF++kPejXpiqRHh7qCMSQec=;
+        b=OIpxWB3yDrDQhFQy0BTvNy69/7QM0rxWczgB/Ee/a/vDiuZI51LzhGxMfvPhuwyps4
+         FUB9PfhFibyQkl4mZ4VV1aWLzzCh2z7tQR690CpG65wwL2FZjJhuzJBK23d9/xtd8PRu
+         5AxtlRcu8PH7C7CDWpK2064o5c99gB5eaiYlOgmF9Dn3RJKD0X/XiHoPpE8bmp01vHIX
+         59JzZSqdICpKq96kUDH0sVANeSJlHoTbfWhtH2bIELzHI1yvqm1tOf3gaNE79qNsDZ1X
+         szJXDqfWjbzU4+F0qM9GDIDmSPKkm8A5o8LuhWHbbjy4gXNwq92fp8t3CKIdvVSKZmKa
+         77zw==
+X-Gm-Message-State: APjAAAV5p1Yod80jS3KhEvCAS6KVhpEH8TqkSKui8pq0gKtN10LzQFej
+        zc7Vy8Z17uckraQil4qygUNNugN7bB8+wITIzwA/Ag==
+X-Google-Smtp-Source: APXvYqxJirJ4tMUUigFwZuoGjSzrBh2H8+dLoDP3tFn248r//UtiG0zaVOpxu+0owZBKVVOZDGrCSsyTsAsTyUSybWE=
+X-Received: by 2002:a9d:7410:: with SMTP id n16mr103842622otk.23.1578314829026;
+ Mon, 06 Jan 2020 04:47:09 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efc8429f-8a38-470f-38b6-08d7928923d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 09:16:40.4516
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kYaBDoJ9Ajqa6TgXQI2XvrmgWBPU141vGcWX/3dsS90VxdlnstmmlHa9GFAKsanJ1pKSNsxHX5yV6Is5FwLg0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB5867
+References: <20191114180303.66955-1-elver@google.com> <20191114180303.66955-2-elver@google.com>
+ <BAB5F853-95FA-4623-A067-4E62B90721D3@lca.pw>
+In-Reply-To: <BAB5F853-95FA-4623-A067-4E62B90721D3@lca.pw>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 6 Jan 2020 13:46:57 +0100
+Message-ID: <CANpmjNOC2PYFsE_TK2SYmKcHxyG+2arWc8x_fmeWPOMi0+ot8g@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+To:     Qian Cai <cai@lca.pw>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Friday, January 3, 2020 6:48 PM
-> To: Madalin Bucur (OSS) <madalin.bucur@oss.nxp.com>
-> Cc: Russell King - ARM Linux admin <linux@armlinux.org.uk>; Florian
-> Fainelli <f.fainelli@gmail.com>; Heiner Kallweit <hkallweit1@gmail.com>;
-> David S. Miller <davem@davemloft.net>; Jonathan Corbet <corbet@lwn.net>;
-> Kishon Vijay Abraham I <kishon@ti.com>; linux-doc@vger.kernel.org;
-> netdev@vger.kernel.org
-> Subject: Re: [PATCH net-next 0/2] Fix 10G PHY interface types
->=20
-> > And here is a LS1046A SoC document that describes XFI and 10GBASE_KR:
-> >
-> > https://www.mouser.com/pdfdocs/LS1046A.pdf
+On Fri, 3 Jan 2020 at 06:13, Qian Cai <cai@lca.pw> wrote:
+>
+>
+>
+> > On Nov 14, 2019, at 1:02 PM, 'Marco Elver' via kasan-dev <kasan-dev@googlegroups.com> wrote:
+> > +static noinline void kcsan_setup_watchpoint(const volatile void *ptr,
+> > +                                         size_t size, bool is_write)
+> > +{
+> > +     atomic_long_t *watchpoint;
+> > +     union {
+> > +             u8 _1;
+> > +             u16 _2;
+> > +             u32 _4;
+> > +             u64 _8;
+> > +     } expect_value;
+> > +     bool value_change = false;
+> > +     unsigned long ua_flags = user_access_save();
+> > +     unsigned long irq_flags;
+> > +
+> > +     /*
+> > +      * Always reset kcsan_skip counter in slow-path to avoid underflow; see
+> > +      * should_watch().
+> > +      */
+> > +     reset_kcsan_skip();
+> > +
+> > +     if (!kcsan_is_enabled())
+> > +             goto out;
+> > +
+> > +     if (!check_encodable((unsigned long)ptr, size)) {
+> > +             kcsan_counter_inc(KCSAN_COUNTER_UNENCODABLE_ACCESSES);
+> > +             goto out;
+> > +     }
+> > +
+> > +     /*
+> > +      * Disable interrupts & preemptions to avoid another thread on the same
+> > +      * CPU accessing memory locations for the set up watchpoint; this is to
+> > +      * avoid reporting races to e.g. CPU-local data.
+> > +      *
+> > +      * An alternative would be adding the source CPU to the watchpoint
+> > +      * encoding, and checking that watchpoint-CPU != this-CPU. There are
+> > +      * several problems with this:
+> > +      *   1. we should avoid stealing more bits from the watchpoint encoding
+> > +      *      as it would affect accuracy, as well as increase performance
+> > +      *      overhead in the fast-path;
+> > +      *   2. if we are preempted, but there *is* a genuine data race, we
+> > +      *      would *not* report it -- since this is the common case (vs.
+> > +      *      CPU-local data accesses), it makes more sense (from a data race
+> > +      *      detection point of view) to simply disable preemptions to ensure
+> > +      *      as many tasks as possible run on other CPUs.
+> > +      */
+> > +     local_irq_save(irq_flags);
+>
+> Enabling KCSAN will now generate a warning during boot here.
+>
+> Config (need to deselect KASAN and select KCSAN):
+>
+> https://raw.githubusercontent.com/cailca/linux-mm/master/x86.config
 
-You need to register, unfortunately, but the information is in the referenc=
-e
-manual (18.3 MB of download):
+Thanks, I'll look into KCSAN + lockdep compatibility. It's probably
+missing some KCSAN_SANITIZE := n in some Makefile.
 
-https://www.nxp.com/products/processors-and-microcontrollers/arm-processors=
-/layerscape-communication-process/qoriq-layerscape-1046a-and-1026a-multicor=
-e-communications-processors:LS1046A?tab=3DDocumentation_Tab
+> [   13.358813][    T0] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+> [   13.361606][    T0] Speculative Store Bypass: Vulnerable
+> [   13.363254][    T0] TAA: Vulnerable: Clear CPU buffers attempted, no microcode
+> [   13.366836][    T0] MDS: Vulnerable: Clear CPU buffers attempted, no microcode
+> [   13.369877][    T0] debug: unmapping init [mem 0xffffffff8dd83000-0xffffffff8dd87fff]
+> [   13.415028][    T1] ------------[ cut here ]------------
+> [   13.416814][    T1] DEBUG_LOCKS_WARN_ON(!current->hardirqs_enabled)
+> [   13.416814][    T1] WARNING: CPU: 0 PID: 1 at kernel/locking/lockdep.c:4406 check_flags.part.26+0x102/0x240
+> [   13.416814][    T1] Modules linked in:
+> [   13.416814][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.5.0-rc2-next-20191220+ #4
+> [   13.416814][    T1] Hardware name: HP ProLiant DL580 Gen9/ProLiant DL580 Gen9, BIOS U17 07/21/2016
+> [   13.416814][    T1] RIP: 0010:check_flags.part.26+0x102/0x240
+> [   13.416814][    T1] Code: bc 8d e8 51 a1 15 00 44 8b 05 2a a0 46 01 45 85 c0 0f 85 57 76 00 00 48 c7 c6 5d fa 7b 8d 48 c7 c7 b1 54 7b 8d e8 10 91 f5 ff <0f> 0b e9 3d 76 00 00 65 48 8b 3c 25 40 7f 01 00 e8 89 f0 ff ff e8
+> [   13.416814][    T1] RSP: 0000:ffff9d3206287ce8 EFLAGS: 00010082
+> [   13.416814][    T1] RAX: 0000000000000000 RBX: ffff8e5b8541e040 RCX: 0000000000000000
+> [   13.416814][    T1] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+> [   13.416814][    T1] RBP: ffff9d3206287cf0 R08: 0000000000000000 R09: 0000ffff8dbcc254
+> [   13.416814][    T1] R10: 0000ffffffffffff R11: 0000ffff8dbcc257 R12: 0000000000000235
+> [   13.416814][    T1] R13: 0000000000000000 R14: 0000000000000246 R15: 000000000000001b
+> [   13.416814][    T1] FS:  0000000000000000(0000) GS:ffff8e61e3200000(0000) knlGS:0000000000000000
+> [   13.416814][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   13.416814][    T1] CR2: ffff8e79f07ff000 CR3: 0000001284c0e001 CR4: 00000000003606f0
+> [   13.416814][    T1] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [   13.416814][    T1] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [   13.416814][    T1] Call Trace:
+> [   13.416814][    T1]  lock_is_held_type+0x66/0x160
+> [   13.416814][    T1]  ___might_sleep+0xc1/0x1d0
+> [   13.416814][    T1]  __might_sleep+0x5b/0xa0
+> [   13.416814][    T1]  slab_pre_alloc_hook+0x7b/0xa0
+> [   13.416814][    T1]  __kmalloc_node+0x60/0x300
+> [   13.416814   T1]  ? alloc_cpumask_var_node+0x44/0x70
+> [   13.416814][    T1]  ? topology_phys_to_logical_die+0x7e/0x180
+> [   13.416814][    T1]  alloc_cpumask_var_node+0x44/0x70
+> [   13.416814][    T1]  zalloc_cpumask_var+0x2a/0x40
+> [   13.416814][    T1]  native_smp_prepare_cpus+0x246/0x425
+> [   13.416814][    T1]  kernel_init_freeable+0x1b8/0x496
+> [   13.416814][    T1]  ? rest_init+0x381/0x381
+> [   13.416814][    T1]  kernel_init+0x18/0x17f
+> [   13.416814][    T1]  ? rest_init+0x381/0x381
+> [   13.416814][    T1]  ret_from_fork+0x3a/0x50
+> [   13.416814][    T1] irq event stamp: 910
+> [   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>] _raw_write_unlock_irqrestore+0x53/0x57
+> [   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>] kcsan_setup_watchpoint+0x96/0x460
+> [   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] copy_process+0x11fa/0x34f0
+> [   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0x0
+> [   13.416814][    T1] ---[ end trace 7d1df66da055aa92 ]---
+> [   13.416814][    T1] possible reason: unannotated irqs-on.
+> [   13.416814][ent stamp: 910
+> [   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>] _raw_write_unlock_irqrestore+0x53/0x57
+> [   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>] kcsan_setup_watchpoint+0x96/0x460
+> [   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] copy_process+0x11fa/0x34f0
+> [   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0x0
+>
+>
+> The other issue is that the system is unable to boot due to endless of those messages.
 
-You can find there also an application note on the backplane ethernet
-support on this device, with a description of the current solution, describ=
-ing
-the SoC internal PCS (manageable through an MDIO bus) as a PHY to be able
-to use the PHYlib infrastructure to control it. The code is still under
-refinement, not upstream yet, but it's available and in use by customers.
+Apart from fixing the data races, I can add a feature to KCSAN to
+limit reporting too often (will send patch).
 
-> I don't see any register descriptions here. So you failed to answer my
-> question. What do you actually need to configure? What needs to go
-> into DT?
->=20
-> You keep avoiding the questions Russell and I pose, which is not
-> helping your argument. We need details, not hand waiving.
->=20
-> 	Andrew
+> [   17.976814][  T578] Reported by Kernel Concurrency Sanitizer on:
+> [   17.976814][  T578] CPU: 12 PID: 578 Comm: pgdatinit1 Tainted: G        W         5.5.0-rc2-next-20191220+ #4
+> [   17.976814][  T578] Hardware name: HP ProLiant DL580 Gen9/ProLiant DL580 Gen9, BIOS U17 07/21/2016
+> [   17.976814][  T578] ==================================================================
+> [   17.976814][  T578] ==================================================================
+> [   17.976814][  T578] BUG: KCSAN: data-race in __change_page_attr / __change_page_attr
+> [   17.976814][  T578]
+> [   17.976814][  T578] write to 0xffffffff8dda0de0 of 8 bytes by task 577 on cpu 2:
+> [   17.976814][  T578]  __change_page_attr+0xef7/0x16a0
+> [   17.976814][  T578]  __change_page_attr_set_clr+0xec/0x4f0
+> [   17.97681pages_np+0xcc/0x100
+> [   17.976814][  T578]  __kernel_map_pages+0xd6/0xdb
+> [   17.976814][  T578]  __free_pages_ok+0x1a8/0x730
+> [   17.976814][  T578]  __free_pages+0x51/0x90
+> [   17.976814][  T578]  __free_pages_core+0x1c7/0x2c0
+> [   17.976814][  T578]  deferred_free_range+0x59/0x8f
+> [   17.976814][  T578]  deferred_init_maxorder+0x1d6/0x21d
+> [   17.976814][  T578]  deferred_init_memmap+0x14a/0x1c1
+> [   17.976814][  T578]  kthread+0x1e0/0x200
+> [   17.976814][  T578]  ret_from_fork+0x3a/0x50
+> [   17.976814][  T578]
+> [   17.976814][  T578] read to 0xffffffff8dda0de0 of 8 bytes by task 578 on cpu 12:
+> [   17.976814][  T578]  __change_page_attr+0xed1/0x16a0
+> [   17.976814][  T578]  __change_page_attr_set_clr+0xec/0x4f0
+> [   17.976814][  T578]  __set_pages_np+0xcc/0x100
+> [   17.976814][  T578]  __kernel_map_pages+0xd6/0xdb
+> [   17.976814][  T578]  __free_pages_ok+0x1a8/0x730
+> [   17.976814][  T578]  __free_pages+0x51/0x90
+> [   17.976814][  T578]  __free_pages_core+0x1c7/0x2c0
+> [   17.976814][  T578]  deferred_free_range+0x59/0x8f
+> [   17.976814][  T578]  deferred_init_maxorder+0x1aa/0x21d
+> [   17.976814][  T578]  deferred_init_memmap+0x14a/0x1c1
+> [   17.976814][  T578]  kthread+0x1e0/0x200
+> [   17.976814][  T578]  ret_from_fork+0x3a/0x50
+>
+> # ./scripts/faddr2line vmlinux __change_page_attr+0xef7/0x16a0
+> __change_page_attr+0xef7/0x16a0:
+> static_protections at arch/x86/mm/pat/set_memory.c:528
+> (inlined by) __change_page_attr at arch/x86/mm/pat/set_memory.c:1516
+>
+> # ./scripts/faddr2line vmlinux __change_page_attr+0xed1/0x16a0
+> __change_page_attr+0xed1/0x16a0:
+> cpa_inc_4k_install at arch/x86/mm/pat/set_memory.c:131
+> (inlined by) __change_page_attr at arch/x86/mm/pat/set_memory.c:1514
 
-Answers are there, spreading the conversation on multiple threads and
-removing history is not helping.
-
-Madalin
+Thanks,
+-- Marco
