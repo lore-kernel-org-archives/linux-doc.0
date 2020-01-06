@@ -2,136 +2,150 @@ Return-Path: <SRS0=AuX5=23=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C614AC33C9B
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 483EDC32771
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:16:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A67CD20848
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:02:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A3E8207FD
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 09:16:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="W31nvTwV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgAFJCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 04:02:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50152 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725446AbgAFJCA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Jan 2020 04:02:00 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id B2328B027;
-        Mon,  6 Jan 2020 09:01:55 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 821931E0B47; Mon,  6 Jan 2020 10:01:47 +0100 (CET)
-Date:   Mon, 6 Jan 2020 10:01:47 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Ran Rozenstein <ranro@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20200106090147.GA9176@quack2.suse.cz>
-References: <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
- <20191222132357.GF13335@unreal>
- <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
- <20191225052612.GA212002@unreal>
- <b879d191-a07c-e808-e48f-2b9bd8ba4fa3@nvidia.com>
- <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
+        id S1726275AbgAFJQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 04:16:44 -0500
+Received: from mail-eopbgr80073.outbound.protection.outlook.com ([40.107.8.73]:24898
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725996AbgAFJQo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jan 2020 04:16:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JDcHJ7cWx+HJ4I+H4fQ+hRNPBg1TlZGspKwpPVA3EIhj+eRUyCMlETWQNfywWQ7NQUpyx5Zkv0LsxihG9oVBPjTTgx+yKIbL5uJr4cIVERK4TrEBUItetVgYDfCAIvp+qifKL0B17Lz6xquY9eol234KDJwC5VvGkM3tQlqB+KCBCbzndwH000Kwp8NXxUsD/VKW0Ibr2eKDssQgeV0tQK2NiOScFQyl1dyS/QRZrSHWHmS5f+H7yLyBPAsVp6hr6sNkAsjlYtyOAYGEj7Q8ajCwQkmaKb/4MEcRJv8w9iQpbKd11YtyK8HxnhQeTI2W0O3lFTf2Oy1PWELosBksyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tv/BzuUXPdsYm1fS1Z7aqY8AiYxcVcTveiJ7OSibLiw=;
+ b=dBq5DJFJ79032xXBJ47Ct0rnTBRbpaPttbbeMDBNFJP0YpS1PxKTRpK6ussNEdp7pY+nGTiENmUUTvxoIGaJuL+DlaEoNgYe36lxdIjBK408qLqXLord61Rfz7esT/1hSz6fsY6WCM+HvxeEBzyDrCmihP6kNPWkdASvjhRtGeagKVZLFBJPoBRYYn69QZpxcUiPLMq0hpg1aV8lZXUWHdQfL9/aESjsYwVf1/2UA/Ky7cbY5sUsJ72AMXpV2n0esm8mr9nxAznAAcAEpoMGdXyhZ7qVBtAAVW/MCXwtuFmvP7BUdAxSxdWBrbnLdLLiipYoRcB15vNnT8RG4oHgBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tv/BzuUXPdsYm1fS1Z7aqY8AiYxcVcTveiJ7OSibLiw=;
+ b=W31nvTwVgxt5eYSmfb/ly+irars1OFnCt1O4P3lcUEpYlHAjuAJWzyEE/6fZBPtKSZLNPiF0dY3ycqSzXoVYV/vDoMnJk1L2WLzPr1KOPDMxuEgx183mcCrCby3jKgYvBvOp/SS5+gPP3Jaj0EWO53y4z2ojVNcv3iB67S3BybI=
+Received: from DB8PR04MB6985.eurprd04.prod.outlook.com (52.133.243.85) by
+ DB8PR04MB5867.eurprd04.prod.outlook.com (20.179.11.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.12; Mon, 6 Jan 2020 09:16:40 +0000
+Received: from DB8PR04MB6985.eurprd04.prod.outlook.com
+ ([fe80::c181:4a83:14f2:27e3]) by DB8PR04MB6985.eurprd04.prod.outlook.com
+ ([fe80::c181:4a83:14f2:27e3%6]) with mapi id 15.20.2602.015; Mon, 6 Jan 2020
+ 09:16:40 +0000
+From:   "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
+CC:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH net-next 0/2] Fix 10G PHY interface types
+Thread-Topic: [PATCH net-next 0/2] Fix 10G PHY interface types
+Thread-Index: AQHVwiwrxFflOt73iU6BRITH1hAO2KfY2OpQgAAj3oCAACKCoIAAB2mAgAQ2asA=
+Date:   Mon, 6 Jan 2020 09:16:40 +0000
+Message-ID: <DB8PR04MB6985B617539D2E909B30822FEC3C0@DB8PR04MB6985.eurprd04.prod.outlook.com>
+References: <20200103115125.GC25745@shell.armlinux.org.uk>
+ <DB8PR04MB698593C7DB07A82577562348EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
+ <20200103141743.GC22988@lunn.ch>
+ <DB8PR04MB698518D97251CB15938279C3EC230@DB8PR04MB6985.eurprd04.prod.outlook.com>
+ <20200103164745.GL1397@lunn.ch>
+In-Reply-To: <20200103164745.GL1397@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=madalin.bucur@oss.nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: efc8429f-8a38-470f-38b6-08d7928923d6
+x-ms-traffictypediagnostic: DB8PR04MB5867:|DB8PR04MB5867:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR04MB5867681D8F010CA4382231EFAD3C0@DB8PR04MB5867.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0274272F87
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(199004)(189003)(13464003)(9686003)(86362001)(26005)(53546011)(2906002)(4326008)(110136005)(54906003)(186003)(316002)(7696005)(71200400001)(8676002)(81156014)(81166006)(52536014)(66476007)(66946007)(76116006)(66556008)(8936002)(66446008)(64756008)(6506007)(5660300002)(966005)(55016002)(33656002)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:DB8PR04MB5867;H:DB8PR04MB6985.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: oss.nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: x3Ze6GHJAtz/qTxSWaXKfj6Yr/qKrcmRWhoXqptBfjFf9/E+9UlWwoG+z5019zHYohoO2CWPEmKlTeuOz/FjWRKb1VxUGnGrw7zfxxz8inlz+3Tg4ittYgpGZg0AD/h/p+8vTMhSD5meMhFZ9dG3nDLSa+h/+eJGVvYmMh5iIX5BhJ9xV5IyLn/CZ/Wa9AucFged+iIuitDnBRgLiYG8EqH4/QQC9i+vEfYtch9qMoCTOeU02IrceKupwpbEcv0gwssPpFljnTmJqotmqiM5nC100RTHtY5aJ/2zIbaDnieA5sBw2fBJWOawariXkfhoO6lGbIWLjvLBfLzvkJtK9Cm/FNYiW9wOXzzstW0O9+0mMILAvA5WPwirJFJR/QlS3d+zE9RQSYT5peDhk4WoITiZ7U9F2aEuCvUjAhKi55MyFGwwcidnrFhgCeiGN0ZwSWMufrWnfSP0973Bb1s+OA8zolduw6F9y6lsK6p7FY1EqEJB9MaZuyMi6ILwpVOhiUrd7jknTStJd/LGkXMgsui31eNltj1TbN77Hm4Eif4=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efc8429f-8a38-470f-38b6-08d7928923d6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 09:16:40.4516
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kYaBDoJ9Ajqa6TgXQI2XvrmgWBPU141vGcWX/3dsS90VxdlnstmmlHa9GFAKsanJ1pKSNsxHX5yV6Is5FwLg0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB5867
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat 28-12-19 20:33:32, John Hubbard wrote:
-> On 12/27/19 1:56 PM, John Hubbard wrote:
-> ...
-> >> It is ancient verification test (~10y) which is not an easy task to
-> >> make it understandable and standalone :).
-> >>
-> > 
-> > Is this the only test that fails, btw? No other test failures or hints of
-> > problems?
-> > 
-> > (Also, maybe hopeless, but can *anyone* on the RDMA list provide some
-> > characterization of the test, such as how many pins per page, what page
-> > sizes are used? I'm still hoping to write a test to trigger something
-> > close to this...)
-> > 
-> > I do have a couple more ideas for test runs:
-> > 
-> > 1. Reduce GUP_PIN_COUNTING_BIAS to 1. That would turn the whole override of
-> > page->_refcount into a no-op, and so if all is well (it may not be!) with the
-> > rest of the patch, then we'd expect this problem to not reappear.
-> > 
-> > 2. Active /proc/vmstat *foll_pin* statistics unconditionally (just for these
-> > tests, of course), so we can see if there is a get/put mismatch. However, that
-> > will change the timing, and so it must be attempted independently of (1), in
-> > order to see if it ends up hiding the repro.
-> > 
-> > I've updated this branch to implement (1), but not (2), hoping you can give
-> > this one a spin?
-> > 
-> >     git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
-> > 
-> > 
-> 
-> Also, looking ahead:
-> 
-> a) if the problem disappears with the latest above test, then we likely have
->    a huge page refcount overflow, and there are a couple of different ways to
->    fix it. 
-> 
-> b) if it still reproduces with the above, then it's some other random mistake,
->    and in that case I'd be inclined to do a sort of guided (or classic, unguided)
->    git bisect of the series. Because it could be any of several patches.
-> 
->    If that's too much trouble, then I'd have to fall back to submitting a few
->    patches at a time and working my way up to the tracking patch...
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Friday, January 3, 2020 6:48 PM
+> To: Madalin Bucur (OSS) <madalin.bucur@oss.nxp.com>
+> Cc: Russell King - ARM Linux admin <linux@armlinux.org.uk>; Florian
+> Fainelli <f.fainelli@gmail.com>; Heiner Kallweit <hkallweit1@gmail.com>;
+> David S. Miller <davem@davemloft.net>; Jonathan Corbet <corbet@lwn.net>;
+> Kishon Vijay Abraham I <kishon@ti.com>; linux-doc@vger.kernel.org;
+> netdev@vger.kernel.org
+> Subject: Re: [PATCH net-next 0/2] Fix 10G PHY interface types
+>=20
+> > And here is a LS1046A SoC document that describes XFI and 10GBASE_KR:
+> >
+> > https://www.mouser.com/pdfdocs/LS1046A.pdf
 
-It could also be that an ordinary page reference is dropped with 'unpin'
-thus underflowing the page refcount...
+You need to register, unfortunately, but the information is in the referenc=
+e
+manual (18.3 MB of download):
 
-								Honza
+https://www.nxp.com/products/processors-and-microcontrollers/arm-processors=
+/layerscape-communication-process/qoriq-layerscape-1046a-and-1026a-multicor=
+e-communications-processors:LS1046A?tab=3DDocumentation_Tab
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+You can find there also an application note on the backplane ethernet
+support on this device, with a description of the current solution, describ=
+ing
+the SoC internal PCS (manageable through an MDIO bus) as a PHY to be able
+to use the PHYlib infrastructure to control it. The code is still under
+refinement, not upstream yet, but it's available and in use by customers.
+
+> I don't see any register descriptions here. So you failed to answer my
+> question. What do you actually need to configure? What needs to go
+> into DT?
+>=20
+> You keep avoiding the questions Russell and I pose, which is not
+> helping your argument. We need details, not hand waiving.
+>=20
+> 	Andrew
+
+Answers are there, spreading the conversation on multiple threads and
+removing history is not helping.
+
+Madalin
