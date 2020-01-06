@@ -6,50 +6,50 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2466DC32771
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C67C32771
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:23:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDEF6218AC
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:12:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BCC721775
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jan 2020 08:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgAFIMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 03:12:51 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40219 "EHLO
+        id S1726155AbgAFIXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jan 2020 03:23:21 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:46958 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgAFIMv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 03:12:51 -0500
-Received: by mail-ot1-f67.google.com with SMTP id w21so62870207otj.7;
-        Mon, 06 Jan 2020 00:12:50 -0800 (PST)
+        with ESMTP id S1725446AbgAFIXV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 03:23:21 -0500
+Received: by mail-ot1-f67.google.com with SMTP id q3so2128320otr.13;
+        Mon, 06 Jan 2020 00:23:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dM6755OiAVxNNT/EGnm6GG38dRM8wbwsdCcOva50lrs=;
-        b=IEIOyi3XR0Jg2+UNFDUwTo2b0HKfSd3KRh4XmECpCeyLQFyiwlFS8LQSc3GyyEX+sN
-         o1hnzHuulSxw2dNRZFueVNJelWo5277dB2FutRhIlGpYVGFIfZfhFIDteepgsVwuOSLY
-         wHZmY89zMaVu7rDZmLqHjNe1ipt7/+RuLj/H5TrBV9khrBRM80u7gHpo2dCytnC482bW
-         1paPBoXnF1R/Mso0yjo/5dDiM/4QbNwlvkNpCOZRqe85eGkiVVTeFO3klyAS26Vx5oMi
-         +wfOA+PQUhrZlOVJpjOr1PvnlkdUazJp/Pk3a9q03QoFKWFJ2ctHtqtybKLgOWwnjfCV
-         iBdA==
-X-Gm-Message-State: APjAAAURtreuF5c5xJZ+/9EWIwIIWrSeswtZzaa0TX0PT5TuuNGrQ7WP
-        ui7LDm1wgvM6j5I1AQrgdv1WdTWzokg9Z67Wpdc=
-X-Google-Smtp-Source: APXvYqwcqgRqO0qXcQwJ8Pd4YYfDxrBjR3JlJCO+GW3JjxN2hl8WLdecJWnREVA5bFyZERrdDquJZt6zjdqazPmx9A0=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr116794369otm.297.1578298370564;
- Mon, 06 Jan 2020 00:12:50 -0800 (PST)
+        bh=nHzx9oIm8dg3P3nAkMNDZNXQcdUHwPZVhWt4WLorDDs=;
+        b=phYeE/Wdm+GEGSJpXs8lIGU9xe2PFAgc/bp6jYq4tL24MIDALkO3x7PU7voblRy/wb
+         1FkNODmqSZPxYMWA8qvi8lSFsLsbiBdYqh+mQgjPSmZwm2viBLF/51rWFp0nUM58KBgf
+         UUK2JyckwPeGBbcURpBod2F30WY/X3iFvuVtMrCWAFwwm1wv13Jk+edsWhX4lo+V+PFT
+         PJSL8BqlyXpn++7FMJ8ly60IZJFh20lUHcE5EvFbth6VEeGXoCz8OW1J7BCsmqkU7KbZ
+         eeQhTCKtxpGui/kVsm+EyUG9HxhGGRyJfGlLTOK+beFe0H5Hnx4Y8SI6c6wOTYlyyffg
+         Q8Qg==
+X-Gm-Message-State: APjAAAX9x+PoW+5c5eYPyMAhIT2kjTJtKMnplH1Lj3URpWTDwDPTaq/L
+        9AO1WK8m633VPh6/SzooWjbxcnz7OTvqkGpE+mY=
+X-Google-Smtp-Source: APXvYqxZfWCvC2DArnr5YYOlNTu+kHHp6uV+60W8n8M+iR8ajrYCZBArT5eRAfUPNTXNYH8DRrkE60PZKONNJiX/Ig4=
+X-Received: by 2002:a9d:7984:: with SMTP id h4mr116835949otm.297.1578298999867;
+ Mon, 06 Jan 2020 00:23:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be> <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com> <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
-In-Reply-To: <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
+ <20191127084253.16356-6-geert+renesas@glider.be> <CACRpkdaW7nmpE99FAvBDBTmkTZOTQ5WdM=JbMzBTLk7cbLRXPw@mail.gmail.com>
+ <CAMuHMdVbk5S__8OK-zNXmiW66=WVA8Jzyc=hUvf_hJSU=u9TFg@mail.gmail.com> <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com>
+In-Reply-To: <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Jan 2020 09:12:39 +0100
-Message-ID: <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Rob Herring <robh@kernel.org>
+Date:   Mon, 6 Jan 2020 09:23:08 +0100
+Message-ID: <CAMuHMdUGGcjoX8TDDS5qGLtJZxizUK=BpasSQK3t1K-dhEgZCg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Harish Jenny K N <harish_kandiga@mentor.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>,
@@ -61,11 +61,11 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Christoffer Dall <christoffer.dall@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -73,139 +73,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Hi Linus,
 
-On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
-> > > On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
-> > > > Add Device Tree bindings for a GPIO repeater, with optional translation
-> > > > of physical signal properties.  This is useful for describing explicitly
-> > > > the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> > > > non-YAML gpio-inverter bindings by Harish Jenny K N
-> > > > <harish_kandiga@mentor.com>[1].
-> > > >
-> > > > Note that this is different from a GPIO Nexus Node[2], which cannot do
-> > > > physical signal property translation.
+On Sat, Jan 4, 2020 at 1:38 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> Sorry for slowness... christmas.
+
+Np. Happy New Year!
+
+> On Thu, Dec 12, 2019 at 4:24 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Dec 12, 2019 at 3:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > > +         This can serve the following purposes:
+> > > > +           1. Assign a collection of GPIOs to a user, or export them to a
+> > > > +              virtual machine,
 > > >
-> > > It can't? Why not? The point of the passthru mask is to not do
-> > > translation of flags, but without it you are always doing translation of
-> > > cells.
+> > > This is ambiguous. What is a "user"? A process calling from
+> > > userspace? A device tree node?
 > >
-> > Thanks for pushing me deeper into nexuses!
-> > You're right, you can map from one type to another.
-> > However, you cannot handle the "double inversion" of an ACTIVE_LOW
-> > signal with a physical inverter added:
+> > A user is an entity with a UID, typically listed in /etc/passwd.
+> > This is similar to letting some, not all, people on the machine access
+> > the CD-ROM drive.
+>
+> Ah I get it. Maybe we can say "assign permissions for a collection
+> of GPIOs to a user".
+
+OK
+
+> > > I would write "assign a collection of GPIO lines from any lines on
+> > > existing physical GPIO chips to form a new virtual GPIO chip"
+> > >
+> > > That should be to the point, right?
 > >
-> >         nexus: led-nexus {
-> >                 #gpio-cells = <2>;
-> >                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
-> >                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
-> >                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
-> >                 gpio-map-mask = <3 0>;
-> >                 // default gpio-map-pass-thru = <0 0>;
+> > Yes, that's WHAT it does. The WHY is the granular access control.
+>
+> So I guess we can write both?
+
+OK.
+
+> > > > +           3. Provide a generic driver for a GPIO-operated device, to be
+> > > > +               controlled from userspace using the GPIO chardev interface.
+> > >
+> > > I don't understand this, it needs to be elaborated. What is meant
+> > > by a "GPIO-operated device" in this context? Example?
+> >
+> > E.g. a motor. Or a door opener.
+> >
+> >         door-opener {
+> >                 compatible = "mydoor,opener";
+> >
+> >                 gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>;
 > >         };
 > >
-> >         leds {
-> >                 compatible = "gpio-leds";
-> >                 led6-inverted {
-> >                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
-> >                 };
-> >                 led7-noninverted {
-> >                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
-> >                 };
-> >                 led8-double-inverted {  // FAILS: still inverted
-> >                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
-> >                 };
-> >         };
-> >
-> > It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
-> > Still, the consumer would see the final translated polarity, and not the
-> > actual one it needs to program the consumer for.
+> > You don't need a full-featured kernel driver for that, so just bind the
+> > gpio-aggregator to the door-opener, and control it through libgpiod.
 >
-> I'm not really following. Why isn't a double inversion just the same
-> as no inversion?
+> Yep it's a perfect industrial control example, I get it.
+>
+> Maybe we should blurb something about industrial control?
 
-Because the nexus can only mask and/or substitute bits.
-It cannot do a XOR operation on the GPIO flags.
+OK.
 
-> > > > While an inverter can be described implicitly by exchanging the
-> > > > GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> > > > Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> > > > th provider and consumer sides:
-> > > >   1. The GPIO provider (controller) looks at the flags to know the
-> > > >      polarity, so it can translate between logical (active/not active)
-> > > >      and physical (high/low) signal levels.
-> > > >   2. While the signal polarity is usually fixed on the GPIO consumer
-> > > >      side (e.g. an LED is tied to either the supply voltage or GND),
-> > > >      it may be configurable on some devices, and both sides need to
-> > > >      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
-> > > >      match the actual polarity.
-> > > >      There exists a similar issue with interrupt flags, where both the
-> > > >      interrupt controller and the device generating the interrupt need
-> > > >      to agree, which breaks in the presence of a physical inverter not
-> > > >      described in DT (see e.g. [3]).
-> > >
-> > > Adding an inverted flag as I've suggested would also solve this issue.
-> >
-> > As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
-> > the inverter bindings"?
-> > https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
-> >
-> > Oh, now I understand. I was misguided by Harish' interpretation
-> > https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
-> > which assumed an "inverted" property, e.g.
-> >
-> >     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
-> >
-> > But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
-> > cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
-> >
-> >     /* Bit 6 expresses the presence of a physical inverter */
-> >     #define GPIO_INVERTED 64
->
-> Exactly.
+> The rest I think we cleared out else I will see it when I review again.
 
-OK, makes sense.
+The remaining discussion point is "GPIO Repeater in Device Tree", i.e.
+the GPIO inverter usecase, which might be solved better by adding a
+GPIO_INVERTED flag.
 
-> > We need to be very careful in defining to which side the GPIO_ACTIVE_*
-> > applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
-> > Still, this doesn't help if e.g. a FET is used instead of a push-pull
-> > inverter, as the former needs translation of other flags (which the
-> > nexus can do, the caveats above still applies, though).
->
-> Yes. Historically the cells values are meaningful to the provider and
-> opaque to the consumer. Standardized cell values changes that
-> somewhat. I think we want the active flag to be from the provider's
-> prospective because the provider always needs to know. The consumer
-> often doesn't need to know. That also means things work without the
-> GPIO_INVERTED flag if the consumer doesn't care which is what we have
-> today already and we can't go back in time.
->
->
-> > Same for adding IRQ_TYPE_INVERTED.
->
-> I suppose so, yes.
->
-> > Related issue: how to handle physical inverters on SPI chip select lines,
-> > if the SPI slave can be configured for both polarities?
->
-> Good question. Perhaps in a different way because we have to handle
-> both h/w controlled and gpio chip selects.
->
-> However, how would one configure the polarity in the device in the
-> first place? You have to assert the CS first to give a command to
-> reprogram it.
+Shall I rip that out, incorporate review comments, and report?
 
-That's indeed true for a simple SPI slave.
-But if it is a smarter device (e.g. a generic micro controller), it may use the
-system's DTB to configure itself.
+Thanks!
 
+
+
+--
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
