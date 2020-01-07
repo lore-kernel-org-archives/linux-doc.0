@@ -2,287 +2,221 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED55C33C99
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D9EC33C99
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 09:23:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 447A520848
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lLvfedis"
+	by mail.kernel.org (Postfix) with ESMTP id EB0B4206DB
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 09:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727191AbgAGFQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 00:16:53 -0500
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:41013 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727176AbgAGFQx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 00:16:53 -0500
-Received: by mail-qk1-f202.google.com with SMTP id l7so16353048qke.8
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2020 21:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=1KoqFRm8toFHbQb4HraW6ZzquFQ8seovULWIbpVglyc=;
-        b=lLvfedis7T6R8lmSAP9Wh1Pxg+sftcc4vMdmmS0yfRe55tOgHHBMLZ+QfQdgVLoPE0
-         INN8jInKrA9Z4XgoefL3qaCBYZpeKfAyDIHM7UdbdszU1wbKPj19jrZ6ufZBPDCEuZ68
-         so0LVgwpC6MtNFPkVo5QD7RtXlvDZ5qFa7fcg1WmiETaA4HDsferh0X4dC2DWi43CFK3
-         vjXAjA/2eDhLHcGBQr3wxPA4GsXJe8fXf2FkuEHayJvz7a5anXjjzHgoUkgVHcFVV51J
-         1qJrf3LXIFJHqvI8QyIsdV+VTl0UBPaWG45ovj5xmje9JdwB0C8gRp2aouFep/yN8zGs
-         0Saw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=1KoqFRm8toFHbQb4HraW6ZzquFQ8seovULWIbpVglyc=;
-        b=rhO0+3jf2BKXdXgpiXHPTs34avlSmwWW/4xOkyKF6iGTVRIlSFSK0YcH5wxKjs3EiZ
-         TW6+WxO3gJBp5BMz37Zwqn/QvUjg0AG4Yzy2BLieADWMUjytaTsUS/ihN/sxwVtmd9e4
-         6rMYwUI4D7VWtp9eiNk7nXtOPpW8V9TngtxJcBa/pPfoK+KAm8ZUVPBQNxA5APHveMsl
-         MPNUQdnEHBFMW18L5Sxwe2VgzU/K/mwng/1P1PpbPFTWu+QezRleG4YGzCFnvRPiFcFz
-         CTANPIACz/qBwymjYnxFdvaO2A9XhrD8ujm2S+bmTWZe9ffeKd8VMxqnBwN+wCLijj5A
-         zMVQ==
-X-Gm-Message-State: APjAAAXVINAlIkBy+DzuPexz8iigIOMKrjHPoC+NXVeiBfaPo/R/E77E
-        /9Xb5I/qJaYIf5z5mVMaZbYep7TyEZs=
-X-Google-Smtp-Source: APXvYqz+aatsncKrBHi+meyY4vniJo1B8gKmB0ZHihWhsOLgzH6GowRM3C6j1PgdpzSWCkLxxBBxdnEIL4Y=
-X-Received: by 2002:ad4:50d2:: with SMTP id e18mr82904873qvq.9.1578374211583;
- Mon, 06 Jan 2020 21:16:51 -0800 (PST)
-Date:   Mon,  6 Jan 2020 21:16:34 -0800
-In-Reply-To: <20200107051638.40893-1-drosen@google.com>
-Message-Id: <20200107051638.40893-3-drosen@google.com>
-Mime-Version: 1.0
-References: <20200107051638.40893-1-drosen@google.com>
-X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
-Subject: [PATCH v2 2/6] vfs: Fold casefolding into vfs
-From:   Daniel Rosenberg <drosen@google.com>
-To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727154AbgAGJXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 04:23:14 -0500
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:27723 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbgAGJXO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 04:23:14 -0500
+IronPort-SDR: DTH7b/YHklWdtscrk0AXRcpodAl62dhBjd5ew3Nt9UD4m/et7ceA0/2JBnOg3T1e77uOri2CLb
+ syd6zYuibimpQFHODEH6qeEttBauGfcQP5F817xlYk45ZUljge4iEvyXylDT6OCrSfk39oVvk4
+ hhLmWmssy1GkTeffm+zZRLl6/K2CJhLq1QG9TL297K5w5sMTBZI2orxJzOZUpJHp1CoYO/YcRd
+ Uq6ITq2LfippA2KqRng82ngUrNtLjUFkBVr9gqTww60FeLvyvG3Zh085qxxtYzAP5XcdXmWB/Z
+ D9k=
+X-IronPort-AV: E=Sophos;i="5.69,405,1571731200"; 
+   d="scan'208";a="44610273"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 07 Jan 2020 01:23:13 -0800
+IronPort-SDR: tplytpQIcwlbIf6KWtUbVKFft0awdS/aTQTvzBBS5nfk2+yF+nNPt/gKw3Bp71JWpuXBjDgttE
+ ou1DhX9GL7maq4Zt5tL3WB5lEug62wNjDQ0Hf5D9pPSCdaw1Y9rbyeUHtGVD2TjUdPc9PBiXKo
+ UVxCnDd8dmEOwk2n/far46XKA96RK92eSVdaRRC80sjVtkIX25JWz5QUy8HK2/aVsudoVSRlCF
+ kKLKCz+exnrzdiTz5LU5QWud31JtVK56w8RQptKsfehgn286N8ErL2Qu9zAFY69vhCdFJagpm0
+ WSE=
+Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-5-geert+renesas@glider.be>
+ <20191205210653.GA29969@bogus>
+ <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
+ <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
+ <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
+From:   Harish Jenny K N <harish_kandiga@mentor.com>
+Message-ID: <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
+Date:   Tue, 7 Jan 2020 14:52:54 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
+ svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ext4 and F2fs are both using casefolding, and they, along with any other
-filesystem that adds the feature, will be using identical dentry_ops.
-Additionally, those dentry ops interfere with the dentry_ops required
-for fscrypt once we add support for casefolding and encryption.
-Moving this into the vfs removes code duplication as well as the
-complication with encryption.
 
-Currently this is pretty close to just moving the existing f2fs/ext4
-code up a level into the vfs, although there is a lot of room for
-improvement now.
+On 06/01/20 1:42 PM, Geert Uytterhoeven wrote:
+> Hi Rob,
+>
+> On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
+>> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>>> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
+>>>> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
+>>>>> Add Device Tree bindings for a GPIO repeater, with optional translation
+>>>>> of physical signal properties.  This is useful for describing explicitly
+>>>>> the presence of e.g. an inverter on a GPIO line, and was inspired by the
+>>>>> non-YAML gpio-inverter bindings by Harish Jenny K N
+>>>>> <harish_kandiga@mentor.com>[1].
+>>>>>
+>>>>> Note that this is different from a GPIO Nexus Node[2], which cannot do
+>>>>> physical signal property translation.
+>>>> It can't? Why not? The point of the passthru mask is to not do
+>>>> translation of flags, but without it you are always doing translation of
+>>>> cells.
+>>> Thanks for pushing me deeper into nexuses!
+>>> You're right, you can map from one type to another.
+>>> However, you cannot handle the "double inversion" of an ACTIVE_LOW
+>>> signal with a physical inverter added:
+>>>
+>>>         nexus: led-nexus {
+>>>                 #gpio-cells = <2>;
+>>>                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
+>>>                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
+>>>                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
+>>>                 gpio-map-mask = <3 0>;
+>>>                 // default gpio-map-pass-thru = <0 0>;
+>>>         };
+>>>
+>>>         leds {
+>>>                 compatible = "gpio-leds";
+>>>                 led6-inverted {
+>>>                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
+>>>                 };
+>>>                 led7-noninverted {
+>>>                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
+>>>                 };
+>>>                 led8-double-inverted {  // FAILS: still inverted
+>>>                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
+>>>                 };
+>>>         };
+>>>
+>>> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
+>>> Still, the consumer would see the final translated polarity, and not the
+>>> actual one it needs to program the consumer for.
+>> I'm not really following. Why isn't a double inversion just the same
+>> as no inversion?
+> Because the nexus can only mask and/or substitute bits.
+> It cannot do a XOR operation on the GPIO flags.
+>
+>>>>> While an inverter can be described implicitly by exchanging the
+>>>>> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
+>>>>> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
+>>>>> th provider and consumer sides:
+>>>>>   1. The GPIO provider (controller) looks at the flags to know the
+>>>>>      polarity, so it can translate between logical (active/not active)
+>>>>>      and physical (high/low) signal levels.
+>>>>>   2. While the signal polarity is usually fixed on the GPIO consumer
+>>>>>      side (e.g. an LED is tied to either the supply voltage or GND),
+>>>>>      it may be configurable on some devices, and both sides need to
+>>>>>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
+>>>>>      match the actual polarity.
+>>>>>      There exists a similar issue with interrupt flags, where both the
+>>>>>      interrupt controller and the device generating the interrupt need
+>>>>>      to agree, which breaks in the presence of a physical inverter not
+>>>>>      described in DT (see e.g. [3]).
+>>>> Adding an inverted flag as I've suggested would also solve this issue.
+>>> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
+>>> the inverter bindings"?
+>>> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
+>>>
+>>> Oh, now I understand. I was misguided by Harish' interpretation
+>>> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
+>>> which assumed an "inverted" property, e.g.
+>>>
+>>>     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
+>>>
+>>> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
+>>> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
+>>>
+>>>     /* Bit 6 expresses the presence of a physical inverter */
+>>>     #define GPIO_INVERTED 64
+>> Exactly.
+> OK, makes sense.
 
-Signed-off-by: Daniel Rosenberg <drosen@google.com>
----
- fs/dcache.c             | 28 ++++++++++++++++++++++++++++
- fs/namei.c              | 41 ++++++++++++++++++++++++++++++++++++++---
- include/linux/fs.h      | 10 ++++++++++
- include/linux/unicode.h | 14 ++++++++++++++
- 4 files changed, 90 insertions(+), 3 deletions(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index b280e07e162b1..a8bbb7f4fad30 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -32,6 +32,7 @@
- #include <linux/bit_spinlock.h>
- #include <linux/rculist_bl.h>
- #include <linux/list_lru.h>
-+#include <linux/unicode.h>
- #include "internal.h"
- #include "mount.h"
- 
-@@ -247,7 +248,19 @@ static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *c
- 	 * be no NUL in the ct/tcount data)
- 	 */
- 	const unsigned char *cs = READ_ONCE(dentry->d_name.name);
-+#ifdef CONFIG_UNICODE
-+	struct inode *parent = dentry->d_parent->d_inode;
- 
-+	if (unlikely(needs_casefold(parent))) {
-+		const struct qstr n1 = QSTR_INIT(cs, tcount);
-+		const struct qstr n2 = QSTR_INIT(ct, tcount);
-+		int result = utf8_strncasecmp(dentry->d_sb->s_encoding,
-+						&n1, &n2);
-+
-+		if (result >= 0 || sb_has_enc_strict_mode(dentry->d_sb))
-+			return result;
-+	}
-+#endif
- 	return dentry_string_cmp(cs, ct, tcount);
- }
- 
-@@ -2406,7 +2419,22 @@ struct dentry *d_hash_and_lookup(struct dentry *dir, struct qstr *name)
- 	 * calculate the standard hash first, as the d_op->d_hash()
- 	 * routine may choose to leave the hash value unchanged.
- 	 */
-+#ifdef CONFIG_UNICODE
-+	unsigned char *hname = NULL;
-+	int hlen = name->len;
-+
-+	if (IS_CASEFOLDED(dir->d_inode)) {
-+		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
-+		if (!hname)
-+			return ERR_PTR(-ENOMEM);
-+		hlen = utf8_casefold(dir->d_sb->s_encoding,
-+					name, hname, PATH_MAX);
-+	}
-+	name->hash = full_name_hash(dir, hname ?: name->name, hlen);
-+	kfree(hname);
-+#else
- 	name->hash = full_name_hash(dir, name->name, name->len);
-+#endif
- 	if (dir->d_flags & DCACHE_OP_HASH) {
- 		int err = dir->d_op->d_hash(dir, name);
- 		if (unlikely(err < 0))
-diff --git a/fs/namei.c b/fs/namei.c
-index d6c91d1e88cb3..f8e65c9f31444 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -39,6 +39,7 @@
- #include <linux/bitops.h>
- #include <linux/init_task.h>
- #include <linux/uaccess.h>
-+#include <linux/unicode.h>
- 
- #include "internal.h"
- #include "mount.h"
-@@ -2055,6 +2056,10 @@ static inline u64 hash_name(const void *salt, const char *name)
- static int link_path_walk(const char *name, struct nameidata *nd)
- {
- 	int err;
-+#ifdef CONFIG_UNICODE
-+	char *hname = NULL;
-+	int hlen = 0;
-+#endif
- 
- 	if (IS_ERR(name))
- 		return PTR_ERR(name);
-@@ -2071,9 +2076,22 @@ static int link_path_walk(const char *name, struct nameidata *nd)
- 		err = may_lookup(nd);
- 		if (err)
- 			return err;
--
-+#ifdef CONFIG_UNICODE
-+		if (needs_casefold(nd->path.dentry->d_inode)) {
-+			struct qstr str = QSTR_INIT(name, PATH_MAX);
-+
-+			hname = kmalloc(PATH_MAX, GFP_ATOMIC);
-+			if (!hname)
-+				return -ENOMEM;
-+			hlen = utf8_casefold(nd->path.dentry->d_sb->s_encoding,
-+						&str, hname, PATH_MAX);
-+		}
-+		hash_len = hash_name(nd->path.dentry, hname ?: name);
-+		kfree(hname);
-+		hname = NULL;
-+#else
- 		hash_len = hash_name(nd->path.dentry, name);
--
-+#endif
- 		type = LAST_NORM;
- 		if (name[0] == '.') switch (hashlen_len(hash_len)) {
- 			case 2:
-@@ -2445,9 +2463,26 @@ EXPORT_SYMBOL(vfs_path_lookup);
- static int lookup_one_len_common(const char *name, struct dentry *base,
- 				 int len, struct qstr *this)
- {
-+#ifdef CONFIG_UNICODE
-+	char *hname = NULL;
-+	int hlen = len;
-+
-+	if (needs_casefold(base->d_inode)) {
-+		struct qstr str = QSTR_INIT(name, len);
-+
-+		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
-+		if (!hname)
-+			return -ENOMEM;
-+		hlen = utf8_casefold(base->d_sb->s_encoding,
-+					&str, hname, PATH_MAX);
-+	}
-+	this->hash = full_name_hash(base, hname ?: name, hlen);
-+	kfree(hname);
-+#else
-+	this->hash = full_name_hash(base, name, len);
-+#endif
- 	this->name = name;
- 	this->len = len;
--	this->hash = full_name_hash(base, name, len);
- 	if (!len)
- 		return -EACCES;
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 98e0349adb526..9a7092449e94f 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1382,6 +1382,12 @@ extern int send_sigurg(struct fown_struct *fown);
- #define SB_ACTIVE	(1<<30)
- #define SB_NOUSER	(1<<31)
- 
-+/* These flags relate to encoding and casefolding */
-+#define SB_ENC_STRICT_MODE_FL	(1 << 0)
-+
-+#define sb_has_enc_strict_mode(sb) \
-+	(sb->s_encoding_flags & SB_ENC_STRICT_MODE_FL)
-+
- /*
-  *	Umount options
-  */
-@@ -1449,6 +1455,10 @@ struct super_block {
- #endif
- #ifdef CONFIG_FS_VERITY
- 	const struct fsverity_operations *s_vop;
-+#endif
-+#ifdef CONFIG_UNICODE
-+	struct unicode_map *s_encoding;
-+	__u16 s_encoding_flags;
- #endif
- 	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
- 	struct list_head	s_mounts;	/* list of mounts; _not_ for fs use */
-diff --git a/include/linux/unicode.h b/include/linux/unicode.h
-index 990aa97d80496..182352f3cc30f 100644
---- a/include/linux/unicode.h
-+++ b/include/linux/unicode.h
-@@ -4,6 +4,8 @@
- 
- #include <linux/init.h>
- #include <linux/dcache.h>
-+#include <linux/fscrypt.h>
-+#include <linux/fs.h>
- 
- struct unicode_map {
- 	const char *charset;
-@@ -30,4 +32,16 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
- struct unicode_map *utf8_load(const char *version);
- void utf8_unload(struct unicode_map *um);
- 
-+#ifdef CONFIG_UNICODE
-+static inline bool needs_casefold(const struct inode *dir)
-+{
-+	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding &&
-+			(!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir));
-+}
-+#else
-+static inline bool needs_casefold(const struct inode *dir)
-+{
-+	return 0;
-+}
-+#endif
- #endif /* _LINUX_UNICODE_H */
--- 
-2.24.1.735.g03f4e72817-goog
+The reason I went for "inverted" property is because, we can specify this for gpios at provider side.
 
+The usecase needed to define the polarity which did not have kernel space consumer driver.
+
+
+I am not sure how do we achieve this using GPIO_INVERTED flag. We need some sort of node/gpio-hog to specify these
+
+type of properties? Otherwise gpio-pin will be held by kernel or the module using the hog property and the user space application will not be able to access pin.
+
+
+or please let me know if I am missing something.
+
+
+>
+>>> We need to be very careful in defining to which side the GPIO_ACTIVE_*
+>>> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
+>>> Still, this doesn't help if e.g. a FET is used instead of a push-pull
+>>> inverter, as the former needs translation of other flags (which the
+>>> nexus can do, the caveats above still applies, though).
+>> Yes. Historically the cells values are meaningful to the provider and
+>> opaque to the consumer. Standardized cell values changes that
+>> somewhat. I think we want the active flag to be from the provider's
+>> prospective because the provider always needs to know. The consumer
+>> often doesn't need to know. That also means things work without the
+>> GPIO_INVERTED flag if the consumer doesn't care which is what we have
+>> today already and we can't go back in time.
+>>
+
+Things will work without GPIO_INVERTED flag for consumers which can specify GPIO_ACTIVE_* flags.
+
+
+
+>>> Same for adding IRQ_TYPE_INVERTED.
+>> I suppose so, yes.
+>>
+>>> Related issue: how to handle physical inverters on SPI chip select lines,
+>>> if the SPI slave can be configured for both polarities?
+>> Good question. Perhaps in a different way because we have to handle
+>> both h/w controlled and gpio chip selects.
+>>
+>> However, how would one configure the polarity in the device in the
+>> first place? You have to assert the CS first to give a command to
+>> reprogram it.
+> That's indeed true for a simple SPI slave.
+> But if it is a smarter device (e.g. a generic micro controller), it may use the
+> system's DTB to configure itself.
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
