@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 503D4C33C9B
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED55C33C99
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1BFBF207FD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 447A520848
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:17:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qzzP4bBS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lLvfedis"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727329AbgAGFRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 00:17:12 -0500
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:44787 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727335AbgAGFRE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 00:17:04 -0500
-Received: by mail-pl1-f201.google.com with SMTP id h8so20176869plr.11
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2020 21:17:04 -0800 (PST)
+        id S1727191AbgAGFQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 00:16:53 -0500
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:41013 "EHLO
+        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727176AbgAGFQx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 00:16:53 -0500
+Received: by mail-qk1-f202.google.com with SMTP id l7so16353048qke.8
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2020 21:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=4AXPdE8yqNr+UTP/rFDx92PCwirFX2ZEqY++oHBRWKw=;
-        b=qzzP4bBS8EuwmrADny3HdL+oILi5OWXafmr9+EgaY2XO4RFCDXp3Libc0vAx5RBSBI
-         V06tRfqOBRd6GQ0WrFMsWW39pHL/Qb3Iupm+snRP5wV+h3+6zlxVfqIjwE6O8/8Lia7s
-         FGD7j0ptw2XK5x1QcrH8OY9hspFgglumz3BRtmil+8X4JDjWb58BfPIoFc6fSx79Bkqu
-         npccLvUDBK6yE8m75nVdQAhh9760gF9LrHT4RpxuOfmJqZWcAGJgFnZ1H4nXdf9sFN64
-         W8wOJg0TPTXyQt0VO7glwmHkIWCCjVr65sZMEWJGRkSp6RoRy7dtdh8pYlNPtQgLx9Uy
-         zRqQ==
+        bh=1KoqFRm8toFHbQb4HraW6ZzquFQ8seovULWIbpVglyc=;
+        b=lLvfedis7T6R8lmSAP9Wh1Pxg+sftcc4vMdmmS0yfRe55tOgHHBMLZ+QfQdgVLoPE0
+         INN8jInKrA9Z4XgoefL3qaCBYZpeKfAyDIHM7UdbdszU1wbKPj19jrZ6ufZBPDCEuZ68
+         so0LVgwpC6MtNFPkVo5QD7RtXlvDZ5qFa7fcg1WmiETaA4HDsferh0X4dC2DWi43CFK3
+         vjXAjA/2eDhLHcGBQr3wxPA4GsXJe8fXf2FkuEHayJvz7a5anXjjzHgoUkgVHcFVV51J
+         1qJrf3LXIFJHqvI8QyIsdV+VTl0UBPaWG45ovj5xmje9JdwB0C8gRp2aouFep/yN8zGs
+         0Saw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=4AXPdE8yqNr+UTP/rFDx92PCwirFX2ZEqY++oHBRWKw=;
-        b=M5BKc0Fpl83NPOXORN0NE9xTcnJyBdCkwR4phdFkQXAbDtUFVfqC8xwm6dfUZGujcK
-         e2d5WADvKpGZ/keIGzoGg0p7BX21+aWAWY1EGcOutUHxhXdIpSDCl/IwyoPTR4QFtdve
-         P8DZrc9ACSWZIN95g5IT80aww4GtZiRRT9ggZPVVr2LRHyG/cVApoCdNt7XATwpNLwtG
-         uAayPonyZ0LIZc80P1mb5lMOWZ7/X+awZs/mHT0lBuCJoW9gp9a6uaCI+q04QKL2oYIH
-         /NVFtk0//y2MenKZflTnWFXsEMqahv6bDM+i+V438hVE51WCg3NULIC2Ht6+wT1YbSTa
-         juyQ==
-X-Gm-Message-State: APjAAAVp9D2tlt0a9/llFylUjQuUgyaRiq5+IMu8Psqv7b5cPvBWueeR
-        tcYWdbBmF4TJ60MkgWQecR7juPzcF+Y=
-X-Google-Smtp-Source: APXvYqxtgRC7ZYyzIQDkyWxrBFI07Wr/K1irtO1/YE8s4nlZku5QL85CamutHDyYgo2zl8vzSlHheFWVVis=
-X-Received: by 2002:a63:ea4c:: with SMTP id l12mr111550676pgk.174.1578374223839;
- Mon, 06 Jan 2020 21:17:03 -0800 (PST)
-Date:   Mon,  6 Jan 2020 21:16:38 -0800
+        bh=1KoqFRm8toFHbQb4HraW6ZzquFQ8seovULWIbpVglyc=;
+        b=rhO0+3jf2BKXdXgpiXHPTs34avlSmwWW/4xOkyKF6iGTVRIlSFSK0YcH5wxKjs3EiZ
+         TW6+WxO3gJBp5BMz37Zwqn/QvUjg0AG4Yzy2BLieADWMUjytaTsUS/ihN/sxwVtmd9e4
+         6rMYwUI4D7VWtp9eiNk7nXtOPpW8V9TngtxJcBa/pPfoK+KAm8ZUVPBQNxA5APHveMsl
+         MPNUQdnEHBFMW18L5Sxwe2VgzU/K/mwng/1P1PpbPFTWu+QezRleG4YGzCFnvRPiFcFz
+         CTANPIACz/qBwymjYnxFdvaO2A9XhrD8ujm2S+bmTWZe9ffeKd8VMxqnBwN+wCLijj5A
+         zMVQ==
+X-Gm-Message-State: APjAAAXVINAlIkBy+DzuPexz8iigIOMKrjHPoC+NXVeiBfaPo/R/E77E
+        /9Xb5I/qJaYIf5z5mVMaZbYep7TyEZs=
+X-Google-Smtp-Source: APXvYqz+aatsncKrBHi+meyY4vniJo1B8gKmB0ZHihWhsOLgzH6GowRM3C6j1PgdpzSWCkLxxBBxdnEIL4Y=
+X-Received: by 2002:ad4:50d2:: with SMTP id e18mr82904873qvq.9.1578374211583;
+ Mon, 06 Jan 2020 21:16:51 -0800 (PST)
+Date:   Mon,  6 Jan 2020 21:16:34 -0800
 In-Reply-To: <20200107051638.40893-1-drosen@google.com>
-Message-Id: <20200107051638.40893-7-drosen@google.com>
+Message-Id: <20200107051638.40893-3-drosen@google.com>
 Mime-Version: 1.0
 References: <20200107051638.40893-1-drosen@google.com>
 X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
-Subject: [PATCH v2 6/6] ext4: Optimize match for casefolded encrypted dirs
+Subject: [PATCH v2 2/6] vfs: Fold casefolding into vfs
 From:   Daniel Rosenberg <drosen@google.com>
 To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
         Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -75,191 +75,214 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matching names with casefolded encrypting directories requires
-decrypting entries to confirm case since we are case preserving. We can
-avoid needing to decrypt if our hash values don't match.
+Ext4 and F2fs are both using casefolding, and they, along with any other
+filesystem that adds the feature, will be using identical dentry_ops.
+Additionally, those dentry ops interfere with the dentry_ops required
+for fscrypt once we add support for casefolding and encryption.
+Moving this into the vfs removes code duplication as well as the
+complication with encryption.
+
+Currently this is pretty close to just moving the existing f2fs/ext4
+code up a level into the vfs, although there is a lot of room for
+improvement now.
 
 Signed-off-by: Daniel Rosenberg <drosen@google.com>
 ---
- fs/ext4/ext4.h  | 17 ++++++++-------
- fs/ext4/namei.c | 55 ++++++++++++++++++++++++++-----------------------
- 2 files changed, 38 insertions(+), 34 deletions(-)
+ fs/dcache.c             | 28 ++++++++++++++++++++++++++++
+ fs/namei.c              | 41 ++++++++++++++++++++++++++++++++++++++---
+ include/linux/fs.h      | 10 ++++++++++
+ include/linux/unicode.h | 14 ++++++++++++++
+ 4 files changed, 90 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index f06bab489d372..f104c46a68950 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2393,9 +2393,9 @@ extern unsigned ext4_free_clusters_after_init(struct super_block *sb,
- ext4_fsblk_t ext4_inode_to_goal_block(struct inode *);
+diff --git a/fs/dcache.c b/fs/dcache.c
+index b280e07e162b1..a8bbb7f4fad30 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -32,6 +32,7 @@
+ #include <linux/bit_spinlock.h>
+ #include <linux/rculist_bl.h>
+ #include <linux/list_lru.h>
++#include <linux/unicode.h>
+ #include "internal.h"
+ #include "mount.h"
  
- #ifdef CONFIG_UNICODE
--extern void ext4_fname_setup_ci_filename(struct inode *dir,
-+extern int ext4_fname_setup_ci_filename(struct inode *dir,
- 					 const struct qstr *iname,
--					 struct fscrypt_str *fname);
-+					 struct ext4_filename *fname);
- #endif
+@@ -247,7 +248,19 @@ static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *c
+ 	 * be no NUL in the ct/tcount data)
+ 	 */
+ 	const unsigned char *cs = READ_ONCE(dentry->d_name.name);
++#ifdef CONFIG_UNICODE
++	struct inode *parent = dentry->d_parent->d_inode;
  
- #ifdef CONFIG_FS_ENCRYPTION
-@@ -2426,9 +2426,9 @@ static inline int ext4_fname_setup_filename(struct inode *dir,
- 	ext4_fname_from_fscrypt_name(fname, &name);
- 
- #ifdef CONFIG_UNICODE
--	ext4_fname_setup_ci_filename(dir, iname, &fname->cf_name);
-+	err = ext4_fname_setup_ci_filename(dir, iname, fname);
- #endif
--	return 0;
-+	return err;
++	if (unlikely(needs_casefold(parent))) {
++		const struct qstr n1 = QSTR_INIT(cs, tcount);
++		const struct qstr n2 = QSTR_INIT(ct, tcount);
++		int result = utf8_strncasecmp(dentry->d_sb->s_encoding,
++						&n1, &n2);
++
++		if (result >= 0 || sb_has_enc_strict_mode(dentry->d_sb))
++			return result;
++	}
++#endif
+ 	return dentry_string_cmp(cs, ct, tcount);
  }
  
- static inline int ext4_fname_prepare_lookup(struct inode *dir,
-@@ -2445,9 +2445,9 @@ static inline int ext4_fname_prepare_lookup(struct inode *dir,
- 	ext4_fname_from_fscrypt_name(fname, &name);
+@@ -2406,7 +2419,22 @@ struct dentry *d_hash_and_lookup(struct dentry *dir, struct qstr *name)
+ 	 * calculate the standard hash first, as the d_op->d_hash()
+ 	 * routine may choose to leave the hash value unchanged.
+ 	 */
++#ifdef CONFIG_UNICODE
++	unsigned char *hname = NULL;
++	int hlen = name->len;
++
++	if (IS_CASEFOLDED(dir->d_inode)) {
++		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++		if (!hname)
++			return ERR_PTR(-ENOMEM);
++		hlen = utf8_casefold(dir->d_sb->s_encoding,
++					name, hname, PATH_MAX);
++	}
++	name->hash = full_name_hash(dir, hname ?: name->name, hlen);
++	kfree(hname);
++#else
+ 	name->hash = full_name_hash(dir, name->name, name->len);
++#endif
+ 	if (dir->d_flags & DCACHE_OP_HASH) {
+ 		int err = dir->d_op->d_hash(dir, name);
+ 		if (unlikely(err < 0))
+diff --git a/fs/namei.c b/fs/namei.c
+index d6c91d1e88cb3..f8e65c9f31444 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -39,6 +39,7 @@
+ #include <linux/bitops.h>
+ #include <linux/init_task.h>
+ #include <linux/uaccess.h>
++#include <linux/unicode.h>
  
- #ifdef CONFIG_UNICODE
--	ext4_fname_setup_ci_filename(dir, &dentry->d_name, &fname->cf_name);
-+	err = ext4_fname_setup_ci_filename(dir, &dentry->d_name, fname);
- #endif
--	return 0;
-+	return err;
- }
- 
- static inline void ext4_fname_free_filename(struct ext4_filename *fname)
-@@ -2472,15 +2472,16 @@ static inline int ext4_fname_setup_filename(struct inode *dir,
- 					    int lookup,
- 					    struct ext4_filename *fname)
+ #include "internal.h"
+ #include "mount.h"
+@@ -2055,6 +2056,10 @@ static inline u64 hash_name(const void *salt, const char *name)
+ static int link_path_walk(const char *name, struct nameidata *nd)
  {
-+	int err = 0;
- 	fname->usr_fname = iname;
- 	fname->disk_name.name = (unsigned char *) iname->name;
- 	fname->disk_name.len = iname->len;
+ 	int err;
++#ifdef CONFIG_UNICODE
++	char *hname = NULL;
++	int hlen = 0;
++#endif
  
- #ifdef CONFIG_UNICODE
--	ext4_fname_setup_ci_filename(dir, iname, &fname->cf_name);
-+	err = ext4_fname_setup_ci_filename(dir, iname, fname);
- #endif
- 
--	return 0;
-+	return err;
- }
- 
- static inline int ext4_fname_prepare_lookup(struct inode *dir,
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 42ed2e9d3a1f4..1357d82d27395 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -784,7 +784,9 @@ dx_probe(struct ext4_filename *fname, struct inode *dir,
- 	if (hinfo->hash_version <= DX_HASH_TEA)
- 		hinfo->hash_version += EXT4_SB(dir->i_sb)->s_hash_unsigned;
- 	hinfo->seed = EXT4_SB(dir->i_sb)->s_hash_seed;
--	if (fname && fname_name(fname))
-+	/* hash is already computed for encrypted casefolded directory */
-+	if (fname && fname_name(fname) &&
-+				!(IS_ENCRYPTED(dir) && IS_CASEFOLDED(dir)))
- 		ext4fs_dirhash(dir, fname_name(fname), fname_len(fname), hinfo);
- 	hash = hinfo->hash;
- 
-@@ -1352,19 +1354,21 @@ int ext4_ci_compare(struct inode *parent, const struct qstr *name,
- 	return ret;
- }
- 
--void ext4_fname_setup_ci_filename(struct inode *dir, const struct qstr *iname,
--				  struct fscrypt_str *cf_name)
-+int ext4_fname_setup_ci_filename(struct inode *dir, const struct qstr *iname,
-+				  struct ext4_filename *name)
- {
-+	struct fscrypt_str *cf_name = &name->cf_name;
-+	struct dx_hash_info *hinfo = &name->hinfo;
- 	int len;
- 
- 	if (!needs_casefold(dir)) {
- 		cf_name->name = NULL;
--		return;
-+		return 0;
- 	}
- 
- 	cf_name->name = kmalloc(EXT4_NAME_LEN, GFP_NOFS);
- 	if (!cf_name->name)
--		return;
-+		return -ENOMEM;
- 
- 	len = utf8_casefold(dir->i_sb->s_encoding,
- 			    iname, cf_name->name,
-@@ -1372,10 +1376,18 @@ void ext4_fname_setup_ci_filename(struct inode *dir, const struct qstr *iname,
- 	if (len <= 0) {
- 		kfree(cf_name->name);
- 		cf_name->name = NULL;
--		return;
- 	}
- 	cf_name->len = (unsigned) len;
-+	if (!IS_ENCRYPTED(dir))
-+		return 0;
- 
-+	hinfo->hash_version = DX_HASH_SIPHASH;
-+	hinfo->seed = NULL;
-+	if (cf_name->name)
-+		ext4fs_dirhash(dir, cf_name->name, cf_name->len, hinfo);
-+	else
-+		ext4fs_dirhash(dir, iname->name, iname->len, hinfo);
-+	return 0;
- }
- #endif
- 
-@@ -1405,16 +1417,12 @@ static bool ext4_match(struct inode *parent,
- 			struct qstr cf = {.name = fname->cf_name.name,
- 					  .len = fname->cf_name.len};
- 			if (IS_ENCRYPTED(parent)) {
--				struct dx_hash_info hinfo;
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+@@ -2071,9 +2076,22 @@ static int link_path_walk(const char *name, struct nameidata *nd)
+ 		err = may_lookup(nd);
+ 		if (err)
+ 			return err;
 -
--				hinfo.hash_version = DX_HASH_SIPHASH;
--				hinfo.seed = NULL;
--				ext4fs_dirhash(parent, fname->cf_name.name,
--						fname_len(fname), &hinfo);
--				if (hinfo.hash != EXT4_DIRENT_HASH(de) ||
--						hinfo.minor_hash !=
--						    EXT4_DIRENT_MINOR_HASH(de))
-+				if (fname->hinfo.hash != EXT4_DIRENT_HASH(de) ||
-+					fname->hinfo.minor_hash !=
-+						EXT4_DIRENT_MINOR_HASH(de)) {
++#ifdef CONFIG_UNICODE
++		if (needs_casefold(nd->path.dentry->d_inode)) {
++			struct qstr str = QSTR_INIT(name, PATH_MAX);
 +
- 					return 0;
-+				}
- 			}
- 			return !ext4_ci_compare(parent, &cf, de->name,
- 							de->name_len, true);
-@@ -2036,15 +2044,11 @@ void ext4_insert_dentry(struct inode *dir,
- 	de->name_len = fname_len(fname);
- 	memcpy(de->name, fname_name(fname), fname_len(fname));
- 	if (ext4_hash_in_dirent(dir)) {
--		struct dx_hash_info hinfo;
-+		struct dx_hash_info *hinfo = &fname->hinfo;
- 
--		hinfo.hash_version = DX_HASH_SIPHASH;
--		hinfo.seed = NULL;
--		ext4fs_dirhash(dir, fname_usr_name(fname),
--				fname_len(fname), &hinfo);
--		EXT4_EXTENDED_DIRENT(de)->hash = cpu_to_le32(hinfo.hash);
-+		EXT4_EXTENDED_DIRENT(de)->hash = cpu_to_le32(hinfo->hash);
- 		EXT4_EXTENDED_DIRENT(de)->minor_hash =
--				cpu_to_le32(hinfo.minor_hash);
-+						cpu_to_le32(hinfo->minor_hash);
- 	}
- }
- 
-@@ -2195,10 +2199,9 @@ static int make_indexed_dir(handle_t *handle, struct ext4_filename *fname,
- 	if (fname->hinfo.hash_version <= DX_HASH_TEA)
- 		fname->hinfo.hash_version += EXT4_SB(dir->i_sb)->s_hash_unsigned;
- 	fname->hinfo.seed = EXT4_SB(dir->i_sb)->s_hash_seed;
--	if (ext4_hash_in_dirent(dir))
--		ext4fs_dirhash(dir, fname_usr_name(fname),
--				fname_len(fname), &fname->hinfo);
--	else
++			hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++			if (!hname)
++				return -ENOMEM;
++			hlen = utf8_casefold(nd->path.dentry->d_sb->s_encoding,
++						&str, hname, PATH_MAX);
++		}
++		hash_len = hash_name(nd->path.dentry, hname ?: name);
++		kfree(hname);
++		hname = NULL;
++#else
+ 		hash_len = hash_name(nd->path.dentry, name);
+-
++#endif
+ 		type = LAST_NORM;
+ 		if (name[0] == '.') switch (hashlen_len(hash_len)) {
+ 			case 2:
+@@ -2445,9 +2463,26 @@ EXPORT_SYMBOL(vfs_path_lookup);
+ static int lookup_one_len_common(const char *name, struct dentry *base,
+ 				 int len, struct qstr *this)
+ {
++#ifdef CONFIG_UNICODE
++	char *hname = NULL;
++	int hlen = len;
 +
-+	/* casefolded encrypted hashes are computed on fname setup */
-+	if (!ext4_hash_in_dirent(dir))
- 		ext4fs_dirhash(dir, fname_name(fname),
- 				fname_len(fname), &fname->hinfo);
++	if (needs_casefold(base->d_inode)) {
++		struct qstr str = QSTR_INIT(name, len);
++
++		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++		if (!hname)
++			return -ENOMEM;
++		hlen = utf8_casefold(base->d_sb->s_encoding,
++					&str, hname, PATH_MAX);
++	}
++	this->hash = full_name_hash(base, hname ?: name, hlen);
++	kfree(hname);
++#else
++	this->hash = full_name_hash(base, name, len);
++#endif
+ 	this->name = name;
+ 	this->len = len;
+-	this->hash = full_name_hash(base, name, len);
+ 	if (!len)
+ 		return -EACCES;
  
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 98e0349adb526..9a7092449e94f 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1382,6 +1382,12 @@ extern int send_sigurg(struct fown_struct *fown);
+ #define SB_ACTIVE	(1<<30)
+ #define SB_NOUSER	(1<<31)
+ 
++/* These flags relate to encoding and casefolding */
++#define SB_ENC_STRICT_MODE_FL	(1 << 0)
++
++#define sb_has_enc_strict_mode(sb) \
++	(sb->s_encoding_flags & SB_ENC_STRICT_MODE_FL)
++
+ /*
+  *	Umount options
+  */
+@@ -1449,6 +1455,10 @@ struct super_block {
+ #endif
+ #ifdef CONFIG_FS_VERITY
+ 	const struct fsverity_operations *s_vop;
++#endif
++#ifdef CONFIG_UNICODE
++	struct unicode_map *s_encoding;
++	__u16 s_encoding_flags;
+ #endif
+ 	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
+ 	struct list_head	s_mounts;	/* list of mounts; _not_ for fs use */
+diff --git a/include/linux/unicode.h b/include/linux/unicode.h
+index 990aa97d80496..182352f3cc30f 100644
+--- a/include/linux/unicode.h
++++ b/include/linux/unicode.h
+@@ -4,6 +4,8 @@
+ 
+ #include <linux/init.h>
+ #include <linux/dcache.h>
++#include <linux/fscrypt.h>
++#include <linux/fs.h>
+ 
+ struct unicode_map {
+ 	const char *charset;
+@@ -30,4 +32,16 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
+ struct unicode_map *utf8_load(const char *version);
+ void utf8_unload(struct unicode_map *um);
+ 
++#ifdef CONFIG_UNICODE
++static inline bool needs_casefold(const struct inode *dir)
++{
++	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding &&
++			(!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir));
++}
++#else
++static inline bool needs_casefold(const struct inode *dir)
++{
++	return 0;
++}
++#endif
+ #endif /* _LINUX_UNICODE_H */
 -- 
 2.24.1.735.g03f4e72817-goog
 
