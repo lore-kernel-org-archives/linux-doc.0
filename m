@@ -2,146 +2,107 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EABAAC33C8C
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:16:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8381C33C8C
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8BD62087F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:16:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C4212087F
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:42:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="jk6ux+S/";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="QaLJSIBw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSW7HO4p"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbgAGPQz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 10:16:55 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:55958 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727880AbgAGPQz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 10:16:55 -0500
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4845EC0523;
-        Tue,  7 Jan 2020 15:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1578410213; bh=mdQ/yBeK9bUWRKbYsJ2tly65JN1U7xaPFxPx7scy4gk=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=jk6ux+S/Sq0/iHKfKHfwE4XRAEzemIbMYAr019UzNNat0BH/KpxVMXjuNtp/A63b4
-         UeJRfQMBkRHUl3sW/KAt8SlirwOj9ifLGLaBPDSWQ0NV7L76CyD5Y63+SC/WUT+2/8
-         i+SwhdP6UUeHCSIUbhJ4m51+uFrgGfgRYYDajoPBseWQX1ahM7fZWY5zT6BBJwEHFp
-         kAng5cv6lal4+eyMBOZq9CdXDZss1OtCCtk8Hz93KI/yT65A0tAzLGIQcLe9sI9cfb
-         M6jnUlJ1icDm8vjaZxGqakwivQtex6zXm3BiAxJ4o6wuqfZ4jnSy//oI9DSc/1OLUp
-         9Lpq0oC0Iremw==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 03608A0091;
-        Tue,  7 Jan 2020 15:16:52 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 7 Jan 2020 07:16:13 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 7 Jan 2020 07:16:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kl5WNSud2MLmBBr39AlsiPDfMiDLtjpp8uuLRvrcfDKf52QMSVL3nZDiRj+9D+lmZuvInx1pb3JCynB/zrnjmqm3RmeE1WKVfoiSCOzI2Jez1jz4jzfpeUeh1EDNvM6rjAB9UoI06m4Z6d5RxI//UGrDUJBDVho6CJc4/u6YOSHADyPvm7KZ3uMrvCz3QCsJrCU5U78FCqr5yc1xn48jcjnXzZqbz/4MgycRq0mxtg4sy3JiE/EBXpHE98JhpCMfYfpnRNLggT6N3CfOS2YjaH2USIsOk9IXORPDKLra9qpmgdeAqNj8kna+KgYv1xsFZS6SNJQMEz1O6nH3gphX+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mdQ/yBeK9bUWRKbYsJ2tly65JN1U7xaPFxPx7scy4gk=;
- b=mpoNRhKz1ehulWMCz/n1FzCcapXSp3JYRMMHo7aPWFeeHOTeN2I/hfkGkLY7L22qPwtQYdNNPR2fFP2+87KwvZ6KoptZqIqg7C/Ze/7lpnsgfx5Ea5qednUjf/RUhTip0cbIBZrsbt81oMtZn6wqFmvjHuFpTxUherW9EnhbVu7MiK+BjmMpTwGRXb4cIVchZrIK+GmToSgKK6YK5yboyzu4P+YAbn+YJz1eu7Lwy4/oIOjYy17dwk3CGsgKISfmPD4GBxsgZGHLLcIsEWg/uaBpb85VFUZb4844Ll1oKoimVm+B2OscdOU/PKlaGTzuU9eQazu5NJYhfOmIpfGZ4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
+        id S1727974AbgAGPmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 10:42:25 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:43300 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727559AbgAGPmY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 10:42:24 -0500
+Received: by mail-pl1-f194.google.com with SMTP id p27so23335071pli.10;
+        Tue, 07 Jan 2020 07:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mdQ/yBeK9bUWRKbYsJ2tly65JN1U7xaPFxPx7scy4gk=;
- b=QaLJSIBwke3e03PiPLYByseT243ltS1FR4C2QU6PhMJ6PlpzpLpnvbmYXGkhnhLKJD94mMe14aCcuHbWAY+BQNwSv15HkGudC1eB2pUSd1VNu8ZBnIW+++q+YBl7VNGp681j6ByoQcbUCP/zXorAZfYKDHmUvOfU/5BQdgBBYZo=
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.67.145) by
- BN8PR12MB3075.namprd12.prod.outlook.com (20.178.209.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Tue, 7 Jan 2020 15:16:11 +0000
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::c62:b247:6963:9da2]) by BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::c62:b247:6963:9da2%6]) with mapi id 15.20.2602.016; Tue, 7 Jan 2020
- 15:16:11 +0000
-From:   Jose Abreu <Jose.Abreu@synopsys.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mOKAUWML1TFTWaJ7wVdgP8BJ4Cjz8s+9gtXGI6Ex/jk=;
+        b=gSW7HO4pTdqJxlWVKCR6uhC6jdezVM9/xLJYNkDAbKHsfQnU2Bksu127W3XS1FH0NP
+         MjGwlvOUDUOY7W8PL3RGhQt857tc2SA98S0w0pminHY6s4pVzjgXG8V9zF7Yb5LYOEgA
+         +Ci7RaZfP4MSX9kP/OAoqqzMnsHIg0B3iyvQFrCOY7rvwAztaVkBadB34g7JBF1lWkzG
+         Q+pqOxLIXkknIc9CP7QrVRtpK4N528gW6wV9ko9n8h8esaOebmAr8gu4VsFUiWAD+YJb
+         pZmDkVkH2Uh5M7YAv6n4or5zr9KL04ETPHtqqi7wGwplDUS82kU6kOxZ+x9rEPdSE5yD
+         DMJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mOKAUWML1TFTWaJ7wVdgP8BJ4Cjz8s+9gtXGI6Ex/jk=;
+        b=oRTT7kxSOSFs55bsohbxbShVaaB6ozarFodw/u3sBq5gwToFxhmVTOSubZgc08oW6Z
+         Ysc2rS8996LTCDoAnKL/+funr33qIFbXJxOSWat37yhphpDUG3admSoZPTHXMztnb6Ra
+         4QW78Xg7UsMHguDGNXtQ6wCEomyu44VDj3CsU6ziACMqP2b/l6Rcnkt+IVUXE9zeF4yA
+         chJuQA5T9I/WVEaX+JuWV7wEigqUm39jN4/ymlGvIB9haF9lhJU0/zYhvpNC1e+0WNKj
+         tuCWnZNXzV92uhSz9YvfAAxPiGcKsTaFg8PIvzaF2hogdi0iafLJqbSlVJCloohyKXVN
+         Sfuw==
+X-Gm-Message-State: APjAAAVOclqHsffmNitzm3cyDG9Qn94KLWbrZLIzKmbAAnneoMN/SZHI
+        c/uv5CsVNENMgb+uXBpVcmI=
+X-Google-Smtp-Source: APXvYqzjYtn6/YzemGIzVUvI2cuoJB3lK2QEiULmrIBAz8zX6VTg45Sni+wFU8KjnZOEKfD9mOElDA==
+X-Received: by 2002:a17:902:7209:: with SMTP id ba9mr289009plb.118.1578411744231;
+        Tue, 07 Jan 2020 07:42:24 -0800 (PST)
+Received: from localhost (199.168.140.36.16clouds.com. [199.168.140.36])
+        by smtp.gmail.com with ESMTPSA id v10sm141764pgk.24.2020.01.07.07.42.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 07 Jan 2020 07:42:23 -0800 (PST)
+Date:   Tue, 7 Jan 2020 23:42:21 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Jose Abreu <Jose.Abreu@synopsys.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
         "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-stm32@st-md-mailman.stormreply.com" 
         <linux-stm32@st-md-mailman.stormreply.com>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] Documentation: networking: device drivers: sync
+Subject: Re: [PATCH] Documentation: networking: device drivers: sync
  stmmac_mdio_bus_data info
-Thread-Topic: [PATCH] Documentation: networking: device drivers: sync
- stmmac_mdio_bus_data info
-Thread-Index: AQHVxWu8HCBvQawx2keDnKRUvVjBJaffT7zg
-Date:   Tue, 7 Jan 2020 15:16:10 +0000
-Message-ID: <BN8PR12MB3266661B136050259B5F7FD7D33F0@BN8PR12MB3266.namprd12.prod.outlook.com>
+Message-ID: <20200107154221.GA28873@nuc8i5>
 References: <20200107150254.28604-1-zhengdejin5@gmail.com>
-In-Reply-To: <20200107150254.28604-1-zhengdejin5@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=joabreu@synopsys.com; 
-x-originating-ip: [83.174.63.141]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 68a8d26a-9626-4dda-5d7a-08d79384873f
-x-ms-traffictypediagnostic: BN8PR12MB3075:
-x-microsoft-antispam-prvs: <BN8PR12MB30755121E653487CD4C5BC39D33F0@BN8PR12MB3075.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2449;
-x-forefront-prvs: 027578BB13
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(39860400002)(376002)(396003)(136003)(346002)(199004)(189003)(7416002)(966005)(52536014)(86362001)(5660300002)(9686003)(4744005)(2906002)(316002)(55016002)(81156014)(81166006)(8676002)(8936002)(54906003)(110136005)(66446008)(64756008)(66556008)(66476007)(66946007)(76116006)(71200400001)(4326008)(186003)(478600001)(7696005)(33656002)(6506007)(26005);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB3075;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: S3BfeeOPIQDMT5SalaXjSKfbECWOHd/t1vmrgpyaejSB1yGB0LA1U4guuTnAG1kA839fw7pLs/xOhogpRUv8+egjzlbormSiu82utnYBlvvC9wMD4uG5GlbQZpJgqdF3RomBTexAyfoZvxSCyOueP7GKeTSmWIFACH8rni7qzhdk0zWlC4HBT8IVGucmt8hbyP30z18D5plYXgEnzXVBrexdTS92sKFk9m5fo9dkAyCpef705uIRyqWumzI8g6HDciy+uBDmYXZOm96OqcDmSQ8UsFMPkzT2yOqqVvJ4rhoo/UWg/g0orOQyhvmueW3MlM2gwp83pPb6tWoiOZLcllZ5gVISVqr6NyR44fR8844RL/Otu3ne/Nna40rOHX5k7XQf1LZWOYbDW6eT8ei+NPKZZgAaeWVQVUfP4wGYSQh+jEDN2agvWAlmmO9Aii/oOxsBOTN31kO+eNPLhH1DUf1n0U7cwtASelUbtnKskBmMglIbRK6wK28jfNmxipB8njeh/GFZBjNEWUZUEvDwfA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <BN8PR12MB3266661B136050259B5F7FD7D33F0@BN8PR12MB3266.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68a8d26a-9626-4dda-5d7a-08d79384873f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2020 15:16:10.6849
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8omyEPkpn1d1VuuunIl5x/7FajoFFp0QmIMzGPXzTv/UhUmpthgdJB+mrE3VeIbBM5QmhOoAUfwpSH+RvlXDEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3075
-X-OriginatorOrg: synopsys.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN8PR12MB3266661B136050259B5F7FD7D33F0@BN8PR12MB3266.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dejin Zheng <zhengdejin5@gmail.com>
-Date: Jan/07/2020, 15:02:54 (UTC+00:00)
+On Tue, Jan 07, 2020 at 03:16:10PM +0000, Jose Abreu wrote:
+> From: Dejin Zheng <zhengdejin5@gmail.com>
+> Date: Jan/07/2020, 15:02:54 (UTC+00:00)
+> 
+> > Recent changes in the stmmac driver, it removes the phy_reset hook
+> > from struct stmmac_mdio_bus_data by commit <fead5b1b5838ba2>, and
+> > add the member of needs_reset to struct stmmac_mdio_bus_data by
+> > commit <1a981c0586c0387>.
+> 
+> This will file be no longer maitained as we are moving to RST format. 
+> Please see [1].
+> 
+> [1] https://patchwork.ozlabs.org/project/netdev/list/?series=151601
+>
+Jose, Thanks for your notice, abandon this commit.
 
-> Recent changes in the stmmac driver, it removes the phy_reset hook
-> from struct stmmac_mdio_bus_data by commit <fead5b1b5838ba2>, and
-> add the member of needs_reset to struct stmmac_mdio_bus_data by
-> commit <1a981c0586c0387>.
+BR,
+dejin
 
-This will file be no longer maitained as we are moving to RST format.=20
-Please see [1].
-
-[1] https://patchwork.ozlabs.org/project/netdev/list/?series=3D151601
-
----
-Thanks,
-Jose Miguel Abreu
+> ---
+> Thanks,
+> Jose Miguel Abreu
