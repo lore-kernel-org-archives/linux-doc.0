@@ -2,109 +2,141 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E091FC33C9E
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 04:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A1FC33C99
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:16:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B7DCA207FD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 04:10:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 965EA207FD
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 05:16:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jElTaqMs"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q40BGR+M"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727520AbgAGEKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jan 2020 23:10:47 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:34864 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727432AbgAGEKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jan 2020 23:10:47 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00749WVO088091;
-        Tue, 7 Jan 2020 04:10:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2019-08-05;
- bh=A79SI0wBAntvD1EW3YYmYwTYNFp8rHgmaSMpBMWpWzg=;
- b=jElTaqMsUI4VO3lilql8LaupxfRfny1Cx14T7tZ7kSy3MybWZErQWr8MKtvmQZNrKh0w
- HfljcSxhYfc5ayutX8VvnsfhfntNnYq4Min6JJlD/O0xHK1YPlABTJ9zXzuCVhFTyAnN
- 71kyAQtk8nMFv0AL6WhHnJqiLOUFTI3dZ2ewHHzmxDqdiB2SFibRyOOwzpl1Hk8+q8Lt
- zZ28uptJu1LKY9S4npPQYBksoRP6rvj5tiL0oWWzJ/6WW8+RONAzLiAdyVCsulF2UWvf
- h7tsY0pkZGS5ZcCv7iJSLOZfhTU6r/zTZ5S6Dz4VPwO1et0O8C7WsjsYVmtY+bkcqES4 HQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 2xaj4tu22h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Jan 2020 04:10:20 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00749T0u154649;
-        Tue, 7 Jan 2020 04:10:19 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 2xb47hq6uc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Jan 2020 04:10:19 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0074AI17007946;
-        Tue, 7 Jan 2020 04:10:18 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 06 Jan 2020 20:10:18 -0800
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
-        Chris Healy <cphealy@gmail.com>
-Subject: Re: [PATCH v2] hwmon: Driver for temperature sensors on SATA drives
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <20191215174509.1847-1-linux@roeck-us.net>
-        <20191215174509.1847-2-linux@roeck-us.net>
-        <yq1r211dvck.fsf@oracle.com> <20191219003256.GA28144@roeck-us.net>
-Date:   Mon, 06 Jan 2020 23:10:15 -0500
-In-Reply-To: <20191219003256.GA28144@roeck-us.net> (Guenter Roeck's message of
-        "Wed, 18 Dec 2019 16:32:57 -0800")
-Message-ID: <yq17e233o0o.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=866
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001070032
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=927 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001070032
+        id S1726276AbgAGFQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 00:16:47 -0500
+Received: from mail-ua1-f73.google.com ([209.85.222.73]:49238 "EHLO
+        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgAGFQq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 00:16:46 -0500
+Received: by mail-ua1-f73.google.com with SMTP id j16so4806580uak.16
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2020 21:16:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=cfX1tvKpjBFaGwVknnvW2VBwxewGwbcoGgPS02CBSEM=;
+        b=Q40BGR+McgMbCgqtKK+XRsRmJJBj/BH4LjOY1inQamlLz1Onc25gJfKSbGCbLp3BV6
+         kKbmIcg1Qs8OlNWNQNQVhlpP5eQeWpb8bdcg/T1uA1M21Nwy3AmiDfyWJt0tvnczfV4l
+         F5+GHxcTVIFp5EjxqoKHbB5BR5AscstZMpWufBT8/BJSWPsoka2tUFUerrjyIkmcUjjK
+         wZ3VxyoNX/QvFD5IuLtoVSHr99qrCNN1Y+s01aUz0lsnsY4sqo6j8cw1VnQNt7bNfDGH
+         /9+qGi2HEFX3SqvMkNy9rSPpAhx5BvUPP3MMTK/c1L92gGjvYGn+U5QaEIouLcVwROXe
+         FVsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=cfX1tvKpjBFaGwVknnvW2VBwxewGwbcoGgPS02CBSEM=;
+        b=EgVwR7TumOOiZ7gxX+HP+zJIiXN0m+V+8RgKRYzKqWzEZLVNX1xeghxoEq9AfYD7f4
+         egMh/IEVErDK2GsO4b0JphObjh593A1QHJUj5bmktsDfNIzFKwOwK71DNGkfpo4dGCBc
+         tOV9W4QlQKuqSEPwX2jqxyD2eZZqJeom0Vh+hEYDcs4zWVjb59ck4sjHA1jaZJFGdqSJ
+         NaHnuDr9yec48h6Jnz3pCgwJgnEe/XgCPkC2nZncY//XFONjvjg24ctr2Q0uVOADqPiA
+         2XfMRjFAHQKmuDw3DfEmicOh3A8mGQSlZltf/pmdctyIgSrNb1tc888BREJ2t0U3B8AQ
+         TYxg==
+X-Gm-Message-State: APjAAAUtqEbMvT9gDPC6tAe7JfO6iXJXYF4IIdrmSkxcehOHWK/zi9TG
+        iWCQw0IDN/HjYfJb0xa8Vj/RLl7ULQ8=
+X-Google-Smtp-Source: APXvYqzc67czlLj1xc/BSkQkduLdtiKKbLVUdrPq7hUPjUVp5UmYvrkDtchUfmBzIECNLQOquU+7Qzeor7M=
+X-Received: by 2002:a1f:8d57:: with SMTP id p84mr56402733vkd.65.1578374205529;
+ Mon, 06 Jan 2020 21:16:45 -0800 (PST)
+Date:   Mon,  6 Jan 2020 21:16:32 -0800
+Message-Id: <20200107051638.40893-1-drosen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
+Subject: [PATCH v2 0/6] Support for Casefolding and Encryption
+From:   Daniel Rosenberg <drosen@google.com>
+To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Ext4 and F2FS currently both support casefolding and encryption, but not at
+the same time. These patches aim to rectify that.
 
-Hi Guenter!
+Since directory names are stored case preserved, we cannot just take the hash
+of the ciphertext. Instead we use the siphash of the casefolded name. With this
+we no longer have a direct path from an encrypted name to the hash without the
+key. To deal with this, fscrypt now always includes the hash in the name it
+presents when the key is not present. There is a pre-existing bug where you can
+change parts of the hash and still match the name so long as the disruption to
+the hash does not happen to affect lookup on that filesystem. I'm not sure how
+to fix that without making ext4 lookups slower in the more common case.
 
->>  - I still think sensor naming needs work. How and where are the
->>    "drivetemp-scsi-8-140" names generated?
->> 
-> Quick one: In libsensors, outside the kernel. The naming is generic,
-> along the line of <driver name>-<bus name>-<bus index>-<slot>.
+I moved the identical dcache operations for ext4 and f2fs into the VFS, as any
+filesystem that uses casefolding will need the same code. This will also allow
+further optimizations to that path, although my current changes don't take
+advantage of that yet.
 
-I understand that there are sensors that may not have an obvious
-associated topology and therefore necessitate coming up with a suitable
-naming or enumeration scheme. But in this case we already have a
-well-defined SCSI device name. Any particular reason you don't shift the
-chip.addr back and print the H:C:T:L format that you used as input?
+For Ext4, this also means that we need to store the hash on disk. We only do so
+for encrypted and casefolded directories to avoid on disk format changes.
+Previously encryption and casefolding could not live on the same filesystem,
+and we're relaxing that requirement. F2fs is a bit more straightforward since
+it already stores hashes on disk.
 
-However arcane H:C:T:L may seem, I think that predictable naming would
-make things a lot easier for users that need to identify which device
-matches which sensor...
+I've updated the related tools with just enough to enable the feature. I still
+need to adjust their respective fsck's, although without access to the keys,
+they won't be able to verify the hashes of casefolded and encrypted names.
+
+changes:
+fscrypt moved to separate thread to rebase on fscrypt dev branch
+addressed feedback, plus some minor fixes
+
+Daniel Rosenberg (6):
+  TMP: fscrypt: Add support for casefolding with encryption
+  vfs: Fold casefolding into vfs
+  f2fs: Handle casefolding with Encryption
+  ext4: Use struct super_blocks' casefold data
+  ext4: Hande casefolding with encryption
+  ext4: Optimize match for casefolded encrypted dirs
+
+ Documentation/filesystems/ext4/directory.rst |  27 ++
+ fs/crypto/Kconfig                            |   1 +
+ fs/crypto/fname.c                            | 234 ++++++++++---
+ fs/crypto/fscrypt_private.h                  |   9 +
+ fs/crypto/keysetup.c                         |  32 +-
+ fs/crypto/policy.c                           |  45 ++-
+ fs/dcache.c                                  |  28 ++
+ fs/ext4/dir.c                                |  75 +----
+ fs/ext4/ext4.h                               |  87 +++--
+ fs/ext4/hash.c                               |  26 +-
+ fs/ext4/ialloc.c                             |   5 +-
+ fs/ext4/inline.c                             |  41 ++-
+ fs/ext4/namei.c                              | 326 ++++++++++++-------
+ fs/ext4/super.c                              |  21 +-
+ fs/f2fs/dir.c                                | 114 +++----
+ fs/f2fs/f2fs.h                               |  14 +-
+ fs/f2fs/hash.c                               |  25 +-
+ fs/f2fs/inline.c                             |   9 +-
+ fs/f2fs/super.c                              |  17 +-
+ fs/f2fs/sysfs.c                              |   8 +-
+ fs/inode.c                                   |   7 +
+ fs/namei.c                                   |  41 ++-
+ include/linux/fs.h                           |  10 +
+ include/linux/fscrypt.h                      |  96 ++----
+ include/linux/unicode.h                      |  14 +
+ 25 files changed, 835 insertions(+), 477 deletions(-)
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.24.1.735.g03f4e72817-goog
+
