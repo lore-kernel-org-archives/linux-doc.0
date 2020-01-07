@@ -2,107 +2,170 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8381C33C8C
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8D8C33C8C
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:51:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C4212087F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DFDF2081E
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 15:51:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSW7HO4p"
+	dkim=pass (2048-bit key) header.d=tycho.nsa.gov header.i=@tycho.nsa.gov header.b="XoDCa2aE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727974AbgAGPmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 10:42:25 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43300 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727559AbgAGPmY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 10:42:24 -0500
-Received: by mail-pl1-f194.google.com with SMTP id p27so23335071pli.10;
-        Tue, 07 Jan 2020 07:42:24 -0800 (PST)
+        id S1728376AbgAGPv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 10:51:26 -0500
+Received: from UHIL19PA37.eemsg.mail.mil ([214.24.21.196]:43225 "EHLO
+        UHIL19PA37.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727994AbgAGPv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 10:51:26 -0500
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Tue, 07 Jan 2020 10:51:25 EST
+X-EEMSG-check-017: 63384113|UHIL19PA37_ESA_OUT03.csd.disa.mil
+X-IronPort-AV: E=Sophos;i="5.69,406,1571702400"; 
+   d="scan'208";a="63384113"
+Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
+  by UHIL19PA37.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 07 Jan 2020 15:44:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mOKAUWML1TFTWaJ7wVdgP8BJ4Cjz8s+9gtXGI6Ex/jk=;
-        b=gSW7HO4pTdqJxlWVKCR6uhC6jdezVM9/xLJYNkDAbKHsfQnU2Bksu127W3XS1FH0NP
-         MjGwlvOUDUOY7W8PL3RGhQt857tc2SA98S0w0pminHY6s4pVzjgXG8V9zF7Yb5LYOEgA
-         +Ci7RaZfP4MSX9kP/OAoqqzMnsHIg0B3iyvQFrCOY7rvwAztaVkBadB34g7JBF1lWkzG
-         Q+pqOxLIXkknIc9CP7QrVRtpK4N528gW6wV9ko9n8h8esaOebmAr8gu4VsFUiWAD+YJb
-         pZmDkVkH2Uh5M7YAv6n4or5zr9KL04ETPHtqqi7wGwplDUS82kU6kOxZ+x9rEPdSE5yD
-         DMJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mOKAUWML1TFTWaJ7wVdgP8BJ4Cjz8s+9gtXGI6Ex/jk=;
-        b=oRTT7kxSOSFs55bsohbxbShVaaB6ozarFodw/u3sBq5gwToFxhmVTOSubZgc08oW6Z
-         Ysc2rS8996LTCDoAnKL/+funr33qIFbXJxOSWat37yhphpDUG3admSoZPTHXMztnb6Ra
-         4QW78Xg7UsMHguDGNXtQ6wCEomyu44VDj3CsU6ziACMqP2b/l6Rcnkt+IVUXE9zeF4yA
-         chJuQA5T9I/WVEaX+JuWV7wEigqUm39jN4/ymlGvIB9haF9lhJU0/zYhvpNC1e+0WNKj
-         tuCWnZNXzV92uhSz9YvfAAxPiGcKsTaFg8PIvzaF2hogdi0iafLJqbSlVJCloohyKXVN
-         Sfuw==
-X-Gm-Message-State: APjAAAVOclqHsffmNitzm3cyDG9Qn94KLWbrZLIzKmbAAnneoMN/SZHI
-        c/uv5CsVNENMgb+uXBpVcmI=
-X-Google-Smtp-Source: APXvYqzjYtn6/YzemGIzVUvI2cuoJB3lK2QEiULmrIBAz8zX6VTg45Sni+wFU8KjnZOEKfD9mOElDA==
-X-Received: by 2002:a17:902:7209:: with SMTP id ba9mr289009plb.118.1578411744231;
-        Tue, 07 Jan 2020 07:42:24 -0800 (PST)
-Received: from localhost (199.168.140.36.16clouds.com. [199.168.140.36])
-        by smtp.gmail.com with ESMTPSA id v10sm141764pgk.24.2020.01.07.07.42.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 Jan 2020 07:42:23 -0800 (PST)
-Date:   Tue, 7 Jan 2020 23:42:21 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Jose Abreu <Jose.Abreu@synopsys.com>
-Cc:     "davem@davemloft.net" <davem@davemloft.net>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: networking: device drivers: sync
- stmmac_mdio_bus_data info
-Message-ID: <20200107154221.GA28873@nuc8i5>
-References: <20200107150254.28604-1-zhengdejin5@gmail.com>
- <BN8PR12MB3266661B136050259B5F7FD7D33F0@BN8PR12MB3266.namprd12.prod.outlook.com>
+  d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
+  s=tycho.nsa.gov; t=1578411855; x=1609947855;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=td1IlHwKtTHObDpe2uWJl6Ms76XtUpY7stdlViMvWFQ=;
+  b=XoDCa2aErjmnE7yOuiS88A79umsCaSaziaSZHfKKJhJj8t2fJVa3R/8K
+   iAN7MYjXd29i3ozc5ILmIPHXmH/cOzJHW2s/kB29KBvqj9oCxLahruLjS
+   2PuMgYhjqSofquE9Q/BBDXhmlPxrmB01hWdHzW4YLqnJtGQifya4MpZ3u
+   gJHCbQ7rPu5vloLCUQsYdwLaD5oOBQeFLMJlpjy1WczVd1Cr1iKKDb5Qh
+   d9iAPhcmCUBsZ070C+EAxyraTsrKY32rvHE1d3wpITBivBIWtJLNgP/7D
+   GB/1WDnQQieb3JPZHF2ROlkp48HawzsbWIOrvwvbZuJzkq4WnAv4leIS3
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.69,406,1571702400"; 
+   d="scan'208";a="31672195"
+IronPort-PHdr: =?us-ascii?q?9a23=3AWOcY8hzVigjDbwPXCy+O+j09IxM/srCxBDY+r6?=
+ =?us-ascii?q?Qd2u0fIJqq85mqBkHD//Il1AaPAdyAragZ16GN6ujJYi8p2d65qncMcZhBBV?=
+ =?us-ascii?q?cuqP49uEgeOvODElDxN/XwbiY3T4xoXV5h+GynYwAOQJ6tL1LdrWev4jEMBx?=
+ =?us-ascii?q?7xKRR6JvjvGo7Vks+7y/2+94fcbglVijexe61+IRW5oAneuMQanJZpJ7osxB?=
+ =?us-ascii?q?fOvnZGYfldy3lyJVKUkRb858Ow84Bm/i9Npf8v9NNOXLvjcaggQrNWEDopM2?=
+ =?us-ascii?q?Yu5M32rhbDVheA5mEdUmoNjBVFBRXO4QzgUZfwtiv6sfd92DWfMMbrQ704RS?=
+ =?us-ascii?q?iu4qF2QxDmkicHMyMy/n/RhMJ+kalXpAutqhx7zoLRZoyeKfhwcb7Hfd4CRW?=
+ =?us-ascii?q?RPQNtfWSJCDI27YIQBAPEMMfpbooTnu1cDtweyCRWqCejyyjFInHj23agi3u?=
+ =?us-ascii?q?o8DQHJwhQgH9IQv3TSsd77KaISXvqxzKnM0zrCb+5d1DDm6IfVaRAsuu2MXL?=
+ =?us-ascii?q?JsfsrRzkkjDQXFjk6KpoD/MDOV0foNvnGd4uF9Vuyvk3Yqpxx+rzWg3Mship?=
+ =?us-ascii?q?TFipgLxl3L6yl12ps5KNulQ0Bhe9GkCoFftySCOotzRcMtXn9ntT4hyr0DpZ?=
+ =?us-ascii?q?67ZC8KyIk7xxLHa/yIbYyI4hX7WeaNOzh4nnNleK+khxqo8EigzOP8Vs6v0F?=
+ =?us-ascii?q?lUsiVJiMXMt3AR2BzT7ciLUP198Vu62TmTzQzT7+BEIUQsmaraLZ4u3KIwm4?=
+ =?us-ascii?q?IOvUnMESL6gkX7gLKMekk69eWk9f7rbqj+qp+ZLYB0iwX+Mqo0msy4BOQ1Kh?=
+ =?us-ascii?q?MOUHWA+emnyL3i/VH2QLVNjvEslKnZq4rVKd4Upq6+HQ9Zypwj5AqnDze6zN?=
+ =?us-ascii?q?QYmmEKLFZEeBKBkojoNEjCL+3/DfijmFmsjjhryO7cPrH7AZXCMGLDkLH/cr?=
+ =?us-ascii?q?Z58UJczxAzzd9H7ZJOFr4BOO7zWlP2tNHAEhA5NBa0zP35B9VhzY4eXWyOAq?=
+ =?us-ascii?q?mDPKPUr1CI+volI/OQa48NpDb9N/8l6ubpjX88nl8dZq+p0oELZ3+mBflmOV?=
+ =?us-ascii?q?uWbmfsgtgbDWcGpBYxTOvviFeaSz5ce26yX74g5jE8EI+mFpnMRoSsgLyHwS?=
+ =?us-ascii?q?e6EYZbZn5JCl+SC3fkbYaEVOkWaCKUPMBhliYIVb+7S48uzRuurhP1y6J7Lu?=
+ =?us-ascii?q?rI/S0VrYrj28Jo5+3Xjhwy7SZ7D9mZ022USmF0mWQIRyUo06xlvUN9zVKDgu?=
+ =?us-ascii?q?BEhKlAHMFXz+tATwN/MJnb1eE8ANf3CSzbedLcc0qrWtWrB3kKS9s1x9IfKx?=
+ =?us-ascii?q?JmF86KkgHI3y3sBaQc0bOMGspnoernw3HtKpMlmD793647ggxjH5pC?=
+X-IPAS-Result: =?us-ascii?q?A2CRBADmpRRe/wHyM5BmHgELHIFxC4F9gW0gEiqNDIZsB?=
+ =?us-ascii?q?oslj02BewkBAQEBAQEBAQEbHAEBhECCDzQJDgIQAQEBBAEBAQEBBQMBAWyFQ?=
+ =?us-ascii?q?4I7KYMzAUaBUYJjHhcKglMlrgWJAIE9gTaHQIRzeYEHgRE2gxuKFSIEjTqKJ?=
+ =?us-ascii?q?ZdAgkCCRZNLDBuaXgGrLjmBWCsIAhgIIQ+DJ1AYDZt2IwMwjl0BAQ?=
+Received: from tarius.tycho.ncsc.mil (HELO tarius.infosec.tycho.ncsc.mil) ([144.51.242.1])
+  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 07 Jan 2020 15:44:14 +0000
+Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
+        by tarius.infosec.tycho.ncsc.mil (8.14.7/8.14.4) with ESMTP id 007Fhbsp114828;
+        Tue, 7 Jan 2020 10:43:40 -0500
+From:   Stephen Smalley <sds@tycho.nsa.gov>
+To:     paul@paul-moore.com
+Cc:     selinux@vger.kernel.org, omosnace@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, Stephen Smalley <sds@tycho.nsa.gov>
+Subject: [PATCH] Documentation,selinux: fix references to old selinuxfs mount point
+Date:   Tue,  7 Jan 2020 10:44:50 -0500
+Message-Id: <20200107154450.25961-1-sds@tycho.nsa.gov>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN8PR12MB3266661B136050259B5F7FD7D33F0@BN8PR12MB3266.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 07, 2020 at 03:16:10PM +0000, Jose Abreu wrote:
-> From: Dejin Zheng <zhengdejin5@gmail.com>
-> Date: Jan/07/2020, 15:02:54 (UTC+00:00)
-> 
-> > Recent changes in the stmmac driver, it removes the phy_reset hook
-> > from struct stmmac_mdio_bus_data by commit <fead5b1b5838ba2>, and
-> > add the member of needs_reset to struct stmmac_mdio_bus_data by
-> > commit <1a981c0586c0387>.
-> 
-> This will file be no longer maitained as we are moving to RST format. 
-> Please see [1].
-> 
-> [1] https://patchwork.ozlabs.org/project/netdev/list/?series=151601
->
-Jose, Thanks for your notice, abandon this commit.
+selinuxfs was originally mounted on /selinux, and various docs and
+kconfig help texts referred to nodes under it.  In Linux 3.0,
+/sys/fs/selinux was introduced as the preferred mount point for selinuxfs.
+Fix all the old references to /selinux/ to /sys/fs/selinux/.
 
-BR,
-dejin
+Signed-off-by: Stephen Smalley <sds@tycho.nsa.gov>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 9 +++++----
+ security/selinux/Kconfig                        | 7 ++++---
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-> ---
-> Thanks,
-> Jose Miguel Abreu
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ade4e6ec23e0..565d84760e48 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -511,7 +511,7 @@
+ 			1 -- check protection requested by application.
+ 			Default value is set via a kernel config option.
+ 			Value can be changed at runtime via
+-				/selinux/checkreqprot.
++				/sys/fs/selinux/checkreqprot.
+ 
+ 	cio_ignore=	[S390]
+ 			See Documentation/s390/common_io.rst for details.
+@@ -1245,7 +1245,8 @@
+ 			0 -- permissive (log only, no denials).
+ 			1 -- enforcing (deny and log).
+ 			Default value is 0.
+-			Value can be changed at runtime via /selinux/enforce.
++			Value can be changed at runtime via
++			/sys/fs/selinux/enforce.
+ 
+ 	erst_disable	[ACPI]
+ 			Disable Error Record Serialization Table (ERST)
+@@ -4349,8 +4350,8 @@
+ 			0 -- disable.
+ 			1 -- enable.
+ 			Default value is set via kernel config option.
+-			If enabled at boot time, /selinux/disable can be used
+-			later to disable prior to initial policy load.
++			If enabled at boot time, /sys/fs/selinux/disable can
++			be used	later to disable prior to initial policy load.
+ 
+ 	apparmor=	[APPARMOR] Disable or enable AppArmor at boot time
+ 			Format: { "0" | "1" }
+diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
+index 580ac24c7aa1..1014cb0ee956 100644
+--- a/security/selinux/Kconfig
++++ b/security/selinux/Kconfig
+@@ -58,7 +58,8 @@ config SECURITY_SELINUX_DEVELOP
+ 	  kernel will start in permissive mode (log everything, deny nothing)
+ 	  unless you specify enforcing=1 on the kernel command line.  You
+ 	  can interactively toggle the kernel between enforcing mode and
+-	  permissive mode (if permitted by the policy) via /selinux/enforce.
++	  permissive mode (if permitted by the policy) via
++	  /sys/fs/selinux/enforce.
+ 
+ config SECURITY_SELINUX_AVC_STATS
+ 	bool "NSA SELinux AVC Statistics"
+@@ -66,7 +67,7 @@ config SECURITY_SELINUX_AVC_STATS
+ 	default y
+ 	help
+ 	  This option collects access vector cache statistics to
+-	  /selinux/avc/cache_stats, which may be monitored via
++	  /sys/fs/selinux/avc/cache_stats, which may be monitored via
+ 	  tools such as avcstat.
+ 
+ config SECURITY_SELINUX_CHECKREQPROT_VALUE
+@@ -85,7 +86,7 @@ config SECURITY_SELINUX_CHECKREQPROT_VALUE
+ 	  default to checking the protection requested by the application.
+ 	  The checkreqprot flag may be changed from the default via the
+ 	  'checkreqprot=' boot parameter.  It may also be changed at runtime
+-	  via /selinux/checkreqprot if authorized by policy.
++	  via /sys/fs/selinux/checkreqprot if authorized by policy.
+ 
+ 	  If you are unsure how to answer this question, answer 0.
+ 
+-- 
+2.24.1
+
