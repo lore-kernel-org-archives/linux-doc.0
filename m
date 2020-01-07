@@ -2,221 +2,112 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D9EC33C99
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 09:23:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0360EC33C99
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 10:33:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB0B4206DB
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 09:23:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6EC6207E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 10:33:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b="fMBUW/c+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbgAGJXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 04:23:14 -0500
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:27723 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbgAGJXO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jan 2020 04:23:14 -0500
-IronPort-SDR: DTH7b/YHklWdtscrk0AXRcpodAl62dhBjd5ew3Nt9UD4m/et7ceA0/2JBnOg3T1e77uOri2CLb
- syd6zYuibimpQFHODEH6qeEttBauGfcQP5F817xlYk45ZUljge4iEvyXylDT6OCrSfk39oVvk4
- hhLmWmssy1GkTeffm+zZRLl6/K2CJhLq1QG9TL297K5w5sMTBZI2orxJzOZUpJHp1CoYO/YcRd
- Uq6ITq2LfippA2KqRng82ngUrNtLjUFkBVr9gqTww60FeLvyvG3Zh085qxxtYzAP5XcdXmWB/Z
- D9k=
-X-IronPort-AV: E=Sophos;i="5.69,405,1571731200"; 
-   d="scan'208";a="44610273"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 07 Jan 2020 01:23:13 -0800
-IronPort-SDR: tplytpQIcwlbIf6KWtUbVKFft0awdS/aTQTvzBBS5nfk2+yF+nNPt/gKw3Bp71JWpuXBjDgttE
- ou1DhX9GL7maq4Zt5tL3WB5lEug62wNjDQ0Hf5D9pPSCdaw1Y9rbyeUHtGVD2TjUdPc9PBiXKo
- UVxCnDd8dmEOwk2n/far46XKA96RK92eSVdaRRC80sjVtkIX25JWz5QUy8HK2/aVsudoVSRlCF
- kKLKCz+exnrzdiTz5LU5QWud31JtVK56w8RQptKsfehgn286N8ErL2Qu9zAFY69vhCdFJagpm0
- WSE=
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
- <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
- <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
- <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-From:   Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
-Date:   Tue, 7 Jan 2020 14:52:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        id S1727211AbgAGKd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 05:33:26 -0500
+Received: from mail-eopbgr40106.outbound.protection.outlook.com ([40.107.4.106]:32154
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727177AbgAGKd0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jan 2020 05:33:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n5Dir4ECTNYNd+kujy5rZ8L+yLBRuztFRMDBcL5sINqe3HYSsXR338nSJh08bgloS7Em2/jcdfGkbOBaAWf05E+9EY1QLQjOyHXCC+hmOz6UUupfIhZNiuS82mTyREhtwidafSWCl5gQuqMSgOrr391Y96mlIDvfH/Fsl4+R3x7amgAEWQPZATJJrksw7VCxPa8HAJ2YwtN7+UWeLWT5BOPog0loCFWrz9qZuzC7rYPtz/N9Rj6o5vHeU+uR7l5izkqNyhpDKK+Do6Y0iHhkA6iKKXzu0N8ohXVdYL5HRukLb6TfP4PfS8X5NF8JlzeEB9Vw+tSUlNVwydkQrZM6GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gh9naxGfGRaafdhO7qqgZu5oHQRRdfIPBSmmzrPDFJw=;
+ b=BFK7wtx8rQna1tK8RVPGHdR2qsoYP7K3zaO1uPiABYhccrfOC1DjTeW/hVmP9m8PKjY9zt3OKNQXLzhhwbbUU7MthBYK7Wh72xx0nMsaTekr9T/9Dk3vGoL6+gj91aubIgTOJuTddI0OO65siO0OM3YlYvkvLvtwbRR8ug8Ycq91zVI/eQdKBeB11UsvKFkGb3YXGYPeKLe2rAiuFvK0nqhc0mwWOSqGmavaC9jsBtDpHtYCc2OED57ZNR2p7cwaS2n8XgEhI5/5l7X/gDLIXCeFqPYSGudReiX1lsVX84pRE/6eydXC0YXByr7W/clSqJs3uh71blW2BD7TBNVHsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
+ dkim=pass header.d=axentia.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gh9naxGfGRaafdhO7qqgZu5oHQRRdfIPBSmmzrPDFJw=;
+ b=fMBUW/c+qCo5dBImR/GuuaVbBVwZ/FrXyG+RjiO/eEFt96zH/CDuABfUT2EwdxQs4mBK1FlnQtSo0OBRG0Y1GAonpMp8jbHZPS5oOVX5j9uYx7zC7YrCr6spPV+2PJqYv6b7y8pxFI2Cm8wa04tcNBc4nLbmYpquZhkbWrWHmHU=
+Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
+ DB3PR0202MB3435.eurprd02.prod.outlook.com (52.134.65.156) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.15; Tue, 7 Jan 2020 10:33:22 +0000
+Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
+ ([fe80::cd85:a8a5:da14:db13]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
+ ([fe80::cd85:a8a5:da14:db13%7]) with mapi id 15.20.2602.015; Tue, 7 Jan 2020
+ 10:33:21 +0000
+Received: from [192.168.13.3] (213.112.138.4) by HE1PR06CA0146.eurprd06.prod.outlook.com (2603:10a6:7:16::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.12 via Frontend Transport; Tue, 7 Jan 2020 10:33:21 +0000
+From:   Peter Rosin <peda@axentia.se>
+To:     Luca Ceresoli <luca@lucaceresoli.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+CC:     Wolfram Sang <wsa@the-dreams.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 04/26] docs: i2c: call it "I2C" consistently
+Thread-Topic: [PATCH 04/26] docs: i2c: call it "I2C" consistently
+Thread-Index: AQHVxBqSvRIltpUk6kON4I7IxH2PsaffA4yA
+Date:   Tue, 7 Jan 2020 10:33:21 +0000
+Message-ID: <d154a959-a7bb-9d20-501d-757c566e3b5f@axentia.se>
+References: <20200105224006.10321-1-luca@lucaceresoli.net>
+ <20200105225012.11701-1-luca@lucaceresoli.net>
+ <20200105225012.11701-4-luca@lucaceresoli.net>
+In-Reply-To: <20200105225012.11701-4-luca@lucaceresoli.net>
+Accept-Language: en-US, sv-SE
 Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
+x-originating-ip: [213.112.138.4]
+x-clientproxiedby: HE1PR06CA0146.eurprd06.prod.outlook.com
+ (2603:10a6:7:16::33) To DB3PR0202MB3434.eurprd02.prod.outlook.com
+ (2603:10a6:8:5::30)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peda@axentia.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f1592c62-7a12-42fe-f463-08d7935d04b6
+x-ms-traffictypediagnostic: DB3PR0202MB3435:
+x-microsoft-antispam-prvs: <DB3PR0202MB3435F6425C24B64E9A3C7D56BC3F0@DB3PR0202MB3435.eurprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-forefront-prvs: 027578BB13
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(376002)(346002)(39830400003)(366004)(189003)(199004)(52116002)(81166006)(53546011)(54906003)(81156014)(31686004)(36756003)(558084003)(110136005)(16526019)(2616005)(956004)(6486002)(8676002)(8936002)(31696002)(316002)(2906002)(186003)(5660300002)(86362001)(71200400001)(66476007)(66946007)(16576012)(66446008)(26005)(4326008)(508600001)(66556008)(64756008);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3435;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: axentia.se does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HSSchn40IgOh25VRvKlFwd/Ua0Thb9N742vNDVVhz7+1x9wmlkPxQSMVcTYNctlcdexzjxEuVCXEslcoD7DxtSvQiXSeL3kh35bR9lIBJPHiZdVJmhWX0rxmxi+3SluQpvo+69m6t8iC2nMeWDLAE6pcNLfAfbQ8FnnCWAgi7qDnXVC366zXSXmkxsgNTOmQSVdr8YVuycPXeWcPLA3ME3RezJc+3AO7vlTsv+/po8CnQCUZChT8qv7yu1eCIv4R/WlH269pDn0NZbGZTaPAeYGW5rkyEjKiVPM6NaaFgG6+sH6Y/iSAkFanuVSD5MfwojJxaxL5gIHfVQSSV+9YIRvmhrZzNqGC+Q+rVQWOi+0CIUBjLNind19IY9E/3R8fKbDe9Tk1K9teIApN5wttnSdc9W7u1lXYqV0OmQnXsMJi4mYQiPEftYzMmTxOM5q+
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2A0D506F8311694E98A646E85E05B83D@eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1592c62-7a12-42fe-f463-08d7935d04b6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2020 10:33:21.8624
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cbACYdRJ5ee16qPupqCseE5G3WNfolCi5ai3kDdVz6KU5DxsMkN+47Nhmo4kHlne
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3435
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 06/01/20 1:42 PM, Geert Uytterhoeven wrote:
-> Hi Rob,
->
-> On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
->> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
->>>> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
->>>>> Add Device Tree bindings for a GPIO repeater, with optional translation
->>>>> of physical signal properties.  This is useful for describing explicitly
->>>>> the presence of e.g. an inverter on a GPIO line, and was inspired by the
->>>>> non-YAML gpio-inverter bindings by Harish Jenny K N
->>>>> <harish_kandiga@mentor.com>[1].
->>>>>
->>>>> Note that this is different from a GPIO Nexus Node[2], which cannot do
->>>>> physical signal property translation.
->>>> It can't? Why not? The point of the passthru mask is to not do
->>>> translation of flags, but without it you are always doing translation of
->>>> cells.
->>> Thanks for pushing me deeper into nexuses!
->>> You're right, you can map from one type to another.
->>> However, you cannot handle the "double inversion" of an ACTIVE_LOW
->>> signal with a physical inverter added:
->>>
->>>         nexus: led-nexus {
->>>                 #gpio-cells = <2>;
->>>                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->>>                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->>>                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->>>                 gpio-map-mask = <3 0>;
->>>                 // default gpio-map-pass-thru = <0 0>;
->>>         };
->>>
->>>         leds {
->>>                 compatible = "gpio-leds";
->>>                 led6-inverted {
->>>                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led7-noninverted {
->>>                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led8-double-inverted {  // FAILS: still inverted
->>>                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->>>                 };
->>>         };
->>>
->>> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
->>> Still, the consumer would see the final translated polarity, and not the
->>> actual one it needs to program the consumer for.
->> I'm not really following. Why isn't a double inversion just the same
->> as no inversion?
-> Because the nexus can only mask and/or substitute bits.
-> It cannot do a XOR operation on the GPIO flags.
->
->>>>> While an inverter can be described implicitly by exchanging the
->>>>> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
->>>>> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
->>>>> th provider and consumer sides:
->>>>>   1. The GPIO provider (controller) looks at the flags to know the
->>>>>      polarity, so it can translate between logical (active/not active)
->>>>>      and physical (high/low) signal levels.
->>>>>   2. While the signal polarity is usually fixed on the GPIO consumer
->>>>>      side (e.g. an LED is tied to either the supply voltage or GND),
->>>>>      it may be configurable on some devices, and both sides need to
->>>>>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->>>>>      match the actual polarity.
->>>>>      There exists a similar issue with interrupt flags, where both the
->>>>>      interrupt controller and the device generating the interrupt need
->>>>>      to agree, which breaks in the presence of a physical inverter not
->>>>>      described in DT (see e.g. [3]).
->>>> Adding an inverted flag as I've suggested would also solve this issue.
->>> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
->>> the inverter bindings"?
->>> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->>>
->>> Oh, now I understand. I was misguided by Harish' interpretation
->>> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
->>> which assumed an "inverted" property, e.g.
->>>
->>>     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->>>
->>> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
->>> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->>>
->>>     /* Bit 6 expresses the presence of a physical inverter */
->>>     #define GPIO_INVERTED 64
->> Exactly.
-> OK, makes sense.
-
-
-The reason I went for "inverted" property is because, we can specify this for gpios at provider side.
-
-The usecase needed to define the polarity which did not have kernel space consumer driver.
-
-
-I am not sure how do we achieve this using GPIO_INVERTED flag. We need some sort of node/gpio-hog to specify these
-
-type of properties? Otherwise gpio-pin will be held by kernel or the module using the hog property and the user space application will not be able to access pin.
-
-
-or please let me know if I am missing something.
-
-
->
->>> We need to be very careful in defining to which side the GPIO_ACTIVE_*
->>> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
->>> Still, this doesn't help if e.g. a FET is used instead of a push-pull
->>> inverter, as the former needs translation of other flags (which the
->>> nexus can do, the caveats above still applies, though).
->> Yes. Historically the cells values are meaningful to the provider and
->> opaque to the consumer. Standardized cell values changes that
->> somewhat. I think we want the active flag to be from the provider's
->> prospective because the provider always needs to know. The consumer
->> often doesn't need to know. That also means things work without the
->> GPIO_INVERTED flag if the consumer doesn't care which is what we have
->> today already and we can't go back in time.
->>
-
-Things will work without GPIO_INVERTED flag for consumers which can specify GPIO_ACTIVE_* flags.
-
-
-
->>> Same for adding IRQ_TYPE_INVERTED.
->> I suppose so, yes.
->>
->>> Related issue: how to handle physical inverters on SPI chip select lines,
->>> if the SPI slave can be configured for both polarities?
->> Good question. Perhaps in a different way because we have to handle
->> both h/w controlled and gpio chip selects.
->>
->> However, how would one configure the polarity in the device in the
->> first place? You have to assert the CS first to give a command to
->> reprogram it.
-> That's indeed true for a simple SPI slave.
-> But if it is a smarter device (e.g. a generic micro controller), it may use the
-> system's DTB to configure itself.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
+T24gMjAyMC0wMS0wNSAyMzo0OSwgTHVjYSBDZXJlc29saSB3cm90ZToNCj4gVXBwZXJjYXNlICJJ
+MkMiIGlzIHVzZWQgYWxtb3N0IGV2ZXJ5d2hlcmUgaW4gdGhlIGRvY3MsIGJ1dCB0aGUgbG93ZXJj
+YXNlDQo+IHZlcnNpb24gImkyYyIgaXMgdXNlZCBzb21ld2hlcmUuIFVzZSB0aGUgdXBwZXJjYXNl
+IGZvcm0gY29uc2lzdGVudGx5Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTHVjYSBDZXJlc29saSA8
+bHVjYUBsdWNhY2VyZXNvbGkubmV0Pg0KDQpBY2tlZC1ieTogUGV0ZXIgUm9zaW4gPHBlZGFAYXhl
+bnRpYS5zZT4NCg0KQ2hlZXJzLA0KUGV0ZXINCg==
