@@ -2,61 +2,104 @@ Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA3FC282DD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 20:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF64AC33C9E
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 21:32:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C7DC82080A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 20:09:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 884D12080A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 21:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1578432772;
+	bh=NKq/ShjDukyYkHHXytvAGFQmdmj1FmVZVGP2CEl4g08=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=voNwwIgGL0mEVR5q8oAdKnvgTxkCrERhDx/Nb1tqnMk7M6Hl4Q9MoLmbxuNV7/FFd
+	 b8fEquksWlqVPjdpTb0+K9ax9LKxCaGXBcYZn+bNpJwELeRBuux4/MYeCslnmZAHxc
+	 vwdLJW1nVROL4R45bq61jpGKaLkmKCFSB4B3AVzw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgAGUJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 15:09:20 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52660 "EHLO ms.lwn.net"
+        id S1726389AbgAGVcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 16:32:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54884 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728358AbgAGUJU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jan 2020 15:09:20 -0500
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726210AbgAGVcv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jan 2020 16:32:51 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 520A66EC;
-        Tue,  7 Jan 2020 20:09:19 +0000 (UTC)
-Date:   Tue, 7 Jan 2020 13:09:18 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jose Abreu <Jose.Abreu@synopsys.com>
-Cc:     netdev@vger.kernel.org, Joao Pinto <Joao.Pinto@synopsys.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-doc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 0/3] Documentation: stmmac documentation
- improvements
-Message-ID: <20200107130918.205762b6@lwn.net>
-In-Reply-To: <cover.1578392890.git.Jose.Abreu@synopsys.com>
-References: <cover.1578392890.git.Jose.Abreu@synopsys.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id E3A95206F0;
+        Tue,  7 Jan 2020 21:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578432770;
+        bh=NKq/ShjDukyYkHHXytvAGFQmdmj1FmVZVGP2CEl4g08=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=TIWQtPwo83QIR4B+6NO13f0GHH3ZcvmB2Ii3csb3mV4s4/7tujZLSKEJ0eToItHlC
+         7D3oduy2WB67GgcjgEMmL2JxixGSrhMPhTaz8pqmOnzC3t/nZG1A7TtuXwb8OXgd/1
+         ZRxJw4Ps7/7CLxxFmV1jgrcRQi8c/nQI6QRjSrEI=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id B86473522735; Tue,  7 Jan 2020 13:32:50 -0800 (PST)
+Date:   Tue, 7 Jan 2020 13:32:50 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     corbet@lwn.net, madhuparnabhowmik04@gmail.com, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH v3 0/7] Fix trivial nits in RCU docs
+Message-ID: <20200107213250.GE13449@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200106200802.26994-1-sj38.park@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200106200802.26994-1-sj38.park@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  7 Jan 2020 11:37:17 +0100
-Jose Abreu <Jose.Abreu@synopsys.com> wrote:
+On Mon, Jan 06, 2020 at 09:07:55PM +0100, SeongJae Park wrote:
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> This patchset fixes trivial nits in the RCU documentations.
+> 
+> It is based on the latest dev branch of Paul's linux-rcu git repository.
+> The Complete git tree is also available at
+> https://github.com/sjp38/linux/tree/patches/rcu/docs/2019-12-31/v3.
 
-> [ Not sure if this should go for net-next or Documentation tree. ]
+I have queued these for further review and testing, thank you!
 
-Patches for networking docs generally go through the networking trees; I'm
-assuming that will happen here as well.  The changes look generally good
-to me, FWIW.
+							Thanx, Paul
 
-Thanks,
-
-jon
+> Changes from v2
+> (https://lore.kernel.org/linux-doc/20200106191852.22973-1-sjpark@amazon.de/)
+>  - Apply author email (sjpark@amazon.de) correctly
+> 
+> Changes from v1
+> (https://lore.kernel.org/linux-doc/20191231151549.12797-1-sjpark@amazon.de/)
+>  - Add 'Reviewed-by' from Madhuparna
+>  - Fix wrong author email address
+>  - Rebased on latest dev branch of Paul's linux-rcu git repository.
+> 
+> SeongJae Park (7):
+>   doc/RCU/Design: Remove remaining HTML tags in ReST files
+>   doc/RCU/listRCU: Fix typos in a example code snippets
+>   doc/RCU/listRCU: Update example function name
+>   doc/RCU/rcu: Use ':ref:' for links to other docs
+>   doc/RCU/rcu: Use absolute paths for non-rst files
+>   doc/RCU/rcu: Use https instead of http if possible
+>   rcu: Fix typos in beginning comments
+> 
+>  .../Tree-RCU-Memory-Ordering.rst               |  8 ++++----
+>  Documentation/RCU/listRCU.rst                  | 10 +++++-----
+>  Documentation/RCU/rcu.rst                      | 18 +++++++++---------
+>  kernel/rcu/srcutree.c                          |  2 +-
+>  kernel/rcu/tree.c                              |  4 ++--
+>  5 files changed, 21 insertions(+), 21 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
