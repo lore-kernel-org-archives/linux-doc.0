@@ -2,28 +2,28 @@ Return-Path: <SRS0=NwVU=25=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A1D4C33C9E
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 01:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9574CC33C99
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 03:03:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49C972087F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 01:59:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71AF120848
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 03:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgAHB7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 20:59:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33086 "EHLO mail.kernel.org"
+        id S1725908AbgAHDDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 22:03:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48446 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726587AbgAHB7u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jan 2020 20:59:50 -0500
+        id S1725812AbgAHDDx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jan 2020 22:03:53 -0500
 Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DF902075A;
-        Wed,  8 Jan 2020 01:59:47 +0000 (UTC)
-Date:   Tue, 7 Jan 2020 20:59:45 -0500
+        by mail.kernel.org (Postfix) with ESMTPSA id 67FDC2075A;
+        Wed,  8 Jan 2020 03:03:51 +0000 (UTC)
+Date:   Tue, 7 Jan 2020 22:03:49 -0500
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Masami Hiramatsu <mhiramat@kernel.org>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
@@ -43,10 +43,11 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5 01/22] bootconfig: Add Extra Boot Config support
-Message-ID: <20200107205945.63e5d35a@rorschach.local.home>
-In-Reply-To: <157736904075.11126.16068256892686522924.stgit@devnote2>
+Message-ID: <20200107220349.1e7424f9@rorschach.local.home>
+In-Reply-To: <20200107205945.63e5d35a@rorschach.local.home>
 References: <157736902773.11126.2531161235817081873.stgit@devnote2>
- <157736904075.11126.16068256892686522924.stgit@devnote2>
+        <157736904075.11126.16068256892686522924.stgit@devnote2>
+        <20200107205945.63e5d35a@rorschach.local.home>
 X-Mailer: Claws Mail 3.17.4git76 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,105 +57,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Dec 2019 23:04:00 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Tue, 7 Jan 2020 20:59:45 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
+> 
+> > +
+> > +/*
+> > + * Return delimiter or error, no node added. As same as lib/cmdline.c,
+> > + * you can use " around spaces, but can't escape " for value.
+> > + */
+> > +static int __init __xbc_parse_value(char **__v, char **__n)
+> > +{
+> > +	char *p, *v = *__v;
+> > +	int c, quotes = 0;
+> > +
+> > +	v = skip_spaces(v);
+> > +	while (*v == '#') {
+> > +		v = skip_comment(v);
+> > +		v = skip_spaces(v);
+> > +	}
+> > +	if (*v == '"' || *v == '\'') {
+> > +		quotes = *v;
+> > +		v++;
+> > +	}
+> > +	p = v - 1;
+> > +	while ((c = *++p)) {
+> > +		if (!isprint(c) && !isspace(c))
+> > +			return xbc_parse_error("Non printable value", p);
+> > +		if (quotes) {
+> > +			if (c != quotes)
+> > +				continue;
+> > +			quotes = 0;
+> > +			*p++ = '\0';
+> > +			p = skip_spaces(p);  
+> 
+> Hmm, if p here == "    \0" then skip_spaces() will make p == "\0"
+> 
+> > +			c = *p;
+> > +			if (c && !strchr(",;\n#}", c))
+> > +				return xbc_parse_error("No value delimiter", p);
+> > +			p++;  
+> 
+> Now p == one passed "\0" which is in unknown territory.
 
-> +/**
-> + * xbc_node_is_value() - Test the node is a value node
-> + * @node: An XBC node.
-> + *
-> + * Test the @node is a value node and return true if a value node, false if not.
-> + */
-> +static inline __init bool xbc_node_is_value(struct xbc_node *node)
-> +{
-> +	return !!(node->data & XBC_VALUE);
+I like how you have patch 3 use this code. It makes it easy to test,
+and valgrind pointed out that this is a bug. With a file that just
+contained:
 
-The "!!" is not needed, as this is a static inline bool function. The
-compiler will make this a 1 or 0 without it.
+   foo = "1"
 
-	return node->data & XBC_VALUE;
+I ran this:
 
-is sufficient.
+  $ valgrind -v --leak-check=full ./tools/bootconfig/bootconfig -a /tmp/boot-bad /tmp/initrd  2>/tmp/out
 
-> +}
-> +
-> +/**
-> + * xbc_node_is_key() - Test the node is a key node
-> + * @node: An XBC node.
-> + *
-> + * Test the @node is a key node and return true if a key node, false if not.
-> + */
-> +static inline __init bool xbc_node_is_key(struct xbc_node *node)
-> +{
-> +	return !(node->data & XBC_VALUE);
-> +}
-> +
+Which gave me this:
 
+==18929== Invalid read of size 1
+==18929==    at 0x483FC02: strpbrk (vg_replace_strmem.c:1690)
+==18929==    by 0x40263C: xbc_init (bootconfig.c:724)
+==18929==    by 0x403162: apply_xbc (main.c:255)
+==18929==    by 0x403346: main (main.c:331)
+==18929==  Address 0x4a4e09f is 0 bytes after a block of size 15 alloc'd
+==18929==    at 0x483780B: malloc (vg_replace_malloc.c:309)
+==18929==    by 0x402B9D: load_xbc_fd (main.c:95)
+==18929==    by 0x402C87: load_xbc_file (main.c:120)
+==18929==    by 0x4030AC: apply_xbc (main.c:238)
+==18929==    by 0x403346: main (main.c:331)
 
-
-> +
-> +/*
-> + * Return delimiter or error, no node added. As same as lib/cmdline.c,
-> + * you can use " around spaces, but can't escape " for value.
-> + */
-> +static int __init __xbc_parse_value(char **__v, char **__n)
-> +{
-> +	char *p, *v = *__v;
-> +	int c, quotes = 0;
-> +
-> +	v = skip_spaces(v);
-> +	while (*v == '#') {
-> +		v = skip_comment(v);
-> +		v = skip_spaces(v);
-> +	}
-> +	if (*v == '"' || *v == '\'') {
-> +		quotes = *v;
-> +		v++;
-> +	}
-> +	p = v - 1;
-> +	while ((c = *++p)) {
-> +		if (!isprint(c) && !isspace(c))
-> +			return xbc_parse_error("Non printable value", p);
-> +		if (quotes) {
-> +			if (c != quotes)
-> +				continue;
-> +			quotes = 0;
-> +			*p++ = '\0';
-> +			p = skip_spaces(p);
-
-Hmm, if p here == "    \0" then skip_spaces() will make p == "\0"
-
-> +			c = *p;
-> +			if (c && !strchr(",;\n#}", c))
-> +				return xbc_parse_error("No value delimiter", p);
-> +			p++;
-
-Now p == one passed "\0" which is in unknown territory.
-
-> +			break;
-> +		}
-> +		if (strchr(",;\n#}", c)) {
-
-Also, why are we looking at '\n'? as wouldn't that get skipped by
-skip_spaces() too?
+Which proves this the issue as when I apply the patch below, this goes
+away:
 
 -- Steve
 
-> +			v = strim(v);
-> +			*p++ = '\0';
-> +			break;
-> +		}
-> +	}
-> +	if (quotes)
-> +		return xbc_parse_error("No closing quotes", p);
-> +	if (c == '#') {
-> +		p = skip_comment(p);
-> +		c = *p;
-> +	}
-> +	*__n = p;
-> +	*__v = v;
-> +
-> +	return c;
-> +}
-> +
+diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+index 7a7cdc45bf62..0793ef9f48b8 100644
+--- a/lib/bootconfig.c
++++ b/lib/bootconfig.c
+@@ -468,7 +468,8 @@ static int __init __xbc_parse_value(char **__v, char **__n)
+ 			c = *p;
+ 			if (c && !strchr(",;\n#}", c))
+ 				return xbc_parse_error("No value delimiter", p);
+-			p++;
++			if (*p)
++				p++;
+ 			break;
+ 		}
+ 		if (strchr(",;\n#}", c)) {
