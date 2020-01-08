@@ -2,119 +2,104 @@ Return-Path: <SRS0=NwVU=25=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CB1C282DD
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 21:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2289EC33CA2
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 23:12:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CD3F420705
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 21:24:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECC8520705
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 23:12:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DDNcIote"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s4oiBbU1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727517AbgAHVYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jan 2020 16:24:23 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40872 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727416AbgAHVYS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jan 2020 16:24:18 -0500
-Received: by mail-lj1-f196.google.com with SMTP id u1so4860061ljk.7
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2020 13:24:17 -0800 (PST)
+        id S1727171AbgAHXMc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jan 2020 18:12:32 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:44033 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726548AbgAHXMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jan 2020 18:12:32 -0500
+Received: by mail-lj1-f194.google.com with SMTP id u71so5071793lje.11
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2020 15:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MrgqnfuzWiyeoBisKfI9WUGDpT/I3A3pzpV2omGtkBc=;
-        b=DDNcIoteefV8aBFRJqRjAYF8UmeDfEGuxO5aoHpC40ksghWZNn1vYOvHVH75utqX92
-         8pyR/nWuhn+vomgt79nK/sovZ1x7PhYhTnNXeT0womFAJ98oI98vJEh+zZtrLhhAsaiT
-         xHAeO525OvgTSe1X+L3USeOsbOk+RWWtyuGny4uD91Ul8TIcjfd6L4XmBIrytt5zzyEs
-         hQErb3i2mU9p3strf1rp4eW3q1/1zYZBB0VrVfwfyEPkEBvcTwGsqDvhRh9K2zjsT3ch
-         4bymw0ydHk1l0bLwoVhIPuVYIxoBXZ9csRffl8URhKARiRZg6AEOEEzGhtohlDS2x0zL
-         xbtA==
+        bh=9PdCnLDfRrpTe57HbjA01QxkIMaIeln31WkhfMvjiwc=;
+        b=s4oiBbU1nrcXdyE6ajcf/7ipB/YOE89ljAV/j8S3V1GrEIqoBOr47JYnVmEsKRV8GJ
+         m4q0+MdmjmzPl9uXRDzb5Amt57zy3bc3WxPF0K5yDX2VpMdCN/AhXoZnSdWYKA7heegf
+         wRS55OdtQNKvabxlFMD4rrY3EAmDaAyQ/BZXlmPZ0CYqE3Lb2AxGF4u8Wn6qmi2T8j5O
+         cdnewIk+KP+Htuwy0PgAnh2udE8rVTcaKVrkgALjESDjkQ3mY3GfGNqQXizf+0ZMl2Q6
+         vXSmyvELflYoWLjnjXyFw556vBiDknK3YpTds+gEithiEvcry2P64oYpOGLedDWey+af
+         esbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MrgqnfuzWiyeoBisKfI9WUGDpT/I3A3pzpV2omGtkBc=;
-        b=rWeP2FKz8/hEjbglhW65+tTuYxRIhg2IbiCy6Etykh4u98q/maooUydyL8guqYPmsL
-         kVdobdZn9T311xxeo1AsdVAcPc8raAwAoEDiPOHU6DTcpAg7kc5cWaHcg37u2amEIZ/w
-         OU6DeX2FcsT7vZlLsXkqRIzepaPOKflTwHTG3/ToHR4hDvh8IOCpUXjsxqtuFHJMT1l6
-         z8xUyub9m2rJSIOUdnmf2z0LjAolyD4sQJJvlWb8P4zpyGliGLuhWv6/IVydZz38z71W
-         Zq0ukgKqpr7pJkf+iwgif1Vt7q4gPFGl8Av1psV5aFay2HjnSlW3bftWYS/B6bEH2nNl
-         T7Mg==
-X-Gm-Message-State: APjAAAWZWGmObH3YdscBioEhHr9KcEbSnUkWQk2NEzFsRdWkpj5q5icH
-        wqPaM2v8rhN4JymrgfDrT8Um4h6amD0RSquLqKKJYA==
-X-Google-Smtp-Source: APXvYqzIFAaH51EKKHEbmEN6pXokDd653dkwA7mvIiTffi1G/lQMFKNkhMpqs1Z3DU3Ocqxwmy/VJxTCWBZ8KPcs8nw=
-X-Received: by 2002:a05:651c:1049:: with SMTP id x9mr4073045ljm.233.1578518656460;
- Wed, 08 Jan 2020 13:24:16 -0800 (PST)
+        bh=9PdCnLDfRrpTe57HbjA01QxkIMaIeln31WkhfMvjiwc=;
+        b=ZPgS/yYYrWpiRK6CiC00Wz3YLyTN/In9CwH517Qf7X0luynIHX9f1bE59ZuCKpTN4a
+         /gTqRU94hxI8Gdep78udMijMUwi8okmnIToo+RjWGRvOj/OVj7g5+wUniI95L9Nww8hj
+         IIdta+KeFm9kK8Wc3clfDD9gsbysOassV5SX9Gx8v+Ak19T1odGkuqDTdSM9tN5yOul4
+         QmM8sWn6Z1vJTWl5w7CMVedNC+RmYDTuYnchnNpygGZTEAOPs34sHnHTga6smLAKsRyV
+         BApXq75+LyaNfOIZMkKloAY/gOnFl6HnDPOYejnu+H6fH9GYXM/G2HMuNIQrosnzgdCd
+         voXA==
+X-Gm-Message-State: APjAAAVWNICbs8VV91YNwxFKMUv+n+Wj0xpRrA0im4XoQslnxCgOpxJ7
+        07SdWWQZLhZ4PGaYeVPWmP3Fb6xOh1dYbNppNmt0aw==
+X-Google-Smtp-Source: APXvYqzqb9iQtaKF+nk9oiPjLBxsjLdTUTmVU669xZcPD3ecVDu582+r9iYp2mPEVpHt4i81yKoxko8lyI3k7+1q8V0=
+X-Received: by 2002:a2e:844e:: with SMTP id u14mr4342769ljh.183.1578525150247;
+ Wed, 08 Jan 2020 15:12:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20200107051638.40893-1-drosen@google.com> <20200108185005.GE263696@mit.edu>
-In-Reply-To: <20200108185005.GE263696@mit.edu>
-From:   Daniel Rosenberg <drosen@google.com>
-Date:   Wed, 8 Jan 2020 13:24:05 -0800
-Message-ID: <CA+PiJmSLFVvRazSKDWOiygtgvE3-o6m6rq9q+jUKuhP-T2RHNw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Support for Casefolding and Encryption
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     linux-ext4@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be> <CACRpkdaW7nmpE99FAvBDBTmkTZOTQ5WdM=JbMzBTLk7cbLRXPw@mail.gmail.com>
+ <CAMuHMdVbk5S__8OK-zNXmiW66=WVA8Jzyc=hUvf_hJSU=u9TFg@mail.gmail.com>
+ <CACRpkda8QD_tDA=YVDRNVnHd8QHs-yHBTzZuJHsnocgMdxv9cA@mail.gmail.com> <CAMuHMdUGGcjoX8TDDS5qGLtJZxizUK=BpasSQK3t1K-dhEgZCg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUGGcjoX8TDDS5qGLtJZxizUK=BpasSQK3t1K-dhEgZCg@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 9 Jan 2020 00:12:18 +0100
+Message-ID: <CACRpkdZYFx3q=eS=y50hsQY5v5EMY-0XmyHsUQRczrS6PRN1+w@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 8, 2020 at 10:50 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
->
-> On Mon, Jan 06, 2020 at 09:16:32PM -0800, Daniel Rosenberg wrote:
-> > changes:
-> > fscrypt moved to separate thread to rebase on fscrypt dev branch
-> > addressed feedback, plus some minor fixes
->
-> What branch was this based on?  There is no fscrypt dev branch, so I
-> took the fscrypt master branch, and then applied your fscrypt patches,
-> and then I tried to apply this patch series.  I got patch conflicts
-> starting with the very first patch.
->
-> Applying: TMP: fscrypt: Add support for casefolding with encryption
-> error: patch failed: fs/crypto/Kconfig:9
-> error: fs/crypto/Kconfig: patch does not apply
-> error: patch failed: fs/crypto/fname.c:12
-> error: fs/crypto/fname.c: patch does not apply
-> error: patch failed: fs/crypto/fscrypt_private.h:12
-> error: fs/crypto/fscrypt_private.h: patch does not apply
-> error: patch failed: fs/crypto/keysetup.c:192
-> error: fs/crypto/keysetup.c: patch does not apply
-> error: patch failed: fs/crypto/policy.c:67
-> error: fs/crypto/policy.c: patch does not apply
-> error: patch failed: fs/inode.c:20
-> error: fs/inode.c: patch does not apply
-> error: patch failed: include/linux/fscrypt.h:127
-> error: include/linux/fscrypt.h: patch does not apply
-> Patch failed at 0001 TMP: fscrypt: Add support for casefolding with encryption
-> hint: Use 'git am --show-current-patch' to see the failed patch
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
->
->                                                   - Ted
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+On Mon, Jan 6, 2020 at 9:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-This is based off of ToT master. I put in a dummy fscrypt patch so you
-wouldn't need to rebase on top of fscrypt, but I could just do future
-patch sets all on top of fscrypt-dev. I guess my attempt to make it
-easier just made it more confusing :(
+> > The rest I think we cleared out else I will see it when I review again.
+>
+> The remaining discussion point is "GPIO Repeater in Device Tree", i.e.
+> the GPIO inverter usecase, which might be solved better by adding a
+> GPIO_INVERTED flag.
+>
+> Shall I rip that out, incorporate review comments, and report?
+
+Don't know, if it blocks progress I guess the diplomatic solution is to
+do that, divide and conquer. But review is a social process so I don't really
+know the right strategy.
+
+Yours,
+Linus Walleij
