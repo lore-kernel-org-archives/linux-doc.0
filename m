@@ -2,225 +2,152 @@ Return-Path: <SRS0=NwVU=25=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD854C282DD
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:24:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A097EC282DD
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:55:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 86F052075D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:24:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AE0920678
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:55:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.nsa.gov header.i=@tycho.nsa.gov header.b="CTQVGe00"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="nCwWqbOS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728089AbgAHQY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jan 2020 11:24:26 -0500
-Received: from UHIL19PA38.eemsg.mail.mil ([214.24.21.197]:13002 "EHLO
-        UHIL19PA38.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726967AbgAHQYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jan 2020 11:24:25 -0500
-X-EEMSG-check-017: 63890461|UHIL19PA38_ESA_OUT04.csd.disa.mil
-X-IronPort-AV: E=Sophos;i="5.69,410,1571702400"; 
-   d="scan'208";a="63890461"
-Received: from emsm-gh1-uea11.ncsc.mil ([214.29.60.3])
-  by UHIL19PA38.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 08 Jan 2020 16:24:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
-  s=tycho.nsa.gov; t=1578500661; x=1610036661;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=js3veDBcUZMAAgc12B0/6qHyrGUofRp+zn58w/yE0+E=;
-  b=CTQVGe00hn1YHYZ+W7tsrnhIXAO0aHE9n65y+uOEwnX+3C6z4C7ct5Om
-   Y+rmHPjdYiX/sIAy3LmOBPBdXHq5HLfD+7SQiXJSi9nneSvF/4zU4FHGc
-   Ts8OaziLVgcAmqytaOBl4jk1Mc6Ew5gdKO/pqhrJh8sXkwWEsvCSiwIWS
-   KKy08OSXXXBx+aDPOEKtrMUyPoZI6ebGPaEh9qiJA45kpC3RyzIbeYJBp
-   C0sSJzQtgB9Wvx6gmy9hehzQuiLA3LL+ePXdhWLi66tx5ycaRhz8a6EZB
-   bXUC7ETPNfgoGIF30mDFZyPoYdQVAm4kSYwC2ruPdkU4JML7uEyK6r7Cs
-   A==;
-X-IronPort-AV: E=Sophos;i="5.69,410,1571702400"; 
-   d="scan'208";a="37495986"
-IronPort-PHdr: =?us-ascii?q?9a23=3ArP0OGRWVVt3V5mL4q44Qh8qUEBfV8LGtZVwlr6?=
- =?us-ascii?q?E/grcLSJyIuqrYbROOt8tkgFKBZ4jH8fUM07OQ7/m7HzZdsd3R7DgrS99lb1?=
- =?us-ascii?q?c9k8IYnggtUoauKHbQC7rUVRE8B9lIT1R//nu2YgB/Ecf6YEDO8DXptWZBUh?=
- =?us-ascii?q?rwOhBoKevrB4Xck9q41/yo+53Ufg5EmCexbal9IRmrowjdrNcajIthJ6o+yR?=
- =?us-ascii?q?bErWZDdvhLy29vOV+dhQv36N2q/J5k/SRQuvYh+NBFXK7nYak2TqFWASo/PW?=
- =?us-ascii?q?wt68LlqRfMTQ2U5nsBSWoWiQZHAxLE7B7hQJj8tDbxu/dn1ymbOc32Sq00WS?=
- =?us-ascii?q?in4qx2RhLklDsLOjgk+27ZkMxwiL9QrgynqRJx3oXYZJiZOOR6c6/Ye94RWG?=
- =?us-ascii?q?hPUdtLVyFZAo2ycZYBAeQCM+hfoIbzqEADoQe9CAS2GO/i0CNEimPw0KYn0+?=
- =?us-ascii?q?ohCwbG3Ak4EtwTrHTbss31NKcMXuCz0aLG0DDDYOlS2Tf59ofJcg0qrPaXXb?=
- =?us-ascii?q?1tasrc0lUvFgPZgVWQrozpJTWV1v8XvGSB4OpgUvyvhnchpgpsoTav3t8hhp?=
- =?us-ascii?q?TGi48a0FzJ9Th1zJwrKdC3VkJ3e8OoHZ1NvC+ALYR2WNktQ2RwtSY/zb0JpI?=
- =?us-ascii?q?C0cTARyJQi2x7fc/uHc5WU4h77VOaePzN4hHV9dbKjnRmy60mgyvDnVsWu0V?=
- =?us-ascii?q?ZKqCRFkt7Xtn8TyxPf8NSHS/th8Ueh3jaDzQbT5f1fIU8oj6bbLp8hwroomp?=
- =?us-ascii?q?oSt0TMADP2lV3rgKKZeUgo4Oil5/n9brn4qZKQKZV4hhzmPqQrgMO/AOA4Mg?=
- =?us-ascii?q?YUX2ic/OSxzKbj8lDiQLhRkv03krXWsJDdJcgBoK65GBVa3pws6xa4ETeqyM?=
- =?us-ascii?q?4YkmUfLFJZZBKHiJDkO1XPIPD+EPe+jE2gnypsx//aJbDhHJrNIWbZkLv7fr?=
- =?us-ascii?q?Zy9VRcyAwtwtBb/Z5UDasBIP3rUE/rqNPYFgM5MxCzw+v/FNp90ZkeVnmRDa?=
- =?us-ascii?q?+FK67StVGJ5uQ1L+mKeoAVpC73K+I56P72kX85hVgdcLGu3ZsSb3C4BfJmLF?=
- =?us-ascii?q?+FbnXymdoBC3kFsRc+TOPwlF2OSyJcZ3G3X6gk/DE0FJqmDZvfRoCqmLGBxz?=
- =?us-ascii?q?m0HplXZmBAF1CNHmzld5uLW/gSciKeOMxhnSIeVbinVYAh0QuitAjgy7poNu?=
- =?us-ascii?q?DU4DEXtYr/1Nhp4O3ejQky+iZpD8SZyGyNV3t7nn4MRzMv2aB/pkt9yk2d3q?=
- =?us-ascii?q?Rin/NYEtlTtLt1VVIiPIPY5/RzFtS3XwXGZNrPQ1GjEfu8BjRkdc48298DZQ?=
- =?us-ascii?q?5GHtymih3Sl36xD6Q9i62ABJty9LnVmXf2OZAumD79yKA9ggx+EYN0Pmq8i/?=
- =?us-ascii?q?s6rVne?=
-X-IPAS-Result: =?us-ascii?q?A2A7AACNABZe/wHyM5BmHQEBAQkBEQUFAYFoCAELAYF8g?=
- =?us-ascii?q?W0gEiqMLGCGaAEBAQEBAQaLFw6PTRSBZwkBAQEBAQEBAQEbHAEBhECCEDQJD?=
- =?us-ascii?q?gIQAQEBBAEBAQEBBQMBAWyFQ4I7KYMoCwFGL1NPgmM/gkcDCSWtEzOIGQ1jg?=
- =?us-ascii?q?T2BNgGHP4RzeYEHgUeDG4IbgXcfhWQiBI0/OIltd5YIRIJAgkWPN4QaDBuaY?=
- =?us-ascii?q?QGZS5FsOYFYKwgCGAghD4MnUBgNjR4XjkEjAzCOOIJDAQE?=
-Received: from tarius.tycho.ncsc.mil (HELO tarius.infosec.tycho.ncsc.mil) ([144.51.242.1])
-  by emsm-gh1-uea11.NCSC.MIL with ESMTP; 08 Jan 2020 16:24:20 +0000
-Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-        by tarius.infosec.tycho.ncsc.mil (8.14.7/8.14.4) with ESMTP id 008GNgdq029237;
-        Wed, 8 Jan 2020 11:23:45 -0500
-From:   Stephen Smalley <sds@tycho.nsa.gov>
-To:     paul@paul-moore.com
-Cc:     selinux@vger.kernel.org, omosnace@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Stephen Smalley <sds@tycho.nsa.gov>
-Subject: [PATCH] Documentation,selinux: deprecate setting checkreqprot to 1
-Date:   Wed,  8 Jan 2020 11:24:47 -0500
-Message-Id: <20200108162447.3347-1-sds@tycho.nsa.gov>
-X-Mailer: git-send-email 2.24.1
+        id S1729550AbgAHQz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jan 2020 11:55:59 -0500
+Received: from mout.web.de ([212.227.15.3]:58745 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729062AbgAHQz6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jan 2020 11:55:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1578502552;
+        bh=0WJzJsRib2NslA1Gvk0QnnumSOBmcT/EleQnHgaE5kE=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=nCwWqbOS9kx6ob0gubqCfQYLOk83Im1y2PBDgdKEZcCWldx9jO8Dh3V6bxvbIUO5L
+         IU63AnvPNoVTD0ExL/8cIpSWpoSPDQxfMC5LzoIL9RXqJwNG7elSc5G3P9qxIur1iN
+         1zoZPa4p/IrZLYNomIhIUl8Si5XvM5x/MgNs4+Bc=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.48.64.251]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LtWsu-1jnyYe37WW-010sj6; Wed, 08
+ Jan 2020 17:55:52 +0100
+Subject: Re: Improving documentation for programming interfaces
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Cc:     Enrico Weigelt <lkml@metux.net>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
+ <20191220151945.GD59959@mit.edu>
+ <17931ddd-76ec-d342-912c-faed6084e863@metux.net>
+ <748b8572-a3b3-c084-e8e3-de420f53e468@web.de>
+ <20200108161428.GA263696@mit.edu>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <b8200956-47df-7714-638a-f78cb32a01dc@web.de>
+Date:   Wed, 8 Jan 2020 17:55:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200108161428.GA263696@mit.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oBRitEzgIVKIIBbSUlMU4ttBnV/uOT1LoN1TpFo3vXxTALo+Tdu
+ QqGAZ1Cu2pZbPR+OU4BkVv6cSsguR74iKCLRw1d3y3FBAdbvfREP4jH5nhbtjmtxwW+vu5H
+ +TYaQWDyaDbhCXYZPdNDZxmxjFlotGx7MwiCUKb8UXvopZFEGjhJ8KvtFXfMq0kV7VFrlDn
+ xpF2hMXCkfkBz5g541DZQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:44d7XezVC8k=:jGl3q8fv4cK2UKKotBIswk
+ weeH2ECJuRUP5HSnv9q0ZhOL6cHT5pE9vsmCTEiR0a01Fq65zLwkOkqNh+/MNDI56VNmdJZiI
+ nwRoqVpKx9/kLM0VP30m1PcDriklUQc7YKKDzEVMw5mebxP3QQe/zSG+oT6iL6uPd35amugzq
+ T/AhkFBaeEhscxr2YxqhURNW3QXot9Xx+KQHw4jJLL+xV4SLZ34duTS7YeY3U1Qyd8yb9H4E4
+ 7FqCteWPZ57kfRHGQsCj15rhaxNJgdnPcLc7gfn70U1dgH5vdnsiI8PVOY6eZZo4DVqFAHp2k
+ iHYXmooWre8FgAHMySzhMFM2vHLX1wKoG2wrZF7yeVfieUnHTG9QR3rL680UZeByY8QkGsN/F
+ G6OU2Yh5V7iPWk9KMit63YA/P0QMpsBYczZ6xKzSwGi6rmlLZ6wj6myElaFV9SyJb0+J0+Gik
+ +YyuODaWvIDlmMpequIuMwA5ytZZ10iFjQG+gK3JvBsv0BaKRQsLnTgunvntShiiMpBvoHUMS
+ 8P6qsm3CpKt7G17uDe4vf7/nqQ+7S9kxaRNAAjmglLzZ1kD0KBZNUTiKokTl61L5gHlWhhyHB
+ jkm/mqlMBi3gpxM4Tyb/QpU7N0zEpLKeXOCPBbBISEToyKlAqP9rWqvVNIXR63xzEihv4fWPk
+ q1h/WuEPw4otQHnPkkC3f63f4Rhj/of5Fb99DB3wnH+NLhvhEMfJsqBrKQ5ClYB1Nk/870tpf
+ 67dp9iUGTKtG7+xsO5/J1BYl5C4Edet4Kfm4hihme3ulck+l+hQDqaGpmnrd99rCwQPM//0k7
+ gU1Pg4tv9seAQsYHnTxKj/rFyFrQVCSnGPTipkLM9hv0T7ZHSlit2GMp+d2RMdHJRhCDtWluK
+ +a8+o2etLihgDGzeDSJR9VcuB25NGgwtqJqCgU6SSK9ZQ33Y+l7sHixjeF+LlF1reVIw4bBL9
+ oVVr5K7CVbjWzsC5pkX2jY2z3fZlUkHE7BEme/VjrbC5L2aIOF6TWyol64ukvB0ghQkxCJXLt
+ ZUh85HBELWeMF02l+s+c6++s/YXEDf7VMGnMN+olEkoTzLLKEEIwtn1/bdfURJcv1jZoMigYq
+ 3OKblPWKpoC5KrYZlyFEJpdegW6n2iVhGXfezhKjlgolw71TMvDU+GUdSge28EvBobcfhzEki
+ wa0nqsTH7w5UFOpL9E2wb81U9X9Br356G6CST4SyNY7MyyWHDGrrxkezrZ3g6vJ/M+LN1PbzO
+ kp11JrU7GkhOAdXUEDumZXHBRhntncFC64qcVi8Ai3+PMq23RRKuYaV8AXRk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Deprecate setting the SELinux checkreqprot tunable to 1 via kernel
-parameter or /sys/fs/selinux/checkreqprot.  Setting it to 0 is left
-intact for compatibility since Android and some Linux distributions
-do so for security and treat an inability to set it as a fatal error.
-Eventually setting it to 0 will become a no-op and the kernel will
-stop using checkreqprot's value internally altogether.
+>> I propose to encode helpful information into macro calls as needed
+>> for the C programming language.
+>
+> Perhaps it would be useful to for you to express what you are
+> proposing in the form of a patch?
 
-checkreqprot was originally introduced as a compatibility mechanism
-for legacy userspace and the READ_IMPLIES_EXEC personality flag.
-However, if set to 1, it weakens security by allowing mappings to be
-made executable without authorization by policy.  The default value
-for the SECURITY_SELINUX_CHECKREQPROT_VALUE config option was changed
-from 1 to 0 in commit 2a35d196c160e3 ("selinux: change
-CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE default") and both Android
-and Linux distributions began explicitly setting
-/sys/fs/selinux/checkreqprot to 0 some time ago.
+I hope that some of our communication difficulties on this topic
+can be reduced also by other means.
 
-Signed-off-by: Stephen Smalley <sds@tycho.nsa.gov>
----
- .../ABI/obsolete/sysfs-selinux-checkreqprot   | 23 +++++++++++++++++++
- .../admin-guide/kernel-parameters.txt         |  1 +
- MAINTAINERS                                   |  1 +
- security/selinux/Kconfig                      |  3 +++
- security/selinux/hooks.c                      |  5 +++-
- security/selinux/selinuxfs.c                  |  8 +++++++
- 6 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
 
-diff --git a/Documentation/ABI/obsolete/sysfs-selinux-checkreqprot b/Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
-new file mode 100644
-index 000000000000..49ed9c8fd1e5
---- /dev/null
-+++ b/Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
-@@ -0,0 +1,23 @@
-+What:		/sys/fs/selinux/checkreqprot
-+Date:		April 2005 (predates git)
-+KernelVersion:	2.6.12-rc2 (predates git)
-+Contact:	selinux@vger.kernel.org
-+Description:
-+
-+	The selinuxfs "checkreqprot" node allows SELinux to be configured
-+	to check the protection requested by userspace for mmap/mprotect
-+	calls instead of the actual protection applied by the kernel.
-+	This was a compatibility mechanism for legacy userspace and
-+	for the READ_IMPLIES_EXEC personality flag.  However, if set to
-+	1, it weakens security by allowing mappings to be made executable
-+	without authorization by policy.  The default value of checkreqprot
-+	at boot was changed starting in Linux v4.4 to 0 (i.e. check the
-+	actual protection), and Android and Linux distributions have been
-+	explicitly writing a "0" to /sys/fs/selinux/checkreqprot during
-+	initialization for some time.  Support for setting checkreqprot to 1
-+	will be	removed in a future kernel release, at which point the kernel
-+	will always cease using checkreqprot internally and will always
-+	check the actual protections being applied upon mmap/mprotect calls.
-+	The checkreqprot selinuxfs node will remain for backward compatibility
-+	but will discard writes of the "0" value and will reject writes of the
-+	"1" value when this mechanism is removed.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index eed51293d6cf..c894ddfa1393 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -512,6 +512,7 @@
- 			Default value is set via a kernel config option.
- 			Value can be changed at runtime via
- 				/sys/fs/selinux/checkreqprot.
-+			Setting checkreqprot to 1 is deprecated.
- 
- 	cio_ignore=	[S390]
- 			See Documentation/s390/common_io.rst for details.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9dc5767861b5..1af5e9e8abb5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14807,6 +14807,7 @@ F:	security/selinux/
- F:	scripts/selinux/
- F:	Documentation/admin-guide/LSM/SELinux.rst
- F:	Documentation/ABI/obsolete/sysfs-selinux-disable
-+F:	Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
- 
- SENSABLE PHANTOM
- M:	Jiri Slaby <jirislaby@gmail.com>
-diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
-index 1014cb0ee956..9e921fc72538 100644
---- a/security/selinux/Kconfig
-+++ b/security/selinux/Kconfig
-@@ -88,6 +88,9 @@ config SECURITY_SELINUX_CHECKREQPROT_VALUE
- 	  'checkreqprot=' boot parameter.  It may also be changed at runtime
- 	  via /sys/fs/selinux/checkreqprot if authorized by policy.
- 
-+	  WARNING: this option is deprecated and will be removed in a future
-+	  kernel release.
-+
- 	  If you are unsure how to answer this question, answer 0.
- 
- config SECURITY_SELINUX_SIDTAB_HASH_BITS
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 63a6e36abe9f..6777e04fd942 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -142,8 +142,11 @@ static int __init checkreqprot_setup(char *str)
- {
- 	unsigned long checkreqprot;
- 
--	if (!kstrtoul(str, 0, &checkreqprot))
-+	if (!kstrtoul(str, 0, &checkreqprot)) {
- 		selinux_checkreqprot_boot = checkreqprot ? 1 : 0;
-+		if (checkreqprot)
-+			pr_warn("SELinux: checkreqprot set to 1 via kernel parameter.  This is deprecated and will be rejected in a future kernel release.\n");
-+	}
- 	return 1;
- }
- __setup("checkreqprot=", checkreqprot_setup);
-diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-index 79c710911a3c..d6566adc73a6 100644
---- a/security/selinux/selinuxfs.c
-+++ b/security/selinux/selinuxfs.c
-@@ -668,6 +668,14 @@ static ssize_t sel_write_checkreqprot(struct file *file, const char __user *buf,
- 	if (sscanf(page, "%u", &new_value) != 1)
- 		goto out;
- 
-+	if (new_value) {
-+		char comm[sizeof(current->comm)];
-+
-+		memcpy(comm, current->comm, sizeof(comm));
-+		pr_warn_once("SELinux: %s (%d) set checkreqprot to 1. This is deprecated and will be rejected in a future kernel release.\n",
-+			     comm, current->pid);
-+	}
-+
- 	fsi->state->checkreqprot = new_value ? 1 : 0;
- 	length = count;
- out:
--- 
-2.24.1
+> On the "benefits" side of the equation, is there are ways in which it
+> will directly benefit the kernel developers who will need to review
+> the patches and review the annotations, that can be demonstrated immedia=
+tely?
 
+Do you find a macro like =E2=80=9C__must_check=E2=80=9D useful enough to i=
+ncrease
+the development of further annotations?
+
+
+> If the costs are very small, then the requirement for demonstrating
+> great benefits will also be small.
+
+Would you like to reconsider these concerns according to better
+software documentation at all?
+
+Regards,
+Markus
