@@ -6,55 +6,120 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3917C00523
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 11:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D324C33C9E
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 12:05:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8F22F20673
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 11:12:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09760206DA
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 12:05:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726793AbgAHLMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jan 2020 06:12:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42046 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726276AbgAHLMC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jan 2020 06:12:02 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 2E56EAC9A;
-        Wed,  8 Jan 2020 11:12:00 +0000 (UTC)
-Date:   Wed, 8 Jan 2020 12:11:58 +0100
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc:     mpe@ellerman.id.au, corbet@lwn.net, mahesh@linux.vnet.ibm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@ozlabs.org, gregkh@linuxfoundation.org,
-        hbathini@linux.ibm.com
-Subject: Re: [PATCH v6 3/6] powerpc/fadump: reorganize /sys/kernel/fadump_*
- sysfs files
-Message-ID: <20200108111158.GY4113@kitsune.suse.cz>
-References: <20191211160910.21656-1-sourabhjain@linux.ibm.com>
- <20191211160910.21656-4-sourabhjain@linux.ibm.com>
+        id S1727314AbgAHMFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jan 2020 07:05:07 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:36843 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbgAHMFH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jan 2020 07:05:07 -0500
+Received: from [192.168.1.155] ([95.114.105.36]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MF3Y8-1ivoyl0GfA-00FPKS; Wed, 08 Jan 2020 13:05:03 +0100
+Subject: Re: Improving documentation for programming interfaces
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Markus Elfring <Markus.Elfring@web.de>
+Cc:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+References: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
+ <20191220151945.GD59959@mit.edu>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <17931ddd-76ec-d342-912c-faed6084e863@metux.net>
+Date:   Wed, 8 Jan 2020 13:04:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191211160910.21656-4-sourabhjain@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191220151945.GD59959@mit.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:B81xQSAt90W7lKrrHbjV2P/OStxg7GmU8RRfjIZnD94fGPlyUN/
+ ECLkuwC3UHDDAAYknhhOpl1QAl2Xy7sc9ZtfITFQVmbXQHsh3DwREx9a1hCttSmo7eqTmW1
+ YqfL/rGoi/9eJGscTWr1GZ9Nf3OZQDn2ab6Z5wRutxW1oln/RAjdMZxxWBSJeyWREOz0a8j
+ vhEBidMjdWEj2dZeh0V2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CRH5PUTDk9Q=:i9V6hMthikniIpFD7M0JuY
+ 8rbpaLYYW5YSM+oslMj8zDgENE9stI9O8t4TyNaqDDQH27rCX/kbm39kt2GuEyXiTm84bc1Uz
+ 5dPfhv5xYU+rShdyG7SodeqiZODv11UpnTI/O6gBJLZIdK4Eg4Enom0gmCYuRZduEsjVtLUpN
+ fnbpTjouqi0wSRSpiJnLFnL1elvxQsE9X6Vzo0zQeDX1NrFCrPh9X5K52/Cysqp7y1tsbiUGA
+ w9F0ZExYweZF2yS8e8lwdbwIyR8Fm4ZlyYj4qwwYimsdAxB0H3TAa2CCuacOlepJ2O79gpsBH
+ seSXLOYR0TYqjCm/v210A0oz3PfvFQwwQeXe21GxQZ6vLsWaQE6Kvynjit3j0vyA6DbxCkXSP
+ WYJThR3FpTSTBaFhvIyLk2TxmA9E75Mp+mv6y+f72QsZB4aEUb2EEqOuBa5w7AxEqAcZayVOP
+ bCOlLDemlsa96wcOLvRHDqztiMbEyzH33RPY7Rw1nkd+VxSyOCV6fFNaNhNjfJvff6EPI5thr
+ PvgkJxpNGBwnAyeIaA/hTq9p5Z27W4Ucy0oEiP+8mIyVFmBU3DcZCIpuZEry4xyM83BcNbyVH
+ bAioHzLIYZSl4xE84r8K334nb2RQzanNLlL/uBsM7gs+Holjp6hff2Sp27HR/NPhtRl8YF0yB
+ bEnUnbkya9B9zgIhmLEaCbzD3EYCFxyQiVMpJ/XtgbU2BOxMku104jgbke99PPgQ6SbJ/nCxd
+ BWL70pRhPhvrgiIP8KbKqesNflqre5C8HPBLM/0dMtwgR0Wp5Xasdy2T1N82dwus8rSOZHFoU
+ ktn5UQvxOixr84drSRBmdE7nvnbXtUCzrcd/NElFCQON7Uy8TFIPosVqrXX5k1PqMWB+DK21N
+ MVhIqNhdsAH690qpOZDA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 09:39:07PM +0530, Sourabh Jain wrote:
-> As the number of FADump sysfs files increases it is hard to manage all of
-> them inside /sys/kernel directory. It's better to have all the FADump
-> related sysfs files in a dedicated directory /sys/kernel/fadump. But in
-> order to maintain backward compatibility a symlink has been added for every
-> sysfs that has moved to new location.
+On 20.12.19 16:19, Theodore Y. Ts'o wrote:
 
-Patched this series into my test kernel and the sysfs sfiles look OK.
+Hi folks,
 
-Tested-by: Michal Suchanek <msuchanek@suse.de>
+> On Fri, Dec 20, 2019 at 02:30:10PM +0100, Markus Elfring wrote:
+>> Linux supports some programming interfaces. Several functions are provided
+>> as usual. Their application documentation is an ongoing development challenge.
+>>
+>> Now I would like to clarify possibilities for the specification of desired
+>> information together with data types besides properties which are handled by
+>> the programming language “C” so far.
 
-Thanks
+@Markus:
 
-Michal
+hmm, maybe we could add some kinda-OOP-style metadata into the type
+documentation ? Or maybe extend doxygen to crossref types vs functions
+operating on them.
+
+>> It seems that no customised attributes are supported at the moment.
+>> Thus I imagine to specify helpful annotations as macros.
+
+Do you mean _attribute__(...) or comments ?
+
+<snip>
+
+> It's unclear to me what you are requesting/proposing?  Can you be a
+> bit more concrete?
+
+@Ted:
+
+I guess he's thinking about some kind of meta-language for expressing
+common things we know from oop-world, like ctors, dtors, getters, etc.
+
+
+Maybe some doxygen experts here, who could tell what we already could
+extract from existing sources ?
+
+
+For start, I'd like to propose a few rules:
+
+* consistent naming of 'release' functions (AFAIK, many of them are
+  already named <foo>_put()).
+* for each non-trivial (non-private) object/struct, there should be
+  a corresponding release function (even if it's just an alias to
+  kfree()
+* consistent nameing of list-type structs, so generic macros can
+  be used on the struct itself (instead just a container list header
+  struct)
+
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
