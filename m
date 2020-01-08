@@ -1,253 +1,114 @@
-Return-Path: <SRS0=5WFN=24=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=NwVU=25=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A08C282DD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 23:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E69DC33C99
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 00:05:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7FD162072A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jan 2020 23:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578438258;
-	bh=As4XHuxbPyAsqNDDCMgwyNz7WP289jACJyJzPuwU1dc=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=Gmzw7fViw0QQqK8U1i1Je82FzcFhO0mA4nVNdfH+QGmPUB8Z4kZJGh10NUzKS0k7B
-	 H3f1uZcaIBeayreiwZNA6N1J+cBzKAYMN+jH7qzB5ikTv5qrW89vTGnLqmjB3CWyTf
-	 wYqX0OhuVvgfZT+38PTq/ymhqs6EuTqbfeK5TUHQ=
+	by mail.kernel.org (Postfix) with ESMTP id 499E12077B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 00:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgAGXEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jan 2020 18:04:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33676 "EHLO mail.kernel.org"
+        id S1726651AbgAHAFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jan 2020 19:05:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726803AbgAGXEM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jan 2020 18:04:12 -0500
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725601AbgAHAFu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jan 2020 19:05:50 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 629822072A;
-        Tue,  7 Jan 2020 23:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578438250;
-        bh=As4XHuxbPyAsqNDDCMgwyNz7WP289jACJyJzPuwU1dc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=FkUbGp5yscQX7nlDOJEg1sdeAabMccwELj+YLGv/I2V34fJ7Lb4FxoPOLg74ifwLU
-         1LE+pKvrAcU7gD3oLXTJdWAHQpfR3MNbqrJ98GwN9K+Eak7X0TYt/rhMZhH5Wy40Rg
-         1JI6zR4qJMQ7X/+F3yBZP0eXb/+W356OQFw5iT9I=
-Subject: Re: [RESEND PATCH v7 linux-kselftest-test 3/6] kunit: allow kunit
- tests to be loaded as a module
-To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
-        linux-kselftest@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, yamada.masahiro@socionext.com,
-        catalin.marinas@arm.com, joe.lawrence@redhat.com,
-        penguin-kernel@i-love.sakura.ne.jp, urezki@gmail.com,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        davidgow@google.com, adilger.kernel@dilger.ca, tytso@mit.edu,
-        mcgrof@kernel.org, linux-doc@vger.kernel.org,
-        Knut Omang <knut.omang@oracle.com>, shuah <shuah@kernel.org>
-References: <1578349703-15650-1-git-send-email-alan.maguire@oracle.com>
- <1578349703-15650-4-git-send-email-alan.maguire@oracle.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <6634211a-7ecc-378e-bc78-82c80e24d579@kernel.org>
-Date:   Tue, 7 Jan 2020 16:03:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        by mail.kernel.org (Postfix) with ESMTPSA id E385720692;
+        Wed,  8 Jan 2020 00:05:48 +0000 (UTC)
+Date:   Tue, 7 Jan 2020 19:05:47 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 2/3] ftrace: introduce FTRACE_IP_EXTENSION
+Message-ID: <20200107190547.3a748fce@gandalf.local.home>
+In-Reply-To: <20191225172836.7f381759@xhacker.debian>
+References: <20191225172625.69811b3e@xhacker.debian>
+        <20191225172836.7f381759@xhacker.debian>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1578349703-15650-4-git-send-email-alan.maguire@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alan,
+On Wed, 25 Dec 2019 09:42:52 +0000
+Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
 
-Thanks for the resend.
+> On some architectures, the DYNAMIC_FTRACE_WITH_REGS is implemented by
+> gcc's -fpatchable-function-entry option. Take arm64 for example, arm64
+> makes use of GCC -fpatchable-function-entry=2 option to insert two
+> nops. When the function is traced, the first nop will be modified to
+> the LR saver, then the second nop to "bl <ftrace-entry>". we need to
+> update ftrace_location() to recognise these two instructions  as being
+> part of ftrace. To do this, we introduce FTRACE_IP_EXTENSION to let
+> ftrace_location search IP, IP + FTRACE_IP_EXTENSION range.
+> 
+> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+> Suggested-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
-On 1/6/20 3:28 PM, Alan Maguire wrote:
-> As tests are added to kunit, it will become less feasible to execute
-> all built tests together.  By supporting modular tests we provide
-> a simple way to do selective execution on a running system; specifying
-> 
-> CONFIG_KUNIT=y
-> CONFIG_KUNIT_EXAMPLE_TEST=m
-> 
-> ...means we can simply "insmod example-test.ko" to run the tests.
-> 
-> To achieve this we need to do the following:
-> 
-> o export the required symbols in kunit
-> o string-stream tests utilize non-exported symbols so for now we skip
->    building them when CONFIG_KUNIT_TEST=m.
-> o drivers/base/power/qos-test.c contains a few unexported interface
->    references, namely freq_qos_read_value() and freq_constraints_init().
->    Both of these could be potentially defined as static inline functions
->    in include/linux/pm_qos.h, but for now we simply avoid supporting
->    module build for that test suite.
-> o support a new way of declaring test suites.  Because a module cannot
->    do multiple late_initcall()s, we provide a kunit_test_suites() macro
->    to declare multiple suites within the same module at once.
-> o some test module names would have been too general ("test-test"
->    and "example-test" for kunit tests, "inode-test" for ext4 tests);
->    rename these as appropriate ("kunit-test", "kunit-example-test"
->    and "ext4-inode-test" respectively).
-> 
-> Also define kunit_test_suite() via kunit_test_suites()
-> as callers in other trees may need the old definition.
-> 
-> Co-developed-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> Acked-by: Theodore Ts'o <tytso@mit.edu> # for ext4 bits
-> Acked-by: David Gow <davidgow@google.com> # For list-test
-> Reported-by: kbuild test robot <lkp@intel.com>
+You can also add:
+
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+and when Masami is happy with your patches, it should go through the
+tip tree.
+
+Thanks!
+
+-- Steve
+
 > ---
->   drivers/base/power/qos-test.c                      |  2 +-
->   fs/ext4/Kconfig                                    |  2 +-
->   fs/ext4/Makefile                                   |  3 +-
->   fs/ext4/inode-test.c                               |  4 ++-
->   include/kunit/test.h                               | 37 ++++++++++++++++------
->   kernel/sysctl-test.c                               |  4 ++-
->   lib/Kconfig.debug                                  |  4 +--
->   lib/kunit/Kconfig                                  |  4 +--
->   lib/kunit/Makefile                                 | 10 ++++--
->   lib/kunit/assert.c                                 |  8 +++++
->   lib/kunit/{example-test.c => kunit-example-test.c} |  4 ++-
->   lib/kunit/{test-test.c => kunit-test.c}            |  5 +--
->   lib/kunit/string-stream-test.c                     |  2 +-
->   lib/kunit/test.c                                   |  8 +++++
->   lib/kunit/try-catch.c                              |  2 ++
->   lib/list-test.c                                    |  4 ++-
->   16 files changed, 76 insertions(+), 27 deletions(-)
->   rename lib/kunit/{example-test.c => kunit-example-test.c} (97%)
->   rename lib/kunit/{test-test.c => kunit-test.c} (98%)
+>  include/linux/ftrace.h | 4 ++++
+>  kernel/trace/ftrace.c  | 2 +-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/base/power/qos-test.c b/drivers/base/power/qos-test.c
-> index 3115db0..79fc6c4 100644
-> --- a/drivers/base/power/qos-test.c
-> +++ b/drivers/base/power/qos-test.c
-> @@ -114,4 +114,4 @@ static void freq_qos_test_readd(struct kunit *test)
->   	.name = "qos-kunit-test",
->   	.test_cases = pm_qos_test_cases,
->   };
-> -kunit_test_suite(pm_qos_test_module);
-> +kunit_test_suites(&pm_qos_test_module);
-> diff --git a/fs/ext4/Kconfig b/fs/ext4/Kconfig
-> index ef42ab0..435510f 100644
-> --- a/fs/ext4/Kconfig
-> +++ b/fs/ext4/Kconfig
-> @@ -108,7 +108,7 @@ config EXT4_DEBUG
->   		echo 1 > /sys/module/ext4/parameters/mballoc_debug
->   
->   config EXT4_KUNIT_TESTS
-> -	bool "KUnit tests for ext4"
-> +	tristate "KUnit tests for ext4"
->   	select EXT4_FS
->   	depends on KUNIT
->   	help
-> diff --git a/fs/ext4/Makefile b/fs/ext4/Makefile
-> index 840b91d..4ccb3c9 100644
-> --- a/fs/ext4/Makefile
-> +++ b/fs/ext4/Makefile
-> @@ -13,5 +13,6 @@ ext4-y	:= balloc.o bitmap.o block_validity.o dir.o ext4_jbd2.o extents.o \
->   
->   ext4-$(CONFIG_EXT4_FS_POSIX_ACL)	+= acl.o
->   ext4-$(CONFIG_EXT4_FS_SECURITY)		+= xattr_security.o
-> -ext4-$(CONFIG_EXT4_KUNIT_TESTS)		+= inode-test.o
-> +ext4-inode-test-objs			+= inode-test.o
-> +obj-$(CONFIG_EXT4_KUNIT_TESTS)		+= ext4-inode-test.o
->   ext4-$(CONFIG_FS_VERITY)		+= verity.o
-> diff --git a/fs/ext4/inode-test.c b/fs/ext4/inode-test.c
-> index 92a9da1..95620bf 100644
-> --- a/fs/ext4/inode-test.c
-> +++ b/fs/ext4/inode-test.c
-> @@ -269,4 +269,6 @@ static void inode_test_xtimestamp_decoding(struct kunit *test)
->   	.test_cases = ext4_inode_test_cases,
->   };
->   
-> -kunit_test_suite(ext4_inode_test_suite);
-> +kunit_test_suites(&ext4_inode_test_suite);
+> diff --git a/include/linux/ftrace.h b/include/linux/ftrace.h
+> index 7247d35c3d16..05a03b2a2f39 100644
+> --- a/include/linux/ftrace.h
+> +++ b/include/linux/ftrace.h
+> @@ -20,6 +20,10 @@
+>  
+>  #include <asm/ftrace.h>
+>  
+> +#ifndef FTRACE_IP_EXTENSION
+> +#define  FTRACE_IP_EXTENSION 0
+> +#endif
 > +
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index dba4830..2dfb550 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -12,6 +12,7 @@
->   #include <kunit/assert.h>
->   #include <kunit/try-catch.h>
->   #include <linux/kernel.h>
-> +#include <linux/module.h>
->   #include <linux/slab.h>
->   #include <linux/types.h>
->   
-> @@ -197,31 +198,47 @@ struct kunit {
->   int kunit_run_tests(struct kunit_suite *suite);
->   
->   /**
-> - * kunit_test_suite() - used to register a &struct kunit_suite with KUnit.
-> + * kunit_test_suites() - used to register one or more &struct kunit_suite
-> + *			 with KUnit.
->    *
-> - * @suite: a statically allocated &struct kunit_suite.
-> + * @suites: a statically allocated list of &struct kunit_suite.
->    *
-> - * Registers @suite with the test framework. See &struct kunit_suite for
-> + * Registers @suites with the test framework. See &struct kunit_suite for
->    * more information.
->    *
-> - * NOTE: Currently KUnit tests are all run as late_initcalls; this means
-> + * When builtin,  KUnit tests are all run as late_initcalls; this means
->    * that they cannot test anything where tests must run at a different init
->    * phase. One significant restriction resulting from this is that KUnit
->    * cannot reliably test anything that is initialize in the late_init phase;
->    * another is that KUnit is useless to test things that need to be run in
->    * an earlier init phase.
->    *
-> + * An alternative is to build the tests as a module.  Because modules
-> + * do not support multiple late_initcall()s, we need to initialize an
-> + * array of suites for a module.
-> + *
->    * TODO(brendanhiggins@google.com): Don't run all KUnit tests as
->    * late_initcalls.  I have some future work planned to dispatch all KUnit
->    * tests from the same place, and at the very least to do so after
->    * everything else is definitely initialized.
->    */
-> -#define kunit_test_suite(suite)						       \
-> -	static int kunit_suite_init##suite(void)			       \
-> -	{								       \
-> -		return kunit_run_tests(&suite);				       \
-> -	}								       \
-> -	late_initcall(kunit_suite_init##suite)
-> +#define kunit_test_suites(...)						\
-> +	static struct kunit_suite *suites[] = { __VA_ARGS__, NULL};	\
-> +	static int kunit_test_suites_init(void)				\
-> +	{								\
-> +		unsigned int i;						\
-> +		for (i = 0; suites[i] != NULL; i++)			\
-> +			kunit_run_tests(suites[i]);			\
-> +		return 0;						\
-> +	}								\
-> +	late_initcall(kunit_test_suites_init);				\
-> +	static void __exit kunit_test_suites_exit(void)			\
-> +	{								\
-> +		return;							\
-> +	}								\
-> +	module_exit(kunit_test_suites_exit)
-> +
-> +#define kunit_test_suite(suite)	kunit_test_suites(&suite)
+>  /*
+>   * If the arch supports passing the variable contents of
+>   * function_trace_op as the third parameter back from the
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 74439ab5c2b6..a8cfea502369 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -1590,7 +1590,7 @@ unsigned long ftrace_location_range(unsigned long start, unsigned long end)
+>   */
+>  unsigned long ftrace_location(unsigned long ip)
+>  {
+> -	return ftrace_location_range(ip, ip);
+> +	return ftrace_location_range(ip, ip + FTRACE_IP_EXTENSION);
+>  }
+>  
+>  /**
 
-This macro is getting more and more complex. Is there a good reason
-for this code to stay as a macro?
-
-thanks,
--- Shuah
