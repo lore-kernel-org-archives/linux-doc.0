@@ -2,152 +2,260 @@ Return-Path: <SRS0=NwVU=25=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A097EC282DD
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0AA9C33CA2
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 17:55:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6AE0920678
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 16:55:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="nCwWqbOS"
+	by mail.kernel.org (Postfix) with ESMTP id AADFA2067D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jan 2020 17:55:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729550AbgAHQz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jan 2020 11:55:59 -0500
-Received: from mout.web.de ([212.227.15.3]:58745 "EHLO mout.web.de"
+        id S1729959AbgAHRzB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jan 2020 12:55:01 -0500
+Received: from mga09.intel.com ([134.134.136.24]:41182 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729062AbgAHQz6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jan 2020 11:55:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1578502552;
-        bh=0WJzJsRib2NslA1Gvk0QnnumSOBmcT/EleQnHgaE5kE=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=nCwWqbOS9kx6ob0gubqCfQYLOk83Im1y2PBDgdKEZcCWldx9jO8Dh3V6bxvbIUO5L
-         IU63AnvPNoVTD0ExL/8cIpSWpoSPDQxfMC5LzoIL9RXqJwNG7elSc5G3P9qxIur1iN
-         1zoZPa4p/IrZLYNomIhIUl8Si5XvM5x/MgNs4+Bc=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.48.64.251]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LtWsu-1jnyYe37WW-010sj6; Wed, 08
- Jan 2020 17:55:52 +0100
-Subject: Re: Improving documentation for programming interfaces
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Cc:     Enrico Weigelt <lkml@metux.net>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <350cd156-9080-24fe-c49e-96e758d3ca45@web.de>
- <20191220151945.GD59959@mit.edu>
- <17931ddd-76ec-d342-912c-faed6084e863@metux.net>
- <748b8572-a3b3-c084-e8e3-de420f53e468@web.de>
- <20200108161428.GA263696@mit.edu>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <b8200956-47df-7714-638a-f78cb32a01dc@web.de>
-Date:   Wed, 8 Jan 2020 17:55:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        id S1727358AbgAHRzB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jan 2020 12:55:01 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:55:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
+   d="scan'208";a="211617373"
+Received: from cozturk-mobl2.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.251.17.77])
+  by orsmga007.jf.intel.com with ESMTP; 08 Jan 2020 09:54:59 -0800
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
+        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
+        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
+        Bard liao <yung-chuan.liao@linux.intel.com>,
+        Rander Wang <rander.wang@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH 2/6] soundwire: stream: update state machine and add state checks
+Date:   Wed,  8 Jan 2020 11:54:34 -0600
+Message-Id: <20200108175438.13121-3-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200108175438.13121-1-pierre-louis.bossart@linux.intel.com>
+References: <20200108175438.13121-1-pierre-louis.bossart@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200108161428.GA263696@mit.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:oBRitEzgIVKIIBbSUlMU4ttBnV/uOT1LoN1TpFo3vXxTALo+Tdu
- QqGAZ1Cu2pZbPR+OU4BkVv6cSsguR74iKCLRw1d3y3FBAdbvfREP4jH5nhbtjmtxwW+vu5H
- +TYaQWDyaDbhCXYZPdNDZxmxjFlotGx7MwiCUKb8UXvopZFEGjhJ8KvtFXfMq0kV7VFrlDn
- xpF2hMXCkfkBz5g541DZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:44d7XezVC8k=:jGl3q8fv4cK2UKKotBIswk
- weeH2ECJuRUP5HSnv9q0ZhOL6cHT5pE9vsmCTEiR0a01Fq65zLwkOkqNh+/MNDI56VNmdJZiI
- nwRoqVpKx9/kLM0VP30m1PcDriklUQc7YKKDzEVMw5mebxP3QQe/zSG+oT6iL6uPd35amugzq
- T/AhkFBaeEhscxr2YxqhURNW3QXot9Xx+KQHw4jJLL+xV4SLZ34duTS7YeY3U1Qyd8yb9H4E4
- 7FqCteWPZ57kfRHGQsCj15rhaxNJgdnPcLc7gfn70U1dgH5vdnsiI8PVOY6eZZo4DVqFAHp2k
- iHYXmooWre8FgAHMySzhMFM2vHLX1wKoG2wrZF7yeVfieUnHTG9QR3rL680UZeByY8QkGsN/F
- G6OU2Yh5V7iPWk9KMit63YA/P0QMpsBYczZ6xKzSwGi6rmlLZ6wj6myElaFV9SyJb0+J0+Gik
- +YyuODaWvIDlmMpequIuMwA5ytZZ10iFjQG+gK3JvBsv0BaKRQsLnTgunvntShiiMpBvoHUMS
- 8P6qsm3CpKt7G17uDe4vf7/nqQ+7S9kxaRNAAjmglLzZ1kD0KBZNUTiKokTl61L5gHlWhhyHB
- jkm/mqlMBi3gpxM4Tyb/QpU7N0zEpLKeXOCPBbBISEToyKlAqP9rWqvVNIXR63xzEihv4fWPk
- q1h/WuEPw4otQHnPkkC3f63f4Rhj/of5Fb99DB3wnH+NLhvhEMfJsqBrKQ5ClYB1Nk/870tpf
- 67dp9iUGTKtG7+xsO5/J1BYl5C4Edet4Kfm4hihme3ulck+l+hQDqaGpmnrd99rCwQPM//0k7
- gU1Pg4tv9seAQsYHnTxKj/rFyFrQVCSnGPTipkLM9hv0T7ZHSlit2GMp+d2RMdHJRhCDtWluK
- +a8+o2etLihgDGzeDSJR9VcuB25NGgwtqJqCgU6SSK9ZQ33Y+l7sHixjeF+LlF1reVIw4bBL9
- oVVr5K7CVbjWzsC5pkX2jY2z3fZlUkHE7BEme/VjrbC5L2aIOF6TWyol64ukvB0ghQkxCJXLt
- ZUh85HBELWeMF02l+s+c6++s/YXEDf7VMGnMN+olEkoTzLLKEEIwtn1/bdfURJcv1jZoMigYq
- 3OKblPWKpoC5KrYZlyFEJpdegW6n2iVhGXfezhKjlgolw71TMvDU+GUdSge28EvBobcfhzEki
- wa0nqsTH7w5UFOpL9E2wb81U9X9Br356G6CST4SyNY7MyyWHDGrrxkezrZ3g6vJ/M+LN1PbzO
- kp11JrU7GkhOAdXUEDumZXHBRhntncFC64qcVi8Ai3+PMq23RRKuYaV8AXRk=
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> I propose to encode helpful information into macro calls as needed
->> for the C programming language.
->
-> Perhaps it would be useful to for you to express what you are
-> proposing in the form of a patch?
+The state machine and notes don't accurately explain or allow
+transitions from STREAM_DEPREPARED and STREAM_DISABLED.
 
-I hope that some of our communication difficulties on this topic
-can be reduced also by other means.
+Add more explanations and allow for more transitions as a result of a
+trigger_stop(), trigger_suspend() and prepare(), depending on the
+ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
+flags.
 
+Also add basic checks to help debug inconsistent states and illegal
+state machine transitions.
 
-> On the "benefits" side of the equation, is there are ways in which it
-> will directly benefit the kernel developers who will need to review
-> the patches and review the annotations, that can be demonstrated immedia=
-tely?
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ Documentation/driver-api/soundwire/stream.rst | 63 +++++++++++++------
+ drivers/soundwire/stream.c                    | 37 +++++++++++
+ 2 files changed, 82 insertions(+), 18 deletions(-)
 
-Do you find a macro like =E2=80=9C__must_check=E2=80=9D useful enough to i=
-ncrease
-the development of further annotations?
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
+index 5351bd2f34a8..9b7418ff8d59 100644
+--- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
+ 	+-----------+     +------------+     +----------+     +----------+
+ 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
+ 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
+-	+-----------+     +------------+     +----------+     +----+-----+
+-	                                                           ^
+-	                                                           |
+-	                                                           |
+-	                                                           v
+-	         +----------+           +------------+        +----+-----+
++	+-----------+     +------------+     +---+--+---+     +----+-----+
++	                                         ^  ^              ^
++				                 |  |              |
++				               __|  |___________   |
++				              |                 |  |
++	                                      v                 |  v
++	         +----------+           +-----+------+        +-+--+-----+
+ 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
+ 	         |  STATE   |           |   STATE    |        |  STATE   |
+ 	         +----------+           +------------+        +----------+
+ 
+-NOTE: State transition between prepare and deprepare is supported in Spec
+-but not in the software (subsystem)
++NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
++``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
++supported at the ALSA/ASoC level. Likewise the transition between
++``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
++INFO_RESUME flag.
+ 
+-NOTE2: Stream state transition checks need to be handled by caller
+-framework, for example ALSA/ASoC. No checks for stream transition exist in
+-SoundWire subsystem.
++NOTE2: The framework implements basic state transition checks, but
++does not e.g. check if a transition from DISABLED to ENABLED is valid
++on a specific platform. Such tests need to be added at the ALSA/ASoC
++level.
+ 
+ Stream State Operations
+ -----------------------
+@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
+ 
+ Prepare state of stream. Operations performed before entering in this state:
+ 
++  (0) Steps 1 and 2 are omitted in the case of a resume operation,
++      where the bus bandwidth is known.
++
+   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
+       are computed based on current stream as well as already active
+       stream(s) on Bus. Re-computation is required to accommodate current
+@@ -270,13 +278,15 @@ Prepare state of stream. Operations performed before entering in this state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_PREPARED``.
+ 
+-Bus implements below API for PREPARE state which needs to be called once per
+-stream. From ASoC DPCM framework, this stream state is linked to
+-.prepare() operation.
++Bus implements below API for PREPARE state which needs to be called
++once per stream. From ASoC DPCM framework, this stream state is linked
++to .prepare() operation. Since the .trigger() operations may not
++follow the .prepare(), a direct transitions from
++``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
+ 
+ .. code-block:: c
+ 
+-  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
++  int sdw_prepare_stream(struct sdw_stream_runtime * stream, bool resume);
+ 
+ 
+ SDW_STREAM_ENABLED
+@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+ 
++When the INFO_PAUSE flag is supported, a direct transition to
++``SDW_STREAM_ENABLED`` is allowed.
++
++For resume operations where ASoC will use the .prepare() callback, the
++stream can transition from ``SDW_STREAM_DISABLED`` to
++``SDW_STREAM_PREPARED``, with all required settings restored but
++without updating the bandwidth and bit allocation.
++
+ .. code-block:: c
+ 
+   int sdw_disable_stream(struct sdw_stream_runtime * stream);
+@@ -353,9 +371,18 @@ state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_DEPREPARED``.
+ 
+-Bus implements below API for DEPREPARED state which needs to be called once
+-per stream. From ASoC DPCM framework, this stream state is linked to
+-.trigger() stop operation.
++Bus implements below API for DEPREPARED state which needs to be called
++once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
++the mapping from this stream state to ALSA/ASoC operation may be
++implementation specific.
++
++When the INFO_PAUSE flag is supported, the stream state is linked to
++the .hw_free() operation - the stream is not deprepared on a
++TRIGGER_STOP.
++
++Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
++state on TRIGGER_STOP, should they require a transition through the
++``SDW_STREAM_PREPARED`` state.
+ 
+ .. code-block:: c
+ 
+diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+index 178ae92b8cc1..6aa0b5d370c0 100644
+--- a/drivers/soundwire/stream.c
++++ b/drivers/soundwire/stream.c
+@@ -1553,8 +1553,18 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_CONFIGURED &&
++	    stream->state != SDW_STREAM_DEPREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_prepare_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1619,8 +1629,17 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_enable_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1693,8 +1712,16 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_ENABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_disable_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1749,8 +1776,18 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
+ 	}
+ 
+ 	sdw_acquire_bus_lock(stream);
++
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_deprepare_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+-- 
+2.20.1
 
-
-> If the costs are very small, then the requirement for demonstrating
-> great benefits will also be small.
-
-Would you like to reconsider these concerns according to better
-software documentation at all?
-
-Regards,
-Markus
