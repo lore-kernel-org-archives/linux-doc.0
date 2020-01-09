@@ -2,124 +2,110 @@ Return-Path: <SRS0=8Zk6=26=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DF3C33CA3
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 22:07:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CF2C3F68F
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:11:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 59D032077B
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 22:07:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="pAGT+6E4"
+	by mail.kernel.org (Postfix) with ESMTP id 902CA20838
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728126AbgAIWHl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jan 2020 17:07:41 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12965 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbgAIWHk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jan 2020 17:07:40 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e17a4190000>; Thu, 09 Jan 2020 14:07:21 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 09 Jan 2020 14:07:39 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 09 Jan 2020 14:07:39 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Jan
- 2020 22:07:38 +0000
-Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
- FOLL_PIN
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1728525AbgAIXLA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jan 2020 18:11:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50956 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727876AbgAIXLA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Jan 2020 18:11:00 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C447320656;
+        Thu,  9 Jan 2020 23:10:57 +0000 (UTC)
+Date:   Thu, 9 Jan 2020 18:10:55 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
-Date:   Thu, 9 Jan 2020 14:07:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 00/22] tracing: bootconfig: Boot-time tracing and
+ Extra boot config
+Message-ID: <20200109181055.1999b344@gandalf.local.home>
+In-Reply-To: <157736902773.11126.2531161235817081873.stgit@devnote2>
+References: <157736902773.11126.2531161235817081873.stgit@devnote2>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200107224558.2362728-1-jhubbard@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578607641; bh=+NEvkiCKN4muU9xEMv7O0vL5DDgA+srq0dD5KyM2g5Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=pAGT+6E4t/5Sgzls83W8rrhD73PbNnbQX0v+uLgN6NdK6ox1s0YILXA5+Q9WkB7U5
-         Qgdq4MfQKXM00HXiVUvw/MN1+0Npjsn2yckDImY4OPUy9vKTHUQrRr5b/32qyPv6Y4
-         G8uphKhloBfTQ9ova5uKctNKv/z/ybtCLuSP2dniMP6oLwVdc9frqv+uSdiahegES7
-         HZtKpaUzMnUGCyRfUKLB2LXhSyGZIEwOR/UkaAhKUOx0B4NaRtt8Qz56svVPCLTYZD
-         6dBjR9cwNa9He9WTH1/ZpC5nBgZ5v8YIJX6cYUd/1MLjMgnC8wrJfdT7uC+HoO76Fq
-         StnhQb6FNJNXA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/7/20 2:45 PM, John Hubbard wrote:
-> Hi,
+On Thu, 26 Dec 2019 23:03:48 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
+
+> Hello,
 > 
-> The "track FOLL_PIN pages" would have been the very next patch, but it is
-> not included here because I'm still debugging a bug report from Leon.
-> Let's get all of the prerequisite work (it's been reviewed) into the tree
-> so that future reviews are easier. It's clear that any fixes that are
-> required to the tracking patch, won't affect these patches here.
+> This is the 5th version of the series for the boot-time tracing.
 > 
-> This implements an API naming change (put_user_page*() -->
-> unpin_user_page*()), and also adds FOLL_PIN page support, up to
-> *but not including* actually tracking FOLL_PIN pages. It extends
-> the FOLL_PIN support to a few select subsystems. More subsystems will
-> be added in follow up work.
+> Previous version is here.
 > 
+> https://lkml.kernel.org/r/157528159833.22451.14878731055438721716.stgit@devnote2
 
-Hi Andrew and all,
+Hi Masami,
 
-To clarify: I'm hoping that this series can go into 5.6.
+I applied all your patches to a test branch and was playing with it a
+little. This seems fine to me and works well (and very easy to use).
+Probably could use some more examples, but that's just a nit.
 
-Meanwhile, I'm working on tracking down and solving the problem that Leon
-reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
-this series.
+If nobody has any issues with this code, I'll wait for v6 with the
+fixes to issues found in this series, and I'll happily apply them for
+linux-next.
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+-- Steve
+
+
+> 
+> In this version, I removed RFC tag from the series.
+> Changes from the v4 are here, updating bootconfig things.
+> 
+>  - [1/22] Fix help comment and indent of Kconfig.
+>           Restrict available characters in values(*)
+>           Drop backslash escape from quoted value(**)
+>  - [3/22] Fix Makefile to compile tool correctly
+>           Remove unused pattern from Makefile
+>  - [4/22] Show test target bootconfig
+>           Add printable value testcases
+>           Add bad array testcase
+>  - [9/22] Fix TOC list
+>           Add notes about available characters.
+>           Fix to use correct quotes (``) for .rst.
+> 
+> (*) this is for preventing admin from shoot himself.
+> (**) this rule is from legacy command line.
+> 
+> Boot-time tracing features are not modified. I know Tom is working
+> on exporting synthetic event (and dynamic events) APIs for module.
+> If that APIs are merged first, I will update my series on top
+> of that.
+> 
+> This series can be applied on v5.5-rc3 or directly available at;
+> 
+> https://github.com/mhiramat/linux.git ftrace-boottrace-v5
+> 
+> 
