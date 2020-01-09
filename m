@@ -2,110 +2,96 @@ Return-Path: <SRS0=8Zk6=26=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CF2C3F68F
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDB8C282DD
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:42:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 902CA20838
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:11:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DF6A2072E
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 23:42:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D35Tnx2q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728525AbgAIXLA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jan 2020 18:11:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50956 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727876AbgAIXLA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Jan 2020 18:11:00 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C447320656;
-        Thu,  9 Jan 2020 23:10:57 +0000 (UTC)
-Date:   Thu, 9 Jan 2020 18:10:55 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 00/22] tracing: bootconfig: Boot-time tracing and
- Extra boot config
-Message-ID: <20200109181055.1999b344@gandalf.local.home>
-In-Reply-To: <157736902773.11126.2531161235817081873.stgit@devnote2>
-References: <157736902773.11126.2531161235817081873.stgit@devnote2>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1728866AbgAIXm2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jan 2020 18:42:28 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43817 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725840AbgAIXm2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jan 2020 18:42:28 -0500
+Received: by mail-pg1-f194.google.com with SMTP id k197so58867pga.10
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2020 15:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:subject:cc:to:in-reply-to:references:message-id
+         :mime-version:content-transfer-encoding;
+        bh=YoRMhkZec9G754MeMpA3qyugr+9dP1r59sqNei59Bxc=;
+        b=D35Tnx2qGOx5wYEODGub+OOGjjHIMqMro6ZmZhmjSXbAHjXU4M5d+fM8W0jNKs7+j2
+         pjfHSASWvUBuPPbYqX1zPamNaz8n/fgfkW3ia4D0vunpEH3G+pn7KYoDTYQ/gG/mJmiI
+         yvZhtWf9RkHB/m27NI/0O95YWzWaozyWygAmOBOOH9UhFnVVrTjxMRW8ZbQn1QaP3OEX
+         rNaAhVf79aDKtq/2Xk6l1ta2KLUAW21SNVr+6upC4MdJCHtaXtPWLfl6yWgm8BV8UqeO
+         loFErmafn0is/MVcTxKX6E3dgn4/Latu0qWQMrtB1090RsCxe1i3fPvJhggAfshogVe1
+         3jtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
+         :message-id:mime-version:content-transfer-encoding;
+        bh=YoRMhkZec9G754MeMpA3qyugr+9dP1r59sqNei59Bxc=;
+        b=j9V7vB4Up6lYZcwavf4zNV/i8z9nTkDglsq/Wt6NhUiDXpRxkepIkfnEUIOQrlw0Ra
+         IoUCNWNI8dCwry7Hu7z+rbEfvrHy8htxdjv7je3U/cSMJIqLpDTJaGB9gYEcLPSlU1ID
+         ylJDDGTeNEFzt3x5aJvjhQU+7DZ2ATp6KErsYsKvHEOLsD6fqFLk8g3e6V+7PxRrU54D
+         DQVBOssFDKnWb0yuZELuMogIE0PaEpZg2UPlwACHDOodmKxkNTrYSbWxQk4akTCsMUFF
+         x9P7CBu8cLFLAtNHsFwFpX5cveBwGkVpBEtT4VuURvRpNzmNSJ7kOT/TV66seZKpytrn
+         OpHQ==
+X-Gm-Message-State: APjAAAU8JocXk2pl/A3lIkE+gB+knPbChnVLEc7omXLLtXrcso7LMzCH
+        Vu0RLtD2MiY6RFlyo1o6SPoXhg==
+X-Google-Smtp-Source: APXvYqymalA5zmwiQNv0P8QaSMt5qB4BiTihWTnSZaqORKmMdLg29qW7g8n0TfOd8rT3pRf6yvOpUg==
+X-Received: by 2002:a65:5281:: with SMTP id y1mr575543pgp.327.1578613347669;
+        Thu, 09 Jan 2020 15:42:27 -0800 (PST)
+Received: from localhost ([2620:0:1000:2514:7f69:cd98:a2a2:a03d])
+        by smtp.gmail.com with ESMTPSA id o14sm38329pgm.67.2020.01.09.15.42.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2020 15:42:27 -0800 (PST)
+Date:   Thu, 09 Jan 2020 15:42:27 -0800 (PST)
+X-Google-Original-Date: Thu, 09 Jan 2020 15:34:58 PST (-0800)
+From:   Palmer Dabbelt <palmerdabbelt@google.com>
+X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
+Subject:     Re: [PATCH] RISC-V: Typo fixes in image header and documentation.
+CC:     Atish Patra <Atish.Patra@wdc.com>, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, merker@debian.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
+        palmer@sifive.com, mchehab+samsung@kernel.org
+To:     corbet@lwn.net
+In-Reply-To: <20191210072947.7018340c@lwn.net>
+References: <20191210072947.7018340c@lwn.net>
+  <4912c007ab6c19321c8c988ae2328efbfb3e582d.camel@wdc.com> <mhng-3a815562-1222-4737-a77c-6dab9948db79@palmerdabbelt-glaptop>
+Message-ID: <mhng-94b9cad5-0d14-480f-b428-8752630064d2@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Dec 2019 23:03:48 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Tue, 10 Dec 2019 06:29:47 PST (-0800), corbet@lwn.net wrote:
+> On Thu, 05 Dec 2019 15:03:10 -0800 (PST)
+> Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+>
+>> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+>>
+>> I'm assuming this is not going in through the RISC-V tree as it mostly touches
+>> Documentation/.
+>
+> I was assuming it was going through the risc-v tree since it touches arch
+> code :)  I can go ahead and apply it.
 
-> Hello,
-> 
-> This is the 5th version of the series for the boot-time tracing.
-> 
-> Previous version is here.
-> 
-> https://lkml.kernel.org/r/157528159833.22451.14878731055438721716.stgit@devnote2
+I don't see this in 5.5-rc5.
 
-Hi Masami,
-
-I applied all your patches to a test branch and was playing with it a
-little. This seems fine to me and works well (and very easy to use).
-Probably could use some more examples, but that's just a nit.
-
-If nobody has any issues with this code, I'll wait for v6 with the
-fixes to issues found in this series, and I'll happily apply them for
-linux-next.
-
--- Steve
-
-
-> 
-> In this version, I removed RFC tag from the series.
-> Changes from the v4 are here, updating bootconfig things.
-> 
->  - [1/22] Fix help comment and indent of Kconfig.
->           Restrict available characters in values(*)
->           Drop backslash escape from quoted value(**)
->  - [3/22] Fix Makefile to compile tool correctly
->           Remove unused pattern from Makefile
->  - [4/22] Show test target bootconfig
->           Add printable value testcases
->           Add bad array testcase
->  - [9/22] Fix TOC list
->           Add notes about available characters.
->           Fix to use correct quotes (``) for .rst.
-> 
-> (*) this is for preventing admin from shoot himself.
-> (**) this rule is from legacy command line.
-> 
-> Boot-time tracing features are not modified. I know Tom is working
-> on exporting synthetic event (and dynamic events) APIs for module.
-> If that APIs are merged first, I will update my series on top
-> of that.
-> 
-> This series can be applied on v5.5-rc3 or directly available at;
-> 
-> https://github.com/mhiramat/linux.git ftrace-boottrace-v5
-> 
-> 
+>
+> Thanks,
+>
+> jon
