@@ -2,171 +2,135 @@ Return-Path: <SRS0=8Zk6=26=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77808C32771
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 11:45:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF3B7C282DD
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 13:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 42D4F2075D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 11:45:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QMff/w1W"
+	by mail.kernel.org (Postfix) with ESMTP id BFEB8206ED
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jan 2020 13:35:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728580AbgAILp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jan 2020 06:45:29 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:35390 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728569AbgAILp2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jan 2020 06:45:28 -0500
-Received: by mail-wr1-f68.google.com with SMTP id g17so7077113wro.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2020 03:45:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M+Hleybvc0xNgkFFNo5eVdjk4X0NArxdjlsDgPzB5xM=;
-        b=QMff/w1W9s6CsJj7ISgeRx7ZokETKM1nkN+g0axCcpzfZHTd12c1zJ5D+3CHxqwvXE
-         s0k66KlUh3BR7eP7CwGA8+3/BP5ELuADkxMGo4M9/GAGivWntmJQpYwH1TUumw8gW2Da
-         3WioL9jhSPLhwcj2yKVHIpVfXrXXrXdKWEU/rsXeQEHoej8vPyA/iKLBu5AzX0QoFZYm
-         0vyPMJVvnmx3ktn8dFkHTuaGOw9HziD5NrSodSgOWBcH+SiJA7RsOHSNrHnzUSdOFciK
-         QFm7Ly+EYGZMZa72e0H9rkgadLLCSDC+kWdBvN8Cp6kQ0zdj4xD2Y9OangAPTDz9kiWC
-         +0oA==
+        id S1731170AbgAINfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jan 2020 08:35:24 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:32975 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728974AbgAINfY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jan 2020 08:35:24 -0500
+Received: by mail-qk1-f194.google.com with SMTP id d71so5980868qkc.0;
+        Thu, 09 Jan 2020 05:35:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=M+Hleybvc0xNgkFFNo5eVdjk4X0NArxdjlsDgPzB5xM=;
-        b=e5CXraGAQ9lxgPKSb3ruvs0tsp0iaWmBXP6F++xxHusLLT9TH04d0MvKiDD2znq3eU
-         GH1DYSbaSeWy/mvw4PB0sDELUDma1CRW11JoZXPQkQxHEmDQADZztORq5Yxlh4dDCYen
-         IvNKRZKkOTpRtqdcRfS8myvyEP+59J6EybZqQIE4VycFIhoG3iETcmgvKJC+7y87jaol
-         qk2EUoUjjC6m//C9lsDLqshGhTe+OI84X41pnZsRdcBBYocLq30g7VTCt/lQSbw7dfEt
-         wts/53DwJwwaiz+6JwL9ticIWnR8hgxhSJ2fvYB/vwBUShDopAbGqvp7UyG8v2rZGqTX
-         CM1w==
-X-Gm-Message-State: APjAAAXlSCvLBaUPNsi7d+Y0v8V9VobG3Xc4Ofuue0LdgaDvsCpOhaSd
-        0ohM052ZZU6yiVyZsc5uJxrsCQ==
-X-Google-Smtp-Source: APXvYqz13xiaB2c/AHMygGlCgFvL4DXkCGf0TFO1taGJ+xr9xsy5Q8LnIcRYOXeQIqh7/inPIHKmNw==
-X-Received: by 2002:a5d:6886:: with SMTP id h6mr10473834wru.154.1578570325074;
-        Thu, 09 Jan 2020 03:45:25 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:f1d5:61e0:e9d8:1c3d? ([2a01:e34:ed2f:f020:f1d5:61e0:e9d8:1c3d])
-        by smtp.googlemail.com with ESMTPSA id b16sm8163491wrj.23.2020.01.09.03.45.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2020 03:45:24 -0800 (PST)
-Subject: Re: [PATCH v2 06/20] thermal: exynos: Rename Samsung and Exynos to
- lowercase
-To:     Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Kukjin Kim <kgene@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vK5UxuBrViNaXxuMZEsGhiSGSEMvZsYzv98RipTZfGg=;
+        b=s1UNeLX8809o92ijYT5HikWwRFLcu3yDQDRjnyKAI3ebjg2fw+tfkA63SKrKZ4oBFL
+         NIAGPKWgDpMm/V/drl8ia7BooYxzmGsh0P61Ngn5+cI33GRhHTq7p3YNe1O7rqu06t8I
+         BrTAjNLP/CXJoN79JWAh9ZFmZl9UzyAMP1oqYg4Zinish8Dj+TawkkuwJqxsF9tshQKy
+         qJTwa8sTmtqNz5RiNLSl/sP+yIfrjDtvlqCS+cPwZxBtnUXL1Kj73Hm01HAsUpGB6LRj
+         G6tnHxD7Qn6GOVF2BezCUyTbQrH0u5QggPci7aK+P3AWfkY7S2UKNkasHuMiXyHI/6B+
+         CwcA==
+X-Gm-Message-State: APjAAAVS5wq1mKhWdJbXO+NZrAucozVXb5UecaIWxEAiAwEq8xnGIt1n
+        dHA/FkrW/xvc5RsM7mc28c+qhG6e1MqbfRvD8KQ=
+X-Google-Smtp-Source: APXvYqyRXgYk8j5kdfM4/WS8TEs831mjz2YcxqkRufdK/tyDKS85bDKPS8c3TecGMtuEwZvySvABfGqCivPuJ6qeC0Q=
+X-Received: by 2002:a05:620a:134f:: with SMTP id c15mr9195003qkl.115.1578576923178;
+ Thu, 09 Jan 2020 05:35:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be> <20191203105103.GA20470@x230>
+In-Reply-To: <20191203105103.GA20470@x230>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Jan 2020 14:35:10 +0100
+Message-ID: <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Eugeniu Rosca <roscaeugeniu@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200104152107.11407-1-krzk@kernel.org>
- <20200104152107.11407-7-krzk@kernel.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <7a61f167-07be-f60d-ec8e-cca171caeb94@linaro.org>
-Date:   Thu, 9 Jan 2020 12:45:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20200104152107.11407-7-krzk@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/01/2020 16:20, Krzysztof Kozlowski wrote:
-> Fix up inconsistent usage of upper and lowercase letters in "Samsung"
-> and "Exynos" names.
-> 
-> "SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
-> names.  Therefore they should be written with lowercase letters starting
-> with capital letter.
-> 
-> The lowercase "Exynos" name is promoted by its manufacturer Samsung
-> Electronics Co., Ltd., in advertisement materials and on website.
-> 
-> Although advertisement materials usually use uppercase "SAMSUNG", the
-> lowercase version is used in all legal aspects (e.g. on Wikipedia and in
-> privacy/legal statements on
-> https://www.samsung.com/semiconductor/privacy-global/).
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
+Hi Eugeniu,
 
-Applied.
+On Tue, Dec 3, 2019 at 11:51 AM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
+> On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
+> > +static int gpio_aggregator_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct gpio_desc **descs;
+> > +     struct gpiochip_fwd *fwd;
+> > +     int i, n;
+>
+> FWIW/FTR, doing some blind creation and deletion of gpio aggregator
+> chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
+> sure this is something 100% reproducible.
+>
+> [1] while true; do \
+>    echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
+>    echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
+>    done
+>
+> [2] unreferenced object 0xffff0006d2c2e000 (size 128):
+>   comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
+>   hex dump (first 32 bytes):
+>     00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
+>     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
+>     [<000000006f419a4f>] __kmalloc+0x170/0x218
+>     [<0000000060d185ea>] kobj_map+0x78/0x1c0
+>     [<00000000c96645f3>] cdev_add+0x68/0x94
+>     [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
+>     [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
+>     [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
+>     [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
+>     [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
+>     [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
+>     [<00000000de84b58b>] really_probe+0x2d8/0x434
+>     [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
+>     [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
+>     [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
+>     [<00000000c149acef>] __device_attach+0x148/0x1e0
+>     [<00000000a74fd158>] device_initial_probe+0x24/0x30
 
+This is the allocation of the GPIO character device, which is allocated
+in response to the creation of the GPIO chip, from .probe().
+As that is done using devm_gpiochip_add_data(), the chardev should be
+deallocated automatically by devm_gpio_chip_release() when
+platform_device_unregister() is called.
 
+Weird...
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
