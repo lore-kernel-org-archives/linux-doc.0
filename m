@@ -2,37 +2,42 @@ Return-Path: <SRS0=OhIE=27=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5C3C33CA4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DECC33CA3
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:17:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDBDF2072E
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:14:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 195C62084D
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbgAJROE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 12:14:04 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52024 "EHLO ms.lwn.net"
+        id S1726346AbgAJRRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 12:17:09 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52042 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726114AbgAJROE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Jan 2020 12:14:04 -0500
+        id S1727767AbgAJRRJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Jan 2020 12:17:09 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F24AE77D;
-        Fri, 10 Jan 2020 17:14:03 +0000 (UTC)
-Date:   Fri, 10 Jan 2020 10:14:03 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 2D85077D;
+        Fri, 10 Jan 2020 17:17:08 +0000 (UTC)
+Date:   Fri, 10 Jan 2020 10:17:07 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Colin King <colin.king@canonical.com>
-Cc:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] devices.txt: fix spelling mistake: "shapshot" ->
- "snapshot"
-Message-ID: <20200110101403.67edea17@lwn.net>
-In-Reply-To: <20200110100427.236530-1-colin.king@canonical.com>
-References: <20200110100427.236530-1-colin.king@canonical.com>
+To:     Palmer Dabbelt <palmerdabbelt@google.com>
+Cc:     Atish Patra <Atish.Patra@wdc.com>, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, merker@debian.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
+        palmer@sifive.com, mchehab+samsung@kernel.org
+Subject: Re: [PATCH] RISC-V: Typo fixes in image header and documentation.
+Message-ID: <20200110101707.06800f3c@lwn.net>
+In-Reply-To: <mhng-94b9cad5-0d14-480f-b428-8752630064d2@palmerdabbelt-glaptop>
+References: <20191210072947.7018340c@lwn.net>
+        <4912c007ab6c19321c8c988ae2328efbfb3e582d.camel@wdc.com>
+        <mhng-3a815562-1222-4737-a77c-6dab9948db79@palmerdabbelt-glaptop>
+        <mhng-94b9cad5-0d14-480f-b428-8752630064d2@palmerdabbelt-glaptop>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,32 +47,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Jan 2020 10:04:27 +0000
-Colin King <colin.king@canonical.com> wrote:
+On Thu, 09 Jan 2020 15:42:27 -0800 (PST)
+Palmer Dabbelt <palmerdabbelt@google.com> wrote:
 
-> From: Colin Ian King <colin.king@canonical.com>
+> > I was assuming it was going through the risc-v tree since it touches arch
+> > code :)  I can go ahead and apply it.  
 > 
-> Fix spelling mistake in text.
-> 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  Documentation/admin-guide/devices.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-> index 1c5d2281efc9..2a97aaec8b12 100644
-> --- a/Documentation/admin-guide/devices.txt
-> +++ b/Documentation/admin-guide/devices.txt
-> @@ -319,7 +319,7 @@
->  		182 = /dev/perfctr	Performance-monitoring counters
->  		183 = /dev/hwrng	Generic random number generator
->  		184 = /dev/cpu/microcode CPU microcode update interface
-> -		186 = /dev/atomicps	Atomic shapshot of process state data
-> +		186 = /dev/atomicps	Atomic snapshot of process state data
->  		187 = /dev/irnet	IrNET device
->  		188 = /dev/smbusbios	SMBus BIOS
->  		189 = /dev/ussp_ctl	User space serial port control
+> I don't see this in 5.5-rc5.
 
-Applied, thanks.
+It's in docs-next; I've not pushed it through straight to 5.5.  I can do
+that, I suppose, if it seems urgent?
+
+Thanks,
 
 jon
