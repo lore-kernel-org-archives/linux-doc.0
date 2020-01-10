@@ -6,34 +6,33 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12CA8C282DD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F028C282DD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 18:04:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E618C2080D
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CAA22072E
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 18:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728648AbgAJR4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 12:56:20 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52198 "EHLO ms.lwn.net"
+        id S1728168AbgAJSEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 13:04:39 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52248 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728569AbgAJR4U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Jan 2020 12:56:20 -0500
+        id S1727856AbgAJSEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Jan 2020 13:04:39 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4295C2C0;
-        Fri, 10 Jan 2020 17:56:19 +0000 (UTC)
-Date:   Fri, 10 Jan 2020 10:56:18 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 7F5EF77D;
+        Fri, 10 Jan 2020 18:04:38 +0000 (UTC)
+Date:   Fri, 10 Jan 2020 11:04:37 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+Cc:     hirofumi@mail.parknet.co.jp, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Documentation: boot.rst: fix warnings
-Message-ID: <20200110105618.6dc4f77c@lwn.net>
-In-Reply-To: <20191223033121.1584930-1-dwlsalmeida@gmail.com>
-References: <20191223033121.1584930-1-dwlsalmeida@gmail.com>
+Subject: Re: [PATCH v3] Documentation: filesystems: convert vfat.txt to RST
+Message-ID: <20200110110437.1a028da8@lwn.net>
+In-Reply-To: <20191223010030.434902-1-dwlsalmeida@gmail.com>
+References: <20191223010030.434902-1-dwlsalmeida@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,16 +42,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 23 Dec 2019 00:31:21 -0300
+On Sun, 22 Dec 2019 22:00:30 -0300
 "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Fix WARNING: Inline emphasis start-string without end-string.
-> This warning was due to wrong syntax being used.
+> Converts vfat.txt to the reStructuredText format, improving presentation
+> without changing the underlying content.
 > 
 > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> -----------------------------------------------------------
+> Changes in v3:
+> Removed unnecessary markup.
+> Removed section "BUG REPORTS" as recommended by the maintainer.
+> 
+> Changes in v2:
+> Refactored long lines as pointed out by Jonathan
+> Copied the maintainer
+> Updated the reference in the MAINTAINERS file for vfat
+> 
+> I did not move this into admin-guide, waiting on what the
+> maintainer has to say about this and also about old sections
+> in the text, if any.
 
-I've applied this, thanks.
+Things seem to have calmed down here for now, so I've gone ahead and
+applied this.  We can always move it in the future if that seems to make
+sense.
+
+Thanks,
 
 jon
