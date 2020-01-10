@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F68C282DD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BB1C282DD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 879A620882
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD1B72084D
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/IQKKA/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1a9qXEt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727799AbgAJXZO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 18:25:14 -0500
-Received: from mail-qk1-f169.google.com ([209.85.222.169]:40058 "EHLO
-        mail-qk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727744AbgAJXZN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 18:25:13 -0500
-Received: by mail-qk1-f169.google.com with SMTP id c17so3581381qkg.7;
-        Fri, 10 Jan 2020 15:25:12 -0800 (PST)
+        id S1727647AbgAJXZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 18:25:06 -0500
+Received: from mail-qv1-f51.google.com ([209.85.219.51]:45178 "EHLO
+        mail-qv1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727701AbgAJXZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 18:25:05 -0500
+Received: by mail-qv1-f51.google.com with SMTP id l14so1584794qvu.12;
+        Fri, 10 Jan 2020 15:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BR//wDhqmO4v94OfCxbZnOUWsdDMuWQeBVXCu/WbhJg=;
-        b=M/IQKKA/iv4Op1bVFVEm3tdJKx7uen+EkTvvPNDVXg6MmETrAZ/Tnb4HvDXRChVXpb
-         I6FWnM2kKGHlbUOgGpcrehQ3GSIiy7LSyXaBYLegqizbDREi+4kygXWK5qS9FmM69lbC
-         JWn+TW4UPGScK4Ha6XQFcv4m/D85NO0jeGia0UN6Np+ot7EWQEY2Yz5DsF7fqtotnrXF
-         5/RhVCMdXqIh91W8t8K9B0qa3fGcom7JKZv1wS/w9Hp571fSm1C0e9GaqDuf/ECbXkBi
-         YcQycMsT9yke8kjiX6hpijV4i2dX1F4L/ZGmrG8r5iE5gXGoAETLJ6oI6q/ILrqUxWSY
-         Ec5A==
+        bh=H+ZY7mgwtaDq8KuNs5XppAH1no6Df53vnlu2/x+Z9PQ=;
+        b=G1a9qXEtwVi0udBWdjEfIDOV+7+LYNi0HI0nlET9Jda6nxu0OPAgHaKpT8IGNYRMRp
+         DaZBguNfKF0TzKGDD0xJSFxWX4yYtde/CqbTidE4nRuZClnxdOE4+J5gTkRSdLJMpgsi
+         YGmtcO08AW5JJDzB2ixBmrWl30pQ3FeuzJuBmtiVxgbKrh0w+P6IKx0+a2wWNc7/117d
+         ti3dU73JBXdXQnOMqpvwojeUXRJgjgzNIhpbxUfxYpiy/1wlc0RG45WvnwOteEdHEwhk
+         K/10fv2BtfBmvuPFAOcXO3cjAYmWImsFsPlZedkOGIz4qKtQJjmkqe7iAUw3QdQOz2Wq
+         aylA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BR//wDhqmO4v94OfCxbZnOUWsdDMuWQeBVXCu/WbhJg=;
-        b=hlgaoit8zICLcdKgaK79tHSxeR4YvPkiC+MTDyFX97jMd2doUkRuA4qVmsRDxYQr3D
-         dGOrpi+6yjvr0CTx480kDVmJU0M3NadT4O/bDBNmJTW62ssMwAe6Y0FX7ddEXwDHfXAo
-         IkIMptRKupu/XdzpXr9N65TzGiEeDPS0kmKtCdBP7sVEb8gDEZWZr2JISulVZlQLAzo2
-         /VNFG5epjMQE3kGT+jmW0+E59QFL7tUqv5mPs0bOsv9LBj/0aDuiMLOAxegAnA+3Bw7M
-         91fd6Z0v50OLTQ6UUvtvEiKBXZLs+XhCFxk3lID7fZVRAir49pzMH/Hujxfd78cU+UZG
-         n37Q==
-X-Gm-Message-State: APjAAAX4a+Rm9VFd4gH346WJXIQCvaBEG4UE/1hTBF+/Lbj6mibm7qop
-        GWnbxevln1L0+WXmkAodcxY=
-X-Google-Smtp-Source: APXvYqzdYfbSFXdQZUqhGqRV79qCQuXv+GPfRbBQgkTOVNeaz6ymoJ7d4jhmQuDOoTWNXVc77uj8Pw==
-X-Received: by 2002:a37:6047:: with SMTP id u68mr1061561qkb.389.1578698712194;
-        Fri, 10 Jan 2020 15:25:12 -0800 (PST)
+        bh=H+ZY7mgwtaDq8KuNs5XppAH1no6Df53vnlu2/x+Z9PQ=;
+        b=O0514OWrvFzyMKhbWqbOo6vvwGiw/A0/9KiO4eOdFyo9Wej15cGKQKodan4VRlleX8
+         h/wmbLm8ZgaJz6JlV5gpJHyS6MfZlxQxx0hOYRtMZNlZFRPztnd5x/iBWWrXkyM7HX4F
+         lyw3Q54nkrp2eA8tPRgoyQFM43WjxSbkLr2FOHApZzPnko3u8WQF/Wsa93ZztbCEsC/+
+         Nux6ySifPBw1d5aB88Tq304VGpkLBSGbHA/922MnVw3hLsizywzm4jhtBxczZzQfRo7v
+         gOLiFSj+1hGfYL+nuO8RT9StT1Q3iQ6G9TIS6WGFbAb/T6KeCh3KthbAXtBQE6CTjIF3
+         if0A==
+X-Gm-Message-State: APjAAAXcottWnN+OEnkMNfPy13lhVJbL6vMirjOVBFVTXGCR1uhts2uf
+        uUfap9lWfoOA+Iz1aLXY4Uc=
+X-Google-Smtp-Source: APXvYqywaxv/4W61MsXR0lXk/r/G7UGTH2VvMTlVbJLSlyaH9W7LZanEPioETxq8v7L7Q7M6jDGsYg==
+X-Received: by 2002:a0c:a998:: with SMTP id a24mr1145404qvb.11.1578698704116;
+        Fri, 10 Jan 2020 15:25:04 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id i2sm1774752qte.87.2020.01.10.15.25.09
+        by smtp.gmail.com with ESMTPSA id i2sm1774752qte.87.2020.01.10.15.25.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 15:25:11 -0800 (PST)
+        Fri, 10 Jan 2020 15:25:03 -0800 (PST)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     mchehab+samsung@kernel.org, corbet@lwn.net
@@ -62,9 +62,9 @@ Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v4 9/9] Documentation: nfs: fault_injection: convert to ReST
-Date:   Fri, 10 Jan 2020 20:24:31 -0300
-Message-Id: <f7b0cf8fb1159a668f75ce82a581e7590568c2b8.1578697871.git.dwlsalmeida@gmail.com>
+Subject: [PATCH v4 6/9] Documentation: nfs: idmapper: convert to ReST
+Date:   Fri, 10 Jan 2020 20:24:28 -0300
+Message-Id: <069e40cd551ea778538f8fe9ad15ee26e45fc748.1578697871.git.dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1578697871.git.dwlsalmeida@gmail.com>
 References: <cover.1578697871.git.dwlsalmeida@gmail.com>
@@ -77,41 +77,104 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Convert fault_injection.txt to ReST and move it to admin-guide.
+Convert idmapper.txt to ReST and move it to admin-guide.
+Content remains mostly unchanged otherwise.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- .../nfs/fault_injection.rst}                                 | 5 +++--
- Documentation/admin-guide/nfs/index.rst                      | 1 +
- 2 files changed, 4 insertions(+), 2 deletions(-)
- rename Documentation/{filesystems/nfs/fault_injection.txt => admin-guide/nfs/fault_injection.rst} (98%)
+ Documentation/admin-guide/nfs/index.rst       |  1 +
+ .../nfs/nfs-idmapper.rst}                     | 31 ++++++++++---------
+ 2 files changed, 18 insertions(+), 14 deletions(-)
+ rename Documentation/{filesystems/nfs/idmapper.txt => admin-guide/nfs/nfs-idmapper.rst} (81%)
 
-diff --git a/Documentation/filesystems/nfs/fault_injection.txt b/Documentation/admin-guide/nfs/fault_injection.rst
-similarity index 98%
-rename from Documentation/filesystems/nfs/fault_injection.txt
-rename to Documentation/admin-guide/nfs/fault_injection.rst
-index f3a5b0a8ac05..eb029c0c15ce 100644
---- a/Documentation/filesystems/nfs/fault_injection.txt
-+++ b/Documentation/admin-guide/nfs/fault_injection.rst
-@@ -1,6 +1,7 @@
-+===================
-+NFS Fault Injection
-+===================
- 
--Fault Injection
--===============
- Fault injection is a method for forcing errors that may not normally occur, or
- may be difficult to reproduce.  Forcing these errors in a controlled environment
- can help the developer find and fix bugs before their code is shipped in a
 diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
-index 3601a708f333..6b5a3c90fac5 100644
+index e0b2f4260ad7..8376d5225fc2 100644
 --- a/Documentation/admin-guide/nfs/index.rst
 +++ b/Documentation/admin-guide/nfs/index.rst
-@@ -12,3 +12,4 @@ NFS
-     nfs-idmapper
-     pnfs-block-server
-     pnfs-scsi-server
-+    fault_injection
+@@ -9,3 +9,4 @@ NFS
+     nfsroot
+     nfs-rdma
+     nfsd-admin-interfaces
++    nfs-idmapper
+diff --git a/Documentation/filesystems/nfs/idmapper.txt b/Documentation/admin-guide/nfs/nfs-idmapper.rst
+similarity index 81%
+rename from Documentation/filesystems/nfs/idmapper.txt
+rename to Documentation/admin-guide/nfs/nfs-idmapper.rst
+index b86831acd583..58b8e63412d5 100644
+--- a/Documentation/filesystems/nfs/idmapper.txt
++++ b/Documentation/admin-guide/nfs/nfs-idmapper.rst
+@@ -1,7 +1,7 @@
++=============
++NFS ID Mapper
++=============
+ 
+-=========
+-ID Mapper
+-=========
+ Id mapper is used by NFS to translate user and group ids into names, and to
+ translate user and group names into ids.  Part of this translation involves
+ performing an upcall to userspace to request the information.  There are two
+@@ -20,22 +20,24 @@ legacy rpc.idmap daemon for the id mapping.  This result will be stored
+ in a custom NFS idmap cache.
+ 
+ 
+-===========
+ Configuring
+ ===========
++
+ The file /etc/request-key.conf will need to be modified so /sbin/request-key can
+ direct the upcall.  The following line should be added:
+ 
+-#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
+-#======	=======	===============	===============	===============================
+-create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
++``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
++``#======	=======	===============	===============	===============================``
++``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
++
+ 
+ This will direct all id_resolver requests to the program /usr/sbin/nfs.idmap.
+ The last parameter, 600, defines how many seconds into the future the key will
+ expire.  This parameter is optional for /usr/sbin/nfs.idmap.  When the timeout
+ is not specified, nfs.idmap will default to 600 seconds.
+ 
+-id mapper uses for key descriptions:
++id mapper uses for key descriptions::
++
+ 	  uid:  Find the UID for the given user
+ 	  gid:  Find the GID for the given group
+ 	 user:  Find the user  name for the given UID
+@@ -45,23 +47,24 @@ You can handle any of these individually, rather than using the generic upcall
+ program.  If you would like to use your own program for a uid lookup then you
+ would edit your request-key.conf so it look similar to this:
+ 
+-#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
+-#======	=======	===============	===============	===============================
+-create	id_resolver	uid:*	*		/some/other/program %k %d 600
+-create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
++``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
++``#======	=======	===============	===============	===============================``
++``create	id_resolver	uid:*	*		/some/other/program %k %d 600``
++``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
++
+ 
+ Notice that the new line was added above the line for the generic program.
+ request-key will find the first matching line and corresponding program.  In
+ this case, /some/other/program will handle all uid lookups and
+ /usr/sbin/nfs.idmap will handle gid, user, and group lookups.
+ 
+-See <file:Documentation/security/keys/request-key.rst> for more information
++See Documentation/security/keys/request-key.rst for more information
+ about the request-key function.
+ 
+ 
+-=========
+ nfs.idmap
+ =========
++
+ nfs.idmap is designed to be called by request-key, and should not be run "by
+ hand".  This program takes two arguments, a serialized key and a key
+ description.  The serialized key is first converted into a key_serial_t, and
 -- 
 2.24.1
 
