@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8BFC282DD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA37C33CA3
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 953F820838
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFE0324649
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 23:25:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u6O4jlfM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1Z059DA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgAJXY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 18:24:57 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:33644 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727454AbgAJXY4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 18:24:56 -0500
-Received: by mail-qk1-f196.google.com with SMTP id d71so3623082qkc.0;
-        Fri, 10 Jan 2020 15:24:56 -0800 (PST)
+        id S1727762AbgAJXZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 18:25:08 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:38414 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727744AbgAJXZH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 18:25:07 -0500
+Received: by mail-qt1-f194.google.com with SMTP id n15so3545190qtp.5;
+        Fri, 10 Jan 2020 15:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lKAaRI+qny5owK6vpx9vqe3tT/EASWXktBmYILK1Mfs=;
-        b=u6O4jlfMkYBmXT56NGy+JdgFcILfCzVVCqhPL1Lmg2+995slwtwdqyw3ikunUx5Bpu
-         4QE9NGY7muRXc1pSBbJRi2DUusXVglb+eLrzjA/PHTr9CKfXNHN61IVYompJsK0A7N/P
-         9jfVJF8D82GE0KLCRoHjpkFqjSTOPlKas3j3yuITRkgHfWhPMqnAyLO6ZWnV7fGg7ZTV
-         R00Eylm1qKs0gifvsX24/3BW3g0+e/7tX+WD2y9w2tlc5gotpcQmortPmOk8sQzDT9Gk
-         sRow2ceiTP1sdBPJu6PY9oT/uGqIXjNTNEwrxuzculNxReZ1sy0aljUlARi8xm//vHZU
-         5+VQ==
+        bh=Xk8upTGYpLiwWJz4OqX3lOVzD+11JcT9lOysezL8+cQ=;
+        b=K1Z059DAsEtF0G8X2GilAXpTrtpfymy3K2xd89WFLmI8MhCCbvRX01MVt5p59J8Nm5
+         AEa8rNWj7NB6ktyH/gdpkpPNq9QfRMgHKpikuMQ6HRca7c8zN63TSdia5eE7+K5zTw0u
+         VoeE5FvpnAEjbER2upOqoPf7AlbgXCT86K92OlhoMYfspl0XZ+RKH86DJM3Od34vUKmR
+         pEgIR0AJCfumcrqIg1s+13RQ84aK+8SIHhpABIMn7MkMIpE/5HgaH7GYlOhoa+GEt48I
+         J9hIcvk58U06zGyR1gPDtn4c1GPiKf2vdmM+luR6Eql6CZZ62ThNKBr5/1lseeSiQekI
+         pNNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lKAaRI+qny5owK6vpx9vqe3tT/EASWXktBmYILK1Mfs=;
-        b=IfjCNl6yUS5cBQTuN+APMkJkFXZ+MG0sZ9gCYeVqaGQJvYqIwJiGuPXpRhwD+i8U20
-         W4kHT2z3bqyDtOJmPWIfm10C1ZAANxhOeS/50a8kqyeQ8e7Sr4uA8nN4j4XL5wQb/XI6
-         a6UKXsQpB/+vq5UectshcJylXkU0vxRrkEmk8R9fThqny2m9dSQ+iazG5OUQq9EYXB3F
-         Lz6ycAsFRKhRTtRIJfEcRzGAaKXkWk75KB6MG2ohNHi//cLNUcVZU/Bod5admEV/WHAj
-         v3lzX0YgT7zHLR+RnKedYMtFpoMBdHrXMjD2q7McKnKp+ETStbzFDXlGdKT8sRLuKnIN
-         wg6g==
-X-Gm-Message-State: APjAAAVLNfFYt/7UJJmjwkAnthZbgTNy33VN7JKE7PGBRxwMc2kWr52O
-        RUdIkXoJY3h93ba1nkEEg+Y=
-X-Google-Smtp-Source: APXvYqwq3pRWBI9u5dbk8GTLz2Ts3jAsJTsAnx+g29BO0WUzjb6at/0LoRz3P7kurTPl/uwYboKGRQ==
-X-Received: by 2002:a05:620a:1327:: with SMTP id p7mr5726392qkj.148.1578698695844;
-        Fri, 10 Jan 2020 15:24:55 -0800 (PST)
+        bh=Xk8upTGYpLiwWJz4OqX3lOVzD+11JcT9lOysezL8+cQ=;
+        b=Q+FTFvhGrvUzhp2/FtfDCg7bSiKzsVZtqZpK1JIL1M7ZPMTMI9IXzqGlYioiZ2BXQq
+         LYhj+Jwsv5WdFOJt3IaxamOpk4Vq9Si6l4JTDOsk8FB3iK+tAuKcajr2lbG4jvd4431C
+         +Yef6ypFJlfGtdgcL7Q5bfTAiTMrg3dwH/zN5Z2CgseeWfEVhlJUGqgOQ2I2xRzYr8Pd
+         J6SG3RHEUk+6RfiYgCI8yJEcr3ou3ozDFA+T4Zs8g2ur2szPW1Cw1NuZQax2m1wQKNGx
+         j3heQV5BFWji3+zA8isqWKihALiwo31azIyOMh4P17KJvw5HroWZh1bGBa0p4Y9HSiko
+         jaCA==
+X-Gm-Message-State: APjAAAWoVtgIZrvopOm346zOpKGoViVP+x7wlVWfbYv5emibFWt44Czq
+        VkbPLz/bF/IYvY7auZMLm+s=
+X-Google-Smtp-Source: APXvYqzE/g9FThs68kBo67G97dyaEtLTX25gh5Etw58UQyT5B6XgHYM8ZBe2g0/Kt0Mb+EdVUziOew==
+X-Received: by 2002:aed:3f32:: with SMTP id p47mr4786924qtf.374.1578698706848;
+        Fri, 10 Jan 2020 15:25:06 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id i2sm1774752qte.87.2020.01.10.15.24.53
+        by smtp.gmail.com with ESMTPSA id i2sm1774752qte.87.2020.01.10.15.25.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 15:24:55 -0800 (PST)
+        Fri, 10 Jan 2020 15:25:06 -0800 (PST)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     mchehab+samsung@kernel.org, corbet@lwn.net
@@ -62,9 +62,9 @@ Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v4 3/9] Documentation: nfsroot.rst: COSMETIC: refill a paragraph
-Date:   Fri, 10 Jan 2020 20:24:25 -0300
-Message-Id: <58c50f6ba94a0a2f212c4d2a42f64ffb40336b68.1578697871.git.dwlsalmeida@gmail.com>
+Subject: [PATCH v4 7/9] Documentation: nfs: convert pnfs-block-server to ReST
+Date:   Fri, 10 Jan 2020 20:24:29 -0300
+Message-Id: <c06903760e690c16d9df92f5e75f80381d6326d8.1578697871.git.dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1578697871.git.dwlsalmeida@gmail.com>
 References: <cover.1578697871.git.dwlsalmeida@gmail.com>
@@ -77,39 +77,69 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Refill a paragraph to eliminate long lines.
+Convert pnfs-block-server.txt to ReST and move it to admin-guide.
+Content remains mostly unchanged.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- Documentation/admin-guide/nfs/nfsroot.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/nfs/index.rst       |  1 +
+ .../nfs/pnfs-block-server.rst}                | 25 +++++++++++--------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
+ rename Documentation/{filesystems/nfs/pnfs-block-server.txt => admin-guide/nfs/pnfs-block-server.rst} (80%)
 
-diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
-index 9249be637833..82a4fda057f9 100644
---- a/Documentation/admin-guide/nfs/nfsroot.rst
-+++ b/Documentation/admin-guide/nfs/nfsroot.rst
-@@ -15,13 +15,14 @@ Mounting the root filesystem via NFS (nfsroot)
+diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
+index 8376d5225fc2..365f42a611a4 100644
+--- a/Documentation/admin-guide/nfs/index.rst
++++ b/Documentation/admin-guide/nfs/index.rst
+@@ -10,3 +10,4 @@ NFS
+     nfs-rdma
+     nfsd-admin-interfaces
+     nfs-idmapper
++    pnfs-block-server
+diff --git a/Documentation/filesystems/nfs/pnfs-block-server.txt b/Documentation/admin-guide/nfs/pnfs-block-server.rst
+similarity index 80%
+rename from Documentation/filesystems/nfs/pnfs-block-server.txt
+rename to Documentation/admin-guide/nfs/pnfs-block-server.rst
+index 2143673cf154..b00a2e705cc4 100644
+--- a/Documentation/filesystems/nfs/pnfs-block-server.txt
++++ b/Documentation/admin-guide/nfs/pnfs-block-server.rst
+@@ -1,4 +1,6 @@
++===================================
+ pNFS block layout server user guide
++===================================
  
+ The Linux NFS server now supports the pNFS block layout extension.  In this
+ case the NFS server acts as Metadata Server (MDS) for pNFS, which in addition
+@@ -22,16 +24,19 @@ If the nfsd server needs to fence a non-responding client it calls
+ /sbin/nfsd-recall-failed with the first argument set to the IP address of
+ the client, and the second argument set to the device node without the /dev
+ prefix for the file system to be fenced. Below is an example file that shows
+-how to translate the device into a serial number from SCSI EVPD 0x80:
++how to translate the device into a serial number from SCSI EVPD 0x80::
  
+-cat > /sbin/nfsd-recall-failed << EOF
+-#!/bin/sh
++	cat > /sbin/nfsd-recall-failed << EOF
  
--In order to use a diskless system, such as an X-terminal or printer server
--for example, it is necessary for the root filesystem to be present on a
--non-disk device. This may be an initramfs (see Documentation/filesystems/ramfs-rootfs-initramfs.txt),
--a ramdisk (see Documentation/admin-guide/initrd.rst) or a
--filesystem mounted via NFS. The following text describes on how to use NFS
--for the root filesystem. For the rest of this text 'client' means the
--diskless system, and 'server' means the NFS server.
-+In order to use a diskless system, such as an X-terminal or printer server for
-+example, it is necessary for the root filesystem to be present on a non-disk
-+device. This may be an initramfs (see
-+Documentation/filesystems/ramfs-rootfs-initramfs.txt), a ramdisk (see
-+Documentation/admin-guide/initrd.rst) or a filesystem mounted via NFS. The
-+following text describes on how to use NFS for the root filesystem. For the rest
-+of this text 'client' means the diskless system, and 'server' means the NFS
-+server.
+-CLIENT="$1"
+-DEV="/dev/$2"
+-EVPD=`sg_inq --page=0x80 ${DEV} | \
+-	grep "Unit serial number:" | \
+-	awk -F ': ' '{print $2}'`
++.. code-block:: sh
  
- 
- 
+-echo "fencing client ${CLIENT} serial ${EVPD}" >> /var/log/pnfsd-fence.log
+-EOF
++	#!/bin/sh
++
++	CLIENT="$1"
++	DEV="/dev/$2"
++	EVPD=`sg_inq --page=0x80 ${DEV} | \
++		grep "Unit serial number:" | \
++		awk -F ': ' '{print $2}'`
++
++	echo "fencing client ${CLIENT} serial ${EVPD}" >> /var/log/pnfsd-fence.log
++	EOF
 -- 
 2.24.1
 
