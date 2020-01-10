@@ -2,330 +2,1070 @@ Return-Path: <SRS0=OhIE=27=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D397C33CA2
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 10:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE90EC33CA3
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 13:16:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6711020721
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 10:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 789182077C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 13:16:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="fLoNBZq0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbgAJKfX convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 05:35:23 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:42638 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbgAJKfW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 05:35:22 -0500
-Received: from 79.184.255.90.ipv4.supernova.orange.pl (79.184.255.90) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.320)
- id 14b9680682bab4c8; Fri, 10 Jan 2020 11:35:19 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] Documentation: admin-guide: PM: Add intel_idle document
-Date:   Fri, 10 Jan 2020 11:35:19 +0100
-Message-ID: <1754251.4pWRGBvRWM@kreacher>
+        id S1727438AbgAJNQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 08:16:11 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:58994 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727428AbgAJNQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jan 2020 08:16:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1578662170; x=1610198170;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=dd7hgUMBjiWeB2ID4c80RlACUMmSuALWwx9nnbLEaXU=;
+  b=fLoNBZq0d4UUc4+sIydkXAYPWgyxK9FFhnivNtgIwvqPgHA6Hx+7HIb6
+   hnMaXG3s8aU4gMm5aRb8zZsMxjNDOldFoc2/tg5Hak2MqIpQppxW6lny9
+   bGEnKdiqeVEP8cVEHIgbNyLb1EuF8OQhItIVUVfZz2gbzonPwA/c4R/Nr
+   M=;
+IronPort-SDR: 7IwacRRJeEQAX2GfTXqN2ID4A3eXwVn1DWJj9qufRe6SICV7xG1/4e6hp58Xz+HjjT68sxUov/
+ bMIlFMFSowTQ==
+X-IronPort-AV: E=Sophos;i="5.69,417,1571702400"; 
+   d="scan'208";a="11883286"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2c-2225282c.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 10 Jan 2020 13:16:08 +0000
+Received: from EX13MTAUEA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-2225282c.us-west-2.amazon.com (Postfix) with ESMTPS id 93D56A25E8;
+        Fri, 10 Jan 2020 13:16:06 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA001.ant.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 10 Jan 2020 13:16:05 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.115) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 10 Jan 2020 13:16:01 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>, <mgorman@suse.de>,
+        <brendanhiggins@google.com>, <sj38.park@gmail.com>,
+        SeongJae Park <sjpark@amazon.de>
+Subject: [RFC PATCH 3/5] mm/damon: Add minimal user-space tools
+Date:   Fri, 10 Jan 2020 14:15:20 +0100
+Message-ID: <20200110131522.29964-4-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200110131522.29964-1-sjpark@amazon.com>
+References: <20200110131522.29964-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.115]
+X-ClientProxiedBy: EX13D10UWA001.ant.amazon.com (10.43.160.216) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+From: SeongJae Park <sjpark@amazon.de>
 
-Add an admin-guide document for the intel_idle driver to describe
-how it works: how it enumerates idle states, what happens during the
-initialization of it, how it can be controlled via the kernel command
-line and so on.
+This commit adds a shallow wrapper python script, ``/tools/damon/damn``
+that provides more convenient interface for the user space.  Note that
+it is only aimed to be used for minimal reference of the DAMON's raw
+interfaces and for debuggings of DAMON itself.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Quick Tutorial
+--------------
+
+To test DAMON on your system,
+
+1. Ensure your kernel is built with CONFIG_DAMON turned on, and debugfs
+   is mounted at ``/sys/kernel/debug/``.
+2. ``<your kernel source tree>/tools/damon/damn -h``
+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
+ tools/damon/bin2txt.py    |  64 +++++++
+ tools/damon/damn          |  36 ++++
+ tools/damon/heats.py      | 358 ++++++++++++++++++++++++++++++++++++++
+ tools/damon/nr_regions.py | 116 ++++++++++++
+ tools/damon/record.py     | 182 +++++++++++++++++++
+ tools/damon/report.py     |  45 +++++
+ tools/damon/wss.py        | 121 +++++++++++++
+ 7 files changed, 922 insertions(+)
+ create mode 100644 tools/damon/bin2txt.py
+ create mode 100644 tools/damon/damn
+ create mode 100644 tools/damon/heats.py
+ create mode 100644 tools/damon/nr_regions.py
+ create mode 100644 tools/damon/record.py
+ create mode 100644 tools/damon/report.py
+ create mode 100644 tools/damon/wss.py
 
--> v2:
-  * Rewrite the description of the "noacpi" module parameter (Randy).
-  * Reduce the level of detail in the description of driver actions in some
-    places (to address review comments from Randy).
-  * Add R-by from Randy.
-
----
- Documentation/admin-guide/pm/intel_idle.rst    |  246 +++++++++++++++++++++++++
- Documentation/admin-guide/pm/working-state.rst |    1 
- 2 files changed, 247 insertions(+)
-
-Index: linux-pm/Documentation/admin-guide/pm/working-state.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/working-state.rst
-+++ linux-pm/Documentation/admin-guide/pm/working-state.rst
-@@ -8,6 +8,7 @@ Working-State Power Management
-    :maxdepth: 2
- 
-    cpuidle
-+   intel_idle
-    cpufreq
-    intel_pstate
-    intel_epb
-Index: linux-pm/Documentation/admin-guide/pm/intel_idle.rst
-===================================================================
+diff --git a/tools/damon/bin2txt.py b/tools/damon/bin2txt.py
+new file mode 100644
+index 000000000000..d5ffac60e02c
 --- /dev/null
-+++ linux-pm/Documentation/admin-guide/pm/intel_idle.rst
-@@ -0,0 +1,246 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
++++ b/tools/damon/bin2txt.py
+@@ -0,0 +1,64 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
 +
-+==============================================
-+``intel_idle`` CPU Idle Time Management Driver
-+==============================================
++import argparse
++import os
++import struct
++import sys
 +
-+:Copyright: |copy| 2020 Intel Corporation
++def parse_time(bindat):
++    "bindat should be 16 bytes"
++    sec = struct.unpack('l', bindat[0:8])[0]
++    nsec = struct.unpack('l', bindat[8:16])[0]
++    return sec * 1000000000 + nsec;
 +
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
++def pr_region(f):
++    saddr = struct.unpack('L', f.read(8))[0]
++    eaddr = struct.unpack('L', f.read(8))[0]
++    nr_accesses = struct.unpack('I', f.read(4))[0]
++    print("%012x-%012x(%10d):\t%d" %
++            (saddr, eaddr, eaddr - saddr, nr_accesses))
 +
++def pr_task_info(f):
++    pid = struct.unpack('L', f.read(8))[0]
++    print("pid: ", pid)
++    nr_regions = struct.unpack('I', f.read(4))[0]
++    print("nr_regions: ", nr_regions)
++    for r in range(nr_regions):
++        pr_region(f)
 +
-+General Information
-+===================
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
 +
-+``intel_idle`` is a part of the
-+:doc:`CPU idle time management subsystem <cpuidle>` in the Linux kernel
-+(``CPUIdle``).  It is the default CPU idle time management driver for the
-+Nehalem and later generations of Intel processors, but the level of support for
-+a particular processor model in it depends on whether or not it recognizes that
-+processor model and may also depend on information coming from the platform
-+firmware.  [To understand ``intel_idle`` it is necessary to know how ``CPUIdle``
-+works in general, so this is the time to get familiar with :doc:`cpuidle` if you
-+have not done that yet.]
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
 +
-+``intel_idle`` uses the ``MWAIT`` instruction to inform the processor that the
-+logical CPU executing it is idle and so it may be possible to put some of the
-+processor's functional blocks into low-power states.  That instruction takes two
-+arguments (passed in the ``EAX`` and ``ECX`` registers of the target CPU), the
-+first of which, referred to as a *hint*, can be used by the processor to
-+determine what can be done (for details refer to Intel Software Developer’s
-+Manual [1]_).  Accordingly, ``intel_idle`` refuses to work with processors in
-+which the support for the ``MWAIT`` instruction has been disabled (for example,
-+via the platform firmware configuration menu) or which do not support that
-+instruction at all.
++    file_path = args.input
 +
-+``intel_idle`` is not modular, so it cannot be unloaded, which means that the
-+only way to pass early-configuration-time parameters to it is via the kernel
-+command line.
++    if not os.path.isfile(file_path):
++        print('input file (%s) is not exist' % file_path)
++        exit(1)
 +
++    with open(file_path, 'rb') as f:
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            time = parse_time(timebin)
++            if not start_time:
++                start_time = time
++                print("start_time: ", start_time)
++            print("rel time: %16d" % (time - start_time))
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            print("nr_tasks: ", nr_tasks)
++            for t in range(nr_tasks):
++                pr_task_info(f)
++                print("")
 +
-+.. _intel-idle-enumeration-of-states:
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/damn b/tools/damon/damn
+new file mode 100644
+index 000000000000..0b8019db7f28
+--- /dev/null
++++ b/tools/damon/damn
+@@ -0,0 +1,36 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
 +
-+Enumeration of Idle States
-+==========================
++import argparse
 +
-+Each ``MWAIT`` hint value is interpreted by the processor as a license to
-+reconfigure itself in a certain way in order to save energy.  The processor
-+configurations (with reduced power draw) resulting from that are referred to
-+as C-states (in the ACPI terminology) or idle states.  The list of meaningful
-+``MWAIT`` hint values and idle states (i.e. low-power configurations of the
-+processor) corresponding to them depends on the processor model and it may also
-+depend on the configuration of the platform.
++import record
++import report
 +
-+In order to create a list of available idle states required by the ``CPUIdle``
-+subsystem (see :ref:`idle-states-representation` in :doc:`cpuidle`),
-+``intel_idle`` can use two sources of information: static tables of idle states
-+for different processor models included in the driver itself and the ACPI tables
-+of the system.  The former are always used if the processor model at hand is
-+recognized by ``intel_idle`` and the latter are used if that is required for
-+the given processor model (which is the case for all server processor models
-+recognized by ``intel_idle``) or if the processor model is not recognized.
++class SubCmdHelpFormatter(argparse.RawDescriptionHelpFormatter):
++    def _format_action(self, action):
++        parts = super(argparse.RawDescriptionHelpFormatter,
++                self)._format_action(action)
++        # skip sub parsers help
++        if action.nargs == argparse.PARSER:
++            parts = '\n'.join(parts.split('\n')[1:])
++        return parts
 +
-+If the ACPI tables are going to be used for building the list of available idle
-+states, ``intel_idle`` first looks for a ``_CST`` object under one of the ACPI
-+objects corresponding to the CPUs in the system (refer to the ACPI specification
-+[2]_ for the description of ``_CST`` and its output package).  Because the
-+``CPUIdle`` subsystem expects that the list of idle states supplied by the
-+driver will be suitable for all of the CPUs handled by it and ``intel_idle`` is
-+registered as the ``CPUIdle`` driver for all of the CPUs in the system, the
-+driver looks for the first ``_CST`` object returning at least one valid idle
-+state description and such that all of the idle states included in its return
-+package are of the FFH (Functional Fixed Hardware) type, which means that the
-+``MWAIT`` instruction is expected to be used to tell the processor that it can
-+enter one of them.  The return package of that ``_CST`` is then assumed to be
-+applicable to all of the other CPUs in the system and the idle state
-+descriptions extracted from it are stored in a preliminary list of idle states
-+coming from the ACPI tables.  [This step is skipped if ``intel_idle`` is
-+configured to ignore the ACPI tables; see `below <intel-idle-parameters_>`_.]
++parser = argparse.ArgumentParser(formatter_class=SubCmdHelpFormatter)
 +
-+Next, the first (index 0) entry in the list of available idle states is
-+initialized to represent a "polling idle state" (a pseudo-idle state in which
-+the target CPU continuously fetches and executes instructions), and the
-+subsequent (real) idle state entries are populated as follows.
++subparser = parser.add_subparsers(title='command', dest='command',
++        metavar='<command>')
++subparser.required = True
 +
-+If the processor model at hand is recognized by ``intel_idle``, there is a
-+(static) table of idle state descriptions for it in the driver.  In that case,
-+the "internal" table is the primary source of information on idle states and the
-+information from it is copied to the final list of available idle states.  If
-+using the ACPI tables for the enumeration of idle states is not required
-+(depending on the processor model), all of the listed idle state are enabled by
-+default (so all of them will be taken into consideration by ``CPUIdle``
-+governors during CPU idle state selection).  Otherwise, some of the listed idle
-+states may not be enabled by default if there are no matching entries in the
-+preliminary list of idle states coming from the ACPI tables.  In that case user
-+space still can enable them later (on a per-CPU basis) with the help of
-+the ``disable`` idle state attribute in ``sysfs`` (see
-+:ref:`idle-states-representation` in :doc:`cpuidle`).  This basically means that
-+the idle states "known" to the driver may not be enabled by default if they have
-+not been exposed by the platform firmware (through the ACPI tables).
++parser_record = subparser.add_parser('record', help='record data accesses')
++record.set_argparser(parser_record)
 +
-+If the given processor model is not recognized by ``intel_idle``, but it
-+supports ``MWAIT``, the preliminary list of idle states coming from the ACPI
-+tables is used for building the final list that will be supplied to the
-+``CPUIdle`` core during driver registration.  For each idle state in that list,
-+the description, ``MWAIT`` hint and exit latency are copied to the corresponding
-+entry in the final list of idle states.  The name of the idle state represented
-+by it (to be returned by the ``name`` idle state attribute in ``sysfs``) is
-+"CX_ACPI", where X is the index of that idle state in the final list (note that
-+the minimum value of X is 1, because 0 is reserved for the "polling" state), and
-+its target residency is based on the exit latency value.  Specifically, for
-+C1-type idle states the exit latency value is also used as the target residency
-+(for compatibility with the majority of the "internal" tables of idle states for
-+various processor models recognized by ``intel_idle``) and for the other idle
-+state types (C2 and C3) the target residency value is 3 times the exit latency
-+(again, that is because it reflects the target residency to exit latency ratio
-+in the majority of cases for the processor models recognized by ``intel_idle``).
-+All of the idle states in the final list are enabled by default in this case.
++parser_report = subparser.add_parser('report',
++        help='report the recorded data accesses')
++report.set_argparser(parser_report)
 +
++args = parser.parse_args()
 +
-+.. _intel-idle-initialization-and-quirks:
++if args.command == 'record':
++    record.main(args)
++elif args.command == 'report':
++    report.main(args)
+diff --git a/tools/damon/heats.py b/tools/damon/heats.py
+new file mode 100644
+index 000000000000..48e966c5ca02
+--- /dev/null
++++ b/tools/damon/heats.py
+@@ -0,0 +1,358 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
 +
-+Initialization
-+==============
++"""
++Transform binary trace data into human readable text that can be used for
++heatmap drawing, or directly plot the data in a heatmap format.
 +
-+The initialization of ``intel_idle`` starts with checking if the kernel command
-+line options forbid the use of the ``MWAIT`` instruction.  If that is the case,
-+an error code is returned right away.
++Format of the text is:
 +
-+The next step is to check whether or not the processor model is known to the
-+driver, which determines the idle states enumeration method (see
-+`above <intel-idle-enumeration-of-states_>`_), and whether or not the processor
-+supports ``MWAIT`` (the initialization fails if that is not the case).  Then,
-+the ``MWAIT`` support in the processor is enumerated through ``CPUID`` and the
-+driver initialization fails if the level of support is not as expected (for
-+example, if the total number of ``MWAIT`` substates returned is 0).
++    <time> <space> <heat>
++    ...
 +
-+Next, if the driver is not configured to ignore the ACPI tables (see
-+`below <intel-idle-parameters_>`_), the idle states information provided by the
-+platform firmware is extracted from them.
++"""
 +
-+Then, ``CPUIdle`` device objects are allocated for all CPUs and the list of
-+available idle states is created as explained
-+`above <intel-idle-enumeration-of-states_>`_.
++import argparse
++import os
++import struct
++import subprocess
++import sys
++import tempfile
 +
-+Finally, ``intel_idle`` is registered with the help of cpuidle_register_driver()
-+as the ``CPUIdle`` driver for all CPUs in the system and a CPU online callback
-+for configuring individual CPUs is registered via cpuhp_setup_state(), which
-+(among other things) causes the callback routine to be invoked for all of the
-+CPUs present in the system at that time (each CPU executes its own instance of
-+the callback routine).  That routine registers a ``CPUIdle`` device for the CPU
-+running it (which enables the ``CPUIdle`` subsystem to operate that CPU) and
-+optionally performs some CPU-specific initialization actions that may be
-+required for the given processor model.
++class HeatSample:
++    space_idx = None
++    sz_time_space = None
++    heat = None
 +
++    def __init__(self, space_idx, sz_time_space, heat):
++        if sz_time_space < 0:
++            raise RuntimeError()
++        self.space_idx = space_idx
++        self.sz_time_space = sz_time_space
++        self.heat = heat
 +
-+.. _intel-idle-parameters:
++    def total_heat(self):
++        return self.heat * self.sz_time_space
 +
-+Kernel Command Line Options and Module Parameters
-+=================================================
++    def merge(self, sample):
++        "sample must have a space idx that same to self"
++        heat_sum = self.total_heat() + sample.total_heat()
++        self.heat = heat_sum / (self.sz_time_space + sample.sz_time_space)
++        self.sz_time_space += sample.sz_time_space
 +
-+The *x86* architecture support code recognizes three kernel command line
-+options related to CPU idle time management: ``idle=poll``, ``idle=halt``,
-+and ``idle=nomwait``.  If any of them is present in the kernel command line, the
-+``MWAIT`` instruction is not allowed to be used, so the initialization of
-+``intel_idle`` will fail.
++def pr_samples(samples, time_idx, time_unit, region_unit):
++    display_time = time_idx * time_unit
++    for idx, sample in enumerate(samples):
++        display_addr = idx * region_unit
++        if not sample:
++            print("%s\t%s\t%s" % (display_time, display_addr, 0.0))
++            continue
++        print("%s\t%s\t%s" % (display_time, display_addr, sample.total_heat() /
++            time_unit / region_unit))
 +
-+Apart from that there are two module parameters recognized by ``intel_idle``
-+itself that can be set via the kernel command line (they cannot be updated via
-+sysfs, so that is the only way to change their values).
++def to_idx(value, min_, unit):
++    return (value - min_) // unit
 +
-+The ``max_cstate`` parameter value is the maximum idle state index in the list
-+of idle states supplied to the ``CPUIdle`` core during the registration of the
-+driver.  It is also the maximum number of regular (non-polling) idle states that
-+can be used by ``intel_idle``, so the enumeration of idle states is terminated
-+after finding that number of usable idle states (the other idle states that
-+potentially might have been used if ``max_cstate`` had been greater are not
-+taken into consideration at all).  Setting ``max_cstate`` can prevent
-+``intel_idle`` from exposing idle states that are regarded as "too deep" for
-+some reason to the ``CPUIdle`` core, but it does so by making them effectively
-+invisible until the system is shut down and started again which may not always
-+be desirable.  In practice, it is only really necessary to do that if the idle
-+states in question cannot be enabled during system startup, because in the
-+working state of the system the CPU power management quality of service (PM
-+QoS) feature can be used to prevent ``CPUIdle`` from touching those idle states
-+even if they have been enumerated (see :ref:`cpu-pm-qos` in :doc:`cpuidle`).
-+Setting ``max_cstate`` to 0 causes the ``intel_idle`` initialization to fail.
++def read_task_heats(f, pid, aunit, amin, amax):
++    pid_ = struct.unpack('L', f.read(8))[0]
++    nr_regions = struct.unpack('I', f.read(4))[0]
++    if pid_ != pid:
++        f.read(20 * nr_regions)
++        return None
++    samples = []
++    for i in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        eaddr = struct.unpack('L', f.read(8))[0]
++        eaddr = min(eaddr, amax - 1)
++        heat = struct.unpack('I', f.read(4))[0]
 +
-+The ``noacpi`` module parameter (which is recognized by ``intel_idle`` if the
-+kernel has been configured with ACPI support), can be set to make the driver
-+ignore the system's ACPI tables entirely (it is unset by default).
++        if eaddr <= amin:
++            continue
++        if saddr >= amax:
++            continue
++        saddr = max(amin, saddr)
++        eaddr = min(amax, eaddr)
 +
++        sidx = to_idx(saddr, amin, aunit)
++        eidx = to_idx(eaddr - 1, amin, aunit)
++        for idx in range(sidx, eidx + 1):
++            sa = max(amin + idx * aunit, saddr)
++            ea = min(amin + (idx + 1) * aunit, eaddr)
++            sample = HeatSample(idx, (ea - sa), heat)
++            samples.append(sample)
++    return samples
 +
-+.. _intel-idle-core-and-package-idle-states:
++def parse_time(bindat):
++    sec = struct.unpack('l', bindat[0:8])[0]
++    nsec = struct.unpack('l', bindat[8:16])[0]
++    return sec * 1000000000 + nsec
 +
-+Core and Package Levels of Idle States
-+======================================
++def apply_samples(target_samples, samples, start_time, end_time, aunit, amin):
++    for s in samples:
++        sample = HeatSample(s.space_idx,
++                s.sz_time_space * (end_time - start_time), s.heat)
++        idx = sample.space_idx
++        if not target_samples[idx]:
++            target_samples[idx] = sample
++        else:
++            target_samples[idx].merge(sample)
 +
-+Typically, in a processor supporting the ``MWAIT`` instruction there are (at
-+least) two levels of idle states (or C-states).  One level, referred to as
-+"core C-states", covers individual cores in the processor, whereas the other
-+level, referred to as "package C-states", covers the entire processor package
-+and it may also involve other components of the system (GPUs, memory
-+controllers, I/O hubs etc.).
++def __pr_heats(f, pid, tunit, tmin, tmax, aunit, amin, amax):
++    heat_samples = [None] * ((amax - amin) // aunit)
 +
-+Some of the ``MWAIT`` hint values allow the processor to use core C-states only
-+(most importantly, that is the case for the ``MWAIT`` hint value corresponding
-+to the ``C1`` idle state), but the majority of them give it a license to put
-+the target core (i.e. the core containing the logical CPU executing ``MWAIT``
-+with the given hint value) into a specific core C-state and then (if possible)
-+to enter a specific package C-state at the deeper level.  For example, the
-+``MWAIT`` hint value representing the ``C3`` idle state allows the processor to
-+put the target core into the low-power state referred to as "core ``C3``" (or
-+``CC3``), which happens if all of the logical CPUs (SMT siblings) in that core
-+have executed ``MWAIT`` with the ``C3`` hint value (or with a hint value
-+representing a deeper idle state), and in addition to that (in the majority of
-+cases) it gives the processor a license to put the entire package (possibly
-+including some non-CPU components such as a GPU or a memory controller) into the
-+low-power state referred to as "package ``C3``" (or ``PC3``), which happens if
-+all of the cores have gone into the ``CC3`` state and (possibly) some additional
-+conditions are satisfied (for instance, if the GPU is covered by ``PC3``, it may
-+be required to be in a certain GPU-specific low-power state for ``PC3`` to be
-+reachable).
++    start_time = 0
++    end_time = 0
++    last_flushed = -1
++    while True:
++        start_time = end_time
++        timebin = f.read(16)
++        if (len(timebin)) != 16:
++            break
++        end_time = parse_time(timebin)
++        nr_tasks = struct.unpack('I', f.read(4))[0]
++        samples_set = {}
++        for t in range(nr_tasks):
++            samples = read_task_heats(f, pid, aunit, amin, amax)
++            if samples:
++                samples_set[pid] = samples
++        if not pid in samples_set:
++            continue
++        if start_time >= tmax:
++            continue
++        if end_time <= tmin:
++            continue
++        start_time = max(start_time, tmin)
++        end_time = min(end_time, tmax)
 +
-+As a rule, there is no simple way to make the processor use core C-states only
-+if the conditions for entering the corresponding package C-states are met, so
-+the logical CPU executing ``MWAIT`` with a hint value that is not core-level
-+only (like for ``C1``) must always assume that this may cause the processor to
-+enter a package C-state.  [That is why the exit latency and target residency
-+values corresponding to the majority of ``MWAIT`` hint values in the "internal"
-+tables of idle states in ``intel_idle`` reflect the properties of package
-+C-states.]  If using package C-states is not desirable at all, either
-+:ref:`PM QoS <cpu-pm-qos>` or the ``max_cstate`` module parameter of
-+``intel_idle`` described `above <intel-idle-parameters_>`_ must be used to
-+restrict the range of permissible idle states to the ones with core-level only
-+``MWAIT`` hint values (like ``C1``).
++        sidx = to_idx(start_time, tmin, tunit)
++        eidx = to_idx(end_time - 1, tmin, tunit)
++        for idx in range(sidx, eidx + 1):
++            if idx != last_flushed:
++                pr_samples(heat_samples, idx, tunit, aunit)
++                heat_samples = [None] * ((amax - amin) // aunit)
++                last_flushed = idx
++            st = max(start_time, tmin + idx * tunit)
++            et = min(end_time, tmin + (idx + 1) * tunit)
++            apply_samples(heat_samples, samples_set[pid], st, et, aunit, amin)
 +
++def pr_heats(args):
++    binfile = args.input
++    pid = args.pid
++    tres = args.tres
++    tmin = args.tmin
++    ares = args.ares
++    amin = args.amin
 +
-+References
-+==========
++    tunit = (args.tmax - tmin) // tres
++    aunit = (args.amax - amin) // ares
 +
-+.. [1] *Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 2B*,
-+       https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-2b-manual.html
++    # Compensate the values so that those fit with the resolution
++    tmax = tmin + tunit * tres
++    amax = amin + aunit * ares
 +
-+.. [2] *Advanced Configuration and Power Interface (ACPI) Specification*,
-+       https://uefi.org/specifications
-
-
++    with open(binfile, 'rb') as f:
++        __pr_heats(f, pid, tunit, tmin, tmax, aunit, amin, amax)
++
++class GuideInfo:
++    pid = None
++    start_time = None
++    end_time = None
++    lowest_addr = None
++    highest_addr = None
++    gaps = None
++
++    def __init__(self, pid, start_time):
++        self.pid = pid
++        self.start_time = start_time
++        self.gaps = []
++
++    def regions(self):
++        regions = []
++        region = [self.lowest_addr]
++        for gap in self.gaps:
++            for idx, point in enumerate(gap):
++                if idx == 0:
++                    region.append(point)
++                    regions.append(region)
++                else:
++                    region = [point]
++        region.append(self.highest_addr)
++        regions.append(region)
++        return regions
++
++    def total_space(self):
++        ret = 0
++        for r in self.regions():
++            ret += r[1] - r[0]
++        return ret
++
++    def __str__(self):
++        lines = ['pid:%d' % self.pid]
++        lines.append('time: %d-%d (%d)' % (self.start_time, self.end_time,
++                    self.end_time - self.start_time))
++        for idx, region in enumerate(self.regions()):
++            lines.append('region\t%2d: %020d-%020d (%d)' %
++                    (idx, region[0], region[1], region[1] - region[0]))
++        return '\n'.join(lines)
++
++def is_overlap(region1, region2):
++    if region1[1] < region2[0]:
++        return False
++    if region2[1] < region1[0]:
++        return False
++    return True
++
++def overlap_region_of(region1, region2):
++    return [max(region1[0], region2[0]), min(region1[1], region2[1])]
++
++def overlapping_regions(regions1, regions2):
++    overlap_regions = []
++    for r1 in regions1:
++        for r2 in regions2:
++            if is_overlap(r1, r2):
++                r1 = overlap_region_of(r1, r2)
++        if r1:
++            overlap_regions.append(r1)
++    return overlap_regions
++
++def get_guide_info(binfile):
++    "Read file, return the set of guide information objects of the data"
++    guides = {}
++    with open(binfile, 'rb') as f:
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            monitor_time = parse_time(timebin)
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                pid = struct.unpack('L', f.read(8))[0]
++                nr_regions = struct.unpack('I', f.read(4))[0]
++                if not pid in guides:
++                    guides[pid] = GuideInfo(pid, monitor_time)
++                guide = guides[pid]
++                guide.end_time = monitor_time
++
++                last_addr = None
++                gaps = []
++                for r in range(nr_regions):
++                    saddr = struct.unpack('L', f.read(8))[0]
++                    eaddr = struct.unpack('L', f.read(8))[0]
++                    f.read(4)
++
++                    if not guide.lowest_addr or saddr < guide.lowest_addr:
++                        guide.lowest_addr = saddr
++                    if not guide.highest_addr or eaddr > guide.highest_addr:
++                        guide.highest_addr = eaddr
++
++                    if not last_addr:
++                        last_addr = eaddr
++                        continue
++                    if last_addr != saddr:
++                        gaps.append([last_addr, saddr])
++                    last_addr = eaddr
++
++                if not guide.gaps:
++                    guide.gaps = gaps
++                else:
++                    guide.gaps = overlapping_regions(guide.gaps, gaps)
++    return sorted(list(guides.values()), key=lambda x: x.total_space(),
++                    reverse=True)
++
++def pr_guide(binfile):
++    for guide in get_guide_info(binfile):
++        print(guide)
++
++def region_sort_key(region):
++    return region[1] - region[0]
++
++def set_missed_args(args):
++    if args.pid and args.tmin and args.tmax and args.amin and args.amax:
++        return
++    guides = get_guide_info(args.input)
++    guide = guides[0]
++    if not args.pid:
++        args.pid = guide.pid
++    for g in guides:
++        if g.pid == args.pid:
++            guide = g
++            break
++
++    if not args.tmin:
++        args.tmin = guide.start_time
++    if not args.tmax:
++        args.tmax = guide.end_time
++
++    if not args.amin or not args.amax:
++        region = sorted(guide.regions(), key=lambda x: x[1] - x[0],
++                reverse=True)[0]
++        args.amin = region[0]
++        args.amax = region[1]
++
++def plot_heatmap(data_file, output_file):
++    terminal = output_file.split('.')[-1]
++    if not terminal in ['pdf', 'jpeg', 'png', 'svg']:
++        os.remove(data_file)
++        print("Unsupported plot output type.")
++        exit(-1)
++
++    gnuplot_cmd = """
++    set term %s;
++    set output '%s';
++    set key off;
++    set xrange [0:];
++    set yrange [0:];
++    set xlabel 'Time (ns)';
++    set ylabel 'Virtual Address (bytes)';
++    plot '%s' using 1:2:3 with image;""" % (terminal, output_file, data_file)
++    subprocess.call(['gnuplot', '-e', gnuplot_cmd])
++    os.remove(data_file)
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--pid', metavar='<pid>', type=int,
++            help='pid of target task')
++    parser.add_argument('--tres', metavar='<resolution>', type=int,
++            default=500, help='time resolution of the output')
++    parser.add_argument('--tmin', metavar='<time>', type=lambda x: int(x,0),
++            help='minimal time of the output')
++    parser.add_argument('--tmax', metavar='<time>', type=lambda x: int(x,0),
++            help='maximum time of the output')
++    parser.add_argument('--ares', metavar='<resolution>', type=int, default=500,
++            help='space address resolution of the output')
++    parser.add_argument('--amin', metavar='<address>', type=lambda x: int(x,0),
++            help='minimal space address of the output')
++    parser.add_argument('--amax', metavar='<address>', type=lambda x: int(x,0),
++            help='maximum space address of the output')
++    parser.add_argument('--guide', action='store_true',
++            help='print a guidance for the min/max/resolution settings')
++    parser.add_argument('--heatmap', metavar='<file>', type=str,
++            help='heatmap image file to create')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    if args.guide:
++        pr_guide(args.input)
++    else:
++        set_missed_args(args)
++        orig_stdout = sys.stdout
++        if args.heatmap:
++            tmp_path = tempfile.mkstemp()[1]
++            tmp_file = open(tmp_path, 'w')
++            sys.stdout = tmp_file
++
++        pr_heats(args)
++
++        if args.heatmap:
++            sys.stdout = orig_stdout
++            tmp_file.flush()
++            tmp_file.close()
++            plot_heatmap(tmp_path, args.heatmap)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/nr_regions.py b/tools/damon/nr_regions.py
+new file mode 100644
+index 000000000000..7ed4cdda4eb7
+--- /dev/null
++++ b/tools/damon/nr_regions.py
+@@ -0,0 +1,116 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"Print out distribution of the number of regions in the given record"
++
++import argparse
++import os
++import struct
++import subprocess
++import sys
++import tempfile
++
++def patterns(f):
++    wss = 0
++    nr_regions = struct.unpack('I', f.read(4))[0]
++
++    patterns = []
++    for r in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        eaddr = struct.unpack('L', f.read(8))[0]
++        nr_accesses = struct.unpack('I', f.read(4))[0]
++        patterns.append([eaddr - saddr, nr_accesses])
++    return patterns
++
++def plot_dist(data_file, output_file, xlabel):
++    terminal = output_file.split('.')[-1]
++    if not terminal in ['pdf', 'jpeg', 'png', 'svg']:
++        os.remove(data_file)
++        print("Unsupported plot output type.")
++        exit(-1)
++
++    gnuplot_cmd = """
++    set term %s;
++    set output '%s';
++    set key off;
++    set ylabel 'number of sampling regions';
++    set xlabel '%s';
++    plot '%s' with linespoints;""" % (terminal, output_file, xlabel, data_file)
++    subprocess.call(['gnuplot', '-e', gnuplot_cmd])
++    os.remove(data_file)
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--range', '-r', type=int, nargs=3,
++            metavar=('<start>', '<stop>', '<step>'),
++            help='range of wss percentiles to print')
++    parser.add_argument('--sortby', '-s', choices=['time', 'size'],
++            help='the metric to be used for sorting the number of regions')
++    parser.add_argument('--plot', '-p', type=str, metavar='<file>',
++            help='plot the distribution to an image file')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    percentiles = [0, 25, 50, 75, 100]
++
++    file_path = args.input
++    if args.range:
++        percentiles = range(args.range[0], args.range[1], args.range[2])
++    wss_sort = True
++    if args.sortby == 'time':
++        wss_sort = False
++
++    pid_pattern_map = {}
++    with open(file_path, 'rb') as f:
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                pid = struct.unpack('L', f.read(8))[0]
++                if not pid_pattern_map:
++                    pid_pattern_map[pid] = []
++                pid_pattern_map[pid].append(patterns(f))
++
++    orig_stdout = sys.stdout
++    if args.plot:
++        tmp_path = tempfile.mkstemp()[1]
++        tmp_file = open(tmp_path, 'w')
++        sys.stdout = tmp_file
++
++    print('# <percentile> <# regions>')
++    for pid in pid_pattern_map.keys():
++        snapshots = pid_pattern_map[pid][20:]
++        nr_regions_dist = []
++        for snapshot in snapshots:
++            nr_regions_dist.append(len(snapshot))
++        if wss_sort:
++            nr_regions_dist.sort(reverse=False)
++
++        print('# pid\t%s' % pid)
++        print('# avr:\t%d' % (sum(nr_regions_dist) / len(nr_regions_dist)))
++        for percentile in percentiles:
++            thres_idx = int(percentile / 100.0 * len(nr_regions_dist))
++            if thres_idx == len(nr_regions_dist):
++                thres_idx -= 1
++            threshold = nr_regions_dist[thres_idx]
++            print('%d\t%d' % (percentile, nr_regions_dist[thres_idx]))
++
++    if args.plot:
++        sys.stdout = orig_stdout
++        tmp_file.flush()
++        tmp_file.close()
++        xlabel = 'runtime (percent)'
++        if wss_sort:
++            xlabel = 'percentile'
++        plot_dist(tmp_path, args.plot, xlabel)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/record.py b/tools/damon/record.py
+new file mode 100644
+index 000000000000..93a85722f601
+--- /dev/null
++++ b/tools/damon/record.py
+@@ -0,0 +1,182 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++Record data access patterns of the given processes.
++"""
++
++import argparse
++import copy
++import os
++import signal
++import subprocess
++import time
++
++DBGFS="/sys/kernel/debug/damon/"
++DBGFS_ATTRS = DBGFS + "attrs"
++DBGFS_PIDS = DBGFS + "pids"
++DBGFS_TRACING_ON = DBGFS + "monitor_on"
++
++orig_attrs = None
++
++def set_target_pid(pid):
++    return subprocess.call('echo %s > %s' % (pid, DBGFS_PIDS), shell=True,
++            executable='/bin/bash')
++
++def turn_damon(on_off):
++    return subprocess.call("echo %s > %s" % (on_off, DBGFS_TRACING_ON),
++            shell=True, executable="/bin/bash")
++
++def is_damon_running():
++    with open(DBGFS_TRACING_ON, 'r') as f:
++        return f.read().strip() == 'on'
++
++def do_trace(target, is_target_pid, attrs, old_attrs):
++    if os.path.isfile(attrs.rfile_path):
++        os.rename(attrs.rfile_path, attrs.rfile_path + '.old')
++
++    if attrs.apply():
++        print('attributes (%s) failed to be applied' % attrs)
++        cleanup_exit(old_attrs, -1)
++    print('# damon attrs: %s' % attrs)
++    if not is_target_pid:
++        p = subprocess.Popen(target, shell=True, executable='/bin/bash')
++        target = p.pid
++    if set_target_pid(target):
++        print('pid setting (%s) failed' % target)
++        cleanup_exit(old_attrs, -2)
++    if turn_damon('on'):
++        print('could not turn on damon' % target)
++        cleanup_exit(old_attrs, -3)
++    if not is_target_pid:
++        p.wait()
++    while True:
++        # damon will turn it off by itself if the target tasks are terminated.
++        if not is_damon_running():
++            break
++        time.sleep(1)
++
++    cleanup_exit(old_attrs, 0)
++
++class Attrs:
++    sample_interval = None
++    aggr_interval = None
++    regions_update_interval = None
++    min_nr_regions = None
++    max_nr_regions = None
++    rfile_path = None
++
++    def __init__(self, s, a, r, n, x, f):
++        self.sample_interval = s
++        self.aggr_interval = a
++        self.regions_update_interval = r
++        self.min_nr_regions = n
++        self.max_nr_regions = x
++        self.rfile_path = f
++
++    def __str__(self):
++        return "%s %s %s %s %s %s" % (self.sample_interval, self.aggr_interval,
++                self.regions_update_interval, self.min_nr_regions,
++                self.max_nr_regions, self.rfile_path)
++
++    def apply(self):
++        return subprocess.call('echo %s > %s' % (self, DBGFS_ATTRS),
++                shell=True, executable='/bin/bash')
++
++def current_attrs():
++    with open(DBGFS_ATTRS, 'r') as f:
++        attrs = f.read().split()
++    atnrs = [int(x) for x in attrs[0:5]]
++    attrs = atnrs + [attrs[5]]
++    return Attrs(*attrs)
++
++def cmd_args_to_attrs(args):
++    "Generate attributes based on current attributes and command arguments"
++    a = current_attrs()
++    if args.sample:
++        a.sample_interval = args.sample
++    if args.aggr:
++        a.aggr_interval = args.aggr
++    if args.updr:
++        a.regions_update_interval = args.updr
++    if args.minr:
++        a.min_nr_regions = args.minr
++    if args.maxr:
++        a.max_nr_regions = args.maxr
++    if args.out:
++        if not os.path.isabs(args.out):
++            args.out = os.path.join(os.getcwd(), args.out)
++        a.rfile_path = args.out
++    return a
++
++def cleanup_exit(orig_attrs, exit_code):
++    if is_damon_running():
++        if turn_damon('off'):
++            print('failed to turn damon off!')
++    if orig_attrs:
++        if orig_attrs.apply():
++            print('original attributes (%s) restoration failed!' % orig_attrs)
++    exit(exit_code)
++
++def sighandler(signum, frame):
++    print('\nsignal %s received' % signum)
++    cleanup_exit(orig_attrs, signum)
++
++def chk_prerequisites():
++    if os.geteuid() != 0:
++        print("Run as root")
++        exit(1)
++
++    if not os.path.isdir(DBGFS):
++        print("damon debugfs not exists.")
++        exit(1)
++
++    if not os.path.isfile(DBGFS_PIDS):
++        print("damon pids file (%s) not exists." % DBGFS_PIDS)
++        exit(1)
++
++def set_argparser(parser):
++    parser.add_argument('target', type=str, metavar='<target>',
++            help='the target command or the pid to record')
++    parser.add_argument('-s', '--sample', metavar='<interval>', type=int,
++            help='sampling interval')
++    parser.add_argument('-a', '--aggr', metavar='<interval>', type=int,
++            help='aggregate interval')
++    parser.add_argument('-u', '--updr', metavar='<interval>', type=int,
++            help='regions update interval')
++    parser.add_argument('-n', '--minr', metavar='<# regions>', type=int,
++            help='minimal number of regions')
++    parser.add_argument('-m', '--maxr', metavar='<# regions>', type=int,
++            help='maximum number of regions')
++    parser.add_argument('-o', '--out', metavar='<file path>', type=str,
++            default='damon.data', help='output file path')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    chk_prerequisites()
++
++    signal.signal(signal.SIGINT, sighandler)
++    signal.signal(signal.SIGTERM, sighandler)
++    orig_attrs = current_attrs()
++
++    new_attrs = cmd_args_to_attrs(args)
++    target = args.target
++
++    target_fields = target.split()
++    if not subprocess.call('which %s > /dev/null' % target_fields[0],
++            shell=True, executable='/bin/bash'):
++        do_trace(target, False, new_attrs, orig_attrs)
++    else:
++        try:
++            pid = int(target)
++        except:
++            print('target \'%s\' is neither a command, nor a pid' % target)
++            exit(1)
++        do_trace(target, True, new_attrs, orig_attrs)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/report.py b/tools/damon/report.py
+new file mode 100644
+index 000000000000..c661c7b2f1af
+--- /dev/null
++++ b/tools/damon/report.py
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import argparse
++
++import bin2txt
++import heats
++import nr_regions
++import wss
++
++def set_argparser(parser):
++    subparsers = parser.add_subparsers(title='report type', dest='report_type',
++            metavar='<report type>', help='the type of the report to generate')
++    subparsers.required = True
++
++    parser_raw = subparsers.add_parser('raw', help='human readable raw data')
++    bin2txt.set_argparser(parser_raw)
++
++    parser_heats = subparsers.add_parser('heats', help='heats of regions')
++    heats.set_argparser(parser_heats)
++
++    parser_wss = subparsers.add_parser('wss', help='working set size')
++    wss.set_argparser(parser_wss)
++
++    parser_nr_regions = subparsers.add_parser('nr_regions',
++            help='number of regions')
++    nr_regions.set_argparser(parser_nr_regions)
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    if args.report_type == 'raw':
++        bin2txt.main(args)
++    elif args.report_type == 'heats':
++        heats.main(args)
++    elif args.report_type == 'wss':
++        wss.main(args)
++    elif args.report_type == 'nr_regions':
++        nr_regions.main(args)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/wss.py b/tools/damon/wss.py
+new file mode 100644
+index 000000000000..a6a80ecfca05
+--- /dev/null
++++ b/tools/damon/wss.py
+@@ -0,0 +1,121 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"Print out the distribution of the working set sizes of the given trace"
++
++import argparse
++import os
++import struct
++import subprocess
++import sys
++import tempfile
++
++def patterns(f):
++    wss = 0
++    nr_regions = struct.unpack('I', f.read(4))[0]
++
++    patterns = []
++    for r in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        eaddr = struct.unpack('L', f.read(8))[0]
++        nr_accesses = struct.unpack('I', f.read(4))[0]
++        patterns.append([eaddr - saddr, nr_accesses])
++    return patterns
++
++def plot_dist(data_file, output_file, xlabel):
++    terminal = output_file.split('.')[-1]
++    if not terminal in ['pdf', 'jpeg', 'png', 'svg']:
++        os.remove(data_file)
++        print("Unsupported plot output type.")
++        exit(-1)
++
++    gnuplot_cmd = """
++    set term %s;
++    set output '%s';
++    set key off;
++    set ylabel 'working set size (bytes)';
++    set xlabel '%s';
++    plot '%s' with linespoints;""" % (terminal, output_file, xlabel, data_file)
++    subprocess.call(['gnuplot', '-e', gnuplot_cmd])
++    os.remove(data_file)
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--range', '-r', type=int, nargs=3,
++            metavar=('<start>', '<stop>', '<step>'),
++            help='range of wss percentiles to print')
++    parser.add_argument('--sortby', '-s', choices=['time', 'size'],
++            help='the metric to be used for the sort of the working set sizes')
++    parser.add_argument('--plot', '-p', type=str, metavar='<file>',
++            help='plot the distribution to an image file')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    percentiles = [0, 25, 50, 75, 100]
++
++    file_path = args.input
++    if args.range:
++        percentiles = range(args.range[0], args.range[1], args.range[2])
++    wss_sort = True
++    if args.sortby == 'time':
++        wss_sort = False
++
++    pid_pattern_map = {}
++    with open(file_path, 'rb') as f:
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                pid = struct.unpack('L', f.read(8))[0]
++                if not pid_pattern_map:
++                    pid_pattern_map[pid] = []
++                pid_pattern_map[pid].append(patterns(f))
++
++    orig_stdout = sys.stdout
++    if args.plot:
++        tmp_path = tempfile.mkstemp()[1]
++        tmp_file = open(tmp_path, 'w')
++        sys.stdout = tmp_file
++
++    print('# <percentile> <wss>')
++    for pid in pid_pattern_map.keys():
++        snapshots = pid_pattern_map[pid][20:]
++        wss_dist = []
++        for snapshot in snapshots:
++            wss = 0
++            for p in snapshot:
++                if p[1] <= 0:
++                    continue
++                wss += p[0]
++            wss_dist.append(wss)
++        if wss_sort:
++            wss_dist.sort(reverse=False)
++
++        print('# pid\t%s' % pid)
++        print('# avr:\t%d' % (sum(wss_dist) / len(wss_dist)))
++        for percentile in percentiles:
++            thres_idx = int(percentile / 100.0 * len(wss_dist))
++            if thres_idx == len(wss_dist):
++                thres_idx -= 1
++            threshold = wss_dist[thres_idx]
++            print('%d\t%d' % (percentile, wss_dist[thres_idx]))
++
++    if args.plot:
++        sys.stdout = orig_stdout
++        tmp_file.flush()
++        tmp_file.close()
++        xlabel = 'runtime (percent)'
++        if wss_sort:
++            xlabel = 'percentile'
++        plot_dist(tmp_path, args.plot, xlabel)
++
++if __name__ == '__main__':
++    main()
+-- 
+2.17.1
 
