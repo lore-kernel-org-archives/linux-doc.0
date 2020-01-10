@@ -2,46 +2,46 @@ Return-Path: <SRS0=OhIE=27=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9150CC282DD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 15:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 100A1C282DD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 16:03:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5AEFC2077C
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 15:31:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C40A820838
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 16:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578670268;
-	bh=PmlZ0floUXtGGa7TOfgYeBKFANJKRe+aQitOtud+P8c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=raz/+Fje4+FXnh+6zIl/j8dWFK1EKILm+kLx2XJeHpReV+/yQ4itvO8MOmm7SfrOz
-	 MJhNNBmyzE1JrPmI3srhtq/prIqIEGXIwDnaUPCCn6f9NYzin6eTAgGAYw/3pgAIj/
-	 CxSzI3FbQwtQ/9j7Fbdjf5o3HLFQ3nu5Z1q8QVAM=
+	s=default; t=1578672208;
+	bh=u+utqt1PS3n7DiWo0lF4vb+WXHJZ5CfWuAQoGEkt59A=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=KZ00BQ/FDPQRN7fPZDIMgsaESSI0CRYzztX0JzjnuLLRNfeuMqLkTu7mo2gPDNtqJ
+	 Fh2FCuCU0vMECRblLJ+1j7HMM/mqyGPzyUGbH+Is8QgHlcALnU32buAPclDqnpgmbl
+	 CNuqugD995z4AMDup2h3YaKMaZsKi0tYyCCYTkbU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728251AbgAJPbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 10:31:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50182 "EHLO mail.kernel.org"
+        id S1728556AbgAJQD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 11:03:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51850 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728137AbgAJPbH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Jan 2020 10:31:07 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728440AbgAJQD2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Jan 2020 11:03:28 -0500
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F61020673;
-        Fri, 10 Jan 2020 15:31:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1C6492082E;
+        Fri, 10 Jan 2020 16:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578670267;
-        bh=PmlZ0floUXtGGa7TOfgYeBKFANJKRe+aQitOtud+P8c=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=X36GmWlHGvdXfYh5YuOf44/kmbaIMvVOj2MbahzvrCVQ+8puv/3KqDuhFCWJTuaRF
-         CtJbxKd7AtMrp6ePDdBWol5fdg87tr/PHW18OCfLJ+Cb3x0fxOC8Y4vAiROVldLZLz
-         deogJUz0nIuBkh+hPJgohYk79pa7bq7pvppTZc+M=
-Date:   Sat, 11 Jan 2020 00:30:59 +0900
+        s=default; t=1578672207;
+        bh=u+utqt1PS3n7DiWo0lF4vb+WXHJZ5CfWuAQoGEkt59A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=2lQiJxppWEztdtcyzfp0rWgTQfXG93lbkPhC4MI90UOON4vyAI3J0FIOjD80/FdTB
+         cZsNSIEMLfevBQioPtUs491T2b2HV0/TdV83O4DZLUe+nePIDpImtCAN5Cynd9+oAO
+         VxmPSGBfzqlOXTo5B/t02oNQjwzsyZHOTE6keCw0=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Namhyung Kim <namhyung@kernel.org>,
         Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
@@ -56,55 +56,356 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 00/22] tracing: bootconfig: Boot-time tracing and
- Extra boot config
-Message-Id: <20200111003059.5c24c0ee4a85df10ec9f17e6@kernel.org>
-In-Reply-To: <20200109181055.1999b344@gandalf.local.home>
-References: <157736902773.11126.2531161235817081873.stgit@devnote2>
-        <20200109181055.1999b344@gandalf.local.home>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v6 00/22] tracing: bootconfig: Boot-time tracing and Extra boot config
+Date:   Sat, 11 Jan 2020 01:03:20 +0900
+Message-Id: <157867220019.17873.13377985653744804396.stgit@devnote2>
+X-Mailer: git-send-email 2.20.1
+User-Agent: StGit/0.17.1-dirty
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
+Hello,
 
-On Thu, 9 Jan 2020 18:10:55 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+This is the 6th version of the series for the boot-time tracing.
 
-> On Thu, 26 Dec 2019 23:03:48 +0900
-> Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> 
-> > Hello,
-> > 
-> > This is the 5th version of the series for the boot-time tracing.
-> > 
-> > Previous version is here.
-> > 
-> > https://lkml.kernel.org/r/157528159833.22451.14878731055438721716.stgit@devnote2
-> 
-> Hi Masami,
-> 
-> I applied all your patches to a test branch and was playing with it a
-> little. This seems fine to me and works well (and very easy to use).
-> Probably could use some more examples, but that's just a nit.
+Previous version is here.
 
-OK, I'll add some examples to Documentation/trace/boottime-trace.rst
-next time.
+https://lkml.kernel.org/r/157736902773.11126.2531161235817081873.stgit@devnote2
 
-> 
-> If nobody has any issues with this code, I'll wait for v6 with the
-> fixes to issues found in this series, and I'll happily apply them for
-> linux-next.
+Thanks Steve for reivew. I fixed issues in this version.
 
-Thanks! I'll send v6 soon, which is including fixes and testcases. :)
+ - [1/22] Remove "!!" from xbc_node_is_value().
+	  Redefine xbc_node_is_key() as "!xbc_node_is_value()".
+	  Fix a memory leak and a bug in __xbc_parse_value().
+	  Add xbc_destroy_all() to clean up the parsed data.
+	  Fix to treat comment right after value as a newline.
 
-Thank you!
+ - [3/22] Fix memory leaks.
+	  Fix to cleanup old bootconfig on memory before load new one.
+	  Show applying message.
+	  Suppress parse error with wrong data in initrd for delete_xbc().
+
+ - [4/22] Add some testcases for value parser
+          Add a test case for checking delete old bootconfig
+
+ - [9/22] Add a note about comment after value.
+
+ - [21/22] Fix to depend on CONFIG_DYNAMIC_FTRACE instead
+	  of CONFIG_FUNCTION_TRACER.
+
+This series can be applied on v5.5-rc5 or directly available at;
+
+https://github.com/mhiramat/linux.git ftrace-boottrace-v6
 
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Extra Boot Config
+=================
+
+Extra boot config allows admin to pass a tree-structured key-value
+list when booting up the kernel. This expands the kernel command
+line in an efficient way.
+
+Each key is described as a dot-jointed-words. And user can write
+the key-words in tree stlye. (In this version, the tailing ';'
+becomes optional. See Documentation/admin-guide/bootconfig.rst)
+
+For example,
+
+ feature.option.foo = 1
+ feature.option.bar = 2
+
+can be also written in
+
+ feature.option {
+    foo = 1
+    bar = 2
+ }
+
+or more compact,
+
+ feature.option{foo=1;bar=2}
+
+(Note that in both style, the same words are merged automatically
+ and make a single tree)
+All values are treated as a string, or array of strings, e.g.
+
+ feature.options = "foo", "bar"
+
+User can see the loaded key-value list via /proc/bootconfig.
+The size is limited upto 32KB and 1024 key-words and values
+in total.
+
+Boot with a Boot Config
+=======================
+
+This version doesn't require to modify boot loaders anymore.
+The boot config is loaded with initrd, and there is new "bootconfig"
+command under tools/bootconfig.
+To add (append) a bootconfig file to an initrd, you can use the
+bootconfig command like:
+
+ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
+
+This verifies the configuration file too. 
+
+
+Boot-time Tracing
+=================
+
+Boot-time tracing supports following boot configs. Please read
+Documentation/trace/boottime-trace.rst for details.
+
+     - kernel.dump_on_oops [= MODE]
+     - kernel.traceoff_on_warning
+     - kernel.tp_printk
+     - kernel.fgraph_filters = FILTER[, FILTER2...]
+     - kernel.fgraph_notraces = FILTER[, FILTER2...]
+     - kernel.fgraph_max_depth = MAX_DEPTH
+     - ftrace.[instance.INSTANCE.]options = OPT1[,OPT2...]
+     - ftrace.[instance.INSTANCE.]trace_clock = CLOCK
+     - ftrace.[instance.INSTANCE.]buffer_size = SIZE
+     - ftrace.[instance.INSTANCE.]alloc_snapshot
+     - ftrace.[instance.INSTANCE.]cpumask = CPUMASK
+     - ftrace.[instance.INSTANCE.]events = EVENT[, EVENT2...]
+     - ftrace.[instance.INSTANCE.]tracer = TRACER
+     - ftrace.[instance.INSTANCE.]ftrace.filters
+     - ftrace.[instance.INSTANCE.]ftrace.notraces
+     - ftrace.[instance.INSTANCE.]event.GROUP.EVENT.filter = FILTER
+     - ftrace.[instance.INSTANCE.]event.GROUP.EVENT.actions = ACTION[, ACTION2...]
+     - ftrace.[instance.INSTANCE.]event.GROUP.EVENT.enable
+     - ftrace.[instance.INSTANCE.]event.kprobes.EVENT.probes = PROBE[, PROBE2...]
+     - ftrace.[instance.INSTANCE.]event.synthetic.EVENT.fields = FIELD[, FIELD2...]
+
+Kernel and Init Command Line
+============================
+
+Boot config also supports kernel and init command line parameters
+except for early kernel parameters.
+
+In boot config, all key-values start with "kernel." are automatically
+merged into user passed boot command line, and key-values which
+start with "init." are also passed to init. These options are visible
+on /proc/cmdline.
+
+For example,
+
+kernel {
+  audit = on
+  audit_backlog_limit = 256
+}
+init.systemd.unified_cgroup_hierarchy = 1
+
+
+Usage
+=====
+
+With this series, we can setup new kprobe and synthetic events, more
+complicated event filters and trigger actions including histogram
+via supplemental kernel cmdline.
+
+We can add filter and actions for each event, define kprobe events,
+and synthetic events with histogram like below.
+
+ftrace.event {
+	task.task_newtask {
+		filter = "pid < 128"
+		enable
+	}
+	kprobes.vfs_read {
+		probes = "vfs_read $arg1 $arg2"
+		filter = "common_pid < 200"
+		enable
+	}
+	synthetic.initcall_latency {
+		fields = "unsigned long func", "u64 lat"
+		actions = "hist:keys=func.sym,lat:vals=lat:sort=lat"
+	}
+	initcall.initcall_start {
+		actions = "hist:keys=func:ts0=common_timestamp.usecs"
+	}
+	initcall.initcall_finish {
+		actions = "hist:keys=func:lat=common_timestamp.usecs-$ts0:onmatch(initcall.initcall_start).initcall_latency(func,$lat)"
+	}
+}
+
+Also, this supports "instance" node, which allows us to run several
+tracers for different purpose at once. For example, one tracer is for
+tracing functions start with "user_", and others tracing "kernel_",
+you can write boot config as:
+
+ftrace.instance {
+	foo {
+		tracer = "function"
+		ftrace-filters = "user_*"
+	}
+	bar {
+		tracer = "function"
+		ftrace-filters = "function_*"
+	}
+}
+
+The instance node also accepts event nodes so that each instance
+can customize its event tracing.
+
+This boot-time trace also supports ftrace kernel parameters.
+For example, following kernel parameters
+
+trace_options=sym-addr trace_event=initcall:* tp_printk trace_buf_size=1M ftrace=function ftrace_filter="vfs*"
+
+it can be written in boot config like below.
+
+ftrace {
+	options = sym-addr
+	events = "initcall:*"
+	tp-printk
+	buffer-size = 1MB
+	ftrace-filters = "vfs*"
+}
+
+However, since the initialization timing is different, if you need
+to trace very early boot, please use normal kernel parameters.
+
+Some Notes
+==========
+
+- To align the legacy command line rule, I made the quotes (double
+  quotes or single quotes) not able to be escaped.
+  Also, this rejects non-printable chars (except for space). Actually
+  legacy cmdline accepts any of them, but it might confuse users if
+  they put a control code by mistake. Imagine that they put a "\b"
+  on it...
+
+- Since it is not easy to write boot-time tracing without any bug
+  in bootconfig, a user-helper command will be needed.
+  That command will generate a boot config file from current ftrace
+  settings, or try to apply given boot config setting to the ftrace.
+
+Thank you,
+
+---
+
+Masami Hiramatsu (22):
+      bootconfig: Add Extra Boot Config support
+      bootconfig: Load boot config from the tail of initrd
+      tools: bootconfig: Add bootconfig command
+      tools: bootconfig: Add bootconfig test script
+      proc: bootconfig: Add /proc/bootconfig to show boot config list
+      init/main.c: Alloc initcall_command_line in do_initcall() and free it
+      bootconfig: init: Allow admin to use bootconfig for kernel command line
+      bootconfig: init: Allow admin to use bootconfig for init command line
+      Documentation: bootconfig: Add a doc for extended boot config
+      tracing: Apply soft-disabled and filter to tracepoints printk
+      tracing: kprobes: Output kprobe event to printk buffer
+      tracing: kprobes: Register to dynevent earlier stage
+      tracing: Accept different type for synthetic event fields
+      tracing: Add NULL trace-array check in print_synth_event()
+      tracing/boot: Add boot-time tracing
+      tracing/boot: Add per-event settings
+      tracing/boot Add kprobe event support
+      tracing/boot: Add synthetic event support
+      tracing/boot: Add instance node support
+      tracing/boot: Add cpu_mask option support
+      tracing/boot: Add function tracer filter options
+      Documentation: tracing: Add boot-time tracing document
+
+
+ Documentation/admin-guide/bootconfig.rst           |  186 +++++
+ Documentation/admin-guide/index.rst                |    1 
+ Documentation/trace/boottime-trace.rst             |  184 +++++
+ Documentation/trace/index.rst                      |    1 
+ MAINTAINERS                                        |    9 
+ fs/proc/Makefile                                   |    1 
+ fs/proc/bootconfig.c                               |   89 ++
+ include/linux/bootconfig.h                         |  224 ++++++
+ include/linux/trace_events.h                       |    1 
+ init/Kconfig                                       |   12 
+ init/main.c                                        |  213 +++++
+ kernel/trace/Kconfig                               |    9 
+ kernel/trace/Makefile                              |    1 
+ kernel/trace/trace.c                               |   63 +-
+ kernel/trace/trace_boot.c                          |  353 +++++++++
+ kernel/trace/trace_events.c                        |    1 
+ kernel/trace/trace_events_hist.c                   |   14 
+ kernel/trace/trace_events_trigger.c                |    2 
+ kernel/trace/trace_kprobe.c                        |   81 +-
+ lib/Kconfig                                        |    3 
+ lib/Makefile                                       |    2 
+ lib/bootconfig.c                                   |  803 ++++++++++++++++++++
+ tools/Makefile                                     |   11 
+ tools/bootconfig/.gitignore                        |    1 
+ tools/bootconfig/Makefile                          |   23 +
+ tools/bootconfig/include/linux/bootconfig.h        |    7 
+ tools/bootconfig/include/linux/bug.h               |   12 
+ tools/bootconfig/include/linux/ctype.h             |    7 
+ tools/bootconfig/include/linux/errno.h             |    7 
+ tools/bootconfig/include/linux/kernel.h            |   18 
+ tools/bootconfig/include/linux/printk.h            |   17 
+ tools/bootconfig/include/linux/string.h            |   32 +
+ tools/bootconfig/main.c                            |  354 +++++++++
+ .../samples/bad-array-space-comment.bconf          |    5 
+ tools/bootconfig/samples/bad-array.bconf           |    2 
+ tools/bootconfig/samples/bad-dotword.bconf         |    4 
+ tools/bootconfig/samples/bad-empty.bconf           |    1 
+ tools/bootconfig/samples/bad-keyerror.bconf        |    2 
+ tools/bootconfig/samples/bad-longkey.bconf         |    1 
+ tools/bootconfig/samples/bad-manywords.bconf       |    1 
+ tools/bootconfig/samples/bad-no-keyword.bconf      |    2 
+ tools/bootconfig/samples/bad-nonprintable.bconf    |    2 
+ tools/bootconfig/samples/bad-spaceword.bconf       |    2 
+ tools/bootconfig/samples/bad-tree.bconf            |    5 
+ tools/bootconfig/samples/bad-value.bconf           |    3 
+ tools/bootconfig/samples/escaped.bconf             |    3 
+ .../samples/good-array-space-comment.bconf         |    4 
+ .../samples/good-comment-after-value.bconf         |    1 
+ tools/bootconfig/samples/good-printables.bconf     |    2 
+ tools/bootconfig/samples/good-simple.bconf         |   11 
+ tools/bootconfig/samples/good-single.bconf         |    4 
+ .../samples/good-space-after-value.bconf           |    1 
+ tools/bootconfig/samples/good-tree.bconf           |   12 
+ tools/bootconfig/test-bootconfig.sh                |  105 +++
+ 54 files changed, 2836 insertions(+), 79 deletions(-)
+ create mode 100644 Documentation/admin-guide/bootconfig.rst
+ create mode 100644 Documentation/trace/boottime-trace.rst
+ create mode 100644 fs/proc/bootconfig.c
+ create mode 100644 include/linux/bootconfig.h
+ create mode 100644 kernel/trace/trace_boot.c
+ create mode 100644 lib/bootconfig.c
+ create mode 100644 tools/bootconfig/.gitignore
+ create mode 100644 tools/bootconfig/Makefile
+ create mode 100644 tools/bootconfig/include/linux/bootconfig.h
+ create mode 100644 tools/bootconfig/include/linux/bug.h
+ create mode 100644 tools/bootconfig/include/linux/ctype.h
+ create mode 100644 tools/bootconfig/include/linux/errno.h
+ create mode 100644 tools/bootconfig/include/linux/kernel.h
+ create mode 100644 tools/bootconfig/include/linux/printk.h
+ create mode 100644 tools/bootconfig/include/linux/string.h
+ create mode 100644 tools/bootconfig/main.c
+ create mode 100644 tools/bootconfig/samples/bad-array-space-comment.bconf
+ create mode 100644 tools/bootconfig/samples/bad-array.bconf
+ create mode 100644 tools/bootconfig/samples/bad-dotword.bconf
+ create mode 100644 tools/bootconfig/samples/bad-empty.bconf
+ create mode 100644 tools/bootconfig/samples/bad-keyerror.bconf
+ create mode 100644 tools/bootconfig/samples/bad-longkey.bconf
+ create mode 100644 tools/bootconfig/samples/bad-manywords.bconf
+ create mode 100644 tools/bootconfig/samples/bad-no-keyword.bconf
+ create mode 100644 tools/bootconfig/samples/bad-nonprintable.bconf
+ create mode 100644 tools/bootconfig/samples/bad-spaceword.bconf
+ create mode 100644 tools/bootconfig/samples/bad-tree.bconf
+ create mode 100644 tools/bootconfig/samples/bad-value.bconf
+ create mode 100644 tools/bootconfig/samples/escaped.bconf
+ create mode 100644 tools/bootconfig/samples/good-array-space-comment.bconf
+ create mode 100644 tools/bootconfig/samples/good-comment-after-value.bconf
+ create mode 100644 tools/bootconfig/samples/good-printables.bconf
+ create mode 100644 tools/bootconfig/samples/good-simple.bconf
+ create mode 100644 tools/bootconfig/samples/good-single.bconf
+ create mode 100644 tools/bootconfig/samples/good-space-after-value.bconf
+ create mode 100644 tools/bootconfig/samples/good-tree.bconf
+ create mode 100755 tools/bootconfig/test-bootconfig.sh
+
+--
+Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
