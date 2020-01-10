@@ -2,42 +2,38 @@ Return-Path: <SRS0=OhIE=27=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DECC33CA3
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C5C7C282DD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:50:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 195C62084D
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:17:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1543320678
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jan 2020 17:50:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726346AbgAJRRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jan 2020 12:17:09 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52042 "EHLO ms.lwn.net"
+        id S1727935AbgAJRuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jan 2020 12:50:46 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52164 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727767AbgAJRRJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Jan 2020 12:17:09 -0500
+        id S1727729AbgAJRuq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Jan 2020 12:50:46 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2D85077D;
-        Fri, 10 Jan 2020 17:17:08 +0000 (UTC)
-Date:   Fri, 10 Jan 2020 10:17:07 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 129C72C0;
+        Fri, 10 Jan 2020 17:50:46 +0000 (UTC)
+Date:   Fri, 10 Jan 2020 10:50:44 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Palmer Dabbelt <palmerdabbelt@google.com>
-Cc:     Atish Patra <Atish.Patra@wdc.com>, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, merker@debian.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
-        palmer@sifive.com, mchehab+samsung@kernel.org
-Subject: Re: [PATCH] RISC-V: Typo fixes in image header and documentation.
-Message-ID: <20200110101707.06800f3c@lwn.net>
-In-Reply-To: <mhng-94b9cad5-0d14-480f-b428-8752630064d2@palmerdabbelt-glaptop>
-References: <20191210072947.7018340c@lwn.net>
-        <4912c007ab6c19321c8c988ae2328efbfb3e582d.camel@wdc.com>
-        <mhng-3a815562-1222-4737-a77c-6dab9948db79@palmerdabbelt-glaptop>
-        <mhng-94b9cad5-0d14-480f-b428-8752630064d2@palmerdabbelt-glaptop>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     mchehab+samsung@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3 1/8] Documentation: nfsroot.txt: convert to ReST
+Message-ID: <20200110105044.0877ad21@lwn.net>
+In-Reply-To: <91ab26d120888f4f0a5fb535a42bf47ae5729238.1577917076.git.dwlsalmeida@gmail.com>
+References: <cover.1577917076.git.dwlsalmeida@gmail.com>
+        <91ab26d120888f4f0a5fb535a42bf47ae5729238.1577917076.git.dwlsalmeida@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,16 +43,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 09 Jan 2020 15:42:27 -0800 (PST)
-Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+On Wed,  1 Jan 2020 19:26:08 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-> > I was assuming it was going through the risc-v tree since it touches arch
-> > code :)  I can go ahead and apply it.  
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> I don't see this in 5.5-rc5.
+> Convert nfsroot.txt to RST and move it to admin-guide. Content remains
+> mostly the same.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-It's in docs-next; I've not pushed it through straight to 5.5.  I can do
-that, I suppose, if it seems urgent?
+*sigh*
+
+So, I was ready to apply this whole set, finally, but couldn't do it.  To
+see why...
+
+>  Documentation/admin-guide/nfs/index.rst       |   1 +
+>  .../nfs/nfsroot.rst}                          | 140 +++++++++---------
+>  2 files changed, 75 insertions(+), 66 deletions(-)
+>  rename Documentation/{filesystems/nfs/nfsroot.txt => admin-guide/nfs/nfsroot.rst} (83%)
+> 
+> diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
+> index f5c0180f4e5e..c2b87e9f0fed 100644
+> --- a/Documentation/admin-guide/nfs/index.rst
+> +++ b/Documentation/admin-guide/nfs/index.rst
+> @@ -6,4 +6,5 @@ NFS
+>      :maxdepth: 1
+>  
+>      nfs-client
+> +    nfsroot
+
+Documentation/admin-guide/nfs doesn't exist in any tree I can see, and
+neither does the nfs-client file referenced here.  Which tree was this
+generated against?
+
+Can you make me a version that applies to docs-next, and we'll get it into
+5.6?
 
 Thanks,
 
