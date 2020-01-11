@@ -2,47 +2,47 @@ Return-Path: <SRS0=X10t=3A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A16C33CA5
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jan 2020 14:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B088C282DD
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jan 2020 14:58:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 990D42072E
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jan 2020 14:58:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E53C32072E
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jan 2020 14:58:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LtyDeFF4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BEWWswpn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730143AbgAKO5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Jan 2020 09:57:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30064 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729842AbgAKO5h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jan 2020 09:57:37 -0500
+        id S1730149AbgAKO6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jan 2020 09:58:01 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31919 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730111AbgAKO5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jan 2020 09:57:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578754656;
+        s=mimecast20190719; t=1578754654;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7qjy9xbiaLG7WRsoNLzShcjgZHsU7KBsnk3kgwPRLlc=;
-        b=LtyDeFF4NPEofNwqsHG2n5due3jnQfSgVt7ekOgHvVI2E9FepxiqxrnZbdFGacygpVDoXr
-        a1Y/QP6mf6oCZdVEO4YbqghSaByGsaOj2oLdJy1DBmjoZqanNinbqVAh7tkX0VqAuTLzPy
-        3JjsA1MOHyoBA1tNNqFN6uVqWXxmVbc=
+        bh=34V6MVw04HNczrIFfPnlt1JgWgywZsinYkcLO17vV9Q=;
+        b=BEWWswpnCh4dVCukRk4Y2+hXXmsxKln4Ss+6Orz9x4oap9CFycWvlI3+wnV7NaoiblzjEt
+        +9ffEHedGbdmkmGzrzWxc17YP1TVm94SnhpVgC+QESQFtCei8t/OOltaaLkPjbY66nh0Ri
+        mUwRl8+ErQ4f8wEhDyndekYqOWLtrJY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-rCXvitP5Ndmnijv-dMacdQ-1; Sat, 11 Jan 2020 09:57:34 -0500
-X-MC-Unique: rCXvitP5Ndmnijv-dMacdQ-1
+ us-mta-39-HkhnOFTDOVW2ZHqm1MRvcw-1; Sat, 11 Jan 2020 09:57:31 -0500
+X-MC-Unique: HkhnOFTDOVW2ZHqm1MRvcw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2E9801E70;
-        Sat, 11 Jan 2020 14:57:32 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-84.ams2.redhat.com [10.36.116.84])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C5D948177F;
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80F9518557C0;
         Sat, 11 Jan 2020 14:57:28 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-84.ams2.redhat.com [10.36.116.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F056D87EC6;
+        Sat, 11 Jan 2020 14:57:24 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Ard Biesheuvel <ardb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
@@ -61,9 +61,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-input@vger.kernel.org
-Subject: [PATCH v11 06/10] selftests: firmware: Add firmware_request_platform tests
-Date:   Sat, 11 Jan 2020 15:56:59 +0100
-Message-Id: <20200111145703.533809-7-hdegoede@redhat.com>
+Subject: [PATCH v11 05/10] test_firmware: add support for firmware_request_platform
+Date:   Sat, 11 Jan 2020 15:56:58 +0100
+Message-Id: <20200111145703.533809-6-hdegoede@redhat.com>
 In-Reply-To: <20200111145703.533809-1-hdegoede@redhat.com>
 References: <20200111145703.533809-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,49 +74,106 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add tests cases for checking the new firmware_request_platform api.
+Add support for testing firmware_request_platform through a new
+trigger_request_platform trigger.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../selftests/firmware/fw_filesystem.sh       | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Changes in v11:
+- Drop a few empty lines which were accidentally introduced
 
-diff --git a/tools/testing/selftests/firmware/fw_filesystem.sh b/tools/te=
-sting/selftests/firmware/fw_filesystem.sh
-index 56894477c8bd..fcc281373b4d 100755
---- a/tools/testing/selftests/firmware/fw_filesystem.sh
-+++ b/tools/testing/selftests/firmware/fw_filesystem.sh
-@@ -86,6 +86,29 @@ else
- 	fi
- fi
+Changes in v10:
+- New patch in v10 of this patch-set
+---
+ lib/test_firmware.c | 59 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+
+diff --git a/lib/test_firmware.c b/lib/test_firmware.c
+index 251213c872b5..6042840f861c 100644
+--- a/lib/test_firmware.c
++++ b/lib/test_firmware.c
+@@ -24,6 +24,7 @@
+ #include <linux/delay.h>
+ #include <linux/kthread.h>
+ #include <linux/vmalloc.h>
++#include <linux/efi_embedded_fw.h>
 =20
-+# Try platform (EFI embedded fw) loading too
-+if [ ! -e "$DIR"/trigger_request_platform ]; then
-+	echo "$0: firmware loading: platform trigger not present, ignoring test=
-" >&2
-+else
-+	if printf '\000' >"$DIR"/trigger_request_platform 2> /dev/null; then
-+		echo "$0: empty filename should not succeed (platform)" >&2
-+		exit 1
-+	fi
+ #define TEST_FIRMWARE_NAME	"test-firmware.bin"
+ #define TEST_FIRMWARE_NUM_REQS	4
+@@ -507,6 +508,61 @@ static ssize_t trigger_request_store(struct device *=
+dev,
+ }
+ static DEVICE_ATTR_WO(trigger_request);
+=20
++#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
++static ssize_t trigger_request_platform_store(struct device *dev,
++					      struct device_attribute *attr,
++					      const char *buf, size_t count)
++{
++	static const u8 test_data[] =3D {
++		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
++		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
++		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
++		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
++	};
++	struct efi_embedded_fw fw;
++	int rc;
++	char *name;
 +
-+	# Note we echo a non-existing name, since files on the file-system
-+	# are preferred over firmware embedded inside the platform's firmware
-+	# The test adds a fake entry with the requested name to the platform's
-+	# fw list, so the name does not matter as long as it does not exist
-+	if ! echo -n "nope-$NAME" >"$DIR"/trigger_request_platform ; then
-+		echo "$0: could not trigger request platform" >&2
-+		exit 1
-+	fi
++	name =3D kstrndup(buf, count, GFP_KERNEL);
++	if (!name)
++		return -ENOSPC;
 +
-+	# The test verifies itself that the loaded firmware contents matches
-+	# the contents for the fake platform fw entry it added.
-+	echo "$0: platform loading works"
-+fi
++	pr_info("inserting test platform fw '%s'\n", name);
++	fw.name =3D name;
++	fw.data =3D (void *)test_data;
++	fw.length =3D sizeof(test_data);
++	list_add(&fw.list, &efi_embedded_fw_list);
 +
- ### Batched requests tests
- test_config_present()
- {
++	pr_info("loading '%s'\n", name);
++
++	mutex_lock(&test_fw_mutex);
++	release_firmware(test_firmware);
++	test_firmware =3D NULL;
++	rc =3D firmware_request_platform(&test_firmware, name, dev);
++	if (rc) {
++		pr_info("load of '%s' failed: %d\n", name, rc);
++		goto out;
++	}
++	if (test_firmware->size !=3D sizeof(test_data) ||
++	    memcmp(test_firmware->data, test_data, sizeof(test_data)) !=3D 0) {
++		pr_info("firmware contents mismatch for '%s'\n", name);
++		rc =3D -EINVAL;
++		goto out;
++	}
++	pr_info("loaded: %zu\n", test_firmware->size);
++	rc =3D count;
++
++out:
++	mutex_unlock(&test_fw_mutex);
++
++	list_del(&fw.list);
++	kfree(name);
++
++	return rc;
++}
++static DEVICE_ATTR_WO(trigger_request_platform);
++#endif
++
+ static DECLARE_COMPLETION(async_fw_done);
+=20
+ static void trigger_async_request_cb(const struct firmware *fw, void *co=
+ntext)
+@@ -903,6 +959,9 @@ static struct attribute *test_dev_attrs[] =3D {
+ 	TEST_FW_DEV_ATTR(trigger_request),
+ 	TEST_FW_DEV_ATTR(trigger_async_request),
+ 	TEST_FW_DEV_ATTR(trigger_custom_fallback),
++#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
++	TEST_FW_DEV_ATTR(trigger_request_platform),
++#endif
+=20
+ 	/* These use the config and can use the test_result */
+ 	TEST_FW_DEV_ATTR(trigger_batched_requests),
 --=20
 2.24.1
 
