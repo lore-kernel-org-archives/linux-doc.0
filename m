@@ -1,123 +1,102 @@
-Return-Path: <SRS0=uEWO=3B=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=MW2i=3C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5D4C33CAA
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Jan 2020 22:54:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA22C33CA8
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 04:01:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F407E21744
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Jan 2020 22:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578869662;
-	bh=OTPSk1FDbrul0QY/pUOTlMEtUEMURhj6Q/PvlUu/sI8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=TpqFuKJ1r75/LWMMiPIpnZAWqo+CBwejU/OJL5anKPK2c+AtPHHuKx+3zbv9IdXG5
-	 OQ9tIBr7qvxeatoGNkCFMvmw9ohj0cFrM4mjuYoDjH9MiWJIyBGG0dV8t69nLXQV2s
-	 l+LQaNokCeJC744ePNBxWlkfwEtA8zBSd00nt5IY=
+	by mail.kernel.org (Postfix) with ESMTP id 4BA262082E
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 04:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387404AbgALWyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Jan 2020 17:54:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56950 "EHLO mail.kernel.org"
+        id S2387438AbgAMEBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Jan 2020 23:01:48 -0500
+Received: from mga07.intel.com ([134.134.136.100]:29568 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387422AbgALWyS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 12 Jan 2020 17:54:18 -0500
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0807424679
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jan 2020 22:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578869657;
-        bh=OTPSk1FDbrul0QY/pUOTlMEtUEMURhj6Q/PvlUu/sI8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hzhvSFdpz62gogZ9QN7lfmafoGsakUjT1kaPTgxvKWg5Xq+befE3iVxPLwm79hZTC
-         daPQyiQvVm0j+WIy9HH+k4T6lNya6yT+5xyuppstOXHcEnLAtcJfMXOwB4xoUxPQBi
-         wd32iWGi8yUPDeOVPUB/jfWtezETqeizKYZhYU6U=
-Received: by mail-wr1-f42.google.com with SMTP id q6so6756441wro.9
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jan 2020 14:54:16 -0800 (PST)
-X-Gm-Message-State: APjAAAV1fqVKO+GfNBR1nb7ZUxLYMql7bdUHxw9o+4DZjNHaBYtJ3Jag
-        oPyzcvPDzKFjHjoitON/xqWGqgIv/V3XYbw6JLzCaA==
-X-Google-Smtp-Source: APXvYqwqvYzhEdydCPNO7qcIvHe+8nzILh5eaIaQCyGHnDLwjQKEoFRnKyCjU2psD4HOU4Uu55mc3jpLpIFWqLzfw5Q=
-X-Received: by 2002:adf:f491:: with SMTP id l17mr14897341wro.149.1578869655295;
- Sun, 12 Jan 2020 14:54:15 -0800 (PST)
+        id S2387415AbgAMEBr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 12 Jan 2020 23:01:47 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jan 2020 20:01:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,427,1571727600"; 
+   d="scan'208";a="424184843"
+Received: from spandruv-mobl3.jf.intel.com ([10.251.135.218])
+  by fmsmga006.fm.intel.com with ESMTP; 12 Jan 2020 20:01:45 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
+        andy@kernel.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore Frequency limits
+Date:   Sun, 12 Jan 2020 20:01:43 -0800
+Message-Id: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200111145703.533809-1-hdegoede@redhat.com> <20200111145703.533809-5-hdegoede@redhat.com>
-In-Reply-To: <20200111145703.533809-5-hdegoede@redhat.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sun, 12 Jan 2020 14:54:04 -0800
-X-Gmail-Original-Message-ID: <CALCETrXi_P1_nCp27yawLeUKuR=Wo11rKao222SVsnhi6qF9fA@mail.gmail.com>
-Message-ID: <CALCETrXi_P1_nCp27yawLeUKuR=Wo11rKao222SVsnhi6qF9fA@mail.gmail.com>
-Subject: Re: [PATCH v11 04/10] firmware: Add new platform fallback mechanism
- and firmware_request_platform()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, X86 ML <x86@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 11, 2020 at 6:57 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> In some cases the platform's main firmware (e.g. the UEFI fw) may contain
-> an embedded copy of device firmware which needs to be (re)loaded into the
-> peripheral. Normally such firmware would be part of linux-firmware, but in
-> some cases this is not feasible, for 2 reasons:
->
-> 1) The firmware is customized for a specific use-case of the chipset / use
-> with a specific hardware model, so we cannot have a single firmware file
-> for the chipset. E.g. touchscreen controller firmwares are compiled
-> specifically for the hardware model they are used with, as they are
-> calibrated for a specific model digitizer.
->
-> 2) Despite repeated attempts we have failed to get permission to
-> redistribute the firmware. This is especially a problem with customized
-> firmwares, these get created by the chip vendor for a specific ODM and the
-> copyright may partially belong with the ODM, so the chip vendor cannot
-> give a blanket permission to distribute these.
->
-> This commit adds a new platform fallback mechanism to the firmware loader
-> which will try to lookup a device fw copy embedded in the platform's main
-> firmware if direct filesystem lookup fails.
->
-> Drivers which need such embedded fw copies can enable this fallback
-> mechanism by using the new firmware_request_platform() function.
+Added documentation for the attributes to control uncore frequency
+selection.
 
-After finally wrapping my head around how this all fits together:
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+v2:
+ - Split the documentation patch to another patch to merge via different
+    tree
 
-Early in boot, you check a bunch of firmware descriptors, bundled with
-drivers, to search EFI code and data for firmware before you free said
-code and data.  You catalogue it by name.  Later on, you use this list
-as a fallback, again catalogued by name.  I think it would be rather
-nicer if you simply had a list in a single file containing all these
-descriptors rather than commingling it with the driver's internal dmi
-data.  This gets rid of all the ifdeffery and module issues.  It also
-avoids any potential nastiness when you have a dmi entry that contains
-driver_data that points into the driver when the driver is a module.
+ Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
+ .../admin-guide/pm/working-state.rst          |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
 
-And you can mark the entire list __initdata.  And you can easily (now
-or later on) invert the code flow so you map each EFI region exactly
-once and then search for all the firmware in it.
+diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
+new file mode 100644
+index 000000000000..d75be65fb16a
+--- /dev/null
++++ b/Documentation/admin-guide/pm/intel_uncore.rst
+@@ -0,0 +1,23 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================================
++Intel® Uncore Frequency Selection
++=========================================================
++
++The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
++
++But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
++
++The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
++The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
++"package_00_die_00" for package 0 and die 0.
++
++Attributes:
++
++initial_max_freq_khz (READ ONLY): This is the power up value of the maximum uncore frequency in KHz. This is sampled during the driver initialization time. This is not the absolute maximum uncore frequency as there is no capability for the Operating System to read that. This can be used as a reference to roll back settings once user changed this limit.
++
++initial_min_freq_khz (READ ONLY): This is the power up value of the minimum uncore frequency in KHz. This is sampled during the driver initialization time. This is not the absolute minimum uncore frequency. This can be used as a reference to roll back settings once user changed this limit.
++
++max_freq_khz (READ, WRITE): This presents current maximum uncore frequency. User can modify this attribute to change to a new maximum uncore frequency in KHz.
++
++min_freq_khz (READ, WRITE): This presents current minimum uncore frequency. User can modify this attribute to change to a new minimum uncore frequency in KHz.
+diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
+index fc298eb1234b..15094cf0a234 100644
+--- a/Documentation/admin-guide/pm/working-state.rst
++++ b/Documentation/admin-guide/pm/working-state.rst
+@@ -11,3 +11,4 @@ Working-State Power Management
+    cpufreq
+    intel_pstate
+    intel_epb
++   intel_uncore
+-- 
+2.24.1
 
---Andy
