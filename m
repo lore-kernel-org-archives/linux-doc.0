@@ -2,204 +2,179 @@ Return-Path: <SRS0=MW2i=3C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66837C33CAD
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 12:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4BBDC3F68F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 14:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2EC272075B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 12:14:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QI1q10T8"
+	by mail.kernel.org (Postfix) with ESMTP id ACADD20661
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 14:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1578927216;
+	bh=rZWQYQyfBlipVYy4GIJ55Kh+O3OpzoJxfTreDe4rCuU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Z15z4SLTmcKh+yG+ELkAdpUEm3QiXbnXBI0uLfhcj3vyrpv8W+nWlvBgeR+9OHdzT
+	 mK8d89pHpmuR/EtiCfJz3NX+lhtCIDdWQ5UNNADyUm0nmttiq2xYPZishtVzoyxH0p
+	 uaXm6vwOXCy7YsUEkBKFr1K9TQI7rL5iDpx93+3A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbgAMMOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jan 2020 07:14:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55987 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726193AbgAMMOj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jan 2020 07:14:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578917677;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=quQDksyPyFcIuCqVPGqUPwx5B1xPgTdkurY5s4DtTQ8=;
-        b=QI1q10T8ZPvkGjSYuoeZg0U2DRDkJWSZKfO7H3qMpe4dF9mkw6RYyBLleRxgVg9TZgGiea
-        nSQPwyiVSZ6vSxhHOJsBPZ5O3GMKiHPgZc1Fy9CgPewUXBDQOh1IwQBu2FEIX6mvU1qjUi
-        GbJ0ZeCaXxbYMyhdtMQsXnIxad7AboM=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-5iRxRp4ENX20xiEeK8PL4A-1; Mon, 13 Jan 2020 07:14:36 -0500
-X-MC-Unique: 5iRxRp4ENX20xiEeK8PL4A-1
-Received: by mail-pj1-f71.google.com with SMTP id m61so6651905pjb.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2020 04:14:36 -0800 (PST)
+        id S1728558AbgAMOxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jan 2020 09:53:32 -0500
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:35918 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbgAMOxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jan 2020 09:53:31 -0500
+Received: by mail-yw1-f68.google.com with SMTP id n184so6207779ywc.3;
+        Mon, 13 Jan 2020 06:53:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=quQDksyPyFcIuCqVPGqUPwx5B1xPgTdkurY5s4DtTQ8=;
-        b=oeBxo7keJ0WJkt7ext6seKdsAM5nZJ0lZXshgpOUdFKxgLGCb3FgTiH1TpSZmHkTwu
-         csdSB9zlx7P2/V0aVlRrHT/F0eN6+nHp8MyoWE8u/2LLwWOcxCQors+8uiZgw38cEg9u
-         nb+1jT4liO9vuWlh4fngxc6AT/sxtxGaiZrEMXfW7LMkIRFjYpiL5OldvA7IakOktIWu
-         kutY6CBDCUbNgJDDGtr9d386MgwAXDLuwTpI1rYTPAywDmUboql3ATouVHX24z84PdQ0
-         ic/r/T/ZK6y5G39TtmQF6URfd88gJCZ3OvHt+hH6A5Xz+I9tykU6loC0shFPSL/Anqnu
-         iYug==
-X-Gm-Message-State: APjAAAU14/bNB/4tFb8cYUG7vbko+r22xUP+OCPFr50YIESfZDHLprTn
-        3FTNFmoMIE7c9Y46INZgk8AswLIlqqKSlQNfTx72r5OECrqj7HeUe10gTnFtotnvaXb4gOds0RS
-        y+SoTP9Tmb21lkAzZt8gb
-X-Received: by 2002:a17:90a:fa88:: with SMTP id cu8mr20913872pjb.141.1578917675074;
-        Mon, 13 Jan 2020 04:14:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxALQgnDcQJ9NkcfjZ+inUPcVHYoZsvLYAu6/sEEIOSdSjVJI/LaGA1hgTl2PAA71Zt8AwepA==
-X-Received: by 2002:a17:90a:fa88:: with SMTP id cu8mr20913845pjb.141.1578917674799;
-        Mon, 13 Jan 2020 04:14:34 -0800 (PST)
-Received: from localhost.localdomain ([122.177.255.46])
-        by smtp.gmail.com with ESMTPSA id j20sm13806331pfe.168.2020.01.13.04.14.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Jan 2020 04:14:34 -0800 (PST)
-Subject: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ in
- vmcoreinfo
-To:     Dave Anderson <anderson@redhat.com>,
-        James Morse <james.morse@arm.com>
-Cc:     linux-kernel@vger.kernel.org,
-        bhupesh linux <bhupesh.linux@gmail.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-References: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
- <1575057559-25496-3-git-send-email-bhsharma@redhat.com>
- <63d6e63c-7218-d2dd-8767-4464be83603f@arm.com>
- <af0fd2b0-99db-9d58-bc8d-0dd9d640b1eb@redhat.com>
- <f791e777-781c-86ce-7619-1de3fe3e7b90@arm.com>
- <351975548.1986001.1578682810951.JavaMail.zimbra@redhat.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Message-ID: <04287d60-e99e-631b-c134-d6dc39e6a193@redhat.com>
-Date:   Mon, 13 Jan 2020 17:44:10 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qWmNQjvuX9zJ6z0ZcNWGk9QjxjID7F47ltFXDEuoyJw=;
+        b=KuISl8anpqsedhLi4oTf62YMROo851MNeTMEzY2Q8zpix+hmYoBl8kJrFC92nvz9qM
+         i8Qdxqh9Evv649mi6nlWZdSdasSoLaZpsvSGZ4IXhigwARdQTvS1rVzrKdECuJd6GPoC
+         pD0Md9tuJ8KOnKeiugprI33ENVopxEn1i+If2wr7TjHietKC+lsCCXuaVfKp8w1Gq5Sg
+         f5DkqjUybaXYGM09jZWQP8YDVaJ5pQPgrwm4dPKxCrrQVRnzQAdU/9MmojetjkogG+MN
+         kmNsDUxL51yzYalDqXMAXhomHRZ8Hh++if1RK9ORpAR0vcQHvM0OfVRlw/q/1fA75d62
+         gV9A==
+X-Gm-Message-State: APjAAAWKuMdilVO1RY4KUxxE5SaX6oHOUgZvCNT6AJ2hfMZ2d4sAkK/J
+        IYQ0xV8QHir2djDqZGqwQ4w=
+X-Google-Smtp-Source: APXvYqzIKDnngH4Et6AZ6y2I+FvMl/cZfena1h9B3Jr7aE7gC3QwWC04QUyGSx/Gqnnuyrmf8U3Trg==
+X-Received: by 2002:a25:24f:: with SMTP id 76mr13616157ybc.330.1578927210604;
+        Mon, 13 Jan 2020 06:53:30 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id i84sm5189537ywc.43.2020.01.13.06.53.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 06:53:29 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 1BDDE4018C; Mon, 13 Jan 2020 14:53:28 +0000 (UTC)
+Date:   Mon, 13 Jan 2020 14:53:28 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v11 05/10] test_firmware: add support for
+ firmware_request_platform
+Message-ID: <20200113145328.GA11244@42.do-not-panic.com>
+References: <20200111145703.533809-1-hdegoede@redhat.com>
+ <20200111145703.533809-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <351975548.1986001.1578682810951.JavaMail.zimbra@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200111145703.533809-6-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-
-On 01/11/2020 12:30 AM, Dave Anderson wrote:
+On Sat, Jan 11, 2020 at 03:56:58PM +0100, Hans de Goede wrote:
+> Add support for testing firmware_request_platform through a new
+> trigger_request_platform trigger.
 > 
-> ----- Original Message -----
->> Hi Bhupesh,
->>
->> On 25/12/2019 19:01, Bhupesh Sharma wrote:
->>> On 12/12/2019 04:02 PM, James Morse wrote:
->>>> On 29/11/2019 19:59, Bhupesh Sharma wrote:
->>>>> vabits_actual variable on arm64 indicates the actual VA space size,
->>>>> and allows a single binary to support both 48-bit and 52-bit VA
->>>>> spaces.
->>>>>
->>>>> If the ARMv8.2-LVA optional feature is present, and we are running
->>>>> with a 64KB page size; then it is possible to use 52-bits of address
->>>>> space for both userspace and kernel addresses. However, any kernel
->>>>> binary that supports 52-bit must also be able to fall back to 48-bit
->>>>> at early boot time if the hardware feature is not present.
->>>>>
->>>>> Since TCR_EL1.T1SZ indicates the size offset of the memory region
->>>>> addressed by TTBR1_EL1 (and hence can be used for determining the
->>>>> vabits_actual value) it makes more sense to export the same in
->>>>> vmcoreinfo rather than vabits_actual variable, as the name of the
->>>>> variable can change in future kernel versions, but the architectural
->>>>> constructs like TCR_EL1.T1SZ can be used better to indicate intended
->>>>> specific fields to user-space.
->>>>>
->>>>> User-space utilities like makedumpfile and crash-utility, need to
->>>>> read/write this value from/to vmcoreinfo
->>>>
->>>> (write?)
->>>
->>> Yes, also write so that the vmcoreinfo from an (crashing) arm64 system can
->>> be used for
->>> analysis of the root-cause of panic/crash on say an x86_64 host using
->>> utilities like
->>> crash-utility/gdb.
->>
->> I read this as as "User-space [...] needs to write to vmcoreinfo".
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v11:
+> - Drop a few empty lines which were accidentally introduced
 
-That's correct. But for writing to vmcore dump in the kdump kernel, we 
-need to read the symbols from the vmcoreinfo in the primary kernel.
+But you didn't address my other feedback.
 
->>>>> for determining if a virtual address lies in the linear map range.
->>>>
->>>> I think this is a fragile example. The debugger shouldn't need to know
->>>> this.
->>>
->>> Well that the current user-space utility design, so I am not sure we can
->>> tweak that too much.
->>>
->>>>> The user-space computation for determining whether an address lies in
->>>>> the linear map range is the same as we have in kernel-space:
->>>>>
->>>>>     #define __is_lm_address(addr)    (!(((u64)addr) & BIT(vabits_actual -
->>>>>     1)))
->>>>
->>>> This was changed with 14c127c957c1 ("arm64: mm: Flip kernel VA space"). If
->>>> user-space
->>>> tools rely on 'knowing' the kernel memory layout, they must have to
->>>> constantly be fixed
->>>> and updated. This is a poor argument for adding this to something that
->>>> ends up as ABI.
->>>
->>> See above. The user-space has to rely on some ABI/guaranteed
->>> hardware-symbols which can be
->>> used for 'determining' the kernel memory layout.
->>
->> I disagree. Everything and anything in the kernel will change. The ABI rules apply to
->> stuff exposed via syscalls and kernel filesystems. It does not apply to kernel internals,
->> like the memory layout we used yesterday. 14c127c957c1 is a case in point.
->>
->> A debugger trying to rely on this sort of thing would have to play catchup whenever it
->> changes.
-> 
-> Exactly.  That's the whole point.
-> 
-> The crash utility and makedumpfile are not in the same league as other user-space tools.
-> They have always had to "play catchup" precisely because they depend upon kernel internals,
-> which constantly change.
+> --- a/lib/test_firmware.c
+> +++ b/lib/test_firmware.c
+> @@ -507,6 +508,61 @@ static ssize_t trigger_request_store(struct device *dev,
+>  }
+>  static DEVICE_ATTR_WO(trigger_request);
+>  
+> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
+> +static ssize_t trigger_request_platform_store(struct device *dev,
+> +					      struct device_attribute *attr,
+> +					      const char *buf, size_t count)
+> +{
+> +	static const u8 test_data[] = {
+> +		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
+> +	};
+> +	struct efi_embedded_fw fw;
+> +	int rc;
+> +	char *name;
+> +
+> +	name = kstrndup(buf, count, GFP_KERNEL);
+> +	if (!name)
+> +		return -ENOSPC;
+> +
+> +	pr_info("inserting test platform fw '%s'\n", name);
+> +	fw.name = name;
+> +	fw.data = (void *)test_data;
+> +	fw.length = sizeof(test_data);
+> +	list_add(&fw.list, &efi_embedded_fw_list);
+> +
+> +	pr_info("loading '%s'\n", name);
+> +
 
-I agree with you and DaveA here. Software user-space debuggers are 
-dependent on kernel internals (which can change from time-to-time) and 
-will have to play catch-up (which has been the case since the very start).
+I mentioned this in my last review, and it seems you forgot to address
+this. But now some more feedback:
 
-Unfortunately we don't have any clear ABI for software debugging tools - 
-may be something to look for in future.
+These two:
 
-A case in point is gdb/kgdb, which still needs to run with KASLR 
-turned-off (nokaslr) for debugging, as it confuses gdb which resolve 
-kernel symbol address from symbol table of vmlinux. But we can 
-work-around the same in makedumpfile/crash by reading the 'kaslr_offset' 
-value. And I have several users telling me now they cannot use gdb on 
-KASLR enabled kernel to debug panics, but can makedumpfile + crash 
-combination to achieve the same.
+> +	mutex_lock(&test_fw_mutex);
+> +	release_firmware(test_firmware);
 
-So, we should be looking to fix these utilities which are broken since 
-the 52-bit changes for arm64. Accordingly, I will try to send the v6
-soon while incorporating the comments posted on the v5.
+You are doing this because this is a test, but a typical driver will
+do this after, and we don't loose anything in doing this after. Can you
+move the mutex lock and assign the pointer to a temporary used pointer
+for the call, *after* your call.
 
-Thanks,
-Bhupesh
+But since your test is not using any interfaces to query information
+about the firmware, and you are just doing the test in C code right
+away, instead of say, using a trigger for later use in userspace,
+you can just do away with the mutex lock and make the call use its
+own pointer:
 
+	rc = firmware_request_platform(&tmp_test_firmware, name, dev);
+	if (rc) {
+		...
+	}
+	/* Your test branch code goes here */
 
+I see no reason why you use the test_firmware pointer.
 
-
+> +	test_firmware = NULL;
+> +	rc = firmware_request_platform(&test_firmware, name, dev);
+> +	if (rc) {
+> +		pr_info("load of '%s' failed: %d\n", name, rc);
+> +		goto out;
+> +	}
+> +	if (test_firmware->size != sizeof(test_data) ||
+> +	    memcmp(test_firmware->data, test_data, sizeof(test_data)) != 0) {
+> +		pr_info("firmware contents mismatch for '%s'\n", name);
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +	pr_info("loaded: %zu\n", test_firmware->size);
+> +	rc = count;
+> +
+> +out:
+> +	mutex_unlock(&test_fw_mutex);
+> +
+> +	list_del(&fw.list);
+> +	kfree(name);
+> +
+> +	return rc;
+> +}
