@@ -2,57 +2,57 @@ Return-Path: <SRS0=MW2i=3C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C8DC33CAE
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 21:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA27C33CB6
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 21:32:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C6A092084D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 21:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 308AF24656
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 21:32:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qDtdw4Wc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uJEdYPba"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728778AbgAMVcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jan 2020 16:32:00 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53636 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728748AbgAMVb7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jan 2020 16:31:59 -0500
-Received: by mail-wm1-f68.google.com with SMTP id m24so11456320wmc.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2020 13:31:57 -0800 (PST)
+        id S1728512AbgAMVcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jan 2020 16:32:06 -0500
+Received: from mail-wr1-f43.google.com ([209.85.221.43]:42658 "EHLO
+        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728794AbgAMVcG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jan 2020 16:32:06 -0500
+Received: by mail-wr1-f43.google.com with SMTP id q6so10127622wro.9
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2020 13:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=N+bDaAzBHuLPqEb5OvATKytvRB393RHEb4Sia+1kizw=;
-        b=qDtdw4WcrooShkCvSKvHEUg4ZoaptxvedcdkvlKsXhm2SWYyoC2Yq/BB5SnhLBGb+4
-         b+WxrhPF8ssHG6sXlcc/vyUhZYbkfWNiI1gnGn6rlygfTy/3iTNKGYDwINmntEWASvwN
-         FP/7cILmeyTeLWUtt8YQktoWN0McLjNg3eeJiqeBC37kD5NrOFYdG2cVj6Bm6hjgyZmN
-         5JxUyVXzPi8FBdC3iTAHlPst++v9BanzKim3Zy3eCOvcIs/sTka9bqadG2HyGzhOHc9y
-         uccAkGMGlwj0xqaFp3qJd/oJwCHlN8OEqvnmHpPBCe/k3D7EZZk+kbC7R/oauFno7wGO
-         pJZg==
+        bh=mv6IL5A16A4t6OLofANYFq5kEZ9xSAHpSKiwiUVkqio=;
+        b=uJEdYPbaOjl1Z7srIqAua2+zGZ9w4gdsalDnhfYjVk+lEVCZtQFXhpXK+gfvOp2KzY
+         gZFdviZlvPWZGDe8wt/WT23PJc2bPE7qvYiMRLXjDZguEo9Q9+wnImBfwkd3OH2u64tk
+         X30atEn6LmDeyfgeGt+IZgivHBtG27iu3qN2nSg7dSc5YqTeQPNd4Mzq9waAwPhuFHuG
+         i+u3+xqwuBThmKnY+z9agrLg5tiSTLkEWU193o3Lxyf++LvO4qbZe+9zPAS2ti/gcIpr
+         eq1SqOIueYNLS/BMAZL8WVdkPlY42L8edr3fXo4o3YxzGk4DW8HOrTQrpHaNgho+8ICu
+         6GVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=N+bDaAzBHuLPqEb5OvATKytvRB393RHEb4Sia+1kizw=;
-        b=MgHJQLB0WO2RXXhZw3pPzefk/s4yl6prAMmQVQIMPzOIuR6gSbmjddDSs2vc0SZtTw
-         H9CqTWDOyujKuAUbzAgeFfJGuaLmzcdXJrHG1N85h3TZkHcXJ+IIzJxADyZfodfwyLA9
-         4V8HrypoUV0EknTNW64iSVhqwu7adspDCOlkGEiQb4lDEUH+rVqoIiFwxk9i/ZSqoV/P
-         e66W4KRWMyUmnyOUVoxjSVp6+Il3JtvZ0VpiAcz2iJNaxCMbegby6TyQntuazW4uF8ut
-         Y08OvKEKI/u7iHKmSbKxyX8IQLTbdFDM6Y7xVop6dfYR6qQBUALpFjqh5haZvx4T3Xqo
-         Lv1Q==
-X-Gm-Message-State: APjAAAWdsvEIOLNOxjcTCYgYgFvNu6MIdDxndfTrNFPEHGKHwAMr0/bP
-        NtcnXiOMRjPVyG2VUpP92zRDng==
-X-Google-Smtp-Source: APXvYqydFLgN51eGDF88cfY5bWDTIE0K7sQKOwso4OtQdBzR+8pblmwrzi/L7ZkLH4+VgJT30XyAng==
-X-Received: by 2002:a05:600c:30a:: with SMTP id q10mr21830352wmd.84.1578951116001;
-        Mon, 13 Jan 2020 13:31:56 -0800 (PST)
+        bh=mv6IL5A16A4t6OLofANYFq5kEZ9xSAHpSKiwiUVkqio=;
+        b=pxbwfh0SKYVcDQbYtf2yE9jUY+ZS4sBuXrOwO8OMGl8QZ/XhnOrsw+k+PkLiAbK6n3
+         l4DS6jff9wjweifMiK3bB+DVJY48d92iqPZ5nTkWLJLEBLm+JhSb04xwT9SepTgReFdm
+         dfoduTFL+9D4bfo9VaPUQP36OzL+e6EG54I1nPgE6jiRdE24Ymk8HDg7h+rRIZMmuja+
+         TH7ReQ4qSyI+yFQwAFdhrXHbwGHtL5L/sEAUnUQFrfvm+3McBlHB3wSKXijQ2u+acffI
+         ul4UkayEqrUPdWsK8IJ/4Kdsb69hAqfFzaW7sSb5zscG0U9HKBZMOe8YYFJnyz+ewCnu
+         cDoQ==
+X-Gm-Message-State: APjAAAWxvu2xUO9uzQB1hDb0O8vr/dLXquRv4L34BkSa8cyDeDHtZ2p6
+        kGQo1DWI0VXzn/U4nFDOdws3aVJqwX5fGg==
+X-Google-Smtp-Source: APXvYqxB7+D5rGxRCgTBD2lc8BGhWo+mNLyI1VvKPLp0CAlLq5mD+UuQ5KzLaLj2y8r8wnNgQSk8Kg==
+X-Received: by 2002:adf:fd87:: with SMTP id d7mr21012639wrr.226.1578951122982;
+        Mon, 13 Jan 2020 13:32:02 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:a1cf:b00b:5683:ed40])
-        by smtp.gmail.com with ESMTPSA id j12sm16725120wrt.55.2020.01.13.13.31.53
+        by smtp.gmail.com with ESMTPSA id j12sm16725120wrt.55.2020.01.13.13.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 13:31:54 -0800 (PST)
+        Mon, 13 Jan 2020 13:32:01 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
         devicetree@vger.kernel.org, coresight@lists.linaro.org,
@@ -61,9 +61,9 @@ Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
         suzuki.poulose@arm.com, robh+dt@kernel.org, maxime@cerno.tech,
         liviu.dudau@arm.com, sudeep.holla@arm.com,
         lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net
-Subject: [PATCH v8 01/15] coresight: cti: Initial CoreSight CTI Driver
-Date:   Mon, 13 Jan 2020 21:31:35 +0000
-Message-Id: <20200113213149.25599-2-mike.leach@linaro.org>
+Subject: [PATCH v8 04/15] coresight: cti: Add sysfs trigger / channel programming API
+Date:   Mon, 13 Jan 2020 21:31:38 +0000
+Message-Id: <20200113213149.25599-5-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200113213149.25599-1-mike.leach@linaro.org>
 References: <20200113213149.25599-1-mike.leach@linaro.org>
@@ -72,939 +72,598 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This introduces a baseline CTI driver and associated configuration files.
-
-Uses the platform agnostic naming standard for CoreSight devices, along
-with a generic platform probing method that currently supports device
-tree descriptions, but allows for the ACPI bindings to be added once these
-have been defined for the CTI devices.
-
-Driver will probe for the device on the AMBA bus, and load the CTI driver
-on CoreSight ID match to CTI IDs in tables.
-
-Initial sysfs support for enable / disable provided.
-
-Default CTI interconnection data is generated based on hardware
-register signal counts, with no additional connection information.
+Adds a user API to allow programming of CTI by trigger ID and
+channel number. This will take the channel and trigger ID supplied
+by the user and program the appropriate register values.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 ---
- drivers/hwtracing/coresight/Kconfig           |  12 +
- drivers/hwtracing/coresight/Makefile          |   3 +
- .../coresight/coresight-cti-platform.c        |  53 +++
- .../hwtracing/coresight/coresight-cti-sysfs.c |  72 +++
- drivers/hwtracing/coresight/coresight-cti.c   | 445 ++++++++++++++++++
- drivers/hwtracing/coresight/coresight-cti.h   | 186 ++++++++
- drivers/hwtracing/coresight/coresight.c       |   3 +
- include/linux/coresight.h                     |  23 +
- 8 files changed, 797 insertions(+)
- create mode 100644 drivers/hwtracing/coresight/coresight-cti-platform.c
- create mode 100644 drivers/hwtracing/coresight/coresight-cti-sysfs.c
- create mode 100644 drivers/hwtracing/coresight/coresight-cti.c
- create mode 100644 drivers/hwtracing/coresight/coresight-cti.h
+ .../hwtracing/coresight/coresight-cti-sysfs.c | 349 ++++++++++++++++++
+ drivers/hwtracing/coresight/coresight-cti.c   | 147 ++++++++
+ drivers/hwtracing/coresight/coresight-cti.h   |  32 ++
+ 3 files changed, 528 insertions(+)
 
-diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-index 6ff30e25af55..45d3822c8c8c 100644
---- a/drivers/hwtracing/coresight/Kconfig
-+++ b/drivers/hwtracing/coresight/Kconfig
-@@ -110,4 +110,16 @@ config CORESIGHT_CPU_DEBUG
- 	  properly, please refer Documentation/trace/coresight-cpu-debug.rst
- 	  for detailed description and the example for usage.
- 
-+config CORESIGHT_CTI
-+	bool "CoreSight Cross Trigger Interface (CTI) driver"
-+	depends on ARM || ARM64
-+	help
-+	  This driver provides support for CoreSight CTI and CTM components.
-+	  These provide hardware triggering events between CoreSight trace
-+	  source and sink components. These can be used to halt trace or
-+	  inject events into the trace stream. CTI also provides a software
-+	  control to trigger the same halt events. This can provide fast trace
-+	  halt compared to disabling sources and sinks normally in driver
-+	  software.
-+
- endif
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index 3c0ac421e211..0e3e72f0f510 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -17,3 +17,6 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o \
- obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
- obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
- obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
-+obj-$(CONFIG_CORESIGHT_CTI) += coresight-cti.o \
-+				coresight-cti-platform.o \
-+				coresight-cti-sysfs.o
-diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/drivers/hwtracing/coresight/coresight-cti-platform.c
-new file mode 100644
-index 000000000000..665be86c585d
---- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2019, The Linaro Limited. All rights reserved.
-+ */
-+
-+#include <linux/of.h>
-+
-+#include "coresight-cti.h"
-+
-+/* get the hardware configuration & connection data. */
-+int cti_plat_get_hw_data(struct device *dev,
-+			 struct cti_drvdata *drvdata)
-+{
-+	int rc = 0;
-+	struct cti_device *cti_dev = &drvdata->ctidev;
-+
-+	/* if no connections, just add a single default based on max IN-OUT */
-+	if (cti_dev->nr_trig_con == 0)
-+		rc = cti_add_default_connection(dev, drvdata);
-+	return rc;
-+}
-+
-+struct coresight_platform_data *
-+coresight_cti_get_platform_data(struct device *dev)
-+{
-+	int ret = -ENOENT;
-+	struct coresight_platform_data *pdata = NULL;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+	struct cti_drvdata *drvdata = dev_get_drvdata(dev);
-+
-+	if (IS_ERR_OR_NULL(fwnode))
-+		goto error;
-+
-+	/*
-+	 * Alloc platform data but leave it zero init. CTI does not use the
-+	 * same connection infrastructuree as trace path components but an
-+	 * empty struct enables us to use the standard coresight component
-+	 * registration code.
-+	 */
-+	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-+	if (!pdata) {
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	/* get some CTI specifics */
-+	ret = cti_plat_get_hw_data(dev, drvdata);
-+
-+	if (!ret)
-+		return pdata;
-+error:
-+	return ERR_PTR(ret);
-+}
 diff --git a/drivers/hwtracing/coresight/coresight-cti-sysfs.c b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-new file mode 100644
-index 000000000000..a832b8c6b866
---- /dev/null
+index f687e07b68b0..37e71724b67b 100644
+--- a/drivers/hwtracing/coresight/coresight-cti-sysfs.c
 +++ b/drivers/hwtracing/coresight/coresight-cti-sysfs.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2019 Linaro Limited, All rights reserved.
-+ * Author: Mike Leach <mike.leach@linaro.org>
-+ */
-+
-+#include <linux/coresight.h>
-+
-+#include "coresight-cti.h"
-+
-+/* basic attributes */
-+static ssize_t enable_show(struct device *dev,
-+			   struct device_attribute *attr,
-+			   char *buf)
+@@ -463,6 +463,349 @@ static struct attribute *coresight_cti_regs_attrs[] = {
+ 	NULL,
+ };
+ 
++/* CTI channel x-trigger programming */
++static int
++cti_trig_op_parse(struct device *dev, enum cti_chan_op op,
++		  enum cti_trig_dir dir, const char *buf, size_t size)
 +{
-+	int enable_req;
-+	bool enabled, powered;
-+	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-+	ssize_t size = 0;
++	u32 chan_idx;
++	u32 trig_idx;
++	int items, err = -EINVAL;
 +
-+	enable_req = atomic_read(&drvdata->config.enable_req_count);
-+	spin_lock(&drvdata->spinlock);
-+	powered = drvdata->config.hw_powered;
-+	enabled = drvdata->config.hw_enabled;
-+	spin_unlock(&drvdata->spinlock);
-+
-+	if (powered) {
-+		size = scnprintf(buf, PAGE_SIZE, "cti %s; powered;\n",
-+				 enabled ? "enabled" : "disabled");
-+	} else {
-+		size = scnprintf(buf, PAGE_SIZE, "cti %s; unpowered;\n",
-+				 enable_req ? "enable req" : "disabled");
++	/* extract chan idx and trigger idx */
++	items = sscanf(buf, "%d %d", &chan_idx, &trig_idx);
++	if (items == 2) {
++		err = cti_channel_trig_op(dev, op, dir, chan_idx, trig_idx);
++		if (!err)
++			err = size;
 +	}
++	return err;
++}
++
++static ssize_t trigin_attach_store(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t size)
++{
++	return cti_trig_op_parse(dev, CTI_CHAN_ATTACH, CTI_TRIG_IN,
++				 buf, size);
++}
++static DEVICE_ATTR_WO(trigin_attach);
++
++static ssize_t trigin_detach_store(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t size)
++{
++	return cti_trig_op_parse(dev, CTI_CHAN_DETACH, CTI_TRIG_IN,
++				 buf, size);
++}
++static DEVICE_ATTR_WO(trigin_detach);
++
++static ssize_t trigout_attach_store(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t size)
++{
++	return cti_trig_op_parse(dev, CTI_CHAN_ATTACH, CTI_TRIG_OUT,
++				 buf, size);
++}
++static DEVICE_ATTR_WO(trigout_attach);
++
++static ssize_t trigout_detach_store(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t size)
++{
++	return cti_trig_op_parse(dev, CTI_CHAN_DETACH, CTI_TRIG_OUT,
++				 buf, size);
++}
++static DEVICE_ATTR_WO(trigout_detach);
++
++
++static ssize_t chan_gate_enable_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, size_t size)
++{
++	int err = 0, channel = 0;
++
++	if (kstrtoint(buf, 0, &channel))
++		return -EINVAL;
++
++	err = cti_channel_gate_op(dev, CTI_GATE_CHAN_ENABLE, channel);
++	return err ? err : size;
++}
++
++static ssize_t chan_gate_enable_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
++{
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *cfg = &drvdata->config;
++	unsigned long ctigate_bitmask = cfg->ctigate;
++	int size = 0;
++
++	if (cfg->ctigate == 0)
++		size = scnprintf(buf, PAGE_SIZE, "\n");
++	else
++		size = bitmap_print_to_pagebuf(true, buf, &ctigate_bitmask,
++					       cfg->nr_ctm_channels);
 +	return size;
 +}
++static DEVICE_ATTR_RW(chan_gate_enable);
 +
-+static ssize_t enable_store(struct device *dev,
-+			    struct device_attribute *attr,
-+			    const char *buf, size_t size)
++static ssize_t chan_gate_disable_store(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t size)
 +{
-+	int ret = 0;
++	int err = 0, channel = 0;
++
++	if (kstrtoint(buf, 0, &channel))
++		return -EINVAL;
++
++	err = cti_channel_gate_op(dev, CTI_GATE_CHAN_DISABLE, channel);
++	return err ? err : size;
++}
++static DEVICE_ATTR_WO(chan_gate_disable);
++
++static int
++chan_op_parse(struct device *dev, enum cti_chan_set_op op, const char *buf)
++{
++	int err = 0, channel = 0;
++
++	if (kstrtoint(buf, 0, &channel))
++		return -EINVAL;
++
++	err = cti_channel_setop(dev, op, channel);
++	return err;
++
++}
++
++static ssize_t chan_set_store(struct device *dev,
++			      struct device_attribute *attr,
++			      const char *buf, size_t size)
++{
++	int err = chan_op_parse(dev, CTI_CHAN_SET, buf);
++
++	return err ? err : size;
++}
++static DEVICE_ATTR_WO(chan_set);
++
++static ssize_t chan_clear_store(struct device *dev,
++				struct device_attribute *attr,
++				const char *buf, size_t size)
++{
++	int err = chan_op_parse(dev, CTI_CHAN_CLR, buf);
++
++	return err ? err : size;
++}
++static DEVICE_ATTR_WO(chan_clear);
++
++static ssize_t chan_pulse_store(struct device *dev,
++				struct device_attribute *attr,
++				const char *buf, size_t size)
++{
++	int err = chan_op_parse(dev, CTI_CHAN_PULSE, buf);
++
++	return err ? err : size;
++}
++static DEVICE_ATTR_WO(chan_pulse);
++
++static ssize_t trig_filter_enable_show(struct device *dev,
++				       struct device_attribute *attr,
++				       char *buf)
++{
++	u32 val;
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++
++	spin_lock(&drvdata->spinlock);
++	val = drvdata->config.trig_filter_enable;
++	spin_unlock(&drvdata->spinlock);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
++}
++
++static ssize_t trig_filter_enable_store(struct device *dev,
++					struct device_attribute *attr,
++					const char *buf, size_t size)
++{
 +	unsigned long val;
 +	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
 +
-+	ret = kstrtoul(buf, 0, &val);
-+	if (ret)
-+		return ret;
++	if (kstrtoul(buf, 0, &val))
++		return -EINVAL;
 +
-+	if (val)
-+		ret = cti_enable(drvdata->csdev);
-+	else
-+		ret = cti_disable(drvdata->csdev);
-+	if (ret)
-+		return ret;
++	spin_lock(&drvdata->spinlock);
++	drvdata->config.trig_filter_enable = !!val;
++	spin_unlock(&drvdata->spinlock);
 +	return size;
 +}
-+static DEVICE_ATTR_RW(enable);
++static DEVICE_ATTR_RW(trig_filter_enable);
 +
-+/* attribute and group sysfs tables. */
-+static struct attribute *coresight_cti_attrs[] = {
-+	&dev_attr_enable.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group coresight_cti_group = {
-+	.attrs = coresight_cti_attrs,
-+};
-+
-+const struct attribute_group *coresight_cti_groups[] = {
-+	&coresight_cti_group,
-+	NULL,
-+};
-diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-new file mode 100644
-index 000000000000..f4b47761ae74
---- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-cti.c
-@@ -0,0 +1,445 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018 Linaro Limited, All rights reserved.
-+ * Author: Mike Leach <mike.leach@linaro.org>
-+ */
-+
-+#include "coresight-cti.h"
-+
-+/**
-+ * CTI devices can be associated with a PE, or be connected to CoreSight
-+ * hardware. We have a list of all CTIs irrespective of CPU bound or
-+ * otherwise.
-+ *
-+ * We assume that the non-CPU CTIs are always powered as we do with sinks etc.
-+ *
-+ * We leave the client to figure out if all the CTIs are interconnected with
-+ * the same CTM, in general this is the case but does not always have to be.
-+ */
-+
-+/* net of CTI devices connected via CTM */
-+LIST_HEAD(ect_net);
-+
-+/* protect the list */
-+static DEFINE_MUTEX(ect_mutex);
-+
-+#define csdev_to_cti_drvdata(csdev)	\
-+	dev_get_drvdata(csdev->dev.parent)
-+
-+/*
-+ * CTI naming. CTI bound to cores will have the name cti_cpu<N> where
-+ * N is the CPU ID. System CTIs will have the name cti_sys<I> where I
-+ * is an index allocated by order of discovery.
-+ *
-+ * CTI device name list - for CTI not bound to cores.
-+ */
-+DEFINE_CORESIGHT_DEVLIST(cti_sys_devs, "cti_sys");
-+
-+/* write set of regs to hardware - call with spinlock claimed */
-+void cti_write_all_hw_regs(struct cti_drvdata *drvdata)
-+{
-+	struct cti_config *config = &drvdata->config;
-+	int i;
-+
-+	CS_UNLOCK(drvdata->base);
-+
-+	/* disable CTI before writing registers */
-+	writel_relaxed(0, drvdata->base + CTICONTROL);
-+
-+	/* write the CTI trigger registers */
-+	for (i = 0; i < config->nr_trig_max; i++) {
-+		writel_relaxed(config->ctiinen[i], drvdata->base + CTIINEN(i));
-+		writel_relaxed(config->ctiouten[i],
-+			       drvdata->base + CTIOUTEN(i));
-+	}
-+
-+	/* other regs */
-+	writel_relaxed(config->ctigate, drvdata->base + CTIGATE);
-+	writel_relaxed(config->asicctl, drvdata->base + ASICCTL);
-+	writel_relaxed(config->ctiappset, drvdata->base + CTIAPPSET);
-+
-+	/* re-enable CTI */
-+	writel_relaxed(1, drvdata->base + CTICONTROL);
-+
-+	CS_LOCK(drvdata->base);
-+}
-+
-+static void cti_enable_hw_smp_call(void *info)
-+{
-+	struct cti_drvdata *drvdata = info;
-+
-+	cti_write_all_hw_regs(drvdata);
-+}
-+
-+/* write regs to hardware and enable */
-+static int cti_enable_hw(struct cti_drvdata *drvdata)
-+{
-+	struct cti_config *config = &drvdata->config;
-+	struct device *dev = &drvdata->csdev->dev;
-+	int rc = 0;
-+
-+	pm_runtime_get_sync(dev->parent);
-+	spin_lock(&drvdata->spinlock);
-+
-+	/* no need to do anything if enabled or unpowered*/
-+	if (config->hw_enabled || !config->hw_powered)
-+		goto cti_state_unchanged;
-+
-+	/* claim the device */
-+	rc = coresight_claim_device(drvdata->base);
-+	if (rc)
-+		goto cti_err_not_enabled;
-+
-+	if (drvdata->ctidev.cpu >= 0) {
-+		rc = smp_call_function_single(drvdata->ctidev.cpu,
-+					      cti_enable_hw_smp_call,
-+					      drvdata, 1);
-+		if (rc)
-+			goto cti_err_not_enabled;
-+	} else {
-+		cti_write_all_hw_regs(drvdata);
-+	}
-+
-+	config->hw_enabled = true;
-+	atomic_inc(&drvdata->config.enable_req_count);
-+	spin_unlock(&drvdata->spinlock);
-+	return rc;
-+
-+cti_state_unchanged:
-+	atomic_inc(&drvdata->config.enable_req_count);
-+
-+	/* cannot enable due to error */
-+cti_err_not_enabled:
-+	spin_unlock(&drvdata->spinlock);
-+	pm_runtime_put(dev->parent);
-+	return rc;
-+}
-+
-+/* disable hardware */
-+static int cti_disable_hw(struct cti_drvdata *drvdata)
-+{
-+	struct cti_config *config = &drvdata->config;
-+	struct device *dev = &drvdata->csdev->dev;
-+
-+	spin_lock(&drvdata->spinlock);
-+
-+	/* check refcount - disable on 0 */
-+	if (atomic_dec_return(&drvdata->config.enable_req_count) > 0)
-+		goto cti_not_disabled;
-+
-+	/* no need to do anything if disabled or cpu unpowered */
-+	if (!config->hw_enabled || !config->hw_powered)
-+		goto cti_not_disabled;
-+
-+	CS_UNLOCK(drvdata->base);
-+
-+	/* disable CTI */
-+	writel_relaxed(0, drvdata->base + CTICONTROL);
-+	config->hw_enabled = false;
-+
-+	coresight_disclaim_device_unlocked(drvdata->base);
-+	CS_LOCK(drvdata->base);
-+	spin_unlock(&drvdata->spinlock);
-+	pm_runtime_put(dev);
-+	return 0;
-+
-+	/* not disabled this call */
-+cti_not_disabled:
-+	spin_unlock(&drvdata->spinlock);
-+	return 0;
-+}
-+
-+/*
-+ * Look at the HW DEVID register for some of the HW settings.
-+ * DEVID[15:8] - max number of in / out triggers.
-+ */
-+#define CTI_DEVID_MAXTRIGS(devid_val) ((int) BMVAL(devid_val, 8, 15))
-+
-+/* DEVID[19:16] - number of CTM channels */
-+#define CTI_DEVID_CTMCHANNELS(devid_val) ((int) BMVAL(devid_val, 16, 19))
-+
-+static void cti_set_default_config(struct device *dev,
-+				   struct cti_drvdata *drvdata)
-+{
-+	struct cti_config *config = &drvdata->config;
-+	u32 devid;
-+
-+	devid = readl_relaxed(drvdata->base + CORESIGHT_DEVID);
-+	config->nr_trig_max = CTI_DEVID_MAXTRIGS(devid);
-+
-+	/*
-+	 * no current hardware should exceed this, but protect the driver
-+	 * in case of fault / out of spec hw
-+	 */
-+	if (config->nr_trig_max > CTIINOUTEN_MAX) {
-+		dev_warn_once(dev,
-+			"Limiting HW MaxTrig value(%d) to driver max(%d)\n",
-+			config->nr_trig_max, CTIINOUTEN_MAX);
-+		config->nr_trig_max = CTIINOUTEN_MAX;
-+	}
-+
-+	config->nr_ctm_channels = CTI_DEVID_CTMCHANNELS(devid);
-+
-+	/* Most regs default to 0 as zalloc'ed except...*/
-+	config->trig_filter_enable = true;
-+	config->ctigate = GENMASK(config->nr_ctm_channels - 1, 0);
-+	atomic_set(&config->enable_req_count, 0);
-+}
-+
-+/*
-+ * Add a connection entry to the list of connections for this
-+ * CTI device.
-+ */
-+int cti_add_connection_entry(struct device *dev, struct cti_drvdata *drvdata,
-+			     struct cti_trig_con *tc,
-+			     struct coresight_device *csdev,
-+			     const char *assoc_dev_name)
-+{
-+	struct cti_device *cti_dev = &drvdata->ctidev;
-+
-+	tc->con_dev = csdev;
-+	/*
-+	 * Prefer actual associated CS device dev name to supplied value -
-+	 * which is likely to be node name / other conn name.
-+	 */
-+	if (csdev)
-+		tc->con_dev_name = devm_kstrdup(dev,
-+						dev_name(&csdev->dev),
-+						GFP_KERNEL);
-+	else if (assoc_dev_name != NULL)
-+		tc->con_dev_name = devm_kstrdup(dev,
-+						assoc_dev_name, GFP_KERNEL);
-+	list_add_tail(&tc->node, &cti_dev->trig_cons);
-+	cti_dev->nr_trig_con++;
-+
-+	/* add connection usage bit info to overall info */
-+	drvdata->config.trig_in_use |= tc->con_in->used_mask;
-+	drvdata->config.trig_out_use |= tc->con_out->used_mask;
-+
-+	return 0;
-+}
-+
-+/* create a trigger connection with appropriately sized signal groups */
-+struct cti_trig_con *cti_allocate_trig_con(struct device *dev, int in_sigs,
-+					   int out_sigs)
-+{
-+	struct cti_trig_con *tc = NULL;
-+	struct cti_trig_grp *in = NULL, *out = NULL;
-+
-+	tc = devm_kzalloc(dev, sizeof(struct cti_trig_con), GFP_KERNEL);
-+	if (!tc)
-+		return tc;
-+
-+	in = devm_kzalloc(dev,
-+			  offsetof(struct cti_trig_grp, sig_types[in_sigs]),
-+			  GFP_KERNEL);
-+	if (!in)
-+		return NULL;
-+
-+	out = devm_kzalloc(dev,
-+			   offsetof(struct cti_trig_grp, sig_types[out_sigs]),
-+			   GFP_KERNEL);
-+	if (!out)
-+		return NULL;
-+
-+	tc->con_in = in;
-+	tc->con_out = out;
-+	tc->con_in->nr_sigs = in_sigs;
-+	tc->con_out->nr_sigs = out_sigs;
-+	return tc;
-+}
-+
-+/*
-+ * Add a default connection if nothing else is specified.
-+ * single connection based on max in/out info, no assoc device
-+ */
-+int cti_add_default_connection(struct device *dev, struct cti_drvdata *drvdata)
-+{
-+	int ret = 0;
-+	int n_trigs = drvdata->config.nr_trig_max;
-+	u32 n_trig_mask = GENMASK(n_trigs - 1, 0);
-+	struct cti_trig_con *tc = NULL;
-+
-+	/*
-+	 * Assume max trigs for in and out,
-+	 * all used, default sig types allocated
-+	 */
-+	tc = cti_allocate_trig_con(dev, n_trigs, n_trigs);
-+	if (!tc)
-+		return -ENOMEM;
-+
-+	tc->con_in->used_mask = n_trig_mask;
-+	tc->con_out->used_mask = n_trig_mask;
-+	ret = cti_add_connection_entry(dev, drvdata, tc, NULL, "default");
-+	return ret;
-+}
-+
-+/** cti ect operations **/
-+int cti_enable(struct coresight_device *csdev)
-+{
-+	struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-+
-+	return cti_enable_hw(drvdata);
-+}
-+
-+int cti_disable(struct coresight_device *csdev)
-+{
-+	struct cti_drvdata *drvdata = csdev_to_cti_drvdata(csdev);
-+
-+	return cti_disable_hw(drvdata);
-+}
-+
-+const struct coresight_ops_ect cti_ops_ect = {
-+	.enable = cti_enable,
-+	.disable = cti_disable,
-+};
-+
-+const struct coresight_ops cti_ops = {
-+	.ect_ops = &cti_ops_ect,
-+};
-+
-+/*
-+ * Free up CTI specific resources
-+ * called by dev->release, need to call down to underlying csdev release.
-+ */
-+static void cti_device_release(struct device *dev)
++static ssize_t trigout_filtered_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
 +{
 +	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
-+	struct cti_drvdata *ect_item, *ect_tmp;
++	struct cti_config *cfg = &drvdata->config;
++	int size = 0, nr_trig_max = cfg->nr_trig_max;
++	unsigned long mask = cfg->trig_out_filter;
 +
-+	mutex_lock(&ect_mutex);
++	if (mask)
++		size = bitmap_print_to_pagebuf(true, buf, &mask, nr_trig_max);
++	return size;
++}
++static DEVICE_ATTR_RO(trigout_filtered);
 +
-+	/* remove from the list */
-+	list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
-+		if (ect_item == drvdata) {
-+			list_del(&ect_item->node);
-+			break;
++/* clear all xtrigger / channel programming */
++static ssize_t chan_xtrigs_reset_store(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t size)
++{
++	int i;
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *config = &drvdata->config;
++
++	spin_lock(&drvdata->spinlock);
++
++	/* clear the CTI trigger / channel programming registers */
++	for (i = 0; i < config->nr_trig_max; i++) {
++		config->ctiinen[i] = 0;
++		config->ctiouten[i] = 0;
++	}
++
++	/* clear the other regs */
++	config->ctigate = GENMASK(config->nr_ctm_channels - 1, 0);
++	config->asicctl = 0;
++	config->ctiappset = 0;
++	config->ctiinout_sel = 0;
++	config->xtrig_rchan_sel = 0;
++
++	/* if enabled then write through */
++	if (cti_active(config))
++		cti_write_all_hw_regs(drvdata);
++
++	spin_unlock(&drvdata->spinlock);
++	return size;
++}
++static DEVICE_ATTR_WO(chan_xtrigs_reset);
++
++/*
++ * Write to select a channel to view, read to display the
++ * cross triggers for the selected channel.
++ */
++static ssize_t chan_xtrigs_view_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, size_t size)
++{
++	unsigned long val;
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++
++	if (kstrtoul(buf, 0, &val))
++		return -EINVAL;
++	if (val > (drvdata->config.nr_ctm_channels - 1))
++		return -EINVAL;
++
++	spin_lock(&drvdata->spinlock);
++	drvdata->config.xtrig_rchan_sel = val;
++	spin_unlock(&drvdata->spinlock);
++	return size;
++}
++
++static ssize_t chan_xtrigs_view_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
++{
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *cfg = &drvdata->config;
++	int used = 0, reg_idx;
++	int buf_sz = PAGE_SIZE;
++	u32 chan_mask = BIT(cfg->xtrig_rchan_sel);
++
++	used += scnprintf(buf, buf_sz, "[%d] IN: ", cfg->xtrig_rchan_sel);
++	for (reg_idx = 0;
++	     reg_idx < drvdata->config.nr_trig_max;
++	     reg_idx++) {
++		if (chan_mask & cfg->ctiinen[reg_idx]) {
++			used += scnprintf(buf + used, buf_sz - used, "%d ",
++					  reg_idx);
 +		}
 +	}
-+	mutex_unlock(&ect_mutex);
 +
-+	if (drvdata->csdev_release)
-+		drvdata->csdev_release(dev);
++	used += scnprintf(buf + used, buf_sz - used, "OUT: ");
++	for (reg_idx = 0;
++	     reg_idx < drvdata->config.nr_trig_max;
++	     reg_idx++) {
++		if (chan_mask & cfg->ctiouten[reg_idx]) {
++			used += scnprintf(buf + used, buf_sz - used, "%d ",
++					  reg_idx);
++		}
++	}
++	used += scnprintf(buf + used, buf_sz - used, "\n");
++	return used;
 +}
++static DEVICE_ATTR_RW(chan_xtrigs_view);
 +
-+static int cti_probe(struct amba_device *adev, const struct amba_id *id)
++static ssize_t print_chan_list(struct device *dev,
++			       char *buf, bool inuse)
 +{
-+	int ret = 0;
-+	void __iomem *base;
-+	struct device *dev = &adev->dev;
-+	struct cti_drvdata *drvdata = NULL;
-+	struct coresight_desc cti_desc;
-+	struct coresight_platform_data *pdata = NULL;
-+	struct resource *res = &adev->res;
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *config = &drvdata->config;
++	int size, i;
++	unsigned long inuse_bits = 0, chan_mask;
 +
-+	/* driver data*/
-+	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-+	if (!drvdata) {
-+		ret = -ENOMEM;
-+		dev_info(dev, "%s, mem err\n", __func__);
-+		goto err_out;
++	/* scan regs to get bitmap of channels in use. */
++	spin_lock(&drvdata->spinlock);
++	for (i = 0; i < config->nr_trig_max; i++) {
++		inuse_bits |= config->ctiinen[i];
++		inuse_bits |= config->ctiouten[i];
 +	}
++	spin_unlock(&drvdata->spinlock);
 +
-+	/* Validity for the resource is already checked by the AMBA core */
-+	base = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(base)) {
-+		ret = PTR_ERR(base);
-+		dev_err(dev, "%s, remap err\n", __func__);
-+		goto err_out;
-+	}
-+	drvdata->base = base;
++	/* inverse bits if printing free channels */
++	if (!inuse)
++		inuse_bits = ~inuse_bits;
 +
-+	dev_set_drvdata(dev, drvdata);
-+
-+	/* default CTI device info  */
-+	drvdata->ctidev.cpu = -1;
-+	drvdata->ctidev.nr_trig_con = 0;
-+	drvdata->ctidev.ctm_id = 0;
-+	INIT_LIST_HEAD(&drvdata->ctidev.trig_cons);
-+
-+	spin_lock_init(&drvdata->spinlock);
-+
-+	/* initialise CTI driver config values */
-+	cti_set_default_config(dev, drvdata);
-+
-+	pdata = coresight_cti_get_platform_data(dev);
-+	if (IS_ERR(pdata)) {
-+		dev_err(dev, "coresight_cti_get_platform_data err\n");
-+		ret =  PTR_ERR(pdata);
-+		goto err_out;
-+	}
-+
-+	/* default to powered - could change on PM notifications */
-+	drvdata->config.hw_powered = true;
-+
-+	/* set up device name - will depend if cpu bound or otherwise */
-+	if (drvdata->ctidev.cpu >= 0)
-+		cti_desc.name = devm_kasprintf(dev, GFP_KERNEL, "cti_cpu%d",
-+					       drvdata->ctidev.cpu);
++	/* list of channels, or 'none' */
++	chan_mask = GENMASK(config->nr_ctm_channels - 1, 0);
++	if (inuse_bits & chan_mask)
++		size = bitmap_print_to_pagebuf(true, buf, &inuse_bits,
++					       config->nr_ctm_channels);
 +	else
-+		cti_desc.name = coresight_alloc_device_name(&cti_sys_devs, dev);
-+	if (!cti_desc.name) {
-+		ret = -ENOMEM;
-+		goto err_out;
-+	}
-+
-+	/* set up coresight component description */
-+	cti_desc.pdata = pdata;
-+	cti_desc.type = CORESIGHT_DEV_TYPE_ECT;
-+	cti_desc.subtype.ect_subtype = CORESIGHT_DEV_SUBTYPE_ECT_CTI;
-+	cti_desc.ops = &cti_ops;
-+	cti_desc.groups = coresight_cti_groups;
-+	cti_desc.dev = dev;
-+	drvdata->csdev = coresight_register(&cti_desc);
-+	if (IS_ERR(drvdata->csdev)) {
-+		ret = PTR_ERR(drvdata->csdev);
-+		goto err_out;
-+	}
-+
-+	/* add to list of CTI devices */
-+	mutex_lock(&ect_mutex);
-+	list_add(&drvdata->node, &ect_net);
-+	mutex_unlock(&ect_mutex);
-+
-+	/* set up release chain */
-+	drvdata->csdev_release = drvdata->csdev->dev.release;
-+	drvdata->csdev->dev.release = cti_device_release;
-+
-+	/* all done - dec pm refcount */
-+	pm_runtime_put(&adev->dev);
-+	dev_info(&drvdata->csdev->dev, "CTI initialized\n");
-+	return 0;
-+
-+err_out:
-+	return ret;
++		size = scnprintf(buf, PAGE_SIZE, "\n");
++	return size;
 +}
 +
-+static struct amba_cs_uci_id uci_id_cti[] = {
-+	{
-+		/*  CTI UCI data */
-+		.devarch	= 0x47701a14, /* CTI v2 */
-+		.devarch_mask	= 0xfff0ffff,
-+		.devtype	= 0x00000014, /* maj(0x4-debug) min(0x1-ECT) */
++static ssize_t chan_inuse_show(struct device *dev,
++			       struct device_attribute *attr,
++			       char *buf)
++{
++	return print_chan_list(dev, buf, true);
++}
++static DEVICE_ATTR_RO(chan_inuse);
++
++static ssize_t chan_free_show(struct device *dev,
++			      struct device_attribute *attr,
++			      char *buf)
++{
++	return print_chan_list(dev, buf, false);
++}
++static DEVICE_ATTR_RO(chan_free);
++
++static struct attribute *coresight_cti_channel_attrs[] = {
++	&dev_attr_trigin_attach.attr,
++	&dev_attr_trigin_detach.attr,
++	&dev_attr_trigout_attach.attr,
++	&dev_attr_trigout_detach.attr,
++	&dev_attr_trig_filter_enable.attr,
++	&dev_attr_trigout_filtered.attr,
++	&dev_attr_chan_gate_enable.attr,
++	&dev_attr_chan_gate_disable.attr,
++	&dev_attr_chan_set.attr,
++	&dev_attr_chan_clear.attr,
++	&dev_attr_chan_pulse.attr,
++	&dev_attr_chan_inuse.attr,
++	&dev_attr_chan_free.attr,
++	&dev_attr_chan_xtrigs_view.attr,
++	&dev_attr_chan_xtrigs_reset.attr,
++	NULL,
++};
++
+ /* sysfs groups */
+ static const struct attribute_group coresight_cti_group = {
+ 	.attrs = coresight_cti_attrs,
+@@ -478,9 +821,15 @@ static const struct attribute_group coresight_cti_regs_group = {
+ 	.name = "regs",
+ };
+ 
++static const struct attribute_group coresight_cti_channels_group = {
++	.attrs = coresight_cti_channel_attrs,
++	.name = "channels",
++};
++
+ const struct attribute_group *coresight_cti_groups[] = {
+ 	&coresight_cti_group,
+ 	&coresight_cti_mgmt_group,
+ 	&coresight_cti_regs_group,
++	&coresight_cti_channels_group,
+ 	NULL,
+ };
+diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+index 0f88b9bc2774..77c2af247917 100644
+--- a/drivers/hwtracing/coresight/coresight-cti.c
++++ b/drivers/hwtracing/coresight/coresight-cti.c
+@@ -293,6 +293,153 @@ int cti_add_default_connection(struct device *dev, struct cti_drvdata *drvdata)
+ 	return ret;
+ }
+ 
++/** cti channel api **/
++/* attach/detach channel from trigger - write through if enabled. */
++int cti_channel_trig_op(struct device *dev, enum cti_chan_op op,
++			enum cti_trig_dir direction, u32 channel_idx,
++			u32 trigger_idx)
++{
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *config = &drvdata->config;
++	u32 trig_bitmask;
++	u32 chan_bitmask;
++	u32 reg_value;
++	int reg_offset;
++
++	/* ensure indexes in range */
++	if ((channel_idx >= config->nr_ctm_channels) ||
++	   (trigger_idx >= config->nr_trig_max))
++		return -EINVAL;
++
++	trig_bitmask = BIT(trigger_idx);
++
++	/* ensure registered triggers and not out filtered */
++	if (direction == CTI_TRIG_IN)	{
++		if (!(trig_bitmask & config->trig_in_use))
++			return -EINVAL;
++	} else {
++		if (!(trig_bitmask & config->trig_out_use))
++			return -EINVAL;
++
++		if ((config->trig_filter_enable) &&
++		    (config->trig_out_filter & trig_bitmask))
++			return -EINVAL;
 +	}
-+};
 +
-+static const struct amba_id cti_ids[] = {
-+	CS_AMBA_ID(0x000bb906), /* Coresight CTI (SoC 400), C-A72, C-A57 */
-+	CS_AMBA_ID(0x000bb922), /* CTI - C-A8 */
-+	CS_AMBA_ID(0x000bb9a8), /* CTI - C-A53 */
-+	CS_AMBA_ID(0x000bb9aa), /* CTI - C-A73 */
-+	CS_AMBA_UCI_ID(0x000bb9da, uci_id_cti), /* CTI - C-A35 */
-+	CS_AMBA_UCI_ID(0x000bb9ed, uci_id_cti), /* Coresight CTI (SoC 600) */
-+	{ 0, 0},
-+};
++	/* update the local register values */
++	chan_bitmask = BIT(channel_idx);
++	reg_offset = (direction == CTI_TRIG_IN ? CTIINEN(trigger_idx) :
++		      CTIOUTEN(trigger_idx));
 +
-+static struct amba_driver cti_driver = {
-+	.drv = {
-+		.name	= "coresight-cti",
-+		.owner = THIS_MODULE,
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe		= cti_probe,
-+	.id_table	= cti_ids,
-+};
-+builtin_amba_driver(cti_driver);
++	spin_lock(&drvdata->spinlock);
++
++	/* read - modify write - the trigger / channel enable value */
++	reg_value = direction == CTI_TRIG_IN ? config->ctiinen[trigger_idx] :
++		     config->ctiouten[trigger_idx];
++	if (op == CTI_CHAN_ATTACH)
++		reg_value |= chan_bitmask;
++	else
++		reg_value &= ~chan_bitmask;
++
++	/* write local copy */
++	if (direction == CTI_TRIG_IN)
++		config->ctiinen[trigger_idx] = reg_value;
++	else
++		config->ctiouten[trigger_idx] = reg_value;
++
++	/* write through if enabled */
++	if (cti_active(config))
++		cti_write_single_reg(drvdata, reg_offset, reg_value);
++	spin_unlock(&drvdata->spinlock);
++	return 0;
++}
++
++int cti_channel_gate_op(struct device *dev, enum cti_chan_gate_op op,
++			u32 channel_idx)
++{
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *config = &drvdata->config;
++	u32 chan_bitmask;
++	u32 reg_value;
++	int err = 0;
++
++	if (channel_idx >= config->nr_ctm_channels)
++		return -EINVAL;
++
++	chan_bitmask = BIT(channel_idx);
++
++	spin_lock(&drvdata->spinlock);
++	reg_value = config->ctigate;
++	switch (op) {
++	case CTI_GATE_CHAN_ENABLE:
++		reg_value |= chan_bitmask;
++		break;
++
++	case CTI_GATE_CHAN_DISABLE:
++		reg_value &= ~chan_bitmask;
++		break;
++
++	default:
++		err = -EINVAL;
++		break;
++	}
++	if (err == 0) {
++		config->ctigate = reg_value;
++		if (cti_active(config))
++			cti_write_single_reg(drvdata, CTIGATE, reg_value);
++	}
++	spin_unlock(&drvdata->spinlock);
++	return err;
++}
++
++int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
++		      u32 channel_idx)
++{
++	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
++	struct cti_config *config = &drvdata->config;
++	u32 chan_bitmask;
++	u32 reg_value;
++	u32 reg_offset;
++	int err = 0;
++
++	if (channel_idx >= config->nr_ctm_channels)
++		return -EINVAL;
++
++	chan_bitmask = BIT(channel_idx);
++
++	spin_lock(&drvdata->spinlock);
++	reg_value = config->ctiappset;
++	switch (op) {
++	case CTI_CHAN_SET:
++		config->ctiappset |= chan_bitmask;
++		reg_value  = config->ctiappset;
++		reg_offset = CTIAPPSET;
++		break;
++
++	case CTI_CHAN_CLR:
++		config->ctiappset &= ~chan_bitmask;
++		reg_value = chan_bitmask;
++		reg_offset = CTIAPPCLEAR;
++		break;
++
++	case CTI_CHAN_PULSE:
++		config->ctiappset &= ~chan_bitmask;
++		reg_value = chan_bitmask;
++		reg_offset = CTIAPPPULSE;
++		break;
++
++	default:
++		err = -EINVAL;
++		break;
++	}
++
++	if ((err == 0) && cti_active(config))
++		cti_write_single_reg(drvdata, reg_offset, reg_value);
++	spin_unlock(&drvdata->spinlock);
++
++	return err;
++}
++
+ /** cti ect operations **/
+ int cti_enable(struct coresight_device *csdev)
+ {
 diff --git a/drivers/hwtracing/coresight/coresight-cti.h b/drivers/hwtracing/coresight/coresight-cti.h
-new file mode 100644
-index 000000000000..0719221c7071
---- /dev/null
+index 6f6f6773cd3b..469a06a1bb78 100644
+--- a/drivers/hwtracing/coresight/coresight-cti.h
 +++ b/drivers/hwtracing/coresight/coresight-cti.h
-@@ -0,0 +1,186 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
+@@ -168,6 +168,30 @@ struct cti_drvdata {
+ 	void (*csdev_release)(struct device *dev);
+ };
+ 
 +/*
-+ * Copyright (c) 2018 Linaro Limited, All rights reserved.
-+ * Author: Mike Leach <mike.leach@linaro.org>
++ * Channel operation types.
 + */
-+
-+#ifndef _CORESIGHT_CORESIGHT_CTI_H
-+#define _CORESIGHT_CORESIGHT_CTI_H
-+
-+#include <asm/local.h>
-+#include <linux/spinlock.h>
-+#include "coresight-priv.h"
-+
-+/*
-+ * Device registers
-+ * 0x000 - 0x144: CTI programming and status
-+ * 0xEDC - 0xEF8: CTI integration test.
-+ * 0xF00 - 0xFFC: Coresight management registers.
-+ */
-+/* CTI programming registers */
-+#define CTICONTROL		0x000
-+#define CTIINTACK		0x010
-+#define CTIAPPSET		0x014
-+#define CTIAPPCLEAR		0x018
-+#define CTIAPPPULSE		0x01C
-+#define CTIINEN(n)		(0x020 + (4 * n))
-+#define CTIOUTEN(n)		(0x0A0 + (4 * n))
-+#define CTITRIGINSTATUS		0x130
-+#define CTITRIGOUTSTATUS	0x134
-+#define CTICHINSTATUS		0x138
-+#define CTICHOUTSTATUS		0x13C
-+#define CTIGATE			0x140
-+#define ASICCTL			0x144
-+/* Integration test registers */
-+#define ITCHINACK		0xEDC /* WO CTI CSSoc 400 only*/
-+#define ITTRIGINACK		0xEE0 /* WO CTI CSSoc 400 only*/
-+#define ITCHOUT			0xEE4 /* WO RW-600 */
-+#define ITTRIGOUT		0xEE8 /* WO RW-600 */
-+#define ITCHOUTACK		0xEEC /* RO CTI CSSoc 400 only*/
-+#define ITTRIGOUTACK		0xEF0 /* RO CTI CSSoc 400 only*/
-+#define ITCHIN			0xEF4 /* RO */
-+#define ITTRIGIN		0xEF8 /* RO */
-+/* management registers */
-+#define CTIDEVAFF0		0xFA8
-+#define CTIDEVAFF1		0xFAC
-+
-+/*
-+ * CTI CSSoc 600 has a max of 32 trigger signals per direction.
-+ * CTI CSSoc 400 has 8 IO triggers - other CTIs can be impl def.
-+ * Max of in and out defined in the DEVID register.
-+ * - pick up actual number used from .dts parameters if present.
-+ */
-+#define CTIINOUTEN_MAX		32
-+
-+/**
-+ * Group of related trigger signals
-+ *
-+ * @nr_sigs: number of signals in the group.
-+ * @used_mask: bitmask representing the signal indexes in the group.
-+ * @sig_types: array of types for the signals, length nr_sigs.
-+ */
-+struct cti_trig_grp {
-+	int nr_sigs;
-+	u32 used_mask;
-+	int sig_types[0];
++enum cti_chan_op {
++	CTI_CHAN_ATTACH,
++	CTI_CHAN_DETACH,
 +};
 +
-+/**
-+ * Trigger connection - connection between a CTI and other (coresight) device
-+ * lists input and output trigger signals for the device
-+ *
-+ * @con_in: connected CTIIN signals for the device.
-+ * @con_out: connected CTIOUT signals for the device.
-+ * @con_dev: coresight device connected to the CTI, NULL if not CS device
-+ * @con_dev_name: name of connected device (CS or CPU)
-+ * @node: entry node in list of connections.
-+ */
-+struct cti_trig_con {
-+	struct cti_trig_grp *con_in;
-+	struct cti_trig_grp *con_out;
-+	struct coresight_device *con_dev;
-+	char *con_dev_name;
-+	struct list_head node;
++enum cti_trig_dir {
++	CTI_TRIG_IN,
++	CTI_TRIG_OUT,
 +};
 +
-+/**
-+ * struct cti_device - description of CTI device properties.
-+ *
-+ * @nt_trig_con: Number of external devices connected to this device.
-+ * @ctm_id: which CTM this device is connected to (by default it is
-+ *          assumed there is a single CTM per SoC, ID 0).
-+ * @trig_cons: list of connections to this device.
-+ * @cpu: CPU ID if associated with CPU, -1 otherwise.
-+ */
-+struct cti_device {
-+	int nr_trig_con;
-+	u32 ctm_id;
-+	struct list_head trig_cons;
-+	int cpu;
++enum cti_chan_gate_op {
++	CTI_GATE_CHAN_ENABLE,
++	CTI_GATE_CHAN_DISABLE,
 +};
 +
-+/**
-+ * struct cti_config - configuration of the CTI device hardware
-+ *
-+ * @nr_trig_max: Max number of trigger signals implemented on device.
-+ *		 (max of trig_in or trig_out) - from ID register.
-+ * @nr_ctm_channels: number of available CTM channels - from ID register.
-+ * @enable_req_count: CTI is enabled alongside >=1 associated devices.
-+ * @hw_enabled: true if hw is currently enabled.
-+ * @hw_powered: true if associated cpu powered on, or no cpu.
-+ * @trig_in_use: bitfield of in triggers registered as in use.
-+ * @trig_out_use: bitfield of out triggers registered as in use.
-+ * @trig_out_filter: bitfield of out triggers that are blocked if filter
-+ *		     enabled. Typically this would be dbgreq / restart on
-+ *		     a core CTI.
-+ * @trig_filter_enable: 1 if filtering enabled.
-+ * @xtrig_rchan_sel: channel selection for xtrigger connection show.
-+ * @ctiappset: CTI Software application channel set.
-+ * @ctiinout_sel: register selector for INEN and OUTEN regs.
-+ * @ctiinen: enable input trigger to a channel.
-+ * @ctiouten: enable output trigger from a channel.
-+ * @ctigate: gate channel output from CTI to CTM.
-+ * @asicctl: asic control register.
-+ */
-+struct cti_config {
-+	/* hardware description */
-+	int nr_ctm_channels;
-+	int nr_trig_max;
-+
-+	/* cti enable control */
-+	atomic_t enable_req_count;
-+	bool hw_enabled;
-+	bool hw_powered;
-+
-+	/* registered triggers and filtering */
-+	u32 trig_in_use;
-+	u32 trig_out_use;
-+	u32 trig_out_filter;
-+	bool trig_filter_enable;
-+	u8 xtrig_rchan_sel;
-+
-+	/* cti cross trig programmable regs */
-+	u32 ctiappset;
-+	u8 ctiinout_sel;
-+	u32 ctiinen[CTIINOUTEN_MAX];
-+	u32 ctiouten[CTIINOUTEN_MAX];
-+	u32 ctigate;
-+	u32 asicctl;
++enum cti_chan_set_op {
++	CTI_CHAN_SET,
++	CTI_CHAN_CLR,
++	CTI_CHAN_PULSE,
 +};
 +
-+/**
-+ * struct cti_drvdata - specifics for the CTI device
-+ * @base:	Memory mapped base address for this component..
-+ * @csdev:	Standard CoreSight device information.
-+ * @ctidev:	Extra information needed by the CTI/CTM framework.
-+ * @spinlock:	Control data access to one at a time.
-+ * @config:	Configuration data for this CTI device.
-+ * @node:	List entry of this device in the list of CTI devices.
-+ * @csdev_release: release function for underlying coresight_device.
-+ */
-+struct cti_drvdata {
-+	void __iomem *base;
-+	struct coresight_device	*csdev;
-+	struct cti_device ctidev;
-+	spinlock_t spinlock;
-+	struct cti_config config;
-+	struct list_head node;
-+	void (*csdev_release)(struct device *dev);
-+};
-+
-+/* private cti driver fns & vars */
-+extern const struct attribute_group *coresight_cti_groups[];
-+int cti_add_default_connection(struct device *dev,
-+			       struct cti_drvdata *drvdata);
-+int cti_add_connection_entry(struct device *dev, struct cti_drvdata *drvdata,
-+			     struct cti_trig_con *tc,
-+			     struct coresight_device *csdev,
-+			     const char *assoc_dev_name);
-+struct cti_trig_con *cti_allocate_trig_con(struct device *dev, int in_sigs,
-+					   int out_sigs);
-+int cti_enable(struct coresight_device *csdev);
-+int cti_disable(struct coresight_device *csdev);
-+struct coresight_platform_data *
-+coresight_cti_get_platform_data(struct device *dev);
-+
-+#endif  /* _CORESIGHT_CORESIGHT_CTI_H */
-diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-index ef20f74c85fa..1a5fdf2710ff 100644
---- a/drivers/hwtracing/coresight/coresight.c
-+++ b/drivers/hwtracing/coresight/coresight.c
-@@ -955,6 +955,9 @@ static struct device_type coresight_dev_type[] = {
- 	{
- 		.name = "helper",
- 	},
-+	{
-+		.name = "ect",
-+	},
- };
+ /* private cti driver fns & vars */
+ extern const struct attribute_group *coresight_cti_groups[];
+ int cti_add_default_connection(struct device *dev,
+@@ -180,8 +204,16 @@ struct cti_trig_con *cti_allocate_trig_con(struct device *dev, int in_sigs,
+ 					   int out_sigs);
+ int cti_enable(struct coresight_device *csdev);
+ int cti_disable(struct coresight_device *csdev);
++void cti_write_all_hw_regs(struct cti_drvdata *drvdata);
+ void cti_write_intack(struct device *dev, u32 ackval);
+ void cti_write_single_reg(struct cti_drvdata *drvdata, int offset, u32 value);
++int cti_channel_trig_op(struct device *dev, enum cti_chan_op op,
++			enum cti_trig_dir direction, u32 channel_idx,
++			u32 trigger_idx);
++int cti_channel_gate_op(struct device *dev, enum cti_chan_gate_op op,
++			u32 channel_idx);
++int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
++		      u32 channel_idx);
+ struct coresight_platform_data *
+ coresight_cti_get_platform_data(struct device *dev);
  
- static void coresight_device_release(struct device *dev)
-diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-index 44e552de419c..b3e582d96a34 100644
---- a/include/linux/coresight.h
-+++ b/include/linux/coresight.h
-@@ -41,6 +41,7 @@ enum coresight_dev_type {
- 	CORESIGHT_DEV_TYPE_LINKSINK,
- 	CORESIGHT_DEV_TYPE_SOURCE,
- 	CORESIGHT_DEV_TYPE_HELPER,
-+	CORESIGHT_DEV_TYPE_ECT,
- };
- 
- enum coresight_dev_subtype_sink {
-@@ -68,6 +69,12 @@ enum coresight_dev_subtype_helper {
- 	CORESIGHT_DEV_SUBTYPE_HELPER_CATU,
- };
- 
-+/* Embedded Cross Trigger (ECT) sub-types */
-+enum coresight_dev_subtype_ect {
-+	CORESIGHT_DEV_SUBTYPE_ECT_NONE,
-+	CORESIGHT_DEV_SUBTYPE_ECT_CTI,
-+};
-+
- /**
-  * union coresight_dev_subtype - further characterisation of a type
-  * @sink_subtype:	type of sink this component is, as defined
-@@ -78,6 +85,8 @@ enum coresight_dev_subtype_helper {
-  *			by @coresight_dev_subtype_source.
-  * @helper_subtype:	type of helper this component is, as defined
-  *			by @coresight_dev_subtype_helper.
-+ * @ect_subtype:        type of cross trigger this component is, as
-+ *			defined by @coresight_dev_subtype_ect
-  */
- union coresight_dev_subtype {
- 	/* We have some devices which acts as LINK and SINK */
-@@ -87,6 +96,7 @@ union coresight_dev_subtype {
- 	};
- 	enum coresight_dev_subtype_source source_subtype;
- 	enum coresight_dev_subtype_helper helper_subtype;
-+	enum coresight_dev_subtype_ect ect_subtype;
- };
- 
- /**
-@@ -196,6 +206,7 @@ static struct coresight_dev_list (var) = {				\
- #define sink_ops(csdev)		csdev->ops->sink_ops
- #define link_ops(csdev)		csdev->ops->link_ops
- #define helper_ops(csdev)	csdev->ops->helper_ops
-+#define ect_ops(csdev)		csdev->ops->ect_ops
- 
- /**
-  * struct coresight_ops_sink - basic operations for a sink
-@@ -262,11 +273,23 @@ struct coresight_ops_helper {
- 	int (*disable)(struct coresight_device *csdev, void *data);
- };
- 
-+/**
-+ * struct coresight_ops_ect - Ops for an embedded cross trigger device
-+ *
-+ * @enable	: Enable the device
-+ * @disable	: Disable the device
-+ */
-+struct coresight_ops_ect {
-+	int (*enable)(struct coresight_device *csdev);
-+	int (*disable)(struct coresight_device *csdev);
-+};
-+
- struct coresight_ops {
- 	const struct coresight_ops_sink *sink_ops;
- 	const struct coresight_ops_link *link_ops;
- 	const struct coresight_ops_source *source_ops;
- 	const struct coresight_ops_helper *helper_ops;
-+	const struct coresight_ops_ect *ect_ops;
- };
- 
- #ifdef CONFIG_CORESIGHT
 -- 
 2.17.1
 
