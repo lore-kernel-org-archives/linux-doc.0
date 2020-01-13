@@ -2,106 +2,88 @@ Return-Path: <SRS0=MW2i=3C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD54C33CAE
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 05:22:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E98BC33CA8
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 08:52:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE87D22314
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 05:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578892949;
-	bh=pQmyxSK2rYvZKhrIwLap9VHfSzCEWZiVvINtuLhYf+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=oHfjqLf7p3Ax+L1ClGpxsXq/S4n5F5uL08d94Mjwv/jXzqpb2aR2uIFUDyKKOcDog
-	 vyw/GLdevGYoTwoKJ+R2zdrSZHEg7OHMPrYlnORsMtfnv+QqTYrHDJky6C+ZmApalF
-	 SfWyXtSw0tpQQTWTK5DIlw+vFBFKcDaG//Aci0bk=
+	by mail.kernel.org (Postfix) with ESMTP id B1B2920678
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jan 2020 08:52:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="iUMNVIah"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725909AbgAMFW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jan 2020 00:22:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725268AbgAMFW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jan 2020 00:22:29 -0500
-Received: from localhost (unknown [106.200.247.255])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A93121556;
-        Mon, 13 Jan 2020 05:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578892948;
-        bh=pQmyxSK2rYvZKhrIwLap9VHfSzCEWZiVvINtuLhYf+8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sXsnWQlS74pdFu0UVzYxpNsBcF1pjQrjT5BtFxF/taQ3HDzM842jYOvVocHdIWHG9
-         J+i7dHx1rmbqKaLZExA0iZN52nxNbefaz3lsNVHM25Wj2b8b0dwwoSCDmehmjB0IRc
-         dXZyIv9yOCMRN0Vz0016AX+lCzyP+cCrTUAuhMIM=
-Date:   Mon, 13 Jan 2020 10:52:24 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc:     alsa-devel@alsa-project.org, Jonathan Corbet <corbet@lwn.net>,
-        tiwai@suse.de, gregkh@linuxfoundation.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        broonie@kernel.org, srinivas.kandagatla@linaro.org,
-        jank@cadence.com, slawomir.blauciak@intel.com,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Bard liao <yung-chuan.liao@linux.intel.com>,
-        Rander Wang <rander.wang@linux.intel.com>
-Subject: Re: [alsa-devel] [PATCH 2/6] soundwire: stream: update state machine
- and add state checks
-Message-ID: <20200113052224.GQ2818@vkoul-mobl>
-References: <20200108175438.13121-1-pierre-louis.bossart@linux.intel.com>
- <20200108175438.13121-3-pierre-louis.bossart@linux.intel.com>
- <20200110064838.GY2818@vkoul-mobl>
- <a18c668f-4628-0fb9-ffa0-b24cdad1cc8b@linux.intel.com>
- <69ad48b0-fa3c-904a-4106-5cd9bd18de5c@linux.intel.com>
+        id S1728841AbgAMIwI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jan 2020 03:52:08 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34122 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727465AbgAMIwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jan 2020 03:52:08 -0500
+Received: by mail-io1-f65.google.com with SMTP id z193so8958754iof.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2020 00:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WguZovr7w2m2X1zQC6+qX9nLM78GMuCabyk3ve+En7w=;
+        b=iUMNVIahZJ+iYbyruFJTQpGPwrHA6AbG3SEi1ryfNGcBbqSZhlOZ972H5JVFhpaJu3
+         SuxTyCywmNR32/JAz023KaCvReKJ2xvTMZkEU+2+rGlm/PxbAHWugOvhz1JzW5YAkn7w
+         X1Y9vVnN8ThfKMFcwdJLuJhJhmVOchINsZaxE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WguZovr7w2m2X1zQC6+qX9nLM78GMuCabyk3ve+En7w=;
+        b=sjfFAI1rnxFFLpgKQx9DWjddoRj0PfBFZWeVirRG0gbOn7ME3dDj5aF3ipp7jz2DEY
+         2bblVCPAIdEtWloXtuBQIK5xXHb0kYYUI82ulHtmfSzj+WC/8rZSvPxlqtKoHcPXT85U
+         I71MuYwxCbde2+WJiuC4MyPyP8mK3yhiREu794uIUAIOUTBQiNKAVZp6XbkoWh16HEHl
+         OfRpYNa/2qQHtrkGsXl3lLICzc7uCUNxIyZ+q9h1ZfdOYElS8GVvCN6GhRfAH75yR3pL
+         Wuax2tHB4gPnjWgB9UNRTfrZ5LQXa3p7kjMb4Kk1uMikwMNdDc6Iba4veWmYi94dheh9
+         Kvvw==
+X-Gm-Message-State: APjAAAWNN2mktQZgS6Tm49QPWHYGiLx504LQ/AV7C6nkt0JcXGznE/9l
+        TljGDQcz3Xtq3lw6RZK8dhRSRHSVmdAwRsbZg5ITUw==
+X-Google-Smtp-Source: APXvYqyD1z3AhO+BunsjSlb7c6IJA/YCCugP+yTkUD3iDk7YUduoV/eRTFouDc06SaotaswtXWIGMt+FAjQFrWE+B0I=
+X-Received: by 2002:a02:6a10:: with SMTP id l16mr13056335jac.77.1578905527652;
+ Mon, 13 Jan 2020 00:52:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69ad48b0-fa3c-904a-4106-5cd9bd18de5c@linux.intel.com>
+References: <20191231185110.809467-1-dwlsalmeida@gmail.com> <20200110110923.31fc56e5@lwn.net>
+In-Reply-To: <20200110110923.31fc56e5@lwn.net>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Mon, 13 Jan 2020 09:51:56 +0100
+Message-ID: <CAJfpegsBbLWaF43WtyTo8y-_sUjLi=60sQoXHDatsSVg8m68PQ@mail.gmail.com>
+Subject: Re: [PATCH v4] Documentation: filesystems: convert fuse to RST
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        markus.heiser@darmarit.de, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11-01-20, 05:30, Pierre-Louis Bossart wrote:
-> 
-> 
-> On 1/10/20 10:30 AM, Pierre-Louis Bossart wrote:
-> > 
-> > > > -  int sdw_prepare_stream(struct sdw_stream_runtime * stream);
-> > > > +  int sdw_prepare_stream(struct sdw_stream_runtime * stream,
-> > > > bool resume);
-> > > 
-> > > so what does the additional argument of resume do..?
-> > > 
-> > > > diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-> > > > index 178ae92b8cc1..6aa0b5d370c0 100644
-> > > > --- a/drivers/soundwire/stream.c
-> > > > +++ b/drivers/soundwire/stream.c
-> > > > @@ -1553,8 +1553,18 @@ int sdw_prepare_stream(struct
-> > > > sdw_stream_runtime *stream)
-> > > 
-> > > and it is not modified here, so is the doc correct or this..?
-> > 
-> > the doc is correct and the code is updated in
-> > 
-> > [PATCH 4/6] soundwire: stream: do not update parameters during
-> > DISABLED-PREPARED transition
-> 
-> Sorry, wrong answer, my bad. The code block in the documentation is
-> incorrect.
-> 
-> The Patch 4/6 implements the transition mentioned in the documentation, but
-> the extra parameter is a left-over from an earlier version. This case is now
-> handled internally. We did revert to the initial prototype after finding out
-> that dealing with transitions in the caller is error-prone.
+On Fri, Jan 10, 2020 at 7:09 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue, 31 Dec 2019 15:51:10 -0300
+> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
+>
+> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> >
+> > Converts fuse.txt to reStructuredText format, improving the presentation
+> > without changing much of the underlying content.
+> >
+> > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+>
+> So I note that the last non-typo-fix change to this document happened in
+> 2006, which leads me to suspect that it might be just a wee bit out of
+> date.  Miklos, what's the story here?  Should we put a warning at the top?
 
-Glad that you agree with me on something!
+The document seems to be mostly valid still.
 
--- 
-~Vinod
+It would be good to have more documentation, though...
+
+Thanks,
+Miklos
