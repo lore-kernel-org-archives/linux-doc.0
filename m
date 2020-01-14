@@ -2,147 +2,142 @@ Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA1BC33CB8
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 19:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B20C33CB2
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:15:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E171024672
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 19:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579029759;
-	bh=mKLOd2xmuYtb73s/4dD84EKQ2MMEkc1ge3ZF5InQbH8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=KaGV/zY4h6+P5Us2R9HL1QppbOVsa/f5eSJb9DXJv/GxFa04b4qnEnInTkJ7R/ON+
-	 vk5HrN1r1z1N/hsey/4czJFogyZv54oYtdtUm2fOXdbNTwr1YWPVSCbIDAbzBsilnf
-	 nQt82M5NynBROl22tvzSkunp7dbH4A4T3O0JSLBQ=
+	by mail.kernel.org (Postfix) with ESMTP id 1DB1724658
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:15:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="bNQcHd+k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728865AbgANTWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 14:22:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46278 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727102AbgANTWW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jan 2020 14:22:22 -0500
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9888124658;
-        Tue, 14 Jan 2020 19:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579029740;
-        bh=mKLOd2xmuYtb73s/4dD84EKQ2MMEkc1ge3ZF5InQbH8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=117MId6Fz76RZor5q9TDLOOoMgry1k3C0QHZUjZIdh92Cr0Y66vkwVY4G+FR6cfpv
-         BIBczBS/bbgKByRPmw3XmuYD/Ayq9MiHEziGem3GpZoV1tAE9hrhlFPzNXPZF0Ldve
-         dtbxedSQL5fov2WMA872xeXZ/jl8mPcSM/6v5OrA=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 3FB583522798; Tue, 14 Jan 2020 11:22:20 -0800 (PST)
-Date:   Tue, 14 Jan 2020 11:22:20 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Qian Cai <cai@lca.pw>
-Cc:     Marco Elver <elver@google.com>,
-        LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
+        id S1728754AbgANUPM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 15:15:12 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13500 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726839AbgANUPL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 15:15:11 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e1e21390001>; Tue, 14 Jan 2020 12:14:49 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Jan 2020 12:15:09 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Jan 2020 12:15:09 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jan
+ 2020 20:15:09 +0000
+Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
+ FOLL_PIN
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20200114192220.GS2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <CANpmjNOC2PYFsE_TK2SYmKcHxyG+2arWc8x_fmeWPOMi0+ot8g@mail.gmail.com>
- <53F6B915-AC53-41BB-BF32-33732515B3A0@lca.pw>
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <9d7f3c1a-6020-bdec-c513-80c5399e55d7@nvidia.com>
+Date:   Tue, 14 Jan 2020 12:15:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53F6B915-AC53-41BB-BF32-33732515B3A0@lca.pw>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579032890; bh=wLxNzNFRStaOZ7jAQIV4tH1wBKaWmBKZBOUdkq/PVGQ=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=bNQcHd+kt2S6qArSD90PMkNX5LSRoo2toPf1fdY/D3ysgVjnnuMPbcBLvU4mGjBbT
+         LR4uZiIEi3/mAViybdXB1PH001dny/ndD230xDMGlhs7NAYpQR6mGLaj5Fl0H44uol
+         s/WH8SaFGbiYHrC+Jf2F7bChe3A2NqguquLvhseggPHll2epR/FoT6c0YMA6JGSKkp
+         eSDWR40pps95gbxdKKvy2DClT3lBSMdUwcemTQnf2Jrxy6nLuQLIDhcegQ+kyGcscI
+         uknj/1R1Mw2ETSzcXASW/vo/Q3g+SHupTZUPph9j3ZAnq/QlpAxhi10ckpA46Ke/0I
+         HjefW3dJ5Akvg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 14, 2020 at 06:08:29AM -0500, Qian Cai wrote:
+On 1/9/20 2:07 PM, John Hubbard wrote:
+> On 1/7/20 2:45 PM, John Hubbard wrote:
+>> Hi,
+>>
+>> The "track FOLL_PIN pages" would have been the very next patch, but it is
+>> not included here because I'm still debugging a bug report from Leon.
+>> Let's get all of the prerequisite work (it's been reviewed) into the tree
+>> so that future reviews are easier. It's clear that any fixes that are
+>> required to the tracking patch, won't affect these patches here.
+>>
+>> This implements an API naming change (put_user_page*() -->
+>> unpin_user_page*()), and also adds FOLL_PIN page support, up to
+>> *but not including* actually tracking FOLL_PIN pages. It extends
+>> the FOLL_PIN support to a few select subsystems. More subsystems will
+>> be added in follow up work.
+>>
 > 
+> Hi Andrew and all,
 > 
-> > On Jan 6, 2020, at 7:47 AM, Marco Elver <elver@google.com> wrote:
-> > 
-> > Thanks, I'll look into KCSAN + lockdep compatibility. It's probably
-> > missing some KCSAN_SANITIZE := n in some Makefile.
+> To clarify: I'm hoping that this series can go into 5.6.
 > 
-> Can I have a update on fixing this? It looks like more of a problem that kcsan_setup_watchpoint() will disable IRQs and then dive into the page allocator where it would complain because it might sleep.
+> Meanwhile, I'm working on tracking down and solving the problem that Leon
+> reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
+> this series.
 > 
-> BTW, I saw Paul sent a pull request for 5.6 but it is ugly to have everybody could trigger a deadlock (sleep function called in atomic context) like this during boot once this hits the mainline not to mention about only recently it is possible to test this feature (thanks to warning ratelimit) with the existing debugging options because it was unable to boot due to the brokenness with debug_pagealloc as mentioned in this thread, so this does sounds like it needs more soak time for the mainline to me.
 
-Just so I understand...  Does this problem happen even in CONFIG_KCSAN=n
-kernels?
+Hi Andrew and all,
 
-I have been running extensive CONFIG_KSCAN=y rcutorture tests for quite
-awhile now, so even if this only happens for CONFIG_KSCAN=y, it is not
-like it affects everyone.
+Any thoughts on this?
 
-Yes, it should be fixed, and Marco does have a patch on the way.
+As for the not-included-yet tracking patch, my local testing still suggests the
+need to allow for larger refcounts of huge pages (in other words, I can write a test
+to pin huge pages many times, and overflow with the same backtrace that Leon has
+reported).
 
-							Thanx, Paul
+The second struct page (I recall Jan suggested) can hold those, so I'm going to proceed
+with that approach, while waiting to see if Leon has any more test data for me.
 
-> 0000000000000400
-> [   13.416814][    T1] Call Trace:
-> [   13.416814][    T1]  lock_is_held_type+0x66/0x160
-> [   13.416814][    T1]  ___might_sleep+0xc1/0x1d0
-> [   13.416814][    T1]  __might_sleep+0x5b/0xa0
-> [   13.416814][    T1]  slab_pre_alloc_hook+0x7b/0xa0
-> [   13.416814][    T1]  __kmalloc_node+0x60/0x300
-> [   13.416814   T1]  ? alloc_cpumask_var_node+0x44/0x70
-> [   13.416814][    T1]  ? topology_phys_to_logical_die+0x7e/0x180
-> [   13.416814][    T1]  alloc_cpumask_var_node+0x44/0x70
-> [   13.416814][    T1]  zalloc_cpumask_var+0x2a/0x40
-> [   13.416814][    T1]  native_smp_prepare_cpus+0x246/0x425
-> [   13.416814][    T1]  kernel_init_freeable+0x1b8/0x496
-> [   13.416814][    T1]  ? rest_init+0x381/0x381
-> [   13.416814][    T1]  kernel_init+0x18/0x17f
-> [   13.416814][    T1]  ? rest_init+0x381/0x381
-> [   13.416814][    T1]  ret_from_fork+0x3a/0x50
-> [   13.416814][    T1] irq event stamp: 910
-> [   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>] _raw_write_unlock_irqrestore+0x53/0x57
-> [   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>] kcsan_setup_watchpoint+0x96/0x460
-> [   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] copy_process+0x11fa/0x34f0
-> [   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> [   13.416814][    T1] ---[ end trace 7d1df66da055aa92 ]---
-> [   13.416814][    T1] possible reason: unannotated irqs-on.
-> [   13.416814][ent stamp: 910
-> [   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>] _raw_write_unlock_irqrestore+0x53/0x57
-> [   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>] kcsan_setup_watchpoint+0x96/0x460
-> [   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] copy_process+0x11fa/0x34f0
-> [   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0x0
+Again, I think this series is worth getting out of the way, in the meantime.
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
