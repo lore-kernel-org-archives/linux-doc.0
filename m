@@ -2,111 +2,161 @@ Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A52C33CAD
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 05:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646F5C33CB1
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 11:08:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 05F2D2072B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 05:20:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39F342467E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 11:08:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eb1inmK6"
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="mDLkJsF3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725860AbgANFUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 00:20:55 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:39174 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725842AbgANFUz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 00:20:55 -0500
-Received: by mail-pj1-f68.google.com with SMTP id e11so3772343pjt.4;
-        Mon, 13 Jan 2020 21:20:54 -0800 (PST)
+        id S1729541AbgANLId (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 06:08:33 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:42797 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729085AbgANLIc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 06:08:32 -0500
+Received: by mail-qk1-f193.google.com with SMTP id z14so11658353qkg.9
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2020 03:08:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hpg375SG4OcRJmsXIQB4JvlM7mK+PXk3tVmm8/Xog0I=;
-        b=Eb1inmK65871bjwXXURvt/KZT59pK0p9MojqskFZAmrJvcqKeyOsqgyh8nbp25X8II
-         sQ4K+nd1xfS2arR49DGCUEB/UsSvNDocoNEXDKg9XPulWvmZoWYn8JLsPHNRB1PZ/YFk
-         km3df9BKbMWALHC/3zZS84vGAdJHbvahhQBGxTNY6o4VYCQ0lmriUT5D9rRZJo+IiuyH
-         uXDpHm3U6xWgPFHk6eULScXecxmdKqK4eHouICv/DNXzflv2eTAXrqjtkwAXvV0DjNof
-         d0Z15lEPNJ9LJ2WbdX/GOqTyQDJvyBYVYGA+xKZTdqlkly3ErO2Ur1ooroKx5oDXh1Eq
-         uorg==
+        d=lca.pw; s=google;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=ukU/HTx3Lur+oN5f1R5Yulqfuax6so7AyFG3I+NXijE=;
+        b=mDLkJsF382qFbmEkUJXrjKsSsU0bztLQnJuEdueVjG+YHKn129QRMVkFBhaHs02jlb
+         S5JV36BNDDNUfL8KemT5hOsLWqTvUggPzEAa8N2CZKjqEUL2gsDnvv40g+BB+uela7dh
+         Jgrx9rDjz5OErwlXPsX7nNM+dSWsRNE8nulA4QnYl74qcvdSBJGmDk3He16/4mFZs33S
+         IzPGb27j4W2dHx0T8+OODSyZm7E16IzcLQzguhPs5vHLJASI9JeNCkexh2az/dQ96t3u
+         ruWKhzckHLSdD4ijmd79+MvrNJzlzIX0uzlRXCf+RicfDnuUK7rhsIpo8bqFBLTAzkrn
+         doog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hpg375SG4OcRJmsXIQB4JvlM7mK+PXk3tVmm8/Xog0I=;
-        b=STweey4Wr7mpQ8uNl/YGMY5KUMGlmhPpoe+J7u1BMni9pSRtLoVIZ+Ktf1V4zLq588
-         cKqg482CufP2mySHeN9e8ULlIpgNBF1nWPfa0tdaDW2oVcGIj9LL0Vi2thBwUcLH7rsn
-         wlORsFuPC5v36jLJDfD3F6y00u8IST8xHO0suI2FRIx4Ba5B7VDbQhoKFoSn2UPFPtRp
-         XirEoPJvGoJF1VlLbVZGRE2cqKmBbyo23sWb8zjboyAwlrNyXv1kP+74mcS9/A1qWl0G
-         atzcGXZmuGm1XYABFxQSOSgh7iQb7sY/xx5IcW1jTcK4ncKv6XTx0h6xLhPJL+SvXKBI
-         c1tg==
-X-Gm-Message-State: APjAAAW9/3EWMEg33Yuucum9KVFL9tuxBiBT+zTGZz+TzLNsq+sIFhE6
-        uDMFr5meJRxXJLgA3KziwBY=
-X-Google-Smtp-Source: APXvYqz58gFiJcD5qAaaAUtMBc+NyktKYV30g2WYNX6ECk+RvLjF+XG0PbzQF/2zzl966J49rSN+9A==
-X-Received: by 2002:a17:902:724a:: with SMTP id c10mr18279878pll.307.1578979254311;
-        Mon, 13 Jan 2020 21:20:54 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id m3sm16042186pfh.116.2020.01.13.21.20.52
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=ukU/HTx3Lur+oN5f1R5Yulqfuax6so7AyFG3I+NXijE=;
+        b=GImS+PBUW7aWcTEei8MW6DCHgbHNoSdstcGgo2+yhHXv26qcRSkxXH+S9aney+z8uz
+         etKmjtgAFaBI8fMOfGW3uQhzH+Lo5CJG26UrCgtzKonKRKhlpZVgtf2GiLUSxyPOhPjY
+         yi0/Nu9Y+cphpIf1MHiuoFsAh/dV5ukW0Nks2DPTuRO0NMJ2dkTx7rr0G7XWqooNeG7B
+         9YNqeRXg/mPj3QwFcVfHhR/8e97h48XoG4DfPAUZ8R2orC9gbop14AezDcNrz1QZeSqL
+         QH8/o9mLK046mgavwpGNj+1AeidbBOoLHGqjYkexin6oLwJzncryEG8Cbg9ioPmHulSi
+         AIdQ==
+X-Gm-Message-State: APjAAAWiKEfYid4o4spWfRW8y9qFWUFsXTKPfn3S1AWWi8TJf5XfwO+E
+        6rZmwshDz3ayVBxqB1o6mUIWter6zD2g9g==
+X-Google-Smtp-Source: APXvYqw+K7nK6v62iaPG8IRuXo2+JcN5WoG4smCXzjE2do7qUArjfSk6sdyUR46tJD8UtoLaDUB45w==
+X-Received: by 2002:a37:4b93:: with SMTP id y141mr21982856qka.205.1579000111263;
+        Tue, 14 Jan 2020 03:08:31 -0800 (PST)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id i16sm6406845qkh.120.2020.01.14.03.08.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jan 2020 21:20:53 -0800 (PST)
-Subject: Re: [PATCH v2] hwmon: Driver for temperature sensors on SATA drives
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
-        Chris Healy <cphealy@gmail.com>
-References: <20191215174509.1847-1-linux@roeck-us.net>
- <20191215174509.1847-2-linux@roeck-us.net> <yq1r211dvck.fsf@oracle.com>
- <b22a519c-8f26-e731-345f-9deca1b2150e@roeck-us.net>
- <yq1sgkq21ll.fsf@oracle.com> <20200108153341.GB28530@roeck-us.net>
- <38af9fda-9edf-1b54-bd8d-92f712ae4cda@roeck-us.net>
- <yq1r202spr9.fsf@oracle.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <403cfbf8-79da-94f1-509f-e90d1a165722@roeck-us.net>
-Date:   Mon, 13 Jan 2020 21:20:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <yq1r202spr9.fsf@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 14 Jan 2020 03:08:30 -0800 (PST)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+From:   Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+Date:   Tue, 14 Jan 2020 06:08:29 -0500
+Message-Id: <53F6B915-AC53-41BB-BF32-33732515B3A0@lca.pw>
+References: <CANpmjNOC2PYFsE_TK2SYmKcHxyG+2arWc8x_fmeWPOMi0+ot8g@mail.gmail.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+In-Reply-To: <CANpmjNOC2PYFsE_TK2SYmKcHxyG+2arWc8x_fmeWPOMi0+ot8g@mail.gmail.com>
+To:     Marco Elver <elver@google.com>
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Martin,
 
-On 1/13/20 7:03 PM, Martin K. Petersen wrote:
-> 
-> Hi Guenter!
-> 
->> I tried again, this time with v5.5-rc5. Loading and unloading ahci and
->> drivetemp in any order does not cause any problems for me.
-> 
-> I tried your hwmon-next branch and it still happens for me. Both in qemu
-> and on real hw. I'm really low on bandwidth the next couple of days.
-> Will try to look later this week unless you beat me to it. I get lots of
-> these warnings after modprobe drivetemp; modprobe ahci:
-> 
-> [ 1055.611922] WARNING: CPU: 3 PID: 3233 at drivers/base/dd.c:519 really_probe+0x436/0x4f0
-> 
-> A quick test forcing synchronous SCSI scanning made no difference.
-> 
 
-The hwmon-next branch is based on v5.5-rc1. It might be better to either
-merge hwmon-next into mainline, or to apply the drivetemp patch to mainline,
-and test the result. I have seen some (unrelated) weird tracebacks
-in the driver core with v5.5-rc1, so that may not be the best baseline
-for a test.
+> On Jan 6, 2020, at 7:47 AM, Marco Elver <elver@google.com> wrote:
+>=20
+> Thanks, I'll look into KCSAN + lockdep compatibility. It's probably
+> missing some KCSAN_SANITIZE :=3D n in some Makefile.
 
-Thanks,
-Guenter
+Can I have a update on fixing this? It looks like more of a problem that kcs=
+an_setup_watchpoint() will disable IRQs and then dive into the page allocato=
+r where it would complain because it might sleep.
+
+BTW, I saw Paul sent a pull request for 5.6 but it is ugly to have everybody=
+ could trigger a deadlock (sleep function called in atomic context) like thi=
+s during boot once this hits the mainline not to mention about only recently=
+ it is possible to test this feature (thanks to warning ratelimit) with the e=
+xisting debugging options because it was unable to boot due to the brokennes=
+s with debug_pagealloc as mentioned in this thread, so this does sounds like=
+ it needs more soak time for the mainline to me.
+
+0000000000000400
+[   13.416814][    T1] Call Trace:
+[   13.416814][    T1]  lock_is_held_type+0x66/0x160
+[   13.416814][    T1]  ___might_sleep+0xc1/0x1d0
+[   13.416814][    T1]  __might_sleep+0x5b/0xa0
+[   13.416814][    T1]  slab_pre_alloc_hook+0x7b/0xa0
+[   13.416814][    T1]  __kmalloc_node+0x60/0x300
+[   13.416814   T1]  ? alloc_cpumask_var_node+0x44/0x70
+[   13.416814][    T1]  ? topology_phys_to_logical_die+0x7e/0x180
+[   13.416814][    T1]  alloc_cpumask_var_node+0x44/0x70
+[   13.416814][    T1]  zalloc_cpumask_var+0x2a/0x40
+[   13.416814][    T1]  native_smp_prepare_cpus+0x246/0x425
+[   13.416814][    T1]  kernel_init_freeable+0x1b8/0x496
+[   13.416814][    T1]  ? rest_init+0x381/0x381
+[   13.416814][    T1]  kernel_init+0x18/0x17f
+[   13.416814][    T1]  ? rest_init+0x381/0x381
+[   13.416814][    T1]  ret_from_fork+0x3a/0x50
+[   13.416814][    T1] irq event stamp: 910
+[   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>]=
+ _raw_write_unlock_irqrestore+0x53/0x57
+[   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>]=
+ kcsan_setup_watchpoint+0x96/0x460
+[   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] c=
+opy_process+0x11fa/0x34f0
+[   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0=
+x0
+[   13.416814][    T1] ---[ end trace 7d1df66da055aa92 ]---
+[   13.416814][    T1] possible reason: unannotated irqs-on.
+[   13.416814][ent stamp: 910
+[   13.416814][    T1] hardirqs last  enabled at (909): [<ffffffff8d1240f3>]=
+ _raw_write_unlock_irqrestore+0x53/0x57
+[   13.416814][    T1] hardirqs last disabled at (910): [<ffffffff8c8bba76>]=
+ kcsan_setup_watchpoint+0x96/0x460
+[   13.416814][    T1] softirqs last  enabled at (0): [<ffffffff8c6b697a>] c=
+opy_process+0x11fa/0x34f0
+[   13.416814][    T1] softirqs last disabled at (0): [<0000000000000000>] 0=
+x0=
