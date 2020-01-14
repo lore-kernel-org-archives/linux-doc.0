@@ -2,142 +2,125 @@ Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B20C33CB2
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:15:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14973C33C9E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:31:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1DB1724658
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:15:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFA3C24655
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:31:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="bNQcHd+k"
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="qfNdLg3k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728754AbgANUPM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 15:15:12 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13500 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbgANUPL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 15:15:11 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1e21390001>; Tue, 14 Jan 2020 12:14:49 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 14 Jan 2020 12:15:09 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 14 Jan 2020 12:15:09 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jan
- 2020 20:15:09 +0000
-Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
- FOLL_PIN
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1726491AbgANUa7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 15:30:59 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:44127 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728346AbgANUa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 15:30:56 -0500
+Received: by mail-qk1-f193.google.com with SMTP id w127so13450424qkb.11
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2020 12:30:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=GM2cmKJLGIw00BnTkj1dcmxxtlMk1WYpnp+HW9nEczc=;
+        b=qfNdLg3kkuNI6cLLk03N289br06VFc6cqXJqoyJLg1KprL1vXCIrhjDgtVLFvs1Lwb
+         AGCRxsxBhq8RqUyn380ItGPioew6bRYplCRy7vK2et+jGpulMqjnLkOTPeNz/33eXrDq
+         0vFaoz7vDSh5K80ynQpMr5rMy8tA7f6nYDRq/e+wt1l6rr9+6nNEBxx8MmmB3Qm7R4Cl
+         TNl5xvJuy5W6ApqyVP/ggRMHAYLrtnXI4E8Xv7pyFWREaYmrxqRLCzpVXVmBV7MZyEXE
+         U3rJZrXfsMTvsHDdbHIlb8doOnexZCFIYMkSwEi0SRMSCJOxOWAm5Dg1RaK67s/foSTo
+         ZGxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=GM2cmKJLGIw00BnTkj1dcmxxtlMk1WYpnp+HW9nEczc=;
+        b=onYxnGTufxcTTOO8CY1b0Tlr/+3bmF6uATYxErp2B+KFaU2sFbO5UMxFE9JtIwgc/E
+         kzIKB+xalMdkkyCB5qtL1bK6JSDyGKiXMFz8SFi2y9lt2NApI3wTp1W+PwBJBuC2dRxU
+         P7JXsFeCGpLzN5q7OnZ0SVGGkoOIH4FzW15BGQyx++o7rSFd+N2QDj4ekIOKpUD5ka4n
+         bhND2OZ7hvsQeCdKH5mCXskIQAqdqTEClFNrjT43KGTMD4Owfl2FDBhmg3OMzXLXIN2R
+         3anj9cTggWrBzcq2Bl1Ji7RKgr3FbNzSbKK0nzM5famd6fqTeRka/bCV1PwDbj1N1+rj
+         EPpA==
+X-Gm-Message-State: APjAAAVhC5W/ttlYSq8C/kmaiY7YXGGfOkHYA7oAQoNqOThxuhhb/n2p
+        0JV8jIfb/3N/en6aUOddrE3xqasPnUZ52w==
+X-Google-Smtp-Source: APXvYqySWPhc8cNWPW6ZR1czJUmUILrXAmHD502QnwiMjSkfcnjRHGogwSncB5M2bJhCbEL2kLY/AQ==
+X-Received: by 2002:ae9:c104:: with SMTP id z4mr18665764qki.418.1579033855079;
+        Tue, 14 Jan 2020 12:30:55 -0800 (PST)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id 68sm7357546qkj.102.2020.01.14.12.30.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2020 12:30:54 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+Date:   Tue, 14 Jan 2020 15:30:53 -0500
+Message-Id: <F185919B-2D86-43B6-9BEC-D14D72871A58@lca.pw>
+References: <20200114192220.GS2935@paulmck-ThinkPad-P72>
+Cc:     Marco Elver <elver@google.com>,
+        LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <9d7f3c1a-6020-bdec-c513-80c5399e55d7@nvidia.com>
-Date:   Tue, 14 Jan 2020 12:15:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579032890; bh=wLxNzNFRStaOZ7jAQIV4tH1wBKaWmBKZBOUdkq/PVGQ=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=bNQcHd+kt2S6qArSD90PMkNX5LSRoo2toPf1fdY/D3ysgVjnnuMPbcBLvU4mGjBbT
-         LR4uZiIEi3/mAViybdXB1PH001dny/ndD230xDMGlhs7NAYpQR6mGLaj5Fl0H44uol
-         s/WH8SaFGbiYHrC+Jf2F7bChe3A2NqguquLvhseggPHll2epR/FoT6c0YMA6JGSKkp
-         eSDWR40pps95gbxdKKvy2DClT3lBSMdUwcemTQnf2Jrxy6nLuQLIDhcegQ+kyGcscI
-         uknj/1R1Mw2ETSzcXASW/vo/Q3g+SHupTZUPph9j3ZAnq/QlpAxhi10ckpA46Ke/0I
-         HjefW3dJ5Akvg==
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+In-Reply-To: <20200114192220.GS2935@paulmck-ThinkPad-P72>
+To:     paulmck@kernel.org
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/9/20 2:07 PM, John Hubbard wrote:
-> On 1/7/20 2:45 PM, John Hubbard wrote:
->> Hi,
->>
->> The "track FOLL_PIN pages" would have been the very next patch, but it is
->> not included here because I'm still debugging a bug report from Leon.
->> Let's get all of the prerequisite work (it's been reviewed) into the tree
->> so that future reviews are easier. It's clear that any fixes that are
->> required to the tracking patch, won't affect these patches here.
->>
->> This implements an API naming change (put_user_page*() -->
->> unpin_user_page*()), and also adds FOLL_PIN page support, up to
->> *but not including* actually tracking FOLL_PIN pages. It extends
->> the FOLL_PIN support to a few select subsystems. More subsystems will
->> be added in follow up work.
->>
-> 
-> Hi Andrew and all,
-> 
-> To clarify: I'm hoping that this series can go into 5.6.
-> 
-> Meanwhile, I'm working on tracking down and solving the problem that Leon
-> reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
-> this series.
-> 
-
-Hi Andrew and all,
-
-Any thoughts on this?
-
-As for the not-included-yet tracking patch, my local testing still suggests the
-need to allow for larger refcounts of huge pages (in other words, I can write a test
-to pin huge pages many times, and overflow with the same backtrace that Leon has
-reported).
-
-The second struct page (I recall Jan suggested) can hold those, so I'm going to proceed
-with that approach, while waiting to see if Leon has any more test data for me.
-
-Again, I think this series is worth getting out of the way, in the meantime.
 
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+> On Jan 14, 2020, at 2:22 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
+>=20
+> Just so I understand...  Does this problem happen even in CONFIG_KCSAN=3Dn=
+
+> kernels?
+
+No.
+
+>=20
+> I have been running extensive CONFIG_KSCAN=3Dy rcutorture tests for quite
+> awhile now, so even if this only happens for CONFIG_KSCAN=3Dy, it is not
+> like it affects everyone.
+>=20
+> Yes, it should be fixed, and Marco does have a patch on the way.
+
+The concern is really about setting KSCAN=3Dy in a distro debug kernel where=
+ it has other debug options. I=E2=80=99ll try to dig into more of those issu=
+es in the next few days.=
