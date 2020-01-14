@@ -2,108 +2,255 @@ Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F2FC33CB2
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97ABAC33C9E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:52:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AD5E24680
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579044572;
-	bh=k4eU69C07g5/9QQrVCph8KAUUUUEi8RmXHDj6/HO/Ik=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=0Zw67ckFIqqsfd+Bo6SgYxwZtjNuhm5AIZyn/coNXn0+Ed9vdgkJG0S1HzRa9sKDi
-	 hrxPh1vC9Uw/mcbpJSslmxQxYltn/f4voMZrSIvQQxsL7Gxc0tMNmitpZWJj8uSBl1
-	 vJ8MO6xZzpkF2RGg4G05xosGPAROdmsLqcTb52nI=
+	by mail.kernel.org (Postfix) with ESMTP id 6C5D72467D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:52:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728873AbgANX3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 18:29:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34880 "EHLO mail.kernel.org"
+        id S1728897AbgANXwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 18:52:43 -0500
+Received: from mga01.intel.com ([192.55.52.88]:7290 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728650AbgANX3b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jan 2020 18:29:31 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76F8C24679;
-        Tue, 14 Jan 2020 23:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579044570;
-        bh=k4eU69C07g5/9QQrVCph8KAUUUUEi8RmXHDj6/HO/Ik=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Gu0y5RtywBnxt/5MHNzmIuAGL99UYOUTR4MOUoFz/V8A0XNK0I0bw+ID9QXrLG+b9
-         4yxWu1bIpxAgRKCCzCYPru9Le6et10vSO5ADJMjyl++hjxh7tjrdlkd5kSXYwv5i4H
-         zD3MC1qTDzqpxI561Q50RCSE3Ph+HIgvwbWCQkns=
-Date:   Tue, 14 Jan 2020 15:29:29 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?ISO-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1728757AbgANXwn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jan 2020 18:52:43 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jan 2020 15:52:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; 
+   d="scan'208";a="217922988"
+Received: from emkilgox-mobl2.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.251.0.151])
+  by orsmga008.jf.intel.com with ESMTP; 14 Jan 2020 15:52:39 -0800
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
+        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
+        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
+        Bard liao <yung-chuan.liao@linux.intel.com>,
+        Rander Wang <rander.wang@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-1?Q?J=E9r?= =?ISO-8859-1?Q?=F4me?= Glisse 
-        <jglisse@redhat.com>, "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
- FOLL_PIN
-Message-Id: <20200114152929.807fecabfe2258ae2707a88b@linux-foundation.org>
-In-Reply-To: <9d7f3c1a-6020-bdec-c513-80c5399e55d7@nvidia.com>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
-        <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
-        <9d7f3c1a-6020-bdec-c513-80c5399e55d7@nvidia.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v2 1/5] soundwire: stream: update state machine and add state checks
+Date:   Tue, 14 Jan 2020 17:52:23 -0600
+Message-Id: <20200114235227.14502-2-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200114235227.14502-1-pierre-louis.bossart@linux.intel.com>
+References: <20200114235227.14502-1-pierre-louis.bossart@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 14 Jan 2020 12:15:08 -0800 John Hubbard <jhubbard@nvidia.com> wrote:
+The state machine and notes don't accurately explain or allow
+transitions from STREAM_DEPREPARED and STREAM_DISABLED.
 
-> > 
-> > Hi Andrew and all,
-> > 
-> > To clarify: I'm hoping that this series can go into 5.6.
-> > 
-> > Meanwhile, I'm working on tracking down and solving the problem that Leon
-> > reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
-> > this series.
-> > 
-> 
-> Hi Andrew and all,
-> 
-> Any thoughts on this?
+Add more explanations and allow for more transitions as a result of a
+trigger_stop(), trigger_suspend() and prepare(), depending on the
+ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
+flags.
 
-5.6 is late.  But it was in -mm before (briefly) and appears to be
-mature and well-reviewed.
+Also add basic checks to help debug inconsistent states and illegal
+state machine transitions.
 
-I'll toss it in there and shall push it into -next hopefully today. 
-Let's decide 2-3 weeks hence.
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ Documentation/driver-api/soundwire/stream.rst | 61 +++++++++++++------
+ drivers/soundwire/stream.c                    | 37 +++++++++++
+ 2 files changed, 81 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
+index 5351bd2f34a8..8bceece51554 100644
+--- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
+ 	+-----------+     +------------+     +----------+     +----------+
+ 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
+ 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
+-	+-----------+     +------------+     +----------+     +----+-----+
+-	                                                           ^
+-	                                                           |
+-	                                                           |
+-	                                                           v
+-	         +----------+           +------------+        +----+-----+
++	+-----------+     +------------+     +---+--+---+     +----+-----+
++	                                         ^  ^              ^
++				                 |  |              |
++				               __|  |___________   |
++				              |                 |  |
++	                                      v                 |  v
++	         +----------+           +-----+------+        +-+--+-----+
+ 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
+ 	         |  STATE   |           |   STATE    |        |  STATE   |
+ 	         +----------+           +------------+        +----------+
+ 
+-NOTE: State transition between prepare and deprepare is supported in Spec
+-but not in the software (subsystem)
++NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
++``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
++supported at the ALSA/ASoC level. Likewise the transition between
++``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
++INFO_RESUME flag.
+ 
+-NOTE2: Stream state transition checks need to be handled by caller
+-framework, for example ALSA/ASoC. No checks for stream transition exist in
+-SoundWire subsystem.
++NOTE2: The framework implements basic state transition checks, but
++does not e.g. check if a transition from DISABLED to ENABLED is valid
++on a specific platform. Such tests need to be added at the ALSA/ASoC
++level.
+ 
+ Stream State Operations
+ -----------------------
+@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
+ 
+ Prepare state of stream. Operations performed before entering in this state:
+ 
++  (0) Steps 1 and 2 are omitted in the case of a resume operation,
++      where the bus bandwidth is known.
++
+   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
+       are computed based on current stream as well as already active
+       stream(s) on Bus. Re-computation is required to accommodate current
+@@ -270,9 +278,11 @@ Prepare state of stream. Operations performed before entering in this state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_PREPARED``.
+ 
+-Bus implements below API for PREPARE state which needs to be called once per
+-stream. From ASoC DPCM framework, this stream state is linked to
+-.prepare() operation.
++Bus implements below API for PREPARE state which needs to be called
++once per stream. From ASoC DPCM framework, this stream state is linked
++to .prepare() operation. Since the .trigger() operations may not
++follow the .prepare(), a direct transition from
++``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
+ 
+ .. code-block:: c
+ 
+@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+ 
++When the INFO_PAUSE flag is supported, a direct transition to
++``SDW_STREAM_ENABLED`` is allowed.
++
++For resume operations where ASoC will use the .prepare() callback, the
++stream can transition from ``SDW_STREAM_DISABLED`` to
++``SDW_STREAM_PREPARED``, with all required settings restored but
++without updating the bandwidth and bit allocation.
++
+ .. code-block:: c
+ 
+   int sdw_disable_stream(struct sdw_stream_runtime * stream);
+@@ -353,9 +371,18 @@ state:
+ After all above operations are successful, stream state is set to
+ ``SDW_STREAM_DEPREPARED``.
+ 
+-Bus implements below API for DEPREPARED state which needs to be called once
+-per stream. From ASoC DPCM framework, this stream state is linked to
+-.trigger() stop operation.
++Bus implements below API for DEPREPARED state which needs to be called
++once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
++the mapping from this stream state to ALSA/ASoC operation may be
++implementation specific.
++
++When the INFO_PAUSE flag is supported, the stream state is linked to
++the .hw_free() operation - the stream is not deprepared on a
++TRIGGER_STOP.
++
++Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
++state on TRIGGER_STOP, should they require a transition through the
++``SDW_STREAM_PREPARED`` state.
+ 
+ .. code-block:: c
+ 
+diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+index 178ae92b8cc1..6aa0b5d370c0 100644
+--- a/drivers/soundwire/stream.c
++++ b/drivers/soundwire/stream.c
+@@ -1553,8 +1553,18 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_CONFIGURED &&
++	    stream->state != SDW_STREAM_DEPREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_prepare_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1619,8 +1629,17 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_enable_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1693,8 +1712,16 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
+ 
+ 	sdw_acquire_bus_lock(stream);
+ 
++	if (stream->state != SDW_STREAM_ENABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_disable_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+@@ -1749,8 +1776,18 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
+ 	}
+ 
+ 	sdw_acquire_bus_lock(stream);
++
++	if (stream->state != SDW_STREAM_PREPARED &&
++	    stream->state != SDW_STREAM_DISABLED) {
++		pr_err("%s: %s: inconsistent state state %d\n",
++		       __func__, stream->name, stream->state);
++		ret = -EINVAL;
++		goto state_err;
++	}
++
+ 	ret = _sdw_deprepare_stream(stream);
+ 
++state_err:
+ 	sdw_release_bus_lock(stream);
+ 	return ret;
+ }
+-- 
+2.20.1
 
