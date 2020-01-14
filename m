@@ -2,65 +2,47 @@ Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14973C33C9E
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F20BC33C9E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 21:34:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DFA3C24655
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 20:31:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="qfNdLg3k"
+	by mail.kernel.org (Postfix) with ESMTP id 0F35E24679
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 21:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579037648;
+	bh=N2S7y+O790zET1Gmtmsm8tuXTXxczW82v07Ij9f4etg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=m8+LAI2KpY6tGPUBfrozrCzqsY0o/xrx+VcuSH4uX061OhrZS4iguzpFla7yQ0gWD
+	 LGorNQEZ3EPjyzIqLO3Ur6pmkxt2TDfdgCMVuQXsSlRuSISVJL+udpvQ0rA7RtKx9/
+	 5nTZA2sR1+QaTOtmzCpX1KURcN4jgGry0+cY+qmM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgANUa7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 15:30:59 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:44127 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728346AbgANUa4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 15:30:56 -0500
-Received: by mail-qk1-f193.google.com with SMTP id w127so13450424qkb.11
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2020 12:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lca.pw; s=google;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=GM2cmKJLGIw00BnTkj1dcmxxtlMk1WYpnp+HW9nEczc=;
-        b=qfNdLg3kkuNI6cLLk03N289br06VFc6cqXJqoyJLg1KprL1vXCIrhjDgtVLFvs1Lwb
-         AGCRxsxBhq8RqUyn380ItGPioew6bRYplCRy7vK2et+jGpulMqjnLkOTPeNz/33eXrDq
-         0vFaoz7vDSh5K80ynQpMr5rMy8tA7f6nYDRq/e+wt1l6rr9+6nNEBxx8MmmB3Qm7R4Cl
-         TNl5xvJuy5W6ApqyVP/ggRMHAYLrtnXI4E8Xv7pyFWREaYmrxqRLCzpVXVmBV7MZyEXE
-         U3rJZrXfsMTvsHDdbHIlb8doOnexZCFIYMkSwEi0SRMSCJOxOWAm5Dg1RaK67s/foSTo
-         ZGxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=GM2cmKJLGIw00BnTkj1dcmxxtlMk1WYpnp+HW9nEczc=;
-        b=onYxnGTufxcTTOO8CY1b0Tlr/+3bmF6uATYxErp2B+KFaU2sFbO5UMxFE9JtIwgc/E
-         kzIKB+xalMdkkyCB5qtL1bK6JSDyGKiXMFz8SFi2y9lt2NApI3wTp1W+PwBJBuC2dRxU
-         P7JXsFeCGpLzN5q7OnZ0SVGGkoOIH4FzW15BGQyx++o7rSFd+N2QDj4ekIOKpUD5ka4n
-         bhND2OZ7hvsQeCdKH5mCXskIQAqdqTEClFNrjT43KGTMD4Owfl2FDBhmg3OMzXLXIN2R
-         3anj9cTggWrBzcq2Bl1Ji7RKgr3FbNzSbKK0nzM5famd6fqTeRka/bCV1PwDbj1N1+rj
-         EPpA==
-X-Gm-Message-State: APjAAAVhC5W/ttlYSq8C/kmaiY7YXGGfOkHYA7oAQoNqOThxuhhb/n2p
-        0JV8jIfb/3N/en6aUOddrE3xqasPnUZ52w==
-X-Google-Smtp-Source: APXvYqySWPhc8cNWPW6ZR1czJUmUILrXAmHD502QnwiMjSkfcnjRHGogwSncB5M2bJhCbEL2kLY/AQ==
-X-Received: by 2002:ae9:c104:: with SMTP id z4mr18665764qki.418.1579033855079;
-        Tue, 14 Jan 2020 12:30:55 -0800 (PST)
-Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id 68sm7357546qkj.102.2020.01.14.12.30.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jan 2020 12:30:54 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Qian Cai <cai@lca.pw>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-Date:   Tue, 14 Jan 2020 15:30:53 -0500
-Message-Id: <F185919B-2D86-43B6-9BEC-D14D72871A58@lca.pw>
-References: <20200114192220.GS2935@paulmck-ThinkPad-P72>
+        id S1728915AbgANVeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 16:34:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726491AbgANVeH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jan 2020 16:34:07 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A7F3924656;
+        Tue, 14 Jan 2020 21:34:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579037645;
+        bh=N2S7y+O790zET1Gmtmsm8tuXTXxczW82v07Ij9f4etg=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=E19ztN87s0hx9TSeFhbYpD4KDYFnyV2gto/gqjaKAfYjz7c5aXHcsklLFATfRh40W
+         Krlsmw3JOJcH2iti5LhYFL3x8wnsI4XrND8lAwIc7zpyl15esGA5KHG4rQs7yW5iyD
+         XuiqPr1+p+/FgPX/3BzIPVbdApiWI0BuJYOa6yYg=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 597AF3522755; Tue, 14 Jan 2020 13:34:05 -0800 (PST)
+Date:   Tue, 14 Jan 2020 13:34:05 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Qian Cai <cai@lca.pw>
 Cc:     Marco Elver <elver@google.com>,
         LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
         Alan Stern <stern@rowland.harvard.edu>,
@@ -96,31 +78,53 @@ Cc:     Marco Elver <elver@google.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         the arch/x86 maintainers <x86@kernel.org>
-In-Reply-To: <20200114192220.GS2935@paulmck-ThinkPad-P72>
-To:     paulmck@kernel.org
-X-Mailer: iPhone Mail (17C54)
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20200114213405.GX2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200114192220.GS2935@paulmck-ThinkPad-P72>
+ <F185919B-2D86-43B6-9BEC-D14D72871A58@lca.pw>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <F185919B-2D86-43B6-9BEC-D14D72871A58@lca.pw>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jan 14, 2020 at 03:30:53PM -0500, Qian Cai wrote:
+> 
+> 
+> > On Jan 14, 2020, at 2:22 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > 
+> > Just so I understand...  Does this problem happen even in CONFIG_KCSAN=n
+> > kernels?
+> 
+> No.
 
+Whew!!!  ;-)
 
-> On Jan 14, 2020, at 2:22 PM, Paul E. McKenney <paulmck@kernel.org> wrote:
->=20
-> Just so I understand...  Does this problem happen even in CONFIG_KCSAN=3Dn=
+> > I have been running extensive CONFIG_KSCAN=y rcutorture tests for quite
+> > awhile now, so even if this only happens for CONFIG_KSCAN=y, it is not
+> > like it affects everyone.
+> > 
+> > Yes, it should be fixed, and Marco does have a patch on the way.
+> 
+> The concern is really about setting KSCAN=y in a distro debug kernel where it has other debug options. I’ll try to dig into more of those issues in the next few days.
 
-> kernels?
+Understood.  But there are likely to be other issues with KCSAN, given how
+new it is.  Yes, yes, I certainly would like to believe that the patches
+we currently know about will make KCSAN perfect for distros, I have way
+too much grey hair (and too little hair as well!) to really beleive that.
 
-No.
+As an alternative, once the patches needed for your tests to pass
+reach mainline, you could announce that KCSAN was ready to be enabled
+in distros.
 
->=20
-> I have been running extensive CONFIG_KSCAN=3Dy rcutorture tests for quite
-> awhile now, so even if this only happens for CONFIG_KSCAN=3Dy, it is not
-> like it affects everyone.
->=20
-> Yes, it should be fixed, and Marco does have a patch on the way.
+Though I confess that I don't know how that works.  Is there a separate
+testing kernel binary provided by the distros in question?
 
-The concern is really about setting KSCAN=3Dy in a distro debug kernel where=
- it has other debug options. I=E2=80=99ll try to dig into more of those issu=
-es in the next few days.=
+							Thanx, Paul
