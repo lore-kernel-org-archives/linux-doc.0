@@ -2,175 +2,157 @@ Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B79C33CB6
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 14:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F262C33CB1
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 14:21:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 75BF42467E
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 14:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579097654;
-	bh=CaXoAkqOajL0kmg6h715f9PHn0XAZVLVKqsyXgOXacM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=qhEFewxhpVC6DfWzrXytJclS+NAV/+NWStYZo+Q3nqqCIbZ4pCIvptlEazpfRffor
-	 2vN9ZQn+MHI5Qw8UpYnBoFOARniIHh2vhMJ8/xbaQa+up9Y+3wlDMt768K/ZHZ8YOn
-	 oWPQAsOdVZytdng/AH21qYmdwXlNv7MtDjvkuy/Q=
+	by mail.kernel.org (Postfix) with ESMTP id 2AD632084D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 14:21:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=poorly.run header.i=@poorly.run header.b="Fyez2ljB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729067AbgAOOON (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 09:14:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729154AbgAOOON (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jan 2020 09:14:13 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7CDC24679;
-        Wed, 15 Jan 2020 14:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579097651;
-        bh=CaXoAkqOajL0kmg6h715f9PHn0XAZVLVKqsyXgOXacM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IfVjmj7KSiyixL26Y39CJZiiWPKnwpOP90yCrThZ4afM3dMYPowazyc4h9gC+j/q/
-         AW95yu14rcNeC/TEWOUi3I0du1tfRtRn00bWjyiSecTPMTfwJDnMJG09iFY87NdN1S
-         yZ3p6nWb+/NtCMwUmPpa43pUBiyDYqjj1Lq8ET1I=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <maz@kernel.org>)
-        id 1irjQw-0000fF-2L; Wed, 15 Jan 2020 14:14:10 +0000
+        id S1726506AbgAOOVU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 09:21:20 -0500
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:37273 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbgAOOVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 09:21:20 -0500
+Received: by mail-yb1-f194.google.com with SMTP id o199so2940976ybc.4
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2020 06:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=poorly.run; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3ObquDazAteZHqeIwUV/wupCgwXXwnvtoRKdROHL06M=;
+        b=Fyez2ljB74T5rwo/zJO7JOoMGJwoPpEs/0jNr6ETdoOXZMPSEjDkKjkubY7TzGs9ug
+         WlGGBOODv9KPiK8JZtMAkUaFz5NBYvxieGCffYyEt0ZwYXMda/4uOmR5HguLtNffosbt
+         w2UvHFJVASvN3qOOo0PfjwM+NnaTo9D+b0/TotySDydAVBeRZZdsm1bSgV2pw5JaHC2p
+         Or9TuNWaL0dtYNDXfxaZOs6mv3fC1cGgy1PBNt3b3fxi4WF5F52X5QuDRVOdtdBIZT55
+         Hv4APhbS84NaPVXO8KgDUaHLZgR3W/sx+QIA4hHCoaojZkz9/8nnut8ZiW9D24d/rcTK
+         E5kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3ObquDazAteZHqeIwUV/wupCgwXXwnvtoRKdROHL06M=;
+        b=h+AZZ4WtG/aualnfoNt1gj4xVGM68+yfUg8/dT4ORJbL21ktsALec/wrLVgohUFHsO
+         N/doPeICoMoVzza/fNekseLkasLCgNamTCM9Au7tCPhg4HP0zOdDGl5gWhVKUu9OWg7B
+         GF+K5Dqh3uxrqaHdg4EzJmDIsq52eAU6EeUvjxo/IDyeJXXeUdoC6VoQ1Oi7kcXeoPgF
+         GvzaUn+2drRnrNHKSXYi1iwhJgirlCSD3k0CkfB7SFgduHwK/4s868PKKs34Zp/vdeWf
+         gt2fR4IfT1abG5Z8pNI/LjEgSjgML/f/JF9Xop7nMcpjxCHx+PyRBnTB7KUxHj1Y9ewh
+         B5Ng==
+X-Gm-Message-State: APjAAAW+rkFp+N1EDlU8wGS94n8AjH4PIMDYykNHzhVDKt6rKubR3YeN
+        DwanW7dJRBL1J3//vykWRUb+9A==
+X-Google-Smtp-Source: APXvYqyOsPXQ1DEc7nSX1QdY8Nfs6hxA8MMMSaVb01nV96cXhb/yL7axeWHdvpfTDAUsr8WEyou6PA==
+X-Received: by 2002:a25:743:: with SMTP id 64mr21908668ybh.178.1579098079461;
+        Wed, 15 Jan 2020 06:21:19 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
+        by smtp.gmail.com with ESMTPSA id z12sm7961758ywl.27.2020.01.15.06.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2020 06:21:18 -0800 (PST)
+Date:   Wed, 15 Jan 2020 09:21:18 -0500
+From:   Sean Paul <sean@poorly.run>
+To:     Chris Wilson <chris@chris-wilson.co.uk>
+Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux-doc@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Message-ID: <20200115142118.GD25564@art_vandelay>
+References: <20200114172155.215463-1-sean@poorly.run>
+ <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
+ <20200115134158.GC25564@art_vandelay>
+ <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 15 Jan 2020 14:14:10 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Zengruan Ye <yezengruan@huawei.com>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, james.morse@arm.com,
-        linux@armlinux.org.uk, suzuki.poulose@arm.com,
-        julien.thierry.kdev@gmail.com, catalin.marinas@arm.com,
-        mark.rutland@arm.com, steven.price@arm.com,
-        daniel.lezcano@linaro.org, peterz@infradead.org
-Subject: Re: [PATCH v2 0/6] KVM: arm64: VCPU preempted check support
-In-Reply-To: <20200113121240.GC3260@willie-the-truck>
-References: <20191226135833.1052-1-yezengruan@huawei.com>
- <20200113121240.GC3260@willie-the-truck>
-Message-ID: <b1d23a82d6a7caa79a99597fb83472be@kernel.org>
-X-Sender: maz@kernel.org
-User-Agent: Roundcube Webmail/1.3.8
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: will@kernel.org, yezengruan@huawei.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org, james.morse@arm.com, linux@armlinux.org.uk, suzuki.poulose@arm.com, julien.thierry.kdev@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com, steven.price@arm.com, daniel.lezcano@linaro.org, peterz@infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-01-13 12:12, Will Deacon wrote:
-> [+PeterZ]
+On Wed, Jan 15, 2020 at 02:01:19PM +0000, Chris Wilson wrote:
+> Quoting Sean Paul (2020-01-15 13:41:58)
+> > On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
+> > > Quoting Sean Paul (2020-01-14 17:21:43)
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > > 
+> > > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > > of DRM logs for a specified set of debug categories. The user writes a
+> > > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > > messages from the "trace" node.
+> > > > 
+> > > > These nodes currently exist in debugfs under the dri directory. I
+> > > > intended on exposing all of this through tracefs originally, but the
+> > > > tracefs entry points are not exposed, so there's no way to create
+> > > > tracefs files from drivers at the moment. I think it would be a
+> > > > worthwhile endeavour, but one requiring more time and conversation to
+> > > > ensure the drm traces fit somewhere sensible.
+> > > 
+> > > Fwiw, I have a need for client orientated debug message store, with
+> > > the primary purpose of figuring out -EINVAL. We need per-client so we can
+> > > put sensitive information about the potentially buggy client behaviour,
+> > > and of course it needs to be accessible by the non-privileged client.
+> > > 
+> > > On the execution side, it's easy to keep track of the client so we could
+> > > trace execution flow per client, within reason. And we could do
+> > > similarly for kms clients.
+> > 
+> > Could you build such a thing with drm_trace underpinning it, just put the
+> > pertinent information in the message?
 > 
-> On Thu, Dec 26, 2019 at 09:58:27PM +0800, Zengruan Ye wrote:
->> This patch set aims to support the vcpu_is_preempted() functionality
->> under KVM/arm64, which allowing the guest to obtain the VCPU is
->> currently running or not. This will enhance lock performance on
->> overcommitted hosts (more runnable VCPUs than physical CPUs in the
->> system) as doing busy waits for preempted VCPUs will hurt system
->> performance far worse than early yielding.
->> 
->> We have observed some performace improvements in uninx benchmark 
->> tests.
->> 
->> unix benchmark result:
->>   host:  kernel 5.5.0-rc1, HiSilicon Kunpeng920, 8 CPUs
->>   guest: kernel 5.5.0-rc1, 16 VCPUs
->> 
->>                test-case                |    after-patch    |   
->> before-patch
->> ----------------------------------------+-------------------+------------------
->>  Dhrystone 2 using register variables   | 334600751.0 lps   | 
->> 335319028.3 lps
->>  Double-Precision Whetstone             |     32856.1 MWIPS |     
->> 32849.6 MWIPS
->>  Execl Throughput                       |      3662.1 lps   |      
->> 2718.0 lps
->>  File Copy 1024 bufsize 2000 maxblocks  |    432906.4 KBps  |    
->> 158011.8 KBps
->>  File Copy 256 bufsize 500 maxblocks    |    116023.0 KBps  |     
->> 37664.0 KBps
->>  File Copy 4096 bufsize 8000 maxblocks  |   1432769.8 KBps  |    
->> 441108.8 KBps
->>  Pipe Throughput                        |   6405029.6 lps   |   
->> 6021457.6 lps
->>  Pipe-based Context Switching           |    185872.7 lps   |    
->> 184255.3 lps
->>  Process Creation                       |      4025.7 lps   |      
->> 3706.6 lps
->>  Shell Scripts (1 concurrent)           |      6745.6 lpm   |      
->> 6436.1 lpm
->>  Shell Scripts (8 concurrent)           |       998.7 lpm   |       
->> 931.1 lpm
->>  System Call Overhead                   |   3913363.1 lps   |   
->> 3883287.8 lps
->> ----------------------------------------+-------------------+------------------
->>  System Benchmarks Index Score          |      1835.1       |      
->> 1327.6
+> Not as is. The global has to go, and there's no use for debugfs. So we
+> are just left with a sprintf() around a ring_buffer. I am left in the
+> same position as just wanting to generalise tracek to take the ringbuffer
+> as a parameter.
 > 
-> Interesting, thanks for the numbers.
-> 
-> So it looks like there is a decent improvement to be had from targetted 
-> vCPU
-> wakeup, but I really dislike the explicit PV interface and it's already 
-> been
-> shown to interact badly with the WFE-based polling in 
-> smp_cond_load_*().
-> 
-> Rather than expose a divergent interface, I would instead like to 
-> explore an
-> improvement to smp_cond_load_*() and see how that performs before we 
-> commit
-> to something more intrusive. Marc and I looked at this very briefly in 
-> the
-> past, and the basic idea is to register all of the WFE sites with the
-> hypervisor, indicating which register contains the address being spun 
-> on
-> and which register contains the "bad" value. That way, you don't bother
-> rescheduling a vCPU if the value at the address is still bad, because 
-> you
-> know it will exit immediately.
-> 
-> Of course, the devil is in the details because when I say "address", 
-> that's
-> a guest virtual address, so you need to play some tricks in the 
-> hypervisor
-> so that you have a separate mapping for the lockword (it's enough to 
-> keep
-> track of the physical address).
-> 
-> Our hacks are here but we basically ran out of time to work on them 
-> beyond
-> an unoptimised and hacky prototype:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=kvm-arm64/pvcy
-> 
-> Marc -- how would you prefer to handle this?
 
-Let me try and rebase this thing to a modern kernel (I doubt it applies 
-without
-conflicts to mainline). We can then have discussion about its merit on 
-the list
-once I post it. It'd be good to have a pointer to the benchamrks that 
-have been
-used here.
+Ah, I think I see what you're getting at now. I think it would be reasonable to
+split out a drm_trace_buffer from the current code for this purpose. We could
+have an interface like:
 
-Thanks,
+struct drm_trace_buffer *drm_trace_buffer_init(unsigned int num_pages);
+int drm_trace_buffer_resize(struct drm_trace_buffer *buf, unsigned int num_pages);
+int drm_trace_buffer_printf(struct drm_trace_buffer *buf, const char *format, ...);
+int drm_trace_buffer_output(struct seq_file *seq);
+void drm_trace_buffer_cleanup(struct drm_trace_buffer *buf);
 
-         M.
+Then to Joonas' point, we could have drm_trace_log which uses this interface to
+mirror the logs with a debugfs interface.
+
+Would that work for your purpose?
+
+
+> > > Just chiming to say, I don't think a duplicate of dmesg hidden inside
+> > > debugfs achieves much. But a generic tracek-esque ringbuf would be very
+> > > useful -- even if only so we can separate our GEM_TRACE from the global
+> > > tracek.
+> > 
+> > I think that's essentially what we've got, I've just narrowly focused on
+> > surfacing debug logs. If drm_trace_printf were exported, replacing
+> > GEM_TRACE would be as simple as s/trace_printk/drm_trace_printf/. Initially I
+> > thought exporting it to drivers would be a bad idea, but I'm open to changing my
+> > mind on this as long as drivers are using it responsibly. 
+> 
+> I definitely can't make the mistake of flooding kms tracing with
+> overwhelming execution traces -- we can't go back to mixing kms traces
+> with execution traces.
+
+Yeah, I assumed this wouldn't be enabled during normal operation, just for
+debugging (as it is used now).
+
+Sean
+
+> -Chris
+
 -- 
-Jazz is not dead. It just smells funny...
+Sean Paul, Software Engineer, Google / Chromium OS
