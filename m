@@ -2,96 +2,219 @@ Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A13A3C33CB1
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 15:30:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A5BC33CB3
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 16:36:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 76A6B222C3
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 15:30:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CE2A2073A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 16:36:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KTafuKCn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cWgOSkIu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbgAOPal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 10:30:41 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:50916 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726132AbgAOPal (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 10:30:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=hlxbWHBq8lfTBkbbWblALE5WfMIrcmCMtir+afT5h7g=; b=KTafuKCnLEQxrDndx0KF1DZxC
-        rnKdoLI6sypMh61W+oBSzZckG9nErVqXpqRux90/jnJHBoNxCmDRhLN16rsx5kcLMMQTzpNlRHW3V
-        Kn+EfBOj9xXDn+MMy1P1Ce1dDs4zbgiDeuR8jQgZiUt61hA4+gx5SghScUnsRQG1ziTZYHV9R9Zgf
-        pJxhgaR5AeWS3+N32IQliDA3Jqotb5XQKegSIoZaLpNN+GhynXNs1L5cGpIhmQbJynCGULBXCRnjC
-        vAgzg7hshbf2g9UxNsiPKchC1nKbZKVYFzdAbYAS/fNwV5Y2i+QhIqJe1mPDizEBhtnZaTAQECgQV
-        KQqONFysg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1irkce-0002dy-Qu; Wed, 15 Jan 2020 15:30:20 +0000
-Date:   Wed, 15 Jan 2020 07:30:20 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        id S1728963AbgAOQgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 11:36:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58272 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726574AbgAOQgH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 11:36:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1579106165;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=CknHfYKWUNK5GcbKJdElULBCITv+VJprQup5+AelWm0=;
+        b=cWgOSkIupKihGCdNXnI0gI28Xar7vTChVVVlzHl6xbWhfvEQZxZXE4cQ506z+ogaxzNXSb
+        3LHq1u8puPGvFO6ASMICKDfbRaEBCNkB7NRVZuL2yB4qxvwWrIQ7C0qP8OrnKDPvlcS4Yk
+        eB7jIEUDGCLfMZaY3DJ8HtIm3FOKoMs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-FsobDYmfMzmQT8wayFPFtw-1; Wed, 15 Jan 2020 11:36:04 -0500
+X-MC-Unique: FsobDYmfMzmQT8wayFPFtw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64120800D50;
+        Wed, 15 Jan 2020 16:36:00 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-188.ams2.redhat.com [10.36.116.188])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0180D5DA76;
+        Wed, 15 Jan 2020 16:35:55 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v12 11/22] mm/gup: introduce pin_user_pages*() and
- FOLL_PIN
-Message-ID: <20200115153020.GF19546@infradead.org>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <20200107224558.2362728-12-jhubbard@nvidia.com>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH v12 00/10] efi/firmware/platform-x86: Add EFI embedded fw support
+Date:   Wed, 15 Jan 2020 17:35:44 +0100
+Message-Id: <20200115163554.101315-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200107224558.2362728-12-jhubbard@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 07, 2020 at 02:45:47PM -0800, John Hubbard wrote:
-> Introduce pin_user_pages*() variations of get_user_pages*() calls,
-> and also pin_longterm_pages*() variations.
-> 
-> For now, these are placeholder calls, until the various call sites
-> are converted to use the correct get_user_pages*() or
-> pin_user_pages*() API.
+Hi All,
 
-What do the pure placeholders buy us?  The API itself looks ok,
-but until it actually is properly implemented it doesn't help at
-all, and we've had all kinds of bad experiences with these sorts
-of stub APIs.
+Here is v12 of my patch-set to add support for EFI embedded fw to the
+kernel.
+
+This version addresses Luis' review remarks for the test_firmware stuff
+and addresses some of Andy Lutomirski's remarks (while for some others
+I've explained why I've done things a certain way).
+
+It would be nice if we could at least get patches 1 and 2 merged for
+5.6 (assuming Andy is ok with them now), then we can get the rest merged
+once 5.6-rc1 is out.
+
+As mentioned in the v11 cover letter, I've based this version on Ard's
+efi/next branch to avoid conflict with some changes already there.
+
+Regards,
+
+Hans
+
+---
+Changes in v12:
+- Use memcmp to check the prefix in efi_check_for_embedded_firmwares()
+- Move the vmalloc (vmemdup) for the firmware copy owned by the firmare
+  subsys from efi_get_embedded_fw() to firmware_fallback_platform(), so
+  that it is is in the same subsys as the vfree which eventually frees it=
+.
+- Use local / private firmware variable for the test instead of the
+  global test_firmware variable and drop the mutex lock + unlock needed
+  for accessing the global test_firmware variable
+
+Changes in v11:
+- Rebase on top of Ardb's efi/next
+- Drop a couple of empty lines which snuck into:
+  "test_firmware: add support for firmware_request_platform"
+
+Changes in v10:
+- Rebase on top of 5.5-rc1
+
+Changes in v9:
+- Add 2 new patches adding selftests
+- At least touchscreen_dmi.c uses the same dmi_table for its own private
+  data and the fw_desc structs, putting the fw_desc struct first in the
+  data driver_data points to so that the dmi_table can be shared with
+  efi_check_for_embedded_firmwares(). But not all entries there have
+  embedded-fw so in some cases the fw_desc is empty (zero-ed out).
+  This can lead to a possible crash because fw_desc->length now is
+  less then 8, so if the segment size is close enough to a multiple of th=
+e
+  page_size, then the memcmp to check the prefix my segfault. Crashing th=
+e
+  machine. v9 checks for and skips these empty fw_desc entries avoiding t=
+his.
+- Add static inline wrapper for firmware_request_platform() to firmware.h=
+,
+  for when CONFIG_FW_LOADER is not set
+
+Changes in v8:
+- Add pr_warn if there are mode then EFI_DEBUGFS_MAX_BLOBS boot service s=
+egments
+- Document how the EFI debugfs boot_service_code? files can be used to ch=
+eck for
+  embedded firmware
+- Properly deal with the case of an EFI segment being smaller then the fw=
+ we
+  are looking for
+- Log a warning when efi_get_embedded_fw get called while we did not (yet=
+)
+  check for embedded firmwares
+- Only build fallback_platform.c if CONFIG_EFI_EMBEDDED_FIRMWARE is defin=
+ed,
+  otherwise make firmware_fallback_platform() a static inline stub
+
+Changes in v7:
+- Split drivers/firmware/efi and drivers/base/firmware_loader changes int=
+o
+  2 patches
+- Use new, standalone, lib/crypto/sha256.c code
+- Address kdoc comments from Randy Dunlap
+- Add new FW_OPT_FALLBACK_PLATFORM flag and firmware_request_platform()
+  _request_firmware() wrapper, as requested by Luis R. Rodriguez
+- Stop using "efi-embedded-firmware" device-property, now that drivers ne=
+ed to
+  use the new firmware_request_platform() to enable fallback to a device =
+fw
+  copy embedded in the platform's main firmware, we no longer need a prop=
+erty
+  on the device to trigger this behavior
+- Use security_kernel_load_data instead of calling
+  security_kernel_read_file with a NULL file pointer argument
+- Move the docs to Documentation/driver-api/firmware/fallback-mechanisms.=
+rst
+- Document the new firmware_request_platform() function in
+  Documentation/driver-api/firmware/request_firmware.rst
+- Add 2 new patches for the silead and chipone-icn8505 touchscreen driver=
+s
+  to use the new firmware_request_platform() method
+- Rebased on top of 5.4-rc1
+
+Changes in v6:
+-Rework code to remove casts from if (prefix =3D=3D mem) comparison
+-Use SHA256 hashes instead of crc32 sums
+-Add new READING_FIRMWARE_EFI_EMBEDDED read_file_id and use it
+-Call security_kernel_read_file(NULL, READING_FIRMWARE_EFI_EMBEDDED)
+ to check if this is allowed before looking at EFI embedded fw
+-Document why we are not using the PI Firmware Volume protocol
+
+Changes in v5:
+-Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
+
+Changes in v4:
+-Drop note in docs about EFI_FIRMWARE_VOLUME_PROTOCOL, it is not part of
+ UEFI proper, so the EFI maintainers don't want us referring people to it
+-Use new EFI_BOOT_SERVICES flag
+-Put the new fw_get_efi_embedded_fw() function in its own fallback_efi.c
+ file which only gets built when EFI_EMBEDDED_FIRMWARE is selected
+-Define an empty stub for fw_get_efi_embedded_fw() in fallback.h hwen
+ EFI_EMBEDDED_FIRMWARE is not selected, to avoid the need for #ifdefs
+ in firmware_loader/main.c
+-Properly call security_kernel_post_read_file() on the firmware returned
+ by efi_get_embedded_fw() to make sure that we are allowed to use it
+
+Changes in v2:
+-Rebased on driver-core/driver-core-next
+-Add documentation describing the EFI embedded firmware mechanism to:
+ Documentation/driver-api/firmware/request_firmware.rst
+-Add a new EFI_EMBEDDED_FIRMWARE Kconfig bool and only build the embedded
+ fw support if this is set. This is an invisible option which should be
+ selected by drivers which need this
+-Remove the efi_embedded_fw_desc and dmi_system_id-s for known devices
+ from the efi-embedded-fw code, instead drivers using this are expected t=
+o
+ export a dmi_system_id array, with each entries' driver_data pointing to=
+ a
+ efi_embedded_fw_desc struct and register this with the efi-embedded-fw c=
+ode
+-Use kmemdup to make a copy instead of efi_mem_reserve()-ing the firmware=
+,
+ this avoids us messing with the EFI memmap and avoids the need to make
+ changes to efi_mem_desc_lookup()
+-Make the firmware-loader code only fallback to efi_get_embedded_fw() if =
+the
+ passed in device has the "efi-embedded-firmware" device-property bool se=
+t
+-Skip usermodehelper fallback when "efi-embedded-firmware" device-propert=
+y
+ is set
+
