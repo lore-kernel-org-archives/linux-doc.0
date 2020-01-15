@@ -2,110 +2,209 @@ Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 300D8C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 17:39:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58EA5C33CB2
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 18:15:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 11E992077B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 17:39:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 356B72467C
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 18:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbgAORjS convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 12:39:18 -0500
-Received: from mail.fireflyinternet.com ([109.228.58.192]:56121 "EHLO
-        fireflyinternet.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728904AbgAORjS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 12:39:18 -0500
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
-Received: from localhost (unverified [78.156.65.138]) 
-        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 19891978-1500050 
-        for multiple; Wed, 15 Jan 2020 17:38:16 +0000
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-To:     Sean Paul <sean@poorly.run>
-From:   Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20200115142118.GD25564@art_vandelay>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+        id S1729232AbgAOSPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 13:15:39 -0500
+Received: from laurent.telenet-ops.be ([195.130.137.89]:36724 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729186AbgAOSPj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 13:15:39 -0500
+Received: from ramsan ([84.195.182.253])
+        by laurent.telenet-ops.be with bizsmtp
+        id qiFR2100G5USYZQ01iFRFR; Wed, 15 Jan 2020 19:15:37 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1irnCP-00012V-EX; Wed, 15 Jan 2020 19:15:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1irnCP-00068y-Bs; Wed, 15 Jan 2020 19:15:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-doc@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-References: <20200114172155.215463-1-sean@poorly.run>
- <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
- <20200115134158.GC25564@art_vandelay>
- <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
- <20200115142118.GD25564@art_vandelay>
-Message-ID: <157910989392.14122.11828997592074603326@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible via
- debugfs
-Date:   Wed, 15 Jan 2020 17:38:13 +0000
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v4 0/5] gpio: Add GPIO Aggregator
+Date:   Wed, 15 Jan 2020 19:15:18 +0100
+Message-Id: <20200115181523.23556-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Sean Paul (2020-01-15 14:21:18)
-> On Wed, Jan 15, 2020 at 02:01:19PM +0000, Chris Wilson wrote:
-> > Quoting Sean Paul (2020-01-15 13:41:58)
-> > > On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
-> > > > Quoting Sean Paul (2020-01-14 17:21:43)
-> > > > > From: Sean Paul <seanpaul@chromium.org>
-> > > > > 
-> > > > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
-> > > > > of DRM logs for a specified set of debug categories. The user writes a
-> > > > > bitmask of debug categories to the "trace_mask" node and can read log
-> > > > > messages from the "trace" node.
-> > > > > 
-> > > > > These nodes currently exist in debugfs under the dri directory. I
-> > > > > intended on exposing all of this through tracefs originally, but the
-> > > > > tracefs entry points are not exposed, so there's no way to create
-> > > > > tracefs files from drivers at the moment. I think it would be a
-> > > > > worthwhile endeavour, but one requiring more time and conversation to
-> > > > > ensure the drm traces fit somewhere sensible.
-> > > > 
-> > > > Fwiw, I have a need for client orientated debug message store, with
-> > > > the primary purpose of figuring out -EINVAL. We need per-client so we can
-> > > > put sensitive information about the potentially buggy client behaviour,
-> > > > and of course it needs to be accessible by the non-privileged client.
-> > > > 
-> > > > On the execution side, it's easy to keep track of the client so we could
-> > > > trace execution flow per client, within reason. And we could do
-> > > > similarly for kms clients.
-> > > 
-> > > Could you build such a thing with drm_trace underpinning it, just put the
-> > > pertinent information in the message?
-> > 
-> > Not as is. The global has to go, and there's no use for debugfs. So we
-> > are just left with a sprintf() around a ring_buffer. I am left in the
-> > same position as just wanting to generalise tracek to take the ringbuffer
-> > as a parameter.
-> > 
-> 
-> Ah, I think I see what you're getting at now. I think it would be reasonable to
-> split out a drm_trace_buffer from the current code for this purpose. We could
-> have an interface like:
-> 
-> struct drm_trace_buffer *drm_trace_buffer_init(unsigned int num_pages);
-> int drm_trace_buffer_resize(struct drm_trace_buffer *buf, unsigned int num_pages);
-> int drm_trace_buffer_printf(struct drm_trace_buffer *buf, const char *format, ...);
-> int drm_trace_buffer_output(struct seq_file *seq);
-> void drm_trace_buffer_cleanup(struct drm_trace_buffer *buf);
-> 
-> Then to Joonas' point, we could have drm_trace_log which uses this interface to
-> mirror the logs with a debugfs interface.
-> 
-> Would that work for your purpose?
+	Hi all,
 
-The seq_file doesn't marry with the anticipated uAPI, I'll probably need
-a raw file_ops (thinking along the lines of return an fd to userspace,
-that is read ala /dev/kmsg).
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-I would be tempted to drop the drm_ and put it straight in lib/
--Chris
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
+
+Recently, other use cases have been discovered[1]:
+  - Describing simple GPIO-operated devices in DT, and using the GPIO
+    Aggregator as a generic GPIO driver for userspace, which is useful
+    for industrial control.
+
+Changes compared to v3[2] (more details in the individual patches):
+  - Drop controversial GPIO repeater,
+  - Drop support for legacy sysfs interface based name matching,
+  - Drop applied "gpiolib: Add GPIOCHIP_NAME definition",
+  - Documentation improvements,
+  - Lots of small cleanups.
+
+Changes compared to v2[3] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
+
+Changes compared to v1[4]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
+
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[5][6].
+
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
+
+  - Unbind LEDs from leds-gpio driver:
+
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+
+  - Create aggregators:
+
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
+
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
+
+  - Adjust permissions on /dev/gpiochip[89] (optional)
+
+  - Control LEDs:
+
+    $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0     # LED8 OFF
+    $ gpioset gpiochip9 0=1     # LED8 ON
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks!
+
+References:
+  [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [2] "[PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater"
+      (https://lore.kernel.org/lkml/20191127084253.16356-1-geert+renesas@glider.be/)
+  [3] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/linux-gpio/20190911143858.13024-1-geert+renesas@glider.be/)
+  [4] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/lkml/20190705160536.12047-1-geert+renesas@glider.be/)
+  [5] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/linux-renesas-soc/20181003152521.23144-1-geert+renesas@glider.be/)
+  [6] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (5):
+  gpiolib: Add support for gpiochipN-based table lookup
+  gpiolib: Add support for GPIO line table lookup
+  gpio: Add GPIO Aggregator
+  docs: gpio: Add GPIO Aggregator documentation
+  MAINTAINERS: Add GPIO Aggregator section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 102 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/gpio/Kconfig                          |  12 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 574 ++++++++++++++++++
+ drivers/gpio/gpiolib.c                        |  33 +-
+ include/linux/gpio/machine.h                  |  15 +-
+ 8 files changed, 732 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
