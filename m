@@ -2,99 +2,185 @@ Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BD72C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 18:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA83AC3F68F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 21:19:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D68EC22522
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 18:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579113791;
-	bh=EYn3cvBA+zKZZyuq+WQ0EKprn8+vzF11tgdyOEbIkzI=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=JusDCG7ega+3Wis4Wov3f7RVwpFZRCDq6W9ZGsrefLBbAk0iTmm2VdPxiBNTwpEEb
-	 C7wEfK0Z0DJGPEEskmnJVALfu2slCkb+s84T01QMopO9l3ejL6t7PUEn+eYrFfThIs
-	 2Cw3KBUVpF8zMGOXoVj+TzRtaYOgHLLsbK/oCUOQ=
+	by mail.kernel.org (Postfix) with ESMTP id 9022024680
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 21:19:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jj9z8sIt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728896AbgAOSnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 13:43:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726587AbgAOSnL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jan 2020 13:43:11 -0500
-Received: from localhost.localdomain (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0175220728;
-        Wed, 15 Jan 2020 18:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579113790;
-        bh=EYn3cvBA+zKZZyuq+WQ0EKprn8+vzF11tgdyOEbIkzI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wGdhWFZoEOrLFAPd1W2WMEt146BJ/gYNPsZfSbluvNygAq1OLb0/3+kF1j7G3j9K5
-         wAZgEWbxjWIhoAhSFQPmTDuPVItEyTBWO6KBBdHgzFjzhj2Oe34WKAzaF+TPphkAXi
-         2qAIgW2yAh2knZCUz2Xv6m6oImdr1sD9PQlG8878=
-From:   Will Deacon <will@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, kernel-team@android.com,
-        Will Deacon <will@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Jiri Slaby <jslaby@suse.com>
-Subject: [PATCH] Documentation: Call out example SYM_FUNC_* usage as x86-specific
-Date:   Wed, 15 Jan 2020 18:43:05 +0000
-Message-Id: <20200115184305.1187-1-will@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S1729878AbgAOVTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 16:19:45 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11075 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729263AbgAOVTo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 16:19:44 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e1f81da0000>; Wed, 15 Jan 2020 13:19:22 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 15 Jan 2020 13:19:42 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 15 Jan 2020 13:19:42 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jan
+ 2020 21:19:42 +0000
+Subject: Re: [PATCH v12 04/22] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <20200107224558.2362728-5-jhubbard@nvidia.com>
+ <20200115152306.GA19546@infradead.org>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <4707f191-86f8-db4a-c3de-0a84b415b658@nvidia.com>
+Date:   Wed, 15 Jan 2020 13:19:41 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200115152306.GA19546@infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579123162; bh=GeG6npnwyerPXrXB3bHbzqY7iBJ1oGmlF7ZkUct1x7k=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=jj9z8sItAejAXuqLJp407Y0oGvSfSmMgC2Khnl/UaD4X75Jfs+E4VVRGeSQsgj4wP
+         14n675+NVsxapYKvaJVbv9kK8eZuWxvO3Y6Z1FaTdzbTeZYm8ghKmuNIE5C0gACdNX
+         GRKd75x36rcOJr0kw/HdaVzIwMxuti46gF1ZGWWpciXiVKzpgvI3qlfJhfyWO1skXq
+         uplmy/sgWDjhYQkuOFvVaYpZjSy0ueb1q0Sh/SzXH1k9SEC0ZieDiM/hkNzj/S5EwR
+         OOf7dWtMC6wOQv1+ifMLfIwYfX7dbiwP1/6cV/7beAaEJMsZqU2lquKgjSAKnqyNBE
+         3XR6j/+C8nurA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The example given in asm-annotations.rst to describe the constraints that
-a function should meet in order to be annotated with a SYM_FUNC_* macro
-is x86-specific, and not necessarily applicable to architectures using
-branch-and-link style calling conventions such as arm64.
+On 1/15/20 7:23 AM, Christoph Hellwig wrote:
+...
+> 
+> I'm really not sold on this scheme.  Note that I think it is
+> particularly bad, but it also doesn't seem any better than what
+> we had before, and it introduced quite a bit more code.
+> 
 
-Tweak the example text to call out the x86-specific text.
+Hi Christoph,
 
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jiri Slaby <jslaby@suse.com>
-Signed-off-by: Will Deacon <will@kernel.org>
----
+All by itself, yes. But the very next patch (which needs a little 
+rework for other reasons, so not included here) needs to reuse some of 
+these functions within __unpin_devmap_managed_user_page():
 
-As an aside: if somebody could explain the high-level guarantees required
-here for things like livepatching, then I'd be happy to try to put together
-another patch adding an example for arm64. I'm currently not completely sure
-about what is required in the face of things like leaf functions and tail calls.
+    page_is_devmap_managed()
+    free_devmap_managed_page()
 
- Documentation/asm-annotations.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+That patch was posted as part of the v11 series [1], and it did this:
 
-diff --git a/Documentation/asm-annotations.rst b/Documentation/asm-annotations.rst
-index f55c2bb74d00..32ea57483378 100644
---- a/Documentation/asm-annotations.rst
-+++ b/Documentation/asm-annotations.rst
-@@ -73,10 +73,11 @@ The new macros are prefixed with the ``SYM_`` prefix and can be divided into
- three main groups:
- 
- 1. ``SYM_FUNC_*`` -- to annotate C-like functions. This means functions with
--   standard C calling conventions, i.e. the stack contains a return address at
--   the predefined place and a return from the function can happen in a
--   standard way. When frame pointers are enabled, save/restore of frame
--   pointer shall happen at the start/end of a function, respectively, too.
-+   standard C calling conventions. For example, on x86, this means that the
-+   stack contains a return address at the predefined place and a return from
-+   the function can happen in a standard way. When frame pointers are enabled,
-+   save/restore of frame pointer shall happen at the start/end of a function,
-+   respectively, too.
- 
-    Checking tools like ``objtool`` should ensure such marked functions conform
-    to these rules. The tools can also easily annotate these functions with
++#ifdef CONFIG_DEV_PAGEMAP_OPS
++static bool __unpin_devmap_managed_user_page(struct page *page)
++{
++	int count;
++
++	if (!page_is_devmap_managed(page))
++		return false;
++
++	count = page_ref_sub_return(page, GUP_PIN_COUNTING_BIAS);
++
++	__update_proc_vmstat(page, NR_FOLL_PIN_RETURNED, 1);
++	/*
++	 * devmap page refcounts are 1-based, rather than 0-based: if
++	 * refcount is 1, then the page is free and the refcount is
++	 * stable because nobody holds a reference on the page.
++	 */
++	if (count == 1)
++		free_devmap_managed_page(page);
++	else if (!count)
++		__put_page(page);
++
++	return true;
++}
++#else
++static bool __unpin_devmap_managed_user_page(struct page *page)
++{
++	return false;
++}
++#endif /* CONFIG_DEV_PAGEMAP_OPS */
++
++/**
++ * unpin_user_page() - release a dma-pinned page
++ * @page:            pointer to page to be released
++ *
++ * Pages that were pinned via pin_user_pages*() must be released via either
++ * unpin_user_page(), or one of the unpin_user_pages*() routines. This is so
++ * that such pages can be separately tracked and uniquely handled. In
++ * particular, interactions with RDMA and filesystems need special handling.
++ */
++void unpin_user_page(struct page *page)
++{
++	page = compound_head(page);
++
++	/*
++	 * For devmap managed pages we need to catch refcount transition from
++	 * GUP_PIN_COUNTING_BIAS to 1, when refcount reach one it means the
++	 * page is free and we need to inform the device driver through
++	 * callback. See include/linux/memremap.h and HMM for details.
++	 */
++	if (__unpin_devmap_managed_user_page(page))
++		return;
++
++	if (page_ref_sub_and_test(page, GUP_PIN_COUNTING_BIAS))
++		__put_page(page);
++
++	__update_proc_vmstat(page, NR_FOLL_PIN_RETURNED, 1);
++}
++EXPORT_SYMBOL(unpin_user_page);
+
+
+[1] https://lore.kernel.org/r/20191216222537.491123-24-jhubbard@nvidia.com  
+    [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
+
+thanks,
 -- 
-2.25.0.rc1.283.g88dfdc4193-goog
-
+John Hubbard
+NVIDIA
