@@ -2,75 +2,204 @@ Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA61FC33CB1
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 10:37:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1684C33CB3
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 11:14:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C587B222C3
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 10:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1A462467A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 11:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729640AbgAOKhQ convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 05:37:16 -0500
-Received: from mail.fireflyinternet.com ([109.228.58.192]:53786 "EHLO
-        fireflyinternet.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729585AbgAOKhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 05:37:16 -0500
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
-Received: from localhost (unverified [78.156.65.138]) 
-        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 19886193-1500050 
-        for multiple; Wed, 15 Jan 2020 10:36:38 +0000
-Content-Type: text/plain; charset="utf-8"
+        id S1729874AbgAOLOn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 06:14:43 -0500
+Received: from foss.arm.com ([217.140.110.172]:35200 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726045AbgAOLOn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jan 2020 06:14:43 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B04FD31B;
+        Wed, 15 Jan 2020 03:14:42 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0D2F83F6C4;
+        Wed, 15 Jan 2020 03:14:40 -0800 (PST)
+Subject: Re: [PATCH v8 08/15] coresight: cti: Enable CTI associated with
+ devices.
+To:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
+        robh+dt@kernel.org, maxime@cerno.tech, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, agross@kernel.org,
+        corbet@lwn.net
+References: <20200113213149.25599-1-mike.leach@linaro.org>
+ <20200113213149.25599-9-mike.leach@linaro.org>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <396fc3a2-083b-29ef-2bb6-2fca066ea0ef@arm.com>
+Date:   Wed, 15 Jan 2020 11:14:39 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-To:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-From:   Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20200114172155.215463-1-sean@poorly.run>
-Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-doc@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-References: <20200114172155.215463-1-sean@poorly.run>
-Message-ID: <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible via
- debugfs
-Date:   Wed, 15 Jan 2020 10:36:36 +0000
+In-Reply-To: <20200113213149.25599-9-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Sean Paul (2020-01-14 17:21:43)
-> From: Sean Paul <seanpaul@chromium.org>
+On 13/01/2020 21:31, Mike Leach wrote:
+> The CoreSight subsystem enables a path of devices from source to sink.
+> Any CTI devices associated with the path devices must be enabled at the
+> same time.
 > 
-> This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
-> of DRM logs for a specified set of debug categories. The user writes a
-> bitmask of debug categories to the "trace_mask" node and can read log
-> messages from the "trace" node.
+> This patch adds an associated coresight_device element to the main
+> coresight device structure, and uses this to create associations between
+> the CTI and other devices based on the device tree data. The associated
+> device element is used to enable CTI in conjunction with the path elements.
 > 
-> These nodes currently exist in debugfs under the dri directory. I
-> intended on exposing all of this through tracefs originally, but the
-> tracefs entry points are not exposed, so there's no way to create
-> tracefs files from drivers at the moment. I think it would be a
-> worthwhile endeavour, but one requiring more time and conversation to
-> ensure the drm traces fit somewhere sensible.
+> CTI devices are reference counted so where a single CTI is associated with
+> multiple elements on the path, it will be enabled on the first associated
+> device enable, and disabled with the last associated device disable.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> ---
+>   drivers/hwtracing/coresight/coresight-cti.c   | 129 ++++++++++++++++++
+>   drivers/hwtracing/coresight/coresight-cti.h   |   1 +
+>   .../hwtracing/coresight/coresight-platform.c  |   1 +
+>   drivers/hwtracing/coresight/coresight-priv.h  |  12 ++
+>   drivers/hwtracing/coresight/coresight.c       |  71 +++++++++-
+>   include/linux/coresight.h                     |   4 +
+>   6 files changed, 213 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> index 77c2af247917..2be1b310e854 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> @@ -4,6 +4,7 @@
+>    * Author: Mike Leach <mike.leach@linaro.org>
+>    */
+>   
+> +#include <linux/property.h>
+>   #include "coresight-cti.h"
+>   
+>   /**
+> @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+>   	return err;
+>   }
+>   
+> +/*
+> + * Look for a matching connection device name in the list of connections.
+> + * If found then swap in the csdev name, set trig con association pointer
+> + * and return found.
+> + */
+> +static bool
+> +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> +		      struct coresight_device *csdev)
+> +{
+> +	struct cti_trig_con *trig_con;
 
-Fwiw, I have a need for client orientated debug message store, with
-the primary purpose of figuring out -EINVAL. We need per-client so we can
-put sensitive information about the potentially buggy client behaviour,
-and of course it needs to be accessible by the non-privileged client.
+super minor nit: Please use "struct cti_trig_con *tc;" consistent with
+the naming everywhere else. Helps a lot in reading the code, especially
+which has a lot of different structures.
 
-On the execution side, it's easy to keep track of the client so we could
-trace execution flow per client, within reason. And we could do
-similarly for kms clients.
+> +	const char *csdev_name;
+> +
+> +	list_for_each_entry(trig_con, &ctidev->trig_cons, node) {
+> +		if (trig_con->con_dev_name) {
 
-Just chiming to say, I don't think a duplicate of dmesg hidden inside
-debugfs achieves much. But a generic tracek-esque ringbuf would be very
-useful -- even if only so we can separate our GEM_TRACE from the global
-tracek.
--Chris
+This was allocated via devm_* and ...
+
+> +			if (!strcmp(node_name, trig_con->con_dev_name)) {
+> +				/* match: so swap in csdev name & dev */
+> +				kfree(trig_con->con_dev_name);
+
+... we free it here using kfree() without devm_ being aware. This could
+cause double-free when the device is removed. This should either be
+devm_kfree() or simply overwritten with the new string and leave
+the device cleanup to free it.
+
+> +				csdev_name = dev_name(&csdev->dev);
+> +				trig_con->con_dev_name =
+> +					kstrdup(csdev_name, GFP_KERNEL);
+
+Please use devm_kstrdup() here on the CTI device to have a consistent
+allocation.
+
+
+> +				trig_con->con_dev = csdev;
+> +				return true;
+> +			}
+> +		}
+> +	}
+> +	return false;
+> +}
+> 
+
+
+> +/*
+> + * Removing the associated devices is easier.
+> + * A CTI will not have a value for csdev->ect_dev.
+> + */
+> +void cti_remove_assoc_from_csdev(struct coresight_device *csdev)
+> +{
+> +	struct cti_drvdata *ctidrv;
+> +	struct cti_trig_con *tc;
+> +	struct cti_device *ctidev;
+> +
+> +	mutex_lock(&ect_mutex);
+> +	if (csdev->ect_dev) {
+> +		ctidrv = csdev_to_cti_drvdata(csdev->ect_dev);
+> +		ctidev = &ctidrv->ctidev;
+> +		list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> +			if (tc->con_dev == csdev->ect_dev) {
+> +				tc->con_dev = NULL;
+
+Should we clear/free the name too ?
+
+> +				break;
+> +			}
+> +		}
+> +		csdev->ect_dev = NULL;
+> +	}
+> +	mutex_unlock(&ect_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(cti_remove_assoc_from_csdev);
+> +
+
+...
+
+> diff --git a/drivers/hwtracing/coresight/coresight-cti.h b/drivers/hwtracing/coresight/coresight-cti.h
+> index 469a06a1bb78..578d7e9ac67e 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti.h
+> +++ b/drivers/hwtracing/coresight/coresight-cti.h
+> @@ -216,6 +216,7 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+>   		      u32 channel_idx);
+>   struct coresight_platform_data *
+>   coresight_cti_get_platform_data(struct device *dev);
+> +const char *cti_plat_get_node_name(struct fwnode_handle *fwnode);
+>   
+>   /* cti powered and enabled */
+>   static inline bool cti_active(struct cti_config *cfg)
+> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
+> index 43418a2126ff..421d4fc95f41 100644
+> --- a/drivers/hwtracing/coresight/coresight-platform.c
+> +++ b/drivers/hwtracing/coresight/coresight-platform.c
+> @@ -313,6 +313,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+>   
+>   	return 0;
+>   }
+> +
+
+nit : spurious hunk ?
+
+>   #else
+>   static inline int
+>   of_get_coresight_platform_data(struct device *dev,
+
+Otherwise looks good to me
+
+Suzuki
