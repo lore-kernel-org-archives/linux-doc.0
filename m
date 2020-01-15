@@ -1,256 +1,154 @@
-Return-Path: <SRS0=14SN=3D=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97ABAC33C9E
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FB5C33C9E
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 01:40:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C5D72467D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jan 2020 23:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7EFC24658
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 01:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579052433;
+	bh=RXCqTAs9B9sfiSzDG+Hn4rEic0C5Kj+LfKOUrqaq63A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=kMYUcKkgjE0V6j414RdlkwfveMp4CQwqRWzonduMqUtM0DapG1DbkLeL1KYkkYd2p
+	 pfxgoCZJawQVNzN+0ciV+CE6xp1de9PmD54WYTWH8Ww2aQkyXy2hqBrXHGBUHWQ9T3
+	 ThTpGFjDNLSreOX4zhaBTUpjsUb88rxOmleRMbHs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728897AbgANXwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jan 2020 18:52:43 -0500
-Received: from mga01.intel.com ([192.55.52.88]:7290 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728757AbgANXwn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jan 2020 18:52:43 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jan 2020 15:52:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; 
-   d="scan'208";a="217922988"
-Received: from emkilgox-mobl2.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.251.0.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Jan 2020 15:52:39 -0800
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     alsa-devel@alsa-project.org
-Cc:     linux-kernel@vger.kernel.org, tiwai@suse.de, broonie@kernel.org,
-        vkoul@kernel.org, gregkh@linuxfoundation.org, jank@cadence.com,
-        srinivas.kandagatla@linaro.org, slawomir.blauciak@intel.com,
-        Bard liao <yung-chuan.liao@linux.intel.com>,
-        Rander Wang <rander.wang@linux.intel.com>,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v2 1/5] soundwire: stream: update state machine and add state checks
-Date:   Tue, 14 Jan 2020 17:52:23 -0600
-Message-Id: <20200114235227.14502-2-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200114235227.14502-1-pierre-louis.bossart@linux.intel.com>
-References: <20200114235227.14502-1-pierre-louis.bossart@linux.intel.com>
+        id S1728909AbgAOBka (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jan 2020 20:40:30 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:39323 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728882AbgAOBka (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jan 2020 20:40:30 -0500
+Received: by mail-oi1-f194.google.com with SMTP id a67so13899612oib.6
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2020 17:40:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3bD/LT4C3MC6J/wcM/SaP9VxFISKGm7IY0gKpOMd0Pg=;
+        b=kYkQ99L8Wb5fHqndwIgi09/Ncx4eQaX55aNmN8mxXjiCk0DMmcncum/ci/hcIHoqPJ
+         VMAkInnHPt3ch8EUKwXL68r6xggfDelYzIvgEY0a9xDYYQFb8kcHFD/rbzq5jm1yRIl4
+         ZTiv0yA6gs8K2++buQKAXdk/eGYhYU1y5f3tnzkjmJR2wxiF28OYCt6epCXJTZQLW466
+         pszCOKrquvLGPG2KRL2ANAOtxP0OmYj+dUA5c9hEcmv5frsJTwWYcfbLgSbNPFYo/i24
+         ek/GeK+bcsfm+e+R5Qv51voH1tHNgUBkG0SdZPGY6o2HZt3Ob6oSoNRbFHWQ/9ptOORv
+         aghg==
+X-Gm-Message-State: APjAAAXljspztj0Dvh/YE86uPOPv5pJiDWSwATfRBCzLqqsNvUmyRc4B
+        5wRfs+VHAL+vEL6rWhlQ8Qx0Zw8=
+X-Google-Smtp-Source: APXvYqwGuJuom0Sj58dn7QQzgUwybmaKhh2av8E5twNTByz/9vQE5RJ/O0FRHpVnU9HkVJ5JcN6xNw==
+X-Received: by 2002:aca:cf83:: with SMTP id f125mr18436681oig.15.1579052429117;
+        Tue, 14 Jan 2020 17:40:29 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id h7sm5975068otk.56.2020.01.14.17.40.27
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2020 17:40:27 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 2209ae
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Tue, 14 Jan 2020 19:40:26 -0600
+Date:   Tue, 14 Jan 2020 19:40:26 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/7] dt-bindings: PCI: cadence: Add binding to specify
+ max virtual functions
+Message-ID: <20200115014026.GA10726@bogus>
+References: <20191231113534.30405-1-kishon@ti.com>
+ <20191231113534.30405-3-kishon@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191231113534.30405-3-kishon@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The state machine and notes don't accurately explain or allow
-transitions from STREAM_DEPREPARED and STREAM_DISABLED.
+On Tue, Dec 31, 2019 at 05:05:29PM +0530, Kishon Vijay Abraham I wrote:
+> Add binding to specify maximum number of virtual functions that can be
+> associated with each physical function.
+> 
+> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+> ---
+>  .../devicetree/bindings/pci/cdns,cdns-pcie-ep.txt         | 2 ++
+>  .../devicetree/bindings/pci/ti,j721e-pci-ep.yaml          | 8 ++++++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-ep.txt b/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-ep.txt
+> index 4a0475e2ba7e..432578202733 100644
+> --- a/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-ep.txt
+> +++ b/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-ep.txt
+> @@ -9,6 +9,8 @@ Required properties:
+>  
+>  Optional properties:
+>  - max-functions: Maximum number of functions that can be configured (default 1).
+> +- max-virtual-functions: Maximum number of virtual functions that can be
+> +    associated with each physical function.
+>  - phys: From PHY bindings: List of Generic PHY phandles. One per lane if more
+>    than one in the list.  If only one PHY listed it must manage all lanes. 
+>  - phy-names:  List of names to identify the PHY.
+> diff --git a/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml b/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
+> index 4621c62016c7..1d4964ba494f 100644
+> --- a/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
+> +++ b/Documentation/devicetree/bindings/pci/ti,j721e-pci-ep.yaml
+> @@ -61,6 +61,12 @@ properties:
+>      minimum: 1
+>      maximum: 6
+>  
+> +  max-virtual-functions:
+> +    minItems: 1
+> +    maxItems: 6
 
-Add more explanations and allow for more transitions as a result of a
-trigger_stop(), trigger_suspend() and prepare(), depending on the
-ALSA/ASoC layer behavior defined by the INFO_RESUME and INFO_PAUSE
-flags.
+Is there a PCIe spec limit to number of virtual functions per phy 
+function? Or 2^32 virtual functions is okay.
 
-Also add basic checks to help debug inconsistent states and illegal
-state machine transitions.
+> +    description: As defined in
+> +                 Documentation/devicetree/bindings/pci/cdns,cdns-pcie-ep.txt
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- Documentation/driver-api/soundwire/stream.rst | 61 +++++++++++++------
- drivers/soundwire/stream.c                    | 37 +++++++++++
- 2 files changed, 81 insertions(+), 17 deletions(-)
+I suspect this this be a common property.
 
-diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
-index 5351bd2f34a8..8bceece51554 100644
---- a/Documentation/driver-api/soundwire/stream.rst
-+++ b/Documentation/driver-api/soundwire/stream.rst
-@@ -156,22 +156,27 @@ Below shows the SoundWire stream states and state transition diagram. ::
- 	+-----------+     +------------+     +----------+     +----------+
- 	| ALLOCATED +---->| CONFIGURED +---->| PREPARED +---->| ENABLED  |
- 	|   STATE   |     |    STATE   |     |  STATE   |     |  STATE   |
--	+-----------+     +------------+     +----------+     +----+-----+
--	                                                           ^
--	                                                           |
--	                                                           |
--	                                                           v
--	         +----------+           +------------+        +----+-----+
-+	+-----------+     +------------+     +---+--+---+     +----+-----+
-+	                                         ^  ^              ^
-+				                 |  |              |
-+				               __|  |___________   |
-+				              |                 |  |
-+	                                      v                 |  v
-+	         +----------+           +-----+------+        +-+--+-----+
- 	         | RELEASED |<----------+ DEPREPARED |<-------+ DISABLED |
- 	         |  STATE   |           |   STATE    |        |  STATE   |
- 	         +----------+           +------------+        +----------+
- 
--NOTE: State transition between prepare and deprepare is supported in Spec
--but not in the software (subsystem)
-+NOTE: State transitions between ``SDW_STREAM_ENABLED`` and
-+``SDW_STREAM_DISABLED`` are only relevant when then INFO_PAUSE flag is
-+supported at the ALSA/ASoC level. Likewise the transition between
-+``SDW_DISABLED_STATE`` and ``SDW_PREPARED_STATE`` depends on the
-+INFO_RESUME flag.
- 
--NOTE2: Stream state transition checks need to be handled by caller
--framework, for example ALSA/ASoC. No checks for stream transition exist in
--SoundWire subsystem.
-+NOTE2: The framework implements basic state transition checks, but
-+does not e.g. check if a transition from DISABLED to ENABLED is valid
-+on a specific platform. Such tests need to be added at the ALSA/ASoC
-+level.
- 
- Stream State Operations
- -----------------------
-@@ -246,6 +251,9 @@ SDW_STREAM_PREPARED
- 
- Prepare state of stream. Operations performed before entering in this state:
- 
-+  (0) Steps 1 and 2 are omitted in the case of a resume operation,
-+      where the bus bandwidth is known.
-+
-   (1) Bus parameters such as bandwidth, frame shape, clock frequency,
-       are computed based on current stream as well as already active
-       stream(s) on Bus. Re-computation is required to accommodate current
-@@ -270,9 +278,11 @@ Prepare state of stream. Operations performed before entering in this state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_PREPARED``.
- 
--Bus implements below API for PREPARE state which needs to be called once per
--stream. From ASoC DPCM framework, this stream state is linked to
--.prepare() operation.
-+Bus implements below API for PREPARE state which needs to be called
-+once per stream. From ASoC DPCM framework, this stream state is linked
-+to .prepare() operation. Since the .trigger() operations may not
-+follow the .prepare(), a direct transition from
-+``SDW_STREAM_PREPARED`` to ``SDW_STREAM_DEPREPARED`` is allowed.
- 
- .. code-block:: c
- 
-@@ -332,6 +342,14 @@ Bus implements below API for DISABLED state which needs to be called once
- per stream. From ASoC DPCM framework, this stream state is linked to
- .trigger() stop operation.
- 
-+When the INFO_PAUSE flag is supported, a direct transition to
-+``SDW_STREAM_ENABLED`` is allowed.
-+
-+For resume operations where ASoC will use the .prepare() callback, the
-+stream can transition from ``SDW_STREAM_DISABLED`` to
-+``SDW_STREAM_PREPARED``, with all required settings restored but
-+without updating the bandwidth and bit allocation.
-+
- .. code-block:: c
- 
-   int sdw_disable_stream(struct sdw_stream_runtime * stream);
-@@ -353,9 +371,18 @@ state:
- After all above operations are successful, stream state is set to
- ``SDW_STREAM_DEPREPARED``.
- 
--Bus implements below API for DEPREPARED state which needs to be called once
--per stream. From ASoC DPCM framework, this stream state is linked to
--.trigger() stop operation.
-+Bus implements below API for DEPREPARED state which needs to be called
-+once per stream. ALSA/ASoC do not have a concept of 'deprepare', and
-+the mapping from this stream state to ALSA/ASoC operation may be
-+implementation specific.
-+
-+When the INFO_PAUSE flag is supported, the stream state is linked to
-+the .hw_free() operation - the stream is not deprepared on a
-+TRIGGER_STOP.
-+
-+Other implementations may transition to the ``SDW_STREAM_DEPREPARED``
-+state on TRIGGER_STOP, should they require a transition through the
-+``SDW_STREAM_PREPARED`` state.
- 
- .. code-block:: c
- 
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 178ae92b8cc1..6aa0b5d370c0 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1553,8 +1553,18 @@ int sdw_prepare_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_CONFIGURED &&
-+	    stream->state != SDW_STREAM_DEPREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_prepare_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1619,8 +1629,17 @@ int sdw_enable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_enable_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1693,8 +1712,16 @@ int sdw_disable_stream(struct sdw_stream_runtime *stream)
- 
- 	sdw_acquire_bus_lock(stream);
- 
-+	if (stream->state != SDW_STREAM_ENABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_disable_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
-@@ -1749,8 +1776,18 @@ int sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 	}
- 
- 	sdw_acquire_bus_lock(stream);
-+
-+	if (stream->state != SDW_STREAM_PREPARED &&
-+	    stream->state != SDW_STREAM_DISABLED) {
-+		pr_err("%s: %s: inconsistent state state %d\n",
-+		       __func__, stream->name, stream->state);
-+		ret = -EINVAL;
-+		goto state_err;
-+	}
-+
- 	ret = _sdw_deprepare_stream(stream);
- 
-+state_err:
- 	sdw_release_bus_lock(stream);
- 	return ret;
- }
--- 
-2.20.1
-
+> +
+>    dma-coherent:
+>      description: Indicates that the PCIe IP block can ensure the coherency
+>  
+> @@ -85,6 +91,7 @@ required:
+>    - cdns,max-outbound-regions
+>    - dma-coherent
+>    - max-functions
+> +  - max-virtual-functions
+>    - phys
+>    - phy-names
+>  
+> @@ -107,6 +114,7 @@ examples:
+>              clock-names = "fck";
+>              cdns,max-outbound-regions = <16>;
+>              max-functions = /bits/ 8 <6>;
+> +            max-virtual-functions = /bits/ 16 <4 4 4 4 0 0>;
+>              dma-coherent;
+>              phys = <&serdes0_pcie_link>;
+>              phy-names = "pcie_phy";
+> -- 
+> 2.17.1
+> 
