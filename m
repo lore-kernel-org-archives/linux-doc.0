@@ -2,110 +2,71 @@ Return-Path: <SRS0=c7IR=3F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C868C33CB3
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 10:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE7EEC3F68F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 11:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BA772075B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 10:38:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A03D72077B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 11:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbgAPKiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jan 2020 05:38:23 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:35416 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725800AbgAPKiX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 05:38:23 -0500
-Received: from [109.168.11.45] (port=50858 helo=[192.168.101.73])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1is2Xb-00053Y-OV; Thu, 16 Jan 2020 11:38:20 +0100
-Subject: Re: [PATCH 26/26] docs: i2c: rename sections so the overall picture
- is clearer
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-References: <20200105224006.10321-1-luca@lucaceresoli.net>
- <20200106074905.14438-1-luca@lucaceresoli.net>
- <20200116104907.3f2de4d0@endymion>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <7809c0c2-1d83-cc95-b258-644ea8315f86@lucaceresoli.net>
-Date:   Thu, 16 Jan 2020 11:38:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726088AbgAPLT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jan 2020 06:19:58 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:51330 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726045AbgAPLT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 06:19:58 -0500
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1is3Bq-0005DA-Jz; Thu, 16 Jan 2020 12:19:54 +0100
+Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
+        id 3F1F8101B66; Thu, 16 Jan 2020 12:19:54 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Sasha Levin <sashal@kernel.org>, Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rcu@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 1/2] kernel: set taint flag 'L' at any kind of lockup
+In-Reply-To: <157503370645.8187.6335564487789994134.stgit@buzz>
+References: <157503370645.8187.6335564487789994134.stgit@buzz>
+Date:   Thu, 16 Jan 2020 12:19:54 +0100
+Message-ID: <87eevzwsv9.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20200116104907.3f2de4d0@endymion>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jean, Peter,
+Konstantin Khlebnikov <khlebnikov@yandex-team.ru> writes:
+> Any lockup or stall notifies about unexpected lack of progress.
+> It's better to know about them for further problem investigations.
+>
+> Right now only softlockup has own taint flag. Let's generalize it.
+>
+> This patch renames TAINT_SOFTLOCKUP into TAINT_LOCKUP at sets it for:
 
-thanks both for your reviews.
+Please search 'This patch' in Documentation/process/submitting-patches.rst
 
-On 16/01/20 10:49, Jean Delvare wrote:
-> On Mon,  6 Jan 2020 08:49:05 +0100, Luca Ceresoli wrote:
->> Some of the section names are not very clear. Reading those names in the
->> index.rst page does not help much in grasping what the content is supposed
->> to be.
->>
->> Rename those sections to clarify their content, especially when reading
->> the index page.
->>
->> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
->> Acked-by: Peter Rosin <peda@axentia.se>
->> ---
->>
->> Note: here checkpatch complains:
->>
->>   WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
->>
->> Thas's because those files have no license line. I would gladly add a
->> proper license line, but what it the correct license here? Should I ask the
->> authors? GPLv2-only as the kernel default?
->>
->> I'd appreciate a guidance here, thanks in advance.
-> 
-> I don't think we need a license for such documentation files, so I
-> would just ignore checkpatch.
+> - softlockup
+> - hardlockup
+> - RCU stalls
+> - stuck in workqueues
+> - detected task hung
 
-That's OK for me.
+This does too many things at once and wants to be split in pieces:
 
->> diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
->> index fc69d9567d9d..ae3bbb9fd8f1 100644
->> --- a/Documentation/i2c/summary.rst
->> +++ b/Documentation/i2c/summary.rst
->> @@ -1,6 +1,6 @@
->> -=============
->> -I2C and SMBus
->> -=============
->> +==============================
->> +Introductions to I2C and SMBus
->> +==============================
-> 
-> I would use "Introduction", singular.
+  1) Change the TAINT flag and update documentation
 
-Me too! Fix queued for v2.
+  2) Add the tainting to the places which are not yet covered
 
-Peter, I assume I can keep your Acked-by in v2 with this small change.
+Thanks,
 
--- 
-Luca
+        tglx
