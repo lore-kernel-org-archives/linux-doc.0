@@ -1,144 +1,108 @@
-Return-Path: <SRS0=CyXp=3E=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=c7IR=3F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B71C33CB3
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 21:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08382C33CAF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 04:12:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8132467D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jan 2020 21:34:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAFAD20723
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 04:12:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="dbP5SmA0"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QzqWvTzS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbgAOVeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jan 2020 16:34:22 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14312 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbgAOVeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 16:34:21 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1f85210000>; Wed, 15 Jan 2020 13:33:21 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 15 Jan 2020 13:34:16 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 15 Jan 2020 13:34:16 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jan
- 2020 21:34:16 +0000
-Subject: Re: [PATCH v12 11/22] mm/gup: introduce pin_user_pages*() and
- FOLL_PIN
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <20200107224558.2362728-12-jhubbard@nvidia.com>
- <20200115153020.GF19546@infradead.org>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <1a0ee1db-5528-86a8-0713-3d820fbdf4ad@nvidia.com>
-Date:   Wed, 15 Jan 2020 13:34:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1729546AbgAPEMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jan 2020 23:12:55 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:34250 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729048AbgAPEMz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jan 2020 23:12:55 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00G49CGc130923;
+        Thu, 16 Jan 2020 04:12:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=6Ya2kPRS3moX5+eA9DeZTfFSagefGsXpkir8zlrPo+o=;
+ b=QzqWvTzSKl7xy+i7quBOO8Y9CJsmqUhke8acr75lo/S8SMNOHs5ERdSp9qgxtK9bV0cw
+ +wGUgQEz3QwVoCvQK404zIeBoaI6qBZkz8ybrqSaBC1JfoXrOqWC8p4EVT8XAVs+YR2+
+ 5WrjJID/6wre+qvCc4T0sN3EbZhGV4BEqRwe985MztiPc2xcUZlqPNDorGgU4ZFgyAkB
+ hgI0xdEI5NlrDpIytxNX/p2rHey1OaD0NXSn0FOD4iCn+xqlp9fDu3Tcrf4OjDUpeskp
+ tuJeVA35Tqw9zFebkWHP1WMFgyoDC20LYao51GHCtPqMbToAYuCEW0zuPGtHwx9HAlIy tQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 2xf73yr2nb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 16 Jan 2020 04:12:30 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00G49CUX186215;
+        Thu, 16 Jan 2020 04:12:29 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 2xhy22jj8e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 16 Jan 2020 04:12:29 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00G4CQa3028217;
+        Thu, 16 Jan 2020 04:12:27 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 15 Jan 2020 20:12:26 -0800
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+        Chris Healy <cphealy@gmail.com>
+Subject: Re: [PATCH v2] hwmon: Driver for temperature sensors on SATA drives
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20191215174509.1847-1-linux@roeck-us.net>
+        <20191215174509.1847-2-linux@roeck-us.net>
+        <yq1r211dvck.fsf@oracle.com>
+        <b22a519c-8f26-e731-345f-9deca1b2150e@roeck-us.net>
+        <yq1sgkq21ll.fsf@oracle.com> <20200108153341.GB28530@roeck-us.net>
+        <38af9fda-9edf-1b54-bd8d-92f712ae4cda@roeck-us.net>
+        <yq1r202spr9.fsf@oracle.com>
+        <403cfbf8-79da-94f1-509f-e90d1a165722@roeck-us.net>
+Date:   Wed, 15 Jan 2020 23:12:23 -0500
+In-Reply-To: <403cfbf8-79da-94f1-509f-e90d1a165722@roeck-us.net> (Guenter
+        Roeck's message of "Mon, 13 Jan 2020 21:20:51 -0800")
+Message-ID: <yq14kwwnioo.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200115153020.GF19546@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579124001; bh=87Rlq6x45ruVW7JTVYUJt0mWD3kN4xgsTUgpHaSTwOs=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=dbP5SmA0QfbUlmT548bubiJAkEQguNXb+B22BE0nnic910e/52B3pTFYwo0R9gnOk
-         /mlFxNBraLMyXPTecP1trRDknv0CWyUqRUhn8AvgRKQEt/OrYnrlJ5ltQrtwu2/iZG
-         uXyWe/Tp3/8o2BssD5h12JhA8/Qf+tvLIUVBAfdgHpiHf/vpXBUQ/a29w86sKWsdhS
-         xLP+ysLSXK1OimxyU8GqDxRUN80ueCmWM+W82ScjqhN2l7u6YLSbkEfUVc40jSw+4n
-         1alFBQ4/aOAizIIaeTPZN6p/1uIoYyQqWqSWRALwuOXb5xR9ZMfEIX7FqzbdBDPZRO
-         IYaka2FAJgWiw==
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9501 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001160032
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9501 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001160032
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/15/20 7:30 AM, Christoph Hellwig wrote:
-> On Tue, Jan 07, 2020 at 02:45:47PM -0800, John Hubbard wrote:
->> Introduce pin_user_pages*() variations of get_user_pages*() calls,
->> and also pin_longterm_pages*() variations.
->>
->> For now, these are placeholder calls, until the various call sites
->> are converted to use the correct get_user_pages*() or
->> pin_user_pages*() API.
-> 
-> What do the pure placeholders buy us?  The API itself looks ok,
-> but until it actually is properly implemented it doesn't help at
-> all, and we've had all kinds of bad experiences with these sorts
-> of stub APIs.
-> 
 
-Hi Christoph,
+Guenter,
 
-Absolutely agreed, and in fact, after spending some time in this area I 
-am getting a much better understanding of just how problematic "this will 
-be used soon" APIs really are. However, this is not quite that case.
+> The hwmon-next branch is based on v5.5-rc1. It might be better to
+> either merge hwmon-next into mainline, or to apply the drivetemp patch
+> to mainline, and test the result. I have seen some (unrelated) weird
+> tracebacks in the driver core with v5.5-rc1, so that may not be the
+> best baseline for a test.
 
-The following things make this different from a "pure placeholder" API:
+I'm afraid the warnings still happen with hwmon-next on top of
+linus/master.
 
-1) These APIs are all exercised in the following patches in this series, 
-unless I've overlooked one, and
-
-2) The pages are actually tracked in the very next patch that I want to
-post. That patch was posted as part of the v11 series [1], but 
-Leon Romanovsky reported a problem with it, and so I'm going to add in
-the ability to handle larger "pin" refcounts for the huge page cases.
-
-Meanwhile, I wanted to get these long-simmering simpler preparatory
-patches submitted, because it's clear that the API is unaffected by the
-huge page refcount fix. (That fix will likely use the second struct page of
-the compound page, to count up higher.)
-
-
-[1] https://lore.kernel.org/r/20191216222537.491123-24-jhubbard@nvidia.com  
-    [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
-
-thanks,
 -- 
-John Hubbard
-NVIDIA
+Martin K. Petersen	Oracle Linux Engineering
