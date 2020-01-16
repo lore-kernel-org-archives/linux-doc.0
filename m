@@ -2,62 +2,141 @@ Return-Path: <SRS0=c7IR=3F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 743BDC33CAF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 19:53:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FBF6C33CB7
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 20:33:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4728B2072B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 19:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E8FF2077C
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 20:33:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="B3a+nJMY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729565AbgAPTxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jan 2020 14:53:35 -0500
-Received: from ms.lwn.net ([45.79.88.28]:44600 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729397AbgAPTxe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Jan 2020 14:53:34 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1A06B1E5;
-        Thu, 16 Jan 2020 19:53:34 +0000 (UTC)
-Date:   Thu, 16 Jan 2020 12:53:33 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, kernel-team@android.com,
-        Mark Brown <broonie@kernel.org>, Jiri Slaby <jslaby@suse.com>
-Subject: Re: [PATCH] Documentation: Call out example SYM_FUNC_* usage as
- x86-specific
-Message-ID: <20200116125333.5de68e48@lwn.net>
-In-Reply-To: <20200115184305.1187-1-will@kernel.org>
-References: <20200115184305.1187-1-will@kernel.org>
-Organization: LWN.net
+        id S1733086AbgAPUdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jan 2020 15:33:25 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3910 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729067AbgAPUdY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 15:33:24 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e20c8570000>; Thu, 16 Jan 2020 12:32:23 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 16 Jan 2020 12:33:20 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 16 Jan 2020 12:33:20 -0800
+Received: from [10.2.160.8] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jan
+ 2020 20:33:19 +0000
+Subject: Re: [PATCH v12 04/22] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <20200107224558.2362728-5-jhubbard@nvidia.com>
+ <20200115152306.GA19546@infradead.org>
+ <4707f191-86f8-db4a-c3de-0a84b415b658@nvidia.com>
+ <20200116093712.GA11011@infradead.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <ccf2723a-dcce-57d3-f63d-ee96dbf6653a@nvidia.com>
+Date:   Thu, 16 Jan 2020 12:30:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200116093712.GA11011@infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579206743; bh=EQpRDmAadXrYPrWI0G8MSYR7uqZas3jC8zZTGB2Hfnk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=B3a+nJMY1e/PvYKAT7LBGlwa/kugx+AfoqbMvj/EyT3hxrpeJ7sQMsWMdJQlxzKho
+         jy2YJ47pzKLca9QqrMI2qpXvMA46wU1dfzb3yzBY8NTIGraOJl+bg0Pq/59xdUBLNS
+         /bnG7fSxkcGgsGNzlzCgQWOOUXWSDOgkuZxsp+8IlbnfinKUcliv6MqWXSulEsNyXv
+         EIh2GmNEud9hkIp72ZuHMkWrhgwhMDnw4xjgxdJ2+W90cT6UoDxxzOl8PDPrjhQ9p0
+         IklTRq4Mlrg+UVduRNOxi7jCeWI/98S5JYFUwVk8qaaNzULyUj0q2zlHy86g76FXcR
+         ZxTytDejWJDcw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Jan 2020 18:43:05 +0000
-Will Deacon <will@kernel.org> wrote:
-
-> The example given in asm-annotations.rst to describe the constraints that
-> a function should meet in order to be annotated with a SYM_FUNC_* macro
-> is x86-specific, and not necessarily applicable to architectures using
-> branch-and-link style calling conventions such as arm64.
+On 1/16/20 1:37 AM, Christoph Hellwig wrote:
+> On Wed, Jan 15, 2020 at 01:19:41PM -0800, John Hubbard wrote:
+>> On 1/15/20 7:23 AM, Christoph Hellwig wrote:
+>> ...
+>>>
+>>> I'm really not sold on this scheme.  Note that I think it is
+>>> particularly bad, but it also doesn't seem any better than what
+>>> we had before, and it introduced quite a bit more code.
+>>>
+>>
+>> Hi Christoph,
+>>
+>> All by itself, yes. But the very next patch (which needs a little
+>> rework for other reasons, so not included here) needs to reuse some of
+>> these functions within __unpin_devmap_managed_user_page():
 > 
-> Tweak the example text to call out the x86-specific text.
+> Well, then combine it with the series that actually does the change.
+
+
+OK, that makes sense. I just double-checked with a quick test run, that it
+doesn't have dependencies with the rest of this series, and it came out clean,
+so:
+
+Andrew, could you please remove just this one patch from mmotm and linux-next?
+
+
 > 
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
+> Also my vaguely recollection is that we had some idea on how to get rid
+> of the off by one refcounting for the zone device pages, which would be
+> a much better outcome.
+> 
 
-Makes sense to me, applied, thanks.
+Yes, I recall that Dan Williams mentioned it, but I don't think he provided
+any details yet.
 
-jon
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
