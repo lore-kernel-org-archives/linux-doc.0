@@ -2,239 +2,761 @@ Return-Path: <SRS0=c7IR=3F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B211FC33CB1
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 05:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6CEC33CB1
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 06:27:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E51D2077B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 05:17:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50AA42075B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jan 2020 06:27:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="PDPG79x8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbgAPFRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jan 2020 00:17:19 -0500
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:18103 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727005AbgAPFRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 00:17:19 -0500
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Jan 2020 00:17:18 EST
-IronPort-SDR: OX6zJ95sovONRfQnTjo48l7mK51NATeL9LWJ4HdR/EqgorebtLgAc9bQIChkKdQgDB3Glq2PiD
- xOMdkaJje84Hm5Lr0kJh2qxG+uXnamP4t57G7T+A/qGv6chu2ts9ldYPs5T1WYAhUQEjl4/n2p
- 2F+nz8kU/RdCQXBoqePy1fQ0QYjma5O7Aq146nY4DbjDodD89jKlAK+aRh+VJzIqpNobEiJyjp
- GQrv5Q2aJKtNmNv5czH3+Nn0cYMezDWeteh7iEkaif5ZMk9R8tm52rV7TT8JyzG1QA0kjqnUcy
- P+Q=
-X-IronPort-AV: E=Sophos;i="5.70,325,1574150400"; 
-   d="scan'208";a="44969072"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 15 Jan 2020 21:10:10 -0800
-IronPort-SDR: CHHfjXsW/HCOjvakfqh9V09To9kzoQTZOG4Rcz17cazoVVdFgLqd3Hm7/2PrOdBpfxeRRbAU/a
- tyu49+9J2KA96RnqRs33qh5KKl3ZGAIhlW6qFvMSyJLtyTqKy/+emp9dROwp3CW8EpNe6ALtH0
- SARCIu3JMQjkMDnmMial2ExZ+SGnCclmQ57YnlJnQFubmsCxQCTv0aZdDgWmw0eXaiFs0NtnTV
- TpcfPnhsiFcu1Y3MKfOPf8c8sojt2X1/cucTpepI+k7iCGMoerw/G6jfPzaVLRe/MXAD4Ff9fQ
- Ac8=
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-From:   Harish Jenny K N <harish_kandiga@mentor.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
- <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
- <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
- <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
- <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
-Message-ID: <4dccaf48-c652-a5f4-49f3-ccc279d5548e@mentor.com>
-Date:   Thu, 16 Jan 2020 10:39:50 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726160AbgAPG1k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jan 2020 01:27:40 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40843 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725973AbgAPG1j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 01:27:39 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k25so9373022pgt.7
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2020 22:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JYsy/dzvI+BGZBePA4LJxoTLXqx6ZNQixL+hLAbajpU=;
+        b=PDPG79x8jdWgdRGdpO58dEtR9Ri2+x1qzLjgKIbWPchaZzm0BCu1XBqih0oAPaPTU3
+         mzZp8faqtmYCBBNyjPqtN+EgFFzGDUio7aegls6V00MGoaX5cQwSvOku1Uh81RSlRP2x
+         gmYlw1+wrk8Pd1D71t4wf7xSthAhJ0VQuiidw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JYsy/dzvI+BGZBePA4LJxoTLXqx6ZNQixL+hLAbajpU=;
+        b=Jo68E/Fy8eM8QCipe8vTRqzuYgPVtdPOIYuN89naEVanlTrnyomp3Smp+hlR489R/t
+         uAhXcNxheEVH9U5GuvAdkVmdAaus6HuF8vU5P4ALmLEvFp9Wv0QFI40vnXadt0PuuFJg
+         eB/8BB9DUzh4JMGF30nKJt1WjyUdZegAghRNjtOcTI6KKxtrAoA9zXcu6W2pKEvxBied
+         yXk650OIr44LYQ3zEsOQrOldUTiCw6vX+22VmyRs5t6JQ0j3N1zKb3ItWIsW2ndBCDAI
+         vph7YKzyDhQvelfO4PfukbKrmCAx9kBU6T1zxNUA06kXbnU+uuoCrdrJLJsvxPoNMkFt
+         quGw==
+X-Gm-Message-State: APjAAAUHZ/EJvvd/5kI+jYshcnDNhbLasNBhQN5+XDN8boeKRAVYZMvl
+        H5aUKIsBIf+zZUMJICrNvvMkAw==
+X-Google-Smtp-Source: APXvYqz8QVCUmGA7RV8rMCH/EFQ9jH9AmwbyELGqpi9DeLZjUX7lPwlkxyva8sCOiJjq1NLDXtJISg==
+X-Received: by 2002:a62:1d87:: with SMTP id d129mr35110164pfd.87.1579156058526;
+        Wed, 15 Jan 2020 22:27:38 -0800 (PST)
+Received: from dvetter-linux.ger.corp.intel.com ([138.44.248.126])
+        by smtp.gmail.com with ESMTPSA id w11sm22229545pgs.60.2020.01.15.22.27.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2020 22:27:37 -0800 (PST)
+Date:   Thu, 16 Jan 2020 07:27:22 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Message-ID: <20200116062722.GA8400@dvetter-linux.ger.corp.intel.com>
+References: <20200114172155.215463-1-sean@poorly.run>
 MIME-Version: 1.0
-In-Reply-To: <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-08.mgc.mentorg.com (139.181.222.8) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200114172155.215463-1-sean@poorly.run>
+X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
+ 5.2.11-200.fc30.x86_64 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+On Tue, Jan 14, 2020 at 12:21:43PM -0500, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> of DRM logs for a specified set of debug categories. The user writes a
+> bitmask of debug categories to the "trace_mask" node and can read log
+> messages from the "trace" node.
+> 
+> These nodes currently exist in debugfs under the dri directory. I
+> intended on exposing all of this through tracefs originally, but the
+> tracefs entry points are not exposed, so there's no way to create
+> tracefs files from drivers at the moment. I think it would be a
+> worthwhile endeavour, but one requiring more time and conversation to
+> ensure the drm traces fit somewhere sensible.
 
+Hm, since the idea is to ship this in production environments debugfs is
+out. sysfs is also kinda the wrong thing, so maybe trying to get this
+stuffed into tracefs is actually the way to go?
+-Daniel
 
-On 07/01/20 2:52 PM, Harish Jenny K N wrote:
-> On 06/01/20 1:42 PM, Geert Uytterhoeven wrote:
->> Hi Rob,
->>
->> On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
->>> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
->>>>> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
->>>>>> Add Device Tree bindings for a GPIO repeater, with optional translation
->>>>>> of physical signal properties.  This is useful for describing explicitly
->>>>>> the presence of e.g. an inverter on a GPIO line, and was inspired by the
->>>>>> non-YAML gpio-inverter bindings by Harish Jenny K N
->>>>>> <harish_kandiga@mentor.com>[1].
->>>>>>
->>>>>> Note that this is different from a GPIO Nexus Node[2], which cannot do
->>>>>> physical signal property translation.
->>>>> It can't? Why not? The point of the passthru mask is to not do
->>>>> translation of flags, but without it you are always doing translation of
->>>>> cells.
->>>> Thanks for pushing me deeper into nexuses!
->>>> You're right, you can map from one type to another.
->>>> However, you cannot handle the "double inversion" of an ACTIVE_LOW
->>>> signal with a physical inverter added:
->>>>
->>>>         nexus: led-nexus {
->>>>                 #gpio-cells = <2>;
->>>>                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->>>>                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->>>>                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->>>>                 gpio-map-mask = <3 0>;
->>>>                 // default gpio-map-pass-thru = <0 0>;
->>>>         };
->>>>
->>>>         leds {
->>>>                 compatible = "gpio-leds";
->>>>                 led6-inverted {
->>>>                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->>>>                 };
->>>>                 led7-noninverted {
->>>>                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->>>>                 };
->>>>                 led8-double-inverted {  // FAILS: still inverted
->>>>                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->>>>                 };
->>>>         };
->>>>
->>>> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
->>>> Still, the consumer would see the final translated polarity, and not the
->>>> actual one it needs to program the consumer for.
->>> I'm not really following. Why isn't a double inversion just the same
->>> as no inversion?
->> Because the nexus can only mask and/or substitute bits.
->> It cannot do a XOR operation on the GPIO flags.
->>
->>>>>> While an inverter can be described implicitly by exchanging the
->>>>>> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
->>>>>> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
->>>>>> th provider and consumer sides:
->>>>>>   1. The GPIO provider (controller) looks at the flags to know the
->>>>>>      polarity, so it can translate between logical (active/not active)
->>>>>>      and physical (high/low) signal levels.
->>>>>>   2. While the signal polarity is usually fixed on the GPIO consumer
->>>>>>      side (e.g. an LED is tied to either the supply voltage or GND),
->>>>>>      it may be configurable on some devices, and both sides need to
->>>>>>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->>>>>>      match the actual polarity.
->>>>>>      There exists a similar issue with interrupt flags, where both the
->>>>>>      interrupt controller and the device generating the interrupt need
->>>>>>      to agree, which breaks in the presence of a physical inverter not
->>>>>>      described in DT (see e.g. [3]).
->>>>> Adding an inverted flag as I've suggested would also solve this issue.
->>>> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
->>>> the inverter bindings"?
->>>> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->>>>
->>>> Oh, now I understand. I was misguided by Harish' interpretation
->>>> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
->>>> which assumed an "inverted" property, e.g.
->>>>
->>>>     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->>>>
->>>> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
->>>> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->>>>
->>>>     /* Bit 6 expresses the presence of a physical inverter */
->>>>     #define GPIO_INVERTED 64
->>> Exactly.
->> OK, makes sense.
->
-> The reason I went for "inverted" property is because, we can specify this for gpios at provider side.
->
-> The usecase needed to define the polarity which did not have kernel space consumer driver.
->
->
-> I am not sure how do we achieve this using GPIO_INVERTED flag. We need some sort of node/gpio-hog to specify these
->
-> type of properties? Otherwise gpio-pin will be held by kernel or the module using the hog property and the user space application will not be able to access pin.
->
->
-> or please let me know if I am missing something.
->
->
->>>> We need to be very careful in defining to which side the GPIO_ACTIVE_*
->>>> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
->>>> Still, this doesn't help if e.g. a FET is used instead of a push-pull
->>>> inverter, as the former needs translation of other flags (which the
->>>> nexus can do, the caveats above still applies, though).
->>> Yes. Historically the cells values are meaningful to the provider and
->>> opaque to the consumer. Standardized cell values changes that
->>> somewhat. I think we want the active flag to be from the provider's
->>> prospective because the provider always needs to know. The consumer
->>> often doesn't need to know. That also means things work without the
->>> GPIO_INVERTED flag if the consumer doesn't care which is what we have
->>> today already and we can't go back in time.
->>>
-> Things will work without GPIO_INVERTED flag for consumers which can specify GPIO_ACTIVE_* flags.
->
->
->
->>>> Same for adding IRQ_TYPE_INVERTED.
->>> I suppose so, yes.
->>>
->>>> Related issue: how to handle physical inverters on SPI chip select lines,
->>>> if the SPI slave can be configured for both polarities?
->>> Good question. Perhaps in a different way because we have to handle
->>> both h/w controlled and gpio chip selects.
->>>
->>> However, how would one configure the polarity in the device in the
->>> first place? You have to assert the CS first to give a command to
->>> reprogram it.
->> That's indeed true for a simple SPI slave.
->> But if it is a smarter device (e.g. a generic micro controller), it may use the
->> system's DTB to configure itself.
->>
->> Gr{oetje,eeting}s,
->>
->>                         Geert
->>
+> 
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.195540-1-sean@poorly.run #v1
+> Link: https://lists.freedesktop.org/archives/dri-devel/2019-November/243230.html #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191212203301.142437-1-sean@poorly.run #v3
+> 
+> Changes in v2:
+> - Went with a completely different approach:
+> https://lists.freedesktop.org/archives/dri-devel/2019-November/243230.html
+> 
+> Changes in v3:
+> - Changed commit message to be a bit less RFC-y
+> - Make class_drm_category_log an actual trace class
+> 
+> Changes in v4:
+> - Instead of [ab]using trace events and the system trace buffer, use our
+>   own ringbuffer
+> ---
+> ---
+>  Documentation/gpu/drm-uapi.rst |   9 +
+>  drivers/gpu/drm/Kconfig        |   1 +
+>  drivers/gpu/drm/Makefile       |   2 +-
+>  drivers/gpu/drm/drm_drv.c      |   3 +
+>  drivers/gpu/drm/drm_print.c    |  80 +++++--
+>  drivers/gpu/drm/drm_trace.c    | 376 +++++++++++++++++++++++++++++++++
+>  include/drm/drm_print.h        |  39 ++++
+>  7 files changed, 487 insertions(+), 23 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_trace.c
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 56fec6ed1ad8..089eb6fd3e94 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -312,6 +312,15 @@ Debugfs Support
+>  .. kernel-doc:: drivers/gpu/drm/drm_debugfs.c
+>     :export:
+>  
+> +DRM Tracing
+> +---------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_trace.c
+> +   :doc: DRM Tracing
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_trace.c
+> +   :internal:
+> +
+>  Sysfs Support
+>  =============
+>  
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index d0aa6cff2e02..9d8077e87afe 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -14,6 +14,7 @@ menuconfig DRM
+>  	select I2C
+>  	select I2C_ALGOBIT
+>  	select DMA_SHARED_BUFFER
+> +	select RING_BUFFER
+>  	select SYNC_FILE
+>  	help
+>  	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 6493088a0fdd..88b4674934e6 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -29,7 +29,7 @@ drm-$(CONFIG_DRM_PANEL) += drm_panel.o
+>  drm-$(CONFIG_OF) += drm_of.o
+>  drm-$(CONFIG_AGP) += drm_agpsupport.o
+>  drm-$(CONFIG_PCI) += drm_pci.o
+> -drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+> +drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o drm_trace.o
+>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+>  
+>  drm_vram_helper-y := drm_gem_vram_helper.o \
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 7c18a980cd4b..98260b9f8004 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -1114,6 +1114,7 @@ static const struct file_operations drm_stub_fops = {
+>  static void drm_core_exit(void)
+>  {
+>  	unregister_chrdev(DRM_MAJOR, "drm");
+> +	drm_trace_cleanup();
+>  	debugfs_remove(drm_debugfs_root);
+>  	drm_sysfs_destroy();
+>  	idr_destroy(&drm_minors_idr);
+> @@ -1135,6 +1136,8 @@ static int __init drm_core_init(void)
+>  
+>  	drm_debugfs_root = debugfs_create_dir("dri", NULL);
+>  
+> +	WARN_ON(drm_trace_init(drm_debugfs_root));
+> +
+>  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+>  	if (ret < 0)
+>  		goto error;
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 111b932cf2a9..0ac1867937bf 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -262,21 +262,37 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  	struct va_format vaf;
+>  	va_list args;
+>  
+> -	if (!drm_debug_enabled(category))
+> -		return;
+> -
+> -	va_start(args, format);
+> -	vaf.fmt = format;
+> -	vaf.va = &args;
+> -
+> -	if (dev)
+> -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+> -			   __builtin_return_address(0), &vaf);
+> -	else
+> -		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -		       __builtin_return_address(0), &vaf);
+> +	if (drm_debug_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+> +
+> +		if (dev)
+> +			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+> +				   __builtin_return_address(0), &vaf);
+> +		else
+> +			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> +			       __builtin_return_address(0), &vaf);
+> +
+> +		va_end(args);
+> +	}
+>  
+> -	va_end(args);
+> +	if (drm_trace_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+> +
+> +		if (dev)
+> +			drm_dev_trace_printf(dev, "[%ps] %pV",
+> +					     __builtin_return_address(0),
+> +					     &vaf);
+> +		else
+> +			drm_trace_printf("[%ps] %pV",
+> +					 __builtin_return_address(0),
+> +					 &vaf);
+> +
+> +		va_end(args);
+> +	}
+>  }
+>  EXPORT_SYMBOL(drm_dev_dbg);
+>  
+> @@ -285,17 +301,28 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+>  	struct va_format vaf;
+>  	va_list args;
+>  
+> -	if (!drm_debug_enabled(category))
+> -		return;
+>  
+> -	va_start(args, format);
+> -	vaf.fmt = format;
+> -	vaf.va = &args;
+> +	if (drm_debug_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+>  
+> -	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -	       __builtin_return_address(0), &vaf);
+> +		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> +		       __builtin_return_address(0), &vaf);
+>  
+> -	va_end(args);
+> +		va_end(args);
+> +	}
+> +
+> +	if (drm_trace_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+> +
+> +		drm_trace_printf("[%ps] %pV", __builtin_return_address(0),
+> +				 &vaf);
+> +
+> +		va_end(args);
+> +	}
+>  }
+>  EXPORT_SYMBOL(__drm_dbg);
+>  
+> @@ -312,6 +339,15 @@ void __drm_err(const char *format, ...)
+>  	       __builtin_return_address(0), &vaf);
+>  
+>  	va_end(args);
+> +
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +
+> +	drm_trace_printf("[%ps] *ERROR* %pV", __builtin_return_address(0),
+> +			 &vaf);
+> +
+> +	va_end(args);
+>  }
+>  EXPORT_SYMBOL(__drm_err);
+>  
+> diff --git a/drivers/gpu/drm/drm_trace.c b/drivers/gpu/drm/drm_trace.c
+> new file mode 100644
+> index 000000000000..0e7cf342d1d9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_trace.c
+> @@ -0,0 +1,376 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright (C) 2020 Google, Inc.
+> + *
+> + * Authors:
+> + * Sean Paul <seanpaul@chromium.org>
+> + */
+> +
+> +#include <linux/cpumask.h>
+> +#include <linux/debugfs.h>
+> +#include <linux/kernel.h>
+> +#include <linux/ring_buffer.h>
+> +#include <linux/slab.h>
+> +#include <linux/stat.h>
+> +
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_print.h>
+> +
+> +#define DRM_TRACE_MAX_LEN	256
+> +
+> +/**
+> + * DOC: DRM Tracing
+> + *
+> + * *tl;dr* DRM tracing is a lightweight alternative to traditional DRM debug
+> + * logging.
+> + *
+> + * While DRM logging is quite convenient when reproducing a specific issue, it
+> + * doesn't help when something goes wrong unexpectedly. There are a couple
+> + * reasons why one does not want to enable DRM logging at all times:
+> + *
+> + * 1. We don't want to overwhelm syslog with drm spam, others have to use it too
+> + * 2. Console logging is slow
+> + *
+> + * DRM tracing aims to solve both these problems.
+> + *
+> + * To use DRM tracing, write a DRM debug category mask (this is a bitmask of
+> + * &drm_debug_category values) to the trace_mask file:
+> + * ::
+> + *
+> + *    eg: echo 0x106 > /sys/kernel/debug/dri/trace_mask
+> + *
+> + * Once active, all log messages in the specified categories will be written to
+> + * the DRM trace. Once at capacity, the trace will overwrite old messages with
+> + * new ones. At any point, one can read the trace file to extract the previous N
+> + * DRM messages:
+> + * ::
+> + *
+> + *    eg: cat /sys/kernel/debug/dri/trace
+> + *
+> + * Considerations
+> + * **************
+> + * The contents of the DRM Trace are **not** considered UABI. **DO NOT depend on
+> + * the values of these traces in your userspace.** These traces are intended for
+> + * entertainment purposes only. The contents of these logs carry no warranty,
+> + * expressed or implied.
+> + *
+> + * New traces can not be added to the trace buffer while it is being read. If
+> + * this proves to be a problem, it can be mitigated by making a copy of the
+> + * buffer on start of read. Since DRM trace is not meant to be continuously
+> + * read, this loss is acceptable.
+> + *
+> + * The timestamps on logs are CPU-local. As such, log messages from different
+> + * CPUs may have slightly different ideas about time.
+> + *
+> + * Since each CPU has its own buffer, they won't all overflow at the same rate.
+> + * This means that messages from a particularly active CPU could be dropped
+> + * while an inactive CPU might have much older log messages. So don't be fooled
+> + * if you seem to be missing log messages when you see a switch between CPUs in
+> + * the logs.
+> + *
+> + * Internals
+> + * *********
+> + * The DRM Tracing functions are intentionally unexported, they are not meant to
+> + * be used by drivers directly. The reasons are twofold:
+> + *
+> + * 1. All messages going to traces should also go to the console logs. This
+> + *    ensures users can choose their logging medium without fear they're losing
+> + *    messages.
+> + * 2. Writing directly to the trace skips category filtering, resulting in trace
+> + *    spam.
+> + */
+> +
+> +struct drm_trace_info {
+> +	struct ring_buffer *buffer;
+> +	struct dentry *debugfs;
+> +	struct dentry *debugfs_mask;
+> +	enum drm_debug_category category_mask;
+> +};
+> +static struct drm_trace_info drm_trace;
+> +
+> +struct drm_trace_seq_iter {
+> +	loff_t pos;
+> +	cpumask_var_t cpu_mask;
+> +	int cpu;
+> +	u64 ts;
+> +};
+> +
+> +static void *drm_trace_seq_start(struct seq_file *seq_file, loff_t *pos)
+> +{
+> +	struct drm_trace_info *info = seq_file->private;
+> +	struct drm_trace_seq_iter *iter;
+> +	int cpu;
+> +
+> +	iter = kzalloc(sizeof(*iter), GFP_KERNEL);
+> +	if (!iter)
+> +		return NULL;
+> +
+> +	if (!zalloc_cpumask_var(&iter->cpu_mask, GFP_KERNEL))
+> +		return NULL;
+> +
+> +	/*
+> +	 * TODO: We could do better than stopping record for the entirety of the
+> +	 *	 read session.
+> +	 */
+> +	ring_buffer_record_off(info->buffer);
+> +
+> +	/*
+> +	 * pos is only used as a means of determining whether we're at the start
+> +	 * of the virtual file, or continuing a read. We don't want to skip over
+> +	 * log lines since that's not a meaningful thing to do.
+> +	 */
+> +	iter->pos = *pos;
+> +
+> +	iter->cpu = -1;
+> +
+> +	/*
+> +	 * There's no way to extract the ring buffer's cpumask, so we'll try
+> +	 * every possible cpu and skip the invalid entries.
+> +	 */
+> +	for_each_possible_cpu(cpu) {
+> +		if (ring_buffer_entries_cpu(info->buffer, cpu))
+> +			cpumask_set_cpu(cpu, iter->cpu_mask);
+> +	}
+> +
+> +	return iter;
+> +}
+> +
+> +static void *drm_trace_seq_next(struct seq_file *seq_file, void *data,
+> +				loff_t *pos)
+> +{
+> +	struct drm_trace_info *info = seq_file->private;
+> +	struct drm_trace_seq_iter *iter = data;
+> +	int cpu;
+> +
+> +	*pos = ++iter->pos;
+> +	iter->cpu = -1;
+> +	iter->ts = 0;
+> +
+> +	/* Find the oldest event across our cpu_mask */
+> +	for_each_cpu(cpu, iter->cpu_mask) {
+> +		u64 ts;
+> +
+> +		if (!ring_buffer_peek(info->buffer, cpu, &ts, NULL)) {
+> +			cpumask_clear_cpu(cpu, iter->cpu_mask);
+> +			continue;
+> +		}
+> +		if (iter->cpu == -1 || ts < iter->ts) {
+> +			iter->ts = ts;
+> +			iter->cpu = cpu;
+> +		}
+> +	}
+> +	if (iter->cpu == -1)
+> +		return NULL;
+> +
+> +	return iter;
+> +}
+> +
+> +static void drm_trace_seq_stop(struct seq_file *seq_file, void *data)
+> +{
+> +	struct drm_trace_info *info = seq_file->private;
+> +	struct drm_trace_seq_iter *iter = data;
+> +
+> +	free_cpumask_var(iter->cpu_mask);
+> +	kfree(iter);
+> +
+> +	ring_buffer_record_on(info->buffer);
+> +}
+> +
+> +static int drm_trace_seq_show(struct seq_file *seq_file, void *data)
+> +{
+> +	struct drm_trace_info *info = seq_file->private;
+> +	struct drm_trace_seq_iter *iter = data;
+> +	struct ring_buffer_event *event;
+> +	u64 ts, usec;
+> +
+> +	if (iter->pos == 0) {
+> +		seq_printf(seq_file, "[%3s %12s] %s\n", "cpu", "timestamp",
+> +			   "message");
+> +		return 0;
+> +	} else if (iter->cpu == -1) {
+> +		/* This happens when we start a session with position > 0 */
+> +		return SEQ_SKIP;
+> +	}
+> +
+> +	event = ring_buffer_consume(info->buffer, iter->cpu, &ts, NULL);
+> +
+> +	ts += 500;
+> +	/* ts converts from ns->us */
+> +	do_div(ts, 1000);
+> +	/* ts converts from us->s */
+> +	usec = do_div(ts, USEC_PER_SEC);
+> +
+> +	seq_printf(seq_file, "[%3u %5llu.%06llu] %s", iter->cpu, ts, usec,
+> +		   (const char *)ring_buffer_event_data(event));
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct seq_operations drm_trace_sops = {
+> +	.start = drm_trace_seq_start,
+> +	.next = drm_trace_seq_next,
+> +	.stop = drm_trace_seq_stop,
+> +	.show  = drm_trace_seq_show
+> +};
+> +
+> +static int drm_trace_fop_open(struct inode *inode, struct file *file)
+> +{
+> +	struct seq_file *seq_file;
+> +	int ret;
+> +
+> +	ret = seq_open(file, &drm_trace_sops);
+> +	if (ret)
+> +		return ret;
+> +
+> +	seq_file = (struct seq_file *)file->private_data;
+> +	seq_file->private = inode->i_private; /* this is drm_trace_info */
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct file_operations drm_trace_fops = {
+> +	.open = drm_trace_fop_open,
+> +	.read = seq_read,
+> +	.llseek = seq_lseek,
+> +	.release = seq_release,
+> +};
+> +
+> +/**
+> + * drm_trace_init - initializes tracing for drm core
+> + * @debugfs_root: the dentry for drm core's debugfs root
+> + *
+> + * This function is called on drm core init. It is responsible for initializing
+> + * drm tracing. This function must be matched by a call to drm_trace_cleanup().
+> + *
+> + * Returns: 0 on success, -errno on failure
+> + */
+> +int drm_trace_init(struct dentry *debugfs_root)
+> +{
+> +	struct drm_trace_info *info = &drm_trace;
+> +	int ret;
+> +
+> +	info->buffer = ring_buffer_alloc(PAGE_SIZE * 2, RB_FL_OVERWRITE);
+> +	if (!info->buffer)
+> +		return -ENOMEM;
+> +
+> +	info->debugfs_mask = debugfs_create_u32("trace_mask",
+> +						S_IFREG | S_IRUGO | S_IWUSR,
+> +						debugfs_root,
+> +						&info->category_mask);
+> +	if (IS_ERR(info->debugfs)) {
+> +		ret = PTR_ERR(info->debugfs);
+> +		goto err_debugfs_mask;
+> +	}
+> +
+> +	info->debugfs = debugfs_create_file("trace", S_IFREG | S_IRUGO,
+> +					    debugfs_root, info,
+> +					    &drm_trace_fops);
+> +	if (IS_ERR(info->debugfs)) {
+> +		ret = PTR_ERR(info->debugfs);
+> +		goto err_debugfs;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_debugfs_mask:
+> +	debugfs_remove(info->debugfs_mask);
+> +err_debugfs:
+> +	ring_buffer_free(info->buffer);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * drm_trace_cleanup - cleans up tracing for drm core
+> + *
+> + * This function is responsible for cleaning up anything that was previously
+> + * initialized in drm_trace_init()
+> + */
+> +void drm_trace_cleanup()
+> +{
+> +	struct drm_trace_info *info = &drm_trace;
+> +
+> +	debugfs_remove(info->debugfs);
+> +	debugfs_remove(info->debugfs_mask);
+> +	ring_buffer_free(info->buffer);
+> +	memset(info, 0, sizeof(*info));
+> +}
+> +
+> +/**
+> + * drm_trace_enabled - check if a debug category has traces enabled
+> + * @category: the debug category to check
+> + *
+> + * Returns true if the given category has drm traces enabled, false otherwise.
+> + */
+> +bool drm_trace_enabled(enum drm_debug_category category)
+> +{
+> +	return READ_ONCE(drm_trace.category_mask) & category;
+> +}
+> +
+> +static int drm_trace_write(const void *data, unsigned int len)
+> +{
+> +	struct drm_trace_info *info = &drm_trace;
+> +	struct ring_buffer_event *event;
+> +	void *event_body;
+> +
+> +	event = ring_buffer_lock_reserve(info->buffer, len);
+> +	if (!event)
+> +		return -ENOMEM;
+> +
+> +	event_body = ring_buffer_event_data(event);
+> +	memcpy(event_body, data, len);
+> +
+> +	return ring_buffer_unlock_commit(info->buffer, event);
+> +}
+> +
+> +/**
+> + * drm_trace_printf - adds an entry to the drm trace
+> + * @format: printf format of the message to add to the trace
+> + *
+> + * This function adds a new entry in the drm trace.
+> + */
+> +void drm_trace_printf(const char *format, ...)
+> +{
+> +	char buf[DRM_TRACE_MAX_LEN];
+> +	va_list args;
+> +	int ret;
+> +
+> +	va_start(args, format);
+> +	ret = vsnprintf(buf, sizeof(buf), format, args);
+> +	va_end(args);
+> +
+> +	if (ret < 0)
+> +		return;
+> +	else if (ret >= sizeof(buf))
+> +		ret = sizeof(buf) - 1;
+> +
+> +	drm_trace_write(buf, ret + 1);
+> +}
+> +
+> +/**
+> + * drm_dev_trace_printf - adds an entry to the drm trace
+> + * @dev: pointer to device so we can print the name
+> + * @format: printf format of the message to add to the trace
+> + *
+> + * This function adds a new entry in the drm trace.
+> + */
+> +void drm_dev_trace_printf(const struct device *dev, const char *format, ...)
+> +{
+> +	char buf[DRM_TRACE_MAX_LEN];
+> +	struct va_format vaf;
+> +	va_list args;
+> +	int ret;
+> +
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +	ret = snprintf(buf, sizeof(buf), "%s %s: %pV", dev_driver_string(dev),
+> +		       dev_name(dev), &vaf);
+> +	va_end(args);
+> +
+> +	if (ret < 0)
+> +		return;
+> +	else if (ret >= sizeof(buf))
+> +		ret = sizeof(buf) - 1;
+> +
+> +	drm_trace_write(buf, ret + 1);
+> +}
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 8f99d389792d..1f3dae7150f0 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -320,6 +320,45 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  	return unlikely(__drm_debug & category);
+>  }
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +
+> +int drm_trace_init(struct dentry *debugfs_root);
+> +bool drm_trace_enabled(enum drm_debug_category category);
+> +__printf(1, 2)
+> +void drm_trace_printf(const char *format, ...);
+> +__printf(2, 3)
+> +void drm_dev_trace_printf(const struct device *dev, const char *format, ...);
+> +void drm_trace_cleanup(void);
+> +
+> +#else
+> +
+> +static inline int drm_trace_init(struct dentry *debugfs_root)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline bool drm_trace_enabled(enum drm_debug_category category)
+> +{
+> +	return false;
+> +}
+> +
+> +__printf(1, 2)
+> +static inline void drm_trace_printf(const char *format, ...)
+> +{
+> +}
+> +
+> +__printf(2, 3)
+> +static inline void drm_dev_trace_printf(const struct device *dev,
+> +					const char *format, ...)
+> +{
+> +}
+> +
+> +static inline void drm_trace_cleanup(void)
+> +{
+> +}
+> +
+> +#endif
+> +
+>  /*
+>   * struct device based logging
+>   *
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 
-
-Can you please let me know your inputs on this ?
-
-
-Now that Geert has sent v4 patch of GPIO Aggregator by "Dropping controversial GPIO repeater", I do not see the above mentioned inverter usecase can be handled anymore.
-
-
-Is the observation/patch submitted in https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/ still not acceptable?
-
-
-
-Thanks,
-
-Harish
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
