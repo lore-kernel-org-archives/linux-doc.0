@@ -2,125 +2,101 @@ Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B02D1C33CB1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 16:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C33C33CB1
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 16:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81D3E20842
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 16:02:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NOmecTv5"
+	by mail.kernel.org (Postfix) with ESMTP id 8A061214AF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 16:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579277911;
+	bh=ocjmWtDqYdcdpUAejOH5VD2hJd8psDKhPo37YZ0fw4Q=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=IaG0TdPHbnvrRh2KkKjMZlyIlR3FXLmF0OrYl/o+q5GCPHuekYw9efYEYZ3EYT0gF
+	 GsyIs0zMLhFOKs+i2yOyR2a/emIbleQtzn7puoNZixu/GY5suKh9HY6H1mZk8FdwR8
+	 5ysMj9vgbDWMJCMpnchJLoxd7tp8XJpemloTTd3g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728831AbgAQQCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 11:02:21 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53592 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727043AbgAQQCU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 11:02:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=OjbJmxwKAWa3w2/tuvJJB4C9U2NBVS2pCi/NhRGG8W8=; b=NOmecTv5DGPRD24mcSye3aJIa
-        MTyQjcwfOOsd6YKHolDJ3CkNKZbCM0DXnHq0WrpFv81AWMxjgfPNaLCfKItGt/kOuCGkVOykDsdhI
-        MWJidvvsFvcRXr9kj1jRNj7Ed0L8ve/Jk8t7h+spL11tlUb520nJS82YB6zXHWrN86oO1aIgh5lDB
-        X3BEglEY3tfCL4EAEw+CMZwXp5oPCiuo3kpq03rklgdh4sDE2qehIhsHJOZmF6D7I3Q1KgV7vbUSd
-        XvZjES3FplVooDv7fMT5sv9v3NrHXaAMzWZxIvQexmoDvPMPcWgwfh7tefCXteukdatUsffiYAZpf
-        bwuHl6ZJw==;
-Received: from [2601:1c0:6280:3f0::ed68]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1isU4e-0004Dk-93; Fri, 17 Jan 2020 16:02:16 +0000
-Subject: Re: [PATCH v2] lib/vsprintf: introduce OF_DEVICE_NODE_FLAG_MAX for
- %pOF
-To:     lijiazi <jqqlijiazi@gmail.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     lijiazi <lijiazi@xiaomi.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" 
-        <devicetree@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <1579259719-16904-1-git-send-email-lijiazi@xiaomi.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b28a5fd1-aa36-34c7-c82c-f8ed4a771ce0@infradead.org>
-Date:   Fri, 17 Jan 2020 08:02:15 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1728982AbgAQQSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 11:18:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58102 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727043AbgAQQSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jan 2020 11:18:30 -0500
+Received: from localhost (mobile-166-170-223-177.mycingular.net [166.170.223.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E411B2073A;
+        Fri, 17 Jan 2020 16:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579277910;
+        bh=ocjmWtDqYdcdpUAejOH5VD2hJd8psDKhPo37YZ0fw4Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=I5q5gdX8mA2JqDHmCTtuKiwd5h99Y3mNgEzwqV2n2Fu/BiQIJCGNNQLFZWXeiENrk
+         w/VTwzkRtKsKAI8FqhZRuTuQaHS1Njlt3SzOPliHHKdJh67CCewYkHBO19muK4O0eC
+         jHvSmijUUfe2K51zVQfdLp7L9dfF7gBJZKCqUIRk=
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH v2] kconfig: fix documentation typos
+Date:   Fri, 17 Jan 2020 10:18:22 -0600
+Message-Id: <20200117161822.106635-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 MIME-Version: 1.0
-In-Reply-To: <1579259719-16904-1-git-send-email-lijiazi@xiaomi.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/17/20 3:15 AM, lijiazi wrote:
-> Introduce OF_DEVICE_NODE_FLAG_MAX for device node printk, if add
-> new device node flag, please add the corresponding flag abbreviation
-> to tbuf in device_node_string.
-> 
-> Signed-off-by: lijiazi <lijiazi@xiaomi.com>
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Hi lijiazi,
+Fix a couple typos in kconfig-language documentation.
 
-A few small comments on this patch:
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+---
+ Documentation/kbuild/kconfig-language.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> ---
->  Documentation/core-api/printk-formats.rst |  2 ++
->  include/linux/of.h                        |  6 ++++++
->  lib/vsprintf.c                            | 14 +++++++-------
->  3 files changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 8ebe46b1..c73ccad 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -441,6 +441,8 @@ Examples::
->  							d - detached
->  							P - Populated
->  							B - Populated bus
-> +                                                        O - Overlay
-> +                                                        F - Overlay free cset
-
-Use tabs for indentation, like the preceding lines.
-
->  
->  Passed by reference.
->  
-> diff --git a/include/linux/of.h b/include/linux/of.h
-> index c669c0a..0453601 100644
-> --- a/include/linux/of.h
-> +++ b/include/linux/of.h
-> @@ -147,6 +147,12 @@ extern raw_spinlock_t devtree_lock;
->  #define OF_OVERLAY		5 /* allocated for an overlay */
->  #define OF_OVERLAY_FREE_CSET	6 /* in overlay cset being freed */
->  
-> +/* Add flag max for %pOF related printk, if add new flag, please
-> + * increase following marco, and add abbreviations to tbuf in
-> + * device_node_string function.
-> + */
-
-Incorrect multi-line comment style.
-
-> +#define OF_DEVICE_NODE_FLAG_MAX 6 /* maximum available flags */
-> +
->  #define OF_BAD_ADDR	((u64)-1)
->  
->  #ifdef CONFIG_OF
-
-
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 74bef19f69f0..0148ae82446e 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -594,7 +594,8 @@ The two different resolutions for b) can be tested in the sample Kconfig file
+ Documentation/kbuild/Kconfig.recursion-issue-02.
+ 
+ Below is a list of examples of prior fixes for these types of recursive issues;
+-all errors appear to involve one or more select's and one or more "depends on".
++all errors appear to involve one or more "select" statements and one or more
++"depends on".
+ 
+ ============    ===================================
+ commit          fix
+@@ -656,7 +657,7 @@ the use of the xconfig configurator [1]_. Work should be done to confirm if
+ the deduced semantics matches our intended Kconfig design goals.
+ 
+ Having well defined semantics can be useful for tools for practical
+-evaluation of depenencies, for instance one such use known case was work to
++evaluation of dependencies, for instance one such case was work to
+ express in boolean abstraction of the inferred semantics of Kconfig to
+ translate Kconfig logic into boolean formulas and run a SAT solver on this to
+ find dead code / features (always inactive), 114 dead features were found in
+@@ -683,7 +684,7 @@ abstraction the inferred semantics of Kconfig to translate Kconfig logic into
+ boolean formulas and run a SAT solver on it [5]_. Another known related project
+ is CADOS [6]_ (former VAMOS [7]_) and the tools, mainly undertaker [8]_, which
+ has been introduced first with [9]_.  The basic concept of undertaker is to
+-exract variability models from Kconfig, and put them together with a
++extract variability models from Kconfig and put them together with a
+ propositional formula extracted from CPP #ifdefs and build-rules into a SAT
+ solver in order to find dead code, dead files, and dead symbols. If using a SAT
+ solver is desirable on Kconfig one approach would be to evaluate repurposing
 -- 
-~Randy
+2.25.0.341.g760bfbb309-goog
 
