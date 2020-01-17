@@ -2,145 +2,63 @@ Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A041C33C9E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 04:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFD4C33CB6
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 08:11:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5818420748
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 04:07:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B3522082F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 08:11:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWRYeoGP"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VPu106z9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729016AbgAQEHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jan 2020 23:07:36 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:33083 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbgAQEHg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jan 2020 23:07:36 -0500
-Received: by mail-io1-f66.google.com with SMTP id z8so24516369ioh.0;
-        Thu, 16 Jan 2020 20:07:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=RQQ9qmJfALB3jvs3h7v5mfdPDr+Bl2r17SesMRcqOsE=;
-        b=KWRYeoGPAAAN/w8oxb7L/g32DsecNbKN0roRQUG2kHc60k8ZC66yPQbKI8L4/Ma72M
-         TytNd9yV4gxD5xT9wzGifg+IL68Ni1AuM5UjCUtCJAHTE5hoedYcZMwnBb5mpl62opfZ
-         YpzjHt+VPe6wctZrdmw/1oLcOkiZgrv8ekIwymO8Yjs+dLlN+2QRjeU6L2WoMd04JuH5
-         0fzh11K1PqQZ+906r86GJbfXJM114Z0ixML2cBvsm/lH62gZDxQWIVzlULsgT5qYJdaP
-         hNSTu/Hudpd3wcqADf4cVE1CrbTD7Q3WhrU4qHP1US/pLcHrc+bVjU2zjnq4x56nBS96
-         dIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=RQQ9qmJfALB3jvs3h7v5mfdPDr+Bl2r17SesMRcqOsE=;
-        b=XMiyGWdmgmAl1D59suF57yJTOQizYYYisqikx+1Uvvx8QwrhS71kX0nJsW4pvqcbVE
-         Yc768dcqvV843Fsiaz9Dhrf3w2kw7VxVkFy40yFNB9Dz6NImoqO5dhzYke5TiHMZTm8C
-         1QLB3TDOHYo8lGWMNN6jydpSaPPEa9Kuwm2elTGHw2l6VPfLEdIaYdOuZLvntuGcYLsu
-         S3QRHrwzkEwvSQTILd+hu4zfpfv5X5c99I20FUp1mE9ZKwB1YPN9ECD7FXrkLGueHS4Z
-         vo8qatmigPsmlpRuSrGbgKuqbbcoBwGTn46lXj8c0laNXM3EJ+zBb49LmXGAcmtPv5UM
-         lQgQ==
-X-Gm-Message-State: APjAAAWf/Rc7pbiUR90nlt5Pxs6O61NX2AxM8oL9iq7Rtau41mCLZk2K
-        U4yFVPphIeopIR/SoO1f2CQWqUMn1TG8/pzc8mE=
-X-Google-Smtp-Source: APXvYqwuX6GZteC/eOCDjRdvkjt3g3PCkqJ9DuvH2ogsyQclVDQ+MtnsrsSCBG9/MuRhWMAnZrdY+8AwJG2pv7EGqZk=
-X-Received: by 2002:a6b:ec0f:: with SMTP id c15mr27966363ioh.149.1579234055350;
- Thu, 16 Jan 2020 20:07:35 -0800 (PST)
+        id S1729125AbgAQILu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 03:11:50 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:43666 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728986AbgAQILu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 03:11:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=rD9C3QZDVPq66OWwLFkfMJWBC5e6DghTwHl4BX8+F6E=; b=VPu106z9ozgNTCS0RAvX4vITL
+        VEFKgRREs1Ryw3/kfCzj7/WnaMwSBPAnguXLRD8NAyM+7XMP3ftjNRXXm9YdcEi4JPYJ44BgQ6j4A
+        OjMg7YEcldQVbdP+EIx3GHFTuuy/VzCaLNwJ+162IaWhdXBWGYbZjPb73RJzWGWDHzGNqnHnHaN5t
+        04pdzIlmy7KqTdiF/8AAI/Y485V81hqNQVOAncSKYRkyrAr8kJBG9bJXs/kfatROTJJ1THI3sKilx
+        FnMFsKeTPrMmK2JjkwqjqgJSqyA80qE8nO56+lmckc4AvDqSl1efcHY3JK6sgB20uGBsXKa730xTc
+        JlSc8KYuw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1isMjI-0004NH-RF; Fri, 17 Jan 2020 08:11:44 +0000
+Date:   Fri, 17 Jan 2020 00:11:44 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ide@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] ide/MIPS/docs: remove no longer used au1xxx-ide
+ driver
+Message-ID: <20200117081144.GA16691@infradead.org>
+References: <CGME20200116122951eucas1p1d36493f2b496bb13dca4fd1a17abad49@eucas1p1.samsung.com>
+ <20200116122938.20789-1-b.zolnierkie@samsung.com>
 MIME-Version: 1.0
-References: <20200113232212.138327-1-helgaas@kernel.org> <CAK7LNASYynBVaaGROEjy1PC7+9xatO7gf2LTRGG1UOpiXtzENw@mail.gmail.com>
-In-Reply-To: <CAK7LNASYynBVaaGROEjy1PC7+9xatO7gf2LTRGG1UOpiXtzENw@mail.gmail.com>
-Reply-To: bjorn@helgaas.com
-From:   Bjorn Helgaas <bjorn.helgaas@gmail.com>
-Date:   Thu, 16 Jan 2020 22:07:24 -0600
-Message-ID: <CABhMZUVjx-z51FkCNPTKzP3=8m4CBM3cp57ZvMBcMXTfA6ARKw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix documentation typos
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200116122938.20789-1-b.zolnierkie@samsung.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 16, 2020 at 8:18 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Jan 14, 2020 at 8:22 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > From: Bjorn Helgaas <bhelgaas@google.com>
-> >
-> > Fix a couple typos in kconfig-language documentation.
-> >
-> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> > ---
-> >  Documentation/kbuild/kconfig-language.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> > index 74bef19f69f0..f547720bd82d 100644
-> > --- a/Documentation/kbuild/kconfig-language.rst
-> > +++ b/Documentation/kbuild/kconfig-language.rst
-> > @@ -594,7 +594,7 @@ The two different resolutions for b) can be tested in the sample Kconfig file
-> >  Documentation/kbuild/Kconfig.recursion-issue-02.
-> >
-> >  Below is a list of examples of prior fixes for these types of recursive issues;
-> > -all errors appear to involve one or more select's and one or more "depends on".
-> > +all errors appear to involve one or more "selects" and one or more "depends on".
->
->
-> I think "selects" is strange here.
->
-> "select" is a Kconfig keyword.
-> select's is intentional, I guess.
->
->
-> Keep it as-is, or perhaps change it into "select" (singular) ?
+Always great to kill off another legacy ide driver:
 
-With rare exceptions, apostrophes are not used to form a plural noun.
-
-Maybe it could be recast as "... at least one 'select' attribute and
-at least one 'depends on' attribute"?
-
-I'm not quite sure what the intended meaning is, because the table it
-refers to has lines that contain only "depends on" (without "select")
-and also lines that contain only "select" (no "depends on").
-
-
-> >  ============    ===================================
-> >  commit          fix
-> > @@ -656,7 +656,7 @@ the use of the xconfig configurator [1]_. Work should be done to confirm if
-> >  the deduced semantics matches our intended Kconfig design goals.
-> >
-> >  Having well defined semantics can be useful for tools for practical
-> > -evaluation of depenencies, for instance one such use known case was work to
-> > +evaluation of dependencies, for instance one such case was work to
-> >  express in boolean abstraction of the inferred semantics of Kconfig to
-> >  translate Kconfig logic into boolean formulas and run a SAT solver on this to
-> >  find dead code / features (always inactive), 114 dead features were found in
-> > @@ -683,7 +683,7 @@ abstraction the inferred semantics of Kconfig to translate Kconfig logic into
-> >  boolean formulas and run a SAT solver on it [5]_. Another known related project
-> >  is CADOS [6]_ (former VAMOS [7]_) and the tools, mainly undertaker [8]_, which
-> >  has been introduced first with [9]_.  The basic concept of undertaker is to
-> > -exract variability models from Kconfig, and put them together with a
-> > +extract variability models from Kconfig and put them together with a
-> >  propositional formula extracted from CPP #ifdefs and build-rules into a SAT
-> >  solver in order to find dead code, dead files, and dead symbols. If using a SAT
-> >  solver is desirable on Kconfig one approach would be to evaluate repurposing
-> > --
-> > 2.25.0.rc1.283.g88dfdc4193-goog
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Acked-by: Christoph Hellwig <hch@lst.de>
