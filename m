@@ -2,308 +2,120 @@ Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D48C47409
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 20:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B430C33CB3
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:05:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 38D7C2176D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 20:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579291582;
-	bh=zlUQicqWtn1RliknLWKWm7sEYt4NefZp0gNvmqIw488=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=n8t9RTnSfjr4aNuad4J3XbZNtbr2StdaTyfeAyXfi5UqtXMG5yejo912BNSZGY4QG
-	 BkrMgJPbuLKpIG7/Grjdy6mDc1RBfpdybpW8JjYs3TWE5u0F3L5Ncc5vBrn6svxBFf
-	 foqL2UpPy1nbFAsBQQmdiGGl5CmEyBMXMVUf0gx0=
+	by mail.kernel.org (Postfix) with ESMTP id D3E7D2072B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:05:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cHQbz9Me"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729657AbgAQUGU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 15:06:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729643AbgAQUGU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Jan 2020 15:06:20 -0500
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 338FD2192A
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 20:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579291579;
-        bh=zlUQicqWtn1RliknLWKWm7sEYt4NefZp0gNvmqIw488=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KzTLeP52K4zKI+RhTMViTXBhq3KaONo4N/xlgPJRVL28rGRggwnCy2lHbkq53SwZ3
-         jT32Isuf6qM9kh2lWHbEtBzD5zA/8Hs37rA3GFBM3UyjAz/8AJkyG7bNfds26kpumT
-         evi+rq0qHVD+FqVOZXuVh06vmZPGRq9crgy+5LG0=
-Received: by mail-wm1-f52.google.com with SMTP id u2so8826528wmc.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 12:06:19 -0800 (PST)
-X-Gm-Message-State: APjAAAVWq/i1mKiSkLu0mr3s4L4lKFd2HJSTM8bU81sFaUK/jr7geiBn
-        w3tea2ztIqKOUNewJ3g4TuWPk1X/WAzQRmng6OPHUA==
-X-Google-Smtp-Source: APXvYqwawazLywdb2Oy7uHqxVHomoEfaLVG4a9tdL505slD/JJ9wZrwPXYXJ1YNzKwmPFG5/lnC3TIoyyBJheNygp/U=
-X-Received: by 2002:a7b:c957:: with SMTP id i23mr6570340wml.49.1579291575471;
- Fri, 17 Jan 2020 12:06:15 -0800 (PST)
+        id S1729799AbgAQVFn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 16:05:43 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42132 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729818AbgAQVFg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 16:05:36 -0500
+Received: by mail-lj1-f193.google.com with SMTP id y4so27837044ljj.9
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 13:05:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZBkS9S8oFTr7ty1NIiAX5JrGRHx/96iPY51B8fxdR2Y=;
+        b=cHQbz9MerebtnThsNe1yZb3HrtSTeIETgYrDu7Q6ONNqX19PijFVSf1lIzu4QilAmq
+         hnzwI7P9xI2x5Nd23oDV61kz+2bLOlRlL10WS0JzuDLyURLzzSJmFejdlEtxX62vduXq
+         TpK3nS16M0AtekVAN7KXLTgm+8OVHS0eXGhicVmwjML/hqokK/cH4dVEcUKTav6rGeHG
+         F2mggp9KMtiE0o776HZy0j2hC+yCq9L9owGloa+hAahvM5W8iEcIFR2imdSPMy3FtcK2
+         qu8VkJVvrJS72NCEqvK6tJF2u/4NncgSSpbA7HFFqnczDZ/uro6Wxu9pbLQt70yvz9qn
+         t7xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZBkS9S8oFTr7ty1NIiAX5JrGRHx/96iPY51B8fxdR2Y=;
+        b=MRYguLhERWOKLUKqAM6QKoSt2x2aQAr8V+tIL1PySuKyDtfWhWmuP9micwXbOCuUfM
+         oxqjwHoyR9z8/B1HfyMnVjtc8pMZ1dC4bDqtIBW69IJxlSE8f60bhcUipaWJmjMVXijQ
+         0AvuQZvGvx7fpHvQBAPbmYb4gl4sUXu4ZRwDoF8REU+y+wAPVnqwXZU2ENzp1auJF2Yr
+         qc6vDUOcCRP2Rx1hZelL16ie3XLRVYMGmKUPZaOLbl0Ts6gNKOgC00Osa12DADhfAbmS
+         MX89+u2rxyzlN/FIHYn5Wn11O5L9IQOs6Yo9cxIcp2KNU8oHDBkD11C+IbrTsNqAmga0
+         4CEg==
+X-Gm-Message-State: APjAAAXv7PDH04JW05JjZ3aYZ2CRrhGtl4w3rPjSq+X9t+I8DMqvCkjH
+        1PmoNSCAQVeDQ1VeiNU1DtfocMbNuX8avcRIcKDvow==
+X-Google-Smtp-Source: APXvYqwUSECeAUfn+Q3aKc4hgEvhvTGDwKPCeuq5cHdmTnCOCRP0mwkFi9O47FkIodi5rljBhCBu+PmnCppplmipwMc=
+X-Received: by 2002:a2e:9143:: with SMTP id q3mr6695400ljg.199.1579295134552;
+ Fri, 17 Jan 2020 13:05:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20200111145703.533809-1-hdegoede@redhat.com> <20200111145703.533809-3-hdegoede@redhat.com>
- <CALCETrUz4gdVOH=5X+MkB56ST=DNcHKicRST1j1ff0kU1yXWzw@mail.gmail.com> <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
-In-Reply-To: <9b5b8304-74bc-4e5c-5030-98bd6e12eaf0@redhat.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 17 Jan 2020 12:06:03 -0800
-X-Gmail-Original-Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
-Message-ID: <CALCETrWtf3iEdZS8zu=k60cnZtokbxRaH5dfkWoM7JokkhAL2w@mail.gmail.com>
-Subject: Re: [PATCH v11 02/10] efi: Add embedded peripheral firmware support
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
+ <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com> <20191115070842.2x7psp243nfo76co@pengutronix.de>
+ <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de> <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
+ <CACRpkdYJR3gQCb4WXwF4tGzk+tT7jMcV9=nDK0PFkeh+0G11bA@mail.gmail.com> <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
+In-Reply-To: <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 17 Jan 2020 22:05:23 +0100
+Message-ID: <CACRpkdYs-jeYO+8avOryJnXdWsB9AkPy7Q5FRQ1gGC1NU35MHA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] KASan for arm
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Jinbum Park <jinb.park7@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, X86 ML <x86@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Landley <rob@landley.net>, philip@cog.systems,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Garnier <thgarnie@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Jan 14, 2020, at 4:25 AM, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> =EF=BB=BFHi Andy,
->
+On Fri, Jan 17, 2020 at 8:55 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
 
-> Even if we get more use of this the chances of 1 device model using
-> more then 1 embedded fw are small. Where as if we first map the
-> EFI_BOOT_SERVICES_CODE segment before doing the DMI match then we
-> do this for all EFI_BOOT_SERVICES_CODE segments on all hardware.
-> The current implementation is very much optimized to do as little
-> work as possible when there is no DMI match, which will be true
-> on almost all devices out there.
+> [Me]
+> > Can we start to submit these patches to Russell's patch tracker?
+> > Any more testing I should be doing?
+>
+> Let me submit and rebase v7 get the auto builders some days to see if it
+> exposes a new build issue and then we toss it to RMK's patch tracker and
+> fix bugs from there?
 
-Fine with me.
+OK you can add my Tested-by: Linus Walleij <linus.walleij@linaro.org>
+to the patches.
 
-
-> If we hit firmware which is not 8 byte aligned, then yes that would be
-> a good idea, but for now I feel that that would just cause a slowdown
-> in the scanning without any benefits.
->
-
-It would shorten the code and remove a comment :). Also, a good memmem
-implementation should be very fast, potentially faster than your loop.
-I suspect the latter is only true in user code where SSE would get
-used, but still.
-
-it would also be unfortunate if some firmware update switches to
-4-byte alignment and touchscreens stop working with no explanation.
-
-
->>> +
->>> +               sha256_init(&sctx);
->>> +               sha256_update(&sctx, map + i, desc->length);
->>> +               sha256_final(&sctx, sha256);
->>> +               if (memcmp(sha256, desc->sha256, 32) =3D=3D 0)
->>> +                       break;
->>> +       }
->>> +       if ((i + desc->length) > size) {
->>> +               memunmap(map);
->>> +               return -ENOENT;
->>> +       }
->>> +
->>> +       pr_info("Found EFI embedded fw '%s'\n", desc->name);
->>> +
->> It might be nice to also log which EFI section it was in?
->
-> The EFI sections do not have names, so all I could is log
-> the section number which does not really feel useful?
->
->>> +       fw =3D kmalloc(sizeof(*fw), GFP_KERNEL);
->>> +       if (!fw) {
->>> +               memunmap(map);
->>> +               return -ENOMEM;
->>> +       }
->>> +
->>> +       fw->data =3D kmemdup(map + i, desc->length, GFP_KERNEL);
->>> +       memunmap(map);
->>> +       if (!fw->data) {
->>> +               kfree(fw);
->>> +               return -ENOMEM;
->>> +       }
->>> +
->>> +       fw->name =3D desc->name;
->>> +       fw->length =3D desc->length;
->>> +       list_add(&fw->list, &efi_embedded_fw_list);
->>> +
->> If you actually copy the firmware name instead of just a pointer to
->> it, then you could potentially free the list of EFI firmwares.
->
-> If we move to having a separate dmi_system_id table for this then
-> that would be true. ATM the dmi_system_id from
-> drivers/platform/x86/touchscreen_dmi.c
-> is not freed as it is referenced from a bus-notifier.
->
->> Why are you copying the firmware into linear (kmemdup) memory here
->
-> The kmemdup is because the EFI_BOOT_SERVICES_CODE section is
-> free-ed almost immediately after we run.
->
->> just to copy it to vmalloc space down below...
->
-> The vmalloc is because the efi_get_embedded_fw() function is
-> a helper for later implementing firmware_Request_platform
-> which returns a struct firmware *fw and release_firmware()
-> uses vfree() to free the firmware contents.
->
-> I guess we could have efi_get_embedded_fw() return an const u8 *
-> and have the firmware code do the vmalloc + memcpy but it boils
-> down to the same thing.
->
->
->>> +       return 0;
->>> +}
->>> +
->>> +void __init efi_check_for_embedded_firmwares(void)
->>> +{
->>> +       const struct efi_embedded_fw_desc *fw_desc;
->>> +       const struct dmi_system_id *dmi_id;
->>> +       efi_memory_desc_t *md;
->>> +       int i, r;
->>> +
->>> +       for (i =3D 0; embedded_fw_table[i]; i++) {
->>> +               dmi_id =3D dmi_first_match(embedded_fw_table[i]);
->>> +               if (!dmi_id)
->>> +                       continue;
->>> +
->>> +               fw_desc =3D dmi_id->driver_data;
->>> +
->>> +               /*
->>> +                * In some drivers the struct driver_data contains may =
-contain
->>> +                * other driver specific data after the fw_desc struct;=
- and
->>> +                * the fw_desc struct itself may be empty, skip these.
->>> +                */
->>> +               if (!fw_desc->name)
->>> +                       continue;
->>> +
->>> +               for_each_efi_memory_desc(md) {
->>> +                       if (md->type !=3D EFI_BOOT_SERVICES_CODE)
->>> +                               continue;
->>> +
->>> +                       r =3D efi_check_md_for_embedded_firmware(md, fw=
-_desc);
->>> +                       if (r =3D=3D 0)
->>> +                               break;
->>> +               }
->>> +       }
->>> +
->>> +       checked_for_fw =3D true;
->>> +}
->> Have you measured how long this takes on a typical system per matching D=
-MI id?
->
-> I originally wrote this approx. 18 months ago, it has been on hold for a =
-while
-> since it needed a sha256 method which would work before subsys_initcall-s
-> run so I couldn't use the standard crypto_alloc_shash() stuff. In the end
-> I ended up merging the duplicate purgatory and crypto/sha256_generic.c
-> generic C SHA256 implementation into a set of new directly callable lib
-> functions in lib/crypto/sha256.c, just so that I could move forward with
-> this...
->
-> Anyways the reason for this background info is that because this is a whi=
-le
-> ago I do not remember exactly how, but yes I did measure this (but not
-> very scientifically) and there was no discernible difference in boot
-> to init (from the initrd) with this in place vs without this.
->
->>> +
->>> +int efi_get_embedded_fw(const char *name, void **data, size_t *size)
->>> +{
->>> +       struct efi_embedded_fw *iter, *fw =3D NULL;
->>> +       void *buf =3D *data;
->>> +
->>> +       if (!checked_for_fw) {
->> WARN_ON_ONCE?  A stack dump would be quite nice here.
->
-> As discussed when this check was added (discussion in v7 of
-> the set I guess, check added in v8) we can also hit this without
-> it being a bug, e.g. when booted through kexec the whole
-> efi_check_for_embedded_firmwares() call we be skipped, hence the
-> pr_warn.
->
->
->>> +       buf =3D vmalloc(fw->length);
->>> +       if (!buf)
->>> +               return -ENOMEM;
->>> +
->>> +       memcpy(buf, fw->data, fw->length);
->>> +       *size =3D fw->length;
->>> +       *data =3D buf;
->> See above.  What's vmalloc() for?  Where's the vfree()?
->
-> See above for my answer. I'm fine with moving this into the
-> firmware code, since that is where the matching vfree is, please
-> let me know how you want to proceed with this.
->
->> BTW, it would be very nice to have a straightforward way
->> (/sys/kernel/debug/efi_firmware/[name]?) to dump all found firmwares.
->
-> That is an interesting idea, we could add a subsys_init call or
-> some such to add this to debugfs (efi_check_for_embedded_firmwares runs
-> too early).
->
-> But given how long this patch-set has been in the making I would really
-> like to get this (or at least the first 2 patches as a start) upstream,
-> so for now I would like to keep the changes to a minimum. Are you ok
-> with me adding the debugfs support with a follow-up patch ?
->
-> Let me also reply to your summary comment elsewhere in the thread here:
->
-> > Early in boot, you check a bunch of firmware descriptors, bundled with
-> > drivers, to search EFI code and data for firmware before you free said
-> > code and data.  You catalogue it by name.  Later on, you use this list
-> > as a fallback, again catalogued by name.  I think it would be rather
-> > nicer if you simply had a list in a single file containing all these
-> > descriptors rather than commingling it with the driver's internal dmi
-> > data.  This gets rid of all the ifdeffery and module issues.  It also
-> > avoids any potential nastiness when you have a dmi entry that contains
-> > driver_data that points into the driver when the driver is a module.
-> >
-> > And you can mark the entire list __initdata.  And you can easily (now
-> > or later on) invert the code flow so you map each EFI region exactly
-> > once and then search for all the firmware in it.
->
-> I believe we have mostly discussed this above. At least for the
-> X86 touchscreen case, which is the only user of this for now, I
-> believe that re-using the table from drivers/platform/x86/touchscreen_dmi=
-.c
-> is better as it avoids duplication of DMI strings and it keeps all
-> the info in one place (also avoiding churn in 2 files / 2 different
-> trees when new models are added).
->
-> I agree that when looking at this as a generic mechanism which may be
-> used elsewhere, your suggestion makes a lot of sense. But even though
-> this is very much written so that it can be used as a generic mechanism
-> I'm not sure if other users will appear. So for now, with only the X86
-> touchscreen use-case actually using this I believe the current
-> implementation is best, but I'm definitely open to changing this around
-> if more users show up.
->
-> Regards,
->
-> Hans
->
+Thanks,
+Linus Walleij
