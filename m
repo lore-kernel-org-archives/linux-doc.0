@@ -2,120 +2,249 @@ Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B430C33CB3
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EADC33C9E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3E7D2072B
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:05:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90B0F2072B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:42:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cHQbz9Me"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RpJE0vRP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729799AbgAQVFn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 16:05:43 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42132 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729818AbgAQVFg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 16:05:36 -0500
-Received: by mail-lj1-f193.google.com with SMTP id y4so27837044ljj.9
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 13:05:35 -0800 (PST)
+        id S1729133AbgAQVm6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 16:42:58 -0500
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:49939 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729091AbgAQVm6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 16:42:58 -0500
+Received: by mail-pf1-f201.google.com with SMTP id b188so15884531pfg.16
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 13:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=ZBkS9S8oFTr7ty1NIiAX5JrGRHx/96iPY51B8fxdR2Y=;
-        b=cHQbz9MerebtnThsNe1yZb3HrtSTeIETgYrDu7Q6ONNqX19PijFVSf1lIzu4QilAmq
-         hnzwI7P9xI2x5Nd23oDV61kz+2bLOlRlL10WS0JzuDLyURLzzSJmFejdlEtxX62vduXq
-         TpK3nS16M0AtekVAN7KXLTgm+8OVHS0eXGhicVmwjML/hqokK/cH4dVEcUKTav6rGeHG
-         F2mggp9KMtiE0o776HZy0j2hC+yCq9L9owGloa+hAahvM5W8iEcIFR2imdSPMy3FtcK2
-         qu8VkJVvrJS72NCEqvK6tJF2u/4NncgSSpbA7HFFqnczDZ/uro6Wxu9pbLQt70yvz9qn
-         t7xA==
+        bh=oVzP1lZIn+a9St2ynepuCubjBDmFUsIeC3EfH/4msv0=;
+        b=RpJE0vRPtcFs+HwS/CjBwBybBr/6ggom40mvJvh3ijp1Iwn3zl70sBx/gr77hKICJW
+         Nn+3hy98ID7+xceD3nY1pqc5rDoxEghmYiE44KXjp1v7sduUZaJffqZjavDWKbbW1pj/
+         zvMqLu9v53P+kYkQf1EpgyOjfRf8tsQbfxmgAGShQ1s6rZFM4SwNE46oSlcAgkg3Svdr
+         ad7rWRKJhiWki92ARxOdBSMv6FVelFEk33fmbCruHpr2B6yfyyI10LPh0QAmz8hu4++A
+         65C7CE4mGfBlm9wXLVFLOmGV4Yze3r2BmuwbO/sz0YHYhTB8AqWnQ++5Hr4sN0Yqr88Z
+         QNXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZBkS9S8oFTr7ty1NIiAX5JrGRHx/96iPY51B8fxdR2Y=;
-        b=MRYguLhERWOKLUKqAM6QKoSt2x2aQAr8V+tIL1PySuKyDtfWhWmuP9micwXbOCuUfM
-         oxqjwHoyR9z8/B1HfyMnVjtc8pMZ1dC4bDqtIBW69IJxlSE8f60bhcUipaWJmjMVXijQ
-         0AvuQZvGvx7fpHvQBAPbmYb4gl4sUXu4ZRwDoF8REU+y+wAPVnqwXZU2ENzp1auJF2Yr
-         qc6vDUOcCRP2Rx1hZelL16ie3XLRVYMGmKUPZaOLbl0Ts6gNKOgC00Osa12DADhfAbmS
-         MX89+u2rxyzlN/FIHYn5Wn11O5L9IQOs6Yo9cxIcp2KNU8oHDBkD11C+IbrTsNqAmga0
-         4CEg==
-X-Gm-Message-State: APjAAAXv7PDH04JW05JjZ3aYZ2CRrhGtl4w3rPjSq+X9t+I8DMqvCkjH
-        1PmoNSCAQVeDQ1VeiNU1DtfocMbNuX8avcRIcKDvow==
-X-Google-Smtp-Source: APXvYqwUSECeAUfn+Q3aKc4hgEvhvTGDwKPCeuq5cHdmTnCOCRP0mwkFi9O47FkIodi5rljBhCBu+PmnCppplmipwMc=
-X-Received: by 2002:a2e:9143:: with SMTP id q3mr6695400ljg.199.1579295134552;
- Fri, 17 Jan 2020 13:05:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
- <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com> <20191115070842.2x7psp243nfo76co@pengutronix.de>
- <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de> <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
- <CACRpkdYJR3gQCb4WXwF4tGzk+tT7jMcV9=nDK0PFkeh+0G11bA@mail.gmail.com> <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
-In-Reply-To: <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 17 Jan 2020 22:05:23 +0100
-Message-ID: <CACRpkdYs-jeYO+8avOryJnXdWsB9AkPy7Q5FRQ1gGC1NU35MHA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Marco Felsch <m.felsch@pengutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Julien Thierry <julien.thierry@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Jinbum Park <jinb.park7@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rob Landley <rob@landley.net>, philip@cog.systems,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Garnier <thgarnie@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=oVzP1lZIn+a9St2ynepuCubjBDmFUsIeC3EfH/4msv0=;
+        b=T0c4xpdrB5QrG2AuMAUDzlYgsQzl2YGRQcuKTCIFMPhObc5gTwmA8rbGkM3x71mbKb
+         Yw/dBc85YAi6OwSgI3q+s4YRypF+lJ2DIUCf7TteQnu0YUcfviQ7eBQ8F3ayvl9ih2+F
+         gEaU4wZSlOF/BOGTvii/aIfx0/uWVbMYdDEv1dIfA1aETdHshyXb3WQc1AvZ758pnqYz
+         Ig9EOW8zyeJ/IFBZG3oP2bVb66SPbt3jgOMAwf4b6eyP3PULoZK3dIp9QD2Oa5TfYF0h
+         PekMmgFSWf5tZRHBEGatUs9FomcQm/2jCI+EOxIb0FThdviTA45i3lvF2uRBVBifBJcp
+         ImGA==
+X-Gm-Message-State: APjAAAVusIg5aihh8jQb12PGNkX9gZGLSSLVmr7idBurHuNk5yIQ+dlT
+        iVk6ksdNra3F3E9aULQ0V8CKEjaq4V0=
+X-Google-Smtp-Source: APXvYqyIgLp3Uf69UUUDJ12oPBO4Pke5blxqDXg302lLv/U33gnMRHUKpFqg0f+AuwAB8CavAzgqN8TQNc0=
+X-Received: by 2002:a63:2fc4:: with SMTP id v187mr46768529pgv.55.1579297377257;
+ Fri, 17 Jan 2020 13:42:57 -0800 (PST)
+Date:   Fri, 17 Jan 2020 13:42:38 -0800
+In-Reply-To: <20200117214246.235591-1-drosen@google.com>
+Message-Id: <20200117214246.235591-2-drosen@google.com>
+Mime-Version: 1.0
+References: <20200117214246.235591-1-drosen@google.com>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+Subject: [PATCH v3 1/9] fscrypt: Add siphash and hash key for policy v2
+From:   Daniel Rosenberg <drosen@google.com>
+To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 17, 2020 at 8:55 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+With encryption and casefolding, we cannot simply take the hash of the
+ciphertext because of case insensitivity, and we can't take the hash of
+the unencrypted name since that would leak information about the
+encrypted name. Instead we can use siphash to compute a keyed hash of
+the file names.
 
-> [Me]
-> > Can we start to submit these patches to Russell's patch tracker?
-> > Any more testing I should be doing?
->
-> Let me submit and rebase v7 get the auto builders some days to see if it
-> exposes a new build issue and then we toss it to RMK's patch tracker and
-> fix bugs from there?
+When a v2 policy is used on a directory, we derive a key for use with
+siphash.
 
-OK you can add my Tested-by: Linus Walleij <linus.walleij@linaro.org>
-to the patches.
+Signed-off-by: Daniel Rosenberg <drosen@google.com>
+---
+ fs/crypto/fname.c           | 22 ++++++++++++++++++++++
+ fs/crypto/fscrypt_private.h |  9 +++++++++
+ fs/crypto/keysetup.c        | 35 +++++++++++++++++++++++++----------
+ include/linux/fscrypt.h     |  9 +++++++++
+ 4 files changed, 65 insertions(+), 10 deletions(-)
 
-Thanks,
-Linus Walleij
+diff --git a/fs/crypto/fname.c b/fs/crypto/fname.c
+index 3fd27e14ebdd6..371e8f01d1c8e 100644
+--- a/fs/crypto/fname.c
++++ b/fs/crypto/fname.c
+@@ -402,6 +402,28 @@ int fscrypt_setup_filename(struct inode *dir, const struct qstr *iname,
+ }
+ EXPORT_SYMBOL(fscrypt_setup_filename);
+ 
++/**
++ * fscrypt_fname_siphash() - Calculate the siphash for a file name
++ * @dir: the parent directory
++ * @name: the name of the file to get the siphash of
++ *
++ * Given a user-provided filename @name, this function calculates the siphash of
++ * that name using the directory's hash key.
++ *
++ * This assumes the directory uses a v2 policy, and the key is available.
++ *
++ * Return: the siphash of @name using the hash key of @dir
++ */
++u64 fscrypt_fname_siphash(const struct inode *dir, const struct qstr *name)
++{
++	struct fscrypt_info *ci = dir->i_crypt_info;
++
++	WARN_ON(!ci->ci_hash_key_initialized);
++
++	return siphash(name->name, name->len, &ci->ci_hash_key);
++}
++EXPORT_SYMBOL(fscrypt_fname_siphash);
++
+ /*
+  * Validate dentries in encrypted directories to make sure we aren't potentially
+  * caching stale dentries after a key has been added.
+diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
+index b22e8decebedd..8b37a5eebb574 100644
+--- a/fs/crypto/fscrypt_private.h
++++ b/fs/crypto/fscrypt_private.h
+@@ -12,6 +12,7 @@
+ #define _FSCRYPT_PRIVATE_H
+ 
+ #include <linux/fscrypt.h>
++#include <linux/siphash.h>
+ #include <crypto/hash.h>
+ 
+ #define CONST_STRLEN(str)	(sizeof(str) - 1)
+@@ -188,6 +189,13 @@ struct fscrypt_info {
+ 	 */
+ 	struct fscrypt_direct_key *ci_direct_key;
+ 
++	/*
++	 * With v2 policies, this can be used with siphash
++	 * When the key has been set, ci_hash_key_initialized is set to true
++	 */
++	siphash_key_t ci_hash_key;
++	bool ci_hash_key_initialized;
++
+ 	/* The encryption policy used by this inode */
+ 	union fscrypt_policy ci_policy;
+ 
+@@ -262,6 +270,7 @@ extern int fscrypt_init_hkdf(struct fscrypt_hkdf *hkdf, const u8 *master_key,
+ #define HKDF_CONTEXT_PER_FILE_KEY	2
+ #define HKDF_CONTEXT_DIRECT_KEY		3
+ #define HKDF_CONTEXT_IV_INO_LBLK_64_KEY	4
++#define HKDF_CONTEXT_FNAME_HASH_KEY     5
+ 
+ extern int fscrypt_hkdf_expand(const struct fscrypt_hkdf *hkdf, u8 context,
+ 			       const u8 *info, unsigned int infolen,
+diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
+index 96074054bdbc8..7445ab76e0b32 100644
+--- a/fs/crypto/keysetup.c
++++ b/fs/crypto/keysetup.c
+@@ -189,7 +189,7 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
+ 		 * This ensures that the master key is consistently used only
+ 		 * for HKDF, avoiding key reuse issues.
+ 		 */
+-		return setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
++		err = setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
+ 					  HKDF_CONTEXT_DIRECT_KEY, false);
+ 	} else if (ci->ci_policy.v2.flags &
+ 		   FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64) {
+@@ -199,21 +199,36 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
+ 		 * the IVs.  This format is optimized for use with inline
+ 		 * encryption hardware compliant with the UFS or eMMC standards.
+ 		 */
+-		return setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
++		err = setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
+ 					  HKDF_CONTEXT_IV_INO_LBLK_64_KEY,
+ 					  true);
++	} else {
++		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
++					  HKDF_CONTEXT_PER_FILE_KEY,
++					  ci->ci_nonce,
++					  FS_KEY_DERIVATION_NONCE_SIZE,
++					  derived_key, ci->ci_mode->keysize);
++		if (err)
++			return err;
++
++		err = fscrypt_set_derived_key(ci, derived_key);
++		memzero_explicit(derived_key, ci->ci_mode->keysize);
+ 	}
+-
+-	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+-				  HKDF_CONTEXT_PER_FILE_KEY,
+-				  ci->ci_nonce, FS_KEY_DERIVATION_NONCE_SIZE,
+-				  derived_key, ci->ci_mode->keysize);
+ 	if (err)
+ 		return err;
+ 
+-	err = fscrypt_set_derived_key(ci, derived_key);
+-	memzero_explicit(derived_key, ci->ci_mode->keysize);
+-	return err;
++	if (S_ISDIR(ci->ci_inode->i_mode)) {
++		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
++					  HKDF_CONTEXT_FNAME_HASH_KEY,
++					  ci->ci_nonce,
++					  FS_KEY_DERIVATION_NONCE_SIZE,
++					  (u8 *)&ci->ci_hash_key,
++					  sizeof(ci->ci_hash_key));
++		if (err)
++			return err;
++		ci->ci_hash_key_initialized = true;
++	}
++	return 0;
+ }
+ 
+ /*
+diff --git a/include/linux/fscrypt.h b/include/linux/fscrypt.h
+index 6fe8d0f96a4ac..1dfbed855beeb 100644
+--- a/include/linux/fscrypt.h
++++ b/include/linux/fscrypt.h
+@@ -172,6 +172,8 @@ extern int fscrypt_fname_disk_to_usr(const struct inode *inode,
+ 				     u32 hash, u32 minor_hash,
+ 				     const struct fscrypt_str *iname,
+ 				     struct fscrypt_str *oname);
++extern u64 fscrypt_fname_siphash(const struct inode *dir,
++				 const struct qstr *name);
+ 
+ #define FSCRYPT_FNAME_MAX_UNDIGESTED_SIZE	32
+ 
+@@ -468,6 +470,13 @@ static inline int fscrypt_fname_disk_to_usr(const struct inode *inode,
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline u64 fscrypt_fname_siphash(const struct inode *dir,
++					const struct qstr *name)
++{
++	WARN_ON_ONCE(1);
++	return 0;
++}
++
+ static inline bool fscrypt_match_name(const struct fscrypt_name *fname,
+ 				      const u8 *de_name, u32 de_name_len)
+ {
+-- 
+2.25.0.341.g760bfbb309-goog
+
