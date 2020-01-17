@@ -2,153 +2,118 @@ Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77176C33CB1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 11:15:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07FB1C33CB1
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 13:30:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F0A820730
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 11:15:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0bl/Pvp"
+	by mail.kernel.org (Postfix) with ESMTP id D93382082F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 13:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgAQLPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 06:15:47 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:32918 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbgAQLPr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 06:15:47 -0500
-Received: by mail-pl1-f193.google.com with SMTP id ay11so9749644plb.0;
-        Fri, 17 Jan 2020 03:15:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Grg9yoAnqVAfWkAAQV4kee2RpcS6+9mUDMMS5oTe+HU=;
-        b=p0bl/PvptNyvztc0HVEDCRgnYR289d9AoHGP4sYgXLfUM61I4NrpGuD0bg860oJuNG
-         vU7YIgF+X6YQwCjX0DmzZFhqYOALOQY1X+e1YX/mRsqKybAy+mbPYYFbVx6p4q8x59sA
-         3BBs2GNCTAebaW7F+SM48FN6qprov0zMuKUCBENg+Xvpyt/qX80iMxXybV/AW7hPO0YU
-         XZbK3wk9StHZiRyfsm73O4GGh5vxkwDO0hthJZmFc+xsBxSaSRO4wxFnp2JXJqHsxViX
-         l86astFjlarwMsWS++S4VmbxXeu4YPoYP9wxj+hoHEhEJaZitQLMPG0a6+Um69r9NkAd
-         kobQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Grg9yoAnqVAfWkAAQV4kee2RpcS6+9mUDMMS5oTe+HU=;
-        b=Pnmfp5pNjYY1J1IB0fDzjOS31dE68woQvXBCmDv/XEk1oh/MdCVQqiVS0r7AL044K/
-         cGndWeJgVoaVnVVh/i/xR6f3qJbwb4HxNufuP0TCLtATcEDsSWSRqZ6wurTArmbkahLW
-         LI9CZWDbqjC6IkEv7zzsoQSg/hqhXTUv+OG2ngUxTRF06sc42/i//tuy9OvSfTx14+Ek
-         Ixk+TfxRLbMT/iUJIqmSLYPmKQbkqm1LyN7pjDTyri9B+xbKXPAvHIROyl02IZpzpiwV
-         hEyQQW9S2Xj1HI8/DaHm/Y5P1zGigRul/Bpq6F46+NiBp7cmw3GRY+pQzM2ScZNAqV8a
-         pKIw==
-X-Gm-Message-State: APjAAAUO8df1FkGFXHZTAk2ZIFllq6syV/MFyjrG2FKx13hTpsA/BdFt
-        ArbLVw1LVVtIFomnizEkuDs=
-X-Google-Smtp-Source: APXvYqzrur6I7YW3RjIDWil9sqEGv+14JOHSwFTX3x8JNKsCXbb00tHMoQi13kaRdgsuOejOGMApCQ==
-X-Received: by 2002:a17:902:82cc:: with SMTP id u12mr35118153plz.342.1579259747036;
-        Fri, 17 Jan 2020 03:15:47 -0800 (PST)
-Received: from localhost ([43.224.245.181])
-        by smtp.gmail.com with ESMTPSA id e2sm29361611pfh.84.2020.01.17.03.15.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 Jan 2020 03:15:46 -0800 (PST)
-From:   lijiazi <jqqlijiazi@gmail.com>
-X-Google-Original-From: lijiazi <lijiazi@xiaomi.com>
-To:     Petr Mladek <pmladek@suse.com>,
+        id S1726890AbgAQNa3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 08:30:29 -0500
+Received: from mga04.intel.com ([192.55.52.120]:61396 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726861AbgAQNa3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jan 2020 08:30:29 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jan 2020 05:30:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,330,1574150400"; 
+   d="scan'208";a="220727648"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Jan 2020 05:30:26 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1isRhi-0004CW-Rj; Fri, 17 Jan 2020 15:30:26 +0200
+Date:   Fri, 17 Jan 2020 15:30:26 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     lijiazi <jqqlijiazi@gmail.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     lijiazi <lijiazi@xiaomi.com>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE), linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v2] lib/vsprintf: introduce OF_DEVICE_NODE_FLAG_MAX for %pOF
-Date:   Fri, 17 Jan 2020 19:15:19 +0800
-Message-Id: <1579259719-16904-1-git-send-email-lijiazi@xiaomi.com>
-X-Mailer: git-send-email 2.7.4
+        Frank Rowand <frowand.list@gmail.com>,
+        lijiazi <lijiazi@xiaomi.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" 
+        <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] lib/vsprintf: introduce OF_DEVICE_NODE_FLAG_MAX for
+ %pOF
+Message-ID: <20200117133026.GS32742@smile.fi.intel.com>
+References: <1579259719-16904-1-git-send-email-lijiazi@xiaomi.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1579259719-16904-1-git-send-email-lijiazi@xiaomi.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce OF_DEVICE_NODE_FLAG_MAX for device node printk, if add
-new device node flag, please add the corresponding flag abbreviation
-to tbuf in device_node_string.
+On Fri, Jan 17, 2020 at 07:15:19PM +0800, lijiazi wrote:
+> Introduce OF_DEVICE_NODE_FLAG_MAX for device node printk, if add
+> new device node flag, please add the corresponding flag abbreviation
+> to tbuf in device_node_string.
 
-Signed-off-by: lijiazi <lijiazi@xiaomi.com>
----
- Documentation/core-api/printk-formats.rst |  2 ++
- include/linux/of.h                        |  6 ++++++
- lib/vsprintf.c                            | 14 +++++++-------
- 3 files changed, 15 insertions(+), 7 deletions(-)
+Thank you for an update!
+My comments below.
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 8ebe46b1..c73ccad 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -441,6 +441,8 @@ Examples::
- 							d - detached
- 							P - Populated
- 							B - Populated bus
-+                                                        O - Overlay
-+                                                        F - Overlay free cset
- 
- Passed by reference.
- 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index c669c0a..0453601 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -147,6 +147,12 @@ extern raw_spinlock_t devtree_lock;
- #define OF_OVERLAY		5 /* allocated for an overlay */
- #define OF_OVERLAY_FREE_CSET	6 /* in overlay cset being freed */
- 
-+/* Add flag max for %pOF related printk, if add new flag, please
-+ * increase following marco, and add abbreviations to tbuf in
-+ * device_node_string function.
-+ */
-+#define OF_DEVICE_NODE_FLAG_MAX 6 /* maximum available flags */
-+
- #define OF_BAD_ADDR	((u64)-1)
- 
- #ifdef CONFIG_OF
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 7c488a1..3c219b4 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1937,9 +1937,9 @@ static noinline_for_stack
- char *device_node_string(char *buf, char *end, struct device_node *dn,
- 			 struct printf_spec spec, const char *fmt)
- {
--	char tbuf[sizeof("xxxx") + 1];
-+	char tbuf[OF_DEVICE_NODE_FLAG_MAX + 1] = { "DdPBOF" };
- 	const char *p;
--	int ret;
-+	int ret, i;
- 	char *buf_start = buf;
- 	struct property *prop;
- 	bool has_mult, pass;
-@@ -1997,11 +1997,11 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
- 			buf = string(buf, end, p, str_spec);
- 			break;
- 		case 'F':	/* flags */
--			tbuf[0] = of_node_check_flag(dn, OF_DYNAMIC) ? 'D' : '-';
--			tbuf[1] = of_node_check_flag(dn, OF_DETACHED) ? 'd' : '-';
--			tbuf[2] = of_node_check_flag(dn, OF_POPULATED) ? 'P' : '-';
--			tbuf[3] = of_node_check_flag(dn, OF_POPULATED_BUS) ? 'B' : '-';
--			tbuf[4] = 0;
-+			for (i = 0; i < OF_DEVICE_NODE_FLAG_MAX; i++) {
-+				if (!of_node_check_flag(dn, OF_DYNAMIC + i))
-+					tbuf[i] = '-';
-+			}
-+			tbuf[OF_DEVICE_NODE_FLAG_MAX] = 0;
- 			buf = string_nocheck(buf, end, tbuf, str_spec);
- 			break;
- 		case 'c':	/* major compatible string */
+...
+
+> +                                                        O - Overlay
+> +                                                        F - Overlay free cset
+
+Perhaps this would be a separate patch.
+
+> +/* Add flag max for %pOF related printk, if add new flag, please
+> + * increase following marco, and add abbreviations to tbuf in
+> + * device_node_string function.
+> + */
+
+I'm not sure it's correct style for multi-line comments.
+
+> +#define OF_DEVICE_NODE_FLAG_MAX 6 /* maximum available flags */
+
+Altogether I think this would be done as a separate patch (with corresponding
+Suggested-by tag).
+
+> -	char tbuf[sizeof("xxxx") + 1];
+> +	char tbuf[OF_DEVICE_NODE_FLAG_MAX + 1] = { "DdPBOF" };
+
+This trick is interesting. Had you checked what code is being produced
+out of it (additional memcpy()? or constants assignment on the stack?) ?
+
+> -			tbuf[0] = of_node_check_flag(dn, OF_DYNAMIC) ? 'D' : '-';
+> -			tbuf[1] = of_node_check_flag(dn, OF_DETACHED) ? 'd' : '-';
+> -			tbuf[2] = of_node_check_flag(dn, OF_POPULATED) ? 'P' : '-';
+> -			tbuf[3] = of_node_check_flag(dn, OF_POPULATED_BUS) ? 'B' : '-';
+> -			tbuf[4] = 0;
+
+> +			for (i = 0; i < OF_DEVICE_NODE_FLAG_MAX; i++) {
+> +				if (!of_node_check_flag(dn, OF_DYNAMIC + i))
+> +					tbuf[i] = '-';
+> +			}
+
+For my personal opinion the former is clearer than the latter since we have no
+exported iterator over the OF device node flags. What if we decide not to use
+one in the middle?
+
+> +			tbuf[OF_DEVICE_NODE_FLAG_MAX] = 0;
+
+This line completely depends on how we assign the initial array (see above).
+
 -- 
-2.7.4
+With Best Regards,
+Andy Shevchenko
+
 
