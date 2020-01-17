@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EADC33C9E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE8FC33CB8
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:43:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 90B0F2072B
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:42:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFFE42083E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 21:43:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RpJE0vRP"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="re88JEJx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729133AbgAQVm6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 16:42:58 -0500
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:49939 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729091AbgAQVm6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 16:42:58 -0500
-Received: by mail-pf1-f201.google.com with SMTP id b188so15884531pfg.16
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 13:42:57 -0800 (PST)
+        id S1729864AbgAQVnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 16:43:10 -0500
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:47087 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729850AbgAQVnI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 16:43:08 -0500
+Received: by mail-pg1-f202.google.com with SMTP id t12so15170856pgs.13
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2020 13:43:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=oVzP1lZIn+a9St2ynepuCubjBDmFUsIeC3EfH/4msv0=;
-        b=RpJE0vRPtcFs+HwS/CjBwBybBr/6ggom40mvJvh3ijp1Iwn3zl70sBx/gr77hKICJW
-         Nn+3hy98ID7+xceD3nY1pqc5rDoxEghmYiE44KXjp1v7sduUZaJffqZjavDWKbbW1pj/
-         zvMqLu9v53P+kYkQf1EpgyOjfRf8tsQbfxmgAGShQ1s6rZFM4SwNE46oSlcAgkg3Svdr
-         ad7rWRKJhiWki92ARxOdBSMv6FVelFEk33fmbCruHpr2B6yfyyI10LPh0QAmz8hu4++A
-         65C7CE4mGfBlm9wXLVFLOmGV4Yze3r2BmuwbO/sz0YHYhTB8AqWnQ++5Hr4sN0Yqr88Z
-         QNXQ==
+        bh=kB+NQKJiUAIRFl4aTji9u2bg8hO9+Q8WB3NnVD/VOa0=;
+        b=re88JEJxDhwb7zLLnErnvZM02G0Gj4vQuRSRgAHJ0gPpq11nzY7dKVshwiMI8iTL7T
+         3hafAtjrYmHUaz5W2zGiRx84jD5Ff8W/hqL22aIB2sf5WjtIavPyHTZYDuGbhFal1VWr
+         W2GR9e4ggOxjGg6Rdd6Ljz2n00RFUUNLwkGxlDSy5A9n8Itru3wF8riUuhmcbmhEwjSJ
+         Ov7T0tQyORgBVk/nOhN75kRaxfBqppX/4cDjvHcSsHBnp2AyrFW5xMrWMzGKwHsRtu2X
+         v9RZ5r6aQF9u7NS41DNZsV/IW1wwkGCvWcAtObe3V0kRAVe9Dk3HqdhGNGXjmYqPtfR9
+         BthA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=oVzP1lZIn+a9St2ynepuCubjBDmFUsIeC3EfH/4msv0=;
-        b=T0c4xpdrB5QrG2AuMAUDzlYgsQzl2YGRQcuKTCIFMPhObc5gTwmA8rbGkM3x71mbKb
-         Yw/dBc85YAi6OwSgI3q+s4YRypF+lJ2DIUCf7TteQnu0YUcfviQ7eBQ8F3ayvl9ih2+F
-         gEaU4wZSlOF/BOGTvii/aIfx0/uWVbMYdDEv1dIfA1aETdHshyXb3WQc1AvZ758pnqYz
-         Ig9EOW8zyeJ/IFBZG3oP2bVb66SPbt3jgOMAwf4b6eyP3PULoZK3dIp9QD2Oa5TfYF0h
-         PekMmgFSWf5tZRHBEGatUs9FomcQm/2jCI+EOxIb0FThdviTA45i3lvF2uRBVBifBJcp
-         ImGA==
-X-Gm-Message-State: APjAAAVusIg5aihh8jQb12PGNkX9gZGLSSLVmr7idBurHuNk5yIQ+dlT
-        iVk6ksdNra3F3E9aULQ0V8CKEjaq4V0=
-X-Google-Smtp-Source: APXvYqyIgLp3Uf69UUUDJ12oPBO4Pke5blxqDXg302lLv/U33gnMRHUKpFqg0f+AuwAB8CavAzgqN8TQNc0=
-X-Received: by 2002:a63:2fc4:: with SMTP id v187mr46768529pgv.55.1579297377257;
- Fri, 17 Jan 2020 13:42:57 -0800 (PST)
-Date:   Fri, 17 Jan 2020 13:42:38 -0800
+        bh=kB+NQKJiUAIRFl4aTji9u2bg8hO9+Q8WB3NnVD/VOa0=;
+        b=iaWOhpBVgmq6Ii1IycsItejHk9Q4wAm/3Xf+sLcIEmg1sWjFCiW8UgQSlibk9SKEZY
+         zBdyxTzyvcT2CvS1MQ7ipH1XAaMiifGyjf+1ub4KF/7vIwtnFbW1rp10/WZDZ/lz6Gy0
+         54ouLUweHYbeseyf/BcPAAgvkvwhFWuyY9cZDl2IXdPRTM37nISqWgpyfZK9eu8FhwEq
+         IvGeJ5kMM+RGyxUSqcu5fRK1C+X0xQNJBU9GllxBx1MoewoxhcB+s1/pd4cv6T1qkqVo
+         P90JAT+ZKbhir8DhUDn6iAOlFtm6CRL48/qvhzLS/MgHCgd8nkxqCfPkV5fnlbKuaSvk
+         eeRA==
+X-Gm-Message-State: APjAAAWKe8by3UJOZ5syWP1jwrz+l0jyiyR+O3xHkOpfy3hgYjqGb2FW
+        QPZhnbSlN5dUYFv9eEtGXZofwGKODIM=
+X-Google-Smtp-Source: APXvYqw6Ct56QGUI/qT+gtMlJeOAmF7SuNqwoG6m8v2zpcXR33XO9wzdYHdjMiRNIInMZ2yefbbvYg8zvuM=
+X-Received: by 2002:a65:46c6:: with SMTP id n6mr47933917pgr.15.1579297387762;
+ Fri, 17 Jan 2020 13:43:07 -0800 (PST)
+Date:   Fri, 17 Jan 2020 13:42:42 -0800
 In-Reply-To: <20200117214246.235591-1-drosen@google.com>
-Message-Id: <20200117214246.235591-2-drosen@google.com>
+Message-Id: <20200117214246.235591-6-drosen@google.com>
 Mime-Version: 1.0
 References: <20200117214246.235591-1-drosen@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v3 1/9] fscrypt: Add siphash and hash key for policy v2
+Subject: [PATCH v3 5/9] vfs: Fold casefolding into vfs
 From:   Daniel Rosenberg <drosen@google.com>
 To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
         Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -75,176 +75,214 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With encryption and casefolding, we cannot simply take the hash of the
-ciphertext because of case insensitivity, and we can't take the hash of
-the unencrypted name since that would leak information about the
-encrypted name. Instead we can use siphash to compute a keyed hash of
-the file names.
+Ext4 and F2fs are both using casefolding, and they, along with any other
+filesystem that adds the feature, will be using identical dentry_ops.
+Additionally, those dentry ops interfere with the dentry_ops required
+for fscrypt once we add support for casefolding and encryption.
+Moving this into the vfs removes code duplication as well as the
+complication with encryption.
 
-When a v2 policy is used on a directory, we derive a key for use with
-siphash.
+Currently this is pretty close to just moving the existing f2fs/ext4
+code up a level into the vfs, although there is a lot of room for
+improvement now.
 
 Signed-off-by: Daniel Rosenberg <drosen@google.com>
 ---
- fs/crypto/fname.c           | 22 ++++++++++++++++++++++
- fs/crypto/fscrypt_private.h |  9 +++++++++
- fs/crypto/keysetup.c        | 35 +++++++++++++++++++++++++----------
- include/linux/fscrypt.h     |  9 +++++++++
- 4 files changed, 65 insertions(+), 10 deletions(-)
+ fs/dcache.c             | 28 ++++++++++++++++++++++++++++
+ fs/namei.c              | 41 ++++++++++++++++++++++++++++++++++++++---
+ include/linux/fs.h      | 10 ++++++++++
+ include/linux/unicode.h | 14 ++++++++++++++
+ 4 files changed, 90 insertions(+), 3 deletions(-)
 
-diff --git a/fs/crypto/fname.c b/fs/crypto/fname.c
-index 3fd27e14ebdd6..371e8f01d1c8e 100644
---- a/fs/crypto/fname.c
-+++ b/fs/crypto/fname.c
-@@ -402,6 +402,28 @@ int fscrypt_setup_filename(struct inode *dir, const struct qstr *iname,
- }
- EXPORT_SYMBOL(fscrypt_setup_filename);
+diff --git a/fs/dcache.c b/fs/dcache.c
+index b280e07e162b1..a8bbb7f4fad30 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -32,6 +32,7 @@
+ #include <linux/bit_spinlock.h>
+ #include <linux/rculist_bl.h>
+ #include <linux/list_lru.h>
++#include <linux/unicode.h>
+ #include "internal.h"
+ #include "mount.h"
  
-+/**
-+ * fscrypt_fname_siphash() - Calculate the siphash for a file name
-+ * @dir: the parent directory
-+ * @name: the name of the file to get the siphash of
-+ *
-+ * Given a user-provided filename @name, this function calculates the siphash of
-+ * that name using the directory's hash key.
-+ *
-+ * This assumes the directory uses a v2 policy, and the key is available.
-+ *
-+ * Return: the siphash of @name using the hash key of @dir
-+ */
-+u64 fscrypt_fname_siphash(const struct inode *dir, const struct qstr *name)
-+{
-+	struct fscrypt_info *ci = dir->i_crypt_info;
-+
-+	WARN_ON(!ci->ci_hash_key_initialized);
-+
-+	return siphash(name->name, name->len, &ci->ci_hash_key);
-+}
-+EXPORT_SYMBOL(fscrypt_fname_siphash);
-+
- /*
-  * Validate dentries in encrypted directories to make sure we aren't potentially
-  * caching stale dentries after a key has been added.
-diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
-index b22e8decebedd..8b37a5eebb574 100644
---- a/fs/crypto/fscrypt_private.h
-+++ b/fs/crypto/fscrypt_private.h
-@@ -12,6 +12,7 @@
- #define _FSCRYPT_PRIVATE_H
- 
- #include <linux/fscrypt.h>
-+#include <linux/siphash.h>
- #include <crypto/hash.h>
- 
- #define CONST_STRLEN(str)	(sizeof(str) - 1)
-@@ -188,6 +189,13 @@ struct fscrypt_info {
+@@ -247,7 +248,19 @@ static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *c
+ 	 * be no NUL in the ct/tcount data)
  	 */
- 	struct fscrypt_direct_key *ci_direct_key;
+ 	const unsigned char *cs = READ_ONCE(dentry->d_name.name);
++#ifdef CONFIG_UNICODE
++	struct inode *parent = dentry->d_parent->d_inode;
  
-+	/*
-+	 * With v2 policies, this can be used with siphash
-+	 * When the key has been set, ci_hash_key_initialized is set to true
-+	 */
-+	siphash_key_t ci_hash_key;
-+	bool ci_hash_key_initialized;
++	if (unlikely(needs_casefold(parent))) {
++		const struct qstr n1 = QSTR_INIT(cs, tcount);
++		const struct qstr n2 = QSTR_INIT(ct, tcount);
++		int result = utf8_strncasecmp(dentry->d_sb->s_encoding,
++						&n1, &n2);
 +
- 	/* The encryption policy used by this inode */
- 	union fscrypt_policy ci_policy;
- 
-@@ -262,6 +270,7 @@ extern int fscrypt_init_hkdf(struct fscrypt_hkdf *hkdf, const u8 *master_key,
- #define HKDF_CONTEXT_PER_FILE_KEY	2
- #define HKDF_CONTEXT_DIRECT_KEY		3
- #define HKDF_CONTEXT_IV_INO_LBLK_64_KEY	4
-+#define HKDF_CONTEXT_FNAME_HASH_KEY     5
- 
- extern int fscrypt_hkdf_expand(const struct fscrypt_hkdf *hkdf, u8 context,
- 			       const u8 *info, unsigned int infolen,
-diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
-index 96074054bdbc8..7445ab76e0b32 100644
---- a/fs/crypto/keysetup.c
-+++ b/fs/crypto/keysetup.c
-@@ -189,7 +189,7 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
- 		 * This ensures that the master key is consistently used only
- 		 * for HKDF, avoiding key reuse issues.
- 		 */
--		return setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
-+		err = setup_per_mode_key(ci, mk, mk->mk_direct_tfms,
- 					  HKDF_CONTEXT_DIRECT_KEY, false);
- 	} else if (ci->ci_policy.v2.flags &
- 		   FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64) {
-@@ -199,21 +199,36 @@ static int fscrypt_setup_v2_file_key(struct fscrypt_info *ci,
- 		 * the IVs.  This format is optimized for use with inline
- 		 * encryption hardware compliant with the UFS or eMMC standards.
- 		 */
--		return setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
-+		err = setup_per_mode_key(ci, mk, mk->mk_iv_ino_lblk_64_tfms,
- 					  HKDF_CONTEXT_IV_INO_LBLK_64_KEY,
- 					  true);
-+	} else {
-+		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
-+					  HKDF_CONTEXT_PER_FILE_KEY,
-+					  ci->ci_nonce,
-+					  FS_KEY_DERIVATION_NONCE_SIZE,
-+					  derived_key, ci->ci_mode->keysize);
-+		if (err)
-+			return err;
-+
-+		err = fscrypt_set_derived_key(ci, derived_key);
-+		memzero_explicit(derived_key, ci->ci_mode->keysize);
- 	}
--
--	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
--				  HKDF_CONTEXT_PER_FILE_KEY,
--				  ci->ci_nonce, FS_KEY_DERIVATION_NONCE_SIZE,
--				  derived_key, ci->ci_mode->keysize);
- 	if (err)
- 		return err;
- 
--	err = fscrypt_set_derived_key(ci, derived_key);
--	memzero_explicit(derived_key, ci->ci_mode->keysize);
--	return err;
-+	if (S_ISDIR(ci->ci_inode->i_mode)) {
-+		err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
-+					  HKDF_CONTEXT_FNAME_HASH_KEY,
-+					  ci->ci_nonce,
-+					  FS_KEY_DERIVATION_NONCE_SIZE,
-+					  (u8 *)&ci->ci_hash_key,
-+					  sizeof(ci->ci_hash_key));
-+		if (err)
-+			return err;
-+		ci->ci_hash_key_initialized = true;
++		if (result >= 0 || sb_has_enc_strict_mode(dentry->d_sb))
++			return result;
 +	}
-+	return 0;
++#endif
+ 	return dentry_string_cmp(cs, ct, tcount);
  }
  
+@@ -2406,7 +2419,22 @@ struct dentry *d_hash_and_lookup(struct dentry *dir, struct qstr *name)
+ 	 * calculate the standard hash first, as the d_op->d_hash()
+ 	 * routine may choose to leave the hash value unchanged.
+ 	 */
++#ifdef CONFIG_UNICODE
++	unsigned char *hname = NULL;
++	int hlen = name->len;
++
++	if (IS_CASEFOLDED(dir->d_inode)) {
++		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++		if (!hname)
++			return ERR_PTR(-ENOMEM);
++		hlen = utf8_casefold(dir->d_sb->s_encoding,
++					name, hname, PATH_MAX);
++	}
++	name->hash = full_name_hash(dir, hname ?: name->name, hlen);
++	kfree(hname);
++#else
+ 	name->hash = full_name_hash(dir, name->name, name->len);
++#endif
+ 	if (dir->d_flags & DCACHE_OP_HASH) {
+ 		int err = dir->d_op->d_hash(dir, name);
+ 		if (unlikely(err < 0))
+diff --git a/fs/namei.c b/fs/namei.c
+index d6c91d1e88cb3..f8e65c9f31444 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -39,6 +39,7 @@
+ #include <linux/bitops.h>
+ #include <linux/init_task.h>
+ #include <linux/uaccess.h>
++#include <linux/unicode.h>
+ 
+ #include "internal.h"
+ #include "mount.h"
+@@ -2055,6 +2056,10 @@ static inline u64 hash_name(const void *salt, const char *name)
+ static int link_path_walk(const char *name, struct nameidata *nd)
+ {
+ 	int err;
++#ifdef CONFIG_UNICODE
++	char *hname = NULL;
++	int hlen = 0;
++#endif
+ 
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+@@ -2071,9 +2076,22 @@ static int link_path_walk(const char *name, struct nameidata *nd)
+ 		err = may_lookup(nd);
+ 		if (err)
+ 			return err;
+-
++#ifdef CONFIG_UNICODE
++		if (needs_casefold(nd->path.dentry->d_inode)) {
++			struct qstr str = QSTR_INIT(name, PATH_MAX);
++
++			hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++			if (!hname)
++				return -ENOMEM;
++			hlen = utf8_casefold(nd->path.dentry->d_sb->s_encoding,
++						&str, hname, PATH_MAX);
++		}
++		hash_len = hash_name(nd->path.dentry, hname ?: name);
++		kfree(hname);
++		hname = NULL;
++#else
+ 		hash_len = hash_name(nd->path.dentry, name);
+-
++#endif
+ 		type = LAST_NORM;
+ 		if (name[0] == '.') switch (hashlen_len(hash_len)) {
+ 			case 2:
+@@ -2445,9 +2463,26 @@ EXPORT_SYMBOL(vfs_path_lookup);
+ static int lookup_one_len_common(const char *name, struct dentry *base,
+ 				 int len, struct qstr *this)
+ {
++#ifdef CONFIG_UNICODE
++	char *hname = NULL;
++	int hlen = len;
++
++	if (needs_casefold(base->d_inode)) {
++		struct qstr str = QSTR_INIT(name, len);
++
++		hname = kmalloc(PATH_MAX, GFP_ATOMIC);
++		if (!hname)
++			return -ENOMEM;
++		hlen = utf8_casefold(base->d_sb->s_encoding,
++					&str, hname, PATH_MAX);
++	}
++	this->hash = full_name_hash(base, hname ?: name, hlen);
++	kfree(hname);
++#else
++	this->hash = full_name_hash(base, name, len);
++#endif
+ 	this->name = name;
+ 	this->len = len;
+-	this->hash = full_name_hash(base, name, len);
+ 	if (!len)
+ 		return -EACCES;
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 98e0349adb526..9a7092449e94f 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1382,6 +1382,12 @@ extern int send_sigurg(struct fown_struct *fown);
+ #define SB_ACTIVE	(1<<30)
+ #define SB_NOUSER	(1<<31)
+ 
++/* These flags relate to encoding and casefolding */
++#define SB_ENC_STRICT_MODE_FL	(1 << 0)
++
++#define sb_has_enc_strict_mode(sb) \
++	(sb->s_encoding_flags & SB_ENC_STRICT_MODE_FL)
++
  /*
-diff --git a/include/linux/fscrypt.h b/include/linux/fscrypt.h
-index 6fe8d0f96a4ac..1dfbed855beeb 100644
---- a/include/linux/fscrypt.h
-+++ b/include/linux/fscrypt.h
-@@ -172,6 +172,8 @@ extern int fscrypt_fname_disk_to_usr(const struct inode *inode,
- 				     u32 hash, u32 minor_hash,
- 				     const struct fscrypt_str *iname,
- 				     struct fscrypt_str *oname);
-+extern u64 fscrypt_fname_siphash(const struct inode *dir,
-+				 const struct qstr *name);
+  *	Umount options
+  */
+@@ -1449,6 +1455,10 @@ struct super_block {
+ #endif
+ #ifdef CONFIG_FS_VERITY
+ 	const struct fsverity_operations *s_vop;
++#endif
++#ifdef CONFIG_UNICODE
++	struct unicode_map *s_encoding;
++	__u16 s_encoding_flags;
+ #endif
+ 	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
+ 	struct list_head	s_mounts;	/* list of mounts; _not_ for fs use */
+diff --git a/include/linux/unicode.h b/include/linux/unicode.h
+index 990aa97d80496..182352f3cc30f 100644
+--- a/include/linux/unicode.h
++++ b/include/linux/unicode.h
+@@ -4,6 +4,8 @@
  
- #define FSCRYPT_FNAME_MAX_UNDIGESTED_SIZE	32
+ #include <linux/init.h>
+ #include <linux/dcache.h>
++#include <linux/fscrypt.h>
++#include <linux/fs.h>
  
-@@ -468,6 +470,13 @@ static inline int fscrypt_fname_disk_to_usr(const struct inode *inode,
- 	return -EOPNOTSUPP;
- }
+ struct unicode_map {
+ 	const char *charset;
+@@ -30,4 +32,16 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
+ struct unicode_map *utf8_load(const char *version);
+ void utf8_unload(struct unicode_map *um);
  
-+static inline u64 fscrypt_fname_siphash(const struct inode *dir,
-+					const struct qstr *name)
++#ifdef CONFIG_UNICODE
++static inline bool needs_casefold(const struct inode *dir)
 +{
-+	WARN_ON_ONCE(1);
++	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding &&
++			(!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir));
++}
++#else
++static inline bool needs_casefold(const struct inode *dir)
++{
 +	return 0;
 +}
-+
- static inline bool fscrypt_match_name(const struct fscrypt_name *fname,
- 				      const u8 *de_name, u32 de_name_len)
- {
++#endif
+ #endif /* _LINUX_UNICODE_H */
 -- 
 2.25.0.341.g760bfbb309-goog
 
