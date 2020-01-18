@@ -1,175 +1,155 @@
-Return-Path: <SRS0=RyWP=3G=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=IJiS=3H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2223CC33C9E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 22:52:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC004C3F68F
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jan 2020 01:46:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E265E22525
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jan 2020 22:52:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITxORkbK"
+	by mail.kernel.org (Postfix) with ESMTP id 9B7D822522
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jan 2020 01:46:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730197AbgAQWwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jan 2020 17:52:25 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33585 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729015AbgAQWwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 17:52:24 -0500
-Received: by mail-wr1-f68.google.com with SMTP id b6so24230531wrq.0;
-        Fri, 17 Jan 2020 14:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kkVH3WV4mS0X3+3FT56qa2DP27GgNwjhnKPZdjR/cEg=;
-        b=ITxORkbK/eZIaQFygF9sIZY3a+lP6APCWVuUR2qCA8ArF56Rf0lBuPnE+xI3e0amgN
-         ciN+GBjyNVKgHqzSGXJFbp9JOTAEqA9RWPxRMK5h9N+vLuimpulhOlgLPpaOCIy8H4Ve
-         a0pGuqzVIpDDfMESsUZyewaDYvKc2y6CVlSZKkuF/ln0NYlPArYMZzdBuaBoOJ/6/2M2
-         4xyRE8OUJsK6IEetVrp+jzk4Px2/zkMqE3nHq9oQxbWMQeQAFuiXJD0eN/oMzFeS+8bC
-         5D7/f8b0pfF/pBjt1WlJVM3c5rSFEE/jdJqH++qw/yWw7Qn/ATn+y94BMOvffktWheFb
-         xriw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=kkVH3WV4mS0X3+3FT56qa2DP27GgNwjhnKPZdjR/cEg=;
-        b=Hze+/bWhfvUAzOM6FYmeVAMPp548EyInrA3zNru2SQk7QEP6iMCaOXLMU9ROMJJNJ6
-         MEAlT5+F1hRNG0AfbWxpgregCUoXv41pb0CKvr7c4k83X5P/OvuJphaqbhzm39uIq3fj
-         woYy3CzXCdl/PtGDg8Ml8U2PU4T5kRed6hOlFM6bx4pwyGJjQMe9WP21oaWJndoFMWva
-         Q0If4dNflQ28uP3eLFNyMzirrnR/+/M3dY8Rc72pOkeIxAcxB+kjfoglqOLlnY8Yaqmt
-         gjyAl3yXnUhZOlt2/DYu8xTivQGvPDPSZgQ4IoR4p6+TMPRA4gQLuJjVeOwdBizrGe/D
-         Seig==
-X-Gm-Message-State: APjAAAUc3+HHws+QdXu7n6uatO0Mkb0miNXVjmBLrk0gb+Xq8/tkjAI4
-        ey2VtK6InPZtbx7VolQrB/A=
-X-Google-Smtp-Source: APXvYqxO45pdsD9bw7k1ZN/eHmJMDDLMtgzyredpWmd19F4mOCrBwdTMZQFVNqDl2BHgwDko/5ETWA==
-X-Received: by 2002:a5d:4ed0:: with SMTP id s16mr5523773wrv.144.1579301542065;
-        Fri, 17 Jan 2020 14:52:22 -0800 (PST)
-Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id l3sm32829387wrt.29.2020.01.17.14.52.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2020 14:52:21 -0800 (PST)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Andrey Ryabinin <ryabinin@virtuozzo.com>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, glider@google.com,
-        dvyukov@google.com, corbet@lwn.net, linux@armlinux.org.uk,
-        christoffer.dall@arm.com, marc.zyngier@arm.com, arnd@arndb.de,
-        nico@fluxnic.net, vladimir.murzin@arm.com, keescook@chromium.org,
-        jinb.park7@gmail.com, alexandre.belloni@bootlin.com,
-        ard.biesheuvel@linaro.org, daniel.lezcano@linaro.org,
-        pombredanne@nexb.com, rob@landley.net, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, mark.rutland@arm.com,
-        catalin.marinas@arm.com, yamada.masahiro@socionext.com,
-        tglx@linutronix.de, thgarnie@google.com, dhowells@redhat.com,
-        geert@linux-m68k.org, andre.przywara@arm.com,
-        julien.thierry@arm.com, drjones@redhat.com, philip@cog.systems,
-        mhocko@suse.com, kirill.shutemov@linux.intel.com,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
-        ryabinin.a.a@gmail.com
-Subject: [PATCH v7 7/7] ARM: Enable KASan for ARM
-Date:   Fri, 17 Jan 2020 14:48:39 -0800
-Message-Id: <20200117224839.23531-8-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200117224839.23531-1-f.fainelli@gmail.com>
-References: <20200117224839.23531-1-f.fainelli@gmail.com>
+        id S1730610AbgARBqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jan 2020 20:46:47 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:48487 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729930AbgARBqr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jan 2020 20:46:47 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id DF0793C04C1;
+        Sat, 18 Jan 2020 02:46:43 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pzu7defiLZdF; Sat, 18 Jan 2020 02:46:37 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id B524B3C04C0;
+        Sat, 18 Jan 2020 02:46:37 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Sat, 18 Jan
+ 2020 02:46:37 +0100
+Date:   Sat, 18 Jan 2020 02:46:32 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater
+Message-ID: <20200118014632.GA14644@lxhi-065.adit-jv.com>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20191127084253.16356-1-geert+renesas@glider.be>
+X-Originating-IP: [10.72.93.66]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andrey Ryabinin <ryabinin@virtuozzo.com>
+Hi Geert,
 
-This patch enables the kernel address sanitizer for ARM. XIP_KERNEL has
-not been tested and is therefore not allowed.
+On Wed, Nov 27, 2019 at 09:42:46AM +0100, Geert Uytterhoeven wrote:
+>   - Create aggregators:
+> 
+>     $ echo e6052000.gpio 19,20 \
+>         > /sys/bus/platform/drivers/gpio-aggregator/new_device
+> 
+>     gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+>     gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+>     gpiochip_find_base: found new base at 778
+>     gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+>     gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
+> 
+>     $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+>         > /sys/bus/platform/drivers/gpio-aggregator/new_device
+> 
+>     gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+>     gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+>     gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+>     gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+>     gpiochip_find_base: found new base at 774
+>     gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+>     gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
+> 
+>   - Adjust permissions on /dev/gpiochip[89] (optional)
+> 
+>   - Control LEDs:
+> 
+>     $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+>     $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+>     $ gpioset gpiochip9 0=0     # LED8 OFF
+>     $ gpioset gpiochip9 0=1     # LED8 ON
+> 
+>   - Destroy aggregators:
+> 
+>     $ echo gpio-aggregator.0 \
+>             > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+>     $ echo gpio-aggregator.1 \
+>             > /sys/bus/platform/drivers/gpio-aggregator/delete_device
 
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
- Documentation/dev-tools/kasan.rst     | 4 ++--
- arch/arm/Kconfig                      | 9 +++++++++
- arch/arm/boot/compressed/Makefile     | 1 +
- drivers/firmware/efi/libstub/Makefile | 3 ++-
- 4 files changed, 14 insertions(+), 3 deletions(-)
+Thanks for describing the test procedure in detail. It helps a lot.
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index e4d66e7c50de..6acd949989c3 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -21,8 +21,8 @@ global variables yet.
- 
- Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
- 
--Currently generic KASAN is supported for the x86_64, arm64, xtensa and s390
--architectures, and tag-based KASAN is supported only for arm64.
-+Currently generic KASAN is supported for the x86_64, arm, arm64, xtensa and
-+s390 architectures, and tag-based KASAN is supported only for arm64.
- 
- Usage
- -----
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 96dab76da3b3..70a7eb50984e 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -65,6 +65,7 @@ config ARM
- 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
- 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
-+	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
- 	select HAVE_ARCH_SECCOMP_FILTER if AEABI && !OABI_COMPAT
- 	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
-@@ -212,6 +213,14 @@ config ARCH_MAY_HAVE_PC_FDC
- config ZONE_DMA
- 	bool
- 
-+config KASAN_SHADOW_OFFSET
-+	hex
-+	depends on KASAN
-+	default 0x1f000000 if PAGE_OFFSET=0x40000000
-+	default 0x5f000000 if PAGE_OFFSET=0x80000000
-+	default 0x9f000000 if PAGE_OFFSET=0xC0000000
-+	default 0xffffffff
-+
- config ARCH_SUPPORTS_UPROBES
- 	def_bool y
- 
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index 83991a0447fa..efda24b00a44 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -25,6 +25,7 @@ endif
- 
- GCOV_PROFILE		:= n
- KASAN_SANITIZE		:= n
-+CFLAGS_KERNEL		+= -D__SANITIZE_ADDRESS__
- 
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
- KCOV_INSTRUMENT		:= n
-diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-index c35f893897e1..c8b36824189b 100644
---- a/drivers/firmware/efi/libstub/Makefile
-+++ b/drivers/firmware/efi/libstub/Makefile
-@@ -20,7 +20,8 @@ cflags-$(CONFIG_ARM64)		:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
- 				   -fpie $(DISABLE_STACKLEAK_PLUGIN)
- cflags-$(CONFIG_ARM)		:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
- 				   -fno-builtin -fpic \
--				   $(call cc-option,-mno-single-pic-base)
-+				   $(call cc-option,-mno-single-pic-base) \
-+				   -D__SANITIZE_ADDRESS__
- 
- cflags-$(CONFIG_EFI_ARMSTUB)	+= -I$(srctree)/scripts/dtc/libfdt
- 
+Using similar commands on H3ULCB, I could successfully trigger the
+gpiochip6-{12,13} leds on and off. 
+
+The only unexpected thing is seeing below messages (where gpiochip99 and
+gpiochip22 are inexisting gpiochip names, mistakenly provided on command
+line prior to passing the correct name):
+
+root@rcar-gen3:~# echo gpiochip6 12-13 > /sys/bus/platform/drivers/gpio-aggregator/new_device                                                                                                                                                                                                                                                                 
+[  915.572905] gpio-aggregator gpio-aggregator.0: cannot find GPIO chip gpiochip99, deferring
+[  915.584224] gpio-aggregator gpio-aggregator.2: cannot find GPIO chip gpiochip99, deferring
+[  915.865281] gpio-aggregator gpio-aggregator.29: cannot find GPIO chip gpiochip22, deferring
+
+Obviously, in the above case, due to a typo in the names, the gpio
+chips will never be found, no matter how long gpio-aggregator defers
+their probing. Unfortunately, the driver will continuously emit those
+messages, upon each successfully created/aggregated gpiochip. I built
+gpio-aggregator as a loadable module, if that's relevant.
+
+Another comment is that, while the series _does_ allow specifying
+gpio lines in the DTS (this would require a common compatible string
+in gpio_aggregator_dt_ids[] and in the DTS node) and while those lines
+are indeed exposed to userspace, based on my testing, these same gpio
+lines are marked as "used/reserved" by the kernel. This means that
+operating on those gpio pins from userspace will not be possible.
+For instance, gpioget/gpioset return "Device or resource busy":
+
+gpioget: error reading GPIO values: Device or resource busy
+gpioset: error setting the GPIO line values: Device or resource busy
+
+I guess Harish will be unhappy about that, as his expectation was that
+upon merging gpio-aggregator with gpio-inverter, he will be able to
+describe GPIO polarity and names in DTS without "hogging" the pins.
+Perhaps this can be supplemented via an add-on patch later on?
+
+For the whole series (leaving the above findings to your discretion):
+
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+Thanks!
+
 -- 
-2.17.1
-
+Best Regards,
+Eugeniu
