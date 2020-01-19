@@ -2,90 +2,119 @@ Return-Path: <SRS0=X0AA=3I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84472C33CB1
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 08:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EAA9C33CB1
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 12:23:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E41020730
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 08:39:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KuaI0k04"
+	by mail.kernel.org (Postfix) with ESMTP id 5603720730
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 12:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579436630;
+	bh=kdmApmJQmpli9KwevmEbEeDmbmVPTBdEeyrrc2zP5B0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=l1Mcmmkm67xTBNG5WwJErUphOLtu6reL9KIm+101Im28IqzNhErz5l9kpYqHqTXga
+	 Dqz6nmKdGSuERbqA0tIbs+aFVmYRs4uy5UFn895+nOmeGnR6R9pzZaKcTOsML8Rorf
+	 XPw8gx/sBFRySVYk5RAu/RhGKBW6QS+8Kn447Omk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbgASIi7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jan 2020 03:38:59 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36756 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726444AbgASIi7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jan 2020 03:38:59 -0500
-Received: by mail-pg1-f194.google.com with SMTP id k3so13927102pgc.3;
-        Sun, 19 Jan 2020 00:38:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=wF5Xuv0BTk8kspnRMHwv06S9R1WiaH7h7B5fyMiJVfE=;
-        b=KuaI0k04xG1w3emIXID5xrncuwYQPr3IY5G/LRCl1NmiB0Kr2gtdwDEH/eivqsR7I5
-         X0U3OpzZoT7AWDzzHBQ8WFpfiuBs/X5ejj5185e55ECsu5htGmGeCnjc9zMgGCKkuvLJ
-         ojVVvFx49yTRPCl5SlJadwfdzISLIi25BDYOc1B+K+qLUORpkzjRKzDYoA/K2Zdn1b3v
-         Q1hMhdp7YGFzBnQ00qJ6LmhE2ilyQXu12EXbaci0ou5FwSzHmYLQyZ2I9SmFX6BVl/W+
-         OS9UYDr3kdRGUfBuLvJbPeCwmF83/kvAjrv4xp0AU76UL64EbzkLbq3ZhLF2zgf5G73h
-         Hzig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=wF5Xuv0BTk8kspnRMHwv06S9R1WiaH7h7B5fyMiJVfE=;
-        b=ixAoJEBTmjfAs3La32svs9vNB+mhpl03C2KBXa5OTReUxL5xRsBmou1pqt3Xd1QSnY
-         opUKB52x5NqyHErxEboM/X3BALir7Z7z44lERCx4iIq/mlKcN1un381YfGsoOBL/uqZz
-         Kqquun7esGQmJGng1T+ZkOadq6Jf+elHqupPfs7sHoOxzRFjz1JBkD0WvV2tUGJ+7h4k
-         /kOod5PcErWEsBquoZ0wagWzUkXvr2plA+5chffCvtV9Qw4ZYYhBVXgnsaVP2On4QwQZ
-         hu9E6tWHDd3tPAOg2AHtHA98KWNwBk3pDnMEWgDFkwS/PMz34bxoY/kAAf/KSwMh2k2M
-         3e4g==
-X-Gm-Message-State: APjAAAU65UPlnjaQI976nE2ilAr81qd0J8BFDr5zQm/jsAfslAMCp7ek
-        cKA4TfinPRrlb8oYOCI7Io8=
-X-Google-Smtp-Source: APXvYqzHsje3/mGYYrrAh2rPZ9VrUoecCS35LeJGY9RQP/9xCL9LM49ZKJU0qgsqqaNlzxuGlIhoDw==
-X-Received: by 2002:a63:fb05:: with SMTP id o5mr55395739pgh.355.1579423138619;
-        Sun, 19 Jan 2020 00:38:58 -0800 (PST)
-Received: from localhost.localdomain ([119.28.24.183])
-        by smtp.gmail.com with ESMTPSA id x8sm35690172pfd.76.2020.01.19.00.38.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2020 00:38:57 -0800 (PST)
-From:   Lingpeng Chen <forrest0579@gmail.com>
-To:     "David S . Miller" <davem@davemloft.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Lingpeng Chen <forrest0579@gmail.com>
-Subject: [PATCH] Doc: networking: fix typo in Documentation/networking/tls.rst
-Date:   Sun, 19 Jan 2020 16:38:39 +0800
-Message-Id: <20200119083840.28714-1-forrest0579@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726765AbgASMXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jan 2020 07:23:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56854 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726744AbgASMXt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 19 Jan 2020 07:23:49 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8F061206D7;
+        Sun, 19 Jan 2020 12:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579436628;
+        bh=kdmApmJQmpli9KwevmEbEeDmbmVPTBdEeyrrc2zP5B0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=i/Ow8+dZLlGqOoabUzVmR75Uu96fq1i2vsV+P6NLh/P6yYnvUm8kv3HAL4gGr2iwt
+         VzU8QPoeXMDyFPJwkhpv+eTSePVE9U9JBsdiJUgzuObcBqEhMN4+vMhbscs9yOA5d6
+         Ce+Ul+sqDBTE8kNC4QTKRU7JOi7JaItt5i4uvyjo=
+Date:   Sun, 19 Jan 2020 21:23:40 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 01/22] bootconfig: Add Extra Boot Config support
+Message-Id: <20200119212340.05f4fb15a66147edcdc77373@kernel.org>
+In-Reply-To: <a61b3af0-e61c-f135-d7d4-3ff51b8117dc@infradead.org>
+References: <157867220019.17873.13377985653744804396.stgit@devnote2>
+        <157867221257.17873.1775090991929862549.stgit@devnote2>
+        <a61b3af0-e61c-f135-d7d4-3ff51b8117dc@infradead.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-klts_send_ctrl_message -> ktls_send_ctrl_message
+On Sat, 18 Jan 2020 10:33:01 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Signed-off-by: Lingpeng Chen <forrest0579@gmail.com>
----
- Documentation/networking/tls.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On 1/10/20 8:03 AM, Masami Hiramatsu wrote:
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index a34064a031a5..63450d3bbf12 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1215,6 +1215,17 @@ source "usr/Kconfig"
+> >  
+> >  endif
+> >  
+> > +config BOOT_CONFIG
+> > +	bool "Boot config support"
+> > +	select LIBXBC
+> > +	default y
+> > +	help
+> > +	  Extra boot config allows system admin to pass a config file as
+> > +	  complemental extension of kernel cmdline when booting.
+> > +	  The boot config file is usually attached at the end of initramfs.
+> 
+> Is there some other location where it might be attached?
+> Please explain.
 
-diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
-index 8cb2cd4e2a80..fca2a7364223 100644
---- a/Documentation/networking/tls.rst
-+++ b/Documentation/networking/tls.rst
-@@ -132,7 +132,7 @@ using a record of type @record_type.
- .. code-block:: c
- 
-   /* send TLS control message using record_type */
--  static int klts_send_ctrl_message(int sock, unsigned char record_type,
-+  static int ktls_send_ctrl_message(int sock, unsigned char record_type,
-                                     void *data, size_t length)
-   {
-         struct msghdr msg = {0};
+Oops, good catch!
+No, it supports only initramfs.
+
+I missed to leave the comment written in planning phase.
+I need to update it.
+
+Thank you!
+
+> 
+> > +
+> > +	  If unsure, say Y.
+> > +
+> >  choice
+> >  	prompt "Compiler optimization level"
+> >  	default CC_OPTIMIZE_FOR_PERFORMANCE
+> 
+> 
+> -- 
+> ~Randy
+
+
 -- 
-2.17.1
-
+Masami Hiramatsu <mhiramat@kernel.org>
