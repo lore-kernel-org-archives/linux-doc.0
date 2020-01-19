@@ -1,103 +1,117 @@
-Return-Path: <SRS0=IJiS=3H=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=X0AA=3I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A86EFC32771
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jan 2020 18:33:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD11EC33CB1
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 06:09:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 74BBD2468B
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jan 2020 18:33:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HKrlvjMU"
+	by mail.kernel.org (Postfix) with ESMTP id BC026206ED
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 06:09:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgARSd5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jan 2020 13:33:57 -0500
-Received: from [198.137.202.133] ([198.137.202.133]:44030 "EHLO
-        bombadil.infradead.org" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1726490AbgARSd5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Jan 2020 13:33:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=O0FvQU1+LL+nY/awXfWm1zOJdSt4kxBeR65IPQXUBzQ=; b=HKrlvjMUQYbnZqM268AjtmGso
-        VEUfPKnFUvFb9/dyAxD4OjzdeuQnC0z9arbqs6pt4TMCnOXand+EwQC9JqCgpVgGkVTSt1qeMTsL7
-        hZ9sa1FOilpIQqome3sGu1z/NCOGLTL1X7/hm6/2pgHLC7ZoDtVJDYW2JEMd7AHeZddj0AbJ+DrX9
-        AqiAnVmL5JvZAOUxarOKTcnL29YWznUVjDlxqHAU1s/uQgGeECBoJ5I4ricMU3DFTsbuabhH0sNGq
-        UOO8eln4QXe06l2ugRVaWK/cBK5Z15YNvcQJpRtWqZd8uX3Y/wkdCH5lrFSrBu+8JMkVc7RPdFu+j
-        hdxReIfjw==;
-Received: from [2603:3004:32:9a00::ce80]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1issu6-0003uP-6e; Sat, 18 Jan 2020 18:33:04 +0000
-Subject: Re: [PATCH v6 01/22] bootconfig: Add Extra Boot Config support
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <157867220019.17873.13377985653744804396.stgit@devnote2>
- <157867221257.17873.1775090991929862549.stgit@devnote2>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a61b3af0-e61c-f135-d7d4-3ff51b8117dc@infradead.org>
-Date:   Sat, 18 Jan 2020 10:33:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        id S1726345AbgASGJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jan 2020 01:09:05 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:48262 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725809AbgASGJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jan 2020 01:09:05 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04427;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0To42lyA_1579414137;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0To42lyA_1579414137)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sun, 19 Jan 2020 14:08:58 +0800
+Subject: [PATCH v7 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+ <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+Message-ID: <a95a7e05-ad60-b9ee-ca39-f46c8e08887d@linux.alibaba.com>
+Date:   Sun, 19 Jan 2020 14:08:57 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <157867221257.17873.1775090991929862549.stgit@devnote2>
+In-Reply-To: <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/10/20 8:03 AM, Masami Hiramatsu wrote:
-> diff --git a/init/Kconfig b/init/Kconfig
-> index a34064a031a5..63450d3bbf12 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1215,6 +1215,17 @@ source "usr/Kconfig"
->  
->  endif
->  
-> +config BOOT_CONFIG
-> +	bool "Boot config support"
-> +	select LIBXBC
-> +	default y
-> +	help
-> +	  Extra boot config allows system admin to pass a config file as
-> +	  complemental extension of kernel cmdline when booting.
-> +	  The boot config file is usually attached at the end of initramfs.
+Since v6:
+  * rebased on latest linux-next
+Since v5:
+  * fix compile failure when NUMA disabled
+Since v4:
+  * improved documentation
+Since v3:
+  * fix comments and improved documentation
+Since v2:
+  * simplified the locality concept & implementation
+Since v1:
+  * improved documentation
 
-Is there some other location where it might be attached?
-Please explain.
+Modern production environment could use hundreds of cgroup to control
+the resources for different workloads, along with the complicated
+resource binding.
 
-> +
-> +	  If unsure, say Y.
-> +
->  choice
->  	prompt "Compiler optimization level"
->  	default CC_OPTIMIZE_FOR_PERFORMANCE
+On NUMA platforms where we have multiple nodes, things become even more
+complicated, we hope there are more local memory access to improve the
+performance, and NUMA Balancing keep working hard to achieve that,
+however, wrong memory policy or node binding could easily waste the
+effort, result a lot of remote page accessing.
 
+We need to notice such problems, then we got chance to fix it before
+there are too much damages, however, there are no good monitoring
+approach yet to help catch the mouse who introduced the remote access.
+
+This patch set is trying to fill in the missing pieces， by introduce
+the per-cgroup NUMA locality info, with this new statistics, we could
+achieve the daily monitoring on NUMA efficiency, to give warning when
+things going too wrong.
+
+Please check the second patch for more details.
+
+Michael Wang (2):
+  sched/numa: introduce per-cgroup NUMA locality info
+  sched/numa: documentation for per-cgroup numa statistics
+
+ Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
+ Documentation/admin-guide/index.rst             |   1 +
+ Documentation/admin-guide/kernel-parameters.txt |   4 +
+ Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+ include/linux/sched.h                           |  15 ++
+ include/linux/sched/sysctl.h                    |   6 +
+ init/Kconfig                                    |  11 ++
+ kernel/sched/core.c                             |  75 ++++++++++
+ kernel/sched/fair.c                             |  62 +++++++++
+ kernel/sched/sched.h                            |  12 ++
+ kernel/sysctl.c                                 |  11 ++
+ 11 files changed, 384 insertions(+)
+ create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
 
 -- 
-~Randy
+2.14.4.44.g2045bb6
+
