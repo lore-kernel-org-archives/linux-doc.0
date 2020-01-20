@@ -2,105 +2,74 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01714C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:43:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2E2C2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:50:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D03322087E
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:43:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A958217F4
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:50:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbgATNnE convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 08:43:04 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:33307 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbgATNnE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 08:43:04 -0500
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1itXJv-0000pm-61; Mon, 20 Jan 2020 14:42:23 +0100
-Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
-        id D0FEF105CF0; Mon, 20 Jan 2020 14:42:22 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Krzysztof Piecuch <piecuch@protonmail.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Cc:     "corbet\@lwn.net" <corbet@lwn.net>,
-        "mingo\@redhat.com" <mingo@redhat.com>,
-        "bp\@alien8.de" <bp@alien8.de>, "hpa\@zytor.com" <hpa@zytor.com>,
-        "x86\@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung\@kernel.org" <mchehab+samsung@kernel.org>,
-        "jpoimboe\@redhat.com" <jpoimboe@redhat.com>,
-        "gregkh\@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "pawan.kumar.gupta\@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "paulmck\@linux.ibm.com" <paulmck@linux.ibm.com>,
-        "jgross\@suse.com" <jgross@suse.com>,
-        "rafael.j.wysocki\@intel.com" <rafael.j.wysocki@intel.com>,
-        "viresh.kumar\@linaro.org" <viresh.kumar@linaro.org>,
-        "drake\@endlessm.com" <drake@endlessm.com>,
-        "malat\@debian.org" <malat@debian.org>,
-        "mzhivich\@akamai.com" <mzhivich@akamai.com>,
-        "juri.lelli\@redhat.com" <juri.lelli@redhat.com>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] x86/tsc: Add tsc_tuned_baseclk flag disabling CPUID.16h use for tsc calibration
-In-Reply-To: <pdsz0EbsOFH8qmBn1Uv20EOOr71rKXljZIItC75EhT9KO4TKEKrt83Es88ZeaAh3MYuk0UM8F6XKfvmmRHgZjF50CXk9sigWEH_SyXp6lZE=@protonmail.com>
-References: <9rN6HvBfpUYE7XjHYSTKXKkKOUHQd_skSYGqjXlI0jTIk4nqLoLUloev1jgSayOdvzmkXgRNP8j_mgcikMJy6L_JN_vJhUJn9vD9xm_ueSo=@protonmail.com> <6BFAC54D-65CA-4F8A-9C5B-CEFB108C90FD@amacapital.net> <pdsz0EbsOFH8qmBn1Uv20EOOr71rKXljZIItC75EhT9KO4TKEKrt83Es88ZeaAh3MYuk0UM8F6XKfvmmRHgZjF50CXk9sigWEH_SyXp6lZE=@protonmail.com>
-Date:   Mon, 20 Jan 2020 14:42:22 +0100
-Message-ID: <871rru4535.fsf@nanos.tec.linutronix.de>
+        id S1726860AbgATNuw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 08:50:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40258 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726819AbgATNuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jan 2020 08:50:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 854D9B04C;
+        Mon, 20 Jan 2020 13:50:50 +0000 (UTC)
+Date:   Mon, 20 Jan 2020 14:50:49 +0100
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/26] docs: i2c: i2c-protocol: use proper names for ACK
+ and NACK
+Message-ID: <20200120145049.32239ee2@endymion>
+In-Reply-To: <20200105225012.11701-10-luca@lucaceresoli.net>
+References: <20200105224006.10321-1-luca@lucaceresoli.net>
+        <20200105225012.11701-1-luca@lucaceresoli.net>
+        <20200105225012.11701-10-luca@lucaceresoli.net>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Krzysztof,
+On Sun,  5 Jan 2020 23:49:56 +0100, Luca Ceresoli wrote:
+> Use the proper ACK and NACK naming from the I2C specification instead of
+> "accept" and "reverse accept".
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+>  Documentation/i2c/i2c-protocol.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/i2c/i2c-protocol.rst b/Documentation/i2c/i2c-protocol.rst
+> index 66adac3a5afd..9a4ac944cf9d 100644
+> --- a/Documentation/i2c/i2c-protocol.rst
+> +++ b/Documentation/i2c/i2c-protocol.rst
+> @@ -11,7 +11,7 @@ Key to symbols
+>  S               Start condition
+>  P               Stop condition
+>  Rd/Wr (1 bit)   Read/Write bit. Rd equals 1, Wr equals 0.
+> -A, NA (1 bit)   Accept and reverse accept bit.
+> +A, NA (1 bit)   Acknowledge (ACK) and Not Acknowledge (NACK) bit
+>  Addr  (7 bits)  I2C 7 bit address. Note that this can be expanded as usual to
+>                  get a 10 bit I2C address.
+>  Comm  (8 bits)  Command byte, a data byte which often selects a register on
 
-Krzysztof Piecuch <piecuch@protonmail.com> writes:
-> On Friday, January 17, 2020 4:37 PM, Andy Lutomirski <luto@amacapital.net> wrote:
->> Wouldn’t it be better to have an option tsc_max_refinement= to increase the 1%?
->
-> All that is in the commends about it say that:
->
->  * If there are any calibration anomalies (too many SMIs, etc),
->  * or the refined calibration is off by 1% of the fast early
->  * calibration, we throw out the new calibration and use the
->  * early calibration.
->
-> I still don't fully understand why the "1% rule" exists.
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-Simply because all of this is horribly fragile and if you put virt into
-the picture it gets even worse.
-
-The initial calibration via PIT/HPET is halfways accurate in most cases
-and we use the 1% as a sanity check.
-
-> Ideally it would be better to get the early calibration right than
-> risk getting it wrong because of an "anomaly".
-
-Ideally we would just have a way to read the stupid frequency from some
-reliable place, but there is no such thing.
-
-Guess why we have all this code, surely not because we have nothing
-better to do than dreaming up a variety of weird ways to figure out that
-frequency.
-
-> OTOH if you system doesn't support any of the early calibration
-> methods other than CPUID.16h (mine doesn't support either PIT or MSR)
-> "tsc_max_refinement" would allow you to control max tsc_hz error.
-
-Widening the error window here is clearly a hack. As you have to supply
-a valid number there, then why not just providing the frequency itself
-on the command line? That would at least make most sense and would avoid
-to use completely wrong data in the early boot stage.
-
-Thanks,
-
-        tglx
+-- 
+Jean Delvare
+SUSE L3 Support
