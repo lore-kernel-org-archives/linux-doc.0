@@ -2,93 +2,103 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B24C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A7EC2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:20:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6BB9F20678
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:19:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 931FD22314
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:20:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="TCR5hUsb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728927AbgATOTz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 09:19:55 -0500
-Received: from mga18.intel.com ([134.134.136.126]:25347 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728826AbgATOTy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jan 2020 09:19:54 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Jan 2020 06:19:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,342,1574150400"; 
-   d="scan'208";a="219662143"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jan 2020 06:19:50 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1itXuB-0002Zq-8K; Mon, 20 Jan 2020 16:19:51 +0200
-Date:   Mon, 20 Jan 2020 16:19:51 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     lijiazi <jqqlijiazi@gmail.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        lijiazi <lijiazi@xiaomi.com>
-Subject: Re: [PATCH v3 3/3] lib/vsprintf: add two device node flags
-Message-ID: <20200120141951.GO32742@smile.fi.intel.com>
-References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
- <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
- <49e5a1c51283b3ea829dc7a04028121764cf5961.1579423564.git.lijiazi@xiaomi.com>
+        id S1726988AbgATOUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 09:20:13 -0500
+Received: from mail4.protonmail.ch ([185.70.40.27]:32249 "EHLO
+        mail4.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727285AbgATOUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 09:20:13 -0500
+Date:   Mon, 20 Jan 2020 14:20:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=default; t=1579530011;
+        bh=F6zq9nm/Ri9Wc3JAzDzqc/NsBZlXQNstVWMJ+FiUD2Q=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+         Feedback-ID:From;
+        b=TCR5hUsb/JnJc7uM8oxBC3I6eBvwEg/FoIUMNWIeHnlCgpRePl2SfSTFz80zqlASn
+         6rKu+yfYy1x6o5WPBkXVuHEsNIcUjgn75L6LhZBTNCMbBIX0ggE9oNfjLAumZro3Xb
+         iBytV4Ecp7y7Z83BtkHWlAyM4Rgn6jw8aJe5MIgQ=
+To:     Thomas Gleixner <tglx@linutronix.de>
+From:   Krzysztof Piecuch <piecuch@protonmail.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        "corbet\\@lwn.net" <corbet@lwn.net>,
+        "mingo\\@redhat.com" <mingo@redhat.com>,
+        "bp\\@alien8.de" <bp@alien8.de>, "hpa\\@zytor.com" <hpa@zytor.com>,
+        "x86\\@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung\\@kernel.org" <mchehab+samsung@kernel.org>,
+        "jpoimboe\\@redhat.com" <jpoimboe@redhat.com>,
+        "gregkh\\@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "pawan.kumar.gupta\\@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "paulmck\\@linux.ibm.com" <paulmck@linux.ibm.com>,
+        "jgross\\@suse.com" <jgross@suse.com>,
+        "rafael.j.wysocki\\@intel.com" <rafael.j.wysocki@intel.com>,
+        "viresh.kumar\\@linaro.org" <viresh.kumar@linaro.org>,
+        "drake\\@endlessm.com" <drake@endlessm.com>,
+        "malat\\@debian.org" <malat@debian.org>,
+        "mzhivich\\@akamai.com" <mzhivich@akamai.com>,
+        "juri.lelli\\@redhat.com" <juri.lelli@redhat.com>,
+        "linux-doc\\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\\@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Reply-To: Krzysztof Piecuch <piecuch@protonmail.com>
+Subject: Re: [PATCH] x86/tsc: Add tsc_tuned_baseclk flag disabling CPUID.16h use for tsc calibration
+Message-ID: <ap4FOrto78iOuRRggmgRTphowIopQYqbTDWXbRr82-Ipk_351W6863FJjJHWjrGFsZanu7_C3YrIXCdmCVziB1V4E-Rsn4Tp698EBJPR0C4=@protonmail.com>
+In-Reply-To: <871rru4535.fsf@nanos.tec.linutronix.de>
+References: <9rN6HvBfpUYE7XjHYSTKXKkKOUHQd_skSYGqjXlI0jTIk4nqLoLUloev1jgSayOdvzmkXgRNP8j_mgcikMJy6L_JN_vJhUJn9vD9xm_ueSo=@protonmail.com>
+ <6BFAC54D-65CA-4F8A-9C5B-CEFB108C90FD@amacapital.net>
+ <pdsz0EbsOFH8qmBn1Uv20EOOr71rKXljZIItC75EhT9KO4TKEKrt83Es88ZeaAh3MYuk0UM8F6XKfvmmRHgZjF50CXk9sigWEH_SyXp6lZE=@protonmail.com>
+ <871rru4535.fsf@nanos.tec.linutronix.de>
+Feedback-ID: krphKiiPlx_XKIryTSpdJ_XtBwogkHXWA-Us-PsTeaBSrzOTAKWxwbFkseT4Z85b_7PMRvSnq3Ah7f9INXrOMw==:Ext:ProtonMail
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49e5a1c51283b3ea829dc7a04028121764cf5961.1579423564.git.lijiazi@xiaomi.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 20, 2020 at 07:38:29PM +0800, lijiazi wrote:
-> Add two device node flags, and use OF_DEVICE_NODE_FLAG_MAX instead
-> of sizeof("xxxx").
+On Monday, January 20, 2020 1:42 PM, Thomas Gleixner <tglx@linutronix.de> w=
+rote:
+>
+> Simply because all of this is horribly fragile and if you put virt into
+> the picture it gets even worse.
+>
+> The initial calibration via PIT/HPET is halfways accurate in most cases
+> and we use the 1% as a sanity check.
+>
+> > Ideally it would be better to get the early calibration right than
+> > risk getting it wrong because of an "anomaly".
+>
+> Ideally we would just have a way to read the stupid frequency from some
+> reliable place, but there is no such thing.
+>
+> Guess why we have all this code, surely not because we have nothing
+> better to do than dreaming up a variety of weird ways to figure out that
+> frequency.
 
-...
+Thank you for the explanation.
 
->  			tbuf[1] = of_node_check_flag(dn, OF_DETACHED) ? 'd' : '-';
->  			tbuf[2] = of_node_check_flag(dn, OF_POPULATED) ? 'P' : '-';
->  			tbuf[3] = of_node_check_flag(dn, OF_POPULATED_BUS) ? 'B' : '-';
+> Widening the error window here is clearly a hack. As you have to supply
+> a valid number there, then why not just providing the frequency itself
+> on the command line? That would at least make most sense and would avoid
+> to use completely wrong data in the early boot stage.
 
-> -			tbuf[4] = 0;
+That sounds good.
+I'll assume that the user will be supposed to provide a flag tsc_early_hz=
+=3D
+so that refine_calibration_work can get better numbers while still doing
+the 1% sanity check.
 
-This is fine to leave untouched. See below.
-
-> +			tbuf[4] = of_node_check_flag(dn, OF_OVERLAY) ? 'O' : '-';
-> +			tbuf[5] = of_node_check_flag(dn, OF_OVERLAY_FREE_CSET) ? 'F' : '-';
-
-These two should be part of patch 1, which in turn should be last in the series.
-
-> +			tbuf[OF_DEVICE_NODE_FLAG_MAX] = 0;
-
-This one also, but in a form of explicit number, if you afraid of problems
-here, we may add something like
-
-	BUILD_BUG_ON(OF_DEVICE_NODE_FLAG_MAX < ...);
-
-where ... depends on amount of flags we print here.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I'll send a patch this week.
