@@ -2,148 +2,144 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D7DC32771
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 03:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BCBC33CB7
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 04:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 69C802073A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 03:23:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0901C2077C
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 04:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579490614;
-	bh=bFXtcmrmYQ5EaV0kOE8JiB2aYQ31SgC7NfzQHg2UPxs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Ad2/xjEHamDwjsgbMOkU2XhVK8iFiJ6Xom8GNv/Wo0tIdJOyKFhvpegc3JPckkIhL
-	 hQL5BxPr2SFA32wG6V8QJOGseYxrRdvuzFShcrH/9UwlZCS290SfNSeGuccPlFFjpl
-	 UL7Pm+U2ByTVsYPjhgVy7zolD/dtc08747sMS7fE=
+	s=default; t=1579495940;
+	bh=DAtdwoWn08bxGri1PxDJ/LULe8Ktr8pcYIS21k28EN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=KcOvW6InL6XYqTXu1bUVl7+UZFCOYroicLhRznGJeJn0IG1+CW+aurIav1WWmR9Sq
+	 oia7XhEiQiGQHEYxJCMu6f53CioopyjooXncVD/wPRCgfcVU5OlcrFG1646JJWAh+q
+	 VEcqMGUcGrOB28JHeYsV/Z3syZmnCJ+RKtgxDLjE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbgATDXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jan 2020 22:23:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53298 "EHLO mail.kernel.org"
+        id S1729098AbgATEwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jan 2020 23:52:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41128 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728949AbgATDXa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Jan 2020 22:23:30 -0500
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729043AbgATEwT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 19 Jan 2020 23:52:19 -0500
+Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9BCE92077C;
-        Mon, 20 Jan 2020 03:23:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE82A2073A;
+        Mon, 20 Jan 2020 04:52:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579490609;
-        bh=bFXtcmrmYQ5EaV0kOE8JiB2aYQ31SgC7NfzQHg2UPxs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c9mJ5Agwkp77r+U0PAZA20yEaLWLW1G83oaMKpAcUmGMJbknhrDgbWn2+FCXaERMG
-         wWrIV2dbKH5ue/OgJqIQZOTU7MZ7zSMCogcHleY7kBaA9T6/eq4irSk/krw20a0q7v
-         VHzfzYyM/lt4m0h0P/S/fZp7f/W3LskHFv40ENS0=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Documentation: tracing: Fix typos in boot-time tracing documentation
-Date:   Mon, 20 Jan 2020 12:23:23 +0900
-Message-Id: <157949060335.25888.13153184562531693684.stgit@devnote2>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <157949056842.25888.12912764773767908046.stgit@devnote2>
-References: <157949056842.25888.12912764773767908046.stgit@devnote2>
-User-Agent: StGit/0.17.1-dirty
+        s=default; t=1579495938;
+        bh=DAtdwoWn08bxGri1PxDJ/LULe8Ktr8pcYIS21k28EN4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j0tf43nqBaHRTk8KvCSppcB0LKW557pYqYNlt49K3zTMGOJWI1C55cXqV6Sa+upBN
+         fe1G0uKWFmL5LwUIKfbU9zbeAHfL4x+4mO/ID01faHvm3joFX5AL1Kn8Zsh+bQ3+NM
+         w1eqcV5s+H8nFfeVbQ2zUJHWkDdHVGMQVksgVduE=
+Date:   Sun, 19 Jan 2020 20:52:16 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com
+Subject: Re: [PATCH v3 0/9] Support for Casefolding and Encryption
+Message-ID: <20200120045216.GB913@sol.localdomain>
+References: <20200117214246.235591-1-drosen@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200117214246.235591-1-drosen@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typos in boottime-trace.rst according to Randy's suggestions.
+On Fri, Jan 17, 2020 at 01:42:37PM -0800, Daniel Rosenberg wrote:
+> These patches are all on top of fscrypt's developement branch
+> 
+> Ext4 and F2FS currently both support casefolding and encryption, but not at
+> the same time. These patches aim to rectify that.
+> 
+> Since directory names are stored case preserved, we cannot just take the hash
+> of the ciphertext. Instead we use the siphash of the casefolded name. With this
+> we no longer have a direct path from an encrypted name to the hash without the
+> key. To deal with this, fscrypt now always includes the hash in the name it
+> presents when the key is not present. There is a pre-existing bug where you can
+> change parts of the hash and still match the name so long as the disruption to
+> the hash does not happen to affect lookup on that filesystem. I'm not sure how
+> to fix that without making ext4 lookups slower in the more common case.
+> 
+> I moved the identical dcache operations for ext4 and f2fs into the VFS, as any
+> filesystem that uses casefolding will need the same code. This will also allow
+> further optimizations to that path, although my current changes don't take
+> advantage of that yet.
+> 
+> For Ext4, this also means that we need to store the hash on disk. We only do so
+> for encrypted and casefolded directories to avoid on disk format changes.
+> Previously encryption and casefolding could not live on the same filesystem,
+> and we're relaxing that requirement. F2fs is a bit more straightforward since
+> it already stores hashes on disk.
+> 
+> I've updated the related tools with just enough to enable the feature. I still
+> need to adjust ext4's fsck's, although without access to the keys,
+> neither fsck will be able to verify the hashes of casefolded and encrypted names.
+> 
+> v3 changes:
+> fscrypt patch only creates hash key if it will be needed.
+> Rebased on top of fscrypt branch, reconstified match functions in ext4/f2fs
+> 
+> v2 changes:
+> fscrypt moved to separate thread to rebase on fscrypt dev branch
+> addressed feedback, plus some minor fixes
+> 
+> 
+> Daniel Rosenberg (9):
+>   fscrypt: Add siphash and hash key for policy v2
+>   fscrypt: Don't allow v1 policies with casefolding
+>   fscrypt: Change format of no-key token
+>   fscrypt: Only create hash key when needed
+>   vfs: Fold casefolding into vfs
+>   f2fs: Handle casefolding with Encryption
+>   ext4: Use struct super_blocks' casefold data
+>   ext4: Hande casefolding with encryption
+>   ext4: Optimize match for casefolded encrypted dirs
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Documentation/trace/boottime-trace.rst |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Thanks for the new version of this patchset, Daniel!
 
-diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-index 1d10fdebf1b2..dcb390075ca1 100644
---- a/Documentation/trace/boottime-trace.rst
-+++ b/Documentation/trace/boottime-trace.rst
-@@ -13,7 +13,7 @@ Boot-time tracing allows users to trace boot-time process including
- device initialization with full features of ftrace including per-event
- filter and actions, histograms, kprobe-events and synthetic-events,
- and trace instances.
--Since kernel cmdline is not enough to control these complex features,
-+Since kernel command line is not enough to control these complex features,
- this uses bootconfig file to describe tracing feature programming.
- 
- Options in the Boot Config
-@@ -21,7 +21,7 @@ Options in the Boot Config
- 
- Here is the list of available options list for boot time tracing in
- boot config file [1]_. All options are under "ftrace." or "kernel."
--refix. See kernel parameters for the options which starts
-+prefix. See kernel parameters for the options which starts
- with "kernel." prefix [2]_.
- 
- .. [1] See :ref:`Documentation/admin-guide/bootconfig.rst <bootconfig>`
-@@ -50,7 +50,7 @@ kernel.fgraph_filters = FILTER[, FILTER2...]
-    Add fgraph tracing function filters.
- 
- kernel.fgraph_notraces = FILTER[, FILTER2...]
--   Add fgraph non tracing function filters.
-+   Add fgraph non-tracing function filters.
- 
- 
- Ftrace Per-instance Options
-@@ -81,10 +81,10 @@ ftrace.[instance.INSTANCE.]tracer = TRACER
-    Set TRACER to current tracer on boot. (e.g. function)
- 
- ftrace.[instance.INSTANCE.]ftrace.filters
--   This will take an array of tracing function filter rules
-+   This will take an array of tracing function filter rules.
- 
- ftrace.[instance.INSTANCE.]ftrace.notraces
--   This will take an array of NON-tracing function filter rules
-+   This will take an array of NON-tracing function filter rules.
- 
- 
- Ftrace Per-Event Options
-@@ -93,7 +93,7 @@ Ftrace Per-Event Options
- These options are setting per-event options.
- 
- ftrace.[instance.INSTANCE.]event.GROUP.EVENT.enable
--   Enables GROUP:EVENT tracing.
-+   Enable GROUP:EVENT tracing.
- 
- ftrace.[instance.INSTANCE.]event.GROUP.EVENT.filter = FILTER
-    Set FILTER rule to the GROUP:EVENT.
-@@ -145,10 +145,10 @@ below::
-         }
-   }
- 
--Also, boottime tracing supports "instance" node, which allows us to run
-+Also, boot-time tracing supports "instance" node, which allows us to run
- several tracers for different purpose at once. For example, one tracer
--is for tracing functions start with "user\_", and others tracing "kernel\_"
--functions, you can write boot config as below::
-+is for tracing functions starting with "user\_", and others tracing
-+"kernel\_" functions, you can write boot config as below::
- 
-   ftrace.instance {
-         foo {
+I'd like to apply the first four patches (the fs/crypto/ part, to prepare for
+the new dirhash method) for 5.6, to get ready for the actual
+encrypted+casefolded support in filesystems later.
 
+But we don't have much time left before the merge window, the more I look at the
+patches I'm still not very happy with them.  E.g., some comments I made haven't
+been addressed, it's missing updates to the documentation, and some of the code
+comments and commit messages are still confusing.  For one, there's still some
+ambiguity between the dirhash and the SHA-256 hash, and it's not really
+explained why the patch introduces the SHA-256 stuff, which actually has nothing
+to do with encrypted+casefold (other than it was a good opportunity to do it as
+the nokey name format had to be changed for encrypted+casefold anyway).
+
+I also found a bug where the return value of base64_decode() isn't being checked
+properly.  We should also keep fscrypt_match_name() simpler by setting disk_name
+for short names, like we were before.  There are also some places that count the
+padding in struct fscrypt_nokey_name and some that don't, which is confusing.
+We also no longer need to call fscrypt_get_policy() during setflags, as we call
+fscrypt_require_key() now anyway.  And there's now some ambiguity about what's
+meant by a "per-file key", since now there will be 2 types of per-file keys.
+
+So I hope you don't mind, but to move things along I've had a go at cleaning up
+the fscrypt patches, and I've sent out an updated version of them.  Can you
+please take a look when you have a chance?:
+https://lkml.kernel.org/linux-fscrypt/20200120044401.325453-1-ebiggers@kernel.org/T/#u
+
+Thanks!
+
+- Eric
