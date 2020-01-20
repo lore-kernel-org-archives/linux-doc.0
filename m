@@ -2,195 +2,304 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38755C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 833A3C33CB8
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:28:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 108B821D7E
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:20:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B3DD2467B
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:28:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="dk46iNps"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgATQU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 11:20:27 -0500
-Received: from foss.arm.com ([217.140.110.172]:34192 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726885AbgATQU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jan 2020 11:20:27 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EF6831B;
-        Mon, 20 Jan 2020 08:20:26 -0800 (PST)
-Received: from [10.1.194.52] (e112269-lin.cambridge.arm.com [10.1.194.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25ECF3F6C4;
-        Mon, 20 Jan 2020 08:20:24 -0800 (PST)
-Subject: Re: [PATCH v3 1/8] KVM: arm64: Document PV-lock interface
-To:     Zengruan Ye <yezengruan@huawei.com>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Cc:     maz@kernel.org, james.morse@arm.com, linux@armlinux.org.uk,
-        suzuki.poulose@arm.com, julien.thierry.kdev@gmail.com,
-        catalin.marinas@arm.com, mark.rutland@arm.com, will@kernel.org,
-        daniel.lezcano@linaro.org, wanghaibin.wang@huawei.com,
-        peterz@infradead.org, longman@redhat.com
-References: <20200116124626.1155-1-yezengruan@huawei.com>
- <20200116124626.1155-2-yezengruan@huawei.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <35fea56c-b501-2163-2c95-62f918738167@arm.com>
-Date:   Mon, 20 Jan 2020 16:20:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1729146AbgATQ24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 11:28:56 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:45832 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729339AbgATQ24 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 11:28:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1579537735; x=1611073735;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=Rezbus0+Qtb7dCehSeCI0rgdtmN6kST6BhMlyZOYJiI=;
+  b=dk46iNpsIvRj2If3dJXA0vhwe5MTYsdZj1XorpEkiXontdwOSOxAAaAq
+   XcIkGtX224AhseEcEQewtnrjaQ11ymYCwEPTSWfEnFa5xd5mYnmt7K25F
+   iAdBYolSnivpfFsGWa7DkswgNL1h/3DZ4Hiq+SWlHNbKGjtgpUwaLS8gE
+   A=;
+IronPort-SDR: KvR6F9CVGZ7DRaL1UXSlaqKAY+Xl6s912YsYaVHxBgR3JSRbXVjCATB5IDZ7k6z+X4PxEm2ceC
+ f3eSZJtXRmOg==
+X-IronPort-AV: E=Sophos;i="5.70,342,1574121600"; 
+   d="scan'208";a="12341473"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 20 Jan 2020 16:28:54 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id EA1E0A2509;
+        Mon, 20 Jan 2020 16:28:52 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Mon, 20 Jan 2020 16:28:52 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.253) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Mon, 20 Jan 2020 16:28:46 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
+        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <mgorman@suse.de>, <rostedt@goodmis.org>,
+        <sj38.park@gmail.com>
+Subject: [PATCH 3/8] mm/damon: Adaptively adjust regions
+Date:   Mon, 20 Jan 2020 17:27:52 +0100
+Message-ID: <20200120162757.32375-4-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200120162757.32375-1-sjpark@amazon.com>
+References: <20200120162757.32375-1-sjpark@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <20200116124626.1155-2-yezengruan@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.253]
+X-ClientProxiedBy: EX13D14UWC002.ant.amazon.com (10.43.162.214) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Zengruan,
+From: SeongJae Park <sjpark@amazon.de>
 
-Given Marc and Will's thread[1] about a possible alternative way of
-handling this I won't do a thorough review as this might not be the best
-way of handling the underlying problem, but there's some comments below
-for you to consider.
+At the beginning of the monitoring, DAMON constructs the initial regions
+by evenly splitting the memory mapped address space of the process into
+the user-specified minimal number of regions.  In this initial state,
+the assumption of the regions (pages in same region have similar access
+frequencies) is normally not kept and thus the monitoring quality could
+be low.  To keep the assumption as much as possible, DAMON adaptively
+merges and splits each region.
 
-[1] http://lkml.kernel.org/r/b1d23a82d6a7caa79a99597fb83472be%40kernel.org
+For each ``aggregation interval``, it compares the access frequencies of
+adjacent regions and merges those if the frequency difference is small.
+Then, after it reports and clears the aggregated access frequency of
+each region, it splits each region into two regions if the total number
+of regions is smaller than the half of the user-specified maximum number
+of regions.
 
-On 16/01/2020 12:46, Zengruan Ye wrote:
-> Introduce a paravirtualization interface for KVM/arm64 to obtain the vCPU
-> that is currently running or not.
-> 
-> The PV lock structure of the guest is allocated by user space.
-> 
-> A hypercall interface is provided for the guest to interrogate the
-> hypervisor's support for this interface and the location of the shared
-> memory structures.
-> 
-> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
-> ---
->  Documentation/virt/kvm/arm/pvlock.rst   | 68 +++++++++++++++++++++++++
->  Documentation/virt/kvm/devices/vcpu.txt | 14 +++++
->  2 files changed, 82 insertions(+)
->  create mode 100644 Documentation/virt/kvm/arm/pvlock.rst
-> 
-> diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm/arm/pvlock.rst
-> new file mode 100644
-> index 000000000000..11776273c0a4
-> --- /dev/null
-> +++ b/Documentation/virt/kvm/arm/pvlock.rst
-> @@ -0,0 +1,68 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Paravirtualized lock support for arm64
-> +======================================
-> +
-> +KVM/arm64 provides some hypervisor service calls to support a paravirtualized
-> +guest obtaining whether the vCPU is currently running or not.
-> +
-> +Two new SMCCC compatible hypercalls are defined:
+In this way, DAMON provides its best-effort quality and minimal overhead
+while keeping the bounds users set for their trade-off.
 
-NIT: As defined this is now only a single (multiplexed) hypercall.
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ mm/damon.c | 142 +++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 138 insertions(+), 4 deletions(-)
 
-> +* ARM_SMCCC_VENDOR_HYP_KVM_PV_LOCK_FUNC_ID:  0x86000001
-
-You appear to have changed the SMC32/SMC64 bit on the ID, so this is now
-a 32-bit SMC, but the calling convention below (returning an int64)
-seems to rely on the guest being 64-bit. Any reason for this change?
-Given the implementation doesn't accept 32-bit clients and the calling
-convention requires returning a 64-bit value for 64-bit guests this
-seems wrong to me.
-
-> +  - KVM_PV_LOCK_FEATURES   0
-> +  - KVM_PV_LOCK_PREEMPTED  1
-> +
-> +The existence of the PV_LOCK hypercall should be probed using the SMCCC 1.1
-> +ARCH_FEATURES mechanism and the hypervisor should be KVM before calling it.
-> +
-> +KVM_PV_LOCK_FEATURES
-> +    ============= ========    ==========
-> +    Function ID:  (uint32)    0x86000001
-> +    PV_call_id:   (uint32)    0
-> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the relevant
-> +                              PV-lock feature is supported by the hypervisor.
-> +    ============= ========    ==========
-
-Because you are now multiplexing the two functions you've lost the
-parameter which previously was for "The function to query for support".
-Which makes this _FEATURES operation fairly pointless (you might as well
-just call KVM_PV_LOCK_PREEMPTED and handle the NOT_SUPPORTED error return).
-
-Steve
-
-> +
-> +KVM_PV_LOCK_PREEMPTED
-> +    ============= ========    ==========
-> +    Function ID:  (uint32)    0x86000001
-> +    PV_call_id:   (uint32)    1
-> +    Return value: (int64)     IPA of the PV-lock data structure for this vCPU.
-> +                              On failure:
-> +                              NOT_SUPPORTED (-1)
-> +    ============= ========    ==========
-> +
-> +The IPA returned by KVM_PV_LOCK_PREEMPTED should be mapped by the guest as
-> +normal memory with inner and outer write back caching attributes, in the inner
-> +shareable domain.
-> +
-> +KVM_PV_LOCK_PREEMPTED returns the structure for the calling vCPU.
-> +
-> +PV lock state
-> +-------------
-> +
-> +The structure pointed to by the KVM_PV_LOCK_PREEMPTED hypercall is as follows:
-> +
-> ++-----------+-------------+-------------+-----------------------------------+
-> +| Field     | Byte Length | Byte Offset | Description                       |
-> ++===========+=============+=============+===================================+
-> +| preempted |      8      |      0      | Indicates that the vCPU that owns |
-> +|           |             |             | this struct is running or not.    |
-> +|           |             |             | Non-zero values mean the vCPU has |
-> +|           |             |             | been preempted. Zero means the    |
-> +|           |             |             | vCPU is not preempted.            |
-> ++-----------+-------------+-------------+-----------------------------------+
-> +
-> +The preempted field will be updated to 1 by the hypervisor prior to scheduling
-> +a vCPU. When the vCPU is scheduled out, the preempted field will be updated
-> +to 0 by the hypervisor.
-> +
-> +The structure will be present within a reserved region of the normal memory
-> +given to the guest. The guest should not attempt to write into this memory.
-> +There is a structure per vCPU of the guest.
-> +
-> +It is advisable that one or more 64k pages are set aside for the purpose of
-> +these structures and not used for other purposes, this enables the guest to map
-> +the region using 64k pages and avoids conflicting attributes with other memory.
-> +
-> +For the user space interface see Documentation/virt/kvm/devices/vcpu.txt
-> +section "4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL".
-> diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
-> index 6f3bd64a05b0..2c68d9a0f644 100644
-> --- a/Documentation/virt/kvm/devices/vcpu.txt
-> +++ b/Documentation/virt/kvm/devices/vcpu.txt
-> @@ -74,3 +74,17 @@ Specifies the base address of the stolen time structure for this VCPU. The
->  base address must be 64 byte aligned and exist within a valid guest memory
->  region. See Documentation/virt/kvm/arm/pvtime.txt for more information
->  including the layout of the stolen time structure.
-> +
-> +4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL
-> +Architectures: ARM64
-> +
-> +4.1 ATTRIBUTE: KVM_ARM_VCPU_PVLOCK_IPA
-> +Parameters: 64-bit base address
-> +Returns: -ENXIO:  PV lock not implemented
-> +         -EEXIST: Base address already set for this vCPU
-> +         -EINVAL: Base address not 64 byte aligned
-> +
-> +Specifies the base address of the PV lock structure for this vCPU. The
-> +base address must be 64 byte aligned and exist within a valid guest memory
-> +region. See Documentation/virt/kvm/arm/pvlock.rst for more information
-> +including the layout of the pv lock structure.
-> 
+diff --git a/mm/damon.c b/mm/damon.c
+index 2a0c010291f8..5012d8c25b8b 100644
+--- a/mm/damon.c
++++ b/mm/damon.c
+@@ -73,6 +73,7 @@ static unsigned long aggr_interval = 100 * 1000;
+ static struct timespec64 last_aggregate_time;
+ 
+ static unsigned long min_nr_regions = 10;
++static unsigned long max_nr_regions = 1000;
+ 
+ /* result buffer */
+ #define DAMON_LEN_RBUF	(1024 * 1024 * 4)
+@@ -609,6 +610,122 @@ static void kdamond_flush_aggregated(void)
+ 	}
+ }
+ 
++#define sz_damon_region(r) (r->vm_end - r->vm_start)
++
++/*
++ * Merge two adjacent regions into one region
++ */
++static void damon_merge_two_regions(struct damon_region *l,
++				struct damon_region *r)
++{
++	l->nr_accesses = (l->nr_accesses * sz_damon_region(l) +
++			r->nr_accesses * sz_damon_region(r)) /
++			(sz_damon_region(l) + sz_damon_region(r));
++	l->vm_end = r->vm_end;
++	damon_destroy_region(r);
++}
++
++#define diff_of(a, b) (a > b ? a - b : b - a)
++
++/*
++ * Merge adjacent regions having similar access frequencies
++ *
++ * t		task that merge operation will make change
++ * thres	merge regions having '->nr_accesses' diff smaller than this
++ */
++static void damon_merge_regions_of(struct damon_task *t, unsigned int thres)
++{
++	struct damon_region *r, *prev = NULL, *next;
++
++	damon_for_each_region_safe(r, next, t) {
++		if (!prev || prev->vm_end != r->vm_start)
++			goto next;
++		if (diff_of(prev->nr_accesses, r->nr_accesses) > thres)
++			goto next;
++		damon_merge_two_regions(prev, r);
++		continue;
++next:
++		prev = r;
++	}
++}
++
++/*
++ * Merge adjacent regions having similar access frequencies
++ *
++ * threshold	merge regions havind nr_accesses diff larger than this
++ *
++ * This function merges monitoring target regions which are adjacent and their
++ * access frequencies are similar.  This is for minimizing the monitoring
++ * overhead under the dynamically changeable access pattern.  If a merge was
++ * unnecessarily made, later 'kdamond_split_regions()' will revert it.
++ */
++static void kdamond_merge_regions(unsigned int threshold)
++{
++	struct damon_task *t;
++
++	damon_for_each_task(t)
++		damon_merge_regions_of(t, threshold);
++}
++
++/*
++ * Split a region into two small regions
++ *
++ * r		the region to be split
++ * sz_r		size of the first sub-region that will be made
++ */
++static void damon_split_region_at(struct damon_region *r, unsigned long sz_r)
++{
++	struct damon_region *new;
++
++	new = damon_new_region(r->vm_start + sz_r, r->vm_end);
++	r->vm_end = new->vm_start;
++
++	damon_add_region(new, r, damon_next_region(r));
++}
++
++static void damon_split_regions_of(struct damon_task *t)
++{
++	struct damon_region *r, *next;
++	unsigned long sz_left_region;
++
++	damon_for_each_region_safe(r, next, t) {
++		/*
++		 * Randomly select size of left sub-region to be at least
++		 * 10 percent and at most 90% of original region
++		 */
++		sz_left_region = (prandom_u32_state(&rndseed) % 9 + 1) *
++			(r->vm_end - r->vm_start) / 10;
++		/* Do not allow blank region */
++		if (sz_left_region == 0)
++			continue;
++		damon_split_region_at(r, sz_left_region);
++	}
++}
++
++/*
++ * splits every target regions into two randomly-sized regions
++ *
++ * This function splits every target regions into two random-sized regions if
++ * current total number of the regions is smaller than the half of the
++ * user-specified maximum number of regions.  This is for maximizing the
++ * monitoring accuracy under the dynamically changeable access patterns.  If a
++ * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
++ * it.
++ */
++static void kdamond_split_regions(void)
++{
++	struct damon_task *t;
++	unsigned int nr_regions = 0;
++
++	damon_for_each_task(t)
++		nr_regions += nr_damon_regions(t);
++	if (nr_regions > max_nr_regions / 2)
++		return;
++
++	damon_for_each_task(t)
++		damon_split_regions_of(t);
++}
++
+ /*
+  * Check whether current monitoring should be stopped
+  *
+@@ -648,21 +765,29 @@ static int kdamond_fn(void *data)
+ 	struct damon_task *t;
+ 	struct damon_region *r, *next;
+ 	struct mm_struct *mm;
++	unsigned long max_nr_accesses;
+ 
+ 	pr_info("kdamond (%d) starts\n", kdamond->pid);
+ 	kdamond_init_regions();
+ 	while (!kdamond_need_stop()) {
++		max_nr_accesses = 0;
+ 		damon_for_each_task(t) {
+ 			mm = damon_get_mm(t);
+ 			if (!mm)
+ 				continue;
+-			damon_for_each_region(r, t)
++			damon_for_each_region(r, t) {
+ 				kdamond_check_access(mm, r);
++				if (r->nr_accesses > max_nr_accesses)
++					max_nr_accesses = r->nr_accesses;
++			}
+ 			mmput(mm);
+ 		}
+ 
+-		if (kdamond_aggregate_interval_passed())
++		if (kdamond_aggregate_interval_passed()) {
++			kdamond_merge_regions(max_nr_accesses / 10);
+ 			kdamond_flush_aggregated();
++			kdamond_split_regions();
++		}
+ 
+ 		usleep_range(sample_interval, sample_interval + 1);
+ 	}
+@@ -771,6 +896,7 @@ static long damon_set_pids(unsigned long *pids, ssize_t nr_pids)
+  * sample_int		time interval between samplings
+  * aggr_int		time interval between aggregations
+  * min_nr_reg		minimal number of regions
++ * max_nr_reg		maximum number of regions
+  * path_to_rfile	path to the monitor result files
+  *
+  * This function should not be called while the kdamond is running.
+@@ -778,8 +904,10 @@ static long damon_set_pids(unsigned long *pids, ssize_t nr_pids)
+  *
+  * Returns 0 on success, negative error code otherwise.
+  */
+-static long damon_set_attrs(unsigned long sample_int, unsigned long aggr_int,
+-		unsigned long min_nr_reg, char *path_to_rfile)
++static long damon_set_attrs(unsigned long sample_int,
++		unsigned long aggr_int,
++		unsigned long min_nr_reg, unsigned long max_nr_reg,
++		char *path_to_rfile)
+ {
+ 	if (strnlen(path_to_rfile, LEN_RES_FILE_PATH) >= LEN_RES_FILE_PATH) {
+ 		pr_err("too long (>%d) result file path %s\n",
+@@ -791,10 +919,16 @@ static long damon_set_attrs(unsigned long sample_int, unsigned long aggr_int,
+ 				min_nr_reg);
+ 		return -EINVAL;
+ 	}
++	if (min_nr_reg >= max_nr_regions) {
++		pr_err("invalid nr_regions.  min (%lu) >= max (%lu)\n",
++				min_nr_reg, max_nr_reg);
++		return -EINVAL;
++	}
+ 
+ 	sample_interval = sample_int;
+ 	aggr_interval = aggr_int;
+ 	min_nr_regions = min_nr_reg;
++	max_nr_regions = max_nr_reg;
+ 	strncpy(rfile_path, path_to_rfile, LEN_RES_FILE_PATH);
+ 	return 0;
+ }
+-- 
+2.17.1
 
