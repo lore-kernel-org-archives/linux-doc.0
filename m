@@ -1,78 +1,115 @@
-Return-Path: <SRS0=X0AA=3I=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38C57C3F68F
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 14:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA7AC33CAF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1032720730
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jan 2020 14:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89AA2206B7
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbgASO7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jan 2020 09:59:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58980 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726778AbgASO7e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Jan 2020 09:59:34 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98EA6206D7;
-        Sun, 19 Jan 2020 14:59:32 +0000 (UTC)
-Date:   Sun, 19 Jan 2020 09:59:31 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1728946AbgATBEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jan 2020 20:04:05 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:57921 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728895AbgATBEF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jan 2020 20:04:05 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06713192|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.253924-0.0783178-0.667759;DS=CONTINUE|ham_system_inform|0.0651482-0.00102876-0.933823;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03307;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.Gf.OYKf_1579482234;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Gf.OYKf_1579482234)
+          by smtp.aliyun-inc.com(10.147.42.16);
+          Mon, 20 Jan 2020 09:03:59 +0800
+From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/22] tracing: bootconfig: Boot-time tracing and
- Extra boot config
-Message-ID: <20200119095931.736c4a1f@gandalf.local.home>
-In-Reply-To: <20200119232037.c46321eac70bf288b42f493f@kernel.org>
-References: <157867220019.17873.13377985653744804396.stgit@devnote2>
-        <20200119232037.c46321eac70bf288b42f493f@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+Subject: [PATCH v1 00/11] pstore: support crash log to block and mtd device
+Date:   Mon, 20 Jan 2020 09:03:42 +0800
+Message-Id: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 19 Jan 2020 23:20:37 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+Why do we need to log to block (mtd) device?
+1. Most embedded intelligent equipment have no persistent ram, which
+   increases costs. We perfer to cheaper solutions, like block devices.
+2. Do not any equipment have battery, which means that it lost all data
+   on general ram if power failure. Pstore has little to do for these
+   equipments.
 
-> Hi Steve,
-> 
-> Thanks for pick this series on your tree. I would like to fix some patches
-> according to Randy's comments. Should I update this series or just incremental
-> updates on top of your tree?
-> 
+Why do we need mtdpstore instead of mtdoops?
+1. repetitive jobs between pstore and mtdoops
+   Both of pstore and mtdoops do the same jobs that store panic/oops log.
+2. do what a driver should do
+   To me, a driver should provide methods instead of policies. What MTD
+   should do is to provide read/write/erase operations, geting rid of codes
+   about chunk management, kmsg dumper and configuration.
+3. enhanced feature
+   Not only store log, but also show it as files.
+   Not only log, but also trigger time and trigger count.
+   Not only panic/oops log, but also log recorder for pmsg, console and
+   ftrace in the future.
 
-Hi Masami,
+Before upstream submission, pstore/blk is tested on arch ARM and x84_64,
+block device and mtd device, built as modules and in kernel. Here are the
+details:
 
-Just send me incremental patches. I try not to ever rebase what I push
-to linux-next (except for adding changes that don't affect the content
-of the code, like adding acked-by to commit messages).
+	https://github.com/gmpy/articles/blob/master/pstore/Test-Pstore-Block.md
 
-Thanks,
+[PATCH v1]:
+1. fix errors and warnings reported by kbuild test robot.
 
--- Steve
+WeiXiong Liao (11):
+  pstore/blk: new support logger for block devices
+  blkoops: add blkoops, a warpper for pstore/blk
+  pstore/blk: support pmsg recorder
+  pstore/blk: blkoops: support console recorder
+  pstore/blk: blkoops: support ftrace recorder
+  Documentation: pstore/blk: blkoops: create document for pstore_blk
+  pstore/blk: skip broken zone for mtd device
+  blkoops: respect for device to pick recorders
+  pstore/blk: blkoops: support special removing jobs for dmesg.
+  blkoops: add interface for dirver to get information of blkoops
+  mtd: new support oops logger based on pstore/blk
+
+ Documentation/admin-guide/pstore-block.rst |  297 ++++++
+ MAINTAINERS                                |    3 +-
+ drivers/mtd/Kconfig                        |   10 +
+ drivers/mtd/Makefile                       |    1 +
+ drivers/mtd/mtdpstore.c                    |  530 +++++++++++
+ fs/pstore/Kconfig                          |  109 +++
+ fs/pstore/Makefile                         |    5 +
+ fs/pstore/blkoops.c                        |  490 ++++++++++
+ fs/pstore/blkzone.c                        | 1344 ++++++++++++++++++++++++++++
+ include/linux/blkoops.h                    |   94 ++
+ include/linux/pstore_blk.h                 |   91 ++
+ 11 files changed, 2973 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/pstore-block.rst
+ create mode 100644 drivers/mtd/mtdpstore.c
+ create mode 100644 fs/pstore/blkoops.c
+ create mode 100644 fs/pstore/blkzone.c
+ create mode 100644 include/linux/blkoops.h
+ create mode 100644 include/linux/pstore_blk.h
+
+-- 
+1.9.1
+
