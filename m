@@ -2,110 +2,64 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8308C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:38:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 480B6C2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:38:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9BD2B2087E
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:38:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WKbv5hop"
+	by mail.kernel.org (Postfix) with ESMTP id 24BA822314
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:38:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgATNie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 08:38:34 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39341 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbgATNie (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 08:38:34 -0500
-Received: by mail-pf1-f194.google.com with SMTP id q10so15876009pfs.6;
-        Mon, 20 Jan 2020 05:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2pttOwdfC/dADBrcJDiI0NHj3/FeUPR6VyWuxCBiU/8=;
-        b=WKbv5hopk7D5k/569P1LHTLk/qvnOp/+Y4AoH6FlK4YBzMV+PjgroU3oNCo092xTSs
-         Kd05y6KWgur8svEagrb87W2Dahymp0L8/EiuMWBrsSWaEiWzHOFRfembMpArcjXAiP4v
-         rEfLWg6tkmEZtj7F/v6RwuaTXTS4PrehFdZuG77JueEewFeVblTx+SarQydbwApP7rTa
-         sF2w2aS1Cl4w0gWfnmUM17mmgIhLgJa8W+9tThwp0gLLy7F6iBUE8MCjBCHYj/x0Losy
-         D/4uLuvhWqPUrQE0SNEvJ37zFoETmy0zDD5dihR+xvB/SbMir1CpLGMopPQdDAwkro7W
-         EPkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2pttOwdfC/dADBrcJDiI0NHj3/FeUPR6VyWuxCBiU/8=;
-        b=dXu9+XVa+3p1Q58lOnuT1GzMNGZmyhLUTk0Gu/NUdjLCYYBnMrv7OG/IFnf4dR4WFe
-         n1pOT7uuvctlirskzNLtFOhvFpUK6+xDeTZMr4JpVFOIcCPdfpdHl8GBEA4yV9346M73
-         3nJKa+buHDdx5PsFnO542k3xl8C91T3MhaTYYMcVsEKF2/lSwA9bPwTqfDC+4QeHchEV
-         rfGoteHM9yU2wem3NV8J5hGShrTHXH35BSi/IFz4skSRCVRnYP1OdSQoO98XMLx/PFFO
-         L7HobRuUjVydMbn3rWcxpSg5IaJbNsUn3Hg0LJju7Z7QBQ3Wj8jVKwEVoQNsN3s0E+qh
-         QZCA==
-X-Gm-Message-State: APjAAAWYYPAE4c0h7Fz40TVl5XEqICmU5Q3yFzCiRTw3e5c4+b1gyL8K
-        bPvuNAw2TcN2DtMBzKmNHlE=
-X-Google-Smtp-Source: APXvYqzMFes9HQOld2+PzYvHu7PDu9+P9ajIw8QZajI75moHBzGmZx1OomAacJmds3LWv8dGCQiygw==
-X-Received: by 2002:a62:1a97:: with SMTP id a145mr17871202pfa.244.1579527513307;
-        Mon, 20 Jan 2020 05:38:33 -0800 (PST)
-Received: from localhost (187.100.30.125.dy.iij4u.or.jp. [125.30.100.187])
-        by smtp.gmail.com with ESMTPSA id e2sm18105373pjs.25.2020.01.20.05.38.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 05:38:32 -0800 (PST)
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-X-Google-Original-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Date:   Mon, 20 Jan 2020 22:38:29 +0900
-To:     lijiazi <jqqlijiazi@gmail.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        lijiazi <lijiazi@xiaomi.com>
-Subject: Re: [PATCH v3 2/3] lib/vsprintf: introduce OF_DEVICE_NODE_FLAG_MAX
-Message-ID: <20200120133829.GB386200@jagdpanzerIV.localdomain>
-References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
- <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
+        id S1727254AbgATNiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 08:38:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35478 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726819AbgATNiz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jan 2020 08:38:55 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 93E83AAB0;
+        Mon, 20 Jan 2020 13:38:53 +0000 (UTC)
+Date:   Mon, 20 Jan 2020 14:38:52 +0100
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/26] docs: i2c: i2c-protocol: remove unneeded colons
+ from table
+Message-ID: <20200120143852.02b2c185@endymion>
+In-Reply-To: <20200105225012.11701-9-luca@lucaceresoli.net>
+References: <20200105224006.10321-1-luca@lucaceresoli.net>
+        <20200105225012.11701-1-luca@lucaceresoli.net>
+        <20200105225012.11701-9-luca@lucaceresoli.net>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (20/01/20 19:38), lijiazi wrote:
-[..]
-> Changes in v3:
->  - fix incorrect multi-line comment style.
->  - split v2 to 3 patches.
-> ---
->  include/linux/of.h | 7 +++++++
->  1 file changed, 7 insertions(+)
+On Sun,  5 Jan 2020 23:49:55 +0100, Luca Ceresoli wrote:
+> These colons are not needed: the columns already nicely separate the
+> symbold from their description. They are also inconsistently preceded by
+> whitespace.
 > 
-> diff --git a/include/linux/of.h b/include/linux/of.h
-> index c669c0a..c5bbfa6 100644
-> --- a/include/linux/of.h
-> +++ b/include/linux/of.h
-> @@ -147,6 +147,13 @@ extern raw_spinlock_t devtree_lock;
->  #define OF_OVERLAY		5 /* allocated for an overlay */
->  #define OF_OVERLAY_FREE_CSET	6 /* in overlay cset being freed */
->  
-> +/*
-> + * add OF_DEVICE_NODE_FLAG_MAX for %pOF related printk.
-> + * if there is any change on these flags, please synchronize the change
-> + * to device_node_string function in lib/vsprintf.c.
+> Remove the colons completely to simplify and clean up.
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+>  Documentation/i2c/i2c-protocol.rst | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> (...)
 
-So maybe the flags can become enum then?
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-> + */
-> +#define OF_DEVICE_NODE_FLAG_MAX 6 /* Maximum available flags */
-
-	-ss
+-- 
+Jean Delvare
+SUSE L3 Support
