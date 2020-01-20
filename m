@@ -2,39 +2,39 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2D4C33CA1
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:23:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD00C2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:26:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 31B1522314
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:23:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED86C22522
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgATOXJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 09:23:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55804 "EHLO mx2.suse.de"
+        id S1727045AbgATO0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 09:26:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57652 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726738AbgATOXJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jan 2020 09:23:09 -0500
+        id S1726626AbgATO0G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jan 2020 09:26:06 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 9421DAF36;
-        Mon, 20 Jan 2020 14:23:07 +0000 (UTC)
-Date:   Mon, 20 Jan 2020 15:23:06 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 61118AAD0;
+        Mon, 20 Jan 2020 14:26:04 +0000 (UTC)
+Date:   Mon, 20 Jan 2020 15:26:03 +0100
 From:   Jean Delvare <jdelvare@suse.de>
 To:     Luca Ceresoli <luca@lucaceresoli.net>
 Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
         Wolfram Sang <wsa@the-dreams.de>,
         Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/26] docs: i2c: smbus-protocol: remove unneeded colons
- from table
-Message-ID: <20200120152306.6d98f01d@endymion>
-In-Reply-To: <20200105225012.11701-13-luca@lucaceresoli.net>
+Subject: Re: [PATCH 14/26] docs: i2c: smbus-protocol: use proper names for
+ ACK and NACK
+Message-ID: <20200120152603.12a81fe1@endymion>
+In-Reply-To: <20200105225012.11701-14-luca@lucaceresoli.net>
 References: <20200105224006.10321-1-luca@lucaceresoli.net>
         <20200105225012.11701-1-luca@lucaceresoli.net>
-        <20200105225012.11701-13-luca@lucaceresoli.net>
+        <20200105225012.11701-14-luca@lucaceresoli.net>
 Organization: SUSE Linux
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
@@ -45,21 +45,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun,  5 Jan 2020 23:49:59 +0100, Luca Ceresoli wrote:
-> These colons are not needed: the columns already nicely separate the
-> symbold from their description. They are also inconsistently preceded by
-> whitespace.
-
-s/symbold/symbols/
-
-> 
-> Remove the colons completely to simplify and clean up.
+On Sun,  5 Jan 2020 23:50:00 +0100, Luca Ceresoli wrote:
+> Use the proper ACK and NACK naming from the I2C specification instead of
+> "accept" and "reverse accept".
 > 
 > Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 > ---
->  Documentation/i2c/smbus-protocol.rst | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> (...)
+>  Documentation/i2c/smbus-protocol.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+> index fbadd4d25ad5..10c4a989982c 100644
+> --- a/Documentation/i2c/smbus-protocol.rst
+> +++ b/Documentation/i2c/smbus-protocol.rst
+> @@ -38,7 +38,7 @@ Key to symbols
+>  S               Start condition
+>  P               Stop condition
+>  Rd/Wr (1 bit)   Read/Write bit. Rd equals 1, Wr equals 0.
+> -A, NA (1 bit)   Accept and reverse accept bit.
+> +A, NA (1 bit)   Acknowledge (ACK) and Not Acknowledge (NACK) bit
+>  Addr  (7 bits)  I2C 7 bit address. Note that this can be expanded as usual to
+>                  get a 10 bit I2C address.
+>  Comm  (8 bits)  Command byte, a data byte which often selects a register on
 
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
