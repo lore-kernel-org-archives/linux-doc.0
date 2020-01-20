@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FC5C33CBA
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3AFC33CB8
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:31:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D5BF22522
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:29:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2C3524654
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 16:31:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="EboO3ROQ"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="tqaxgdEz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729268AbgATQ2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 11:28:53 -0500
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:45832 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727573AbgATQ2w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 11:28:52 -0500
+        id S1729654AbgATQbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 11:31:20 -0500
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:54707 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729401AbgATQbT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 11:31:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1579537731; x=1611073731;
+  t=1579537878; x=1611073878;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=AJE8BG+QL3Cg36CWDr/yFzXVt0uQE0xPlNoyGI9RMlE=;
-  b=EboO3ROQm5+23OS7oN+/FrUU1iWYxrsDBQklLyJFcwmsTJ4HhihUn/l8
-   0vYY6yAj4wIbRKlYj2VLPMUQu7zHtkm2CB6usNq9MieqHz9hiBHu4eDsN
-   UQ3D09cs0dysG69GKA+eeOS8EOxYiDxsVO6b7bfxiqIYiPOLGXbbltpwE
-   Y=;
-IronPort-SDR: Ky++joz7XMZtPFARfkZGbRffeg/edz42TRSL8i523W1oa9QYps0O4ye3xWMRFt3x094MyzuV3N
- vPcgp4A10zmw==
+  bh=X/eLdc6A7pBV2PqjHV7Sx6v2IedK7RIzKOlbotUZ+4Y=;
+  b=tqaxgdEzaa+9+JxvL/WkhWR+g9T4lSVZ3sUJ+SiBVNa6Neph7bHx180M
+   fxlI1LQbQ+AxlJHaqhX9aCAMgYcLMFPH9C7vCZCIwbPfQSpdJRw2I7Cwe
+   9gabHvrQwCuaJuRztoRcrOKSpMOHpOgRnV9Yy9wuBk+iKLb5bQYRJqtFd
+   g=;
+IronPort-SDR: +/K+PzeP6/YwFai+yadYQYb2QbHjJM6PtAvjYq1Q6EpmDdJ/k+9gLqik4OL5nEuEBRbRlSn0ly
+ YBzN2MWRqeMQ==
 X-IronPort-AV: E=Sophos;i="5.70,342,1574121600"; 
-   d="scan'208";a="12341457"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 20 Jan 2020 16:28:48 +0000
+   d="scan'208";a="21172068"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 20 Jan 2020 16:31:07 +0000
 Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com (Postfix) with ESMTPS id 2CFEDA06C2;
-        Mon, 20 Jan 2020 16:28:47 +0000 (UTC)
+        by email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com (Postfix) with ESMTPS id C14F3A25DC;
+        Mon, 20 Jan 2020 16:31:05 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 20 Jan 2020 16:28:46 +0000
+ id 15.0.1236.3; Mon, 20 Jan 2020 16:31:05 +0000
 Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.253) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 20 Jan 2020 16:28:40 +0000
+ id 15.0.1367.3; Mon, 20 Jan 2020 16:30:59 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
@@ -53,16 +53,16 @@ CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
         <dwmw@amazon.com>, <amit@kernel.org>, <rostedt@goodmis.org>,
         <sj38.park@gmail.com>, <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/8] mm/damon: Implement region based sampling
-Date:   Mon, 20 Jan 2020 17:27:51 +0100
-Message-ID: <20200120162757.32375-3-sjpark@amazon.com>
+Subject: [PATCH 5/8] mm/damon: Add debugfs interface
+Date:   Mon, 20 Jan 2020 17:30:21 +0100
+Message-ID: <20200120163024.647-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120162757.32375-1-sjpark@amazon.com>
 References: <20200120162757.32375-1-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.43.161.253]
-X-ClientProxiedBy: EX13D14UWC002.ant.amazon.com (10.43.162.214) To
+X-ClientProxiedBy: EX13D34UWC003.ant.amazon.com (10.43.162.66) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -71,683 +71,324 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit implements DAMON's basic access check and region based
-sampling mechanisms.
+This commit adds a debugfs interface for DAMON.
 
-Basic Access Check
-------------------
+DAMON exports three files, ``attrs``, ``pids``, and ``monitor_on`` under
+its debugfs directory, ``<debugfs>/damon/``.
 
-DAMON basically reports what pages are how frequently accessed.  Note
-that the frequency is not an absolute number of accesses, but a relative
-frequency among the pages of the target workloads.
+Attributes
+----------
 
-Users can control the resolution of the reports by setting two time
-intervals, ``sampling interval`` and ``aggregation interval``.  In
-detail, DAMON checks access to each page per ``sampling interval``,
-aggregates the results (counts the number of the accesses to each page),
-and reports the aggregated results per ``aggregation interval``.  For
-the access check of each page, DAMON uses the Accessed bits of PTEs.
+Users can read and write the ``sampling interval``, ``aggregation
+interval``, ``regions update interval``, min/max number of regions, and
+the path to ``result file`` by reading from and writing to the ``attrs``
+file.  For example, below commands set those values to 5 ms, 100 ms,
+1,000 ms, 10, 1000, and ``/damon.data`` and check it again::
 
-This is thus similar to common periodic access checks based access
-tracking mechanisms, which overhead is increasing as the size of the
-target process grows.
+    # cd <debugfs>/damon
+    # echo 5000 100000 1000000 10 1000 /damon.data > attrs
+    # cat attrs
+    5000 100000 1000000 10 1000 /damon.data
 
-Region Based Sampling
----------------------
+Target PIDs
+-----------
 
-To avoid the unbounded increase of the overhead, DAMON groups a number
-of adjacent pages that assumed to have same access frequencies into a
-region.  As long as the assumption (pages in a region have same access
-frequencies) is kept, only one page in the region is required to be
-checked.  Thus, for each ``sampling interval``, DAMON randomly picks one
-page in each region and clears its Accessed bit.  After one more
-``sampling interval``, DAMON reads the Accessed bit of the page and
-increases the access frequency of the region if the bit has set
-meanwhile.  Therefore, the monitoring overhead is controllable by
-setting the number of regions.
+Users can read and write the pids of current monitoring target processes
+by reading from and writing to the `pids` file.  For example, below
+commands set processes having pids 42 and 4242 as the processes to be
+monitored and check it again::
 
-Nonetheless, this scheme cannot preserve the quality of the output if
-the assumption is not kept.
+    # cd <debugfs>/damon
+    # echo 42 4242 > pids
+    # cat pids
+    42 4242
+
+Note that setting the pids doesn't starts the monitoring.
+
+Turning On/Off
+--------------
+
+You can check current status, start and stop the monitoring by reading
+from and writing to the ``monitor_on`` file.  Writing ``on`` to the file
+starts DAMON to monitor the target processes with the attributes.
+Writing ``off`` to the file stops DAMON.  DAMON also stops if every
+target processes is be terminated.  Below example commands turn on, off,
+and check status of DAMON::
+
+    # cd <debugfs>/damon
+    # echo on > monitor_on
+    # echo off > monitor_on
+    # cat monitor_on
+    off
+
+Please note that you cannot write to the ``attrs`` and ``pids`` files
+while the monitoring is turned on.  If you write to the files while
+DAMON is running, ``-EINVAL`` will be returned.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon.c | 599 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 599 insertions(+)
+ mm/damon.c | 232 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 231 insertions(+), 1 deletion(-)
 
 diff --git a/mm/damon.c b/mm/damon.c
-index 064ec1f6ded9..2a0c010291f8 100644
+index 9252a2ba825d..e2492344b58c 100644
 --- a/mm/damon.c
 +++ b/mm/damon.c
-@@ -9,9 +9,14 @@
+@@ -9,6 +9,7 @@
  
  #define pr_fmt(fmt) "damon: " fmt
  
-+#include <linux/delay.h>
-+#include <linux/kthread.h>
++#include <linux/debugfs.h>
+ #include <linux/delay.h>
+ #include <linux/kthread.h>
  #include <linux/mm.h>
- #include <linux/module.h>
-+#include <linux/page_idle.h>
- #include <linux/random.h>
-+#include <linux/sched/mm.h>
-+#include <linux/sched/task.h>
- #include <linux/slab.h>
- 
- #define damon_get_task_struct(t) \
-@@ -54,6 +59,36 @@ struct damon_task {
- /* List of damon_task objects */
- static LIST_HEAD(damon_tasks_list);
- 
-+/*
-+ * For each 'sample_interval', DAMON checks whether each region is accessed or
-+ * not.  It aggregates and keeps the access information (number of accesses to
-+ * each region) for 'aggr_interval' and then flushes it to the result buffer if
-+ * an 'aggr_interval' surpassed.
-+ *
-+ * All time intervals are in micro-seconds.
-+ */
-+static unsigned long sample_interval = 5 * 1000;
-+static unsigned long aggr_interval = 100 * 1000;
-+
-+static struct timespec64 last_aggregate_time;
-+
-+static unsigned long min_nr_regions = 10;
-+
-+/* result buffer */
-+#define DAMON_LEN_RBUF	(1024 * 1024 * 4)
-+static char damon_rbuf[DAMON_LEN_RBUF];
-+static unsigned int damon_rbuf_offset;
-+
-+/* result file */
-+#define LEN_RES_FILE_PATH	256
-+static char rfile_path[LEN_RES_FILE_PATH] = "/damon.data";
-+
-+static struct task_struct *kdamond;
-+static bool kdamond_stop;
-+
-+/* Protects read/write of kdamond and kdamond_stop */
-+static DEFINE_SPINLOCK(kdamond_lock);
-+
- static struct rnd_state rndseed;
- /* Get a random number in [l, r) */
- #define damon_rand(l, r) (l + prandom_u32_state(&rndseed) % (r - l))
-@@ -202,16 +237,580 @@ static unsigned int nr_damon_regions(struct damon_task *t)
- 	return ret;
+@@ -1023,6 +1024,233 @@ static long damon_set_attrs(unsigned long sample_int,
+ 	return 0;
  }
  
 +/*
-+ * Get the mm_struct of the given task
-+ *
-+ * Callser should put the mm_struct after use, unless it is NULL.
-+ *
-+ * Returns the mm_struct of the task on success, NULL on failure
++ * debugfs functions
 + */
-+static struct mm_struct *damon_get_mm(struct damon_task *t)
++
++static ssize_t debugfs_monitor_on_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
 +{
-+	struct task_struct *task;
-+	struct mm_struct *mm;
++	char monitor_on_buf[5];
++	bool monitor_on;
 +
-+	task = damon_get_task_struct(t);
-+	if (!task)
-+		return NULL;
++	spin_lock(&kdamond_lock);
++	monitor_on = kdamond != NULL;
++	spin_unlock(&kdamond_lock);
 +
-+	mm = get_task_mm(task);
-+	put_task_struct(task);
-+	return mm;
++	snprintf(monitor_on_buf, 5, monitor_on ? "on\n" : "off\n");
++
++	return simple_read_from_buffer(buf, count, ppos, monitor_on_buf,
++			monitor_on ? 3 : 4);
 +}
 +
-+/*
-+ * Size-evenly split a region into 'nr_pieces' small regions
-+ *
-+ * Returns 0 on success, or negative error code otherwise.
-+ */
-+static int damon_split_region_evenly(struct damon_region *r,
-+				unsigned int nr_pieces)
++static ssize_t debugfs_monitor_on_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
 +{
-+	unsigned long sz_orig, sz_piece, orig_end;
-+	struct damon_region *piece = NULL, *next;
-+	unsigned long start;
++	ssize_t ret;
++	bool on = false;
++	char cmdbuf[5];
 +
-+	if (!r || !nr_pieces)
++	ret = simple_write_to_buffer(cmdbuf, 5, ppos, buf, count);
++	if (ret < 0)
++		return ret;
++
++	if (sscanf(cmdbuf, "%s", cmdbuf) != 1)
++		return -EINVAL;
++	if (!strncmp(cmdbuf, "on", 5))
++		on = true;
++	else if (!strncmp(cmdbuf, "off", 5))
++		on = false;
++	else
 +		return -EINVAL;
 +
-+	orig_end = r->vm_end;
-+	sz_orig = r->vm_end - r->vm_start;
-+	sz_piece = sz_orig / nr_pieces;
-+
-+	if (!sz_piece)
++	if (damon_turn_kdamond(on))
 +		return -EINVAL;
 +
-+	r->vm_end = r->vm_start + sz_piece;
-+	next = damon_next_region(r);
-+	for (start = r->vm_end; start + sz_piece <= orig_end;
-+			start += sz_piece) {
-+		piece = damon_new_region(start, start + sz_piece);
-+		damon_add_region(piece, r, next);
-+		r = piece;
-+	}
-+	if (piece)
-+		piece->vm_end = orig_end;
-+	return 0;
-+}
-+
-+struct region {
-+	unsigned long start;
-+	unsigned long end;
-+};
-+
-+static unsigned long sz_region(struct region *r)
-+{
-+	return r->end - r->start;
-+}
-+
-+static void swap_regions(struct region *r1, struct region *r2)
-+{
-+	struct region tmp;
-+
-+	tmp = *r1;
-+	*r1 = *r2;
-+	*r2 = tmp;
-+}
-+
-+/*
-+ * Find the three regions in an address space
-+ *
-+ * vma		the head vma of the target address space
-+ * regions	an array of three 'struct region's that results will be saved
-+ *
-+ * This function receives an address space and finds three regions in it which
-+ * separated by the two biggest unmapped regions in the space.
-+ *
-+ * Returns 0 if success, or negative error code otherwise.
-+ */
-+static int damon_three_regions_in_vmas(struct vm_area_struct *vma,
-+		struct region regions[3])
-+{
-+	struct region gap = {0,}, first_gap = {0,}, second_gap = {0,};
-+	struct vm_area_struct *last_vma = NULL;
-+	unsigned long start = 0;
-+
-+	/* Find two biggest gaps so that first_gap > second_gap > others */
-+	for (; vma; vma = vma->vm_next) {
-+		if (!last_vma) {
-+			start = vma->vm_start;
-+			last_vma = vma;
-+			continue;
-+		}
-+		gap.start = last_vma->vm_end;
-+		gap.end = vma->vm_start;
-+		if (sz_region(&gap) > sz_region(&second_gap)) {
-+			swap_regions(&gap, &second_gap);
-+			if (sz_region(&second_gap) > sz_region(&first_gap))
-+				swap_regions(&second_gap, &first_gap);
-+		}
-+		last_vma = vma;
-+	}
-+
-+	if (!sz_region(&second_gap) || !sz_region(&first_gap))
-+		return -EINVAL;
-+
-+	/* Sort the two biggest gaps by address */
-+	if (first_gap.start > second_gap.start)
-+		swap_regions(&first_gap, &second_gap);
-+
-+	/* Store the result */
-+	regions[0].start = start;
-+	regions[0].end = first_gap.start;
-+	regions[1].start = first_gap.end;
-+	regions[1].end = second_gap.start;
-+	regions[2].start = second_gap.end;
-+	regions[2].end = last_vma->vm_end;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Get the three regions in the given task
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static int damon_three_regions_of(struct damon_task *t,
-+				struct region regions[3])
-+{
-+	struct mm_struct *mm;
-+	int ret;
-+
-+	mm = damon_get_mm(t);
-+	if (!mm)
-+		return -EINVAL;
-+
-+	down_read(&mm->mmap_sem);
-+	ret = damon_three_regions_in_vmas(mm->mmap, regions);
-+	up_read(&mm->mmap_sem);
-+
-+	mmput(mm);
 +	return ret;
 +}
 +
-+/*
-+ * Initialize the monitoring target regions for the given task
-+ *
-+ * t	the given target task
-+ *
-+ * Because only a number of small portions of the entire address space
-+ * is acutally mapped to the memory and accessed, monitoring the unmapped
-+ * regions is wasteful.  That said, because we can deal with small noises,
-+ * tracking every mapping is not strictly required but could even incur a high
-+ * overhead if the mapping frequently changes or the number of mappings is
-+ * high.
-+ *
-+ * As usual memory map of processes is as below, the gap between the heap and
-+ * the uppermost mmap()-ed region, and the gap between the lowermost mmap()-ed
-+ * region and the stack will be two biggest unmapped regions.  Because these
-+ * gaps are outliers between the mapped and unmapped regions in the address
-+ * space in terms of the size, excluding these two biggest unmapped regions
-+ * will be sufficient to make a trade-off.
-+ *
-+ *   <heap>
-+ *   <BIG UNMAPPED REGION 1>
-+ *   <uppermost mmap()-ed region>
-+ *   (other mmap()-ed regions and small unmapped regions)
-+ *   <lowermost mmap()-ed region>
-+ *   <BIG UNMAPPED REGION 2>
-+ *   <stack>
-+ *
-+ * For the reason, this function converts the original address space of the
-+ * given task to a simplified address space, that is constructed with three
-+ * regions separated by the two biggest unmapped regions and stores those in
-+ * the given task.
-+ */
-+static void damon_init_regions_of(struct damon_task *t)
++static ssize_t damon_sprint_pids(char *buf, ssize_t len)
 +{
-+	struct damon_region *r;
-+	struct region regions[3];
++	char *cursor = buf;
++	struct damon_task *t;
++
++	damon_for_each_task(t) {
++		snprintf(cursor, len, "%lu ", t->pid);
++		cursor += strnlen(cursor, len);
++	}
++	if (cursor != buf)
++		cursor--;
++	snprintf(cursor, len, "\n");
++	return strnlen(buf, len);
++}
++
++static ssize_t debugfs_pids_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	ssize_t len;
++	char pids_buf[512];
++
++	len = damon_sprint_pids(pids_buf, 512);
++
++	return simple_read_from_buffer(buf, count, ppos, pids_buf, len);
++}
++
++/*
++ * Converts a string into an array of unsigned long integers
++ *
++ * Returns an array of unsigned long integers that converted, or NULL if the
++ * input is wrong.
++ */
++static unsigned long *str_to_pids(const char *str, ssize_t len,
++				ssize_t *nr_pids)
++{
++	unsigned long *pids;
++	unsigned long pid;
++	int pos = 0, parsed, ret;
++
++	*nr_pids = 0;
++	pids = kmalloc_array(256, sizeof(unsigned long), GFP_KERNEL);
++	while (*nr_pids < 256 && pos < len) {
++		ret = sscanf(&str[pos], "%lu%n", &pid, &parsed);
++		pos += parsed;
++		if (ret != 1)
++			break;
++		pids[*nr_pids] = pid;
++		*nr_pids += 1;
++	}
++	if (*nr_pids == 0) {
++		kfree(pids);
++		pids = NULL;
++	}
++
++	return pids;
++}
++
++static ssize_t debugfs_pids_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	ssize_t ret;
++	unsigned long *targets;
++	ssize_t nr_targets;
++	char pids_buf[512];
++
++	ret = simple_write_to_buffer(pids_buf, 512, ppos, buf, count);
++	if (ret < 0)
++		return ret;
++
++	targets = str_to_pids(pids_buf, ret, &nr_targets);
++
++	spin_lock(&kdamond_lock);
++	if (kdamond)
++		goto monitor_running;
++
++	damon_set_pids(targets, nr_targets);
++	spin_unlock(&kdamond_lock);
++	kfree(targets);
++
++	return ret;
++
++monitor_running:
++	spin_unlock(&kdamond_lock);
++	pr_err("%s: kdamond is running. Turn it off first.\n", __func__);
++	return -EINVAL;
++}
++
++static ssize_t debugfs_attrs_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	char attrs_buf[512];
++
++	snprintf(attrs_buf, 512, "%lu %lu %lu %lu %lu %s\n",
++			sample_interval, aggr_interval,
++			regions_update_interval, min_nr_regions,
++			max_nr_regions, rfile_path);
++
++	return simple_read_from_buffer(buf, count, ppos, attrs_buf,
++			strnlen(attrs_buf, 512));
++}
++
++static ssize_t debugfs_attrs_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	unsigned long s, a, r, minr, maxr;
++	char attrs_buf[512];
++	char res_file_path[LEN_RES_FILE_PATH];
++	ssize_t ret;
++
++	if (count > 512) {
++		pr_err("attributes stream is too large: %s\n", buf);
++		return -ENOMEM;
++	}
++
++	ret = simple_write_to_buffer(attrs_buf, 512, ppos, buf, count);
++	if (ret < 0)
++		return ret;
++
++	if (sscanf(attrs_buf, "%lu %lu %lu %lu %lu %s",
++				&s, &a, &r, &minr, &maxr, res_file_path) != 6)
++		return -EINVAL;
++
++	spin_lock(&kdamond_lock);
++	if (kdamond)
++		goto monitor_running;
++
++	damon_set_attrs(s, a, r, minr, maxr, res_file_path);
++	spin_unlock(&kdamond_lock);
++
++	return ret;
++
++monitor_running:
++	spin_unlock(&kdamond_lock);
++	pr_err("%s: kdamond is running. Turn it off first.\n", __func__);
++	return -EINVAL;
++}
++
++static const struct file_operations monitor_on_fops = {
++	.owner = THIS_MODULE,
++	.read = debugfs_monitor_on_read,
++	.write = debugfs_monitor_on_write,
++};
++
++static const struct file_operations pids_fops = {
++	.owner = THIS_MODULE,
++	.read = debugfs_pids_read,
++	.write = debugfs_pids_write,
++};
++
++static const struct file_operations attrs_fops = {
++	.owner = THIS_MODULE,
++	.read = debugfs_attrs_read,
++	.write = debugfs_attrs_write,
++};
++
++static struct dentry *debugfs_root;
++
++static int __init debugfs_init(void)
++{
++	const char * const file_names[] = {"attrs", "pids", "monitor_on"};
++	const struct file_operations *fops[] = {&attrs_fops, &pids_fops,
++		&monitor_on_fops};
 +	int i;
 +
-+	if (damon_three_regions_of(t, regions)) {
-+		pr_err("Failed to get three regions of task %lu\n", t->pid);
-+		return;
++	debugfs_root = debugfs_create_dir("damon", NULL);
++	if (!debugfs_root) {
++		pr_err("failed to create the debugfs dir\n");
++		return -ENOMEM;
 +	}
 +
-+	/* Set the initial three regions of the task */
-+	for (i = 0; i < 3; i++) {
-+		r = damon_new_region(regions[i].start, regions[i].end);
-+		damon_add_region_tail(r, t);
-+	}
-+
-+	/* Split the middle region into 'min_nr_regions - 2' regions */
-+	r = damon_nth_region_of(t, 1);
-+	if (damon_split_region_evenly(r, min_nr_regions - 2))
-+		pr_warn("Init middle region failed to be split\n");
-+}
-+
-+/* Initialize '->regions_list' of every task */
-+static void kdamond_init_regions(void)
-+{
-+	struct damon_task *t;
-+
-+	damon_for_each_task(t)
-+		damon_init_regions_of(t);
-+}
-+
-+/*
-+ * Check whether the given region has accessed since the last check
-+ *
-+ * mm	'mm_struct' for the given virtual address space
-+ * r	the region to be checked
-+ */
-+static void kdamond_check_access(struct mm_struct *mm, struct damon_region *r)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+
-+	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-+		goto mkold;
-+
-+	/* Read the page table access bit of the page */
-+	if (pte && pte_young(*pte))
-+		r->nr_accesses++;
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	else if (pmd && pmd_young(*pmd))
-+		r->nr_accesses++;
-+#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+	spin_unlock(ptl);
-+
-+mkold:
-+	/* mkold next target */
-+	r->sampling_addr = damon_rand(r->vm_start, r->vm_end);
-+
-+	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-+		return;
-+
-+	if (pte) {
-+		if (pte_young(*pte))
-+			clear_page_idle(pte_page(*pte));
-+		*pte = pte_mkold(*pte);
-+	}
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	else if (pmd) {
-+		if (pmd_young(*pmd))
-+			clear_page_idle(pmd_page(*pmd));
-+		*pmd = pmd_mkold(*pmd);
-+	}
-+#endif
-+
-+	spin_unlock(ptl);
-+}
-+
-+/*
-+ * Check whether a time interval is elapsed
-+ *
-+ * baseline	the time to check whether the interval has elapsed since
-+ * interval	the time interval (microseconds)
-+ *
-+ * See whether the given time interval has passed since the given baseline
-+ * time.  If so, it also updates the baseline to current time for next check.
-+ *
-+ * Returns true if the time interval has passed, or false otherwise.
-+ */
-+static bool damon_check_reset_time_interval(struct timespec64 *baseline,
-+		unsigned long interval)
-+{
-+	struct timespec64 now;
-+
-+	ktime_get_coarse_ts64(&now);
-+	if ((timespec64_to_ns(&now) - timespec64_to_ns(baseline)) / 1000 <
-+			interval)
-+		return false;
-+	*baseline = now;
-+	return true;
-+}
-+
-+/*
-+ * Check whether it is time to flush the aggregated information
-+ */
-+static bool kdamond_aggregate_interval_passed(void)
-+{
-+	return damon_check_reset_time_interval(&last_aggregate_time,
-+			aggr_interval);
-+}
-+
-+/*
-+ * Flush the content in the result buffer to the result file
-+ */
-+static void damon_flush_rbuffer(void)
-+{
-+	ssize_t sz;
-+	loff_t pos;
-+	struct file *rfile;
-+
-+	while (damon_rbuf_offset) {
-+		pos = 0;
-+		rfile = filp_open(rfile_path, O_CREAT | O_RDWR | O_APPEND,
-+				0644);
-+		if (IS_ERR(rfile)) {
-+			pr_err("Cannot open the result file %s\n", rfile_path);
-+			return;
-+		}
-+
-+		sz = kernel_write(rfile, damon_rbuf, damon_rbuf_offset, &pos);
-+		filp_close(rfile, NULL);
-+
-+		damon_rbuf_offset -= sz;
-+	}
-+}
-+
-+/*
-+ * Write a data into the result buffer
-+ */
-+static void damon_write_rbuf(void *data, ssize_t size)
-+{
-+	if (damon_rbuf_offset + size > DAMON_LEN_RBUF)
-+		damon_flush_rbuffer();
-+
-+	memcpy(&damon_rbuf[damon_rbuf_offset], data, size);
-+	damon_rbuf_offset += size;
-+}
-+
-+/*
-+ * Flush the aggregated monitoring results to the result buffer
-+ *
-+ * Stores current tracking results to the result buffer and reset 'nr_accesses'
-+ * of each regions.  The format for the result buffer is as below:
-+ *
-+ *   <time> <number of tasks> <array of task infos>
-+ *
-+ *   task info: <pid> <number of regions> <array of region infos>
-+ *   region info: <start address> <end address> <nr_accesses>
-+ */
-+static void kdamond_flush_aggregated(void)
-+{
-+	struct damon_task *t;
-+	struct timespec64 now;
-+	unsigned int nr;
-+
-+	ktime_get_coarse_ts64(&now);
-+
-+	damon_write_rbuf(&now, sizeof(struct timespec64));
-+	nr = nr_damon_tasks();
-+	damon_write_rbuf(&nr, sizeof(nr));
-+
-+	damon_for_each_task(t) {
-+		struct damon_region *r;
-+
-+		damon_write_rbuf(&t->pid, sizeof(t->pid));
-+		nr = nr_damon_regions(t);
-+		damon_write_rbuf(&nr, sizeof(nr));
-+		damon_for_each_region(r, t) {
-+			damon_write_rbuf(&r->vm_start, sizeof(r->vm_start));
-+			damon_write_rbuf(&r->vm_end, sizeof(r->vm_end));
-+			damon_write_rbuf(&r->nr_accesses,
-+					sizeof(r->nr_accesses));
-+			r->nr_accesses = 0;
-+		}
-+	}
-+}
-+
-+/*
-+ * Check whether current monitoring should be stopped
-+ *
-+ * If users asked to stop, need stop.  Even though no user has asked to stop,
-+ * need stop if every target task has dead.
-+ *
-+ * Returns true if need to stop current monitoring.
-+ */
-+static bool kdamond_need_stop(void)
-+{
-+	struct damon_task *t;
-+	struct task_struct *task;
-+	bool stop;
-+
-+	spin_lock(&kdamond_lock);
-+	stop = kdamond_stop;
-+	spin_unlock(&kdamond_lock);
-+	if (stop)
-+		return true;
-+
-+	damon_for_each_task(t) {
-+		task = damon_get_task_struct(t);
-+		if (task) {
-+			put_task_struct(task);
-+			return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
-+/*
-+ * The monitoring daemon that runs as a kernel thread
-+ */
-+static int kdamond_fn(void *data)
-+{
-+	struct damon_task *t;
-+	struct damon_region *r, *next;
-+	struct mm_struct *mm;
-+
-+	pr_info("kdamond (%d) starts\n", kdamond->pid);
-+	kdamond_init_regions();
-+	while (!kdamond_need_stop()) {
-+		damon_for_each_task(t) {
-+			mm = damon_get_mm(t);
-+			if (!mm)
-+				continue;
-+			damon_for_each_region(r, t)
-+				kdamond_check_access(mm, r);
-+			mmput(mm);
-+		}
-+
-+		if (kdamond_aggregate_interval_passed())
-+			kdamond_flush_aggregated();
-+
-+		usleep_range(sample_interval, sample_interval + 1);
-+	}
-+	damon_flush_rbuffer();
-+	damon_for_each_task(t) {
-+		damon_for_each_region_safe(r, next, t)
-+			damon_destroy_region(r);
-+	}
-+	pr_info("kdamond (%d) finishes\n", kdamond->pid);
-+	spin_lock(&kdamond_lock);
-+	kdamond = NULL;
-+	spin_unlock(&kdamond_lock);
-+	return 0;
-+}
-+
-+/*
-+ * Controller functions
-+ */
-+
-+/*
-+ * Start or stop the kdamond
-+ *
-+ * Returns 0 if success, negative error code otherwise.
-+ */
-+static int damon_turn_kdamond(bool on)
-+{
-+	spin_lock(&kdamond_lock);
-+	kdamond_stop = !on;
-+	if (!kdamond && on) {
-+		kdamond = kthread_run(kdamond_fn, NULL, "kdamond");
-+		if (!kdamond)
-+			goto fail;
-+		goto success;
-+	}
-+	if (kdamond && !on) {
-+		spin_unlock(&kdamond_lock);
-+		while (true) {
-+			spin_lock(&kdamond_lock);
-+			if (!kdamond)
-+				goto success;
-+			spin_unlock(&kdamond_lock);
-+
-+			usleep_range(sample_interval, sample_interval * 2);
-+		}
-+	}
-+
-+	/* tried to turn on while turned on, or turn off while turned off */
-+
-+fail:
-+	spin_unlock(&kdamond_lock);
-+	return -EINVAL;
-+
-+success:
-+	spin_unlock(&kdamond_lock);
-+	return 0;
-+}
-+
-+static inline bool damon_is_target_pid(unsigned long pid)
-+{
-+	struct damon_task *t;
-+
-+	damon_for_each_task(t) {
-+		if (t->pid == pid)
-+			return true;
-+	}
-+	return false;
-+}
-+
-+/*
-+ * This function should not be called while the kdamond is running.
-+ */
-+static long damon_set_pids(unsigned long *pids, ssize_t nr_pids)
-+{
-+	ssize_t i;
-+	struct damon_task *t, *next;
-+
-+	/* Remove unselected tasks */
-+	damon_for_each_task_safe(t, next) {
-+		for (i = 0; i < nr_pids; i++) {
-+			if (pids[i] == t->pid)
-+				break;
-+		}
-+		if (i != nr_pids)
-+			continue;
-+		damon_destroy_task(t);
-+	}
-+
-+	/* Add new tasks */
-+	for (i = 0; i < nr_pids; i++) {
-+		if (damon_is_target_pid(pids[i]))
-+			continue;
-+		t = damon_new_task(pids[i]);
-+		if (!t) {
-+			pr_err("Failed to alloc damon_task\n");
++	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
++		if (!debugfs_create_file(file_names[i], 0600, debugfs_root,
++					NULL, fops[i])) {
++			pr_err("failed to create %s file\n", file_names[i]);
 +			return -ENOMEM;
 +		}
-+		damon_add_task_tail(t);
 +	}
 +
-+	return 0;
-+}
-+
-+/*
-+ * Set attributes for the monitoring
-+ *
-+ * sample_int		time interval between samplings
-+ * aggr_int		time interval between aggregations
-+ * min_nr_reg		minimal number of regions
-+ * path_to_rfile	path to the monitor result files
-+ *
-+ * This function should not be called while the kdamond is running.
-+ * Every time interval is in micro-seconds.
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static long damon_set_attrs(unsigned long sample_int, unsigned long aggr_int,
-+		unsigned long min_nr_reg, char *path_to_rfile)
-+{
-+	if (strnlen(path_to_rfile, LEN_RES_FILE_PATH) >= LEN_RES_FILE_PATH) {
-+		pr_err("too long (>%d) result file path %s\n",
-+				LEN_RES_FILE_PATH, path_to_rfile);
-+		return -EINVAL;
-+	}
-+	if (min_nr_reg < 3) {
-+		pr_err("min_nr_regions (%lu) should be bigger than 2\n",
-+				min_nr_reg);
-+		return -EINVAL;
-+	}
-+
-+	sample_interval = sample_int;
-+	aggr_interval = aggr_int;
-+	min_nr_regions = min_nr_reg;
-+	strncpy(rfile_path, path_to_rfile, LEN_RES_FILE_PATH);
 +	return 0;
 +}
 +
  static int __init damon_init(void)
  {
  	pr_info("init\n");
- 
+@@ -1030,12 +1258,14 @@ static int __init damon_init(void)
  	prandom_seed_state(&rndseed, 42);
-+	ktime_get_coarse_ts64(&last_aggregate_time);
- 	return 0;
+ 	ktime_get_coarse_ts64(&last_aggregate_time);
+ 	last_regions_update_time = last_aggregate_time;
+-	return 0;
++
++	return debugfs_init();
  }
  
  static void __exit damon_exit(void)
  {
-+	damon_turn_kdamond(false);
+ 	damon_turn_kdamond(false);
++	debugfs_remove_recursive(debugfs_root);
  	pr_info("exit\n");
  }
  
