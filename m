@@ -2,27 +2,27 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA7AC33CAF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B88C47409
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 89AA2206B7
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3A74208E4
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 01:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728946AbgATBEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jan 2020 20:04:05 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:57921 "EHLO
+        id S1729145AbgATBEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jan 2020 20:04:12 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:60272 "EHLO
         smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728895AbgATBEF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jan 2020 20:04:05 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06713192|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.253924-0.0783178-0.667759;DS=CONTINUE|ham_system_inform|0.0651482-0.00102876-0.933823;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03307;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.Gf.OYKf_1579482234;
+        by vger.kernel.org with ESMTP id S1729123AbgATBEL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jan 2020 20:04:11 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06712966|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.241667-0.0180241-0.740309;DS=CONTINUE|ham_system_inform|0.0778515-0.000343831-0.921805;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03297;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.Gf.OYKf_1579482234;
 Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Gf.OYKf_1579482234)
           by smtp.aliyun-inc.com(10.147.42.16);
-          Mon, 20 Jan 2020 09:03:59 +0800
+          Mon, 20 Jan 2020 09:04:06 +0800
 From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
 To:     Kees Cook <keescook@chromium.org>,
         Anton Vorontsov <anton@enomsg.org>,
@@ -40,76 +40,232 @@ To:     Kees Cook <keescook@chromium.org>,
         WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: [PATCH v1 00/11] pstore: support crash log to block and mtd device
-Date:   Mon, 20 Jan 2020 09:03:42 +0800
-Message-Id: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
+Subject: [PATCH v1 07/11] pstore/blk: skip broken zone for mtd device
+Date:   Mon, 20 Jan 2020 09:03:49 +0800
+Message-Id: <1579482233-2672-8-git-send-email-liaoweixiong@allwinnertech.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
+References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Why do we need to log to block (mtd) device?
-1. Most embedded intelligent equipment have no persistent ram, which
-   increases costs. We perfer to cheaper solutions, like block devices.
-2. Do not any equipment have battery, which means that it lost all data
-   on general ram if power failure. Pstore has little to do for these
-   equipments.
+It's one of a series of patches for adaptive to MTD device.
 
-Why do we need mtdpstore instead of mtdoops?
-1. repetitive jobs between pstore and mtdoops
-   Both of pstore and mtdoops do the same jobs that store panic/oops log.
-2. do what a driver should do
-   To me, a driver should provide methods instead of policies. What MTD
-   should do is to provide read/write/erase operations, geting rid of codes
-   about chunk management, kmsg dumper and configuration.
-3. enhanced feature
-   Not only store log, but also show it as files.
-   Not only log, but also trigger time and trigger count.
-   Not only panic/oops log, but also log recorder for pmsg, console and
-   ftrace in the future.
+MTD device is not block device. As the block of flash (MTD device) will
+be broken, it's necessary for pstore/blk to skip the broken block
+(bad block).
 
-Before upstream submission, pstore/blk is tested on arch ARM and x84_64,
-block device and mtd device, built as modules and in kernel. Here are the
-details:
+If device drivers return -ENEXT, pstore/blk will try next zone of dmesg.
 
-	https://github.com/gmpy/articles/blob/master/pstore/Test-Pstore-Block.md
+Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+---
+ Documentation/admin-guide/pstore-block.rst |  3 +-
+ fs/pstore/blkzone.c                        | 74 +++++++++++++++++++++++-------
+ include/linux/blkoops.h                    |  4 +-
+ include/linux/pstore_blk.h                 |  4 ++
+ 4 files changed, 66 insertions(+), 19 deletions(-)
 
-[PATCH v1]:
-1. fix errors and warnings reported by kbuild test robot.
-
-WeiXiong Liao (11):
-  pstore/blk: new support logger for block devices
-  blkoops: add blkoops, a warpper for pstore/blk
-  pstore/blk: support pmsg recorder
-  pstore/blk: blkoops: support console recorder
-  pstore/blk: blkoops: support ftrace recorder
-  Documentation: pstore/blk: blkoops: create document for pstore_blk
-  pstore/blk: skip broken zone for mtd device
-  blkoops: respect for device to pick recorders
-  pstore/blk: blkoops: support special removing jobs for dmesg.
-  blkoops: add interface for dirver to get information of blkoops
-  mtd: new support oops logger based on pstore/blk
-
- Documentation/admin-guide/pstore-block.rst |  297 ++++++
- MAINTAINERS                                |    3 +-
- drivers/mtd/Kconfig                        |   10 +
- drivers/mtd/Makefile                       |    1 +
- drivers/mtd/mtdpstore.c                    |  530 +++++++++++
- fs/pstore/Kconfig                          |  109 +++
- fs/pstore/Makefile                         |    5 +
- fs/pstore/blkoops.c                        |  490 ++++++++++
- fs/pstore/blkzone.c                        | 1344 ++++++++++++++++++++++++++++
- include/linux/blkoops.h                    |   94 ++
- include/linux/pstore_blk.h                 |   91 ++
- 11 files changed, 2973 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/pstore-block.rst
- create mode 100644 drivers/mtd/mtdpstore.c
- create mode 100644 fs/pstore/blkoops.c
- create mode 100644 fs/pstore/blkzone.c
- create mode 100644 include/linux/blkoops.h
- create mode 100644 include/linux/pstore_blk.h
-
+diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
+index 58418d429c55..aea6d2664a22 100644
+--- a/Documentation/admin-guide/pstore-block.rst
++++ b/Documentation/admin-guide/pstore-block.rst
+@@ -185,7 +185,8 @@ The parameter @offset is the relative position of the device.
+ Normally the number of bytes read/written should be returned, while for error,
+ negative number will be returned. The following return numbers mean more:
+ 
+--EBUSY: pstore/blk should try again later.
++1. -EBUSY: pstore/blk should try again later.
++#. -ENEXT: this zone is used or broken, pstore/blk should try next one.
+ 
+ panic_write (for non-block device)
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/fs/pstore/blkzone.c b/fs/pstore/blkzone.c
+index 66ae8e2a924b..3f58ff85f49c 100644
+--- a/fs/pstore/blkzone.c
++++ b/fs/pstore/blkzone.c
+@@ -223,6 +223,9 @@ static int blkz_zone_write(struct blkz_zone *zone,
+ 
+ 	return 0;
+ set_dirty:
++	/* no need to mark dirty if going to try next zone */
++	if (wcnt == -ENEXT)
++		return -ENEXT;
+ 	atomic_set(&zone->dirty, true);
+ 	/* flush dirty zones nicely */
+ 	if (wcnt == -EBUSY && !is_on_panic())
+@@ -376,7 +379,11 @@ static int blkz_recover_dmesg_meta(struct blkz_context *cxt)
+ 			return -EINVAL;
+ 
+ 		rcnt = info->read((char *)buf, len, zone->off);
+-		if (rcnt != len) {
++		if (rcnt == -ENEXT) {
++			pr_debug("%s with id %lu may be broken, skip\n",
++					zone->name, i);
++			continue;
++		} else if (rcnt != len) {
+ 			pr_err("read %s with id %lu failed\n", zone->name, i);
+ 			return (int)rcnt < 0 ? (int)rcnt : -EIO;
+ 		}
+@@ -666,24 +673,58 @@ static void blkz_write_kmsg_hdr(struct blkz_zone *zone,
+ 		hdr->counter = 0;
+ }
+ 
++/*
++ * In case zone is broken, which may occur to MTD device, we try each zones,
++ * start at cxt->dmesg_write_cnt.
++ */
+ static inline int notrace blkz_dmesg_write_do(struct blkz_context *cxt,
+ 		struct pstore_record *record)
+ {
++	int ret = -EBUSY;
+ 	size_t size, hlen;
+ 	struct blkz_zone *zone;
+-	unsigned int zonenum;
++	unsigned int i;
+ 
+-	zonenum = cxt->dmesg_write_cnt;
+-	zone = cxt->dbzs[zonenum];
+-	if (unlikely(!zone))
+-		return -ENOSPC;
+-	cxt->dmesg_write_cnt = (zonenum + 1) % cxt->dmesg_max_cnt;
++	for (i = 0; i < cxt->dmesg_max_cnt; i++) {
++		unsigned int zonenum, len;
++
++		zonenum = (cxt->dmesg_write_cnt + i) % cxt->dmesg_max_cnt;
++		zone = cxt->dbzs[zonenum];
++		if (unlikely(!zone))
++			return -ENOSPC;
+ 
+-	pr_debug("write %s to zone id %d\n", zone->name, zonenum);
+-	blkz_write_kmsg_hdr(zone, record);
+-	hlen = sizeof(struct blkz_dmesg_header);
+-	size = min_t(size_t, record->size, zone->buffer_size - hlen);
+-	return blkz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
++		/* avoid destorying old data, allocate a new one */
++		len = zone->buffer_size + sizeof(*zone->buffer);
++		zone->oldbuf = zone->buffer;
++		zone->buffer = kzalloc(len, GFP_KERNEL);
++		if (!zone->buffer) {
++			zone->buffer = zone->oldbuf;
++			return -ENOMEM;
++		}
++		zone->buffer->sig = zone->oldbuf->sig;
++
++		pr_debug("write %s to zone id %d\n", zone->name, zonenum);
++		blkz_write_kmsg_hdr(zone, record);
++		hlen = sizeof(struct blkz_dmesg_header);
++		size = min_t(size_t, record->size, zone->buffer_size - hlen);
++		ret = blkz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
++		if (likely(!ret || ret != -ENEXT)) {
++			cxt->dmesg_write_cnt = zonenum + 1;
++			cxt->dmesg_write_cnt %= cxt->dmesg_max_cnt;
++			/* no need to try next zone, free last zone buffer */
++			kfree(zone->oldbuf);
++			zone->oldbuf = NULL;
++			return ret;
++		}
++
++		pr_debug("zone %u may be broken, try next dmesg zone\n",
++				zonenum);
++		kfree(zone->buffer);
++		zone->buffer = zone->oldbuf;
++		zone->oldbuf = NULL;
++	}
++
++	return -EBUSY;
+ }
+ 
+ static int notrace blkz_dmesg_write(struct blkz_context *cxt,
+@@ -807,7 +848,6 @@ static int notrace blkz_pstore_write(struct pstore_record *record)
+ 	}
+ }
+ 
+-#define READ_NEXT_ZONE ((ssize_t)(-1024))
+ static struct blkz_zone *blkz_read_next_zone(struct blkz_context *cxt)
+ {
+ 	struct blkz_zone *zone = NULL;
+@@ -868,7 +908,7 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
+ 	if (blkz_read_dmesg_hdr(zone, record)) {
+ 		atomic_set(&zone->buffer->datalen, 0);
+ 		atomic_set(&zone->dirty, 0);
+-		return READ_NEXT_ZONE;
++		return -ENEXT;
+ 	}
+ 	size -= sizeof(struct blkz_dmesg_header);
+ 
+@@ -893,7 +933,7 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
+ 	if (unlikely(blkz_zone_read(zone, record->buf + hlen, size,
+ 				sizeof(struct blkz_dmesg_header)) < 0)) {
+ 		kfree(record->buf);
+-		return READ_NEXT_ZONE;
++		return -ENEXT;
+ 	}
+ 
+ 	return size + hlen;
+@@ -907,7 +947,7 @@ static ssize_t blkz_record_read(struct blkz_zone *zone,
+ 
+ 	buf = (struct blkz_buffer *)zone->oldbuf;
+ 	if (!buf)
+-		return READ_NEXT_ZONE;
++		return -ENEXT;
+ 
+ 	size = atomic_read(&buf->datalen);
+ 	start = atomic_read(&buf->start);
+@@ -959,7 +999,7 @@ static ssize_t blkz_pstore_read(struct pstore_record *record)
+ 	}
+ 
+ 	ret = readop(zone, record);
+-	if (ret == READ_NEXT_ZONE)
++	if (ret == -ENEXT)
+ 		goto next_zone;
+ 	return ret;
+ }
+diff --git a/include/linux/blkoops.h b/include/linux/blkoops.h
+index 8f40f225545d..71c596fd4cc8 100644
+--- a/include/linux/blkoops.h
++++ b/include/linux/blkoops.h
+@@ -27,6 +27,7 @@
+  *	On error, negative number should be returned. The following returning
+  *	number means more:
+  *	  -EBUSY: pstore/blk should try again later.
++ *	  -ENEXT: this zone is used or broken, pstore/blk should try next one.
+  * @panic_write:
+  *	The write operation only used for panic.
+  *
+@@ -45,7 +46,8 @@ struct blkoops_device {
+ 
+ /*
+  * Panic write for block device who should write alignmemt to SECTOR_SIZE.
+- * On success, zero should be returned. Others mean error.
++ * On success, zero should be returned. Others mean error except that -ENEXT
++ * means the zone is used or broken, pstore/blk should try next one.
+  */
+ typedef int (*blkoops_blk_panic_write_op)(const char *buf, sector_t start_sect,
+ 		sector_t sects);
+diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
+index 77704c1b404a..bbbe4fe37f7c 100644
+--- a/include/linux/pstore_blk.h
++++ b/include/linux/pstore_blk.h
+@@ -6,6 +6,9 @@
+ #include <linux/types.h>
+ #include <linux/blkdev.h>
+ 
++/* read/write function return -ENEXT means try next zone */
++#define ENEXT ((ssize_t)(1024))
++
+ /**
+  * struct blkz_info - backend blkzone driver structure
+  *
+@@ -42,6 +45,7 @@
+  *	On error, negative number should be returned. The following returning
+  *	number means more:
+  *	  -EBUSY: pstore/blk should try again later.
++ *	  -ENEXT: this zone is used or broken, pstore/blk should try next one.
+  * @panic_write:
+  *	The write operation only used for panic. It's optional if you do not
+  *	care panic record. If panic occur but blkzone do not recover yet, the
 -- 
 1.9.1
 
