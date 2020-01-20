@@ -2,121 +2,165 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 519D7C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 11:39:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D904C33CB8
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 12:14:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 256CE20678
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 11:39:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0ssDQns"
+	by mail.kernel.org (Postfix) with ESMTP id 4501120882
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 12:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbgATLjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 06:39:14 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33898 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726796AbgATLjO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 06:39:14 -0500
-Received: by mail-pf1-f193.google.com with SMTP id i6so15733096pfc.1;
-        Mon, 20 Jan 2020 03:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=+XEXJGrBheE6BdBTJzx3qe6Qc7GaDGnAyEcE/RLU0BI=;
-        b=H0ssDQnsDQY4APLdfTjfPfoEMhmXbXe/Flvdd5S13rRoxe3TUfv2qn19P++FcDICfn
-         vSIMVpUDMdicWq30eo9wI752LN2xESqyawIu7OEhJ9NewVUR8ah6zff2WP3nFf/4sSGB
-         mC+YsD5rQMnIt8LeHpBQ9vveOVnWOt/ujjuSS66tONjvo8mNoqbSBduyJRM5060SxQ95
-         aoJhHB7xAV4ugGPu9kyI/f+jwUzlpVho7LL1A63WV1TfuYlr3XSZiDEE5yHz1jEnq8vw
-         i9Kb/01LlD/qh9KWIDDW893o/mQR3/gUAZhEdn8LIy3HkY9f9SQ6TJcpfbxhBn2QrrQD
-         09Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=+XEXJGrBheE6BdBTJzx3qe6Qc7GaDGnAyEcE/RLU0BI=;
-        b=fAQYx7r58h3mcc5CrWc5AbFV7QnbWPdihO8n62PTIKy/R4c/2jPQtIpu4uf3s7By9D
-         HQ9G4D/LaGLkVmgnacMYB8FFwTrw+lgC9jH9RefRMirIbYAuv9gKMVdj1QZ4zCcqZqtd
-         R6Z+k02YBASFp9ZQb0djp0yxXovUMg206xjvOODiNB7SYEllJElYgEFbXZL4ng2LFd4S
-         pqqoPrzPCEJ82tfrb557mbiOFVKskVbOunXxsfdT38MdV83GlIHirzAZRqoSHWr+wEbm
-         rOeprHSUCBd6BgbtPrvLmvdhX/v2SBBCSswJ9IvMvjODq1WmSRzjDQPjHM9ClNCroi1m
-         USOw==
-X-Gm-Message-State: APjAAAVMlRFVp7mFcfpXna/ztqJkNKNc5D6Vk+XW6LUPNwRQBRduGUnB
-        7aBG2wR8X/dY6yS+a3UGXY0=
-X-Google-Smtp-Source: APXvYqzNejdO0h3HwbmR6Ea4/+c25eJuV/M/VrMxzmJOnQOWdGpQbKcXUy2bDptfP0V1U6/CDnFJIA==
-X-Received: by 2002:a63:a54d:: with SMTP id r13mr59335330pgu.138.1579520353887;
-        Mon, 20 Jan 2020 03:39:13 -0800 (PST)
-Received: from localhost ([43.224.245.181])
-        by smtp.gmail.com with ESMTPSA id v9sm2419142pja.26.2020.01.20.03.39.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Jan 2020 03:39:13 -0800 (PST)
-From:   lijiazi <jqqlijiazi@gmail.com>
-X-Google-Original-From: lijiazi <lijiazi@xiaomi.com>
-To:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S1727041AbgATMOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 07:14:55 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:53928 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgATMOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 07:14:54 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id C7E013C00C5;
+        Mon, 20 Jan 2020 13:14:50 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Bta2hz3l_WGv; Mon, 20 Jan 2020 13:14:42 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AC1BB3C04C1;
+        Mon, 20 Jan 2020 13:14:42 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 20 Jan
+ 2020 13:14:42 +0100
+Date:   Mon, 20 Jan 2020 13:14:39 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        lijiazi <lijiazi@xiaomi.com>
-Subject: [PATCH v3 3/3] lib/vsprintf: add two device node flags
-Date:   Mon, 20 Jan 2020 19:38:29 +0800
-Message-Id: <49e5a1c51283b3ea829dc7a04028121764cf5961.1579423564.git.lijiazi@xiaomi.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
-References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
-In-Reply-To: <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
-References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com> <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater
+Message-ID: <20200120121439.GA24951@lxhi-065.adit-jv.com>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20200118014632.GA14644@lxhi-065.adit-jv.com>
+ <CAMuHMdUUc17n0TxOrtQNby+ZiHDpz-aEh-ncnkz50vcwQe6z6w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUUc17n0TxOrtQNby+ZiHDpz-aEh-ncnkz50vcwQe6z6w@mail.gmail.com>
+X-Originating-IP: [10.72.93.66]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add two device node flags, and use OF_DEVICE_NODE_FLAG_MAX instead
-of sizeof("xxxx").
+Hi Geert,
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: lijiazi <lijiazi@xiaomi.com>
----
-Changes in v3:
- - check the flag in the same way as before.
- - split v2 to 3 patches.
----
- lib/vsprintf.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Mon, Jan 20, 2020 at 10:33:53AM +0100, Geert Uytterhoeven wrote:
+> On Sat, Jan 18, 2020 at 2:46 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> > The only unexpected thing is seeing below messages (where gpiochip99 and
+> > gpiochip22 are inexisting gpiochip names, mistakenly provided on command
+> > line prior to passing the correct name):
+> >
+> > root@rcar-gen3:~# echo gpiochip6 12-13 > /sys/bus/platform/drivers/gpio-aggregator/new_device
+> > [  915.572905] gpio-aggregator gpio-aggregator.0: cannot find GPIO chip gpiochip99, deferring
+> > [  915.584224] gpio-aggregator gpio-aggregator.2: cannot find GPIO chip gpiochip99, deferring
+> > [  915.865281] gpio-aggregator gpio-aggregator.29: cannot find GPIO chip gpiochip22, deferring
+> >
+> > Obviously, in the above case, due to a typo in the names, the gpio
+> > chips will never be found, no matter how long gpio-aggregator defers
+> 
+> Indeed, that is expected behavior: you have created platform devices
+> referring to resources that are not available.
 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 7c488a1..b73e584 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1937,7 +1937,7 @@ static noinline_for_stack
- char *device_node_string(char *buf, char *end, struct device_node *dn,
- 			 struct printf_spec spec, const char *fmt)
- {
--	char tbuf[sizeof("xxxx") + 1];
-+	char tbuf[OF_DEVICE_NODE_FLAG_MAX + 1];
- 	const char *p;
- 	int ret;
- 	char *buf_start = buf;
-@@ -2001,7 +2001,9 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
- 			tbuf[1] = of_node_check_flag(dn, OF_DETACHED) ? 'd' : '-';
- 			tbuf[2] = of_node_check_flag(dn, OF_POPULATED) ? 'P' : '-';
- 			tbuf[3] = of_node_check_flag(dn, OF_POPULATED_BUS) ? 'B' : '-';
--			tbuf[4] = 0;
-+			tbuf[4] = of_node_check_flag(dn, OF_OVERLAY) ? 'O' : '-';
-+			tbuf[5] = of_node_check_flag(dn, OF_OVERLAY_FREE_CSET) ? 'F' : '-';
-+			tbuf[OF_DEVICE_NODE_FLAG_MAX] = 0;
- 			buf = string_nocheck(buf, end, tbuf, str_spec);
- 			break;
- 		case 'c':	/* major compatible string */
+Got it. Sounds reasonable to me.
+
+> 
+> > their probing. Unfortunately, the driver will continuously emit those
+> > messages, upon each successfully created/aggregated gpiochip. I built
+> 
+> That is expected behavior, too: every time the driver core manages to
+> bind a device to a driver, it will retry all previously deferred probes,
+> in the hope they can be satisfied by the just bound device.
+> 
+> Note that you can destroy these bogus devices, using e.g.
+> 
+>     # echo gpio-aggregator.0 > \
+>     /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Yep, I can get rid of the bogus devices this way. Thanks!
+
+> 
+> > gpio-aggregator as a loadable module, if that's relevant.
+> 
+> Modular or non-modular shouldn't matter w.r.t. this behavior.
+> Although unloading the module should get rid of the cruft.
+
+Yes, indeed!
+
+> 
+> > Another comment is that, while the series _does_ allow specifying
+> > gpio lines in the DTS (this would require a common compatible string
+> > in gpio_aggregator_dt_ids[] and in the DTS node) and while those lines
+> > are indeed exposed to userspace, based on my testing, these same gpio
+> > lines are marked as "used/reserved" by the kernel. This means that
+> > operating on those gpio pins from userspace will not be possible.
+> > For instance, gpioget/gpioset return "Device or resource busy":
+> >
+> > gpioget: error reading GPIO values: Device or resource busy
+> > gpioset: error setting the GPIO line values: Device or resource busy
+> >
+> > I guess Harish will be unhappy about that, as his expectation was that
+> > upon merging gpio-aggregator with gpio-inverter, he will be able to
+> > describe GPIO polarity and names in DTS without "hogging" the pins.
+> > Perhaps this can be supplemented via an add-on patch later on?
+> 
+> When aggregating GPIO lines, the original GPIO lines are indeed marked
+> used/reserved, so you cannot use them from userspace.
+> However, you are expected to use them through the newly created virtual
+> gpiochip representing the aggregated GPIO lines.
+> 
+> You can try this using the "door" example in
+> Documentation/admin-guide/gpio/gpio-aggregator.rst, after replacing
+> gpio2 {19,20} by gpio6 {12,13} to suit your H3ULCB.
+
+Confirmed. The example works like a charm. One difference between
+the runtime-created and DTS-created gpiochips is the name:
+ - gpio-aggregator.<number>, for the ones created via sysfs
+ - <name-of-DTS-node>, for the ones created via DTS
+
+Seeing this behavior on my target, I believe the expectations of
+Harish should be met w/o any major limitations.
+
+> 
+> > For the whole series (leaving the above findings to your discretion):
+> >
+> > Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> > Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+The recent [v3] discussion actually applies to [v4], for which I did
+review and testing. Will relay the signatures to the latest version.
+
+Thank you very much.
+
 -- 
-2.7.4
-
+Best Regards,
+Eugeniu
