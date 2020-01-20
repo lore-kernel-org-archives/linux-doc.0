@@ -2,52 +2,68 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6089FC33CB1
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 06:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3D3C33CA1
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:54:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3868C2077C
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 06:43:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAF9C207FD
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:54:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="we/6y6ed"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgATGnI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 01:43:08 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:43504 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbgATGnI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 01:43:08 -0500
-Received: by mail-lf1-f67.google.com with SMTP id 9so23128623lfq.10;
-        Sun, 19 Jan 2020 22:43:05 -0800 (PST)
+        id S1726889AbgATIyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 03:54:23 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38403 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbgATIyX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 03:54:23 -0500
+Received: by mail-wr1-f66.google.com with SMTP id y17so28602709wrh.5
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2020 00:54:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=kioLvgS74f9sJjCTsbx/ZLFmZG4mkGnzw8r1w1WYA/4=;
+        b=we/6y6edkk3YpKlsBXl/AgdVTKspovJ98gF9DwytZxXRdKu2lf0yHGZ9cqG+OHNl43
+         1D3wAY7FLKrkB72RdPqnamX5YdLo51GRCa74KmSY6GD35joffcxpIlx05IcZqarzXOP6
+         +x+WZdL8Gs45yw6pNJWCoKrxJUIpW0Icot9uVJGDAki8AJAjxn9VczF5OAkFpdczph4B
+         RkCNnyR+3vU+CuNo9xNEbZOrEsQFIuCf9xPQu0wKKvvAO/Bx0ch6NjL4QHxAd+wfp2yG
+         0v3gxZaqF1zpen8HTiUQZ68tg3+k1M5szuubctad3xbmDv0AW6NzZw39zcETHvk5c+cj
+         kz9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WlsJ1bdLMM+9iZ/WknprTZmuOL+z7ZUhJlUIYfYOJ8c=;
-        b=oUGLSV+7iTQgspoo0Ik3hib6CZCPlT+VpwrP7o5+7k7c8kax/SuqdsQ01WmJyda7zL
-         l2Bjr6lhHmVaJbwECRZ9m9JRSRDZB9crK4aiFGWisKCJT2q1cJ9bg3MYYUmaKvnNEpiB
-         ZflyMMA/+sVfotJyPdCIu1PsxGuZW6byee9oN/q4nNCCTTgMGdg6dC8P/r7+q/eKaqhG
-         gB04Dl2eoBEwxWpZNqZRBKIkfkQmFMv5Dny52YQqLaAbMuqwDKFbHDPccNtUrWbLex+8
-         UJa+7sb54rOFT581oedQF7BI9rgNo0VFKbKisJixrCVAjN+IdgmWUBAW7jwk12b7Xv9d
-         AQdQ==
-X-Gm-Message-State: APjAAAUwIoa7+kjiKgPuHjbntTiTDMlfFIFV8IY9IJsMOyZu2tyvpGXN
-        SjsJ0lDrWAMv6HQyRANY9no=
-X-Google-Smtp-Source: APXvYqxYirNnMa730deFVonZ1ccxf2PdyTN7OqsvVjiW/8ObICZfRy4yilDyuu9znkc/r3VFlb9tpw==
-X-Received: by 2002:a19:4a:: with SMTP id 71mr12473192lfa.50.1579502584465;
-        Sun, 19 Jan 2020 22:43:04 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id f16sm16029651ljn.17.2020.01.19.22.43.02
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=kioLvgS74f9sJjCTsbx/ZLFmZG4mkGnzw8r1w1WYA/4=;
+        b=Pr4Xk2VedNv3G/hp58gw0yufOOHK54sMrFA4E/3JtHjbwSEbp4HxdjRcv9dZFFuWe9
+         sdSsHvFbllM0K/eQt4ToQijhh2MDvTZhRGjCpA6O3VCGeHw49LMTdDwzVKDftrWMKv2q
+         IfMRThMv6qWD6ikP4EfMKzA1nZr77JaiBqn/Q380gz6jbjLjVcH/yxvECSB3Q352Nml/
+         Ar46I+gn3T3i030Vt+5V02FNok5/AoHmMpSOvQnypyBTi2ijEc/PRuGdAMJvfxbKYKXy
+         XhLd/mjCgKXlIX4r2DbHJ+3R7tmdXKets3KgCWuoLqjjoBER4XN6TATSG4PLFCVDKh4l
+         TmiA==
+X-Gm-Message-State: APjAAAUQWxfp6OqSkZw+3uKrGYKAA+KyqkKOIKDvJ2unAnwXvY6lfjoG
+        D0VSMlogOkMlkMHU4fH8yt1CUQ==
+X-Google-Smtp-Source: APXvYqxCEa3WXWluxoJWVXwFldWEGwXwSD1xXL7D/5WNmT4sWEkYFaFe3u9dMJfoNyljA8GfrAY9CA==
+X-Received: by 2002:a5d:5304:: with SMTP id e4mr17084301wrv.426.1579510460638;
+        Mon, 20 Jan 2020 00:54:20 -0800 (PST)
+Received: from dell ([2.27.35.227])
+        by smtp.gmail.com with ESMTPSA id b21sm11998wmd.37.2020.01.20.00.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2020 22:43:03 -0800 (PST)
-Date:   Mon, 20 Jan 2020 08:42:52 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Mon, 20 Jan 2020 00:54:20 -0800 (PST)
+Date:   Mon, 20 Jan 2020 08:54:35 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -67,213 +83,47 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-rtc@vger.kernel.org
-Subject: [PATCH v11 13/13] led: bd71828: Support LED outputs on ROHM BD71828
- PMIC
-Message-ID: <63bc7ce4a05fd5c46d06ca0368370d884ccb250c.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
+Subject: Re: [PATCH v11 03/13] mfd: rohm PMICs - use platform_device_id to
+ match MFD sub-devices
+Message-ID: <20200120085435.GA15507@dell>
 References: <cover.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
+ <13994480cab6d5d6376c8f5228572e55ca06e479.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <13994480cab6d5d6376c8f5228572e55ca06e479.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ROHM BD71828 power management IC has two LED outputs for charge status
-and button pressing indications. The LED outputs can also be forced
-by SW so add driver allowing to use these LEDs for other indications
-as well.
+On Mon, 20 Jan 2020, Matti Vaittinen wrote:
 
-Leds are controlled by SW using 'Force ON' bits. Please note the
-constrains mentioned in data-sheet:
-    1. If one LED is forced ON - then also the other LED is forced.
-            => You can't use SW control to force ON one LED and allow HW
-               to control the other.
-    2. You can't force both LEDs OFF. If the FORCE bit for both LED's is
-       zero, then LEDs are controlled by HW and indicate button/charger
-       states as explained in data-sheet.
+> Thanks to Stephen Boyd I today learned we can use platform_device_id
+> to do device and module matching for MFD sub-devices!
+> 
+> Do device matching using the platform_device_id instead of using
+> explicit module_aliases to load modules and custom parent-data field
+> to do module loading and sub-device matching.
+> 
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> ---
+> No changes since v10
+> 
+>  drivers/clk/clk-bd718x7.c             | 12 ++++++++-
+>  drivers/mfd/rohm-bd70528.c            |  3 +--
+>  drivers/mfd/rohm-bd718x7.c            | 39 ++++++++++++++++++++++-----
+>  drivers/regulator/bd718x7-regulator.c | 17 +++++++++---
+>  include/linux/mfd/rohm-generic.h      |  3 +--
+>  5 files changed, 58 insertions(+), 16 deletions(-)
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
----
-No changes since v10
-
- drivers/leds/Kconfig        |  10 +++
- drivers/leds/Makefile       |   1 +
- drivers/leds/leds-bd71828.c | 118 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 129 insertions(+)
- create mode 100644 drivers/leds/leds-bd71828.c
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 4b68520ac251..db408e03e296 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -545,6 +545,16 @@ config LEDS_BD2802
- 	  This option enables support for BD2802GU RGB LED driver chips
- 	  accessed via the I2C bus.
- 
-+config LEDS_BD71828
-+	tristate "LED driver for LEDS on ROHM BD71828 PMIC"
-+	depends on LEDS_CLASS
-+	depends on MFD_ROHM_BD71828
-+	help
-+	  This option enables support for LED outputs located on ROHM
-+	  BD71828 power management IC. ROHM BD71828 has two led output pins
-+	  which can be left to indicate HW states or controlled by SW. Say
-+	  yes here if you want to enable SW control for these LEDs.
-+
- config LEDS_INTEL_SS4200
- 	tristate "LED driver for Intel NAS SS4200 series"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 2da39e896ce8..a5164acfaf51 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -15,6 +15,7 @@ obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
- obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
- obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
-+obj-$(CONFIG_LEDS_BD71828)		+= leds-bd71828.o
- obj-$(CONFIG_LEDS_CPCAP)		+= leds-cpcap.o
- obj-$(CONFIG_LEDS_LOCOMO)		+= leds-locomo.o
- obj-$(CONFIG_LEDS_LM3530)		+= leds-lm3530.o
-diff --git a/drivers/leds/leds-bd71828.c b/drivers/leds/leds-bd71828.c
-new file mode 100644
-index 000000000000..a02c2ac4a70b
---- /dev/null
-+++ b/drivers/leds/leds-bd71828.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (C) 2019 ROHM Semiconductors
-+
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/leds.h>
-+#include <linux/mfd/rohm-bd71828.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+
-+#define BD71828_LED_TO_DATA(l) ((l)->id == ID_GREEN_LED ? \
-+	container_of((l), struct bd71828_leds, green) : \
-+	container_of((l), struct bd71828_leds, amber))
-+
-+/* Names for led identification - these match the data sheet names */
-+enum {
-+	ID_GREEN_LED,
-+	ID_AMBER_LED,
-+	ID_NMBR_OF,
-+};
-+
-+struct bd71828_led {
-+	struct led_init_data init_data;
-+	int id;
-+	struct led_classdev l;
-+	u8 force_mask;
-+};
-+
-+struct bd71828_leds {
-+	struct rohm_regmap_dev *bd71828;
-+	struct bd71828_led green;
-+	struct bd71828_led amber;
-+};
-+
-+static int bd71828_led_brightness_set(struct led_classdev *led_cdev,
-+				      enum led_brightness value)
-+{
-+	struct bd71828_led *l = container_of(led_cdev, struct bd71828_led, l);
-+	struct bd71828_leds *data;
-+	unsigned int val = BD71828_LED_OFF;
-+
-+	data = BD71828_LED_TO_DATA(l);
-+	if (value != LED_OFF)
-+		val = BD71828_LED_ON;
-+
-+	return regmap_update_bits(data->bd71828->regmap, BD71828_REG_LED_CTRL,
-+			    l->force_mask, val);
-+}
-+
-+static int bd71828_led_probe(struct platform_device *pdev)
-+{
-+	struct rohm_regmap_dev *bd71828;
-+	struct bd71828_leds *l;
-+	struct bd71828_led *g, *a;
-+	int ret;
-+
-+	bd71828 = dev_get_drvdata(pdev->dev.parent);
-+	l = devm_kzalloc(&pdev->dev, sizeof(*l), GFP_KERNEL);
-+	if (!l)
-+		return -ENOMEM;
-+	l->bd71828 = bd71828;
-+	a = &l->amber;
-+	g = &l->green;
-+
-+	/* Fill in details for 'AMBLED' */
-+	a->init_data.match_property.name = "rohm,led-compatible";
-+	a->init_data.match_property.raw_val = "bd71828-ambled";
-+	a->init_data.match_property.size = strlen("bd71828-ambled");
-+	a->id = ID_AMBER_LED;
-+	a->force_mask = BD71828_MASK_LED_AMBER;
-+
-+	/* Fill in details for 'GRNLED' */
-+	g->init_data.match_property.name = "rohm,led-compatible";
-+	g->init_data.match_property.raw_val = "bd71828-grnled";
-+	g->init_data.match_property.size = strlen("bd71828-grnled");
-+	g->id = ID_GREEN_LED;
-+	g->force_mask = BD71828_MASK_LED_GREEN;
-+
-+	a->l.brightness_set_blocking = bd71828_led_brightness_set;
-+	g->l.brightness_set_blocking = bd71828_led_brightness_set;
-+
-+	ret = devm_led_classdev_register_ext(&pdev->dev, &g->l, &g->init_data);
-+	if (ret)
-+		return ret;
-+
-+	return devm_led_classdev_register_ext(&pdev->dev, &a->l, &a->init_data);
-+}
-+
-+/*
-+ * Device is instantiated through parent MFD device and device matching is done
-+ * through platform_device_id.
-+ *
-+ * However, the *module* matching will be done trough DT aliases. This requires
-+ * of_device_id table - but no .of_match_table as *device* matching is still
-+ * done through platform_device_id.
-+ */
-+static const struct of_device_id bd71828_dt_match[] __used = {
-+	{ .compatible = "rohm,bd71828-leds" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, bd71828_dt_match);
-+
-+static struct platform_driver bd71828_led_driver = {
-+	.driver = {
-+		.name  = "bd71828-led",
-+	},
-+	.probe  = bd71828_led_probe,
-+};
-+
-+module_platform_driver(bd71828_led_driver);
-+
-+MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>");
-+MODULE_DESCRIPTION("ROHM BD71828 LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.21.0
-
+Still needs Clk and Regulator Acks.
 
 -- 
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =] 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
