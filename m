@@ -2,119 +2,110 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F48C33CA1
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:54:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F68C33CB8
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:59:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 609DA2087E
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:54:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vDepYFXL"
+	by mail.kernel.org (Postfix) with ESMTP id CB5D22087E
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 08:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbgATIy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 03:54:58 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37385 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726589AbgATIy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 03:54:57 -0500
-Received: by mail-wr1-f65.google.com with SMTP id w15so28642097wru.4
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2020 00:54:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=wFASbmAcjMPLyphRbOiX44SHWrp7PXj1/IhOzEqtzro=;
-        b=vDepYFXLBoVAdHKjwHAvg6Gv/5dJ2HbkMPPpNvh407VhcxpDu6rwVdq06AwjKNtA7z
-         yVjrmfzAr7J2P7/UahLaaxU+a9AEin1BmQ3qPLTeKJebJSXIg/GqD6eKP+QgCMTIHa5X
-         jBpSKQD6BwgTsW0J/wTt5Zr0L9ZVvXUPcN2VJBYBYxNPNOMRhV4Hfkpi0lDASbYL13e2
-         SEQiVDtM6nt9Q+3J9KyCbGBppcZCANbQ0HIohP6/TRBANJBA+oNkyK6r5wifm7b3mZgO
-         MkRAmiuzyekDPZPKh4U9itVgYWiSU0UvlIsEc7d/lTaMTBf5g+VlJWFL9+d0A2NRG0aR
-         unjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=wFASbmAcjMPLyphRbOiX44SHWrp7PXj1/IhOzEqtzro=;
-        b=O+xFLftFpFcg+twGSxV6OA9otHvpXv6ivgJm3M6X7Dk0pdzmWHA2cVpY4X48J6f+y3
-         RQd/MWnYChTdBg3rmS8swalb6nW3gdJcyLaM4oelo0QdLzP/0WTcaV47wHW4f2nuLuWV
-         6WljCFmkEqGiSBkfLYwr1jcyZFgDxoKeGXqikp7Wirh5VUp4z82hwoKZs7Nt+X/hMC1Z
-         eNBS0ROSLxhZAi/RgIyiLh51wjJeHBokw4Ax8GO8jTzC5QVz+9ErY0sM2DpnEjHzySzg
-         RNtD/+Fzk+SOsDNaFUJjl6GHDmFn5ZpvlsbM8KtjN4dPdqWYWHIjJl2vRV8Ii5WWTfkF
-         trag==
-X-Gm-Message-State: APjAAAWP0c6fByjD+cInX6L650AJaNoVuT6WtT4ElBPKwoe59tc7mtYm
-        ZM6MH8KkL817N2xU/UXGvBR3jQ==
-X-Google-Smtp-Source: APXvYqwCRnZUydx1xxyOAIBs26zb8aTMIoGVsErSpJUIql/6cfDBP9xZ/3XnLh11Kt0M950WObQehQ==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr16738404wrr.82.1579510494964;
-        Mon, 20 Jan 2020 00:54:54 -0800 (PST)
-Received: from dell ([2.27.35.227])
-        by smtp.gmail.com with ESMTPSA id m10sm47135255wrx.19.2020.01.20.00.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 00:54:54 -0800 (PST)
-Date:   Mon, 20 Jan 2020 08:55:10 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org
+        id S1727422AbgATI7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 03:59:53 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:60150 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbgATI7w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 03:59:52 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-52-5e256c0684b1
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 87.69.08102.60C652E5; Mon, 20 Jan 2020 09:59:50 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Mon, 20 Jan 2020 09:59:38 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "lee.jones@linaro.org" <lee.jones@linaro.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
 Subject: Re: [PATCH v11 06/13] mfd: input: bd71828: Add power-key support
-Message-ID: <20200120085510.GB15507@dell>
+Thread-Topic: [PATCH v11 06/13] mfd: input: bd71828: Add power-key support
+Thread-Index: AQHVz1wGrQEGyJ5fD0SaA4XlttGe5qfzLygAgAABRYA=
+Date:   Mon, 20 Jan 2020 08:59:37 +0000
+Message-ID: <ad1d57cd3025cf9205240f23a3558728087d7c6b.camel@fi.rohmeurope.com>
 References: <cover.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
- <aa965067acfbdaa862f5f5de8b66e2c161f276a0.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
+         <aa965067acfbdaa862f5f5de8b66e2c161f276a0.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
+         <20200120085510.GB15507@dell>
+In-Reply-To: <20200120085510.GB15507@dell>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0DE9CF02669805478756659A339F3AAD@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa965067acfbdaa862f5f5de8b66e2c161f276a0.1579501711.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0wTZxzG995d715+dDlbXN/VscXL0PhjImYZ75Q4k4XsNGqWQPxjZmXn
+        erbF0pK2bLIfxkSBUcAIQ4mVFkWYCA0dnUbsSiBYGNZFg5PKAmiYSAbbYHMiYzrc3W4Kf71P
+        3ud5vp+75PtCUtPK6KHF5hIdNsHK0fFUV9Ojttdoa4ph/dmrCbihf4DBJVNfMfifql4GP/BG
+        KXxsdIzGY10lANdFrqlw2dXzKnzoTIDGQxe+pvCdmR6AH978gsDVj88S+I/y2yp8uriBwt/U
+        PQb4h1AtjS/82gpwb8tNGjfe6idwbWMfhafvlxK4P5qJj0WnGDwS7aHxof5BEhd1RBg8H2uj
+        8JFr72xJ5v0+P+Af/V0F+OnBIob3+T/lL3lGGD7YXErzw7EwzXd6/Qx/5siXKv7h95UUP346
+        QPHfDV4k+BrfHMEHyiOAb2qZZfg/gy+/y76XkLFHcH2UZTHZUjd/kGB+MnEgPwL3T3bFyIOg
+        CbpBHETs6+jb38sIWWvYAYCCLQfcIF7SfQBNXbmjcgMIaTYDuX9k5EwSm4Ya+u5RsibZUxBV
+        hlk5/xwbJNHF+WGVbGjZraio+D6lFLahmYpZUtEb0b1AjJY1xaag1lg7kLWa3YlmPBFGAUcA
+        OtlW/x84jl2NJnzpcgawyaj04BShgHUoOD6rUn6ARQ3h66Sil6KJu/P/33OoY26UkseQ7CoU
+        CKUqcgvyVWcpU5aj6rJRRvmCJejKiTHqKNB5FgE8C2XPQtmzqOxZVD4FVM0A5QkWq0lwiWnr
+        HGLBOofdnCcdH9rzgkDZvwft4En31m5AQNANXoQEt1TN5HIGzfN77MZCs+A05zgKrKKzGyBI
+        cknqkYrlBo3aKBR+IjrsT61lkOJ06pWjle9rWJm1TxTzRcdT9yUIOaTeti/FoFniEE3i/r0W
+        q2vBJmCcPDxen+QUbUbRIRS4zDnynuQ4pUWRrUSJWyHX1c58IU+6VapRsAYenfDWkzDibawn
+        NZTNbhP1OjXeKEVZOWousD0DTQIdBJxWvTZXchOlR/hszqSEICTEQDonI1zCgqWX9vKFt9j4
+        G4dXdhizY5//tOFunc+2I+WchdK/8ar21todw9m/+UvCQ4bQ9ln3yPTxmozAX1WbQjBrYHNn
+        sy9k8v4894vx3PXdYznZQ7XFexNrzjcWpq6Y77t88m1VyY2du+qz1u/6eFWu781L48vKfZ2b
+        tr9yODm9/bid6w1rez7LzNSaOMppFtJWkw6n8C8q2mnkQQQAAA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Jan 2020, Matti Vaittinen wrote:
-
-> Use gpio_keys to send power input-event to user-space when power
-> button (short) press is detected.
-> 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-> ---
-> No changes since v10
-> 
->  drivers/mfd/rohm-bd71828.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-
-Drop the "input:" tag from the subject line please.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+SGVsbG8gTGVlLA0KDQpPbiBNb24sIDIwMjAtMDEtMjAgYXQgMDg6NTUgKzAwMDAsIExlZSBKb25l
+cyB3cm90ZToNCj4gT24gTW9uLCAyMCBKYW4gMjAyMCwgTWF0dGkgVmFpdHRpbmVuIHdyb3RlOg0K
+PiANCj4gPiBVc2UgZ3Bpb19rZXlzIHRvIHNlbmQgcG93ZXIgaW5wdXQtZXZlbnQgdG8gdXNlci1z
+cGFjZSB3aGVuIHBvd2VyDQo+ID4gYnV0dG9uIChzaG9ydCkgcHJlc3MgaXMgZGV0ZWN0ZWQuDQo+
+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogTWF0dGkgVmFpdHRpbmVuIDxtYXR0aS52YWl0dGluZW5A
+Zmkucm9obWV1cm9wZS5jb20+DQo+ID4gQWNrZWQtZm9yLU1GRC1ieTogTGVlIEpvbmVzIDxsZWUu
+am9uZXNAbGluYXJvLm9yZz4NCj4gPiAtLS0NCj4gPiBObyBjaGFuZ2VzIHNpbmNlIHYxMA0KPiA+
+IA0KPiA+ICBkcml2ZXJzL21mZC9yb2htLWJkNzE4MjguYyB8IDI2ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspDQo+IA0KPiBE
+cm9wIHRoZSAiaW5wdXQ6IiB0YWcgZnJvbSB0aGUgc3ViamVjdCBsaW5lIHBsZWFzZS4NCj4gDQpJ
+J2xsIGRvLiBBbmQgSSdsbCBhbHNvIGRyb3AgdGhlIExFRCBwYXRjaGVzICgxMiBhbmQgMTMpIGFz
+IEkgbm90aWNlZA0KdGhlIHBhdGNoIDEyIGhhcyBzb21lIGlzc3VlcyAoYmVzaWRlcyBMRURzIC0g
+b3RoZXIgdGhhbiBiaW5kaW5ncyAtDQpzdGlsbCBsYWNrIGFjayBmcm9tIFBhdmVsKS4NCg0KSSds
+bCBzZW5kIHYxMiBhZnRlciBhIHdoaWxlLg0KDQpCciwNCiAgICBNYXR0aSBWYWl0dGluZW4NCg==
