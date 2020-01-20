@@ -2,84 +2,76 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6793C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7ECC2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:17:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4C2B22314
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:16:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E5E822464
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 14:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgATOQp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 09:16:45 -0500
-Received: from mga02.intel.com ([134.134.136.20]:55069 "EHLO mga02.intel.com"
+        id S1726988AbgATORA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 09:17:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53248 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726885AbgATOQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jan 2020 09:16:45 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Jan 2020 06:16:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,342,1574150400"; 
-   d="scan'208";a="228409728"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006.jf.intel.com with ESMTP; 20 Jan 2020 06:16:42 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1itXr8-0002Xp-V7; Mon, 20 Jan 2020 16:16:42 +0200
-Date:   Mon, 20 Jan 2020 16:16:42 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     lijiazi <jqqlijiazi@gmail.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        lijiazi <lijiazi@xiaomi.com>
-Subject: Re: [PATCH v3 2/3] lib/vsprintf: introduce OF_DEVICE_NODE_FLAG_MAX
-Message-ID: <20200120141642.GN32742@smile.fi.intel.com>
-References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
- <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
+        id S1726982AbgATORA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jan 2020 09:17:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 9F57EACD7;
+        Mon, 20 Jan 2020 14:16:58 +0000 (UTC)
+Date:   Mon, 20 Jan 2020 15:16:57 +0100
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/26] docs: i2c: smbus-protocol: properly name start
+ and stop conditions
+Message-ID: <20200120151657.50725d9e@endymion>
+In-Reply-To: <20200105225012.11701-12-luca@lucaceresoli.net>
+References: <20200105224006.10321-1-luca@lucaceresoli.net>
+        <20200105225012.11701-1-luca@lucaceresoli.net>
+        <20200105225012.11701-12-luca@lucaceresoli.net>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 20, 2020 at 07:38:28PM +0800, lijiazi wrote:
-> introduce OF_DEVICE_NODE_FLAG_MAX for %pOF related printk.
+On Sun,  5 Jan 2020 23:49:58 +0100, Luca Ceresoli wrote:
+> In I2C there is no such thing as a "start bit" or a "stop bit". Use the
+> proper naming: "start condition" and "stop condition".
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+>  Documentation/i2c/smbus-protocol.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+> index 1600b09ec0be..8510eeda1dd0 100644
+> --- a/Documentation/i2c/smbus-protocol.rst
+> +++ b/Documentation/i2c/smbus-protocol.rst
+> @@ -35,8 +35,8 @@ Key to symbols
+>  ==============
+>  
+>  =============== =============================================================
+> -S     (1 bit) : Start bit
+> -P     (1 bit) : Stop bit
+> +S             : Start condition
+> +P             : Stop condition
+>  Rd/Wr (1 bit) : Read/Write bit. Rd equals 1, Wr equals 0.
+>  A, NA (1 bit) : Accept and reverse accept bit.
+>  Addr  (7 bits): I2C 7 bit address. Note that this can be expanded as usual to
 
-introduce -> Introduce
-
-> @@ -147,6 +147,13 @@ extern raw_spinlock_t devtree_lock;
->  #define OF_OVERLAY		5 /* allocated for an overlay */
->  #define OF_OVERLAY_FREE_CSET	6 /* in overlay cset being freed */
-
-> +/*
-> + * add OF_DEVICE_NODE_FLAG_MAX for %pOF related printk.
-> + * if there is any change on these flags, please synchronize the change
-> + * to device_node_string function in lib/vsprintf.c.
-
-This is doubtful comment. If we don't want to print some flags in printf()?
-And in general this is orthogonal to the printf() changes.
-
-> + */
-> +#define OF_DEVICE_NODE_FLAG_MAX 6 /* Maximum available flags */
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jean Delvare
+SUSE L3 Support
