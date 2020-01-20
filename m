@@ -2,101 +2,100 @@ Return-Path: <SRS0=qEP9=3J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D447C33CAA
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC0AC2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:36:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CED822314
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:26:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0E1222464
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jan 2020 13:36:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h62FLWd/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbgATN0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jan 2020 08:26:15 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54619 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbgATN0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 08:26:15 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 805063C04C1;
-        Mon, 20 Jan 2020 14:26:12 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0WEtl-NDxPMY; Mon, 20 Jan 2020 14:26:07 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5FC4E3C00C5;
-        Mon, 20 Jan 2020 14:26:07 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 20 Jan
- 2020 14:26:07 +0100
-Date:   Mon, 20 Jan 2020 14:26:07 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        id S1726991AbgATNg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jan 2020 08:36:57 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:36285 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726626AbgATNg5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jan 2020 08:36:57 -0500
+Received: by mail-pj1-f67.google.com with SMTP id n59so7214234pjb.1;
+        Mon, 20 Jan 2020 05:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NneulMLB2heGrhq0MiBVjvqrwFXe46iFqp94Z+XbEJY=;
+        b=h62FLWd/5Yl39f8qNI044PIw7abmufHtradfLDLXShKSf5M2fGzQGCq+Bgv5w/I+iS
+         zBzGfjOomF60DBqNWwSnS8VpBxPoZCoXLxL0dih9/N33W0ehQ6wMweg3Q5tLduMLZyM9
+         E6pYkdxB3wV0tmG/nM/bssLeWZBVYHXT2VudDaAy5GRwT8gdCaBs810L613d9PlP01yM
+         pt50rul19ewxYPE6Iwji7EVTL5lY9qXXZyvMf73so4bQXCGUmq1dMcq+V/09I0AX/SeY
+         ZHWfSjDNpMA+/cBDLaPrQVX6SiR3kurwFwflrmPkyk4NbNdrVHmFxYfFB8nY9P3MgGFA
+         H15w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NneulMLB2heGrhq0MiBVjvqrwFXe46iFqp94Z+XbEJY=;
+        b=MhRDWkbSb0Ho8H+nNNuJYu1uBmp59LHjNqW8LxfdWjjngOezEVni+ORJL6Wt6Cybdt
+         Z2SqjeQvMKADCuk6MVXWZ+QIFljIj4aFnD+B1jKKQ6tvBWjCaHoiiiTzS2IjfPEyPo+d
+         Gv6RuxSxXTU2fQXkqefLH/SqaoezAqVxaoXsvhA8RT6eDWOpS5RDoZw42cX6uDX8PGm/
+         1cLdU0SNaYNcoZiZnWonknOevai740QcNRntoPPo5U71CKhrzbh/jAXnwMEbvTLaZM7c
+         wHSrEiw/dGUoCUVHCZAWljiDPZdMjF4whwNgH2R6r64s0C/3VbdrRIDzgcbWQB4lw7IB
+         BafA==
+X-Gm-Message-State: APjAAAWBjYkh06ASB2Mkr3sf0ANutjecnxSdpMMTRvn6SFVQF5aNzZJP
+        mSl/HHDYF9ojMrmzcVFvKgI=
+X-Google-Smtp-Source: APXvYqybq7q4zJctwXp1DGn1Y4j85AkYtBcCGU58kJYMIZDKT8YmZXaQQvZOLuLIpBAxn+lMIYsVbw==
+X-Received: by 2002:a17:902:7c05:: with SMTP id x5mr15349272pll.236.1579527416525;
+        Mon, 20 Jan 2020 05:36:56 -0800 (PST)
+Received: from localhost (187.100.30.125.dy.iij4u.or.jp. [125.30.100.187])
+        by smtp.gmail.com with ESMTPSA id n1sm41180468pfd.47.2020.01.20.05.36.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2020 05:36:55 -0800 (PST)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+X-Google-Original-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Date:   Mon, 20 Jan 2020 22:36:52 +0900
+To:     lijiazi <jqqlijiazi@gmail.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v4 0/5] gpio: Add GPIO Aggregator
-Message-ID: <20200120132607.GB24951@lxhi-065.adit-jv.com>
-References: <20200115181523.23556-1-geert+renesas@glider.be>
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        lijiazi <lijiazi@xiaomi.com>
+Subject: Re: [PATCH v3 1/3] lib/vsprintf: add two device node flags for %pOF
+Message-ID: <20200120133652.GA386200@jagdpanzerIV.localdomain>
+References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200115181523.23556-1-geert+renesas@glider.be>
-X-Originating-IP: [10.72.93.66]
+In-Reply-To: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
-
-On Wed, Jan 15, 2020 at 07:15:18PM +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
+On (20/01/20 19:38), lijiazi wrote:
+>  Documentation/core-api/printk-formats.rst | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> GPIO controllers are exported to userspace using /dev/gpiochip*
-> character devices.  Access control to these devices is provided by
-> standard UNIX file system permissions, on an all-or-nothing basis:
-> either a GPIO controller is accessible for a user, or it is not.
-> Currently no mechanism exists to control access to individual GPIOs.
-> 
-> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
-> them as a new gpiochip.  This is useful for implementing access control,
-> and assigning a set of GPIOs to a specific user.  Furthermore, this
-> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
-> can just grab the full GPIO controller, and no longer needs to care
-> about which GPIOs to grab and which not, reducing the attack surface.
-> 
-> Recently, other use cases have been discovered[1]:
->   - Describing simple GPIO-operated devices in DT, and using the GPIO
->     Aggregator as a generic GPIO driver for userspace, which is useful
->     for industrial control.
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 8ebe46b1..9271f20 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -441,6 +441,8 @@ Examples::
+>  							d - detached
+>  							P - Populated
+>  							B - Populated bus
+> +							O - Overlay
+> +							F - Overlay free cset
 
-As per comments and test results in [*] (accidentally attached to v3):
+I think these 3 can be just one patch. Patching Documentation and
+vsprintf in separate steps might be a bit inconvenient.
 
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-
-[*] https://lore.kernel.org/linux-renesas-soc/20200120121439.GA24951@lxhi-065.adit-jv.com/
-    ("Re: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater")
-
--- 
-Best Regards,
-Eugeniu Rosca
+	-ss
