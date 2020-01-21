@@ -2,165 +2,126 @@ Return-Path: <SRS0=zf9w=3K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C84C2D0CE
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 15:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4B7C2D0CE
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 15:55:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 084D024125
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 15:34:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lvsQrUsO"
+	by mail.kernel.org (Postfix) with ESMTP id AD0C021569
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 15:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579622109;
+	bh=Xi29VL+aRZgC9t1zmCeT0p4UGkkaURcz9MOn3QgVPOA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=mhFFCDTB/2qmeisib4tH6l5CY5DX/jNQ87pxrYx3AJ9K06gh8vxrD1n5kCqEoLRXY
+	 ziiFpT5TIDvWUu5Gtz8bRGeya6USTnmthss0mDtVuXVjQq19RgWC+kKn6XCFM7Pc+c
+	 iB0CY4Eto+eKId9/L/XxLOOpgczKhd4xs5Tqpxxc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729152AbgAUPeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jan 2020 10:34:44 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:57050 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727508AbgAUPeo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jan 2020 10:34:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=vA3uUy3GrF8RYVPYOTynNZKRmmcxfIVUNw9zl1QYAEI=; b=lvsQrUsO5T59sixx/qC96PxtO
-        ZcwZGmusAGkrzdC/8G9yEFW27ewMBeAAOTc831iHAZfqx4PgzHaI7410ncfix8I74I2qkyUPKMxTo
-        dO6KG76adZRu7OBvg67WItfWHjTOHcp0ChxgZ5+ayi/EukK3cxO8qToC7fbd1qjev1sfb/xbqseZp
-        ry7Q3Oi2QzLRtfHTocUZWjYMR5kwmXnxSY9g6qChRQbYLVM5aZjOO8ySGre3+z+fe+Zo/PAXjYKsG
-        JJTzGa5dfc3sfWOM0S7cconEixjBW4lxUWNGDC141a+kXcznVaDoGKCsnfiLP5iyIGr36doj7qBLf
-        EBIu3ClsQ==;
-Received: from [2601:1c0:6280:3f0::ed68]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1itvY8-00077j-7k; Tue, 21 Jan 2020 15:34:40 +0000
-Subject: Re: [PATCH v1 06/11] Documentation: pstore/blk: blkoops: create
- document for pstore_blk
-To:     liaoweixiong <liaoweixiong@allwinnertech.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1579482233-2672-7-git-send-email-liaoweixiong@allwinnertech.com>
- <b9cd734b-8bb1-5e26-a7ed-fbc79ab2d958@infradead.org>
- <c87bdf3a-f129-a2a7-40b2-2220f79b505a@allwinnertech.com>
- <40d7f57a-119e-e51f-99a5-63e85ab5ab91@infradead.org>
- <3337f687-a668-c058-178b-a1438641c519@allwinnertech.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <597e2b49-667a-490e-91b6-641ca25401d8@infradead.org>
-Date:   Tue, 21 Jan 2020 07:34:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1729137AbgAUPzC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jan 2020 10:55:02 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:47878 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729081AbgAUPzC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jan 2020 10:55:02 -0500
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 00LFsjCx026239;
+        Wed, 22 Jan 2020 00:54:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 00LFsjCx026239
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1579622086;
+        bh=XcM8hwdOFSg2hY05tKp4+ZerG8dirnX+x/EnjTmei7U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HOttlFCxKUHUS3QQhft+gR1yh5ApFydDfUA74O858kpqGMBZuwhoU2TRiDa7viJDN
+         T0YdGgyUDIlyMclVwAwVucCNQAUpkuYp3mQLIiGtRpe4W9P48tEogy1rR1x8KZeSCs
+         OWJ2rCws1cUKtBcF0huZ8h8I9bZmULgJQ7TeJDvp0qwIT4L3DF7VYucqLf9AfZQQD0
+         4MXgMQhi59s1GWz+sUMOcpZweejWirbyHxBHLPM+prfe5++Nkb89onmJDLmRudGMvC
+         Q/BpGGaEfN6LqMxwyCcp3ap4z7Wn/SHApclvPNXP2JZbRaN7AZBb1gWY3IjCOPhMBb
+         ql/wb9ieFZVhQ==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id p6so2090441vsj.11;
+        Tue, 21 Jan 2020 07:54:45 -0800 (PST)
+X-Gm-Message-State: APjAAAWZ5OmQB9DH22h1uterE8datDNFrtv0L4gl1uzR+JACsPZ6M7kv
+        NBEFw9bKolSlHSNi/+rqZRgsPHCxdTTa1fKh6A0=
+X-Google-Smtp-Source: APXvYqzimgj1k+UanmIO2Yl/8BmDDebyeC2VypYf7mojdWt9FnKycDESIAGbRvDXGOsDTCXOv+N4C05M31ODVcgtxBE=
+X-Received: by 2002:a05:6102:190:: with SMTP id r16mr3090095vsq.215.1579622084742;
+ Tue, 21 Jan 2020 07:54:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3337f687-a668-c058-178b-a1438641c519@allwinnertech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200117161822.106635-1-helgaas@kernel.org>
+In-Reply-To: <20200117161822.106635-1-helgaas@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 22 Jan 2020 00:54:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT4kVw1iE7zSypJ1wLnrrEEfRRd5YfH4m6aeXymF_2BfA@mail.gmail.com>
+Message-ID: <CAK7LNAT4kVw1iE7zSypJ1wLnrrEEfRRd5YfH4m6aeXymF_2BfA@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig: fix documentation typos
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/21/20 12:19 AM, liaoweixiong wrote:
-> hi Randy Dunlap,
-> 
-> On 2020/1/21 2:36 PM, Randy Dunlap wrote:
->> On 1/20/20 9:23 PM, liaoweixiong wrote:
->>> hi Randy Dunlap,
->>>
->>> On 2020/1/21 PM12:13, Randy Dunlap wrote:
->>>> Hi,
->>>>
->>>> I have some documentation comments for you:
->>>>
->>>>
->>>> On 1/19/20 5:03 PM, WeiXiong Liao wrote:
->>>>> The document, at Documentation/admin-guide/pstore-block.rst, tells us
->>>>> how to use pstore/blk and blkoops.
->>>>>
->>>>> Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
->>>>> ---
->>>>>   Documentation/admin-guide/pstore-block.rst | 278 +++++++++++++++++++++++++++++
->>>>>   MAINTAINERS                                |   1 +
->>>>>   fs/pstore/Kconfig                          |   2 +
->>>>>   3 files changed, 281 insertions(+)
->>>>>   create mode 100644 Documentation/admin-guide/pstore-block.rst
->>>>>
->>>>> diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
->>>>> new file mode 100644
->>>>> index 000000000000..58418d429c55
->>>>> --- /dev/null
->>>>> +++ b/Documentation/admin-guide/pstore-block.rst
->>>>> +
->>>>> +
->>>>> +dmesg_size
->>>>> +~~~~~~~~~~
->>>>> +
->>>>> +The chunk size in bytes for dmesg(oops/panic). It **MUST** be a multiple of
->>>>> +4096. If you don't need it, safely set it 0 or ignore it.
->>>>
->>>>                                        set it to 0 or ignore it.
->>>>
->>>
->>> I will fix it, thank you.
->>>
->>>> The example above is:  blkoops.dmesg_size=64
->>>> where 64 is not a multiple of 4096. (?)
->>>>
->>>
->>> The module parameter dmesg_size is in unit KB.
->>
->> I didn't see that documented anywhere.
->>
-> 
-> Oh, sorry, that is my oversight. It seems that not only the other size introductions but also introductions on Kconfig should be corrected. Thank you very much and is the following modification OK?
-> 
-> The chunk size in KB for dmesg(oops/panic). It **MUST** be a multiple of 4.
+On Sat, Jan 18, 2020 at 1:18 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> Fix a couple typos in kconfig-language documentation.
+>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> ---
 
-OK.
+Applied to linux-kbuild.
+Thanks.
 
 
->>>>> +Compression and header
->>>>> +----------------------
->>>>> +
->>>>> +Block device is large enough for uncompressed dmesg data. Actually we do not
->>>>> +recommend data compression because pstore/blk will insert some information into
->>>>> +the first line of dmesg data. For example::
->>>>> +
->>>>> +        Panic: Total 16 times
->>>>> +
->>>>> +It means that it's the 16th times panic log since the first booting. Sometimes
->>>>
->>>>                                 time of a panic log since ...
->>>>
->>>
->>> Should it be like this?
->>> It means the time of a panic log since the first booting.
->>
->> That sounds like clock time, not the number of instances or occurrences.
->>
-> 
-> It is an oops/panic counter too. How about this?
-> 
-> It means that it's OOPS/PANIC for the 16th time since the first booting.
+>  Documentation/kbuild/kconfig-language.rst | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 74bef19f69f0..0148ae82446e 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -594,7 +594,8 @@ The two different resolutions for b) can be tested in the sample Kconfig file
+>  Documentation/kbuild/Kconfig.recursion-issue-02.
+>
+>  Below is a list of examples of prior fixes for these types of recursive issues;
+> -all errors appear to involve one or more select's and one or more "depends on".
+> +all errors appear to involve one or more "select" statements and one or more
+> +"depends on".
+>
+>  ============    ===================================
+>  commit          fix
+> @@ -656,7 +657,7 @@ the use of the xconfig configurator [1]_. Work should be done to confirm if
+>  the deduced semantics matches our intended Kconfig design goals.
+>
+>  Having well defined semantics can be useful for tools for practical
+> -evaluation of depenencies, for instance one such use known case was work to
+> +evaluation of dependencies, for instance one such case was work to
+>  express in boolean abstraction of the inferred semantics of Kconfig to
+>  translate Kconfig logic into boolean formulas and run a SAT solver on this to
+>  find dead code / features (always inactive), 114 dead features were found in
+> @@ -683,7 +684,7 @@ abstraction the inferred semantics of Kconfig to translate Kconfig logic into
+>  boolean formulas and run a SAT solver on it [5]_. Another known related project
+>  is CADOS [6]_ (former VAMOS [7]_) and the tools, mainly undertaker [8]_, which
+>  has been introduced first with [9]_.  The basic concept of undertaker is to
+> -exract variability models from Kconfig, and put them together with a
+> +extract variability models from Kconfig and put them together with a
+>  propositional formula extracted from CPP #ifdefs and build-rules into a SAT
+>  solver in order to find dead code, dead files, and dead symbols. If using a SAT
+>  solver is desirable on Kconfig one approach would be to evaluate repurposing
+> --
+> 2.25.0.341.g760bfbb309-goog
+>
 
-                                                  since the last booting {or boot}.
 
-thanks.
 -- 
-~Randy
-
+Best Regards
+Masahiro Yamada
