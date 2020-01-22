@@ -1,206 +1,130 @@
-Return-Path: <SRS0=zf9w=3K=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=DKq9=3L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6BDC2D0CE
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 18:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7711C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 08:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C85B224125
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jan 2020 18:02:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7766B2253D
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 08:06:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="iYQ03acS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729317AbgAUSCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jan 2020 13:02:37 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38472 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729273AbgAUSCh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jan 2020 13:02:37 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 184BAAEC1;
-        Tue, 21 Jan 2020 18:02:34 +0000 (UTC)
-Date:   Tue, 21 Jan 2020 19:02:31 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 21/26] docs: i2c: instantiating-devices: rearrange
- static instatiation
-Message-ID: <20200121190231.6e88bbdc@endymion>
-In-Reply-To: <20200105225012.11701-21-luca@lucaceresoli.net>
-References: <20200105224006.10321-1-luca@lucaceresoli.net>
-        <20200105225012.11701-1-luca@lucaceresoli.net>
-        <20200105225012.11701-21-luca@lucaceresoli.net>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S1725883AbgAVIG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jan 2020 03:06:56 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35949 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbgAVIG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jan 2020 03:06:56 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z3so6217946wru.3
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2020 00:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=s0NxkPWOFy97V3WQXDXp0H1Og762/CSwU0Eo+c/6m/Q=;
+        b=iYQ03acSeOzu493CS9MGJMeyjWI5ncC0/gcEy7dIRcfofBTFUcm1Z936F2zupeCMuO
+         ZzW318+FC1fdrMrhpXphtJ85JDk8Lfn8ItfD+5gNwYUp2Vo3sSGhv55o9EP6QBApzy2R
+         xqUfScX9Vkh/fH9IhKI3RvQTelNERM3wsiApw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=s0NxkPWOFy97V3WQXDXp0H1Og762/CSwU0Eo+c/6m/Q=;
+        b=MpETKyiWDDtHXNjvjlMY+e1hK281BktLwy+jkht2meSaBu2sDWRCBYOdtmGpZGlYs4
+         uUEBJ7xId0g26r/qE+VbbaBmnB1P59sSDNZFc7YiEKdCZFBk3gVUH4YKqdz6/gZJAaGa
+         DNhlNHPdn33FBcVauo9cG8a+gBjV7uxS11eG6ZlOdGMYqwN+lktIhZXoJCX5yZU1bxzU
+         iGAV2TLdkdNitgeAEiAhOR73pmkx+2eUHZ6XMo3IF6jStjancCZ4zCY8ehElLVtOCagV
+         euIv3pGck8MLMYsm2WaIOfOTRb9UxoRVVZaIJPcnuBe+qvjE4Li2/lNETwm1h0uxraCi
+         wlkg==
+X-Gm-Message-State: APjAAAXqrGD3/R/I+jP8j+uLk2r5xpquffh/Asv9ANijkQZISGz8bhPm
+        AtD2fawrPYCkCWYzr1/QBtOV7g==
+X-Google-Smtp-Source: APXvYqzu5NzfadGrhPYLbKgO5X2g8ar4MygFz3lmS+dnaodk5/rWCRcBcPJVhLzKkAHfdc4wgPL11w==
+X-Received: by 2002:a5d:4204:: with SMTP id n4mr9595099wrq.123.1579680413728;
+        Wed, 22 Jan 2020 00:06:53 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id x14sm2771598wmj.42.2020.01.22.00.06.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2020 00:06:52 -0800 (PST)
+Date:   Wed, 22 Jan 2020 09:06:50 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
+        dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Message-ID: <20200122080650.GM43062@phenom.ffwll.local>
+References: <20200114172155.215463-1-sean@poorly.run>
+ <20200116062722.GA8400@dvetter-linux.ger.corp.intel.com>
+ <20200120135621.34346e38@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200120135621.34346e38@gandalf.local.home>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun,  5 Jan 2020 23:50:07 +0100, Luca Ceresoli wrote:
-> Among the "static" instantiation methods the "board file" method is
-> described first. Move it as last, since it is being replaced by the other
-> methods.
+On Mon, Jan 20, 2020 at 01:56:21PM -0500, Steven Rostedt wrote:
+> On Thu, 16 Jan 2020 07:27:22 +0100
+> Daniel Vetter <daniel@ffwll.ch> wrote:
 > 
-> Also fix subsubsection heading syntax and remove the "Method 1[abc]"
-> prefix as the subsubsection structure clarifies the logical hierarchy.
+> > On Tue, Jan 14, 2020 at 12:21:43PM -0500, Sean Paul wrote:
+> > > From: Sean Paul <seanpaul@chromium.org>
+> > > 
+> > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > of DRM logs for a specified set of debug categories. The user writes a
+> > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > messages from the "trace" node.
+> > > 
+> > > These nodes currently exist in debugfs under the dri directory. I
+> > > intended on exposing all of this through tracefs originally, but the
+> > > tracefs entry points are not exposed, so there's no way to create
+> > > tracefs files from drivers at the moment. I think it would be a
+> > > worthwhile endeavour, but one requiring more time and conversation to
+> > > ensure the drm traces fit somewhere sensible.  
+> > 
+> > Hm, since the idea is to ship this in production environments debugfs is
+> > out. sysfs is also kinda the wrong thing, so maybe trying to get this
+> > stuffed into tracefs is actually the way to go?
+> >
 > 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> ---
->  Documentation/i2c/instantiating-devices.rst | 98 ++++++++++++---------
->  1 file changed, 54 insertions(+), 44 deletions(-)
+> Why not use normal tracepoints and the tracing infrastructure? You can
+> add your own instance as rasdaemon does, which isn't affected by other
+> tracing. There's code now to even create these instances and enable and
+> disable events from within the kernel.
 > 
-> diff --git a/Documentation/i2c/instantiating-devices.rst b/Documentation/i2c/instantiating-devices.rst
-> index 5debaafef64d..cbcafb36b417 100644
-> --- a/Documentation/i2c/instantiating-devices.rst
-> +++ b/Documentation/i2c/instantiating-devices.rst
-> @@ -9,54 +9,27 @@ reason, the kernel code must instantiate I2C devices explicitly. There are
->  several ways to achieve this, depending on the context and requirements.
->  
->  
-> -Method 1a: Declare the I2C devices by bus number
-> -------------------------------------------------
-> +Method 1: Declare the I2C devices statically
-> +--------------------------------------------
->  
->  This method is appropriate when the I2C bus is a system bus as is the case
-> -for many embedded systems. On such systems, each I2C bus has a number
-> -which is known in advance. It is thus possible to pre-declare the I2C
-> -devices which live on this bus. This is done with an array of struct
-> -i2c_board_info which is registered by calling i2c_register_board_info().
-> +for many embedded systems. On such systems, each I2C bus has a number which
-> +is known in advance. It is thus possible to pre-declare the I2C devices
-> +which live on this bus.
->  
-> -Example (from omap2 h4)::
-> +This information is provided to the kernel in a different way on different
-> +architectures: device tree, ACPI or board files.
->  
-> -  static struct i2c_board_info h4_i2c_board_info[] __initdata = {
-> -	{
-> -		I2C_BOARD_INFO("isp1301_omap", 0x2d),
-> -		.irq		= OMAP_GPIO_IRQ(125),
-> -	},
-> -	{	/* EEPROM on mainboard */
-> -		I2C_BOARD_INFO("24c01", 0x52),
-> -		.platform_data	= &m24c01,
-> -	},
-> -	{	/* EEPROM on cpu card */
-> -		I2C_BOARD_INFO("24c01", 0x57),
-> -		.platform_data	= &m24c01,
-> -	},
-> -  };
-> -
-> -  static void __init omap_h4_init(void)
-> -  {
-> -	(...)
-> -	i2c_register_board_info(1, h4_i2c_board_info,
-> -			ARRAY_SIZE(h4_i2c_board_info));
-> -	(...)
-> -  }
-> -
-> -The above code declares 3 devices on I2C bus 1, including their respective
-> -addresses and custom data needed by their drivers. When the I2C bus in
-> -question is registered, the I2C devices will be instantiated automatically
-> -by i2c-core.
-> +When the I2C bus in question is registered, the I2C devices will be
-> +instantiated automatically by i2c-core. The devices will be automatically
-> +unbound and destroyed when the I2C bus they sit on goes away (if ever).
->  
-> -The devices will be automatically unbound and destroyed when the I2C bus
-> -they sit on goes away (if ever.)
->  
-> +Declare the I2C devices via devicetree
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> -Method 1b: Declare the I2C devices via devicetree
-> --------------------------------------------------
-> -
-> -This method has the same implications as method 1a. The declaration of I2C
-> -devices is here done via devicetree as subnodes of the master controller.
-> +On platforms using devicetree the declaration of I2C devices is done in
+>   https://lore.kernel.org/lkml/1574276919-11119-1-git-send-email-divya.indi@oracle.com/
 
-I suggest adding a comma between "devicetree" and "the" to make the
-sentence easier to read.
+Hm, without looking at the details this indeed seems like the thing we
+want ... Sean?
+-Daniel
 
-> +subnodes of the master controller.
->  
->  Example::
->  
-> @@ -81,14 +54,51 @@ Here, two devices are attached to the bus using a speed of 100kHz. For
->  additional properties which might be needed to set up the device, please refer
->  to its devicetree documentation in Documentation/devicetree/bindings/.
->  
-> -
-> -Method 1c: Declare the I2C devices via ACPI
-> --------------------------------------------
-> +Declare the I2C devices via ACPI
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
->  ACPI can also describe I2C devices. There is special documentation for this
->  which is currently located at :doc:`../firmware-guide/acpi/enumeration` .
->  
->  
-> +Declare the I2C devices in board files
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +In many embedded architectures devicetree has replaced the old hardware
-
-Same here between "architectures" and "devicetree".
-
-> +description based on board files, but the latter are still used in old
-> +code. Instantiating I2C devices via board files is done with an array of
-> +struct i2c_board_info which is registered by calling
-> +i2c_register_board_info().
-> +
-> +Example (from omap2 h4)::
-> +
-> +  static struct i2c_board_info h4_i2c_board_info[] __initdata = {
-> +	{
-> +		I2C_BOARD_INFO("isp1301_omap", 0x2d),
-> +		.irq		= OMAP_GPIO_IRQ(125),
-> +	},
-> +	{	/* EEPROM on mainboard */
-> +		I2C_BOARD_INFO("24c01", 0x52),
-> +		.platform_data	= &m24c01,
-> +	},
-> +	{	/* EEPROM on cpu card */
-> +		I2C_BOARD_INFO("24c01", 0x57),
-> +		.platform_data	= &m24c01,
-> +	},
-> +  };
-> +
-> +  static void __init omap_h4_init(void)
-> +  {
-> +	(...)
-> +	i2c_register_board_info(1, h4_i2c_board_info,
-> +			ARRAY_SIZE(h4_i2c_board_info));
-> +	(...)
-> +  }
-> +
-> +The above code declares 3 devices on I2C bus 1, including their respective
-> +addresses and custom data needed by their drivers.
-> +
-> +
->  Method 2: Instantiate the devices explicitly
->  --------------------------------------------
->  
-
-
-You have some inconsistency in your spacing between subsections, some
-have 1 blank line before while some have 2. I think 1 is enough. At any
-rate it should be consistent.
-
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+> 
+> As this is tracefs, you can mount it without even compiling in debugfs.
+> 
+> -- Steve
 
 -- 
-Jean Delvare
-SUSE L3 Support
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
