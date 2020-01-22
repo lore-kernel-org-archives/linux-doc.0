@@ -2,38 +2,41 @@ Return-Path: <SRS0=DKq9=3L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAECC2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 11:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FBEC2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 11:49:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E3E921734
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 11:45:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D361C24683
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 11:49:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbgAVLpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jan 2020 06:45:13 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47366 "EHLO mx2.suse.de"
+        id S1729334AbgAVLtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jan 2020 06:49:02 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48402 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726094AbgAVLpN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Jan 2020 06:45:13 -0500
+        id S1728981AbgAVLtC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Jan 2020 06:49:02 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 2775BAC81;
-        Wed, 22 Jan 2020 11:45:11 +0000 (UTC)
-Date:   Wed, 22 Jan 2020 12:45:09 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 38C5BB131;
+        Wed, 22 Jan 2020 11:49:00 +0000 (UTC)
+Date:   Wed, 22 Jan 2020 12:48:59 +0100
 From:   Jean Delvare <jdelvare@suse.de>
 To:     Luca Ceresoli <luca@lucaceresoli.net>
 Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
         Wolfram Sang <wsa@the-dreams.de>,
         Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 25/26] docs: i2c: old-module-parameters: use monospace
- for filenames
-Message-ID: <20200122124509.3ec8a3a3@endymion>
-In-Reply-To: <20200106074654.13842-1-luca@lucaceresoli.net>
+Subject: Re: [PATCH 15/26] docs: i2c: smbus-protocol: enable kernel-doc
+ function syntax
+Message-ID: <20200122124859.52ceac75@endymion>
+In-Reply-To: <211da679-154f-15e3-52d3-a24d50c526cf@lucaceresoli.net>
 References: <20200105224006.10321-1-luca@lucaceresoli.net>
-        <20200106074654.13842-1-luca@lucaceresoli.net>
+        <20200105225012.11701-1-luca@lucaceresoli.net>
+        <20200105225012.11701-15-luca@lucaceresoli.net>
+        <20200120154444.7c1d3863@endymion>
+        <211da679-154f-15e3-52d3-a24d50c526cf@lucaceresoli.net>
 Organization: SUSE Linux
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
@@ -44,51 +47,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  6 Jan 2020 08:46:54 +0100, Luca Ceresoli wrote:
-> Use a monospace (literal) formatting for better readability of filenames.
+On Tue, 21 Jan 2020 18:31:23 +0100, Luca Ceresoli wrote:
+> By extrapolation I guess you want to review the few remaining patches.
+> Correnct? In this case I'd wait for that before sending out v2.
 
-This description and the subject are confusing. The strings you are
-formatting are not filenames. They may be visible as sysfs attributes
-and thus correspond to a filename, but primarily they are module
-parameters and I2C client names.
+Yes, and I'm just done with it. Sorry it took so long but I was doing
+it as a background task as my work schedule allowed.
 
-> 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> ---
->  Documentation/i2c/old-module-parameters.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/i2c/old-module-parameters.rst b/Documentation/i2c/old-module-parameters.rst
-> index 80fb117883fd..fdc470a5f999 100644
-> --- a/Documentation/i2c/old-module-parameters.rst
-> +++ b/Documentation/i2c/old-module-parameters.rst
-> @@ -10,9 +10,9 @@ I2C device driver binding control from user-space
->  Up to kernel 2.6.32, many I2C drivers used helper macros provided by
->  <linux/i2c.h> which created standard module parameters to let the user
->  control how the driver would probe I2C buses and attach to devices. These
-> -parameters were known as "probe" (to let the driver probe for an extra
-> -address), "force" (to forcibly attach the driver to a given device) and
-> -"ignore" (to prevent a driver from probing a given address).
-> +parameters were known as ``probe`` (to let the driver probe for an extra
-> +address), ``force`` (to forcibly attach the driver to a given device) and
-> +``ignore`` (to prevent a driver from probing a given address).
->  
->  With the conversion of the I2C subsystem to the standard device driver
->  binding model, it became clear that these per-module parameters were no
-> @@ -46,8 +46,8 @@ New method (sysfs interface)::
->    # echo dummy 0x2f > /sys/bus/i2c/devices/i2c-1/new_device
->    # modprobe <driver>
->  
-> -Of course, it is important to instantiate the "dummy" device before loading
-> +Of course, it is important to instantiate the ``dummy`` device before loading
->  the driver. The dummy device will be handled by i2c-core itself, preventing
->  other drivers from binding to it later on. If there is a real device at the
->  problematic address, and you want another driver to bind to it, then simply
-> -pass the name of the device in question instead of "dummy".
-> +pass the name of the device in question instead of ``dummy``.
+One last thing you may want to fix: there's one occurrence of "stop
+bit" left in Documentation/i2c/writing-clients.rst.
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
-
+Thanks,
 -- 
 Jean Delvare
 SUSE L3 Support
