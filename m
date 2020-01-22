@@ -2,135 +2,342 @@ Return-Path: <SRS0=DKq9=3L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC1B3C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 21:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 047E7C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 23:20:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A477E2465A
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 21:38:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pa2tb7Kn"
+	by mail.kernel.org (Postfix) with ESMTP id C209F24655
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 23:20:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbgAVVid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jan 2020 16:38:33 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34661 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbgAVVid (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jan 2020 16:38:33 -0500
-Received: by mail-pl1-f195.google.com with SMTP id c9so385955plo.1;
-        Wed, 22 Jan 2020 13:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=3E7X73xg9mVGaMBnkhjdZyGK2FJzEs1xLTciPJX8yqs=;
-        b=pa2tb7KnasOh43I8SlVKHjE4RJcrp4TyCwnWXBrxcGZYgPLp14T5JWpdXGn5M6VO1u
-         GoLh3xEBIHBfO+1YEoUbnW73Kucn0Qt5hmvC8Rac0MO01Vb977u/WF6fl2d9RWXgi9g2
-         yjbTW3UOuLNM1A3B8L41dGna69sNlVwSNJOrWSkH/A0d+rrKWC1inwz4eTztyUsXNZNG
-         2bUv1ThZELHeMcM44iq+xmjJ89I0O0Gtkl3Op2+vrC4G294fRWA2EBevagAJWgIfOjaI
-         xz4eSzd4uYrJYjoeHQOkgmrTVMsbBfgcRE6f6zPUwdlvSfupRMtOICVRLP+Z+kERbGvZ
-         +YSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3E7X73xg9mVGaMBnkhjdZyGK2FJzEs1xLTciPJX8yqs=;
-        b=F4FlivY4hHqnbZSLLQ66CZ+ezppFdUzJTRU7JGqa+iLhSJ1Pg0FcUIXE9TmnScWSxf
-         B2lKxaufRO0wtQ9pEDViClK8iwUiEiJlB5sd+Lzj3zCr89wAVot6pIcJqRLL+nQW1odl
-         NGNSAh5ZGLqGPOwM4yVSHHs6QygS28bgq2KWXh9ND09GdPhV7yRGElqorb2YFaD9C7C6
-         6bvp1D/64+nJr8rsiqacculD4SAdJVlyyltqPD6xX9lFUQo4PZXCCHshGOPfNe6Qcx8Z
-         5T38Vp6jCxgb0w+LtLggllPuxmnvNW8gzff0g86jGK9F605OWFlWmt036JbmK/GRccxD
-         Svbg==
-X-Gm-Message-State: APjAAAW/hYU4JE218oTUdVvBfcMP/Dtjf4oVwumYsyImCogiclWG5lUw
-        9MJ0lI4KIRLXCV3nagkqnHM=
-X-Google-Smtp-Source: APXvYqxcZGNwvvRY8VEPC9PavXKK8gJ8+C5l6iOd8jtUFlCzq2HvJ7etDB1yuD8lnaAt+GvyP53rSg==
-X-Received: by 2002:a17:90a:191a:: with SMTP id 26mr559479pjg.111.1579729112842;
-        Wed, 22 Jan 2020 13:38:32 -0800 (PST)
-Received: from ?IPv6:2620:15c:2c1:200:55c7:81e6:c7d8:94b? ([2620:15c:2c1:200:55c7:81e6:c7d8:94b])
-        by smtp.gmail.com with ESMTPSA id y76sm49645547pfc.87.2020.01.22.13.38.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2020 13:38:32 -0800 (PST)
-Subject: Re: WARNING in bpf_warn_invalid_xdp_action
-To:     syzbot <syzbot+8ce4113dadc4789fac74@syzkaller.appspotmail.com>,
-        andriin@fb.com, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, davem@davemloft.net,
-        dsahern@gmail.com, hawk@kernel.org, john.fastabend@gmail.com,
-        kafai@fb.com, kuba@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
-References: <00000000000068843f059cc0d214@google.com>
-From:   Eric Dumazet <eric.dumazet@gmail.com>
-Message-ID: <a10a25dd-fa53-0e7f-d394-d0123bc95df9@gmail.com>
-Date:   Wed, 22 Jan 2020 13:38:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726099AbgAVXUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jan 2020 18:20:33 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53432 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726049AbgAVXUd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Jan 2020 18:20:33 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D771C2BA
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2020 23:20:31 +0000 (UTC)
+Date:   Wed, 22 Jan 2020 16:20:30 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Subject: [PATCH] Add a document on how to contribute to the documentation
+Message-ID: <20200122162030.5b789232@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <00000000000068843f059cc0d214@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is mostly a collection of thoughts for how people who want to help out
+can make the docs better.  Hopefully the world will respond with a flurry
+of useful patches.
 
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/doc-guide/contributing.rst | 272 +++++++++++++++++++++++
+ Documentation/doc-guide/index.rst        |   1 +
+ 2 files changed, 273 insertions(+)
+ create mode 100644 Documentation/doc-guide/contributing.rst
 
-On 1/22/20 1:01 PM, syzbot wrote:
-> syzbot has bisected this bug to:
-> 
-> commit 58956317c8de52009d1a38a721474c24aef74fe7
-> Author: David Ahern <dsahern@gmail.com>
-> Date:   Fri Dec 7 20:24:57 2018 +0000
-> 
->     neighbor: Improve garbage collection
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=124a5985e00000
-> start commit:   d0f41851 net, ip_tunnel: fix namespaces move
-> git tree:       net
-> final crash:    https://syzkaller.appspot.com/x/report.txt?x=114a5985e00000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=164a5985e00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=d9290aeb7e6cf1c4
-> dashboard link: https://syzkaller.appspot.com/bug?extid=8ce4113dadc4789fac74
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f99369e00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13d85601e00000
-> 
-> Reported-by: syzbot+8ce4113dadc4789fac74@syzkaller.appspotmail.com
-> Fixes: 58956317c8de ("neighbor: Improve garbage collection")
-> 
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-> 
-
-bisection looks bogus...
-
-It would be nice to have alternative helpers to conveniently replace some WARN_ON/WARN_ONCE/...
-and not having to hand-code stuff like :
-
-diff --git a/net/core/filter.c b/net/core/filter.c
-index 538f6a735a19f017df8e10149cb578107ddc8cbb..633988f7c81b3b4f015d827ccb485e8b227ad20b 100644
---- a/net/core/filter.c
-+++ b/net/core/filter.c
-@@ -6913,11 +6913,15 @@ static bool xdp_is_valid_access(int off, int size,
+diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
+new file mode 100644
+index 000000000000..3410bc644370
+--- /dev/null
++++ b/Documentation/doc-guide/contributing.rst
+@@ -0,0 +1,272 @@
++.. SPDX-License-Identifier: GPL-2.0
++How to help improve kernel documentation
++========================================
++
++Documentation is an important part of any software-development project.
++Good documentation helps to bring new developers in and helps established
++developers work more effectively.  Without top-quality documentation, a lot
++of time is wasted in reverse-engineering the code and making avoidable
++mistakes.
++
++Unfortunately, the kernel's documentation currently falls far short of what
++it needs to be to support a project of this size and importance.
++
++This guide is for contributors who would like to improve that situation.
++Kernel documentation improvements can be made by developers at a variety of
++skill levels; they are a relatively easy way to learn the kernel process in
++general and find a place in the community.  The bulk of what follows is the
++documentation maintainer's list of tasks that most urgently need to be
++done.
++
++The documentation TODO list
++---------------------------
++
++There is an endless list of tasks that need to be carried out to get our
++documentation to where it should be.  This list contains a number of
++important items, but is far from exhaustive; if you see a different way to
++improve the documentation, please do not hold back!
++
++Addressing warnings
++~~~~~~~~~~~~~~~~~~~
++
++The documentation build currently spews out an unbelievable number of
++warnings.  When you have that many, you might as well have none at all;
++people ignore them, and they will never notice when their work adds new
++ones.  For this reason, eliminating warnings is one of the highest-priority
++tasks on the documentation TODO list.  The task itself is reasonably
++straightforward, but it must be approached in the right way to be
++successful.
++
++Warnings issued by a compiler for C code can often be dismissed as false
++positives, leading to patches aimed at simply shutting the compiler up.
++Warnings from the documentation build almost always point at a real
++problem; making those warnings go away requires understanding the problem
++and fixing it at its source.  For this reason, patches fixing documentation
++warnings should probably not say "fix a warning" in the changelog title;
++they should indicate the real problem that has been fixed.
++
++Another important point is that documentation warnings are often created by
++problems in kerneldoc comments in C code.  While the documentation
++maintainer appreciates being copied on fixes for these warnings, the
++documentation tree is often not the right one to actually carry those
++fixes; they should go to the maintainer of the subsystem in question.
++
++For example, in a documentation build I grabbed a pair of warnings nearly
++at random::
++
++  ./drivers/devfreq/devfreq.c:1818: warning: bad line:
++  	- Resource-managed devfreq_register_notifier()
++  ./drivers/devfreq/devfreq.c:1854: warning: bad line:
++	- Resource-managed devfreq_unregister_notifier()
++
++(The lines were split for readability).
++
++A quick look at the source file named above turned up a couple of kerneldoc
++comments that look like this::
++
++  /**
++   * devm_devfreq_register_notifier()
++	  - Resource-managed devfreq_register_notifier()
++   * @dev:	The devfreq user device. (parent of devfreq)
++   * @devfreq:	The devfreq object.
++   * @nb:		The notifier block to be unregistered.
++   * @list:	DEVFREQ_TRANSITION_NOTIFIER.
++   */
++
++The problem is the missing "*", which confuses the build system's
++simplistic idea of what C comment blocks look like.  This problem had been
++present since that comment was added in 2016 — a full four years.  Fixing
++it was a matter of adding the missing asterisks.  A quick look at the
++history for that file showed what the normal format for subject lines is,
++and ``scripts/get_maintainer.pl`` told me who should receive it.  The
++resulting patch looked like this::
++
++  [PATCH] PM / devfreq: Fix two malformed kerneldoc comments
++
++  Two kerneldoc comments in devfreq.c fail to adhere to the required format,
++  resulting in these doc-build warnings:
++
++    ./drivers/devfreq/devfreq.c:1818: warning: bad line:
++  	  - Resource-managed devfreq_register_notifier()
++    ./drivers/devfreq/devfreq.c:1854: warning: bad line:
++	  - Resource-managed devfreq_unregister_notifier()
++
++  Add a couple of missing asterisks and make kerneldoc a little happier.
++
++  Signed-off-by: Jonathan Corbet <corbet@lwn.net>
++  ---
++   drivers/devfreq/devfreq.c | 4 ++--
++   1 file changed, 2 insertions(+), 2 deletions(-)
++
++  diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
++  index 57f6944d65a6..00c9b80b3d33 100644
++  --- a/drivers/devfreq/devfreq.c
++  +++ b/drivers/devfreq/devfreq.c
++  @@ -1814,7 +1814,7 @@ static void devm_devfreq_notifier_release(struct device *dev, void *res)
++
++   /**
++    * devm_devfreq_register_notifier()
++  -	- Resource-managed devfreq_register_notifier()
++  + *	- Resource-managed devfreq_register_notifier()
++    * @dev:	The devfreq user device. (parent of devfreq)
++    * @devfreq:	The devfreq object.
++    * @nb:		The notifier block to be unregistered.
++  @@ -1850,7 +1850,7 @@ EXPORT_SYMBOL(devm_devfreq_register_notifier);
++
++   /**
++    * devm_devfreq_unregister_notifier()
++  -	- Resource-managed devfreq_unregister_notifier()
++  + *	- Resource-managed devfreq_unregister_notifier()
++    * @dev:	The devfreq user device. (parent of devfreq)
++    * @devfreq:	The devfreq object.
++    * @nb:		The notifier block to be unregistered.
++  --
++  2.24.1
++
++The entire process only took a few minutes.  Of course, I then found that
++somebody else had fixed it in a separate tree, highlighting another lesson:
++always check linux-next to see if a problem has been fixed before you dig
++into it.
++
++Other fixes will take longer, especially those relating to structure
++members or function parameters that lack documentation.  In such cases, it
++is necessary to work out what the role of those members or parameters is
++and describe them correctly.  Overall, this task gets a little tedious at
++times, but it's highly important.  If we can actually eliminate warnings
++from the documentation build, then we can start expecting developers to
++avoid adding new ones.
++
++Typo fixes
++~~~~~~~~~~
++
++Fixing typographical or formatting errors in the documentation is a quick
++way to figure out how to create and send patches, and it is a useful
++service.  I am always willing to accept such patches.  That said, once you
++have fixed a few, please consider moving on to more advanced tasks, leaving
++some typos for the next beginner to address.
++
++Please note that some things are *not* typos and should not be "fixed":
++
++ - Both American and British English spellings are allowed within the
++   kernel documentation.  There is no need to fix one by replacing it with
++   the other.
++
++ - The question of whether a period should be followed by one or two spaces
++   is not to be debated in the context of kernel documentation.
++
++As with any patch to any project, please consider whether your change is
++really making things better.
++
++Ancient documentation
++~~~~~~~~~~~~~~~~~~~~~
++
++Some kernel documentation is current, maintained, and useful.  Some
++documentation is ... not.  Dusty, old, and inaccurate documentation can
++mislead readers and casts doubt on our documentation as a whole.  Anything
++that can be done to address such problems is more than welcome.
++
++Whenever you are working with a document, please consider whether it is
++current, whether it needs updating, or whether it should perhaps be removed
++altogether.  There are a number of warning signs that you can pay attention
++to here:
++
++ - References to 2.x kernels
++ - Pointers to SourceForge repositories
++ - Nothing but typo fixes in the history for several years
++ - Discussion of pre-Git workflows
++
++The best thing to do, of course, would be to bring the documentation
++current, adding whatever information is needed.  Such work often requires
++the cooperation of developers familiar with the subsystem in question, of
++course.  Developers are often more than willing to cooperate with people
++working to improve the documentation when asked nicely, and when their
++answers are listened to and acted upon.
++
++Some documentation is beyond hope; we occasionally find documents that
++refer to code that was removed from the kernel long ago, for example.
++There is surprising resistance to removing obsolete documentation, but we
++should do that anyway.  Extra cruft in our documentation helps nobody.
++
++In cases where there is perhaps some useful information in a badly outdated
++document, and you are unable to update it, the best thing to do may be to
++add a warning at the beginning.  The following text is recommended::
++
++  .. warning ::
++  	This document is outdated and in need of attention.  Please use
++	this information with caution, and please consider sending patches
++	to bring it current.
++
++That way, at least our long-suffering readers have been warned that the
++document may lead them astray.
++
++Documentation coherency
++~~~~~~~~~~~~~~~~~~~~~~~
++
++The old-timers around there will remember the Linux books that showed up on
++the shelves in the 1990s.  They were simply collections of various
++documentation files scrounged from various locations on the net.  The books
++have (mostly) improved since then, but the kernel's documentation is still
++mostly built on that model.  It is thousands of files, almost each of which
++was written in isolation from all of the others.  We don't have a coherent
++body of kernel documentation; we have thousands of individual documents.
++
++We have been trying to improve the situation through the creation of
++various "books" that group documentation for specific readers.  These
++include:
++
++ - :doc:`../admin-guide/index`
++ - :doc:`../core-api/index`
++ - :doc:`../driver-api/index`
++ - :doc:`../userspace-api/index`
++
++As well as this book on documentation itself.
++
++Moving documents into the appropriate books is an important task and needs
++to continue.  There are a couple of challenges with this work, though.
++Moving documentation files creates short-term pain for the people who work
++with those files; they are understandably unenthusiastic about such
++changes.  Usually the case can be made to move a document once; we really
++don't want to keep shifting them around, though.
++
++Even when all documents are in the right place, though, we have only
++managed to turn a big pile into a group of smaller piles.  The work of
++trying to knit all of those documents together into a single whole has not
++yet begun.  If you have bright ideas on how we could proceed on that front,
++we would be more than happy to hear them.
++
++Stylesheet improvements
++~~~~~~~~~~~~~~~~~~~~~~~
++
++With the adoption of Sphinx we have much nicer-looking HTML output than we
++once did.  But it could still use a lot of improvement; Donald Knuth and
++Edward Tufte would be unimpressed.  That requires tweaking our stylesheets
++to create more typographically sound, accessible, and readable output.
++
++Be warned: if you take on this task you are heading into classic bikeshed
++territory.  Expect a lot of opinions and discussion for even relatively
++obvious changes.  That is, alas, the nature of the world we live in.
++
++Non-LaTeX PDF build
++~~~~~~~~~~~~~~~~~~~
++
++This is a decidedly nontrivial task for somebody with a lot of time and
++Python skills.  The Sphinx toolchain is relatively small and well
++contained; it is easy to add to a development system.  But building PDF or
++EPUB output requires installing LaTeX, which is anything but small or well
++contained.  That would be a nice thing to eliminate.
++
++The original hope had been to use the rst2pdf tool (https://rst2pdf.org/)
++for PDF generation, but it turned out to not be up to the task.
++Development work on rst2pdf seems to have picked up again in recent times,
++though, which is a hopeful sign.  If a suitably motivated developer were to
++work with that project to make rst2pdf work with the kernel documentation
++build, the world would be eternally grateful.
++
++Write more documentation
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Naturally, there are massive parts of the kernel that are severely
++underdocumented.  If you have the knowledge to document a specific kernel
++subsystem and the desire to do so, please do not hesitate to do some
++writing and contribute the result to the kernel.  Untold numbers of kernel
++developers and users will thank you.
+diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
+index 603f3ff55d5a..c58de84c0d5b 100644
+--- a/Documentation/doc-guide/index.rst
++++ b/Documentation/doc-guide/index.rst
+@@ -10,6 +10,7 @@ How to write kernel documentation
+    sphinx
+    kernel-doc
+    parse-headers
++   contributing
  
- void bpf_warn_invalid_xdp_action(u32 act)
- {
-+       static bool __section(.data.once) warned;
-        const u32 act_max = XDP_REDIRECT;
+ .. only::  subproject and html
  
--       WARN_ONCE(1, "%s XDP return value %u, expect packet loss!\n",
--                 act > act_max ? "Illegal" : "Driver unsupported",
--                 act);
-+       if (!warned) {
-+               warned = true;
-+               pr_err("%s XDP return value %u, expect packet loss!\n",
-+                      act > act_max ? "Illegal" : "Driver unsupported", act);
-+               dump_stack();
-+       }
- }
- EXPORT_SYMBOL_GPL(bpf_warn_invalid_xdp_action);
+-- 
+2.24.1
+
