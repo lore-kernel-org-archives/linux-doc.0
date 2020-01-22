@@ -2,264 +2,79 @@ Return-Path: <SRS0=DKq9=3L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB11C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 17:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA58C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 21:01:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0DAC424656
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 17:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579714889;
-	bh=YGZ2cRqG5u4bxPklZHpHWDQi8QEwqwd/Zc28kRnomzE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=CJn+VvDrWANikV5p4gEOzdExvzLQGNElcGx/7Q486ilNp/nTIawNYP8mmPGzxTE81
-	 P94pXFTZCCk4xgbFKpb5QvX8DPCinm2CqSK5XvU/JBDsBhvEOqozsGXM96KTcZ8qmp
-	 0H2Ta6TVkoaa2WhLcvLROSouOX9snjHDaK6tXTXs=
+	by mail.kernel.org (Postfix) with ESMTP id A11E924676
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jan 2020 21:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725883AbgAVRl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jan 2020 12:41:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgAVRl2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Jan 2020 12:41:28 -0500
-Received: from xps13 (98.197.23.93.rev.sfr.net [93.23.197.98])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7289F24125;
-        Wed, 22 Jan 2020 17:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579714887;
-        bh=YGZ2cRqG5u4bxPklZHpHWDQi8QEwqwd/Zc28kRnomzE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=V8Ya36BDaBIBQBr6PhRda8ehKTO24jQw4a2r6ushXaJ8q2k3IY2Ebytd6NzFYjUTQ
-         0zLl/q7dHK1rIepkQM2BYPSSmvKSiQXevCDQmKnsyYsJmF26mtKwIA21USoS+pDf6T
-         +1Rs5gVzvPKqm+G2MG6hUO5lqY4UtMFX3HWoUekI=
-Date:   Wed, 22 Jan 2020 18:41:14 +0100
-From:   Miquel Raynal <mraynal@kernel.org>
-To:     liaoweixiong <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v1 11/11] mtd: new support oops logger based on
- pstore/blk
-Message-ID: <20200122184114.125b42c8@xps13>
-In-Reply-To: <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
-References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
-        <1579482233-2672-12-git-send-email-liaoweixiong@allwinnertech.com>
-        <20200120110306.32e53fd8@xps13>
-        <27226590-379c-8784-f461-f5d701015611@allwinnertech.com>
-        <20200121094802.61f8cb4d@xps13>
-        <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729066AbgAVVBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jan 2020 16:01:02 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:50328 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbgAVVBC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jan 2020 16:01:02 -0500
+Received: by mail-il1-f197.google.com with SMTP id z12so711160ilh.17
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2020 13:01:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=lYr3VEa0Huaaj5cr2eT5ZYbboOtwrfmYEjzqbnc0FyU=;
+        b=JuEPfgki+/AtFAh969AQABmbYeuePUOzgxW6TDQyKDsiaz/cohfRYmn2diZNfJ22Di
+         0I4MmyGz0+a10b8lkVmuoDsL+9tmYeS9qOdjTg8dM1TuUZSuCLkmz5BghVoBNKgoxFQN
+         bMQFdjPBeKBpvCTtSI921Ou+X83XDthGrV7VHoY8Z8IX3NUD5tPtTswF7F2bk7oW8WQL
+         xkLPHIDT+3FR2aUAzRsAShMnHkbNMKoNpbjP69M80KjuSim/rINDo6FoYn/pNcowEUTL
+         RhyAdSHWbAqXCrOa3k8OLtu7umfb+9sk8k5fKPEyEdpohijxsg4ct3VLMej+g8di6T5s
+         wbAQ==
+X-Gm-Message-State: APjAAAW3V7MjATyzwQzJoiNZy/KatCseOThH8psa6IiKVWz5WziK1N8M
+        LIQxx+rA+iA1m60fAQ99eEK7lr7cOFdeJWehusPZysMO5bUW
+X-Google-Smtp-Source: APXvYqy98tfXila0SvcgGKr7oS77gUHB1tW0UiRvSHV2F9dhjQ09YKNKJt8UX6JmXLfF/xJtAX4wfwJJc78t2tikEEKrLfVlGsr1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a5e:924c:: with SMTP id z12mr8598447iop.296.1579726861270;
+ Wed, 22 Jan 2020 13:01:01 -0800 (PST)
+Date:   Wed, 22 Jan 2020 13:01:01 -0800
+In-Reply-To: <000000000000a16ad7059cbcbe43@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000068843f059cc0d214@google.com>
+Subject: Re: WARNING in bpf_warn_invalid_xdp_action
+From:   syzbot <syzbot+8ce4113dadc4789fac74@syzkaller.appspotmail.com>
+To:     andriin@fb.com, ast@kernel.org, bpf@vger.kernel.org,
+        corbet@lwn.net, daniel@iogearbox.net, davem@davemloft.net,
+        dsahern@gmail.com, hawk@kernel.org, john.fastabend@gmail.com,
+        kafai@fb.com, kuba@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+syzbot has bisected this bug to:
 
+commit 58956317c8de52009d1a38a721474c24aef74fe7
+Author: David Ahern <dsahern@gmail.com>
+Date:   Fri Dec 7 20:24:57 2018 +0000
 
-> >>>> +/*
-> >>>> + * All zones will be read as pstore/blk will read zone one by one w=
-hen do
-> >>>> + * recover.
-> >>>> + */
-> >>>> +static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
-> >>>> +{
-> >>>> +	struct mtdpstore_context *cxt =3D &oops_cxt;
-> >>>> +	size_t retlen;
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	if (mtdpstore_block_isbad(cxt, off))
-> >>>> +		return -ENEXT;
-> >>>> +
-> >>>> +	pr_debug("try to read off 0x%llx size %zu\n", off, size);
-> >>>> +	ret =3D mtd_read(cxt->mtd, off, size, &retlen, (u_char *)buf);
-> >>>> +	if ((ret < 0 && !mtd_is_bitflip(ret)) || size !=3D retlen)  { =20
-> >>>
-> >>> IIRC size !=3D retlen does not mean it failed, but that you should
-> >>> continue reading after retlen bytes, no? =20
-> >>>    >> =20
-> >> Yes, you are right. I will fix it. Thanks.
-> >> =20
-> >>> Also, mtd_is_bitflip() does not mean that you are reading a false
-> >>> buffer, but that the data has been corrected as it contained bitflips.
-> >>> mtd_is_eccerr() however, would be meaningful. =20
-> >>>    >> =20
-> >> Sure I know mtd_is_bitflip() does not mean failure, but I do not think
-> >> mtd_is_eccerr() should be here since the codes are ret < 0 and NOT
-> >> mtd_is_bitflip(). =20
-> >=20
-> > Yes, just drop this check, only keep ret < 0.
-> >  =20
->=20
-> If I don't get it wrong, it should not	 be dropped here. Like your words,
-> "mtd_is_bitflip() does not mean that you are reading a false buffer,
-> but that the data has been corrected as it contained bitflips.", the
-> data I get are valid even if mtd_is_bitflip() return true. It's correct
-> data and it's no need to go to handle error. To me, the codes
-> should be:
-> 	if (ret < 0 && !mit_is_bitflip())
-> 		[error handling]
+    neighbor: Improve garbage collection
 
-Please check the implementation of mtd_is_bitflip(). You'll probably
-figure out what I am saying.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=124a5985e00000
+start commit:   d0f41851 net, ip_tunnel: fix namespaces move
+git tree:       net
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=114a5985e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=164a5985e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9290aeb7e6cf1c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=8ce4113dadc4789fac74
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f99369e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13d85601e00000
 
-https://elixir.bootlin.com/linux/latest/source/include/linux/mtd/mtd.h#L585
+Reported-by: syzbot+8ce4113dadc4789fac74@syzkaller.appspotmail.com
+Fixes: 58956317c8de ("neighbor: Improve garbage collection")
 
-
-|...]
-
-> >>>> +		return;
-> >>>> +	}
-> >>>> +	if (unlikely(info->dmesg_size % mtd->writesize)) {
-> >>>> +		pr_err("record size %lu KB must align to write size %d KB\n",
-> >>>> +				info->dmesg_size / 1024,
-> >>>> +				mtd->writesize / 1024); =20
-> >>>
-> >>> This condition is weird, why would you check this? =20
-> >>>    >> =20
-> >> pstore/blk will write 'record_size' dmesg log at one time.
-> >> Since each write data must be aligned to 'writesize' for flash, I am n=
-ot
-> >> sure
-> >> all flash drivers are compatible with misaligned data, that's why i
-> >> check this. =20
-> >=20
-> > I think you should enforce this alignment instead of checking it.
-> >  =20
->=20
-> Do you mean that mtdpstore should enforce this alignment while running?
-> The way I can think of is to handle a buffer aligned to writesize and
-> write to flash with this aligned buffer.
->=20
-> That causes some error. The MTD device will be divided into mutil
-> chunks accroding to dmesg_size. Each chunk stores a individual
-> OOPS/Panic log. If dmesg_size is misaligned to writesize, the last
-> write results in next write failure because the page of flash can only
-> be programed once before next erase and the page shared by two chunks
-> has been used by the last write. Besides, we can not read to buffer,
-> ersae and write back as there is no read/erase for panic case.
-
-I mean: what is the usual size of dmesg? I don't get why you need it to
-be ie. a multiple of 2k. It probably is actually, I don't know if there
-is a standard. But if dmesg_size is eg 3k, just skip the end of the
-partially written page and start writing at the next page?
-
->=20
-> >> =20
-> >>>> +		return;
-> >>>> +	}
-> >>>> +	if (unlikely(mtd->size > MTDPSTORE_MAX_MTD_SIZE)) {
-> >>>> +		pr_err("mtd%d is too large (limit is %d MiB)\n",
-> >>>> +				mtd->index,
-> >>>> +				MTDPSTORE_MAX_MTD_SIZE / 1024 / 1024); =20
-> >>>
-> >>> Same question? I could understand that it is easier to manage blocks
-> >>> knowing their maximum number though. =20
-> >>>    >> =20
-> >> It refers to mtdoops. =20
-> >=20
-> > What do you mean?
-> >  =20
->=20
-> To me, it's unnecessary to check at all, however it is really there
-> on codes of mtdoops. I refer to module mtdoops when I design mtdpstore.
-> It may be helpfull for some cases out of my think, that's why I keep it.
-
-Why not.
-
-[...]
-
-> >>
-> >> In case of repeated erase when users remove several log files, mtdpsto=
-re
-> >> do remove jobs when exit.
-> >>
-> >> Besides, mtdpstore do not check the return code to ensure write back v=
-alid
-> >> log as much as possible. =20
-> >=20
-> > You are not in a critical path, I don't understand why you don't check
-> > it? If it returns an error, it means the data is not written. IMHO it
-> > is best to alert the user than to silently fail.
-> >  =20
->=20
-> This function will be called only when mtd device is removing. It's
-> useless to alert the user but try to flush the other valid data to
-
-It is useful to alert the user! It means something went wrong while
-everything seems fine.
-
-> flash as mush as possible by which reduce losses. If it's just
-> because of busy, what happens next time?
-
-Just because of busy? I don't get it.
-
-I'm okay with the idea of trying to write the other chunks though:
-
-	while (remaining_chunk) {
-		ret =3D mtd_write()
-		if (ret) {
-			alert-user;
-			continue;
-		}
-	}
-
->=20
-> >> =20
-> >>>> +. >>>> +		off +=3D zonesize;
-> >>>> +		size -=3D min_t(unsigned int, zonesize, size);
-> >>>> +	}
-> >>>> +
-> >>>> +free:
-> >>>> +	kfree(buf);
-> >>>> +	return ret;
-> >>>> +}
-> >>>> + =20
-> >=20
-> >=20
-> > [...]
-> >  =20
-> >>>
-> >>> Thanks,
-> >>> Miqu=C3=A8l =20
-> >>>    >> =20
-> >> I will collect more suggestions and submit the new version at one time.
-> >> =20
-> >=20
-> > Sure, no hurry.
-> >  =20
->=20
-> I am on holiday, please forgive me for my slow response.
-
-Take your time, as I said, no hurry.
-
->=20
-> >=20
-> > Thanks,
-> > Miqu=C3=A8l
-> >  =20
-
-
-
-
-Thanks,
-Miqu=C3=A8l
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
