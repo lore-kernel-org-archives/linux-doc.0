@@ -2,41 +2,61 @@ Return-Path: <SRS0=p0eP=3M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12DEEC2D0DB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 12:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 525A3C2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 13:10:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E338E24125
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 12:58:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22C9E24655
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 13:10:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NoDXl5cZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgAWM6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 07:58:41 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:37381 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726227AbgAWM6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 07:58:41 -0500
-Received: from mail-qv1-f45.google.com ([209.85.219.45]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N0G9p-1jr6dM0q8N-00xG8e; Thu, 23 Jan 2020 13:58:39 +0100
-Received: by mail-qv1-f45.google.com with SMTP id t6so1412664qvs.5;
-        Thu, 23 Jan 2020 04:58:38 -0800 (PST)
-X-Gm-Message-State: APjAAAWhSrSmpmINUrzcXTkhCSOxhUmueZghXd1m+DLK9z0SDQXiLN1v
-        Cl+1NEXhz9Ef79GfqOaFrf3xSLwwelHjY0RG9Qc=
-X-Google-Smtp-Source: APXvYqyw9bBbo+89C/591emneKt1j9nV/QM4i5KSI1x7aVdilX1LpU2Q140elwjyzn14S9n89y46oPTcIBYeQFRiFtg=
-X-Received: by 2002:a0c:bd20:: with SMTP id m32mr15794234qvg.197.1579784317864;
- Thu, 23 Jan 2020 04:58:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org> <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
-In-Reply-To: <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 23 Jan 2020 13:58:22 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
-Message-ID: <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
-Subject: Re: [PATCH 01/16] docs: Add documentation for MHI bus
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+        id S1726885AbgAWNKY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 08:10:24 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:39314 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbgAWNKY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 08:10:24 -0500
+Received: by mail-pj1-f65.google.com with SMTP id e11so1276261pjt.4
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2020 05:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=w+K4QUYUUumgx2GBrpHxL9/aHJwsZb+ZQPrV+qlnlsY=;
+        b=NoDXl5cZHlHa7TPuIuglrvunhuT/l5kgyUDrQ5dtVKFmNDn3ABmeQkUL2uaEz5zojz
+         c9JoLAZP+HCaGSAxx2WC6Olqu7T79PFnjmJdmsZXp0xJ4E+GYMYrMWcJXuqD5IR0BiX1
+         DRSI9g9mxIpy7SgiuT5aLgz1GPoeHc/9z51XSWVAM6GUdTXDgyuriL1jpEWafCwn3DBH
+         0Eg+hR6gJ5tpwtZLHDPMzXi4ocL1DmiQ1+EyFkGtw2PotA2jZvtcxzrDSSSJevyrcd0V
+         NDDDhHAhH3YU3JQ3R3IL20jVTotLAtCuC1EpogjgjNLSWtZtcFfSkvjcV95uqbebKmQ5
+         T3hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=w+K4QUYUUumgx2GBrpHxL9/aHJwsZb+ZQPrV+qlnlsY=;
+        b=VKkGt2dBTCbzbfpdJZdE23ZLMVOqmStVLILKxWilkIqMzVPfkHc9cdOCBAZCguSgpI
+         GUDBqb9+ikYewkbK0Dg5imURbyND+u8PVrTDvP2GyEYBaFj+dEatepwDrHIAhfgdXBVj
+         X19w8y1pFIAflOOrGXcQEQLyYwcvQoHTzeXaBUTkcYMg6XMrrJpUXfYMgk70Va6wTIuC
+         oSxB5svB+10ZqQ+cMQws0TuksP11meB2Bv6cx1E88BhU/JaSq6qtYLFwuaZV9DI7w8ZQ
+         tmaFVV9tM/wRwO8e8ZBbNFXF2/iitU3KjxlgxkC2uJgemg3upKuSDM+On61yJbelB0eM
+         XKzQ==
+X-Gm-Message-State: APjAAAW1uBDZx5d44C7kDhbF+kURqoaN97tk921BvyFcXEZbSvgmOCe/
+        uL1mFEfyHIt6+brNiZ8m2NtCmDacJQ==
+X-Google-Smtp-Source: APXvYqwYB6HGPHkP0BoBZT/vXkHibew8dpcXweBvnxZwYg9fCHBovirZGC4X+wUlr0VhE+o03fJZcA==
+X-Received: by 2002:a17:902:8e8c:: with SMTP id bg12mr16253851plb.101.1579785023754;
+        Thu, 23 Jan 2020 05:10:23 -0800 (PST)
+Received: from mani ([103.59.133.81])
+        by smtp.gmail.com with ESMTPSA id a69sm2943318pfa.129.2020.01.23.05.10.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 Jan 2020 05:10:23 -0800 (PST)
+Date:   Thu, 23 Jan 2020 18:40:15 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     gregkh <gregkh@linuxfoundation.org>, smohanad@codeaurora.org,
         Jeffrey Hugo <jhugo@codeaurora.org>,
         Kalle Valo <kvalo@codeaurora.org>,
@@ -46,60 +66,71 @@ Cc:     gregkh <gregkh@linuxfoundation.org>, smohanad@codeaurora.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:LadYn9yPM9kSuNNXed3cD/yTDIZ1fpTY2bl3GiBYQQs5A1tzaeH
- qXmrW4zIjNo7lPDt5QuuIYk1KOVfewmETyTSPByRtGEag/JSInPthZaCCtpducSPjuqBC9t
- 8NTRfryL1j5PRrR5mc0UERtyesBc0EG0qTihJJVXDtWwUgTxi8DEZUBC5Sw9jhJropaPdRp
- z/vLIcSEHACm+VBviYFAg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tFCkEN7Qgog=:1fNz5XBBuB2Iv6eB8g6pDF
- GGODdvzoj9mhuOSljWQ7uK2D/6Fw2kMXCPTga/r80N/TaqiqkdWZV8lGmBDSGXckpfzHcwZGc
- mrebIbRAr74zZCBipM4AZb/YMEMvlL8iYQA5zKyHMzpm3OvoJUB+i+jtRBCUV6b2amlcU0ohp
- TgEhGbSfCoVt+IDPCWfjqbn0X2JJj2U8aByxvEOIvbpzilyRXks56Ci4AbjiIkwjBGMhynN7z
- K+ZnQXMvGdXFKMhYc26fiHGcbN/VMNuKYzFQvf5/azkojXLPUASspiLSNuKsiiZi/AMw8aehP
- ex/+79IUHcoNOataPUp5NzaqPA8i8Ta7ilX/fA/9afmOy9FA4EtTnbR1H+afOgDlsm34+ax59
- rwiWCkmvSyXsI2kQivM66fcoUkwubXXSnyAZGNDS2fN7rMKLdmSD/4Hn+IWqt3xx4JpGe0C2c
- 2zmld7Iom/MnGvdHTebASKuUEu2uH5XVNDZbXQxKMRmJJlRK+XpQLUepFs5ZV0FgJLNaDtVKB
- Kv1fg5xYU11EuFvepSun79Qs8T5b8NPZmryZLreWl0MpGWW6uAp3c0oUSVFF04LZmXxTVJhco
- ASTwU8bWhnNAjJYCm5sWBpwyiMoUdpRtiy3n2/EkIjg5i5bKHj0hLFtyvTmVbBeGz7A7izGIv
- oHzPm549BUmU9Tfn05i1gkYwLpVkBQzFHiDZ/7HDlYFVkXx6OPRv+VCbQ/Jemzpd/0rmKX8qb
- ONsPEnjUPlavKk1I/iJENJ2q8bftpg1kcD9ixNe0yAIzmObKWbYL4axFLP7n2B3HVq/qngIIO
- FusSBeL/ggH9/yWfSlXpWQ4TCLA0gKvjqvW6RydBfRuKcANdvs=
+Subject: Re: [PATCH 01/16] docs: Add documentation for MHI bus
+Message-ID: <20200123131015.GA11366@mani>
+References: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org>
+ <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
+ <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 12:18 PM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
-> +============
-> +MHI Topology
-> +============
-> +
-> +This document provides information about the MHI topology modeling and
-> +representation in the kernel.
-> +
-> +MHI Controller
-> +--------------
-> +
-> +MHI controller driver manages the interaction with the MHI client devices
-> +such as the external modems and WiFi chipsets. It is also the MHI bus master
-> +which is in charge of managing the physical link between the host and device.
-> +It is however not involved in the actual data transfer as the data transfer
-> +is taken care by the physical bus such as PCIe. Each controller driver exposes
-> +channels and events based on the client device type.
-> +
-> +Below are the roles of the MHI controller driver:
-> +
-> +* Turns on the physical bus and establishes the link to the device
-> +* Configures IRQs, SMMU, and IOMEM
-> +* Allocates struct mhi_controller and registers with the MHI bus framework
-> +  with channel and event configurations using mhi_register_controller.
-> +* Initiates power on and shutdown sequence
-> +* Initiates suspend and resume power management operations of the device.
+On Thu, Jan 23, 2020 at 01:58:22PM +0100, Arnd Bergmann wrote:
+> On Thu, Jan 23, 2020 at 12:18 PM Manivannan Sadhasivam
+> <manivannan.sadhasivam@linaro.org> wrote:
+> > +============
+> > +MHI Topology
+> > +============
+> > +
+> > +This document provides information about the MHI topology modeling and
+> > +representation in the kernel.
+> > +
+> > +MHI Controller
+> > +--------------
+> > +
+> > +MHI controller driver manages the interaction with the MHI client devices
+> > +such as the external modems and WiFi chipsets. It is also the MHI bus master
+> > +which is in charge of managing the physical link between the host and device.
+> > +It is however not involved in the actual data transfer as the data transfer
+> > +is taken care by the physical bus such as PCIe. Each controller driver exposes
+> > +channels and events based on the client device type.
+> > +
+> > +Below are the roles of the MHI controller driver:
+> > +
+> > +* Turns on the physical bus and establishes the link to the device
+> > +* Configures IRQs, SMMU, and IOMEM
+> > +* Allocates struct mhi_controller and registers with the MHI bus framework
+> > +  with channel and event configurations using mhi_register_controller.
+> > +* Initiates power on and shutdown sequence
+> > +* Initiates suspend and resume power management operations of the device.
+> 
+> I don't see any callers of mhi_register_controller(). Did I just miss it or did
+> you not post one? I'm particularly interested in where the configuration comes
+> from, is this hardcoded in the driver, or parsed from firmware or from registers
+> in the hardware itself?
+> 
 
-I don't see any callers of mhi_register_controller(). Did I just miss it or did
-you not post one? I'm particularly interested in where the configuration comes
-from, is this hardcoded in the driver, or parsed from firmware or from registers
-in the hardware itself?
+I have not included the controller driver in this patchset. But you can take a
+look at the ath11k controller driver here:
+https://git.linaro.org/people/manivannan.sadhasivam/linux.git/tree/drivers/net/wireless/ath/ath11k/mhi.c?h=ath11k-qca6390-mhi#n13
 
-        Arnd
+So the configuration comes from the static structures defined in the controller
+driver. Earlier revision derived the configuration from devicetree but there are
+many cases where this MHI bus is being used in non DT environments like x86.
+So inorder to be platform agnostic, we chose static declaration method.
+
+In future we can add DT/ACPI support for the applicable parameters.
+
+I will include the link to this controller driver in the cover letter of future
+iterations.
+
+Thanks,
+Mani
+
+>         Arnd
