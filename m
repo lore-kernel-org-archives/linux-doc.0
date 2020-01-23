@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFDCC2D0DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D36ABC33CB6
 	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:58:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F164921569
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:58:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A858A21569
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:58:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729098AbgAWO6K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 09:58:10 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:49151 "EHLO
+        id S1729144AbgAWO6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 09:58:11 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:57196 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726811AbgAWO6J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 09:58:09 -0500
+        by vger.kernel.org with ESMTP id S1729017AbgAWO6K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 09:58:10 -0500
 Received: from [109.168.11.45] (port=47594 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iudvr-0005F5-0I; Thu, 23 Jan 2020 15:58:07 +0100
+        id 1iudvs-0005F5-86; Thu, 23 Jan 2020 15:58:08 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 16/28] docs: i2c: smbus-protocol: fix kernel-doc function syntax
-Date:   Thu, 23 Jan 2020 15:56:14 +0100
-Message-Id: <20200123145626.8102-3-luca@lucaceresoli.net>
+Subject: [PATCH v2 18/28] docs: i2c: smbus-protocol: fix punctuation
+Date:   Thu, 23 Jan 2020 15:56:16 +0100
+Message-Id: <20200123145626.8102-5-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200123145626.8102-1-luca@lucaceresoli.net>
 References: <20200123135103.20540-1-luca@lucaceresoli.net>
@@ -52,36 +52,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This clarifies these are functions (and would/will adds a hyperlink to the
-function documentation if/when documented).
+Remove misplaced dot before colon.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
+
 ---
- Documentation/i2c/smbus-protocol.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Changes in v2:
+ - fix subject line (Jean Delvare)
+---
+ Documentation/i2c/smbus-protocol.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
-index 997945e90419..3c0fb3a2044d 100644
+index de7285de5e93..7350e4b2c2fa 100644
 --- a/Documentation/i2c/smbus-protocol.rst
 +++ b/Documentation/i2c/smbus-protocol.rst
-@@ -118,7 +118,7 @@ byte. But this time, the data is a complete word (16 bits)::
+@@ -146,7 +146,7 @@ Implemented by i2c_smbus_write_word_data()
  
- Functionality flag: I2C_FUNC_SMBUS_READ_WORD_DATA
+ This is the opposite of the Read Word operation. 16 bits
+ of data are written to a device, to the designated register that is
+-specified through the Comm byte.::
++specified through the Comm byte::
  
--Note the convenience function i2c_smbus_read_word_swapped is
-+Note the convenience function i2c_smbus_read_word_swapped() is
- available for reads where the two data bytes are the other way
- around (not SMBus compliant, but very popular.)
- 
-@@ -152,7 +152,7 @@ specified through the Comm byte.::
- 
- Functionality flag: I2C_FUNC_SMBUS_WRITE_WORD_DATA
- 
--Note the convenience function i2c_smbus_write_word_swapped is
-+Note the convenience function i2c_smbus_write_word_swapped() is
- available for writes where the two data bytes are the other way
- around (not SMBus compliant, but very popular.)
+   S Addr Wr [A] Comm [A] DataLow [A] DataHigh [A] P
  
 -- 
 2.25.0
