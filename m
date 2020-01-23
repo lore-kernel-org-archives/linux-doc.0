@@ -2,151 +2,193 @@ Return-Path: <SRS0=p0eP=3M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80006C2D0DB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D8DC2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:54:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5281021835
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:52:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="CShiQaPU"
+	by mail.kernel.org (Postfix) with ESMTP id 2B43224125
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579791241;
+	bh=hilFPIhlFBQfbuasUEx0/b2WjqD/Zwvg+YvxXvtSuSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=b6Wc/KG5zQA+9k/vxbSXWvoKDEjY0ji1cQdRT4+0uBhRaxqHvYNq5TtClBvLdaTph
+	 SW0QRb2etBrPe8td64Tn+z5Jyu6PoFbzvVMug3zkORYpEe6EcSlLL18E0M5IOJBOlh
+	 A9Y8AEuF1xr9ZrjX6YaCtL/wMCFVj6nyP8v9qRPw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728899AbgAWOw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 09:52:57 -0500
-Received: from mail25.static.mailgun.info ([104.130.122.25]:34999 "EHLO
-        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727307AbgAWOw5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 09:52:57 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1579791176; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Gao3gfWhHq8szcjw/lY/yOEX3GT5FaSQZyPjtB7KPM4=; b=CShiQaPU3zAKWFelXut5/va6FL4pbN04AhuME7PMVWq1NHy5UE09aHaJAdisZbpA6aas0RU1
- 5Uj4a/KfZ2YtpusClafc9604K3hHpQ9Q77ZRF6BcvxEIpw3UwuW6RHGXeo/DW2NRrhTYpIle
- Drn40dg104EEUh78AB20W+7MuJo=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e29b33d.7f87d178df48-smtp-out-n01;
- Thu, 23 Jan 2020 14:52:45 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 38106C447A1; Thu, 23 Jan 2020 14:52:44 +0000 (UTC)
-Received: from [10.226.58.28] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729235AbgAWOyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 09:54:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56812 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729232AbgAWOyA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jan 2020 09:54:00 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: jhugo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id DBFB0C447A4;
-        Thu, 23 Jan 2020 14:52:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DBFB0C447A4
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jhugo@codeaurora.org
-Subject: Re: [PATCH 01/16] docs: Add documentation for MHI bus
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     gregkh <gregkh@linuxfoundation.org>, smohanad@codeaurora.org,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        hemantk@codeaurora.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org>
- <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
- <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
- <20200123131015.GA11366@mani>
- <CAK8P3a1z7mVEpxbk47Q3A-tLDhqHUid2_S4tE3NQuf_2_UCOcg@mail.gmail.com>
- <20200123133010.GB11366@mani>
-From:   Jeffrey Hugo <jhugo@codeaurora.org>
-Message-ID: <466ac855-b326-2125-77e5-6e0dcc2c2c35@codeaurora.org>
-Date:   Thu, 23 Jan 2020 07:52:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        by mail.kernel.org (Postfix) with ESMTPSA id 24E9021D7D;
+        Thu, 23 Jan 2020 14:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579791239;
+        bh=hilFPIhlFBQfbuasUEx0/b2WjqD/Zwvg+YvxXvtSuSE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BpIp55VYA5xhSBuwunXmJ+sbYZmkHf9BrDJ/TMWlneBJf7HPOfub97LyJC50JX8nT
+         xtOnI0gZv7H4+5+MKx2UvVDXHYbhikjVBlpZERBsx6tDRhfhRJEMn6KWe321c/hx+6
+         v+vO9EXtrAsBt/NDDdrOtvnIvF+BDDYKXaQ6RplU=
+Date:   Thu, 23 Jan 2020 15:53:57 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     brendanhiggins@google.com, corbet@lwn.net,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH kunit 1/3] kunit: add debugfs
+ /sys/kernel/debug/kunit/<suite>/results display
+Message-ID: <20200123145357.GA1687563@kroah.com>
+References: <1579790840-27009-1-git-send-email-alan.maguire@oracle.com>
+ <1579790840-27009-2-git-send-email-alan.maguire@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123133010.GB11366@mani>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1579790840-27009-2-git-send-email-alan.maguire@oracle.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/23/2020 6:30 AM, Manivannan Sadhasivam wrote:
-> On Thu, Jan 23, 2020 at 02:19:51PM +0100, Arnd Bergmann wrote:
->> On Thu, Jan 23, 2020 at 2:10 PM Manivannan Sadhasivam
->> <manivannan.sadhasivam@linaro.org> wrote:
->>>
->>> On Thu, Jan 23, 2020 at 01:58:22PM +0100, Arnd Bergmann wrote:
->>>> On Thu, Jan 23, 2020 at 12:18 PM Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> wrote:
->>>>
->>>> I don't see any callers of mhi_register_controller(). Did I just miss it or did
->>>> you not post one? I'm particularly interested in where the configuration comes
->>>> from, is this hardcoded in the driver, or parsed from firmware or from registers
->>>> in the hardware itself?
->>>>
->>>
->>> I have not included the controller driver in this patchset. But you can take a
->>> look at the ath11k controller driver here:
->>> https://git.linaro.org/people/manivannan.sadhasivam/linux.git/tree/drivers/net/wireless/ath/ath11k/mhi.c?h=ath11k-qca6390-mhi#n13
->>>
->>> So the configuration comes from the static structures defined in the controller
->>> driver. Earlier revision derived the configuration from devicetree but there are
->>> many cases where this MHI bus is being used in non DT environments like x86.
->>> So inorder to be platform agnostic, we chose static declaration method.
->>>
->>> In future we can add DT/ACPI support for the applicable parameters.
->>
->> What determines the configuration? Is this always something that is fixed
->> in hardware, or can some of the properties be changed based on what
->> firmware runs the device?
->>
+On Thu, Jan 23, 2020 at 02:47:18PM +0000, Alan Maguire wrote:
+> add debugfs support for displaying kunit test suite results; this is
+> especially useful for module-loaded tests to allow disentangling of
+> test result display from other dmesg events.
 > 
-> AFAIK, these configurations are fixed in hardware (this could come from
-> the firmware I'm not sure but they don't change with firmware revisions
-> for sure)
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> ---
+>  include/kunit/test.h |  21 +++++++---
+>  lib/kunit/Makefile   |   3 +-
+>  lib/kunit/debugfs.c  | 111 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  lib/kunit/debugfs.h  |  11 +++++
+>  lib/kunit/test.c     |  88 ++++++++++++++++++++++++++++++----------
+>  5 files changed, 206 insertions(+), 28 deletions(-)
+>  create mode 100644 lib/kunit/debugfs.c
+>  create mode 100644 lib/kunit/debugfs.h
 > 
-> The reason for defining in the driver itself implies that these don't
-> change. But I'll confirm this with Qcom folks.
-> 
-> Thanks,
-> Mani
-> 
->> If this is determined by the firmware, maybe the configuration would also
->> need to be loaded from the file that contains the firmware, which in turn
->> could be a blob in DT.
->>
->>       Arnd
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> index 2dfb550..37219b8a 100644
+> --- a/include/kunit/test.h
+> +++ b/include/kunit/test.h
+> @@ -125,6 +125,8 @@ struct kunit_case {
+>  	bool success;
+>  };
+>  
+> +#define	kunit_status2str(status)	(status ? "ok" : "not ok")
+> +
+>  /**
+>   * KUNIT_CASE - A helper for creating a &struct kunit_case
+>   *
+> @@ -157,6 +159,9 @@ struct kunit_suite {
+>  	int (*init)(struct kunit *test);
+>  	void (*exit)(struct kunit *test);
+>  	struct kunit_case *test_cases;
+> +
+> +	/* private - internal use only */
+> +	struct dentry *debugfs;
+>  };
+>  
+>  /**
+> @@ -197,6 +202,15 @@ struct kunit {
+>  
+>  int kunit_run_tests(struct kunit_suite *suite);
+>  
+> +size_t kunit_suite_num_test_cases(struct kunit_suite *suite);
+> +
+> +unsigned int kunit_test_case_num(struct kunit_suite *suite,
+> +				 struct kunit_case *test_case);
+> +
+> +int __kunit_test_suites_init(struct kunit_suite **suites);
+> +
+> +void __kunit_test_suites_exit(struct kunit_suite **suites);
+> +
+>  /**
+>   * kunit_test_suites() - used to register one or more &struct kunit_suite
+>   *			 with KUnit.
+> @@ -226,15 +240,12 @@ struct kunit {
+>  	static struct kunit_suite *suites[] = { __VA_ARGS__, NULL};	\
+>  	static int kunit_test_suites_init(void)				\
+>  	{								\
+> -		unsigned int i;						\
+> -		for (i = 0; suites[i] != NULL; i++)			\
+> -			kunit_run_tests(suites[i]);			\
+> -		return 0;						\
+> +		return __kunit_test_suites_init(suites);		\
+>  	}								\
+>  	late_initcall(kunit_test_suites_init);				\
+>  	static void __exit kunit_test_suites_exit(void)			\
+>  	{								\
+> -		return;							\
+> +		return __kunit_test_suites_exit(suites);		\
+>  	}								\
+>  	module_exit(kunit_test_suites_exit)
+>  
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index fab5564..869aab0 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -3,7 +3,8 @@ obj-$(CONFIG_KUNIT) +=			kunit.o
+>  kunit-objs +=				test.o \
+>  					string-stream.o \
+>  					assert.o \
+> -					try-catch.o
+> +					try-catch.o \
+> +					debugfs.o
+>  
+>  obj-$(CONFIG_KUNIT_TEST) +=		kunit-test.o
+>  
+> diff --git a/lib/kunit/debugfs.c b/lib/kunit/debugfs.c
+> new file mode 100644
+> index 0000000..5994f32
+> --- /dev/null
+> +++ b/lib/kunit/debugfs.c
+> @@ -0,0 +1,111 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2020, Oracle and/or its affiliates.
+> + *    Author: Alan Maguire <alan.maguire@oracle.com>
+> + */
+> +#include <asm/unistd.h>
 
-We can't derive the configuration from hardware, and its something that 
-is currently a priori known since the host (linux) needs to initialize 
-the hardware with the configuration before it can communicate with the 
-device (ie the on device FW).
+Why do you need this asm include file?
 
-99% of the time the configuration is fixed, however there have been 
-instances where features have been added on the device, which result in 
-new channels, which then impact the configuration.  In the cases I'm 
-aware of this, both sides were updated in lockstep.  I don't know how 
-upstream would handle it.  I'm thinking we can ignore that case until it 
-comes up.
+> +#include <linux/debugfs.h>
+> +#include <linux/module.h>
+> +#include <linux/time.h>
+> +
+> +#include <uapi/linux/limits.h>
+> +#include <kunit/test.h>
+> +
+> +#include "string-stream.h"
+> +
+> +#define KUNIT_DEBUGFS_ROOT             "kunit"
+> +#define KUNIT_DEBUGFS_RESULTS          "results"
+> +
+> +/*
+> + * Create a debugfs representation of test suites:
+> + *
+> + * Path						Semantics
+> + * /sys/kernel/debug/kunit/<testsuite>/results	Show results of last run for
+> + *						testsuite
+> + *
+> + */
+> +
+> +static struct dentry *debugfs_rootdir;
+> +
+> +void debugfs_cleanup(void)
 
-DT/ACPI is tricky, since the cases where we want this currently are 
-essentially standalone PCI(e) cards.  Those are likely to be on systems 
-which don't support DT (ie x86), and there really isn't a place in ACPI 
-to put PCI(e) device configuration information, since its supposed to be 
-a discoverable bus.
+Can you prefix all of your global symbols here with "kunit_debugfs"
+instead of just "debugfs" to show that this really is not the core
+debugfs kernel code?
 
-There are hardware limitations to the configuration, and that varies 
-from device to device.  Since the host (linux) programs the 
-configuration into the hardware, its possible for an invalid 
-configuration to be programed, but I would expect that in the majority 
-of cases (ie programming a channel that the device FW doesn't know 
-about), there is no adverse impact.
+thanks,
 
--- 
-Jeffrey Hugo
-Qualcomm Technologies, Inc. is a member of the
-Code Aurora Forum, a Linux Foundation Collaborative Project.
+greg k-h
