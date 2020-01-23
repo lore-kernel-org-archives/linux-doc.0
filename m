@@ -2,58 +2,141 @@ Return-Path: <SRS0=p0eP=3M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE77EC33CAA
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 22:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41404C35243
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 23:54:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 85ED6207FF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 22:50:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12C7A206D3
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 23:54:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mdU8ddhk"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SHKwoRWc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729400AbgAWWu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 17:50:57 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54460 "EHLO
+        id S1729777AbgAWXyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 18:54:13 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:45440 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729259AbgAWWu5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 17:50:57 -0500
+        with ESMTP id S1729277AbgAWXyM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 18:54:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=rEeYIoKS6gKsDEFbw3Q5wYHd8KhTNl5UlZH2840j3sM=; b=mdU8ddhkcgoY5E7KSb9oQ7GNz
-        J+G9rp0VYawXABrQbH3bti9x/wAgIVgd3YyeKL//Iv9PA78S/lkIfEuxOka8ltdDB51/JzLGyUins
-        RF5WiJc7uzcm8hCkB8ErwLQFff+/v93Ov7wnr1T0KjzTd3NgAvpq1/mRJXfulXq+7c6ImDF/sDWQX
-        6fx/SC7EAjG5jbh2+B2+J0UIaUYW3QEekwZI+QzAtMscSiaDsodSVVfntfI1OoN4q2NiDaaqmojio
-        iOEjKqruqlnV2xDB7yXqtfN3iJ2XJSa3HmNMd0VngbvkLPpYWVTjruM2Rv7alHBdmHXcFOXSXGCb7
-        D/6tunx2A==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iulJQ-0007oZ-S4; Thu, 23 Jan 2020 22:50:56 +0000
-Date:   Thu, 23 Jan 2020 14:50:56 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Add a maintainer entry profile for documentation
-Message-ID: <20200123225056.GI4675@bombadil.infradead.org>
-References: <20200123150149.333439d7@lwn.net>
+         bh=bgKW+J/FqGAQgoMhgI1N/oYW+JVXIpMbXjqOj6SbCQo=; b=SHKwoRWceYdc+xm+r4rtx8R1A
+        HzkrMHl7ciXXgFIuNZRQ3tPE2mdCKYCp6K9K0Aw4sZj75SrRP78z6Oax18ZJyJW2ogBU6jBmjv6Js
+        3YIJg6duKUB0Ij18nhcG5PFoVZhR8cUDTKWbdwU16f/sFi+JBUALjx5rTawnLev+jwOxoRaXtXJWz
+        AnpE4oZRuz9jQJMxMH/Ub87EWOic/S6rrG3NGLg1KvlhfrkpZ5g+A984+tL1BRILoZYzL80Po/Ycx
+        vkWVXyilpu8gx7H79Om8Ta+cC/kpy7KngJJWhuqHdaQMzDQYgTMZh++78fGa0ZREqKNNKkRSImc2o
+        jXFTHgOMA==;
+Received: from [2601:1c0:6280:3f0::ed68]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iumIc-0003Cp-VM; Thu, 23 Jan 2020 23:54:11 +0000
+Subject: Re: [PATCH] Documentation: changes.rst: update several outdated
+ project URLs
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jan Kara <jack@suse.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
+        reiserfs-devel@vger.kernel.org,
+        linux-xfs <linux-xfs@vger.kernel.org>
+References: <efb1f518-9e66-c472-d124-4b7d91e56639@infradead.org>
+ <20200123195531.GW8247@magnolia>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <792339b0-5fa1-4347-11e2-2620f498856c@infradead.org>
+Date:   Thu, 23 Jan 2020 15:54:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200123150149.333439d7@lwn.net>
+In-Reply-To: <20200123195531.GW8247@magnolia>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 03:01:49PM -0700, Jonathan Corbet wrote:
-> Documentation should lead by example, so here's a basic maintainer entry
-> profile for this subsystem.
+On 1/23/20 11:55 AM, Darrick J. Wong wrote:
+> On Thu, Jan 23, 2020 at 11:00:12AM -0800, Randy Dunlap wrote:
+>> From: Randy Dunlap <rdunlap@infradead.org>
+>>
+>> Update projects URLs in the changes.rst file.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: Jan Kara <jack@suse.com>
+>> Cc: "Theodore Ts'o" <tytso@mit.edu>
+>> Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+>> Cc: linux-ext4@vger.kernel.org
+>> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+>> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+>> Cc: Florian Westphal <fw@strlen.de>
+>> Cc: netfilter-devel@vger.kernel.org
+>> Cc: coreteam@netfilter.org
+>> Cc: Paul Mackerras <paulus@samba.org>
+>> Cc: linux-ppp@vger.kernel.org
+>> Cc: Jan Kara <jack@suse.com>
+>> Cc: reiserfs-devel@vger.kernel.org
+>> Cc: Darrick J. Wong <darrick.wong@oracle.com>
+>> Cc: linux-xfs@vger.kernel.org
+>> ---
+>>
+>>  Documentation/process/changes.rst                    |   12 ++++++----
+>>  Documentation/translations/it_IT/process/changes.rst |   12 ++++++----
+>>  2 files changed, 16 insertions(+), 8 deletions(-)
+>>
+>> diff -Naurp linux-next-20200123/Documentation/translations/it_IT/process/changes.rst%WWW linux-next-20200123/Documentation/translations/it_IT/process/changes.rst
+>> --- linux-next-20200123/Documentation/translations/it_IT/process/changes.rst%WWW	2019-11-24 16:32:01.000000000 -0800
+>> +++ linux-next-20200123/Documentation/translations/it_IT/process/changes.rst	2020-01-23 10:47:56.226457425 -0800
+>> @@ -391,6 +391,8 @@ E2fsprogs
+>>  ---------
+>>  
+>>  - <http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.29.tar.gz>
+>> +- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
+>> +- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
+>>  
+>>  JFSutils
+>>  --------
+>> @@ -400,12 +402,12 @@ JFSutils
+>>  Reiserfsprogs
+>>  -------------
+>>  
+>> -- <http://www.kernel.org/pub/linux/utils/fs/reiserfs/>
+>> +- <https://git.kernel.org/pub/scm/linux/kernel/git/jeffm/reiserfsprogs.git/>
+>>  
+>>  Xfsprogs
+>>  --------
+>>  
+>> -- <ftp://oss.sgi.com/projects/xfs/>
+>> +- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Can we add a link to the release tarballs too?
+> 
+> https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/
+> 
+> With that amended,
+> Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+> 
+> --D
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Sure, I added that link.
+I'll wait a bit for other comments before posting v2.
+
+thanks.
+-- 
+~Randy
+
