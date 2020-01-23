@@ -2,105 +2,151 @@ Return-Path: <SRS0=p0eP=3M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F069C2D0DB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80006C2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:52:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2520B214AF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:47:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5281021835
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 14:52:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LiNGUPo1"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="CShiQaPU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgAWOrr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 09:47:47 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:47582 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727235AbgAWOro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 09:47:44 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00NERemS081753;
-        Thu, 23 Jan 2020 14:47:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id; s=corp-2019-08-05;
- bh=VLBXQG3L+vQfzIALTTItUjwrNdTrwGxtWuccZS4MiYE=;
- b=LiNGUPo1GHT9f9L0wu5LjSFhHy6zHvo6EahYGk3S/r8cdn3gAAkmWglibqW841OpJzH+
- XEY2/CsHy6bbOQrw10B/mlffnQNZupsqJ8OlkXnYCn0ALtDug2GlbmRtfzCIdhV55Qmb
- OYxUyl5lLDYxnbyanpIW3nT7i2Vmlfh4plC4AlYiPpdFIX0QQvF6Kq9iuaS2SOasWLTw
- bx7DQ8zyo4jAtdD/Xe8xFGpI/eBo4FCbEnbC5UAavK/dG1vHNXaMDadJKTSVgkP030U0
- bjOBSRvLzg+jbxJFQ4ZmZ08F33Dhe66Dp+l7IG3epb4M09tioLHeoEHrHci538C6V6r8 gw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2xksyqjpsx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 Jan 2020 14:47:39 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00NET6kd007769;
-        Thu, 23 Jan 2020 14:47:38 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 2xpq7mw44b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 Jan 2020 14:47:38 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00NElWk2001377;
-        Thu, 23 Jan 2020 14:47:32 GMT
-Received: from dhcp-10-175-173-105.vpn.oracle.com (/10.175.173.105)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 23 Jan 2020 06:47:31 -0800
-From:   Alan Maguire <alan.maguire@oracle.com>
-To:     brendanhiggins@google.com
-Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH kunit 0/3] kunit: add debugfs representation to show results/run tests
-Date:   Thu, 23 Jan 2020 14:47:17 +0000
-Message-Id: <1579790840-27009-1-git-send-email-alan.maguire@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9508 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=5 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=732
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001230124
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9508 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=5 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=797 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001230124
+        id S1728899AbgAWOw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 09:52:57 -0500
+Received: from mail25.static.mailgun.info ([104.130.122.25]:34999 "EHLO
+        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727307AbgAWOw5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 09:52:57 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1579791176; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Gao3gfWhHq8szcjw/lY/yOEX3GT5FaSQZyPjtB7KPM4=; b=CShiQaPU3zAKWFelXut5/va6FL4pbN04AhuME7PMVWq1NHy5UE09aHaJAdisZbpA6aas0RU1
+ 5Uj4a/KfZ2YtpusClafc9604K3hHpQ9Q77ZRF6BcvxEIpw3UwuW6RHGXeo/DW2NRrhTYpIle
+ Drn40dg104EEUh78AB20W+7MuJo=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e29b33d.7f87d178df48-smtp-out-n01;
+ Thu, 23 Jan 2020 14:52:45 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 38106C447A1; Thu, 23 Jan 2020 14:52:44 +0000 (UTC)
+Received: from [10.226.58.28] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jhugo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DBFB0C447A4;
+        Thu, 23 Jan 2020 14:52:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DBFB0C447A4
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jhugo@codeaurora.org
+Subject: Re: [PATCH 01/16] docs: Add documentation for MHI bus
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     gregkh <gregkh@linuxfoundation.org>, smohanad@codeaurora.org,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        hemantk@codeaurora.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org>
+ <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
+ <CAK8P3a3Nxr3yqDjZDV1b0e0mdWEEsktwrmKXxZgsnq7Kv82mhw@mail.gmail.com>
+ <20200123131015.GA11366@mani>
+ <CAK8P3a1z7mVEpxbk47Q3A-tLDhqHUid2_S4tE3NQuf_2_UCOcg@mail.gmail.com>
+ <20200123133010.GB11366@mani>
+From:   Jeffrey Hugo <jhugo@codeaurora.org>
+Message-ID: <466ac855-b326-2125-77e5-6e0dcc2c2c35@codeaurora.org>
+Date:   Thu, 23 Jan 2020 07:52:41 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200123133010.GB11366@mani>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When kunit tests are run on native (i.e. non-UML) environments, the results
-of test execution are often intermixed with dmesg output.  This patch
-series attempts to solve this by providing a debugfs representation
-of the results of the last test run, available as
+On 1/23/2020 6:30 AM, Manivannan Sadhasivam wrote:
+> On Thu, Jan 23, 2020 at 02:19:51PM +0100, Arnd Bergmann wrote:
+>> On Thu, Jan 23, 2020 at 2:10 PM Manivannan Sadhasivam
+>> <manivannan.sadhasivam@linaro.org> wrote:
+>>>
+>>> On Thu, Jan 23, 2020 at 01:58:22PM +0100, Arnd Bergmann wrote:
+>>>> On Thu, Jan 23, 2020 at 12:18 PM Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> wrote:
+>>>>
+>>>> I don't see any callers of mhi_register_controller(). Did I just miss it or did
+>>>> you not post one? I'm particularly interested in where the configuration comes
+>>>> from, is this hardcoded in the driver, or parsed from firmware or from registers
+>>>> in the hardware itself?
+>>>>
+>>>
+>>> I have not included the controller driver in this patchset. But you can take a
+>>> look at the ath11k controller driver here:
+>>> https://git.linaro.org/people/manivannan.sadhasivam/linux.git/tree/drivers/net/wireless/ath/ath11k/mhi.c?h=ath11k-qca6390-mhi#n13
+>>>
+>>> So the configuration comes from the static structures defined in the controller
+>>> driver. Earlier revision derived the configuration from devicetree but there are
+>>> many cases where this MHI bus is being used in non DT environments like x86.
+>>> So inorder to be platform agnostic, we chose static declaration method.
+>>>
+>>> In future we can add DT/ACPI support for the applicable parameters.
+>>
+>> What determines the configuration? Is this always something that is fixed
+>> in hardware, or can some of the properties be changed based on what
+>> firmware runs the device?
+>>
+> 
+> AFAIK, these configurations are fixed in hardware (this could come from
+> the firmware I'm not sure but they don't change with firmware revisions
+> for sure)
+> 
+> The reason for defining in the driver itself implies that these don't
+> change. But I'll confirm this with Qcom folks.
+> 
+> Thanks,
+> Mani
+> 
+>> If this is determined by the firmware, maybe the configuration would also
+>> need to be loaded from the file that contains the firmware, which in turn
+>> could be a blob in DT.
+>>
+>>       Arnd
 
-/sys/kernel/debug/kunit/<testsuite>/results
+We can't derive the configuration from hardware, and its something that 
+is currently a priori known since the host (linux) needs to initialize 
+the hardware with the configuration before it can communicate with the 
+device (ie the on device FW).
 
-In addition, we provide a way to re-run the tests and show results via
+99% of the time the configuration is fixed, however there have been 
+instances where features have been added on the device, which result in 
+new channels, which then impact the configuration.  In the cases I'm 
+aware of this, both sides were updated in lockstep.  I don't know how 
+upstream would handle it.  I'm thinking we can ignore that case until it 
+comes up.
 
-/sys/kernel/debug/kunit/<testsuite>/run
+DT/ACPI is tricky, since the cases where we want this currently are 
+essentially standalone PCI(e) cards.  Those are likely to be on systems 
+which don't support DT (ie x86), and there really isn't a place in ACPI 
+to put PCI(e) device configuration information, since its supposed to be 
+a discoverable bus.
 
-Alan Maguire (3):
-  kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
-  kunit: add "run" debugfs file to run suites, display results
-  kunit: update documentation to describe debugfs representation
-
- Documentation/dev-tools/kunit/usage.rst |  20 +++++
- include/kunit/test.h                    |  21 +++--
- lib/kunit/Makefile                      |   3 +-
- lib/kunit/debugfs.c                     | 145 ++++++++++++++++++++++++++++++++
- lib/kunit/debugfs.h                     |  11 +++
- lib/kunit/test.c                        |  88 ++++++++++++++-----
- 6 files changed, 260 insertions(+), 28 deletions(-)
- create mode 100644 lib/kunit/debugfs.c
- create mode 100644 lib/kunit/debugfs.h
+There are hardware limitations to the configuration, and that varies 
+from device to device.  Since the host (linux) programs the 
+configuration into the hardware, its possible for an invalid 
+configuration to be programed, but I would expect that in the majority 
+of cases (ie programming a channel that the device FW doesn't know 
+about), there is no adverse impact.
 
 -- 
-1.8.3.1
-
+Jeffrey Hugo
+Qualcomm Technologies, Inc. is a member of the
+Code Aurora Forum, a Linux Foundation Collaborative Project.
