@@ -2,428 +2,447 @@ Return-Path: <SRS0=p0eP=3M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31157C2D0DB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 11:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4FCC2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 11:49:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E85122467E
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 11:18:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VoFs7IJj"
+	by mail.kernel.org (Postfix) with ESMTP id 2AF192051A
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jan 2020 11:49:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728927AbgAWLSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 06:18:50 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37301 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728921AbgAWLSu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 06:18:50 -0500
-Received: by mail-pg1-f194.google.com with SMTP id q127so1227510pga.4
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2020 03:18:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=pd3DU4hDhR0wrsou+RDTzlRP+J1cvRTXnpI2YcR2ymY=;
-        b=VoFs7IJj2zSucETOi4/7cmbzJk9fkuwLB+bjc0SJKH/B8Q8PkB0jzoDhJP+Em0zXee
-         xpj/1N8TzqeBtAeKf+K3qPJX70FcvkLaP5v+/nCYda/WqhBljgjRX5hpQu87jv7rNHdX
-         IIwRPHI5HPYznMtVyQrLg1jIfJ1H4DEyE0CiqGSKpTm+m6qvZx0uCBqNwdJxNjjD//jN
-         ty+feolUsbMWQyQFZuikFImVOSVCXl2cTtujkO6CmGTrnSHLepEw4ZrEdnfLiiVTf3ov
-         DJxHMGmYlDc7W6fMFjUoLop/8rYlhUOSbGuy5XdB2KNKSADBZSdXLoeNnnsUARLXnpnK
-         +Qug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=pd3DU4hDhR0wrsou+RDTzlRP+J1cvRTXnpI2YcR2ymY=;
-        b=sJf+XnBmC3jtBpFMbQ60T8mtB0k3CFQ1HsZ6i5yNOWFJ2ouAokcZT/JHSf0mOv6Qc9
-         YBobpeaLzJhpXMNk9Poypis+7JIivtSBfncNQNMXc0UyCnmbnNeU+tJATPKjWyoz74xt
-         CYtOtFxUirbPVVG4xz7aqMLsto6YhtGVptfPjKBR9eg77wZ6GVxKFSauyHwIO+YUpLsb
-         oS66TSBndwvXdQJ0gluvBSuqpb+tfswXzCEhkalJM+X6cRYDwZHIavlFnwRW1QF26mO2
-         fg/t6raOZDqHfpaipiluSQm7sWLHBgH8ugD4fyIRrS2BwH408No8VsqvmcLeI0zYL844
-         0UYA==
-X-Gm-Message-State: APjAAAXz9gylu4iKQRsVQ8qi7Jwj765L6FVCUaaXq9S1JcSLkJ1n1PMM
-        4IJzGlc1f5aslJrHbWAqT2pt
-X-Google-Smtp-Source: APXvYqz+4Y1LRolbx/xvi6ZXl2OOZW/BmuY9IsEV2vPXEaCHs/E8tK27D4tb69q+YTD6bzSf7OLIyg==
-X-Received: by 2002:a63:6c09:: with SMTP id h9mr3343529pgc.34.1579778329306;
-        Thu, 23 Jan 2020 03:18:49 -0800 (PST)
-Received: from localhost.localdomain ([103.59.133.81])
-        by smtp.googlemail.com with ESMTPSA id y6sm2627559pgc.10.2020.01.23.03.18.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2020 03:18:48 -0800 (PST)
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     gregkh@linuxfoundation.org, arnd@arndb.de
-Cc:     smohanad@codeaurora.org, jhugo@codeaurora.org,
-        kvalo@codeaurora.org, bjorn.andersson@linaro.org,
-        hemantk@codeaurora.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 01/16] docs: Add documentation for MHI bus
-Date:   Thu, 23 Jan 2020 16:48:21 +0530
-Message-Id: <20200123111836.7414-2-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org>
-References: <20200123111836.7414-1-manivannan.sadhasivam@linaro.org>
+        id S1726170AbgAWLtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jan 2020 06:49:36 -0500
+Received: from foss.arm.com ([217.140.110.172]:38454 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726026AbgAWLtg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jan 2020 06:49:36 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 24C03328;
+        Thu, 23 Jan 2020 03:49:35 -0800 (PST)
+Received: from [10.37.12.160] (unknown [10.37.12.160])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E5E53F6C4;
+        Thu, 23 Jan 2020 03:49:31 -0800 (PST)
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v2 6/6] arm64: use activity monitors for frequency
+ invariance
+To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
+        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
+        suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        dietmar.eggemann@arm.com
+Cc:     peterz@infradead.org, mingo@redhat.com, ggherdovich@suse.cz,
+        vincent.guittot@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191218182607.21607-1-ionela.voinescu@arm.com>
+ <20191218182607.21607-7-ionela.voinescu@arm.com>
+Message-ID: <0ca05a2d-918b-0c70-6dc6-ef1f5f58f388@arm.com>
+Date:   Thu, 23 Jan 2020 11:49:29 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191218182607.21607-7-ionela.voinescu@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MHI (Modem Host Interface) is a communication protocol used by the
-host processors to control and communicate with modems over a high
-speed peripheral bus or shared memory. The MHI protocol has been
-designed and developed by Qualcomm Innovation Center, Inc., for use
-in their modems. This commit adds the documentation for the bus and
-the implementation in Linux kernel.
+Hi Ionela,
 
-This is based on the patch submitted by Sujeev Dias:
-https://lkml.org/lkml/2018/7/9/987
+Please find my few comments below.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Sujeev Dias <sdias@codeaurora.org>
-Signed-off-by: Siddartha Mohanadoss <smohanad@codeaurora.org>
-[mani: converted to .rst and splitted the patch]
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- Documentation/index.rst        |   1 +
- Documentation/mhi/index.rst    |  18 +++
- Documentation/mhi/mhi.rst      | 218 +++++++++++++++++++++++++++++++++
- Documentation/mhi/topology.rst |  60 +++++++++
- 4 files changed, 297 insertions(+)
- create mode 100644 Documentation/mhi/index.rst
- create mode 100644 Documentation/mhi/mhi.rst
- create mode 100644 Documentation/mhi/topology.rst
+On 12/18/19 6:26 PM, Ionela Voinescu wrote:
+> The Frequency Invariance Engine (FIE) is providing a frequency
+> scaling correction factor that helps achieve more accurate
+> load-tracking.
+> 
+> So far, for arm and arm64 platforms, this scale factor has been
+> obtained based on the ratio between the current frequency and the
+> maximum supported frequency recorded by the cpufreq policy. The
+> setting of this scale factor is triggered from cpufreq drivers by
+> calling arch_set_freq_scale. The current frequency used in computation
+> is the frequency requested by a governor, but it may not be the
+> frequency that was implemented by the platform.
+> 
+> This correction factor can also be obtained using a core counter and a
+> constant counter to get information on the performance (frequency based
+> only) obtained in a period of time. This will more accurately reflect
+> the actual current frequency of the CPU, compared with the alternative
+> implementation that reflects the request of a performance level from
+> the OS.
+> 
+> Therefore, implement arch_scale_freq_tick to use activity monitors, if
+> present, for the computation of the frequency scale factor.
+> 
+> The use of AMU counters depends on:
+>   - CONFIG_ARM64_AMU_EXTN - depents on the AMU extension being present
+>   - CONFIG_CPU_FREQ - the current frequency obtained using counter
+>     information is divided by the maximum frequency obtained from the
+>     cpufreq policy.
+> 
+> While it is possible to have a combination of CPUs in the system with
+> and without support for activity monitors, the use of counters for
+> frequency invariance is only enabled for a CPU, if all related CPUs
+> (CPUs in the same frequency domain) support and have enabled the core
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index e99d0bd2589d..edc9b211bbff 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -133,6 +133,7 @@ needed).
-    misc-devices/index
-    mic/index
-    scheduler/index
-+   mhi/index
- 
- Architecture-agnostic documentation
- -----------------------------------
-diff --git a/Documentation/mhi/index.rst b/Documentation/mhi/index.rst
-new file mode 100644
-index 000000000000..1d8dec302780
---- /dev/null
-+++ b/Documentation/mhi/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===
-+MHI
-+===
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   mhi
-+   topology
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/mhi/mhi.rst b/Documentation/mhi/mhi.rst
-new file mode 100644
-index 000000000000..718dbbdc7a04
---- /dev/null
-+++ b/Documentation/mhi/mhi.rst
-@@ -0,0 +1,218 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
-+MHI (Modem Host Interface)
-+==========================
-+
-+This document provides information about the MHI protocol.
-+
-+Overview
-+========
-+
-+MHI is a protocol developed by Qualcomm Innovation Center, Inc., It is used
-+by the host processors to control and communicate with modem devices over high
-+speed peripheral buses or shared memory. Even though MHI can be easily adapted
-+to any peripheral buses, it is primarily used with PCIe based devices. MHI
-+provides logical channels over the physical buses and allows transporting the
-+modem protocols, such as IP data packets, modem control messages, and
-+diagnostics over at least one of those logical channels. Also, the MHI
-+protocol provides data acknowledgment feature and manages the power state of the
-+modems via one or more logical channels.
-+
-+MHI Internals
-+=============
-+
-+MMIO
-+----
-+
-+MMIO (Memory mapped IO) consists of a set of registers in the device hardware,
-+which are mapped to the host memory space by the peripheral buses like PCIe.
-+Following are the major components of MMIO register space:
-+
-+MHI control registers: Access to MHI configurations registers
-+
-+MHI BHI registers: BHI (Boot Host Interface) registers are used by the host
-+for downloading the firmware to the device before MHI initialization.
-+
-+Channel Doorbell array: Channel Doorbell (DB) registers used by the host to
-+notify the device when there is new work to do.
-+
-+Event Doorbell array: Associated with event context array, the Event Doorbell
-+(DB) registers are used by the host to notify the device when new events are
-+available.
-+
-+Debug registers: A set of registers and counters used by the device to expose
-+debugging information like performance, functional, and stability to the host.
-+
-+Data structures
-+---------------
-+
-+All data structures used by MHI are in the host system memory. Using the
-+physical interface, the device accesses those data structures. MHI data
-+structures and data buffers in the host system memory regions are mapped for
-+the device.
-+
-+Channel context array: All channel configurations are organized in channel
-+context data array.
-+
-+Transfer rings: Used by the host to schedule work items for a channel. The
-+transfer rings are organized as a circular queue of Transfer Descriptors (TD).
-+
-+Event context array: All event configurations are organized in the event context
-+data array.
-+
-+Event rings: Used by the device to send completion and state transition messages
-+to the host
-+
-+Command context array: All command configurations are organized in command
-+context data array.
-+
-+Command rings: Used by the host to send MHI commands to the device. The command
-+rings are organized as a circular queue of Command Descriptors (CD).
-+
-+Channels
-+--------
-+
-+MHI channels are logical, unidirectional data pipes between a host and a device.
-+The concept of channels in MHI is similar to endpoints in USB. MHI supports up
-+to 256 channels. However, specific device implementations may support less than
-+the maximum number of channels allowed.
-+
-+Two unidirectional channels with their associated transfer rings form a
-+bidirectional data pipe, which can be used by the upper-layer protocols to
-+transport application data packets (such as IP packets, modem control messages,
-+diagnostics messages, and so on). Each channel is associated with a single
-+transfer ring.
-+
-+Transfer rings
-+--------------
-+
-+Transfers between the host and device are organized by channels and defined by
-+Transfer Descriptors (TD). TDs are managed through transfer rings, which are
-+defined for each channel between the device and host and reside in the host
-+memory. TDs consist of one or more ring elements (or transfer blocks)::
-+
-+        [Read Pointer (RP)] ----------->[Ring Element] } TD
-+        [Write Pointer (WP)]-           [Ring Element]
-+                             -          [Ring Element]
-+                              --------->[Ring Element]
-+                                        [Ring Element]
-+
-+Below is the basic usage of transfer rings:
-+
-+* Host allocates memory for transfer ring.
-+* Host sets the base pointer, read pointer, and write pointer in corresponding
-+  channel context.
-+* Ring is considered empty when RP == WP.
-+* Ring is considered full when WP + 1 == RP.
-+* RP indicates the next element to be serviced by the device.
-+* When the host has a new buffer to send, it updates the ring element with
-+  buffer information, increments the WP to the next element and rings the
-+  associated channel DB.
-+
-+Event rings
-+-----------
-+
-+Events from the device to host are organized in event rings and defined by Event
-+Descriptors (ED). Event rings are used by the device to report events such as
-+data transfer completion status, command completion status, and state changes
-+to the host. Event rings are the array of EDs that resides in the host
-+memory. EDs consist of one or more ring elements (or transfer blocks)::
-+
-+        [Read Pointer (RP)] ----------->[Ring Element] } ED
-+        [Write Pointer (WP)]-           [Ring Element]
-+                             -          [Ring Element]
-+                              --------->[Ring Element]
-+                                        [Ring Element]
-+
-+Below is the basic usage of event rings:
-+
-+* Host allocates memory for event ring.
-+* Host sets the base pointer, read pointer, and write pointer in corresponding
-+  channel context.
-+* Both host and device has a local copy of RP, WP.
-+* Ring is considered empty (no events to service) when WP + 1 == RP.
-+* Ring is considered full of events when RP == WP.
-+* When there is a new event the device needs to send, the device updates ED
-+  pointed by RP, increments the RP to the next element and triggers the
-+  interrupt.
-+
-+Ring Element
-+------------
-+
-+A Ring Element is a data structure used to transfer a single block
-+of data between the host and the device. Transfer ring element types contain a
-+single buffer pointer, the size of the buffer, and additional control
-+information. Other ring element types may only contain control and status
-+information. For single buffer operations, a ring descriptor is composed of a
-+single element. For large multi-buffer operations (such as scatter and gather),
-+elements can be chained to form a longer descriptor.
-+
-+MHI Operations
-+==============
-+
-+MHI States
-+----------
-+
-+MHI_STATE_RESET
-+~~~~~~~~~~~~~~~
-+MHI is in reset state after power-up or hardware reset. The host is not allowed
-+to access device MMIO register space.
-+
-+MHI_STATE_READY
-+~~~~~~~~~~~~~~~
-+MHI is ready for initialization. The host can start MHI initialization by
-+programming MMIO registers.
-+
-+MHI_STATE_M0
-+~~~~~~~~~~~~
-+MHI is running and operational in the device. The host can start channels by
-+issuing channel start command.
-+
-+MHI_STATE_M1
-+~~~~~~~~~~~~
-+MHI operation is suspended by the device. This state is entered when the
-+device detects inactivity at the physical interface within a preset time.
-+
-+MHI_STATE_M2
-+~~~~~~~~~~~~
-+MHI is in low power state. MHI operation is suspended and the device may
-+enter lower power mode.
-+
-+MHI_STATE_M3
-+~~~~~~~~~~~~
-+MHI operation stopped by the host. This state is entered when the host suspends
-+MHI operation.
-+
-+MHI Initialization
-+------------------
-+
-+After system boots, the device is enumerated over the physical interface.
-+In the case of PCIe, the device is enumerated and assigned BAR-0 for
-+the device's MMIO register space. To initialize the MHI in a device,
-+the host performs the following operations:
-+
-+* Allocates the MHI context for event, channel and command arrays.
-+* Initializes the context array, and prepares interrupts.
-+* Waits until the device enters READY state.
-+* Programs MHI MMIO registers and sets device into MHI_M0 state.
-+* Waits for the device to enter M0 state.
-+
-+MHI Data Transfer
-+-----------------
-+
-+MHI data transfer is initiated by the host to transfer data to the device.
-+Following are the sequence of operations performed by the host to transfer
-+data to device:
-+
-+* Host prepares TD with buffer information.
-+* Host increments the WP of the corresponding channel transfer ring.
-+* Host rings the channel DB register.
-+* Device wakes up to process the TD.
-+* Device generates a completion event for the processed TD by updating ED.
-+* Device increments the RP of the corresponding event ring.
-+* Device triggers IRQ to wake up the host.
-+* Host wakes up and checks the event ring for completion event.
-+* Host updates the WP of the corresponding event ring to indicate that the
-+  data transfer has been completed successfully.
-+
-diff --git a/Documentation/mhi/topology.rst b/Documentation/mhi/topology.rst
-new file mode 100644
-index 000000000000..90d80a7f116d
---- /dev/null
-+++ b/Documentation/mhi/topology.rst
-@@ -0,0 +1,60 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+MHI Topology
-+============
-+
-+This document provides information about the MHI topology modeling and
-+representation in the kernel.
-+
-+MHI Controller
-+--------------
-+
-+MHI controller driver manages the interaction with the MHI client devices
-+such as the external modems and WiFi chipsets. It is also the MHI bus master
-+which is in charge of managing the physical link between the host and device.
-+It is however not involved in the actual data transfer as the data transfer
-+is taken care by the physical bus such as PCIe. Each controller driver exposes
-+channels and events based on the client device type.
-+
-+Below are the roles of the MHI controller driver:
-+
-+* Turns on the physical bus and establishes the link to the device
-+* Configures IRQs, SMMU, and IOMEM
-+* Allocates struct mhi_controller and registers with the MHI bus framework
-+  with channel and event configurations using mhi_register_controller.
-+* Initiates power on and shutdown sequence
-+* Initiates suspend and resume power management operations of the device.
-+
-+MHI Device
-+----------
-+
-+MHI device is the logical device which binds to a maximum of two MHI channels
-+for bi-directional communication. Once MHI is in powered on state, the MHI
-+core will create MHI devices based on the channel configuration exposed
-+by the controller. There can be a single MHI device for each channel or for a
-+couple of channels.
-+
-+Each supported device is enumerated in::
-+
-+        /sys/bus/mhi/devices/
-+
-+MHI Driver
-+----------
-+
-+MHI driver is the client driver which binds to one or more MHI devices. The MHI
-+driver sends and receives the upper-layer protocol packets like IP packets,
-+modem control messages, and diagnostics messages over MHI. The MHI core will
-+bind the MHI devices to the MHI driver.
-+
-+Each supported driver is enumerated in::
-+
-+        /sys/bus/mhi/drivers/
-+
-+Below are the roles of the MHI driver:
-+
-+* Registers the driver with the MHI bus framework using mhi_driver_register.
-+* Prepares the device for transfer by calling mhi_prepare_for_transfer.
-+* Initiates data transfer by calling mhi_queue_transfer.
-+* Once the data transfer is finished, calls mhi_unprepare_from_transfer to
-+  end data transfer.
--- 
-2.17.1
+This looks like an edge case scenario, for which we are designing the
+whole machinery with workqueues. AFAIU we cannot run the code in
+arch_set_freq_scale() and you want to be check all CPUs upfront.
 
+Maybe you can just wait till all CPUs boot and then set the proper
+flags and finish initialization. Something like:
+per_cpu(s8, amu_feat) /* form the patch 1/6 */
+OR
+per_cpu(u8, amu_scale_freq) /* from this patch */
+with maybe some values:
+0 - not checked yet
+1 - checked and present
+-1 - checked and not available
+-2 - checked but in conflict with others in the freq domain
+-3..-k - other odd configurations
+
+could potentially eliminate the need of workqueues.
+
+Then, if we could trigger this from i.e. late_initcall, the CPUs
+should be online and you can validate them.
+
+> and constant activity monitor counters. In this way, there is a clear
+> separation between the policies for which arch_set_freq_scale
+> (cpufreq based FIE) is used, and the policies for which
+> arch_scale_freq_tick (counter based FIE) is used to set the frequency
+> scale factor. For this purpose, a cpufreq notifier is registered to
+> trigger validation work for CPUs and policies at policy creation that
+> will enable or disable the use of AMU counters for frequency invariance.
+> 
+> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> ---
+>   arch/arm64/include/asm/topology.h |   9 ++
+>   arch/arm64/kernel/topology.c      | 233 ++++++++++++++++++++++++++++++
+>   drivers/base/arch_topology.c      |  16 ++
+>   3 files changed, 258 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/topology.h b/arch/arm64/include/asm/topology.h
+> index a4d945db95a2..98412dd27565 100644
+> --- a/arch/arm64/include/asm/topology.h
+> +++ b/arch/arm64/include/asm/topology.h
+> @@ -19,6 +19,15 @@ int pcibus_to_node(struct pci_bus *bus);
+>   /* Replace task scheduler's default frequency-invariant accounting */
+>   #define arch_scale_freq_capacity topology_get_freq_scale
+>   
+> +#if defined(CONFIG_ARM64_AMU_EXTN) && defined(CONFIG_CPU_FREQ)
+> +void topology_scale_freq_tick(void);
+> +/*
+> + * Replace task scheduler's default counter-based frequency-invariance
+> + * scale factor setting.
+> + */
+> +#define arch_scale_freq_tick topology_scale_freq_tick
+> +#endif
+> +
+>   /* Replace task scheduler's default cpu-invariant accounting */
+>   #define arch_scale_cpu_capacity topology_get_cpu_scale
+>   
+> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+> index fa9528dfd0ce..61f8264afec9 100644
+> --- a/arch/arm64/kernel/topology.c
+> +++ b/arch/arm64/kernel/topology.c
+> @@ -14,6 +14,7 @@
+>   #include <linux/acpi.h>
+>   #include <linux/arch_topology.h>
+>   #include <linux/cacheinfo.h>
+> +#include <linux/cpufreq.h>
+>   #include <linux/init.h>
+>   #include <linux/percpu.h>
+>   
+> @@ -120,4 +121,236 @@ int __init parse_acpi_topology(void)
+>   }
+>   #endif
+>   
+> +#if defined(CONFIG_ARM64_AMU_EXTN) && defined(CONFIG_CPU_FREQ)
+>   
+> +#undef pr_fmt
+> +#define pr_fmt(fmt) "AMU: " fmt
+> +
+> +static void init_fie_counters_done_workfn(struct work_struct *work);
+> +static DECLARE_WORK(init_fie_counters_done_work,
+> +		    init_fie_counters_done_workfn);
+> +
+> +static struct workqueue_struct *policy_amu_fie_init_wq;
+> +static struct workqueue_struct *cpu_amu_fie_init_wq;
+> +
+> +struct cpu_amu_work {
+> +	struct work_struct cpu_work;
+> +	struct work_struct policy_work;
+> +	unsigned int cpuinfo_max_freq;
+> +	struct cpumask policy_cpus;
+> +	bool cpu_amu_fie;
+> +};
+> +static struct cpu_amu_work __percpu *works;
+> +static cpumask_var_t cpus_to_visit;
+> +
+> +static DEFINE_PER_CPU_READ_MOSTLY(unsigned long, arch_max_freq_scale);
+> +static DEFINE_PER_CPU(u64, arch_const_cycles_prev);
+> +static DEFINE_PER_CPU(u64, arch_core_cycles_prev);
+> +DECLARE_PER_CPU(u8, amu_scale_freq);
+> +
+> +static void cpu_amu_fie_init_workfn(struct work_struct *work)
+> +{
+> +	u64 core_cnt, const_cnt, ratio;
+> +	struct cpu_amu_work *amu_work;
+> +	int cpu = smp_processor_id();
+> +
+> +	if (!cpu_has_amu_feat()) {
+> +		pr_debug("CPU%d: counters are not supported.\n", cpu);
+> +		return;
+> +	}
+> +
+> +	core_cnt = read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0);
+> +	const_cnt = read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0);
+> +
+> +	if (unlikely(!core_cnt || !const_cnt)) {
+> +		pr_err("CPU%d: cycle counters are not enabled.\n", cpu);
+> +		return;
+> +	}
+> +
+> +	amu_work = container_of(work, struct cpu_amu_work, cpu_work);
+> +	if (unlikely(!(amu_work->cpuinfo_max_freq))) {
+> +		pr_err("CPU%d: invalid maximum frequency.\n", cpu);
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * Pre-compute the fixed ratio between the frequency of the
+> +	 * constant counter and the maximum frequency of the CPU (hz).
+> +	 */
+> +	ratio = (u64)arch_timer_get_rate() << (2 * SCHED_CAPACITY_SHIFT);
+> +	ratio = div64_u64(ratio, amu_work->cpuinfo_max_freq * 1000);
+> +	this_cpu_write(arch_max_freq_scale, (unsigned long)ratio);
+> +
+> +	this_cpu_write(arch_core_cycles_prev, core_cnt);
+> +	this_cpu_write(arch_const_cycles_prev, const_cnt);
+> +	amu_work->cpu_amu_fie = true;
+> +}
+> +
+> +static void policy_amu_fie_init_workfn(struct work_struct *work)
+> +{
+> +	struct cpu_amu_work *amu_work;
+> +	u8 enable;
+> +	int cpu;
+> +
+> +	amu_work = container_of(work, struct cpu_amu_work, policy_work);
+> +
+> +	flush_workqueue(cpu_amu_fie_init_wq);
+> +
+> +	for_each_cpu(cpu, &amu_work->policy_cpus)
+> +		if (!(per_cpu_ptr(works, cpu)->cpu_amu_fie))
+> +			break;
+> +
+> +	enable = (cpu >= nr_cpu_ids) ? 1 : 0;
+> +
+> +	for_each_cpu(cpu, &amu_work->policy_cpus)
+> +		per_cpu(amu_scale_freq, cpu) = enable;
+> +
+> +	pr_info("CPUs[%*pbl]: counters %s be used for FIE.",
+> +		cpumask_pr_args(&amu_work->policy_cpus),
+> +		enable ? "will" : "WON'T");
+> +}
+> +
+> +static int init_fie_counters_callback(struct notifier_block *nb,
+> +				      unsigned long val,
+> +				      void *data)
+> +{
+> +	struct cpufreq_policy *policy = data;
+> +	struct cpu_amu_work *work;
+> +	int cpu;
+> +
+> +	if (val != CPUFREQ_CREATE_POLICY)
+> +		return 0;
+> +
+> +	/* Return if not all related CPUs are online */
+> +	if (!cpumask_equal(policy->cpus, policy->related_cpus)) {
+> +		pr_info("CPUs[%*pbl]: counters WON'T be used for FIE.",
+> +			cpumask_pr_args(policy->related_cpus));
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * Queue functions on all online CPUs from policy to:
+> +	 *  - Check support and enablement for AMU counters
+> +	 *  - Store system freq to max freq ratio per cpu
+> +	 *  - Flag CPU as valid for use of counters for FIE
+> +	 */
+> +	for_each_cpu(cpu, policy->cpus) {
+> +		work = per_cpu_ptr(works, cpu);
+> +		work->cpuinfo_max_freq = policy->cpuinfo.max_freq;
+> +		work->cpu_amu_fie = false;
+> +		INIT_WORK(&work->cpu_work, cpu_amu_fie_init_workfn);
+> +		queue_work_on(cpu, cpu_amu_fie_init_wq, &work->cpu_work);
+> +	}
+> +
+> +	/*
+> +	 * Queue function to validate support at policy level:
+> +	 *  - Flush all work on online policy CPUs
+> +	 *  - Verify that all online policy CPUs are flagged as
+> +	 *    valid for use of counters for FIE
+> +	 *  - Enable or disable use of counters for FIE on CPUs
+> +	 */
+> +	work = per_cpu_ptr(works, cpumask_first(policy->cpus));
+> +	cpumask_copy(&work->policy_cpus, policy->cpus);
+> +	INIT_WORK(&work->policy_work, policy_amu_fie_init_workfn);
+> +	queue_work(policy_amu_fie_init_wq, &work->policy_work);
+> +
+> +	cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->cpus);
+> +	if (cpumask_empty(cpus_to_visit))
+> +		schedule_work(&init_fie_counters_done_work);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct notifier_block init_fie_counters_notifier = {
+> +	.notifier_call = init_fie_counters_callback,
+> +};
+> +
+> +static void init_fie_counters_done_workfn(struct work_struct *work)
+> +{
+> +	cpufreq_unregister_notifier(&init_fie_counters_notifier,
+> +				    CPUFREQ_POLICY_NOTIFIER);
+> +
+> +	/*
+> +	 * Destroy policy_amu_fie_init_wq first to ensure all policy
+> +	 * work is finished, which includes flushing of the per-CPU
+> +	 * work, before cpu_amu_fie_init_wq is destroyed.
+> +	 */
+> +	destroy_workqueue(policy_amu_fie_init_wq);
+> +	destroy_workqueue(cpu_amu_fie_init_wq);
+> +
+> +	free_percpu(works);
+> +	free_cpumask_var(cpus_to_visit);
+> +}
+> +
+> +static int __init register_fie_counters_cpufreq_notifier(void)
+> +{
+> +	int ret = -ENOMEM;
+> +
+> +	if (!alloc_cpumask_var(&cpus_to_visit, GFP_KERNEL))
+> +		goto out;
+> +
+> +	cpumask_copy(cpus_to_visit, cpu_possible_mask);
+> +
+> +	cpu_amu_fie_init_wq = create_workqueue("cpu_amu_fie_init_wq");
+> +	if (!cpu_amu_fie_init_wq)
+> +		goto free_cpumask;
+> +
+> +	policy_amu_fie_init_wq = create_workqueue("policy_amu_fie_init_wq");
+> +	if (!cpu_amu_fie_init_wq)
+> +		goto free_cpu_wq;
+> +
+> +	works = alloc_percpu(struct cpu_amu_work);
+> +	if (!works)
+> +		goto free_policy_wq;
+> +
+> +	ret = cpufreq_register_notifier(&init_fie_counters_notifier,
+> +					CPUFREQ_POLICY_NOTIFIER);
+> +	if (ret)
+> +		goto free_works;
+> +
+> +	return 0;
+> +
+> +free_works:
+> +	free_percpu(works);
+> +free_policy_wq:
+> +	destroy_workqueue(policy_amu_fie_init_wq);
+> +free_cpu_wq:
+> +	destroy_workqueue(cpu_amu_fie_init_wq);
+> +free_cpumask:
+> +	free_cpumask_var(cpus_to_visit);
+> +out:
+> +	return ret;
+> +}
+> +core_initcall(register_fie_counters_cpufreq_notifier);
+
+If we move it to a bit later stage maybe it could solve the
+issue with not-all-CPUs-online? Is it needed at this stage?
+The device_initcall or late_initcall is not an option for it?
+
+
+> +
+> +void topology_scale_freq_tick(void)
+> +{
+> +	u64 prev_core_cnt, prev_const_cnt;
+> +	u64 core_cnt, const_cnt, scale;
+> +
+> +	if (!this_cpu_read(amu_scale_freq))
+> +		return;
+> +
+> +	const_cnt = read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0);
+> +	core_cnt = read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0);
+> +	prev_const_cnt = this_cpu_read(arch_const_cycles_prev);
+> +	prev_core_cnt = this_cpu_read(arch_core_cycles_prev);
+> +
+> +	if (unlikely(core_cnt <= prev_core_cnt ||
+> +		     const_cnt <= prev_const_cnt))
+> +		goto store_and_exit;
+> +
+> +	scale = core_cnt - prev_core_cnt;
+> +	scale *= this_cpu_read(arch_max_freq_scale);
+> +	scale = div64_u64(scale >> SCHED_CAPACITY_SHIFT,
+> +			  const_cnt - prev_const_cnt);
+> +
+> +	scale = min_t(unsigned long, scale, SCHED_CAPACITY_SCALE);
+> +	this_cpu_write(freq_scale, (unsigned long)scale);
+> +
+> +store_and_exit:
+> +	this_cpu_write(arch_core_cycles_prev, core_cnt);
+> +	this_cpu_write(arch_const_cycles_prev, const_cnt);
+> +}
+> +
+> +#endif
+> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+> index 1eb81f113786..3ae6091d845e 100644
+> --- a/drivers/base/arch_topology.c
+> +++ b/drivers/base/arch_topology.c
+> @@ -23,12 +23,28 @@
+>   
+>   DEFINE_PER_CPU(unsigned long, freq_scale) = SCHED_CAPACITY_SCALE;
+>   
+> +#if defined(CONFIG_ARM64_AMU_EXTN) && defined(CONFIG_CPU_FREQ)
+> +DEFINE_PER_CPU_READ_MOSTLY(u8, amu_scale_freq);
+> +#endif
+> +
+>   void arch_set_freq_scale(struct cpumask *cpus, unsigned long cur_freq,
+>   			 unsigned long max_freq)
+>   {
+>   	unsigned long scale;
+>   	int i;
+>   
+> +#if defined(CONFIG_ARM64_AMU_EXTN) && defined(CONFIG_CPU_FREQ)
+
+This kind of #ifdef is probably not the best option inside drivers/base/
+The function is called from cpufreq drivers, could we react earlier
+and keep this function untouched?
+
+
+> +	/*
+> +	 * This function will only be called from CPUFREQ drivers.
+> +	 * If the use of counters for FIE is enabled, establish if a CPU,
+> +	 * the first one, supports counters and if they are valid. If they
+> +	 * are, just return as we don't want to update with information
+> +	 * from CPUFREQ. In this case the scale factor will be updated
+> +	 * from arch_scale_freq_tick.
+> +	 */
+> +	if (per_cpu(amu_scale_freq, cpumask_first(cpus)))
+> +		return;
+> +#endif
+>   	scale = (cur_freq << SCHED_CAPACITY_SHIFT) / max_freq;
+>   
+>   	for_each_cpu(i, cpus)
+> 
+
+
+Regards,
+Lukasz
