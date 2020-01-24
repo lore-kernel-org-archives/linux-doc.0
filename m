@@ -2,108 +2,86 @@ Return-Path: <SRS0=OR/0=3N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61490C32771
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 04:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38386C35242
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 08:57:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2FF4F2071A
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 04:31:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KDHO7h9B"
+	by mail.kernel.org (Postfix) with ESMTP id 05A3A20838
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 08:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579856279;
+	bh=weQibhHhjm/I54HF6xbEAHDUB4eSKIfjTJHuSAScdLA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=W4KZYAezEFZKchR621T09FWxeQJJ06QnHGPy7J20FEdB1wEm/1NwDtAMNiDubnJbJ
+	 ZmvRgebV7dekHHcvh3EtvPSaBJrzLRTTFrtkwwfMdzuf1zBPVWLXuR3uf6tWmfrVha
+	 C5IpPcP2DAWlW/Rvvimr2BPLO1CdlGhioItWgkLY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729316AbgAXEbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jan 2020 23:31:07 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40892 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730568AbgAXEbD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jan 2020 23:31:03 -0500
-Received: by mail-lj1-f194.google.com with SMTP id n18so905056ljo.7
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2020 20:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YARMc3ae9hSUEoLGMas34bGpYXx9jRcQkvor0pcL47o=;
-        b=KDHO7h9B/b3mjy26Oj4EeSJIUNyQLYKaSj3d1nBNy4K7dVvqvhrzQt3G+uksHtglCC
-         GEn7l0fqTV7YiLooSM8wJDBDZ3zMa1NiXyT+I4cRb1BWaZgPHz2JpFTvojB+HO94ozad
-         MFaWKBQ9Zo4BEUhjLXI4paXN7kyNHtoN96Dwri5CF7MjQQUEfySc0AQBNxyC2R8iJZCg
-         guQxm94eI0DXd65SS/rnuHoJaoHhIN0BgEW5d7+6uC/9ey1p7B8TnBe/F7DCn8v2dGTO
-         IOVEJ7yvZF/HCRcAWrK9qPC6Itzo8kSjahJNwMYca4x2RJsn6vyrLjbauzKhHQ8haKAe
-         U9uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YARMc3ae9hSUEoLGMas34bGpYXx9jRcQkvor0pcL47o=;
-        b=UExbQyEZFZoN3tCQi95ClBz6dTVrRJVtpsri2sDhQvY9qaL37kGPZvZrTgiPSIRlrq
-         zyfzLd3KEDIn+CwPfBLuY4sjkm6U6llS2SavLOqBapnj+c227NLfhbIJ6kDr/Xc4Ol/X
-         AAD2TEt9m5tSr/F24zQpHJR6cQ/TWnuwxhDEMakcFG8OQ/25c5+hv2du30+41SnJ0Qm0
-         DBjfNosMOVKUZBJoDmwtdpobbGrDJhl6XoIk9Zgm6b5vGbiiwBwa+InjiB4vagFe40rz
-         tTTQ4HGGTwYl+xfhaYdWKK27JFhQfqvuwfWjEm9DGAlC3lqhlCENSPcrh3sBVIS/+TQz
-         Jsnw==
-X-Gm-Message-State: APjAAAWbeioYF8DDh5l/yYSOyP7wKyiepy5JGoyLCOX19762JWCNMGFt
-        L2S/cRGu5Lz+NLOS1N+mOlBd4Gr3aJwGWfXs3LWF5g==
-X-Google-Smtp-Source: APXvYqxDuXJqv/c/SqXLq4l0cAQvIWw6dIaAJm1RLNe4FSj10K4FMOIdAwv3/v/qIrOL5GnNI2cG/1NfCFFst9nvTGM=
-X-Received: by 2002:a2e:7816:: with SMTP id t22mr1024528ljc.161.1579840260417;
- Thu, 23 Jan 2020 20:31:00 -0800 (PST)
+        id S1729609AbgAXI5z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jan 2020 03:57:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43384 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725787AbgAXI5z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jan 2020 03:57:55 -0500
+Received: from localhost (unknown [145.15.244.15])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6516920709;
+        Fri, 24 Jan 2020 08:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579856274;
+        bh=weQibhHhjm/I54HF6xbEAHDUB4eSKIfjTJHuSAScdLA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1kxkQ2mlfN+heyJk8Zq4viteonJq1htABzVFFxtGZYoofCDM5p/YmwSf7s9p//j1+
+         pLjlJVycamMWseZI4uCPtUt4BaUZ8o2WZP/CR4FMMO8wFPI3QbVYpV1n9spKemoelz
+         pVryZUdQZqbQsZPigrYsQfDDri9qjJm5snkzfjq0=
+Date:   Fri, 24 Jan 2020 09:57:51 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200124085751.GA2957916@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20200117214246.235591-1-drosen@google.com> <20200117214246.235591-6-drosen@google.com>
- <20200120013528.GY8904@ZenIV.linux.org.uk>
-In-Reply-To: <20200120013528.GY8904@ZenIV.linux.org.uk>
-From:   Daniel Rosenberg <drosen@google.com>
-Date:   Thu, 23 Jan 2020 20:30:49 -0800
-Message-ID: <CA+PiJmQPFG7OehStFfNQE_7MGwgozhaa0TxZd+aHL2cFLMFbsA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/9] vfs: Fold casefolding into vfs
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200115163554.101315-4-hdegoede@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> ... buggering the filesystems (and boxen) that never planned to use
-> that garbage.
->
-I'm planning to rework this as dentry ops again. Your other comments
-point out some issues that also exist in the old dentry_operations, so
-that's a good opportunity to fix those up. How do you feel about just
-having the two entries in struct super_block? With them there, I can
-add the dentry_operations to fs/unicode where they won't bother anyone
-else, while not making every filesystem that uses it have to carry
-near identical code.
+On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> This is a preparation patch for adding a new platform fallback mechanism,
+> which will have its own enable/disable FW_OPT_xxx option.
+> 
+> Note this also fixes a typo in one of the re-wordwrapped comments:
+> enfoce -> enforce.
+> 
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
->
-> Are you serious?
->         1) who said that ->d_inode is stable here?  If we are in RCU mode,
-> it won't be.
->         2) page-sized kmalloc/kfree *ON* *COMPONENT* *AFTER* *COMPONENT*?
->
+I've taken this in my tree for now in a quest to try to get others to
+pay attention to this series...
 
-#2 is the part that made me the saddest in the patch. I'm planning to
-move this to the unicode subsystem so it can just walk through the
-name as it computes the hash without needing any allocation.
+thanks,
 
->
-> ... and again, you are pulling in a lot of cachelines.
->
-
-I probably should've just given it a DCACHE flag, like what fscrypt is
-using. A simple flag there would've done everything that I'm doing
-without making the cache super sad and making any attempts at making
-it actually work with RCU much simpler.
-
-> <understatement> IMO the whole thing is not a good idea. </understatement>
+greg k-h
