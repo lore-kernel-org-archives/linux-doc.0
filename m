@@ -2,102 +2,77 @@ Return-Path: <SRS0=OR/0=3N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26687C2D0DB
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 17:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C912C3F68F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 19:27:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 024082072C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 17:00:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF7282072C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jan 2020 19:27:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C2pA3Zwo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390049AbgAXRAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jan 2020 12:00:41 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46224 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389999AbgAXRAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jan 2020 12:00:41 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9A4DD2D6;
-        Fri, 24 Jan 2020 17:00:40 +0000 (UTC)
-Date:   Fri, 24 Jan 2020 10:00:39 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
-        andy@kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore
- Frequency limits
-Message-ID: <20200124100039.70116459@lwn.net>
-In-Reply-To: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
-References: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
-Organization: LWN.net
+        id S2390259AbgAXT1p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jan 2020 14:27:45 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:51374 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389270AbgAXT1o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jan 2020 14:27:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7WJvYw6BG8AN+9sejDTzeDJEZaELXZLd1pKBfuTKYrs=; b=C2pA3ZwoU3tK2mDyg4OmcM4V+
+        RW3N0fTO9ecXiUibg92EP+DbmgXruYCrrSj0l0tUQhde5zOHFlFSM/E6+dWu2iOfLMCSFQ7aFFLeR
+        5E6Lk9e4HtdLBK753+WT9MpW2y74pbbv/Apca0vhvhryvS2VNWZN+bvsRUrlqysdPJj+YQyZ02k4o
+        f8rbcnUgAO83X9VTCacsbMPwYnGXoj4oxDhpWslAld5nI9CCpz6QWKxayzGQZD1Vn9xAJ5YRFkziw
+        NDG2IFlBUvR5IAUyf3nMOJ4AJUY0lfZNUDtWB0XYasMxG3Yeb2jDwZ49hDzuYqdSQsZ/QUqo+WXGR
+        sfGWLaYiQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iv4cJ-00071l-8c; Fri, 24 Jan 2020 19:27:43 +0000
+Date:   Fri, 24 Jan 2020 11:27:43 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Chen Yu <yu.c.chen@intel.com>
+Cc:     linux-pci@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [PATCH][RFC] PCI: Add "pci=blacklist_dev=" parameter to
+ blacklist specific devices
+Message-ID: <20200124192743.GL4675@bombadil.infradead.org>
+References: <20200124144248.11719-1-yu.c.chen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200124144248.11719-1-yu.c.chen@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 12 Jan 2020 20:01:43 -0800
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
-
-> Added documentation for the attributes to control uncore frequency
-> selection.
+On Fri, Jan 24, 2020 at 10:42:48PM +0800, Chen Yu wrote:
+> It was found that on some platforms the bogus pci device might bring
+> troubles to the system. For example, on a MacBookPro the system could
+> not be power off or suspended due to internal pci resource confliction
+> between bogus pci device and [io 0x1804]. Another case is that, once
+> resumed from hibernation on a VM, the pci config space of a pci device
+> is corrupt.
 > 
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v2:
->  - Split the documentation patch to another patch to merge via different
->     tree
-
-Which tree did you have in mind?  PM stuff tends to go through Rafael's
-tree, normally, which is fine.
-
->  Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
->  .../admin-guide/pm/working-state.rst          |  1 +
->  2 files changed, 24 insertions(+)
->  create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
+> To narrow down and benefit future debugging for such kind of issues,
+> introduce the command line blacklist_dev=<vendor:device_id>> to blacklist
+> such pci devices thus they will not be scanned thus not visible after
+> bootup. For example,
 > 
-> diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
-> new file mode 100644
-> index 000000000000..d75be65fb16a
-> --- /dev/null
-> +++ b/Documentation/admin-guide/pm/intel_uncore.rst
-> @@ -0,0 +1,23 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================================================
-> +Intel® Uncore Frequency Selection
+>  pci.blacklist_dev=8086:293e
+> 
+> forbid the audio device to be exposed to the OS.
 
-I would really like to avoid adding ® symbols throughout the docs.  I get
-grief for non-ASCII symbols that actually have a need to be there; this
-isn't one of those.  
-
-> +=========================================================
-> +
-> +The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
-
-I would say that this violates the 80-character limit by a character or
-two...  The entire patch has this problem.
-
-> +
-> +But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
-
-less jitter (singular)
-
-> +
-> +The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
-> +The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
-> +"package_00_die_00" for package 0 and die 0.
-
-This may not render as you would like; use an RST literal block here.
-
-Thanks,
-
-jon
-
+This feels really unsafe to me.  Just because Linux ignores the device
+doesn't mean the device will ignore I/O requests.  I think we should
+call this pci.disable_dev and clear the device's I/O Space Enable,
+Memory Space Enable and Bus Master Enable bits (in the Command register,
+config space offset 4).
