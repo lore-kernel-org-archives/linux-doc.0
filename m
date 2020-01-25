@@ -2,101 +2,84 @@ Return-Path: <SRS0=NAJa=3O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 561A8C35241
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jan 2020 04:03:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E91CC2D0DB
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jan 2020 16:23:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1DB322071A
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jan 2020 04:03:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Mf2/LLig"
+	by mail.kernel.org (Postfix) with ESMTP id CE9A82071E
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jan 2020 16:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579969423;
+	bh=+juifvxy/KgpR+N92xUOC0DtDVqNTqTxv05RieS1qmA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=y96pCbmfhu2CX2mJK7CHJqKFVO3p1LfLg6Cw4h/bTG/14zoOeKIzODZf9N5c8bzj2
+	 mV3ZVl4MYDQu26F1E5ccj3SMDsAVyIWQhK0+4//n0Rj5udJ7EnZ83X9C7YC5FyQm5X
+	 ClFuRKQ3nZt2O7dcK81Ul2Mbg1Y38oMxmn4D2XJY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbgAYEDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jan 2020 23:03:09 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:48446 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbgAYEDJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jan 2020 23:03:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=KP695KDNkM9ZC3AfgzwuXXwzb4XfRID8VnwqvlZke1Q=; b=Mf2/LLiggfYiPh6JEjNPhYdSo
-        7rtYhmZK2ffx2c/y2co39Dy9QDirx2IZ12xN/B9nqwg35Mo07Uje+lkVrWEAam8wf0QWDEQkji3DX
-        Xk/gYLmGerBWvSwIosjulKd5h8GVuiDZDaQLIrJbDo2GBLwIKNEmieG+vYh3H3TVBFLMH9BXgOF+7
-        B3I2RMZYNKm/bIDKdvSGoPpVI0eEjy83gCZmko9PuSCjS44J0a+wX5Ira30LPKjICYqOnVid2kNjO
-        TD0B5sTJMsmlbdpPdu8bunczdFnx+74pMotC/q1VMQI/FMwXPkD3pWEcgWoB82CEmxVbLZVDYqNy+
-        8eO6jBcsQ==;
-Received: from [2601:1c0:6280:3f0::ed68]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ivCf2-0000dZ-Gm; Sat, 25 Jan 2020 04:03:04 +0000
-Subject: Re: [PATCH] Documentation: changes.rst: update several outdated
- project URLs
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jan Kara <jack@suse.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        linux-ext4@vger.kernel.org,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        linux-xfs <linux-xfs@vger.kernel.org>
-References: <efb1f518-9e66-c472-d124-4b7d91e56639@infradead.org>
- <20200125034622.GA1107489@mit.edu>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c91c1ae1-7eb6-e6fd-57e3-aa8e8f356d45@infradead.org>
-Date:   Fri, 24 Jan 2020 20:03:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1725843AbgAYQXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Jan 2020 11:23:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35548 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725710AbgAYQXn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 25 Jan 2020 11:23:43 -0500
+Received: from localhost (unknown [213.57.247.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D22F020704;
+        Sat, 25 Jan 2020 16:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579969422;
+        bh=+juifvxy/KgpR+N92xUOC0DtDVqNTqTxv05RieS1qmA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mfCHzU+D6ZZZCxopaMtjDddfjgfuvTMHcnOiGfY7CC6xd4C7o02bFu5tNDdLwQ/bL
+         9l0wyNEVOEJ2zSS3B1b8a6Oi3PU6H8NDmVWYVyzYdngMGA71zdZlOhbcu11rZ89DJp
+         ubvcEAG3XeGfqf8y4Wc4xKNOuBpkgLq0Obto/NYc=
+Date:   Sat, 25 Jan 2020 18:23:39 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] mm/gup: track FOLL_PIN pages (follow on from v12)
+Message-ID: <20200125162339.GA41770@unreal>
+References: <20200125021115.731629-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200125034622.GA1107489@mit.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200125021115.731629-1-jhubbard@nvidia.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/24/20 7:46 PM, Theodore Y. Ts'o wrote:
-> On Thu, Jan 23, 2020 at 11:00:12AM -0800, Randy Dunlap wrote:
->>  ---------
->>  
->>  - <http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.29.tar.gz>
->> +- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
->> +- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
-> 
-> You might as well deleted the URL for e2fsprogs-1.29.tar.gz while
-> you're at it.  That version is *old*.  I do actually still upload
+On Fri, Jan 24, 2020 at 06:11:12PM -0800, John Hubbard wrote:
+> Leon Romanovsky:
+>
+> If you get a chance, I'd love to have this short series (or even just
+> the first patch; the others are just selftests) run through your test
+> suite that was previously choking on my earlier v11 patchset. The huge
+> page pincount limitations are removed, so I'm expecting a perfect test
+> run this time!
+>
 
-OK, I did that.
+I added those patches to our regression and I will post the in the
+couple of days.
 
-> e2fsprogs releases to
-> 
-> 	https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/
-> 
-> ... but I think just listing the www.kernel.org URL is quite
-> sufficient.
-
-So drop the git URL also?
-
--- <http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.29.tar.gz>
-+- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
-+- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
-
-
-thanks.
--- 
-~Randy
-
+Thanks
