@@ -2,69 +2,69 @@ Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC83C33CB7
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9C1C33CB7
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:30:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 79BD7207FD
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AE40214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:30:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c5hqh5qk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZaRBVqh5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728690AbgA0K2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 05:28:25 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49860 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729281AbgA0K2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 05:28:25 -0500
+        id S1729714AbgA0Kam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 05:30:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28239 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726858AbgA0Kal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 05:30:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580120903;
+        s=mimecast20190719; t=1580121040;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=8fokyBNPtsUbKBwZwksoLlR7AFo3Aw5I+PUuhOyENIk=;
-        b=c5hqh5qk9Dq/dDNiJV8OXyDAM79KvsdBndz9TP+UJkc8K4FPGk0oTk9Tb8nBEPt3xYwdIy
-        Z40zygOMFdoUTtUP0kxaIAMXh6+GhZF3Br14gv8J4sIPx50NJquSzoG/fu7rj8Vc8PbMU8
-        fihFaJf6ynbYuT+EMSHCs7yTb0avUcQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-96C4RAsjNhWvlEdecrGabw-1; Mon, 27 Jan 2020 05:28:21 -0500
-X-MC-Unique: 96C4RAsjNhWvlEdecrGabw-1
-Received: by mail-wm1-f69.google.com with SMTP id f25so1328970wmb.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 02:28:21 -0800 (PST)
+        bh=B5seMdInBob5KBB/Ici0anA5L1DZMOsToJq/Z5iUw2E=;
+        b=ZaRBVqh53GrDj+2qvr883CdRc2tEezHo0rjXuh+gBGc3uOpmL5sjBD9zmtEKNRdRHGLnAP
+        S9BP09vUXKIrHZjyIDDU46pmNjpquuxPBgRoOOY1r14LEYETfdM+m66g9Ifar6WgEK/R0n
+        iVnbx5jQTAyqibCaIekSI6F0ruFNktU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-52SD_Vv2PrmA9UmnPvmHxg-1; Mon, 27 Jan 2020 05:30:37 -0500
+X-MC-Unique: 52SD_Vv2PrmA9UmnPvmHxg-1
+Received: by mail-wm1-f72.google.com with SMTP id 7so1185348wmf.9
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 02:30:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8fokyBNPtsUbKBwZwksoLlR7AFo3Aw5I+PUuhOyENIk=;
-        b=QFABp9ISaVpy5Wb71w10gmVAPk0PJB6gFWfyFtq+HrlAw6gB+VUZeEYPpJbsn8xDAD
-         mej6gQF7tq4mZLe3obgOOObsrh/GWp1eENkG7xfG5uLxwzxwRgWyZX4mlWNxZWPL5muM
-         DoRgRk98m/Unfv/CJEcAViBEg84eGDqH0EDF9iqSLxQGysPuSn1UCErCNfFB9luMFT/A
-         fX63hxYIJySbtrPJCsGE5SWmiTZ3WkiGwaua9uDDwdhpBSmYqiCp/sMJjLN5BtT4Y4td
-         NISgxit+xcdwDGVSh/SxAFwT7/ibqAORkWpUr9ExmyddWtp1QKjcpMg7A5jOCdbtRTIt
-         EOMQ==
-X-Gm-Message-State: APjAAAUH71qZCMcSxSoOw0jlL0m+YrfJbbOQad/zRNyIALSrAzBX1BQq
-        54Ok06bycjChl6LIg5MaTV5RZuPPKaiTRW1WDd1X2ZmdPTa4eVcRSTrT7hoqD9b9cedxZrHjiib
-        TINLm370T1sCROUNPFjv0
-X-Received: by 2002:adf:dc86:: with SMTP id r6mr20825645wrj.68.1580120900130;
-        Mon, 27 Jan 2020 02:28:20 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwLWleqqkTYz3vNYvSYX+2oj8y2inl971E8faKn2s20ZKZi1w9g3+F4v+wDDCi6S9HVQPkd7Q==
-X-Received: by 2002:adf:dc86:: with SMTP id r6mr20825596wrj.68.1580120899785;
-        Mon, 27 Jan 2020 02:28:19 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id b10sm21694800wrt.90.2020.01.27.02.28.18
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=B5seMdInBob5KBB/Ici0anA5L1DZMOsToJq/Z5iUw2E=;
+        b=eU9BCkwyJTFJ7Q4BY5WV7OPicbc4LShYmLwCL8HY81xmQZ17267tuULTHEta/aOVnW
+         dYnjIxHMxZEvsm3vDCIT+BjZ9L9fTsoKX3G5t0dvHw2830hatrzdZ5guK+aGseaf0PJa
+         oVZBu3TpUgjKsjAHNtO/c07NM99pW2VLiHC2XdbMFknoQWvffGuOKY446c/qs3ZdTQbD
+         GqDGoKLZF/Is2rznXFnVzfiDCgrFS3odRa7V9GtVj7ekp7MlkGxHVyyyND8qygotPPzU
+         jLYL+kXtYEz0dNyBOYj142vIE1b8TeZioC/JBrSgYHT9tgpRe52mCEc0PcJ7USBieqhj
+         f+rw==
+X-Gm-Message-State: APjAAAWMMoKFcswBv9a3THx5DcnzAS2YWv1jNWGYdoumI+6Jwg9+Xn51
+        uKTEupPcM0NOSnZtRU+ZVE5+RcTakrOX2BF5U/0zCHFuyLTknvOwKifsS81DhPh+5o9Az8qC+M+
+        1Ak+MDu6y/NgP/dpL16c=
+X-Received: by 2002:a05:600c:20c1:: with SMTP id y1mr5646032wmm.164.1580121036577;
+        Mon, 27 Jan 2020 02:30:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxNP1yLOiuz11SqkgN+NSgVx33ZKZPJzCymBsy7575Ijof+Xt9mNxslTm1pwcw9yz9/cYbQrg==
+X-Received: by 2002:a05:600c:20c1:: with SMTP id y1mr5646000wmm.164.1580121036206;
+        Mon, 27 Jan 2020 02:30:36 -0800 (PST)
+Received: from localhost (cpc111743-lutn13-2-0-cust844.9-3.cable.virginm.net. [82.17.115.77])
+        by smtp.gmail.com with ESMTPSA id w22sm17514661wmk.34.2020.01.27.02.30.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 02:28:19 -0800 (PST)
-Date:   Mon, 27 Jan 2020 11:28:18 +0100
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
+        Mon, 27 Jan 2020 02:30:35 -0800 (PST)
+Date:   Mon, 27 Jan 2020 10:30:34 +0000
+From:   Aaron Tomlin <atomlin@redhat.com>
 To:     Grzegorz Halat <ghalat@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        ssaner@redhat.com, atomlin@redhat.com, vbendel@redhat.com,
+        ssaner@redhat.com, oleksandr@redhat.com, vbendel@redhat.com,
         kirill@shutemov.name, khlebnikov@yandex-team.ru,
         borntraeger@de.ibm.com, Andrew Morton <akpm@linux-foundation.org>,
         Iurii Zaikin <yzaikin@google.com>,
@@ -72,18 +72,21 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Luis Chamberlain <mcgrof@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_mm_error sysctl
-Message-ID: <20200127102818.7hr5shcskfbwa7eu@butterfly.localdomain>
+Message-ID: <20200127103034.lb2piuvtohwqysbs@atomlin.usersys.com>
 References: <20200127101100.92588-1-ghalat@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20200127101100.92588-1-ghalat@redhat.com>
+X-PGP-Key: http://pgp.mit.edu/pks/lookup?search=atomlin%40redhat.com
+X-PGP-Fingerprint: 7906 84EB FA8A 9638 8D1E  6E9B E2DE 9658 19CC 77D6
+User-Agent: NeoMutt/20180716-1637-ee8449
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 27, 2020 at 11:11:00AM +0100, Grzegorz Halat wrote:
+On Mon 2020-01-27 11:11 +0100, Grzegorz Halat wrote:
 > Memory management subsystem performs various checks at runtime,
 > if an inconsistency is detected then such event is being logged and kernel
 > continues to run. While debugging such problems it is helpful to collect
@@ -225,14 +228,9 @@ On Mon, Jan 27, 2020 at 11:11:00AM +0100, Grzegorz Halat wrote:
 >  	dump_stack();
 >  out:
 >  	/* Leave bad fields for debug, except PageBuddy could make trouble */
-> -- 
-> 2.21.1
-> 
 
-Reviewed-by: Oleksandr Natalenko <oleksandr@redhat.com>
+Reviewed-by: Aaron Tomlin <atomlin@redhat.com>
 
 -- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Senior Software Maintenance Engineer
+Aaron Tomlin
 
