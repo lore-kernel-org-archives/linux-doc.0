@@ -2,190 +2,178 @@ Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29765C3F68F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 14:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8E3C2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 15:33:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0186F217BA
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 14:03:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="E+LE1eSh"
+	by mail.kernel.org (Postfix) with ESMTP id 90CD9214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 15:33:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728904AbgA0ODx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 09:03:53 -0500
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:52500 "EHLO
-        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726303AbgA0ODx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 09:03:53 -0500
-Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::301])
-        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3262F2E132A;
-        Mon, 27 Jan 2020 17:03:48 +0300 (MSK)
-Received: from iva4-7c3d9abce76c.qloud-c.yandex.net (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
-        by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id g8yqaSIic3-3lOqKg1F;
-        Mon, 27 Jan 2020 17:03:48 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-        t=1580133828; bh=qWGY/DFq1WV3XiEVxkOBRd4Ym1/RUVz7z/VUuSydAOw=;
-        h=In-Reply-To:Message-ID:References:Date:To:From:Subject:Cc;
-        b=E+LE1eShgHHb9insi9I6DRQUvEzYHi1Q/WHBHZNOEczqLDPwA3KGiRXDK1C3m2rK/
-         W21o6VK4Hzrgtqp2B3oXO1+qm3IbGBDgMQkOpxS/GAwkXfXkH5LVf/wQjiVonAe+Rk
-         s41U/zgmbY8lCtMqx3G7v5pr0qT00vzUjoQcELC8=
-Authentication-Results: mxbackcorp1o.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:8448:fbcc:1dac:c863])
-        by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id VxjLkPdJIZ-3lWKv05v;
-        Mon, 27 Jan 2020 17:03:47 +0300
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client certificate not present)
-Subject: [PATCH v2 3/3] kernel: add sysctl kernel.nr_taints
-From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Sasha Levin <sashal@kernel.org>, Kees Cook <keescook@chromium.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rcu@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Date:   Mon, 27 Jan 2020 17:03:46 +0300
-Message-ID: <158013382685.1528.9104840938958957505.stgit@buzz>
-In-Reply-To: <158013382063.1528.13355932625960922673.stgit@buzz>
-References: <158013382063.1528.13355932625960922673.stgit@buzz>
-User-Agent: StGit/0.17.1-dirty
+        id S1729337AbgA0Pdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 10:33:31 -0500
+Received: from foss.arm.com ([217.140.110.172]:46256 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729213AbgA0Pdb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jan 2020 10:33:31 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2219E31B;
+        Mon, 27 Jan 2020 07:33:30 -0800 (PST)
+Received: from [10.1.194.46] (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 249D73F67D;
+        Mon, 27 Jan 2020 07:33:28 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] arm64/kvm: disable access to AMU registers from
+ kvm guests
+To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
+        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
+        suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        dietmar.eggemann@arm.com
+Cc:     peterz@infradead.org, mingo@redhat.com, ggherdovich@suse.cz,
+        vincent.guittot@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>
+References: <20191218182607.21607-1-ionela.voinescu@arm.com>
+ <20191218182607.21607-4-ionela.voinescu@arm.com>
+From:   Valentin Schneider <valentin.schneider@arm.com>
+Message-ID: <bc3f582c-9aed-8052-d0cb-b39c76c8ce73@arm.com>
+Date:   Mon, 27 Jan 2020 15:33:26 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191218182607.21607-4-ionela.voinescu@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Raised taint flag is never cleared. Following taint could be detected only
-via parsing kernel log messages which are different for each occasion.
+On 18/12/2019 18:26, Ionela Voinescu wrote:
+> diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
+> index 6e5d839f42b5..dd20fb185d56 100644
+> --- a/arch/arm64/include/asm/kvm_arm.h
+> +++ b/arch/arm64/include/asm/kvm_arm.h
+> @@ -266,10 +266,11 @@
+>  #define CPTR_EL2_TFP_SHIFT 10
+>  
+>  /* Hyp Coprocessor Trap Register */
+> -#define CPTR_EL2_TCPAC	(1 << 31)
+> -#define CPTR_EL2_TTA	(1 << 20)
+> -#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+>  #define CPTR_EL2_TZ	(1 << 8)
+> +#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+> +#define CPTR_EL2_TTA	(1 << 20)
+> +#define CPTR_EL2_TAM	(1 << 30)
+> +#define CPTR_EL2_TCPAC	(1 << 31)
 
-For repeatable taints like TAINT_MACHINE_CHECK, TAINT_BAD_PAGE, TAINT_DIE,
-TAINT_WARN, TAINT_LOCKUP it would be good to know count to see their rate.
+Nit: why the #define movement? Couldn't that just be added beneath
+CPTR_EL2_TCPAC?
 
-This patch adds sysctl with vector of counters. One for each taint flag.
-Counters are non-atomic in favor of simplicity. Exact count doesn't matter.
+>  #define CPTR_EL2_RES1	0x000032ff /* known RES1 bits in CPTR_EL2 */
+>  #define CPTR_EL2_DEFAULT	CPTR_EL2_RES1
+>  
+> diff --git a/arch/arm64/kvm/hyp/switch.c b/arch/arm64/kvm/hyp/switch.c
+> index 72fbbd86eb5e..0bca87a2621f 100644
+> --- a/arch/arm64/kvm/hyp/switch.c
+> +++ b/arch/arm64/kvm/hyp/switch.c
+> @@ -90,6 +90,17 @@ static void activate_traps_vhe(struct kvm_vcpu *vcpu)
+>  	val = read_sysreg(cpacr_el1);
+>  	val |= CPACR_EL1_TTA;
+>  	val &= ~CPACR_EL1_ZEN;
+> +
+> +	/*
+> +	 * With VHE enabled, we have HCR_EL2.{E2H,TGE} = {1,1}. Note that in
+> +	 * this case CPACR_EL1 has the same bit layout as CPTR_EL2, and
+> +	 * CPACR_EL1 accessing instructions are redefined to access CPTR_EL2.
+> +	 * Therefore use CPTR_EL2.TAM bit reference to activate AMU register
+> +	 * traps.
+> +	 */
+> +
+> +	val |= CPTR_EL2_TAM;
+> +
 
-Writing vector of zeroes resets counters:
-# tr 1-9 0 < /proc/sys/kernel/nr_taints > /proc/sys/kernel/nr_taints
+Hmm so this is a bit confusing for me, I've rewritten that part of the
+email too many times (didn't help that I'm far from being a virt guru).
+Rectifications are most welcome.
 
-This is useful for detecting frequent problems with automatic monitoring.
-Also tests could use this for separating expected and unexpected taints.
 
-Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Link: https://lore.kernel.org/lkml/157503370887.8187.1663761929323284758.stgit@buzz/ (v1)
----
- Documentation/admin-guide/sysctl/kernel.rst   |   10 ++++++++++
- Documentation/admin-guide/tainted-kernels.rst |   10 ++++++++++
- include/linux/kernel.h                        |    1 +
- kernel/panic.c                                |    5 +++++
- kernel/sysctl.c                               |    9 +++++++++
- 5 files changed, 35 insertions(+)
+First, AFAICT we *don't* have HCR_EL2.TGE set anymore at this point, it's
+cleared just a bit earlier in __activate_traps().
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 8456c8ed0ca5..6250575bec9f 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -56,6 +56,7 @@ show up in /proc/sys/kernel:
- - msgmnb
- - msgmni
- - nmi_watchdog
-+- nr_taints                   ==> Documentation/admin-guide/tainted-kernels.rst
- - osrelease
- - ostype
- - overflowgid
-@@ -495,6 +496,15 @@ in a KVM virtual machine. This default can be overridden by adding::
- to the guest kernel command line (see Documentation/admin-guide/kernel-parameters.rst).
- 
- 
-+nr_taints:
-+==========
-+
-+This shows vector of counters for taint flags.
-+Writing vector of zeroes resets counters.
-+
-+See Documentation/admin-guide/tainted-kernels.rst for more information.
-+
-+
- numa_balancing:
- ===============
- 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 13249240283c..2c5181d5e8ae 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -166,3 +166,13 @@ More detailed explanation for tainting
-      produce extremely unusual kernel structure layouts (even performance
-      pathological ones), which is important to know when debugging. Set at
-      build time.
-+
-+
-+Taint flag counters
-+-------------------
-+
-+For detecting repeatedly set taint flags kernel counts them in sysctl:
-+``cat /proc/sys/kernel/nr_taints``
-+
-+Writing vector of zeros resets counters but not taint flags itself:
-+``tr 1-9 0 < /proc/sys/kernel/nr_taints > /proc/sys/kernel/nr_taints``
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 3554456b2d40..2e2c4d008ac1 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -597,6 +597,7 @@ struct taint_flag {
- };
- 
- extern const struct taint_flag taint_flags[TAINT_FLAGS_COUNT];
-+extern int sysctl_nr_taints[TAINT_FLAGS_COUNT];
- 
- extern const char hex_asc[];
- #define hex_asc_lo(x)	hex_asc[((x) & 0x0f)]
-diff --git a/kernel/panic.c b/kernel/panic.c
-index a0ea0c6992b9..2e86387bbea0 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -39,6 +39,7 @@
- int panic_on_oops = CONFIG_PANIC_ON_OOPS_VALUE;
- static unsigned long tainted_mask =
- 	IS_ENABLED(CONFIG_GCC_PLUGIN_RANDSTRUCT) ? (1 << TAINT_RANDSTRUCT) : 0;
-+int sysctl_nr_taints[TAINT_FLAGS_COUNT];
- static int pause_on_oops;
- static int pause_on_oops_flag;
- static DEFINE_SPINLOCK(pause_on_oops_lock);
-@@ -434,6 +435,10 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
- 		pr_warn("Disabling lock debugging due to kernel taint\n");
- 
- 	set_bit(flag, &tainted_mask);
-+
-+	/* proc_taint() could set unknown taint flag */
-+	if (flag < ARRAY_SIZE(sysctl_nr_taints))
-+		sysctl_nr_taints[flag]++;
- }
- EXPORT_SYMBOL(add_taint);
- 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 70665934d53e..21911a79305b 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -553,6 +553,15 @@ static struct ctl_table kern_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_taint,
- 	},
-+	{
-+		.procname	= "nr_taints",
-+		.data		= &sysctl_nr_taints,
-+		.maxlen		= sizeof(sysctl_nr_taints),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ZERO,
-+	},
- 	{
- 		.procname	= "sysctl_writes_strict",
- 		.data		= &sysctl_writes_strict,
 
+Then, your comment suggests that when we're running this code, CPACR_EL1
+accesses are rerouted to CPTR_EL2. Annoyingly this isn't mentioned in
+the doc of CPACR_EL1, but D5.6.3 does say
+
+"""
+When ARMv8.1-VHE is implemented, and HCR_EL2.E2H is set to 1, when executing
+at EL2, some EL1 System register access instructions are redefined to access
+the equivalent EL2 register.
+"""
+
+And CPACR_EL1 is part of these, so far so good. Now, the thing is
+the doc for CPACR_EL1 *doesn't* mention any TAM bit - but CPTR_EL2 does.
+I believe what *do* want here is to set CPTR_EL2.TAM (which IIUC we end
+up doing via the rerouting).
+
+So, providing I didn't get completely lost on the way, I have to ask:
+why do we use CPACR_EL1 here? Couldn't we use CPTR_EL2 directly?
+
+
+>  	if (update_fp_enabled(vcpu)) {
+>  		if (vcpu_has_sve(vcpu))
+>  			val |= CPACR_EL1_ZEN;
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 9f2165937f7d..940ab9b4c98b 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1003,6 +1003,20 @@ static bool access_pmuserenr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+>  	{ SYS_DESC(SYS_PMEVTYPERn_EL0(n)),					\
+>  	  access_pmu_evtyper, reset_unknown, (PMEVTYPER0_EL0 + n), }
+>  
+> +static bool access_amu(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+> +			     const struct sys_reg_desc *r)
+> +{
+> +	kvm_inject_undefined(vcpu);
+> +
+> +	return false;
+> +}
+> +
+> +/* Macro to expand the AMU counter and type registers*/
+> +#define AMU_AMEVCNTR0_EL0(n) { SYS_DESC(SYS_AMEVCNTR0_EL0(n)), access_amu }
+> +#define AMU_AMEVTYPE0_EL0(n) { SYS_DESC(SYS_AMEVTYPE0_EL0(n)), access_amu }
+> +#define AMU_AMEVCNTR1_EL0(n) { SYS_DESC(SYS_AMEVCNTR1_EL0(n)), access_amu }
+> +#define AMU_AMEVTYPE1_EL0(n) { SYS_DESC(SYS_AMEVTYPE1_EL0(n)), access_amu }
+> +
+
+You could save a *whopping* two lines with something like:
+
+#define AMU_AMEVCNTR_EL0(group, n) { SYS_DESC(SYS_AMEVCNTR##group##_EL0(n)), access_amu }
+#define AMU_AMEVTYPE_EL0(group, n) { SYS_DESC(SYS_AMEVTYPE##group##_EL0(n)), access_amu }
+
+Though it doesn't help shortening the big register list below.
+
+>  static bool trap_ptrauth(struct kvm_vcpu *vcpu,
+>  			 struct sys_reg_params *p,
+>  			 const struct sys_reg_desc *rd)
+> @@ -1078,8 +1092,12 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+>  			 (u32)r->CRn, (u32)r->CRm, (u32)r->Op2);
+>  	u64 val = raz ? 0 : read_sanitised_ftr_reg(id);
+>  
+> -	if (id == SYS_ID_AA64PFR0_EL1 && !vcpu_has_sve(vcpu)) {
+> -		val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> +	if (id == SYS_ID_AA64PFR0_EL1) {
+> +		if (!vcpu_has_sve(vcpu))
+> +			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> +		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
+> +	} else if (id == SYS_ID_PFR0_EL1) {
+> +		val &= ~(0xfUL << ID_PFR0_AMU_SHIFT);
+>  	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
+>  		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
+>  			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
+
+Could almost turn the thing into a switch case at this point.
