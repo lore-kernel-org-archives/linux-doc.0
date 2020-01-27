@@ -2,96 +2,172 @@ Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E47C3F68F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 13:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCD6C2D0DB
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 14:03:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 28614214DB
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 13:00:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72870214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 14:03:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="VoO+O8ol"
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="hx8zSgYx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbgA0NAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 08:00:16 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33222 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgA0NAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 08:00:16 -0500
-Received: by mail-lf1-f67.google.com with SMTP id n25so6132618lfl.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 05:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZJNzprftu5dcU/szZB/Ubowobleex8rerW+4xWJyt/M=;
-        b=VoO+O8oliDEu27wte/68JQesstuhw1JLi9F499LFmln4kg2fnU80g+Hy939slqwayM
-         6X4kQsHF3iGoWNUylpAMzFOkSDlcyP5/xyc0nU7I/ZTTBqifEIlQVkwwEbO747yLu+pJ
-         1djgkjWksVX3uhDMrT2nQ3tRFxpQRSNk75/8zCqkaGcvS3EmE66VBYCGeeGKoS8z8VJT
-         mKJuWPfApbN4BycDPeyoUqzdZk5e0nyZKMhHLxkO4pkhpTozPbRLOhmheKxVubOO/98R
-         Nq34lzm5O1uV00jxqCWfyoHMsxuubjaSAkl9vEG10D5/2xyp98i8Xb+VDazvAENA75Qi
-         OF9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZJNzprftu5dcU/szZB/Ubowobleex8rerW+4xWJyt/M=;
-        b=Th5JsSQtNQdZTJs6qQGsMu6W5aFWQyXzQrwo5D7o64GHsI+NgiaonJeZf8NjLO4qJT
-         46aN6LNdctV18dz/zPWljvkE/SgGLyU4ojrzVxKYiisBYOvtZ13nxow3yt+4ajLTWtMA
-         2/VAoZlRPMv//MlZfDm7Y9dcQ4xg0+fyu4QwkHbg5C75NDMGQkbphxyDPMnWobFP1M/L
-         IZaMenUdUNS1/Ut9E+yKi4NhJU+gHSflYOZk7F3tTMZ+/BnwPWxr6yaURh7L+w8/Pv+0
-         ps8rmCyjxxCoJNpEhL/RLg9Y/7hjl25FZ6RXXxZavPi/g5/QDgWUo0CteTlVPqqDmrEo
-         3BPg==
-X-Gm-Message-State: APjAAAWkvalf1uJUn4SDj007vfhzYFtk+aA78DLU3LNGhDEIZRxa5lA4
-        WRI2+YHM2OHFhcGfF29wT+98Dw==
-X-Google-Smtp-Source: APXvYqysAoofMf7LQ5awnT1fddVOicFrSd53w1Fmy5Kunrv9ngQonmVjbMl/JL3C6VYXCdPDTAql6w==
-X-Received: by 2002:ac2:59dd:: with SMTP id x29mr7959464lfn.95.1580130014394;
-        Mon, 27 Jan 2020 05:00:14 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id b4sm8138667lfo.48.2020.01.27.05.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 05:00:13 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 5ED20100AD0; Mon, 27 Jan 2020 16:00:20 +0300 (+03)
-Date:   Mon, 27 Jan 2020 16:00:20 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH 1/3] mm/gup: track FOLL_PIN pages
-Message-ID: <20200127130020.4p56lh32twui5563@box>
-References: <20200125021115.731629-1-jhubbard@nvidia.com>
- <20200125021115.731629-2-jhubbard@nvidia.com>
+        id S1727479AbgA0ODs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 09:03:48 -0500
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:52422 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726303AbgA0ODr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 09:03:47 -0500
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::301])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 6BF4A2E0EDF;
+        Mon, 27 Jan 2020 17:03:43 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+        by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id G2o98yfOOm-3fOqsLr4;
+        Mon, 27 Jan 2020 17:03:43 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1580133823; bh=KKTEWvBENBmKulqkjptnI+eIc8uLsBTs0/9Pgf0qjCc=;
+        h=Message-ID:Date:To:From:Subject:Cc;
+        b=hx8zSgYxJsO2QVCMNSJc6nZ17mU0vz0kus7DVPLIbWpyQ7fLRG7AUIbCb/4UEFuvZ
+         KG0fSsdGmey0nwYaa7srVvJ6C2rJ1wZpKKZOHyjvPQ9YgY+r1e6fSDpWd6Wl3FDl5E
+         5axHSd/+RoOA8m9aNWJutELNRoeQQbut1ZR3Yq1Y=
+Authentication-Results: mxbackcorp1o.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:8448:fbcc:1dac:c863])
+        by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id mmmAlesbL8-3eWqn46v;
+        Mon, 27 Jan 2020 17:03:40 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: [PATCH v2 1/3] kernel: rename taint flag TAINT_SOFTLOCKUP into
+ TAINT_LOCKUP
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Sasha Levin <sashal@kernel.org>, Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rcu@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Date:   Mon, 27 Jan 2020 17:03:40 +0300
+Message-ID: <158013382063.1528.13355932625960922673.stgit@buzz>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200125021115.731629-2-jhubbard@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 06:11:13PM -0800, John Hubbard wrote:
->  12 files changed, 577 insertions(+), 171 deletions(-)
+Any lockup or stall detector notifies about unexpected lack of progress.
+It's better to know about these splats at investigating further problems.
 
-Can we get it split? There's too much going on to give meaningful review.
+Right now only softlockup watchdog leaves own taint flag.
+Let's generalize it and set at any kind of detected lockup.
 
--- 
- Kirill A. Shutemov
+This patch removes 'soft' from its name and descriptions.
+User visible letter stays the same: 'L'.
+
+Next patch wires TAINT_LOCKUP into other kinds of lockup detectors.
+
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Link: https://lore.kernel.org/lkml/157503370645.8187.6335564487789994134.stgit@buzz/ (v1)
+---
+ Documentation/admin-guide/sysctl/kernel.rst   |    2 +-
+ Documentation/admin-guide/tainted-kernels.rst |    4 ++--
+ include/linux/kernel.h                        |    2 +-
+ kernel/panic.c                                |    2 +-
+ kernel/watchdog.c                             |    2 +-
+ tools/debugging/kernel-chktaint               |    2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index def074807cee..8456c8ed0ca5 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1084,7 +1084,7 @@ ORed together. The letters are seen in "Tainted" line of Oops reports.
+   2048  `(I)`  workaround for bug in platform firmware applied
+   4096  `(O)`  externally-built ("out-of-tree") module was loaded
+   8192  `(E)`  unsigned module was loaded
+- 16384  `(L)`  soft lockup occurred
++ 16384  `(L)`  lockup occurred
+  32768  `(K)`  kernel has been live patched
+  65536  `(X)`  Auxiliary taint, defined and used by for distros
+ 131072  `(T)`  The kernel was built with the struct randomization plugin
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index 71e9184a9079..55d45211cb41 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -96,7 +96,7 @@ Bit  Log  Number  Reason that got the kernel tainted
+  11  _/I    2048  workaround for bug in platform firmware applied
+  12  _/O    4096  externally-built ("out-of-tree") module was loaded
+  13  _/E    8192  unsigned module was loaded
+- 14  _/L   16384  soft lockup occurred
++ 14  _/L   16384  lockup occurred
+  15  _/K   32768  kernel has been live patched
+  16  _/X   65536  auxiliary taint, defined for and used by distros
+  17  _/T  131072  kernel was built with the struct randomization plugin
+@@ -152,7 +152,7 @@ More detailed explanation for tainting
+  13) ``E`` if an unsigned module has been loaded in a kernel supporting
+      module signature.
+ 
+- 14) ``L`` if a soft lockup has previously occurred on the system.
++ 14) ``L`` if a lockup has previously occurred on the system.
+ 
+  15) ``K`` if the kernel has been live patched.
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 0d9db2a14f44..3554456b2d40 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -584,7 +584,7 @@ extern enum system_states {
+ #define TAINT_FIRMWARE_WORKAROUND	11
+ #define TAINT_OOT_MODULE		12
+ #define TAINT_UNSIGNED_MODULE		13
+-#define TAINT_SOFTLOCKUP		14
++#define TAINT_LOCKUP			14
+ #define TAINT_LIVEPATCH			15
+ #define TAINT_AUX			16
+ #define TAINT_RANDSTRUCT		17
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b69ee9e76cb2..a0ea0c6992b9 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -372,7 +372,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	[ TAINT_FIRMWARE_WORKAROUND ]	= { 'I', ' ', false },
+ 	[ TAINT_OOT_MODULE ]		= { 'O', ' ', true },
+ 	[ TAINT_UNSIGNED_MODULE ]	= { 'E', ' ', true },
+-	[ TAINT_SOFTLOCKUP ]		= { 'L', ' ', false },
++	[ TAINT_LOCKUP ]		= { 'L', ' ', false },
+ 	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
+ 	[ TAINT_AUX ]			= { 'X', ' ', true },
+ 	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index f41334ef0971..d60b195708f7 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -466,7 +466,7 @@ static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
+ 			smp_mb__after_atomic();
+ 		}
+ 
+-		add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
++		add_taint(TAINT_LOCKUP, LOCKDEP_STILL_OK);
+ 		if (softlockup_panic)
+ 			panic("softlockup: hung tasks");
+ 		__this_cpu_write(soft_watchdog_warn, true);
+diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
+index 2240cb56e6e5..9f24719d8c80 100755
+--- a/tools/debugging/kernel-chktaint
++++ b/tools/debugging/kernel-chktaint
+@@ -168,7 +168,7 @@ if [ `expr $T % 2` -eq 0 ]; then
+ 	addout " "
+ else
+ 	addout "L"
+-	echo " * soft lockup occurred (#14)"
++	echo " * lockup occurred (#14)"
+ fi
+ 
+ T=`expr $T / 2`
+
