@@ -2,110 +2,100 @@ Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 595EBC32771
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3B9C35248
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 11:24:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2CCAD208CD
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 10:55:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f3oZhnPu"
+	by mail.kernel.org (Postfix) with ESMTP id 4B33220CC7
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 11:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730126AbgA0Kzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 05:55:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20416 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726571AbgA0Kzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 05:55:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580122538;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=C5GoHU21tITOeLGcgSeI5DCMeKnGmZHyFA/f49KFvg0=;
-        b=f3oZhnPuzps5Am2LaCzCkb4E3UhI9hSUAYy42buJLvfMh7E+6fSsaAJ+Wl6GHb6rHfGvcW
-        9AGsiM7Cl0R461B5s2P+BduH+ZM9sJ7I6RjZ3ycAUpoA3VP8A2IqRun+cQwf80z/5WeoXD
-        IkFi5FXt8eFwaVD/kZ0k6RE46+FJy3M=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-6ckfxuRXPriZSTqy914unw-1; Mon, 27 Jan 2020 05:55:36 -0500
-X-MC-Unique: 6ckfxuRXPriZSTqy914unw-1
-Received: by mail-wm1-f72.google.com with SMTP id e12so1330369wma.7
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 02:55:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C5GoHU21tITOeLGcgSeI5DCMeKnGmZHyFA/f49KFvg0=;
-        b=hX/gXlxysx6LqIdVgdi4SasjH/8L+cNmR8bqMpCEEKn1/xdd7PJQntzoIeTsE6Oh3H
-         U0oTx0Gg6exUCYqkMuLOWT8SIXAaJzKZTLVymzrsfZMM0WmUxm0JbrVuy10olA2FL424
-         74E87s2cKHFzR5feiRA+xDjewdis0lHqBiAiINy2DKJ6R16WZMkjYW1ue1b6IGqLoTB6
-         IVTD/ak/UYEZfjR2GvKiVse8NUhnJ0FLZk/eWk1of5mK9rUaVlbTqJbHRUR7fjrfjtPS
-         l0P8qY9MQ9uscZNECjmy0WC2vKUMlOJFdlGmnK7XaTh2rgHunmd1q4Gt8iFqpjOyBL/9
-         SY6A==
-X-Gm-Message-State: APjAAAWuJYP1R+UEdT/54T6tbX5WOanDE7mY/h/axwXquQwYskj2tnwG
-        xqgSXU646u8bIl4HnhIqmd4RKjSbiaRppRxhnQqNsrUOETY8Of5gY5dNjN39N4q38v4DKpQfFlp
-        grMYkKe7qIYbtmvSbnxQ=
-X-Received: by 2002:adf:e58d:: with SMTP id l13mr21065268wrm.135.1580122535307;
-        Mon, 27 Jan 2020 02:55:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxmXHDECwNyV4sc/J2dESQugTCA1QujhGGSTGYrOTm4ABN+g+mCYs8AGc58vXWnshCbjImijQ==
-X-Received: by 2002:adf:e58d:: with SMTP id l13mr21065242wrm.135.1580122535083;
-        Mon, 27 Jan 2020 02:55:35 -0800 (PST)
-Received: from localhost (cpc111743-lutn13-2-0-cust844.9-3.cable.virginm.net. [82.17.115.77])
-        by smtp.gmail.com with ESMTPSA id x14sm18076625wmj.42.2020.01.27.02.55.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 02:55:34 -0800 (PST)
-Date:   Mon, 27 Jan 2020 10:55:33 +0000
-From:   Aaron Tomlin <atomlin@redhat.com>
-To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc:     Grzegorz Halat <ghalat@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, ssaner@redhat.com, oleksandr@redhat.com,
-        vbendel@redhat.com, kirill@shutemov.name,
-        khlebnikov@yandex-team.ru, borntraeger@de.ibm.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_mm_error sysctl
-Message-ID: <20200127105533.azrlz2ff73vrhg6n@atomlin.usersys.com>
-References: <20200127101100.92588-1-ghalat@redhat.com>
- <063e702f-dc5f-b0ca-fe26-508a9f1e8e9a@I-love.SAKURA.ne.jp>
+        id S1729556AbgA0LXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 06:23:50 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41032 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729530AbgA0LXt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jan 2020 06:23:49 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 51770AFF0;
+        Mon, 27 Jan 2020 11:06:25 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 356041E0E4E; Mon, 27 Jan 2020 12:06:24 +0100 (CET)
+Date:   Mon, 27 Jan 2020 12:06:24 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH 1/3] mm/gup: track FOLL_PIN pages
+Message-ID: <20200127110624.GD19414@quack2.suse.cz>
+References: <20200125021115.731629-1-jhubbard@nvidia.com>
+ <20200125021115.731629-2-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <063e702f-dc5f-b0ca-fe26-508a9f1e8e9a@I-love.SAKURA.ne.jp>
-X-PGP-Key: http://pgp.mit.edu/pks/lookup?search=atomlin%40redhat.com
-X-PGP-Fingerprint: 7906 84EB FA8A 9638 8D1E  6E9B E2DE 9658 19CC 77D6
-User-Agent: NeoMutt/20180716-1637-ee8449
+In-Reply-To: <20200125021115.731629-2-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2020-01-27 19:42 +0900, Tetsuo Handa wrote:
-> On 2020/01/27 19:11, Grzegorz Halat wrote:
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> > index def074807cee..2fecd6b2547e 100644
-> > --- a/Documentation/admin-guide/sysctl/kernel.rst
-> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> > @@ -61,6 +61,7 @@ show up in /proc/sys/kernel:
-> >  - overflowgid
-> >  - overflowuid
-> >  - panic
-> > +- panic_on_mm_error
-> 
-> Maybe panic_on_inconsistent_mm is better, for an MM error sounds too generic
-> (e.g. is page allocation failure an error, is OOM killer an error,
-> is NULL pointer dereference an error, is use-after-free access an error) ?
+On Fri 24-01-20 18:11:13, John Hubbard wrote:
+> +static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+> +							  int refs,
+> +							  unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		return try_get_compound_head(page, refs);
+> +	else if (flags & FOLL_PIN) {
+> +		int orig_refs = refs;
+> +
+> +		/*
+> +		 * When pinning a compound page of order > 1 (which is what
+> +		 * hpage_pincount_available() checks for), use an exact count to
+> +		 * track it, via hpage_pincount_inc/_dec().
+> +		 *
+> +		 * However, be sure to *also* increment the normal page refcount
+> +		 * field at least once, so that the page really is pinned.
+> +		 */
+> +		if (!hpage_pincount_available(page))
+> +			refs *= GUP_PIN_COUNTING_BIAS;
+> +
+> +		page = try_get_compound_head(page, refs);
+> +		if (!page)
+> +			return NULL;
+> +
+> +		if (hpage_pincount_available(page))
+> +			hpage_pincount_inc(page);
 
-Fair enough; 'panic_on_inconsistent_mm' is more concise.
+Umm, adding just 1 to pincount looks dangerous to me as
+try_grab_compound_head() would not compose - you could not release
+references acquired by try_grab_compound_head() with refs==2 by two calls
+to put_compound_head() with refs==1. So I'd rather have here:
+hpage_pincount_add(page, refs) and similarly in put_compound_head().
+Otherwise the patch looks good to me from a quick look.
+
+								Honza
 
 -- 
-Aaron Tomlin
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
