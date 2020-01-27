@@ -2,116 +2,132 @@ Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 514D5C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 16:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B904C33CB7
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 18:17:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 247B1214AF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 16:54:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2431F214AF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 18:17:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="GmIZc3LA"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Ue5YGSxp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725897AbgA0QyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 11:54:13 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:39036 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgA0QyN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 11:54:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1580144054; x=1611680054;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=0SviMkKcxANZUVYkfDAkB59AQTxTuaXQe+9xsrFF+KY=;
-  b=GmIZc3LAUR+A+2Z0jQf65iU9RrFqv61H+uISTDBj+/NEPKZCJ/CwrNR2
-   JF5gNAb2t4hTm+IROFAvHAi3VOyvy6+o6oGVeJe+SV8iNCSPYOn7liJjo
-   nNyNvok/Q9k+3GgX44B02U0dMpyZXfSp8VQUZKZQRKqyLD7E29zU3HYPE
-   Q=;
-IronPort-SDR: KQN/UHYdxS0e4lNPplrDxisvIUDa7mjblFbw4Kkbyi5rHwH8t6bvfdVvas6iUNGq4yglNWYZL8
- BGXZ4gkuwxBw==
-X-IronPort-AV: E=Sophos;i="5.70,370,1574121600"; 
-   d="scan'208";a="21336953"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-a70de69e.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 27 Jan 2020 16:53:51 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-a70de69e.us-east-1.amazon.com (Postfix) with ESMTPS id 2D67CA1EED;
-        Mon, 27 Jan 2020 16:53:49 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 27 Jan 2020 16:53:48 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.117) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 27 Jan 2020 16:53:42 +0000
-From:   <sjpark@amazon.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-CC:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <corbet@lwn.net>, <mgorman@suse.de>,
-        <dwmw@amazon.com>, <amit@kernel.org>, <rostedt@goodmis.org>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: Re: Re: [PATCH 0/8] Introduce Data Access MONitor (DAMON)
-Date:   Mon, 27 Jan 2020 17:53:25 +0100
-Message-ID: <20200127165325.21279-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200120181440.7826-1-sj38.park@gmail.com> (raw)
+        id S1725989AbgA0SRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 13:17:55 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2578 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbgA0SRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 13:17:55 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2f291e0001>; Mon, 27 Jan 2020 10:17:03 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 27 Jan 2020 10:17:52 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 27 Jan 2020 10:17:52 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jan
+ 2020 18:17:51 +0000
+Subject: Re: [PATCH 1/3] mm/gup: track FOLL_PIN pages
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20200125021115.731629-1-jhubbard@nvidia.com>
+ <20200125021115.731629-2-jhubbard@nvidia.com>
+ <20200127110624.GD19414@quack2.suse.cz>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <132c05dc-ee18-029e-4f04-4a7cf532dd9d@nvidia.com>
+Date:   Mon, 27 Jan 2020 10:17:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.117]
-X-ClientProxiedBy: EX13D28UWC001.ant.amazon.com (10.43.162.166) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <20200127110624.GD19414@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580149023; bh=+ILbFzTvgHtPE4pnBXrv89ml3yzlDaNRNlBvHEV4G8E=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Ue5YGSxpthjQIeIHGLLT2HWwsc8wRNTAjufHDuRYSh7VVqcfZCJ3FMadpdE5GJFZJ
+         KiLMgqJSfFD9Yle+/KhQYJ4wvAb+tIeXiiy7HGfGB8sC/fzQ6jKdb2O/AQfY784HqD
+         eRVMs6DOCfl8v4aWj4JoWOhPJCiRTbiFmEM/RNmEbWS5mJHsRkB/3MAMdlYe6U8cik
+         Y96tFaP+I/BRxeiDdTh8WmsoDCpx1P3N434Bg8X1xcVgIbsn4R9HN5py5t6d/tr5AU
+         bsFOIQTl5NN4QnPcfGzmdmlkn0FM6/pgzbVUoi/T45tEgm8tTtHrGnLTrWwn0dEmgS
+         Y9+zWPMs/nWxg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Jan 2020 19:14:40 +0100 SeongJae Park <sj38.park@gmail.com> wrote:
+On 1/27/20 3:06 AM, Jan Kara wrote:
+> On Fri 24-01-20 18:11:13, John Hubbard wrote:
+>> +static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+>> +							  int refs,
+>> +							  unsigned int flags)
+>> +{
+>> +	if (flags & FOLL_GET)
+>> +		return try_get_compound_head(page, refs);
+>> +	else if (flags & FOLL_PIN) {
+>> +		int orig_refs = refs;
+>> +
+>> +		/*
+>> +		 * When pinning a compound page of order > 1 (which is what
+>> +		 * hpage_pincount_available() checks for), use an exact count to
+>> +		 * track it, via hpage_pincount_inc/_dec().
+>> +		 *
+>> +		 * However, be sure to *also* increment the normal page refcount
+>> +		 * field at least once, so that the page really is pinned.
+>> +		 */
+>> +		if (!hpage_pincount_available(page))
+>> +			refs *= GUP_PIN_COUNTING_BIAS;
+>> +
+>> +		page = try_get_compound_head(page, refs);
+>> +		if (!page)
+>> +			return NULL;
+>> +
+>> +		if (hpage_pincount_available(page))
+>> +			hpage_pincount_inc(page);
+> 
+> Umm, adding just 1 to pincount looks dangerous to me as
+> try_grab_compound_head() would not compose - you could not release
+> references acquired by try_grab_compound_head() with refs==2 by two calls
+> to put_compound_head() with refs==1. So I'd rather have here:
+> hpage_pincount_add(page, refs) and similarly in put_compound_head().
+> Otherwise the patch looks good to me from a quick look.
+> 
+> 								Honza
 
-> On Mon, 20 Jan 2020 19:55:51 +0300 "Kirill A. Shutemov" <kirill@shutemov.name> wrote:
-> 
-> > On Mon, Jan 20, 2020 at 05:27:49PM +0100, SeongJae Park wrote:
-> > > This patchset introduces a new kernel module for practical monitoring of
-> > > data accesses, namely DAMON.
-> > 
-> > Looks like it's not integrated with perf at all right? Why?
-> > Correlating measurements from different domains would help to see the
-> > bigger picture.
-> 
-> Right, it's not integrated with perf.  DAMON provides only its debugfs
-> interface.  Also I agree that correlating measurments will be helpful.  I do
-> not integrate DAMON with perf with this patchset for following reasons.
-> 
-> First of all, I think I have no deep understanding of perf, yet.  Partly for
-> the reason, I couldn't figure out the best way to integrate DAMON with perf.
-> Especially, I couldn't straightforwardly classify DAMON providing information
-> into one of the categories of the perf events I know.
-> 
-> Therefore, rather than integrating DAMON with perf in my arguable way and
-> increasing the complexity of the code, I decided to keep the interface as
-> simple and flexible as it can be for the first stage.  That said, I believe it
-> would be not too hard to integrate DAMON with perf in a future.
+Yes, you are right. The hpage_pincount really should track refs. I'll fix it
+up.
 
-I think I was unnecessarily worry about the best way.  I added a tracepoint to
-the monitoring result writing logic of DAMON.  Other tracers including perf
-would easily integrate DAMON using it, though the tracepoint is not highly
-optimized yet.  Will post next version soon.
-
-
-Thanks,
-SeongJae Park
-
-> 
-> 
-> Thanks,
-> SeongJae Park
-> 
-> > 
-> > -- 
-> >  Kirill A. Shutemov
-> > 
-> > 
+thanks,
+-- 
+John Hubbard
+NVIDIA
+ 
