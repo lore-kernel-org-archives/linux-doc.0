@@ -2,112 +2,115 @@ Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59601C33CB2
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 10:50:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CDBC33C9E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3077A2468B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 10:50:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="nTDNH8XY"
+	by mail.kernel.org (Postfix) with ESMTP id DEC8E2467E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgA1KuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 05:50:10 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:37368 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbgA1KuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 05:50:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1580208609; x=1611744609;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=WYtCBgBVN8ObAntGrLP9PSwj39O1B410LMI+5OpI30E=;
-  b=nTDNH8XYvUKl0hzaXfJUaJG7iblk5gCxNUulLYXN2goLXts0pgEpZlFz
-   xpoUdDptLQ6d3NdcRvX66fHJIDz470gq997a2s8jwnNETxOzqU3uSlONQ
-   +jOl2EQSJEuBKOGD4nfrGlbUeKCgZS6h0HW1w5j8MrhzVABWQLP4TQ29u
-   A=;
-IronPort-SDR: 0Hsb+qv42wSiM41C93C4a1LfhcjySaLvJzM+hKrBuLySIDMN7FQIj68NhS/Pw2n8brqfJ6m+/6
- U5kUDS2M0P6g==
-X-IronPort-AV: E=Sophos;i="5.70,373,1574121600"; 
-   d="scan'208";a="14547675"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-5bdc5131.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 28 Jan 2020 10:50:06 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2b-5bdc5131.us-west-2.amazon.com (Postfix) with ESMTPS id 3B6FFA24EE;
-        Tue, 28 Jan 2020 10:50:05 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Tue, 28 Jan 2020 10:50:04 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.74) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Tue, 28 Jan 2020 10:49:56 +0000
-From:   <sjpark@amazon.com>
-To:     Qian Cai <cai@lca.pw>
-CC:     <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, <sj38.park@gmail.com>,
-        <acme@kernel.org>, <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <corbet@lwn.net>, <dwmw@amazon.com>, <mgorman@suse.de>,
-        <rostedt@goodmis.org>, <kirill@shutemov.name>,
-        <brendanhiggins@google.com>, <colin.king@canonical.com>,
-        <minchan@kernel.org>, <vdavydov.dev@gmail.com>,
-        <vdavydov@parallels.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
-Date:   Tue, 28 Jan 2020 11:49:42 +0100
-Message-ID: <20200128104942.11419-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <D20B234E-04EE-4410-9B27-FF63AB3E1808@lca.pw> (raw)
+        id S1725948AbgA1LAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 06:00:09 -0500
+Received: from foss.arm.com ([217.140.110.172]:55116 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725937AbgA1LAJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Jan 2020 06:00:09 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAF1C30E;
+        Tue, 28 Jan 2020 03:00:08 -0800 (PST)
+Received: from localhost (unknown [10.1.198.81])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 784D43F52E;
+        Tue, 28 Jan 2020 03:00:08 -0800 (PST)
+Date:   Tue, 28 Jan 2020 11:00:07 +0000
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        dietmar.eggemann@arm.com, peterz@infradead.org, mingo@redhat.com,
+        ggherdovich@suse.cz, vincent.guittot@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] arm64: add support for the AMU extension v1
+Message-ID: <20200128110007.GA17411@arm.com>
+References: <20191218182607.21607-1-ionela.voinescu@arm.com>
+ <20191218182607.21607-2-ionela.voinescu@arm.com>
+ <05b1981b-cf4d-d990-5155-6ed3fadcca92@arm.com>
+ <20200123183207.GB20475@arm.com>
+ <00d852b0-d456-efc3-5bfa-31524168344b@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.74]
-X-ClientProxiedBy: EX13D39UWA001.ant.amazon.com (10.43.160.54) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00d852b0-d456-efc3-5bfa-31524168344b@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Jan 2020 05:20:35 -0500 Qian Cai <cai@lca.pw> wrote:
+Hi Valentin,
 
-> 
-> 
-> > On Jan 28, 2020, at 3:58 AM, sjpark@amazon.com wrote:
+On Friday 24 Jan 2020 at 12:00:25 (+0000), Valentin Schneider wrote:
+> On 23/01/2020 18:32, Ionela Voinescu wrote:
+> [...]
+> > and later we can use information in
+> > AMCGCR_EL0 to get the number of architected counters (n) and
+> > AMEVTYPER0<n>_EL0 to find out the type. The same logic would apply to
+> > the auxiliary counters.
 > > 
-> > This patchset introduces a new kernel module for practical monitoring of data
-> > accesses, namely DAMON.
-> > 
-> > The patches are organized in the following sequence.  The first four patches
-> > implements the core logic of DAMON one by one.  After that, the fifth patch
-> > implements DAMON's debugfs interface for users.  To provide a minimal reference
-> > to the low level interface and for more convenient use/tests of the DAMON, the
-> > sixth patch implements an user space tool.  The seventh patch adds a document
-> > for administrators of DAMON, and the eightth patch provides DAMON's kunit
-> > tests.  Finally, the ninth patch implements a tracepoint for DAMON.  As the
-> > tracepoint prints every monitoring results, it will be easily integrated with
-> > other tracers supporting tracepoints including perf.
 > 
-> I am a bit surprised that this patchset did not include perf maintainers which makes me wonder if there is any attempt to discuss first if we actually need a whole new subsystem for it or a existing tool can be enhanced.
+> Good, I think that's all we'll really need. I've not gone through the whole
+> series (yet!) so I might've missed AMCGCR being used.
+>
 
-For the comments from perf maintainers, I added Steven Rostedt and Arnaldo
-Carvalho de Melo first, but I might missed someone.  If you recommend some more
-people, I will add them to recipients.
+No, it's not used later in the patches either, specifically because
+this is version 1 and we should be able to rely on these first 4
+architected counters for all future versions of the AMU implementation.
 
-I made DAMON as a new subsystem because I think no existing subsystem fits well
-to be a base of DAMON, due to DAMON's unique goals and mechanisms described
-below in the original cover letter.
+> >>> @@ -1150,6 +1152,59 @@ static bool has_hw_dbm(const struct arm64_cpu_capabilities *cap,
+> >>>  
+> >>>  #endif
+> >>>  
+> >>> +#ifdef CONFIG_ARM64_AMU_EXTN
+> >>> +
+> >>> +/*
+> >>> + * This per cpu variable only signals that the CPU implementation supports
+> >>> + * the Activity Monitors Unit (AMU) but does not provide information
+> >>> + * regarding all the events that it supports.
+> >>> + * When this amu_feat per CPU variable is true, the user of this feature
+> >>> + * can only rely on the presence of the 4 fixed counters. But this does
+> >>> + * not guarantee that the counters are enabled or access to these counters
+> >>> + * is provided by code executed at higher exception levels.
+> >>> + *
+> >>> + * Also, to ensure the safe use of this per_cpu variable, the following
+> >>> + * accessor is defined to allow a read of amu_feat for the current cpu only
+> >>> + * from the current cpu.
+> >>> + *  - cpu_has_amu_feat()
+> >>> + */
+> >>> +static DEFINE_PER_CPU_READ_MOSTLY(u8, amu_feat);
+> >>> +
+> >>
+> >> Why not bool?
+> >>
+> > 
+> > I've changed it from bool after a sparse warning about expression using
+> > sizeof(bool) and found this is due to sizeof(bool) being compiler
+> > dependent. It does not change anything but I thought it might be a good
+> > idea to define it as 8-bit unsigned and rely on fixed size.
+> > 
+> 
+> I believe conveying the intent (a truth value) is more important than the
+> underlying storage size in this case. It mostly matters when dealing with
+> aggregates, but here it's just a free-standing variable.
+> 
+> We already have a few per-CPU boolean variables in arm64/kernel/fpsimd.c
+> and the commits aren't even a year old, so I'd go for ignoring sparse this
+> time around.
+>
 
-The existing subsystem that most similar to DAMON might be 'mm/page_idle.c'.
-However, there are many conceptual differences with DAMON.  One biggest
-difference I think is the target.  'page_idle' deals with physical page frames
-while DAMON deals with virtual address of specific processes.
-
-Nevertheless, if you have some different opinion, please let me know.
-
+Will do!
 
 Thanks,
-SeongJae Park
+Ionela.
