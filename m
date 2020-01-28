@@ -2,167 +2,86 @@ Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504C6C2D0DB
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 18:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5002C33CB3
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 18:12:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 33C8622522
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 18:10:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92CCB2467E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 18:12:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MbGl3nDr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgA1SKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 13:10:04 -0500
-Received: from [65.157.77.67] ([65.157.77.67]:62511 "HELO ubuntu.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with SMTP
-        id S1726520AbgA1SKE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Jan 2020 13:10:04 -0500
-Received: by ubuntu.localdomain (Postfix, from userid 1000)
-        id DB239461A3C; Tue, 28 Jan 2020 11:00:25 -0700 (MST)
-From:   Mike Jones <michael-a1.jones@analog.com>
-To:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux@roeck-us.net, jdelvare@suse.com, robh+dt@kernel.org,
-        corbet@lwn.net, Mike Jones <michael-a1.jones@analog.com>
-Subject: [PATCH 1/3] docs: hwmon: (pmbus/ltc2978): Update datasheet URLs to analog.com.
-Date:   Tue, 28 Jan 2020 10:59:58 -0700
-Message-Id: <1580234400-2829-1-git-send-email-michael-a1.jones@analog.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726257AbgA1SMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 13:12:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47551 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726521AbgA1SME (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 13:12:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580235123;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GFLzf10TgdyLAS21kd5LMRW5WkwaF17ngeycggVXre0=;
+        b=MbGl3nDruxGUc0/XxLYM4MoWfStz+lk9i80Mlqf7IK05plAlxXI7d9mlA5JtAPyIavhFAW
+        E92sw+GQJ+U1wHI26SpyltiKgIVTJBQhnOi30rLIKYQ92iA6XqMz9UVek3Gq0qeB8UCduM
+        YE4NpZxwt+Mm8It35QnpUM5LR2TdPLM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-e92z4M5qO3GlcI3dHkgyxg-1; Tue, 28 Jan 2020 13:12:01 -0500
+X-MC-Unique: e92z4M5qO3GlcI3dHkgyxg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 790C518C43C4;
+        Tue, 28 Jan 2020 18:12:00 +0000 (UTC)
+Received: from gondolin (ovpn-116-186.ams2.redhat.com [10.36.116.186])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D9B1A5DA7E;
+        Tue, 28 Jan 2020 18:11:58 +0000 (UTC)
+Date:   Tue, 28 Jan 2020 19:11:56 +0100
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 11/27] docs: kvm: convert devices/s390_flic.txt to ReST
+Message-ID: <20200128191156.6bfb0b9b.cohuck@redhat.com>
+In-Reply-To: <12634be89f4a8b662bf4bc0a0c7baef42675548f.1580219586.git.mchehab+huawei@kernel.org>
+References: <cover.1580219586.git.mchehab+huawei@kernel.org>
+        <12634be89f4a8b662bf4bc0a0c7baef42675548f.1580219586.git.mchehab+huawei@kernel.org>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
----
- Documentation/hwmon/ltc2978.rst | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+On Tue, 28 Jan 2020 14:58:07 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-diff --git a/Documentation/hwmon/ltc2978.rst b/Documentation/hwmon/ltc2978.rst
-index 01a24fd..42fd841 100644
---- a/Documentation/hwmon/ltc2978.rst
-+++ b/Documentation/hwmon/ltc2978.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc2974
-+    Datasheet: https://www.analog.com/en/products/ltc2974
- 
-   * Linear Technology LTC2975
- 
-@@ -17,7 +17,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc2975
-+    Datasheet: https://www.analog.com/en/products/ltc2975
- 
-   * Linear Technology LTC2977
- 
-@@ -25,7 +25,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc2977
-+    Datasheet: https://www.analog.com/en/products/ltc2977
- 
-   * Linear Technology LTC2978, LTC2978A
- 
-@@ -33,9 +33,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc2978
-+    Datasheet: https://www.analog.com/en/products/ltc2978
- 
--	       http://www.linear.com/product/ltc2978a
-+	       https://www.analog.com/en/products/ltc2978a
- 
-   * Linear Technology LTC2980
- 
-@@ -43,7 +43,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc2980
-+    Datasheet: https://www.analog.com/en/products/ltc2980
- 
-   * Linear Technology LTC3880
- 
-@@ -51,7 +51,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc3880
-+    Datasheet: https://www.analog.com/en/products/ltc3880
- 
-   * Linear Technology LTC3882
- 
-@@ -59,7 +59,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc3882
-+    Datasheet: https://www.analog.com/en/products/ltc3882
- 
-   * Linear Technology LTC3883
- 
-@@ -67,7 +67,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc3883
-+    Datasheet: https://www.analog.com/en/products/ltc3883
- 
-   * Linear Technology LTC3886
- 
-@@ -75,7 +75,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc3886
-+    Datasheet: https://www.analog.com/en/products/ltc3886
- 
-   * Linear Technology LTC3887
- 
-@@ -83,7 +83,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltc3887
-+    Datasheet: https://www.analog.com/en/products/ltc3887
- 
-   * Linear Technology LTM2987
- 
-@@ -91,7 +91,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltm2987
-+    Datasheet: https://www.analog.com/en/products/ltm2987
- 
-   * Linear Technology LTM4675
- 
-@@ -99,7 +99,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltm4675
-+    Datasheet: https://www.analog.com/en/products/ltm4675
- 
-   * Linear Technology LTM4676
- 
-@@ -107,7 +107,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.linear.com/product/ltm4676
-+    Datasheet: https://www.analog.com/en/products/ltm4676
- 
-   * Analog Devices LTM4686
- 
--- 
-2.7.4
+> - Use standard markup for document title;
+> - Adjust indentation and add blank lines as needed;
+> - use the notes markup;
+> - mark code blocks as such.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/virt/kvm/devices/index.rst      |  1 +
+>  .../devices/{s390_flic.txt => s390_flic.rst}  | 68 +++++++++++--------
+>  2 files changed, 39 insertions(+), 30 deletions(-)
+>  rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (88%)
+
+Looks sane to me.
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
