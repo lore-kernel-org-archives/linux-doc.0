@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF7CC35246
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DACC2D0DB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 98B81205F4
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64618205F4
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580220073;
-	bh=Y5aV3hZGIyPek7EfsIo9rePy4FvllvoqLQ1StFaYEGQ=;
+	s=default; t=1580220074;
+	bh=D1FWdsnA7nLngLah5lSD/OjUTqeHAjWlBi/Tx5+dYsU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XyiPU7RVuowGAEa5BPbkCtdhGTV0lzZ9hJGqQ4aGWWAot7RsRz1edjBAyIRUsETRu
-	 LLJ5QuIYc0JFtl1tlwG3VAP0xwLLcArDyes8S2Coja4SQ6eJlGrAzxp3VgwBXfKGNo
-	 nGKZcLnDLIt4O6AJVLNMYpJjoSNqIQeHDuaRTieU=
+	b=2K3tHJCNrOLcMOkmUK/PtRobuSF7XphB22/XhTO69WJcjfI9S7uTzMuha2Qv1wu+6
+	 pxGpnxLAs25aBpP/k1W5gsdbL1oZc9RCBklrMVYout/RXHDhPMp/LCB9d4FD2uS5zz
+	 4bnQbjBZoQpEqQMKBfZXkZMPkJMZpi5fZ+NbmEFI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbgA1OBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:01:09 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:59450 "EHLO
+        id S1727020AbgA1OBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 09:01:14 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59358 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727311AbgA1OAr (ORCPT
+        with ESMTP id S1727303AbgA1OAr (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -32,18 +32,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=O3Bsu4uD9UgtNB0QQELv28C8SHkVh8CCN2pYgVVPZ10=; b=I0e2f7UEc79N0R0e+SyV3a4k27
-        Jhspr8AL1tInGYrZ8JjTBVPQtfOaKY2XaSNFqf4YN7m15p/L8/p6Nbbb0/yVnNi8ZlqUPVJ0lP2wK
-        IBv9BKo3MFlg/Oj9f6cPKONdSGK27BdrspYv2anEIzwH+wNzvtJ+UNoJj9Pxw21dNmLX765CTSbMn
-        ryFYXBvJ3jK4qWWcbJ0EpxsA1yWpBxsH5rEIhNsSx93JDtcyNlSCZgNAamDB59mgQbvRZImDzLE7y
-        zzneoKH8qQUyLUtsaqEiRFMS4kDvKc/0ijPCke3dMLPFGWoJAsa8i3KINZnj+brjGH7qklYO5BcuP
-        htt730EQ==;
+        bh=x2sp6iOc0E903sdVig18K8EVOnXyeDCsbEfAqgSYd/k=; b=GzW5tuhw0/UVkEKTt12cdFXIdP
+        acieGBF+dJF3ESI1fKqsSaSOMJydY3YH2QHL6YYURRmr24NwKzdPR5xZ6g/tLxFCw0JDbHwGgGr3h
+        r5/6AdlH6r+HlLl6FRNrD0oc3VuCMozX6Et5yTNGLVU2TNP28fqYVvkkq+oV2MUhdAYM8blefzxIV
+        0047eZ0Ph8Nw6N3+/uiQnrQZH7AS0ge4MiQVOhu8/gMol6aBb4H/Zs9y5iKfBrB0WfDVvz4CFM5PT
+        Y618f0hYArDAuaemOj2SdMfh+RqoTqC2XV7By1DUvL9bzVaailrKKoZm/DaCD+M8Esj3+QcfDwuOH
+        OQ94ndig==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRQ5-0007ik-G8; Tue, 28 Jan 2020 14:00:46 +0000
+        id 1iwRQ5-0007il-Ve; Tue, 28 Jan 2020 14:00:46 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRPp-001BNf-CM; Tue, 28 Jan 2020 15:00:29 +0100
+        id 1iwRPp-001BOT-Nn; Tue, 28 Jan 2020 15:00:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,10 +51,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 06/27] docs: virt: Convert msr.txt to ReST format
-Date:   Tue, 28 Jan 2020 15:00:07 +0100
-Message-Id:
- <00eb6bb2ec51ac985360c5231fc416342c2782df.1580219586.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 16/27] docs: kvm: convert devices/xive.txt to ReST
+Date:   Tue, 28 Jan 2020 15:00:17 +0100
+Message-Id: <126a26241472a0df74b8c19f489162ddc1edfc4b.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -64,340 +63,262 @@ Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20200128140007.mPnAOIUfSFhVgOSVtVfPbxKba5OiiWun5-V3a5pxCvI@z>
 
-- Use document title markup;
-- Convert tables;
-- Add blank lines and adjust indentation.
+- Use title markups;
+- adjust indentation and add blank lines as needed;
+- adjust tables to match ReST accepted formats;
+- mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst            |   1 +
- Documentation/virt/kvm/{msr.txt => msr.rst} | 145 ++++++++++++--------
- 2 files changed, 91 insertions(+), 55 deletions(-)
- rename Documentation/virt/kvm/{msr.txt => msr.rst} (75%)
+ Documentation/virt/kvm/devices/index.rst      |   1 +
+ .../virt/kvm/devices/{xive.txt => xive.rst}   | 146 +++++++++++-------
+ 2 files changed, 94 insertions(+), 53 deletions(-)
+ rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (63%)
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index b39f4894b61d..cc6dde47b267 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -10,6 +10,7 @@ KVM
-    amd-memory-encryption
-    cpuid
-    halt-polling
-+   msr
-    vcpu-requests
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index 63b61369d09b..192cda7405c8 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -16,3 +16,4 @@ Devices
+    vfio
+    vm
+    xics
++   xive
+diff --git a/Documentation/virt/kvm/devices/xive.txt b/Documentation/virt/kvm/devices/xive.rst
+similarity index 63%
+rename from Documentation/virt/kvm/devices/xive.txt
+rename to Documentation/virt/kvm/devices/xive.rst
+index f5d1d6b5af61..e3947089b19c 100644
+--- a/Documentation/virt/kvm/devices/xive.txt
++++ b/Documentation/virt/kvm/devices/xive.rst
+@@ -1,8 +1,9 @@
++===========================================================
+ POWER9 eXternal Interrupt Virtualization Engine (XIVE Gen1)
+-==========================================================
++===========================================================
  
-    arm/index
-diff --git a/Documentation/virt/kvm/msr.txt b/Documentation/virt/kvm/msr.rst
-similarity index 75%
-rename from Documentation/virt/kvm/msr.txt
-rename to Documentation/virt/kvm/msr.rst
-index df1f4338b3ca..952ac339765b 100644
---- a/Documentation/virt/kvm/msr.txt
-+++ b/Documentation/virt/kvm/msr.rst
-@@ -1,6 +1,8 @@
--KVM-specific MSRs.
--Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
--=====================================================
-+=================
-+KVM-specific MSRs
-+=================
+ Device types supported:
+-  KVM_DEV_TYPE_XIVE     POWER9 XIVE Interrupt Controller generation 1
++  - KVM_DEV_TYPE_XIVE     POWER9 XIVE Interrupt Controller generation 1
+ 
+ This device acts as a VM interrupt controller. It provides the KVM
+ interface to configure the interrupt sources of a VM in the underlying
+@@ -64,72 +65,100 @@ the legacy interrupt mode, referred as XICS (POWER7/8).
+ 
+ * Groups:
+ 
+-  1. KVM_DEV_XIVE_GRP_CTRL
+-  Provides global controls on the device
++1. KVM_DEV_XIVE_GRP_CTRL
++     Provides global controls on the device
 +
-+:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
- 
- KVM makes use of some custom MSRs to service some requests.
- 
-@@ -9,34 +11,39 @@ Custom MSRs have a range reserved for them, that goes from
- but they are deprecated and their use is discouraged.
- 
- Custom MSR list
----------
-+---------------
- 
- The current supported Custom MSR list is:
- 
--MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
-+MSR_KVM_WALL_CLOCK_NEW:
-+	0x4b564d00
- 
--	data: 4-byte alignment physical address of a memory area which must be
-+data:
-+	4-byte alignment physical address of a memory area which must be
- 	in guest RAM. This memory is expected to hold a copy of the following
--	structure:
-+	structure::
- 
--	struct pvclock_wall_clock {
-+	 struct pvclock_wall_clock {
- 		u32   version;
- 		u32   sec;
- 		u32   nsec;
--	} __attribute__((__packed__));
-+	  } __attribute__((__packed__));
- 
- 	whose data will be filled in by the hypervisor. The hypervisor is only
- 	guaranteed to update this data at the moment of MSR write.
- 	Users that want to reliably query this information more than once have
- 	to write more than once to this MSR. Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		sec: number of seconds for wallclock at time of boot.
-+	sec:
-+		 number of seconds for wallclock at time of boot.
- 
--		nsec: number of nanoseconds for wallclock at time of boot.
-+	nsec:
-+		 number of nanoseconds for wallclock at time of boot.
- 
- 	In order to get the current wallclock time, the system_time from
- 	MSR_KVM_SYSTEM_TIME_NEW needs to be added.
-@@ -47,13 +54,15 @@ MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
-+MSR_KVM_SYSTEM_TIME_NEW:
-+	0x4b564d01
- 
--	data: 4-byte aligned physical address of a memory area which must be in
-+data:
-+	4-byte aligned physical address of a memory area which must be in
- 	guest RAM, plus an enable bit in bit 0. This memory is expected to hold
--	a copy of the following structure:
-+	a copy of the following structure::
- 
--	struct pvclock_vcpu_time_info {
-+	  struct pvclock_vcpu_time_info {
- 		u32   version;
- 		u32   pad0;
- 		u64   tsc_timestamp;
-@@ -62,7 +71,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 		s8    tsc_shift;
- 		u8    flags;
- 		u8    pad[2];
--	} __attribute__((__packed__)); /* 32 bytes */
-+	  } __attribute__((__packed__)); /* 32 bytes */
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -72,23 +81,28 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 	Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		tsc_timestamp: the tsc value at the current VCPU at the time
-+	tsc_timestamp:
-+		the tsc value at the current VCPU at the time
- 		of the update of this structure. Guests can subtract this value
- 		from current tsc to derive a notion of elapsed time since the
- 		structure update.
- 
--		system_time: a host notion of monotonic time, including sleep
-+	system_time:
-+		a host notion of monotonic time, including sleep
- 		time at the time this structure was last updated. Unit is
- 		nanoseconds.
- 
--		tsc_to_system_mul: multiplier to be used when converting
-+	tsc_to_system_mul:
-+		multiplier to be used when converting
- 		tsc-related quantity to nanoseconds
- 
--		tsc_shift: shift to be used when converting tsc-related
-+	tsc_shift:
-+		shift to be used when converting tsc-related
- 		quantity to nanoseconds. This shift will ensure that
- 		multiplication with tsc_to_system_mul does not overflow.
- 		A positive value denotes a left shift, a negative value
-@@ -96,7 +110,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 		The conversion from tsc to nanoseconds involves an additional
- 		right shift by 32 bits. With this information, guests can
--		derive per-CPU time by doing:
-+		derive per-CPU time by doing::
- 
- 			time = (current_tsc - tsc_timestamp)
- 			if (tsc_shift >= 0)
-@@ -106,29 +120,34 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 			time = (time * tsc_to_system_mul) >> 32
- 			time = time + system_time
- 
--		flags: bits in this field indicate extended capabilities
-+	flags:
-+		bits in this field indicate extended capabilities
- 		coordinated between the guest and the hypervisor. Availability
- 		of specific flags has to be checked in 0x40000001 cpuid leaf.
- 		Current flags are:
- 
--		 flag bit   | cpuid bit    | meaning
--		-------------------------------------------------------------
--			    |	           | time measures taken across
--		     0      |	   24      | multiple cpus are guaranteed to
--			    |		   | be monotonic
--		-------------------------------------------------------------
--			    |		   | guest vcpu has been paused by
--		     1	    |	  N/A	   | the host
--			    |		   | See 4.70 in api.txt
--		-------------------------------------------------------------
+   Attributes:
+     1.1 KVM_DEV_XIVE_RESET (write only)
+     Resets the interrupt controller configuration for sources and event
+     queues. To be used by kexec and kdump.
 +
-+		+-----------+--------------+----------------------------------+
-+		| flag bit  | cpuid bit    | meaning			      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | time measures taken across       |
-+		|    0      |	   24      | multiple cpus are guaranteed to  |
-+		|	    |		   | be monotonic		      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | guest vcpu has been paused by    |
-+		|    1	    |	  N/A	   | the host			      |
-+		|	    |		   | See 4.70 in api.txt	      |
-+		+-----------+--------------+----------------------------------+
+     Errors: none
  
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
- 
--MSR_KVM_WALL_CLOCK:  0x11
-+MSR_KVM_WALL_CLOCK:
-+	0x11
- 
--	data and functioning: same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -136,9 +155,11 @@ MSR_KVM_WALL_CLOCK:  0x11
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME: 0x12
-+MSR_KVM_SYSTEM_TIME:
-+	0x12
- 
--	data and functioning: same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -146,7 +167,7 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--	The suggested algorithm for detecting kvmclock presence is then:
-+	The suggested algorithm for detecting kvmclock presence is then::
- 
- 		if (!kvm_para_available())    /* refer to cpuid.txt */
- 			return NON_PRESENT;
-@@ -163,8 +184,11 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 		} else
- 			return NON_PRESENT;
- 
--MSR_KVM_ASYNC_PF_EN: 0x4b564d02
--	data: Bits 63-6 hold 64-byte aligned physical address of a
-+MSR_KVM_ASYNC_PF_EN:
-+	0x4b564d02
+     1.2 KVM_DEV_XIVE_EQ_SYNC (write only)
+     Sync all the sources and queues and mark the EQ pages dirty. This
+     to make sure that a consistent memory state is captured when
+     migrating the VM.
 +
-+data:
-+	Bits 63-6 hold 64-byte aligned physical address of a
- 	64 byte memory area which must be in guest RAM and must be
- 	zeroed. Bits 5-3 are reserved and should be zero. Bit 0 is 1
- 	when asynchronous page faults are enabled on the vcpu 0 when
-@@ -200,20 +224,22 @@ MSR_KVM_ASYNC_PF_EN: 0x4b564d02
- 	Currently type 2 APF will be always delivered on the same vcpu as
- 	type 1 was, but guest should not rely on that.
+     Errors: none
  
--MSR_KVM_STEAL_TIME: 0x4b564d03
-+MSR_KVM_STEAL_TIME:
-+	0x4b564d03
- 
--	data: 64-byte alignment physical address of a memory area which must be
-+data:
-+	64-byte alignment physical address of a memory area which must be
- 	in guest RAM, plus an enable bit in bit 0. This memory is expected to
--	hold a copy of the following structure:
-+	hold a copy of the following structure::
- 
--	struct kvm_steal_time {
-+	  struct kvm_steal_time {
- 		__u64 steal;
- 		__u32 version;
- 		__u32 flags;
- 		__u8  preempted;
- 		__u8  u8_pad[3];
- 		__u32 pad[11];
--	}
-+	  }
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -224,25 +250,32 @@ MSR_KVM_STEAL_TIME: 0x4b564d03
- 
- 	Fields have the following meanings:
- 
--		version: a sequence counter. In other words, guest has to check
-+	version:
-+		a sequence counter. In other words, guest has to check
- 		this field before and after grabbing time information and make
- 		sure they are both equal and even. An odd version indicates an
- 		in-progress update.
- 
--		flags: At this point, always zero. May be used to indicate
-+	flags:
-+		At this point, always zero. May be used to indicate
- 		changes in this structure in the future.
- 
--		steal: the amount of time in which this vCPU did not run, in
-+	steal:
-+		the amount of time in which this vCPU did not run, in
- 		nanoseconds. Time during which the vcpu is idle, will not be
- 		reported as steal time.
- 
--		preempted: indicate the vCPU who owns this struct is running or
-+	preempted:
-+		indicate the vCPU who owns this struct is running or
- 		not. Non-zero values mean the vCPU has been preempted. Zero
- 		means the vCPU is not preempted. NOTE, it is always zero if the
- 		the hypervisor doesn't support this field.
- 
--MSR_KVM_EOI_EN: 0x4b564d04
--	data: Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
-+MSR_KVM_EOI_EN:
-+	0x4b564d04
+     1.3 KVM_DEV_XIVE_NR_SERVERS (write only)
+     The kvm_device_attr.addr points to a __u32 value which is the number of
+     interrupt server numbers (ie, highest possible vcpu id plus one).
 +
-+data:
-+	Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
- 	when disabled.  Bit 1 is reserved and must be zero.  When PV end of
- 	interrupt is enabled (bit 0 set), bits 63-2 hold a 4-byte aligned
- 	physical address of a 4 byte memory area which must be in guest RAM and
-@@ -274,11 +307,13 @@ MSR_KVM_EOI_EN: 0x4b564d04
- 	clear it using a single CPU instruction, such as test and clear, or
- 	compare and exchange.
+     Errors:
+-      -EINVAL: Value greater than KVM_MAX_VCPU_ID.
+-      -EFAULT: Invalid user pointer for attr->addr.
+-      -EBUSY:  A vCPU is already connected to the device.
  
--MSR_KVM_POLL_CONTROL: 0x4b564d05
-+MSR_KVM_POLL_CONTROL:
-+	0x4b564d05
+-  2. KVM_DEV_XIVE_GRP_SOURCE (write only)
+-  Initializes a new source in the XIVE device and mask it.
++      =======  ==========================================
++      -EINVAL  Value greater than KVM_MAX_VCPU_ID.
++      -EFAULT  Invalid user pointer for attr->addr.
++      -EBUSY   A vCPU is already connected to the device.
++      =======  ==========================================
 +
- 	Control host-side polling.
++2. KVM_DEV_XIVE_GRP_SOURCE (write only)
++     Initializes a new source in the XIVE device and mask it.
++
+   Attributes:
+     Interrupt source number  (64-bit)
+-  The kvm_device_attr.addr points to a __u64 value:
+-  bits:     | 63   ....  2 |   1   |   0
+-  values:   |    unused    | level | type
++
++  The kvm_device_attr.addr points to a __u64 value::
++
++    bits:     | 63   ....  2 |   1   |   0
++    values:   |    unused    | level | type
++
+   - type:  0:MSI 1:LSI
+   - level: assertion level in case of an LSI.
++
+   Errors:
+-    -E2BIG:  Interrupt source number is out of range
+-    -ENOMEM: Could not create a new source block
+-    -EFAULT: Invalid user pointer for attr->addr.
+-    -ENXIO:  Could not allocate underlying HW interrupt
  
--	data: Bit 0 enables (1) or disables (0) host-side HLT polling logic.
-+data:
-+	Bit 0 enables (1) or disables (0) host-side HLT polling logic.
+-  3. KVM_DEV_XIVE_GRP_SOURCE_CONFIG (write only)
+-  Configures source targeting
++    =======  ==========================================
++    -E2BIG   Interrupt source number is out of range
++    -ENOMEM  Could not create a new source block
++    -EFAULT  Invalid user pointer for attr->addr.
++    -ENXIO   Could not allocate underlying HW interrupt
++    =======  ==========================================
++
++3. KVM_DEV_XIVE_GRP_SOURCE_CONFIG (write only)
++     Configures source targeting
++
+   Attributes:
+     Interrupt source number  (64-bit)
+-  The kvm_device_attr.addr points to a __u64 value:
+-  bits:     | 63   ....  33 |  32  | 31 .. 3 |  2 .. 0
+-  values:   |    eisn       | mask |  server | priority
++
++  The kvm_device_attr.addr points to a __u64 value::
++
++    bits:     | 63   ....  33 |  32  | 31 .. 3 |  2 .. 0
++    values:   |    eisn       | mask |  server | priority
++
+   - priority: 0-7 interrupt priority level
+   - server: CPU number chosen to handle the interrupt
+   - mask: mask flag (unused)
+   - eisn: Effective Interrupt Source Number
++
+   Errors:
+-    -ENOENT: Unknown source number
+-    -EINVAL: Not initialized source number
+-    -EINVAL: Invalid priority
+-    -EINVAL: Invalid CPU number.
+-    -EFAULT: Invalid user pointer for attr->addr.
+-    -ENXIO:  CPU event queues not configured or configuration of the
+-             underlying HW interrupt failed
+-    -EBUSY:  No CPU available to serve interrupt
  
- 	KVM guests can request the host not to poll on HLT, for example if
- 	they are performing polling themselves.
--
+-  4. KVM_DEV_XIVE_GRP_EQ_CONFIG (read-write)
+-  Configures an event queue of a CPU
++    =======  =======================================================
++    -ENOENT  Unknown source number
++    -EINVAL  Not initialized source number
++    -EINVAL  Invalid priority
++    -EINVAL  Invalid CPU number.
++    -EFAULT  Invalid user pointer for attr->addr.
++    -ENXIO   CPU event queues not configured or configuration of the
++	     underlying HW interrupt failed
++    -EBUSY   No CPU available to serve interrupt
++    =======  =======================================================
++
++4. KVM_DEV_XIVE_GRP_EQ_CONFIG (read-write)
++     Configures an event queue of a CPU
++
+   Attributes:
+     EQ descriptor identifier (64-bit)
+-  The EQ descriptor identifier is a tuple (server, priority) :
+-  bits:     | 63   ....  32 | 31 .. 3 |  2 .. 0
+-  values:   |    unused     |  server | priority
+-  The kvm_device_attr.addr points to :
++
++  The EQ descriptor identifier is a tuple (server, priority)::
++
++    bits:     | 63   ....  32 | 31 .. 3 |  2 .. 0
++    values:   |    unused     |  server | priority
++
++  The kvm_device_attr.addr points to::
++
+     struct kvm_ppc_xive_eq {
+ 	__u32 flags;
+ 	__u32 qshift;
+@@ -138,8 +167,9 @@ the legacy interrupt mode, referred as XICS (POWER7/8).
+ 	__u32 qindex;
+ 	__u8  pad[40];
+     };
++
+   - flags: queue flags
+-    KVM_XIVE_EQ_ALWAYS_NOTIFY (required)
++      KVM_XIVE_EQ_ALWAYS_NOTIFY (required)
+ 	forces notification without using the coalescing mechanism
+ 	provided by the XIVE END ESBs.
+   - qshift: queue size (power of 2)
+@@ -147,22 +177,31 @@ the legacy interrupt mode, referred as XICS (POWER7/8).
+   - qtoggle: current queue toggle bit
+   - qindex: current queue index
+   - pad: reserved for future use
++
+   Errors:
+-    -ENOENT: Invalid CPU number
+-    -EINVAL: Invalid priority
+-    -EINVAL: Invalid flags
+-    -EINVAL: Invalid queue size
+-    -EINVAL: Invalid queue address
+-    -EFAULT: Invalid user pointer for attr->addr.
+-    -EIO:    Configuration of the underlying HW failed
+ 
+-  5. KVM_DEV_XIVE_GRP_SOURCE_SYNC (write only)
+-  Synchronize the source to flush event notifications
++    =======  =========================================
++    -ENOENT  Invalid CPU number
++    -EINVAL  Invalid priority
++    -EINVAL  Invalid flags
++    -EINVAL  Invalid queue size
++    -EINVAL  Invalid queue address
++    -EFAULT  Invalid user pointer for attr->addr.
++    -EIO     Configuration of the underlying HW failed
++    =======  =========================================
++
++5. KVM_DEV_XIVE_GRP_SOURCE_SYNC (write only)
++     Synchronize the source to flush event notifications
++
+   Attributes:
+     Interrupt source number  (64-bit)
++
+   Errors:
+-    -ENOENT: Unknown source number
+-    -EINVAL: Not initialized source number
++
++    =======  =============================
++    -ENOENT  Unknown source number
++    -EINVAL  Not initialized source number
++    =======  =============================
+ 
+ * VCPU state
+ 
+@@ -175,11 +214,12 @@ the legacy interrupt mode, referred as XICS (POWER7/8).
+   as it synthesizes the priorities of the pending interrupts. We
+   capture a bit more to report debug information.
+ 
+-  KVM_REG_PPC_VP_STATE (2 * 64bits)
+-  bits:     |  63  ....  32  |  31  ....  0  |
+-  values:   |   TIMA word0   |   TIMA word1  |
+-  bits:     | 127       ..........       64  |
+-  values:   |            unused              |
++  KVM_REG_PPC_VP_STATE (2 * 64bits)::
++
++    bits:     |  63  ....  32  |  31  ....  0  |
++    values:   |   TIMA word0   |   TIMA word1  |
++    bits:     | 127       ..........       64  |
++    values:   |            unused              |
+ 
+ * Migration:
+ 
+@@ -196,7 +236,7 @@ the legacy interrupt mode, referred as XICS (POWER7/8).
+   3. Capture the state of the source targeting, the EQs configuration
+   and the state of thread interrupt context registers.
+ 
+-  Restore is similar :
++  Restore is similar:
+ 
+   1. Restore the EQ configuration. As targeting depends on it.
+   2. Restore targeting
 -- 
 2.24.1
 
