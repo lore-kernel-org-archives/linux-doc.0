@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26683C33CB3
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9170C35246
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E7D9620716
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A201C207FD
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580223008;
-	bh=rbPvMROj4Jp8r5A5ZVQZZCrKLe+WvU3VXIOCB9zTPF4=;
+	s=default; t=1580223050;
+	bh=oDp2GFCusvjVIy+pDKtbQhh1Q7QweP/hmVWzwiRJCEk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=rKl1QV27r6Q5eL2b6950W1UJ/O6Bi1R1xuSyLQazH57GKCrTVylq1kh+5xoe520b0
-	 giWkRguMlHRHFGceILSL4GgjJKOo/S4qv12LST7ocfFZtHu+QtCRTVDSYDEO9/EqYA
-	 68aXRiy4bLipLj0FetsLDDprbIXCHBz+zU1BooFE=
+	b=JfSnHZ/2Xwk3ByeaSyj1fhkZL1NCIn9TLIWnC+so2yaY215zUAkFgQJNjtKHyRYWt
+	 avyBNJHlBuPIzru3ZxaItKKcMW7fmIdKbya8vcP4iLlUNMQGJGfpjDaWkXeho6SIYu
+	 sBsrdT+nJNwKnw4LBGgeI+PRGY9mQBugiFTAuceE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727139AbgA1OuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:50:04 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:59268 "EHLO
+        id S1726638AbgA1N6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 08:58:46 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58556 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726783AbgA1OAp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:45 -0500
+        with ESMTP id S1726598AbgA1N6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 08:58:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RXe1JKO96FijdOP7zXpZboFzdx1W+5+6NP6MZ/BiAps=; b=beuEPbyeIpzelBJJ/6g1xXQxDJ
-        qdoXbAvrO546aLL63BpdwHX/SbPhIuuZQYa1HVf83cgV/jVkUFnmb7x+rDueGKgafSvgoQYl8D6o/
-        cKcsb91ZVVQiqZMDae6IUXF+Nuivzn4gXqJLs86vDJpH5HuK2b3tFiVU7bm1QeBuua3aAzgCvaTW1
-        H9Q/JR91YYEyshXA9K+ii95nAr5X+dhZA0S+EMuNNHMpTfPLuQfd0U2ueRrlP2nLk5if/0tCQjfP5
-        lDiHKNBzxqkT8m27WoKrhKOf93tQ1SVp1QCxkgDOJAYU2egSFbjCJDkJTU5AC1iyEM1VGzx2RRVWs
-        L84gTGDw==;
+        bh=RPG23Q5VInCW2/dcxso2308vuKWS9qa+8lTMVckj8OQ=; b=eg5ZPQ+jkf5/TY0Rys9EIBpi9w
+        lpGsfmLgEdCaNAhDfz2ektRx2hLoN3Y/S1gMneYm1BwNvGnBZEXXPr0KbiY7Rz7LVscOv8wwT6ZjZ
+        WThohdGrbyxcS0EhgISXN0vgqw8DjXWt0hcCRAHH6k6XavK5A2pbxUM4ZPT0MW+JKziSvERBknhlD
+        2gOD6WrQ/Rg4lFYv7LJ0J3Yqi8UCdZm7QKfZ+xn+G5OA4/VM7RT0vSjMKmbI0Ao3EU93HGOYWEbOf
+        VgNp5d5jhN7geEmpW9XagwrYN/e6JBmx16uCe8jVM1qgvvMXq8tyiP86eIamWutjku2bTx34Q1JnY
+        3uH8HWvQ==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRQ5-0007ic-DK; Tue, 28 Jan 2020 14:00:45 +0000
+        id 1iwRO8-0006Kb-Ja; Tue, 28 Jan 2020 13:58:45 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRPp-001BO4-Hu; Tue, 28 Jan 2020 15:00:29 +0100
+        id 1iwRNq-001BJx-GA; Tue, 28 Jan 2020 14:58:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,9 +51,10 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 11/27] docs: kvm: convert devices/s390_flic.txt to ReST
-Date:   Tue, 28 Jan 2020 15:00:12 +0100
-Message-Id: <12634be89f4a8b662bf4bc0a0c7baef42675548f.1580219586.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/27] docs: kvm: convert devices/vcpu.txt to ReST
+Date:   Tue, 28 Jan 2020 14:58:08 +0100
+Message-Id:
+ <10cb8731b167ee8f0bbec245a9f89af3842bc279.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -63,170 +64,232 @@ Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+Message-ID: <20200128135808.IJUUGkeqFmFDhVVNvkOOeYFXoQiRCg8RLGjbtovcKX4@z>
 
-- Use standard markup for document title;
-- Adjust indentation and add blank lines as needed;
-- use the notes markup;
+- Use title markups;
+- adjust indentation and add blank lines as needed;
+- adjust tables to match ReST accepted formats;
+- use :field: markups;
 - mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/devices/index.rst      |  1 +
- .../devices/{s390_flic.txt => s390_flic.rst}  | 68 +++++++++++--------
- 2 files changed, 39 insertions(+), 30 deletions(-)
- rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (88%)
+ Documentation/virt/kvm/devices/index.rst |   1 +
+ Documentation/virt/kvm/devices/vcpu.rst  | 112 +++++++++++++++++++++++
+ Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+ 3 files changed, 113 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
 diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-index 9e5586e371de..e6caccc36623 100644
+index e6caccc36623..5a61838f0e61 100644
 --- a/Documentation/virt/kvm/devices/index.rst
 +++ b/Documentation/virt/kvm/devices/index.rst
-@@ -11,3 +11,4 @@ Devices
-    arm-vgic
+@@ -12,3 +12,4 @@ Devices
     arm-vgic-v3
     mpic
-+   s390_flic
-diff --git a/Documentation/virt/kvm/devices/s390_flic.txt b/Documentation/virt/kvm/devices/s390_flic.rst
-similarity index 88%
-rename from Documentation/virt/kvm/devices/s390_flic.txt
-rename to Documentation/virt/kvm/devices/s390_flic.rst
-index a4e20a090174..860fa0dec9b7 100644
---- a/Documentation/virt/kvm/devices/s390_flic.txt
-+++ b/Documentation/virt/kvm/devices/s390_flic.rst
-@@ -1,3 +1,4 @@
-+====================================
- FLIC (floating interrupt controller)
- ====================================
- 
-@@ -31,8 +32,10 @@ Groups:
-     Copies all floating interrupts into a buffer provided by userspace.
-     When the buffer is too small it returns -ENOMEM, which is the indication
-     for userspace to try again with a bigger buffer.
+    s390_flic
++   vcpu
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+new file mode 100644
+index 000000000000..1270fd7f2cff
+--- /dev/null
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -0,0 +1,112 @@
++======================
++Generic vcpu interface
++======================
 +
-     -ENOBUFS is returned when the allocation of a kernelspace buffer has
-     failed.
++The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
++KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
++kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
 +
-     -EFAULT is returned when copying data to userspace failed.
-     All interrupts remain pending, i.e. are not deleted from the list of
-     currently pending interrupts.
-@@ -60,38 +63,41 @@ Groups:
- 
-   KVM_DEV_FLIC_ADAPTER_REGISTER
-     Register an I/O adapter interrupt source. Takes a kvm_s390_io_adapter
--    describing the adapter to register:
-+    describing the adapter to register::
- 
--struct kvm_s390_io_adapter {
--	__u32 id;
--	__u8 isc;
--	__u8 maskable;
--	__u8 swap;
--	__u8 flags;
--};
-+	struct kvm_s390_io_adapter {
-+		__u32 id;
-+		__u8 isc;
-+		__u8 maskable;
-+		__u8 swap;
-+		__u8 flags;
-+	};
- 
-    id contains the unique id for the adapter, isc the I/O interruption subclass
-    to use, maskable whether this adapter may be masked (interrupts turned off),
-    swap whether the indicators need to be byte swapped, and flags contains
-    further characteristics of the adapter.
++The groups and attributes per virtual cpu, if any, are architecture specific.
 +
-    Currently defined values for 'flags' are:
++1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
++==================================
 +
-    - KVM_S390_ADAPTER_SUPPRESSIBLE: adapter is subject to AIS
-      (adapter-interrupt-suppression) facility. This flag only has an effect if
-      the AIS capability is enabled.
++:Architectures: ARM64
 +
-    Unknown flag values are ignored.
- 
- 
-   KVM_DEV_FLIC_ADAPTER_MODIFY
-     Modifies attributes of an existing I/O adapter interrupt source. Takes
--    a kvm_s390_io_adapter_req specifying the adapter and the operation:
-+    a kvm_s390_io_adapter_req specifying the adapter and the operation::
- 
--struct kvm_s390_io_adapter_req {
--	__u32 id;
--	__u8 type;
--	__u8 mask;
--	__u16 pad0;
--	__u64 addr;
--};
-+	struct kvm_s390_io_adapter_req {
-+		__u32 id;
-+		__u8 type;
-+		__u8 mask;
-+		__u16 pad0;
-+		__u64 addr;
-+	};
- 
-     id specifies the adapter and type the operation. The supported operations
-     are:
-@@ -103,8 +109,9 @@ struct kvm_s390_io_adapter_req {
-       perform a gmap translation for the guest address provided in addr,
-       pin a userspace page for the translated address and add it to the
-       list of mappings
--      Note: A new mapping will be created unconditionally; therefore,
--            the calling code should avoid making duplicate mappings.
++1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
++---------------------------------------
 +
-+      .. note:: A new mapping will be created unconditionally; therefore,
-+	        the calling code should avoid making duplicate mappings.
- 
-     KVM_S390_IO_ADAPTER_UNMAP
-       release a userspace page for the translated address specified in addr
-@@ -112,16 +119,17 @@ struct kvm_s390_io_adapter_req {
- 
-   KVM_DEV_FLIC_AISM
-     modify the adapter-interruption-suppression mode for a given isc if the
--    AIS capability is enabled. Takes a kvm_s390_ais_req describing:
-+    AIS capability is enabled. Takes a kvm_s390_ais_req describing::
- 
--struct kvm_s390_ais_req {
--	__u8 isc;
--	__u16 mode;
--};
-+	struct kvm_s390_ais_req {
-+		__u8 isc;
-+		__u16 mode;
-+	};
- 
-     isc contains the target I/O interruption subclass, mode the target
-     adapter-interruption-suppression mode. The following modes are
-     currently supported:
++:Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
++	     pointer to an int
 +
-     - KVM_S390_AIS_MODE_ALL: ALL-Interruptions Mode, i.e. airq injection
-       is always allowed;
-     - KVM_S390_AIS_MODE_SINGLE: SINGLE-Interruption Mode, i.e. airq
-@@ -139,12 +147,12 @@ struct kvm_s390_ais_req {
- 
-   KVM_DEV_FLIC_AISM_ALL
-     Gets or sets the adapter-interruption-suppression mode for all ISCs. Takes
--    a kvm_s390_ais_all describing:
-+    a kvm_s390_ais_all describing::
- 
--struct kvm_s390_ais_all {
--       __u8 simm; /* Single-Interruption-Mode mask */
--       __u8 nimm; /* No-Interruption-Mode mask *
--};
-+	struct kvm_s390_ais_all {
-+	       __u8 simm; /* Single-Interruption-Mode mask */
-+	       __u8 nimm; /* No-Interruption-Mode mask *
-+	};
- 
-     simm contains Single-Interruption-Mode mask for all ISCs, nimm contains
-     No-Interruption-Mode mask for all ISCs. Each bit in simm and nimm corresponds
-@@ -159,5 +167,5 @@ ENXIO, as specified in the API documentation). It is not possible to conclude
- that a FLIC operation is unavailable based on the error code resulting from a
- usage attempt.
- 
--Note: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a zero
--schid is specified.
-+.. note:: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a
-+	  zero schid is specified.
++Returns:
++
++	 =======  ========================================================
++	 -EBUSY   The PMU overflow interrupt is already set
++	 -ENXIO   The overflow interrupt not set when attempting to get it
++	 -ENODEV  PMUv3 not supported
++	 -EINVAL  Invalid PMU overflow interrupt number supplied or
++		  trying to set the IRQ number without using an in-kernel
++		  irqchip.
++	 =======  ========================================================
++
++A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
++number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
++type must be same for each vcpu. As a PPI, the interrupt number is the same for
++all vcpus, while as an SPI it must be a separate number per vcpu.
++
++1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
++---------------------------------------
++
++:Parameters: no additional parameter in kvm_device_attr.addr
++
++Returns:
++
++	 =======  ======================================================
++	 -ENODEV  PMUv3 not supported or GIC not initialized
++	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
++		  configured as required prior to calling this attribute
++	 -EBUSY   PMUv3 already initialized
++	 =======  ======================================================
++
++Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
++virtual GIC implementation, this must be done after initializing the in-kernel
++irqchip.
++
++
++2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
++=================================
++
++:Architectures: ARM,ARM64
++
++2.1. ATTRIBUTES: KVM_ARM_VCPU_TIMER_IRQ_VTIMER, KVM_ARM_VCPU_TIMER_IRQ_PTIMER
++-----------------------------------------------------------------------------
++
++:Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
++	     pointer to an int
++
++Returns:
++
++	 =======  =================================
++	 -EINVAL  Invalid timer interrupt number
++	 -EBUSY   One or more VCPUs has already run
++	 =======  =================================
++
++A value describing the architected timer interrupt number when connected to an
++in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
++attribute overrides the default values (see below).
++
++=============================  ==========================================
++KVM_ARM_VCPU_TIMER_IRQ_VTIMER  The EL1 virtual timer intid (default: 27)
++KVM_ARM_VCPU_TIMER_IRQ_PTIMER  The EL1 physical timer intid (default: 30)
++=============================  ==========================================
++
++Setting the same PPI for different timers will prevent the VCPUs from running.
++Setting the interrupt number on a VCPU configures all VCPUs created at that
++time to use the number provided for a given timer, overwriting any previously
++configured values on other VCPUs.  Userspace should configure the interrupt
++numbers on at least one VCPU after creating all VCPUs and before running any
++VCPUs.
++
++3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
++==================================
++
++:Architectures: ARM64
++
++3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
++--------------------------------------
++
++:Parameters: 64-bit base address
++
++Returns:
++
++	 =======  ======================================
++	 -ENXIO   Stolen time not implemented
++	 -EEXIST  Base address already set for this VCPU
++	 -EINVAL  Base address not 64 byte aligned
++	 =======  ======================================
++
++Specifies the base address of the stolen time structure for this VCPU. The
++base address must be 64 byte aligned and exist within a valid guest memory
++region. See Documentation/virt/kvm/arm/pvtime.txt for more information
++including the layout of the stolen time structure.
+diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
+deleted file mode 100644
+index 6f3bd64a05b0..000000000000
+--- a/Documentation/virt/kvm/devices/vcpu.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-Generic vcpu interface
+-====================================
+-
+-The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
+-KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
+-kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
+-
+-The groups and attributes per virtual cpu, if any, are architecture specific.
+-
+-1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
+-Architectures: ARM64
+-
+-1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
+-Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
+-            pointer to an int
+-Returns: -EBUSY: The PMU overflow interrupt is already set
+-         -ENXIO: The overflow interrupt not set when attempting to get it
+-         -ENODEV: PMUv3 not supported
+-         -EINVAL: Invalid PMU overflow interrupt number supplied or
+-                  trying to set the IRQ number without using an in-kernel
+-                  irqchip.
+-
+-A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
+-number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
+-type must be same for each vcpu. As a PPI, the interrupt number is the same for
+-all vcpus, while as an SPI it must be a separate number per vcpu.
+-
+-1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
+-Parameters: no additional parameter in kvm_device_attr.addr
+-Returns: -ENODEV: PMUv3 not supported or GIC not initialized
+-         -ENXIO: PMUv3 not properly configured or in-kernel irqchip not
+-                 configured as required prior to calling this attribute
+-         -EBUSY: PMUv3 already initialized
+-
+-Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
+-virtual GIC implementation, this must be done after initializing the in-kernel
+-irqchip.
+-
+-
+-2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+-Architectures: ARM,ARM64
+-
+-2.1. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_VTIMER
+-2.2. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_PTIMER
+-Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
+-            pointer to an int
+-Returns: -EINVAL: Invalid timer interrupt number
+-         -EBUSY:  One or more VCPUs has already run
+-
+-A value describing the architected timer interrupt number when connected to an
+-in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
+-attribute overrides the default values (see below).
+-
+-KVM_ARM_VCPU_TIMER_IRQ_VTIMER: The EL1 virtual timer intid (default: 27)
+-KVM_ARM_VCPU_TIMER_IRQ_PTIMER: The EL1 physical timer intid (default: 30)
+-
+-Setting the same PPI for different timers will prevent the VCPUs from running.
+-Setting the interrupt number on a VCPU configures all VCPUs created at that
+-time to use the number provided for a given timer, overwriting any previously
+-configured values on other VCPUs.  Userspace should configure the interrupt
+-numbers on at least one VCPU after creating all VCPUs and before running any
+-VCPUs.
+-
+-3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
+-Architectures: ARM64
+-
+-3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
+-Parameters: 64-bit base address
+-Returns: -ENXIO:  Stolen time not implemented
+-         -EEXIST: Base address already set for this VCPU
+-         -EINVAL: Base address not 64 byte aligned
+-
+-Specifies the base address of the stolen time structure for this VCPU. The
+-base address must be 64 byte aligned and exist within a valid guest memory
+-region. See Documentation/virt/kvm/arm/pvtime.txt for more information
+-including the layout of the stolen time structure.
 -- 
 2.24.1
 
