@@ -1,109 +1,107 @@
 Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Level: *
+X-Spam-Status: No, score=1.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_DBL_ABUSE_MALW autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D1DC32771
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 01:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A641FC32771
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 02:09:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 812762467B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 01:54:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D6C12173E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 02:09:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMCV0kwE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2nySqPo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgA1ByW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 20:54:22 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:46666 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726164AbgA1ByW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 20:54:22 -0500
-Received: by mail-pl1-f193.google.com with SMTP id y8so4446832pll.13;
-        Mon, 27 Jan 2020 17:54:22 -0800 (PST)
+        id S1726099AbgA1CJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 21:09:20 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:41095 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbgA1CJT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 21:09:19 -0500
+Received: by mail-io1-f67.google.com with SMTP id m25so12450837ioo.8;
+        Mon, 27 Jan 2020 18:09:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=1ZMMwelLf0A5wvuZj2x68zePfxAq2fUXhD1Zlvefv7Y=;
-        b=IMCV0kwEhLFtqutPkJoXbViyl3w7xBFWsjPH9LRk1eSZEDxFU+qs04YB1NuSl1GJY4
-         OqExxvsOXGJO53LAWvbkaDdFYzUDDL8Q+X+/v+oSWVN8xHwG8Sr2amcUUIqLPxgte1uS
-         wqpEUn2XG7Hh2mzFMC5TUonmyjgSuROS8yaTYlkQ0PakyV5iMft6t6F984i9sg6l3UKB
-         n4FycKWpp1tCgK9Oh7cJMoAsJbvPQJDsDv4IZPtdLF6+3/8ceNI1MpkhSsI60El2Fipq
-         jIKaOevJAk1CL1fOgHV7Q5CyhOfoDtrp7oAc1qn3y/doQ6JYx5UO1G+AIIUET+FDPB7+
-         n+3w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Jqeka4BRN4QCngINzPSMLmJvVtJZ+1civQXaHl9LEDU=;
+        b=C2nySqPo3DP5zUI8IHxkiPq3mjvT9ZQJ2FWeALKWoafxbpxXKAbIzhv3ZNS55XAx36
+         L5jUaL3lhl9wM2FZJSY9jOPEJU9DrAaTWlNu/uJzhcUEOD1uI07VSn/rz4Sx1HVEM+SX
+         rUOhFR0QiCRR7vb9Toywv7Eg3nSJp02dUIZ7PsBhqTHjjlI46gGYrP/jKBxRHcD+t6Ny
+         iTErSIWGrSxsmE4hV6bsPiHhW9+99BM3BbX/kWWWeNAT06b4zYLKx83/XdVFWrYzdn2v
+         xLRtABKiTjYUnx2T7CihXALM2CACMml8iUqpyuuDGGYTHZEIe7xpsOVk77b79SYqbcFT
+         qpRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1ZMMwelLf0A5wvuZj2x68zePfxAq2fUXhD1Zlvefv7Y=;
-        b=cxhxIkLroE+tQYAjIzQJWUh4rQT3fzfHgcw5k5dmkfdZwvAUC4eDCPioMEWYksno6w
-         E253efisCcBYOAoc1Hx9VkDPO2KVsJHC7x/f8WjduNWZyp2MACiUlpo7oWbDwirtH/Rv
-         GWbR5u6EjRJngLVb30uC7lS/kT59b38hkTo+iiwTtYeFhHRGGJv4CsjzoWYDxv1b7QH+
-         GmjZO4Y4fEH70KMhkFC7SA2nvrixrQGrpwp8kuk2ZO5QoWE/C8TAQ5HUqfIzK/X6f63L
-         yTPF14a3u8zaOXZyNavvMdTv6P7FSyUNdCjeJc2s6VK9KqiBjyTQL6Op/jpOt+BHRxRh
-         AdIw==
-X-Gm-Message-State: APjAAAX/PuuEPscJf/9tyUjHqXAZGUTGdJ8bdQsGSeEMI1/N4i2Llu2X
-        ocMcgOVIPTocz8KD1XKOncoc45rD
-X-Google-Smtp-Source: APXvYqzSCLsgdu+thMaqEiaZLIgj4vYPC2rYGh4W/mehpz0fI9OBBI2eSwUmj0peH72azDJW1dMcQQ==
-X-Received: by 2002:a17:902:d711:: with SMTP id w17mr20998616ply.303.1580176461737;
-        Mon, 27 Jan 2020 17:54:21 -0800 (PST)
-Received: from localhost.localdomain ([192.19.224.250])
-        by smtp.gmail.com with ESMTPSA id j17sm17393234pfa.28.2020.01.27.17.54.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 17:54:21 -0800 (PST)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-To:     linux-vger@kernel.org
-Cc:     stable@vger.kernel.org, jeremy.linton@arm.com,
-        gregkh@linuxfoundation.org, sashal@kernel.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jqeka4BRN4QCngINzPSMLmJvVtJZ+1civQXaHl9LEDU=;
+        b=cBbCseaOXkt6lYPxD+Qvrkd0IUVNX5uhj+IWnARJhPcE/nNEUJp/5IcSYDb+sbZb7P
+         VF5kqVWYVYDop87/OxLzIwGx8ubwanM+Wczu3wfRa0cE2MvXcyVPGxTMP6KYDUkAE6+g
+         jvwtIay2qOa2uW7r7nP2LZeM9xfTvUWKBBfFaf2L7rTy7o8gp7yU0VFj8ztvEPjRRZvc
+         2cHpudfsOtkqqxiT2OiI53AvJ9dMvE2IJD8kMqK2t4Ffx7fQMPSlK7/jE7j7rru44h7k
+         1CLg5gAIeH8MNRtlBc0920Fz716RzT3+PfMzxSdZIrQP5san3MbuGxeRsxB6uyWXCaj6
+         KsYQ==
+X-Gm-Message-State: APjAAAWBMEanF74XCMmplbI3UTMYCmLvMBuGnJN1WJhEVIAakaWhvN50
+        AzwC+PT7K3/qXFLHSsYES+TTT3O28SLyj5YEpmfadg==
+X-Google-Smtp-Source: APXvYqzlDUE7G1Cuqxvk6DspgP0RYK+1bgmqnUAa+UnGxlsbxG55exqQISC752x7GdmlfCj/k3BIaeo+bpCjBIQ2KXI=
+X-Received: by 2002:a6b:4e1a:: with SMTP id c26mr13878144iob.154.1580177358558;
+ Mon, 27 Jan 2020 18:09:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20200124144248.11719-1-yu.c.chen@intel.com> <20200124192743.GL4675@bombadil.infradead.org>
+In-Reply-To: <20200124192743.GL4675@bombadil.infradead.org>
+From:   Chen Yu <yu.chen.surf@gmail.com>
+Date:   Tue, 28 Jan 2020 10:09:07 +0800
+Message-ID: <CADjb_WTBuhtKpko4dSh3Rj9D3=ie3hyh-nU6ib-XsCu9br1XZQ@mail.gmail.com>
+Subject: Re: [PATCH][RFC] PCI: Add "pci=blacklist_dev=" parameter to blacklist
+ specific devices
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Chen Yu <yu.c.chen@intel.com>, linux-pci@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH stable-4.9] Documentation: Document arm64 kpti control
-Date:   Mon, 27 Jan 2020 17:54:14 -0800
-Message-Id: <20200128015415.2276-1-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jeremy Linton <jeremy.linton@arm.com>
+Hi Matthew,
+Thanks for repy.
+On Sat, Jan 25, 2020 at 5:01 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Fri, Jan 24, 2020 at 10:42:48PM +0800, Chen Yu wrote:
+> > It was found that on some platforms the bogus pci device might bring
+> > troubles to the system. For example, on a MacBookPro the system could
+> > not be power off or suspended due to internal pci resource confliction
+> > between bogus pci device and [io 0x1804]. Another case is that, once
+> > resumed from hibernation on a VM, the pci config space of a pci device
+> > is corrupt.
+> >
+> > To narrow down and benefit future debugging for such kind of issues,
+> > introduce the command line blacklist_dev=<vendor:device_id>> to blacklist
+> > such pci devices thus they will not be scanned thus not visible after
+> > bootup. For example,
+> >
+> >  pci.blacklist_dev=8086:293e
+> >
+> > forbid the audio device to be exposed to the OS.
+>
+> This feels really unsafe to me.  Just because Linux ignores the device
+> doesn't mean the device will ignore I/O requests.  I think we should
+> call this pci.disable_dev and clear the device's I/O Space Enable,
+> Memory Space Enable and Bus Master Enable bits (in the Command register,
+> config space offset 4).
+Oh right, the BIOS might already has enabled Memory/IO space
+in the config during boot up and thus has already claimed the resource range
+for this pci device.
+I'll summarize the problem I found currently in Bjorn's reply and let's
+discuss it there.
 
-commit de19055564c8f8f9d366f8db3395836da0b2176c upstream
-
-For a while Arm64 has been capable of force enabling
-or disabling the kpti mitigations. Lets make sure the
-documentation reflects that.
-
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-[florian: patch the correct file]
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
- Documentation/kernel-parameters.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/kernel-parameters.txt b/Documentation/kernel-parameters.txt
-index 1bc12619bedd..b2d2f4539a3f 100644
---- a/Documentation/kernel-parameters.txt
-+++ b/Documentation/kernel-parameters.txt
-@@ -1965,6 +1965,12 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
- 			kmemcheck=2 (one-shot mode)
- 			Default: 2 (one-shot mode)
- 
-+	kpti=		[ARM64] Control page table isolation of user
-+			and kernel address spaces.
-+			Default: enabled on cores which need mitigation.
-+			0: force disabled
-+			1: force enabled
-+
- 	kstack=N	[X86] Print N words from the kernel stack
- 			in oops dumps.
- 
--- 
-2.17.1
-
+Thanks,
+chenyu
