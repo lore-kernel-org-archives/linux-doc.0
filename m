@@ -4,56 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D15DC33CB3
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09E7CC2D0DB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 348872173E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1D6D207FD
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580223002;
-	bh=4KbYRGFqJZ7ieywXsFZMMJVdhzIfilUrd/qsaKkEEAQ=;
+	s=default; t=1580223004;
+	bh=aRB+F8aPuOXIKhGA4PgLcxC037sTgrQxSls+FlqjkKY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=psEHx3nDGk9mANveS1QIIk+rrjXtZMwnL33/1q3eUxciklTVwuHGus+H6FrlO2r0T
-	 nC7M6z2igYSpX0n8HjG8Ejv6O2ZNT5W+HuH7/VYJALgO1R8RxJXWK2WvD7TSumY1++
-	 hZfR5MHJD6TWpSlA4SQ4VoqIBiOscvARmBflcjEc=
+	b=eqP+9PPx8VvEdHKe7eYsChr8omxFlDUeGG4+vK/a3Ot3sEy/dhiKciMeRNsjjDqKm
+	 Fq1cmqoiF0bepsrE/sKJWh5IYH9607uZu0K+39GBJ50v0JNqujHnk47cfiB2gxBOq8
+	 yVoiBOa4ZoO1/sjkNovmJo3bJdlhoW4m1g5Wk6NU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727346AbgA1OuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:50:00 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:59280 "EHLO
+        id S1726664AbgA1OuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 09:50:04 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59272 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727140AbgA1OAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:46 -0500
+        with ESMTP id S1726813AbgA1OAp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=H1nRRjrZGeu/PASJbR2ix7tpTPDW4y35R3IZ+NkvAB8=; b=lMc7rGguapyL8NhwV4j/uuQM0t
-        p89ipN0XtzsMKNDMc6Z3dY/mtPjxFkftxHz6vUbbP533m3dHPnHQdovrJaJLx9dCWjp9r45i6kvY7
-        tZToXlLBQCryC+Ep5swpooGbhL3PxErelLu6IEtwzpi6eZHaXbvIPa31JzJis2VyMaCmV9FK6x/S3
-        LyNfBzf0ADrJqMJKZpSirulPsW7yhva9CI0PWyXZCCrpUnucYRuPqwfYoJzvLBeNUH32zJDsqZ7L4
-        BxYRgk8hqxva4jKxliivBVc58ac+A+i4Pyf6nsZgcvgeZkjwc/qVyU/niE0n7jdDnXU3FWyHeHxRi
-        x39Dh7Tw==;
+        bh=Gpnnwuexn6E79rDCRXA/tGQCjM2huV9ksFH2E/NUq90=; b=r6kNJ2jJVv4UJ/2qrj3SlvaeCu
+        CgPIBvPaXcrfP4kLibGIRF2xRxaHxUojVKahdDJQ+QwUU9TeTlgGpx84WIRv6UKLQDfjvBDU3m7pd
+        pGQMZo2rhxV1HYhqtlU7SauOVSKPsQeobaMA/2FvigxWmsq0lCB2Wr2g6+7cQ4k6tnv4hobqt4fA+
+        aCNlRxhgTpIiBC+NDJePGP8XqNL/TC2srX7a+wMgS96YqJJtXE2UTndusI3IssoKFwaOIRmgdkFqV
+        1KL/GxcVwrsdb9KqMmFmKCbXyKwfBuKgj2oF/ORVIX8BbhHtqX9dMQCJfFAHCFyfadGbk8+Q7ZUQm
+        OJJhNqlw==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRQ5-0007ie-UC; Tue, 28 Jan 2020 14:00:45 +0000
+        id 1iwRQ5-0007iY-Ek; Tue, 28 Jan 2020 14:00:45 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRPp-001BNz-Gu; Tue, 28 Jan 2020 15:00:29 +0100
+        id 1iwRPp-001BNQ-9H; Tue, 28 Jan 2020 15:00:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 10/27] docs: kvm: convert devices/mpic.txt to ReST
-Date:   Tue, 28 Jan 2020 15:00:11 +0100
-Message-Id: <11aa35fac07b299da862706325b194164548549b.1580219586.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/27] docs: virt: user_mode_linux.rst: update compiling instructions
+Date:   Tue, 28 Jan 2020 15:00:04 +0100
+Message-Id: <ea87ca5eef3b32e8caa2057d34909bb5aebf1cb4.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -64,61 +66,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This document is almost in ReST format. The only thing
-needed is to mark a list as such and to add an extra
-whitespace.
-
-Yet, let's also use the standard document title markup,
-as it makes easier if anyone wants later to add sessions
-to it.
+Instead of pointing for a pre-2.4 and a seaparate patch,
+update it to match current upstream, as UML was merged
+a long time ago.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/devices/index.rst              | 1 +
- Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} | 9 ++++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
- rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (92%)
+ Documentation/virt/uml/user_mode_linux.rst | 62 ++++------------------
+ 1 file changed, 9 insertions(+), 53 deletions(-)
 
-diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-index 7eabce80c61e..9e5586e371de 100644
---- a/Documentation/virt/kvm/devices/index.rst
-+++ b/Documentation/virt/kvm/devices/index.rst
-@@ -10,3 +10,4 @@ Devices
-    arm-vgic-its
-    arm-vgic
-    arm-vgic-v3
-+   mpic
-diff --git a/Documentation/virt/kvm/devices/mpic.txt b/Documentation/virt/kvm/devices/mpic.rst
-similarity index 92%
-rename from Documentation/virt/kvm/devices/mpic.txt
-rename to Documentation/virt/kvm/devices/mpic.rst
-index 8257397adc3c..571b2bc72b5e 100644
---- a/Documentation/virt/kvm/devices/mpic.txt
-+++ b/Documentation/virt/kvm/devices/mpic.rst
-@@ -1,9 +1,11 @@
-+=========================
- MPIC interrupt controller
- =========================
+diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
+index 98922008be23..a96d29243964 100644
+--- a/Documentation/virt/uml/user_mode_linux.rst
++++ b/Documentation/virt/uml/user_mode_linux.rst
+@@ -3,7 +3,7 @@ User Mode Linux HOWTO
+ =====================
  
- Device types supported:
--  KVM_DEV_TYPE_FSL_MPIC_20     Freescale MPIC v2.0
--  KVM_DEV_TYPE_FSL_MPIC_42     Freescale MPIC v4.2
-+
-+  - KVM_DEV_TYPE_FSL_MPIC_20     Freescale MPIC v2.0
-+  - KVM_DEV_TYPE_FSL_MPIC_42     Freescale MPIC v4.2
+ :Author:  User Mode Linux Core Team
+-:Last-updated: Mon Nov 18 14:16:16 EST 2002
++:Last-updated: Sat Jan 25 16:07:55 CET 2020
  
- Only one MPIC instance, of any type, may be instantiated.  The created
- MPIC will act as the system interrupt controller, connecting to each
-@@ -11,7 +13,8 @@ vcpu's interrupt inputs.
+ This document describes the use and abuse of Jeff Dike's User Mode
+ Linux: a port of the Linux kernel as a normal Intel Linux process.
+@@ -221,23 +221,15 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
  
- Groups:
-   KVM_DEV_MPIC_GRP_MISC
--  Attributes:
-+   Attributes:
-+
-     KVM_DEV_MPIC_BASE_ADDR (rw, 64-bit)
-       Base address of the 256 KiB MPIC register space.  Must be
-       naturally aligned.  A value of zero disables the mapping.
+ 
+   Compiling the user mode kernel is just like compiling any other
+-  kernel.  Let's go through the steps, using 2.4.0-prerelease (current
+-  as of this writing) as an example:
++  kernel.
+ 
+ 
+-  1. Download the latest UML patch from
+-     the download page <http://user-mode-linux.sourceforge.net/
+-
+-     In this example, the file is uml-patch-2.4.0-prerelease.bz2.
+-
+-
+-  2. Download the matching kernel from your favourite kernel mirror,
++  1. Download the latest kernel from your favourite kernel mirror,
+      such as:
+ 
+-     ftp://ftp.ca.kernel.org/pub/kernel/v2.4/linux-2.4.0-prerelease.tar.bz2
++     https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.4.14.tar.xz
+ 
+-
+-  3. Make a directory and unpack the kernel into it::
++  2. Make a directory and unpack the kernel into it::
+ 
+        host%
+        mkdir ~/uml
+@@ -246,21 +238,10 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+        cd ~/uml
+ 
+        host%
+-       tar -xzvf linux-2.4.0-prerelease.tar.bz2
++       tar xvf linux-5.4.14.tar.xz
+ 
+ 
+-
+-  4. Apply the patch using::
+-
+-       host%
+-       cd ~/uml/linux
+-
+-       host%
+-       bzcat uml-patch-2.4.0-prerelease.bz2 | patch -p1
+-
+-
+-
+-  5. Run your favorite config; ``make xconfig ARCH=um`` is the most
++  3. Run your favorite config; ``make xconfig ARCH=um`` is the most
+      convenient.  ``make config ARCH=um`` and ``make menuconfig ARCH=um``
+      will work as well.  The defaults will give you a useful kernel.  If
+      you want to change something, go ahead, it probably won't hurt
+@@ -274,34 +255,9 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+ 
+ 
+ 
+-  6. Finish with ``make linux ARCH=um``: the result is a file called
++  4. Finish with ``make linux ARCH=um``: the result is a file called
+      ``linux`` in the top directory of your source tree.
+ 
+-  Make sure that you don't build this kernel in /usr/src/linux.  On some
+-  distributions, /usr/include/asm is a link into this pool.  The user-
+-  mode build changes the other end of that link, and things that include
+-  <asm/anything.h> stop compiling.
+-
+-  The sources are also available from cvs at the project's cvs page,
+-  which has directions on getting the sources. You can also browse the
+-  CVS pool from there.
+-
+-  If you get the CVS sources, you will have to check them out into an
+-  empty directory. You will then have to copy each file into the
+-  corresponding directory in the appropriate kernel pool.
+-
+-  If you don't have the latest kernel pool, you can get the
+-  corresponding user-mode sources with::
+-
+-
+-       host% cvs co -r v_2_3_x linux
+-
+-
+-
+-
+-  where 'x' is the version in your pool. Note that you will not get the
+-  bug fixes and enhancements that have gone into subsequent releases.
+-
+ 
+ 2.2.  Compiling and installing kernel modules
+ ---------------------------------------------
+@@ -414,7 +370,7 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+ 3.1.  Running UML
+ -----------------
+ 
+-  It runs on 2.2.15 or later, and all 2.4 kernels.
++  It runs on 2.2.15 or later, and all kernel versions since 2.4.
+ 
+ 
+   Booting UML is straightforward.  Simply run 'linux': it will try to
 -- 
 2.24.1
 
