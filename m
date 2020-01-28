@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 513C1C33CB2
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9857EC33CB3
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:49:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D128205F4
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:01:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70DFD2173E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:49:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580220076;
-	bh=0QE9r9M4nSusoBtn0uQmTsBwPDzhFl/0GJzag3gO7W4=;
+	s=default; t=1580222976;
+	bh=NUa9wOdnULSFN80KMTvTexLw0fLdLRakNVV/kz8ETNU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KeKr2VCnWUNhX7fchIvhQDUDI4B0+UDdpWYB4b9UH+kX2SOXSkA/KjWbFThlKdQp9
-	 tLjrAl9UlqS3JSPMYYRtoJokjmDbFKtfGdUjt+tejULG05QyoO7Tbs9fwK1ADGRiMJ
-	 8cSmZrlDoRqIIdy+nkhpjlomPG3tfmSrvYhfvCgs=
+	b=k9XvuVmcKqihmG97QjEQQPw0z3vvaouIje1+dGVlvTUBJsqjDh4yBKyHGXIVFdaIM
+	 8iIrb73/jZaiYMI025t/yykpuPZL7it0lEDbP6LqUseVRd80JatyyeWzWOU3mwIOQB
+	 C2jBd6VRgGMMRGI7abwgVSYbIfJrQIrDcTMudEDk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbgA1OBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:01:15 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:59352 "EHLO
+        id S1727378AbgA1OBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 09:01:14 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59362 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726824AbgA1OAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:46 -0500
+        with ESMTP id S1727304AbgA1OAr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=F1P+6+TuszupGu0Tp2g0JB6lrpho1zIIc3pb798RBPM=; b=W1KEICt4HTRfCqH6HDrd2RpgfF
-        Jb4fIstRpNv/q1FMnmdjYqMGqtZhcInwnHmqMAgON6KJWcuX7kxArsd9ETe3BJXdGrU+CcOJw6V7p
-        wHRVaCSE4BpuHf0uDYmJEslSy49sZrQuXZT+nXOENWRcv60emPPxH53Wkugt1thfA1Wit6vVKC1by
-        700qXBQn6bT4M8td7hHrdTCGEhcYka9wahJUjvelgx7gbfo2vRysg/Tf0AgbGeo27SrOkxHnxSFYU
-        Vw3UDE/5jL2zO1rgHdR3Oouo9P3GPtcUYY0YWNbkRz8fn8+c40gSoe+KMQo09m22K/fEli60/KOA6
-        rQHNFnwA==;
+        bh=cLewyjoNlj0NAqOJ/2/JgEHHKOKhNDS+TNzq9GjVM+s=; b=F82CP3TWym1rOqd5pGItFGmp6C
+        ECE5dgZy+glq4bt83wBr4EtHrVKQmsHgCWa3TM3pSD41ACxHWN9FDcC0kbwhZghig8soTOZpEvJgZ
+        42pUebPmzdZYkZFy5OkaLToN8iwkeLx6UfiQ7Qqge8i5vXVG+8iXyGC4hpwn7eJ59EmtQZlQTtDJj
+        GdpCYJMF31KvLev8T3KHfXrhKBv3mXo2HenZ/rIaL6JHRn+tbEW+izBil4jEvWPBUA0Zduk2F2qrX
+        ATDc+Hf27dsyJJG0vUOlDYYkhd0bffEzDGIXrNC0txF1bOvIQtZ3ZkZd0XtXUkme5KXgps2nwHHJY
+        dEJDbQjw==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRQ5-0007iv-VI; Tue, 28 Jan 2020 14:00:46 +0000
+        id 1iwRQ5-0007ii-WF; Tue, 28 Jan 2020 14:00:46 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRPp-001BOx-Vo; Tue, 28 Jan 2020 15:00:29 +0100
+        id 1iwRPp-001BNk-DW; Tue, 28 Jan 2020 15:00:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,9 +51,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 22/27] docs: kvm: Convert mmu.txt to ReST format
-Date:   Tue, 28 Jan 2020 15:00:23 +0100
-Message-Id: <5e12ebc5b94bfd269d18d1e56d8b71c9f86a9ff2.1580219586.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 07/27] docs: kvm: devices/arm-vgic-its.txt to ReST format
+Date:   Tue, 28 Jan 2020 15:00:08 +0100
+Message-Id: <5681dbc80e10388917107f3d0b33eb90e2e4b5a3.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -64,203 +64,247 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title and chapter markups;
-- Add markups for tables;
-- Add markups for literal blocks;
-- Add blank lines and adjust indentation.
+- Fix document title to match ReST format
+- Convert the table to be properly recognized
+- use proper markups for literal blocks
+- Some indentation fixes to match ReST
+
+While here, add an index for kvm devices.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst            |  1 +
- Documentation/virt/kvm/{mmu.txt => mmu.rst} | 60 ++++++++++++++++-----
- 2 files changed, 47 insertions(+), 14 deletions(-)
- rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+ .../{arm-vgic-its.txt => arm-vgic-its.rst}    | 104 +++++++++++-------
+ Documentation/virt/kvm/devices/index.rst      |  10 ++
+ Documentation/virt/kvm/index.rst              |   1 +
+ 3 files changed, 76 insertions(+), 39 deletions(-)
+ rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+ create mode 100644 Documentation/virt/kvm/devices/index.rst
 
+diff --git a/Documentation/virt/kvm/devices/arm-vgic-its.txt b/Documentation/virt/kvm/devices/arm-vgic-its.rst
+similarity index 71%
+rename from Documentation/virt/kvm/devices/arm-vgic-its.txt
+rename to Documentation/virt/kvm/devices/arm-vgic-its.rst
+index eeaa95b893a8..4197d9d6a870 100644
+--- a/Documentation/virt/kvm/devices/arm-vgic-its.txt
++++ b/Documentation/virt/kvm/devices/arm-vgic-its.rst
+@@ -1,3 +1,4 @@
++===============================================
+ ARM Virtual Interrupt Translation Service (ITS)
+ ===============================================
+ 
+@@ -12,22 +13,32 @@ There can be multiple ITS controllers per guest, each of them has to have
+ a separate, non-overlapping MMIO region.
+ 
+ 
+-Groups:
+-  KVM_DEV_ARM_VGIC_GRP_ADDR
++Groups
++======
++
++KVM_DEV_ARM_VGIC_GRP_ADDR
++-------------------------
++
+   Attributes:
+     KVM_VGIC_ITS_ADDR_TYPE (rw, 64-bit)
+       Base address in the guest physical address space of the GICv3 ITS
+       control register frame.
+       This address needs to be 64K aligned and the region covers 128K.
++
+   Errors:
+-    -E2BIG:  Address outside of addressable IPA range
+-    -EINVAL: Incorrectly aligned address
+-    -EEXIST: Address already configured
+-    -EFAULT: Invalid user pointer for attr->addr.
+-    -ENODEV: Incorrect attribute or the ITS is not supported.
+ 
++    =======  =================================================
++    -E2BIG   Address outside of addressable IPA range
++    -EINVAL  Incorrectly aligned address
++    -EEXIST  Address already configured
++    -EFAULT  Invalid user pointer for attr->addr.
++    -ENODEV  Incorrect attribute or the ITS is not supported.
++    =======  =================================================
++
++
++KVM_DEV_ARM_VGIC_GRP_CTRL
++-------------------------
+ 
+-  KVM_DEV_ARM_VGIC_GRP_CTRL
+   Attributes:
+     KVM_DEV_ARM_VGIC_CTRL_INIT
+       request the initialization of the ITS, no additional parameter in
+@@ -58,16 +69,21 @@ Groups:
+       "ITS Restore Sequence".
+ 
+   Errors:
+-    -ENXIO:  ITS not properly configured as required prior to setting
++
++    =======  ==========================================================
++     -ENXIO  ITS not properly configured as required prior to setting
+              this attribute
+-    -ENOMEM: Memory shortage when allocating ITS internal data
+-    -EINVAL: Inconsistent restored data
+-    -EFAULT: Invalid guest ram access
+-    -EBUSY:  One or more VCPUS are running
+-    -EACCES: The virtual ITS is backed by a physical GICv4 ITS, and the
++    -ENOMEM  Memory shortage when allocating ITS internal data
++    -EINVAL  Inconsistent restored data
++    -EFAULT  Invalid guest ram access
++    -EBUSY   One or more VCPUS are running
++    -EACCES  The virtual ITS is backed by a physical GICv4 ITS, and the
+ 	     state is not available
++    =======  ==========================================================
++
++KVM_DEV_ARM_VGIC_GRP_ITS_REGS
++-----------------------------
+ 
+-  KVM_DEV_ARM_VGIC_GRP_ITS_REGS
+   Attributes:
+       The attr field of kvm_device_attr encodes the offset of the
+       ITS register, relative to the ITS control frame base address
+@@ -78,6 +94,7 @@ Groups:
+       be accessed with full length.
+ 
+       Writes to read-only registers are ignored by the kernel except for:
++
+       - GITS_CREADR. It must be restored otherwise commands in the queue
+         will be re-executed after restoring CWRITER. GITS_CREADR must be
+         restored before restoring the GITS_CTLR which is likely to enable the
+@@ -91,30 +108,36 @@ Groups:
+ 
+       For other registers, getting or setting a register has the same
+       effect as reading/writing the register on real hardware.
++
+   Errors:
+-    -ENXIO: Offset does not correspond to any supported register
+-    -EFAULT: Invalid user pointer for attr->addr
+-    -EINVAL: Offset is not 64-bit aligned
+-    -EBUSY: one or more VCPUS are running
+ 
+- ITS Restore Sequence:
+- -------------------------
++    =======  ====================================================
++    -ENXIO   Offset does not correspond to any supported register
++    -EFAULT  Invalid user pointer for attr->addr
++    -EINVAL  Offset is not 64-bit aligned
++    -EBUSY   one or more VCPUS are running
++    =======  ====================================================
++
++ITS Restore Sequence:
++---------------------
+ 
+ The following ordering must be followed when restoring the GIC and the ITS:
++
+ a) restore all guest memory and create vcpus
+ b) restore all redistributors
+ c) provide the ITS base address
+    (KVM_DEV_ARM_VGIC_GRP_ADDR)
+ d) restore the ITS in the following order:
+-   1. Restore GITS_CBASER
+-   2. Restore all other GITS_ registers, except GITS_CTLR!
+-   3. Load the ITS table data (KVM_DEV_ARM_ITS_RESTORE_TABLES)
+-   4. Restore GITS_CTLR
++
++     1. Restore GITS_CBASER
++     2. Restore all other ``GITS_`` registers, except GITS_CTLR!
++     3. Load the ITS table data (KVM_DEV_ARM_ITS_RESTORE_TABLES)
++     4. Restore GITS_CTLR
+ 
+ Then vcpus can be started.
+ 
+- ITS Table ABI REV0:
+- -------------------
++ITS Table ABI REV0:
++-------------------
+ 
+  Revision 0 of the ABI only supports the features of a virtual GICv3, and does
+  not support a virtual GICv4 with support for direct injection of virtual
+@@ -125,12 +148,13 @@ Then vcpus can be started.
+  entries in the collection are listed in no particular order.
+  All entries are 8 bytes.
+ 
+- Device Table Entry (DTE):
++ Device Table Entry (DTE)::
+ 
+- bits:     | 63| 62 ... 49 | 48 ... 5 | 4 ... 0 |
+- values:   | V |   next    | ITT_addr |  Size   |
++   bits:     | 63| 62 ... 49 | 48 ... 5 | 4 ... 0 |
++   values:   | V |   next    | ITT_addr |  Size   |
++
++ where:
+ 
+- where;
+  - V indicates whether the entry is valid. If not, other fields
+    are not meaningful.
+  - next: equals to 0 if this entry is the last one; otherwise it
+@@ -140,32 +164,34 @@ Then vcpus can be started.
+  - Size specifies the supported number of bits for the EventID,
+    minus one
+ 
+- Collection Table Entry (CTE):
++ Collection Table Entry (CTE)::
+ 
+- bits:     | 63| 62 ..  52  | 51 ... 16 | 15  ...   0 |
+- values:   | V |    RES0    |  RDBase   |    ICID     |
++   bits:     | 63| 62 ..  52  | 51 ... 16 | 15  ...   0 |
++   values:   | V |    RES0    |  RDBase   |    ICID     |
+ 
+  where:
++
+  - V indicates whether the entry is valid. If not, other fields are
+    not meaningful.
+  - RES0: reserved field with Should-Be-Zero-or-Preserved behavior.
+  - RDBase is the PE number (GICR_TYPER.Processor_Number semantic),
+  - ICID is the collection ID
+ 
+- Interrupt Translation Entry (ITE):
++ Interrupt Translation Entry (ITE)::
+ 
+- bits:     | 63 ... 48 | 47 ... 16 | 15 ... 0 |
+- values:   |    next   |   pINTID  |  ICID    |
++   bits:     | 63 ... 48 | 47 ... 16 | 15 ... 0 |
++   values:   |    next   |   pINTID  |  ICID    |
+ 
+  where:
++
+  - next: equals to 0 if this entry is the last one; otherwise it corresponds
+    to the EventID offset to the next ITE capped by 2^16 -1.
+  - pINTID is the physical LPI ID; if zero, it means the entry is not valid
+    and other fields are not meaningful.
+  - ICID is the collection ID
+ 
+- ITS Reset State:
+- ----------------
++ITS Reset State:
++----------------
+ 
+ RESET returns the ITS to the same state that it was when first created and
+ initialized. When the RESET command returns, the following things are
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+new file mode 100644
+index 000000000000..2aad8d426097
+--- /dev/null
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -0,0 +1,10 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======
++Devices
++=======
++
++.. toctree::
++   :maxdepth: 2
++
++   arm-vgic-its
 diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 9be8f53b729d..95e2487d38f4 100644
+index cc6dde47b267..24d1076ec680 100644
 --- a/Documentation/virt/kvm/index.rst
 +++ b/Documentation/virt/kvm/index.rst
-@@ -13,6 +13,7 @@ KVM
-    halt-polling
-    hypercalls
-    locking
-+   mmu
-    msr
+@@ -14,3 +14,4 @@ KVM
     vcpu-requests
  
-diff --git a/Documentation/virt/kvm/mmu.txt b/Documentation/virt/kvm/mmu.rst
-similarity index 94%
-rename from Documentation/virt/kvm/mmu.txt
-rename to Documentation/virt/kvm/mmu.rst
-index dadb29e8738f..bf700a9a95fa 100644
---- a/Documentation/virt/kvm/mmu.txt
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -1,3 +1,4 @@
-+======================
- The x86 kvm shadow mmu
- ======================
- 
-@@ -7,27 +8,37 @@ physical addresses to host physical addresses.
- 
- The mmu code attempts to satisfy the following requirements:
- 
--- correctness: the guest should not be able to determine that it is running
-+- correctness:
-+	       the guest should not be able to determine that it is running
-                on an emulated mmu except for timing (we attempt to comply
-                with the specification, not emulate the characteristics of
-                a particular implementation such as tlb size)
--- security:    the guest must not be able to touch host memory not assigned
-+- security:
-+	       the guest must not be able to touch host memory not assigned
-                to it
--- performance: minimize the performance penalty imposed by the mmu
--- scaling:     need to scale to large memory and large vcpu guests
--- hardware:    support the full range of x86 virtualization hardware
--- integration: Linux memory management code must be in control of guest memory
-+- performance:
-+               minimize the performance penalty imposed by the mmu
-+- scaling:
-+               need to scale to large memory and large vcpu guests
-+- hardware:
-+               support the full range of x86 virtualization hardware
-+- integration:
-+               Linux memory management code must be in control of guest memory
-                so that swapping, page migration, page merging, transparent
-                hugepages, and similar features work without change
--- dirty tracking: report writes to guest memory to enable live migration
-+- dirty tracking:
-+               report writes to guest memory to enable live migration
-                and framebuffer-based displays
--- footprint:   keep the amount of pinned kernel memory low (most memory
-+- footprint:
-+               keep the amount of pinned kernel memory low (most memory
-                should be shrinkable)
--- reliability:  avoid multipage or GFP_ATOMIC allocations
-+- reliability:
-+               avoid multipage or GFP_ATOMIC allocations
- 
- Acronyms
- ========
- 
-+====  ====================================================================
- pfn   host page frame number
- hpa   host physical address
- hva   host virtual address
-@@ -41,6 +52,7 @@ pte   page table entry (used also to refer generically to paging structure
- gpte  guest pte (referring to gfns)
- spte  shadow pte (referring to pfns)
- tdp   two dimensional paging (vendor neutral term for NPT and EPT)
-+====  ====================================================================
- 
- Virtual and real hardware supported
- ===================================
-@@ -90,11 +102,13 @@ Events
- The mmu is driven by events, some from the guest, some from the host.
- 
- Guest generated events:
-+
- - writes to control registers (especially cr3)
- - invlpg/invlpga instruction execution
- - access to missing or protected translations
- 
- Host generated events:
-+
- - changes in the gpa->hpa translation (either through gpa->hva changes or
-   through hva->hpa changes)
- - memory pressure (the shrinker)
-@@ -117,16 +131,19 @@ Leaf ptes point at guest pages.
- The following table shows translations encoded by leaf ptes, with higher-level
- translations in parentheses:
- 
-- Non-nested guests:
-+ Non-nested guests::
-+
-   nonpaging:     gpa->hpa
-   paging:        gva->gpa->hpa
-   paging, tdp:   (gva->)gpa->hpa
-- Nested guests:
-+
-+ Nested guests::
-+
-   non-tdp:       ngva->gpa->hpa  (*)
-   tdp:           (ngva->)ngpa->gpa->hpa
- 
--(*) the guest hypervisor will encode the ngva->gpa translation into its page
--    tables if npt is not present
-+  (*) the guest hypervisor will encode the ngva->gpa translation into its page
-+      tables if npt is not present
- 
- Shadow pages contain the following information:
-   role.level:
-@@ -291,28 +308,41 @@ Handling a page fault is performed as follows:
- 
-  - if the RSV bit of the error code is set, the page fault is caused by guest
-    accessing MMIO and cached MMIO information is available.
-+
-    - walk shadow page table
-    - check for valid generation number in the spte (see "Fast invalidation of
-      MMIO sptes" below)
-    - cache the information to vcpu->arch.mmio_gva, vcpu->arch.mmio_access and
-      vcpu->arch.mmio_gfn, and call the emulator
-+
-  - If both P bit and R/W bit of error code are set, this could possibly
-    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
-    the description in Documentation/virt/kvm/locking.txt.
-+
-  - if needed, walk the guest page tables to determine the guest translation
-    (gva->gpa or ngpa->gpa)
-+
-    - if permissions are insufficient, reflect the fault back to the guest
-+
-  - determine the host page
-+
-    - if this is an mmio request, there is no host page; cache the info to
-      vcpu->arch.mmio_gva, vcpu->arch.mmio_access and vcpu->arch.mmio_gfn
-+
-  - walk the shadow page table to find the spte for the translation,
-    instantiating missing intermediate page tables as necessary
-+
-    - If this is an mmio request, cache the mmio info to the spte and set some
-      reserved bit on the spte (see callers of kvm_mmu_set_mmio_spte_mask)
-+
-  - try to unsynchronize the page
-+
-    - if successful, we can let the guest continue and modify the gpte
-+
-  - emulate the instruction
-+
-    - if failed, unshadow the page and let the guest continue
-+
-  - update any translations that were modified by the instruction
- 
- invlpg handling:
-@@ -324,10 +354,12 @@ invlpg handling:
- Guest control register updates:
- 
- - mov to cr3
-+
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
- 
- - mov to cr0/cr4/efer
-+
-   - set up mmu context for new paging mode
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
-@@ -358,6 +390,7 @@ on fault type:
- (user write faults generate a #PF)
- 
- In the first case there are two additional complications:
-+
- - if CR4.SMEP is enabled: since we've turned the page into a kernel page,
-   the kernel may now execute it.  We handle this by also setting spte.nx.
-   If we get a user fetch or read fault, we'll change spte.u=1 and
-@@ -446,4 +479,3 @@ Further reading
- 
- - NPT presentation from KVM Forum 2008
-   http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
--
+    arm/index
++   devices/index
 -- 
 2.24.1
 
