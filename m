@@ -2,132 +2,252 @@ Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B281AC2D0DB
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 19:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6781BC2D0DB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 19:32:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 850A322522
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 19:13:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31727214D8
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 19:32:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/F/VGHs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VCuq4zNQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726438AbgA1TNK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 14:13:10 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:40839 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgA1TNJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 14:13:09 -0500
-Received: by mail-yw1-f67.google.com with SMTP id i126so7057651ywe.7;
-        Tue, 28 Jan 2020 11:13:09 -0800 (PST)
+        id S1726333AbgA1TcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 14:32:18 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:38653 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbgA1TcS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 14:32:18 -0500
+Received: by mail-qk1-f196.google.com with SMTP id k6so14568748qki.5
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2020 11:32:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8wKVDbM8dSna8Ek2WmGu0py3hsOW6aws0CcQ8clzPl0=;
-        b=Q/F/VGHs771LlF1sjpTuRXeCsaknt7LaVzk9pUl2TOuBLJKDMJjHKjv+kuemKIB4Is
-         EnNcCLglXHnJq/BfgID3gmBwQECKvqDtuMWSx6gounOTn7i/dvNewI1n0UXoeEblKkZb
-         MxWyBHs52ZcrpWAcYodUux65b0Vo5J6N9bOpgsZOfSg4Qwp4p4M83iNvC5R63iMxjQCK
-         pZUiI8Yja10ywMtKlCnw/Q3HU7ViguP3DkZnQGSwwtWUePT8sA5I3Fpeo6UJ6oUYAIVt
-         GqQ+QXszEh/kuz/FXkWoCY53rkL4IJhNwairL+Tji8xHQoZ221t2GWlUXCUcQyAZsNGG
-         PFWg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k16PGj1qUUwziMfMyn3s5qm2lit+ozL0yN14mkzck48=;
+        b=VCuq4zNQI3kDYT7a2bEUe7emt8NIOG2ziynarqCfccw/g+7AtujVoRAlWhtU6S6M1a
+         NV+pVh9dmzFPKybyCSQ5aS684JZkjevxgY6nX5F/aOosdYj5nlltq4EfLIZS4aONWGqC
+         3MuERsazOp//jGrl2k6VckYP5c/IO09HqrOXCHwH8INvTHTf3vdbCBHw5XhqTmf0Yv4y
+         1fpEVTrAx14NpqYWJPElYomJel2KlOMrouExyhNavBdJYTgf0K/Uq4kDjlr9evj/LqLy
+         wK1P3tLF9OitxoSEF9VCwru8N5lZZGYI4uXOCN0QaUNjS66pXwnAdioIsa+y9WPcAYBk
+         rVPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8wKVDbM8dSna8Ek2WmGu0py3hsOW6aws0CcQ8clzPl0=;
-        b=RUhMSBlJmp8d6Iku5Rsq3zlBQiLenfNGMl0TuVuRumAad/G+q45fYScE2LjcZdkZmM
-         s0Debtk30bBdJuoCIXUhIecZPWjRbQkh5uE8U6nYLfhzxzvBSO/Kb70f98O9rn/VrAll
-         R6qPEe1qFjGO9YCP4kOp5poaD4J/Za9Wq+Bxj87Yt58YgZjfinAM2k3c8mhqCWFngSyp
-         +v2AxhM7eekxxy1inCpu4jQFY4+RemivS8znho1Dw7zj/05xyOZmG0r6nx0q0GneHH87
-         QKHxVgXI/ZSUTvtseVETt69fT5fgccbWMB5113TnU1zaVA7DPSnDQM/duTu1zlG7FtfB
-         tmGA==
-X-Gm-Message-State: APjAAAXhA5O953bf+mNvvvupXUoUWn0VUswaqt67jlZNfgLShzx8TswN
-        9b8FOYyOSLW8yoCZiT8OgRs=
-X-Google-Smtp-Source: APXvYqza0X/mYL4koOr7/goYIqRMeCTiHeRZYJxKgArDvNT+gdKCvpmjm3KyIxsxUHv0uaUooVE3hQ==
-X-Received: by 2002:a81:3d42:: with SMTP id k63mr16490295ywa.366.1580238788668;
-        Tue, 28 Jan 2020 11:13:08 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g65sm8473961ywd.109.2020.01.28.11.13.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 28 Jan 2020 11:13:08 -0800 (PST)
-Date:   Tue, 28 Jan 2020 11:13:06 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mike Jones <michael-a1.jones@analog.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jdelvare@suse.com, robh+dt@kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 2/3] hwmon: (pmbus/ltc2978): Fix PMBus polling of
- MFR_COMMON definitions.
-Message-ID: <20200128191306.GA32672@roeck-us.net>
-References: <1580234400-2829-1-git-send-email-michael-a1.jones@analog.com>
- <1580234400-2829-2-git-send-email-michael-a1.jones@analog.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k16PGj1qUUwziMfMyn3s5qm2lit+ozL0yN14mkzck48=;
+        b=oqv2eCehHpcWWGMGtP52p3JsPvs8kvhidNd4c/uuUrjWAVAdXVlre0Gadhz60k6w90
+         OITimUVIwjpqAvH0jUI7MuUOoB9XCe839yHCO95rTdLfmdfQd8dfRQL3tPgLcfPCDzZ1
+         6BkpzNAeRxGCkWbJcm8lUk993Q+i+9QoEtT2UX6K7lW5TL1BE5vraPri9i5u/iNRu/uT
+         bvgNuC12N8PI70zBcNuDIXvzcSG1bmCAh5O5oZaJ75Zo86lXfJN5AI5MR683f7/PuphV
+         INhJQm1tpZsbm0tcFlNv7y1o1LlJWwQCBUWAjEMFfZeH2ww9Ong3bxk4XZNacGZ4wbI8
+         UwpA==
+X-Gm-Message-State: APjAAAWc9lRa+6HVh6JXWiA0KA/IiJiAMSa/Bc0IAiLHIEFWNszQTymE
+        Lhum8BQRgzqMYPFI3ED7HqkCPP/hBgufXrt/cT0K9w==
+X-Google-Smtp-Source: APXvYqzjFiCsOsyFZYRIARaX+Cxwp6joYRuRYTlShoJmbGYCjLP+Q9xdZCbgZRx/xiZxfmZYvodgjgU8Xat5WYUFZ3Y=
+X-Received: by 2002:a37:9c8a:: with SMTP id f132mr23481931qke.432.1580239937466;
+ Tue, 28 Jan 2020 11:32:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1580234400-2829-2-git-send-email-michael-a1.jones@analog.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200113213149.25599-1-mike.leach@linaro.org> <20200113213149.25599-9-mike.leach@linaro.org>
+ <396fc3a2-083b-29ef-2bb6-2fca066ea0ef@arm.com>
+In-Reply-To: <396fc3a2-083b-29ef-2bb6-2fca066ea0ef@arm.com>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Tue, 28 Jan 2020 19:32:06 +0000
+Message-ID: <CAJ9a7VghcnAR7V9moPRAFRCTLvce-8qroZ23pG6Z9B3PSM4feQ@mail.gmail.com>
+Subject: Re: [PATCH v8 08/15] coresight: cti: Enable CTI associated with devices.
+To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 28, 2020 at 10:59:59AM -0700, Mike Jones wrote:
-> Change 21537dc driver PMBus polling of MFR_COMMON from bits 5/4 to
-> bits 6/5. This fixs a LTC297X family bug where polling always returns
-> not busy even when the part is busy. This fixes a LTC388X and
-> LTM467X bug where polling used PEND and NOT_IN_TRANS, and BUSY was
-> not polled, which can lead to NACKing of commands. LTC388X and
-> LTM467X modules now poll BUSY and PEND, increasing reliability by
-> eliminating NACKing of commands.
-> 
-> Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
+Hi Suzuki,
 
-Fixes: e04d1ce9bbb49 ("hwmon: (ltc2978) Add polling for chips requiring it")
+On Wed, 15 Jan 2020 at 11:14, Suzuki Kuruppassery Poulose
+<suzuki.poulose@arm.com> wrote:
+>
+> On 13/01/2020 21:31, Mike Leach wrote:
+> > The CoreSight subsystem enables a path of devices from source to sink.
+> > Any CTI devices associated with the path devices must be enabled at the
+> > same time.
+> >
+> > This patch adds an associated coresight_device element to the main
+> > coresight device structure, and uses this to create associations between
+> > the CTI and other devices based on the device tree data. The associated
+> > device element is used to enable CTI in conjunction with the path elements.
+> >
+> > CTI devices are reference counted so where a single CTI is associated with
+> > multiple elements on the path, it will be enabled on the first associated
+> > device enable, and disabled with the last associated device disable.
+> >
+> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > ---
+> >   drivers/hwtracing/coresight/coresight-cti.c   | 129 ++++++++++++++++++
+> >   drivers/hwtracing/coresight/coresight-cti.h   |   1 +
+> >   .../hwtracing/coresight/coresight-platform.c  |   1 +
+> >   drivers/hwtracing/coresight/coresight-priv.h  |  12 ++
+> >   drivers/hwtracing/coresight/coresight.c       |  71 +++++++++-
+> >   include/linux/coresight.h                     |   4 +
+> >   6 files changed, 213 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> > index 77c2af247917..2be1b310e854 100644
+> > --- a/drivers/hwtracing/coresight/coresight-cti.c
+> > +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> > @@ -4,6 +4,7 @@
+> >    * Author: Mike Leach <mike.leach@linaro.org>
+> >    */
+> >
+> > +#include <linux/property.h>
+> >   #include "coresight-cti.h"
+> >
+> >   /**
+> > @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+> >       return err;
+> >   }
+> >
+> > +/*
+> > + * Look for a matching connection device name in the list of connections.
+> > + * If found then swap in the csdev name, set trig con association pointer
+> > + * and return found.
+> > + */
+> > +static bool
+> > +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> > +                   struct coresight_device *csdev)
+> > +{
+> > +     struct cti_trig_con *trig_con;
+>
+> super minor nit: Please use "struct cti_trig_con *tc;" consistent with
+> the naming everywhere else. Helps a lot in reading the code, especially
+> which has a lot of different structures.
+>
+> > +     const char *csdev_name;
+> > +
+> > +     list_for_each_entry(trig_con, &ctidev->trig_cons, node) {
+> > +             if (trig_con->con_dev_name) {
+>
+> This was allocated via devm_* and ...
+>
+> > +                     if (!strcmp(node_name, trig_con->con_dev_name)) {
+> > +                             /* match: so swap in csdev name & dev */
+> > +                             kfree(trig_con->con_dev_name);
+>
+> ... we free it here using kfree() without devm_ being aware. This could
+> cause double-free when the device is removed. This should either be
+> devm_kfree() or simply overwritten with the new string and leave
+> the device cleanup to free it.
+>
 
-> ---
->  drivers/hwmon/pmbus/ltc2978.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/ltc2978.c b/drivers/hwmon/pmbus/ltc2978.c
-> index f01f488..a91ed01 100644
-> --- a/drivers/hwmon/pmbus/ltc2978.c
-> +++ b/drivers/hwmon/pmbus/ltc2978.c
-> @@ -82,8 +82,8 @@ enum chips { ltc2974, ltc2975, ltc2977, ltc2978, ltc2980, ltc3880, ltc3882,
->  
->  #define LTC_POLL_TIMEOUT		100	/* in milli-seconds */
->  
-> -#define LTC_NOT_BUSY			BIT(5)
-> -#define LTC_NOT_PENDING			BIT(4)
-> +#define LTC_NOT_BUSY			BIT(6)
-> +#define LTC_NOT_PENDING			BIT(5)
->  
+Agreed - fixed up in v9.
 
-In ltc_wait_ready(), we have:
+> > +                             csdev_name = dev_name(&csdev->dev);
+> > +                             trig_con->con_dev_name =
+> > +                                     kstrdup(csdev_name, GFP_KERNEL);
+>
+> Please use devm_kstrdup() here on the CTI device to have a consistent
+> allocation.
+>
+>
+> > +                             trig_con->con_dev = csdev;
+> > +                             return true;
+> > +                     }
+> > +             }
+> > +     }
+> > +     return false;
+> > +}
+> >
+>
+>
+> > +/*
+> > + * Removing the associated devices is easier.
+> > + * A CTI will not have a value for csdev->ect_dev.
+> > + */
+> > +void cti_remove_assoc_from_csdev(struct coresight_device *csdev)
+> > +{
+> > +     struct cti_drvdata *ctidrv;
+> > +     struct cti_trig_con *tc;
+> > +     struct cti_device *ctidev;
+> > +
+> > +     mutex_lock(&ect_mutex);
+> > +     if (csdev->ect_dev) {
+> > +             ctidrv = csdev_to_cti_drvdata(csdev->ect_dev);
+> > +             ctidev = &ctidrv->ctidev;
+> > +             list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> > +                     if (tc->con_dev == csdev->ect_dev) {
+> > +                             tc->con_dev = NULL;
+>
+> Should we clear/free the name too ?
+>
 
-	/*
-         * LTC3883 does not support LTC_NOT_PENDING, even though
-         * the datasheet claims that it does.
-         */
-        mask = LTC_NOT_BUSY;
-        if (data->id != ltc3883)
-                mask |= LTC_NOT_PENDING;
+Not now devm_ allocation is being used.
 
-The semantics of this code is now different: It means that on
-LTC3883 only bit 6 is checked; previously, it was bit 5. I agree
-that the above change makes sense, but it doesn't seem correct
-to drop the check for bit 5 on LTC3883. Maybe remove the if() above
-and always check for bit 5 and 6 ? Or should bit 4 be checked
-on parts other than LTC3883 ?
+> > +                             break;
+> > +                     }
+> > +             }
+> > +             csdev->ect_dev = NULL;
+> > +     }
+> > +     mutex_unlock(&ect_mutex);
+> > +}
+> > +EXPORT_SYMBOL_GPL(cti_remove_assoc_from_csdev);
+> > +
+>
+> ...
+>
+> > diff --git a/drivers/hwtracing/coresight/coresight-cti.h b/drivers/hwtracing/coresight/coresight-cti.h
+> > index 469a06a1bb78..578d7e9ac67e 100644
+> > --- a/drivers/hwtracing/coresight/coresight-cti.h
+> > +++ b/drivers/hwtracing/coresight/coresight-cti.h
+> > @@ -216,6 +216,7 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+> >                     u32 channel_idx);
+> >   struct coresight_platform_data *
+> >   coresight_cti_get_platform_data(struct device *dev);
+> > +const char *cti_plat_get_node_name(struct fwnode_handle *fwnode);
+> >
+> >   /* cti powered and enabled */
+> >   static inline bool cti_active(struct cti_config *cfg)
+> > diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
+> > index 43418a2126ff..421d4fc95f41 100644
+> > --- a/drivers/hwtracing/coresight/coresight-platform.c
+> > +++ b/drivers/hwtracing/coresight/coresight-platform.c
+> > @@ -313,6 +313,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+> >
+> >       return 0;
+> >   }
+> > +
+>
+> nit : spurious hunk ?
+>
+> >   #else
+> >   static inline int
+> >   of_get_coresight_platform_data(struct device *dev,
+>
+> Otherwise looks good to me
+>
+> Suzuki
 
-#define LTC_NOT_TRANSITIONING		BIT(4)
-...
-        mask = LTC_NOT_BUSY | LTC_NOT_PENDING;
-        if (data->id != ltc3883)
-                mask |= LTC_NOT_TRANSITIONING;
+Thanks.
 
-Thanks,
-Guenter
+Mike
+
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
