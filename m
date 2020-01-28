@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD8A9C35240
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E4F7C47409
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A021024682
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45EE72468A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hIhlGtjL"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fmsd/wxU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbgA1HU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 02:20:28 -0500
-Received: from mail-qt1-f202.google.com ([209.85.160.202]:50214 "EHLO
-        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgA1HU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 02:20:26 -0500
-Received: by mail-qt1-f202.google.com with SMTP id o24so7930051qtr.17
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 23:20:26 -0800 (PST)
+        id S1726137AbgA1HUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 02:20:22 -0500
+Received: from mail-pl1-f201.google.com ([209.85.214.201]:46861 "EHLO
+        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726114AbgA1HUV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 02:20:21 -0500
+Received: by mail-pl1-f201.google.com with SMTP id t17so5179467plr.13
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 23:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=4MjEglgwzQeYmQHEj7lVD/Q2s1JVUJ8kKFlc6FnNZt0=;
-        b=hIhlGtjLGzw1SUt6Jw8C/K2HF2ecgfBO3NMmc4gRUVfjoFHBM4NiKRBnLRD2nyc6Tj
-         mdWKOvijFU7VJ362/OXCxdB7zrDTl3GprOBtzyB/drE/LeQWfnCPkcr1TQ8NilYTEUU9
-         WFHk5H+QRn9Ln+War8nzP8jDodqFXT5aeCGz84nZ9AVByzxHK0kZdSen7KPpq/C60+s2
-         6JEDMiocGrIQwTYouQO/R2DEAtJYad5Q+mApL0OLG5Jww4JozmqfWCb4/LYTR7lM3kMC
-         7mQF5PmYLc017GRTgEOhNfK/HEuD8MoNOKvabILsxoZYKcPv3QHAUrwzFAuPjVP2tfTN
-         RNQw==
+        bh=GWHGFk+tfCHvu/qeG8h3yhiMIdqay1deL3woZTxVWJc=;
+        b=Fmsd/wxUUyxkz1Z6qM0r0RkypL0fOEHozNsNaZpYgWUn5bll19sW638dyuJWud6WFE
+         mkQXUTsINjW8p/0aIJ9Px3JJnE0tLlxui4Ay2uXa4EAnUjgJqyXJ127ebWMJgyugOwUe
+         HKaz+i/1o7x2R3F/+KoD3rZft6qDJ7sJpzE73MrvYoPk/YEIDLLtHA2H1V46OZKf5JFE
+         D8+CUicqNyWC1f7beM4bEicUD2XIYC0yfRKT/4fkVQc1NuINeHE+s+lbvUL3Fc5UiIny
+         AxqghwkUQciLsKR60QKfaPCbCi3/uhAClhQMgjbMIMVgXtFJ/XcE4Ub26q4LhGU7qOcE
+         fPdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=4MjEglgwzQeYmQHEj7lVD/Q2s1JVUJ8kKFlc6FnNZt0=;
-        b=ZehMDRbhNDXdaDBLqJ/P7yc/zkBInsqpnRNQjJtl3zYC2DoYH7JZp/hooyds1nHom0
-         Z2JEboovddsYiNY1lg/It2+7wUolXH96+PWcYoKxACqscMZWtoI0KHMxiSQcU5jx2hPz
-         BVYsacXyKEZ9myTXh3RtvaDWFawfgJ9raPMDXmtoRt6X4i4lD+An+BHMtSW3ZwX4WTZd
-         fOKvM8OEnORvV7w+iBVufWFwDCCV5x9nZWI4LwJVFf0ANQ+AtdA2KO5C1+Lfjc2Jgd/z
-         Ajo39dqcg7CXVKR24Gs6boZwEnxkmsUx89xQSF0UMsR8+Qb4K31KB/NiOCZdunZBs/4t
-         8ppQ==
-X-Gm-Message-State: APjAAAURzNCiLRubVd7Kz5wPwqIjPa2wZDdJHajgqKDhLKICCkggP2fE
-        Uw1IM9YMgRY8VbV7UKVDg1jkEreJJu6+8xV1SvCoGg==
-X-Google-Smtp-Source: APXvYqxGcm6m1ET1DVlbjNLLOCIax2s4cEucHeJOXLwB5vmRbR5b7p9xrmal0f4br+4TUTmY99J/qnO69CzvwxBlR0vrNg==
-X-Received: by 2002:a0c:8e08:: with SMTP id v8mr21132536qvb.4.1580196025518;
- Mon, 27 Jan 2020 23:20:25 -0800 (PST)
-Date:   Mon, 27 Jan 2020 23:19:59 -0800
+        bh=GWHGFk+tfCHvu/qeG8h3yhiMIdqay1deL3woZTxVWJc=;
+        b=kqKVV6sbNEKFPzzBCS1iYE2rJ9znHSAuWVgv/cvP1FgVOhiN137s9hhSVCWR2M8Gzu
+         m2wDmYuOqpHJqrgfuLI1Zo3DZQwoOC9Gg9uxjCmjTIdGAxgW0PxBA9N8gXdfUElHZ8TL
+         KJrdQAEpHPJLBg5lGcnf4MhRBbPOG9M0w3e1BjFycnqsaAtlvx/VUkgi8TLJMWutpy5a
+         2xxODA7FLol/EzQ3r+3BsNilarrQjjmBwXdKqHflEfpX4Eln6b6jwyaaFkBvLCJSID94
+         e3Z4oq/7rny4UIKEJFkYtQ6EDkxcTDzV4MAklmKlvGzzVdUNjAa3rt5176ANwSzijxB5
+         sMPA==
+X-Gm-Message-State: APjAAAVcBRN1Yd5k58/3gFF4FIXRR5QZJbB29umzLbF2DVgsNvdgAO7/
+        5P/yBqgpLqKy87FgZYANNCIfB3pSfykh9pNL+FWP8Q==
+X-Google-Smtp-Source: APXvYqypywQG2gYZge4fgQ89ZnPWWXjpZ4aK4qljq8Qu2reaQNXfA+YsY3M5yDRXuo44nsf6Cp429z3ZpkmkTuhetTXF2A==
+X-Received: by 2002:a63:2cd6:: with SMTP id s205mr18113288pgs.258.1580196020528;
+ Mon, 27 Jan 2020 23:20:20 -0800 (PST)
+Date:   Mon, 27 Jan 2020 23:19:57 -0800
 In-Reply-To: <20200128072002.79250-1-brendanhiggins@google.com>
-Message-Id: <20200128072002.79250-5-brendanhiggins@google.com>
+Message-Id: <20200128072002.79250-3-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20200128072002.79250-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v1 4/7] init: main: add KUnit to kernel init
+Subject: [PATCH v1 2/7] arch: um: add linker section for KUnit test suites
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
         arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
@@ -75,80 +75,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove KUnit from init calls entirely, instead call directly from
-kernel_init().
+Add a linker section to UML where KUnit can put references to its test
+suites. This patch is an early step in transitioning to dispatching all
+KUnit tests from a centralized executor rather than having each as its
+own separate late_initcall.
 
-Co-developed-by: Alan Maguire <alan.maguire@oracle.com>
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 ---
- include/kunit/test.h | 9 +++++++++
- init/main.c          | 4 ++++
- lib/kunit/executor.c | 4 +---
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ arch/um/include/asm/common.lds.S | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 8a02f93a6b505..8689dd1459844 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -197,6 +197,15 @@ void kunit_init_test(struct kunit *test, const char *name);
+diff --git a/arch/um/include/asm/common.lds.S b/arch/um/include/asm/common.lds.S
+index 7145ce6999822..eab9ceb450efd 100644
+--- a/arch/um/include/asm/common.lds.S
++++ b/arch/um/include/asm/common.lds.S
+@@ -52,6 +52,10 @@
+ 	CON_INITCALL
+   }
  
- int kunit_run_tests(struct kunit_suite *suite);
- 
-+#if IS_BUILTIN(CONFIG_KUNIT)
-+int kunit_run_all_tests(void);
-+#else
-+static inline int kunit_run_all_tests(void)
-+{
-+	return 0;
-+}
-+#endif /* IS_BUILTIN(CONFIG_KUNIT) */
++  .kunit_test_suites : {
++	KUNIT_TEST_SUITES
++  }
 +
- /*
-  * If a test suite is built-in, module_init() gets translated into
-  * an initcall which we don't want as the idea is that for builtins
-diff --git a/init/main.c b/init/main.c
-index 2cd736059416f..90301d4fbd1bb 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -103,6 +103,8 @@
- #define CREATE_TRACE_POINTS
- #include <trace/events/initcall.h>
- 
-+#include <kunit/test.h>
-+
- static int kernel_init(void *);
- 
- extern void init_IRQ(void);
-@@ -1201,6 +1203,8 @@ static noinline void __init kernel_init_freeable(void)
- 
- 	do_basic_setup();
- 
-+	kunit_run_all_tests();
-+
- 	console_on_rootfs();
- 
- 	/*
-diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-index 6429927d598a5..b75a46c560847 100644
---- a/lib/kunit/executor.c
-+++ b/lib/kunit/executor.c
-@@ -11,7 +11,7 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
- 
- #if IS_BUILTIN(CONFIG_KUNIT)
- 
--static int kunit_run_all_tests(void)
-+int kunit_run_all_tests(void)
- {
- 	struct kunit_suite * const * const *suites, * const *subsuite;
- 	bool has_test_failed = false;
-@@ -31,6 +31,4 @@ static int kunit_run_all_tests(void)
- 	return 0;
- }
- 
--late_initcall(kunit_run_all_tests);
--
- #endif /* IS_BUILTIN(CONFIG_KUNIT) */
+   .exitcall : {
+ 	__exitcall_begin = .;
+ 	*(.exitcall.exit)
 -- 
 2.25.0.341.g760bfbb309-goog
 
