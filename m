@@ -1,148 +1,109 @@
-Return-Path: <SRS0=PADw=3Q=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581E6C2D0DB
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 21:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D1DC32771
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 01:54:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 293332465B
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jan 2020 21:32:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 812762467B
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 01:54:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jH/aWVkD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMCV0kwE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbgA0VcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jan 2020 16:32:14 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3437 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgA0VcO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 16:32:14 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2f56ce0000>; Mon, 27 Jan 2020 13:31:58 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 27 Jan 2020 13:32:13 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 27 Jan 2020 13:32:13 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jan
- 2020 21:32:12 +0000
-Subject: Re: [PATCH 2/3] mm/gup_benchmark: support pin_user_pages() and
- related calls
-To:     Nathan Chancellor <natechancellor@gmail.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
+        id S1726240AbgA1ByW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jan 2020 20:54:22 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:46666 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726164AbgA1ByW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jan 2020 20:54:22 -0500
+Received: by mail-pl1-f193.google.com with SMTP id y8so4446832pll.13;
+        Mon, 27 Jan 2020 17:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=1ZMMwelLf0A5wvuZj2x68zePfxAq2fUXhD1Zlvefv7Y=;
+        b=IMCV0kwEhLFtqutPkJoXbViyl3w7xBFWsjPH9LRk1eSZEDxFU+qs04YB1NuSl1GJY4
+         OqExxvsOXGJO53LAWvbkaDdFYzUDDL8Q+X+/v+oSWVN8xHwG8Sr2amcUUIqLPxgte1uS
+         wqpEUn2XG7Hh2mzFMC5TUonmyjgSuROS8yaTYlkQ0PakyV5iMft6t6F984i9sg6l3UKB
+         n4FycKWpp1tCgK9Oh7cJMoAsJbvPQJDsDv4IZPtdLF6+3/8ceNI1MpkhSsI60El2Fipq
+         jIKaOevJAk1CL1fOgHV7Q5CyhOfoDtrp7oAc1qn3y/doQ6JYx5UO1G+AIIUET+FDPB7+
+         n+3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=1ZMMwelLf0A5wvuZj2x68zePfxAq2fUXhD1Zlvefv7Y=;
+        b=cxhxIkLroE+tQYAjIzQJWUh4rQT3fzfHgcw5k5dmkfdZwvAUC4eDCPioMEWYksno6w
+         E253efisCcBYOAoc1Hx9VkDPO2KVsJHC7x/f8WjduNWZyp2MACiUlpo7oWbDwirtH/Rv
+         GWbR5u6EjRJngLVb30uC7lS/kT59b38hkTo+iiwTtYeFhHRGGJv4CsjzoWYDxv1b7QH+
+         GmjZO4Y4fEH70KMhkFC7SA2nvrixrQGrpwp8kuk2ZO5QoWE/C8TAQ5HUqfIzK/X6f63L
+         yTPF14a3u8zaOXZyNavvMdTv6P7FSyUNdCjeJc2s6VK9KqiBjyTQL6Op/jpOt+BHRxRh
+         AdIw==
+X-Gm-Message-State: APjAAAX/PuuEPscJf/9tyUjHqXAZGUTGdJ8bdQsGSeEMI1/N4i2Llu2X
+        ocMcgOVIPTocz8KD1XKOncoc45rD
+X-Google-Smtp-Source: APXvYqzSCLsgdu+thMaqEiaZLIgj4vYPC2rYGh4W/mehpz0fI9OBBI2eSwUmj0peH72azDJW1dMcQQ==
+X-Received: by 2002:a17:902:d711:: with SMTP id w17mr20998616ply.303.1580176461737;
+        Mon, 27 Jan 2020 17:54:21 -0800 (PST)
+Received: from localhost.localdomain ([192.19.224.250])
+        by smtp.gmail.com with ESMTPSA id j17sm17393234pfa.28.2020.01.27.17.54.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2020 17:54:21 -0800 (PST)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     linux-vger@kernel.org
+Cc:     stable@vger.kernel.org, jeremy.linton@arm.com,
+        gregkh@linuxfoundation.org, sashal@kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        <clang-built-linux@googlegroups.com>
-References: <20200125021115.731629-1-jhubbard@nvidia.com>
- <20200125021115.731629-3-jhubbard@nvidia.com>
- <20200127205247.GA578@Ryzen-7-3700X.localdomain>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <f81fab20-5d01-e782-d45e-c65f3e51beec@nvidia.com>
-Date:   Mon, 27 Jan 2020 13:32:12 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
-MIME-Version: 1.0
-In-Reply-To: <20200127205247.GA578@Ryzen-7-3700X.localdomain>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580160719; bh=LhTJ1/tn6kZiofE+Kr6/Zk0ukPrusIeEJQXQNfI3D4E=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=jH/aWVkDdLxaqW2OoiDKS+BWcTzIf6yve3rYKFXwVO1AZhn0Nwy2JTWjicRhjZuY1
-         Pi+hqOq3waR9VenG24erVlsmk7iQeYRgu1pP7ltts7/OQPMIA+rvbeeTUagL2saVaE
-         FBnndluKMcXFzDAFQky/RxazS2q9KA3wBbIybB+Kfhz3tbRIuyfADdixquzqbS3/ht
-         QZfl17htJL+rpegeOpiLipRXjnoNuHjgUP9Ca/X1nMjNXf3tSK7aH/iP6Rl7FoPiAu
-         msS9jWktPmaSnhFZgoUJpbqgbu0+9u2hZHo9iNoF23i2ahh7AfJza6/gl7ruiMf2Y6
-         U6eqDh1wCGNIQ==
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH stable-4.9] Documentation: Document arm64 kpti control
+Date:   Mon, 27 Jan 2020 17:54:14 -0800
+Message-Id: <20200128015415.2276-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/27/20 12:52 PM, Nathan Chancellor wrote:
-...
->> --- a/mm/gup_benchmark.c
->> +++ b/mm/gup_benchmark.c
->> @@ -8,6 +8,8 @@
->>  #define GUP_FAST_BENCHMARK	_IOWR('g', 1, struct gup_benchmark)
->>  #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
->>  #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
->> +#define PIN_FAST_BENCHMARK	_IOWR('g', 4, struct gup_benchmark)
->> +#define PIN_BENCHMARK		_IOWR('g', 5, struct gup_benchmark)
->>  
->>  struct gup_benchmark {
->>  	__u64 get_delta_usec;
->> @@ -19,6 +21,47 @@ struct gup_benchmark {
->>  	__u64 expansion[10];	/* For future use */
->>  };
->>  
->> +static void put_back_pages(int cmd, struct page **pages, unsigned long nr_pages)
-> 
-> We received a Clang build report on this patch because the use of
-> PIN_FAST_BENCHMARK and PIN_BENCHMARK in the switch statement below will
-> overflow int; this should be unsigned int to match the cmd parameter in
-> the ioctls.
+From: Jeremy Linton <jeremy.linton@arm.com>
 
+commit de19055564c8f8f9d366f8db3395836da0b2176c upstream
 
-Thanks for the report! Yes, that should have been "unsigned int cmd", to match the
-one in the ioctls, just as you said.
+For a while Arm64 has been capable of force enabling
+or disabling the kpti mitigations. Lets make sure the
+documentation reflects that.
 
-I'll apply this diff, for the next version of the series:
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+[florian: patch the correct file]
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+ Documentation/kernel-parameters.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
-index 3d5fb765e4e6..7d5573083ab3 100644
---- a/mm/gup_benchmark.c
-+++ b/mm/gup_benchmark.c
-@@ -21,7 +21,8 @@ struct gup_benchmark {
-        __u64 expansion[10];    /* For future use */
- };
+diff --git a/Documentation/kernel-parameters.txt b/Documentation/kernel-parameters.txt
+index 1bc12619bedd..b2d2f4539a3f 100644
+--- a/Documentation/kernel-parameters.txt
++++ b/Documentation/kernel-parameters.txt
+@@ -1965,6 +1965,12 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
+ 			kmemcheck=2 (one-shot mode)
+ 			Default: 2 (one-shot mode)
  
--static void put_back_pages(int cmd, struct page **pages, unsigned long nr_pages)
-+static void put_back_pages(unsigned int cmd, struct page **pages,
-+                          unsigned long nr_pages)
- {
-        int i;
++	kpti=		[ARM64] Control page table isolation of user
++			and kernel address spaces.
++			Default: enabled on cores which need mitigation.
++			0: force disabled
++			1: force enabled
++
+ 	kstack=N	[X86] Print N words from the kernel stack
+ 			in oops dumps.
  
-@@ -40,7 +41,7 @@ static void put_back_pages(int cmd, struct page **pages, unsigned long nr_pages)
-        }
- }
- 
--static void verify_dma_pinned(int cmd, struct page **pages,
-+static void verify_dma_pinned(unsigned int cmd, struct page **pages,
-                              unsigned long nr_pages)
- {
-        int i;
-
-
-
-thanks,
 -- 
-John Hubbard
-NVIDIA
+2.17.1
+
