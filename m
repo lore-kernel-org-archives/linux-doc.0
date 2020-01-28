@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92412C33CB3
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD8A9C35240
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5F4C124682
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A021024682
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 07:20:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z9Rb2a9O"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hIhlGtjL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgA1HUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 02:20:31 -0500
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:38318 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgA1HUb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 02:20:31 -0500
-Received: by mail-pf1-f201.google.com with SMTP id l17so8110957pff.5
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 23:20:31 -0800 (PST)
+        id S1726215AbgA1HU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 02:20:28 -0500
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:50214 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgA1HU0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 02:20:26 -0500
+Received: by mail-qt1-f202.google.com with SMTP id o24so7930051qtr.17
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2020 23:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=ef0MAJ1wuFu9y6HizHmc+/vFBSY+7F2zQHC6+1+Hv1k=;
-        b=Z9Rb2a9OQQHmevk8nrBhA6nMqohaXS+cG6wGimkIIX5tHmd4Pla36/oP2X+CBhBu+I
-         MZIwM4ZWPLsGyRKF+THFYAWYcrFw4AOPprobTmns1Y4xUpQZDFGHWhylzEMDgvhPIWTw
-         s0rhejVCZb6PwJGu/hcxbA6wWyRhioPtQqiA6KNwkqRiDwHD9IWqpxxO3p77HSNL6oSz
-         PZ5RN2GLx7NCetNZWXyjyLHYApiADsuou7UdhE0NpbtXfdxNLo4Lf1wa8CGK6BYNTdbF
-         n1fGAt/9obdNBLBZ/c8m0DnIeUsAhvgCBZr/Obx1G05HyHiH1ApxH0jtUzg/SLSE/jav
-         PYsw==
+        bh=4MjEglgwzQeYmQHEj7lVD/Q2s1JVUJ8kKFlc6FnNZt0=;
+        b=hIhlGtjLGzw1SUt6Jw8C/K2HF2ecgfBO3NMmc4gRUVfjoFHBM4NiKRBnLRD2nyc6Tj
+         mdWKOvijFU7VJ362/OXCxdB7zrDTl3GprOBtzyB/drE/LeQWfnCPkcr1TQ8NilYTEUU9
+         WFHk5H+QRn9Ln+War8nzP8jDodqFXT5aeCGz84nZ9AVByzxHK0kZdSen7KPpq/C60+s2
+         6JEDMiocGrIQwTYouQO/R2DEAtJYad5Q+mApL0OLG5Jww4JozmqfWCb4/LYTR7lM3kMC
+         7mQF5PmYLc017GRTgEOhNfK/HEuD8MoNOKvabILsxoZYKcPv3QHAUrwzFAuPjVP2tfTN
+         RNQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=ef0MAJ1wuFu9y6HizHmc+/vFBSY+7F2zQHC6+1+Hv1k=;
-        b=RSKuWr+GekqNgAsHLSvsi7gdiTa2RdbiQvVY8Z2s/utBeXHXD7oOjvq5uhmBUdzPvp
-         nwKYJQ9YlKEHxVLFWEuuBEc8BwvjZ16CN8Wotl/F2avAtGKEcssrqzWgWpG6J9D3ur4Q
-         3mlUZAM0xWDBYFy7ze5e8S8lY3pFjSpktKQu8Eh237W7DRdWkcV0vxR+pudefpZ0kFyw
-         Q9+g4QlAzTWRv8XEdF9qX481p4t77krTZG3EvbmEBgEB7rsBpARWgYMC907/BZ7v0t+s
-         KoRNnu6sR8IoW9xqADIyjVs7NCN9c8pok7FdN+eysuUwEhKYUlH3+M+si4sGERI7sVF4
-         nXoQ==
-X-Gm-Message-State: APjAAAXEUHvbQaewz5y2ca8iirV+5ldbg0IyrVi3aIeiY7P/pezXL9fj
-        zMznQFPVaPSEyY8iqGWIWPPYyC8WlZZ2TA0+0hRCbQ==
-X-Google-Smtp-Source: APXvYqy+iukg1YFtkL0zEsGFAFKLSUcupLf+r9TZ5GGj6CTFqS5Dypdm73H+Nj4kyXHdRRRLEEtoMmp3GQtENLhfPkCjiQ==
-X-Received: by 2002:a63:4d4c:: with SMTP id n12mr24215375pgl.212.1580196030652;
- Mon, 27 Jan 2020 23:20:30 -0800 (PST)
-Date:   Mon, 27 Jan 2020 23:20:01 -0800
+        bh=4MjEglgwzQeYmQHEj7lVD/Q2s1JVUJ8kKFlc6FnNZt0=;
+        b=ZehMDRbhNDXdaDBLqJ/P7yc/zkBInsqpnRNQjJtl3zYC2DoYH7JZp/hooyds1nHom0
+         Z2JEboovddsYiNY1lg/It2+7wUolXH96+PWcYoKxACqscMZWtoI0KHMxiSQcU5jx2hPz
+         BVYsacXyKEZ9myTXh3RtvaDWFawfgJ9raPMDXmtoRt6X4i4lD+An+BHMtSW3ZwX4WTZd
+         fOKvM8OEnORvV7w+iBVufWFwDCCV5x9nZWI4LwJVFf0ANQ+AtdA2KO5C1+Lfjc2Jgd/z
+         Ajo39dqcg7CXVKR24Gs6boZwEnxkmsUx89xQSF0UMsR8+Qb4K31KB/NiOCZdunZBs/4t
+         8ppQ==
+X-Gm-Message-State: APjAAAURzNCiLRubVd7Kz5wPwqIjPa2wZDdJHajgqKDhLKICCkggP2fE
+        Uw1IM9YMgRY8VbV7UKVDg1jkEreJJu6+8xV1SvCoGg==
+X-Google-Smtp-Source: APXvYqxGcm6m1ET1DVlbjNLLOCIax2s4cEucHeJOXLwB5vmRbR5b7p9xrmal0f4br+4TUTmY99J/qnO69CzvwxBlR0vrNg==
+X-Received: by 2002:a0c:8e08:: with SMTP id v8mr21132536qvb.4.1580196025518;
+ Mon, 27 Jan 2020 23:20:25 -0800 (PST)
+Date:   Mon, 27 Jan 2020 23:19:59 -0800
 In-Reply-To: <20200128072002.79250-1-brendanhiggins@google.com>
-Message-Id: <20200128072002.79250-7-brendanhiggins@google.com>
+Message-Id: <20200128072002.79250-5-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20200128072002.79250-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v1 6/7] kunit: Add 'kunit_shutdown' option
+Subject: [PATCH v1 4/7] init: main: add KUnit to kernel init
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
         arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
@@ -75,93 +75,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Gow <davidgow@google.com>
+Remove KUnit from init calls entirely, instead call directly from
+kernel_init().
 
-Add a new kernel command-line option, 'kunit_shutdown', which allows the
-user to specify that the kernel poweroff, halt, or reboot after
-completing all KUnit tests; this is very handy for running KUnit tests
-on UML or a VM so that the UML/VM process exits cleanly immediately
-after running all tests without needing a special initramfs.
-
-Signed-off-by: David Gow <davidgow@google.com>
+Co-developed-by: Alan Maguire <alan.maguire@oracle.com>
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- lib/kunit/executor.c                | 20 ++++++++++++++++++++
- tools/testing/kunit/kunit_kernel.py |  2 +-
- tools/testing/kunit/kunit_parser.py |  2 +-
- 3 files changed, 22 insertions(+), 2 deletions(-)
+ include/kunit/test.h | 9 +++++++++
+ init/main.c          | 4 ++++
+ lib/kunit/executor.c | 4 +---
+ 3 files changed, 14 insertions(+), 3 deletions(-)
 
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 8a02f93a6b505..8689dd1459844 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -197,6 +197,15 @@ void kunit_init_test(struct kunit *test, const char *name);
+ 
+ int kunit_run_tests(struct kunit_suite *suite);
+ 
++#if IS_BUILTIN(CONFIG_KUNIT)
++int kunit_run_all_tests(void);
++#else
++static inline int kunit_run_all_tests(void)
++{
++	return 0;
++}
++#endif /* IS_BUILTIN(CONFIG_KUNIT) */
++
+ /*
+  * If a test suite is built-in, module_init() gets translated into
+  * an initcall which we don't want as the idea is that for builtins
+diff --git a/init/main.c b/init/main.c
+index 2cd736059416f..90301d4fbd1bb 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -103,6 +103,8 @@
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/initcall.h>
+ 
++#include <kunit/test.h>
++
+ static int kernel_init(void *);
+ 
+ extern void init_IRQ(void);
+@@ -1201,6 +1203,8 @@ static noinline void __init kernel_init_freeable(void)
+ 
+ 	do_basic_setup();
+ 
++	kunit_run_all_tests();
++
+ 	console_on_rootfs();
+ 
+ 	/*
 diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-index 7fd16feff157e..d3ec1265a72fd 100644
+index 6429927d598a5..b75a46c560847 100644
 --- a/lib/kunit/executor.c
 +++ b/lib/kunit/executor.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <kunit/test.h>
-+#include <linux/reboot.h>
- 
- /*
-  * These symbols point to the .kunit_test_suites section and are defined in
-@@ -11,6 +12,23 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
+@@ -11,7 +11,7 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
  
  #if IS_BUILTIN(CONFIG_KUNIT)
  
-+static char *kunit_shutdown;
-+core_param(kunit_shutdown, kunit_shutdown, charp, 0644);
-+
-+static void kunit_handle_shutdown(void)
-+{
-+	if (!kunit_shutdown)
-+		return;
-+
-+	if (!strcmp(kunit_shutdown, "poweroff")) {
-+		kernel_power_off();
-+	} else if (!strcmp(kunit_shutdown, "halt")) {
-+		kernel_halt();
-+	} else if (!strcmp(kunit_shutdown, "reboot")) {
-+		kernel_restart(NULL);
-+	}
-+}
-+
- static void kunit_print_tap_header(void)
+-static int kunit_run_all_tests(void)
++int kunit_run_all_tests(void)
  {
  	struct kunit_suite * const * const *suites, * const *subsuite;
-@@ -42,6 +60,8 @@ int kunit_run_all_tests(void)
- 		}
- 	}
+ 	bool has_test_failed = false;
+@@ -31,6 +31,4 @@ static int kunit_run_all_tests(void)
+ 	return 0;
+ }
  
-+	kunit_handle_shutdown();
-+
- 	if (has_test_failed)
- 		return -EFAULT;
- 
-diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-index cc5d844ecca13..43314aa537d30 100644
---- a/tools/testing/kunit/kunit_kernel.py
-+++ b/tools/testing/kunit/kunit_kernel.py
-@@ -141,7 +141,7 @@ class LinuxSourceTree(object):
- 		return True
- 
- 	def run_kernel(self, args=[], timeout=None, build_dir=''):
--		args.extend(['mem=256M'])
-+		args.extend(['mem=256M', 'kunit_shutdown=halt'])
- 		process = self._ops.linux_bin(args, timeout, build_dir)
- 		with open(os.path.join(build_dir, 'test.log'), 'w') as f:
- 			for line in process.stdout:
-diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
-index 78b3bdd03b1e4..633811dd9bce8 100644
---- a/tools/testing/kunit/kunit_parser.py
-+++ b/tools/testing/kunit/kunit_parser.py
-@@ -48,7 +48,7 @@ class TestStatus(Enum):
- 	FAILURE_TO_PARSE_TESTS = auto()
- 
- kunit_start_re = re.compile(r'^TAP version [0-9]+$')
--kunit_end_re = re.compile('List of all partitions:')
-+kunit_end_re = re.compile(r'reboot: System halted')
- 
- def isolate_kunit_output(kernel_output):
- 	started = False
+-late_initcall(kunit_run_all_tests);
+-
+ #endif /* IS_BUILTIN(CONFIG_KUNIT) */
 -- 
 2.25.0.341.g760bfbb309-goog
 
