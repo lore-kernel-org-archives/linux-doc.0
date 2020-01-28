@@ -6,184 +6,146 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B27C2D0DB
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 16:53:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 077D5C2D0DB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 17:26:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3C67824683
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 16:53:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D713D2465B
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 17:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgA1Qxi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 11:53:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:60554 "EHLO foss.arm.com"
+        id S1726182AbgA1R0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 12:26:43 -0500
+Received: from foss.arm.com ([217.140.110.172]:60968 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbgA1Qxh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Jan 2020 11:53:37 -0500
+        id S1726066AbgA1R0n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Jan 2020 12:26:43 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E615A328;
-        Tue, 28 Jan 2020 08:53:36 -0800 (PST)
-Received: from localhost (unknown [10.1.198.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8709A3F52E;
-        Tue, 28 Jan 2020 08:53:36 -0800 (PST)
-Date:   Tue, 28 Jan 2020 16:53:35 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        dietmar.eggemann@arm.com, peterz@infradead.org, mingo@redhat.com,
-        ggherdovich@suse.cz, vincent.guittot@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 4/6] Documentation: arm64: document support for the
- AMU extension
-Message-ID: <20200128165325.GA16417@arm.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 496B9328;
+        Tue, 28 Jan 2020 09:26:42 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47B503F52E;
+        Tue, 28 Jan 2020 09:26:40 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] arm64/kvm: disable access to AMU registers from
+ kvm guests
+To:     Valentin Schneider <valentin.schneider@arm.com>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, sudeep.holla@arm.com, dietmar.eggemann@arm.com
+Cc:     peterz@infradead.org, mingo@redhat.com, ggherdovich@suse.cz,
+        vincent.guittot@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>
 References: <20191218182607.21607-1-ionela.voinescu@arm.com>
- <20191218182607.21607-5-ionela.voinescu@arm.com>
- <b63b6f10-22c8-79be-cc97-08484874bd62@arm.com>
+ <20191218182607.21607-4-ionela.voinescu@arm.com>
+ <bc3f582c-9aed-8052-d0cb-b39c76c8ce73@arm.com>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <0690745f-fa38-f623-30a5-42d0eadfb668@arm.com>
+Date:   Tue, 28 Jan 2020 17:26:39 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b63b6f10-22c8-79be-cc97-08484874bd62@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <bc3f582c-9aed-8052-d0cb-b39c76c8ce73@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday 27 Jan 2020 at 16:47:29 (+0000), Valentin Schneider wrote:
+On 27/01/2020 15:33, Valentin Schneider wrote:
 > On 18/12/2019 18:26, Ionela Voinescu wrote:
-> > +Basic support
-> > +-------------
-> > +
-> > +The kernel can safely run a mix of CPUs with and without support for the
-> > +activity monitors extension. Therefore, when CONFIG_ARM64_AMU_EXTN is
-> > +selected we unconditionally enable the capability to allow any late CPU
-> > +(secondary or hotplugged) to detect and use the feature.
-> > +
-> > +When the feature is detected on a CPU, a per-CPU variable (amu_feat) is
-> > +set, but this does not guarantee the correct functionality of the
-> > +counters, only the presence of the extension.
-> > +
-> > +Firmware (code running at higher exception levels, e.g. arm-tf) support is
-> > +needed to:
-> > + - Enable access for lower exception levels (EL2 and EL1) to the AMU
-> > +   registers.
-> > + - Enable the counters. If not enabled these will read as 0.
+>> diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
+>> index 6e5d839f42b5..dd20fb185d56 100644
+>> --- a/arch/arm64/include/asm/kvm_arm.h
+>> +++ b/arch/arm64/include/asm/kvm_arm.h
+>> @@ -266,10 +266,11 @@
+>>   #define CPTR_EL2_TFP_SHIFT 10
+>>   
+>>   /* Hyp Coprocessor Trap Register */
+>> -#define CPTR_EL2_TCPAC	(1 << 31)
+>> -#define CPTR_EL2_TTA	(1 << 20)
+>> -#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+>>   #define CPTR_EL2_TZ	(1 << 8)
+>> +#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+>> +#define CPTR_EL2_TTA	(1 << 20)
+>> +#define CPTR_EL2_TAM	(1 << 30)
+>> +#define CPTR_EL2_TCPAC	(1 << 31)
 > 
-> Just to make sure I understand - if AMUs are physically present but not
-> enabled by FW, we'll still
-> - see them as implemented in ID_AA64PFR0_EL1.AMU
-
-Yes, this feature register only shows the physical presence on the unit
-in hardware.
-
-> - see some counters as available with e.g. AMCGCR_ELO.CG0NC > 0
+> Nit: why the #define movement? Couldn't that just be added beneath
+> CPTR_EL2_TCPAC?
 > 
-
-Yes, the same as above, this only shows their physical presence. For
-AMUv1 - AMCGCR_ELO.CG0NC: the value of this field is set to 4.
-AMCGCR_ELO.CG1NC will show the number of auxiliary counters implemented
-in hardware.
-
-> But reading some AMEVCNTR<g><n> will return 0?
-
-Or you won't be able to access them at all. Lacking firmware support
-accesses to AMU registers could be trapped in EL3. If access for EL1 and
-EL2 is enabled from EL3, it's still possible that the counters
-themselves are not enabled - that means they are not enabled to count
-the events they are designed to be counting. That's why in this case the
-event counter register could read 0.
-
-But if we read 0, it does not necessarily mean that the counter is
-disabled. It could also mean that the events is meant to count did not
-happen yet.
-
+>>   #define CPTR_EL2_RES1	0x000032ff /* known RES1 bits in CPTR_EL2 */
+>>   #define CPTR_EL2_DEFAULT	CPTR_EL2_RES1
+>>   
+>> diff --git a/arch/arm64/kvm/hyp/switch.c b/arch/arm64/kvm/hyp/switch.c
+>> index 72fbbd86eb5e..0bca87a2621f 100644
+>> --- a/arch/arm64/kvm/hyp/switch.c
+>> +++ b/arch/arm64/kvm/hyp/switch.c
+>> @@ -90,6 +90,17 @@ static void activate_traps_vhe(struct kvm_vcpu *vcpu)
+>>   	val = read_sysreg(cpacr_el1);
+>>   	val |= CPACR_EL1_TTA;
+>>   	val &= ~CPACR_EL1_ZEN;
+>> +
+>> +	/*
+>> +	 * With VHE enabled, we have HCR_EL2.{E2H,TGE} = {1,1}. Note that in
+>> +	 * this case CPACR_EL1 has the same bit layout as CPTR_EL2, and
+>> +	 * CPACR_EL1 accessing instructions are redefined to access CPTR_EL2.
+>> +	 * Therefore use CPTR_EL2.TAM bit reference to activate AMU register
+>> +	 * traps.
+>> +	 */
+>> +
+>> +	val |= CPTR_EL2_TAM;
+>> +
 > 
-> > + - Save/restore the counters before/after the CPU is being put/brought up
-> > +   from the 'off' power state.
-> > +
-> > +When using kernels that have this configuration enabled but boot with
-> > +broken firmware the user may experience panics or lockups when accessing
-> > +the counter registers.
+> Hmm so this is a bit confusing for me, I've rewritten that part of the
+> email too many times (didn't help that I'm far from being a virt guru).
+> Rectifications are most welcome.
 > 
-> Yikes
 > 
-> > Even if these symptoms are not observed, the
-> > +values returned by the register reads might not correctly reflect reality.
-> > +Most commonly, the counters will read as 0, indicating that they are not
-> > +enabled. If proper support is not provided in firmware it's best to disable
-> > +CONFIG_ARM64_AMU_EXTN.
-> > +
+> First, AFAICT we *don't* have HCR_EL2.TGE set anymore at this point, it's
+> cleared just a bit earlier in __activate_traps().
 > 
-> I haven't seen something that would try to catch this on the kernel side.
-> Can we try to detect that (e.g. at least one counter returns > 0) in
-> cpu_amu_enable() and thus not write to the CPU-local 'amu_feat'?
 > 
-
-I'm reluctant to do this especially given that platforms might choose to
-keep some counters disabled while enabling some counters that might not
-have counted any events by the time we reach cpu_enable. We would end up
-mistakenly disabling the feature. I would rather leave the validation of
-the counters to be done at the location and for the purpose of their
-use: see patch 6/6 - the use of counters for frequency invariance.
-
-> While we're on the topic of detecting broken stuff, what if some CPUs
-> implement some auxiliary counters that some others don't?
+> Then, your comment suggests that when we're running this code, CPACR_EL1
+> accesses are rerouted to CPTR_EL2. Annoyingly this isn't mentioned in
+> the doc of CPACR_EL1, but D5.6.3 does say
 > 
-
-I think it should be up to the user of that counter to decide if the
-usecase is at CPU level or system level. My intention of this base
-support was to keep it simple and allow users of some counters to
-decide on their own how to validate and make use of either architected
-or auxiliary counters.
-
-For example, in the case of frequency invariance, given a platform that
-does not support cpufreq based invariance, I would validate all CPUs for
-the use of AMU core and constant counters. If it happens that some CPUs
-do not support those counters or they are not enabled, we'd have to
-disable frequency invariance at system level.
-
-For some other scenarios only partial support is needed - only a subset
-of CPUs need to support the counters for their use to be feasible.
-
-But I believe only the user of the counters can decide, whether this is
-happening in architecture code, driver code, generic code.
-
-> > +The fixed counters of AMUv1 are accessible though the following system
-> > +register definitions:
-> > + - SYS_AMEVCNTR0_CORE_EL0
-> > + - SYS_AMEVCNTR0_CONST_EL0
-> > + - SYS_AMEVCNTR0_INST_RET_EL0
-> > + - SYS_AMEVCNTR0_MEM_STALL_EL0
-> > +
-> > +Auxiliary platform specific counters can be accessed using
-> > +SYS_AMEVCNTR1_EL0(n), where n is a value between 0 and 15.
-> > +
-> > +Details can be found in: arch/arm64/include/asm/sysreg.h.
-> > +
-> > diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
-> > index 5d78a6f5b0ae..a3f1a47b6f1c 100644
-> > --- a/Documentation/arm64/booting.rst
-> > +++ b/Documentation/arm64/booting.rst
-> > @@ -248,6 +248,20 @@ Before jumping into the kernel, the following conditions must be met:
-> >      - HCR_EL2.APK (bit 40) must be initialised to 0b1
-> >      - HCR_EL2.API (bit 41) must be initialised to 0b1
-> >  
-> > +  For CPUs with Activity Monitors Unit v1 (AMUv1) extension present:
-> > +  - If EL3 is present:
-> > +    CPTR_EL3.TAM (bit 30) must be initialised to 0b0
-> > +    CPTR_EL2.TAM (bit 30) must be initialised to 0b0
-> > +    AMCNTENSET0_EL0 must be initialised to 0b1111
+> """
+> When ARMv8.1-VHE is implemented, and HCR_EL2.E2H is set to 1, when executing
+> at EL2, some EL1 System register access instructions are redefined to access
+> the equivalent EL2 register.
+> """
 > 
-> Nit: Or be a superset of the above, right? AIUI v1 only mandates the lower
-> 4 bits to be set. Probably doesn't matter that much...
+> And CPACR_EL1 is part of these, so far so good. Now, the thing is
+> the doc for CPACR_EL1 *doesn't* mention any TAM bit - but CPTR_EL2 does.
+> I believe what *do* want here is to set CPTR_EL2.TAM (which IIUC we end
+> up doing via the rerouting).
 > 
+> So, providing I didn't get completely lost on the way, I have to ask:
+> why do we use CPACR_EL1 here? Couldn't we use CPTR_EL2 directly?
 
-Right! This is more of a guideline: it can be a subset as well, if
-platforms don't want some counters enabled. It can set the lower 4 bits
-for enablement of all 4 architecture counters for v1, or more for future
-versions with more architected counters.
+Part of the reason is, CPTR_EL2 has different layout depending on
+whether HCR_EL2.E2H == 1. e.g, CPTR_EL2.TTA move from Bit[28] to Bit[20].
 
-Thanks,
-Ionela.
+So, to keep it simple, CPTR_EL2 is used for non-VHE code with the shifts
+as defined by the "CPTR_EL2 when E2H=0"
 
+if E2H == 1, CPTR_EL2 takes the layout of CPACR_EL1 and "overrides" some
+of the RES0 bits in CPACR_EL1 with EL2 controls (e.g: TAM, TCPAC).
+Thus we use CPACR_EL1 to keep the "shifts" non-conflicting (e.g, ZEN)
+and is the right thing to do.
 
+It is a bit confusing, but we are doing the right thing. May be we could 
+improve the comment like :
+
+	/*
+	 * With VHE (HCR.E2H == 1), CPTR_EL2 has the same layout as
+	 * CPACR_EL1, except for some missing controls, such as TAM.
+	 * And accesses to CPACR_EL1 are routed to CPTR_EL2.
+	 * Also CPTR_EL2.TAM has the same position with or without
+	 * HCR.E2H == 1. Therefore, use CPTR_EL2.TAM here for
+	 * trapping the AMU accesses.
+	 */
+
+Suzuki
