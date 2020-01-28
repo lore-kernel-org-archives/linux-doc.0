@@ -2,115 +2,108 @@ Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CDBC33C9E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F380C33C9E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:20:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DEC8E2467E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:00:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 002B921739
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 11:20:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="mInuM3Bo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbgA1LAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 06:00:09 -0500
-Received: from foss.arm.com ([217.140.110.172]:55116 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725937AbgA1LAJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Jan 2020 06:00:09 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAF1C30E;
-        Tue, 28 Jan 2020 03:00:08 -0800 (PST)
-Received: from localhost (unknown [10.1.198.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 784D43F52E;
-        Tue, 28 Jan 2020 03:00:08 -0800 (PST)
-Date:   Tue, 28 Jan 2020 11:00:07 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        dietmar.eggemann@arm.com, peterz@infradead.org, mingo@redhat.com,
-        ggherdovich@suse.cz, vincent.guittot@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] arm64: add support for the AMU extension v1
-Message-ID: <20200128110007.GA17411@arm.com>
-References: <20191218182607.21607-1-ionela.voinescu@arm.com>
- <20191218182607.21607-2-ionela.voinescu@arm.com>
- <05b1981b-cf4d-d990-5155-6ed3fadcca92@arm.com>
- <20200123183207.GB20475@arm.com>
- <00d852b0-d456-efc3-5bfa-31524168344b@arm.com>
-MIME-Version: 1.0
+        id S1725941AbgA1LUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 06:20:32 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:47055 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbgA1LUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 06:20:32 -0500
+Received: by mail-qk1-f194.google.com with SMTP id g195so12878394qke.13
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2020 03:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=ydbYF0D7QAu7P1+NQVQLTUDzbcrzMyEp6Q2vaSMl/rw=;
+        b=mInuM3BomijaB5dkcqiPvPKK5VHT+6Iy8+Aq1QEagr6uy02KPqfSznEJ+RfrO8X2lg
+         pfhL+ZAWSt8/WPpG/kurCqSlupX+FDNDTTEbxmMpjpE2ZhIoKODAiEOz7hftyqt/loCH
+         aGcaEULlqja203QTzHsfIt6f5OJJ6uo0trg7deNEzIymH5oewDj+YYd7OL7lXVhsZVKG
+         jz7mSaSfoxoPQGhPK+f3Tj0BP72HQeQv4Hwv9qxi+pHTy6RoemQ5xmnsnyuJOcUqaDoA
+         L3h4woAuK8m4i109sY6LzNLjBtax7o5ZZ7VQTy7JwV7EE7Z2fqa36m42DUJt5sENODPq
+         Ni8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=ydbYF0D7QAu7P1+NQVQLTUDzbcrzMyEp6Q2vaSMl/rw=;
+        b=ljzctux8YCvbS9Wlo/ucHpvuKfXEoTV5qOm88vna6y4+hjig5uBh/guG1nhGxpWqFN
+         Hb5ojV9gLw1QJgHKQVgUQ5aJN/0fiKhno+/Nm39V1T42G6m2zeVM3huC/dakGZb/3HOJ
+         tYApaiNmZtssdYspHRV+5XG4sU9FC2z0p+FWl1WjmCmr4EI5f+x6TkexLd7r7mn4Q/VU
+         arhJ8u+OHf7fAgVnSfINLs2L88lVHcs9rOebnKgBedFZRby6jHBChTeSHL3gPdMI0IxV
+         4XOoP+Nh1ewOgOqSNbaG3u89IRHKcgV7eNEnZAV+ykFT7XwADXjWGQMzeGhpIZb9qMF7
+         RuJg==
+X-Gm-Message-State: APjAAAUNwqOmzhkN7rZcYrmyP75Mo/T98v/jLb/NfDOyicvnOYQYQM2i
+        OGZ6Oh4uCQk6KAqpR+tyJVdIYw==
+X-Google-Smtp-Source: APXvYqwvPaBSvzQJwY/oOpco0RS56cu12JMOwhXZt+xPz01YyKCzDz71O2pLHLCzFweq+CXt0g26Og==
+X-Received: by 2002:a05:620a:110c:: with SMTP id o12mr21630605qkk.66.1580210431039;
+        Tue, 28 Jan 2020 03:20:31 -0800 (PST)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id z4sm11821742qkz.62.2020.01.28.03.20.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jan 2020 03:20:30 -0800 (PST)
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00d852b0-d456-efc3-5bfa-31524168344b@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: quoted-printable
+From:   Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
+Date:   Tue, 28 Jan 2020 06:20:29 -0500
+Message-Id: <41BBD985-4B3D-4F87-B69D-D8CFE6EC0EBE@lca.pw>
+References: <20200128104942.11419-1-sjpark@amazon.com>
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        sj38.park@gmail.com, acme@kernel.org, amit@kernel.org,
+        brendan.d.gregg@gmail.com, corbet@lwn.net, dwmw@amazon.com,
+        mgorman@suse.de, rostedt@goodmis.org, kirill@shutemov.name,
+        brendanhiggins@google.com, colin.king@canonical.com,
+        minchan@kernel.org, vdavydov.dev@gmail.com, vdavydov@parallels.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <20200128104942.11419-1-sjpark@amazon.com>
+To:     sjpark@amazon.com
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Valentin,
 
-On Friday 24 Jan 2020 at 12:00:25 (+0000), Valentin Schneider wrote:
-> On 23/01/2020 18:32, Ionela Voinescu wrote:
-> [...]
-> > and later we can use information in
-> > AMCGCR_EL0 to get the number of architected counters (n) and
-> > AMEVTYPER0<n>_EL0 to find out the type. The same logic would apply to
-> > the auxiliary counters.
-> > 
-> 
-> Good, I think that's all we'll really need. I've not gone through the whole
-> series (yet!) so I might've missed AMCGCR being used.
->
 
-No, it's not used later in the patches either, specifically because
-this is version 1 and we should be able to rely on these first 4
-architected counters for all future versions of the AMU implementation.
+> On Jan 28, 2020, at 5:50 AM, sjpark@amazon.com wrote:
+>=20
+> For the comments from perf maintainers, I added Steven Rostedt and Arnaldo=
 
-> >>> @@ -1150,6 +1152,59 @@ static bool has_hw_dbm(const struct arm64_cpu_capabilities *cap,
-> >>>  
-> >>>  #endif
-> >>>  
-> >>> +#ifdef CONFIG_ARM64_AMU_EXTN
-> >>> +
-> >>> +/*
-> >>> + * This per cpu variable only signals that the CPU implementation supports
-> >>> + * the Activity Monitors Unit (AMU) but does not provide information
-> >>> + * regarding all the events that it supports.
-> >>> + * When this amu_feat per CPU variable is true, the user of this feature
-> >>> + * can only rely on the presence of the 4 fixed counters. But this does
-> >>> + * not guarantee that the counters are enabled or access to these counters
-> >>> + * is provided by code executed at higher exception levels.
-> >>> + *
-> >>> + * Also, to ensure the safe use of this per_cpu variable, the following
-> >>> + * accessor is defined to allow a read of amu_feat for the current cpu only
-> >>> + * from the current cpu.
-> >>> + *  - cpu_has_amu_feat()
-> >>> + */
-> >>> +static DEFINE_PER_CPU_READ_MOSTLY(u8, amu_feat);
-> >>> +
-> >>
-> >> Why not bool?
-> >>
-> > 
-> > I've changed it from bool after a sparse warning about expression using
-> > sizeof(bool) and found this is due to sizeof(bool) being compiler
-> > dependent. It does not change anything but I thought it might be a good
-> > idea to define it as 8-bit unsigned and rely on fixed size.
-> > 
-> 
-> I believe conveying the intent (a truth value) is more important than the
-> underlying storage size in this case. It mostly matters when dealing with
-> aggregates, but here it's just a free-standing variable.
-> 
-> We already have a few per-CPU boolean variables in arm64/kernel/fpsimd.c
-> and the commits aren't even a year old, so I'd go for ignoring sparse this
-> time around.
->
+> Carvalho de Melo first, but I might missed someone.  If you recommend some=
+ more
+> people, I will add them to recipients.
+>=20
+> I made DAMON as a new subsystem because I think no existing subsystem fits=
+ well
+> to be a base of DAMON, due to DAMON's unique goals and mechanisms describe=
+d
+> below in the original cover letter.
+>=20
+> The existing subsystem that most similar to DAMON might be 'mm/page_idle.c=
+'.
+> However, there are many conceptual differences with DAMON.  One biggest
+> difference I think is the target.  'page_idle' deals with physical page fr=
+ames
+> while DAMON deals with virtual address of specific processes.
+>=20
+> Nevertheless, if you have some different opinion, please let me know.
 
-Will do!
+I thought everyone should know to go to the MAINTAINERS file and search PERFO=
+RMANCE EVENTS SUBSYSTEM.
 
-Thanks,
-Ionela.
+It might be difficult but there is a perf subcommand for some subsystems lik=
+e sched: tracing/measuring of scheduler actions and latencies.=
