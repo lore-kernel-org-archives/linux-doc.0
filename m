@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEAC7C2D0DB
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 13:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF04C33CB2
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:00:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A39D9246A9
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 13:58:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9969724688
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580219926;
-	bh=Y5aV3hZGIyPek7EfsIo9rePy4FvllvoqLQ1StFaYEGQ=;
+	s=default; t=1580220049;
+	bh=oDp2GFCusvjVIy+pDKtbQhh1Q7QweP/hmVWzwiRJCEk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jjyKLXRykNwOwDp24yBXliXJHnsl1suIpwG5aMD/EzuZSowVt8L8xjQm5ElNdqiDD
-	 XR65khYAndDYHt3BIMmhamNG8PbRG+lsLPTGxabaKNBpDsl3pQMdTxK2IkZEYSkexL
-	 gq25ayuqTovtRGYgnCAm4cQL6fyBLGF1bVKtU7RQ=
+	b=0YN+IUb7TMlIN0fJlv4ba03ktbTGVL6RLydNR5XJFoZeETvMPlypqOZEjDNdiQVkC
+	 hzOuYycUby2ik3F7uspreGRE7rQMe1w1CJw9IQqgfOZgZYzwR2fk9vBD34nvZgSGgf
+	 Rk45ece3h0dMc1SNSTiPJopVnED/95JA5z0q0z8g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgA1N6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 08:58:46 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58490 "EHLO
+        id S1727341AbgA1OAs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 09:00:48 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59430 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726560AbgA1N6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 08:58:45 -0500
+        with ESMTP id S1727310AbgA1OAr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 09:00:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=O3Bsu4uD9UgtNB0QQELv28C8SHkVh8CCN2pYgVVPZ10=; b=oC2PH9uNv2IBDBXBCX8h16/jbJ
-        Oih4oBbKrrxTLtZCsot5BjSI0z+1mOuJ1T5XA+G6/ZbDtwYlKVZgDOWbNZp45zFBRLvAcw7S3ZlCT
-        q0wEsl5yO8y8Tin4A8ooYPKkcKVqVk+pnvGEDFQd2AJOJnra0RMV/CtyQVbfXe02cjXGWd5q7PNYy
-        dFsSe0NTMhtAQ2ppM+5WG7Z3/bSY/sbfNqoNRi/Hz35W+2dprqce9HRweCPwp/54c19PVn1I+q9cP
-        /AwfveRWiYsrP379mlDeLe8N5Yg5UWehYQTtyX872rDeH0dl8nxPhfbk3rsjCiLqipqZum25DNz3V
-        zaYOREvQ==;
+        bh=RPG23Q5VInCW2/dcxso2308vuKWS9qa+8lTMVckj8OQ=; b=Jm/mS4979PllP7wiC6ArM0x9ZV
+        R/hEEfHUbGbhrxuRhyGKFrRsFMP+gybu6Pv+8uF+TlTAEKL62nKtR7gfbpr3m/ACN/Fpp4teRdEvM
+        93YF8FHsWuq6xYxW6eHfbsnsUz4eVjCqnWqx85lU1eVVNaIykphUd1elb9X0CTlvyeFWt142uLd31
+        G9q+5uiSACyQHnuIpaqweYOVCTmWAuLEnCYpruPLuAGnKkxZ/AlGXm48+tIq8nyrSjjl1+cK0rc0C
+        NF6jy6R8gU/hIU8lTRR5dhiJW4yjkne0XFwptReZZgLVPEAyiP50+I9rKP7ikVBZLdaro+4eLKPXE
+        LgdZgfGg==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRO7-0006I1-1r; Tue, 28 Jan 2020 13:58:44 +0000
+        id 1iwRQ6-0007is-91; Tue, 28 Jan 2020 14:00:46 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRNq-001BJZ-8z; Tue, 28 Jan 2020 14:58:26 +0100
+        id 1iwRPp-001BO9-Iz; Tue, 28 Jan 2020 15:00:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,9 +51,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 06/27] docs: virt: Convert msr.txt to ReST format
-Date:   Tue, 28 Jan 2020 14:58:02 +0100
-Message-Id: <00eb6bb2ec51ac985360c5231fc416342c2782df.1580219586.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/27] docs: kvm: convert devices/vcpu.txt to ReST
+Date:   Tue, 28 Jan 2020 15:00:13 +0100
+Message-Id: <10cb8731b167ee8f0bbec245a9f89af3842bc279.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -64,338 +64,230 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title markup;
-- Convert tables;
-- Add blank lines and adjust indentation.
+- Use title markups;
+- adjust indentation and add blank lines as needed;
+- adjust tables to match ReST accepted formats;
+- use :field: markups;
+- mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst            |   1 +
- Documentation/virt/kvm/{msr.txt => msr.rst} | 145 ++++++++++++--------
- 2 files changed, 91 insertions(+), 55 deletions(-)
- rename Documentation/virt/kvm/{msr.txt => msr.rst} (75%)
+ Documentation/virt/kvm/devices/index.rst |   1 +
+ Documentation/virt/kvm/devices/vcpu.rst  | 112 +++++++++++++++++++++++
+ Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+ 3 files changed, 113 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index b39f4894b61d..cc6dde47b267 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -10,6 +10,7 @@ KVM
-    amd-memory-encryption
-    cpuid
-    halt-polling
-+   msr
-    vcpu-requests
- 
-    arm/index
-diff --git a/Documentation/virt/kvm/msr.txt b/Documentation/virt/kvm/msr.rst
-similarity index 75%
-rename from Documentation/virt/kvm/msr.txt
-rename to Documentation/virt/kvm/msr.rst
-index df1f4338b3ca..952ac339765b 100644
---- a/Documentation/virt/kvm/msr.txt
-+++ b/Documentation/virt/kvm/msr.rst
-@@ -1,6 +1,8 @@
--KVM-specific MSRs.
--Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
--=====================================================
-+=================
-+KVM-specific MSRs
-+=================
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index e6caccc36623..5a61838f0e61 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -12,3 +12,4 @@ Devices
+    arm-vgic-v3
+    mpic
+    s390_flic
++   vcpu
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+new file mode 100644
+index 000000000000..1270fd7f2cff
+--- /dev/null
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -0,0 +1,112 @@
++======================
++Generic vcpu interface
++======================
 +
-+:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
- 
- KVM makes use of some custom MSRs to service some requests.
- 
-@@ -9,34 +11,39 @@ Custom MSRs have a range reserved for them, that goes from
- but they are deprecated and their use is discouraged.
- 
- Custom MSR list
----------
-+---------------
- 
- The current supported Custom MSR list is:
- 
--MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
-+MSR_KVM_WALL_CLOCK_NEW:
-+	0x4b564d00
- 
--	data: 4-byte alignment physical address of a memory area which must be
-+data:
-+	4-byte alignment physical address of a memory area which must be
- 	in guest RAM. This memory is expected to hold a copy of the following
--	structure:
-+	structure::
- 
--	struct pvclock_wall_clock {
-+	 struct pvclock_wall_clock {
- 		u32   version;
- 		u32   sec;
- 		u32   nsec;
--	} __attribute__((__packed__));
-+	  } __attribute__((__packed__));
- 
- 	whose data will be filled in by the hypervisor. The hypervisor is only
- 	guaranteed to update this data at the moment of MSR write.
- 	Users that want to reliably query this information more than once have
- 	to write more than once to this MSR. Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		sec: number of seconds for wallclock at time of boot.
-+	sec:
-+		 number of seconds for wallclock at time of boot.
- 
--		nsec: number of nanoseconds for wallclock at time of boot.
-+	nsec:
-+		 number of nanoseconds for wallclock at time of boot.
- 
- 	In order to get the current wallclock time, the system_time from
- 	MSR_KVM_SYSTEM_TIME_NEW needs to be added.
-@@ -47,13 +54,15 @@ MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
-+MSR_KVM_SYSTEM_TIME_NEW:
-+	0x4b564d01
- 
--	data: 4-byte aligned physical address of a memory area which must be in
-+data:
-+	4-byte aligned physical address of a memory area which must be in
- 	guest RAM, plus an enable bit in bit 0. This memory is expected to hold
--	a copy of the following structure:
-+	a copy of the following structure::
- 
--	struct pvclock_vcpu_time_info {
-+	  struct pvclock_vcpu_time_info {
- 		u32   version;
- 		u32   pad0;
- 		u64   tsc_timestamp;
-@@ -62,7 +71,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 		s8    tsc_shift;
- 		u8    flags;
- 		u8    pad[2];
--	} __attribute__((__packed__)); /* 32 bytes */
-+	  } __attribute__((__packed__)); /* 32 bytes */
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -72,23 +81,28 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 	Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		tsc_timestamp: the tsc value at the current VCPU at the time
-+	tsc_timestamp:
-+		the tsc value at the current VCPU at the time
- 		of the update of this structure. Guests can subtract this value
- 		from current tsc to derive a notion of elapsed time since the
- 		structure update.
- 
--		system_time: a host notion of monotonic time, including sleep
-+	system_time:
-+		a host notion of monotonic time, including sleep
- 		time at the time this structure was last updated. Unit is
- 		nanoseconds.
- 
--		tsc_to_system_mul: multiplier to be used when converting
-+	tsc_to_system_mul:
-+		multiplier to be used when converting
- 		tsc-related quantity to nanoseconds
- 
--		tsc_shift: shift to be used when converting tsc-related
-+	tsc_shift:
-+		shift to be used when converting tsc-related
- 		quantity to nanoseconds. This shift will ensure that
- 		multiplication with tsc_to_system_mul does not overflow.
- 		A positive value denotes a left shift, a negative value
-@@ -96,7 +110,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 		The conversion from tsc to nanoseconds involves an additional
- 		right shift by 32 bits. With this information, guests can
--		derive per-CPU time by doing:
-+		derive per-CPU time by doing::
- 
- 			time = (current_tsc - tsc_timestamp)
- 			if (tsc_shift >= 0)
-@@ -106,29 +120,34 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 			time = (time * tsc_to_system_mul) >> 32
- 			time = time + system_time
- 
--		flags: bits in this field indicate extended capabilities
-+	flags:
-+		bits in this field indicate extended capabilities
- 		coordinated between the guest and the hypervisor. Availability
- 		of specific flags has to be checked in 0x40000001 cpuid leaf.
- 		Current flags are:
- 
--		 flag bit   | cpuid bit    | meaning
--		-------------------------------------------------------------
--			    |	           | time measures taken across
--		     0      |	   24      | multiple cpus are guaranteed to
--			    |		   | be monotonic
--		-------------------------------------------------------------
--			    |		   | guest vcpu has been paused by
--		     1	    |	  N/A	   | the host
--			    |		   | See 4.70 in api.txt
--		-------------------------------------------------------------
++The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
++KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
++kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
 +
-+		+-----------+--------------+----------------------------------+
-+		| flag bit  | cpuid bit    | meaning			      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | time measures taken across       |
-+		|    0      |	   24      | multiple cpus are guaranteed to  |
-+		|	    |		   | be monotonic		      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | guest vcpu has been paused by    |
-+		|    1	    |	  N/A	   | the host			      |
-+		|	    |		   | See 4.70 in api.txt	      |
-+		+-----------+--------------+----------------------------------+
- 
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
- 
--MSR_KVM_WALL_CLOCK:  0x11
-+MSR_KVM_WALL_CLOCK:
-+	0x11
- 
--	data and functioning: same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -136,9 +155,11 @@ MSR_KVM_WALL_CLOCK:  0x11
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME: 0x12
-+MSR_KVM_SYSTEM_TIME:
-+	0x12
- 
--	data and functioning: same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -146,7 +167,7 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--	The suggested algorithm for detecting kvmclock presence is then:
-+	The suggested algorithm for detecting kvmclock presence is then::
- 
- 		if (!kvm_para_available())    /* refer to cpuid.txt */
- 			return NON_PRESENT;
-@@ -163,8 +184,11 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 		} else
- 			return NON_PRESENT;
- 
--MSR_KVM_ASYNC_PF_EN: 0x4b564d02
--	data: Bits 63-6 hold 64-byte aligned physical address of a
-+MSR_KVM_ASYNC_PF_EN:
-+	0x4b564d02
++The groups and attributes per virtual cpu, if any, are architecture specific.
 +
-+data:
-+	Bits 63-6 hold 64-byte aligned physical address of a
- 	64 byte memory area which must be in guest RAM and must be
- 	zeroed. Bits 5-3 are reserved and should be zero. Bit 0 is 1
- 	when asynchronous page faults are enabled on the vcpu 0 when
-@@ -200,20 +224,22 @@ MSR_KVM_ASYNC_PF_EN: 0x4b564d02
- 	Currently type 2 APF will be always delivered on the same vcpu as
- 	type 1 was, but guest should not rely on that.
- 
--MSR_KVM_STEAL_TIME: 0x4b564d03
-+MSR_KVM_STEAL_TIME:
-+	0x4b564d03
- 
--	data: 64-byte alignment physical address of a memory area which must be
-+data:
-+	64-byte alignment physical address of a memory area which must be
- 	in guest RAM, plus an enable bit in bit 0. This memory is expected to
--	hold a copy of the following structure:
-+	hold a copy of the following structure::
- 
--	struct kvm_steal_time {
-+	  struct kvm_steal_time {
- 		__u64 steal;
- 		__u32 version;
- 		__u32 flags;
- 		__u8  preempted;
- 		__u8  u8_pad[3];
- 		__u32 pad[11];
--	}
-+	  }
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -224,25 +250,32 @@ MSR_KVM_STEAL_TIME: 0x4b564d03
- 
- 	Fields have the following meanings:
- 
--		version: a sequence counter. In other words, guest has to check
-+	version:
-+		a sequence counter. In other words, guest has to check
- 		this field before and after grabbing time information and make
- 		sure they are both equal and even. An odd version indicates an
- 		in-progress update.
- 
--		flags: At this point, always zero. May be used to indicate
-+	flags:
-+		At this point, always zero. May be used to indicate
- 		changes in this structure in the future.
- 
--		steal: the amount of time in which this vCPU did not run, in
-+	steal:
-+		the amount of time in which this vCPU did not run, in
- 		nanoseconds. Time during which the vcpu is idle, will not be
- 		reported as steal time.
- 
--		preempted: indicate the vCPU who owns this struct is running or
-+	preempted:
-+		indicate the vCPU who owns this struct is running or
- 		not. Non-zero values mean the vCPU has been preempted. Zero
- 		means the vCPU is not preempted. NOTE, it is always zero if the
- 		the hypervisor doesn't support this field.
- 
--MSR_KVM_EOI_EN: 0x4b564d04
--	data: Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
-+MSR_KVM_EOI_EN:
-+	0x4b564d04
++1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
++==================================
 +
-+data:
-+	Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
- 	when disabled.  Bit 1 is reserved and must be zero.  When PV end of
- 	interrupt is enabled (bit 0 set), bits 63-2 hold a 4-byte aligned
- 	physical address of a 4 byte memory area which must be in guest RAM and
-@@ -274,11 +307,13 @@ MSR_KVM_EOI_EN: 0x4b564d04
- 	clear it using a single CPU instruction, such as test and clear, or
- 	compare and exchange.
- 
--MSR_KVM_POLL_CONTROL: 0x4b564d05
-+MSR_KVM_POLL_CONTROL:
-+	0x4b564d05
++:Architectures: ARM64
 +
- 	Control host-side polling.
- 
--	data: Bit 0 enables (1) or disables (0) host-side HLT polling logic.
-+data:
-+	Bit 0 enables (1) or disables (0) host-side HLT polling logic.
- 
- 	KVM guests can request the host not to poll on HLT, for example if
- 	they are performing polling themselves.
++1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
++---------------------------------------
++
++:Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
++	     pointer to an int
++
++Returns:
++
++	 =======  ========================================================
++	 -EBUSY   The PMU overflow interrupt is already set
++	 -ENXIO   The overflow interrupt not set when attempting to get it
++	 -ENODEV  PMUv3 not supported
++	 -EINVAL  Invalid PMU overflow interrupt number supplied or
++		  trying to set the IRQ number without using an in-kernel
++		  irqchip.
++	 =======  ========================================================
++
++A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
++number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
++type must be same for each vcpu. As a PPI, the interrupt number is the same for
++all vcpus, while as an SPI it must be a separate number per vcpu.
++
++1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
++---------------------------------------
++
++:Parameters: no additional parameter in kvm_device_attr.addr
++
++Returns:
++
++	 =======  ======================================================
++	 -ENODEV  PMUv3 not supported or GIC not initialized
++	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
++		  configured as required prior to calling this attribute
++	 -EBUSY   PMUv3 already initialized
++	 =======  ======================================================
++
++Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
++virtual GIC implementation, this must be done after initializing the in-kernel
++irqchip.
++
++
++2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
++=================================
++
++:Architectures: ARM,ARM64
++
++2.1. ATTRIBUTES: KVM_ARM_VCPU_TIMER_IRQ_VTIMER, KVM_ARM_VCPU_TIMER_IRQ_PTIMER
++-----------------------------------------------------------------------------
++
++:Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
++	     pointer to an int
++
++Returns:
++
++	 =======  =================================
++	 -EINVAL  Invalid timer interrupt number
++	 -EBUSY   One or more VCPUs has already run
++	 =======  =================================
++
++A value describing the architected timer interrupt number when connected to an
++in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
++attribute overrides the default values (see below).
++
++=============================  ==========================================
++KVM_ARM_VCPU_TIMER_IRQ_VTIMER  The EL1 virtual timer intid (default: 27)
++KVM_ARM_VCPU_TIMER_IRQ_PTIMER  The EL1 physical timer intid (default: 30)
++=============================  ==========================================
++
++Setting the same PPI for different timers will prevent the VCPUs from running.
++Setting the interrupt number on a VCPU configures all VCPUs created at that
++time to use the number provided for a given timer, overwriting any previously
++configured values on other VCPUs.  Userspace should configure the interrupt
++numbers on at least one VCPU after creating all VCPUs and before running any
++VCPUs.
++
++3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
++==================================
++
++:Architectures: ARM64
++
++3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
++--------------------------------------
++
++:Parameters: 64-bit base address
++
++Returns:
++
++	 =======  ======================================
++	 -ENXIO   Stolen time not implemented
++	 -EEXIST  Base address already set for this VCPU
++	 -EINVAL  Base address not 64 byte aligned
++	 =======  ======================================
++
++Specifies the base address of the stolen time structure for this VCPU. The
++base address must be 64 byte aligned and exist within a valid guest memory
++region. See Documentation/virt/kvm/arm/pvtime.txt for more information
++including the layout of the stolen time structure.
+diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
+deleted file mode 100644
+index 6f3bd64a05b0..000000000000
+--- a/Documentation/virt/kvm/devices/vcpu.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-Generic vcpu interface
+-====================================
 -
+-The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
+-KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
+-kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
+-
+-The groups and attributes per virtual cpu, if any, are architecture specific.
+-
+-1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
+-Architectures: ARM64
+-
+-1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
+-Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
+-            pointer to an int
+-Returns: -EBUSY: The PMU overflow interrupt is already set
+-         -ENXIO: The overflow interrupt not set when attempting to get it
+-         -ENODEV: PMUv3 not supported
+-         -EINVAL: Invalid PMU overflow interrupt number supplied or
+-                  trying to set the IRQ number without using an in-kernel
+-                  irqchip.
+-
+-A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
+-number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
+-type must be same for each vcpu. As a PPI, the interrupt number is the same for
+-all vcpus, while as an SPI it must be a separate number per vcpu.
+-
+-1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
+-Parameters: no additional parameter in kvm_device_attr.addr
+-Returns: -ENODEV: PMUv3 not supported or GIC not initialized
+-         -ENXIO: PMUv3 not properly configured or in-kernel irqchip not
+-                 configured as required prior to calling this attribute
+-         -EBUSY: PMUv3 already initialized
+-
+-Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
+-virtual GIC implementation, this must be done after initializing the in-kernel
+-irqchip.
+-
+-
+-2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+-Architectures: ARM,ARM64
+-
+-2.1. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_VTIMER
+-2.2. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_PTIMER
+-Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
+-            pointer to an int
+-Returns: -EINVAL: Invalid timer interrupt number
+-         -EBUSY:  One or more VCPUs has already run
+-
+-A value describing the architected timer interrupt number when connected to an
+-in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
+-attribute overrides the default values (see below).
+-
+-KVM_ARM_VCPU_TIMER_IRQ_VTIMER: The EL1 virtual timer intid (default: 27)
+-KVM_ARM_VCPU_TIMER_IRQ_PTIMER: The EL1 physical timer intid (default: 30)
+-
+-Setting the same PPI for different timers will prevent the VCPUs from running.
+-Setting the interrupt number on a VCPU configures all VCPUs created at that
+-time to use the number provided for a given timer, overwriting any previously
+-configured values on other VCPUs.  Userspace should configure the interrupt
+-numbers on at least one VCPU after creating all VCPUs and before running any
+-VCPUs.
+-
+-3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
+-Architectures: ARM64
+-
+-3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
+-Parameters: 64-bit base address
+-Returns: -ENXIO:  Stolen time not implemented
+-         -EEXIST: Base address already set for this VCPU
+-         -EINVAL: Base address not 64 byte aligned
+-
+-Specifies the base address of the stolen time structure for this VCPU. The
+-base address must be 64 byte aligned and exist within a valid guest memory
+-region. See Documentation/virt/kvm/arm/pvtime.txt for more information
+-including the layout of the stolen time structure.
 -- 
 2.24.1
 
