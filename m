@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5A9C35249
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E7DC3524A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB101214AF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A74222173E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580223062;
-	bh=IkF+9xLafRu4mfLrUwCIgZx6XAr2dtL/tskYzhw25yY=;
+	s=default; t=1580223063;
+	bh=0QE9r9M4nSusoBtn0uQmTsBwPDzhFl/0GJzag3gO7W4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ViT+19hMTwq61qrfW6TIqdAYzaOR5xi2/8L7dnJKVJd1xh7HbxXHN0bVRKyfME88r
-	 1EBviSmebq5Uezy5q3jwcTcEeSvoBqF2qsxLgUMpB1f4P0VG0AnuMZ/boZsjTc1rNE
-	 iHvyiu+wGySb6Vw11ZKmwJifYqEdHYs3Ubj3Qn3Q=
+	b=O+p9rg6mOKmILPs6uB6pKZ7BuPeW+5hOP02GbNz0ICGzM7cHgduuGXbMr5Iwa8o32
+	 xp1mij3+ImB8M96P9OxKyBTqXW4fd2NpT7T8lTx5cdJcaKgWXtPTKV69rO8kfRTr0v
+	 tOpSGwhHgQ8W2buZ3moXxOBCXJZxB9+SERzZ8PQs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727407AbgA1Ou5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727376AbgA1Ou5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 28 Jan 2020 09:50:57 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58544 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:58496 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgA1N6p (ORCPT
+        with ESMTP id S1726561AbgA1N6p (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 08:58:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -32,31 +32,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=EUyT6uzt3haakoO/7i6biiig32qDL/WZNuhjyHnht4Q=; b=nY/3+392RnzD5JHlK+8n+FZ9Uh
-        g867rYWH1cnssAPSt6NwbRSU9hXDuqnCKC+dtCnBFMB90Tw+UBnLnK/EJlqqaj2dKZKALZXFDJZxQ
-        sgTCEVCU1rxFjgsUgmOTd/ppCG8PcPpF4rcZ1sbkGdl1hx+CokLk3Y8ymvG2VrJjMPG3mlVGu36VO
-        iclKfPUg6xNLj/Cn0l1OxL5yhLnE9jUNwwZBadXn9HNsSvqz1YiY4yI1BuMIpeJr4NQcEqm/nNK0M
-        RqcdhK+X+IpQ3nbnagzDVCZGLEtbgNVFSiv7o612R9B+FGBvpX5GJkJ+vzKL5y5GKuTWiAGlPjsmy
-        qPWFuKaQ==;
+        bh=F1P+6+TuszupGu0Tp2g0JB6lrpho1zIIc3pb798RBPM=; b=Gpj9DHXAVBppP2mBRWcll/IJno
+        GveCb+/eHmGE8CyIF/3anYgfYX/qDH+lWWKuuB9wbehcUe1KlFAElIxGhJW9Y4U+ghFWl1hWYMKh2
+        Lryk2Y9P/rLxTdeMQ6GUVg7wTMm11JzWyXRFqYHa6pfW5PM3D/SveaxZmB4UdjSFS4Dstz5F3s0zW
+        BRK0f9I4BMP8s1fpId8/FX6tfN6c4L7b3JMtkiOBDvP4lI/daMa1nOTiBZLe2w1LNl8RCmQptDfFF
+        WXEyvDOqsfymUQb29v7aG/xX36+WXbUHv/pVqZS8xHgeUp5o3bkuBZ8v1C89vu34Fimc0UFNK5GwC
+        zNnTv5Bg==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRO8-0006I8-1z; Tue, 28 Jan 2020 13:58:44 +0000
+        id 1iwRO7-0006I5-Mh; Tue, 28 Jan 2020 13:58:44 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRNq-001BJR-6w; Tue, 28 Jan 2020 14:58:26 +0100
+        id 1iwRNq-001BKe-SK; Tue, 28 Jan 2020 14:58:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 04/27] docs: virt: user_mode_linux.rst: fix URL references
-Date:   Tue, 28 Jan 2020 14:58:00 +0100
+Subject: [PATCH 22/27] docs: kvm: Convert mmu.txt to ReST format
+Date:   Tue, 28 Jan 2020 14:58:18 +0100
 Message-Id:
- <c26437ef62ca1568c75a0c771e3f8a837299a17b.1580219586.git.mchehab+huawei@kernel.org>
+ <5e12ebc5b94bfd269d18d1e56d8b71c9f86a9ff2.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -66,214 +64,205 @@ Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20200128135800.oW4il8YMo9xxPuqOB4sJTEWajH1RqnLzqqxlCwzzuRE@z>
+Message-ID: <20200128135818.1isPRYFv6PRo0J1azOKrTx_GPZX8JEWQAgfRy-b0iFo@z>
 
-Several URLs are pointing to outdated places.
-
-Update the references for the URLs whose contents still exists,
-removing the others.
+- Use document title and chapter markups;
+- Add markups for tables;
+- Add markups for literal blocks;
+- Add blank lines and adjust indentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/uml/user_mode_linux.rst | 71 +++++++++-------------
- 1 file changed, 29 insertions(+), 42 deletions(-)
+ Documentation/virt/kvm/index.rst            |  1 +
+ Documentation/virt/kvm/{mmu.txt => mmu.rst} | 60 ++++++++++++++++-----
+ 2 files changed, 47 insertions(+), 14 deletions(-)
+ rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
 
-diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
-index a96d29243964..d6844fb89b46 100644
---- a/Documentation/virt/uml/user_mode_linux.rst
-+++ b/Documentation/virt/uml/user_mode_linux.rst
-@@ -319,7 +319,7 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
-   as modules, especially filesystems and network protocols and filters,
-   so most symbols which need to be exported probably already are.
-   However, if you do find symbols that need exporting, let  us
--  <http://user-mode-linux.sourceforge.net/>  know, and
-+  know at http://user-mode-linux.sourceforge.net/, and
-   they'll be "taken care of".
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index 9be8f53b729d..95e2487d38f4 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -13,6 +13,7 @@ KVM
+    halt-polling
+    hypercalls
+    locking
++   mmu
+    msr
+    vcpu-requests
  
+diff --git a/Documentation/virt/kvm/mmu.txt b/Documentation/virt/kvm/mmu.rst
+similarity index 94%
+rename from Documentation/virt/kvm/mmu.txt
+rename to Documentation/virt/kvm/mmu.rst
+index dadb29e8738f..bf700a9a95fa 100644
+--- a/Documentation/virt/kvm/mmu.txt
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -1,3 +1,4 @@
++======================
+ The x86 kvm shadow mmu
+ ======================
  
-@@ -381,9 +381,9 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+@@ -7,27 +8,37 @@ physical addresses to host physical addresses.
  
+ The mmu code attempts to satisfy the following requirements:
  
-   You will need a filesystem to boot UML from.  There are a number
--  available for download from  here  <http://user-mode-
--  linux.sourceforge.net/> .  There are also  several tools
--  <http://user-mode-linux.sourceforge.net/>  which can be
-+  available for download from http://user-mode-linux.sourceforge.net.
-+  There are also  several tools at
-+  http://user-mode-linux.sourceforge.net/  which can be
-   used to generate UML-compatible filesystem images from media.
-   The kernel will boot up and present you with a login prompt.
+-- correctness: the guest should not be able to determine that it is running
++- correctness:
++	       the guest should not be able to determine that it is running
+                on an emulated mmu except for timing (we attempt to comply
+                with the specification, not emulate the characteristics of
+                a particular implementation such as tlb size)
+-- security:    the guest must not be able to touch host memory not assigned
++- security:
++	       the guest must not be able to touch host memory not assigned
+                to it
+-- performance: minimize the performance penalty imposed by the mmu
+-- scaling:     need to scale to large memory and large vcpu guests
+-- hardware:    support the full range of x86 virtualization hardware
+-- integration: Linux memory management code must be in control of guest memory
++- performance:
++               minimize the performance penalty imposed by the mmu
++- scaling:
++               need to scale to large memory and large vcpu guests
++- hardware:
++               support the full range of x86 virtualization hardware
++- integration:
++               Linux memory management code must be in control of guest memory
+                so that swapping, page migration, page merging, transparent
+                hugepages, and similar features work without change
+-- dirty tracking: report writes to guest memory to enable live migration
++- dirty tracking:
++               report writes to guest memory to enable live migration
+                and framebuffer-based displays
+-- footprint:   keep the amount of pinned kernel memory low (most memory
++- footprint:
++               keep the amount of pinned kernel memory low (most memory
+                should be shrinkable)
+-- reliability:  avoid multipage or GFP_ATOMIC allocations
++- reliability:
++               avoid multipage or GFP_ATOMIC allocations
  
-@@ -462,10 +462,9 @@ Note:
+ Acronyms
+ ========
  
-   Here are some examples of UML in action:
++====  ====================================================================
+ pfn   host page frame number
+ hpa   host physical address
+ hva   host virtual address
+@@ -41,6 +52,7 @@ pte   page table entry (used also to refer generically to paging structure
+ gpte  guest pte (referring to gfns)
+ spte  shadow pte (referring to pfns)
+ tdp   two dimensional paging (vendor neutral term for NPT and EPT)
++====  ====================================================================
  
--  -  A login session <http://user-mode-linux.sourceforge.net/login.html>
+ Virtual and real hardware supported
+ ===================================
+@@ -90,11 +102,13 @@ Events
+ The mmu is driven by events, some from the guest, some from the host.
+ 
+ Guest generated events:
++
+ - writes to control registers (especially cr3)
+ - invlpg/invlpga instruction execution
+ - access to missing or protected translations
+ 
+ Host generated events:
++
+ - changes in the gpa->hpa translation (either through gpa->hva changes or
+   through hva->hpa changes)
+ - memory pressure (the shrinker)
+@@ -117,16 +131,19 @@ Leaf ptes point at guest pages.
+ The following table shows translations encoded by leaf ptes, with higher-level
+ translations in parentheses:
+ 
+- Non-nested guests:
++ Non-nested guests::
++
+   nonpaging:     gpa->hpa
+   paging:        gva->gpa->hpa
+   paging, tdp:   (gva->)gpa->hpa
+- Nested guests:
++
++ Nested guests::
++
+   non-tdp:       ngva->gpa->hpa  (*)
+   tdp:           (ngva->)ngpa->gpa->hpa
+ 
+-(*) the guest hypervisor will encode the ngva->gpa translation into its page
+-    tables if npt is not present
++  (*) the guest hypervisor will encode the ngva->gpa translation into its page
++      tables if npt is not present
+ 
+ Shadow pages contain the following information:
+   role.level:
+@@ -291,28 +308,41 @@ Handling a page fault is performed as follows:
+ 
+  - if the RSV bit of the error code is set, the page fault is caused by guest
+    accessing MMIO and cached MMIO information is available.
++
+    - walk shadow page table
+    - check for valid generation number in the spte (see "Fast invalidation of
+      MMIO sptes" below)
+    - cache the information to vcpu->arch.mmio_gva, vcpu->arch.mmio_access and
+      vcpu->arch.mmio_gfn, and call the emulator
++
+  - If both P bit and R/W bit of error code are set, this could possibly
+    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
+    the description in Documentation/virt/kvm/locking.txt.
++
+  - if needed, walk the guest page tables to determine the guest translation
+    (gva->gpa or ngpa->gpa)
++
+    - if permissions are insufficient, reflect the fault back to the guest
++
+  - determine the host page
++
+    - if this is an mmio request, there is no host page; cache the info to
+      vcpu->arch.mmio_gva, vcpu->arch.mmio_access and vcpu->arch.mmio_gfn
++
+  - walk the shadow page table to find the spte for the translation,
+    instantiating missing intermediate page tables as necessary
++
+    - If this is an mmio request, cache the mmio info to the spte and set some
+      reserved bit on the spte (see callers of kvm_mmu_set_mmio_spte_mask)
++
+  - try to unsynchronize the page
++
+    - if successful, we can let the guest continue and modify the gpte
++
+  - emulate the instruction
++
+    - if failed, unshadow the page and let the guest continue
++
+  - update any translations that were modified by the instruction
+ 
+ invlpg handling:
+@@ -324,10 +354,12 @@ invlpg handling:
+ Guest control register updates:
+ 
+ - mov to cr3
++
+   - look up new shadow roots
+   - synchronize newly reachable shadow pages
+ 
+ - mov to cr0/cr4/efer
++
+   - set up mmu context for new paging mode
+   - look up new shadow roots
+   - synchronize newly reachable shadow pages
+@@ -358,6 +390,7 @@ on fault type:
+ (user write faults generate a #PF)
+ 
+ In the first case there are two additional complications:
++
+ - if CR4.SMEP is enabled: since we've turned the page into a kernel page,
+   the kernel may now execute it.  We handle this by also setting spte.nx.
+   If we get a user fetch or read fault, we'll change spte.u=1 and
+@@ -446,4 +479,3 @@ Further reading
+ 
+ - NPT presentation from KVM Forum 2008
+   http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
 -
--  -  A virtual network <http://user-mode-linux.sourceforge.net/net.html>
-+  -  A login session http://user-mode-linux.sourceforge.net/old/login.html
- 
-+  -  A virtual network http://user-mode-linux.sourceforge.net/old/net.html
- 
- 
- 
-@@ -1130,11 +1129,6 @@ Note:
- 
- 
- 
--
--  Harald's original README is here <http://user-mode-linux.source-
--  forge.net/>  and explains these in detail, as well as
--  some other issues.
--
-   There is also a related point-to-point only "ucast" transport.
-   This is useful when your network does not support multicast, and
-   all network connections are simple point to point links.
-@@ -1217,8 +1211,7 @@ Note:
-   make sure that /usr/src/linux points to the headers for the running
-   kernel.
- 
--  These were pointed out by Tim Robinson <timro at trkr dot net> in
--  <http://www.geocrawler.com/> name="this uml-user post"> .
-+  These were pointed out by Tim Robinson <timro at trkr dot net> in the past.
- 
- 
- 
-@@ -1912,8 +1905,8 @@ Note:
- 
-   uml_moo is installed with the UML deb and RPM.  If you didn't install
-   UML from one of those packages, you can also get it from the UML
--  utilities <http://user-mode-linux.sourceforge.net/
--  utilities>  tar file in tools/moo.
-+  utilities http://user-mode-linux.sourceforge.net/utilities tar file
-+  in tools/moo.
- 
- 
- 
-@@ -3707,18 +3700,15 @@ Note:
- 
- 
-   This is a syslogd bug.  There's a race between a parent process
--  installing a signal handler and its child sending the signal.  See
--  this uml-devel post <http://www.geocrawler.com/lists/3/Source-
--  Forge/709/0/6612801>  for the details.
-+  installing a signal handler and its child sending the signal.
- 
- 
- 
- 13.8.  TUN/TAP networking doesn't work on a 2.4 host
- ----------------------------------------------------
- 
--  There are a couple of problems which were
--  <http://www.geocrawler.com/lists/3/SourceForge/597/0/> name="pointed
--  out">  by Tim Robinson <timro at trkr dot net>
-+  There are a couple of problems which were reported by
-+  Tim Robinson <timro at trkr dot net>
- 
-   -  It doesn't work on hosts running 2.4.7 (or thereabouts) or earlier.
-      The fix is to upgrade to something more recent and then read the
-@@ -3761,7 +3751,7 @@ Note:
- 
- 
-   Documentation on IP Masquerading, and SNAT, can be found at
--  www.netfilter.org  <http://www.netfilter.org> .
-+  http://www.netfilter.org.
- 
- 
-   If you can reach the local net, but not the outside Internet, then
-@@ -4111,14 +4101,14 @@ Note:
- 
-   Rusty Russell <rusty at linuxcare.com.au>  -
- 
--  -  wrote the  HOWTO <http://user-mode-
--     linux.sourceforge.net/UserModeLinux-HOWTO.html>
-+  -  wrote the  HOWTO
-+     http://user-mode-linux.sourceforge.net/old/UserModeLinux-HOWTO.html
- 
-   -  prodded me into making this project official and putting it on
-      SourceForge
- 
--  -  came up with the way cool UML logo <http://user-mode-
--     linux.sourceforge.net/uml-small.png>
-+  -  came up with the way cool UML logo
-+     http://user-mode-linux.sourceforge.net/uml-small.png
- 
-   -  redid the config process
- 
-@@ -4146,17 +4136,15 @@ Note:
-   Jim Leu <jleu at mindspring.com>  - Wrote the virtual ethernet driver
-   and associated usermode tools
- 
--  Lars Brinkhoff <http://lars.nocrew.org/>  - Contributed the ptrace
--  proxy from his own  project <http://a386.nocrew.org/> to allow easier
--  kernel debugging
-+  Lars Brinkhoff http://lars.nocrew.org/  - Contributed the ptrace
-+  proxy from his own  project to allow easier kernel debugging
- 
- 
-   Andrea Arcangeli <andrea at suse.de>  - Redid some of the early boot
-   code so that it would work on machines with Large File Support
- 
- 
--  Chris Emerson <http://www.chiark.greenend.org.uk/~cemerson/>  - Did
--  the first UML port to Linux/ppc
-+  Chris Emerson - Did the first UML port to Linux/ppc
- 
- 
-   Harald Welte <laforge at gnumonks.org>  - Wrote the multicast
-@@ -4171,7 +4159,7 @@ Note:
-   wrote the iomem emulation support
- 
- 
--  Henrik Nordstrom <http://hem.passagen.se/hno/>  - Provided a variety
-+  Henrik Nordstrom http://hem.passagen.se/hno/  - Provided a variety
-   of patches, fixes, and clues
- 
- 
-@@ -4206,16 +4194,15 @@ Note:
-   submitted patches for the slip transport and lots of other things.
- 
- 
--  David Coulson <http://davidcoulson.net>  -
-+  David Coulson http://davidcoulson.net  -
- 
--  -  Set up the usermodelinux.org <http://usermodelinux.org>  site,
-+  -  Set up the http://usermodelinux.org  site,
-      which is a great way of keeping the UML user community on top of
-      UML goings-on.
- 
-   -  Site documentation and updates
- 
-   -  Nifty little UML management daemon  UMLd
--     <http://uml.openconsultancy.com/umld/>
- 
-   -  Lots of testing and bug reports
- 
-@@ -4388,12 +4375,12 @@ Note:
-   work with RH 6.2.
- 
-   Michael Jennings <mikejen at hevanet.com>  sent in some material which
--  is now gracing the top of the  index  page <http://user-mode-
--  linux.sourceforge.net/>  of this site.
-+  is now gracing the top of the  index  page
-+  http://user-mode-linux.sourceforge.net/  of this site.
- 
--  SGI <http://www.sgi.com>  (and more specifically Ralf Baechle <ralf at
--  uni-koblenz.de> ) gave me an account on oss.sgi.com
--  <http://www.oss.sgi.com> .  The bandwidth there made it possible to
-+  SGI (and more specifically Ralf Baechle <ralf at
-+  uni-koblenz.de> ) gave me an account on oss.sgi.com.
-+  The bandwidth there made it possible to
-   produce most of the filesystems available on the project download
-   page.
- 
-@@ -4410,5 +4397,5 @@ Note:
- 
-   Chris Reahard built a specialized root filesystem for running a DNS
-   server jailed inside UML.  It's available from the download
--  <http://user-mode-linux.sourceforge.net/dl-sf.html>  page in the Jail
-+  http://user-mode-linux.sourceforge.net/old/dl-sf.html  page in the Jail
-   Filesystems section.
 -- 
 2.24.1
 
