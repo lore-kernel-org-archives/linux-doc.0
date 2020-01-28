@@ -2,126 +2,247 @@ Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7CBEC35240
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 741EAC2D0DB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 15:48:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E8A724685
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580223122;
-	bh=JQBwOUwZBEbNLgL4NUKye2Z47Qz39/TtXsJJ0DxHe9c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HzmcTRgyOyOoPJ0VpBQL3wWhpag3AoxhXE/Em7yVCcu/P8Ni4LONFOibX4LB5LXpr
-	 9bq8xyMvLq0C4LRXEQmUHNarPkhF+1+GFlfqmElxoEuFh/uGBuQgj6a4eNMwshAB11
-	 0PAlViZYhaOrNvwh5qLtcNJrcrO9p62ZACHH3p0k=
+	by mail.kernel.org (Postfix) with ESMTP id 45D622073A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 15:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727279AbgA1Ovv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:51:51 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58442 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbgA1N6o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 08:58:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Z/uTEaWAPqmykjmqaZJAVwB7XFP3pqrhmBP5QoZS5Zs=; b=qEbvsb3c9peFLMbHQQ9ZRF6NlP
-        WuYjK8ErWzE4qOhhh2tmvF8j/+6CwwMOeimHwgVQVBLkQ3mxKBPMQIKiGCn4YV6taBFhaujIaTAqV
-        1XqXiPeC/9jdn2SXqEOElJHHbRP8WzGwJHbAcji8zQF2IVJXwnxqcwpCkBVGYTToBzs5Tk1gku9hg
-        0bo7iA1ZzeY3kcsEgD9VVb/KwQlEOMe5ib51HifNEccolbS0BRVNLpupgWYZB3z/tgXkU6bjM/hVh
-        b+8mJR/6Jb8FiZTlSxXihBjiZY3QokThFsXo8SJ5FHGk0dw8mTFK402b56A4K95ZgkYNwuEaS8D3A
-        3u1c+u3Q==;
-Received: from [177.41.103.99] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRO7-0006Hr-0n; Tue, 28 Jan 2020 13:58:43 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRNq-001BKt-Vp; Tue, 28 Jan 2020 14:58:26 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 25/27] docs: kvm: Convert s390-diag.txt to ReST format
-Date:   Tue, 28 Jan 2020 14:58:21 +0100
-Message-Id:
- <614882a25b34203f6e1de2982b2d619bf1cfddc1.1580219586.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
-References: <cover.1580219586.git.mchehab+huawei@kernel.org>
+        id S1726438AbgA1Ps3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 10:48:29 -0500
+Received: from foss.arm.com ([217.140.110.172]:59774 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726240AbgA1Ps3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Jan 2020 10:48:29 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49F9A31B;
+        Tue, 28 Jan 2020 07:48:28 -0800 (PST)
+Received: from localhost (unknown [10.1.198.81])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF8AA3F68E;
+        Tue, 28 Jan 2020 07:48:27 -0800 (PST)
+Date:   Tue, 28 Jan 2020 15:48:26 +0000
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        dietmar.eggemann@arm.com, peterz@infradead.org, mingo@redhat.com,
+        ggherdovich@suse.cz, vincent.guittot@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>
+Subject: Re: [PATCH v2 3/6] arm64/kvm: disable access to AMU registers from
+ kvm guests
+Message-ID: <20200128154826.GB17411@arm.com>
+References: <20191218182607.21607-1-ionela.voinescu@arm.com>
+ <20191218182607.21607-4-ionela.voinescu@arm.com>
+ <bc3f582c-9aed-8052-d0cb-b39c76c8ce73@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc3f582c-9aed-8052-d0cb-b39c76c8ce73@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20200128135821.MbE281frjRhHTDSNJAXgGIX9se9nGTRIvl-2Pb38qOk@z>
 
-This file is almost in ReST format. Just one change was
-needed:
+On Monday 27 Jan 2020 at 15:33:26 (+0000), Valentin Schneider wrote:
+> On 18/12/2019 18:26, Ionela Voinescu wrote:
+> > diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
+> > index 6e5d839f42b5..dd20fb185d56 100644
+> > --- a/arch/arm64/include/asm/kvm_arm.h
+> > +++ b/arch/arm64/include/asm/kvm_arm.h
+> > @@ -266,10 +266,11 @@
+> >  #define CPTR_EL2_TFP_SHIFT 10
+> >  
+> >  /* Hyp Coprocessor Trap Register */
+> > -#define CPTR_EL2_TCPAC	(1 << 31)
+> > -#define CPTR_EL2_TTA	(1 << 20)
+> > -#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+> >  #define CPTR_EL2_TZ	(1 << 8)
+> > +#define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
+> > +#define CPTR_EL2_TTA	(1 << 20)
+> > +#define CPTR_EL2_TAM	(1 << 30)
+> > +#define CPTR_EL2_TCPAC	(1 << 31)
+> 
+> Nit: why the #define movement? Couldn't that just be added beneath
+> CPTR_EL2_TCPAC?
+>
 
-    - Add markups for a literal block and change its indentation.
+It was a 'while here' thing done wrong. I was looking at the CPACR bits
+and it led me to believe that the order of bits in the rest of the file
+was from least significant to most significant and I thought I'll
+reorder this as well. But looking again I see that it was done
+correctly the first time, according to most of the file. My bad!
 
-While here, use the standard markup for the document title.
+> >  #define CPTR_EL2_RES1	0x000032ff /* known RES1 bits in CPTR_EL2 */
+> >  #define CPTR_EL2_DEFAULT	CPTR_EL2_RES1
+> >  
+> > diff --git a/arch/arm64/kvm/hyp/switch.c b/arch/arm64/kvm/hyp/switch.c
+> > index 72fbbd86eb5e..0bca87a2621f 100644
+> > --- a/arch/arm64/kvm/hyp/switch.c
+> > +++ b/arch/arm64/kvm/hyp/switch.c
+> > @@ -90,6 +90,17 @@ static void activate_traps_vhe(struct kvm_vcpu *vcpu)
+> >  	val = read_sysreg(cpacr_el1);
+> >  	val |= CPACR_EL1_TTA;
+> >  	val &= ~CPACR_EL1_ZEN;
+> > +
+> > +	/*
+> > +	 * With VHE enabled, we have HCR_EL2.{E2H,TGE} = {1,1}. Note that in
+> > +	 * this case CPACR_EL1 has the same bit layout as CPTR_EL2, and
+> > +	 * CPACR_EL1 accessing instructions are redefined to access CPTR_EL2.
+> > +	 * Therefore use CPTR_EL2.TAM bit reference to activate AMU register
+> > +	 * traps.
+> > +	 */
+> > +
+> > +	val |= CPTR_EL2_TAM;
+> > +
+> 
+> Hmm so this is a bit confusing for me, I've rewritten that part of the
+> email too many times (didn't help that I'm far from being a virt guru).
+> Rectifications are most welcome.
+> 
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/kvm/index.rst                      |  1 +
- .../virt/kvm/{s390-diag.txt => s390-diag.rst}         | 11 ++++++-----
- 2 files changed, 7 insertions(+), 5 deletions(-)
- rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (91%)
+Yes, this is definitely not straight-forward. It took me a while to
+retrace my steps in regards to this functionality as well.
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index d0e17e717461..e5ea75f97d52 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -17,6 +17,7 @@ KVM
-    msr
-    nested-vmx
-    ppc-pv
-+   s390-diag
-    vcpu-requests
- 
-    arm/index
-diff --git a/Documentation/virt/kvm/s390-diag.txt b/Documentation/virt/kvm/s390-diag.rst
-similarity index 91%
-rename from Documentation/virt/kvm/s390-diag.txt
-rename to Documentation/virt/kvm/s390-diag.rst
-index 7c52e5f8b210..db6eb7a06b2a 100644
---- a/Documentation/virt/kvm/s390-diag.txt
-+++ b/Documentation/virt/kvm/s390-diag.rst
-@@ -1,3 +1,4 @@
-+=============================
- The s390 DIAGNOSE call on KVM
- =============================
- 
-@@ -16,12 +17,12 @@ DIAGNOSE calls by the guest cause a mandatory intercept. This implies
- all supported DIAGNOSE calls need to be handled by either KVM or its
- userspace.
- 
--All DIAGNOSE calls supported by KVM use the RS-a format:
-+All DIAGNOSE calls supported by KVM use the RS-a format::
- 
----------------------------------------
--|  '83'  | R1 | R3 | B2 |     D2     |
----------------------------------------
--0        8    12   16   20           31
-+  --------------------------------------
-+  |  '83'  | R1 | R3 | B2 |     D2     |
-+  --------------------------------------
-+  0        8    12   16   20           31
- 
- The second-operand address (obtained by the base/displacement calculation)
- is not used to address data. Instead, bits 48-63 of this address specify
--- 
-2.24.1
+> 
+> First, AFAICT we *don't* have HCR_EL2.TGE set anymore at this point, it's
+> cleared just a bit earlier in __activate_traps().
+> 
 
+First of all when I wrote the above I believed that when this function is
+called we'll have HCR_EL2.{E2H,TGE} = {1,1}, which reflects running on
+the host with general exceptions trapped to EL2. So thank you for the
+correction.
+
+But I don't believe running with TGE cleared changes anything at this
+point. First of all I think we can only run the code here at EL2.
+Initially I thought we might run it at EL1 for nested virtualisation
+but for nested OSs we'll use NVHE so that problem goes away.
+
+So when we run this code at EL2, accesses to EL1 registers are
+redirected to their EL2 equivalents due to HCR_EL2.{E2H} = {1}, with no
+impact from HCR_EL2.{TGE} = {0} in regards to the setting of the TAM bit
+for CPACR_EL1/CPTR_EL2. Therefore, this code will result in AMU accesses
+being trapped to EL2 when coming from EL0 or EL1 on the guest side, once
+we enter guest.
+
+> Then, your comment suggests that when we're running this code, CPACR_EL1
+> accesses are rerouted to CPTR_EL2. Annoyingly this isn't mentioned in
+> the doc of CPACR_EL1, but D5.6.3 does say
+> 
+> """
+> When ARMv8.1-VHE is implemented, and HCR_EL2.E2H is set to 1, when executing
+> at EL2, some EL1 System register access instructions are redefined to access
+> the equivalent EL2 register.
+> """
+> 
+> And CPACR_EL1 is part of these, so far so good. Now, the thing is
+> the doc for CPACR_EL1 *doesn't* mention any TAM bit - but CPTR_EL2 does.
+> I believe what *do* want here is to set CPTR_EL2.TAM (which IIUC we end
+> up doing via the rerouting).
+> 
+
+Right! The error of my comment is that I believed that E2H and TGE
+together determine the re-mapping or CPACR_EL1 to CPTR_EL2. But
+actually, E2H determines this redirection when running at EL2, while TGE
+only determines the current trapping behaviour: if we run with TGE=0,
+we're running on the guest and CPACR_EL1 takes effect, and when we run
+on the host with TGE=1, CPTR_EL2 takes effect.
+
+I believe the reason CPACR_EL1 does not have a TAM bit is that for
+trapping at EL1 we have the AMU register AMUSERENR_EL0 to trap accesses
+from EL0.
+
+When we run on the host side with HCR_EL2.{E2H,TGE} = {1,1}, the
+CPTR_EL2.TAM bit takes effect.
+
+I will modify my comment.
+
+> So, providing I didn't get completely lost on the way, I have to ask:
+> why do we use CPACR_EL1 here? Couldn't we use CPTR_EL2 directly?
+>
+
+No, all good so far :). I believe the reason is to keep the kernel as
+generic as possible with the accesses to EL1 registers where a generic
+kernel should be running. The fact that with VHE we know to be running
+at EL2 and this code is only called at EL2 is more of an implementation
+detail that should be hidden behind the VHE abstraction.
+
+
+This being said I'm still not sure if I should be using here a
+CPTR_EL2.TAM bit or a CPACR_EL1.TAM bit. Functionally it would be the
+same but the use of one or another will 'break' some kind of
+abstraction logic :).
+
+Let me know if you have a preference.
+
+
+>
+> >  	if (update_fp_enabled(vcpu)) {
+> >  		if (vcpu_has_sve(vcpu))
+> >  			val |= CPACR_EL1_ZEN;
+> > diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> > index 9f2165937f7d..940ab9b4c98b 100644
+> > --- a/arch/arm64/kvm/sys_regs.c
+> > +++ b/arch/arm64/kvm/sys_regs.c
+> > @@ -1003,6 +1003,20 @@ static bool access_pmuserenr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+> >  	{ SYS_DESC(SYS_PMEVTYPERn_EL0(n)),					\
+> >  	  access_pmu_evtyper, reset_unknown, (PMEVTYPER0_EL0 + n), }
+> >  
+> > +static bool access_amu(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+> > +			     const struct sys_reg_desc *r)
+> > +{
+> > +	kvm_inject_undefined(vcpu);
+> > +
+> > +	return false;
+> > +}
+> > +
+> > +/* Macro to expand the AMU counter and type registers*/
+> > +#define AMU_AMEVCNTR0_EL0(n) { SYS_DESC(SYS_AMEVCNTR0_EL0(n)), access_amu }
+> > +#define AMU_AMEVTYPE0_EL0(n) { SYS_DESC(SYS_AMEVTYPE0_EL0(n)), access_amu }
+> > +#define AMU_AMEVCNTR1_EL0(n) { SYS_DESC(SYS_AMEVCNTR1_EL0(n)), access_amu }
+> > +#define AMU_AMEVTYPE1_EL0(n) { SYS_DESC(SYS_AMEVTYPE1_EL0(n)), access_amu }
+> > +
+> 
+> You could save a *whopping* two lines with something like:
+> 
+> #define AMU_AMEVCNTR_EL0(group, n) { SYS_DESC(SYS_AMEVCNTR##group##_EL0(n)), access_amu }
+> #define AMU_AMEVTYPE_EL0(group, n) { SYS_DESC(SYS_AMEVTYPE##group##_EL0(n)), access_amu }
+> 
+
+Will do!
+
+> Though it doesn't help shortening the big register list below.
+> 
+> >  static bool trap_ptrauth(struct kvm_vcpu *vcpu,
+> >  			 struct sys_reg_params *p,
+> >  			 const struct sys_reg_desc *rd)
+> > @@ -1078,8 +1092,12 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+> >  			 (u32)r->CRn, (u32)r->CRm, (u32)r->Op2);
+> >  	u64 val = raz ? 0 : read_sanitised_ftr_reg(id);
+> >  
+> > -	if (id == SYS_ID_AA64PFR0_EL1 && !vcpu_has_sve(vcpu)) {
+> > -		val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> > +	if (id == SYS_ID_AA64PFR0_EL1) {
+> > +		if (!vcpu_has_sve(vcpu))
+> > +			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> > +		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
+> > +	} else if (id == SYS_ID_PFR0_EL1) {
+> > +		val &= ~(0xfUL << ID_PFR0_AMU_SHIFT);
+> >  	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
+> >  		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
+> >  			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
+> 
+> Could almost turn the thing into a switch case at this point.
+
+
+Right! It would definitely read better.
+
+Thanks,
+Ionela.
