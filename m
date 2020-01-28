@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E7DC3524A
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4BEC35246
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A74222173E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1715C207FD
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 14:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580223063;
-	bh=0QE9r9M4nSusoBtn0uQmTsBwPDzhFl/0GJzag3gO7W4=;
+	s=default; t=1580223065;
+	bh=8ZS/6n8J5UB5wubzZ7z35fAmP7GS0V68re8Wr+VDze8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=O+p9rg6mOKmILPs6uB6pKZ7BuPeW+5hOP02GbNz0ICGzM7cHgduuGXbMr5Iwa8o32
-	 xp1mij3+ImB8M96P9OxKyBTqXW4fd2NpT7T8lTx5cdJcaKgWXtPTKV69rO8kfRTr0v
-	 tOpSGwhHgQ8W2buZ3moXxOBCXJZxB9+SERzZ8PQs=
+	b=oMFv+49T1Hsw1bmwHbzJa8DjIvv5RTl6TR1LS9kcv2VqSf2QLTq771830CwniAFQy
+	 haCSOKNzrobubn1nWYqLfO0weQJsy8syPWM9d1HIyak5iG1qGoyXFTiDXJiGqyv1PN
+	 tvoGg98XwJ6FRru9vZ5O/CYWKaSdEip4gC+ZXmLw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbgA1Ou5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 09:50:57 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58496 "EHLO
+        id S1726604AbgA1OvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 09:51:04 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58526 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbgA1N6p (ORCPT
+        with ESMTP id S1726571AbgA1N6p (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 08:58:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -32,18 +32,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=F1P+6+TuszupGu0Tp2g0JB6lrpho1zIIc3pb798RBPM=; b=Gpj9DHXAVBppP2mBRWcll/IJno
-        GveCb+/eHmGE8CyIF/3anYgfYX/qDH+lWWKuuB9wbehcUe1KlFAElIxGhJW9Y4U+ghFWl1hWYMKh2
-        Lryk2Y9P/rLxTdeMQ6GUVg7wTMm11JzWyXRFqYHa6pfW5PM3D/SveaxZmB4UdjSFS4Dstz5F3s0zW
-        BRK0f9I4BMP8s1fpId8/FX6tfN6c4L7b3JMtkiOBDvP4lI/daMa1nOTiBZLe2w1LNl8RCmQptDfFF
-        WXEyvDOqsfymUQb29v7aG/xX36+WXbUHv/pVqZS8xHgeUp5o3bkuBZ8v1C89vu34Fimc0UFNK5GwC
-        zNnTv5Bg==;
+        bh=47knvKP2hkOqYj0lWrn/u5a+ztvae81C4pMTyKp2WE4=; b=QJYiTjxtAAmbkWqTWQP9EO54ep
+        SzEiM1P8/e4rE+P5+fd70bP1rRZ2etVqtt66ktAqUaGZbSpxf6oV1uaQDAZzY8YdHnx6lRQi/qbh6
+        TOppg8ivj7BoW8w4sgXh3JK9EV3AOSUYy5Bi0xYQxwrRIPhz692EgUw//gKc6c8EiDNvYbS4ahJp0
+        109vE39X7QnBAtWmyEc7lgPnZ7axL4H13oEVpwvZYKpmMGdmqVa6jWj0WayQynXMNzqdyCTF4zv0Y
+        HrqkrP/yg1XfpAKSqnfhRNWCx+ZdqmZyZUuEt5Bjn+Z8+WjA1F8IsAbN90lRN2lIhWtbjofC4lF9j
+        pRFmG9tw==;
 Received: from [177.41.103.99] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwRO7-0006I5-Mh; Tue, 28 Jan 2020 13:58:44 +0000
+        id 1iwRO7-0006JN-Mh; Tue, 28 Jan 2020 13:58:45 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iwRNq-001BKe-SK; Tue, 28 Jan 2020 14:58:26 +0100
+        id 1iwRNq-001BJh-Bf; Tue, 28 Jan 2020 14:58:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,10 +51,10 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 22/27] docs: kvm: Convert mmu.txt to ReST format
-Date:   Tue, 28 Jan 2020 14:58:18 +0100
+Subject: [PATCH 08/27] docs: kvm: devices/arm-vgit-v3.txt to ReST
+Date:   Tue, 28 Jan 2020 14:58:04 +0100
 Message-Id:
- <5e12ebc5b94bfd269d18d1e56d8b71c9f86a9ff2.1580219586.git.mchehab+huawei@kernel.org>
+ <20d4b1a9338c37ef127e3d1801c1d14f8353b9f0.1580219586.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
 References: <cover.1580219586.git.mchehab+huawei@kernel.org>
@@ -64,205 +64,282 @@ Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20200128135818.1isPRYFv6PRo0J1azOKrTx_GPZX8JEWQAgfRy-b0iFo@z>
+Message-ID: <20200128135804.8zZ952wTv5gZFfUYaLDgJtrKSZWPQXuZQukpLnQe2Ys@z>
 
-- Use document title and chapter markups;
-- Add markups for tables;
-- Add markups for literal blocks;
-- Add blank lines and adjust indentation.
+- Use title markups;
+- change indent to match ReST syntax;
+- use proper table markups;
+- use literal block markups.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst            |  1 +
- Documentation/virt/kvm/{mmu.txt => mmu.rst} | 60 ++++++++++++++++-----
- 2 files changed, 47 insertions(+), 14 deletions(-)
- rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+ .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      | 130 +++++++++++-------
+ Documentation/virt/kvm/devices/index.rst      |   1 +
+ 2 files changed, 85 insertions(+), 46 deletions(-)
+ rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 9be8f53b729d..95e2487d38f4 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -13,6 +13,7 @@ KVM
-    halt-polling
-    hypercalls
-    locking
-+   mmu
-    msr
-    vcpu-requests
+diff --git a/Documentation/virt/kvm/devices/arm-vgic-v3.txt b/Documentation/virt/kvm/devices/arm-vgic-v3.rst
+similarity index 77%
+rename from Documentation/virt/kvm/devices/arm-vgic-v3.txt
+rename to Documentation/virt/kvm/devices/arm-vgic-v3.rst
+index ff290b43c8e5..1a64644d1a43 100644
+--- a/Documentation/virt/kvm/devices/arm-vgic-v3.txt
++++ b/Documentation/virt/kvm/devices/arm-vgic-v3.rst
+@@ -1,9 +1,10 @@
++==============================================================
+ ARM Virtual Generic Interrupt Controller v3 and later (VGICv3)
+ ==============================================================
  
-diff --git a/Documentation/virt/kvm/mmu.txt b/Documentation/virt/kvm/mmu.rst
-similarity index 94%
-rename from Documentation/virt/kvm/mmu.txt
-rename to Documentation/virt/kvm/mmu.rst
-index dadb29e8738f..bf700a9a95fa 100644
---- a/Documentation/virt/kvm/mmu.txt
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -1,3 +1,4 @@
-+======================
- The x86 kvm shadow mmu
- ======================
  
-@@ -7,27 +8,37 @@ physical addresses to host physical addresses.
+ Device types supported:
+-  KVM_DEV_TYPE_ARM_VGIC_V3     ARM Generic Interrupt Controller v3.0
++  - KVM_DEV_TYPE_ARM_VGIC_V3     ARM Generic Interrupt Controller v3.0
  
- The mmu code attempts to satisfy the following requirements:
+ Only one VGIC instance may be instantiated through this API.  The created VGIC
+ will act as the VM interrupt controller, requiring emulated user-space devices
+@@ -15,7 +16,8 @@ Creating a guest GICv3 device requires a host GICv3 as well.
  
--- correctness: the guest should not be able to determine that it is running
-+- correctness:
-+	       the guest should not be able to determine that it is running
-                on an emulated mmu except for timing (we attempt to comply
-                with the specification, not emulate the characteristics of
-                a particular implementation such as tlb size)
--- security:    the guest must not be able to touch host memory not assigned
-+- security:
-+	       the guest must not be able to touch host memory not assigned
-                to it
--- performance: minimize the performance penalty imposed by the mmu
--- scaling:     need to scale to large memory and large vcpu guests
--- hardware:    support the full range of x86 virtualization hardware
--- integration: Linux memory management code must be in control of guest memory
-+- performance:
-+               minimize the performance penalty imposed by the mmu
-+- scaling:
-+               need to scale to large memory and large vcpu guests
-+- hardware:
-+               support the full range of x86 virtualization hardware
-+- integration:
-+               Linux memory management code must be in control of guest memory
-                so that swapping, page migration, page merging, transparent
-                hugepages, and similar features work without change
--- dirty tracking: report writes to guest memory to enable live migration
-+- dirty tracking:
-+               report writes to guest memory to enable live migration
-                and framebuffer-based displays
--- footprint:   keep the amount of pinned kernel memory low (most memory
-+- footprint:
-+               keep the amount of pinned kernel memory low (most memory
-                should be shrinkable)
--- reliability:  avoid multipage or GFP_ATOMIC allocations
-+- reliability:
-+               avoid multipage or GFP_ATOMIC allocations
+ Groups:
+   KVM_DEV_ARM_VGIC_GRP_ADDR
+-  Attributes:
++   Attributes:
++
+     KVM_VGIC_V3_ADDR_TYPE_DIST (rw, 64-bit)
+       Base address in the guest physical address space of the GICv3 distributor
+       register mappings. Only valid for KVM_DEV_TYPE_ARM_VGIC_V3.
+@@ -29,21 +31,25 @@ Groups:
+       This address needs to be 64K aligned.
  
- Acronyms
- ========
+     KVM_VGIC_V3_ADDR_TYPE_REDIST_REGION (rw, 64-bit)
+-      The attribute data pointed to by kvm_device_attr.addr is a __u64 value:
+-      bits:     | 63   ....  52  |  51   ....   16 | 15 - 12  |11 - 0
+-      values:   |     count      |       base      |  flags   | index
++      The attribute data pointed to by kvm_device_attr.addr is a __u64 value::
++
++        bits:     | 63   ....  52  |  51   ....   16 | 15 - 12  |11 - 0
++        values:   |     count      |       base      |  flags   | index
++
+       - index encodes the unique redistributor region index
+       - flags: reserved for future use, currently 0
+       - base field encodes bits [51:16] of the guest physical base address
+         of the first redistributor in the region.
+       - count encodes the number of redistributors in the region. Must be
+         greater than 0.
++
+       There are two 64K pages for each redistributor in the region and
+       redistributors are laid out contiguously within the region. Regions
+       are filled with redistributors in the index order. The sum of all
+       region count fields must be greater than or equal to the number of
+       VCPUs. Redistributor regions must be registered in the incremental
+       index order, starting from index 0.
++
+       The characteristics of a specific redistributor region can be read
+       by presetting the index field in the attr data.
+       Only valid for KVM_DEV_TYPE_ARM_VGIC_V3.
+@@ -52,23 +58,27 @@ Groups:
+   KVM_VGIC_V3_ADDR_TYPE_REDIST_REGION attributes.
  
-+====  ====================================================================
- pfn   host page frame number
- hpa   host physical address
- hva   host virtual address
-@@ -41,6 +52,7 @@ pte   page table entry (used also to refer generically to paging structure
- gpte  guest pte (referring to gfns)
- spte  shadow pte (referring to pfns)
- tdp   two dimensional paging (vendor neutral term for NPT and EPT)
-+====  ====================================================================
+   Errors:
+-    -E2BIG:  Address outside of addressable IPA range
+-    -EINVAL: Incorrectly aligned address, bad redistributor region
++
++    =======  =============================================================
++    -E2BIG   Address outside of addressable IPA range
++    -EINVAL  Incorrectly aligned address, bad redistributor region
+              count/index, mixed redistributor region attribute usage
+-    -EEXIST: Address already configured
+-    -ENOENT: Attempt to read the characteristics of a non existing
++    -EEXIST  Address already configured
++    -ENOENT  Attempt to read the characteristics of a non existing
+              redistributor region
+-    -ENXIO:  The group or attribute is unknown/unsupported for this device
++    -ENXIO   The group or attribute is unknown/unsupported for this device
+              or hardware support is missing.
+-    -EFAULT: Invalid user pointer for attr->addr.
++    -EFAULT  Invalid user pointer for attr->addr.
++    =======  =============================================================
  
- Virtual and real hardware supported
- ===================================
-@@ -90,11 +102,13 @@ Events
- The mmu is driven by events, some from the guest, some from the host.
  
- Guest generated events:
+-  KVM_DEV_ARM_VGIC_GRP_DIST_REGS
+-  KVM_DEV_ARM_VGIC_GRP_REDIST_REGS
+-  Attributes:
+-    The attr field of kvm_device_attr encodes two values:
+-    bits:     | 63   ....  32  |  31   ....    0 |
+-    values:   |      mpidr     |      offset     |
++  KVM_DEV_ARM_VGIC_GRP_DIST_REGS, KVM_DEV_ARM_VGIC_GRP_REDIST_REGS
++   Attributes:
 +
- - writes to control registers (especially cr3)
- - invlpg/invlpga instruction execution
- - access to missing or protected translations
++    The attr field of kvm_device_attr encodes two values::
++
++      bits:     | 63   ....  32  |  31   ....    0 |
++      values:   |      mpidr     |      offset     |
  
- Host generated events:
-+
- - changes in the gpa->hpa translation (either through gpa->hva changes or
-   through hva->hpa changes)
- - memory pressure (the shrinker)
-@@ -117,16 +131,19 @@ Leaf ptes point at guest pages.
- The following table shows translations encoded by leaf ptes, with higher-level
- translations in parentheses:
+     All distributor regs are (rw, 32-bit) and kvm_device_attr.addr points to a
+     __u32 value.  64-bit registers must be accessed by separately accessing the
+@@ -93,7 +103,8 @@ Groups:
+     redistributor is accessed.  The mpidr is ignored for the distributor.
  
-- Non-nested guests:
-+ Non-nested guests::
+     The mpidr encoding is based on the affinity information in the
+-    architecture defined MPIDR, and the field is encoded as follows:
++    architecture defined MPIDR, and the field is encoded as follows::
 +
-   nonpaging:     gpa->hpa
-   paging:        gva->gpa->hpa
-   paging, tdp:   (gva->)gpa->hpa
-- Nested guests:
-+
-+ Nested guests::
-+
-   non-tdp:       ngva->gpa->hpa  (*)
-   tdp:           (ngva->)ngpa->gpa->hpa
+       | 63 .... 56 | 55 .... 48 | 47 .... 40 | 39 .... 32 |
+       |    Aff3    |    Aff2    |    Aff1    |    Aff0    |
  
--(*) the guest hypervisor will encode the ngva->gpa translation into its page
--    tables if npt is not present
-+  (*) the guest hypervisor will encode the ngva->gpa translation into its page
-+      tables if npt is not present
+@@ -148,24 +159,30 @@ Groups:
+     ignored.
  
- Shadow pages contain the following information:
-   role.level:
-@@ -291,28 +308,41 @@ Handling a page fault is performed as follows:
+   Errors:
+-    -ENXIO: Getting or setting this register is not yet supported
+-    -EBUSY: One or more VCPUs are running
++
++    ======  =====================================================
++    -ENXIO  Getting or setting this register is not yet supported
++    -EBUSY  One or more VCPUs are running
++    ======  =====================================================
  
-  - if the RSV bit of the error code is set, the page fault is caused by guest
-    accessing MMIO and cached MMIO information is available.
-+
-    - walk shadow page table
-    - check for valid generation number in the spte (see "Fast invalidation of
-      MMIO sptes" below)
-    - cache the information to vcpu->arch.mmio_gva, vcpu->arch.mmio_access and
-      vcpu->arch.mmio_gfn, and call the emulator
-+
-  - If both P bit and R/W bit of error code are set, this could possibly
-    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
-    the description in Documentation/virt/kvm/locking.txt.
-+
-  - if needed, walk the guest page tables to determine the guest translation
-    (gva->gpa or ngpa->gpa)
-+
-    - if permissions are insufficient, reflect the fault back to the guest
-+
-  - determine the host page
-+
-    - if this is an mmio request, there is no host page; cache the info to
-      vcpu->arch.mmio_gva, vcpu->arch.mmio_access and vcpu->arch.mmio_gfn
-+
-  - walk the shadow page table to find the spte for the translation,
-    instantiating missing intermediate page tables as necessary
-+
-    - If this is an mmio request, cache the mmio info to the spte and set some
-      reserved bit on the spte (see callers of kvm_mmu_set_mmio_spte_mask)
-+
-  - try to unsynchronize the page
-+
-    - if successful, we can let the guest continue and modify the gpte
-+
-  - emulate the instruction
-+
-    - if failed, unshadow the page and let the guest continue
-+
-  - update any translations that were modified by the instruction
  
- invlpg handling:
-@@ -324,10 +354,12 @@ invlpg handling:
- Guest control register updates:
- 
- - mov to cr3
+   KVM_DEV_ARM_VGIC_GRP_CPU_SYSREGS
+-  Attributes:
+-    The attr field of kvm_device_attr encodes two values:
+-    bits:     | 63      ....       32 | 31  ....  16 | 15  ....  0 |
+-    values:   |         mpidr         |      RES     |    instr    |
++   Attributes:
 +
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
- 
- - mov to cr0/cr4/efer
++    The attr field of kvm_device_attr encodes two values::
 +
-   - set up mmu context for new paging mode
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
-@@ -358,6 +390,7 @@ on fault type:
- (user write faults generate a #PF)
++      bits:     | 63      ....       32 | 31  ....  16 | 15  ....  0 |
++      values:   |         mpidr         |      RES     |    instr    |
  
- In the first case there are two additional complications:
+     The mpidr field encodes the CPU ID based on the affinity information in the
+-    architecture defined MPIDR, and the field is encoded as follows:
++    architecture defined MPIDR, and the field is encoded as follows::
 +
- - if CR4.SMEP is enabled: since we've turned the page into a kernel page,
-   the kernel may now execute it.  We handle this by also setting spte.nx.
-   If we get a user fetch or read fault, we'll change spte.u=1 and
-@@ -446,4 +479,3 @@ Further reading
+       | 63 .... 56 | 55 .... 48 | 47 .... 40 | 39 .... 32 |
+       |    Aff3    |    Aff2    |    Aff1    |    Aff0    |
  
- - NPT presentation from KVM Forum 2008
-   http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
--
+     The instr field encodes the system register to access based on the fields
+     defined in the A64 instruction set encoding for system register access
+-    (RES means the bits are reserved for future use and should be zero):
++    (RES means the bits are reserved for future use and should be zero)::
+ 
+       | 15 ... 14 | 13 ... 11 | 10 ... 7 | 6 ... 3 | 2 ... 0 |
+       |   Op 0    |    Op1    |    CRn   |   CRm   |   Op2   |
+@@ -178,26 +195,35 @@ Groups:
+ 
+     CPU interface registers access is not implemented for AArch32 mode.
+     Error -ENXIO is returned when accessed in AArch32 mode.
++
+   Errors:
+-    -ENXIO: Getting or setting this register is not yet supported
+-    -EBUSY: VCPU is running
+-    -EINVAL: Invalid mpidr or register value supplied
++
++    =======  =====================================================
++    -ENXIO   Getting or setting this register is not yet supported
++    -EBUSY   VCPU is running
++    -EINVAL  Invalid mpidr or register value supplied
++    =======  =====================================================
+ 
+ 
+   KVM_DEV_ARM_VGIC_GRP_NR_IRQS
+-  Attributes:
++   Attributes:
++
+     A value describing the number of interrupts (SGI, PPI and SPI) for
+     this GIC instance, ranging from 64 to 1024, in increments of 32.
+ 
+     kvm_device_attr.addr points to a __u32 value.
+ 
+   Errors:
+-    -EINVAL: Value set is out of the expected range
+-    -EBUSY: Value has already be set.
++
++    =======  ======================================
++    -EINVAL  Value set is out of the expected range
++    -EBUSY   Value has already be set.
++    =======  ======================================
+ 
+ 
+   KVM_DEV_ARM_VGIC_GRP_CTRL
+-  Attributes:
++   Attributes:
++
+     KVM_DEV_ARM_VGIC_CTRL_INIT
+       request the initialization of the VGIC, no additional parameter in
+       kvm_device_attr.addr.
+@@ -205,20 +231,26 @@ Groups:
+       save all LPI pending bits into guest RAM pending tables.
+ 
+       The first kB of the pending table is not altered by this operation.
++
+   Errors:
+-    -ENXIO: VGIC not properly configured as required prior to calling
+-     this attribute
+-    -ENODEV: no online VCPU
+-    -ENOMEM: memory shortage when allocating vgic internal data
+-    -EFAULT: Invalid guest ram access
+-    -EBUSY:  One or more VCPUS are running
++
++    =======  ========================================================
++    -ENXIO   VGIC not properly configured as required prior to calling
++             this attribute
++    -ENODEV  no online VCPU
++    -ENOMEM  memory shortage when allocating vgic internal data
++    -EFAULT  Invalid guest ram access
++    -EBUSY   One or more VCPUS are running
++    =======  ========================================================
+ 
+ 
+   KVM_DEV_ARM_VGIC_GRP_LEVEL_INFO
+-  Attributes:
+-    The attr field of kvm_device_attr encodes the following values:
+-    bits:     | 63      ....       32 | 31   ....    10 | 9  ....  0 |
+-    values:   |         mpidr         |      info       |   vINTID   |
++   Attributes:
++
++    The attr field of kvm_device_attr encodes the following values::
++
++      bits:     | 63      ....       32 | 31   ....    10 | 9  ....  0 |
++      values:   |         mpidr         |      info       |   vINTID   |
+ 
+     The vINTID specifies which set of IRQs is reported on.
+ 
+@@ -228,6 +260,7 @@ Groups:
+       VGIC_LEVEL_INFO_LINE_LEVEL:
+ 	Get/Set the input level of the IRQ line for a set of 32 contiguously
+ 	numbered interrupts.
++
+ 	vINTID must be a multiple of 32.
+ 
+ 	kvm_device_attr.addr points to a __u32 value which will contain a
+@@ -243,9 +276,14 @@ Groups:
+     reported with the same value regardless of the mpidr specified.
+ 
+     The mpidr field encodes the CPU ID based on the affinity information in the
+-    architecture defined MPIDR, and the field is encoded as follows:
++    architecture defined MPIDR, and the field is encoded as follows::
++
+       | 63 .... 56 | 55 .... 48 | 47 .... 40 | 39 .... 32 |
+       |    Aff3    |    Aff2    |    Aff1    |    Aff0    |
++
+   Errors:
+-    -EINVAL: vINTID is not multiple of 32 or
+-     info field is not VGIC_LEVEL_INFO_LINE_LEVEL
++
++    =======  =============================================
++    -EINVAL  vINTID is not multiple of 32 or info field is
++	     not VGIC_LEVEL_INFO_LINE_LEVEL
++    =======  =============================================
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index 2aad8d426097..80c1e0e225f4 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -8,3 +8,4 @@ Devices
+    :maxdepth: 2
+ 
+    arm-vgic-its
++   arm-vgic-v3
 -- 
 2.24.1
 
