@@ -2,180 +2,99 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C19C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 17:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E905C2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:07:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 14A7920720
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 17:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 689F4206D4
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:07:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G6Ah1duV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727301AbgA2RwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 12:52:25 -0500
-Received: from foss.arm.com ([217.140.110.172]:44164 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727297AbgA2RwZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jan 2020 12:52:25 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EFCC328;
-        Wed, 29 Jan 2020 09:52:25 -0800 (PST)
-Received: from localhost (unknown [10.1.198.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A465B3F67D;
-        Wed, 29 Jan 2020 09:52:24 -0800 (PST)
-Date:   Wed, 29 Jan 2020 17:52:23 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        dietmar.eggemann@arm.com, peterz@infradead.org, mingo@redhat.com,
-        ggherdovich@suse.cz, vincent.guittot@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] arm64: use activity monitors for frequency
- invariance
-Message-ID: <20200129175223.GA26494@arm.com>
-References: <20191218182607.21607-1-ionela.voinescu@arm.com>
- <20191218182607.21607-7-ionela.voinescu@arm.com>
- <96fdead6-9896-5695-6744-413300d424f5@arm.com>
+        id S1726847AbgA2SHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 13:07:55 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58056 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbgA2SHz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 13:07:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Ti7tqcCoopz85yAZx6ODwlyVLtxIWBrtp0ypbKnSIIQ=; b=G6Ah1duV6XYd7U02JYqwA9701
+        BYJscf1GahK9hRHau93+bYNyshPFIk3rCBti2rpJlwa00ZJ8bV9SriQfyVqTZpxx0W07qDSzmMS7y
+        3Xk1UhhS0XHt9ksGdXz6TNCibZJoRghnWkWg8dusjDQmdcrhUw2l1vFyM1m8Uh1vjtsj8uPYkIrHh
+        u//Nm5ZeFBzPFR2Tj5OIPsXrKv8RB8HOLuJRwKl8G66axlVYIxXTedxqM9CdWMC7CvdYgOndg/4M9
+        Q+LAyDjlHHGUuIoY5S0lVRuPO1kcNj8lijzvMLmsNS8Fzx655R3eyr8T4hcdSlRFvhDY+a+F2rOWG
+        9tqRrZJ1w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iwrk9-0005CU-1G; Wed, 29 Jan 2020 18:07:13 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E6CCD300606;
+        Wed, 29 Jan 2020 19:05:26 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B3EF12B7A8626; Wed, 29 Jan 2020 19:07:09 +0100 (CET)
+Date:   Wed, 29 Jan 2020 19:07:09 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     sjpark@amazon.com
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        sj38.park@gmail.com, acme@kernel.org, amit@kernel.org,
+        brendan.d.gregg@gmail.com, corbet@lwn.net, dwmw@amazon.com,
+        mgorman@suse.de, rostedt@goodmis.org, kirill@shutemov.name,
+        brendanhiggins@google.com, colin.king@canonical.com,
+        minchan@kernel.org, vdavydov.dev@gmail.com, vdavydov@parallels.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>
+Subject: Re: Re: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
+Message-ID: <20200129180709.GS14879@hirez.programming.kicks-ass.net>
+References: <20200129125615.GQ14879@hirez.programming.kicks-ass.net>
+ <20200129143758.896-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <96fdead6-9896-5695-6744-413300d424f5@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200129143758.896-1-sjpark@amazon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Valentin,
+On Wed, Jan 29, 2020 at 03:37:58PM +0100, sjpark@amazon.com wrote:
+> On Wed, 29 Jan 2020 13:56:15 +0100 Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > On Tue, Jan 28, 2020 at 01:00:33PM +0100, sjpark@amazon.com wrote:
+> > 
+> > > I worried whether it could be a bother to send the mail to everyone in the
+> > > section, but seems it was an unnecessary worry.  Adding those to recipients.
+> > > You can get the original thread of this patchset from
+> > > https://lore.kernel.org/linux-mm/20200128085742.14566-1-sjpark@amazon.com/
+> > 
+> > I read first patch (the document) and still have no friggin clue.
+> 
+> Do you mean the document has insufficient description only?  If so, could you
+> please point me me which information do you want to be added?
 
-On Wednesday 29 Jan 2020 at 17:13:53 (+0000), Valentin Schneider wrote:
-> Only commenting on the bits that should be there regardless of using the
-> workqueues or not;
-> 
-> On 18/12/2019 18:26, Ionela Voinescu wrote:
-> > +static void cpu_amu_fie_init_workfn(struct work_struct *work)
-> > +{
-> > +	u64 core_cnt, const_cnt, ratio;
-> > +	struct cpu_amu_work *amu_work;
-> > +	int cpu = smp_processor_id();
-> > +
-> > +	if (!cpu_has_amu_feat()) {
-> > +		pr_debug("CPU%d: counters are not supported.\n", cpu);
-> > +		return;
-> > +	}
-> > +
-> > +	core_cnt = read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0);
-> > +	const_cnt = read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0);
-> > +
-> > +	if (unlikely(!core_cnt || !const_cnt)) {
-> > +		pr_err("CPU%d: cycle counters are not enabled.\n", cpu);
-> > +		return;
-> > +	}
-> > +
-> > +	amu_work = container_of(work, struct cpu_amu_work, cpu_work);
-> > +	if (unlikely(!(amu_work->cpuinfo_max_freq))) {
-> > +		pr_err("CPU%d: invalid maximum frequency.\n", cpu);
-> > +		return;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Pre-compute the fixed ratio between the frequency of the
-> > +	 * constant counter and the maximum frequency of the CPU (hz).
-> 
-> I can't resist: s/hz/Hz/
-> 
-> > +	 */
-> > +	ratio = (u64)arch_timer_get_rate() << (2 * SCHED_CAPACITY_SHIFT);
-> > +	ratio = div64_u64(ratio, amu_work->cpuinfo_max_freq * 1000);
-> 
-> Nit: we're missing a comment somewhere that the unit of this is in kHz
-> (which explains the * 1000).
-> 
+There was a lot of words; but I'm still not sure what it actually does.
 
-Will do! The previous comment that explained this was ".. while
-ensuring max_freq is converted to HZ.", but I believed it as too
-clear and replaced it with the obscure "(hz)". I'll revert :).
+I've read some of the code that followed; is it simply sampling the
+page-table access bit? It did some really weird things though, like that
+whole 3 regions thing.
 
-> > +	this_cpu_write(arch_max_freq_scale, (unsigned long)ratio);
-> > +
-> 
-> Okay so what we get in the tick is:
-> 
->   /\ core
->   --------
->   /\ const
-> 
-> And we want that to be SCHED_CAPACITY_SCALE when running at max freq. IOW we
-> want to turn
-> 
->   max_freq
->   ----------
->   const_freq
-> 
-> into SCHED_CAPACITY_SCALE, so we can just multiply that by:
-> 
->   const_freq
->   ---------- * SCHED_CAPACITY_SCALE
->   max_freq
-> 
-> But what the ratio you are storing here is 
-> 
->                           const_freq
->   arch_max_freq_scale =   ---------- * SCHED_CAPACITY_SCALE²
->                            max_freq
-> 
-> (because x << 2 * SCHED_CAPACITY_SHIFT == x << 20)
-> 
-> 
-> In topology_freq_scale_tick() you end up doing
-> 
->   /\ core   arch_max_freq_scale
->   ------- * --------------------
->   /\ const  SCHED_CAPACITY_SCALE
-> 
-> which gives us what we want (SCHED_CAPACITY_SCALE at max freq).
-> 
-> 
-> Now, the reason why we multiply our ratio by the square of
-> SCHED_CAPACITY_SCALE was not obvious to me, but you pointed me out that the
-> frequency of the arch timer can be *really* low compared to the max CPU freq.
-> 
-> For instance on h960:
-> 
->   [    0.000000] arch_timer: cp15 timer(s) running at 1.92MHz (phys)
-> 
->   $ root@valsch-h960:~# cat /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_max_freq 
->   2362000
-> 
-> So our ratio would be
-> 
->   1'920'000 * 1024
->   ----------------
->     2'362'000'000
-> 
-> Which is ~0.83, so that becomes simply 0...
-> 
-> 
-> I had a brief look at the Arm ARM, for the arch timer it says it is
-> "typically in the range 1-50MHz", but then also gives an example with 20KHz
-> in a low-power mode.
-> 
-> If we take say 5GHz max CPU frequency, our lower bound for the arch timer
-> (with that SCHED_CAPACITY_SCALE² trick) is about ~4.768KHz. It's not *too*
-> far from that 20KHz, but I'm not sure we would actually be executing stuff
-> in that low-power mode.
-> 
-> Long story short, we're probably fine, but it would nice to shove some of
-> the above into comments (especially the SCHED_CAPACITY_SCALE² trick)
+Also, you wrote you wanted feedback from perf people; but it doesn't use
+perf, what are you asking?
 
-Okay, I'll add some of this documentation as comments in the patches. I
-thought about doing it but I was not sure it justified the line count.
-But if it saves people at least the hassle to unpack this computation to
-understand the logic, it will be worth it.
-
-Thank you for the thorough review,
-Ionela.
+Perf can do address based sampling of memops, I suspect you can create
+something using that.
