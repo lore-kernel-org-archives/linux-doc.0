@@ -2,120 +2,82 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 567DDC35240
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:22:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA83C2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:56:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 366FF20720
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:22:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8350620716
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:56:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uoHQrrL5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726069AbgA2MWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 07:22:38 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:49599 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726067AbgA2MWi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 07:22:38 -0500
-Received: from [109.168.11.45] (port=53528 helo=[192.168.101.73])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1iwmMd-003SkO-88; Wed, 29 Jan 2020 13:22:35 +0100
-Subject: Re: [PATCH v2 01/28] docs: i2c: sort index logically
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
-References: <20200123135103.20540-1-luca@lucaceresoli.net>
- <20200123135103.20540-2-luca@lucaceresoli.net>
- <20200124133548.7f01344a@endymion>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <e941cfae-f267-4c0e-b8e2-1dd99fbdb563@lucaceresoli.net>
-Date:   Wed, 29 Jan 2020 13:22:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726069AbgA2M4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 07:56:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55238 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgA2M4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 07:56:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SLgmNjaM2cFkmb1tZ6hEg2KCmNp2rU4V4QwYCqC2LIk=; b=uoHQrrL5EvNo0CZjPA/Azrhq8
+        ylfDQUgwONKpZb5NNNOmfeh1FruhN4CV7DZQluMt1CH9bLo5RCf+eYK1YWqiwaHniAAINWJcnlxYN
+        5szs4Okfx1mE31BHAmui2CoCPhcyKGY+IkYkEwENcoxDzXXEPWtwKaG1IOj/JcIynG5BrlqTmT6Eo
+        fmXyWY1nN5DIgcJ/KvYAtYGxQLbUWFiotg6O+3J7eoA8tTPqnO88nZgI0K+zJaEVqvfCIW4zJKz2m
+        dxZ+mwMVodHeKz+FqX1imyRDBthA5WPFjUB/n+C40/PDdirgJ6ddfQvpGx7BCGGlhOOXNwUsCU1rh
+        iq+rldLJQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iwmtH-0005jA-0E; Wed, 29 Jan 2020 12:56:19 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7489F300DD5;
+        Wed, 29 Jan 2020 13:54:33 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D141F2B77DA21; Wed, 29 Jan 2020 13:56:15 +0100 (CET)
+Date:   Wed, 29 Jan 2020 13:56:15 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     sjpark@amazon.com
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        sj38.park@gmail.com, acme@kernel.org, amit@kernel.org,
+        brendan.d.gregg@gmail.com, corbet@lwn.net, dwmw@amazon.com,
+        mgorman@suse.de, rostedt@goodmis.org, kirill@shutemov.name,
+        brendanhiggins@google.com, colin.king@canonical.com,
+        minchan@kernel.org, vdavydov.dev@gmail.com, vdavydov@parallels.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>
+Subject: Re: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
+Message-ID: <20200129125615.GQ14879@hirez.programming.kicks-ass.net>
+References: <41BBD985-4B3D-4F87-B69D-D8CFE6EC0EBE@lca.pw>
+ <20200128120033.27016-1-sjpark@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <20200124133548.7f01344a@endymion>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200128120033.27016-1-sjpark@amazon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jean,
+On Tue, Jan 28, 2020 at 01:00:33PM +0100, sjpark@amazon.com wrote:
 
-On 24/01/20 13:35, Jean Delvare wrote:
-> On Thu, 23 Jan 2020 14:50:36 +0100, Luca Ceresoli wrote:
->> The index page currently lists sections in alphabetical file order without
->> caring about their content. Sort sections based on their content logically,
->> according to the following structure:
->>
->>  * Intro to I2C/SMBus and their usage in Linux: summary, i2c-protocol,
->>    smbus-protocol, instantiating-devices, busses/index, i2c-topology,
->>    muxes/i2c-mux-gpio
->>  * Implementing drivers: writing-clients, dev-interface,
->>    dma-considerations, fault-codes, functionality
->>  * Debugging: gpio-fault-injection, i2c-stub
->>  * Slave I2C: slave-interface, slave-eeprom-backend
->>  * Advanced: ten-bit-addresses
->>  * Obsolete info: upgrading-clients, old-module-parameters
->>
->> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
->> Reviewed-by: Jean Delvare <jdelvare@suse.de>
->>
->> ---
->>
->> Changes in v2:
->>  - split sections in groups (suggested by Jean Delvare)
->>  - remove consecutive blank lines (reported by Jean Delvare)
->> ---
->>  Documentation/i2c/index.rst | 59 ++++++++++++++++++++++++++++++-------
->>  1 file changed, 48 insertions(+), 11 deletions(-)
->>
->> diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
->> index a0fbaf6d0675..f0f3b9c97abb 100644
->> --- a/Documentation/i2c/index.rst
->> +++ b/Documentation/i2c/index.rst
->> @@ -4,30 +4,67 @@
->>  I2C/SMBus Subsystem
->>  ===================
->>  
->> +Introduction
->> +============
->> +
->> +.. toctree::
->> +   :maxdepth: 1
->> +
->> +   summary
->> +   i2c-protocol
->> +   smbus-protocol
->> +   instantiating-devices
->> +   busses/index
->> +   i2c-topology
->> +   muxes/i2c-mux-gpio
->> +
->> +
-> 
-> You still have a double blank line here, not sure if this is intended?
+> I worried whether it could be a bother to send the mail to everyone in the
+> section, but seems it was an unnecessary worry.  Adding those to recipients.
+> You can get the original thread of this patchset from
+> https://lore.kernel.org/linux-mm/20200128085742.14566-1-sjpark@amazon.com/
 
-It's not intended. Thanks for double checking!
+I read first patch (the document) and still have no friggin clue.
 
-I fixed this patch as well as patch 11. v3 on its way.
 
--- 
-Luca
