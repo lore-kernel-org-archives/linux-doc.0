@@ -7,35 +7,36 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30D6C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74401C2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 92EE5206F0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:22:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BB5920720
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgA2QWr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 11:22:47 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:56283 "EHLO
+        id S1727237AbgA2QXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 11:23:01 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:60576 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726645AbgA2QWr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:47 -0500
+        by vger.kernel.org with ESMTP id S1727189AbgA2QW4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:56 -0500
 Received: from [109.168.11.45] (port=34038 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwq71-005NDl-Pp; Wed, 29 Jan 2020 17:22:43 +0100
+        id 1iwq7B-005NDl-1m; Wed, 29 Jan 2020 17:22:53 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 15/28] docs: i2c: smbus-protocol: enable kernel-doc function syntax
-Date:   Wed, 29 Jan 2020 16:19:40 +0100
-Message-Id: <20200129151953.31582-16-luca@lucaceresoli.net>
+Subject: [PATCH v3 26/28] docs: i2c: rename sections so the overall picture is clearer
+Date:   Wed, 29 Jan 2020 16:19:51 +0100
+Message-Id: <20200129151953.31582-27-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
@@ -53,167 +54,141 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Hyperlinks from function names are not generated in headings. Move them in
-the plain text so they are rendered as clickable hyperlinks.
+Some of the section names are not very clear. Reading those names in the
+index.rst page does not help much in grasping what the content is supposed
+to be.
 
-While there also remove an unneeded colon in a heading.
+Rename those sections to clarify their content, especially when reading
+the index page.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+Acked-by: Peter Rosin <peda@axentia.se>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
 ---
 
-Changes in v2:
- - fix typo in commit message (Jean Delvare)
----
- Documentation/i2c/smbus-protocol.rst | 64 ++++++++++++++++++----------
- 1 file changed, 42 insertions(+), 22 deletions(-)
+Note: here checkpatch complains:
 
+  WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+
+Thas's because those files have no license line. I would gladly add a
+proper license line, but what it the correct license here? Should I ask the
+authors? GPLv2-only as the kernel default?
+
+I'd appreciate a guidance here, thanks in advance.
+
+---
+
+Changes in v2:
+ - summary.rst: "Introductions" -> "Introduction" (suggested by Jean Delvare)
+---
+ Documentation/i2c/dev-interface.rst         | 6 +++---
+ Documentation/i2c/i2c-protocol.rst          | 6 +++---
+ Documentation/i2c/i2c-topology.rst          | 6 +++---
+ Documentation/i2c/old-module-parameters.rst | 6 +++---
+ Documentation/i2c/smbus-protocol.rst        | 6 +++---
+ Documentation/i2c/summary.rst               | 6 +++---
+ Documentation/i2c/writing-clients.rst       | 6 +++---
+ 7 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/i2c/dev-interface.rst b/Documentation/i2c/dev-interface.rst
+index c3717a87df12..bdb247f2f11a 100644
+--- a/Documentation/i2c/dev-interface.rst
++++ b/Documentation/i2c/dev-interface.rst
+@@ -1,6 +1,6 @@
+-====================
+-I2C Device Interface
+-====================
++============================================
++Implementing I2C device drivers in userspace
++============================================
+ 
+ Usually, I2C devices are controlled by a kernel driver. But it is also
+ possible to access all devices on an adapter from userspace, through
+diff --git a/Documentation/i2c/i2c-protocol.rst b/Documentation/i2c/i2c-protocol.rst
+index 9a4ac944cf9d..6aafc3880bce 100644
+--- a/Documentation/i2c/i2c-protocol.rst
++++ b/Documentation/i2c/i2c-protocol.rst
+@@ -1,6 +1,6 @@
+-============
+-I2C Protocol
+-============
++================
++The I2C Protocol
++================
+ 
+ This document describes the I2C protocol. Or will, when it is finished :-)
+ 
+diff --git a/Documentation/i2c/i2c-topology.rst b/Documentation/i2c/i2c-topology.rst
+index 2a18b53e3508..7cb53819778e 100644
+--- a/Documentation/i2c/i2c-topology.rst
++++ b/Documentation/i2c/i2c-topology.rst
+@@ -1,6 +1,6 @@
+-============
+-I2C topology
+-============
++================================
++I2C muxes and complex topologies
++================================
+ 
+ There are a couple of reasons for building more complex I2C topologies
+ than a straight-forward I2C bus with one adapter and one or more devices.
+diff --git a/Documentation/i2c/old-module-parameters.rst b/Documentation/i2c/old-module-parameters.rst
+index 3b93cb88eebc..38e55829dee8 100644
+--- a/Documentation/i2c/old-module-parameters.rst
++++ b/Documentation/i2c/old-module-parameters.rst
+@@ -1,6 +1,6 @@
+-=================================================
+-I2C device driver binding control from user-space
+-=================================================
++================================================================
++I2C device driver binding control from user-space in old kernels
++================================================================
+ 
+ .. NOTE::
+    Note: this section is only relevant if you are handling some old code
 diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
-index 10c4a989982c..997945e90419 100644
+index 0edaf6069ac1..c122ed239f7f 100644
 --- a/Documentation/i2c/smbus-protocol.rst
 +++ b/Documentation/i2c/smbus-protocol.rst
-@@ -62,8 +62,10 @@ This sends a single bit to the device, at the place of the Rd/Wr bit::
- Functionality flag: I2C_FUNC_SMBUS_QUICK
- 
- 
--SMBus Receive Byte:  i2c_smbus_read_byte()
--==========================================
-+SMBus Receive Byte
+@@ -1,6 +1,6 @@
+-======================
+-SMBus Protocol Summary
+-======================
 +==================
-+
-+Implemented by i2c_smbus_read_byte()
++The SMBus Protocol
++==================
  
- This reads a single byte from a device, without specifying a device
- register. Some devices are so simple that this interface is enough; for
-@@ -75,8 +77,10 @@ the previous SMBus command::
- Functionality flag: I2C_FUNC_SMBUS_READ_BYTE
+ The following is a summary of the SMBus protocol. It applies to
+ all revisions of the protocol (1.0, 1.1, and 2.0).
+diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
+index 09f73a608e25..ce7230025b33 100644
+--- a/Documentation/i2c/summary.rst
++++ b/Documentation/i2c/summary.rst
+@@ -1,6 +1,6 @@
+-=============
+-I2C and SMBus
+-=============
++=============================
++Introduction to I2C and SMBus
++=============================
  
- 
--SMBus Send Byte:  i2c_smbus_write_byte()
--========================================
-+SMBus Send Byte
-+===============
-+
-+Implemented by i2c_smbus_write_byte()
- 
- This operation is the reverse of Receive Byte: it sends a single byte
- to a device.  See Receive Byte for more information.
-@@ -88,8 +92,10 @@ to a device.  See Receive Byte for more information.
- Functionality flag: I2C_FUNC_SMBUS_WRITE_BYTE
- 
- 
--SMBus Read Byte:  i2c_smbus_read_byte_data()
--============================================
-+SMBus Read Byte
-+===============
-+
-+Implemented by i2c_smbus_read_byte_data()
- 
- This reads a single byte from a device, from a designated register.
- The register is specified through the Comm byte::
-@@ -99,8 +105,10 @@ The register is specified through the Comm byte::
- Functionality flag: I2C_FUNC_SMBUS_READ_BYTE_DATA
- 
- 
--SMBus Read Word:  i2c_smbus_read_word_data()
--============================================
-+SMBus Read Word
-+===============
-+
-+Implemented by i2c_smbus_read_word_data()
- 
- This operation is very like Read Byte; again, data is read from a
- device, from a designated register that is specified through the Comm
-@@ -115,8 +123,10 @@ available for reads where the two data bytes are the other way
- around (not SMBus compliant, but very popular.)
- 
- 
--SMBus Write Byte:  i2c_smbus_write_byte_data()
--==============================================
-+SMBus Write Byte
-+================
-+
-+Implemented by i2c_smbus_write_byte_data()
- 
- This writes a single byte to a device, to a designated register. The
- register is specified through the Comm byte. This is the opposite of
-@@ -129,8 +139,10 @@ the Read Byte operation.
- Functionality flag: I2C_FUNC_SMBUS_WRITE_BYTE_DATA
- 
- 
--SMBus Write Word:  i2c_smbus_write_word_data()
--==============================================
-+SMBus Write Word
-+================
-+
-+Implemented by i2c_smbus_write_word_data()
- 
- This is the opposite of the Read Word operation. 16 bits
- of data is written to a device, to the designated register that is
-@@ -145,8 +157,8 @@ available for writes where the two data bytes are the other way
- around (not SMBus compliant, but very popular.)
- 
- 
--SMBus Process Call:
+ I²C (pronounce: I squared C and written I2C in the kernel documentation) is
+ a protocol developed by Philips. It is a slow two-wire protocol (variable
+diff --git a/Documentation/i2c/writing-clients.rst b/Documentation/i2c/writing-clients.rst
+index 44d97b2c9a82..82aa33c964d3 100644
+--- a/Documentation/i2c/writing-clients.rst
++++ b/Documentation/i2c/writing-clients.rst
+@@ -1,6 +1,6 @@
 -===================
-+SMBus Process Call
-+==================
+-Writing I2C Clients
+-===================
++===============================
++Implementing I2C device drivers
++===============================
  
- This command selects a device register (through the Comm byte), sends
- 16 bits of data to it, and reads 16 bits of data in return::
-@@ -157,8 +169,10 @@ This command selects a device register (through the Comm byte), sends
- Functionality flag: I2C_FUNC_SMBUS_PROC_CALL
- 
- 
--SMBus Block Read:  i2c_smbus_read_block_data()
--==============================================
-+SMBus Block Read
-+================
-+
-+Implemented by i2c_smbus_read_block_data()
- 
- This command reads a block of up to 32 bytes from a device, from a
- designated register that is specified through the Comm byte. The amount
-@@ -172,8 +186,10 @@ of data is specified by the device in the Count byte.
- Functionality flag: I2C_FUNC_SMBUS_READ_BLOCK_DATA
- 
- 
--SMBus Block Write:  i2c_smbus_write_block_data()
--================================================
-+SMBus Block Write
-+=================
-+
-+Implemented by i2c_smbus_write_block_data()
- 
- The opposite of the Block Read command, this writes up to 32 bytes to
- a device, to a designated register that is specified through the
-@@ -274,8 +290,10 @@ I2C block transactions do not limit the number of bytes transferred
- but the SMBus layer places a limit of 32 bytes.
- 
- 
--I2C Block Read:  i2c_smbus_read_i2c_block_data()
--================================================
-+I2C Block Read
-+==============
-+
-+Implemented by i2c_smbus_read_i2c_block_data()
- 
- This command reads a block of bytes from a device, from a
- designated register that is specified through the Comm byte::
-@@ -286,8 +304,10 @@ designated register that is specified through the Comm byte::
- Functionality flag: I2C_FUNC_SMBUS_READ_I2C_BLOCK
- 
- 
--I2C Block Write:  i2c_smbus_write_i2c_block_data()
--==================================================
-+I2C Block Write
-+===============
-+
-+Implemented by i2c_smbus_write_i2c_block_data()
- 
- The opposite of the Block Read command, this writes bytes to
- a device, to a designated register that is specified through the
+ This is a small guide for those who want to write kernel drivers for I2C
+ or SMBus devices, using Linux as the protocol host/master (not slave).
 -- 
 2.25.0
 
