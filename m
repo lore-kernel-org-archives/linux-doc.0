@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43CB2C2D0DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C1DC3F68F
 	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 18E1A207FF
+	by mail.kernel.org (Postfix) with ESMTP id 6A55920720
 	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbgA2QXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 11:23:21 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:38353 "EHLO
+        id S1727285AbgA2QXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 11:23:20 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:43823 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726992AbgA2QWy (ORCPT
+        by vger.kernel.org with ESMTP id S1727165AbgA2QWy (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:54 -0500
 Received: from [109.168.11.45] (port=34038 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwq7A-005NDl-Id; Wed, 29 Jan 2020 17:22:52 +0100
+        id 1iwq79-005NDl-B9; Wed, 29 Jan 2020 17:22:51 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 24/28] docs: i2c: old-module-parameters: clarify this is for obsolete kernels
-Date:   Wed, 29 Jan 2020 16:19:49 +0100
-Message-Id: <20200129151953.31582-25-luca@lucaceresoli.net>
+Subject: [PATCH v3 19/28] docs: i2c: smbus-protocol: improve I2C Block transactions description
+Date:   Wed, 29 Jan 2020 16:19:44 +0100
+Message-Id: <20200129151953.31582-20-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
@@ -53,31 +53,33 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-This section applies only to code for very old kernels. Avoid people
-reading this unnecessarily.
+Clarify from the beginning what these transactions are, and specifically
+how they differ from the SMBus counterparts, i.e. the lack of a Count byte.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 ---
- Documentation/i2c/old-module-parameters.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/i2c/smbus-protocol.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/i2c/old-module-parameters.rst b/Documentation/i2c/old-module-parameters.rst
-index 1a18e2b0f593..92a403d21a62 100644
---- a/Documentation/i2c/old-module-parameters.rst
-+++ b/Documentation/i2c/old-module-parameters.rst
-@@ -2,6 +2,11 @@
- I2C device driver binding control from user-space
- =================================================
+diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+index 7350e4b2c2fa..0edaf6069ac1 100644
+--- a/Documentation/i2c/smbus-protocol.rst
++++ b/Documentation/i2c/smbus-protocol.rst
+@@ -282,9 +282,10 @@ This is implemented the following way in the Linux kernel:
+ I2C Block Transactions
+ ======================
  
-+.. NOTE::
-+   Note: this section is only relevant if you are handling some old code
-+   found in kernel 2.6. If you work with more recent kernels, you can
-+   safely skip this section.
-+
- Up to kernel 2.6.32, many I2C drivers used helper macros provided by
- <linux/i2c.h> which created standard module parameters to let the user
- control how the driver would probe I2C buses and attach to devices. These
+-The following I2C block transactions are supported by the
+-SMBus layer and are described here for completeness.
+-They are *NOT* defined by the SMBus specification.
++The following I2C block transactions are similar to the SMBus Block Read
++and Write operations, except these do not have a Count byte. They are
++supported by the SMBus layer and are described here for completeness, but
++they are *NOT* defined by the SMBus specification.
+ 
+ I2C block transactions do not limit the number of bytes transferred
+ but the SMBus layer places a limit of 32 bytes.
 -- 
 2.25.0
 
