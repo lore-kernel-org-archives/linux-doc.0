@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085E6C33CB7
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 049B1C33CB7
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DAF74207FD
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6E8520732
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727105AbgA2PUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 10:20:31 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:59469 "EHLO
+        id S1727180AbgA2PUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 10:20:39 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:54354 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727089AbgA2PUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 10:20:30 -0500
+        by vger.kernel.org with ESMTP id S1727171AbgA2PUj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 10:20:39 -0500
 Received: from [109.168.11.45] (port=33588 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwp8l-004sQJ-QK; Wed, 29 Jan 2020 16:20:27 +0100
+        id 1iwp8u-004sQJ-Un; Wed, 29 Jan 2020 16:20:37 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 07/28] docs: i2c: i2c-protocol: fix kernel-doc function syntax
-Date:   Wed, 29 Jan 2020 16:19:32 +0100
-Message-Id: <20200129151953.31582-8-luca@lucaceresoli.net>
+Subject: [PATCH v3 09/28] docs: i2c: i2c-protocol: remove unneeded colons from table
+Date:   Wed, 29 Jan 2020 16:19:34 +0100
+Message-Id: <20200129151953.31582-10-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
@@ -53,46 +53,56 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-This clarifies these are functions and adds a hyperlink to the function
-documentation.
+These colons are not needed: the columns already nicely separate the
+symbols from their description. They are also inconsistently preceded by
+whitespace.
+
+Remove the colons completely to simplify and clean up.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
+
 ---
- Documentation/i2c/i2c-protocol.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+
+Changes in v2:
+ - fix typo in commit message (Jean Delvare)
+---
+ Documentation/i2c/i2c-protocol.rst | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/Documentation/i2c/i2c-protocol.rst b/Documentation/i2c/i2c-protocol.rst
-index 0222c97f3436..f289d7759a51 100644
+index c090003f55ed..66adac3a5afd 100644
 --- a/Documentation/i2c/i2c-protocol.rst
 +++ b/Documentation/i2c/i2c-protocol.rst
-@@ -28,7 +28,7 @@ Count (8 bits): A data byte containing the length of a block operation.
- Simple send transaction
- =======================
+@@ -8,19 +8,19 @@ Key to symbols
+ ==============
  
--This corresponds to i2c_master_send::
-+This corresponds to i2c_master_send()::
+ =============== =============================================================
+-S             : Start condition
+-P             : Stop condition
+-Rd/Wr (1 bit) : Read/Write bit. Rd equals 1, Wr equals 0.
+-A, NA (1 bit) : Accept and reverse accept bit.
+-Addr  (7 bits): I2C 7 bit address. Note that this can be expanded as usual to
++S               Start condition
++P               Stop condition
++Rd/Wr (1 bit)   Read/Write bit. Rd equals 1, Wr equals 0.
++A, NA (1 bit)   Accept and reverse accept bit.
++Addr  (7 bits)  I2C 7 bit address. Note that this can be expanded as usual to
+                 get a 10 bit I2C address.
+-Comm  (8 bits): Command byte, a data byte which often selects a register on
++Comm  (8 bits)  Command byte, a data byte which often selects a register on
+                 the device.
+-Data  (8 bits): A plain data byte. Sometimes, I write DataLow, DataHigh
++Data  (8 bits)  A plain data byte. Sometimes, I write DataLow, DataHigh
+                 for 16 bit data.
+-Count (8 bits): A data byte containing the length of a block operation.
++Count (8 bits)  A data byte containing the length of a block operation.
  
-   S Addr Wr [A] Data [A] Data [A] ... [A] Data [A] P
+-[..]:           Data sent by I2C device, as opposed to data sent by the
++[..]            Data sent by I2C device, as opposed to data sent by the
+                 host adapter.
+ =============== =============================================================
  
-@@ -36,7 +36,7 @@ This corresponds to i2c_master_send::
- Simple receive transaction
- ==========================
- 
--This corresponds to i2c_master_recv::
-+This corresponds to i2c_master_recv()::
- 
-   S Addr Rd [A] [Data] A [Data] A ... A [Data] NA P
- 
-@@ -44,7 +44,7 @@ This corresponds to i2c_master_recv::
- Combined transactions
- =====================
- 
--This corresponds to i2c_transfer
-+This corresponds to i2c_transfer().
- 
- They are just like the above transactions, but instead of a stop bit P
- a start bit S is sent and the transaction continues. An example of
 -- 
 2.25.0
 
