@@ -1,84 +1,110 @@
-Return-Path: <SRS0=JCeC=3R=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47F3C3F68F
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 23:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 654ABC33C9E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 01:32:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6FB312465B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jan 2020 23:47:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 344412465B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 01:32:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iMV6By1y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DAqfA2Q2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgA1XrU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 18:47:20 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60524 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgA1XrU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 18:47:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=GGitX/6T7DvWw6ZAOTOZTxt7aI3kom8E49BexV2r+4Q=; b=iMV6By1yTI74CLt5CC6uBT+pA
-        kVTEYBVaRke5hkVmIXKtsyb920UN3edsJSeJQk8XvZWaavFQd3EUiFaT5LMLObJaJ2ZNSeqoH0r8E
-        WmtrFRPrabSX+RhNHPYlYhq3ZasLFXtJs+mC0voIrp7JkH/Poynw/aiE2Bd7oq612/woM+/pkvkQA
-        Z+o99/uUCab5+ZqJcQBjsGPATssom6QuJOpNouxnTnK+z/kivkkIs5Jh9H4j+dfRcbgIAqT4lWhbS
-        DvAN/YD3i9zdrtKjjuPB7FEAbc252Ps3XqY6BASKur7r3Lo3xuWEpS3jkoxy4hbrT1vpXJ2fwLkDc
-        zO9B2VKaA==;
-Received: from [2601:1c0:6280:3f0::ed68]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwaZj-0003QR-7q; Tue, 28 Jan 2020 23:47:19 +0000
-Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
-References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
- <20200128134228.3c6f56b9@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <244ed240-46aa-aa73-6f89-df7944d42cbf@infradead.org>
-Date:   Tue, 28 Jan 2020 15:47:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726401AbgA2BcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 20:32:20 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:40567 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbgA2BcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 20:32:20 -0500
+Received: by mail-io1-f67.google.com with SMTP id x1so16730938iop.7;
+        Tue, 28 Jan 2020 17:32:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OINYauu/FMq3XOWWth+EZlBMMQYby1FB2lj9pkceckU=;
+        b=DAqfA2Q2IZOL2p+2+8mDc/eHucTMeIe195YcmRbXqZPEQ1BUrWJYhTKOc45wFCj9ws
+         qbFljs2PdS4QccbtjDeRr/7+YuC89DjKx7uQZF1J2oq7VpqynyNalFg6ZtDfK+7RuS3R
+         md1a3GGnY9KMsn7gylymfHEXOE1Ny6CEuhGalSwdeX1bajGEraP7Kl15ewD3IypqbYpA
+         epvg5KOjAvhjqPuPbopUTfxjXQCHv6uc2O84Bu3Sh5nxujCgLg21xyUkSJoEjgbWMNLE
+         IHTLPOOU7viAze8jUrPhhh6niIsEKPJB8qwKXsqEyqIgAiUdtV70gykK/66fJQVHHmJA
+         Yx6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OINYauu/FMq3XOWWth+EZlBMMQYby1FB2lj9pkceckU=;
+        b=VhPVF/ePIVbfwYR8PzLEXomGgBIqHttNQ0Xk5qjDn2oVxIH9l25rgZH0jDh7taW9P2
+         EXzU9OFEn3XJ0EwrkBdNhjbEVEyxTgfzdaRlUdPcp9LPP4WMkSyhIDl/ah1vCwpTF7SW
+         BPTKVN0fiiO2Bw0YCKShF/zqVaW24s8rnfvGuGn6oDrFUroNBhQqjj/m0iCy1W77Kuos
+         mEf2+40qgXgqL7O3o7jmnzInMbNtRTr1DBEZbpSRg7Re5l9dDDLu2CP9kK6qvhyYZzJd
+         u6SSio9Nj/trrWQTFdTVMj1YjH9bvKZAiICcjrExzdZcADY0YiRBtc0t35E9GLbUtkWf
+         HMkQ==
+X-Gm-Message-State: APjAAAW8dJK5xzpq9WevC3rOty6tvdK4FdI4QRnd0ezWAAx5HK1zJuqN
+        jEoNohoIP13CCI+yJCb8c8h4EiJvI8dAJnntFy8=
+X-Google-Smtp-Source: APXvYqyjDYSrA853V/qdJsqhISgAYNfOdiEApwa11SxBrKEwiNeyKkuwVJIZChAAe9De33mzBsnHuRnoewo1Vkt9BBY=
+X-Received: by 2002:a02:3508:: with SMTP id k8mr15363989jaa.114.1580261539263;
+ Tue, 28 Jan 2020 17:32:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200128134228.3c6f56b9@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200124144248.11719-1-yu.c.chen@intel.com> <20200124193142.GA33298@google.com>
+In-Reply-To: <20200124193142.GA33298@google.com>
+From:   Dan Williams <dan.j.williams.korg@gmail.com>
+Date:   Tue, 28 Jan 2020 17:32:07 -0800
+Message-ID: <CANTgghm_ZC29PF3m-7u74RWU0LiKOcodf-CqhSzsQPdu05qrJg@mail.gmail.com>
+Subject: Re: [PATCH][RFC] PCI: Add "pci=blacklist_dev=" parameter to blacklist
+ specific devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Chen Yu <yu.c.chen@intel.com>, linux-pci@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/28/20 12:42 PM, Jonathan Corbet wrote:
-> On Tue, 28 Jan 2020 07:41:00 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
->> It seems that some files were removed from USB documentation.
->>
->> Update the links accordingly.
->>
->> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> Applied, thanks.
-> 
-> jon
+On Fri, Jan 24, 2020 at 1:01 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Fri, Jan 24, 2020 at 10:42:48PM +0800, Chen Yu wrote:
+> > It was found that on some platforms the bogus pci device might bring
+> > troubles to the system. For example, on a MacBookPro the system could
+> > not be power off or suspended due to internal pci resource confliction
+> > between bogus pci device and [io 0x1804]. Another case is that, once
+> > resumed from hibernation on a VM, the pci config space of a pci device
+> > is corrupt.
+> >
+> > To narrow down and benefit future debugging for such kind of issues,
+> > introduce the command line blacklist_dev=<vendor:device_id>> to blacklist
+> > such pci devices thus they will not be scanned thus not visible after
+> > bootup. For example,
+> >
+> >  pci.blacklist_dev=8086:293e
+> >
+> > forbid the audio device to be exposed to the OS.
+>
+> I'm not really a fan of this.  I'd rather see some details about what
+> the problem is so we can actually fix it.
+>
+> Ignoring the device doesn't mean the device is removed or even
+> inactive.  It may still be consuming address space that we need to
+> avoid.
+>
+> Can you point us to bug reports about the issues you mentioned?
 
-This warning has been around for quite awhile now:
+I'm not sure which issues Chen Yu is referring to, but a proposal like
+has come up before [1], and didn't go anywhere.
 
-lnx-55/Documentation/usb/text_files.rst:22: WARNING: Include file u'lnx/lnx-55/Documentation/usb/wusb-cbaf' not found or reading it failed
+I think this is useful to people doing new / pre-release hardware
+bring up, but it's unlikely that such hardware makes it into a
+production to make this feature useful upstream. Hardware bring-up
+efforts can just use local hacks to workaround problems, if broken
+hardware actually makes it into production it needs precise quirks to
+be developed/applied.
 
-Looks like it has been moved to drivers/staging/wusbcore/Documentation/wusb-cbaf.
-
--- 
-~Randy
-
+[1]: http://lore.kernel.org/r/1506544822-2632-2-git-send-email-jonathan.derrick@intel.com
