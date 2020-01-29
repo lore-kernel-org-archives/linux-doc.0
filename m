@@ -2,107 +2,120 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 067BEC35246
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 11:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 567DDC35240
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:22:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C74A220732
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 11:25:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="0W7H46FM"
+	by mail.kernel.org (Postfix) with ESMTP id 366FF20720
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 12:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgA2LZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 06:25:10 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46580 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726192AbgA2LZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 06:25:06 -0500
-Received: by mail-lj1-f195.google.com with SMTP id x14so15653910ljd.13
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2020 03:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=yuCTClL/pM7fgvSlPLx1qB/TzQ5SdJMl6/MOShIA1DQ=;
-        b=0W7H46FMjIQyieXPqDTdHmsnT+fVvJJD10f3x0BOMctRvL9MkeTdx4VbdbHlRTBEN3
-         b5/NawDAfyQpEhbLgT0rwOvcpevf1CHvRnfPK+nWNiUWSGyImoO0vgtrGmVKW+uZx29r
-         bBsFaVwVuNzEQGuzTVKaB1lufIwzDYjD7ErDm/9BiL+5qbFTXQ+Ady+yLKCnGSNAgMd3
-         W6mnYQvJTpgMGiYduy+scv4eX7iMsBIwYQPsUNpaNK3OyYiGdeXL9USXqvdYpFTTjSlw
-         AraHVZkw1JBmq3Op+CNUrl6EEty11YBA5pwAZqGuiTKUaRJ47uGYaNwZMdUrsfU+3Fw7
-         +BBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yuCTClL/pM7fgvSlPLx1qB/TzQ5SdJMl6/MOShIA1DQ=;
-        b=PG4I51LVq5mttHdPtyCB7fxMFEOORW1s7Ayr7u62bKZK9NVBcd9IXCY6N5wD55BtDw
-         ZvsBxjVkKi8V08ztMf5LG12Jxx572jBrPg7mMceG78gPqRHh/zJIRVnttif0VLcCKDHY
-         oo/dNXApUawPkDJBNYkRd+20BMW1r5Moz/W63dlEgIKtv/GItMjy4Kiiivp9KH3mLlC4
-         bvqEHz8E1j7F48x6KREhAiOatT9bq9aSJshJTqmAKPUu3oM7rqbxWnq/clWHlhI2/nPC
-         kLa4A1XdE7IeLkGmsIur03LXvY0GZjsT5i6pTYoikCHs0kyPqtdBi9lE7dC5l+HvZR9j
-         2Dkw==
-X-Gm-Message-State: APjAAAV+a7KC6XQVeZcyr4s9pcftEkZR43KRVza0IIhUWB6mXJy+Iygd
-        4FKiUvI/xOC5gEd2JsSAMSiq1Q==
-X-Google-Smtp-Source: APXvYqwyL72yG90SI0NWAGgcd0insDnp1IMG7ae6YjG0JpIiyNIWobcDnM8YcTAzCUBn1pD6tZdqCQ==
-X-Received: by 2002:a2e:809a:: with SMTP id i26mr16595052ljg.108.1580297103916;
-        Wed, 29 Jan 2020 03:25:03 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id d9sm778410lja.73.2020.01.29.03.25.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2020 03:25:03 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 04319100AFE; Wed, 29 Jan 2020 14:25:11 +0300 (+03)
-Date:   Wed, 29 Jan 2020 14:25:10 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/8] mm: dump_page: print head page's refcount, for
- compound pages
-Message-ID: <20200129112510.ulims6u36ofk2qwa@box>
-References: <20200129032417.3085670-1-jhubbard@nvidia.com>
- <20200129032417.3085670-2-jhubbard@nvidia.com>
+        id S1726069AbgA2MWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 07:22:38 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:49599 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726067AbgA2MWi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 07:22:38 -0500
+Received: from [109.168.11.45] (port=53528 helo=[192.168.101.73])
+        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1iwmMd-003SkO-88; Wed, 29 Jan 2020 13:22:35 +0100
+Subject: Re: [PATCH v2 01/28] docs: i2c: sort index logically
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org
+References: <20200123135103.20540-1-luca@lucaceresoli.net>
+ <20200123135103.20540-2-luca@lucaceresoli.net>
+ <20200124133548.7f01344a@endymion>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <e941cfae-f267-4c0e-b8e2-1dd99fbdb563@lucaceresoli.net>
+Date:   Wed, 29 Jan 2020 13:22:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200129032417.3085670-2-jhubbard@nvidia.com>
+In-Reply-To: <20200124133548.7f01344a@endymion>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 28, 2020 at 07:24:10PM -0800, John Hubbard wrote:
-> When debugging a problem that involves compound pages, it is extremely
-> helpful if dump_page() reports not only the page->_refcount, but also
-> the refcount of the head page of the compound page. That's because the
-> head page collects refcounts for the entire compound page.
-> 
-> Therefore, enhance dump_page() so as to print out the refcount of the
-> head page of a compound page.
-> 
-> This approach (printing information about a struct page that is not the
-> struct page that was passed into dump_page()) has a precedent:
-> compound_mapcount is already being printed.
+Hi Jean,
 
-refcount on a tail must always be 0. I think we should only print it when
-it is non-zero, emphasizing this fact with a standalone message.
+On 24/01/20 13:35, Jean Delvare wrote:
+> On Thu, 23 Jan 2020 14:50:36 +0100, Luca Ceresoli wrote:
+>> The index page currently lists sections in alphabetical file order without
+>> caring about their content. Sort sections based on their content logically,
+>> according to the following structure:
+>>
+>>  * Intro to I2C/SMBus and their usage in Linux: summary, i2c-protocol,
+>>    smbus-protocol, instantiating-devices, busses/index, i2c-topology,
+>>    muxes/i2c-mux-gpio
+>>  * Implementing drivers: writing-clients, dev-interface,
+>>    dma-considerations, fault-codes, functionality
+>>  * Debugging: gpio-fault-injection, i2c-stub
+>>  * Slave I2C: slave-interface, slave-eeprom-backend
+>>  * Advanced: ten-bit-addresses
+>>  * Obsolete info: upgrading-clients, old-module-parameters
+>>
+>> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+>> Reviewed-by: Jean Delvare <jdelvare@suse.de>
+>>
+>> ---
+>>
+>> Changes in v2:
+>>  - split sections in groups (suggested by Jean Delvare)
+>>  - remove consecutive blank lines (reported by Jean Delvare)
+>> ---
+>>  Documentation/i2c/index.rst | 59 ++++++++++++++++++++++++++++++-------
+>>  1 file changed, 48 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
+>> index a0fbaf6d0675..f0f3b9c97abb 100644
+>> --- a/Documentation/i2c/index.rst
+>> +++ b/Documentation/i2c/index.rst
+>> @@ -4,30 +4,67 @@
+>>  I2C/SMBus Subsystem
+>>  ===================
+>>  
+>> +Introduction
+>> +============
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>> +   summary
+>> +   i2c-protocol
+>> +   smbus-protocol
+>> +   instantiating-devices
+>> +   busses/index
+>> +   i2c-topology
+>> +   muxes/i2c-mux-gpio
+>> +
+>> +
+> 
+> You still have a double blank line here, not sure if this is intended?
+
+It's not intended. Thanks for double checking!
+
+I fixed this patch as well as patch 11. v3 on its way.
 
 -- 
- Kirill A. Shutemov
+Luca
