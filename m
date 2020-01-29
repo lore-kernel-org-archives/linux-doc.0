@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAB8C2D0DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A2FC35240
 	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 168A220732
+	by mail.kernel.org (Postfix) with ESMTP id C210B20720
 	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbgA2QXM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 11:23:12 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:53570 "EHLO
+        id S1727198AbgA2QWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 11:22:55 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:57565 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727192AbgA2QWz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:55 -0500
+        by vger.kernel.org with ESMTP id S1727168AbgA2QWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:53 -0500
 Received: from [109.168.11.45] (port=34038 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwq7B-005NDl-FM; Wed, 29 Jan 2020 17:22:53 +0100
+        id 1iwq79-005NDl-JW; Wed, 29 Jan 2020 17:22:51 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 28/28] docs: i2c: writing-clients: properly name the stop condition
-Date:   Wed, 29 Jan 2020 16:19:53 +0100
-Message-Id: <20200129151953.31582-29-luca@lucaceresoli.net>
+Subject: [PATCH v3 20/28] docs: i2c: instantiating-devices: fix internal hyperlink
+Date:   Wed, 29 Jan 2020 16:19:45 +0100
+Message-Id: <20200129151953.31582-21-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
@@ -52,37 +52,32 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-In I2C there is no such thing as a "stop bit". Use the proper naming: "stop
-condition".
+Use ReST syntax so that a proper hyperlink is generated.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-Reported-by: Jean Delvare <jdelvare@suse.de>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
 ---
 
-This patch is new in v2.
+Changes in v2:
+ - remove space before dot (Jean Delvare)
 ---
- Documentation/i2c/writing-clients.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/i2c/instantiating-devices.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/i2c/writing-clients.rst b/Documentation/i2c/writing-clients.rst
-index 82aa33c964d3..978cc8210bf3 100644
---- a/Documentation/i2c/writing-clients.rst
-+++ b/Documentation/i2c/writing-clients.rst
-@@ -357,9 +357,9 @@ read/written.
+diff --git a/Documentation/i2c/instantiating-devices.rst b/Documentation/i2c/instantiating-devices.rst
+index 53244e2f0378..e823c4ad4e7f 100644
+--- a/Documentation/i2c/instantiating-devices.rst
++++ b/Documentation/i2c/instantiating-devices.rst
+@@ -86,7 +86,7 @@ Method 1c: Declare the I2C devices via ACPI
+ -------------------------------------------
  
- This sends a series of messages. Each message can be a read or write,
- and they can be mixed in any way. The transactions are combined: no
--stop bit is sent between transaction. The i2c_msg structure contains
--for each message the client address, the number of bytes of the message
--and the message data itself.
-+stop condition is issued between transaction. The i2c_msg structure
-+contains for each message the client address, the number of bytes of the
-+message and the message data itself.
+ ACPI can also describe I2C devices. There is special documentation for this
+-which is currently located at Documentation/firmware-guide/acpi/enumeration.rst.
++which is currently located at :doc:`../firmware-guide/acpi/enumeration`.
  
- You can read the file ``i2c-protocol`` for more information about the
- actual I2C protocol.
+ 
+ Method 2: Instantiate the devices explicitly
 -- 
 2.25.0
 
