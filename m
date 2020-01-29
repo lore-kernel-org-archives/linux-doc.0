@@ -2,99 +2,237 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E905C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0EAC2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:10:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 689F4206D4
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:07:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FD3120708
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:10:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G6Ah1duV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EMXQHMBP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbgA2SHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 13:07:55 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58056 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbgA2SHz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 13:07:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Ti7tqcCoopz85yAZx6ODwlyVLtxIWBrtp0ypbKnSIIQ=; b=G6Ah1duV6XYd7U02JYqwA9701
-        BYJscf1GahK9hRHau93+bYNyshPFIk3rCBti2rpJlwa00ZJ8bV9SriQfyVqTZpxx0W07qDSzmMS7y
-        3Xk1UhhS0XHt9ksGdXz6TNCibZJoRghnWkWg8dusjDQmdcrhUw2l1vFyM1m8Uh1vjtsj8uPYkIrHh
-        u//Nm5ZeFBzPFR2Tj5OIPsXrKv8RB8HOLuJRwKl8G66axlVYIxXTedxqM9CdWMC7CvdYgOndg/4M9
-        Q+LAyDjlHHGUuIoY5S0lVRuPO1kcNj8lijzvMLmsNS8Fzx655R3eyr8T4hcdSlRFvhDY+a+F2rOWG
-        9tqRrZJ1w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwrk9-0005CU-1G; Wed, 29 Jan 2020 18:07:13 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E6CCD300606;
-        Wed, 29 Jan 2020 19:05:26 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B3EF12B7A8626; Wed, 29 Jan 2020 19:07:09 +0100 (CET)
-Date:   Wed, 29 Jan 2020 19:07:09 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     sjpark@amazon.com
-Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        sj38.park@gmail.com, acme@kernel.org, amit@kernel.org,
-        brendan.d.gregg@gmail.com, corbet@lwn.net, dwmw@amazon.com,
-        mgorman@suse.de, rostedt@goodmis.org, kirill@shutemov.name,
-        brendanhiggins@google.com, colin.king@canonical.com,
-        minchan@kernel.org, vdavydov.dev@gmail.com, vdavydov@parallels.com,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>
-Subject: Re: Re: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
-Message-ID: <20200129180709.GS14879@hirez.programming.kicks-ass.net>
-References: <20200129125615.GQ14879@hirez.programming.kicks-ass.net>
- <20200129143758.896-1-sjpark@amazon.com>
+        id S1727318AbgA2SKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 13:10:01 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27684 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727133AbgA2SKA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 13:10:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580321399;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=PuvkLv/oIw9Q/DG8YMeMuQ1BSWZb/tsSFT2ktsDil9M=;
+        b=EMXQHMBPWfIXfBqHnVwlMFZlYHwwpFifkJMLhi/BEEDxTsg7QfjerKW+/6TlxX/3uQMCU2
+        KYXRSBEbND6yHSy53Z3YaXg7bziJkuQoezzIOEHEiB5TXzX6+C0yznZojrV+OUQBIgwTfi
+        waql9jOMu/RO8AxzC/GegBhSb/hL33o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-jpyBQWZSN3O-32ZxBZTrcw-1; Wed, 29 Jan 2020 13:09:43 -0500
+X-MC-Unique: jpyBQWZSN3O-32ZxBZTrcw-1
+Received: by mail-wr1-f70.google.com with SMTP id z14so260575wrs.4
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2020 10:09:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PuvkLv/oIw9Q/DG8YMeMuQ1BSWZb/tsSFT2ktsDil9M=;
+        b=oPJR5lFwabPDA+Vsy9j5+JW4FWEswR22BKmF6sDP5B2YSCz9WDSqeH/mLN4qv5xnch
+         R7epOaaUraiQfh6YNdeeE4yXUG1eRGggB58RmO6XzZP5Z6TMfXfPuV2mmsSCedDR9a1E
+         JVpGuyJ2JwD04Bm7vrwXe8uxR/tq2dCZamZeWWMUntetHm+vsrKmJJ/2yU3Oj/wa/WaB
+         J+GQDl9ZhMQYZYy65mUDKfoWkKfIGkxenfA83tbmWRk8UwfciaGxC+cmEEEyfsKMI13C
+         xzxEJTFSX99ya3rjMrwys24mxFCtINV0/IiKgUMSiPqozkhR8knkQZoFecyq+X4/cmAm
+         5twA==
+X-Gm-Message-State: APjAAAXcidSL6Afuq5+5W10cwkwc9Ov20O9BtngMKtIudHwRS1B7KGIE
+        kzCr+yVj46Xs2VeZhEcRNJInuGZ8H1TNzeZqYQcf5K5jjkUkjeEHbkFi4H9zU7pTymeR9Wj1LxD
+        zOp1X6da82lwuEnyYxfXb
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr436986wmg.63.1580321382599;
+        Wed, 29 Jan 2020 10:09:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx1RpprGonPlEm6g7ZSIDmngGnsx8ltMy/qtsYuE7+BQkwzMwemGOvhlG6C+tZ+eVipbvkanw==
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr436956wmg.63.1580321382243;
+        Wed, 29 Jan 2020 10:09:42 -0800 (PST)
+Received: from dhcp-1-195.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.googlemail.com with ESMTPSA id m7sm3695976wrr.40.2020.01.29.10.09.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2020 10:09:41 -0800 (PST)
+From:   Grzegorz Halat <ghalat@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, ghalat@redhat.com, ssaner@redhat.com,
+        atomlin@redhat.com, oleksandr@redhat.com, vbendel@redhat.com,
+        kirill@shutemov.name, khlebnikov@yandex-team.ru,
+        borntraeger@de.ibm.com, Andrew Morton <akpm@linux-foundation.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Qian Cai <cai@lca.pw>
+Subject: [PATCH 1/1] mm: sysctl: add panic_on_inconsistent_mm sysctl
+Date:   Wed, 29 Jan 2020 19:08:51 +0100
+Message-Id: <20200129180851.551109-1-ghalat@redhat.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200129143758.896-1-sjpark@amazon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 29, 2020 at 03:37:58PM +0100, sjpark@amazon.com wrote:
-> On Wed, 29 Jan 2020 13:56:15 +0100 Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > On Tue, Jan 28, 2020 at 01:00:33PM +0100, sjpark@amazon.com wrote:
-> > 
-> > > I worried whether it could be a bother to send the mail to everyone in the
-> > > section, but seems it was an unnecessary worry.  Adding those to recipients.
-> > > You can get the original thread of this patchset from
-> > > https://lore.kernel.org/linux-mm/20200128085742.14566-1-sjpark@amazon.com/
-> > 
-> > I read first patch (the document) and still have no friggin clue.
-> 
-> Do you mean the document has insufficient description only?  If so, could you
-> please point me me which information do you want to be added?
+Memory management subsystem performs various checks at runtime,
+if an inconsistency is detected then such event is being logged and kernel
+continues to run. While debugging such problems it is helpful to collect
+memory dump as early as possible. Currently, there is no easy way to panic
+kernel when such error is detected.
 
-There was a lot of words; but I'm still not sure what it actually does.
+It was proposed[1] to panic the kernel if panic_on_oops is set but this
+approach was not accepted. One of alternative proposals was introduction of
+a new sysctl.
 
-I've read some of the code that followed; is it simply sampling the
-page-table access bit? It did some really weird things though, like that
-whole 3 regions thing.
+Add a new sysctl - panic_on_inconsistent_mm. If the sysctl is set then the
+kernel will be crashed when an inconsistency is detected by memory
+management. This currently means panic when bad page or bad PTE
+is detected(this may be extended to other places in MM).
 
-Also, you wrote you wanted feedback from perf people; but it doesn't use
-perf, what are you asking?
+Another use case of this sysctl may be in security-wise environments,
+it may be more desired to crash machine than continue to run with
+potentially damaged data structures.
 
-Perf can do address based sampling of memops, I suspect you can create
-something using that.
+Changes since v1 [2]:
+- rename the sysctl to panic_on_inconsistent_mm
+- move the sysctl from kernel to vm table
+- print modules in print_bad_pte() only before calling panic
+
+[1] https://lore.kernel.org/linux-mm/1426495021-6408-1-git-send-email-borntraeger@de.ibm.com/
+[2] https://lore.kernel.org/lkml/20200127101100.92588-1-ghalat@redhat.com/
+
+Signed-off-by: Grzegorz Halat <ghalat@redhat.com>
+---
+ Documentation/admin-guide/sysctl/vm.rst | 14 ++++++++++++++
+ include/linux/kernel.h                  |  1 +
+ kernel/sysctl.c                         |  9 +++++++++
+ mm/memory.c                             |  8 ++++++++
+ mm/page_alloc.c                         |  4 +++-
+ 5 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 64aeee1009ca..57f7926a64b8 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -61,6 +61,7 @@ Currently, these files are in /proc/sys/vm:
+ - overcommit_memory
+ - overcommit_ratio
+ - page-cluster
++- panic_on_inconsistent_mm
+ - panic_on_oom
+ - percpu_pagelist_fraction
+ - stat_interval
+@@ -741,6 +742,19 @@ extra faults and I/O delays for following faults if they would have been part of
+ that consecutive pages readahead would have brought in.
+ 
+ 
++panic_on_inconsistent_mm
++========================
++
++Controls the kernel's behaviour when inconsistency is detected
++by memory management code, for example bad page state or bad PTE.
++
++0: try to continue operation.
++
++1: panic immediately.
++
++The default value is 0.
++
++
+ panic_on_oom
+ ============
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 0d9db2a14f44..b3bd94c558ab 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -518,6 +518,7 @@ extern int oops_in_progress;		/* If set, an oops, panic(), BUG() or die() is in
+ extern int panic_timeout;
+ extern unsigned long panic_print;
+ extern int panic_on_oops;
++extern int panic_on_inconsistent_mm;
+ extern int panic_on_unrecovered_nmi;
+ extern int panic_on_io_nmi;
+ extern int panic_on_warn;
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 70665934d53e..a9733311e3a1 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1303,6 +1303,15 @@ static struct ctl_table vm_table[] = {
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= &two,
+ 	},
++	{
++		.procname	= "panic_on_inconsistent_mm",
++		.data		= &panic_on_inconsistent_mm,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
+ 	{
+ 		.procname	= "panic_on_oom",
+ 		.data		= &sysctl_panic_on_oom,
+diff --git a/mm/memory.c b/mm/memory.c
+index 45442d9a4f52..b29a18077a6a 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -71,6 +71,7 @@
+ #include <linux/dax.h>
+ #include <linux/oom.h>
+ #include <linux/numa.h>
++#include <linux/module.h>
+ 
+ #include <trace/events/kmem.h>
+ 
+@@ -88,6 +89,8 @@
+ #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
+ #endif
+ 
++int panic_on_inconsistent_mm __read_mostly;
++
+ #ifndef CONFIG_NEED_MULTIPLE_NODES
+ /* use the per-pgdat data instead for discontigmem - mbligh */
+ unsigned long max_mapnr;
+@@ -543,6 +546,11 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+ 		 vma->vm_ops ? vma->vm_ops->fault : NULL,
+ 		 vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
+ 		 mapping ? mapping->a_ops->readpage : NULL);
++
++	if (panic_on_inconsistent_mm) {
++		print_modules();
++		panic("Bad page map detected");
++	}
+ 	dump_stack();
+ 	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+ }
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index d047bf7d8fd4..a20cd3ece5ba 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -643,9 +643,11 @@ static void bad_page(struct page *page, const char *reason,
+ 	if (bad_flags)
+ 		pr_alert("bad because of flags: %#lx(%pGp)\n",
+ 						bad_flags, &bad_flags);
+-	dump_page_owner(page);
+ 
++	dump_page_owner(page);
+ 	print_modules();
++	if (panic_on_inconsistent_mm)
++		panic("Bad page state detected");
+ 	dump_stack();
+ out:
+ 	/* Leave bad fields for debug, except PageBuddy could make trouble */
+-- 
+2.21.1
+
