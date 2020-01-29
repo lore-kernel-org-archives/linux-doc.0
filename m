@@ -2,112 +2,107 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1227FC33CB2
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 09:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 067BEC35246
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 11:25:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D641620720
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 09:18:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580289532;
-	bh=p+StNdrQPhe5TRP4cV0PXfeprQUAfp3qbEgGzHDBO08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=uJ7/E7hLQJI6e5vBUCE7978ZlrlY2A8xRe1NUy6wXuLWTMODTz8sDxe3byOqe0RZk
-	 7n9blEx87ZyyKYQiM0hN7NZRgTYywW+r9rn3APmVYm5XIs1LxbVewpWw3x56wqa/I6
-	 F7hNPeqtr3iWsVH0Fvi2pjvN2k2BiG8m1FpnLwow=
+	by mail.kernel.org (Postfix) with ESMTP id C74A220732
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 11:25:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="0W7H46FM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725989AbgA2JSw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 04:18:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44072 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725951AbgA2JSw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jan 2020 04:18:52 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 61B7520708;
-        Wed, 29 Jan 2020 09:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580289531;
-        bh=p+StNdrQPhe5TRP4cV0PXfeprQUAfp3qbEgGzHDBO08=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OTUw+XVjCA4im92+j5Z5IaFbazOzdd75tzw7gMJTLo/20l8vfWWGQvfH2aDfZzB30
-         14tU2M+hh2pw2Sc/K21fX96odNVu43V4s2UfeoihxxwP/2EggHv8ARqi4gZbnz5wcq
-         Bvce2ZWjCSnZZmu3sBq83KiGRauaVKPK7BSs5O20=
-Date:   Wed, 29 Jan 2020 10:18:49 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        id S1726177AbgA2LZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 06:25:10 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46580 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726192AbgA2LZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 06:25:06 -0500
+Received: by mail-lj1-f195.google.com with SMTP id x14so15653910ljd.13
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2020 03:25:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yuCTClL/pM7fgvSlPLx1qB/TzQ5SdJMl6/MOShIA1DQ=;
+        b=0W7H46FMjIQyieXPqDTdHmsnT+fVvJJD10f3x0BOMctRvL9MkeTdx4VbdbHlRTBEN3
+         b5/NawDAfyQpEhbLgT0rwOvcpevf1CHvRnfPK+nWNiUWSGyImoO0vgtrGmVKW+uZx29r
+         bBsFaVwVuNzEQGuzTVKaB1lufIwzDYjD7ErDm/9BiL+5qbFTXQ+Ady+yLKCnGSNAgMd3
+         W6mnYQvJTpgMGiYduy+scv4eX7iMsBIwYQPsUNpaNK3OyYiGdeXL9USXqvdYpFTTjSlw
+         AraHVZkw1JBmq3Op+CNUrl6EEty11YBA5pwAZqGuiTKUaRJ47uGYaNwZMdUrsfU+3Fw7
+         +BBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yuCTClL/pM7fgvSlPLx1qB/TzQ5SdJMl6/MOShIA1DQ=;
+        b=PG4I51LVq5mttHdPtyCB7fxMFEOORW1s7Ayr7u62bKZK9NVBcd9IXCY6N5wD55BtDw
+         ZvsBxjVkKi8V08ztMf5LG12Jxx572jBrPg7mMceG78gPqRHh/zJIRVnttif0VLcCKDHY
+         oo/dNXApUawPkDJBNYkRd+20BMW1r5Moz/W63dlEgIKtv/GItMjy4Kiiivp9KH3mLlC4
+         bvqEHz8E1j7F48x6KREhAiOatT9bq9aSJshJTqmAKPUu3oM7rqbxWnq/clWHlhI2/nPC
+         kLa4A1XdE7IeLkGmsIur03LXvY0GZjsT5i6pTYoikCHs0kyPqtdBi9lE7dC5l+HvZR9j
+         2Dkw==
+X-Gm-Message-State: APjAAAV+a7KC6XQVeZcyr4s9pcftEkZR43KRVza0IIhUWB6mXJy+Iygd
+        4FKiUvI/xOC5gEd2JsSAMSiq1Q==
+X-Google-Smtp-Source: APXvYqwyL72yG90SI0NWAGgcd0insDnp1IMG7ae6YjG0JpIiyNIWobcDnM8YcTAzCUBn1pD6tZdqCQ==
+X-Received: by 2002:a2e:809a:: with SMTP id i26mr16595052ljg.108.1580297103916;
+        Wed, 29 Jan 2020 03:25:03 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id d9sm778410lja.73.2020.01.29.03.25.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2020 03:25:03 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 04319100AFE; Wed, 29 Jan 2020 14:25:11 +0300 (+03)
+Date:   Wed, 29 Jan 2020 14:25:10 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
-Message-ID: <20200129091849.GA3802307@kroah.com>
-References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
- <20200128134228.3c6f56b9@lwn.net>
- <244ed240-46aa-aa73-6f89-df7944d42cbf@infradead.org>
- <20200129074146.5f6077ca@kernel.org>
- <20200129064535.GA3771222@kroah.com>
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/8] mm: dump_page: print head page's refcount, for
+ compound pages
+Message-ID: <20200129112510.ulims6u36ofk2qwa@box>
+References: <20200129032417.3085670-1-jhubbard@nvidia.com>
+ <20200129032417.3085670-2-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200129064535.GA3771222@kroah.com>
+In-Reply-To: <20200129032417.3085670-2-jhubbard@nvidia.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 29, 2020 at 07:45:35AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 29, 2020 at 07:41:46AM +0100, Mauro Carvalho Chehab wrote:
-> > Em Tue, 28 Jan 2020 15:47:18 -0800
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> > 
-> > > On 1/28/20 12:42 PM, Jonathan Corbet wrote:
-> > > > On Tue, 28 Jan 2020 07:41:00 +0100
-> > > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > > >   
-> > > >> It seems that some files were removed from USB documentation.
-> > > >>
-> > > >> Update the links accordingly.
-> > > >>
-> > > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > > > 
-> > > > Applied, thanks.
-> > > > 
-> > > > jon  
-> > > 
-> > > This warning has been around for quite awhile now:
-> > > 
-> > > lnx-55/Documentation/usb/text_files.rst:22: WARNING: Include file u'lnx/lnx-55/Documentation/usb/wusb-cbaf' not found or reading it failed
-> > > 
-> > > Looks like it has been moved to drivers/staging/wusbcore/Documentation/wusb-cbaf.
-> > 
-> > From the log of the patch that moved it:
-> > 
-> >   commit 71ed79b0e4be0db254640c3beb9a1a0316eb5f61
-> >   Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >   Date:   Tue Aug 6 12:15:09 2019 +0200
-> > 
-> >     USB: Move wusbcore and UWB to staging as it is obsolete
-> >     
-> >     The UWB and wusbcore code is long obsolete, so let us just move the code
-> >     out of the real part of the kernel and into the drivers/staging/
-> >     location with plans to remove it entirely in a few releases.
-> >     
-> >     Link: https://lore.kernel.org/r/20190806101509.GA11280@kroah.com
-> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > The plan seems to remove it in the future.
-> > 
-> > In any case, it makes sense to remove the broken link from the 
-> > documentation.
+On Tue, Jan 28, 2020 at 07:24:10PM -0800, John Hubbard wrote:
+> When debugging a problem that involves compound pages, it is extremely
+> helpful if dump_page() reports not only the page->_refcount, but also
+> the refcount of the head page of the compound page. That's because the
+> head page collects refcounts for the entire compound page.
 > 
-> Yes, please just remove it, that code is about to go away in the
-> 5.6-rc1.
+> Therefore, enhance dump_page() so as to print out the refcount of the
+> head page of a compound page.
+> 
+> This approach (printing information about a struct page that is not the
+> struct page that was passed into dump_page()) has a precedent:
+> compound_mapcount is already being printed.
 
-Oops, not yet, in 5.7-rc1.
+refcount on a tail must always be 0. I think we should only print it when
+it is non-zero, emphasizing this fact with a standalone message.
+
+-- 
+ Kirill A. Shutemov
