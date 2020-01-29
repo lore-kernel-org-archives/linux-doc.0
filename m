@@ -2,151 +2,112 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	URIBL_DBL_ABUSE_MALW autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E88C8C35240
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 07:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1227FC33CB2
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 09:18:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C164120732
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 07:47:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="i1HVuSu/"
+	by mail.kernel.org (Postfix) with ESMTP id D641620720
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 09:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1580289532;
+	bh=p+StNdrQPhe5TRP4cV0PXfeprQUAfp3qbEgGzHDBO08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=uJ7/E7hLQJI6e5vBUCE7978ZlrlY2A8xRe1NUy6wXuLWTMODTz8sDxe3byOqe0RZk
+	 7n9blEx87ZyyKYQiM0hN7NZRgTYywW+r9rn3APmVYm5XIs1LxbVewpWw3x56wqa/I6
+	 F7hNPeqtr3iWsVH0Fvi2pjvN2k2BiG8m1FpnLwow=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726124AbgA2Hr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 02:47:58 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54284 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbgA2Hr6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 02:47:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=JU/A4UwJ1IyRTopX0f87qbebUP5pLV938wEWT8rjTKI=; b=i1HVuSu/uukfS5FFNTLzBhEdc
-        KWZiBYHMCU2/yaBXk0tb61vn9HfCggj+zMmnIq0pskPY7uMyrsStXjnTZc5+foMYWNgYTPGNvmN2u
-        6U/hnaJ7CFhmvPiHOTGGSTYBVUy+Cw4xnZsliWernV9hu7aSssSh9eqeYcD8AiH1xBGKyJBeAqTCs
-        hPDktNYanUerbgoPzp3LdXA0WZzn5bm/k6kiYclisJxbwjHSe4XCudwh1YW7Nbh31zzEo+nZys1Ny
-        bme8Ia6QaX59CDFSH5tuUnJL7j0Qo75s+tv4fbZpo6r6YkqBccYcrVlr94TrRiqnnroNx71qN2G2S
-        Az10mVT4g==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwi4o-0004ho-Te; Wed, 29 Jan 2020 07:47:54 +0000
-Date:   Tue, 28 Jan 2020 23:47:54 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        dma <dmaengine@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Docs build broken by driver-api/dmaengine/client.rst ? (was Re:
- [GIT PULL]: dmaengine updates for v5.6-rc1)
-Message-ID: <20200129074754.GG6615@bombadil.infradead.org>
-References: <20200127145835.GI2841@vkoul-mobl>
- <87imkvhkaq.fsf@mpe.ellerman.id.au>
- <20200128122415.GU2841@vkoul-mobl>
- <f88ed09c-6244-71e5-3be4-b733ee348b79@ti.com>
+        id S1725989AbgA2JSw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 04:18:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725951AbgA2JSw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jan 2020 04:18:52 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61B7520708;
+        Wed, 29 Jan 2020 09:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580289531;
+        bh=p+StNdrQPhe5TRP4cV0PXfeprQUAfp3qbEgGzHDBO08=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OTUw+XVjCA4im92+j5Z5IaFbazOzdd75tzw7gMJTLo/20l8vfWWGQvfH2aDfZzB30
+         14tU2M+hh2pw2Sc/K21fX96odNVu43V4s2UfeoihxxwP/2EggHv8ARqi4gZbnz5wcq
+         Bvce2ZWjCSnZZmu3sBq83KiGRauaVKPK7BSs5O20=
+Date:   Wed, 29 Jan 2020 10:18:49 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
+Message-ID: <20200129091849.GA3802307@kroah.com>
+References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
+ <20200128134228.3c6f56b9@lwn.net>
+ <244ed240-46aa-aa73-6f89-df7944d42cbf@infradead.org>
+ <20200129074146.5f6077ca@kernel.org>
+ <20200129064535.GA3771222@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f88ed09c-6244-71e5-3be4-b733ee348b79@ti.com>
+In-Reply-To: <20200129064535.GA3771222@kroah.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 28, 2020 at 02:35:17PM +0200, Peter Ujfalusi wrote:
-> Hi Michael, Vinod,
+On Wed, Jan 29, 2020 at 07:45:35AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Jan 29, 2020 at 07:41:46AM +0100, Mauro Carvalho Chehab wrote:
+> > Em Tue, 28 Jan 2020 15:47:18 -0800
+> > Randy Dunlap <rdunlap@infradead.org> escreveu:
+> > 
+> > > On 1/28/20 12:42 PM, Jonathan Corbet wrote:
+> > > > On Tue, 28 Jan 2020 07:41:00 +0100
+> > > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > > >   
+> > > >> It seems that some files were removed from USB documentation.
+> > > >>
+> > > >> Update the links accordingly.
+> > > >>
+> > > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > > > 
+> > > > Applied, thanks.
+> > > > 
+> > > > jon  
+> > > 
+> > > This warning has been around for quite awhile now:
+> > > 
+> > > lnx-55/Documentation/usb/text_files.rst:22: WARNING: Include file u'lnx/lnx-55/Documentation/usb/wusb-cbaf' not found or reading it failed
+> > > 
+> > > Looks like it has been moved to drivers/staging/wusbcore/Documentation/wusb-cbaf.
+> > 
+> > From the log of the patch that moved it:
+> > 
+> >   commit 71ed79b0e4be0db254640c3beb9a1a0316eb5f61
+> >   Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >   Date:   Tue Aug 6 12:15:09 2019 +0200
+> > 
+> >     USB: Move wusbcore and UWB to staging as it is obsolete
+> >     
+> >     The UWB and wusbcore code is long obsolete, so let us just move the code
+> >     out of the real part of the kernel and into the drivers/staging/
+> >     location with plans to remove it entirely in a few releases.
+> >     
+> >     Link: https://lore.kernel.org/r/20190806101509.GA11280@kroah.com
+> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > 
+> > The plan seems to remove it in the future.
+> > 
+> > In any case, it makes sense to remove the broken link from the 
+> > documentation.
 > 
-> On 28/01/2020 14.24, Vinod Koul wrote:
-> > Hi Michael,
-> > 
-> > On 28-01-20, 22:50, Michael Ellerman wrote:
-> >> Hi Vinod,
-> >>
-> >> Vinod Koul <vkoul@kernel.org> writes:
-> >>> Hello Linus,
-> >>>
-> >>> Please pull to receive the dmaengine updates for v5.6-rc1. This time we
-> >>> have a bunch of core changes to support dynamic channels, hotplug of
-> >>> controllers, new apis for metadata ops etc along with new drivers for
-> >>> Intel data accelerators, TI K3 UDMA, PLX DMA engine and hisilicon
-> >>> Kunpeng DMA engine. Also usual assorted updates to drivers.
-> >>>
-> >>> The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
-> >>>
-> >>>   Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   git://git.infradead.org/users/vkoul/slave-dma.git tags/dmaengine-5.6-rc1
-> >>>
-> >>> for you to fetch changes up to 71723a96b8b1367fefc18f60025dae792477d602:
-> >>>
-> >>>   dmaengine: Create symlinks between DMA channels and slaves (2020-01-24 11:41:32 +0530)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> dmaengine updates for v5.6-rc1
-> >> ...
-> >>>
-> >>> Peter Ujfalusi (9):
-> >>>       dmaengine: doc: Add sections for per descriptor metadata support
-> >>
-> >> This broke the docs build for me with:
-> >>
-> >>   Sphinx parallel build error:
-> >>   docutils.utils.SystemMessage: /linux/Documentation/driver-api/dmaengine/client.rst:155: (SEVERE/4) Unexpected section title.
-> > 
-> > Thanks for the report.
-> > 
-> >>   Optional: per descriptor metadata
-> >>   ---------------------------------
-> >>
-> >>
-> >> The patch below fixes the build. It may not produce the output you
-> >> intended, it just makes it bold rather than a heading, but it doesn't
-> >> really make sense to have a heading inside a numbered list.
-> >>
-> >> diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-> >> index a9a7a3c84c63..343df26e73e8 100644
-> >> --- a/Documentation/driver-api/dmaengine/client.rst
-> >> +++ b/Documentation/driver-api/dmaengine/client.rst
-> >> @@ -151,8 +151,8 @@ DMA usage
-> >>       Note that callbacks will always be invoked from the DMA
-> >>       engines tasklet, never from interrupt context.
-> >>  
-> >> -  Optional: per descriptor metadata
-> >> -  ---------------------------------
-> >> +  **Optional: per descriptor metadata**
-> >> +
-> > 
-> > I have modified this to below as this:
-> > 
-> > --- a/Documentation/driver-api/dmaengine/client.rst
-> > +++ b/Documentation/driver-api/dmaengine/client.rst
-> > @@ -151,8 +151,8 @@ The details of these operations are:
-> >       Note that callbacks will always be invoked from the DMA
-> >       engines tasklet, never from interrupt context.
-> >  
-> > -  Optional: per descriptor metadata
-> > -  ---------------------------------
-> > +Optional: per descriptor metadata
-> > +---------------------------------
-> >    DMAengine provides two ways for metadata support.
-> >  
-> >    DESC_METADATA_CLIENT
-> > 
-> > And I will add this as fixes and it should be in linux-next tomorrow
-> 
-> Sorry for breaking the build and thanks Vinod for the quick fix!
+> Yes, please just remove it, that code is about to go away in the
+> 5.6-rc1.
 
-Can I suggest, in future, 'make W=1'.  That will run the kernel-doc
-script which would presumably have caught this problem.  If we get all
-the existing doc errors cleaned up, we can promote that to be run as
-part of the standard build, but until then we don't want to dump 700
-new errors on everybody.
+Oops, not yet, in 5.7-rc1.
