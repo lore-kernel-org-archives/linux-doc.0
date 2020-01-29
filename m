@@ -2,109 +2,181 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 654ABC33C9E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 01:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA1AC35246
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:24:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 344412465B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 01:32:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0357624687
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:24:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DAqfA2Q2"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="EhqNcx+B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbgA2BcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 20:32:20 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:40567 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbgA2BcU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 20:32:20 -0500
-Received: by mail-io1-f67.google.com with SMTP id x1so16730938iop.7;
-        Tue, 28 Jan 2020 17:32:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OINYauu/FMq3XOWWth+EZlBMMQYby1FB2lj9pkceckU=;
-        b=DAqfA2Q2IZOL2p+2+8mDc/eHucTMeIe195YcmRbXqZPEQ1BUrWJYhTKOc45wFCj9ws
-         qbFljs2PdS4QccbtjDeRr/7+YuC89DjKx7uQZF1J2oq7VpqynyNalFg6ZtDfK+7RuS3R
-         md1a3GGnY9KMsn7gylymfHEXOE1Ny6CEuhGalSwdeX1bajGEraP7Kl15ewD3IypqbYpA
-         epvg5KOjAvhjqPuPbopUTfxjXQCHv6uc2O84Bu3Sh5nxujCgLg21xyUkSJoEjgbWMNLE
-         IHTLPOOU7viAze8jUrPhhh6niIsEKPJB8qwKXsqEyqIgAiUdtV70gykK/66fJQVHHmJA
-         Yx6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OINYauu/FMq3XOWWth+EZlBMMQYby1FB2lj9pkceckU=;
-        b=VhPVF/ePIVbfwYR8PzLEXomGgBIqHttNQ0Xk5qjDn2oVxIH9l25rgZH0jDh7taW9P2
-         EXzU9OFEn3XJ0EwrkBdNhjbEVEyxTgfzdaRlUdPcp9LPP4WMkSyhIDl/ah1vCwpTF7SW
-         BPTKVN0fiiO2Bw0YCKShF/zqVaW24s8rnfvGuGn6oDrFUroNBhQqjj/m0iCy1W77Kuos
-         mEf2+40qgXgqL7O3o7jmnzInMbNtRTr1DBEZbpSRg7Re5l9dDDLu2CP9kK6qvhyYZzJd
-         u6SSio9Nj/trrWQTFdTVMj1YjH9bvKZAiICcjrExzdZcADY0YiRBtc0t35E9GLbUtkWf
-         HMkQ==
-X-Gm-Message-State: APjAAAW8dJK5xzpq9WevC3rOty6tvdK4FdI4QRnd0ezWAAx5HK1zJuqN
-        jEoNohoIP13CCI+yJCb8c8h4EiJvI8dAJnntFy8=
-X-Google-Smtp-Source: APXvYqyjDYSrA853V/qdJsqhISgAYNfOdiEApwa11SxBrKEwiNeyKkuwVJIZChAAe9De33mzBsnHuRnoewo1Vkt9BBY=
-X-Received: by 2002:a02:3508:: with SMTP id k8mr15363989jaa.114.1580261539263;
- Tue, 28 Jan 2020 17:32:19 -0800 (PST)
+        id S1726851AbgA2DYY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 22:24:24 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6363 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726821AbgA2DYX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 22:24:23 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e30fab10000>; Tue, 28 Jan 2020 19:23:29 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 28 Jan 2020 19:24:19 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 28 Jan 2020 19:24:19 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+ 2020 03:24:19 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 29 Jan 2020 03:24:19 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e30fae20006>; Tue, 28 Jan 2020 19:24:19 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v2 2/8] mm/gup: split get_user_pages_remote() into two routines
+Date:   Tue, 28 Jan 2020 19:24:11 -0800
+Message-ID: <20200129032417.3085670-3-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129032417.3085670-1-jhubbard@nvidia.com>
+References: <20200129032417.3085670-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
-References: <20200124144248.11719-1-yu.c.chen@intel.com> <20200124193142.GA33298@google.com>
-In-Reply-To: <20200124193142.GA33298@google.com>
-From:   Dan Williams <dan.j.williams.korg@gmail.com>
-Date:   Tue, 28 Jan 2020 17:32:07 -0800
-Message-ID: <CANTgghm_ZC29PF3m-7u74RWU0LiKOcodf-CqhSzsQPdu05qrJg@mail.gmail.com>
-Subject: Re: [PATCH][RFC] PCI: Add "pci=blacklist_dev=" parameter to blacklist
- specific devices
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Chen Yu <yu.c.chen@intel.com>, linux-pci@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580268209; bh=OqBHG8Cvzy5SUmSIVRhUFA6MUB8FlDhy13/SE4T+y3g=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Transfer-Encoding:Content-Type;
+        b=EhqNcx+BId5ScdK+8BMY3I/PtU+jyKecY6pV0vMefq0prO4cXpetrJaJ5PHh6xGaZ
+         eU3OGY49mCA8O/v7N9MGRqIvYndPComezY4hbrqVVKhTtQupjlXKlfezeWjbQOEYzx
+         CFHAKZmXD5oJ/WIjZR/q0fjLYncCWMa5vBxQc0aofppP4JFA8a7DpZ3kpnVofKMYeh
+         vRQW882CJadvtV0E4NNYqfhk6Y32VNjdvMcckCOh+U+DAIyilI+N1b3UAoPKpTRCZ8
+         oiQ/GBLvR2SHBS3WPh6TtL2ZCPeL6m2DAHdS2XuZE6o85azFfCgPFgtZnecQFtUSO8
+         TYLXdYjcsIrag==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 1:01 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Fri, Jan 24, 2020 at 10:42:48PM +0800, Chen Yu wrote:
-> > It was found that on some platforms the bogus pci device might bring
-> > troubles to the system. For example, on a MacBookPro the system could
-> > not be power off or suspended due to internal pci resource confliction
-> > between bogus pci device and [io 0x1804]. Another case is that, once
-> > resumed from hibernation on a VM, the pci config space of a pci device
-> > is corrupt.
-> >
-> > To narrow down and benefit future debugging for such kind of issues,
-> > introduce the command line blacklist_dev=<vendor:device_id>> to blacklist
-> > such pci devices thus they will not be scanned thus not visible after
-> > bootup. For example,
-> >
-> >  pci.blacklist_dev=8086:293e
-> >
-> > forbid the audio device to be exposed to the OS.
->
-> I'm not really a fan of this.  I'd rather see some details about what
-> the problem is so we can actually fix it.
->
-> Ignoring the device doesn't mean the device is removed or even
-> inactive.  It may still be consuming address space that we need to
-> avoid.
->
-> Can you point us to bug reports about the issues you mentioned?
+An upcoming patch requires reusing the implementation of
+get_user_pages_remote(). Split up get_user_pages_remote() into an outer
+routine that checks flags, and an implementation routine that will be
+reused. This makes subsequent changes much easier to understand.
 
-I'm not sure which issues Chen Yu is referring to, but a proposal like
-has come up before [1], and didn't go anywhere.
+There should be no change in behavior due to this patch.
 
-I think this is useful to people doing new / pre-release hardware
-bring up, but it's unlikely that such hardware makes it into a
-production to make this feature useful upstream. Hardware bring-up
-efforts can just use local hacks to workaround problems, if broken
-hardware actually makes it into production it needs precise quirks to
-be developed/applied.
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ mm/gup.c | 56 +++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 33 insertions(+), 23 deletions(-)
 
-[1]: http://lore.kernel.org/r/1506544822-2632-2-git-send-email-jonathan.derrick@intel.com
+diff --git a/mm/gup.c b/mm/gup.c
+index 1b521e0ac1de..b699500da077 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1557,6 +1557,37 @@ static __always_inline long __gup_longterm_locked(st=
+ruct task_struct *tsk,
+ }
+ #endif /* CONFIG_FS_DAX || CONFIG_CMA */
+=20
++#ifdef CONFIG_MMU
++static long __get_user_pages_remote(struct task_struct *tsk,
++				    struct mm_struct *mm,
++				    unsigned long start, unsigned long nr_pages,
++				    unsigned int gup_flags, struct page **pages,
++				    struct vm_area_struct **vmas, int *locked)
++{
++	/*
++	 * Parts of FOLL_LONGTERM behavior are incompatible with
++	 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
++	 * vmas. However, this only comes up if locked is set, and there are
++	 * callers that do request FOLL_LONGTERM, but do not set locked. So,
++	 * allow what we can.
++	 */
++	if (gup_flags & FOLL_LONGTERM) {
++		if (WARN_ON_ONCE(locked))
++			return -EINVAL;
++		/*
++		 * This will check the vmas (even if our vmas arg is NULL)
++		 * and return -ENOTSUPP if DAX isn't allowed in this case:
++		 */
++		return __gup_longterm_locked(tsk, mm, start, nr_pages, pages,
++					     vmas, gup_flags | FOLL_TOUCH |
++					     FOLL_REMOTE);
++	}
++
++	return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
++				       locked,
++				       gup_flags | FOLL_TOUCH | FOLL_REMOTE);
++}
++
+ /*
+  * get_user_pages_remote() - pin user pages in memory
+  * @tsk:	the task_struct to use for page fault accounting, or
+@@ -1619,7 +1650,6 @@ static __always_inline long __gup_longterm_locked(str=
+uct task_struct *tsk,
+  * should use get_user_pages because it cannot pass
+  * FAULT_FLAG_ALLOW_RETRY to handle_mm_fault.
+  */
+-#ifdef CONFIG_MMU
+ long get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
+ 		unsigned long start, unsigned long nr_pages,
+ 		unsigned int gup_flags, struct page **pages,
+@@ -1632,28 +1662,8 @@ long get_user_pages_remote(struct task_struct *tsk, =
+struct mm_struct *mm,
+ 	if (WARN_ON_ONCE(gup_flags & FOLL_PIN))
+ 		return -EINVAL;
+=20
+-	/*
+-	 * Parts of FOLL_LONGTERM behavior are incompatible with
+-	 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
+-	 * vmas. However, this only comes up if locked is set, and there are
+-	 * callers that do request FOLL_LONGTERM, but do not set locked. So,
+-	 * allow what we can.
+-	 */
+-	if (gup_flags & FOLL_LONGTERM) {
+-		if (WARN_ON_ONCE(locked))
+-			return -EINVAL;
+-		/*
+-		 * This will check the vmas (even if our vmas arg is NULL)
+-		 * and return -ENOTSUPP if DAX isn't allowed in this case:
+-		 */
+-		return __gup_longterm_locked(tsk, mm, start, nr_pages, pages,
+-					     vmas, gup_flags | FOLL_TOUCH |
+-					     FOLL_REMOTE);
+-	}
+-
+-	return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
+-				       locked,
+-				       gup_flags | FOLL_TOUCH | FOLL_REMOTE);
++	return __get_user_pages_remote(tsk, mm, start, nr_pages, gup_flags,
++				       pages, vmas, locked);
+ }
+ EXPORT_SYMBOL(get_user_pages_remote);
+=20
+--=20
+2.25.0
+
