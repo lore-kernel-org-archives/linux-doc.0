@@ -2,80 +2,94 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC46C33CB2
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 05:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7705EC33CB7
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 05:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C329220720
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 05:29:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="Y90O7yK2"
+	by mail.kernel.org (Postfix) with ESMTP id 4E5062253D
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 05:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1580276886;
+	bh=Y+9aIhN4apiy5tD4uo8NEkUkqCFQBUmX8iUUCn+SJz4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=WhJDEz1MbSQIBWb0IRoZfjnqmFWzd5ibErdQ2PsLILAHd4I316t6pa3Qjozu/CJiq
+	 XYxRas1lV87LO4JVegYHgezKVxwYXqSIrFmhVIXG7q6MVcziZmB+tqKqYsvZtqTMKT
+	 /NGE+Tb8odSEe7y03Glpk/s6Qia9GdieZwKT13dc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725966AbgA2F3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 00:29:39 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48951 "EHLO ozlabs.org"
+        id S1726272AbgA2FsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 00:48:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56342 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725816AbgA2F3j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jan 2020 00:29:39 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1726069AbgA2FsC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jan 2020 00:48:02 -0500
+Received: from localhost (unknown [213.57.247.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 486sVm2BfSz9sPW;
-        Wed, 29 Jan 2020 16:29:36 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1580275776;
-        bh=pHwGwtOAVJ9TnzSVuPy5VmTYAx1l6PoUUub/aiK1wwo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Y90O7yK2wwBKXKgGqeryzb1XuKLpTkvrkbORegBzJWY+/5coWv9J/SDXOBuYnMzV7
-         tnUzmF4hVKFyDiUqqjB7jsmkA49NMDHn+k8t14If5dzUr9srs37K4X8JE+rWfaQErO
-         z+kijznKJDvF20+jfybcfIEQFqZCby0bOHtWLE9tkPmuJcnzgLS/XyBk8gYMv3BB65
-         SZ35YJ3wTSINy4L8ro/wbE/L7pg6APuLTY/8xN3t2r2GYMT/kVG3yKccA2vvKcyUKg
-         pzqqorKCPfTOCoKWcUxeH0xJmNO4jVrOL5Qqy04NaYXReqCtP+H4ZhRotL0SFCEea+
-         zYESTIFuK1jPQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     peter.ujfalusi@ti.com, dma <dmaengine@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Docs build broken by driver-api/dmaengine/client.rst ? (was Re: [GIT PULL]: dmaengine updates for v5.6-rc1)
-In-Reply-To: <20200128122415.GU2841@vkoul-mobl>
-References: <20200127145835.GI2841@vkoul-mobl> <87imkvhkaq.fsf@mpe.ellerman.id.au> <20200128122415.GU2841@vkoul-mobl>
-Date:   Wed, 29 Jan 2020 16:29:33 +1100
-Message-ID: <875zguhltu.fsf@mpe.ellerman.id.au>
+        by mail.kernel.org (Postfix) with ESMTPSA id 221AE2071E;
+        Wed, 29 Jan 2020 05:48:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580276881;
+        bh=Y+9aIhN4apiy5tD4uo8NEkUkqCFQBUmX8iUUCn+SJz4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GA4xldnrfCZ/hBa/e+u4jH+ceiMp46v485VEdcIQS+PL2onNs2Lp344hOSwut0cl5
+         kMjlKcFvkhxbeePcWEiAlqewXAYnKlDFlVtI4vZlErWp9sEeIGhuDBlR6Xyf3B/MvB
+         77hB3BnefN51UHOfzz/YcUfa9FLW3mE857JX1mzU=
+Date:   Wed, 29 Jan 2020 07:47:56 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] mm/gup: track FOLL_PIN pages (follow on from v12)
+Message-ID: <20200129054756.GB3326@unreal>
+References: <20200125021115.731629-1-jhubbard@nvidia.com>
+ <20200125162339.GA41770@unreal>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200125162339.GA41770@unreal>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Vinod Koul <vkoul@kernel.org> writes:
-> On 28-01-20, 22:50, Michael Ellerman wrote:
-...
+On Sat, Jan 25, 2020 at 06:23:39PM +0200, Leon Romanovsky wrote:
+> On Fri, Jan 24, 2020 at 06:11:12PM -0800, John Hubbard wrote:
+> > Leon Romanovsky:
+> >
+> > If you get a chance, I'd love to have this short series (or even just
+> > the first patch; the others are just selftests) run through your test
+> > suite that was previously choking on my earlier v11 patchset. The huge
+> > page pincount limitations are removed, so I'm expecting a perfect test
+> > run this time!
+> >
 >
-> I have modified this to below as this:
->
-> --- a/Documentation/driver-api/dmaengine/client.rst
-> +++ b/Documentation/driver-api/dmaengine/client.rst
-> @@ -151,8 +151,8 @@ The details of these operations are:
->       Note that callbacks will always be invoked from the DMA
->       engines tasklet, never from interrupt context.
->  
-> -  Optional: per descriptor metadata
-> -  ---------------------------------
-> +Optional: per descriptor metadata
-> +---------------------------------
->    DMAengine provides two ways for metadata support.
->  
->    DESC_METADATA_CLIENT
->
-> And I will add this as fixes and it should be in linux-next tomorrow
+> I added those patches to our regression and I will post the in the
+> couple of days.
 
-Thanks!
+Hi John,
 
-cheers
+The patches survived our RDMA verification night runs.
+
+Thanks
+
+>
+> Thanks
+>
