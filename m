@@ -2,41 +2,40 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0FB6C35246
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:24:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7206C33CB2
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:25:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A6C562070E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:24:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE7B820CC7
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 03:25:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="OfVxu5XU"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="E3c5QEyG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727105AbgA2DYr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jan 2020 22:24:47 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17900 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbgA2DYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 22:24:24 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e30fad50003>; Tue, 28 Jan 2020 19:24:05 -0800
+        id S1726830AbgA2DYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jan 2020 22:24:23 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6362 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbgA2DYX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jan 2020 22:24:23 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e30fab10001>; Tue, 28 Jan 2020 19:23:29 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 28 Jan 2020 19:24:20 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 28 Jan 2020 19:24:19 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 28 Jan 2020 19:24:20 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+        by hqpgpgate102.nvidia.com on Tue, 28 Jan 2020 19:24:19 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
  2020 03:24:19 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
  Transport; Wed, 29 Jan 2020 03:24:19 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e30fae30007>; Tue, 28 Jan 2020 19:24:19 -0800
+        id <B5e30fae20004>; Tue, 28 Jan 2020 19:24:18 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -56,9 +55,9 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH v2 8/8] selftests/vm: run_vmtests: invoke gup_benchmark with basic FOLL_PIN coverage
-Date:   Tue, 28 Jan 2020 19:24:17 -0800
-Message-ID: <20200129032417.3085670-9-jhubbard@nvidia.com>
+Subject: [PATCH v2 1/8] mm: dump_page: print head page's refcount, for compound pages
+Date:   Tue, 28 Jan 2020 19:24:10 -0800
+Message-ID: <20200129032417.3085670-2-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129032417.3085670-1-jhubbard@nvidia.com>
 References: <20200129032417.3085670-1-jhubbard@nvidia.com>
@@ -67,81 +66,57 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580268245; bh=Q/jtf1QAQWUBdGa6x5cGwrQgIxtlzXz53YFDTgazJkU=;
+        t=1580268209; bh=P1TeODLKtRur5z7N4mKfBv38jAYvtdOaySoL8r08WIg=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=OfVxu5XUMoa0jfrsUtQqs/QQpukmxuEgszfT42NxxSVKqYrSaNN5MrNrCf47W+w92
-         E1cjqFQ7g3WZsn8M8IlIB1Kyz6hNG1HZEB2ZIOVLaHLMMSW8ijVgsyIsZ38lg1mZGx
-         5lrbYItcIYtkGSd3wbyOjDIk4TD2+kVS6hIf52HPJNcDHl9ynC+WHMvwjTNiElkEsi
-         3+cBRWTQwjf2P8hlZniohdC++khabUbbej0oUg+oQrnmB8r3yU5vJTuZRwcGwiEf7n
-         HbWfrvXGaotuOrOhDCYrkG+a7nhGHqhDjA2W8HCl6bVbTBukVt0SwL4yRpYascONOp
-         3LktvdGl4C9ng==
+        b=E3c5QEyGx95NN96IE5SjKIfekR44Kiz+3iLIw4qlBA+LpbSooYT0An9LHX6XD6yl4
+         7lXKNT/kQg8YCcnJmYPOse8qK2L5jU8GMbzDsJ5WhQhpVzoarZvejOPeDSNh67wMcQ
+         hhPTwYPCvGm+OytsPAfw0evq9Lg0XgniczwV2eLW6M6FblnpHUvbCcwtJzhu2nPfuq
+         KZMCTpM8R/TZXtYInxwDY4PQVS0KggBcsXut4esMIK1IpOqrkG0AFWn1oyIHFG6HgV
+         oVgZsqQFU53ImQs7VGD18/+8URzEUhFO6Z663+sFH9Q7FNr95JNFeu5iWQeAs6fJV+
+         IyukOqyF+pdQg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's good to have basic unit test coverage of the new FOLL_PIN
-behavior. Fortunately, the gup_benchmark unit test is extremely
-fast (a few milliseconds), so adding it the the run_vmtests suite
-is going to cause no noticeable change in running time.
+When debugging a problem that involves compound pages, it is extremely
+helpful if dump_page() reports not only the page->_refcount, but also
+the refcount of the head page of the compound page. That's because the
+head page collects refcounts for the entire compound page.
 
-So, add two new invocations to run_vmtests:
+Therefore, enhance dump_page() so as to print out the refcount of the
+head page of a compound page.
 
-1) Run gup_benchmark with normal get_user_pages().
+This approach (printing information about a struct page that is not the
+struct page that was passed into dump_page()) has a precedent:
+compound_mapcount is already being printed.
 
-2) Run gup_benchmark with pin_user_pages(). This is much like
-the first call, except that it sets FOLL_PIN.
-
-Running these two in quick succession also provide a visual
-comparison of the running times, which is convenient.
-
-The new invocations are fairly early in the run_vmtests script,
-because with test suites, it's usually preferable to put the
-shorter, faster tests first, all other things being equal.
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- tools/testing/selftests/vm/run_vmtests | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ mm/debug.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftes=
-ts/vm/run_vmtests
-index a692ea828317..df6a6bf3f238 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -112,6 +112,28 @@ echo "NOTE: The above hugetlb tests provide minimal co=
-verage.  Use"
- echo "      https://github.com/libhugetlbfs/libhugetlbfs.git for"
- echo "      hugetlb regression testing."
+diff --git a/mm/debug.c b/mm/debug.c
+index a90da5337c14..4cc6cad8385d 100644
+--- a/mm/debug.c
++++ b/mm/debug.c
+@@ -76,9 +76,11 @@ void __dump_page(struct page *page, const char *reason)
+ 	mapcount =3D PageSlab(page) ? 0 : page_mapcount(page);
 =20
-+echo "--------------------------------------------"
-+echo "running 'gup_benchmark -U' (normal/slow gup)"
-+echo "--------------------------------------------"
-+./gup_benchmark -U
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+	exitcode=3D1
-+else
-+	echo "[PASS]"
-+fi
-+
-+echo "------------------------------------------"
-+echo "running gup_benchmark -b (pin_user_pages)"
-+echo "------------------------------------------"
-+./gup_benchmark -b
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+	exitcode=3D1
-+else
-+	echo "[PASS]"
-+fi
-+
- echo "-------------------"
- echo "running userfaultfd"
- echo "-------------------"
+ 	if (PageCompound(page))
+-		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
+-			"index:%#lx compound_mapcount: %d\n",
+-			page, page_ref_count(page), mapcount,
++		pr_warn("page:%px refcount:%d head refcount:%d "
++			"mapcount:%d mapping:%px index:%#lx "
++			"compound_mapcount:%d\n",
++			page, page_ref_count(page),
++			page_ref_count(compound_head(page)), mapcount,
+ 			page->mapping, page_to_pgoff(page),
+ 			compound_mapcount(page));
+ 	else
 --=20
 2.25.0
 
