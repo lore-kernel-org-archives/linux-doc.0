@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92609C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A92C2D0DB
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 19:07:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DC9420708
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 18:39:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73A5220716
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 19:07:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="lf/eBtDN"
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="DCehkkTP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbgA2SjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 13:39:13 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:46008 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727039AbgA2SjM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 13:39:12 -0500
-Received: by mail-qt1-f193.google.com with SMTP id d9so247182qte.12
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2020 10:39:12 -0800 (PST)
+        id S1728135AbgA2TG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 14:06:58 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:41148 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727515AbgA2TG6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 14:06:58 -0500
+Received: by mail-qk1-f193.google.com with SMTP id s187so332558qke.8
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2020 11:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=lca.pw; s=google;
         h=mime-version:subject:from:in-reply-to:date:cc
          :content-transfer-encoding:message-id:references:to;
-        bh=Vcw2wwP47iPnOh9yAaL5AbxhfW0bgLj/TyBjuK7W/YA=;
-        b=lf/eBtDND0f2N3a4xyCytFNtmaiqlW0OVDHTsNIMH/LtHGCRC/et6wvwqo6erQfxpW
-         0zgsWGoq1kr8KB+yrMBaUyjXat+TSXrYxIw0IoqIF3Ku2CGJ43sRnHzXVcrpNxJdTJYn
-         SMycjrRXaljssE7ll7AJCBzp/tgUONSW2FDCt35EbK+uQdxEtsZZJnluSLsxIgz5jbyN
-         6IvEMuG8k4D05TGnpS1tNzZCSLldvI3nB3s3rGr9lX0pucJUgaE6geVwd7zGEn2miieS
-         EVEVwSEkIiBXtSr8DrxV6hpg0pNmFQAaZKTlZMlTmt0QvKmTMFrkP/gpt/HYbGove8yo
-         biFQ==
+        bh=FhknuesOl8lF6FjwV2Qc/z+nG0xejuInhcls4JdTHTE=;
+        b=DCehkkTPUKR/9mbJVh0nUrN/gskyVcvXI5B/eGdZLKEDp2a2IvK3KP27QsnLVrulFo
+         7FeUrVYKeUtQbXyLVsEUMSLVDdWeU3hDie02VUj4zCFu/f7+t9k/LrKu3YXphoB7kgS5
+         Dr+ubaFziWqyJAanEe1MV1xCL8jdrRvT15y2Xf03sBspj0ZEmpof5gX8nyKdTxIP/vtP
+         8TFzloPPg6j/QKMhpBLqMrZpuslq6kseN4umpk3KaACEb81xTF1zRnK8UgAMIEx3wen+
+         zKCAzmTS5qYpNM4GEoxRfHvttHY5guooy8wlnmqIDidMA65CN8Cp7Ow1DDmuubTJ6+no
+         xwCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
          :content-transfer-encoding:message-id:references:to;
-        bh=Vcw2wwP47iPnOh9yAaL5AbxhfW0bgLj/TyBjuK7W/YA=;
-        b=t0kqbUxZkTcC8kphAAO5CbGKa4xKnUBX9qEDUH7XVBvgcZKqvx2MdtdevyAbaZ6jX/
-         s5HJaF82KwJnp8dOVTZtr0soK8uLZcdtJDEDVXkvmSQN/B5T8Ycu7yMVvTSS+/dXnwlH
-         nDZAmbCIfnksFrH7sBztLwIHMC+zBbBRU50EObcgOcREXWr8j1NqmU/1ms3EqeW1OU3h
-         89eMPxO2g1/dqpikuI6vZiIBkW3DBtreRcsTU+2uDVHkMj+7bO6gB69Q5/Dbjuf3hRdD
-         9Rbvdyst5xrHVNuqUMPsEayt0FS0JCmhudq0SOHEBt5eLud9lvupL8WuO4QByb51PXPJ
-         6rRg==
-X-Gm-Message-State: APjAAAVw9rL1sq3EDkP304ZG3qq71i/fZc8qTJMWiHGLKWA48hwi8FsF
-        eSkQ0+Ad6dvlvw6f0/4mRiZlYg==
-X-Google-Smtp-Source: APXvYqyJf4fAmTuUiYulkJtzr8yBGVbXd+MgMyUBCAcdaphHCEWY7SLDkAvkPfiaemRE61x9F2Ubqg==
-X-Received: by 2002:aed:2344:: with SMTP id i4mr638908qtc.136.1580323151503;
-        Wed, 29 Jan 2020 10:39:11 -0800 (PST)
+        bh=FhknuesOl8lF6FjwV2Qc/z+nG0xejuInhcls4JdTHTE=;
+        b=lrIeZMTrqCSL3jX/xZtiQ6GNIgedGVzhgPZRiQ6VF1RgK7w9TwXSPaGofyQ0+pxsS3
+         5Ij+kTczR66yUvzzd8ZyLp4h5tmAeJ/GzDZu4jVwX0Z7NUjjGD6vtmlHGad9tb010pcG
+         GJGUnWyi7KIgo9E1m0dQqUWnVS+3TurmYEQ/O7XbtGYOAd/cANTymfGjGzKp7bsawYmO
+         DEx+Ag7xx7WXzNsrZo9uWH6TkZZzTByovY/ZZnCleMgm2f71ZKBxCN4IGx4imrYRPUaO
+         QMf5zV/sNC2iZ2v0OV7RkM6scfEj60Rqy3YJZrO6KtyMEBVbcimQvpIWtR3WgILhDOA0
+         i+fA==
+X-Gm-Message-State: APjAAAWT3FequHe0xIXWfha6sbL8s1jx7pfRmbhJownRR0UWHIRqwxq7
+        j1PkX1fEXBv2hrEzxp4SPIuXJQ==
+X-Google-Smtp-Source: APXvYqwPr6EFcwzsD4a9IE6KvyyzcOfmje3dq69CM1Rmuk5CYXrxg2b6W6h23S9/HHiJ0XgFpUrhUQ==
+X-Received: by 2002:a37:a8ca:: with SMTP id r193mr1300286qke.346.1580324816647;
+        Wed, 29 Jan 2020 11:06:56 -0800 (PST)
 Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id o33sm1539349qta.27.2020.01.29.10.39.10
+        by smtp.gmail.com with ESMTPSA id v2sm1406940qkj.29.2020.01.29.11.06.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Jan 2020 10:39:10 -0800 (PST)
+        Wed, 29 Jan 2020 11:06:56 -0800 (PST)
 Content-Type: text/plain;
         charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
 Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_inconsistent_mm sysctl
 From:   Qian Cai <cai@lca.pw>
 In-Reply-To: <20200129180851.551109-1-ghalat@redhat.com>
-Date:   Wed, 29 Jan 2020 13:39:09 -0500
+Date:   Wed, 29 Jan 2020 14:06:54 -0500
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, ssaner@redhat.com, atomlin@redhat.com,
@@ -73,7 +73,7 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <84C253EB-B348-4B62-B863-F192FBA8C202@lca.pw>
+Message-Id: <526F3E1C-87D3-4049-BC93-A4F0EDA45608@lca.pw>
 References: <20200129180851.551109-1-ghalat@redhat.com>
 To:     Grzegorz Halat <ghalat@redhat.com>
 X-Mailer: Apple Mail (2.3608.40.2.2.4)
@@ -94,6 +94,11 @@ collect
 > memory dump as early as possible. Currently, there is no easy way to =
 panic
 > kernel when such error is detected.
+
+Also, why can=E2=80=99t you have a simple script that checking for the =
+tainted flags
+periodically, and then trigger the crash dump once it happened?
+
 >=20
 > It was proposed[1] to panic the kernel if panic_on_oops is set but =
 this
@@ -110,16 +115,6 @@ the
 > Another use case of this sysctl may be in security-wise environments,
 > it may be more desired to crash machine than continue to run with
 > potentially damaged data structures.
-
-It is annoying that I have to repeat my feedback, but I don=E2=80=99t =
-know why
-admins want to enable this by allowing normal users to crash the systems
-more easily through recoverable MM bugs where I am sure we have plenty.
-How does that improve the security?
-
-If this is mainly for debugging purpose, then debugfs would suite =
-better?
-
 >=20
 > Changes since v1 [2]:
 > - rename the sysctl to panic_on_inconsistent_mm
