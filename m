@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D59C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 085E6C33CB7
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D01820716
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAF74207FD
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 15:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbgA2PUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 10:20:22 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:33363 "EHLO
+        id S1727105AbgA2PUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 10:20:31 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:59469 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727089AbgA2PUW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 10:20:22 -0500
+        by vger.kernel.org with ESMTP id S1727089AbgA2PUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 10:20:30 -0500
 Received: from [109.168.11.45] (port=33588 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwp8e-004sQJ-3c; Wed, 29 Jan 2020 16:20:20 +0100
+        id 1iwp8l-004sQJ-QK; Wed, 29 Jan 2020 16:20:27 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 05/28] docs: i2c: fix typo
-Date:   Wed, 29 Jan 2020 16:19:30 +0100
-Message-Id: <20200129151953.31582-6-luca@lucaceresoli.net>
+Subject: [PATCH v3 07/28] docs: i2c: i2c-protocol: fix kernel-doc function syntax
+Date:   Wed, 29 Jan 2020 16:19:32 +0100
+Message-Id: <20200129151953.31582-8-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
@@ -53,28 +53,46 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Fix "issus" -> "issues".
+This clarifies these are functions and adds a hyperlink to the function
+documentation.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-Acked-by: Peter Rosin <peda@axentia.se>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 ---
- Documentation/i2c/i2c-topology.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/i2c/i2c-protocol.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/i2c/i2c-topology.rst b/Documentation/i2c/i2c-topology.rst
-index 0875090d6aeb..b413ef6a6773 100644
---- a/Documentation/i2c/i2c-topology.rst
-+++ b/Documentation/i2c/i2c-topology.rst
-@@ -169,7 +169,7 @@ PL1. If you build a topology with a parent-locked mux being the child
-      of another mux, this might break a possible assumption from the
-      child mux that the root adapter is unused between its select op
-      and the actual transfer (e.g. if the child mux is auto-closing
--     and the parent mux issus I2C-transfers as part of its select).
-+     and the parent mux issues I2C-transfers as part of its select).
-      This is especially the case if the parent mux is mux-locked, but
-      it may also happen if the parent mux is parent-locked.
+diff --git a/Documentation/i2c/i2c-protocol.rst b/Documentation/i2c/i2c-protocol.rst
+index 0222c97f3436..f289d7759a51 100644
+--- a/Documentation/i2c/i2c-protocol.rst
++++ b/Documentation/i2c/i2c-protocol.rst
+@@ -28,7 +28,7 @@ Count (8 bits): A data byte containing the length of a block operation.
+ Simple send transaction
+ =======================
  
+-This corresponds to i2c_master_send::
++This corresponds to i2c_master_send()::
+ 
+   S Addr Wr [A] Data [A] Data [A] ... [A] Data [A] P
+ 
+@@ -36,7 +36,7 @@ This corresponds to i2c_master_send::
+ Simple receive transaction
+ ==========================
+ 
+-This corresponds to i2c_master_recv::
++This corresponds to i2c_master_recv()::
+ 
+   S Addr Rd [A] [Data] A [Data] A ... A [Data] NA P
+ 
+@@ -44,7 +44,7 @@ This corresponds to i2c_master_recv::
+ Combined transactions
+ =====================
+ 
+-This corresponds to i2c_transfer
++This corresponds to i2c_transfer().
+ 
+ They are just like the above transactions, but instead of a stop bit P
+ a start bit S is sent and the transaction continues. An example of
 -- 
 2.25.0
 
