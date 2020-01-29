@@ -2,103 +2,112 @@ Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C77C3F68F
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 19:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD46C35246
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 20:01:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CF4C120732
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 19:59:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25828207FF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 20:01:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R40RTKe7"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ippYGBsV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbgA2T7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 14:59:49 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33722 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbgA2T7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 14:59:49 -0500
-Received: by mail-wr1-f65.google.com with SMTP id b6so1032693wrq.0;
-        Wed, 29 Jan 2020 11:59:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=KQIYlN5HOzFLhj5jtZda0TleOgpJJL47WY9lbMV5qaE=;
-        b=R40RTKe7WBKBnBEp0jxvh939RGtvGnrdQ6+w2eJ9G3ZTyQm04eL1t1l8zGvypgaWEP
-         ny4vpG+D418EgNv5qlyB2KYXj/ENl/0NIktSuYURCuX7G+n6zOmsT6o68lAstP3J0Wim
-         /V7+yDVa4tAn50n8OEqPX8jRaLwq8zodDV4XFmpqVty7vgD/shUTJX4wbm/9Q7gjOCY3
-         VOEtrFELoH0qF1Thdg1nab6Rx0LLHDOqI1TEBG73rX8kDJRQh/5nJQ3WIGe6F80jOkp6
-         cpkZD+Ml0stPGI3ul6akaAlXrSdrA6SThselx7k/90lWuy37rw0EgeFFmLS/AOtda3Ww
-         AQ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=KQIYlN5HOzFLhj5jtZda0TleOgpJJL47WY9lbMV5qaE=;
-        b=ZeUcXvmN+8yJE4r8Wlq7RMaMIvuR0+ihkgt94BAneEt+EOFcV3LM1SJzyj/lzLC9WA
-         s5NuOv+ULIUezn0N+yNRA0w0kblEXBqTaHNQF5AP4MDuBl8f9s1OHrVaVj1c/kGnqQEN
-         4Py1nI3zod/iqdIgNdsEB5mJu57f6KDfJkmsaiUd3u4sbhgkI5Om8OpUJCv1fLAVF/Jl
-         fV8EL2ZUeDqs7gMN2hrdEzIyAwmWiPQXpm64XgeYavLem0m0a5Ov2JSwLA3Vd6spEPsF
-         eIFau3HtkK/3NU+gruUGRHikhNH6kiOu5CJBAUGOREKtkBg9txM8vRxcX+mN/2ZxnE9H
-         v9nA==
-X-Gm-Message-State: APjAAAU47et+qD2vdC+kJROIkYxqSeJ0WgQcdQivX3vJT5izvX4q8B8I
-        dTO1XVNkdO6xwaGHKUsZHKg=
-X-Google-Smtp-Source: APXvYqz0KHMdjB7MhvC0D8454io/mcZS6Qf9m8UNey648Oqs3gRg9sIQpSRw2pSRTKlNbq3z5VwmpA==
-X-Received: by 2002:adf:f3d1:: with SMTP id g17mr495290wrp.378.1580327986979;
-        Wed, 29 Jan 2020 11:59:46 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:10d2:194d:8f9:806b:30e8:a48e])
-        by smtp.gmail.com with ESMTPSA id z19sm3303877wmi.35.2020.01.29.11.59.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2020 11:59:46 -0800 (PST)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     SeongJae Park <sj38.park@gmail.com>, sjpark@amazon.com,
-        akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        acme@kernel.org, amit@kernel.org, brendan.d.gregg@gmail.com,
-        corbet@lwn.net, dwmw@amazon.com, mgorman@suse.de,
-        rostedt@goodmis.org, kirill@shutemov.name,
-        brendanhiggins@google.com, colin.king@canonical.com,
-        minchan@kernel.org, vdavydov.dev@gmail.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>
-Subject: Re: Re: Re: Re: Re: [PATCH v2 0/9] Introduce Data Access MONitor (DAMON)
-Date:   Wed, 29 Jan 2020 20:59:07 +0100
-Message-Id: <20200129195907.4589-1-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200129193616.GT14914@hirez.programming.kicks-ass.net> (raw)
+        id S1727469AbgA2UBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 15:01:52 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6546 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726332AbgA2UBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 15:01:51 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e31e4980000>; Wed, 29 Jan 2020 12:01:28 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 12:01:48 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 29 Jan 2020 12:01:48 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+ 2020 20:01:48 +0000
+Subject: Re: [PATCH 0/3] mm/gup: track FOLL_PIN pages (follow on from v12)
+To:     Leon Romanovsky <leon@kernel.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20200125021115.731629-1-jhubbard@nvidia.com>
+ <20200125162339.GA41770@unreal> <20200129054756.GB3326@unreal>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <7a15be06-d136-ff30-da91-413f0a6c8751@nvidia.com>
+Date:   Wed, 29 Jan 2020 12:01:47 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
+MIME-Version: 1.0
+In-Reply-To: <20200129054756.GB3326@unreal>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580328088; bh=gkreWAfR1M+wLvQaa+HnNfcLQr5xiP6TxB2x+oFum4o=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ippYGBsVdG9T4zX85tpivCTQKJit87UpTnxeUNDUsBjvxw+Z3Hx3W6lQzgZet3Xp9
+         EM1+O2NRB9ZxGvEoO7itzfQUnAPIo9aOKxD07WpYwKDIDyQFZRHLADxdSfn8rG8ycN
+         +Pn30KypxWRy19foPRQ6Nre4HHcjLtg2k0xYwI+EjXfIpKml7mA+1nZAh+gNpCFMBT
+         dANWHhA7drtMu5P6H3QMnuWie3RZRYFb0Q2TyXxMG4P0rvlRtL6NtJqHHl/Qilz3vz
+         UEznaHLnmYby2Lot0SMwG0KjACmYTn5Gba5q2JV1w5SpQGyqrL+ozBxsJfiDoI5Nyp
+         0jjKX0dYdcq3A==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 Jan 2020 20:36:16 +0100 Peter Zijlstra <peterz@infradead.org> wrote:
-
-> On Wed, Jan 29, 2020 at 08:06:45PM +0100, SeongJae Park wrote:
-> > > Perf can do address based sampling of memops, I suspect you can create
-> > > something using that.
-> > 
-> > If you're saying implementing DAMON in 'perf mem', I think it would conflict
-> > with abovely explained DAMON's goal.
-> > 
-> > Else, if you're saying it would be the right place to handle the DAMON
-> > generated data, I agree, thank you for pointing me that.  Will keep it in mind
-> > while shaping the interface of DAMON.
+On 1/28/20 9:47 PM, Leon Romanovsky wrote:
+> On Sat, Jan 25, 2020 at 06:23:39PM +0200, Leon Romanovsky wrote:
+>> On Fri, Jan 24, 2020 at 06:11:12PM -0800, John Hubbard wrote:
+>>> Leon Romanovsky:
+>>>
+>>> If you get a chance, I'd love to have this short series (or even just
+>>> the first patch; the others are just selftests) run through your test
+>>> suite that was previously choking on my earlier v11 patchset. The huge
+>>> page pincount limitations are removed, so I'm expecting a perfect test
+>>> run this time!
+>>>
+>>
+>> I added those patches to our regression and I will post the in the
+>> couple of days.
 > 
-> I'm saying it might be able to provide the data you need; without damon.
+> Hi John,
 > 
-> Might; because I'm not entirely sure what you're looking for, nor
-> exactly what events we have that provide address information.
+> The patches survived our RDMA verification night runs.
+> 
 
-Thank you for further clarifying this :)  Will also address this concern in
-next spin.
+Great! Thanks very much for running those. That's a pretty solid 
+confirmation that the earlier patch *did* allow a huge page refcount
+overflow, and that this approach avoids it. 
 
-
-Thanks,
-SeongJae Park
+thanks,
+-- 
+John Hubbard
+NVIDIA
