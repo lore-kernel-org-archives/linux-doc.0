@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB509C2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC5DC35246
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88CD8206F0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D24214D8
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 16:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbgA2QX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 11:23:29 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:57243 "EHLO
+        id S1727187AbgA2QWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jan 2020 11:22:53 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:46449 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727179AbgA2QWy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:54 -0500
+        by vger.kernel.org with ESMTP id S1727161AbgA2QWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jan 2020 11:22:53 -0500
 Received: from [109.168.11.45] (port=34038 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1iwq7A-005NDl-9l; Wed, 29 Jan 2020 17:22:52 +0100
+        id 1iwq78-005NDl-Q1; Wed, 29 Jan 2020 17:22:50 +0100
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Wolfram Sang <wsa@the-dreams.de>,
         Jean Delvare <jdelvare@suse.de>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 23/28] docs: i2c: old-module-parameters: fix internal hyperlink
-Date:   Wed, 29 Jan 2020 16:19:48 +0100
-Message-Id: <20200129151953.31582-24-luca@lucaceresoli.net>
+Subject: [PATCH v3 17/28] docs: i2c: smbus-protocol: fix typo
+Date:   Wed, 29 Jan 2020 16:19:42 +0100
+Message-Id: <20200129151953.31582-18-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129151953.31582-1-luca@lucaceresoli.net>
 References: <20200129151953.31582-1-luca@lucaceresoli.net>
@@ -53,7 +53,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Use ReST syntax so that a proper hyperlink is generated.
+The subject is plural, fix the verb.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
@@ -61,26 +61,24 @@ Reviewed-by: Jean Delvare <jdelvare@suse.de>
 ---
 
 Changes in v2:
- - re-add the reference to the section (Jean Delvare)
+ - fix subject line (Jean Delvare)
 ---
- Documentation/i2c/old-module-parameters.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/i2c/smbus-protocol.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/i2c/old-module-parameters.rst b/Documentation/i2c/old-module-parameters.rst
-index 78a6950e5763..1a18e2b0f593 100644
---- a/Documentation/i2c/old-module-parameters.rst
-+++ b/Documentation/i2c/old-module-parameters.rst
-@@ -12,8 +12,8 @@ address), "force" (to forcibly attach the driver to a given device) and
- With the conversion of the I2C subsystem to the standard device driver
- binding model, it became clear that these per-module parameters were no
- longer needed, and that a centralized implementation was possible. The new,
--sysfs-based interface is described in the documentation file
--"instantiating-devices", section "Method 4: Instantiate from user-space".
-+sysfs-based interface is described in :doc:`instantiating-devices`, section
-+"Method 4: Instantiate from user-space".
+diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+index 3c0fb3a2044d..de7285de5e93 100644
+--- a/Documentation/i2c/smbus-protocol.rst
++++ b/Documentation/i2c/smbus-protocol.rst
+@@ -145,7 +145,7 @@ SMBus Write Word
+ Implemented by i2c_smbus_write_word_data()
  
- Below is a mapping from the old module parameters to the new interface.
+ This is the opposite of the Read Word operation. 16 bits
+-of data is written to a device, to the designated register that is
++of data are written to a device, to the designated register that is
+ specified through the Comm byte.::
  
+   S Addr Wr [A] Comm [A] DataLow [A] DataHigh [A] P
 -- 
 2.25.0
 
