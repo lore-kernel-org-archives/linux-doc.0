@@ -2,268 +2,284 @@ Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A24CC33CB3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23ECAC2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:52:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 17436206D3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA9812051A
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbgA3Oo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 09:44:57 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49880 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727158AbgA3Oo5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Jan 2020 09:44:57 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 2CAF4AE19;
-        Thu, 30 Jan 2020 14:44:53 +0000 (UTC)
-Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_inconsistent_mm sysctl
-To:     Grzegorz Halat <ghalat@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, ssaner@redhat.com, atomlin@redhat.com,
-        oleksandr@redhat.com, vbendel@redhat.com, kirill@shutemov.name,
-        khlebnikov@yandex-team.ru, borntraeger@de.ibm.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Qian Cai <cai@lca.pw>
-References: <20200129180851.551109-1-ghalat@redhat.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d47a5f31-5862-b0a9-660c-48105f4f049b@suse.cz>
-Date:   Thu, 30 Jan 2020 15:44:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727317AbgA3Own (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 09:52:43 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:64267 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727193AbgA3Own (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 09:52:43 -0500
+Received: from 79.184.253.19.ipv4.supernova.orange.pl (79.184.253.19) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
+ id 0ffe0130fbb58b34; Thu, 30 Jan 2020 15:52:40 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Subject: [PATCH] Documentation: admin-guide: PM: Update sleep states documentation
+Date:   Thu, 30 Jan 2020 15:52:40 +0100
+Message-ID: <1846497.NDve8E0jfu@kreacher>
 MIME-Version: 1.0
-In-Reply-To: <20200129180851.551109-1-ghalat@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/20 7:08 PM, Grzegorz Halat wrote:
-> Memory management subsystem performs various checks at runtime,
-> if an inconsistency is detected then such event is being logged and kernel
-> continues to run. While debugging such problems it is helpful to collect
-> memory dump as early as possible. Currently, there is no easy way to panic
-> kernel when such error is detected.
-> 
-> It was proposed[1] to panic the kernel if panic_on_oops is set but this
-> approach was not accepted. One of alternative proposals was introduction of
-> a new sysctl.
-> 
-> Add a new sysctl - panic_on_inconsistent_mm. If the sysctl is set then the
-> kernel will be crashed when an inconsistency is detected by memory
-> management. This currently means panic when bad page or bad PTE
-> is detected(this may be extended to other places in MM).
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I wonder, should enabling the sysctl also effectively convert VM_WARN...
-to VM_BUG... ?
+There is some information in Documentation/power/interface.rst that
+is still missing from Documentation/admin-guide/pm/sleep-states.rst
+and really should be present in there, so update the latter by
+adding that information to it and delete the former (as it becomes
+redundant after that and it is somewhat outdated).
 
-> Another use case of this sysctl may be in security-wise environments,
-> it may be more desired to crash machine than continue to run with
-> potentially damaged data structures.
-> 
-> Changes since v1 [2]:
-> - rename the sysctl to panic_on_inconsistent_mm
-> - move the sysctl from kernel to vm table
-> - print modules in print_bad_pte() only before calling panic
-> 
-> [1] https://lore.kernel.org/linux-mm/1426495021-6408-1-git-send-email-borntraeger@de.ibm.com/
-> [2] https://lore.kernel.org/lkml/20200127101100.92588-1-ghalat@redhat.com/
-> 
-> Signed-off-by: Grzegorz Halat <ghalat@redhat.com>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 14 ++++++++++++++
->  include/linux/kernel.h                  |  1 +
->  kernel/sysctl.c                         |  9 +++++++++
->  mm/memory.c                             |  8 ++++++++
->  mm/page_alloc.c                         |  4 +++-
->  5 files changed, 35 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 64aeee1009ca..57f7926a64b8 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -61,6 +61,7 @@ Currently, these files are in /proc/sys/vm:
->  - overcommit_memory
->  - overcommit_ratio
->  - page-cluster
-> +- panic_on_inconsistent_mm
->  - panic_on_oom
->  - percpu_pagelist_fraction
->  - stat_interval
-> @@ -741,6 +742,19 @@ extra faults and I/O delays for following faults if they would have been part of
->  that consecutive pages readahead would have brought in.
->  
->  
-> +panic_on_inconsistent_mm
-> +========================
-> +
-> +Controls the kernel's behaviour when inconsistency is detected
-> +by memory management code, for example bad page state or bad PTE.
-> +
-> +0: try to continue operation.
-> +
-> +1: panic immediately.
-> +
-> +The default value is 0.
-> +
-> +
->  panic_on_oom
->  ============
->  
-> diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-> index 0d9db2a14f44..b3bd94c558ab 100644
-> --- a/include/linux/kernel.h
-> +++ b/include/linux/kernel.h
-> @@ -518,6 +518,7 @@ extern int oops_in_progress;		/* If set, an oops, panic(), BUG() or die() is in
->  extern int panic_timeout;
->  extern unsigned long panic_print;
->  extern int panic_on_oops;
-> +extern int panic_on_inconsistent_mm;
->  extern int panic_on_unrecovered_nmi;
->  extern int panic_on_io_nmi;
->  extern int panic_on_warn;
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 70665934d53e..a9733311e3a1 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -1303,6 +1303,15 @@ static struct ctl_table vm_table[] = {
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= &two,
->  	},
-> +	{
-> +		.procname	= "panic_on_inconsistent_mm",
-> +		.data		= &panic_on_inconsistent_mm,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
->  	{
->  		.procname	= "panic_on_oom",
->  		.data		= &sysctl_panic_on_oom,
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 45442d9a4f52..b29a18077a6a 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -71,6 +71,7 @@
->  #include <linux/dax.h>
->  #include <linux/oom.h>
->  #include <linux/numa.h>
-> +#include <linux/module.h>
->  
->  #include <trace/events/kmem.h>
->  
-> @@ -88,6 +89,8 @@
->  #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
->  #endif
->  
-> +int panic_on_inconsistent_mm __read_mostly;
-> +
->  #ifndef CONFIG_NEED_MULTIPLE_NODES
->  /* use the per-pgdat data instead for discontigmem - mbligh */
->  unsigned long max_mapnr;
-> @@ -543,6 +546,11 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
->  		 vma->vm_ops ? vma->vm_ops->fault : NULL,
->  		 vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
->  		 mapping ? mapping->a_ops->readpage : NULL);
-> +
-> +	if (panic_on_inconsistent_mm) {
-> +		print_modules();
-> +		panic("Bad page map detected");
-> +	}
->  	dump_stack();
->  	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
->  }
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index d047bf7d8fd4..a20cd3ece5ba 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -643,9 +643,11 @@ static void bad_page(struct page *page, const char *reason,
->  	if (bad_flags)
->  		pr_alert("bad because of flags: %#lx(%pGp)\n",
->  						bad_flags, &bad_flags);
-> -	dump_page_owner(page);
->  
-> +	dump_page_owner(page);
->  	print_modules();
-> +	if (panic_on_inconsistent_mm)
-> +		panic("Bad page state detected");
->  	dump_stack();
->  out:
->  	/* Leave bad fields for debug, except PageBuddy could make trouble */
-> 
+While at it, clean up some assorted pieces of sleep-states.rst a bit.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ Documentation/admin-guide/pm/sleep-states.rst |   76 +++++++++++++++++++------
+ Documentation/power/interface.rst             |   79 --------------------------
+ 2 files changed, 59 insertions(+), 96 deletions(-)
+
+Index: linux-pm/Documentation/admin-guide/pm/sleep-states.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/sleep-states.rst
++++ linux-pm/Documentation/admin-guide/pm/sleep-states.rst
+@@ -153,8 +153,11 @@ for the given CPU architecture includes
+ Basic ``sysfs`` Interfaces for System Suspend and Hibernation
+ =============================================================
+ 
+-The following files located in the :file:`/sys/power/` directory can be used by
+-user space for sleep states control.
++The power management subsystem provides userspace with a unified ``sysfs``
++interface for system sleep regardless of the underlying system architecture or
++platform.  That interface is located in the :file:`/sys/power/` directory
++(assuming that ``sysfs`` is mounted at :file:`/sys`) and it consists of the
++following attributes (files):
+ 
+ ``state``
+ 	This file contains a list of strings representing sleep states supported
+@@ -162,9 +165,9 @@ user space for sleep states control.
+ 	to start a transition of the system into the sleep state represented by
+ 	that string.
+ 
+-	In particular, the strings "disk", "freeze" and "standby" represent the
++	In particular, the "disk", "freeze" and "standby" strings represent the
+ 	:ref:`hibernation <hibernation>`, :ref:`suspend-to-idle <s2idle>` and
+-	:ref:`standby <standby>` sleep states, respectively.  The string "mem"
++	:ref:`standby <standby>` sleep states, respectively.  The "mem" string
+ 	is interpreted in accordance with the contents of the ``mem_sleep`` file
+ 	described below.
+ 
+@@ -177,7 +180,7 @@ user space for sleep states control.
+ 	associated with the "mem" string in the ``state`` file described above.
+ 
+ 	The strings that may be present in this file are "s2idle", "shallow"
+-	and "deep".  The string "s2idle" always represents :ref:`suspend-to-idle
++	and "deep".  The "s2idle" string always represents :ref:`suspend-to-idle
+ 	<s2idle>` and, by convention, "shallow" and "deep" represent
+ 	:ref:`standby <standby>` and :ref:`suspend-to-RAM <s2ram>`,
+ 	respectively.
+@@ -185,15 +188,17 @@ user space for sleep states control.
+ 	Writing one of the listed strings into this file causes the system
+ 	suspend variant represented by it to be associated with the "mem" string
+ 	in the ``state`` file.  The string representing the suspend variant
+-	currently associated with the "mem" string in the ``state`` file
+-	is listed in square brackets.
++	currently associated with the "mem" string in the ``state`` file is
++	shown in square brackets.
+ 
+ 	If the kernel does not support system suspend, this file is not present.
+ 
+ ``disk``
+-	This file contains a list of strings representing different operations
+-	that can be carried out after the hibernation image has been saved.  The
+-	possible options are as follows:
++	This file controls the operating mode of hibernation (Suspend-to-Disk).
++	Specifically, it tells the kernel what to do after creating a
++	hibernation image.
++
++	Reading from it returns a list of supported options encoded as:
+ 
+ 	``platform``
+ 		Put the system into a special low-power state (e.g. ACPI S4) to
+@@ -201,6 +206,11 @@ user space for sleep states control.
+ 		platform firmware to take a simplified initialization path after
+ 		wakeup.
+ 
++		It is only available if the platform provides a special
++		mechanism to put the system to sleep after creating a
++		hibernation image (platforms with ACPI do that as a rule, for
++		example).
++
+ 	``shutdown``
+ 		Power off the system.
+ 
+@@ -214,22 +224,53 @@ user space for sleep states control.
+ 		the hibernation image and continue.  Otherwise, use the image
+ 		to restore the previous state of the system.
+ 
++		It is available if system suspend is supported.
++
+ 	``test_resume``
+ 		Diagnostic operation.  Load the image as though the system had
+ 		just woken up from hibernation and the currently running kernel
+ 		instance was a restore kernel and follow up with full system
+ 		resume.
+ 
+-	Writing one of the listed strings into this file causes the option
++	Writing one of the strings listed above into this file causes the option
+ 	represented by it to be selected.
+ 
+-	The currently selected option is shown in square brackets which means
++	The currently selected option is shown in square brackets, which means
+ 	that the operation represented by it will be carried out after creating
+-	and saving the image next time hibernation is triggered by writing
+-	``disk`` to :file:`/sys/power/state`.
++	and saving the image when hibernation is triggered by writing ``disk``
++	to :file:`/sys/power/state`.
+ 
+ 	If the kernel does not support hibernation, this file is not present.
+ 
++``image_size``
++	This file controls the size of hibernation images.
++
++	It can be written a string representing a non-negative integer that will
++	be used as a best-effort upper limit of the image size, in bytes.  The
++	hibernation core will do its best to ensure that the image size will not
++	exceed that number, but if that turns out to be impossible to achieve, a
++	hibernation image will still be created and its size will be as small as
++	possible.  In particular, writing '0' to this file causes the size of
++	hibernation images to be minimum.
++
++	Reading from it returns the current image size limit, which is set to
++	around 2/5 of the available RAM size by default.
++
++``pm_trace``
++	This file controls the "PM trace" mechanism saving the last suspend
++	or resume event point in the RTC memory across reboots.  It helps to
++	debug hard lockups or reboots due to device driver failures that occur
++	during system suspend or resume (which is more common) more effectively.
++
++	If it contains "1", the fingerprint of each suspend/resume event point
++	in turn will be stored in the RTC memory (overwriting the actual RTC
++	information), so it will survive a system crash if one occurs right
++	after storing it and it can be used later to identify the driver that
++	caused the crash to happen.
++
++	It contains "0" by default, which may be changed to "1" by writing a
++	string representing a nonzero integer into it.
++
+ According to the above, there are two ways to make the system go into the
+ :ref:`suspend-to-idle <s2idle>` state.  The first one is to write "freeze"
+ directly to :file:`/sys/power/state`.  The second one is to write "s2idle" to
+@@ -244,6 +285,7 @@ system go into the :ref:`suspend-to-RAM
+ The default suspend variant (ie. the one to be used without writing anything
+ into :file:`/sys/power/mem_sleep`) is either "deep" (on the majority of systems
+ supporting :ref:`suspend-to-RAM <s2ram>`) or "s2idle", but it can be overridden
+-by the value of the "mem_sleep_default" parameter in the kernel command line.
+-On some ACPI-based systems, depending on the information in the ACPI tables, the
+-default may be "s2idle" even if :ref:`suspend-to-RAM <s2ram>` is supported.
++by the value of the ``mem_sleep_default`` parameter in the kernel command line.
++On some systems with ACPI, depending on the information in the ACPI tables, the
++default may be "s2idle" even if :ref:`suspend-to-RAM <s2ram>` is supported in
++principle.
+Index: linux-pm/Documentation/power/interface.rst
+===================================================================
+--- linux-pm.orig/Documentation/power/interface.rst
++++ /dev/null
+@@ -1,79 +0,0 @@
+-===========================================
+-Power Management Interface for System Sleep
+-===========================================
+-
+-Copyright (c) 2016 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+-
+-The power management subsystem provides userspace with a unified sysfs interface
+-for system sleep regardless of the underlying system architecture or platform.
+-The interface is located in the /sys/power/ directory (assuming that sysfs is
+-mounted at /sys).
+-
+-/sys/power/state is the system sleep state control file.
+-
+-Reading from it returns a list of supported sleep states, encoded as:
+-
+-- 'freeze' (Suspend-to-Idle)
+-- 'standby' (Power-On Suspend)
+-- 'mem' (Suspend-to-RAM)
+-- 'disk' (Suspend-to-Disk)
+-
+-Suspend-to-Idle is always supported.  Suspend-to-Disk is always supported
+-too as long the kernel has been configured to support hibernation at all
+-(ie. CONFIG_HIBERNATION is set in the kernel configuration file).  Support
+-for Suspend-to-RAM and Power-On Suspend depends on the capabilities of the
+-platform.
+-
+-If one of the strings listed in /sys/power/state is written to it, the system
+-will attempt to transition into the corresponding sleep state.  Refer to
+-Documentation/admin-guide/pm/sleep-states.rst for a description of each of
+-those states.
+-
+-/sys/power/disk controls the operating mode of hibernation (Suspend-to-Disk).
+-Specifically, it tells the kernel what to do after creating a hibernation image.
+-
+-Reading from it returns a list of supported options encoded as:
+-
+-- 'platform' (put the system into sleep using a platform-provided method)
+-- 'shutdown' (shut the system down)
+-- 'reboot' (reboot the system)
+-- 'suspend' (trigger a Suspend-to-RAM transition)
+-- 'test_resume' (resume-after-hibernation test mode)
+-
+-The currently selected option is printed in square brackets.
+-
+-The 'platform' option is only available if the platform provides a special
+-mechanism to put the system to sleep after creating a hibernation image (ACPI
+-does that, for example).  The 'suspend' option is available if Suspend-to-RAM
+-is supported.  Refer to Documentation/power/basic-pm-debugging.rst for the
+-description of the 'test_resume' option.
+-
+-To select an option, write the string representing it to /sys/power/disk.
+-
+-/sys/power/image_size controls the size of hibernation images.
+-
+-It can be written a string representing a non-negative integer that will be
+-used as a best-effort upper limit of the image size, in bytes.  The hibernation
+-core will do its best to ensure that the image size will not exceed that number.
+-However, if that turns out to be impossible to achieve, a hibernation image will
+-still be created and its size will be as small as possible.  In particular,
+-writing '0' to this file will enforce hibernation images to be as small as
+-possible.
+-
+-Reading from this file returns the current image size limit, which is set to
+-around 2/5 of available RAM by default.
+-
+-/sys/power/pm_trace controls the PM trace mechanism saving the last suspend
+-or resume event point in the RTC across reboots.
+-
+-It helps to debug hard lockups or reboots due to device driver failures that
+-occur during system suspend or resume (which is more common) more effectively.
+-
+-If /sys/power/pm_trace contains '1', the fingerprint of each suspend/resume
+-event point in turn will be stored in the RTC memory (overwriting the actual
+-RTC information), so it will survive a system crash if one occurs right after
+-storing it and it can be used later to identify the driver that caused the crash
+-to happen (see Documentation/power/s2ram.rst for more information).
+-
+-Initially it contains '0' which may be changed to '1' by writing a string
+-representing a nonzero integer into it.
+
+
 
