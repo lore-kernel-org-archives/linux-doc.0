@@ -2,108 +2,102 @@ Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 403A8C33CB3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 19:10:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC885C35240
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 19:28:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 159D1206D3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 19:10:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B42512465B
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 19:28:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fg92RMsb"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IM7SwiKq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbgA3TKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 14:10:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49558 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727682AbgA3TKh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 14:10:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580411436;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=SUtSFdT+kYmI8Bo8IponmuE6vaTB5AiudIIi8xyUiPM=;
-        b=fg92RMsbHHLhjkNsqU9PHB9FpdCywI6BBx8dTxZp1OJHIiwh6oVcoUthiHpF3gau63jCbx
-        vLmaoH/SHMC5CYZHkd1/z+ma7bYzwVlDniAz7aim+dUxJWKMvnee1Qi6Eh/8hcQoXb5R3J
-        udS41RkK4PRZt7zadQowf8ffb9EFdg8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-ghWjxde4ORGhMnZzSquDWA-1; Thu, 30 Jan 2020 14:10:34 -0500
-X-MC-Unique: ghWjxde4ORGhMnZzSquDWA-1
-Received: by mail-wr1-f72.google.com with SMTP id z15so2179185wrw.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 11:10:34 -0800 (PST)
+        id S1727609AbgA3T2s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 14:28:48 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39559 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgA3T2s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 14:28:48 -0500
+Received: by mail-pf1-f195.google.com with SMTP id 84so1994844pfy.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 11:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eWfrZ/xjnp4Ak3zEcjYTfRHaTAYKUcqb9pMEB5EKCt8=;
+        b=IM7SwiKq1+WKnW7tzkjGOWGm7quhPQSUwZCtVZ+zyJSGAvSLHvqr/P9aTRY6yJTUam
+         IuFDtAXfaJxv8V8DnZnGfhMc0nL9NXW6QJp4lDqOBK0AhZcY61+OCM7OuUf4LZUMmRvz
+         uF64Ssb5/OxRKUZLOQ3gRuBRC7D8IA8NZAQ8k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SUtSFdT+kYmI8Bo8IponmuE6vaTB5AiudIIi8xyUiPM=;
-        b=DRNhvFGrvnAXxQnnyBzF7a6x7LOwm6es2KJj2ZUNU/nVcWHF8vODotB2gNtyIlejU4
-         Y9S5uuuNA4RcQOBGM97YWvs60EF6IZ1BtpTGdE84/u9ums6Q5Q7hsUsyzosN9F57aHZ3
-         Emggs+5719/dA38Y81bOChnspdnH5xUP4Et70H4Thab9H4MM0fMGfduvryrhj4+jOf/g
-         F/cPMPp3WIWZQijRWwM7A5xTzmxs/qvPaRZ79FVPLlwuVxyaMB26Unhb/LtSVaFpCG9l
-         C3RSYB+Sug0ufNPcrfh4OV3H0nJ5kjIEQwg0fyuuictp7YNlBaDGbYuFaZD+qNoH4ou8
-         3wiw==
-X-Gm-Message-State: APjAAAW+eIJhoYcBFGgSNIMjQbbjiFOJMMCwiUuSIdfxMwA3Yso6o/on
-        mo3rlnDLWWr08vYeaHkxL0Sg+nJCDkBi0jfXoCJqjZfB09r9aZhz7pF9gtHJjZ5zfrz0obcAWy9
-        WZk7s78L22XqnctRy8KDZ
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr7467574wru.296.1580411433122;
-        Thu, 30 Jan 2020 11:10:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwd2K5FNDKGZYqIaB7n3fgbnyN9C2V+AsRZ0esnHsarDmz4aw6MjM7UxxTdj8JoUalHG+ySGg==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr7467555wru.296.1580411432866;
-        Thu, 30 Jan 2020 11:10:32 -0800 (PST)
-Received: from turbo.redhat.com (net-2-36-173-233.cust.vodafonedsl.it. [2.36.173.233])
-        by smtp.gmail.com with ESMTPSA id s139sm7794275wme.35.2020.01.30.11.10.32
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eWfrZ/xjnp4Ak3zEcjYTfRHaTAYKUcqb9pMEB5EKCt8=;
+        b=hB+dbe3Jozjmfcfe6KhNCbnGu026gmd2zLbmr7XJXHG5IOjyN/LKoe7PPrnzwWUhnP
+         DjcH8DYM2i/bULrOZ07xYx6HICcmOYQe2N99EKeXIbnmcIDK8adQDJ6uEZskfEtwz2mq
+         U7m6aNN4DMhtsqM2uyVCHx2pVi6BaiYNubte2p//ByI2I8IcZpU4zoT3LNEyf2jfiQZl
+         l4ggOd0XY3GZFvZdgwKUYmqLp2pFhSTCrQHi7tb76zTPtspDI0kOvX1K/SuesPHDR3OI
+         RYK4n00tZ+ikrdMbzIVBuLeqUPwcJGFnoZ8FOVTJA3fELf3IRBTG1INyMnIQVdbzCL5l
+         nHFw==
+X-Gm-Message-State: APjAAAXSd+OunPV1ERlpwgWUTKDrzBeKrQJ0bld5LEh7Zb2i5uXLD+6K
+        f3CxahGMDIgh4m0wx+x+QUWl0w==
+X-Google-Smtp-Source: APXvYqy8iWU4ETKdPcgtnjQ1dePHwCv/Fs0E3cGiUhU9Pn9+s/NNubhU8Y96pkpWrUj3gw0/lS0VpA==
+X-Received: by 2002:a63:c511:: with SMTP id f17mr6141537pgd.198.1580412527278;
+        Thu, 30 Jan 2020 11:28:47 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id e19sm7197844pgn.86.2020.01.30.11.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 11:10:32 -0800 (PST)
-From:   Matteo Croce <mcroce@redhat.com>
-To:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH net] netfilter: nf_flowtable: fix documentation
-Date:   Thu, 30 Jan 2020 20:10:19 +0100
-Message-Id: <20200130191019.19440-1-mcroce@redhat.com>
-X-Mailer: git-send-email 2.24.1
+        Thu, 30 Jan 2020 11:28:46 -0800 (PST)
+Date:   Thu, 30 Jan 2020 11:28:45 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Grzegorz Halat <ghalat@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, ssaner@redhat.com, atomlin@redhat.com,
+        oleksandr@redhat.com, vbendel@redhat.com, kirill@shutemov.name,
+        khlebnikov@yandex-team.ru, borntraeger@de.ibm.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Qian Cai <cai@lca.pw>
+Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_inconsistent_mm sysctl
+Message-ID: <202001301128.1CBD1BA52@keescook>
+References: <20200129180851.551109-1-ghalat@redhat.com>
+ <d47a5f31-5862-b0a9-660c-48105f4f049b@suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d47a5f31-5862-b0a9-660c-48105f4f049b@suse.cz>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the flowtable documentation there is a missing semicolon, the command
-as is would give this error:
+On Thu, Jan 30, 2020 at 03:44:50PM +0100, Vlastimil Babka wrote:
+> On 1/29/20 7:08 PM, Grzegorz Halat wrote:
+> > Memory management subsystem performs various checks at runtime,
+> > if an inconsistency is detected then such event is being logged and kernel
+> > continues to run. While debugging such problems it is helpful to collect
+> > memory dump as early as possible. Currently, there is no easy way to panic
+> > kernel when such error is detected.
+> > 
+> > It was proposed[1] to panic the kernel if panic_on_oops is set but this
+> > approach was not accepted. One of alternative proposals was introduction of
+> > a new sysctl.
+> > 
+> > Add a new sysctl - panic_on_inconsistent_mm. If the sysctl is set then the
+> > kernel will be crashed when an inconsistency is detected by memory
+> > management. This currently means panic when bad page or bad PTE
+> > is detected(this may be extended to other places in MM).
+> 
+> I wonder, should enabling the sysctl also effectively convert VM_WARN...
+> to VM_BUG... ?
 
-    nftables.conf:5:27-33: Error: syntax error, unexpected devices, expecting newline or semicolon
-                    hook ingress priority 0 devices = { br0, pppoe-data };
-                                            ^^^^^^^
-    nftables.conf:4:12-13: Error: invalid hook (null)
-            flowtable ft {
-                      ^^
+There is already panic_on_warn sysctl... wouldn't that be sufficient?
 
-Fixes: 19b351f16fd9 ("netfilter: add flowtable documentation")
-Signed-off-by: Matteo Croce <mcroce@redhat.com>
----
- Documentation/networking/nf_flowtable.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/nf_flowtable.txt b/Documentation/networking/nf_flowtable.txt
-index ca2136c76042..0bf32d1121be 100644
---- a/Documentation/networking/nf_flowtable.txt
-+++ b/Documentation/networking/nf_flowtable.txt
-@@ -76,7 +76,7 @@ flowtable and add one rule to your forward chain.
- 
-         table inet x {
- 		flowtable f {
--			hook ingress priority 0 devices = { eth0, eth1 };
-+			hook ingress priority 0; devices = { eth0, eth1 };
- 		}
-                 chain y {
-                         type filter hook forward priority 0; policy accept;
 -- 
-2.24.1
-
+Kees Cook
