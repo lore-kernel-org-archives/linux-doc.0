@@ -1,117 +1,202 @@
-Return-Path: <SRS0=sBCo=3S=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0359EC2D0DB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 23:39:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D92AC33C9E
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 06:26:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C218F206F0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jan 2020 23:39:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E6A520707
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 06:26:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BQDWkRnL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbgA2XjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jan 2020 18:39:20 -0500
-Received: from foss.arm.com ([217.140.110.172]:46970 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726528AbgA2XjU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jan 2020 18:39:20 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39A9331B;
-        Wed, 29 Jan 2020 15:39:19 -0800 (PST)
-Received: from [10.0.2.15] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 570803F52E;
-        Wed, 29 Jan 2020 15:39:17 -0800 (PST)
-Subject: Re: [PATCH v2 6/6] arm64: use activity monitors for frequency
- invariance
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
-        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
-        suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        dietmar.eggemann@arm.com
-Cc:     peterz@infradead.org, mingo@redhat.com, ggherdovich@suse.cz,
-        vincent.guittot@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191218182607.21607-1-ionela.voinescu@arm.com>
- <20191218182607.21607-7-ionela.voinescu@arm.com>
- <96fdead6-9896-5695-6744-413300d424f5@arm.com>
-Message-ID: <3ed9af08-82ef-e30c-b1ec-3a1dac0d2091@arm.com>
-Date:   Wed, 29 Jan 2020 23:39:11 +0000
+        id S1725869AbgA3G0N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 01:26:13 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17654 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbgA3G0N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 01:26:13 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3276cf0000>; Wed, 29 Jan 2020 22:25:19 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 22:26:11 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 29 Jan 2020 22:26:11 -0800
+Received: from [10.2.165.69] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Jan
+ 2020 06:26:10 +0000
+Subject: Re: [PATCH v2 1/8] mm: dump_page: print head page's refcount, for
+ compound pages
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20200129032417.3085670-1-jhubbard@nvidia.com>
+ <20200129032417.3085670-2-jhubbard@nvidia.com>
+ <20200129112510.ulims6u36ofk2qwa@box>
+ <b74e8aa9-fcfd-0340-594c-61f185a0ae65@nvidia.com>
+ <20200129225957.GH6615@bombadil.infradead.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <a0d66400-96a2-f94e-311d-a94f75e72d65@nvidia.com>
+Date:   Wed, 29 Jan 2020 22:23:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <96fdead6-9896-5695-6744-413300d424f5@arm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200129225957.GH6615@bombadil.infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580365520; bh=JHRJR+nRNJ+fPdKgdhNh0UpV2gT6YF7QTq3XuI/pnwo=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BQDWkRnLH1j0+3TFcqwPmncBEuhinrmCw80Gb5nfjCWCm7Q+eTszuPPxdRdT/9ncI
+         x3vf//wCgavyZ2zurvNKovAxI/vZkKZclk357DNkl6D/x0aJAzNgqEhRFJp40iDBED
+         blM/4jKRxhuyVU/WLFsXsLkxawG9WIwlVDfIJ1gmdL52WG4s3jP21Q+xONM74akxo2
+         o3rwO1ZZPh/0w73Q2KfxYhHRtPrL4ctXCQQyM51KBuG20kGnsUbBy868Exg0yU1S/h
+         uGFVs4y/C8Uwpoh/bi+N1dF2g3hx5+SVKe+Fwn5Npk5ECCkzzyiD+r1UvShA2fyeI4
+         td4jAMZ7SAJdw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/01/2020 17:13, Valentin Schneider wrote:
-> I had a brief look at the Arm ARM, for the arch timer it says it is
-> "typically in the range 1-50MHz", but then also gives an example with 20KHz
-> in a low-power mode.
+On 1/29/20 2:59 PM, Matthew Wilcox wrote:
+...
+> I have a hunk in my current tree which looks like this:
 > 
-> If we take say 5GHz max CPU frequency, our lower bound for the arch timer
-> (with that SCHED_CAPACITY_SCALE² trick) is about ~4.768KHz. It's not *too*
-> far from that 20KHz, but I'm not sure we would actually be executing stuff
-> in that low-power mode.
+> @@ -77,6 +77,11 @@ void __dump_page(struct page *page, const char *reason)
+>                  pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx
+> \n",
+>                          page, page_ref_count(page), mapcount,
+>                          page->mapping, page_to_pgoff(page));
+> +       if (PageTail(page)) {
+> +               struct page *head = compound_head(page);
+> +               pr_warn("head:%px mapping:%px index:%#lx\n",
+> +                       head, head->mapping, page_to_pgoff(head));
+> +       }
+>          if (PageKsm(page))
+>                  pr_warn("ksm flags: %#lx(%pGp)\n", page->flags, &page->flags);
+>          else if (PageAnon(page))
+> 
+> I wonder if we can combine these two patches in some more useful way?
+> 
+> I also think we probably want a sanity check that 'head' and 'page'
+> are within a sane range of each other (ie head < page and head +
+> MAX_ORDER_NR_PAGES > page) to protect against a struct page that contains
+> complete garbage.
 > 
 
-I mixed up a few things in there; that low-power mode is supposed to do
-higher increments, so it would emulate a similar frequency as the non-low-power
-mode. Thus the actual frequency matters less than what is reported in CNTFRQ
-(though we hope to get the behaviour we're told we should see), so we should
-be quite safe from that ~5KHz value. Still, to make it obvious, I don't think
-something like this would hurt:
+OK, here's a go at combining those. I like the observation, implicit in your
+diffs, that PageTail rather than PageCompound is the key differentiator in
+deciding what to print. How's this look:
 
----
-diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-index 9a5464c625b45..a72832093575a 100644
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -885,6 +885,17 @@ static int arch_timer_starting_cpu(unsigned int cpu)
- 	return 0;
- }
- 
-+static int validate_timer_rate(void)
-+{
-+	if (!arch_timer_rate)
-+		return 1;
+diff --git a/mm/debug.c b/mm/debug.c
+index a90da5337c14..944652843e7b 100644
+--- a/mm/debug.c
++++ b/mm/debug.c
+@@ -75,12 +75,31 @@ void __dump_page(struct page *page, const char *reason)
+  	 */
+  	mapcount = PageSlab(page) ? 0 : page_mapcount(page);
+  
+-	if (PageCompound(page))
+-		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
+-			"index:%#lx compound_mapcount: %d\n",
+-			page, page_ref_count(page), mapcount,
+-			page->mapping, page_to_pgoff(page),
+-			compound_mapcount(page));
++	if (PageTail(page)) {
++		struct page *head = compound_head(page);
 +
-+	/* Arch timer frequency < 1MHz is shady */
-+	WARN_ON(arch_timer_rate < 1000000);
++		if ((page < head) || (page >= head + MAX_ORDER_NR_PAGES)) {
++			/*
++			 * Page is hopelessly corrupted, so limit any reporting
++			 * to information about the page itself. Do not attempt
++			 * to look at the head page.
++			 */
++			pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
++				"index:%#lx (corrupted tail page case)\n",
++				page, page_ref_count(page), mapcount,
++				page->mapping, page_to_pgoff(page));
++		} else {
++			pr_warn("page:%px compound refcount:%d mapcount:%d "
++				"mapping:%px index:%#lx compound_mapcount:%d\n",
++				page, page_ref_count(head),
++				mapcount, head->mapping, page_to_pgoff(head),
++				compound_mapcount(page));
 +
-+	return 0;
-+}
-+
- /*
-  * For historical reasons, when probing with DT we use whichever (non-zero)
-  * rate was probed first, and don't verify that others match. If the first node
-@@ -900,7 +911,7 @@ static void arch_timer_of_configure_rate(u32 rate, struct device_node *np)
- 		arch_timer_rate = rate;
- 
- 	/* Check the timer frequency. */
--	if (arch_timer_rate == 0)
-+	if (validate_timer_rate())
- 		pr_warn("frequency not available\n");
- }
- 
-@@ -1594,7 +1605,7 @@ static int __init arch_timer_acpi_init(struct acpi_table_header *table)
- 	 * CNTFRQ value. This *must* be correct.
- 	 */
- 	arch_timer_rate = arch_timer_get_cntfrq();
--	if (!arch_timer_rate) {
-+	if (validate_timer_rate()) {
- 		pr_err(FW_BUG "frequency not available.\n");
- 		return -EINVAL;
- 	}
----
++			if (page_ref_count(page) != 0)
++				pr_warn("page:%px PROBLEM: non-zero refcount (==%d) on "
++					"this tail page\n", page, page_ref_count(page));
++		}
++	}
+  	else
+  		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
+  			page, page_ref_count(page), mapcount,
 
-> Long story short, we're probably fine, but it would nice to shove some of
-> the above into comments (especially the SCHED_CAPACITY_SCALE² trick)
-> 
+?
+
+Here's sample output for a normal page, a tail page, and a tail page with a bad
+(non-zero) refcount:
+
+============
+Normal page:
+============
+[   38.572084] page:ffffea0011465880 refcount:2 mapcount:1 mapping:ffff888454d99001 index:0xb2
+[   38.579256] anon flags: 0x17ffe0000080036(referenced|uptodate|lru|active|swapbacked)
+[   38.585799] raw: 017ffe0000080036 ffffea0011460fc8 ffffea0011466d08 ffff888454d99001
+[   38.592350] raw: 00000000000000b2 0000000000000000 0000000200000000 0000000000000000
+[   38.598885] page dumped because: test dump page
+
+
+==========
+Tail page:
+==========
+[   38.436384] page:ffffea0010aa0280 compound refcount:503 mapcount:1 mapping:ffff888455fb3399 index:0xa8 compound_mapcount:1
+[   38.446350] anon flags: 0x17ffe0000000000()
+[   38.449661] raw: 017ffe0000000000 ffffea0010aa0001 ffffea0010aa0288 dead000000000400
+[   38.456228] raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+[   38.462794] page dumped because: test dump page
+
+============================
+Tail page with bad refcount:
+============================
+[   38.466088] page:ffffea0010aa0b40 compound refcount:468 mapcount:1 mapping:ffff888455fb3399 index:0xa8 compound_mapcount:1
+[   38.475967] page:ffffea0010aa0b40 PROBLEM: non-zero refcount (==2) on this tail page
+[   38.482490] anon flags: 0x17ffe0000000000()
+[   38.485432] raw: 017ffe0000000000 ffffea0010aa0001 ffffea0010aa0b48 dead000000000400
+[   38.491996] raw: 0000000000000000 0000000000000000 00000002ffffffff 0000000000000000
+[   38.498532] page dumped because: test bad tail page refcount
+
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
