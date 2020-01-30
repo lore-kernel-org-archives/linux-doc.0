@@ -2,60 +2,158 @@ Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 221E2C33C9E
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 10:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0316C33C9E
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 11:31:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F2AC220702
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 10:02:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B507E206D3
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 11:31:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="Tsy8nAO0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgA3KCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 05:02:40 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:52624 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726882AbgA3KCk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 05:02:40 -0500
-Received: from localhost (unknown [IPv6:2001:982:756:1:57a7:3bfd:5e85:defb])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4CF9E15AB0D16;
-        Thu, 30 Jan 2020 02:02:38 -0800 (PST)
-Date:   Thu, 30 Jan 2020 11:02:36 +0100 (CET)
-Message-Id: <20200130.110236.635220430261346308.davem@davemloft.net>
-To:     b.zolnierkie@samsung.com
-Cc:     ralf@linux-mips.org, paul.burton@mips.com, jhogan@kernel.org,
-        corbet@lwn.net, linux-ide@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ide: remove no longer used au1xxx-ide driver
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200116122938.20789-2-b.zolnierkie@samsung.com>
-References: <20200116122938.20789-1-b.zolnierkie@samsung.com>
-        <CGME20200116122951eucas1p27bed87e1d46b5e1d8fc91abc33cd013a@eucas1p2.samsung.com>
-        <20200116122938.20789-2-b.zolnierkie@samsung.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 30 Jan 2020 02:02:40 -0800 (PST)
+        id S1727161AbgA3LbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 06:31:21 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40817 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726873AbgA3LbV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 06:31:21 -0500
+Received: by mail-lj1-f195.google.com with SMTP id n18so2914638ljo.7
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 03:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/EN520UCUxsEUBwp+gxS6OoGlcVQKRNBVBF0BZx9y+I=;
+        b=Tsy8nAO0PvaScoyPHxQ8u0Q+uBQzLnebXEkKCAg+P2fPtHalLWm98o3bNIETmJk5Ax
+         GIRK0uSiHJ59wddWXiQye/G8OPgZv2mm0LsDsZ2nZHJirH3IYNo46TkDYqgz5CMTQ1xw
+         3wr3AseYMfQDfaItEw9mxy6wVkEHMXK3pBatYbOrO+QJm5HvMdWQdcvT4UvyPjEjlV2I
+         c7o3jEmW8+sHIEpnAt1EMA8iI5ykE01yWc3XdnCvW/XjyKW71c9UFc0YbgGm38DCjXvU
+         4b7+TJJVVG8NR6O6Z0y2TSvGBoBUJu7xGq45uwGY0olDpcFxUsT1bVJAtVtVMKT7uqdU
+         My4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/EN520UCUxsEUBwp+gxS6OoGlcVQKRNBVBF0BZx9y+I=;
+        b=hLU8oF5MpymVFCqbsoOFMiU8ENLqqtCDSmzIcFsSKh/nWeDAiTLmVbqU3oip0HjbTV
+         kQhBvaAor6PDxviebRb8AgH5qdoxCZW1eWZMFLQJDHqjc/zG1I0vz1ptH7iMh0/ZKDO3
+         YMsg0zMvuufGqeLm9O7YycH10OBJGTcn0cO0FboXFtWx6xv930zRdqaX9sSiTDqknBGC
+         F+J6GxZ362PLl5vvMB7E91dsyUvh7jctWDAtyPQeoa630OrPkWeKwPtkEPBDDsJcvhIF
+         FoHGMXRCA1i3ZOBUIOYPUAA//z/dX2W+fWiFKcdU7XE6PXkqXzZNyl18RT/uOFpyZb78
+         cYSw==
+X-Gm-Message-State: APjAAAXxy7fiKnK1yBqWO4vm2mmIEZdffphRfFpFp2sEJopgFqD+Ywqp
+        EM2vIt5+TPw97i8+hoZwEHJTyw==
+X-Google-Smtp-Source: APXvYqzOfHleShWYEZ7+vculAYaLdAq1R8IjRRLv6oV11NywrAJ0QawfN5bbH06GtSQcqK2Wevv/Xw==
+X-Received: by 2002:a2e:9218:: with SMTP id k24mr2468907ljg.262.1580383878986;
+        Thu, 30 Jan 2020 03:31:18 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id u25sm2683666ljj.70.2020.01.30.03.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2020 03:31:18 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id C35F8100B00; Thu, 30 Jan 2020 14:31:26 +0300 (+03)
+Date:   Thu, 30 Jan 2020 14:31:26 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v2 4/8] mm/gup: track FOLL_PIN pages
+Message-ID: <20200130113126.5ftq4gd5k7o7tipj@box>
+References: <20200129032417.3085670-1-jhubbard@nvidia.com>
+ <20200129032417.3085670-5-jhubbard@nvidia.com>
+ <20200129135153.knie7ptvsxcgube6@box>
+ <0be743df-e9af-6da9-c593-9e25ab194acf@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0be743df-e9af-6da9-c593-9e25ab194acf@nvidia.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Date: Thu, 16 Jan 2020 13:29:36 +0100
-
-> Commit 54ff4a1d1732 ("MIPS: Alchemy: pata_platform for DB1200")
-> from year 2014 converted the only user of au1xxx-ide IDE host
-> driver (MIPS Alchemy DB1200 platform) to use pata_platform
-> libata host driver instead. This patch removes dead au1xxx-ide
-> driver code.
+On Wed, Jan 29, 2020 at 10:44:50PM -0800, John Hubbard wrote:
+> On 1/29/20 5:51 AM, Kirill A. Shutemov wrote:
+> > > +/**
+> > > + * page_dma_pinned() - report if a page is pinned for DMA.
+> > > + *
+> > > + * This function checks if a page has been pinned via a call to
+> > > + * pin_user_pages*().
+> > > + *
+> > > + * For non-huge pages, the return value is partially fuzzy: false is not fuzzy,
+> > > + * because it means "definitely not pinned for DMA", but true means "probably
+> > > + * pinned for DMA, but possibly a false positive due to having at least
+> > > + * GUP_PIN_COUNTING_BIAS worth of normal page references".
+> > > + *
+> > > + * False positives are OK, because: a) it's unlikely for a page to get that many
+> > > + * refcounts, and b) all the callers of this routine are expected to be able to
+> > > + * deal gracefully with a false positive.
+> > 
+> > I wounder if we should reverse the logic and name -- page_not_dma_pinned()
+> > or something -- too emphasise that we can only know for sure when the page
+> > is not pinned, but not necessary when it is.
+> > 
 > 
-> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> This is an interesting point. I agree that it's worth maybe adding information
+> into the function name, but I'd like to keep the bool "positive", because there
+> will be a number of callers that ask "if it is possibly dma-pinned, then ...".
+> So combining that, how about this function name:
+> 
+> 	page_maybe_dma_pinned()
+> 
+> , which I could live with and I think would be acceptable?
 
-Acked-by: David S. Miller <davem@davemloft.net>
+I would still prefer the negative version, but up to you.
+
+> > I see opportunity to split the patch further.
+> 
+> 
+> ah, OK. I wasn't sure how far to go before I get tagged for "excessive
+> patch splitting"! haha. Anyway, are you suggesting to put the
+> page_ref_sub_return() routine into it's own patch?
+> 
+> Another thing to split out would be adding the flags to the remaining
+> functions, such as undo_dev_pagemap(). That burns quite a few lines of
+> diff. Anything else to split out?
+
+Nothing I see immediately.
+
+> 
+> > > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > > index 0a55dec68925..b1079aaa6f24 100644
+> > > --- a/mm/huge_memory.c
+> > > +++ b/mm/huge_memory.c
+> > > @@ -958,6 +958,11 @@ struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
+> > >   	 */
+> > >   	WARN_ONCE(flags & FOLL_COW, "mm: In follow_devmap_pmd with FOLL_COW set");
+> > > +	/* FOLL_GET and FOLL_PIN are mutually exclusive. */
+> > > +	if (WARN_ON_ONCE((flags & (FOLL_PIN | FOLL_GET)) ==
+> > > +			 (FOLL_PIN | FOLL_GET)))
+> > 
+> > Too many parentheses.
+> 
+> 
+> OK, I'll remove at least one. :)
+
+I see two.
+
+-- 
+ Kirill A. Shutemov
