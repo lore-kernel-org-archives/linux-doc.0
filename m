@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB14BC35240
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541C8C35246
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:08:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E86920CC7
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:08:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A512214D8
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:08:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qUKS4/bi"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Cea+74kK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbgA3XIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 18:08:46 -0500
-Received: from mail-pj1-f73.google.com ([209.85.216.73]:51797 "EHLO
-        mail-pj1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727720AbgA3XIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 18:08:40 -0500
-Received: by mail-pj1-f73.google.com with SMTP id h2so3028230pji.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 15:08:39 -0800 (PST)
+        id S1727795AbgA3XIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 18:08:50 -0500
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:53490 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727784AbgA3XIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 18:08:47 -0500
+Received: by mail-pf1-f201.google.com with SMTP id c17so2752588pfi.20
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 15:08:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=MP470Mm16Hbis3uK4k7c4Y0juRzNAQ4jaojQ4FBlGRU=;
-        b=qUKS4/biEzUnqRfVp6CMVb9g2VsQwQM5ss8wWgmxhAEh7N2VSqjHFRlpTPo/f7mWRg
-         9PO1MoSacP4zU4ZonpKGxOZYrEyppqNSUoXZa0FQt//aqOuXc89cbAvr0ezWDJ4GamtO
-         BiZt1ehsxt7k4vkVItcppjb3GvfT1saAPVkTubBH/5WHPjLpLZrfNxtsAs4tlFqaM8Ct
-         0NQxiswyTirVUAHgkpirY4VdeJZ14+VcQUYvCB5Hq+v/C2MpCBLC95YavwPj0wL7qRwo
-         8DhYch1X7zqIrC958MLGmLeDXLdHjcpXcFAd8h8WSAOLOUVu7byljiU1Xi2E8Io7bhXC
-         eiUg==
+        bh=dCX2LQDaoIcwFmYSq3cgmAkx+Exp0YNCPmOsw4OCxis=;
+        b=Cea+74kKLR/GteXq64Op60MuNDLPdMizqbgVfNpoWkuF8hmEB2KWidlL87tYLsXrua
+         8Xzbo2dCO77srQ679vBOopPPaT5k/SDDfLFgk2PVYP32VYXEliWcHSPQQvW7RJouxHAe
+         hc+sUOuQ6TRmwjFRtbnmDP2UOQJ2LzmbdTH38wKl5fTpIu7RcFxSIOf2vAfgqu8CZAVW
+         GLEzOaHOLVt2EVc2azlbEU9baY7XraTtjjWlZ/jKsLTm/MLozD7uXkqirkr8AYc/6GXF
+         us3u/wuW2oRnrheLqJLro/pS7keuZISgD+5hxQQ9fLdo+8fcCY/HdMmki7Y+kyw+/l1K
+         d+6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=MP470Mm16Hbis3uK4k7c4Y0juRzNAQ4jaojQ4FBlGRU=;
-        b=grBHiw5lqNDcaBx9ehZm3IYFFEflrZQflgatm+evrY8P2ALzEFFyJaz+i5H+GhGQeh
-         VBR8jZSSM0sT/2Ul26YxzxyRhcJPEgiPir6Uold3BzfctqMZq9Gh4XrWR6Nab3vXN8nP
-         Q9Gtxewmf7P1Ti2h/J9dwQEq5Sp+Fjgak38pijG4B/VyPx/ZdOJh/m1FUKkm8XQwt1ML
-         m+Q8k2vPl8c6zOHjEc916rGV1rwjzPI9xo8du82mG1gqOsIKoyRNdoLFew84N6CfmbfX
-         PXsntRyrNxYet5sewzxeejVHGVOD7AKm0MlOAVCd+GquYJPx5+NcYbCUV5BowArJ1vcq
-         Uyxg==
-X-Gm-Message-State: APjAAAVwOhNULTqqLm4g0z0KIATbiQhxSS74fdS2TdK/l+1HSRBKnysw
-        m+6g+VCiMbKo3ZiUAnvibTnDkm6QEVe4Clmg239YTg==
-X-Google-Smtp-Source: APXvYqyakXU44AbYhg6GU2MGJUC6PijcNjm4QFympm/fEDorxw23X7egQMZVQ745p6ST6BfiY6ejMzNK6GIvB25GXWjyng==
-X-Received: by 2002:a63:4503:: with SMTP id s3mr7221610pga.311.1580425719434;
- Thu, 30 Jan 2020 15:08:39 -0800 (PST)
-Date:   Thu, 30 Jan 2020 15:08:09 -0800
+        bh=dCX2LQDaoIcwFmYSq3cgmAkx+Exp0YNCPmOsw4OCxis=;
+        b=f1DkpbLVm/09P80zhinTxMuydciuFMjHLfD/Vgt63bY9vHruOvQeuENUZarqQHn28o
+         x15d+pQClxOg1wMNB4Pgxplg41Dg/zkyKOxsxDx07iUTKsUMtlIubcdJ8d2V/9CWOWGV
+         pBS/8p4cqUcufQ+Xk7k3jzXTo6Wflt27Gk+m88FrLyxrwBZ9USfHYyKzDJgVBQ1EhS53
+         Y3OV8gQsr9JisV+cNK4kaDR8ov9KM4qg+wNcPgwrIsJbvlLOaPZFvGtQuSCN26s0RL5r
+         pzwYZ+khFZGPgpg2lDH1GlnjuqgsrM1S74itP1eAupywH9/iDE0Hu8tjFOBJXu97Hfc3
+         Fmzg==
+X-Gm-Message-State: APjAAAWi72oRD7MQILOulU1fVFbRaxRxnSGVVpg3bZG825lHURTI7Jmh
+        iQr3ndQocQt/OwjOphVWggCCMli49WomQEbar0vLZg==
+X-Google-Smtp-Source: APXvYqx+2ri6MUmVYy6ptSJgWKOGMVZfjLQX0JTmgMuADBux9koL0KUnaGALzsStF3tXii//z0M3FTNmV1ggHaNXMBaSXw==
+X-Received: by 2002:a63:78cf:: with SMTP id t198mr6898466pgc.287.1580425727146;
+ Thu, 30 Jan 2020 15:08:47 -0800 (PST)
+Date:   Thu, 30 Jan 2020 15:08:12 -0800
 In-Reply-To: <20200130230812.142642-1-brendanhiggins@google.com>
-Message-Id: <20200130230812.142642-5-brendanhiggins@google.com>
+Message-Id: <20200130230812.142642-8-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20200130230812.142642-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v2 4/7] init: main: add KUnit to kernel init
+Subject: [PATCH v2 7/7] Documentation: Add kunit_shutdown to kernel-parameters.txt
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
         arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
@@ -75,81 +75,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove KUnit from init calls entirely, instead call directly from
-kernel_init().
+Add kunit_shutdown, an option to specify that the kernel shutsdown after
+running KUnit tests, to the kernel-parameters.txt documentation.
 
-Co-developed-by: Alan Maguire <alan.maguire@oracle.com>
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 ---
- include/kunit/test.h | 9 +++++++++
- init/main.c          | 4 ++++
- lib/kunit/executor.c | 4 +---
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 8a02f93a6b505..8689dd1459844 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -197,6 +197,15 @@ void kunit_init_test(struct kunit *test, const char *name);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ade4e6ec23e03..522fd8bdec949 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2054,6 +2054,13 @@
+ 			0: force disabled
+ 			1: force enabled
  
- int kunit_run_tests(struct kunit_suite *suite);
- 
-+#if IS_BUILTIN(CONFIG_KUNIT)
-+int kunit_run_all_tests(void);
-+#else
-+static inline int kunit_run_all_tests(void)
-+{
-+	return 0;
-+}
-+#endif /* IS_BUILTIN(CONFIG_KUNIT) */
++	kunit_shutdown	[KERNEL UNIT TESTING FRAMEWORK] Shutdown kernel after
++			running tests.
++			Default:	(flag not present) don't shutdown
++			poweroff:	poweroff the kernel after running tests
++			halt:		halt the kernel after running tests
++			reboot:		reboot the kernel after running tests
 +
- /*
-  * If a test suite is built-in, module_init() gets translated into
-  * an initcall which we don't want as the idea is that for builtins
-diff --git a/init/main.c b/init/main.c
-index 2cd736059416f..90301d4fbd1bb 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -103,6 +103,8 @@
- #define CREATE_TRACE_POINTS
- #include <trace/events/initcall.h>
+ 	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
+ 			Default is 0 (don't ignore, but inject #GP)
  
-+#include <kunit/test.h>
-+
- static int kernel_init(void *);
- 
- extern void init_IRQ(void);
-@@ -1201,6 +1203,8 @@ static noinline void __init kernel_init_freeable(void)
- 
- 	do_basic_setup();
- 
-+	kunit_run_all_tests();
-+
- 	console_on_rootfs();
- 
- 	/*
-diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-index 6429927d598a5..b75a46c560847 100644
---- a/lib/kunit/executor.c
-+++ b/lib/kunit/executor.c
-@@ -11,7 +11,7 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
- 
- #if IS_BUILTIN(CONFIG_KUNIT)
- 
--static int kunit_run_all_tests(void)
-+int kunit_run_all_tests(void)
- {
- 	struct kunit_suite * const * const *suites, * const *subsuite;
- 	bool has_test_failed = false;
-@@ -31,6 +31,4 @@ static int kunit_run_all_tests(void)
- 	return 0;
- }
- 
--late_initcall(kunit_run_all_tests);
--
- #endif /* IS_BUILTIN(CONFIG_KUNIT) */
 -- 
 2.25.0.341.g760bfbb309-goog
 
