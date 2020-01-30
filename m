@@ -2,105 +2,104 @@ Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25FDFC3F68F
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D105EC35246
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:59:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EEB942253D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:09:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4B5220409
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 23:59:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SK7qbAbM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="puvFWiDR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727673AbgA3XIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 18:08:38 -0500
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:53007 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727617AbgA3XIg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 18:08:36 -0500
-Received: by mail-pg1-f202.google.com with SMTP id w21so2748706pgf.19
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 15:08:34 -0800 (PST)
+        id S1727666AbgA3X65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 18:58:57 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39402 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727539AbgA3X65 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 18:58:57 -0500
+Received: by mail-pl1-f194.google.com with SMTP id g6so1973701plp.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 15:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GWHGFk+tfCHvu/qeG8h3yhiMIdqay1deL3woZTxVWJc=;
-        b=SK7qbAbMVIMUgyE42nQVDPyGZ3xVFHv0chQcoZWlALn4b+uUTa/V5PsexsEkn4W2Kb
-         bZ7asnJNgDPXfOBetYqJnB9J2XcNvSCZ2/XQ46hFJbZuHTPb4tjLrji35a2EH5gEYQHX
-         Vkr9rAsWvphKeh+EesgLzV0XxJ8zZnKFtmATHJ3yzTibY5hSi70Lnx1UCkTYJAuNwZlh
-         OicLwo5w9sN3kYYpjEk4VGqXocphh9jYWtcIwf1NuOdGOcvYH5uehNSugKLXxfxcIe4+
-         5dUSUaen9Esm8+Jozb1twYu1kudX5eI+ybO5b2ahw9UpOS7dJqKDb5rKEe1YFZwBGUag
-         JZJg==
+        bh=nnBwEA2giD74itzmaPDJLtfzfFraVmkFwFzES0zVDnk=;
+        b=puvFWiDRkG0BzSX3C/l7V98D8skWjWf/yGJxCo+DaTkYZSQk1fUprzzO9S++QH4A6z
+         LnLRTrUn4ORyLTk1VGC4g8Cx7oNBFTcfpYCHZKnTTOUSRg1GQjGu5zUalY/rP1XJ8xw8
+         V/dxaiIIXfGetpnC1/92U52ynlUcwN/m8g9sCWA/yjMIqgKTdzPYqbU8VCCX6gTrNU6k
+         hF7u/fcXpjBk028VWRst6iXxn82KjDIMC0n8auK+C30wEtcRtgpzDOtGxNuVyMpRu4Yh
+         ZijiFoS1T5jyXAroSAtO48jJRhmxO/xRWuipzqP2Roq8FOYmx+2UlixHpo5oV0Rqv7Av
+         2DyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=GWHGFk+tfCHvu/qeG8h3yhiMIdqay1deL3woZTxVWJc=;
-        b=XYQKGQQKP2wExEmIh9l3ZhdPJZkjzgeAdslgS5I6WoFIbDY5zlmvgJKWQGgB7lL3Hb
-         TJuWP4SD/aBfJECufJmrBMMCivgateHAMwaiFzwtsatd0PajGxrAzaOTn4Tl6cvhB15a
-         xWkqQjpI332/+IaCvQ7fK73nFFvrebQsrRC59OBnahq5jU02s17mBheO7jHHrm3pbWet
-         cWP7+aQG/ToX7wEO1qgLR5L/PYDTyEo258czhD8XIP5i6z4tn3cOhbK6GgYkn9j/zo7H
-         LaivWmA9+t0bZiheLkrmeVNLm/XxPWgpfsdVDi7BbqmjtsZircpOSkp+MQUJ7m36lOIL
-         5Bdg==
-X-Gm-Message-State: APjAAAUb4VP7sDpLbm5VFp5iXSGeqZItnGCmSOZlcmUxv1wbJpxb2xyg
-        eX58Ajx1It4x00QUjxI9SNkdlgaofJc7m/rrTrk2Hg==
-X-Google-Smtp-Source: APXvYqzh84slKzyUU7Hf8lA5m17FvOWJKZUYYrXcCEAGxMB3WhDFDTTWmSv14cUPAQuwHTR0/deMhklQVof4n1fVyRG7sw==
-X-Received: by 2002:a65:4142:: with SMTP id x2mr7048130pgp.393.1580425714304;
- Thu, 30 Jan 2020 15:08:34 -0800 (PST)
-Date:   Thu, 30 Jan 2020 15:08:07 -0800
-In-Reply-To: <20200130230812.142642-1-brendanhiggins@google.com>
-Message-Id: <20200130230812.142642-3-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20200130230812.142642-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v2 2/7] arch: um: add linker section for KUnit test suites
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nnBwEA2giD74itzmaPDJLtfzfFraVmkFwFzES0zVDnk=;
+        b=b9ox/+W8lpLLgOBRd3zBjlaWsCOSAQSQBCvTB0i89dUtQuwHdTusC6/vZTdrvUH61L
+         d+xX/v3223Tn+1a1BcYsTkYe+H1fMojJ5vkwGMWSj4HK136lYT17m0EiyfOj9nyv4GRa
+         fc+2fLhsHmjKPjG4Egtye6TiXQxq7q8Zz/4+TLYvoOzuCPBRp01q+JipLGFCxcAJiP0k
+         QdzmEsIOHvK8IpvNVbvZpox89ohuMZyuUK3++0APGNMVjL54LWLl/T1Nno4VgvLiBhMS
+         WAJPqH15xK/c6mD5Q8iZgjdi2qmnsKEzjYn/EYsVCAyn1DsrQOrOceNc11FXFNfi1K/t
+         O1+g==
+X-Gm-Message-State: APjAAAUZICnIyENdJN8y0CTHwve8D9UDYneRKLMxbrJgomIpoj89AN7j
+        jz8NP+csAIh7SPFQrrEvdsOLJSlPamisiSyv/MPMEA==
+X-Google-Smtp-Source: APXvYqwSbpScfcJzpgVyKcx6TgNZ6LI68xx2xLHwdPDEW3rfaTNMpnoILEgEjBKDFJHMG838ctNvM1kPlspCdJjT2oA=
+X-Received: by 2002:a17:90a:6484:: with SMTP id h4mr8390552pjj.84.1580428736132;
+ Thu, 30 Jan 2020 15:58:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20200128085742.14566-1-sjpark@amazon.com> <20200128085742.14566-2-sjpark@amazon.com>
+In-Reply-To: <20200128085742.14566-2-sjpark@amazon.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
-        arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
-        alan.maguire@oracle.com, yzaikin@google.com, davidgow@google.com,
-        akpm@linux-foundation.org, rppt@linux.ibm.com,
-        frowand.list@gmail.com
-Cc:     gregkh@linuxfoundation.org, sboyd@kernel.org, logang@deltatee.com,
-        mcgrof@kernel.org, knut.omang@oracle.com,
-        linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 30 Jan 2020 15:58:44 -0800
+Message-ID: <CAFd5g46fnZBiBYdBDmd=wJctoshbS2Q2JFGVBpoiPbis41Jw_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] mm: Introduce Data Access MONitor (DAMON)
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        SeongJae Park <sj38.park@gmail.com>, acme@kernel.org,
+        amit@kernel.org, brendan.d.gregg@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, dwmw@amazon.com,
+        mgorman@suse.de, Steven Rostedt <rostedt@goodmis.org>,
+        kirill@shutemov.name, colin.king@canonical.com, minchan@kernel.org,
+        vdavydov.dev@gmail.com, vdavydov@parallels.com, linux-mm@kvack.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a linker section to UML where KUnit can put references to its test
-suites. This patch is an early step in transitioning to dispatching all
-KUnit tests from a centralized executor rather than having each as its
-own separate late_initcall.
+On Tue, Jan 28, 2020 at 12:58 AM <sjpark@amazon.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+[...]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 56765f542244..5a4db07cad33 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4611,6 +4611,12 @@ F:       net/ax25/ax25_out.c
+>  F:     net/ax25/ax25_timer.c
+>  F:     net/ax25/sysctl_net_ax25.c
+>
+> +DATA ACCESS MONITOR
+> +M:     SeongJae Park <sjpark@amazon.de>
+> +L:     linux-mm@kvack.org
+> +S:     Maintained
+> +F:     mm/damon.c
+> +
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
----
- arch/um/include/asm/common.lds.S | 4 ++++
- 1 file changed, 4 insertions(+)
+No one else has complained, so don't feel like you need to do it on my
+account, but I have had maintainers tell me that the MAINTAINERS
+update should be in its own patch and come at the end of the patchset.
+Up to you, but you might want to do it now if you are going to send
+another revision for other reasons.
 
-diff --git a/arch/um/include/asm/common.lds.S b/arch/um/include/asm/common.lds.S
-index 7145ce6999822..eab9ceb450efd 100644
---- a/arch/um/include/asm/common.lds.S
-+++ b/arch/um/include/asm/common.lds.S
-@@ -52,6 +52,10 @@
- 	CON_INITCALL
-   }
- 
-+  .kunit_test_suites : {
-+	KUNIT_TEST_SUITES
-+  }
-+
-   .exitcall : {
- 	__exitcall_begin = .;
- 	*(.exitcall.exit)
--- 
-2.25.0.341.g760bfbb309-goog
-
+>  DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
+>  L:     netdev@vger.kernel.org
+>  S:     Orphan
+[...]
