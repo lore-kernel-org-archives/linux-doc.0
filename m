@@ -2,284 +2,211 @@ Return-Path: <SRS0=+hQT=3T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23ECAC2D0DB
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 815F9C2D0DB
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 15:04:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EA9812051A
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 14:52:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5726320707
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jan 2020 15:04:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727317AbgA3Own (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 09:52:43 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:64267 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727193AbgA3Own (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 09:52:43 -0500
-Received: from 79.184.253.19.ipv4.supernova.orange.pl (79.184.253.19) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
- id 0ffe0130fbb58b34; Thu, 30 Jan 2020 15:52:40 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Subject: [PATCH] Documentation: admin-guide: PM: Update sleep states documentation
-Date:   Thu, 30 Jan 2020 15:52:40 +0100
-Message-ID: <1846497.NDve8E0jfu@kreacher>
+        id S1727239AbgA3PEb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 10:04:31 -0500
+Received: from foss.arm.com ([217.140.110.172]:54128 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726948AbgA3PEa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Jan 2020 10:04:30 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA19731B;
+        Thu, 30 Jan 2020 07:04:29 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C43C3F68E;
+        Thu, 30 Jan 2020 07:04:28 -0800 (PST)
+Subject: Re: [PATCH v2 4/6] Documentation: arm64: document support for the AMU
+ extension
+To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
+        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
+        sudeep.holla@arm.com, dietmar.eggemann@arm.com
+Cc:     peterz@infradead.org, mingo@redhat.com, ggherdovich@suse.cz,
+        vincent.guittot@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20191218182607.21607-1-ionela.voinescu@arm.com>
+ <20191218182607.21607-5-ionela.voinescu@arm.com>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+Message-ID: <c9f80a08-7f0d-59e9-eb90-466b1314e1f1@arm.com>
+Date:   Thu, 30 Jan 2020 15:04:27 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20191218182607.21607-5-ionela.voinescu@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Hi Ionela,
 
-There is some information in Documentation/power/interface.rst that
-is still missing from Documentation/admin-guide/pm/sleep-states.rst
-and really should be present in there, so update the latter by
-adding that information to it and delete the former (as it becomes
-redundant after that and it is somewhat outdated).
+On 18/12/2019 18:26, Ionela Voinescu wrote:
+> The activity monitors extension is an optional extension introduced
+> by the ARMv8.4 CPU architecture.
+> 
+> Add initial documentation for the AMUv1 extension:
+>   - arm64/amu.txt: AMUv1 documentation
+>   - arm64/booting.txt: system registers initialisation
+>   - arm64/cpu-feature-registers.txt: visibility to userspace
 
-While at it, clean up some assorted pieces of sleep-states.rst a bit.
+We have stopped adding "invisible" fields to the list. So, you
+can drop the changes to cpu-feature-registers.txt.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- Documentation/admin-guide/pm/sleep-states.rst |   76 +++++++++++++++++++------
- Documentation/power/interface.rst             |   79 --------------------------
- 2 files changed, 59 insertions(+), 96 deletions(-)
-
-Index: linux-pm/Documentation/admin-guide/pm/sleep-states.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/sleep-states.rst
-+++ linux-pm/Documentation/admin-guide/pm/sleep-states.rst
-@@ -153,8 +153,11 @@ for the given CPU architecture includes
- Basic ``sysfs`` Interfaces for System Suspend and Hibernation
- =============================================================
- 
--The following files located in the :file:`/sys/power/` directory can be used by
--user space for sleep states control.
-+The power management subsystem provides userspace with a unified ``sysfs``
-+interface for system sleep regardless of the underlying system architecture or
-+platform.  That interface is located in the :file:`/sys/power/` directory
-+(assuming that ``sysfs`` is mounted at :file:`/sys`) and it consists of the
-+following attributes (files):
- 
- ``state``
- 	This file contains a list of strings representing sleep states supported
-@@ -162,9 +165,9 @@ user space for sleep states control.
- 	to start a transition of the system into the sleep state represented by
- 	that string.
- 
--	In particular, the strings "disk", "freeze" and "standby" represent the
-+	In particular, the "disk", "freeze" and "standby" strings represent the
- 	:ref:`hibernation <hibernation>`, :ref:`suspend-to-idle <s2idle>` and
--	:ref:`standby <standby>` sleep states, respectively.  The string "mem"
-+	:ref:`standby <standby>` sleep states, respectively.  The "mem" string
- 	is interpreted in accordance with the contents of the ``mem_sleep`` file
- 	described below.
- 
-@@ -177,7 +180,7 @@ user space for sleep states control.
- 	associated with the "mem" string in the ``state`` file described above.
- 
- 	The strings that may be present in this file are "s2idle", "shallow"
--	and "deep".  The string "s2idle" always represents :ref:`suspend-to-idle
-+	and "deep".  The "s2idle" string always represents :ref:`suspend-to-idle
- 	<s2idle>` and, by convention, "shallow" and "deep" represent
- 	:ref:`standby <standby>` and :ref:`suspend-to-RAM <s2ram>`,
- 	respectively.
-@@ -185,15 +188,17 @@ user space for sleep states control.
- 	Writing one of the listed strings into this file causes the system
- 	suspend variant represented by it to be associated with the "mem" string
- 	in the ``state`` file.  The string representing the suspend variant
--	currently associated with the "mem" string in the ``state`` file
--	is listed in square brackets.
-+	currently associated with the "mem" string in the ``state`` file is
-+	shown in square brackets.
- 
- 	If the kernel does not support system suspend, this file is not present.
- 
- ``disk``
--	This file contains a list of strings representing different operations
--	that can be carried out after the hibernation image has been saved.  The
--	possible options are as follows:
-+	This file controls the operating mode of hibernation (Suspend-to-Disk).
-+	Specifically, it tells the kernel what to do after creating a
-+	hibernation image.
-+
-+	Reading from it returns a list of supported options encoded as:
- 
- 	``platform``
- 		Put the system into a special low-power state (e.g. ACPI S4) to
-@@ -201,6 +206,11 @@ user space for sleep states control.
- 		platform firmware to take a simplified initialization path after
- 		wakeup.
- 
-+		It is only available if the platform provides a special
-+		mechanism to put the system to sleep after creating a
-+		hibernation image (platforms with ACPI do that as a rule, for
-+		example).
-+
- 	``shutdown``
- 		Power off the system.
- 
-@@ -214,22 +224,53 @@ user space for sleep states control.
- 		the hibernation image and continue.  Otherwise, use the image
- 		to restore the previous state of the system.
- 
-+		It is available if system suspend is supported.
-+
- 	``test_resume``
- 		Diagnostic operation.  Load the image as though the system had
- 		just woken up from hibernation and the currently running kernel
- 		instance was a restore kernel and follow up with full system
- 		resume.
- 
--	Writing one of the listed strings into this file causes the option
-+	Writing one of the strings listed above into this file causes the option
- 	represented by it to be selected.
- 
--	The currently selected option is shown in square brackets which means
-+	The currently selected option is shown in square brackets, which means
- 	that the operation represented by it will be carried out after creating
--	and saving the image next time hibernation is triggered by writing
--	``disk`` to :file:`/sys/power/state`.
-+	and saving the image when hibernation is triggered by writing ``disk``
-+	to :file:`/sys/power/state`.
- 
- 	If the kernel does not support hibernation, this file is not present.
- 
-+``image_size``
-+	This file controls the size of hibernation images.
-+
-+	It can be written a string representing a non-negative integer that will
-+	be used as a best-effort upper limit of the image size, in bytes.  The
-+	hibernation core will do its best to ensure that the image size will not
-+	exceed that number, but if that turns out to be impossible to achieve, a
-+	hibernation image will still be created and its size will be as small as
-+	possible.  In particular, writing '0' to this file causes the size of
-+	hibernation images to be minimum.
-+
-+	Reading from it returns the current image size limit, which is set to
-+	around 2/5 of the available RAM size by default.
-+
-+``pm_trace``
-+	This file controls the "PM trace" mechanism saving the last suspend
-+	or resume event point in the RTC memory across reboots.  It helps to
-+	debug hard lockups or reboots due to device driver failures that occur
-+	during system suspend or resume (which is more common) more effectively.
-+
-+	If it contains "1", the fingerprint of each suspend/resume event point
-+	in turn will be stored in the RTC memory (overwriting the actual RTC
-+	information), so it will survive a system crash if one occurs right
-+	after storing it and it can be used later to identify the driver that
-+	caused the crash to happen.
-+
-+	It contains "0" by default, which may be changed to "1" by writing a
-+	string representing a nonzero integer into it.
-+
- According to the above, there are two ways to make the system go into the
- :ref:`suspend-to-idle <s2idle>` state.  The first one is to write "freeze"
- directly to :file:`/sys/power/state`.  The second one is to write "s2idle" to
-@@ -244,6 +285,7 @@ system go into the :ref:`suspend-to-RAM
- The default suspend variant (ie. the one to be used without writing anything
- into :file:`/sys/power/mem_sleep`) is either "deep" (on the majority of systems
- supporting :ref:`suspend-to-RAM <s2ram>`) or "s2idle", but it can be overridden
--by the value of the "mem_sleep_default" parameter in the kernel command line.
--On some ACPI-based systems, depending on the information in the ACPI tables, the
--default may be "s2idle" even if :ref:`suspend-to-RAM <s2ram>` is supported.
-+by the value of the ``mem_sleep_default`` parameter in the kernel command line.
-+On some systems with ACPI, depending on the information in the ACPI tables, the
-+default may be "s2idle" even if :ref:`suspend-to-RAM <s2ram>` is supported in
-+principle.
-Index: linux-pm/Documentation/power/interface.rst
-===================================================================
---- linux-pm.orig/Documentation/power/interface.rst
-+++ /dev/null
-@@ -1,79 +0,0 @@
--===========================================
--Power Management Interface for System Sleep
--===========================================
--
--Copyright (c) 2016 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
--
--The power management subsystem provides userspace with a unified sysfs interface
--for system sleep regardless of the underlying system architecture or platform.
--The interface is located in the /sys/power/ directory (assuming that sysfs is
--mounted at /sys).
--
--/sys/power/state is the system sleep state control file.
--
--Reading from it returns a list of supported sleep states, encoded as:
--
--- 'freeze' (Suspend-to-Idle)
--- 'standby' (Power-On Suspend)
--- 'mem' (Suspend-to-RAM)
--- 'disk' (Suspend-to-Disk)
--
--Suspend-to-Idle is always supported.  Suspend-to-Disk is always supported
--too as long the kernel has been configured to support hibernation at all
--(ie. CONFIG_HIBERNATION is set in the kernel configuration file).  Support
--for Suspend-to-RAM and Power-On Suspend depends on the capabilities of the
--platform.
--
--If one of the strings listed in /sys/power/state is written to it, the system
--will attempt to transition into the corresponding sleep state.  Refer to
--Documentation/admin-guide/pm/sleep-states.rst for a description of each of
--those states.
--
--/sys/power/disk controls the operating mode of hibernation (Suspend-to-Disk).
--Specifically, it tells the kernel what to do after creating a hibernation image.
--
--Reading from it returns a list of supported options encoded as:
--
--- 'platform' (put the system into sleep using a platform-provided method)
--- 'shutdown' (shut the system down)
--- 'reboot' (reboot the system)
--- 'suspend' (trigger a Suspend-to-RAM transition)
--- 'test_resume' (resume-after-hibernation test mode)
--
--The currently selected option is printed in square brackets.
--
--The 'platform' option is only available if the platform provides a special
--mechanism to put the system to sleep after creating a hibernation image (ACPI
--does that, for example).  The 'suspend' option is available if Suspend-to-RAM
--is supported.  Refer to Documentation/power/basic-pm-debugging.rst for the
--description of the 'test_resume' option.
--
--To select an option, write the string representing it to /sys/power/disk.
--
--/sys/power/image_size controls the size of hibernation images.
--
--It can be written a string representing a non-negative integer that will be
--used as a best-effort upper limit of the image size, in bytes.  The hibernation
--core will do its best to ensure that the image size will not exceed that number.
--However, if that turns out to be impossible to achieve, a hibernation image will
--still be created and its size will be as small as possible.  In particular,
--writing '0' to this file will enforce hibernation images to be as small as
--possible.
--
--Reading from this file returns the current image size limit, which is set to
--around 2/5 of available RAM by default.
--
--/sys/power/pm_trace controls the PM trace mechanism saving the last suspend
--or resume event point in the RTC across reboots.
--
--It helps to debug hard lockups or reboots due to device driver failures that
--occur during system suspend or resume (which is more common) more effectively.
--
--If /sys/power/pm_trace contains '1', the fingerprint of each suspend/resume
--event point in turn will be stored in the RTC memory (overwriting the actual
--RTC information), so it will survive a system crash if one occurs right after
--storing it and it can be used later to identify the driver that caused the crash
--to happen (see Documentation/power/s2ram.rst for more information).
--
--Initially it contains '0' which may be changed to '1' by writing a string
--representing a nonzero integer into it.
+> 
+> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+>   Documentation/arm64/amu.rst                   | 107 ++++++++++++++++++
+>   Documentation/arm64/booting.rst               |  14 +++
+>   Documentation/arm64/cpu-feature-registers.rst |   2 +
+>   Documentation/arm64/index.rst                 |   1 +
+>   4 files changed, 124 insertions(+)
+>   create mode 100644 Documentation/arm64/amu.rst
+> 
+> diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
+> new file mode 100644
+> index 000000000000..62a6635522e1
+> --- /dev/null
+> +++ b/Documentation/arm64/amu.rst
+> @@ -0,0 +1,107 @@
+> +=======================================================
+> +Activity Monitors Unit (AMU) extension in AArch64 Linux
+> +=======================================================
+> +
+> +Author: Ionela Voinescu <ionela.voinescu@arm.com>
+> +
+> +Date: 2019-09-10
+> +
+> +This document briefly describes the provision of Activity Monitors Unit
+> +support in AArch64 Linux.
+> +
+> +
+> +Architecture overview
+> +---------------------
+> +
+> +The activity monitors extension is an optional extension introduced by the
+> +ARMv8.4 CPU architecture.
+> +
+> +The activity monitors unit, implemented in each CPU, provides performance
+> +counters intended for system management use. The AMU extension provides a
+> +system register interface to the counter registers and also supports an
+> +optional external memory-mapped interface.
+> +
+> +Version 1 of the Activity Monitors architecture implements a counter group
+> +of four fixed and architecturally defined 64-bit event counters.
+> +  - CPU cycle counter: increments at the frequency of the CPU.
+> +  - Constant counter: increments at the fixed frequency of the system
+> +    clock.
+> +  - Instructions retired: increments with every architecturally executed
+> +    instruction.
+> +  - Memory stall cycles: counts instruction dispatch stall cycles caused by
+> +    misses in the last level cache within the clock domain.
+> +
+> +When in WFI or WFE these counters do not increment.
+> +
+> +The Activity Monitors architecture provides space for up to 16 architected
+> +event counters. Future versions of the architecture may use this space to
+> +implement additional architected event counters.
+> +
+> +Additionally, version 1 implements a counter group of up to 16 auxiliary
+> +64-bit event counters.
+> +
+> +On cold reset all counters reset to 0.
+> +
+> +
+> +Basic support
+> +-------------
+> +
+> +The kernel can safely run a mix of CPUs with and without support for the
+> +activity monitors extension.
 
 
+  Therefore, when CONFIG_ARM64_AMU_EXTN is
+> +selected we unconditionally enable the capability to allow any late CPU
+> +(secondary or hotplugged) to detect and use the feature.
+> +
+> +When the feature is detected on a CPU, a per-CPU variable (amu_feat) is
+> +set, but this does not guarantee the correct functionality of the
+> +counters, only the presence of the extension.
 
+nit: I would rather omit the implementation details (esp variable names)
+in the documentation. It may become a pain to keep this in sync with the
+code changes. You could simply mention, "we keep track of the 
+availability of the feature" per CPU. If someone wants to figure out
+how, they can always read the code.
+
+> +
+> +Firmware (code running at higher exception levels, e.g. arm-tf) support is
+> +needed to:
+> + - Enable access for lower exception levels (EL2 and EL1) to the AMU
+> +   registers.
+> + - Enable the counters. If not enabled these will read as 0.
+> + - Save/restore the counters before/after the CPU is being put/brought up
+> +   from the 'off' power state.
+> +
+> +When using kernels that have this configuration enabled but boot with
+> +broken firmware the user may experience panics or lockups when accessing
+> +the counter registers. Even if these symptoms are not observed, the
+> +values returned by the register reads might not correctly reflect reality.
+> +Most commonly, the counters will read as 0, indicating that they are not
+> +enabled. If proper support is not provided in firmware it's best to disable
+> +CONFIG_ARM64_AMU_EXTN.
+
+For the sake of one kernel runs everywhere, do we need some other
+mechanism to disable the AMU. e.g kernel parameter to disable amu
+at runtime ?
+
+> diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
+> index 5d78a6f5b0ae..a3f1a47b6f1c 100644
+> --- a/Documentation/arm64/booting.rst
+> +++ b/Documentation/arm64/booting.rst
+> @@ -248,6 +248,20 @@ Before jumping into the kernel, the following conditions must be met:
+>       - HCR_EL2.APK (bit 40) must be initialised to 0b1
+>       - HCR_EL2.API (bit 41) must be initialised to 0b1
+>   
+> +  For CPUs with Activity Monitors Unit v1 (AMUv1) extension present:
+> +  - If EL3 is present:
+> +    CPTR_EL3.TAM (bit 30) must be initialised to 0b0
+> +    CPTR_EL2.TAM (bit 30) must be initialised to 0b0
+> +    AMCNTENSET0_EL0 must be initialised to 0b1111
+> +    AMCNTENSET1_EL0 must be initialised to a platform specific value
+> +    having 0b1 set for the corresponding bit for each of the auxiliary
+> +    counters present.
+> +  - If the kernel is entered at EL1:
+> +    AMCNTENSET0_EL0 must be initialised to 0b1111
+> +    AMCNTENSET1_EL0 must be initialised to a platform specific value
+> +    having 0b1 set for the corresponding bit for each of the auxiliary
+> +    counters present.
+> +
+>   The requirements described above for CPU mode, caches, MMUs, architected
+>   timers, coherency and system registers apply to all CPUs.  All CPUs must
+>   enter the kernel in the same exception level.
+> diff --git a/Documentation/arm64/cpu-feature-registers.rst b/Documentation/arm64/cpu-feature-registers.rst
+> index b6e44884e3ad..4770ae54032b 100644
+> --- a/Documentation/arm64/cpu-feature-registers.rst
+> +++ b/Documentation/arm64/cpu-feature-registers.rst
+> @@ -150,6 +150,8 @@ infrastructure:
+>        +------------------------------+---------+---------+
+>        | DIT                          | [51-48] |    y    |
+>        +------------------------------+---------+---------+
+> +     | AMU                          | [47-44] |    n    |
+> +     +------------------------------+---------+---------+
+
+As mentioned above, please drop it.
+
+
+Suzuki
