@@ -2,134 +2,428 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14296C33CB2
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 13:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C00C2D0DB
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 13:50:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D854A205F4
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 13:10:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 140F220CC7
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 13:50:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlfrjcRi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bOGhu+yn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728579AbgAaNKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 08:10:15 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:34371 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728514AbgAaNKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 08:10:15 -0500
-Received: by mail-pg1-f195.google.com with SMTP id j4so3442523pgi.1;
-        Fri, 31 Jan 2020 05:10:15 -0800 (PST)
+        id S1728500AbgAaNu0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 08:50:26 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45696 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728812AbgAaNuY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 08:50:24 -0500
+Received: by mail-pg1-f194.google.com with SMTP id b9so3466256pgk.12
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2020 05:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ABA8Gc/rIwSuk9yNeKLXZQ3+u7dy+VUPkUzWmHal5Bs=;
-        b=MlfrjcRijE+sWoWfClWA3D1nCX8dFryivepO9XJXxylRaMg/MeaF4NnIJjrw0sgtpt
-         urMc/dDyjFRgRWOfTJ4xV5fbdML/s2YcsrnytGbcUcvX+c0mJ9+SXb02AQtFHregCMGP
-         VmFHq34xbEH3X7IkWO4d4uqAOzdgGpkhZXoojN7xOw1SgzVHW9s7epREvfBwwQcehlWo
-         1YgEeMS9p6C6dkd2fdj2mJ6s6l6NvbFaRnFNwmAY02QyGzE8CpQOHUPrX3h4UYf8qgr3
-         urIlZ21VQB9JPIZbF4Qud3oNNhyZmtyCGmTefiwI2kEZpRyXuTxEYhwC0q4xU2jDRFlb
-         gR+Q==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=AJwltFp9rO1oSMqC+7BVBTL34dcTxKGh22wD8IWxSjs=;
+        b=bOGhu+ynNmC0wM93Ny+R8apJzgnflLuAYR55owBb2pYESaDS5WgUFZmhA5dsMGdXqa
+         QwUYYNNaXiMnQNB8NCfFMePDpcb0i8/gGsBvy6foC7Oqzs3VCiSGTJSyLz8iC8520yBp
+         7xIPtP0vCAKKNwtij53TWxwrwx7hhPb8RD6l9aOQ1339WtL165mU5l9LeO6q7G/IO8RA
+         cc1rlK85m9AzxVUBdD3e9VY9nAUdwB5QR29qOp4+/WysCXEN9Jp6AarfkebhcULvQqS2
+         wlKj5Wsyz8OgkKv9N8ZzNeawylnKbHdiwtiw3WwURjFkFjGbd3M4aDIEDFGqdcpe10Mi
+         YwIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ABA8Gc/rIwSuk9yNeKLXZQ3+u7dy+VUPkUzWmHal5Bs=;
-        b=qvmGVaZCybg3h+aX3txBZXs4DaACXGw1OTgZpCRmuM8wUd7bkYp48fw32jL6wCfR7d
-         TaRCzE+q+LfQ8JK/X47E4gJOcl0P57d5pPSRBvui+Tf3Ha6yP5cQK+bACRkWVs4r9uzH
-         VtnMGw3AVthLYNwLVPhXXCsbnaguJY4341XHO2Xuliavl0tD0a4vERhVmC5113vK5hid
-         7Uy8H6Sjb2qGw23UCBukQWUoUilVMBWwg5+Mcrg83bb8d/Z2dvkOP4IGuapkvveXXuQ5
-         AU2kJYnfd+pC2sKp1cWmy610CLCNqrcjwYxCnptxNZYV42pgO+OcMGsENWhLVYuzvGBh
-         B5Pg==
-X-Gm-Message-State: APjAAAVrEfvqLxBImB/gXg+Q8J3cujwsHfndLQGDgCwsRglk1+pRsgq+
-        Mx4RgISfd0dDXUGT7Lz4bgQ=
-X-Google-Smtp-Source: APXvYqzE9mrpk2rqIoQNk72UknhVj+3SbtoVlh37mw2wUDg+S9OM4d98tNyUUe8l9BMlPwxxKfivog==
-X-Received: by 2002:aa7:87c5:: with SMTP id i5mr10632074pfo.114.1580476214691;
-        Fri, 31 Jan 2020 05:10:14 -0800 (PST)
-Received: from localhost (g52.222-224-164.ppp.wakwak.ne.jp. [222.224.164.52])
-        by smtp.gmail.com with ESMTPSA id p24sm10067351pgk.19.2020.01.31.05.10.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=AJwltFp9rO1oSMqC+7BVBTL34dcTxKGh22wD8IWxSjs=;
+        b=GbFm0ncP4CuU3GwNKXZuvKcQnZqopUW526fNiviqKtLM8O8L4Wlkuvji/1Y8MGA+EM
+         Uahter0iBfUMZTKNuOodcS0hF7BA8QJMB9HqM4rWaErN+bMtVa6Jq/1Jr7X+kcOBDERQ
+         P+9i3HkbhWUsWbFbVH0aT2S4RuHM6LchNbtZ8fp3jd+mQpn78g7PE5mmK8g5prGXq+pU
+         lBnghrReJIwGO4RB7fi6M5qSbvLv5TjTeAb0JJh2ybawyKKEON+8qr5kHIrAbzx6cdq/
+         Ha2BmbRY5zX/SsptL1sRKhD+AGBdgDJ2TF+nxzPsYDcTUPE8pYinF44FiaDa/QYIDTfZ
+         dJxQ==
+X-Gm-Message-State: APjAAAX1MKDUqG1Jg9cf5Vl55k9QoqGBoZVLhykbtV3VGWqvwWWFaG4+
+        xxkfIV9T4uWGcMrhoMxw8Qog
+X-Google-Smtp-Source: APXvYqwtbZWajzPJZc5W2VAF4kkUS4IpwuEads7E4AviwtAMvXoRtkeEQgqLKko9VlrkQwKSphwdfQ==
+X-Received: by 2002:aa7:8605:: with SMTP id p5mr10558716pfn.87.1580478622427;
+        Fri, 31 Jan 2020 05:50:22 -0800 (PST)
+Received: from localhost.localdomain ([103.59.133.81])
+        by smtp.googlemail.com with ESMTPSA id p3sm10625632pfg.184.2020.01.31.05.50.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2020 05:10:13 -0800 (PST)
-Date:   Fri, 31 Jan 2020 22:10:11 +0900
-From:   Stafford Horne <shorne@gmail.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Jonathan Corbet <corbet@lwn.net>,
-        openrisc@lists.librecores.org, linux-doc@vger.kernel.org,
+        Fri, 31 Jan 2020 05:50:21 -0800 (PST)
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     gregkh@linuxfoundation.org, arnd@arndb.de
+Cc:     smohanad@codeaurora.org, jhugo@codeaurora.org,
+        kvalo@codeaurora.org, bjorn.andersson@linaro.org,
+        hemantk@codeaurora.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v2] openrisc: configs: Cleanup CONFIG_CROSS_COMPILE
-Message-ID: <20200131131011.GX24874@lianli.shorne-pla.net>
-References: <1580459313-16926-1-git-send-email-krzk@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1580459313-16926-1-git-send-email-krzk@kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 01/16] docs: Add documentation for MHI bus
+Date:   Fri, 31 Jan 2020 19:19:54 +0530
+Message-Id: <20200131135009.31477-2-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200131135009.31477-1-manivannan.sadhasivam@linaro.org>
+References: <20200131135009.31477-1-manivannan.sadhasivam@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 31, 2020 at 09:28:33AM +0100, Krzysztof Kozlowski wrote:
-> CONFIG_CROSS_COMPILE is gone since commit f1089c92da79 ("kbuild: remove
-> CONFIG_CROSS_COMPILE support").
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+MHI (Modem Host Interface) is a communication protocol used by the
+host processors to control and communicate with modems over a high
+speed peripheral bus or shared memory. The MHI protocol has been
+designed and developed by Qualcomm Innovation Center, Inc., for use
+in their modems. This commit adds the documentation for the bus and
+the implementation in Linux kernel.
+
+This is based on the patch submitted by Sujeev Dias:
+https://lkml.org/lkml/2018/7/9/987
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Sujeev Dias <sdias@codeaurora.org>
+Signed-off-by: Siddartha Mohanadoss <smohanad@codeaurora.org>
+[mani: converted to .rst and splitted the patch]
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ Documentation/index.rst        |   1 +
+ Documentation/mhi/index.rst    |  18 +++
+ Documentation/mhi/mhi.rst      | 218 +++++++++++++++++++++++++++++++++
+ Documentation/mhi/topology.rst |  60 +++++++++
+ 4 files changed, 297 insertions(+)
+ create mode 100644 Documentation/mhi/index.rst
+ create mode 100644 Documentation/mhi/mhi.rst
+ create mode 100644 Documentation/mhi/topology.rst
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index e99d0bd2589d..edc9b211bbff 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -133,6 +133,7 @@ needed).
+    misc-devices/index
+    mic/index
+    scheduler/index
++   mhi/index
  
-Signed-off-by: Stafford Horne <shorne@gmail.com>
+ Architecture-agnostic documentation
+ -----------------------------------
+diff --git a/Documentation/mhi/index.rst b/Documentation/mhi/index.rst
+new file mode 100644
+index 000000000000..1d8dec302780
+--- /dev/null
++++ b/Documentation/mhi/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===
++MHI
++===
++
++.. toctree::
++   :maxdepth: 1
++
++   mhi
++   topology
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/mhi/mhi.rst b/Documentation/mhi/mhi.rst
+new file mode 100644
+index 000000000000..803ff84f7d7b
+--- /dev/null
++++ b/Documentation/mhi/mhi.rst
+@@ -0,0 +1,218 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==========================
++MHI (Modem Host Interface)
++==========================
++
++This document provides information about the MHI protocol.
++
++Overview
++========
++
++MHI is a protocol developed by Qualcomm Innovation Center, Inc. It is used
++by the host processors to control and communicate with modem devices over high
++speed peripheral buses or shared memory. Even though MHI can be easily adapted
++to any peripheral buses, it is primarily used with PCIe based devices. MHI
++provides logical channels over the physical buses and allows transporting the
++modem protocols, such as IP data packets, modem control messages, and
++diagnostics over at least one of those logical channels. Also, the MHI
++protocol provides data acknowledgment feature and manages the power state of the
++modems via one or more logical channels.
++
++MHI Internals
++=============
++
++MMIO
++----
++
++MMIO (Memory mapped IO) consists of a set of registers in the device hardware,
++which are mapped to the host memory space by the peripheral buses like PCIe.
++Following are the major components of MMIO register space:
++
++MHI control registers: Access to MHI configurations registers
++
++MHI BHI registers: BHI (Boot Host Interface) registers are used by the host
++for downloading the firmware to the device before MHI initialization.
++
++Channel Doorbell array: Channel Doorbell (DB) registers used by the host to
++notify the device when there is new work to do.
++
++Event Doorbell array: Associated with event context array, the Event Doorbell
++(DB) registers are used by the host to notify the device when new events are
++available.
++
++Debug registers: A set of registers and counters used by the device to expose
++debugging information like performance, functional, and stability to the host.
++
++Data structures
++---------------
++
++All data structures used by MHI are in the host system memory. Using the
++physical interface, the device accesses those data structures. MHI data
++structures and data buffers in the host system memory regions are mapped for
++the device.
++
++Channel context array: All channel configurations are organized in channel
++context data array.
++
++Transfer rings: Used by the host to schedule work items for a channel. The
++transfer rings are organized as a circular queue of Transfer Descriptors (TD).
++
++Event context array: All event configurations are organized in the event context
++data array.
++
++Event rings: Used by the device to send completion and state transition messages
++to the host
++
++Command context array: All command configurations are organized in command
++context data array.
++
++Command rings: Used by the host to send MHI commands to the device. The command
++rings are organized as a circular queue of Command Descriptors (CD).
++
++Channels
++--------
++
++MHI channels are logical, unidirectional data pipes between a host and a device.
++The concept of channels in MHI is similar to endpoints in USB. MHI supports up
++to 256 channels. However, specific device implementations may support less than
++the maximum number of channels allowed.
++
++Two unidirectional channels with their associated transfer rings form a
++bidirectional data pipe, which can be used by the upper-layer protocols to
++transport application data packets (such as IP packets, modem control messages,
++diagnostics messages, and so on). Each channel is associated with a single
++transfer ring.
++
++Transfer rings
++--------------
++
++Transfers between the host and device are organized by channels and defined by
++Transfer Descriptors (TD). TDs are managed through transfer rings, which are
++defined for each channel between the device and host and reside in the host
++memory. TDs consist of one or more ring elements (or transfer blocks)::
++
++        [Read Pointer (RP)] ----------->[Ring Element] } TD
++        [Write Pointer (WP)]-           [Ring Element]
++                             -          [Ring Element]
++                              --------->[Ring Element]
++                                        [Ring Element]
++
++Below is the basic usage of transfer rings:
++
++* Host allocates memory for transfer ring.
++* Host sets the base pointer, read pointer, and write pointer in corresponding
++  channel context.
++* Ring is considered empty when RP == WP.
++* Ring is considered full when WP + 1 == RP.
++* RP indicates the next element to be serviced by the device.
++* When the host has a new buffer to send, it updates the ring element with
++  buffer information, increments the WP to the next element and rings the
++  associated channel DB.
++
++Event rings
++-----------
++
++Events from the device to host are organized in event rings and defined by Event
++Descriptors (ED). Event rings are used by the device to report events such as
++data transfer completion status, command completion status, and state changes
++to the host. Event rings are the array of EDs that resides in the host
++memory. EDs consist of one or more ring elements (or transfer blocks)::
++
++        [Read Pointer (RP)] ----------->[Ring Element] } ED
++        [Write Pointer (WP)]-           [Ring Element]
++                             -          [Ring Element]
++                              --------->[Ring Element]
++                                        [Ring Element]
++
++Below is the basic usage of event rings:
++
++* Host allocates memory for event ring.
++* Host sets the base pointer, read pointer, and write pointer in corresponding
++  channel context.
++* Both host and device has a local copy of RP, WP.
++* Ring is considered empty (no events to service) when WP + 1 == RP.
++* Ring is considered full of events when RP == WP.
++* When there is a new event the device needs to send, the device updates ED
++  pointed by RP, increments the RP to the next element and triggers the
++  interrupt.
++
++Ring Element
++------------
++
++A Ring Element is a data structure used to transfer a single block
++of data between the host and the device. Transfer ring element types contain a
++single buffer pointer, the size of the buffer, and additional control
++information. Other ring element types may only contain control and status
++information. For single buffer operations, a ring descriptor is composed of a
++single element. For large multi-buffer operations (such as scatter and gather),
++elements can be chained to form a longer descriptor.
++
++MHI Operations
++==============
++
++MHI States
++----------
++
++MHI_STATE_RESET
++~~~~~~~~~~~~~~~
++MHI is in reset state after power-up or hardware reset. The host is not allowed
++to access device MMIO register space.
++
++MHI_STATE_READY
++~~~~~~~~~~~~~~~
++MHI is ready for initialization. The host can start MHI initialization by
++programming MMIO registers.
++
++MHI_STATE_M0
++~~~~~~~~~~~~
++MHI is running and operational in the device. The host can start channels by
++issuing channel start command.
++
++MHI_STATE_M1
++~~~~~~~~~~~~
++MHI operation is suspended by the device. This state is entered when the
++device detects inactivity at the physical interface within a preset time.
++
++MHI_STATE_M2
++~~~~~~~~~~~~
++MHI is in low power state. MHI operation is suspended and the device may
++enter lower power mode.
++
++MHI_STATE_M3
++~~~~~~~~~~~~
++MHI operation stopped by the host. This state is entered when the host suspends
++MHI operation.
++
++MHI Initialization
++------------------
++
++After system boots, the device is enumerated over the physical interface.
++In the case of PCIe, the device is enumerated and assigned BAR-0 for
++the device's MMIO register space. To initialize the MHI in a device,
++the host performs the following operations:
++
++* Allocates the MHI context for event, channel and command arrays.
++* Initializes the context array, and prepares interrupts.
++* Waits until the device enters READY state.
++* Programs MHI MMIO registers and sets device into MHI_M0 state.
++* Waits for the device to enter M0 state.
++
++MHI Data Transfer
++-----------------
++
++MHI data transfer is initiated by the host to transfer data to the device.
++Following are the sequence of operations performed by the host to transfer
++data to device:
++
++* Host prepares TD with buffer information.
++* Host increments the WP of the corresponding channel transfer ring.
++* Host rings the channel DB register.
++* Device wakes up to process the TD.
++* Device generates a completion event for the processed TD by updating ED.
++* Device increments the RP of the corresponding event ring.
++* Device triggers IRQ to wake up the host.
++* Host wakes up and checks the event ring for completion event.
++* Host updates the WP of the corresponding event ring to indicate that the
++  data transfer has been completed successfully.
++
+diff --git a/Documentation/mhi/topology.rst b/Documentation/mhi/topology.rst
+new file mode 100644
+index 000000000000..dc7799d03294
+--- /dev/null
++++ b/Documentation/mhi/topology.rst
+@@ -0,0 +1,60 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++MHI Topology
++============
++
++This document provides information about the MHI topology modeling and
++representation in the kernel.
++
++MHI Controller
++--------------
++
++MHI controller driver manages the interaction with the MHI client devices
++such as the external modems and WiFi chipsets. It is also the MHI bus master
++which is in charge of managing the physical link between the host and device.
++It is however not involved in the actual data transfer as the data transfer
++is taken care by the physical bus such as PCIe. Each controller driver exposes
++channels and events based on the client device type.
++
++Below are the roles of the MHI controller driver:
++
++* Turns on the physical bus and establishes the link to the device
++* Configures IRQs, IOMMU, and IOMEM
++* Allocates struct mhi_controller and registers with the MHI bus framework
++  with channel and event configurations using mhi_register_controller.
++* Initiates power on and shutdown sequence
++* Initiates suspend and resume power management operations of the device.
++
++MHI Device
++----------
++
++MHI device is the logical device which binds to a maximum of two MHI channels
++for bi-directional communication. Once MHI is in powered on state, the MHI
++core will create MHI devices based on the channel configuration exposed
++by the controller. There can be a single MHI device for each channel or for a
++couple of channels.
++
++Each supported device is enumerated in::
++
++        /sys/bus/mhi/devices/
++
++MHI Driver
++----------
++
++MHI driver is the client driver which binds to one or more MHI devices. The MHI
++driver sends and receives the upper-layer protocol packets like IP packets,
++modem control messages, and diagnostics messages over MHI. The MHI core will
++bind the MHI devices to the MHI driver.
++
++Each supported driver is enumerated in::
++
++        /sys/bus/mhi/drivers/
++
++Below are the roles of the MHI driver:
++
++* Registers the driver with the MHI bus framework using mhi_driver_register.
++* Prepares the device for transfer by calling mhi_prepare_for_transfer.
++* Initiates data transfer by calling mhi_queue_transfer.
++* Once the data transfer is finished, calls mhi_unprepare_from_transfer to
++  end data transfer.
+-- 
+2.17.1
 
-Thanks, I will queue this for 5.7.
-
-> ---
-> 
-> Changes since v1:
-> 1. Update also docs.
-> ---
->  Documentation/openrisc/openrisc_port.rst   | 4 ++--
->  arch/openrisc/configs/or1ksim_defconfig    | 1 -
->  arch/openrisc/configs/simple_smp_defconfig | 1 -
->  3 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/openrisc/openrisc_port.rst b/Documentation/openrisc/openrisc_port.rst
-> index a18747a8d191..4b2c437942a0 100644
-> --- a/Documentation/openrisc/openrisc_port.rst
-> +++ b/Documentation/openrisc/openrisc_port.rst
-> @@ -37,8 +37,8 @@ or Stafford's toolchain build and release scripts.
->  
->  Build the Linux kernel as usual::
->  
-> -	make ARCH=openrisc defconfig
-> -	make ARCH=openrisc
-> +	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
-> +	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
->  
->  3) Running on FPGA (optional)
->  
-> diff --git a/arch/openrisc/configs/or1ksim_defconfig b/arch/openrisc/configs/or1ksim_defconfig
-> index d8ff4f8ffb88..75f2da324d0e 100644
-> --- a/arch/openrisc/configs/or1ksim_defconfig
-> +++ b/arch/openrisc/configs/or1ksim_defconfig
-> @@ -1,4 +1,3 @@
-> -CONFIG_CROSS_COMPILE="or1k-linux-"
->  CONFIG_NO_HZ=y
->  CONFIG_LOG_BUF_SHIFT=14
->  CONFIG_BLK_DEV_INITRD=y
-> diff --git a/arch/openrisc/configs/simple_smp_defconfig b/arch/openrisc/configs/simple_smp_defconfig
-> index 64278992df9c..ff49d868e040 100644
-> --- a/arch/openrisc/configs/simple_smp_defconfig
-> +++ b/arch/openrisc/configs/simple_smp_defconfig
-> @@ -1,4 +1,3 @@
-> -CONFIG_CROSS_COMPILE="or1k-linux-"
->  CONFIG_LOCALVERSION="-simple-smp"
->  CONFIG_NO_HZ=y
->  CONFIG_LOG_BUF_SHIFT=14
-> -- 
-> 2.7.4
-> 
