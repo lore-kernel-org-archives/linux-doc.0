@@ -2,106 +2,119 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB10C35240
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6920C33CB7
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 04:38:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 86846214D8
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC17D2082E
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 04:38:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="V4DAOBEf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GxzusM+/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727862AbgAaDmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 22:42:49 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39218 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbgAaDms (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 22:42:48 -0500
-Received: by mail-ed1-f65.google.com with SMTP id m13so6278704edb.6
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 19:42:47 -0800 (PST)
+        id S1727981AbgAaEif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 23:38:35 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50951 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727941AbgAaEif (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 23:38:35 -0500
+Received: by mail-wm1-f68.google.com with SMTP id a5so6397777wmb.0;
+        Thu, 30 Jan 2020 20:38:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WgYgtwuhELvjgU95da8aZgmkZEE2LUzAsh09NYauYq8=;
-        b=V4DAOBEfJMxDP/cvxtqS0W4RxIvsJn3nBX4J4u/ixIUR0sam7ij47LtLs7X3xdrLue
-         T+gQgE/IuSuHG+c1bCwSKLRIxEyV3GPPdSAj1tk55ADuIPMVj5pvEhJoib71xNWJyX/y
-         x/P+bNFUYLYYlIFQ7QvFvBJRyyv/jK+jgn60OpDryI9ogSu20b1Oa04rp2mZfyyuGT75
-         C3/qlvSpw2bjagahi9PrbmOmobeigkCmEmf3rCqLX43lYKQ/HevGcemvEbubXY4ABYvP
-         0i0XBh77Bu0do5J3duGTP6lxbYQjoHY/4OFwruYn+nu/0uRb0B7WoFN9EsZbeYISxwk0
-         aEcA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=oDOB3tFtxj93DPnWxh56XAU2jSpH1dQDUMEBGyeor6c=;
+        b=GxzusM+/gJ+zoUm50WLt80RLK+0W13QNdONS+Q+Cag8tnKIUiWGimJOU5mD1/3qXY1
+         CQhIOpp5JOUZx5wgEbUnRFAQSGWU+Ex92U0W8NhhchXtUEHO2Eh8yZdMqdVWGxq+U0i9
+         EXX2Eb682Urdq7R2y14x20p9VhFNCdMv7MUDCol6zZt27G4+Gwg+vnfcZJ5uAaXiB1yE
+         jib4FqzlNMo77f/YWu7ooGyri3HJyLPUFccHx4fKRbMh8JAtw6rTetblFeNcxEkn0phG
+         71wskTwxnTXaQ1gWX4mu415r14P3TywQpyYH/Zbj253cjFycJmAkR71A2GwW8KmqBS8z
+         y3Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WgYgtwuhELvjgU95da8aZgmkZEE2LUzAsh09NYauYq8=;
-        b=RhEqv0uf6z0OsxHpDxi7TqKVQ6uKK95Tsm2VbXMkH0nG94GqQLF0UDCKh5R/P8vaTJ
-         IaJAsAzjk4EzAl9vUKlmHhhuWDbv3RG/vWK6jswYrHaGv+VTbIU+fgIHgVpk199OmBOK
-         SyZGi8WGSjDjhlXKqGV8Zffw4zT88tzTnKy8TiJ8vgin/HCEWTlXZUP2FB+QaQSyo4YS
-         ys4VjBFBS1fAxYL11GKkwwRuKKZSw6PirSUeJJIC/U6eLM6HZJSXgqMBBSLduthwT+yi
-         jl8wbA3ONqybOP3bGhpbXtm91zqGR1/8HC7UevruCM10FEJWSkJCcUygidPSXPjnLVrd
-         TtsQ==
-X-Gm-Message-State: APjAAAU2qn1BfvW5303oxCzUSakn0Ij821+xOJYiE1Mojp3WQPQ/goUN
-        zP8bUyveCJTlAphlw99F3B/sh6xY1vKVZD9XySWrr0AsFA==
-X-Google-Smtp-Source: APXvYqz+gbq0qd2DddhxIcj5IlcvLwB7Um3eKjWD5LcYBxgMZ52Zo279iUVEXoWHiySpU3N5T5tsmEECBL4nYd7Sa64=
-X-Received: by 2002:a50:fd15:: with SMTP id i21mr6778219eds.12.1580442166899;
- Thu, 30 Jan 2020 19:42:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20200108162447.3347-1-sds@tycho.nsa.gov> <CAHC9VhQFQypUnRExSr62aaeW3hQ1iaAdwguwu67v_Lc84h=5rQ@mail.gmail.com>
-In-Reply-To: <CAHC9VhQFQypUnRExSr62aaeW3hQ1iaAdwguwu67v_Lc84h=5rQ@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 30 Jan 2020 22:42:36 -0500
-Message-ID: <CAHC9VhRf4qemBn9EEfwaxc9A11Z07o1P54wkpFVNtoTy2+QVyA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation,selinux: deprecate setting checkreqprot to 1
-To:     Stephen Smalley <sds@tycho.nsa.gov>
-Cc:     selinux@vger.kernel.org, omosnace@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=oDOB3tFtxj93DPnWxh56XAU2jSpH1dQDUMEBGyeor6c=;
+        b=jx2mtmi07Pn1dHZQx4zqjNZuSGSfiF6CwhIGFgze+ixyH2khgUCikbLdsjVhjg7FHy
+         60gxhVKg/M8QjZN1oR9xgT2Ezz1zzjWFLuMTe2p8BQNnihFVswmPnMmStbKXf4yHFzZC
+         stEOXxWwJNTWJb0u03umIyvQ8pAd2KgUvT7YnDWW9twByJEsgUI/+Qsht+LH3FkzAPvT
+         GDKiHSq3NMOeiL9RiOd0KYyrjiqH99pNqeGhYfdVGtBJUd00WgHuer3cm2SdTmumbYMF
+         4LDqWMyMAWfHMBPue0kG4Ua8AIanNjLUYnzJeQRRXii3+OouQ0E6p06roKbRMj9NirN9
+         hkpw==
+X-Gm-Message-State: APjAAAVHJrDlbVnVGr56IirkkcXPaFY5W1B3lAjHmEPlBsSIkv/r4fZB
+        gkyo3P+SWUd/vIChDqGTFeuwl8dqTlk=
+X-Google-Smtp-Source: APXvYqz4DSy66qBxdWTDkBBiOyTeHW8HYH6P3Dc6EFMqTcHcTGp5ZLTgvPuDrZ18og+5x85+vbwR7Q==
+X-Received: by 2002:a05:600c:22c8:: with SMTP id 8mr9430647wmg.178.1580445513443;
+        Thu, 30 Jan 2020 20:38:33 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:10d2:194d:9e5:a83e:83e7:3809])
+        by smtp.gmail.com with ESMTPSA id s139sm9525679wme.35.2020.01.30.20.38.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2020 20:38:32 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     SeongJae Park <sjpark@amazon.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        SeongJae Park <sj38.park@gmail.com>, acme@kernel.org,
+        amit@kernel.org, brendan.d.gregg@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, dwmw@amazon.com,
+        mgorman@suse.de, Steven Rostedt <rostedt@goodmis.org>,
+        kirill@shutemov.name, colin.king@canonical.com, minchan@kernel.org,
+        vdavydov.dev@gmail.com, vdavydov@parallels.com, linux-mm@kvack.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v2 1/9] mm: Introduce Data Access MONitor (DAMON)
+Date:   Fri, 31 Jan 2020 05:38:23 +0100
+Message-Id: <20200131043823.29654-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAFd5g46fnZBiBYdBDmd=wJctoshbS2Q2JFGVBpoiPbis41Jw_Q@mail.gmail.com> (raw)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 3:15 PM Paul Moore <paul@paul-moore.com> wrote:
-> On Wed, Jan 8, 2020 at 11:24 AM Stephen Smalley <sds@tycho.nsa.gov> wrote:
-> > Deprecate setting the SELinux checkreqprot tunable to 1 via kernel
-> > parameter or /sys/fs/selinux/checkreqprot.  Setting it to 0 is left
-> > intact for compatibility since Android and some Linux distributions
-> > do so for security and treat an inability to set it as a fatal error.
-> > Eventually setting it to 0 will become a no-op and the kernel will
-> > stop using checkreqprot's value internally altogether.
-> >
-> > checkreqprot was originally introduced as a compatibility mechanism
-> > for legacy userspace and the READ_IMPLIES_EXEC personality flag.
-> > However, if set to 1, it weakens security by allowing mappings to be
-> > made executable without authorization by policy.  The default value
-> > for the SECURITY_SELINUX_CHECKREQPROT_VALUE config option was changed
-> > from 1 to 0 in commit 2a35d196c160e3 ("selinux: change
-> > CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE default") and both Android
-> > and Linux distributions began explicitly setting
-> > /sys/fs/selinux/checkreqprot to 0 some time ago.
-> >
-> > Signed-off-by: Stephen Smalley <sds@tycho.nsa.gov>
-> > ---
-> >  .../ABI/obsolete/sysfs-selinux-checkreqprot   | 23 +++++++++++++++++++
-> >  .../admin-guide/kernel-parameters.txt         |  1 +
-> >  MAINTAINERS                                   |  1 +
-> >  security/selinux/Kconfig                      |  3 +++
-> >  security/selinux/hooks.c                      |  5 +++-
-> >  security/selinux/selinuxfs.c                  |  8 +++++++
-> >  6 files changed, 40 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
->
-> I think this looks fine, but considering this week was the first time
-> we really discussed this, let's hold off until after the next merge
-> window so we get a full cycle in linux-next for folks to complain :)
+On Thu, 30 Jan 2020 15:58:44 -0800 Brendan Higgins <brendanhiggins@google.com> wrote:
 
-I've queued this up in selinux/next, you'll see it in the tree once
-the merge window closes.
+> On Tue, Jan 28, 2020 at 12:58 AM <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> [...]
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 56765f542244..5a4db07cad33 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -4611,6 +4611,12 @@ F:       net/ax25/ax25_out.c
+> >  F:     net/ax25/ax25_timer.c
+> >  F:     net/ax25/sysctl_net_ax25.c
+> >
+> > +DATA ACCESS MONITOR
+> > +M:     SeongJae Park <sjpark@amazon.de>
+> > +L:     linux-mm@kvack.org
+> > +S:     Maintained
+> > +F:     mm/damon.c
+> > +
+> 
+> No one else has complained, so don't feel like you need to do it on my
+> account, but I have had maintainers tell me that the MAINTAINERS
+> update should be in its own patch and come at the end of the patchset.
+> Up to you, but you might want to do it now if you are going to send
+> another revision for other reasons.
 
--- 
-paul moore
-www.paul-moore.com
+I got warned from 'checkpatch.pl' and thus made the change here:
+
+    WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+If anyone has differenct opinion, please don't hesitate to yell at me!
+
+
+Thanks,
+SeongJae Park
+
+> 
+> >  DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
+> >  L:     netdev@vger.kernel.org
+> >  S:     Orphan
+> [...]
