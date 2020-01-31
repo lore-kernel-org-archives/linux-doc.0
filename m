@@ -2,124 +2,106 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C672C33CB2
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB10C35240
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:42:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D9DF20705
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:19:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86846214D8
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 03:42:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="DyboAuvv"
+	dkim=pass (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="V4DAOBEf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727874AbgAaDTe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 22:19:34 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6618 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727831AbgAaDTd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 22:19:33 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e339c8e0000>; Thu, 30 Jan 2020 19:18:38 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 30 Jan 2020 19:19:31 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 30 Jan 2020 19:19:31 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jan
- 2020 03:19:31 +0000
-Subject: Re: [PATCH v2 4/8] mm/gup: track FOLL_PIN pages
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20200129032417.3085670-1-jhubbard@nvidia.com>
- <20200129032417.3085670-5-jhubbard@nvidia.com>
- <20200129135153.knie7ptvsxcgube6@box>
- <0be743df-e9af-6da9-c593-9e25ab194acf@nvidia.com>
- <20200130113126.5ftq4gd5k7o7tipj@box>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <1037b514-30e7-c128-38c1-9c98488be337@nvidia.com>
-Date:   Thu, 30 Jan 2020 19:19:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        id S1727862AbgAaDmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 22:42:49 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:39218 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727827AbgAaDms (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 22:42:48 -0500
+Received: by mail-ed1-f65.google.com with SMTP id m13so6278704edb.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 19:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WgYgtwuhELvjgU95da8aZgmkZEE2LUzAsh09NYauYq8=;
+        b=V4DAOBEfJMxDP/cvxtqS0W4RxIvsJn3nBX4J4u/ixIUR0sam7ij47LtLs7X3xdrLue
+         T+gQgE/IuSuHG+c1bCwSKLRIxEyV3GPPdSAj1tk55ADuIPMVj5pvEhJoib71xNWJyX/y
+         x/P+bNFUYLYYlIFQ7QvFvBJRyyv/jK+jgn60OpDryI9ogSu20b1Oa04rp2mZfyyuGT75
+         C3/qlvSpw2bjagahi9PrbmOmobeigkCmEmf3rCqLX43lYKQ/HevGcemvEbubXY4ABYvP
+         0i0XBh77Bu0do5J3duGTP6lxbYQjoHY/4OFwruYn+nu/0uRb0B7WoFN9EsZbeYISxwk0
+         aEcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WgYgtwuhELvjgU95da8aZgmkZEE2LUzAsh09NYauYq8=;
+        b=RhEqv0uf6z0OsxHpDxi7TqKVQ6uKK95Tsm2VbXMkH0nG94GqQLF0UDCKh5R/P8vaTJ
+         IaJAsAzjk4EzAl9vUKlmHhhuWDbv3RG/vWK6jswYrHaGv+VTbIU+fgIHgVpk199OmBOK
+         SyZGi8WGSjDjhlXKqGV8Zffw4zT88tzTnKy8TiJ8vgin/HCEWTlXZUP2FB+QaQSyo4YS
+         ys4VjBFBS1fAxYL11GKkwwRuKKZSw6PirSUeJJIC/U6eLM6HZJSXgqMBBSLduthwT+yi
+         jl8wbA3ONqybOP3bGhpbXtm91zqGR1/8HC7UevruCM10FEJWSkJCcUygidPSXPjnLVrd
+         TtsQ==
+X-Gm-Message-State: APjAAAU2qn1BfvW5303oxCzUSakn0Ij821+xOJYiE1Mojp3WQPQ/goUN
+        zP8bUyveCJTlAphlw99F3B/sh6xY1vKVZD9XySWrr0AsFA==
+X-Google-Smtp-Source: APXvYqz+gbq0qd2DddhxIcj5IlcvLwB7Um3eKjWD5LcYBxgMZ52Zo279iUVEXoWHiySpU3N5T5tsmEECBL4nYd7Sa64=
+X-Received: by 2002:a50:fd15:: with SMTP id i21mr6778219eds.12.1580442166899;
+ Thu, 30 Jan 2020 19:42:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200130113126.5ftq4gd5k7o7tipj@box>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580440719; bh=9n3GVRH7rJT8PUMEqe1BMiXjCWR5u2839yBFWtobbC8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=DyboAuvvbnzLHMEIag1fx4ad2eQQcY8Jsk0DPogA1Xd5f6sbkghXewV7YQM2/iusj
-         B4T31MmPGDxl8HYQEgTzwTjtC7aXYSsBqhReBchu4rQ3x2Tg9oKG30YhyaXyxX1zNJ
-         mQXxsLzBUV1RQ6IAEVYKzDedk9H7zC8YcXryZqWQmOBJN6TCbJzzlnCBXNPqKb3tHz
-         gb7xzJ5ZNfj8tLSN3LebvHbUjchA/wB6wHtGy1YqbyoHTg/Hy4dFqQ3WNC6LGHaugE
-         phaII7jurRZGdzUGIVeJaTPP7ZEu9NHyZD6tjX5kAaACjvJbQ8wCOySgAH5vXtg5+O
-         50R/K9o+IjDKA==
+References: <20200108162447.3347-1-sds@tycho.nsa.gov> <CAHC9VhQFQypUnRExSr62aaeW3hQ1iaAdwguwu67v_Lc84h=5rQ@mail.gmail.com>
+In-Reply-To: <CAHC9VhQFQypUnRExSr62aaeW3hQ1iaAdwguwu67v_Lc84h=5rQ@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 30 Jan 2020 22:42:36 -0500
+Message-ID: <CAHC9VhRf4qemBn9EEfwaxc9A11Z07o1P54wkpFVNtoTy2+QVyA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation,selinux: deprecate setting checkreqprot to 1
+To:     Stephen Smalley <sds@tycho.nsa.gov>
+Cc:     selinux@vger.kernel.org, omosnace@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/20 3:31 AM, Kirill A. Shutemov wrote:
-...
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index 0a55dec68925..b1079aaa6f24 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -958,6 +958,11 @@ struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
->>>>   	 */
->>>>   	WARN_ONCE(flags & FOLL_COW, "mm: In follow_devmap_pmd with FOLL_COW set");
->>>> +	/* FOLL_GET and FOLL_PIN are mutually exclusive. */
->>>> +	if (WARN_ON_ONCE((flags & (FOLL_PIN | FOLL_GET)) ==
->>>> +			 (FOLL_PIN | FOLL_GET)))
->>>
->>> Too many parentheses.
->>
->>
->> OK, I'll remove at least one. :)
-> 
-> I see two.
+On Fri, Jan 10, 2020 at 3:15 PM Paul Moore <paul@paul-moore.com> wrote:
+> On Wed, Jan 8, 2020 at 11:24 AM Stephen Smalley <sds@tycho.nsa.gov> wrote:
+> > Deprecate setting the SELinux checkreqprot tunable to 1 via kernel
+> > parameter or /sys/fs/selinux/checkreqprot.  Setting it to 0 is left
+> > intact for compatibility since Android and some Linux distributions
+> > do so for security and treat an inability to set it as a fatal error.
+> > Eventually setting it to 0 will become a no-op and the kernel will
+> > stop using checkreqprot's value internally altogether.
+> >
+> > checkreqprot was originally introduced as a compatibility mechanism
+> > for legacy userspace and the READ_IMPLIES_EXEC personality flag.
+> > However, if set to 1, it weakens security by allowing mappings to be
+> > made executable without authorization by policy.  The default value
+> > for the SECURITY_SELINUX_CHECKREQPROT_VALUE config option was changed
+> > from 1 to 0 in commit 2a35d196c160e3 ("selinux: change
+> > CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE default") and both Android
+> > and Linux distributions began explicitly setting
+> > /sys/fs/selinux/checkreqprot to 0 some time ago.
+> >
+> > Signed-off-by: Stephen Smalley <sds@tycho.nsa.gov>
+> > ---
+> >  .../ABI/obsolete/sysfs-selinux-checkreqprot   | 23 +++++++++++++++++++
+> >  .../admin-guide/kernel-parameters.txt         |  1 +
+> >  MAINTAINERS                                   |  1 +
+> >  security/selinux/Kconfig                      |  3 +++
+> >  security/selinux/hooks.c                      |  5 +++-
+> >  security/selinux/selinuxfs.c                  |  8 +++++++
+> >  6 files changed, 40 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/ABI/obsolete/sysfs-selinux-checkreqprot
+>
+> I think this looks fine, but considering this week was the first time
+> we really discussed this, let's hold off until after the next merge
+> window so we get a full cycle in linux-next for folks to complain :)
 
-ah, correction: actually, the original statement has exactly the right number of parentheses.
-The relevant C precedence order is:
-	==
-	&
-	|
+I've queued this up in selinux/next, you'll see it in the tree once
+the merge window closes.
 
-...which means that both "&" and "|" operations need parentheses protection from the higher
-precedence "==" operation.
-
-(There are other places in the kernel that have this exact pattern, too, with the same
-pattern of parentheses that I'm using, of course.)
-
-thanks,
 -- 
-John Hubbard
-NVIDIA
- 
+paul moore
+www.paul-moore.com
