@@ -2,107 +2,133 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA008C33CB2
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 08:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D57BC33CB2
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 08:49:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80A0C20CC7
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 08:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580459323;
-	bh=FxoY6cZlXPjXsWVnIRhDIqdynt4r+rtbZulaa2ymBiA=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=pOChPyge2WTHzS5epH27eC2HtT3N8BTZC7Oa0ycHAoT+Yde2ekeFWeuT0+lafGuXL
-	 /PuAWA0ITxEXEsvAZRGjVO2+HvH5DaA1MbdwXuAjDaOwvmYJMZaoevhWSUTj9mbOLA
-	 wJw/IBW/8qtzEhmaBv753C3aDfywyWDUTGhnpWuM=
+	by mail.kernel.org (Postfix) with ESMTP id 521A220CC7
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 08:49:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nruTZgZU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728145AbgAaI2n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 03:28:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33666 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728099AbgAaI2n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Jan 2020 03:28:43 -0500
-Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3D13206F0;
-        Fri, 31 Jan 2020 08:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580459322;
-        bh=FxoY6cZlXPjXsWVnIRhDIqdynt4r+rtbZulaa2ymBiA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UgEiJpBxDVZN3XmGLXFX0cx8hR7aE8nGxdHprEqMN2cBfhuyaOVkrD4HW5Fc0jeNq
-         VwoDUHXUYGi4vnI/CLQrEh7GKCLjJ7GXJzM4Lv98OcmMSReHEOoKcznuvJp2MQuLym
-         o1xVlAP21HhTSsZF1hpVTtCTIXyLiEVEn3w5BBBs=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Stafford Horne <shorne@gmail.com>, Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        openrisc@lists.librecores.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] openrisc: configs: Cleanup CONFIG_CROSS_COMPILE
-Date:   Fri, 31 Jan 2020 09:28:33 +0100
-Message-Id: <1580459313-16926-1-git-send-email-krzk@kernel.org>
-X-Mailer: git-send-email 2.7.4
+        id S1728257AbgAaItt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 03:49:49 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39708 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728141AbgAaItt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 03:49:49 -0500
+Received: by mail-lf1-f66.google.com with SMTP id t23so4301658lfk.6
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2020 00:49:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E2UsTg9sJleOEkW6MKHgQhUGOtlWWQFx7+63ORKNAZE=;
+        b=nruTZgZUgUjDpGYe7fB/R+WuWavZS6uAJYdMjlHtTzlR1RpqUbhSD4CE4kKtQfLcLp
+         dVXDp5me3uI0jzNo9Kf3RkrQ5i2PaFnNLXifALlxGhCnpK+Z2sZHtjzRemD4QYb1IXc4
+         Pps29YyWIxxn4FrvmPnau4U+Er/PfpIJOhmYZ1iOnNr7pmCyUa7dH5eMpZj3eYpWYmD9
+         eNvrm3m7aaVlcF2QZFqJq+chHFKF3IGHmK+qRGiqRRPx0K4dJFUgFFXmx3CApYXch7rn
+         XsmIyKwPHKvO51m8stKbAbvkLuFvCtwerU2utuRuiPNxUkjGg9OQD8no3eaSQ1Lqvzug
+         dHpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E2UsTg9sJleOEkW6MKHgQhUGOtlWWQFx7+63ORKNAZE=;
+        b=U/u5BIIC2Sd8ueteSoDin8g0Nwa07OaxKw8hnh/ZcC27aJ7SL1+wlNAJ9LkFClaQBA
+         xhl7SSF11lg7Kz2dDGVqgEs0EQV3ZiaVkMooMmu8FOmu6Do4LeUBThQJ4nc6fUZ2XuEE
+         N0GHoeNU/CvTUdkdFTMnXI3ojYF9KLizASUomGbDo4dkIClJ32Vn4oTYrWfkIeqBwEK8
+         ZmM+nFsYFO5KtVsh+ZpOwGjbAAc5L/+yfpuCI6E6eK0xwWDDT4Exxx8owRO4ePhwZTpJ
+         VBaWaz1psPEr6Cq6zB/RSOfih8/hsi64N5jYp4C0TS9ibIJYH/N7gRUFOP2j/Yu35jEI
+         fEvg==
+X-Gm-Message-State: APjAAAVUVpKiC/Vj+ZtImJS4U5zzVQvBSv0/+0QjXrMKmKRHwUdOUJgq
+        ANXZAyIYcAqg+NyeqZu5FefeVDKryyMcSgYIeo86O59QGQhAMZE+
+X-Google-Smtp-Source: APXvYqxS6JCjgiyvsY2Q+GNa8i0iWPWiHxTM8C4cSpLLHMWeLfVPBymKfoHXZNpSg7/sCIz8N5DhB8tPpx9e6aQza1U=
+X-Received: by 2002:adf:8564:: with SMTP id 91mr11037955wrh.252.1580460165016;
+ Fri, 31 Jan 2020 00:42:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20200130200440.1796058-1-nivedita@alum.mit.edu>
+In-Reply-To: <20200130200440.1796058-1-nivedita@alum.mit.edu>
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date:   Fri, 31 Jan 2020 09:42:34 +0100
+Message-ID: <CAKv+Gu8JGC21R+ngSYtVxFDF7m2nvX=Opo1fkvdFSq-Fz_7B_Q@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Remove 64-bit GDT setup in efi_main + doc fixes
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CONFIG_CROSS_COMPILE is gone since commit f1089c92da79 ("kbuild: remove
-CONFIG_CROSS_COMPILE support").
+Thanks Arvind, this is good stuff.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
----
+On Thu, 30 Jan 2020 at 21:04, Arvind Sankar <nivedita@alum.mit.edu> wrote:
+>
+> For the 64-bit kernel, we do not need to setup a GDT in efi_main, as the
+> next step in the boot, startup_64, will set one up.
+>
 
-Changes since v1:
-1. Update also docs.
----
- Documentation/openrisc/openrisc_port.rst   | 4 ++--
- arch/openrisc/configs/or1ksim_defconfig    | 1 -
- arch/openrisc/configs/simple_smp_defconfig | 1 -
- 3 files changed, 2 insertions(+), 4 deletions(-)
+This seems obvious, but I need a nod from Ingo or Boris before I can take this.
 
-diff --git a/Documentation/openrisc/openrisc_port.rst b/Documentation/openrisc/openrisc_port.rst
-index a18747a8d191..4b2c437942a0 100644
---- a/Documentation/openrisc/openrisc_port.rst
-+++ b/Documentation/openrisc/openrisc_port.rst
-@@ -37,8 +37,8 @@ or Stafford's toolchain build and release scripts.
- 
- Build the Linux kernel as usual::
- 
--	make ARCH=openrisc defconfig
--	make ARCH=openrisc
-+	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
-+	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
- 
- 3) Running on FPGA (optional)
- 
-diff --git a/arch/openrisc/configs/or1ksim_defconfig b/arch/openrisc/configs/or1ksim_defconfig
-index d8ff4f8ffb88..75f2da324d0e 100644
---- a/arch/openrisc/configs/or1ksim_defconfig
-+++ b/arch/openrisc/configs/or1ksim_defconfig
-@@ -1,4 +1,3 @@
--CONFIG_CROSS_COMPILE="or1k-linux-"
- CONFIG_NO_HZ=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_BLK_DEV_INITRD=y
-diff --git a/arch/openrisc/configs/simple_smp_defconfig b/arch/openrisc/configs/simple_smp_defconfig
-index 64278992df9c..ff49d868e040 100644
---- a/arch/openrisc/configs/simple_smp_defconfig
-+++ b/arch/openrisc/configs/simple_smp_defconfig
-@@ -1,4 +1,3 @@
--CONFIG_CROSS_COMPILE="or1k-linux-"
- CONFIG_LOCALVERSION="-simple-smp"
- CONFIG_NO_HZ=y
- CONFIG_LOG_BUF_SHIFT=14
--- 
-2.7.4
+> This series factors out the GDT setup into a separate function and
+> restricts it to the 32-bit kernel. The memory allocation for the GDT is
+> also changed from allocating a full page via efi_alloc_low to the
+> required space (32 bytes) from alloc_pool boot service.
+>
 
+Can we go all the way and simply make this
+
+if (IS_ENABLED(CONFIG_X64_32)) {
+  static const struct desc_struct desc[] __aligned(8) = {
+    {}, /* The first GDT is a dummy. */
+    {}, /* Second entry is unused on 32-bit */
+    GDT_ENTRY_INIT(0xa09b, 0, 0xfffff), /* __KERNEL_CS */
+    GDT_ENTRY_INIT(0xc093, 0, 0xfffff), /* __KERNEL_DS */
+  };
+  struct desc_ptr gdt = { sizeof(desc) - 1, (unsigned long)desc };
+
+  native_load_gdt(&gdt);
+}
+
+(and drop the #defines from eboot.h that we no longer use)
+
+> The final two patches are doc fixes to clarify that the 32-bit EFI
+> handover entry point also requires segments/GDT to be setup, and that
+> for 64-bit mode we don't have any special segment requirements (the
+> 64-bit doc currently is just a copy of the 32-bit doc which isn't
+> right).
+>
+> Arvind Sankar (8):
+>   efi/x86: Use C wrapper instead of inline assembly
+>   efi/x86: Allocate the GDT pointer on the stack
+>   efi/x86: Factor GDT setup code into a function
+
+Given the above, I don't think we need the separate function, but if
+we do, please drop the 64-bit code first, otherwise there is much more
+churn than necessary.
+
+>   efi/x86: Only setup the GDT for 32-bit kernel
+>   efi/x86: Allocate only the required 32 bytes for the GDT
+>   efi/x86: Change __KERNEL_{CS,DS} to __BOOT_{CS,DS}
+>   Documentation/x86/boot: Clarify segment requirements for EFI handover
+>   Documentation/x86/boot: Correct segment requirements for 64-bit boot
+>
+>  Documentation/x86/boot.rst              |  15 +-
+>  arch/x86/boot/compressed/eboot.c        | 174 ++++++++++--------------
+>  arch/x86/boot/compressed/efi_thunk_64.S |   4 +-
+>  3 files changed, 85 insertions(+), 108 deletions(-)
+>
+> --
+> 2.24.1
+>
