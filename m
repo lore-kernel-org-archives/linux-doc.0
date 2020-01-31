@@ -2,133 +2,120 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BD4C3F68F
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 19:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 609D1C33CB7
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 20:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3565721734
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 19:24:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CB11214D8
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 20:53:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmcYsNHh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NjJO5Fp+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgAaTYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 14:24:32 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:45233 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgAaTYc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 14:24:32 -0500
-Received: by mail-qk1-f193.google.com with SMTP id x1so7646672qkl.12;
-        Fri, 31 Jan 2020 11:24:32 -0800 (PST)
+        id S1726859AbgAaUxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 15:53:00 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37287 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726793AbgAaUxA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 15:53:00 -0500
+Received: by mail-wr1-f67.google.com with SMTP id w15so10253501wru.4;
+        Fri, 31 Jan 2020 12:52:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Z4mDk6YRjW3Doq0Jp4fKIbwDgblN+IgoASkkgiug8jI=;
-        b=gmcYsNHh6ziGp7TpyC+2aRCYbPCAZBsW1DhuBi7IdIdyTL9CJDBBELzmnJk2pTOyKN
-         0shaUegRAzpITH0KvqafLHWfQxRbu+kStQTUYzgOzpjnxXrb+nQC9KHca6qfQC4P790X
-         7ZlvFT/wMZBFoxy2mjyN2U+qI0xy4DJrS4N56PaPo6dpCRXIESaOLrtcTTx5fjqMHJhb
-         PI0bAfJpLly/VR960L4PzTCxP7YEAikjOxWBBq4N4inswe+YW5N2CjvYfOPktrKa8Sfm
-         UsuGcnNdXO7tixyXKwRl6NiwtZFaVy4MrYjASch+nFEhfmzZurEePTQt5uw5LJ888DUC
-         0vIA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=kc0XA6SZSs/HJu0wNbOJrCuXV3cTdtqeEXUQ4KwZ90g=;
+        b=NjJO5Fp+P7xeOsfoZxq8mUANKUCyQc8YTKUBXLsuZ7TKBNygMhFEv2CYfDG/FLCY1S
+         oGJl/pQs+nNvvn5AJr5La31KNonpK1UpGsPRJl2UMNGpNsBiOw503aqqtOcBRUwMfMLf
+         /qrtwkP6rfX1NNYkyu+YCDAXhpNd2Aj2bKhULZiHkclX2QwkirX4lYdJ2/zqBr14KIW4
+         o928iq4UnUtZbfnEBXOhTBvYdkdLtSfg66v3MCJb7bEhoHzOj9v9l2V6R5qrZGH57KkJ
+         llr4oEWh7PeWOXSqUQioMovTAGRUojTguPH37o9GgsrsJ+REIDY/Tt0L9i9teRxbbY86
+         lm1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Z4mDk6YRjW3Doq0Jp4fKIbwDgblN+IgoASkkgiug8jI=;
-        b=LFumpfS0Ob8qiJabyqgACdrLPZdKvvco4Rj8bSOz5qFwdiKPIcLwFMM7J75SdkejI1
-         srH9dI+bPZtLt8nbRYem3tc6wQaCU05vlJz7VbRo495Jt+HmZICaKto/XHZmAgYdkFVo
-         WhF63rcabS1PHJZO/xeUEl6QVeLRF5nTvZU1ggGrM+N8JftVLAEqMx+J98viYOIxUf5r
-         QWa41wZHbUHG8sDHgGRh+V3es3uKjFCg05+8HRAM8JaoLXhK0IiFwEKLzbHMlRaY4j/h
-         NtZV15CYqt3KmxzxJQOujeXYEQee6HO7n6cDrWGa1iTZl9BSLkMIv84TF+EiNTa9ccJs
-         7QFw==
-X-Gm-Message-State: APjAAAVMHsqg7W8G3aFh0TAkOcXXTUgNO6/cc4BzniSv40VxGCwAiAB4
-        gTw7fPC5RS0zQD+bIPVvf18=
-X-Google-Smtp-Source: APXvYqxfeRPNUSKuzFLNrF/7Z9jSj+mtT85/0nTFhhd508lPGQMzAaHVXT1BO5E8Skw+mAUIkZBuRw==
-X-Received: by 2002:a37:d8e:: with SMTP id 136mr12639839qkn.293.1580498671435;
-        Fri, 31 Jan 2020 11:24:31 -0800 (PST)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id y27sm5666475qta.50.2020.01.31.11.24.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=kc0XA6SZSs/HJu0wNbOJrCuXV3cTdtqeEXUQ4KwZ90g=;
+        b=bP+2qaqhXOAtHM6ANRFqRVJ6/WyYhoTxKMPE2fsrfbZ8yL9ZIQdk57LW/j5ecWawwp
+         pCXvMH0GvULezWjYtsinnmaBcB/5TWyQmo3le04QVmAZcyu+Zc8ODq06XauPYgAolhBo
+         iZSxaucYlsJMwqK7HKK0nTdzttfMWlJ4zsafyIFNtQpIt59TS3E3rqudzg19fMNeEQR4
+         wB7cnu+oAhyhnQZgxLxKXiK6jHQP0nmmnw6isHVWk47HVXn/bgYqKhG8IQ/KJpESuHNi
+         m/wfOga1go8Dj9AbSDjWq+rc+W1mRzuVyDNVEMkaWuj/LDgQ+4KXmspFOUXsjX9zkTG5
+         pS6w==
+X-Gm-Message-State: APjAAAVwO68F7tWLRe40mBBVjW7+SxdLGSso0gw6Moquemn7zdsIsWfK
+        wzQbC1QOW3YS9G50Ws1qPyU=
+X-Google-Smtp-Source: APXvYqxKGp9UXIlImbtXXSIjDvf9DFoIBRt9HgHcSdse/qXtjz89OebU+jouTUzH/POw83+2Os+Kgw==
+X-Received: by 2002:a05:6000:118e:: with SMTP id g14mr265423wrx.39.1580503977452;
+        Fri, 31 Jan 2020 12:52:57 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:10d2:194d:bcd7:b36c:40fc:d163])
+        by smtp.gmail.com with ESMTPSA id z3sm13483738wrs.94.2020.01.31.12.52.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2020 11:24:31 -0800 (PST)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Fri, 31 Jan 2020 14:24:29 -0500
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 7/8] Documentation/x86/boot: Clarify segment requirements
- for EFI handover
-Message-ID: <20200131192429.GB2346161@rani.riverdale.lan>
-References: <20200130200440.1796058-1-nivedita@alum.mit.edu>
- <20200130200440.1796058-8-nivedita@alum.mit.edu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200130200440.1796058-8-nivedita@alum.mit.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 31 Jan 2020 12:52:56 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     corbet@lwn.net, paulmck@kernel.org
+Cc:     SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 5/5] Documentation/memory-barriers: Fix typos
+Date:   Fri, 31 Jan 2020 21:52:37 +0100
+Message-Id: <20200131205237.29535-6-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200131205237.29535-1-sj38.park@gmail.com>
+References: <20200131205237.29535-1-sj38.park@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 03:04:39PM -0500, Arvind Sankar wrote:
-> The 32-bit EFI handover entry point requires segments to be setup in the
-> same way as for the regular 32-bit boot.
-> 
-> Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
-> ---
->  Documentation/x86/boot.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-> index c9c201596c3e..3e13b7d57271 100644
-> --- a/Documentation/x86/boot.rst
-> +++ b/Documentation/x86/boot.rst
-> @@ -1412,6 +1412,12 @@ from the boot media and jump to the EFI handover protocol entry point
->  which is hdr->handover_offset bytes from the beginning of
->  startup_{32,64}.
->  
-> +For the 32-bit handover entry point, the GDT and segments must be setup as for
-> +the 32-bit boot protocol, i.e. a GDT must be loaded with the descriptors for
-> +selectors __BOOT_CS(0x10) and __BOOT_DS(0x18); both descriptors must be 4G flat
-> +segment; __BOOT_CS must have execute/read permission, and __BOOT_DS must have
-> +read/write permission; CS must be __BOOT_CS and DS, ES, SS must be __BOOT_DS.
-> +
->  The function prototype for the handover entry point looks like this::
->  
->      efi_main(void *handle, efi_system_table_t *table, struct boot_params *bp)
-> -- 
-> 2.24.1
-> 
+From: SeongJae Park <sjpark@amazon.de>
 
-I realized this is actually wrong. At the handover entry, the firmware
-is still in control, so we can't require the bootloader to install a
-different GDT from what the firmware had installed, and in fact OVMF for
-one just passes the firmware GDT.
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ Documentation/memory-barriers.txt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-This seems to be working today by accident. OVMF sets up a GDT which
-looks like this:
-	NULL
-	DATA
-	CODE32
-	DATA
-	CODE32
-	0
-	DATA
-	CODE64
-	0
-and this is what is installed when efi_stub_entry is called. Since
-selectors 2 and 3 are code and data this works for us in 32-bit and in
-mixed mode, and we don't care in 64-bit mode, but it seems like a bad
-thing to rely upon.
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index ec3b5865c1be..01ab5e22b670 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -185,7 +185,7 @@ As a further example, consider this sequence of events:
+ 	===============	===============
+ 	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
+ 	B = 4;		Q = P;
+-	P = &B		D = *Q;
++	P = &B;		D = *Q;
+ 
+ There is an obvious data dependency here, as the value loaded into D depends on
+ the address retrieved from P by CPU 2.  At the end of the sequence, any of the
+@@ -569,7 +569,7 @@ following sequence of events:
+ 	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
+ 	B = 4;
+ 	<write barrier>
+-	WRITE_ONCE(P, &B)
++	WRITE_ONCE(P, &B);
+ 			      Q = READ_ONCE(P);
+ 			      D = *Q;
+ 
+@@ -1721,7 +1721,7 @@ of optimizations:
+      and WRITE_ONCE() are more selective:  With READ_ONCE() and
+      WRITE_ONCE(), the compiler need only forget the contents of the
+      indicated memory locations, while with barrier() the compiler must
+-     discard the value of all memory locations that it has currented
++     discard the value of all memory locations that it has currently
+      cached in any machine registers.  Of course, the compiler must also
+      respect the order in which the READ_ONCE()s and WRITE_ONCE()s occur,
+      though the CPU of course need not do so.
+@@ -1833,7 +1833,7 @@ Aside: In the case of data dependencies, the compiler would be expected
+ to issue the loads in the correct order (eg. `a[b]` would have to load
+ the value of b before loading a[b]), however there is no guarantee in
+ the C specification that the compiler may not speculate the value of b
+-(eg. is equal to 1) and load a before b (eg. tmp = a[1]; if (b != 1)
++(eg. is equal to 1) and load a[b] before b (eg. tmp = a[1]; if (b != 1)
+ tmp = a[b]; ).  There is also the problem of a compiler reloading b after
+ having loaded a[b], thus having a newer copy of b than a[b].  A consensus
+ has not yet been reached about these problems, however the READ_ONCE()
+-- 
+2.17.1
 
-I think we should save the segment descriptors in addition to the GDTR
-on stub entry and restore them in the mixed-mode thunk before calling
-the firmware?
