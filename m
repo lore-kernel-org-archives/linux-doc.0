@@ -2,85 +2,122 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D863C35240
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 20:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CEFC2D0DB
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 21:23:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44C72214D8
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 20:53:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u1renAzX"
+	by mail.kernel.org (Postfix) with ESMTP id 0280D214D8
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 21:23:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1580505831;
+	bh=peMZG9b/uAJt7ENpe0W72OxrDImy5aYQHXPH/fnHJcA=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=StJfrQAx8QplWr/TQehpO6ZbJGB04BXRyGrnbXuwW6Z/SYr1f7jAjcD+rd8e9IEkP
+	 GiJiDtkTkEh0e6Jsv48rGaEmj/nDyH9iU6r3KqAE8O8F7o8AnXG1YyZQPN/L/10YPf
+	 Mt2K30N/vFhr8ICyQmyBZgywYVt1GVzCjy/zVKi8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgAaUwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 15:52:54 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53652 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726102AbgAaUwy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 15:52:54 -0500
-Received: by mail-wm1-f66.google.com with SMTP id s10so9437195wmh.3;
-        Fri, 31 Jan 2020 12:52:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=R5oL7JnUJ4rA+4yVZSrfidjw5dQDI8iT/dmqiYUNC7g=;
-        b=u1renAzXuL52aAj6gfz1+yvKnTTajawMR0qOjwsOoB5Jkt1h4ghEMoWoIg0mrPcyPY
-         6j5a6HB1pdh5lQcPERKtnbse6OSnBS/rbTAsH1iSzJR399GBxLmXjWnsNmmE2TpqgH6u
-         CzDuY/fhpAFyXkenj5/bIjQjPe/zYNujRb5R0jA7dCi40ksbjzq4bXG2pW/CKHlKDBqO
-         DeuAZcPKHtz69uWzOG94SjQp+e1HwxMz7eDhXGx9nhr3A0f3vwteZ2aWt2xrUGdDZsX4
-         mx5as5sJEbhtpwZZZRQrgybYUVrm69GeFucmlgHcVdq7nx8vicEqKobc6PnL6USqmyQ5
-         X6xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=R5oL7JnUJ4rA+4yVZSrfidjw5dQDI8iT/dmqiYUNC7g=;
-        b=dbaoo5v5nZzUGJCPdGgoRo69T+DYlMATofjMCf1ZG45UTRIIRAzLlo7MZzjBuvT6An
-         wm2/6DXI1pCfWS32usjTMF0wKTMues/fNSViv198aXJIKswwlXqxZ6nhJXUXQRFft2sl
-         s6l/q1BhEic6QnEBHHTViFdwyHAI04vhFLNgzYGT08f+bTYNMLiZUM5A3XaNOHnyoQUa
-         XSr9KY0VaRE6xMHresB1+K9sLw8HW6V+iy9M9oT4QgQuTafqvxwVlsjSbVT8Ihgc/dNC
-         /WfA2Jk+93zQGgVTKJHVjA/g52QfyqxX3zvJHNro3BiS/1xKTjD2jSDGaG0814OQYJIo
-         z8Ng==
-X-Gm-Message-State: APjAAAXJxEhvIxy4sqVV+fSqW+ChUD6T4jY6gNZrr1TtOvFIdz9DTtFN
-        g2B1wXopfKivGpF+fGyyD4Q=
-X-Google-Smtp-Source: APXvYqykDKpY0GM3JcAlPa+jlXGJKkR7bIke/R8VoOEb1wYl4kAIoA6TwaQcJUF8G25VoSsXRD5+nw==
-X-Received: by 2002:a05:600c:292:: with SMTP id 18mr14691239wmk.128.1580503971337;
-        Fri, 31 Jan 2020 12:52:51 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:10d2:194d:bcd7:b36c:40fc:d163])
-        by smtp.gmail.com with ESMTPSA id z3sm13483738wrs.94.2020.01.31.12.52.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2020 12:52:50 -0800 (PST)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     corbet@lwn.net, paulmck@kernel.org
-Cc:     SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] Documentation: Fix trivial nits
-Date:   Fri, 31 Jan 2020 21:52:32 +0100
-Message-Id: <20200131205237.29535-1-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726109AbgAaVXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 16:23:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49108 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726102AbgAaVXu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Jan 2020 16:23:50 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8394620CC7;
+        Fri, 31 Jan 2020 21:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580505829;
+        bh=peMZG9b/uAJt7ENpe0W72OxrDImy5aYQHXPH/fnHJcA=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=uLCVbDFEPr2BhFrB0j0GvYxs+XRnHKIVnVVhILHbxCwW94vIy4y66DEFp93Q9QSXp
+         BXpogD/IKACDUwALIh3KOoOVYJE8Z/YTpwa8mC9R1R3i4n6R7I34HZaQtBE5Ah1pvN
+         kOIkgppRQDh4ql5mQIb3bqIX3QgE0CbGfpWOe6cE=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 2F1EF3522722; Fri, 31 Jan 2020 13:23:49 -0800 (PST)
+Date:   Fri, 31 Jan 2020 13:23:49 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     corbet@lwn.net, SeongJae Park <sjpark@amazon.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] Documentation/memory-barriers: Fix typos
+Message-ID: <20200131212349.GY2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200131205237.29535-1-sj38.park@gmail.com>
+ <20200131205237.29535-6-sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200131205237.29535-6-sj38.park@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Fri, Jan 31, 2020 at 09:52:37PM +0100, SeongJae Park wrote:
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-This patchset fixes trivial nits in the documentations.
+Good catches, queued, thank you!
 
-SeongJae Park (5):
-  docs/locking: Fix outdated section names
-  docs/ko_KR/howto: Insert missing dots
-  Documentation/ko_KR/howto: Update broken web addresses
-  Documentation/ko_KR/howto: Update a broken link
-  Documentation/memory-barriers: Fix typos
+But if Jon would rather take this:
 
- Documentation/locking/spinlocks.rst        |  4 ++--
- Documentation/memory-barriers.txt          |  8 ++++----
- Documentation/translations/ko_KR/howto.rst | 10 +++++-----
- 3 files changed, 11 insertions(+), 11 deletions(-)
+Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
 
--- 
-2.17.1
+							Thanx, Paul
 
+> ---
+>  Documentation/memory-barriers.txt | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index ec3b5865c1be..01ab5e22b670 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -185,7 +185,7 @@ As a further example, consider this sequence of events:
+>  	===============	===============
+>  	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
+>  	B = 4;		Q = P;
+> -	P = &B		D = *Q;
+> +	P = &B;		D = *Q;
+>  
+>  There is an obvious data dependency here, as the value loaded into D depends on
+>  the address retrieved from P by CPU 2.  At the end of the sequence, any of the
+> @@ -569,7 +569,7 @@ following sequence of events:
+>  	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
+>  	B = 4;
+>  	<write barrier>
+> -	WRITE_ONCE(P, &B)
+> +	WRITE_ONCE(P, &B);
+>  			      Q = READ_ONCE(P);
+>  			      D = *Q;
+>  
+> @@ -1721,7 +1721,7 @@ of optimizations:
+>       and WRITE_ONCE() are more selective:  With READ_ONCE() and
+>       WRITE_ONCE(), the compiler need only forget the contents of the
+>       indicated memory locations, while with barrier() the compiler must
+> -     discard the value of all memory locations that it has currented
+> +     discard the value of all memory locations that it has currently
+>       cached in any machine registers.  Of course, the compiler must also
+>       respect the order in which the READ_ONCE()s and WRITE_ONCE()s occur,
+>       though the CPU of course need not do so.
+> @@ -1833,7 +1833,7 @@ Aside: In the case of data dependencies, the compiler would be expected
+>  to issue the loads in the correct order (eg. `a[b]` would have to load
+>  the value of b before loading a[b]), however there is no guarantee in
+>  the C specification that the compiler may not speculate the value of b
+> -(eg. is equal to 1) and load a before b (eg. tmp = a[1]; if (b != 1)
+> +(eg. is equal to 1) and load a[b] before b (eg. tmp = a[1]; if (b != 1)
+>  tmp = a[b]; ).  There is also the problem of a compiler reloading b after
+>  having loaded a[b], thus having a newer copy of b than a[b].  A consensus
+>  has not yet been reached about these problems, however the READ_ONCE()
+> -- 
+> 2.17.1
+> 
