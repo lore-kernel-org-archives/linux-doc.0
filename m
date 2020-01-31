@@ -2,122 +2,92 @@ Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CEFC2D0DB
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 21:23:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0323C35240
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 22:57:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0280D214D8
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 21:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1580505831;
-	bh=peMZG9b/uAJt7ENpe0W72OxrDImy5aYQHXPH/fnHJcA=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=StJfrQAx8QplWr/TQehpO6ZbJGB04BXRyGrnbXuwW6Z/SYr1f7jAjcD+rd8e9IEkP
-	 GiJiDtkTkEh0e6Jsv48rGaEmj/nDyH9iU6r3KqAE8O8F7o8AnXG1YyZQPN/L/10YPf
-	 Mt2K30N/vFhr8ICyQmyBZgywYVt1GVzCjy/zVKi8=
+	by mail.kernel.org (Postfix) with ESMTP id C29BE2071A
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 22:57:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="C71MNueF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbgAaVXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 16:23:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49108 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726102AbgAaVXu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Jan 2020 16:23:50 -0500
-Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726206AbgAaW5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 17:57:22 -0500
+Received: from mail26.static.mailgun.info ([104.130.122.26]:46817 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726239AbgAaW5V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 17:57:21 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1580511441; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=f2CFdUt4gFRsZm7h25+8fWm95PAolBBAPWPipRoQPSk=; b=C71MNueFiXvYqM6D+wDFRv6H+Fp6FS32eSrm1qEA+VkO43dfKv4pS5VZOtIEE1KPDrJtSXTm
+ WsHA6cFd2OUDJXQpktLe4TDDwqFORumPg3STeCEEh1kaPvBfvLYYobkSJ5GjwcwOrPle4ezq
+ VeOA6f4G+4s6BfFmp4GVGZB1lL4=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e34b0cc.7fbe274d7fb8-smtp-out-n02;
+ Fri, 31 Jan 2020 22:57:16 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 18D08C433CB; Fri, 31 Jan 2020 22:57:15 +0000 (UTC)
+Received: from [10.226.58.28] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8394620CC7;
-        Fri, 31 Jan 2020 21:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580505829;
-        bh=peMZG9b/uAJt7ENpe0W72OxrDImy5aYQHXPH/fnHJcA=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=uLCVbDFEPr2BhFrB0j0GvYxs+XRnHKIVnVVhILHbxCwW94vIy4y66DEFp93Q9QSXp
-         BXpogD/IKACDUwALIh3KOoOVYJE8Z/YTpwa8mC9R1R3i4n6R7I34HZaQtBE5Ah1pvN
-         kOIkgppRQDh4ql5mQIb3bqIX3QgE0CbGfpWOe6cE=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 2F1EF3522722; Fri, 31 Jan 2020 13:23:49 -0800 (PST)
-Date:   Fri, 31 Jan 2020 13:23:49 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     corbet@lwn.net, SeongJae Park <sjpark@amazon.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] Documentation/memory-barriers: Fix typos
-Message-ID: <20200131212349.GY2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200131205237.29535-1-sj38.park@gmail.com>
- <20200131205237.29535-6-sj38.park@gmail.com>
+        (Authenticated sender: jhugo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9663AC43383;
+        Fri, 31 Jan 2020 22:57:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9663AC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jhugo@codeaurora.org
+Subject: Re: [PATCH v2 01/16] docs: Add documentation for MHI bus
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        gregkh@linuxfoundation.org, arnd@arndb.de
+Cc:     smohanad@codeaurora.org, kvalo@codeaurora.org,
+        bjorn.andersson@linaro.org, hemantk@codeaurora.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20200131135009.31477-1-manivannan.sadhasivam@linaro.org>
+ <20200131135009.31477-2-manivannan.sadhasivam@linaro.org>
+From:   Jeffrey Hugo <jhugo@codeaurora.org>
+Message-ID: <570d0ea8-8c3d-ea41-20e3-8f1652065e60@codeaurora.org>
+Date:   Fri, 31 Jan 2020 15:57:12 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200131205237.29535-6-sj38.park@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200131135009.31477-2-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 31, 2020 at 09:52:37PM +0100, SeongJae Park wrote:
-> From: SeongJae Park <sjpark@amazon.de>
+On 1/31/2020 6:49 AM, Manivannan Sadhasivam wrote:
+> MHI (Modem Host Interface) is a communication protocol used by the
+> host processors to control and communicate with modems over a high
+> speed peripheral bus or shared memory. The MHI protocol has been
+> designed and developed by Qualcomm Innovation Center, Inc., for use
+> in their modems. This commit adds the documentation for the bus and
+> the implementation in Linux kernel.
 > 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-
-Good catches, queued, thank you!
-
-But if Jon would rather take this:
-
-Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
-
-							Thanx, Paul
-
-> ---
->  Documentation/memory-barriers.txt | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> This is based on the patch submitted by Sujeev Dias:
+> https://lkml.org/lkml/2018/7/9/987
 > 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index ec3b5865c1be..01ab5e22b670 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -185,7 +185,7 @@ As a further example, consider this sequence of events:
->  	===============	===============
->  	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
->  	B = 4;		Q = P;
-> -	P = &B		D = *Q;
-> +	P = &B;		D = *Q;
->  
->  There is an obvious data dependency here, as the value loaded into D depends on
->  the address retrieved from P by CPU 2.  At the end of the sequence, any of the
-> @@ -569,7 +569,7 @@ following sequence of events:
->  	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
->  	B = 4;
->  	<write barrier>
-> -	WRITE_ONCE(P, &B)
-> +	WRITE_ONCE(P, &B);
->  			      Q = READ_ONCE(P);
->  			      D = *Q;
->  
-> @@ -1721,7 +1721,7 @@ of optimizations:
->       and WRITE_ONCE() are more selective:  With READ_ONCE() and
->       WRITE_ONCE(), the compiler need only forget the contents of the
->       indicated memory locations, while with barrier() the compiler must
-> -     discard the value of all memory locations that it has currented
-> +     discard the value of all memory locations that it has currently
->       cached in any machine registers.  Of course, the compiler must also
->       respect the order in which the READ_ONCE()s and WRITE_ONCE()s occur,
->       though the CPU of course need not do so.
-> @@ -1833,7 +1833,7 @@ Aside: In the case of data dependencies, the compiler would be expected
->  to issue the loads in the correct order (eg. `a[b]` would have to load
->  the value of b before loading a[b]), however there is no guarantee in
->  the C specification that the compiler may not speculate the value of b
-> -(eg. is equal to 1) and load a before b (eg. tmp = a[1]; if (b != 1)
-> +(eg. is equal to 1) and load a[b] before b (eg. tmp = a[1]; if (b != 1)
->  tmp = a[b]; ).  There is also the problem of a compiler reloading b after
->  having loaded a[b], thus having a newer copy of b than a[b].  A consensus
->  has not yet been reached about these problems, however the READ_ONCE()
-> -- 
-> 2.17.1
-> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Sujeev Dias <sdias@codeaurora.org>
+> Signed-off-by: Siddartha Mohanadoss <smohanad@codeaurora.org>
+> [mani: converted to .rst and splitted the patch]
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+Reviewed-by: Jeffrey Hugo <jhugo@codeaurora.org>
+
+-- 
+Jeffrey Hugo
+Qualcomm Technologies, Inc. is a member of the
+Code Aurora Forum, a Linux Foundation Collaborative Project.
