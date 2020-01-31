@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11677C33CB3
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 02:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBAEC33CB3
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 02:52:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D1F222082E
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 02:43:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4407214D8
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 02:52:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WgRndJe7"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YH6f4GSJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727809AbgAaCnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jan 2020 21:43:24 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:47053 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727749AbgAaCnY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 21:43:24 -0500
-Received: by mail-pl1-f196.google.com with SMTP id y8so2105185pll.13
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 18:43:23 -0800 (PST)
+        id S1727862AbgAaCwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jan 2020 21:52:10 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:38396 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727739AbgAaCwK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jan 2020 21:52:10 -0500
+Received: by mail-pg1-f193.google.com with SMTP id a33so2683565pgm.5
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2020 18:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4suyYkXbNFHJu6nR83esXm6d9jNuI9T+dxjGDdnev+8=;
-        b=WgRndJe7v47Sd5/yP+Q2MM4YJxqmiWvh2UEGgG0AViQbhWwmEBFPaAKfION2FVS7vM
-         DeMnV7VKkTyn12ER3XedUx11fTwXJrrso9/YYIBmtX2sjyx0WnSgruXE8hUkCspMZIfg
-         WtmUfovhPIsCwpcZ0dybIP1DctyTRP5DGTM7wLzk/Y9kimqAZAbUtaIuyKgBBkQ1oPN9
-         YQ123dwvHLxsYk2+yIkz6laMaHDJq5Fl964VvHiWRUJFs16thGYLXOPSwIxVXHiup62q
-         +TSq8otOdeYdu70rFU5H9JeYYBzpsmYr8CLLzX4nzAPJHTZ14lIDLKx51hgYjSXiIsb2
-         2doQ==
+        bh=fEAmTEdNizSUWXKdPuS6LL74RLJsP+T/eHBkCvQrdqk=;
+        b=YH6f4GSJ+puDeLRjgj4sqKC9rM+5OJMAMj5bNNAd45cq6tZQTvXMo4fghb0bFVA42+
+         o/ohcEcjKUtelQb0ZPJAmxNseIaNui1/Rgc317qpwZs2UNJCaQo0HKHtop2sl9EhGO4N
+         d7wWKo98hocqI0covxpI/hwF7dc7/W71PHWUbe3cFbVxKW+qDh+vf33eR7LoMTyKUI4k
+         hpKX7hyrSPC10XASVqL4BP7QSWFD0Vd+SWPRWPaMw2Hcobh1+IY9a5aWYj08CP2Nh5c/
+         cLS4UizbkV2g344TvyJ8+VPhud2IS87QjDrR7kgmOiyq63mCTElGnTXqQWwyaav7ln+b
+         48eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4suyYkXbNFHJu6nR83esXm6d9jNuI9T+dxjGDdnev+8=;
-        b=Uzz4/giAF7gDpPBr0r5YPYGKL6eHgKCXRntCip4DLLZQiPdrFZhHwLs4d12hIUFTRF
-         CHr+icetxznQKM+Z6bX7cJEC8rVHORfjJLPmnyCOGLnBZdi4Bn/JDuyNHfT7uliptfoB
-         U1vJYsdrAhq2odf170QjzGwPpRXLtN2n0/0llAUHc0E7ceDW1EzqSW2C6h9er0Phksoh
-         bD1Xvwmv4jWsciRSDIJWw7i01wSQFVDNhZF9uwliwYQ2mKKFI4bQcd2x40pAdxZHxtRU
-         yFvgdNEiIm0n1WnYT0ZqAmEVayJuaRpmZHcQpJX6JTXPegwu1A3zSXoL+VfmqciHNpUy
-         +bUg==
-X-Gm-Message-State: APjAAAXXjWLakL36JpSA53SFHxEXsCxg9u1M+09QyIr2ZRd5Mp43pifN
-        dhzksE/8k4E3Jlaxenc5IXg04SZSZ/gAKwhui1fzUQ==
-X-Google-Smtp-Source: APXvYqzLCoqeYEUIdYaVYOZjxilyNPEdVvq+YMaG+ZmOYh6w6fHf++ulv2cYUjgS62K4Xj7BozzSkt4gDyav+dXjIhE=
-X-Received: by 2002:a17:902:9a4c:: with SMTP id x12mr7541412plv.297.1580438602920;
- Thu, 30 Jan 2020 18:43:22 -0800 (PST)
+        bh=fEAmTEdNizSUWXKdPuS6LL74RLJsP+T/eHBkCvQrdqk=;
+        b=V58zp5pRowREoFqH0dwu+XY3AZeLoplwIOQEXfaH67I4I89VNAMOVJ1YCF+dkmE/Wy
+         xSoxHstbc8/82sQk3paVQDJD0djpDCVx4cJ674tO0hat+EmPFHmJnB/6hztXs548Ml9v
+         I3ET9uCeGxeg2EiTlmTVgih7EkitwE66JsiqvapTBprCo/raM0LFpz7mvnCJhWWrT7Bj
+         o5jGAWp9fRqCjeMbsvRNbL9A3IFD8qgp+R2hdRvctbIH6JiF4djm64+XCvAe19yKwqFG
+         MR7zRj7TK68o7J2/Hue7pcMNDK4QiPOx4Tsf0GYCOyJioBkiTFX0oDZUduACVju1gm0O
+         qe4w==
+X-Gm-Message-State: APjAAAUrUGhVvp4z4AXKqFel4JqDQy1IwN4WslHa816Sy7grP6FF3VZd
+        ijf1+omtC5xW64grIORNYz6zwMzk9yuR4ZE0TMPfvA==
+X-Google-Smtp-Source: APXvYqyTWwzXtyR6VV/gPEURYRBzZmF1ECoiufrMJUPTEqRROpWZw2y6VmhfY4hH0YNQLvf2eJDbaS0GoaxHCXaeZ/0=
+X-Received: by 2002:a63:597:: with SMTP id 145mr7644337pgf.384.1580439127902;
+ Thu, 30 Jan 2020 18:52:07 -0800 (PST)
 MIME-Version: 1.0
-References: <1579805221-31905-1-git-send-email-alan.maguire@oracle.com> <1579805221-31905-3-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1579805221-31905-3-git-send-email-alan.maguire@oracle.com>
+References: <1579805221-31905-1-git-send-email-alan.maguire@oracle.com> <1579805221-31905-4-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1579805221-31905-4-git-send-email-alan.maguire@oracle.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 30 Jan 2020 18:43:11 -0800
-Message-ID: <CAFd5g454i8KJPRqXwB8=aU7eTV3YQr_4BTaewKuJYj0VfC13qA@mail.gmail.com>
-Subject: Re: [PATCH v2 kunit-next 2/3] kunit: add "run" debugfs file to run
- suites, display results
+Date:   Thu, 30 Jan 2020 18:51:56 -0800
+Message-ID: <CAFd5g47sbW25MeOs87NuP_kRMNQc0JfiVVDTcLCbNk06KNo-ww@mail.gmail.com>
+Subject: Re: [PATCH v2 kunit-next 3/3] kunit: update documentation to describe
+ debugfs representation
 To:     Alan Maguire <alan.maguire@oracle.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -74,109 +74,44 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jan 23, 2020 at 10:47 AM Alan Maguire <alan.maguire@oracle.com> wrote:
 >
-> Add /sys/kernel/debug/kunit/<suite>/run file which will run the
-> specified suite and show results.
+> Documentation should describe debugfs layout and semantics.
 >
 > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-
-If you don't mind, I would like to see the device tree unit test from
-Frank before we accept this patch. I definitely like your approach
-here, but this would break with KUnit test cases which depend on
-__init code and data. I just figure that it would be easier for us to
-solve the __init problem now if we have a working example that uses it
-rather than having someone who wants to write a test which depends on
-__init having to fix this after the fact. Let me know if this is a
-problem for you.
-
 > ---
->  lib/kunit/debugfs.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  Documentation/dev-tools/kunit/usage.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 >
-> diff --git a/lib/kunit/debugfs.c b/lib/kunit/debugfs.c
-> index 578843c..1ea3fbc 100644
-> --- a/lib/kunit/debugfs.c
-> +++ b/lib/kunit/debugfs.c
-> @@ -13,6 +13,7 @@
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 7cd56a1..b05c843 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -590,3 +590,22 @@ able to run one test case per invocation.
 >
->  #define KUNIT_DEBUGFS_ROOT             "kunit"
->  #define KUNIT_DEBUGFS_RESULTS          "results"
-> +#define KUNIT_DEBUGFS_RUN              "run"
->
->  /*
->   * Create a debugfs representation of test suites:
-> @@ -20,6 +21,7 @@
->   * Path                                                Semantics
->   * /sys/kernel/debug/kunit/<testsuite>/results Show results of last run for
->   *                                             testsuite
-> + * /sys/kernel/debug/kunit/<testsuite>/run     Run testsuite and show results
->   *
->   */
->
-> @@ -67,6 +69,18 @@ static int debugfs_print_results(struct seq_file *seq, void *v)
->         return 0;
->  }
->
-> +/*
-> + * /sys/kernel/debug/kunit/<testsuite>/run (re)runs suite and shows all results.
-> + */
-> +static int debugfs_run_print_results(struct seq_file *seq, void *v)
-> +{
-> +       struct kunit_suite *suite = (struct kunit_suite *)seq->private;
+>  .. TODO(brendanhiggins@google.com): Add an actual example of an architecture
+>     dependent KUnit test.
 > +
-> +       kunit_run_tests(suite);
+> +KUnit debugfs representation
+> +============================
+> +When kunit test suites are initialized, they create an associated directory
+> +in /sys/kernel/debug/kunit/<test-suite>.  The directory contains two files
 > +
-> +       return debugfs_print_results(seq, v);
-> +}
+> +- results: "cat results" displays results of last test run
+> +- run: "cat run" runs the test suite and displays the results
 > +
->  static int debugfs_release(struct inode *inode, struct file *file)
->  {
->         return single_release(inode, file);
-> @@ -88,6 +102,22 @@ static int debugfs_results_open(struct inode *inode, struct file *file)
->         .release = debugfs_release,
->  };
->
-> +static int debugfs_run_open(struct inode *inode, struct file *file)
-> +{
-> +       struct kunit_suite *suite;
+> +Thus to re-run all currently loaded suites and display results, we can do this:
 > +
-> +       suite = (struct kunit_suite *)inode->i_private;
-> +
-> +       return single_open(file, debugfs_run_print_results, suite);
-> +}
-> +
-> +static const struct file_operations debugfs_run_fops = {
-> +       .open = debugfs_run_open,
-> +       .read = seq_read,
-> +       .llseek = seq_lseek,
-> +       .release = debugfs_release,
-> +};
-> +
->  void kunit_debugfs_create_suite(struct kunit_suite *suite)
->  {
->         /* First add /sys/kernel/debug/kunit/<testsuite> */
-> @@ -96,6 +126,9 @@ void kunit_debugfs_create_suite(struct kunit_suite *suite)
->         debugfs_create_file(KUNIT_DEBUGFS_RESULTS, S_IFREG | 0444,
->                             suite->debugfs,
->                             suite, &debugfs_results_fops);
-> +       debugfs_create_file(KUNIT_DEBUGFS_RUN, S_IFREG | 0444,
-> +                           suite->debugfs,
-> +                           suite, &debugfs_run_fops);
+> +```
+> +$ cat /sys/kernel/debug/kunit/*/run
+> +```
 
-Should anyone be able to read this? I think I agree since I am of the
-opinion that people shouldn't build or load tests into a production
-environment, but still I think it should be brought up.
+This should be in a ".. code-block:: bash", see above in this file for
+an example.
 
-I was actually talking to David the other day and we had the idea that
-maybe KUnit should taint the kernel after tests run or after a
-failure. Maybe that might communicate to a user that after running
-tests the kernel shouldn't be used for production purposes.
-(Obviously, I don't expect you to make that change here, the point of
-anyone being able to cause tests to run just made me think of it.)
-What do you think?
-
->  }
->
->  void kunit_debugfs_destroy_suite(struct kunit_suite *suite)
+> +
+> +The debugfs representation is primarily of use when kunit test suites are
+> +run in a native environment, either as modules or builtin.  Having a way
+> +to display results like this is valuable as otherwise results can be
+> +intermixed with other events in dmesg output.
 > --
 > 1.8.3.1
 >
