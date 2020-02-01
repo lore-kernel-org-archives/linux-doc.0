@@ -1,93 +1,95 @@
-Return-Path: <SRS0=FtSP=3U=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=YSo4=3V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0323C35240
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 22:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2915C35240
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 00:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C29BE2071A
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jan 2020 22:57:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E4042465B
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 00:01:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="C71MNueF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TgtQby4e"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbgAaW5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 17:57:22 -0500
-Received: from mail26.static.mailgun.info ([104.130.122.26]:46817 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726239AbgAaW5V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 17:57:21 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1580511441; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=f2CFdUt4gFRsZm7h25+8fWm95PAolBBAPWPipRoQPSk=; b=C71MNueFiXvYqM6D+wDFRv6H+Fp6FS32eSrm1qEA+VkO43dfKv4pS5VZOtIEE1KPDrJtSXTm
- WsHA6cFd2OUDJXQpktLe4TDDwqFORumPg3STeCEEh1kaPvBfvLYYobkSJ5GjwcwOrPle4ezq
- VeOA6f4G+4s6BfFmp4GVGZB1lL4=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e34b0cc.7fbe274d7fb8-smtp-out-n02;
- Fri, 31 Jan 2020 22:57:16 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 18D08C433CB; Fri, 31 Jan 2020 22:57:15 +0000 (UTC)
-Received: from [10.226.58.28] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jhugo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9663AC43383;
-        Fri, 31 Jan 2020 22:57:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9663AC43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jhugo@codeaurora.org
-Subject: Re: [PATCH v2 01/16] docs: Add documentation for MHI bus
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        gregkh@linuxfoundation.org, arnd@arndb.de
-Cc:     smohanad@codeaurora.org, kvalo@codeaurora.org,
-        bjorn.andersson@linaro.org, hemantk@codeaurora.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20200131135009.31477-1-manivannan.sadhasivam@linaro.org>
- <20200131135009.31477-2-manivannan.sadhasivam@linaro.org>
-From:   Jeffrey Hugo <jhugo@codeaurora.org>
-Message-ID: <570d0ea8-8c3d-ea41-20e3-8f1652065e60@codeaurora.org>
-Date:   Fri, 31 Jan 2020 15:57:12 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
-MIME-Version: 1.0
-In-Reply-To: <20200131135009.31477-2-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726548AbgBAABO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 19:01:14 -0500
+Received: from mail-ua1-f73.google.com ([209.85.222.73]:47906 "EHLO
+        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726264AbgBAABO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 19:01:14 -0500
+Received: by mail-ua1-f73.google.com with SMTP id b18so2196589uap.14
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2020 16:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=xCsmu4aj8EN/ECCHKtP+kWyAhx9ybdR5E/pP0+fGVsg=;
+        b=TgtQby4eRqpgOeGBlTU4dTD9h1ULNYnndcMLety++EJ4HQjpz37LvWy5bzeabDJald
+         un27UOLZ+XU1TkH8XBnm61cmDpNZ0vd7CIuKCla88JAqJUDjBYc768VJ9Ej3fM09iwIo
+         2eIu8RVWOLsNMFvgBfBJn403Fb0kpJhMdD/MymRVosVO0fYldLhc9+kpv2Et0I5J4XNF
+         QQLDhJRoZI08J6f7Ejp32X6v0T40f92d3OCkfw+OzB2vtpocZbBZdC52jfBH7gYU4CSj
+         RCdQzPXpp/cL2UbtO1M77KJglkXTizVM32CBPRw14l09uchxQqiE2ibVw59vA+ltW+b2
+         iB9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=xCsmu4aj8EN/ECCHKtP+kWyAhx9ybdR5E/pP0+fGVsg=;
+        b=FowZUAGtaa01WIRnHx6J/lVlmog+TPi09Gf2aPxInAu7/07nX7lFQovA+TEDAk1smZ
+         8s/duY8u/a2o5pqiFV3kDHi0Mn1n4STHR5ee64DNmpG3v+QnvDTMpcOlTteALeObgu+H
+         INocZ8bsTakge3jy2SZbTf1nG4ugsr1P4WF04evpcP98TTj3Xdr2mytTHg5HUq8QIJMt
+         XxdLjOb4v5V3AhUz7RiaND3/ViEFt3b5drzvuq7v8P2CKzxAiv3u7GBFWcsqPdyD/UDK
+         bFcsQlDs49QFyO5FZ7wqqOL8LFM2QQwXgE3c0CgGTnk1JDVsHNm8JgEcVCTlG7dFJGAg
+         rHIQ==
+X-Gm-Message-State: APjAAAWtuZ2fGSiwac0687k40wMsbl8C39CPbUnqclxAtU2A6yGKcTGh
+        jiPGBqb2Smnv0HX+fBvsESp5AcLHvgEA1KRmrQlpyQ==
+X-Google-Smtp-Source: APXvYqxlrR68AJPQzIEvwHccod9/5UKO3hKIkgEkI9aMx1JBOe57PrDtQ41vCE3bZBQcm1E2nsuDWstTBUfbyFdGvDNwUw==
+X-Received: by 2002:a1f:d5c5:: with SMTP id m188mr8311853vkg.7.1580515271831;
+ Fri, 31 Jan 2020 16:01:11 -0800 (PST)
+Date:   Fri, 31 Jan 2020 16:01:02 -0800
+Message-Id: <20200201000102.69272-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+Subject: [PATCH v1] Documentation: kunit: fixed sphinx error in code block
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     shuah@kernel.org
+Cc:     kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, davidgow@google.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/31/2020 6:49 AM, Manivannan Sadhasivam wrote:
-> MHI (Modem Host Interface) is a communication protocol used by the
-> host processors to control and communicate with modems over a high
-> speed peripheral bus or shared memory. The MHI protocol has been
-> designed and developed by Qualcomm Innovation Center, Inc., for use
-> in their modems. This commit adds the documentation for the bus and
-> the implementation in Linux kernel.
-> 
-> This is based on the patch submitted by Sujeev Dias:
-> https://lkml.org/lkml/2018/7/9/987
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Sujeev Dias <sdias@codeaurora.org>
-> Signed-off-by: Siddartha Mohanadoss <smohanad@codeaurora.org>
-> [mani: converted to .rst and splitted the patch]
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Fix a missing newline in a code block that was causing a warning:
 
-Reviewed-by: Jeffrey Hugo <jhugo@codeaurora.org>
+Documentation/dev-tools/kunit/usage.rst:553: WARNING: Error in "code-block" directive:
+maximum 1 argument(s) allowed, 3 supplied.
 
+.. code-block:: bash
+        modprobe example-test
+
+Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+---
+ Documentation/dev-tools/kunit/usage.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 7cd56a1993b14..607758a66a99c 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -551,6 +551,7 @@ options to your ``.config``:
+ Once the kernel is built and installed, a simple
+ 
+ .. code-block:: bash
++
+ 	modprobe example-test
+ 
+ ...will run the tests.
 -- 
-Jeffrey Hugo
-Qualcomm Technologies, Inc. is a member of the
-Code Aurora Forum, a Linux Foundation Collaborative Project.
+2.25.0.341.g760bfbb309-goog
+
