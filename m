@@ -2,41 +2,40 @@ Return-Path: <SRS0=YSo4=3V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34D7C35246
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 03:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B083FC3524F
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 03:40:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7FFA2215A4
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 03:40:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86F08215A4
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Feb 2020 03:40:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="PEsKAxAr"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="mhMAOiCr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726733AbgBADkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jan 2020 22:40:35 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11549 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbgBADkf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 22:40:35 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e34f3240000>; Fri, 31 Jan 2020 19:40:20 -0800
+        id S1726708AbgBADkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jan 2020 22:40:46 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12016 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727252AbgBADkn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jan 2020 22:40:43 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e34f3210000>; Fri, 31 Jan 2020 19:40:17 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 31 Jan 2020 19:40:34 -0800
+  Fri, 31 Jan 2020 19:40:38 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 31 Jan 2020 19:40:34 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 1 Feb
- 2020 03:40:34 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sat, 1 Feb 2020 03:40:33 +0000
+        by hqpgpgate102.nvidia.com on Fri, 31 Jan 2020 19:40:38 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 1 Feb
+ 2020 03:40:38 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sat, 1 Feb 2020 03:40:38 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e34f3310000>; Fri, 31 Jan 2020 19:40:33 -0800
+        id <B5e34f3350002>; Fri, 31 Jan 2020 19:40:37 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -56,11 +55,10 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
         <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v3 01/12] mm: dump_page(): better diagnostics for compound pages
-Date:   Fri, 31 Jan 2020 19:40:18 -0800
-Message-ID: <20200201034029.4063170-2-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v3 10/12] mm/gup: /proc/vmstat: pin_user_pages (FOLL_PIN) reporting
+Date:   Fri, 31 Jan 2020 19:40:27 -0800
+Message-ID: <20200201034029.4063170-11-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200201034029.4063170-1-jhubbard@nvidia.com>
 References: <20200201034029.4063170-1-jhubbard@nvidia.com>
@@ -69,96 +67,142 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580528420; bh=iEHx9VxUswj/Tdrgroo0JwdM/JRuVE7oL68Xhz3dQSA=;
+        t=1580528417; bh=lmz7qp6rMn5MNtl1yl9xxb7UiLRRfBgNMNjQY2QVChk=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=PEsKAxArjDtswBzqAgz5af48cL0UI4f9D2NDq60bxbMuvJ2drmwUFCZn7pRQafO+Z
-         2yg7FgVo5uMLrBcOb5AsA5Y04DFJTu+V2TMf+3P3z3LCMWRUwwdxVbJ7RfjnFEpCt5
-         dhfIaZJ5YW3hAcui5d2gmpKyKzCW5H3vsygO4nRVTTH5HfylruNT26nQtKebTP1Qzv
-         EQLH9JaRTbDqIB/Udh1i8ReYrZsbJtxa/JOqflC4QrYY4lEji3oGVMLd8UZhs6/3ti
-         xicmmR4iZVJnNpsZdThIpEgT4efffPSsfJ3VmwS2Sl0u3fvuv5vvBnsCPU7O4YxU3f
-         hVS+vy5A+IZaA==
+        b=mhMAOiCre2D8GhehSTql6xosqwIZugw1PldGGjNaE7dspPiQ6LROZw+YUrh7V5rTa
+         ialKI7R4tpMiL350wFEHkqKhw0limHsi1Damg7zHQgh3F9DMEd5HQwxUAZRPisLEQW
+         KfBM9q3tEdUhBkiWomORtIOeJyuVQZTjKGaLT0Qq6Z8Hu4QkJte2vBf3AHTA2sFV37
+         cGwZxv2S3Di/6GPZ69UfiA5HWEXtijSjh0b9RDSwCWBFKrdGgJqBzzawXhtiOEU3L3
+         nYY3mBVjJsnwjJENQEPcwnccZAimuQQuFolKY2gefuJFpxKkXKBArBIDvaUFK2943g
+         ad7gJL0nmWIsQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A compound page collects the refcount in the head page, while leaving
-the refcount of each tail page at zero. Therefore, when debugging a
-problem that involves compound pages, it's best to have diagnostics that
-reflect that situation. However, dump_page() is oblivious to these
-points.
+Now that pages are "DMA-pinned" via pin_user_page*(), and unpinned via
+unpin_user_pages*(), we need some visibility into whether all of this is
+working correctly.
 
-Change dump_page() as follows:
+Add two new fields to /proc/vmstat:
 
-1) For tail pages, print relevant head page information: refcount, in
-   particular. But only do this if the page is not corrupted so badly
-   that the pointer to the head page is all wrong.
+    nr_foll_pin_requested
+    nr_foll_pin_returned
 
-2) Do a separate check to catch any (rare) cases of the tail page's
-   refcount being non-zero, and issue a separate, clear pr_warn() if
-   that ever happens.
+These are documented in Documentation/core-api/pin_user_pages.rst.
+They represent the number of pages (since boot time) that have been
+pinned ("nr_foll_pin_requested") and unpinned ("nr_foll_pin_returned"),
+via pin_user_pages*() and unpin_user_pages*().
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Suggested-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+In the absence of long-running DMA or RDMA operations that hold pages
+pinned, the above two fields will normally be equal to each other.
+
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/debug.c | 34 ++++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
+ include/linux/mmzone.h |  2 ++
+ mm/gup.c               | 21 +++++++++++++++++++++
+ mm/vmstat.c            |  2 ++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/mm/debug.c b/mm/debug.c
-index ecccd9f17801..beb1c59d784b 100644
---- a/mm/debug.c
-+++ b/mm/debug.c
-@@ -42,6 +42,32 @@ const struct trace_print_flags vmaflag_names[] =3D {
- 	{0, NULL}
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index c2bc309d1634..01d690586206 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -243,6 +243,8 @@ enum node_stat_item {
+ 	NR_DIRTIED,		/* page dirtyings since bootup */
+ 	NR_WRITTEN,		/* page writings since bootup */
+ 	NR_KERNEL_MISC_RECLAIMABLE,	/* reclaimable non-slab kernel pages */
++	NR_FOLL_PIN_REQUESTED,	/* via: pin_user_page(), gup flag: FOLL_PIN */
++	NR_FOLL_PIN_RETURNED,	/* pages returned via unpin_user_page() */
+ 	NR_VM_NODE_STAT_ITEMS
  };
 =20
-+static void __dump_tail_page(struct page *page, int mapcount)
-+{
-+	struct page *head =3D compound_head(page);
-+
-+	if ((page < head) || (page >=3D head + MAX_ORDER_NR_PAGES)) {
-+		/*
-+		 * Page is hopelessly corrupted, so limit any reporting to
-+		 * information about the page itself. Do not attempt to look at
-+		 * the head page.
-+		 */
-+		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
-+			"index:%#lx (corrupted tail page case)\n",
-+			page, page_ref_count(page), mapcount, page->mapping,
-+			page_to_pgoff(page));
-+	} else {
-+		pr_warn("page:%px compound refcount:%d mapcount:%d mapping:%px "
-+			"index:%#lx compound_mapcount:%d\n",
-+			page, page_ref_count(head), mapcount, head->mapping,
-+			page_to_pgoff(head), compound_mapcount(page));
-+	}
-+
-+	if (page_ref_count(page) !=3D 0)
-+		pr_warn("page:%px PROBLEM: non-zero refcount (=3D=3D%d) on this "
-+			"tail page\n", page, page_ref_count(page));
-+}
-+
- void __dump_page(struct page *page, const char *reason)
- {
- 	struct address_space *mapping;
-@@ -75,12 +101,8 @@ void __dump_page(struct page *page, const char *reason)
- 	 */
- 	mapcount =3D PageSlab(page) ? 0 : page_mapcount(page);
+diff --git a/mm/gup.c b/mm/gup.c
+index c10d0d051c5b..9fe61d15fc0e 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -29,6 +29,19 @@ struct follow_page_context {
+ 	unsigned int page_mask;
+ };
 =20
--	if (PageCompound(page))
--		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
--			"index:%#lx compound_mapcount: %d\n",
--			page, page_ref_count(page), mapcount,
--			page->mapping, page_to_pgoff(page),
--			compound_mapcount(page));
-+	if (PageTail(page))
-+		__dump_tail_page(page, mapcount);
- 	else
- 		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
- 			page, page_ref_count(page), mapcount,
++#ifdef CONFIG_DEBUG_VM
++static inline void __update_proc_vmstat(struct page *page,
++					enum node_stat_item item, int count)
++{
++	mod_node_page_state(page_pgdat(page), item, count);
++}
++#else
++static inline void __update_proc_vmstat(struct page *page,
++					enum node_stat_item item, int count)
++{
++}
++#endif
++
+ static void hpage_pincount_add(struct page *page, int refs)
+ {
+ 	VM_BUG_ON_PAGE(!hpage_pincount_available(page), page);
+@@ -86,6 +99,8 @@ static __maybe_unused struct page *try_grab_compound_head=
+(struct page *page,
+ 	if (flags & FOLL_GET)
+ 		return try_get_compound_head(page, refs);
+ 	else if (flags & FOLL_PIN) {
++		int orig_refs =3D refs;
++
+ 		/*
+ 		 * When pinning a compound page of order > 1 (which is what
+ 		 * hpage_pincount_available() checks for), use an exact count to
+@@ -104,6 +119,7 @@ static __maybe_unused struct page *try_grab_compound_he=
+ad(struct page *page,
+ 		if (hpage_pincount_available(page))
+ 			hpage_pincount_add(page, refs);
+=20
++		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, orig_refs);
+ 		return page;
+ 	}
+=20
+@@ -158,6 +174,8 @@ bool __must_check try_grab_page(struct page *page, unsi=
+gned int flags)
+ 		 * once, so that the page really is pinned.
+ 		 */
+ 		page_ref_add(page, refs);
++
++		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
+ 	}
+=20
+ 	return true;
+@@ -178,6 +196,7 @@ static bool __unpin_devmap_managed_user_page(struct pag=
+e *page)
+=20
+ 	count =3D page_ref_sub_return(page, refs);
+=20
++	__update_proc_vmstat(page, NR_FOLL_PIN_RETURNED, 1);
+ 	/*
+ 	 * devmap page refcounts are 1-based, rather than 0-based: if
+ 	 * refcount is 1, then the page is free and the refcount is
+@@ -228,6 +247,8 @@ void unpin_user_page(struct page *page)
+=20
+ 	if (page_ref_sub_and_test(page, refs))
+ 		__put_page(page);
++
++	__update_proc_vmstat(page, NR_FOLL_PIN_RETURNED, 1);
+ }
+ EXPORT_SYMBOL(unpin_user_page);
+=20
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 78d53378db99..b56808bae1b4 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1168,6 +1168,8 @@ const char * const vmstat_text[] =3D {
+ 	"nr_dirtied",
+ 	"nr_written",
+ 	"nr_kernel_misc_reclaimable",
++	"nr_foll_pin_requested",
++	"nr_foll_pin_returned",
+=20
+ 	/* enum writeback_stat_item counters */
+ 	"nr_dirty_threshold",
 --=20
 2.25.0
 
