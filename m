@@ -2,96 +2,190 @@ Return-Path: <SRS0=Qg7B=3X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12665C35247
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 20:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFD4C35247
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 21:01:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D76E320721
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 20:17:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1966820CC7
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 21:01:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ZlOdaNKe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726187AbgBCURP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Feb 2020 15:17:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38440 "EHLO eggs.gnu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726201AbgBCURP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Feb 2020 15:17:15 -0500
-Received: from fencepost.gnu.org ([2001:470:142:3::e]:45307)
-        by eggs.gnu.org with esmtp (Exim 4.71)
-        (envelope-from <lxsameer@gnu.org>)
-        id 1iyi9c-0007kM-7k; Mon, 03 Feb 2020 15:17:08 -0500
-Received: from [46.7.45.31] (port=50322 helo=localhost.localdomain)
-        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.82)
-        (envelope-from <lxsameer@gnu.org>)
-        id 1iyi9b-0006DK-4G; Mon, 03 Feb 2020 15:17:07 -0500
-From:   Sameer Rahmani <lxsameer@gnu.org>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, Sameer Rahmani <lxsameer@gnu.org>
-Subject: [PATCH] Documentation: build warnings related to missing blank lines after explicit markups has been fixed
-Date:   Mon,  3 Feb 2020 20:15:43 +0000
-Message-Id: <20200203201543.24834-1-lxsameer@gnu.org>
-X-Mailer: git-send-email 2.25.0
+        id S1726561AbgBCVBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Feb 2020 16:01:17 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11345 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726278AbgBCVBR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Feb 2020 16:01:17 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e388a030000>; Mon, 03 Feb 2020 13:00:51 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 03 Feb 2020 13:01:14 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 03 Feb 2020 13:01:14 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Feb
+ 2020 21:01:14 +0000
+Subject: Re: [PATCH v3 07/12] mm/gup: track FOLL_PIN pages
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20200201034029.4063170-1-jhubbard@nvidia.com>
+ <20200201034029.4063170-8-jhubbard@nvidia.com>
+ <20200203134024.htczuqghduajb3yx@box>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <44f9e71f-dc65-fb37-dd6d-228270170aad@nvidia.com>
+Date:   Mon, 3 Feb 2020 13:01:14 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+In-Reply-To: <20200203134024.htczuqghduajb3yx@box>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580763651; bh=xdyrRhrFRwm8PgNsPaTnG7fESTt9E/IE4SCifoyTh/g=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ZlOdaNKeCwGQCefKwQkyzz5HO3exK9puspru1qNqq8OeTYhh79QWmjMtrfnso5+/i
+         okdRSSlKjbVj6W3rH8UK/+NXzDNQQSIFzmO/yAxm2o28hb6D9mOZq7R3erjxiHtkJg
+         Pq9boyDlD9aiomyCHOcEdWTjh1LL6mxNXdSseAKDijaCu8YQP9ylcUSgfrO+BG3Ktk
+         5dNjBCi3KJfawkDCi9Laqgj825rrHLwsKcNDBOAjF5PR8AbP2BDizrMjAO0QnCE6LA
+         BNJqk2jhW8zGG9ac3sM5E6VfkmA1W1V1JqBYxqnsaL6hHsS+lzpNh3QdGs6DPM5mbC
+         6hWoULMfVb8tg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix for several documentation build warnings related to missing blank lines
-after explicit mark up.
+On 2/3/20 5:40 AM, Kirill A. Shutemov wrote:
+> On Fri, Jan 31, 2020 at 07:40:24PM -0800, John Hubbard wrote:
+>> @@ -4405,7 +4392,13 @@ long follow_hugetlb_page(struct mm_struct *mm, struct vm_area_struct *vma,
+>>  same_page:
+>>  		if (pages) {
+>>  			pages[i] = mem_map_offset(page, pfn_offset);
+>> -			get_page(pages[i]);
+>> +			if (!try_grab_page(pages[i], flags)) {
+>> +				spin_unlock(ptl);
+>> +				remainder = 0;
+>> +				err = -ENOMEM;
+>> +				WARN_ON_ONCE(1);
+> 
+> The WARN_ON_ONCE deserve a comment. And I guess you can put it into 'if'
+> condition.
 
-Exact warning message:
- WARNING: Explicit markup ends without a blank line; unexpected unindent.
+OK, I've changed it to the following, which I *think* is an accurate comment, but
+I'm still a bit new to huge pages:
 
-Signed-off-by: Sameer Rahmani <lxsameer@gnu.org>
----
- Documentation/doc-guide/contributing.rst       | 1 +
- Documentation/doc-guide/maintainer-profile.rst | 1 +
- Documentation/trace/kprobetrace.rst            | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
+		if (pages) {
+			pages[i] = mem_map_offset(page, pfn_offset);
+			/*
+			 * try_grab_page() should always succeed here, because:
+			 * a) we hold the ptl lock, and b) we've just checked
+			 * that the huge page is present in the page tables. If
+			 * the huge page is present, then the tail pages must
+			 * also be present. The ptl prevents the head page and
+			 * tail pages from being rearranged in any way. So this
+			 * page must be available at this point, unless the page
+			 * refcount overflowed:
+			 */
+			if (WARN_ON_ONCE(!try_grab_page(pages[i], flags))) {
+				spin_unlock(ptl);
+				remainder = 0;
+				err = -ENOMEM;
+				break;
+			}
+		}
 
-diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-index 10956583d22e..67ee3691f91f 100644
---- a/Documentation/doc-guide/contributing.rst
-+++ b/Documentation/doc-guide/contributing.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+
- How to help improve kernel documentation
- ========================================
- 
-diff --git a/Documentation/doc-guide/maintainer-profile.rst b/Documentation/doc-guide/maintainer-profile.rst
-index aee2f508cc89..5afc0ddba40a 100644
---- a/Documentation/doc-guide/maintainer-profile.rst
-+++ b/Documentation/doc-guide/maintainer-profile.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+
- Documentation subsystem maintainer entry profile
- ================================================
- 
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 55993055902c..cc4c5fc313df 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -97,6 +97,7 @@ which shows given pointer in "symbol+offset" style.
- For $comm, the default type is "string"; any other type is invalid.
- 
- .. _user_mem_access:
-+
- User Memory Access
- ------------------
- Kprobe events supports user-space memory access. For that purpose, you can use
-@@ -252,4 +253,3 @@ And you can see the traced information via /sys/kernel/debug/tracing/trace.
- Each line shows when the kernel hits an event, and <- SYMBOL means kernel
- returns from SYMBOL(e.g. "sys_open+0x1b/0x1d <- do_sys_open" means kernel
- returns from do_sys_open to sys_open+0x1b).
--
+
+> 
+>> +				break;
+>> +			}
+>>  		}
+>>  
+>>  		if (vmas)
+>> @@ -4965,6 +4958,12 @@ follow_huge_pmd(struct mm_struct *mm, unsigned long address,
+>>  	struct page *page = NULL;
+>>  	spinlock_t *ptl;
+>>  	pte_t pte;
+>> +
+>> +	/* FOLL_GET and FOLL_PIN are mutually exclusive. */
+>> +	if (WARN_ON_ONCE((flags & (FOLL_PIN | FOLL_GET)) ==
+>> +			 (FOLL_PIN | FOLL_GET)))
+>> +		return NULL;
+>> +
+>>  retry:
+>>  	ptl = pmd_lockptr(mm, pmd);
+>>  	spin_lock(ptl);
+>> @@ -4977,8 +4976,11 @@ follow_huge_pmd(struct mm_struct *mm, unsigned long address,
+>>  	pte = huge_ptep_get((pte_t *)pmd);
+>>  	if (pte_present(pte)) {
+>>  		page = pmd_page(*pmd) + ((address & ~PMD_MASK) >> PAGE_SHIFT);
+>> -		if (flags & FOLL_GET)
+>> -			get_page(page);
+>> +		if (unlikely(!try_grab_page(page, flags))) {
+>> +			WARN_ON_ONCE(1);
+> 
+> Ditto.
+
+
+OK, I've added a similar comment as the one above. Now it looks like this:
+
+	if (pte_present(pte)) {
+		page = pmd_page(*pmd) + ((address & ~PMD_MASK) >> PAGE_SHIFT);
+		/*
+		 * try_grab_page() should always succeed here, because: a) we
+		 * hold the pmd (ptl) lock, and b) we've just checked that the
+		 * huge pmd (head) page is present in the page tables. The ptl
+		 * prevents the head page and tail pages from being rearranged
+		 * in any way. So this page must be available at this point,
+		 * unless the page refcount overflowed:
+		 */
+		if (WARN_ON_ONCE(!try_grab_page(page, flags))) {
+			page = NULL;
+			goto out;
+		}
+
+
+
+thanks,
 -- 
-2.25.0
+John Hubbard
+NVIDIA
 
+
+> 
+>> +			page = NULL;
+>> +			goto out;
+>> +		}
+>>  	} else {
+>>  		if (is_hugetlb_entry_migration(pte)) {
+>>  			spin_unlock(ptl);
+> 
