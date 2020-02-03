@@ -6,56 +6,57 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4A5C33CAC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 13:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA79DC3524D
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 13:19:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3284820658
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 13:17:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0D3D2086A
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 13:19:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="o5Ff7bts"
+	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="sHxNUX+2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgBCNRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Feb 2020 08:17:34 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:44637 "EHLO
+        id S1727454AbgBCNTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Feb 2020 08:19:25 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39006 "EHLO
         mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727170AbgBCNRe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Feb 2020 08:17:34 -0500
-Received: by mail-lj1-f194.google.com with SMTP id q8so14555173ljj.11
-        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2020 05:17:33 -0800 (PST)
+        with ESMTP id S1727223AbgBCNTY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Feb 2020 08:19:24 -0500
+Received: by mail-lj1-f194.google.com with SMTP id o15so9038573ljg.6
+        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2020 05:19:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vyFT4rLw7oKG03KTCLsTCkr74zWtEKjYEEOBftr+6P0=;
-        b=o5Ff7btsNGi9NOXnjubu+7cTXPZzjIguylFxg2meFJKfZpUujo4sDiBm4/PoClx4Kf
-         wAG+40lcRzRFD2Co4z/dCvXZkYHngCJJvQG6Ro/d5Jm8BkZvOVNgFHKyhYYFkEvWw0aa
-         4VwPcAc6uWQZ0Yd3ylaVtft2ryUHgm9OCWOQ5Hh6uzsALWd6gB3mINfr5rfMNTl765vG
-         uALlx7fVFek/4XK+QVXRG+jLYeMHLD4cZqm8RYCS6Mqdrfm8thosqdfb6bNYw5rBicmE
-         HJsg9ArBJmbt0pkJ1ndiDf0a6JSC2Os6yrRXqftoz+cbYoumzUNhzEWAGvRcPkk36K3w
-         IIeQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JVGRyQQaBReM02JrPoDmLBao0aPgpMTrxPDXDLtuBvs=;
+        b=sHxNUX+2LzpyRJMjJ5Qfj9YCDSX6ExJg/Bd8Kbu6D3J1Pm6xg2/nCBLBUPM+5aDgph
+         Vx13T6xRUazl2+5WDzyI2+KQ5Fwv9EnEICrEEivYt8zYofksOtWDQ0ieEYPnxb0jWoql
+         2KXNT1xLabVpDbI6yu0pfXCX+ZkkKbcyN9i+rhwy9QqfIGMVfaGyVA3Fl5FlrA0MARbM
+         fqCitH4ncSFtWXk3XtHIzHlxaXyvB4HPNozXmu/2hHRj2Rk8jnrIB7LYIzQ+bFvU3rx0
+         zfqTJdh5FWcWe4I1vVRvwPei1Q5hrFlirNIRHGzVETfP4olS+o7cqE6CGB4YvD5YrwQv
+         379g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vyFT4rLw7oKG03KTCLsTCkr74zWtEKjYEEOBftr+6P0=;
-        b=i8V7b/PE8C6iu3RuZzfBOL53NV65rbgSzbvPKLCy+ldYFcdvxWuTZKRMt4T2xn0xJI
-         1iehHSWrNvakJcIYA8gMJhvPtia0ts7qZEvjpTmL8JIEWRhRV2wt2JRcGhkPJSdZG5rt
-         VQzosAzXgyWb1oyljjy6PU8h2B/GOt9uTJZn2+lMqrmZya2lYNwD8lZunC7W2OL2bNyk
-         cD+LYWfT7WbTfTxy7PSYim3YmkrGEXC5M+wmxxIsiHRmEatQTS875q307H6+kOJTg2hM
-         0Wt/9JTEgR4Aqg+NOwM3M8Hf+S/12oqWtbzWOUA9GrsGGkrwrtuqWQEvo5w3pWz+shFj
-         xhxw==
-X-Gm-Message-State: APjAAAWbVORrAWKq3nJtY/8e9MU6yeiqfnLt+RQOpbIIxMM+0U+eG7GL
-        zVBivNewEQVfvDzpdAkSsTgXWw==
-X-Google-Smtp-Source: APXvYqzNUL0o3i1b2tHehpWzfV/mFHtL+96xJ6zWYkW97kHAQ906cHrLM/Ge9Zfr+Ej7Vk691i4ZeQ==
-X-Received: by 2002:a2e:9a93:: with SMTP id p19mr13816964lji.177.1580735852643;
-        Mon, 03 Feb 2020 05:17:32 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JVGRyQQaBReM02JrPoDmLBao0aPgpMTrxPDXDLtuBvs=;
+        b=uEwKjaUEpbZbS9yE0RygKT1PDkJ3PXEFF24l62G1sKfLUKf8ZdU94V1QjGvWx25S6r
+         Xl7bj6NgI6zxxWkg6olJBG5KtcOaCkxpyr5QEoMSsngazmQMxTDjsZq6o46aOfJy/KDq
+         QAnTgG8JBH+lR3SHfMNRDIlwLFQL5z2yO1QUujilxgnoEsbrKxGRyZj1wmckdvmFUzoq
+         OP3bfbYtr0xqgYX8z5Ne4wff3TzNQEhEdmIaNyuY/FMSnlz8Hm/iypo47vMFdCRCVsDt
+         QaXx7PrIyN7sAfBe/FEygwY7srY9bur3eRmIzNf5XF/7Q1cjdQHa15/S0emaw3+lXtl9
+         iaTQ==
+X-Gm-Message-State: APjAAAUFtpy5s1m9pG0qoln1GmF+wv8TdV3j9Gt9aw7ZFhsS8coroojW
+        4qoXoPUQUbjcu3LSehEZ0eOLnQ==
+X-Google-Smtp-Source: APXvYqw/kW5LBbvbpobmbtSlzot4JutREBTd02ZbvusFPkOi/RVuHv3ziJ7u01y8QC5aHMcpggWohA==
+X-Received: by 2002:a2e:94c8:: with SMTP id r8mr14014356ljh.28.1580735962743;
+        Mon, 03 Feb 2020 05:19:22 -0800 (PST)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id z8sm9754153ljk.13.2020.02.03.05.17.31
+        by smtp.gmail.com with ESMTPSA id z205sm8831859lfa.52.2020.02.03.05.19.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2020 05:17:31 -0800 (PST)
+        Mon, 03 Feb 2020 05:19:22 -0800 (PST)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 79B2B100DC8; Mon,  3 Feb 2020 16:17:44 +0300 (+03)
-Date:   Mon, 3 Feb 2020 16:17:44 +0300
+        id 9F93C100DC8; Mon,  3 Feb 2020 16:19:34 +0300 (+03)
+Date:   Mon, 3 Feb 2020 16:19:34 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     John Hubbard <jhubbard@nvidia.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -74,29 +75,37 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 02/12] mm/gup: split get_user_pages_remote() into two
- routines
-Message-ID: <20200203131744.6idhpu2ho3ajfu55@box>
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v3 03/12] mm/gup: pass a flags arg to __gup_device_*
+ functions
+Message-ID: <20200203131934.pxwmyemhgiqcb5j3@box>
 References: <20200201034029.4063170-1-jhubbard@nvidia.com>
- <20200201034029.4063170-3-jhubbard@nvidia.com>
+ <20200201034029.4063170-4-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200201034029.4063170-3-jhubbard@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200201034029.4063170-4-jhubbard@nvidia.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 31, 2020 at 07:40:19PM -0800, John Hubbard wrote:
-> An upcoming patch requires reusing the implementation of
-> get_user_pages_remote(). Split up get_user_pages_remote() into an outer
-> routine that checks flags, and an implementation routine that will be
-> reused. This makes subsequent changes much easier to understand.
+On Fri, Jan 31, 2020 at 07:40:20PM -0800, John Hubbard wrote:
+> A subsequent patch requires access to gup flags, so pass the flags
+> argument through to the __gup_device_* functions.
 > 
-> There should be no change in behavior due to this patch.
+> Also placate checkpatch.pl by shortening a nearby line.
 > 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> 
+
+Empty line here?
+
 > Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
 Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
