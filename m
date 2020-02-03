@@ -2,89 +2,73 @@ Return-Path: <SRS0=Qg7B=3X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69467C3524C
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 01:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 293AFC3524F
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 09:10:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 421F82067C
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 01:46:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A5632080D
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 09:10:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgBCBqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Feb 2020 20:46:08 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46746 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726971AbgBCBqI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Feb 2020 20:46:08 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 085A328BEFA
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v6 1/5] unicode: Add standard casefolded d_ops
-Organization: Collabora
-References: <20200128230328.183524-1-drosen@google.com>
-        <20200128230328.183524-2-drosen@google.com>
-Date:   Sun, 02 Feb 2020 20:45:59 -0500
-In-Reply-To: <20200128230328.183524-2-drosen@google.com> (Daniel Rosenberg's
-        message of "Tue, 28 Jan 2020 15:03:24 -0800")
-Message-ID: <85sgjsxx2g.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1727634AbgBCJKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Feb 2020 04:10:41 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:49960 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726992AbgBCJKl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Feb 2020 04:10:41 -0500
+Received: from linux.HaierAP (unknown [111.18.44.203])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv9+M4zden_gLAA--.1394S2;
+        Mon, 03 Feb 2020 17:10:37 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] mailmap: add entry for Tiezhu Yang
+Date:   Mon,  3 Feb 2020 17:10:45 +0800
+Message-Id: <1580721045-4988-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9Dxv9+M4zden_gLAA--.1394S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrCFy7Jw1UCF4DtFyDCFyfJFb_yoWxArc_Gw
+        1rKF4kWr4rJw4fCwn29wn3uwn0vw1xua10gw4DAry5Za43t34rKr4vvF4fWF15CrWkWrW5
+        Jrs3JFZ2kr1I9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb2AYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
+        8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8uwCF04k2
+        0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+        AIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jYWlkUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Rosenberg <drosen@google.com> writes:
+Add an entry to connect all my email addresses.
 
-> diff --git a/include/linux/unicode.h b/include/linux/unicode.h
-> index 990aa97d80496..5de313abeaf98 100644
-> --- a/include/linux/unicode.h
-> +++ b/include/linux/unicode.h
-> @@ -4,6 +4,8 @@
->  
->  #include <linux/init.h>
->  #include <linux/dcache.h>
-> +#include <linux/fscrypt.h>
-> +#include <linux/fs.h>
->  
->  struct unicode_map {
->  	const char *charset;
-> @@ -30,4 +32,19 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
->  struct unicode_map *utf8_load(const char *version);
->  void utf8_unload(struct unicode_map *um);
->  
-> +int utf8_ci_d_hash(const struct dentry *dentry, struct qstr *str);
-> +int utf8_ci_d_compare(const struct dentry *dentry, unsigned int len,
-> +			  const char *str, const struct qstr *name);
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-I don't think fs/unicode is the right place for these very specific
-filesystem functions, just because they happen to use unicode.  It is an
-encoding library, it doesn't care about dentries, nor should know how to
-handle them.  It exposes a simple api to manipulate and convert utf8 strings.
-
-I saw change was after the desire to not have these functions polluting
-the VFS hot path, but that has nothing to do with placing them here.
-
-Would libfs be better?  or a casefolding library in fs/casefold.c?
-
-
+diff --git a/.mailmap b/.mailmap
+index de36dce..29a74cd 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -261,6 +261,7 @@ Sumit Semwal <sumit.semwal@ti.com>
+ Tejun Heo <htejun@gmail.com>
+ Thomas Graf <tgraf@suug.ch>
+ Thomas Pedersen <twp@codeaurora.org>
++Tiezhu Yang <yangtiezhu@loongson.cn> <kernelpatch@126.com>
+ Todor Tomov <todor.too@gmail.com> <todor.tomov@linaro.org>
+ Tony Luck <tony.luck@intel.com>
+ TripleX Chung <xxx.phy@gmail.com> <zhongyu@18mail.cn>
 -- 
-Gabriel Krisman Bertazi
+1.8.3.1
+
