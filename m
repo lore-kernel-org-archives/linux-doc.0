@@ -2,73 +2,138 @@ Return-Path: <SRS0=Qg7B=3X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 293AFC3524F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 09:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C306DC35247
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 12:19:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A5632080D
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 09:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95DA32082E
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Feb 2020 12:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727634AbgBCJKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Feb 2020 04:10:41 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:49960 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726992AbgBCJKl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Feb 2020 04:10:41 -0500
-Received: from linux.HaierAP (unknown [111.18.44.203])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv9+M4zden_gLAA--.1394S2;
-        Mon, 03 Feb 2020 17:10:37 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] mailmap: add entry for Tiezhu Yang
-Date:   Mon,  3 Feb 2020 17:10:45 +0800
-Message-Id: <1580721045-4988-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: AQAAf9Dxv9+M4zden_gLAA--.1394S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrCFy7Jw1UCF4DtFyDCFyfJFb_yoWxArc_Gw
-        1rKF4kWr4rJw4fCwn29wn3uwn0vw1xua10gw4DAry5Za43t34rKr4vvF4fWF15CrWkWrW5
-        Jrs3JFZ2kr1I9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2AYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
-        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8uwCF04k2
-        0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
-        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41l
-        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
-        AIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jYWlkUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S1726913AbgBCMTe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Feb 2020 07:19:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36350 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726268AbgBCMTe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Feb 2020 07:19:34 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 8D080B1C8;
+        Mon,  3 Feb 2020 12:19:30 +0000 (UTC)
+Subject: Re: [PATCH 1/1] mm: sysctl: add panic_on_inconsistent_mm sysctl
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Grzegorz Halat <ghalat@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, ssaner@redhat.com, atomlin@redhat.com,
+        oleksandr@redhat.com, vbendel@redhat.com, kirill@shutemov.name,
+        khlebnikov@yandex-team.ru, borntraeger@de.ibm.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Qian Cai <cai@lca.pw>
+References: <20200129180851.551109-1-ghalat@redhat.com>
+ <d47a5f31-5862-b0a9-660c-48105f4f049b@suse.cz>
+ <202001301128.1CBD1BA52@keescook>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <1cb86d36-7620-be11-7833-0b3bab3c5c1f@suse.cz>
+Date:   Mon, 3 Feb 2020 13:19:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <202001301128.1CBD1BA52@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry to connect all my email addresses.
+On 1/30/20 8:28 PM, Kees Cook wrote:
+> On Thu, Jan 30, 2020 at 03:44:50PM +0100, Vlastimil Babka wrote:
+>> On 1/29/20 7:08 PM, Grzegorz Halat wrote:
+>>> Memory management subsystem performs various checks at runtime,
+>>> if an inconsistency is detected then such event is being logged and kernel
+>>> continues to run. While debugging such problems it is helpful to collect
+>>> memory dump as early as possible. Currently, there is no easy way to panic
+>>> kernel when such error is detected.
+>>>
+>>> It was proposed[1] to panic the kernel if panic_on_oops is set but this
+>>> approach was not accepted. One of alternative proposals was introduction of
+>>> a new sysctl.
+>>>
+>>> Add a new sysctl - panic_on_inconsistent_mm. If the sysctl is set then the
+>>> kernel will be crashed when an inconsistency is detected by memory
+>>> management. This currently means panic when bad page or bad PTE
+>>> is detected(this may be extended to other places in MM).
+>>
+>> I wonder, should enabling the sysctl also effectively convert VM_WARN...
+>> to VM_BUG... ?
+> 
+> There is already panic_on_warn sysctl... wouldn't that be sufficient?
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- .mailmap | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/.mailmap b/.mailmap
-index de36dce..29a74cd 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -261,6 +261,7 @@ Sumit Semwal <sumit.semwal@ti.com>
- Tejun Heo <htejun@gmail.com>
- Thomas Graf <tgraf@suug.ch>
- Thomas Pedersen <twp@codeaurora.org>
-+Tiezhu Yang <yangtiezhu@loongson.cn> <kernelpatch@126.com>
- Todor Tomov <todor.too@gmail.com> <todor.tomov@linaro.org>
- Tony Luck <tony.luck@intel.com>
- TripleX Chung <xxx.phy@gmail.com> <zhongyu@18mail.cn>
--- 
-1.8.3.1
-
+True, forgot about it. Thanks.
