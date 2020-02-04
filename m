@@ -2,113 +2,108 @@ Return-Path: <SRS0=oSW9=3Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E50C9C47409
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 17:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC7AC35247
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 19:35:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB7292087E
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 17:44:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A52F2166E
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 19:35:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="JSngqOY3"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QOo3HD1v"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727493AbgBDRoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Feb 2020 12:44:24 -0500
-Received: from zimbra2.kalray.eu ([92.103.151.219]:55282 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727392AbgBDRoY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 12:44:24 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 1A23327E058F;
-        Tue,  4 Feb 2020 18:44:22 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Ys8Ffw7v27r6; Tue,  4 Feb 2020 18:44:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id C1C4227E158A;
-        Tue,  4 Feb 2020 18:44:21 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu C1C4227E158A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1580838261;
-        bh=bHc8ecf+O1GHjcUaIbdPBRw5CR726pP6ptPTXIyMhg0=;
-        h=From:To:Date:Message-Id;
-        b=JSngqOY3TgTe/kh+Rip/yR8PGrKQ9/gorw3B3e/Ho8DDu4cNz/+18TV+4crNZDs8P
-         Z25QO+vKUa6R2mZvYSLNCeklUedzIWCKptn1/L3mY6zwBrEZJRV7FhXF0R9CBdoUA7
-         GXJ2hgLiTOeuxntW2CbTZ8jXti+NzN7rqN+v5gVs=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ak2UB6XEtKtu; Tue,  4 Feb 2020 18:44:21 +0100 (CET)
-Received: from triton.lin.mbt.kalray.eu (unknown [192.168.37.25])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id A45BE27E058F;
-        Tue,  4 Feb 2020 18:44:21 +0100 (CET)
-From:   Clement Leger <cleger@kalray.eu>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc@vger.kernel.org
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Clement Leger <cleger@kalray.eu>
-Subject: [PATCH v3 0/2] remoteproc: Add elf64 support to elf loader
-Date:   Tue,  4 Feb 2020 18:44:10 +0100
-Message-Id: <20200204174412.16814-1-cleger@kalray.eu>
-X-Mailer: git-send-email 2.15.0.276.g89ea799
-In-Reply-To: <20200129163013.GA16538@xps15>
-References: <20200129163013.GA16538@xps15>
+        id S1727466AbgBDTfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Feb 2020 14:35:44 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37774 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727541AbgBDTfo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 14:35:44 -0500
+Received: by mail-pg1-f195.google.com with SMTP id z12so3215648pgl.4
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2020 11:35:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZBYf/F2Io0atf7tGD69pezEGXYzc+ynKJmxs01qZzAA=;
+        b=QOo3HD1vuYYlz+4sD+zhB2tClXMUNBEVMlO7WB2JZ9IV9rmn7SF/rbwkwtEq2KhqH6
+         JflMkH64e2XW0chioVXoRklQSjZ1ThVCqfFd4QNQZvy3cCKTKktltJOOJYcsi+dOXsiA
+         xyKnNbIPPvpQIbEox4KqyaNXHcxW2y550fV9m69L6uSplE435tmpgX9LGNn5cxycQCX2
+         WnL4rVBZyAfqQEJjgaX6r9LnrYU1cW8yz106G9HwDqFdmwyb5weFPXRl0cmTQUDEgiOT
+         IuHegvLBA08oEM5t1e51IBhTgVFYRvE/0qHfcPD02u5/ihsaye3NxsNp4XwMhOnq9rty
+         pXjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZBYf/F2Io0atf7tGD69pezEGXYzc+ynKJmxs01qZzAA=;
+        b=Ytt43lSQ/uZ9v4Rpb0grAMGkedMGGsgff61gxNMWg3t6+9jIIS9S6+Y8ZGdNLkYhxr
+         x3az7emrI7VL4WM2qWXmJ2hNEVn0DbN6z60CmwiYYcQjUfQN4P5pBfHhoLAJgk8/UqLn
+         lzeifzqVecKSUMh33lxJVZB22XSRPzYhFpufAiA6SdMqMcUD0Q1RGRgO3UumQ49x9NUo
+         r/f/RCgshwAily7jmgCGvQwj9QZOmkRyYkkK+l3nsCTYEcwur1yjw13REMYjDH3REeCA
+         mzCW9FzTNbVqkN9kTt1oOX61cdE82ZLuQO24ywU0FJPWjWx3HrfjZYQkQcPsKrBp93u0
+         4ibg==
+X-Gm-Message-State: APjAAAXxY2tpVdg1PUGjBiVM8RBm4GEOhLLk62otzZWvUWMBFhYG8sF0
+        oXHFOAeFuYab+e0RAw42V3s6f6eiCWOolTMRrk0AyQ==
+X-Google-Smtp-Source: APXvYqw4q+KWhmmtYLJvBYiGMg4pK4goKHR2pzDq2KQ/ueAn46fzf63AjOWVV2VKJzLV/wvMXo/IxMlPJ94Rwb3Ob+8=
+X-Received: by 2002:a63:3754:: with SMTP id g20mr17958855pgn.384.1580844941362;
+ Tue, 04 Feb 2020 11:35:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20200130230812.142642-1-brendanhiggins@google.com> <20200204071915.AF32B21582@mail.kernel.org>
+In-Reply-To: <20200204071915.AF32B21582@mail.kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 4 Feb 2020 11:35:30 -0800
+Message-ID: <CAFd5g44ZG+E==gT24w49oKc6nHv4nBQFeipikKxXJH3oHdO99Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] kunit: create a centralized executor to dispatch
+ all KUnit tests
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>, David Gow <davidgow@google.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Kees Cook <keescook@chromium.org>,
+        Richard Weinberger <richard@nod.at>, rppt@linux.ibm.com,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Knut Omang <knut.omang@oracle.com>,
+        linux-um <linux-um@lists.infradead.org>,
+        linux-arch@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This serie add support for elf64 in remoteproc elf loader. 
-First patch modifies the type of len argument (in da_to_va) in order
-to allow loading elf64 segment with a u64 size.
-Second patch is the actual modification in the elf loader to support
-elf64 type by using a set of generic macros.
+On Mon, Feb 3, 2020 at 11:19 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Brendan Higgins (2020-01-30 15:08:05)
+> > ## TL;DR
+> >
+> > This patchset adds a centralized executor to dispatch tests rather than
+> > relying on late_initcall to schedule each test suite separately along
+> > with a couple of new features that depend on it.
+>
+> Is there any diff from v1 to v2? I don't know what changed, but I see
+> that my Reviewed-by tag has been put on everything, so I guess
+> everything I said was addressed or discussed in the previous round.
 
-Changes from V2:
- - da_to_va len type changed from int to u64
- - Add check for elf64 header size
- - Add comments for name table parsing
- - Fix typo in "accommodate"
+Oh yes, sorry about that. I have gotten a bit lazy in regard to
+changing logs. I noticed that a lot of people don't seem to care. I'll
+make a note that you do.
 
-Clement Leger (2):
-  remoteproc: Use u64 len for da_to_va
-  remoteproc: Add elf64 support in elf loader
-
- Documentation/remoteproc.txt               |   2 +-
- drivers/remoteproc/imx_rproc.c             |   9 +-
- drivers/remoteproc/keystone_remoteproc.c   |   2 +-
- drivers/remoteproc/qcom_q6v5_adsp.c        |   2 +-
- drivers/remoteproc/qcom_q6v5_mss.c         |   2 +-
- drivers/remoteproc/qcom_q6v5_pas.c         |   2 +-
- drivers/remoteproc/qcom_q6v5_wcss.c        |   2 +-
- drivers/remoteproc/qcom_wcnss.c            |   2 +-
- drivers/remoteproc/remoteproc_core.c       |   2 +-
- drivers/remoteproc/remoteproc_elf_loader.c | 147 ++++++++++++++++++-----------
- drivers/remoteproc/remoteproc_elf_loader.h |  69 ++++++++++++++
- drivers/remoteproc/remoteproc_internal.h   |   4 +-
- drivers/remoteproc/st_remoteproc.c         |   2 +-
- drivers/remoteproc/st_slim_rproc.c         |   4 +-
- drivers/remoteproc/wkup_m3_rproc.c         |   2 +-
- include/linux/remoteproc.h                 |   6 +-
- 16 files changed, 184 insertions(+), 75 deletions(-)
- create mode 100644 drivers/remoteproc/remoteproc_elf_loader.h
-
--- 
-2.15.0.276.g89ea799
-
+Changes since last revision:
+- On patch 6/7, I flipped the include order and removed braces from the if
+  statements.
+- On patch 7/7, I removed the periods from the short descriptions.
