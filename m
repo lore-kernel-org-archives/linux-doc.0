@@ -2,41 +2,40 @@ Return-Path: <SRS0=oSW9=3Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F216C35247
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 23:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3788C3524F
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 23:41:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 73C5221744
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 23:41:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A60F21744
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Feb 2020 23:41:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ICEnL1/j"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Nk0Ow+Q0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgBDXlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Feb 2020 18:41:21 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4032 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727483AbgBDXlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 18:41:20 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3a01110004>; Tue, 04 Feb 2020 15:41:05 -0800
+        id S1727794AbgBDXl1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Feb 2020 18:41:27 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8831 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727757AbgBDXl0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 18:41:26 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3a010a0001>; Tue, 04 Feb 2020 15:40:58 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 04 Feb 2020 15:41:20 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 04 Feb 2020 15:41:22 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 04 Feb 2020 15:41:20 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Feb
- 2020 23:41:19 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 4 Feb 2020 23:41:19 +0000
+        by hqpgpgate101.nvidia.com on Tue, 04 Feb 2020 15:41:22 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Feb
+ 2020 23:41:22 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 4 Feb 2020 23:41:21 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e3a011e0001>; Tue, 04 Feb 2020 15:41:18 -0800
+        id <B5e3a01200005>; Tue, 04 Feb 2020 15:41:21 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -56,11 +55,10 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
         <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v4 01/12] mm: dump_page(): better diagnostics for compound pages
-Date:   Tue, 4 Feb 2020 15:41:06 -0800
-Message-ID: <20200204234117.2974687-2-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v4 11/12] mm/gup_benchmark: support pin_user_pages() and related calls
+Date:   Tue, 4 Feb 2020 15:41:16 -0800
+Message-ID: <20200204234117.2974687-12-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200204234117.2974687-1-jhubbard@nvidia.com>
 References: <20200204234117.2974687-1-jhubbard@nvidia.com>
@@ -69,98 +67,214 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580859665; bh=JHbFoVlby1O2Fi0YWtwHfwC9UdnPi6RlItOvHznb5y0=;
+        t=1580859659; bh=p8jVMXkU/AOD6CgGXpT+qSuB3Zba1P74wymVIHxrBWs=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=ICEnL1/jGgV4z6oz1HWOx8M2NHn7cYSc3TxlKz7MH+gGFMc4B+A8SY56czLlzC1k9
-         Oos3chmRpBNNkWgFSee9Gt+C0TdJH9XnDS3MxUWnZWfpYuOGdWg9seyEHAVddiQQ+J
-         WUp+2meTAUfwrE3rIkDYIxdb5y4oF7qPwacm/76itNUnjmfR88jwh7uiK5wPTomvIB
-         8FFFVEfjucP2JbgO1qF+fudS88NVp9kZFQM944vOB8w5+1uYO8s00kYZCsDcLV1nX7
-         FB7UzmfIkTFAKoknI+Yc8Ky9EaPshAQxhfkPzBrNeJte11ZT3KRd337JkHQwYuIBYw
-         eWEU9Ffle2DQg==
+        b=Nk0Ow+Q0RCg7KxuCkZ/ixtOr5VK7cRAJuJrO5FiBhT7Kl9fAqHcD+cQ3SgaUCL1lP
+         ur1nMVC+NStRUveeaAuNMV/bmJae3Etbwyp3fGJCn9z9lzRjtKWDfwaxadpzfvuyyo
+         MsNEl4J6ccF/8m2xq6xRETC+0dF+ffmOEn5ZJlEICjNuGVqfO8N/OFsYPJ61yIjpzI
+         Wva+38vAabpvKLvEWwSS09W0kC7gm1F7QM1MCL77lhX127uhdErGujVbpG7YQbOii1
+         AMp6RoUTP72WYycek0n3PlvW42/NAsEbe9pJ1JcPL4V8ROkCd7PZZznC7jIKvrVl4I
+         +/NPa3xNHgG7g==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A compound page collects the refcount in the head page, while leaving
-the refcount of each tail page at zero. Therefore, when debugging a
-problem that involves compound pages, it's best to have diagnostics that
-reflect that situation. However, dump_page() is oblivious to these
-points.
+Up until now, gup_benchmark supported testing of the
+following kernel functions:
 
-Change dump_page() as follows:
+* get_user_pages(): via the '-U' command line option
+* get_user_pages_longterm(): via the '-L' command line option
+* get_user_pages_fast(): as the default (no options required)
 
-1) For tail pages, print relevant head page information: refcount, in
-   particular. But only do this if the page is not corrupted so badly
-   that the pointer to the head page is all wrong.
+Add test coverage for the new corresponding pin_*() functions:
 
-2) Do a separate check to catch any (rare) cases of the tail page's
-   refcount being non-zero, and issue a separate, clear pr_warn() if
-   that ever happens.
+* pin_user_pages_fast(): via the '-a' command line option
+* pin_user_pages():      via the '-b' command line option
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Suggested-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Also, add an option for clarity: '-u' for what is now (still) the
+default choice: get_user_pages_fast().
+
+Also, for the commands that set FOLL_PIN, verify that the pages
+really are dma-pinned, via the new is_dma_pinned() routine.
+Those commands are:
+
+    PIN_FAST_BENCHMARK     : calls pin_user_pages_fast()
+    PIN_BENCHMARK          : calls pin_user_pages()
+
+In between the calls to pin_*() and unpin_user_pages(),
+check each page: if page_maybe_dma_pinned() returns false, then
+WARN and return.
+
+Do this outside of the benchmark timestamps, so that it doesn't
+affect reported times.
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/debug.c | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ mm/gup_benchmark.c                         | 71 ++++++++++++++++++++--
+ tools/testing/selftests/vm/gup_benchmark.c | 15 ++++-
+ 2 files changed, 80 insertions(+), 6 deletions(-)
 
-diff --git a/mm/debug.c b/mm/debug.c
-index ecccd9f17801..f074077eee11 100644
---- a/mm/debug.c
-+++ b/mm/debug.c
-@@ -42,6 +42,33 @@ const struct trace_print_flags vmaflag_names[] =3D {
- 	{0, NULL}
+diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
+index 8dba38e79a9f..be690fa66a46 100644
+--- a/mm/gup_benchmark.c
++++ b/mm/gup_benchmark.c
+@@ -8,6 +8,8 @@
+ #define GUP_FAST_BENCHMARK	_IOWR('g', 1, struct gup_benchmark)
+ #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
+ #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
++#define PIN_FAST_BENCHMARK	_IOWR('g', 4, struct gup_benchmark)
++#define PIN_BENCHMARK		_IOWR('g', 5, struct gup_benchmark)
+=20
+ struct gup_benchmark {
+ 	__u64 get_delta_usec;
+@@ -19,6 +21,48 @@ struct gup_benchmark {
+ 	__u64 expansion[10];	/* For future use */
  };
 =20
-+static void __dump_tail_page(struct page *page, int mapcount)
++static void put_back_pages(unsigned int cmd, struct page **pages,
++			   unsigned long nr_pages)
 +{
-+	struct page *head =3D compound_head(page);
++	unsigned long i;
 +
-+	if ((page < head) || (page >=3D head + MAX_ORDER_NR_PAGES)) {
-+		/*
-+		 * Page is hopelessly corrupted, so limit any reporting to
-+		 * information about the page itself. Do not attempt to look at
-+		 * the head page.
-+		 */
-+		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
-+			"index:%#lx (corrupted tail page case)\n",
-+			page, page_ref_count(page), mapcount, page->mapping,
-+			page_to_pgoff(page));
-+	} else {
-+		pr_warn("page:%px compound refcount:%d mapcount:%d mapping:%px "
-+			"index:%#lx compound_mapcount:%d\n",
-+			page, page_ref_count(head), mapcount, head->mapping,
-+			page_to_pgoff(head), compound_mapcount(page));
-+	}
++	switch (cmd) {
++	case GUP_FAST_BENCHMARK:
++	case GUP_LONGTERM_BENCHMARK:
++	case GUP_BENCHMARK:
++		for (i =3D 0; i < nr_pages; i++)
++			put_page(pages[i]);
++		break;
 +
-+	if (page_ref_count(page) !=3D 0) {
-+		pr_warn("page:%px PROBLEM: non-zero refcount (=3D=3D%d) on this "
-+			"tail page\n", page, page_ref_count(page));
++	case PIN_FAST_BENCHMARK:
++	case PIN_BENCHMARK:
++		unpin_user_pages(pages, nr_pages);
++		break;
 +	}
 +}
 +
- void __dump_page(struct page *page, const char *reason)
++static void verify_dma_pinned(unsigned int cmd, struct page **pages,
++			      unsigned long nr_pages)
++{
++	unsigned long i;
++	struct page *page;
++
++	switch (cmd) {
++	case PIN_FAST_BENCHMARK:
++	case PIN_BENCHMARK:
++		for (i =3D 0; i < nr_pages; i++) {
++			page =3D pages[i];
++			if (WARN(!page_maybe_dma_pinned(page),
++				 "pages[%lu] is NOT dma-pinned\n", i)) {
++
++				dump_page(page, "gup_benchmark failure");
++				break;
++			}
++		}
++		break;
++	}
++}
++
+ static int __gup_benchmark_ioctl(unsigned int cmd,
+ 		struct gup_benchmark *gup)
  {
- 	struct address_space *mapping;
-@@ -75,12 +102,8 @@ void __dump_page(struct page *page, const char *reason)
- 	 */
- 	mapcount =3D PageSlab(page) ? 0 : page_mapcount(page);
+@@ -66,6 +110,14 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
+ 			nr =3D get_user_pages(addr, nr, gup->flags, pages + i,
+ 					    NULL);
+ 			break;
++		case PIN_FAST_BENCHMARK:
++			nr =3D pin_user_pages_fast(addr, nr, gup->flags,
++						 pages + i);
++			break;
++		case PIN_BENCHMARK:
++			nr =3D pin_user_pages(addr, nr, gup->flags, pages + i,
++					    NULL);
++			break;
+ 		default:
+ 			kvfree(pages);
+ 			ret =3D -EINVAL;
+@@ -78,15 +130,22 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
+ 	}
+ 	end_time =3D ktime_get();
 =20
--	if (PageCompound(page))
--		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
--			"index:%#lx compound_mapcount: %d\n",
--			page, page_ref_count(page), mapcount,
--			page->mapping, page_to_pgoff(page),
--			compound_mapcount(page));
-+	if (PageTail(page))
-+		__dump_tail_page(page, mapcount);
- 	else
- 		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
- 			page, page_ref_count(page), mapcount,
++	/* Shifting the meaning of nr_pages: now it is actual number pinned: */
++	nr_pages =3D i;
++
+ 	gup->get_delta_usec =3D ktime_us_delta(end_time, start_time);
+ 	gup->size =3D addr - gup->addr;
+=20
++	/*
++	 * Take an un-benchmark-timed moment to verify DMA pinned
++	 * state: print a warning if any non-dma-pinned pages are found:
++	 */
++	verify_dma_pinned(cmd, pages, nr_pages);
++
+ 	start_time =3D ktime_get();
+-	for (i =3D 0; i < nr_pages; i++) {
+-		if (!pages[i])
+-			break;
+-		put_page(pages[i]);
+-	}
++
++	put_back_pages(cmd, pages, nr_pages);
++
+ 	end_time =3D ktime_get();
+ 	gup->put_delta_usec =3D ktime_us_delta(end_time, start_time);
+=20
+@@ -105,6 +164,8 @@ static long gup_benchmark_ioctl(struct file *filep, uns=
+igned int cmd,
+ 	case GUP_FAST_BENCHMARK:
+ 	case GUP_LONGTERM_BENCHMARK:
+ 	case GUP_BENCHMARK:
++	case PIN_FAST_BENCHMARK:
++	case PIN_BENCHMARK:
+ 		break;
+ 	default:
+ 		return -EINVAL;
+diff --git a/tools/testing/selftests/vm/gup_benchmark.c b/tools/testing/sel=
+ftests/vm/gup_benchmark.c
+index 389327e9b30a..43b4dfe161a2 100644
+--- a/tools/testing/selftests/vm/gup_benchmark.c
++++ b/tools/testing/selftests/vm/gup_benchmark.c
+@@ -18,6 +18,10 @@
+ #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
+ #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
+=20
++/* Similar to above, but use FOLL_PIN instead of FOLL_GET. */
++#define PIN_FAST_BENCHMARK	_IOWR('g', 4, struct gup_benchmark)
++#define PIN_BENCHMARK		_IOWR('g', 5, struct gup_benchmark)
++
+ /* Just the flags we need, copied from mm.h: */
+ #define FOLL_WRITE	0x01	/* check pte is writable */
+=20
+@@ -40,8 +44,14 @@ int main(int argc, char **argv)
+ 	char *file =3D "/dev/zero";
+ 	char *p;
+=20
+-	while ((opt =3D getopt(argc, argv, "m:r:n:f:tTLUwSH")) !=3D -1) {
++	while ((opt =3D getopt(argc, argv, "m:r:n:f:abtTLUuwSH")) !=3D -1) {
+ 		switch (opt) {
++		case 'a':
++			cmd =3D PIN_FAST_BENCHMARK;
++			break;
++		case 'b':
++			cmd =3D PIN_BENCHMARK;
++			break;
+ 		case 'm':
+ 			size =3D atoi(optarg) * MB;
+ 			break;
+@@ -63,6 +73,9 @@ int main(int argc, char **argv)
+ 		case 'U':
+ 			cmd =3D GUP_BENCHMARK;
+ 			break;
++		case 'u':
++			cmd =3D GUP_FAST_BENCHMARK;
++			break;
+ 		case 'w':
+ 			write =3D 1;
+ 			break;
 --=20
 2.25.0
 
