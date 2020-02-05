@@ -2,84 +2,110 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B6BC3524F
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 04:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9875C33CA1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 09:23:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C7383217F4
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 04:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A20120659
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 09:23:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbgBEEVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Feb 2020 23:21:42 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47498 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727846AbgBEEVm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 23:21:42 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 694AB29298E
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v6 1/5] unicode: Add standard casefolded d_ops
-Organization: Collabora
-References: <20200128230328.183524-1-drosen@google.com>
-        <20200128230328.183524-2-drosen@google.com>
-        <85sgjsxx2g.fsf@collabora.com>
-        <CA+PiJmS3kbK8220QaccP5jJ7dSf4xv3UrStQvLskAtCN+=vG_A@mail.gmail.com>
-Date:   Tue, 04 Feb 2020 23:21:33 -0500
-In-Reply-To: <CA+PiJmS3kbK8220QaccP5jJ7dSf4xv3UrStQvLskAtCN+=vG_A@mail.gmail.com>
-        (Daniel Rosenberg's message of "Tue, 4 Feb 2020 19:05:02 -0800")
-Message-ID: <85h8051x6a.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1728206AbgBEJXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 04:23:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49146 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728083AbgBEJXX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 04:23:23 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 3962EB242;
+        Wed,  5 Feb 2020 09:23:20 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 61F351E0A51; Wed,  5 Feb 2020 10:23:13 +0100 (CET)
+Date:   Wed, 5 Feb 2020 10:23:13 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 04/12] mm: introduce page_ref_sub_return()
+Message-ID: <20200205092313.GA28058@quack2.suse.cz>
+References: <20200204234117.2974687-1-jhubbard@nvidia.com>
+ <20200204234117.2974687-5-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200204234117.2974687-5-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Rosenberg <drosen@google.com> writes:
+On Tue 04-02-20 15:41:09, John Hubbard wrote:
+> An upcoming patch requires subtracting a large chunk of refcounts from
+> a page, and checking what the resulting refcount is. This is a little
+> different than the usual "check for zero refcount" that many of the
+> page ref functions already do. However, it is similar to a few other
+> routines that (like this one) are generally useful for things such as
+> 1-based refcounting.
+> 
+> Add page_ref_sub_return(), that subtracts a chunk of refcounts
+> atomically, and returns an atomic snapshot of the result.
+> 
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-> On Sun, Feb 2, 2020 at 5:46 PM Gabriel Krisman Bertazi
-> <krisman@collabora.com> wrote:
->>
->>
->> I don't think fs/unicode is the right place for these very specific
->> filesystem functions, just because they happen to use unicode.  It is an
->> encoding library, it doesn't care about dentries, nor should know how to
->> handle them.  It exposes a simple api to manipulate and convert utf8 strings.
->>
->> I saw change was after the desire to not have these functions polluting
->> the VFS hot path, but that has nothing to do with placing them here.
->>
->> Would libfs be better?  or a casefolding library in fs/casefold.c?
->>
->>
->> --
->> Gabriel Krisman Bertazi
->
-> The hash function needs access to utf8ncursor, but apart from that,
-> libfs would make sense. utf8ncursor is the only reason I have them
-> here. How do you feel about exposing utf8cursor or something similar?
+Looks good to me. You can add:
 
-Hi,
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-It was designed to be an internal thing, but I'm ok with exposing it.
+								Honza
 
+> ---
+>  include/linux/page_ref.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/include/linux/page_ref.h b/include/linux/page_ref.h
+> index 14d14beb1f7f..a0e171265b79 100644
+> --- a/include/linux/page_ref.h
+> +++ b/include/linux/page_ref.h
+> @@ -102,6 +102,15 @@ static inline void page_ref_sub(struct page *page, int nr)
+>  		__page_ref_mod(page, -nr);
+>  }
+>  
+> +static inline int page_ref_sub_return(struct page *page, int nr)
+> +{
+> +	int ret = atomic_sub_return(nr, &page->_refcount);
+> +
+> +	if (page_ref_tracepoint_active(__tracepoint_page_ref_mod))
+> +		__page_ref_mod_and_return(page, -nr, ret);
+> +	return ret;
+> +}
+> +
+>  static inline void page_ref_inc(struct page *page)
+>  {
+>  	atomic_inc(&page->_refcount);
+> -- 
+> 2.25.0
+> 
 -- 
-Gabriel Krisman Bertazi
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
