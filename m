@@ -1,48 +1,37 @@
 Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	URIBL_SBL,URIBL_SBL_A autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9485EC352A2
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CEEDC35247
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:40:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7729720659
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:32:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AFE821741
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727129AbgBERcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 12:32:55 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52624 "EHLO ms.lwn.net"
+        id S1727154AbgBERkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 12:40:40 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52698 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726957AbgBERcz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Feb 2020 12:32:55 -0500
+        id S1727116AbgBERkk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 12:40:40 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D2D306E5;
-        Wed,  5 Feb 2020 17:32:53 +0000 (UTC)
-Date:   Wed, 5 Feb 2020 10:32:52 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 016206E5;
+        Wed,  5 Feb 2020 17:40:39 +0000 (UTC)
+Date:   Wed, 5 Feb 2020 10:40:38 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        linux-ext4@vger.kernel.org,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        linux-xfs <linux-xfs@vger.kernel.org>
-Subject: Re: [PATCH v2] Documentation: changes.rst: update several outdated
- project URLs
-Message-ID: <20200205103252.539f65e8@lwn.net>
-In-Reply-To: <a9c3c509-8f30-fcc4-d9e0-b53aeaa89e4f@infradead.org>
-References: <a9c3c509-8f30-fcc4-d9e0-b53aeaa89e4f@infradead.org>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Allow git builds of Sphinx
+Message-ID: <20200205104038.7b27a94f@lwn.net>
+In-Reply-To: <20200124183316.1719218-1-steve@sk2.org>
+References: <20200124183316.1719218-1-steve@sk2.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,13 +41,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 Jan 2020 15:15:15 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Fri, 24 Jan 2020 19:33:16 +0100
+Stephen Kitt <steve@sk2.org> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+> When using a non-release version of Sphinx, from a local build (with
+> improvements for kernel doc handling, why not),
 > 
-> Update projects URLs in the changes.rst file.
+> 	sphinx-build --version
+> 
+> reports versions of the form
+> 
+> 	sphinx-build 3.0.0+/4703d9119972
+> 
+> i.e. base version, a plus symbol, slash, and the start of the git hash
+> of whatever repository the command is run in (no, not the hash that
+> was used to build Sphinx!).
+> 
+> This patch fixes the installation check in sphinx-pre-install to
+> recognise such version output.
+> 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> ---
 
-Applied, thanks.
+Seems useful.  Applied, thanks.
 
 jon
