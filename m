@@ -2,334 +2,263 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D5AC35247
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D396AC47409
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:20:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6466C2072B
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 17:54:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LjsPEiQ8"
+	by mail.kernel.org (Postfix) with ESMTP id A57A82467D
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbgBERye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 12:54:34 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37884 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726822AbgBERye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Feb 2020 12:54:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=9JMobWgsvWorEne/Ocjw8LwZqNsKiEDmSrOUanLtD8g=; b=LjsPEiQ8/qKv0AYBhKWL+zmxMA
-        RMBKO8WqYkgerVZs+trKI/HTATYK2ugTJ1+/70guiWPRDoh8MDz5/mOEye44murScGaQDQWiZSbOK
-        /xdV/S5oThBP2y0SEDfRB2P+9K+I4TJP41aJE4OccmA3daeBFzFXZ/K6l0+coQXPDU2tpf4uW2LxW
-        E1gMO3OmGZbI9XMtTTbUYMULnPOTo7bNzluXrw6JGkI6XwazosYtmdwIOUf8FsXAYlA2CKdzK5+Bq
-        KdDZqJvTHXlLrtHjsxMA0J948Q/jkijlwZ5090GST9lMUs90buL3phiZPsE6Uwob6QT6uygo8UU78
-        O2nATMbg==;
-Received: from [2603:3004:32:9a00::c7a3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izOsi-0005Kh-R5; Wed, 05 Feb 2020 17:54:32 +0000
-Subject: Re: [PATCH v25 21/21] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     akpm@linux-foundation.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
-        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
-        cedric.xing@intel.com, puiterwijk@redhat.com,
-        linux-doc@vger.kernel.org
-References: <20200204060545.31729-1-jarkko.sakkinen@linux.intel.com>
- <20200204060545.31729-22-jarkko.sakkinen@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5ea28632-cd64-bc26-fab6-2868142eb9e4@infradead.org>
-Date:   Wed, 5 Feb 2020 09:54:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727791AbgBESU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 13:20:28 -0500
+Received: from mga14.intel.com ([192.55.52.115]:20940 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727764AbgBESU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 13:20:27 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
+   d="scan'208";a="279447746"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:24 -0800
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 03/27] x86/fpu/xstate: Introduce CET MSR XSAVES supervisor states
+Date:   Wed,  5 Feb 2020 10:19:11 -0800
+Message-Id: <20200205181935.3712-4-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200204060545.31729-22-jarkko.sakkinen@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-I have some Documentation edits. Please see inline below...
+Control-flow Enforcement Technology (CET) adds five MSRs.  Introduce them
+and their XSAVES supervisor states:
 
+    MSR_IA32_U_CET (user-mode CET settings),
+    MSR_IA32_PL3_SSP (user-mode Shadow Stack pointer),
+    MSR_IA32_PL0_SSP (kernel-mode Shadow Stack pointer),
+    MSR_IA32_PL1_SSP (Privilege Level 1 Shadow Stack pointer),
+    MSR_IA32_PL2_SSP (Privilege Level 2 Shadow Stack pointer).
 
-On 2/3/20 10:05 PM, Jarkko Sakkinen wrote:
-> Document Intel SGX micro architecture and kernel internals. The motivation
-> is to make the core ideas approachable by keeping a fairly high abstraction
-> level. Fine-grained micro architecture details can be looked up from Intel
-> SDM Volume 3D.
-> 
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: linux-doc@vger.kernel.org
-> Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
->  Documentation/x86/index.rst |   1 +
->  Documentation/x86/sgx.rst   | 177 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 178 insertions(+)
->  create mode 100644 Documentation/x86/sgx.rst
+v6:
+- Remove __packed from struct cet_user_state, struct cet_kernel_state.
 
-> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-> new file mode 100644
-> index 000000000000..04deaba83981
-> --- /dev/null
-> +++ b/Documentation/x86/sgx.rst
-> @@ -0,0 +1,177 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============
-> +Architecture
-> +============
-> +
-> +Introduction
-> +============
-> +
-> +*Software Guard eXtensions (SGX)* is a set of instructions and that enable
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ arch/x86/include/asm/fpu/types.h            | 22 ++++++++++++++++++
+ arch/x86/include/asm/fpu/xstate.h           |  5 +++--
+ arch/x86/include/asm/msr-index.h            | 18 +++++++++++++++
+ arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+ arch/x86/kernel/fpu/xstate.c                | 25 +++++++++++++++++++--
+ 5 files changed, 68 insertions(+), 4 deletions(-)
 
-                                                   drop:      and
-
-> +ring-3 applications to set aside private regions of code and data. These regions
-> +are called enclaves. Enclave can be entered to a fixed set of entry points. Only
-
-                        An enclave can be entered by a fixed set of entry points.
-
-> +a CPU running inside the enclave can access its code and data.
-> +
-> +SGX support can be determined by
-> +
-> +	``cat /proc/cpuinfo | grep sgx``
-
-or just: ``grep sgx /proc/cpuinfo
-
-> +
-> +Enclave Page Cache``
-
-> +==================
-> +
-> +SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
-> +with an enclave. It is contained in a BIOS reserved region of physical memory.
-> +Unlike pages used for regular memory, pages can only be accessed outside the
-> +enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
-> +**ENCLU**.
-> +
-> +Direct memory accesses to an enclave can be only done by a CPU executing inside
-> +the enclave. Enclave can be entered with **ENCLU[EENTER]** leaf function to a
-
-                An enclave can be entered with the
-
-> +fixed set of entry points. However, a CPU executing inside the enclave can do
-> +outside memory accesses.
-> +
-> +Page Types
-> +----------
-> +
-> +**SGX Enclave Control Structure (SECS)**
-> +   Enclave's address range, attributes and other global data is defined
-
-                                                                are defined
+diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+index f098f6cab94b..d7ef4d9c7ad5 100644
+--- a/arch/x86/include/asm/fpu/types.h
++++ b/arch/x86/include/asm/fpu/types.h
+@@ -114,6 +114,9 @@ enum xfeature {
+ 	XFEATURE_Hi16_ZMM,
+ 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
+ 	XFEATURE_PKRU,
++	XFEATURE_RESERVED,
++	XFEATURE_CET_USER,
++	XFEATURE_CET_KERNEL,
  
-> +   by this structure.
-> +
-> +**Regular (REG)**
-> +   Regular EPC pages contain the code and data of an enclave.
-> +
-> +**Thread Control Structure (TCS)**
-> +   Thread Control Structure pages define the entry points to an enclave and
-> +   track the execution state of an enclave thread.
-> +
-> +**Version Array (VA)**
-> +   Version Array pages contain 512 slots, each of which can contain a version
-> +   number for a page evicted from the EPC.
-> +
-> +Enclave Page Cache Map
-> +----------------------
-> +
-> +The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
-> +contains entry for each EPC page, which describes the owning enclave, access
-
-   contains an entry for each
-
-> +rights and page type among the other things.
-> +
-> +The permissions from EPCM is consulted if and only if walking the kernel page
-> +tables succeeds. The total permissions are thus a conjunction between page table
-> +and EPCM permissions.
-> +
-> +For all intents and purposes the SGX architecture allows the processor to
-> +invalidate all EPCM entries at will, i.e. requires that software be prepared to
-> +handle an EPCM fault at any time. The contents of EPC are encrypted with an
-> +ephemeral key, which is lost on power transitions.
-> +
-> +EPC management
-> +==============
-> +
-> +EPC pages do not have ``struct page`` instances. They are IO memory from kernel
-> +perspective. The consequence is that they are always mapped as shared memory.
-> +Kernel defines ``/dev/sgx/enclave`` that can be mapped as ``MAP_SHARED`` to
-> +define the address range for an enclave.
-> +
-> +EPC Over-subscription
-> +=====================
-> +
-> +When the amount of free EPC pages goes below a low watermark the swapping thread
-> +starts reclaiming pages. The pages that have no do not have the **A** bit set
-
-                                     drop: have no
-
-> +are selected as victim pages. Each enclave holds an shmem file as a backing
-> +storage for reclaimed pages.
-> +
-> +Launch Control
-> +==============
-> +
-> +SGX provides a launch control mechanism. After all enclave pages have been
-> +copied, kernel executes **ENCLS[EINIT]**, which initializes the enclave. Only
-> +after this the CPU can execute inside the enclave.
-> +
-> +This leaf function takes a RSA-3072 signature of the enclave measurement and an
-
-                      takes an
-
-> +optional cryptographic token. Linux does not take advantage of launch tokens.
-> +The instruction checks that the signature is signed with the key defined in
-> +**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
-> +enclave is allowed to be executed.
-> +
-> +MSRs can be configured by the BIOS to be either readable or writable.  Linux
-> +supports only writable configuration in order give full control to the kernel on
-
-                                        in order to give
-
-> +launch control policy. Readable configuration requires the use of previously
-> +mentioned launch tokens.
-> +
-> +The current kernel implementation supports only writable MSRs. The launch is
-> +performed by setting the MSRs to the hash of the enclave signer's public key.
-> +Alternative would be to have *a launch enclave* that would be signed with the
-
-   The alternative would be
-
-> +key set into MSRs, which would then generate launch tokens for other enclaves.
-> +This would only make sense with read-only MSRs, and thus the option has been
-> +discluded.
-
-I can't find "discluded" in a dictionary.
-
-> +
-> +Attestation
-> +===========
-> +
-> +Local Attestation
-> +-----------------
-> +
-> +In local attestation the source enclave calculates a MAC of itself with
-
-"MAC" can mean a lots of different things.  Which one is this?
-
-> +**ENCLS[EREPORT]**. Then the destination enclave verifies this with
-> +**ENCLS[EGETKEY(REPORT)]** key. This mechanism can also be used in addition as a
-> +communication channel as the **REPORT** data structure includes 64 byte field
-
-                                                          includes a 64-byte field
-
-> +for passing variable information.
-> +
-> +Remote Attestation
-> +------------------
-> +
-> +For remote attestation (aka provisioning) there a multiple options available:
-
-                                             there are
-
-> +
-> +* An EPID based scheme, which requires the use of Intel managed attestation
-
-Drop: "An " to make it similar to next bullet point.
-
-> +  service.
-> +* ECDSA based scheme, which 3rd party to act as an attestation service.
-
-                         which uses a 3rd party
-or
-                         using a 3rd party
-
-> +
-> +Intel provides an open source *quoting enclave (QE)* and *provisioning
-> +certification enclave (PCE)* for the ECDSA based scheme. The latter acts as
-> +the CA for the local QE's. Intel also a precompiled binary version of the PCE
-
-                                    also provides [??]
-
-> +so that, if required, quotation can be linked to the hardware.
-> +
-> +The use of remote attestation must be strictly controlled because it allows to
-> +get access to the provisioning keys to attest to a remote party that the
-> +software is running inside a legitimate enclave on real hardware. This could be
-> +potentially used by malware, and thus must be protected.
-> +
-> +Enclaves can attest their identity when **ATTRIBUTES.PROVISIONKEY** set in SECS.
-
-                                                                       is set in SECS.
-
-> +This attribute authorizes **ENCLS[EGETKEY]** to access provisioning keys.
-> +
-> +Kernel defines ``/dev/sgx/provision`` and a special ioctl
-> +``SGX_IOC_ENCLAVE_SET_ATTRIBUTE`` to accomplish this. A file descriptor pointing
-> +to ``/dev/sgx/provision`` is passed to ioctl from which kernel authorizes the
-> +use of remote attestation keys. This must be called before
-> +``SGX_IOC_ENCL_CREATE`` if remote attestation is required.
-> +
-> +References
-> +----------
-> +
-> +"Intel® Software Guard Extensions: EPID Provisioning and Attestation Services"
-> +   https://software.intel.com/sites/default/files/managed/57/0e/ww10-2016-sgx-provisioning-and-attestation-final.pdf
-> +
-> +"Supporting Third Party Attestation for Intel® SGX with Intel® Data Center
-> +Attestation Primitives"
-> +   https://software.intel.com/sites/default/files/managed/f1/b8/intel-sgx-support-for-third-party-attestation.pdf
-> +
-> +Usage Models
-> +============
-> +
-> +Shared Library
-> +--------------
-> +
-> +Sensitive data and the code that acts on it is partitioned from the application
-> +into a separate library. The library is then linked as a DSO which can be loaded
-> +into an enclave. The application can then make individual function calls into
-> +the enclave through special SGX instructions. A run-time within the enclave is
-> +configured to marshall function parameters into and out of the enclave and to
-
-                 marshal
-
-> +call the correct library function.
-> +
-> +Application Container
-> +---------------------
-> +
-> +An application may be loaded into a container enclave which is specially
-> +configured with a library OS and run-time which permits the application to run.
-> +The enclave run-time and library OS work together to execute the application
-> +when a thread enters the enclave.
-> 
-
-cheers.
+ 	XFEATURE_MAX,
+ };
+@@ -128,6 +131,8 @@ enum xfeature {
+ #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
+ #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
+ #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
++#define XFEATURE_MASK_CET_USER		(1 << XFEATURE_CET_USER)
++#define XFEATURE_MASK_CET_KERNEL	(1 << XFEATURE_CET_KERNEL)
+ 
+ #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
+ #define XFEATURE_MASK_AVX512		(XFEATURE_MASK_OPMASK \
+@@ -229,6 +234,23 @@ struct pkru_state {
+ 	u32				pad;
+ } __packed;
+ 
++/*
++ * State component 11 is Control-flow Enforcement user states
++ */
++struct cet_user_state {
++	u64 user_cet;			/* user control-flow settings */
++	u64 user_ssp;			/* user shadow stack pointer */
++};
++
++/*
++ * State component 12 is Control-flow Enforcement kernel states
++ */
++struct cet_kernel_state {
++	u64 kernel_ssp;			/* kernel shadow stack */
++	u64 pl1_ssp;			/* privilege level 1 shadow stack */
++	u64 pl2_ssp;			/* privilege level 2 shadow stack */
++};
++
+ struct xstate_header {
+ 	u64				xfeatures;
+ 	u64				xcomp_bv;
+diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
+index 9ebfdd543576..952d2515dae4 100644
+--- a/arch/x86/include/asm/fpu/xstate.h
++++ b/arch/x86/include/asm/fpu/xstate.h
+@@ -33,13 +33,14 @@
+ 				       XFEATURE_MASK_BNDCSR)
+ 
+ /* All currently supported supervisor features */
+-#define SUPPORTED_XFEATURES_MASK_SUPERVISOR (0)
++#define SUPPORTED_XFEATURES_MASK_SUPERVISOR (XFEATURE_MASK_CET_USER)
+ 
+ /*
+  * Unsupported supervisor features. When a supervisor feature in this mask is
+  * supported in the future, move it to the supported supervisor feature mask.
+  */
+-#define UNSUPPORTED_XFEATURES_MASK_SUPERVISOR (XFEATURE_MASK_PT)
++#define UNSUPPORTED_XFEATURES_MASK_SUPERVISOR (XFEATURE_MASK_PT | \
++					       XFEATURE_MASK_CET_KERNEL)
+ 
+ /* All supervisor states including supported and unsupported states. */
+ #define ALL_XFEATURES_MASK_SUPERVISOR (SUPPORTED_XFEATURES_MASK_SUPERVISOR | \
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 084e98da04a7..114e77f5bb6b 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -872,4 +872,22 @@
+ #define MSR_VM_IGNNE                    0xc0010115
+ #define MSR_VM_HSAVE_PA                 0xc0010117
+ 
++/* Control-flow Enforcement Technology MSRs */
++#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
++#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
++#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
++#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
++#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
++#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
++#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
++
++/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
++#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001ULL
++#define MSR_IA32_CET_WRSS_EN		0x0000000000000002ULL
++#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004ULL
++#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008ULL
++#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010ULL
++#define MSR_IA32_CET_WAIT_ENDBR	0x00000000000000800UL
++#define MSR_IA32_CET_BITMAP_MASK	0xfffffffffffff000ULL
++
+ #endif /* _ASM_X86_MSR_INDEX_H */
+diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+index bcba3c643e63..a8df907e8017 100644
+--- a/arch/x86/include/uapi/asm/processor-flags.h
++++ b/arch/x86/include/uapi/asm/processor-flags.h
+@@ -130,6 +130,8 @@
+ #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
+ #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
+ #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
++#define X86_CR4_CET_BIT		23 /* enable Control-flow Enforcement */
++#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
+ 
+ /*
+  * x86-64 Task Priority Register, CR8
+diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+index 04f7c6b8dbbc..ec08a2b6feca 100644
+--- a/arch/x86/kernel/fpu/xstate.c
++++ b/arch/x86/kernel/fpu/xstate.c
+@@ -38,6 +38,9 @@ static const char *xfeature_names[] =
+ 	"Processor Trace (unused)"	,
+ 	"Protection Keys User registers",
+ 	"unknown xstate feature"	,
++	"Control-flow User registers"	,
++	"Control-flow Kernel registers"	,
++	"unknown xstate feature"	,
+ };
+ 
+ static short xsave_cpuid_features[] __initdata = {
+@@ -51,6 +54,9 @@ static short xsave_cpuid_features[] __initdata = {
+ 	X86_FEATURE_AVX512F,
+ 	X86_FEATURE_INTEL_PT,
+ 	X86_FEATURE_PKU,
++	-1,		   /* Unused */
++	X86_FEATURE_SHSTK, /* XFEATURE_CET_USER */
++	X86_FEATURE_SHSTK, /* XFEATURE_CET_KERNEL */
+ };
+ 
+ /*
+@@ -316,6 +322,8 @@ static void __init print_xstate_features(void)
+ 	print_xstate_feature(XFEATURE_MASK_ZMM_Hi256);
+ 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
+ 	print_xstate_feature(XFEATURE_MASK_PKRU);
++	print_xstate_feature(XFEATURE_MASK_CET_USER);
++	print_xstate_feature(XFEATURE_MASK_CET_KERNEL);
+ }
+ 
+ /*
+@@ -563,6 +571,8 @@ static void check_xstate_against_struct(int nr)
+ 	XCHECK_SZ(sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_USER,   struct cet_user_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_KERNEL, struct cet_kernel_state);
+ 
+ 	/*
+ 	 * Make *SURE* to add any feature numbers in below if
+@@ -770,8 +780,19 @@ void __init fpu__init_system_xstate(void)
+ 	 * Clear XSAVE features that are disabled in the normal CPUID.
+ 	 */
+ 	for (i = 0; i < ARRAY_SIZE(xsave_cpuid_features); i++) {
+-		if (!boot_cpu_has(xsave_cpuid_features[i]))
+-			xfeatures_mask_all &= ~BIT_ULL(i);
++		if (xsave_cpuid_features[i] == X86_FEATURE_SHSTK) {
++			/*
++			 * X86_FEATURE_SHSTK and X86_FEATURE_IBT share
++			 * same states, but can be enabled separately.
++			 */
++			if (!boot_cpu_has(X86_FEATURE_SHSTK) &&
++			    !boot_cpu_has(X86_FEATURE_IBT))
++				xfeatures_mask_all &= ~BIT_ULL(i);
++		} else {
++			if ((xsave_cpuid_features[i] == -1) ||
++			    !boot_cpu_has(xsave_cpuid_features[i]))
++				xfeatures_mask_all &= ~BIT_ULL(i);
++		}
+ 	}
+ 
+ 	xfeatures_mask_all &= fpu__get_supported_xfeatures_mask();
 -- 
-~Randy
+2.21.0
+
