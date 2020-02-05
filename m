@@ -4,29 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9737CC3F68F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A2CC352A1
 	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:23:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6E406217F4
+	by mail.kernel.org (Postfix) with ESMTP id 23F6B217F4
 	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbgBESXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 13:23:45 -0500
+        id S1727908AbgBESX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 13:23:28 -0500
 Received: from mga09.intel.com ([134.134.136.24]:43402 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727843AbgBESX2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727104AbgBESX2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 5 Feb 2020 13:23:28 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:23:27 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:23:26 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
-   d="scan'208";a="343835191"
+   d="scan'208";a="343835179"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2020 10:23:26 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2020 10:23:25 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -53,9 +54,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v9 6/7] mm: Update alloc_set_pte() for zero page
-Date:   Wed,  5 Feb 2020 10:23:07 -0800
-Message-Id: <20200205182308.4028-7-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 4/7] x86/cet/ibt: ELF header parsing for Indirect Branch Tracking
+Date:   Wed,  5 Feb 2020 10:23:05 -0800
+Message-Id: <20200205182308.4028-5-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200205182308.4028-1-yu-cheng.yu@intel.com>
 References: <20200205182308.4028-1-yu-cheng.yu@intel.com>
@@ -66,41 +67,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update alloc_set_pte() for the zero-page case.  A special mapping can also
-use a zero page for read.  One use case is the Indirect Branch Tracking
-legacy code page (introduced next).
+Update arch_setup_elf_property() for Indirect Branch Tracking.
+
+v9:
+- Change cpu_feature_enabled() to static_cpu_has().
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- mm/memory.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/x86/Kconfig             | 2 ++
+ arch/x86/kernel/process_64.c | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 6daa28614327..58c1e4b60991 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3447,6 +3447,12 @@ vm_fault_t alloc_set_pte(struct vm_fault *vmf, struct mem_cgroup *memcg,
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 563f3c81f323..5c260c047e3c 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2003,6 +2003,8 @@ config X86_INTEL_BRANCH_TRACKING_USER
+ 	def_bool n
+ 	depends on CPU_SUP_INTEL && X86_64
+ 	select X86_INTEL_CET
++	select ARCH_USE_GNU_PROPERTY
++	select ARCH_BINFMT_ELF_STATE
+ 	---help---
+ 	  Indirect Branch Tracking (IBT) provides protection against
+ 	  CALL-/JMP-oriented programming attacks.  It is active when
+diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
+index 99548cde0cc6..9f81b413d975 100644
+--- a/arch/x86/kernel/process_64.c
++++ b/arch/x86/kernel/process_64.c
+@@ -760,6 +760,11 @@ int arch_setup_elf_property(struct arch_elf_state *state)
+ 			return r;
+ 	}
  
- 	flush_icache_page(vma, page);
- 	entry = mk_pte(page, vma->vm_page_prot);
-+
-+	if (is_zero_pfn(pte_pfn(entry))) {
-+		entry = pte_mkspecial(entry);
-+		goto alloc_set_pte_out;
++	if (static_cpu_has(X86_FEATURE_IBT)) {
++		if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			r = cet_setup_ibt();
 +	}
 +
- 	if (write)
- 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
- 	/* copy-on-write page */
-@@ -3459,6 +3465,8 @@ vm_fault_t alloc_set_pte(struct vm_fault *vmf, struct mem_cgroup *memcg,
- 		inc_mm_counter_fast(vma->vm_mm, mm_counter_file(page));
- 		page_add_file_rmap(page, false);
- 	}
-+
-+alloc_set_pte_out:
- 	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
- 
- 	/* no need to invalidate: a not-present page won't be cached */
+ 	return r;
+ }
+ #endif
 -- 
 2.21.0
 
