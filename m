@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBB3C352A2
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1F4C35247
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1FC48218AC
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 202EF217F4
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727761AbgBESVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 13:21:48 -0500
-Received: from mga14.intel.com ([192.55.52.115]:20937 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727797AbgBESU3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727805AbgBESU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 5 Feb 2020 13:20:29 -0500
+Received: from mga14.intel.com ([192.55.52.115]:20934 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727768AbgBESU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 13:20:27 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:27 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
-   d="scan'208";a="279447794"
+   d="scan'208";a="279447755"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:27 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:25 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -54,9 +54,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v9 13/27] x86/mm: Shadow Stack page fault error checking
-Date:   Wed,  5 Feb 2020 10:19:21 -0800
-Message-Id: <20200205181935.3712-14-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack protection
+Date:   Wed,  5 Feb 2020 10:19:13 -0800
+Message-Id: <20200205181935.3712-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200205181935.3712-1-yu-cheng.yu@intel.com>
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
@@ -67,76 +67,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If a page fault is triggered by a Shadow Stack (SHSTK) access
-(e.g. CALL/RET) or SHSTK management instructions (e.g. WRUSSQ), then bit[6]
-of the page fault error code is set.
+Introduce Kconfig option: X86_INTEL_SHADOW_STACK_USER.
 
-In access_error(), verify a SHSTK page fault is within a SHSTK memory area.
-It is always an error otherwise.
+Shadow Stack (SHSTK) provides protection against function return address
+corruption.  It is active when the kernel has this feature enabled, and
+both the processor and the application support it.  When this feature is
+enabled, legacy non-SHSTK applications continue to work, but without SHSTK
+protection.
 
-For a valid SHSTK access, set FAULT_FLAG_WRITE to effect copy-on-write.
+The user-mode SHSTK protection is only implemented for the 64-bit kernel.
+IA32 applications are supported under the compatibility mode.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/traps.h |  2 ++
- arch/x86/mm/fault.c          | 18 ++++++++++++++++++
- 2 files changed, 20 insertions(+)
+ arch/x86/Kconfig  | 22 ++++++++++++++++++++++
+ arch/x86/Makefile |  7 +++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-index 7ac26bbd0bef..8023d177fcd8 100644
---- a/arch/x86/include/asm/traps.h
-+++ b/arch/x86/include/asm/traps.h
-@@ -169,6 +169,7 @@ enum {
-  *   bit 3 ==				1: use of reserved bit detected
-  *   bit 4 ==				1: fault was an instruction fetch
-  *   bit 5 ==				1: protection keys block access
-+ *   bit 6 ==				1: shadow stack access fault
-  */
- enum x86_pf_error_code {
- 	X86_PF_PROT	=		1 << 0,
-@@ -177,5 +178,6 @@ enum x86_pf_error_code {
- 	X86_PF_RSVD	=		1 << 3,
- 	X86_PF_INSTR	=		1 << 4,
- 	X86_PF_PK	=		1 << 5,
-+	X86_PF_SHSTK	=		1 << 6,
- };
- #endif /* _ASM_X86_TRAPS_H */
-diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-index 304d31d8cbbc..9c1243302663 100644
---- a/arch/x86/mm/fault.c
-+++ b/arch/x86/mm/fault.c
-@@ -1187,6 +1187,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
- 				       (error_code & X86_PF_INSTR), foreign))
- 		return 1;
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5e8949953660..6c34b701c588 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1974,6 +1974,28 @@ config X86_INTEL_TSX_MODE_AUTO
+ 	  side channel attacks- equals the tsx=auto command line parameter.
+ endchoice
  
-+	/*
-+	 * Verify X86_PF_SHSTK is within a Shadow Stack VMA.
-+	 * It is always an error if there is a Shadow Stack
-+	 * fault outside a Shadow Stack VMA.
-+	 */
-+	if (error_code & X86_PF_SHSTK) {
-+		if (!(vma->vm_flags & VM_SHSTK))
-+			return 1;
-+		return 0;
-+	}
++config X86_INTEL_CET
++	def_bool n
 +
- 	if (error_code & X86_PF_WRITE) {
- 		/* write, present and write, not present: */
- 		if (unlikely(!(vma->vm_flags & VM_WRITE)))
-@@ -1344,6 +1355,13 @@ void do_user_addr_fault(struct pt_regs *regs,
++config ARCH_HAS_SHSTK
++	def_bool n
++
++config X86_INTEL_SHADOW_STACK_USER
++	prompt "Intel Shadow Stack for user-mode"
++	def_bool n
++	depends on CPU_SUP_INTEL && X86_64
++	select ARCH_USES_HIGH_VMA_FLAGS
++	select X86_INTEL_CET
++	select ARCH_HAS_SHSTK
++	---help---
++	  Shadow Stack (SHSTK) provides protection against program
++	  stack corruption.  It is active when the kernel has this
++	  feature enabled, and the processor and the application
++	  support it.  When this feature is enabled, legacy non-SHSTK
++	  applications continue to work, but without SHSTK protection.
++
++	  If unsure, say y.
++
+ config EFI
+ 	bool "EFI runtime service support"
+ 	depends on ACPI
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 94df0868804b..c34f5befa4c8 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -149,6 +149,13 @@ ifdef CONFIG_X86_X32
+ endif
+ export CONFIG_X86_X32_ABI
  
- 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
- 
-+	/*
-+	 * If the fault is caused by a Shadow Stack access,
-+	 * i.e. CALL/RET/SAVEPREVSSP/RSTORSSP, then set
-+	 * FAULT_FLAG_WRITE to effect copy-on-write.
-+	 */
-+	if (hw_error_code & X86_PF_SHSTK)
-+		flags |= FAULT_FLAG_WRITE;
- 	if (hw_error_code & X86_PF_WRITE)
- 		flags |= FAULT_FLAG_WRITE;
- 	if (hw_error_code & X86_PF_INSTR)
++# Check assembler Shadow Stack suppot
++ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++  ifeq ($(call as-instr, saveprevssp, y),)
++      $(error CONFIG_X86_INTEL_SHADOW_STACK_USER not supported by the assembler)
++  endif
++endif
++
+ #
+ # If the function graph tracer is used with mcount instead of fentry,
+ # '-maccumulate-outgoing-args' is needed to prevent a GCC bug
 -- 
 2.21.0
 
