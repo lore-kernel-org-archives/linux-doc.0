@@ -2,32 +2,31 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6DAC35247
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D52C352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:23:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1EDA821741
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C20A217F4
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:23:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727878AbgBESW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 13:22:27 -0500
-Received: from mga14.intel.com ([192.55.52.115]:20937 "EHLO mga14.intel.com"
+        id S1727496AbgBESX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 13:23:27 -0500
+Received: from mga09.intel.com ([134.134.136.24]:43402 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727769AbgBESU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Feb 2020 13:20:27 -0500
+        id S1727104AbgBESX0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 13:23:26 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:26 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:23:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
-   d="scan'208";a="279447765"
+   d="scan'208";a="343835157"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:25 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2020 10:23:24 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -54,12 +53,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v9 07/27] Add guard pages around a Shadow Stack.
-Date:   Wed,  5 Feb 2020 10:19:15 -0800
-Message-Id: <20200205181935.3712-8-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 0/7] Control-flow Enforcement: Indirect Branch Tracking
+Date:   Wed,  5 Feb 2020 10:23:01 -0800
+Message-Id: <20200205182308.4028-1-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -67,61 +64,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-INCSSPD/INCSSPQ instruction is used to unwind a Shadow Stack (SHSTK).  It
-performs 'pop and discard' of the first and last element from SHSTK in the
-range specified in the operand.  The maximum value of the operand is 255,
-and the maximum moving distance of the SHSTK pointer is 255 * 4 for
-INCSSPD, 255 * 8 for INCSSPQ.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details can be found in "Intel
+64 and IA-32 Architectures Software Developer's Manual" [1].
 
-Since SHSTK has a fixed size, creating a guard page above prevents
-INCSSP/RET from moving beyond.  Likewise, creating a guard page below
-prevents CALL from underflowing the SHSTK.
+This is the second half of CET and enables Indirect Branch Tracking (IBT).
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- include/linux/mm.h | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+Changes from v8:
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index b5145fbe102e..75de07674649 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2464,9 +2464,15 @@ static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * m
- static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_start = vma->vm_start;
-+	unsigned long gap = 0;
- 
--	if (vma->vm_flags & VM_GROWSDOWN) {
--		vm_start -= stack_guard_gap;
-+	if (vma->vm_flags & VM_GROWSDOWN)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = PAGE_SIZE;
-+
-+	if (gap != 0) {
-+		vm_start -= gap;
- 		if (vm_start > vma->vm_start)
- 			vm_start = 0;
- 	}
-@@ -2476,9 +2482,15 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_end = vma->vm_end;
-+	unsigned long gap = 0;
-+
-+	if (vma->vm_flags & VM_GROWSUP)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = PAGE_SIZE;
- 
--	if (vma->vm_flags & VM_GROWSUP) {
--		vm_end += stack_guard_gap;
-+	if (gap != 0) {
-+		vm_end += gap;
- 		if (vm_end < vma->vm_end)
- 			vm_end = -PAGE_SIZE;
- 	}
+- Remove a patch that adds the legacy bitmap size to memory accounting,
+  since the bitmap is now dynamically allocated.
+- Change the legacy bitmap from a pre-defined address to
+  get_unmapped_area().
+- Fix mis-handling of WAIT_ENDBR in signals
+- Split out PTRACE, VDSO, opcode map, and Makefile changes and submit
+  separately.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] CET patches v8:
+
+    https://lkml.kernel.org/r/20190813205225.12032-1-yu-cheng.yu@intel.com/
+    https://lkml.kernel.org/r/20190813205359.12196-1-yu-cheng.yu@intel.com/
+
+H.J. Lu (1):
+  x86/cet/ibt: Add arch_prctl functions for Indirect Branch Tracking
+
+Yu-cheng Yu (6):
+  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
+  x86/cet/ibt: User-mode Indirect Branch Tracking support
+  x86/cet/ibt: Handle signals for Indirect Branch Tracking
+  x86/cet/ibt: ELF header parsing for Indirect Branch Tracking
+  mm: Update alloc_set_pte() for zero page
+  x86/cet/ibt: Introduce arch_prctl(ARCH_X86_CET_MARK_LEGACY_CODE)
+
+ arch/x86/Kconfig                              |  17 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/include/asm/cet.h                    |   7 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/uapi/asm/prctl.h             |   3 +
+ arch/x86/kernel/Makefile                      |   2 +-
+ arch/x86/kernel/cet.c                         |  58 ++++-
+ arch/x86/kernel/cet_bitmap.c                  | 226 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  19 ++
+ arch/x86/kernel/cpu/common.c                  |  17 ++
+ arch/x86/kernel/fpu/signal.c                  |   8 +-
+ arch/x86/kernel/process_64.c                  |   5 +
+ mm/memory.c                                   |   8 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ 14 files changed, 385 insertions(+), 8 deletions(-)
+ create mode 100644 arch/x86/kernel/cet_bitmap.c
+
 -- 
 2.21.0
 
