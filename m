@@ -4,219 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7A0C3524D
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 01:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88802C3524D
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 03:05:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D67EA218AC
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 01:17:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6123321582
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 03:05:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aEb2zaRN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a/rT7owE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgBEBR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Feb 2020 20:17:27 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33514 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727789AbgBEBR1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 20:17:27 -0500
-Received: by mail-pf1-f196.google.com with SMTP id n7so299194pfn.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2020 17:17:26 -0800 (PST)
+        id S1727873AbgBEDFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Feb 2020 22:05:16 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40732 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727887AbgBEDFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 22:05:15 -0500
+Received: by mail-lf1-f68.google.com with SMTP id c23so362333lfi.7
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2020 19:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ehUZDKkbTDStuHx/pS6DuaspA135Mfd5By/OONirJ34=;
-        b=aEb2zaRNdrPfZXojfMR1qDxiSMQH7kF6i3jce+ifoVVxnFMNKmisV+hk1sz++QoJKa
-         L5UzKB7KJuV96SSbHGx+5SNdd2HWC9ad+MVsOfAINXYqjnM5ypQYBmwlXtH/H2XSzAlJ
-         U2uGA/3bAraovLBvIgxih9u02lM9cXP3Tqcqi2kluLyXyYZpt68kLMH5mZnoY1GdxD4D
-         7IeaLunIGZKPf6F4RzgL0DCN/BPTeHCSPtlsa75CkOf+PY6+oFXZp82GAl2nlushrGx7
-         P6wX1T5HSrusG/TUo0/eMswoN2VU2Q5XLghEbYdh+K6NVgYwiYRMe8jc0/W5oi3PfkKE
-         x1LA==
+        bh=5WF1go+DuJvbwgdXeUhoD65NaX1JQ7zRHimo51GmC8M=;
+        b=a/rT7owEo3U/lPRFn35JOyHmNdZNKq3CUN5eC0vmSOAlGMUJJc7ELCvSX1Mh8APfaa
+         lAlLVERWXR5pYN81ddhMclRnb/OmN5Fx2KddB7KuZLDfFPyFM3c5qNNCCjwGgxr+r3s1
+         DNCcaZvM6VYKACKmTz/OjiTlKJVFN9VL8YzEYvQS2U83lFvZUm1XWKOklUIkQxQvXozG
+         vNU7Zo1syf0hTTILG3oFQfUcj+JQqVr59fj+c5MCVuSCuEvLrPxTFeYRhYsiMU1wniYS
+         k/ew5rFlhFL2LzMHulEuIV3u33upCBPfLhXENQXAIsbZYUZT2I99yQmfa/FkquxeDAIP
+         aNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ehUZDKkbTDStuHx/pS6DuaspA135Mfd5By/OONirJ34=;
-        b=RGFq6CAShHDSkXLItAzxQ3mapCd+fPI9FmSj7QsHXOLslkTYOLz+8ppCBjGXVQJD6q
-         yXheNHLWFtFOELg9Zsnn0Qx56fyHaMT5D/700qFhB07L1mC0Ahp9zW84EEbkjPKXQd+y
-         e6ZOZL3K2H0feFjFYy81U+1qAr6Vr0dRDXSF3Ef5XbHOcbblIBJWy/NtZb87WVGB08mx
-         +INKGwHWBW5hZYg1TnsVFrF9pB77ufyMaX6kop8n1f0nuDq0TapcdUOIY9LSCCIY2tWv
-         Xn8Dm7arcHrnfos8hrEa80TWwxx7VjbRtn0AKekaTFG7SIg2LsZlfIYVwyWoudgOx2Nu
-         uZ6Q==
-X-Gm-Message-State: APjAAAUpVi7XLggpRh5V5XlYMODDfNzBf6brSXttAhI7V79ggMsF5Fli
-        jIYB8cK7dN/AqFR2YKxwcpBDczFbwmyAJueOW70dHQ==
-X-Google-Smtp-Source: APXvYqzWPWbhmPlUq6xrTvgK8Vlg/kG9jG609SLnGNNW/4fPUY+RmVKzl+2/MeVgiCT4fpy3B7gKQ1Ve7/WdQecdozw=
-X-Received: by 2002:a63:480f:: with SMTP id v15mr33530785pga.201.1580865445849;
- Tue, 04 Feb 2020 17:17:25 -0800 (PST)
+        bh=5WF1go+DuJvbwgdXeUhoD65NaX1JQ7zRHimo51GmC8M=;
+        b=OIFLerk2R9uH+T+gKu8JOLHV3jtFpTxgBbiHLEj0DxF93cCwPrvbRqgBxyqunk9Gu6
+         iq+8+uPPE5rT2cI/kC0sPGzy6xhLumWO608JXqWyCCThyVt4nxFZ0ovRZgWT8SO+ukO6
+         Xfih4o46OHpfxeJoSGmxDkpFOJNwKsGVaVfm5i2JSw0ZwTx8/Vk7mOo7z39KKe3+V+oh
+         eFam9eqlk9xCvHT/YcwhIEAUy46C9Y01klpIgmiHNGn7siQBiX2KJVikBQXGic/Ag8/L
+         /L4GIIhmjc3OLagPdGNe5AYTK215yPxtTacw9Dve3bCT9JlrVuI8lg7go3A6qxecm29Z
+         1yag==
+X-Gm-Message-State: APjAAAUylVmWjQaiw2T0d53boLRKOC+8Lo/x7ECzMEp2mGC7Aj/LEW75
+        wW0CznOY+DZpAFfMagaLLYEvfv+Dihbo6FnY7RMTnA==
+X-Google-Smtp-Source: APXvYqzeG4caRRvcRllow4EA73MGmU6WFhFNYJbaTAD8sJamhzsXSFSCQuZUYpZgWEJovRgzDpyi7R9sxFKJltzNJtg=
+X-Received: by 2002:a19:4a92:: with SMTP id x140mr17094713lfa.29.1580871913677;
+ Tue, 04 Feb 2020 19:05:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20200130230812.142642-1-brendanhiggins@google.com>
- <20200130230812.142642-3-brendanhiggins@google.com> <e060bdfc-5cdb-fb62-48b0-cc54c7bc72ce@gmail.com>
- <CAFd5g46irbQ7j_DOY+bQPoo1TWjwvu6n9iyQ7abe9pfqydeMYg@mail.gmail.com> <1da1538d-2e4c-0ed0-5fae-6f9033230c46@gmail.com>
-In-Reply-To: <1da1538d-2e4c-0ed0-5fae-6f9033230c46@gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 4 Feb 2020 17:17:14 -0800
-Message-ID: <CAFd5g45=m9Rvqf__5FW6HXjSytHJwX=mue-BO+TZMg0JP-BGmw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] arch: um: add linker section for KUnit test suites
-To:     Frank Rowand <frowand.list@gmail.com>,
-        David Gow <davidgow@google.com>
-Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Knut Omang <knut.omang@oracle.com>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-arch@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20200128230328.183524-1-drosen@google.com> <20200128230328.183524-2-drosen@google.com>
+ <85sgjsxx2g.fsf@collabora.com>
+In-Reply-To: <85sgjsxx2g.fsf@collabora.com>
+From:   Daniel Rosenberg <drosen@google.com>
+Date:   Tue, 4 Feb 2020 19:05:02 -0800
+Message-ID: <CA+PiJmS3kbK8220QaccP5jJ7dSf4xv3UrStQvLskAtCN+=vG_A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] unicode: Add standard casefolded d_ops
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 4, 2020 at 3:17 PM Frank Rowand <frowand.list@gmail.com> wrote:
->
-> On 2/4/20 4:30 PM, Brendan Higgins wrote:
-> > On Tue, Feb 4, 2020 at 1:59 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> >>
-> >> On 1/30/20 5:08 PM, Brendan Higgins wrote:
-> >>> Add a linker section to UML where KUnit can put references to its test
-> >>> suites. This patch is an early step in transitioning to dispatching all
-> >>> KUnit tests from a centralized executor rather than having each as its
-> >>> own separate late_initcall.
-> >>
-> >> All architectures please.
-> >
-> > I *am* supporting all architectures with this patchset.
-> >
-> > The first patch in this series adds support to all architectures
-> > except UML (admittedly I only tried x86 and ARM, 32 bit and 64 bit for
->
-> Right you are.  My mind did not span from patch 1 to patch 2. Apologies for
-> the noise.
+On Sun, Feb 2, 2020 at 5:46 PM Gabriel Krisman Bertazi
+<krisman@collabora.com> wrote:
 >
 >
-> > both, but I am pretty sure someone tried it for POWER and something
-> > else, so maybe I should try it with others before submission). A patch
-> > specific for UML, this patch, was needed because UML is a special
-> > snowflake and has a bunch of special linker scripts that don't make
-> > the change in vmlinux.lds.h (the previous patch) sufficient.
-> >
-> >> The early versions of Kunit documented reliance on UML.  Discussion lead to
-> >> the conclusion that real architectures and real hardware would be supported.
-> >
-> > I am *very* aware.
-> >
-> > I would never intentionally break support for other architectures. I
-> > know it is very important to you, Alan, and others.
-> >
-> >> This like this are what make me reluctant to move devicetree unittests to
-> >> KUnit.
-> >
-> > Hopefully I can reassure you then:
-> >
-> > With Alan as a regular contributor who cares very much about non-UML
-> > architectures, it would be very unlikely for me to accidentally break
-> > support for other architectures without us finding out before a
-> > release.
-> >
-> > I also periodically test KUnit on linux-next on x86-64. I have gotten
-> > bugs for other architectures from Arnd Bergmann and one of the m86k
-> > maintainers who seems to play around with it as well.
-> >
-> > So yeah, other people care about this too, and I would really not want
-> > to make any of them unhappy.
+> I don't think fs/unicode is the right place for these very specific
+> filesystem functions, just because they happen to use unicode.  It is an
+> encoding library, it doesn't care about dentries, nor should know how to
+> handle them.  It exposes a simple api to manipulate and convert utf8 strings.
 >
-> Thanks for the extra reassurance.
+> I saw change was after the desire to not have these functions polluting
+> the VFS hot path, but that has nothing to do with placing them here.
+>
+> Would libfs be better?  or a casefolding library in fs/casefold.c?
+>
+>
+> --
+> Gabriel Krisman Bertazi
 
-No worries. This actually makes me think that we should probably have
-some kind of automated test that at least makes sure that popular
-KUnit architectures are not broken. Someone is currently adding KUnit
-support to KernelCI; maybe we can have KernelCI run multiple
-architecture tests after the initial support is complete.
-
-> >> Can you please add a section to the KUnit documentation that lists things
-> >> like the expectations, requirements, limitations, etc for a test case that
-> >> is run by KUnit?  Some examples that pop to mind from recent discussions
-> >> and my own experiences:
-> >>
-> >>   - Each test case is invoked after late_init is complete.
-> >>       + Exception: the possible value of being able to run a unit test
-> >>         at a specific runlevel has been expressed.  If an actual unit
-> >>         test can be shown to require running earlier, this restriction
-> >>         will be re-visited.
-> >>
-> >>   - Each test case must be idempotent.  Each test case may be called
-> >>     multiple times, and must generate the same result each time it
-> >>     is called.
-> >>       + Exception 1: a test case can be declared to not be idempotent
-> >>         [[ mechanism TBD ]], in which case KUnit will not call the
-> >>         test case a second time without the kernel rebooting.
-> >>       + Exception 2: hardware may not be deterministic, so a test that
-> >>         always passes or fails when run under UML may not always to
-> >>         so on real hardware.  <--- sentence copied from
-> >>         Documentation/dev-tools/kunit/usage.rst
-> >>           [[ This item and 1st exception do not exist yet, but will exist
-> >>           in some form if the proposed proc filesystem interface is
-> >>           added. ]]
-> >>
-> >>   - KUnit provides a helpful wrapper to simplify building a UML kernel
-> >>     containing the KUnit test cases, booting the UML kernel, and
-> >>     formatting the output from the test cases.  This wrapper MUST NOT
-> >>     be required to run the test cases or to determine a test result.
-> >>     The formatting may provide additional analysis and improve
-> >>     readability of a test result.
-> >>
-> >>   - .... There is more that belongs here, but I'm getting side tracked
-> >>     here, when I'm trying to instead convert devicetree unittests to
-> >>     KUnit and want to get back to that.
-> >
-> > Sure, I think that's a great start! Thanks for that. I hope you don't
-> > mind if I copy and paste some of it.
->
-> Please do.  And no need to credit me.
->
->
-> > It kind of sounds like you are talking about more of a requirements
-> > doc than the design doc I was imagining in my reply to you on the
-> > cover letter, which is fine. The documentation is primarily for people
-> > other than me, so whatever you and others think is useful, I will do.
-> >
->
-> I wasn't really sure what to label it as.  My inspiration was based
-> a little bit on reading through the Linux 5.5 KUnit source and
-> documentation, and trying to understand the expectations of the
-> KUnit framework and what the test cases have to either obey or
-> can expect.
->
-> I think there is a lot of history that you know, but is only visible
-> to test implementors if they read through the past couple of years
-> email threads.
-
-Yeah, that's no good. We need to provide a better experience than
-that. David has gotten deeply involved relatively recently: I suspect
-that he might have some good insight on this.
-
-David, you mentioned offline that there are some philosophical changes
-in how we think about KUnit that has happened that you feel have never
-quite been captured in the docs. Do you think this is part of what
-Frank has pointed out here? If not, do you have any thoughts about
-what we should call this documentation section?
-
-Shuah's first KUnit PR seemed to imply that KUnit was primarily for
-UML, or only fully supported under UML. So I think I might be the odd
-one out thinking that that has changed and the documentation properly
-conveys that.
+The hash function needs access to utf8ncursor, but apart from that,
+libfs would make sense. utf8ncursor is the only reason I have them
+here. How do you feel about exposing utf8cursor or something similar?
