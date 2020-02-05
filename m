@@ -2,79 +2,145 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61499C35247
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 23:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFC4C352A2
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 23:13:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 334DC2072B
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 23:10:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3C7D21927
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 23:13:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ojXmQoxc"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="rET6ClPJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbgBEXKv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 18:10:51 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:58814 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727149AbgBEXKv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Feb 2020 18:10:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=OpteY3pqyJOegINhrkFl2LRAOQcd5HtMxrq0VGNRpg4=; b=ojXmQoxcKZBsge8JycLCU4LgVM
-        nJmtV09nuPZ4cGxTCkcS8isckjlq1lPN3/dZaGD12BmdMoUnlahunIO6dv/m13+bhEM8QNrjR8sgp
-        aw46CC22ePRU6KjIwOOljCVvV964hz31uLFEe5YD2j9nd/4EzAvW6BEFsCQ0yus0FvYW8wKL7jWI1
-        90zDe5GlAnC+w+u1ZY9mR3fm+Bq+HdaUbjWBLzmb0sUofvcQJf6zhQ6jaMHffDxM9O2NguCS03oXY
-        bTnQjzuYR3FsIdTK4k7bAwee/5GtBPyL0m0cGx8sVVGnSIQZkwE0TzVg8XL/trhBiwatpyGICFR8x
-        vxMBmYNQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izTon-0005Dk-CV; Wed, 05 Feb 2020 23:10:49 +0000
-Subject: Re: [PATCH v25 21/21] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-sgx@vger.kernel.org, akpm@linux-foundation.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
-        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
-        cedric.xing@intel.com, puiterwijk@redhat.com,
-        linux-doc@vger.kernel.org
-References: <20200204060545.31729-1-jarkko.sakkinen@linux.intel.com>
- <20200204060545.31729-22-jarkko.sakkinen@linux.intel.com>
- <5ea28632-cd64-bc26-fab6-2868142eb9e4@infradead.org>
- <20200205230756.GB28111@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <64d57033-cd19-ae6f-48c5-d7e01a97ad5e@infradead.org>
-Date:   Wed, 5 Feb 2020 15:10:47 -0800
+        id S1727389AbgBEXNc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 18:13:32 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1635 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727149AbgBEXNc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Feb 2020 18:13:32 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3b4c000000>; Wed, 05 Feb 2020 15:13:04 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 05 Feb 2020 15:13:28 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 05 Feb 2020 15:13:28 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Feb
+ 2020 23:13:28 +0000
+Subject: Re: [PATCH v4 10/12] mm/gup: /proc/vmstat: pin_user_pages (FOLL_PIN)
+ reporting
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20200204234117.2974687-1-jhubbard@nvidia.com>
+ <20200204234117.2974687-11-jhubbard@nvidia.com>
+ <20200205093733.GB28058@quack2.suse.cz>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <09b49b0d-85cc-87b8-9176-0963f6c8c735@nvidia.com>
+Date:   Wed, 5 Feb 2020 15:13:27 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200205230756.GB28111@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200205093733.GB28058@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580944384; bh=QZo2rYgRggJLhdhuOglfdT26CygAzcQcsm1mvo4G27A=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=rET6ClPJ1i9ucTvvRWF/1/c462K2mCH6nZx8WiCBRBOHIYQjg+sBdCGrPEtzpJsKC
+         oKyCPZwjz3pxDIMTZQ64WUhXMxGUcmo2sbbCBiqNCUtVm8IDqmSKyYGkw81oZa918B
+         N0ScNcSKXjJywqnA2ZRAnUbR9x/eLSSwDq662e/d+ttmimG7GT1j+2mJRKDHI6zZbH
+         86HZzVIKep/0LUPMJQsvDeV54HT0Y46r7c6qo8I9SUAiapmADqg+pUsaOz9YoF0uW1
+         Jn2PUL4F9EQ2HxmAkHcoSFDySLMhNHZs2ZqJAAvZxFMlEtNxpUbGKwxFOdO35tSUdu
+         Cvzd7Xz67EEww==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/5/20 3:07 PM, Jarkko Sakkinen wrote:
-> I rewrote it as:
+On 2/5/20 1:37 AM, Jan Kara wrote:
+> ...
 > 
-> "Intel provides a proprietary binary version of the PCE. This is a
-> necessity when the software needs to prove to be running inside a legit
+>> @@ -104,6 +106,9 @@ static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+>>  		if (hpage_pincount_available(page))
+>>  			hpage_pincount_add(page, refs);
+>>  
+>> +		mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_ACQUIRED,
+>> +				    orig_refs);
+>> +
+>>  		return page;
+>>  	}
+>>  
+> 
+> It seems to me you miss mod_node_page_state() in put_compound_head(), don't
+> you?
 
-s/legit/legitimate/ please
 
-> enclave on real hardware."
+Yes, that was definitely missing. I've added this for the next version:
 
 
+diff --git a/mm/gup.c b/mm/gup.c
+index 7c543849181b..ae503c51bc7f 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -2268,6 +2268,8 @@ static int record_subpages(struct page *page, unsigned long addr,
+ 
+ static void put_compound_head(struct page *page, int refs, unsigned int flags)
+ {
++       int orig_refs = refs;
++
+        if (flags & FOLL_PIN) {
+                if (hpage_pincount_available(page))
+                        hpage_pincount_sub(page, refs);
+@@ -2283,6 +2285,8 @@ static void put_compound_head(struct page *page, int refs, unsigned int flags)
+        if (refs > 1)
+                page_ref_sub(page, refs - 1);
+        put_page(page);
++
++       mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED, orig_refs);
+ }
+ 
+ #ifdef CONFIG_ARCH_HAS_HUGEPD
+
+
+
+> 
+> Otherwise I like the new stat names better :).
+> 
+> 								Honza
+> 
+
+Glad to hear that! :)
+
+thanks,
 -- 
-~Randy
-
+John Hubbard
+NVIDIA
