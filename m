@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F484C352A3
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9796FC352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44C0021741
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74C0D21741
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 18:22:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727786AbgBESU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 13:20:28 -0500
+        id S1727812AbgBESWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 13:22:03 -0500
 Received: from mga14.intel.com ([192.55.52.115]:20937 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727767AbgBESU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Feb 2020 13:20:27 -0500
+        id S1727778AbgBESU2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 13:20:28 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:25 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:26 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
-   d="scan'208";a="279447751"
+   d="scan'208";a="279447771"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:25 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:26 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -54,9 +54,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v9 04/27] x86/cet: Add control-protection fault handler
-Date:   Wed,  5 Feb 2020 10:19:12 -0800
-Message-Id: <20200205181935.3712-5-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 08/27] x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+Date:   Wed,  5 Feb 2020 10:19:16 -0800
+Message-Id: <20200205181935.3712-9-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200205181935.3712-1-yu-cheng.yu@intel.com>
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
@@ -67,182 +67,207 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A control-protection fault is triggered when a control-flow transfer
-attempt violates Shadow Stack or Indirect Branch Tracking constraints.
-For example, the return address for a RET instruction differs from the copy
-on the Shadow Stack; or an indirect JMP instruction, without the NOTRACK
-prefix, arrives at a non-ENDBR opcode.
-
-The control-protection fault handler works in a similar way as the general
-protection fault handler.  It provides the si_code SEGV_CPERR to the signal
-handler.
+Before introducing _PAGE_DIRTY_SW for non-hardware memory management
+purposes in the next patch, rename _PAGE_DIRTY to _PAGE_DIRTY_HW and
+_PAGE_BIT_DIRTY to _PAGE_BIT_DIRTY_HW to make these PTE dirty bits
+more clear.  There are no functional changes from this patch.
 
 v9:
-- Add Shadow Stack pointer to the fault printout.
+- At some places _PAGE_DIRTY were not changed to _PAGE_DIRTY_HW, because
+  they will be changed again in the next patch to _PAGE_DIRTY_BITS.
+  However, this causes compile issues if the next patch is not yet applied.
+  Fix it by changing all _PAGE_DIRTY to _PAGE_DRITY_HW.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/entry/entry_64.S          |  2 +-
- arch/x86/include/asm/traps.h       |  3 ++
- arch/x86/kernel/idt.c              |  4 ++
- arch/x86/kernel/signal_compat.c    |  2 +-
- arch/x86/kernel/traps.c            | 59 ++++++++++++++++++++++++++++++
- include/uapi/asm-generic/siginfo.h |  3 +-
- 6 files changed, 70 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/pgtable.h       | 18 +++++++++---------
+ arch/x86/include/asm/pgtable_types.h | 17 +++++++++--------
+ arch/x86/kernel/relocate_kernel_64.S |  2 +-
+ arch/x86/kvm/vmx/vmx.c               |  2 +-
+ 4 files changed, 20 insertions(+), 19 deletions(-)
 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 76942cbd95a1..6ca77312d008 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -1034,7 +1034,7 @@ idtentry spurious_interrupt_bug		do_spurious_interrupt_bug	has_error_code=0
- idtentry coprocessor_error		do_coprocessor_error		has_error_code=0
- idtentry alignment_check		do_alignment_check		has_error_code=1
- idtentry simd_coprocessor_error		do_simd_coprocessor_error	has_error_code=0
--
-+idtentry control_protection		do_control_protection		has_error_code=1
- 
- 	/*
- 	 * Reload gs selector with exception handling
-diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-index ffa0dc8a535e..7ac26bbd0bef 100644
---- a/arch/x86/include/asm/traps.h
-+++ b/arch/x86/include/asm/traps.h
-@@ -26,6 +26,7 @@ asmlinkage void invalid_TSS(void);
- asmlinkage void segment_not_present(void);
- asmlinkage void stack_segment(void);
- asmlinkage void general_protection(void);
-+asmlinkage void control_protection(void);
- asmlinkage void page_fault(void);
- asmlinkage void async_page_fault(void);
- asmlinkage void spurious_interrupt_bug(void);
-@@ -84,6 +85,7 @@ struct bad_iret_stack *fixup_bad_iret(struct bad_iret_stack *s);
- void __init trap_init(void);
- #endif
- dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code);
-+dotraplinkage void do_control_protection(struct pt_regs *regs, long error_code);
- dotraplinkage void do_page_fault(struct pt_regs *regs, unsigned long error_code, unsigned long address);
- dotraplinkage void do_spurious_interrupt_bug(struct pt_regs *regs, long error_code);
- dotraplinkage void do_coprocessor_error(struct pt_regs *regs, long error_code);
-@@ -154,6 +156,7 @@ enum {
- 	X86_TRAP_AC,		/* 17, Alignment Check */
- 	X86_TRAP_MC,		/* 18, Machine Check */
- 	X86_TRAP_XF,		/* 19, SIMD Floating-Point Exception */
-+	X86_TRAP_CP = 21,	/* 21 Control Protection Fault */
- 	X86_TRAP_IRET = 32,	/* 32, IRET Exception */
- };
- 
-diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
-index 87ef69a72c52..8ed406f469e7 100644
---- a/arch/x86/kernel/idt.c
-+++ b/arch/x86/kernel/idt.c
-@@ -102,6 +102,10 @@ static const __initconst struct idt_data def_idts[] = {
- #elif defined(CONFIG_X86_32)
- 	SYSG(IA32_SYSCALL_VECTOR,	entry_INT80_32),
- #endif
-+
-+#ifdef CONFIG_X86_64
-+	INTG(X86_TRAP_CP,		control_protection),
-+#endif
- };
- 
- /*
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index 9ccbf0576cd0..c572a3de1037 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -27,7 +27,7 @@ static inline void signal_compat_build_tests(void)
- 	 */
- 	BUILD_BUG_ON(NSIGILL  != 11);
- 	BUILD_BUG_ON(NSIGFPE  != 15);
--	BUILD_BUG_ON(NSIGSEGV != 7);
-+	BUILD_BUG_ON(NSIGSEGV != 8);
- 	BUILD_BUG_ON(NSIGBUS  != 5);
- 	BUILD_BUG_ON(NSIGTRAP != 5);
- 	BUILD_BUG_ON(NSIGCHLD != 6);
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 05da6b5b167b..99c83ee522ed 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -570,6 +570,65 @@ do_general_protection(struct pt_regs *regs, long error_code)
- }
- NOKPROBE_SYMBOL(do_general_protection);
- 
-+static const char * const control_protection_err[] = {
-+	"unknown",
-+	"near-ret",
-+	"far-ret/iret",
-+	"endbranch",
-+	"rstorssp",
-+	"setssbsy",
-+};
-+
-+/*
-+ * When a control protection exception occurs, send a signal
-+ * to the responsible application.  Currently, control
-+ * protection is only enabled for the user mode.  This
-+ * exception should not come from the kernel mode.
-+ */
-+dotraplinkage void
-+do_control_protection(struct pt_regs *regs, long error_code)
-+{
-+	struct task_struct *tsk;
-+
-+	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-+	if (notify_die(DIE_TRAP, "control protection fault", regs,
-+		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-+		return;
-+	cond_local_irq_enable(regs);
-+
-+	if (!user_mode(regs))
-+		die("kernel control protection fault", regs, error_code);
-+
-+	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-+	    !static_cpu_has(X86_FEATURE_IBT))
-+		WARN_ONCE(1, "CET is disabled but got control protection fault\n");
-+
-+	tsk = current;
-+	tsk->thread.error_code = error_code;
-+	tsk->thread.trap_nr = X86_TRAP_CP;
-+
-+	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-+	    printk_ratelimit()) {
-+		unsigned int max_err;
-+		unsigned long ssp;
-+
-+		max_err = ARRAY_SIZE(control_protection_err) - 1;
-+		if ((error_code < 0) || (error_code > max_err))
-+			error_code = 0;
-+		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-+		pr_info("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
-+			tsk->comm, task_pid_nr(tsk),
-+			regs->ip, regs->sp, ssp, error_code,
-+			control_protection_err[error_code]);
-+		print_vma_addr(KERN_CONT " in ", regs->ip);
-+		pr_cont("\n");
-+	}
-+
-+	force_sig_fault(SIGSEGV, SEGV_CPERR,
-+			(void __user *)uprobe_get_trap_addr(regs));
-+}
-+NOKPROBE_SYMBOL(do_control_protection);
-+
- dotraplinkage void notrace do_int3(struct pt_regs *regs, long error_code)
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index ad97dc155195..ab50d25f9afc 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -122,7 +122,7 @@ extern pmdval_t early_pmd_flags;
+  */
+ static inline int pte_dirty(pte_t pte)
  {
- #ifdef CONFIG_DYNAMIC_FTRACE
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index cb3d6c267181..693071dbe641 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -229,7 +229,8 @@ typedef struct siginfo {
- #define SEGV_ACCADI	5	/* ADI not enabled for mapped object */
- #define SEGV_ADIDERR	6	/* Disrupting MCD error */
- #define SEGV_ADIPERR	7	/* Precise MCD exception */
--#define NSIGSEGV	7
-+#define SEGV_CPERR	8
-+#define NSIGSEGV	8
+-	return pte_flags(pte) & _PAGE_DIRTY;
++	return pte_flags(pte) & _PAGE_DIRTY_HW;
+ }
+ 
+ 
+@@ -161,7 +161,7 @@ static inline int pte_young(pte_t pte)
+ 
+ static inline int pmd_dirty(pmd_t pmd)
+ {
+-	return pmd_flags(pmd) & _PAGE_DIRTY;
++	return pmd_flags(pmd) & _PAGE_DIRTY_HW;
+ }
+ 
+ static inline int pmd_young(pmd_t pmd)
+@@ -171,7 +171,7 @@ static inline int pmd_young(pmd_t pmd)
+ 
+ static inline int pud_dirty(pud_t pud)
+ {
+-	return pud_flags(pud) & _PAGE_DIRTY;
++	return pud_flags(pud) & _PAGE_DIRTY_HW;
+ }
+ 
+ static inline int pud_young(pud_t pud)
+@@ -312,7 +312,7 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
+ 
+ static inline pte_t pte_mkclean(pte_t pte)
+ {
+-	return pte_clear_flags(pte, _PAGE_DIRTY);
++	return pte_clear_flags(pte, _PAGE_DIRTY_HW);
+ }
+ 
+ static inline pte_t pte_mkold(pte_t pte)
+@@ -332,7 +332,7 @@ static inline pte_t pte_mkexec(pte_t pte)
+ 
+ static inline pte_t pte_mkdirty(pte_t pte)
+ {
+-	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
++	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pte_t pte_mkyoung(pte_t pte)
+@@ -396,7 +396,7 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkclean(pmd_t pmd)
+ {
+-	return pmd_clear_flags(pmd, _PAGE_DIRTY);
++	return pmd_clear_flags(pmd, _PAGE_DIRTY_HW);
+ }
+ 
+ static inline pmd_t pmd_wrprotect(pmd_t pmd)
+@@ -406,7 +406,7 @@ static inline pmd_t pmd_wrprotect(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkdirty(pmd_t pmd)
+ {
+-	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
++	return pmd_set_flags(pmd, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pmd_t pmd_mkdevmap(pmd_t pmd)
+@@ -450,7 +450,7 @@ static inline pud_t pud_mkold(pud_t pud)
+ 
+ static inline pud_t pud_mkclean(pud_t pud)
+ {
+-	return pud_clear_flags(pud, _PAGE_DIRTY);
++	return pud_clear_flags(pud, _PAGE_DIRTY_HW);
+ }
+ 
+ static inline pud_t pud_wrprotect(pud_t pud)
+@@ -460,7 +460,7 @@ static inline pud_t pud_wrprotect(pud_t pud)
+ 
+ static inline pud_t pud_mkdirty(pud_t pud)
+ {
+-	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
++	return pud_set_flags(pud, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pud_t pud_mkdevmap(pud_t pud)
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index b5e49e6bac63..e647e3c75578 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -15,7 +15,7 @@
+ #define _PAGE_BIT_PWT		3	/* page write through */
+ #define _PAGE_BIT_PCD		4	/* page cache disabled */
+ #define _PAGE_BIT_ACCESSED	5	/* was accessed (raised by CPU) */
+-#define _PAGE_BIT_DIRTY		6	/* was written to (raised by CPU) */
++#define _PAGE_BIT_DIRTY_HW	6	/* was written to (raised by CPU) */
+ #define _PAGE_BIT_PSE		7	/* 4 MB (or 2MB) page */
+ #define _PAGE_BIT_PAT		7	/* on 4KB pages */
+ #define _PAGE_BIT_GLOBAL	8	/* Global TLB entry PPro+ */
+@@ -45,7 +45,7 @@
+ #define _PAGE_PWT	(_AT(pteval_t, 1) << _PAGE_BIT_PWT)
+ #define _PAGE_PCD	(_AT(pteval_t, 1) << _PAGE_BIT_PCD)
+ #define _PAGE_ACCESSED	(_AT(pteval_t, 1) << _PAGE_BIT_ACCESSED)
+-#define _PAGE_DIRTY	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY)
++#define _PAGE_DIRTY_HW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_HW)
+ #define _PAGE_PSE	(_AT(pteval_t, 1) << _PAGE_BIT_PSE)
+ #define _PAGE_GLOBAL	(_AT(pteval_t, 1) << _PAGE_BIT_GLOBAL)
+ #define _PAGE_SOFTW1	(_AT(pteval_t, 1) << _PAGE_BIT_SOFTW1)
+@@ -73,7 +73,7 @@
+ 			 _PAGE_PKEY_BIT3)
+ 
+ #if defined(CONFIG_X86_64) || defined(CONFIG_X86_PAE)
+-#define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY | _PAGE_ACCESSED)
++#define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY_HW | _PAGE_ACCESSED)
+ #else
+ #define _PAGE_KNL_ERRATUM_MASK 0
+ #endif
+@@ -111,9 +111,9 @@
+ #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
+ 
+ #define _PAGE_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |\
+-				 _PAGE_ACCESSED | _PAGE_DIRTY)
++				 _PAGE_ACCESSED | _PAGE_DIRTY_HW)
+ #define _KERNPG_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW |		\
+-				 _PAGE_ACCESSED | _PAGE_DIRTY)
++				 _PAGE_ACCESSED | _PAGE_DIRTY_HW)
  
  /*
-  * SIGBUS si_codes
+  * Set of bits not changed in pte_modify.  The pte's
+@@ -122,7 +122,7 @@
+  * pte_modify() does modify it.
+  */
+ #define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |		\
+-			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY |	\
++			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY_HW |	\
+ 			 _PAGE_SOFT_DIRTY | _PAGE_DEVMAP)
+ #define _HPAGE_CHG_MASK (_PAGE_CHG_MASK | _PAGE_PSE)
+ 
+@@ -167,7 +167,8 @@ enum page_cache_mode {
+ 					 _PAGE_ACCESSED)
+ 
+ #define __PAGE_KERNEL_EXEC						\
+-	(_PAGE_PRESENT | _PAGE_RW | _PAGE_DIRTY | _PAGE_ACCESSED | _PAGE_GLOBAL)
++	(_PAGE_PRESENT | _PAGE_RW | _PAGE_DIRTY_HW | _PAGE_ACCESSED | \
++	 _PAGE_GLOBAL)
+ #define __PAGE_KERNEL		(__PAGE_KERNEL_EXEC | _PAGE_NX)
+ 
+ #define __PAGE_KERNEL_RO		(__PAGE_KERNEL & ~_PAGE_RW)
+@@ -186,7 +187,7 @@ enum page_cache_mode {
+ #define _PAGE_ENC	(_AT(pteval_t, sme_me_mask))
+ 
+ #define _KERNPG_TABLE	(_PAGE_PRESENT | _PAGE_RW | _PAGE_ACCESSED |	\
+-			 _PAGE_DIRTY | _PAGE_ENC)
++			 _PAGE_DIRTY_HW | _PAGE_ENC)
+ #define _PAGE_TABLE	(_KERNPG_TABLE | _PAGE_USER)
+ 
+ #define __PAGE_KERNEL_ENC	(__PAGE_KERNEL | _PAGE_ENC)
+diff --git a/arch/x86/kernel/relocate_kernel_64.S b/arch/x86/kernel/relocate_kernel_64.S
+index ef3ba99068d3..3acd75f97b61 100644
+--- a/arch/x86/kernel/relocate_kernel_64.S
++++ b/arch/x86/kernel/relocate_kernel_64.S
+@@ -15,7 +15,7 @@
+  */
+ 
+ #define PTR(x) (x << 3)
+-#define PAGE_ATTR (_PAGE_PRESENT | _PAGE_RW | _PAGE_ACCESSED | _PAGE_DIRTY)
++#define PAGE_ATTR (_PAGE_PRESENT | _PAGE_RW | _PAGE_ACCESSED | _PAGE_DIRTY_HW)
+ 
+ /*
+  * control_page + KEXEC_CONTROL_CODE_MAX_SIZE
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index e3394c839dea..fbbbf621b0d9 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -3503,7 +3503,7 @@ static int init_rmode_identity_map(struct kvm *kvm)
+ 	/* Set up identity-mapping pagetable for EPT in real mode */
+ 	for (i = 0; i < PT32_ENT_PER_PAGE; i++) {
+ 		tmp = (i << 22) + (_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |
+-			_PAGE_ACCESSED | _PAGE_DIRTY | _PAGE_PSE);
++			_PAGE_ACCESSED | _PAGE_DIRTY_HW | _PAGE_PSE);
+ 		r = kvm_write_guest_page(kvm, identity_map_pfn,
+ 				&tmp, i * sizeof(tmp), sizeof(tmp));
+ 		if (r < 0)
 -- 
 2.21.0
 
