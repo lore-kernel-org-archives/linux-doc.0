@@ -2,123 +2,83 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D02DC3524D
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 00:19:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B131C35247
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 00:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 74ED1217BA
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 00:19:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNH/YUza"
+	by mail.kernel.org (Postfix) with ESMTP id 38A5A22314
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 00:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbgBEATJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Feb 2020 19:19:09 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:37269 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727537AbgBEATJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 19:19:09 -0500
-Received: by mail-yw1-f68.google.com with SMTP id l5so786624ywd.4;
-        Tue, 04 Feb 2020 16:19:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NIMxNLCcbWdI9pD04SjD3Y49RygU2eutIYBAiu1d0NQ=;
-        b=kNH/YUzawP+43dSMN7Q/MuLlyAhji6r3ufngpALGZyf5tggPBwRgsMIA6Hu/D9bA6A
-         D7x8zshF5PASFC3oztn4phdjSD+oSVQjBPfSI/nUZ7jOlcJFF1eEuuffiqDyY1n1Us26
-         vkojZ56eiO52mbJGxFN9ExLX6imGA1Ez6g6vgD2fTvDyxAGk4idW9EIBICRs2JA2ulWl
-         gRAHC0S770XSNTKEY8Z425DSL3K7L+4jVSMfpeYFPNz/BrpcenLW5gF1lLxb0jwJDSpr
-         +AOVSPDxb1FvEqvX4xW5h8DPPY4WxkqLZ5ryZ4KsFmmFuwggdX809RS0UzmthCSvxD59
-         6DAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NIMxNLCcbWdI9pD04SjD3Y49RygU2eutIYBAiu1d0NQ=;
-        b=UDlQHF8n6Kf3Q3UVUNb0lKKqLmbMAMVMSkB3fIBiWZVGOo+o2vBhMPKe5UCy1zoxL1
-         Gt5CFm65uDuSBYfxJf+pd+Htj9rG7GAMw+t4YQlx+e4wATFBaC8l7dbITjul5B3EdqND
-         psEsZsJBn7+3ccmeDkFkaBEWO33zahPi5v2upbofLV6MVtD7uKPE5EVEB9DItMQb9aT9
-         DAeQTkmvM0dYiicYapHjJa13r23GnbOSOIeS5aB2Yz70GLKTN55ULnx059Y5jvosghL/
-         15QlRC1AXKhxWxbfy3+jPE7C/BsyJgV8mWM+gsjOrDvLI7S4nBfCl9FA5d298w4ObY6H
-         Tn9w==
-X-Gm-Message-State: APjAAAXzCysOyIPMv5kjH4zuuTbrt+ynhda0UpMkAlMhUozir8dqC4dv
-        vH6ItCGw2TraJ+qct5h40aQ=
-X-Google-Smtp-Source: APXvYqwOMJ/fJzT9iHJ8EtyebqNOkpzqMGzGkLU+0qEGaS2WXqxmiJAiJRH2Fim/xt/KGKTmLPBAHA==
-X-Received: by 2002:a81:a903:: with SMTP id g3mr7778923ywh.427.1580861948493;
-        Tue, 04 Feb 2020 16:19:08 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id y129sm10877046ywd.40.2020.02.04.16.19.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Feb 2020 16:19:08 -0800 (PST)
-Subject: Re: [PATCH v2 7/7] Documentation: Add kunit_shutdown to
- kernel-parameters.txt
-To:     Brendan Higgins <brendanhiggins@google.com>, jdike@addtoit.com,
-        richard@nod.at, anton.ivanov@cambridgegreys.com, arnd@arndb.de,
-        keescook@chromium.org, skhan@linuxfoundation.org,
-        alan.maguire@oracle.com, yzaikin@google.com, davidgow@google.com,
-        akpm@linux-foundation.org, rppt@linux.ibm.com
-Cc:     gregkh@linuxfoundation.org, sboyd@kernel.org, logang@deltatee.com,
-        mcgrof@kernel.org, knut.omang@oracle.com,
-        linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20200130230812.142642-1-brendanhiggins@google.com>
- <20200130230812.142642-8-brendanhiggins@google.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <d187686e-a175-e30b-2af9-6e00822fed5c@gmail.com>
-Date:   Tue, 4 Feb 2020 18:19:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727627AbgBEAYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Feb 2020 19:24:11 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:48353 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727537AbgBEAYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Feb 2020 19:24:11 -0500
+X-Originating-IP: 92.243.9.8
+Received: from localhost (joshtriplett.org [92.243.9.8])
+        (Authenticated sender: josh@joshtriplett.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 565F140004;
+        Wed,  5 Feb 2020 00:24:07 +0000 (UTC)
+Date:   Tue, 4 Feb 2020 16:24:07 -0800
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Subject: Re: [PATCH] acpi: button: Provide option for power button to
+ directly signal init
+Message-ID: <20200205002406.GC2968@localhost>
+References: <20200111022145.GA166025@localhost>
+ <CAJZ5v0hF2YDVHcvqx_4TaEzuqBKppVG7gZ4nXm_peF75Cfbzmg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200130230812.142642-8-brendanhiggins@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0hF2YDVHcvqx_4TaEzuqBKppVG7gZ4nXm_peF75Cfbzmg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/20 5:08 PM, Brendan Higgins wrote:
-> Add kunit_shutdown, an option to specify that the kernel shutsdown after
-> running KUnit tests, to the kernel-parameters.txt documentation.
+On Thu, Jan 30, 2020 at 10:07:09PM +0100, Rafael J. Wysocki wrote:
+> On Sat, Jan 11, 2020 at 3:21 AM Josh Triplett <josh@joshtriplett.org> wrote:
+> >
+> > Virtual machines and containers often use an ACPI power button event to
+> > tell the machine to shut down gracefully.
+> >
+> > Provide an optional, extremely lightweight way to handle this event by
+> > signaling init directly, rather than running a separate daemon (such as
+> > acpid or systemd-logind) that adds to startup time and VM image
+> > complexity.
 > 
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index ade4e6ec23e03..522fd8bdec949 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2054,6 +2054,13 @@
->  			0: force disabled
->  			1: force enabled
->  
-> +	kunit_shutdown	[KERNEL UNIT TESTING FRAMEWORK] Shutdown kernel after
-> +			running tests.
+> Well, I'm not convinced.
 
-                        running built-in tests.  Tests configured as modules will not be run.
+I would be happy to talk through other possible options.
 
-My wording might not be consistent with KUnit terminology regarding "built-in" and "modules".
-Feel free to properly word smith.
+> Even though the patch looks straightforward, the approach really is
+> quite not so conceptually and honestly it looks like a band-aid.
 
+I'm not sure what makes it conceptually non-straightforward. I'll freely
+admit that it isn't *elegant*. But it also seems inelegant to me to need
+to start and run an entire userspace daemon to watch for a key, or to
+add such logic into a domain-specific workload's setup and event loop.
 
-> +			Default:	(flag not present) don't shutdown
-> +			poweroff:	poweroff the kernel after running tests
-> +			halt:		halt the kernel after running tests
-> +			reboot:		reboot the kernel after running tests
-> +
->  	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
->  			Default is 0 (don't ignore, but inject #GP)
->  
-> 
+I'm entirely open to changing the approach. The goal I'm aiming for is
+to allow cloud systems and VMs that signal shutdown via an ACPI power
+button to run a more minimal userspace.
 
+> Also I'm not quite sure why the ACPI button driver is the target of
+> this and not the input layer, for instance.
+
+I don't have any objections to putting this in another part of the
+stack, but input in particular seems like it would potentially affect
+the normal event-processing path.
+
+- Josh Triplett
