@@ -2,126 +2,79 @@ Return-Path: <SRS0=Pvk/=3Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B41FC352A3
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 11:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE86C35254
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 12:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D686820674
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 11:46:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="fbUqiFBK"
+	by mail.kernel.org (Postfix) with ESMTP id 0540B21741
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Feb 2020 12:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1580905558;
+	bh=BGUSK/7uLL7BOkAM9NLzAh6niDlDzSg/iI22QPLfcMc=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=SLdiKxUEoSB635Nu2oPuzIGW8w0OAhtDtNFtNO14PrlO1ECiQxN+Y9Zo/c/pRenuB
+	 tgNnXNb4YjkcQpoMMHnLG3jZ4rez1Vae3XWLLIp4h6kTFt5Nyi81pkbbt0wqziIVEn
+	 yEovIYGEghHY4CvFjg4VLbIbPvOyau02lS7SxzSQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbgBELqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Feb 2020 06:46:01 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33969 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727085AbgBELqA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Feb 2020 06:46:00 -0500
-Received: by mail-lj1-f195.google.com with SMTP id x7so2007172ljc.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2020 03:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Jy6I9lCZXmqSIc0Oo7ZwAUc0APIjOD7+FskXlmNX0dE=;
-        b=fbUqiFBKKWfMvUVGayetzT7gBoVUOArtTvKe87cxlG4ADzVrq73rMKZXdR+K95XCj8
-         2tpgG6t6IONw5sP60aDQPIi6bEjTxNmgDQRNTBOF6qrPugG05rtCHYMncko/ND4Oe2J6
-         r5juTmm4ovUmOcVa1aFbKe9GkKmUd7VDww+dSp8QucR9SspUNhqp/6/XnMDjtqCOZCm+
-         qKdTR/LxfUsAecDs7AmpEc7Cuc0WG8lutxYO9rxW3DP42v5HUE+fiSgAC2sl51AiqrDI
-         7tiuH8OzxbBfsLnmX2PGY8JuKutQO0wJaxcNMEFDaSlRFOuKzWYVhw0WG5ELGFSaNkOP
-         JFWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Jy6I9lCZXmqSIc0Oo7ZwAUc0APIjOD7+FskXlmNX0dE=;
-        b=DDhWQFjlUpp/zUpZ0WRJlUnc0I0lt9/X7f4dmEcqF//ccAGwPI/Sh7HMfuG1Xntf10
-         EhwtcLm3DkGyIiTJWRtEFuBNHjYzZ7gAS86OGLxqexLdJXiS5IP1QECSupAeaAqOTjeR
-         cDJ1dMzccvfun1M0KJRZdL0VE40vqFpkCKyVuT1ViW7P80Q0K9Ig/VPYBORmYiDRwQwe
-         +CnyNOwbjE9TAVY72EgjC8cSMS92JJJblCjusMc5Z6Ifba/kYr4hTSgAfSlsuEm9X64M
-         N15fa5uCI3SrFQHsGPWb02J/T+F5Hn2WeX6CetxkLxoYmtmbFHnyiWrkzRTpUqXsmc8y
-         huAw==
-X-Gm-Message-State: APjAAAXO8FryMEmH8x6xDZHo8T7N0Y3xg7jG2RfPTv4viRFt8H6yWkDS
-        WEMnsmHYfeW6pFl+1BIvAjr/SQ==
-X-Google-Smtp-Source: APXvYqyYwLXyW1HUby3u5z2IhHyV0WiYO1K3JWIkU6l6dX312E3ieNWtdHp2AH5LJPi+2PXC1G4V7w==
-X-Received: by 2002:a2e:5056:: with SMTP id v22mr20108284ljd.164.1580903158629;
-        Wed, 05 Feb 2020 03:45:58 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id w3sm13028052ljo.66.2020.02.05.03.45.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2020 03:45:58 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 0BF46100AF6; Wed,  5 Feb 2020 14:46:12 +0300 (+03)
-Date:   Wed, 5 Feb 2020 14:46:12 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 11/12] mm/gup_benchmark: support pin_user_pages() and
- related calls
-Message-ID: <20200205114612.foo7zrcplgxwmylt@box>
-References: <20200204234117.2974687-1-jhubbard@nvidia.com>
- <20200204234117.2974687-12-jhubbard@nvidia.com>
+        id S1727064AbgBEMZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Feb 2020 07:25:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726809AbgBEMZy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Feb 2020 07:25:54 -0500
+Received: from localhost (unknown [212.187.182.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 89712218AC;
+        Wed,  5 Feb 2020 12:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580905554;
+        bh=BGUSK/7uLL7BOkAM9NLzAh6niDlDzSg/iI22QPLfcMc=;
+        h=Date:From:To:Cc:Subject:From;
+        b=zaKbhDCmBBEiZx7ly4AWYRsGbVH9TUORNVzBQ8m5G4y2e297nIZ7etGKZd1GCqD+1
+         Vabp2NxYEi1wI5XX8Wl1kl6Ze2325+rJthUOgLkyAf4kwg4Wtje+RHkmJzeJy0W9ty
+         26scb73vffIkOQjR6F/aNU//O7uhLKLOSpPyVmmU=
+Date:   Wed, 5 Feb 2020 12:25:51 +0000
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pzb@amzn.com
+Subject: [PATCH] embargoed-hardware-issues: drop Amazon contact as the email
+ address now bounces
+Message-ID: <20200205122551.GA1185549@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200204234117.2974687-12-jhubbard@nvidia.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 04, 2020 at 03:41:16PM -0800, John Hubbard wrote:
-> Up until now, gup_benchmark supported testing of the
-> following kernel functions:
-> 
-> * get_user_pages(): via the '-U' command line option
-> * get_user_pages_longterm(): via the '-L' command line option
-> * get_user_pages_fast(): as the default (no options required)
-> 
-> Add test coverage for the new corresponding pin_*() functions:
-> 
-> * pin_user_pages_fast(): via the '-a' command line option
-> * pin_user_pages():      via the '-b' command line option
-> 
-> Also, add an option for clarity: '-u' for what is now (still) the
-> default choice: get_user_pages_fast().
-> 
-> Also, for the commands that set FOLL_PIN, verify that the pages
-> really are dma-pinned, via the new is_dma_pinned() routine.
-> Those commands are:
-> 
->     PIN_FAST_BENCHMARK     : calls pin_user_pages_fast()
->     PIN_BENCHMARK          : calls pin_user_pages()
-> 
-> In between the calls to pin_*() and unpin_user_pages(),
-> check each page: if page_maybe_dma_pinned() returns false, then
-> WARN and return.
-> 
-> Do this outside of the benchmark timestamps, so that it doesn't
-> affect reported times.
-> 
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+Peter's email address bounces, so remove him as the contact for Amazon.
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 33edae654599..3bc44a7932ee 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -260,7 +260,7 @@ an involved disclosed party. The current ambassadors list:
+   Red Hat	Josh Poimboeuf <jpoimboe@redhat.com>
+   SUSE		Jiri Kosina <jkosina@suse.cz>
+ 
+-  Amazon	Peter Bowen <pzb@amzn.com>
++  Amazon
+   Google	Kees Cook <keescook@chromium.org>
+   ============= ========================================================
+ 
 -- 
- Kirill A. Shutemov
+2.25.0
+
