@@ -7,51 +7,53 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A6C7C3F68F
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C82FFC352A4
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB79F20838
+	by mail.kernel.org (Postfix) with ESMTP id 9E93B20838
 	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581000674;
-	bh=kza+nIaub/EO+u1abwbBpyZvce4UHjBfCCjb8bXTkqw=;
+	s=default; t=1581000673;
+	bh=CCB9J07T/80+IsrntbbRDukpQNpe71X8YA4l6vdAkPk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Js3SFiN3VbI86wI96lKGxksPcz9ai4GRnyElbUg0CahyEVNZsPYAa9G6eX6GuLx7n
-	 A6AlYkRL4swSFGTl5Suc9fq6zJF/fj+ZEXl881EjvybfPd9lA/283Tjy6IVr8gPRWo
-	 TsUYVQgRahggYCzYmJ892bt6a8Ql3kIGRVhhiXDw=
+	b=jDrThQ7npmDf+f8iGD2ESxxHyc9KZdvquUBEJODfgc8JOB4GSJzmQdtTi49IiemiO
+	 uccdn8GYHVXkYLdI5WF1YGqU15EnEweW6mGCuSO22N0xr1PoK9gNKo2RKI17KzFqpz
+	 WODPB3Rknup+4JQnng5IJzAMrq7dp2pnl7NOv568=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727570AbgBFOuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727509AbgBFOuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 6 Feb 2020 09:50:37 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55376 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:55430 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727518AbgBFOuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:35 -0500
+        with ESMTP id S1727546AbgBFOug (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=p2YhU3jfC3+pZD58yyGjx9QrnEOyUsPJA0xSIIWllRk=; b=ozWAERDBRN4qrVTFhZ54FriR5N
-        bPtqlFAeTvEZmerQrDdJ2k7Ya98yuBSiUVu38hrKfSqqCO3LbET/h3yOrCFFaHSOqqz4t081CMyAu
-        2k7iasgI4g2T0PHMmRb6l73epxHBOHCU1P/nmr29M+DcLNw6v875smdWAIaEOu/Sswgu2dZTvagui
-        dbQYbbkS3ot+sC46pp3tMm1nh/KXtQmMquz+xFyUS4nQpxvIYI6P4UC5S3TXArODtOWnzIlgd+8V6
-        vHSQJisLambL/OKlUetn1CRdKgjmo+W4fRGs0A0cG+lnVapHo4RiWp5FdQ6I7tV9KWXtSzaikFoCU
-        XpK9RL4Q==;
+        bh=5C1Pl5mrdwkmC0Ibs5rVWyWq5pet5BdrcnU/u0rt7EY=; b=qZcDoAGDg0MYMoNi5f/YswxUcA
+        KEyAKBhWTbJS9NBZl2F/rAvbiE/o0j1oFijDiy4iIpc4NGBN+XNSZWdPQ8wojJvfJrvB1aR3+mC4S
+        AtK27e2GTd3hI4yY0M2tJekaB3+ToviXhygfvnVjBv+RGV/uQxwGD+K7wzV+w+ygEDSnjqRXTSUAY
+        9CcAP4VPIs0x60gFAGIdl0cvEtsdU/A11wVl/sWxbUD2jrurT7pS5fQaSuoZNjwZgn/N0buXinQm+
+        sD5JeUbqbbIbwH+Gp9mhHzl7t9ckd6NdRUANGOUBhTNw84RbIbMw8NEsCNc7mKjpAftsAz6x+FgWx
+        KeKV7yNg==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUE-0004IV-VR; Thu, 06 Feb 2020 14:50:35 +0000
+        id 1iziUE-0004IT-Rf; Thu, 06 Feb 2020 14:50:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU6-002nLT-Rr; Thu, 06 Feb 2020 15:50:26 +0100
+        id 1iziU6-002nKT-AN; Thu, 06 Feb 2020 15:50:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v2 18/27] docs: kvm: convert arm/hyp-abi.txt to ReST
-Date:   Thu,  6 Feb 2020 15:50:15 +0100
-Message-Id: <cfa69adc7ba37f3337e5fccdc5f7066efa7ba595.1581000481.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 03/27] docs: virt: user_mode_linux.rst: update compiling instructions
+Date:   Thu,  6 Feb 2020 15:50:00 +0100
+Message-Id: <b678c16fb34280d844c278b8acfb2f53124f50ab.1581000481.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
 References: <cover.1581000481.git.mchehab+huawei@kernel.org>
@@ -62,85 +64,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add proper markups for titles;
-- Adjust whitespaces and blank lines to match ReST
-  needs;
-- Mark literal blocks as such.
+Instead of pointing for a pre-2.4 and a seaparate patch,
+update it to match current upstream, as UML was merged
+a long time ago.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} | 28 +++++++++++++------
- Documentation/virt/kvm/arm/index.rst          |  1 +
- 2 files changed, 20 insertions(+), 9 deletions(-)
- rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+ Documentation/virt/uml/user_mode_linux.rst | 62 ++++------------------
+ 1 file changed, 9 insertions(+), 53 deletions(-)
 
-diff --git a/Documentation/virt/kvm/arm/hyp-abi.txt b/Documentation/virt/kvm/arm/hyp-abi.rst
-similarity index 79%
-rename from Documentation/virt/kvm/arm/hyp-abi.txt
-rename to Documentation/virt/kvm/arm/hyp-abi.rst
-index a20a0bee268d..d1fc27d848e9 100644
---- a/Documentation/virt/kvm/arm/hyp-abi.txt
-+++ b/Documentation/virt/kvm/arm/hyp-abi.rst
-@@ -1,4 +1,8 @@
--* Internal ABI between the kernel and HYP
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+Internal ABI between the kernel and HYP
-+=======================================
+diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
+index 6085d2c0f8a8..e0632d80753e 100644
+--- a/Documentation/virt/uml/user_mode_linux.rst
++++ b/Documentation/virt/uml/user_mode_linux.rst
+@@ -5,7 +5,7 @@ User Mode Linux HOWTO
+ =====================
  
- This file documents the interaction between the Linux kernel and the
- hypervisor layer when running Linux as a hypervisor (for example
-@@ -19,25 +23,31 @@ and only act on individual CPUs.
- Unless specified otherwise, any built-in hypervisor must implement
- these functions (see arch/arm{,64}/include/asm/virt.h):
+ :Author:  User Mode Linux Core Team
+-:Last-updated: Mon Nov 18 14:16:16 EST 2002
++:Last-updated: Sat Jan 25 16:07:55 CET 2020
  
--* r0/x0 = HVC_SET_VECTORS
--  r1/x1 = vectors
-+* ::
-+
-+    r0/x0 = HVC_SET_VECTORS
-+    r1/x1 = vectors
+ This document describes the use and abuse of Jeff Dike's User Mode
+ Linux: a port of the Linux kernel as a normal Intel Linux process.
+@@ -223,23 +223,15 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
  
-   Set HVBAR/VBAR_EL2 to 'vectors' to enable a hypervisor. 'vectors'
-   must be a physical address, and respect the alignment requirements
-   of the architecture. Only implemented by the initial stubs, not by
-   Linux hypervisors.
  
--* r0/x0 = HVC_RESET_VECTORS
-+* ::
-+
-+    r0/x0 = HVC_RESET_VECTORS
+   Compiling the user mode kernel is just like compiling any other
+-  kernel.  Let's go through the steps, using 2.4.0-prerelease (current
+-  as of this writing) as an example:
++  kernel.
  
-   Turn HYP/EL2 MMU off, and reset HVBAR/VBAR_EL2 to the initials
-   stubs' exception vector value. This effectively disables an existing
-   hypervisor.
  
--* r0/x0 = HVC_SOFT_RESTART
--  r1/x1 = restart address
--  x2 = x0's value when entering the next payload (arm64)
--  x3 = x1's value when entering the next payload (arm64)
--  x4 = x2's value when entering the next payload (arm64)
-+* ::
-+
-+    r0/x0 = HVC_SOFT_RESTART
-+    r1/x1 = restart address
-+    x2 = x0's value when entering the next payload (arm64)
-+    x3 = x1's value when entering the next payload (arm64)
-+    x4 = x2's value when entering the next payload (arm64)
+-  1. Download the latest UML patch from
+-     the download page <http://user-mode-linux.sourceforge.net/
+-
+-     In this example, the file is uml-patch-2.4.0-prerelease.bz2.
+-
+-
+-  2. Download the matching kernel from your favourite kernel mirror,
++  1. Download the latest kernel from your favourite kernel mirror,
+      such as:
  
-   Mask all exceptions, disable the MMU, move the arguments into place
-   (arm64 only), and jump to the restart address while at HYP/EL2. This
-diff --git a/Documentation/virt/kvm/arm/index.rst b/Documentation/virt/kvm/arm/index.rst
-index e039d9b1e076..134fa5fa77e5 100644
---- a/Documentation/virt/kvm/arm/index.rst
-+++ b/Documentation/virt/kvm/arm/index.rst
-@@ -7,4 +7,5 @@ ARM
- .. toctree::
-    :maxdepth: 2
+-     ftp://ftp.ca.kernel.org/pub/kernel/v2.4/linux-2.4.0-prerelease.tar.bz2
++     https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.4.14.tar.xz
  
-+   hyp-abi
-    pvtime
+-
+-  3. Make a directory and unpack the kernel into it::
++  2. Make a directory and unpack the kernel into it::
+ 
+        host%
+        mkdir ~/uml
+@@ -248,21 +240,10 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+        cd ~/uml
+ 
+        host%
+-       tar -xzvf linux-2.4.0-prerelease.tar.bz2
++       tar xvf linux-5.4.14.tar.xz
+ 
+ 
+-
+-  4. Apply the patch using::
+-
+-       host%
+-       cd ~/uml/linux
+-
+-       host%
+-       bzcat uml-patch-2.4.0-prerelease.bz2 | patch -p1
+-
+-
+-
+-  5. Run your favorite config; ``make xconfig ARCH=um`` is the most
++  3. Run your favorite config; ``make xconfig ARCH=um`` is the most
+      convenient.  ``make config ARCH=um`` and ``make menuconfig ARCH=um``
+      will work as well.  The defaults will give you a useful kernel.  If
+      you want to change something, go ahead, it probably won't hurt
+@@ -276,34 +257,9 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+ 
+ 
+ 
+-  6. Finish with ``make linux ARCH=um``: the result is a file called
++  4. Finish with ``make linux ARCH=um``: the result is a file called
+      ``linux`` in the top directory of your source tree.
+ 
+-  Make sure that you don't build this kernel in /usr/src/linux.  On some
+-  distributions, /usr/include/asm is a link into this pool.  The user-
+-  mode build changes the other end of that link, and things that include
+-  <asm/anything.h> stop compiling.
+-
+-  The sources are also available from cvs at the project's cvs page,
+-  which has directions on getting the sources. You can also browse the
+-  CVS pool from there.
+-
+-  If you get the CVS sources, you will have to check them out into an
+-  empty directory. You will then have to copy each file into the
+-  corresponding directory in the appropriate kernel pool.
+-
+-  If you don't have the latest kernel pool, you can get the
+-  corresponding user-mode sources with::
+-
+-
+-       host% cvs co -r v_2_3_x linux
+-
+-
+-
+-
+-  where 'x' is the version in your pool. Note that you will not get the
+-  bug fixes and enhancements that have gone into subsequent releases.
+-
+ 
+ 2.2.  Compiling and installing kernel modules
+ ---------------------------------------------
+@@ -416,7 +372,7 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+ 3.1.  Running UML
+ -----------------
+ 
+-  It runs on 2.2.15 or later, and all 2.4 kernels.
++  It runs on 2.2.15 or later, and all kernel versions since 2.4.
+ 
+ 
+   Booting UML is straightforward.  Simply run 'linux': it will try to
 -- 
 2.24.1
 
