@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8CDC33CAC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D37C352A6
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E963B20838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9A8021741
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581002330;
-	bh=ygfOVfgycWbMei797c9aQ1rx607llWV3sSjAcnvTgzg=;
+	s=default; t=1581002341;
+	bh=qwKDcgWLBL5k4OhB6tJ5BZ/qNrsET0nW/Sz8Xgu1xbM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=brUPzjqyfvk0PAMt8osrr/YhfCgj/QzdXxTLBzZ7SnLsbiRksfwzutBdCpB/RMza8
-	 cVuCvxWvAV++eng0e3SfhKK/vEa1Q5G1PcffwCzw8O13EudKvllA7xJj9T5A5vxzhm
-	 0vO4csNeSqVyqukJzu9+DXskbvi6iT6bUy5P/rsw=
+	b=PrnixuV8aoiSyS4xmaQ1b16ZyQubQs09jqtDG7oT76DIiwybmhJcipsmgOSfy/O9V
+	 0sTuC7NViMbg2xtvp9qh5ACksHcKBtgE+W+ycCtfY9piE9ih47T9khH+s/ad+TB3Us
+	 G1cwUoMzSwwltbznMFToFDzn6hr8NbOlQy/LltnA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727898AbgBFPSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:18:49 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38098 "EHLO
+        id S1727921AbgBFPSx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:18:53 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38080 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727574AbgBFPR7 (ORCPT
+        with ESMTP id S1727567AbgBFPR7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:17:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=Ak/KbW+gdVbw1EI9JpPND+zd9rSSb3zzdRYWVU3zH1U=; b=hyXtZlOkgro8tu3yKa+0jhLiAc
-        jU+gswC/2PqXFgy8ZtV8Wg1ujIU983w9lcx/VAwvw5By0SaJfVMRtCRDRuNXxFFmPoRBhFFJV6X1a
-        FdjZgxlKkPiujapmLdxSJMv7hDEkVsn/zHK6zkIQSRy8YnvHNCwMMIdLtI+m0vPEStXBFsX1NSLAX
-        wplCfa8nRIal8Js/QaAZVas+TCPgWo6v/TBhRMiT/Rp1gW4hXDv/4/5YBDCtSyng9RJApC2EuiaNu
-        4Dkj1zxeqpihJ7Hba+D5Cfq/MydwKXvW04RkpBW9xDhOBwfk10awVtE4qt4uDPNyOUD8whNbtanPZ
-        Q7fLnsdQ==;
+        bh=QgU2YXtK8JhIR8sXlz9vfHZraerok3TnGVbMXzCh8os=; b=TzbiuPkJqsGKqG8F7imLQjjC9B
+        yVa4lGO0gd7dsYvu+807KcFSRv7rqyVQwSAskmsOCRBSJ0NPleA1uTB8CVxFlPzENQFy5mJ+4Rok8
+        hhA1vgIbvXJ5VW9xenneNqdRhNrsBOfAk4ZmfOlAvDlwru3TXV09hqSENT9ow2IJCc31vNTiPT8lk
+        UA7MiUq6loUfx2+PvnhJ6Sv6MaztRvqX1iCsm5mxJdjXt72C+FIpnkPthM3uUySI/ATbVavUwjLko
+        19GEym0hL3C/ZwhJ2JKfu4TM+FLjYgzAtu2qODYzT4ZiFruljkrf9y43b/j9KJbsfautF/G2+X/UJ
+        sPy5eJTQ==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziul-0005jY-2e; Thu, 06 Feb 2020 15:17:59 +0000
+        id 1iziuk-0005jM-WC; Thu, 06 Feb 2020 15:17:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziud-002oVl-FH; Thu, 06 Feb 2020 16:17:51 +0100
+        id 1iziud-002oVR-6t; Thu, 06 Feb 2020 16:17:51 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -49,10 +49,10 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-decnet-user@lists.sourceforge.net
-Subject: [PATCH 16/28] docs: networking: convert decnet.txt to ReST
-Date:   Thu,  6 Feb 2020 16:17:36 +0100
-Message-Id: <9b3a8f28718aa8badb1c7b9b13a0499f19af4281.1581002063.git.mchehab+huawei@kernel.org>
+        linux-doc@vger.kernel.org
+Subject: [PATCH 11/28] docs: networking: convert cdc_mbim.txt to ReST
+Date:   Thu,  6 Feb 2020 16:17:31 +0100
+Message-Id: <f671aae2b28bd65a879e164d40fce9e52b96199a.1581002063.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
 References: <cover.1581002062.git.mchehab+huawei@kernel.org>
@@ -64,228 +64,227 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- adjust titles and chapters, adding proper markups;
-- mark lists as such;
 - mark code blocks and literals as such;
+- use :field: markup;
 - adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../networking/{decnet.txt => decnet.rst}     | 77 +++++++++++--------
+ .../networking/{cdc_mbim.txt => cdc_mbim.rst} | 76 +++++++++++--------
  Documentation/networking/index.rst            |  1 +
- 2 files changed, 46 insertions(+), 32 deletions(-)
- rename Documentation/networking/{decnet.txt => decnet.rst} (87%)
+ 2 files changed, 47 insertions(+), 30 deletions(-)
+ rename Documentation/networking/{cdc_mbim.txt => cdc_mbim.rst} (88%)
 
-diff --git a/Documentation/networking/decnet.txt b/Documentation/networking/decnet.rst
-similarity index 87%
-rename from Documentation/networking/decnet.txt
-rename to Documentation/networking/decnet.rst
-index d192f8b9948b..b8bc11ff8370 100644
---- a/Documentation/networking/decnet.txt
-+++ b/Documentation/networking/decnet.rst
-@@ -1,26 +1,31 @@
--                    Linux DECnet Networking Layer Information
--                   ===========================================
+diff --git a/Documentation/networking/cdc_mbim.txt b/Documentation/networking/cdc_mbim.rst
+similarity index 88%
+rename from Documentation/networking/cdc_mbim.txt
+rename to Documentation/networking/cdc_mbim.rst
+index 4e68f0bc5dba..0048409c06b4 100644
+--- a/Documentation/networking/cdc_mbim.txt
++++ b/Documentation/networking/cdc_mbim.rst
+@@ -1,5 +1,8 @@
+-     cdc_mbim - Driver for CDC MBIM Mobile Broadband modems
+-    ========================================================
 +.. SPDX-License-Identifier: GPL-2.0
- 
--1) Other documentation....
-+=========================================
-+Linux DECnet Networking Layer Information
-+=========================================
- 
--   o Project Home Pages
--       http://www.chygwyn.com/                      	    - Kernel info
--       http://linux-decnet.sourceforge.net/                - Userland tools
--       http://www.sourceforge.net/projects/linux-decnet/   - Status page
-+1. Other documentation....
-+==========================
- 
--2) Configuring the kernel
-+   - Project Home Pages
-+     - http://www.chygwyn.com/				   - Kernel info
-+     - http://linux-decnet.sourceforge.net/                - Userland tools
-+     - http://www.sourceforge.net/projects/linux-decnet/   - Status page
 +
-+2. Configuring the kernel
-+=========================
++======================================================
++cdc_mbim - Driver for CDC MBIM Mobile Broadband modems
++======================================================
  
- Be sure to turn on the following options:
+ The cdc_mbim driver supports USB devices conforming to the "Universal
+ Serial Bus Communications Class Subclass Specification for Mobile
+@@ -19,9 +22,9 @@ by a cdc_ncm driver parameter:
  
--    CONFIG_DECNET (obviously)
--    CONFIG_PROC_FS (to see what's going on)
--    CONFIG_SYSCTL (for easy configuration)
-+    - CONFIG_DECNET (obviously)
-+    - CONFIG_PROC_FS (to see what's going on)
-+    - CONFIG_SYSCTL (for easy configuration)
+ prefer_mbim
+ -----------
+-Type:          Boolean
+-Valid Range:   N/Y (0-1)
+-Default Value: Y (MBIM is preferred)
++:Type:          Boolean
++:Valid Range:   N/Y (0-1)
++:Default Value: Y (MBIM is preferred)
  
- if you want to try out router support (not properly debugged yet)
- you'll need the following options as well...
+ This parameter sets the system policy for NCM/MBIM functions.  Such
+ functions will be handled by either the cdc_ncm driver or the cdc_mbim
+@@ -44,11 +47,13 @@ userspace MBIM management application always is required to enable a
+ MBIM function.
  
--    CONFIG_DECNET_ROUTER (to be able to add/delete routes)
--    CONFIG_NETFILTER (will be required for the DECnet routing daemon)
-+    - CONFIG_DECNET_ROUTER (to be able to add/delete routes)
-+    - CONFIG_NETFILTER (will be required for the DECnet routing daemon)
- 
- Don't turn on SIOCGIFCONF support for DECnet unless you are really sure
- that you need it, in general you won't and it can cause ifconfig to
-@@ -29,7 +34,7 @@ malfunction.
- Run time configuration has changed slightly from the 2.4 system. If you
- want to configure an endnode, then the simplified procedure is as follows:
- 
-- o Set the MAC address on your ethernet card before starting _any_ other
-+ - Set the MAC address on your ethernet card before starting _any_ other
-    network protocols.
- 
- As soon as your network card is brought into the UP state, DECnet should
-@@ -37,7 +42,8 @@ start working. If you need something more complicated or are unsure how
- to set the MAC address, see the next section. Also all configurations which
- worked with 2.4 will work under 2.5 with no change.
- 
--3) Command line options
-+3. Command line options
-+=======================
- 
- You can set a DECnet address on the kernel command line for compatibility
- with the 2.4 configuration procedure, but in general it's not needed any more.
-@@ -56,7 +62,7 @@ interface then you won't see any entries in /proc/net/neigh for the local
- host until such time as you start a connection. This doesn't affect the
- operation of the local communications in any other way though.
- 
--The kernel command line takes options looking like the following:
-+The kernel command line takes options looking like the following::
- 
-     decnet.addr=1,2
- 
-@@ -82,7 +88,7 @@ address of the node in order for it to be autoconfigured (and then appear in
- FTP sites called dn2ethaddr which can compute the correct ethernet
- address to use. The address can be set by ifconfig either before or
- at the time the device is brought up. If you are using RedHat you can
--add the line:
-+add the line::
- 
-     MACADDR=AA:00:04:00:03:04
- 
-@@ -95,7 +101,7 @@ verify with iproute2).
- The default device for routing can be set through the /proc filesystem
- by setting /proc/sys/net/decnet/default_device to the
- device you want DECnet to route packets out of when no specific route
--is available. Usually this will be eth0, for example:
-+is available. Usually this will be eth0, for example::
- 
-     echo -n "eth0" >/proc/sys/net/decnet/default_device
- 
-@@ -106,7 +112,9 @@ confirm that by looking in the default_device file of course.
- There is a list of what the other files under /proc/sys/net/decnet/ do
- on the kernel patch web site (shown above).
- 
--4) Run time kernel configuration
-+4. Run time kernel configuration
-+================================
+ Such userspace applications includes, but are not limited to:
 +
+  - mbimcli (included with the libmbim [3] library), and
+  - ModemManager [4]
  
- This is either done through the sysctl/proc interface (see the kernel web
- pages for details on what the various options do) or through the iproute2
-@@ -122,20 +130,21 @@ since its the _only_ way to add and delete routes currently. Eventually
- there will be a routing daemon to send and receive routing messages for
- each interface and update the kernel routing tables accordingly. The
- routing daemon will use netfilter to listen to routing packets, and
--rtnetlink to update the kernels routing tables. 
-+rtnetlink to update the kernels routing tables.
+ Establishing a MBIM IP session reequires at least these actions by the
+ management application:
++
+  - open the control channel
+  - configure network connection settings
+  - connect to network
+@@ -76,7 +81,7 @@ complies with all the control channel requirements in [1].
  
- The DECnet raw socket layer has been removed since it was there purely
- for use by the routing daemon which will now use netfilter (a much cleaner
- and more generic solution) instead.
+ The cdc-wdmX device is created as a child of the MBIM control
+ interface USB device.  The character device associated with a specific
+-MBIM function can be looked up using sysfs.  For example:
++MBIM function can be looked up using sysfs.  For example::
  
--5) How can I tell if its working ?
-+5. How can I tell if its working?
-+=================================
- 
- Here is a quick guide of what to look for in order to know if your DECnet
- kernel subsystem is working.
- 
-    - Is the node address set (see /proc/sys/net/decnet/node_address)
--   - Is the node of the correct type 
--                             (see /proc/sys/net/decnet/conf/<dev>/forwarding)
-+   - Is the node of the correct type
-+     (see /proc/sys/net/decnet/conf/<dev>/forwarding)
-    - Is the Ethernet MAC address of each Ethernet card set to match
-      the DECnet address. If in doubt use the dn2ethaddr utility available
-      at the ftp archive.
-@@ -160,7 +169,8 @@ kernel subsystem is working.
-      network, and see if you can obtain the same results.
-    - At this point you are on your own... :-)
- 
--6) How to send a bug report
-+6. How to send a bug report
-+===========================
- 
- If you've found a bug and want to report it, then there are several things
- you can do to help me work out exactly what it is that is wrong. Useful
-@@ -175,18 +185,19 @@ information (_most_ of which _is_ _essential_) includes:
-  - How much data was being transferred ?
-  - Was the network congested ?
-  - How can the problem be reproduced ?
-- - Can you use tcpdump to get a trace ? (N.B. Most (all?) versions of 
-+ - Can you use tcpdump to get a trace ? (N.B. Most (all?) versions of
-    tcpdump don't understand how to dump DECnet properly, so including
-    the hex listing of the packet contents is _essential_, usually the -x flag.
-    You may also need to increase the length grabbed with the -s flag. The
-    -e flag also provides very useful information (ethernet MAC addresses))
- 
--7) MAC FAQ
-+7. MAC FAQ
-+==========
- 
- A quick FAQ on ethernet MAC addresses to explain how Linux and DECnet
--interact and how to get the best performance from your hardware. 
-+interact and how to get the best performance from your hardware.
- 
--Ethernet cards are designed to normally only pass received network frames 
-+Ethernet cards are designed to normally only pass received network frames
- to a host computer when they are addressed to it, or to the broadcast address.
- 
- Linux has an interface which allows the setting of extra addresses for
-@@ -197,8 +208,8 @@ significant processor time and bus bandwidth can be used up on a busy
- network (see the NAPI documentation for a longer explanation of these
- effects).
- 
--DECnet makes use of this interface to allow running DECnet on an ethernet 
--card which has already been configured using TCP/IP (presumably using the 
-+DECnet makes use of this interface to allow running DECnet on an ethernet
-+card which has already been configured using TCP/IP (presumably using the
- built in MAC address of the card, as usual) and/or to allow multiple DECnet
- addresses on each physical interface. If you do this, be aware that if your
- ethernet card doesn't support perfect hashing in its MAC address filter
-@@ -210,7 +221,8 @@ to gain the best efficiency. Better still is to use a card which supports
- NAPI as well.
+  bjorn@nemi:~$ ls /sys/bus/usb/drivers/cdc_mbim/2-4:2.12/usbmisc
+  cdc-wdm0
+@@ -119,13 +124,15 @@ negotiated control message size.
  
  
--8) Mailing list
-+8. Mailing list
-+===============
+ /dev/cdc-wdmX ioctl()
+---------------------
++---------------------
+ IOCTL_WDM_MAX_COMMAND: Get Maximum Command Size
+ This ioctl returns the wMaxControlMessage field of the CDC MBIM
+ functional descriptor for MBIM devices.  This is intended as a
+ convenience, eliminating the need to parse the USB descriptors from
+ userspace.
  
- If you are keen to get involved in development, or want to ask questions
- about configuration, or even just report bugs, then there is a mailing
-@@ -218,7 +230,8 @@ list that you can join, details are at:
++::
++
+ 	#include <stdio.h>
+ 	#include <fcntl.h>
+ 	#include <sys/ioctl.h>
+@@ -178,7 +185,7 @@ VLAN links prior to establishing MBIM IP sessions where the SessionId
+ is greater than 0. These links can be added by using the normal VLAN
+ kernel interfaces, either ioctl or netlink.
  
- http://sourceforge.net/mail/?group_id=4993
+-For example, adding a link for a MBIM IP session with SessionId 3:
++For example, adding a link for a MBIM IP session with SessionId 3::
  
--9) Legal Info
-+9. Legal Info
-+=============
+   ip link add link wwan0 name wwan0.3 type vlan id 3
  
- The Linux DECnet project team have placed their code under the GPL. The
- software is provided "as is" and without warranty express or implied.
+@@ -207,6 +214,7 @@ the stream to the end user in an appropriate way for the stream type.
+ The network device ABI requires a dummy ethernet header for every DSS
+ data frame being transported.  The contents of this header is
+ arbitrary, with the following exceptions:
++
+  - TX frames using an IP protocol (0x0800 or 0x86dd) will be dropped
+  - RX frames will have the protocol field set to ETH_P_802_3 (but will
+    not be properly formatted 802.3 frames)
+@@ -218,7 +226,7 @@ adding the dummy ethernet header on TX and stripping it on RX.
+ 
+ This is a simple example using tools commonly available, exporting
+ DssSessionId 5 as a pty character device pointed to by a /dev/nmea
+-symlink:
++symlink::
+ 
+   ip link add link wwan0 name wwan0.dss5 type vlan id 261
+   ip link set dev wwan0.dss5 up
+@@ -236,7 +244,7 @@ map frames to the correct DSS session and adding 18 byte VLAN ethernet
+ headers with the appropriate tag on TX.  In this case using a socket
+ filter is recommended, matching only the DSS VLAN subset. This avoid
+ unnecessary copying of unrelated IP session data to userspace.  For
+-example:
++example::
+ 
+   static struct sock_filter dssfilter[] = {
+ 	/* use special negative offsets to get VLAN tag */
+@@ -249,11 +257,11 @@ example:
+ 	BPF_JUMP(BPF_JMP|BPF_JGE|BPF_K, 512, 3, 0),	/* 511 is last DSS VLAN */
+ 
+ 	/* verify ethertype */
+-        BPF_STMT(BPF_LD|BPF_H|BPF_ABS, 2 * ETH_ALEN),
+-        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, ETH_P_802_3, 0, 1),
++	BPF_STMT(BPF_LD|BPF_H|BPF_ABS, 2 * ETH_ALEN),
++	BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, ETH_P_802_3, 0, 1),
+ 
+-        BPF_STMT(BPF_RET|BPF_K, (u_int)-1),	/* accept */
+-        BPF_STMT(BPF_RET|BPF_K, 0),		/* ignore */
++	BPF_STMT(BPF_RET|BPF_K, (u_int)-1),	/* accept */
++	BPF_STMT(BPF_RET|BPF_K, 0),		/* ignore */
+   };
+ 
+ 
+@@ -266,6 +274,7 @@ network device.
+ 
+ This mapping implies a few restrictions on multiplexed IPS and DSS
+ sessions, which may not always be practical:
++
+  - no IPS or DSS session can use a frame size greater than the MTU on
+    IP session 0
+  - no IPS or DSS session can be in the up state unless the network
+@@ -280,7 +289,7 @@ device.
+ 
+ Tip: It might be less confusing to the end user to name this VLAN
+ subdevice after the MBIM SessionID instead of the VLAN ID.  For
+-example:
++example::
+ 
+   ip link add link wwan0 name wwan0.0 type vlan id 4094
+ 
+@@ -290,7 +299,7 @@ VLAN mapping
+ 
+ Summarizing the cdc_mbim driver mapping described above, we have this
+ relationship between VLAN tags on the wwanY network device and MBIM
+-sessions on the shared USB data channel:
++sessions on the shared USB data channel::
+ 
+   VLAN ID       MBIM type   MBIM SessionID           Notes
+   ---------------------------------------------------------
+@@ -310,30 +319,37 @@ sessions on the shared USB data channel:
+ References
+ ==========
+ 
+-[1] USB Implementers Forum, Inc. - "Universal Serial Bus
+-      Communications Class Subclass Specification for Mobile Broadband
+-      Interface Model", Revision 1.0 (Errata 1), May 1, 2013
++ 1) USB Implementers Forum, Inc. - "Universal Serial Bus
++    Communications Class Subclass Specification for Mobile Broadband
++    Interface Model", Revision 1.0 (Errata 1), May 1, 2013
++
+       - http://www.usb.org/developers/docs/devclass_docs/
+ 
+-[2] USB Implementers Forum, Inc. - "Universal Serial Bus
+-      Communications Class Subclass Specifications for Network Control
+-      Model Devices", Revision 1.0 (Errata 1), November 24, 2010
++ 2) USB Implementers Forum, Inc. - "Universal Serial Bus
++    Communications Class Subclass Specifications for Network Control
++    Model Devices", Revision 1.0 (Errata 1), November 24, 2010
++
+       - http://www.usb.org/developers/docs/devclass_docs/
+ 
+-[3] libmbim - "a glib-based library for talking to WWAN modems and
+-      devices which speak the Mobile Interface Broadband Model (MBIM)
+-      protocol"
++ 3) libmbim - "a glib-based library for talking to WWAN modems and
++    devices which speak the Mobile Interface Broadband Model (MBIM)
++    protocol"
++
+       - http://www.freedesktop.org/wiki/Software/libmbim/
+ 
+-[4] ModemManager - "a DBus-activated daemon which controls mobile
+-      broadband (2G/3G/4G) devices and connections"
++ 4) ModemManager - "a DBus-activated daemon which controls mobile
++    broadband (2G/3G/4G) devices and connections"
++
+       - http://www.freedesktop.org/wiki/Software/ModemManager/
+ 
+-[5] "MBIM (Mobile Broadband Interface Model) Registry"
++ 5) "MBIM (Mobile Broadband Interface Model) Registry"
++
+        - http://compliance.usb.org/mbim/
+ 
+-[6] "/sys/kernel/debug/usb/devices output format"
++ 6) "/sys/kernel/debug/usb/devices output format"
++
+        - Documentation/driver-api/usb/usb.rst
+ 
+-[7] "/sys/bus/usb/devices/.../descriptors"
++ 7) "/sys/bus/usb/devices/.../descriptors"
++
+        - Documentation/ABI/stable/sysfs-bus-usb
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 7c815ffb1403..3acf02aaacee 100644
+index 26ea79cecb9d..ef13fa26b4df 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -48,6 +48,7 @@ Contents:
-    cxacru
-    dccp
-    dctcp
-+   decnet
+@@ -43,6 +43,7 @@ Contents:
+    ax25
+    baycom
+    bonding
++   cdc_mbim
  
  .. only::  subproject and html
  
