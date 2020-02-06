@@ -2,89 +2,143 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=DATE_IN_PAST_03_06,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F11BEC352A3
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F209BC352A3
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:47:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C74A1218AC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:37:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7DCF21775
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581022043;
+	bh=b5L/7neZks6SxBsJUMzzaZtT0XdM3q38CPeJu18A/co=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=0NcLFXbkxjuGTPYMMP1+0/uJKdd6zAs/NzlBxJtwTWCTMl9rtr0t4Tyejkxy0oDYN
+	 WL4ATrXvxVlHmrFZoMECdorzEyNRPB0eu+77BUPLMCU/7JjTjpbCqw5bpPW1QN9xid
+	 Wf2MVlzRoS0Hl2hEoGeaqNNLWhUp04PvLEdJRFjA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727885AbgBFUhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 15:37:33 -0500
-Received: from mga11.intel.com ([192.55.52.93]:45767 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727773AbgBFUhd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Feb 2020 15:37:33 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Feb 2020 12:37:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,410,1574150400"; 
-   d="scan'208";a="226268571"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2020 12:37:32 -0800
-Message-ID: <b0e7e487d1bf92bf19df2ecf199b90c76d9097dd.camel@intel.com>
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Date:   Thu, 06 Feb 2020 12:17:30 -0800
-In-Reply-To: <af5ee976-3b57-4afe-6304-fcab8de45c77@infradead.org>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-         <20200205181935.3712-2-yu-cheng.yu@intel.com>
-         <af5ee976-3b57-4afe-6304-fcab8de45c77@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1727939AbgBFUpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 15:45:36 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33877 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727830AbgBFUpg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 15:45:36 -0500
+Received: by mail-pf1-f194.google.com with SMTP id i6so64517pfc.1;
+        Thu, 06 Feb 2020 12:45:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UQjt4WVJ28WaJURpUjHhblvvrGRzOLhJAhseMuxTJOc=;
+        b=TOpwL3yNtPnkzaQ1hjrp+t58b2pHbZoU27pdiq5x7Eoyf1KeXVY3YEZPe9w0GFPTUU
+         V5llv0oMgVtFp3yydTNlfHXSkOWIvKQKgZanigHqOzmv3xFguP7FNLPuMo3g/LkCUDEk
+         ph9UhH//gBVOOMzp51rqdx4dsApvAemlh5cloumLerk9BN0UsJlqPcVvFLbRSlBIbei1
+         6G2VO02N3ghvOLoylPKRnRrGoU/mDOJ9ikhExia8NsUb9NLsNqmt/WpldNjx88ZQ7E+X
+         fuaZwAJ/MyYY5R/GaTsLML/38T7KYrhgZ+OH+d19wze/oThFprzKf56ryQZyPXyGk3t/
+         RAbg==
+X-Gm-Message-State: APjAAAUhJBNZGIMJBDkmJx10pOrzD1LR0jfe0Sosy61bgF/T1/Qr7yX1
+        67R46EuuCJYZXTm6HaVUUg==
+X-Google-Smtp-Source: APXvYqy59y0DOw/mTxpVJ6WbFI4h+r6pFsRuD3AZ2j+dQn50bkNfTE4aLed3JpZuFsPT5ruTsWdXSw==
+X-Received: by 2002:aa7:9633:: with SMTP id r19mr6165120pfg.90.1581021934395;
+        Thu, 06 Feb 2020 12:45:34 -0800 (PST)
+Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net. [63.158.47.182])
+        by smtp.gmail.com with ESMTPSA id v7sm281923pfn.61.2020.02.06.12.45.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2020 12:45:33 -0800 (PST)
+Received: (nullmailer pid 8782 invoked by uid 1000);
+        Thu, 06 Feb 2020 17:12:10 -0000
+Date:   Thu, 6 Feb 2020 17:12:10 +0000
+From:   Rob Herring <robh@kernel.org>
+To:     Mike Jones <michael-a1.jones@analog.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@roeck-us.net, jdelvare@suse.com, corbet@lwn.net
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/ltc2978): add support for more parts.
+Message-ID: <20200206171210.GA4241@bogus>
+References: <1580234400-2829-1-git-send-email-michael-a1.jones@analog.com>
+ <1580234400-2829-3-git-send-email-michael-a1.jones@analog.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1580234400-2829-3-git-send-email-michael-a1.jones@analog.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-02-05 at 16:16 -0800, Randy Dunlap wrote:
-> Hi,
+On Tue, Jan 28, 2020 at 11:00:00AM -0700, Mike Jones wrote:
+> LTC2972, LTC2979, LTC3884, LTC3889, LTC7880, LTM4664, LTM4677,
+> LTM4678, LTM4680, LTM4700.
 > 
-> I have a few comments and a question (please see inline below).
+> Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
+> ---
+>  .../devicetree/bindings/hwmon/ltc2978.txt          |  22 ++-
+
+DT bindings should be a separate patch.
+
+>  Documentation/hwmon/ltc2978.rst                    | 164 ++++++++++++++++-----
+>  drivers/hwmon/pmbus/Kconfig                        |  11 +-
+>  drivers/hwmon/pmbus/ltc2978.c                      |  92 +++++++++++-
+>  4 files changed, 238 insertions(+), 51 deletions(-)
 > 
-> 
-> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
-[...]
-> > +arch_prctl(ARCH_X86_CET_LOCK)
-> > +    Lock in CET feature.
-> 
-> which feature?
-
-Both SHSTK and IBT are locked.  They cannot be turned off afterwards.
-
-I will check things you pointed out.
-
-Thanks,
-Yu-cheng
-
+> diff --git a/Documentation/devicetree/bindings/hwmon/ltc2978.txt b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
+> index b428a70..4e7f621 100644
+> --- a/Documentation/devicetree/bindings/hwmon/ltc2978.txt
+> +++ b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
+> @@ -2,20 +2,30 @@ ltc2978
+>  
+>  Required properties:
+>  - compatible: should contain one of:
+> +  * "lltc,ltc2972"
+>    * "lltc,ltc2974"
+>    * "lltc,ltc2975"
+>    * "lltc,ltc2977"
+>    * "lltc,ltc2978"
+> +  * "lltc,ltc2979"
+>    * "lltc,ltc2980"
+>    * "lltc,ltc3880"
+>    * "lltc,ltc3882"
+>    * "lltc,ltc3883"
+> +  * "lltc,ltc3884"
+>    * "lltc,ltc3886"
+>    * "lltc,ltc3887"
+> +  * "lltc,ltc3889"
+> +  * "lltc,ltc7880"
+>    * "lltc,ltm2987"
+> +  * "lltc,ltm4664"
+>    * "lltc,ltm4675"
+>    * "lltc,ltm4676"
+> +  * "lltc,ltm4677"
+> +  * "lltc,ltm4678"
+> +  * "lltc,ltm4680"
+>    * "lltc,ltm4686"
+> +  * "lltc,ltm4700"
+>  - reg: I2C slave address
+>  
+>  Optional properties:
+> @@ -25,13 +35,17 @@ Optional properties:
+>    standard binding for regulators; see regulator.txt.
+>  
+>  Valid names of regulators depend on number of supplies supported per device:
+> +  * ltc2972 vout0 - vout1
+>    * ltc2974, ltc2975 : vout0 - vout3
+> -  * ltc2977, ltc2980, ltm2987 : vout0 - vout7
+> +  * ltc2977, ltc2979, ltc2980, ltm2987 : vout0 - vout7
+>    * ltc2978 : vout0 - vout7
+> -  * ltc3880, ltc3882, ltc3886 : vout0 - vout1
+> +  * ltc3880, ltc3882, ltc3884, ltc3886, ltc3887, ltc3889 : vout0 - vout1
+> +  * ltc7880 : vout0 - vout1
+>    * ltc3883 : vout0
+> -  * ltm4676 : vout0 - vout1
+> -  * ltm4686 : vout0 - vout1
+> +  * ltm4664 : vout0 - vout1
+> +  * ltm4675, ltm4676, ltm4677, ltm4678 : vout0 - vout1
+> +  * ltm4680, ltm4686 : vout0 - vout1
+> +  * ltm4700 : vout0 - vout1
+>  
+>  Example:
+>  ltc2978@5e {
