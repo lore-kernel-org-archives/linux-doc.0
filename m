@@ -2,112 +2,194 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A62BEC388EB
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B14D6C3B189
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7D64C20838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581002323;
-	bh=RAidaFBtmLBb/aqBNEe32Dt8qqa/wxoaDWFQ5hEEOiU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UDekLBgQsXhndJZ5XEmXoAPefubS3jEneAB8moJxIWtrvW7U91PA9ZU6mH0Bsr0ZW
-	 myF30mqw9iWCez+U2qALpIF8WH7bxSTRvxTRhynjqUpUyxBbPpLUCgGMdrj57f/t1O
-	 3WvgkayknEPQo4XcuAtwJO2OqgbcPpOInU6Qy6tg=
+	by mail.kernel.org (Postfix) with ESMTP id 8742320838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EsANk3EN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgBFPSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:18:00 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38040 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727505AbgBFPR7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:17:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=1TqEDFg01vvnrBEbOBulEVHvDLAjKXC9WfKwX3sDMXM=; b=bSq1kH/LJmiReSNeOunn5cO9+c
-        ojmkO67+QFBT0RFPZGmlw+VpUnJx7ahZfJo5PkZeJXHS1LLQgvadJUEzAN0Ya2PLpPQsLeIkRE8aG
-        nEhswZ11P7L0QKNeWiy/PDLYcBA8n4zxNshp+Sy1foWxV4HSGFDPjInYAhH3Aq014d32LUBMxuIk8
-        oHS9/+4RD7MWz8SqQtL5TbApCl/8gnj+ctb9m4QJg/twku48r11E3pCIF3lfMX96D5qN2S/x9hqQg
-        Zz9CPHgGJ39GpEb2gJQ0p48Z1Xe2mv5G3A0Fahh6ELiX7JQHK9G9DIKFzDGShInijFNO6acy41Sh4
-        LD/V+vxQ==;
-Received: from [179.95.15.160] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziul-0005ja-3W; Thu, 06 Feb 2020 15:17:59 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziud-002oVp-HE; Thu, 06 Feb 2020 16:17:51 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 17/28] docs: networking: convert defza.txt to ReST
-Date:   Thu,  6 Feb 2020 16:17:37 +0100
-Message-Id: <b48d3468376bd16ea001b6ee0ab68fa9f06850a8.1581002063.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
-References: <cover.1581002062.git.mchehab+huawei@kernel.org>
+        id S1727873AbgBFPSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:18:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58738 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727874AbgBFPSm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:18:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581002321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bmV5fzydc3rcIazejW+HPUQs71G2JgpFlEg2HuiWNZ4=;
+        b=EsANk3ENHMDxF938RHvSmQt17OH96TAIcZOZsozE504ccJ57DKQk5XXDdWJTG0+QKHghKB
+        RR7Ze//dr5bbpGK1KKBUWAXtimbuVRxFGJE0PkYz73pQEXuRnjX29cKaY2lWDxgwS7Z70Q
+        N78npyuSCNGUxUr2rYbA+vJYYg8mPYo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-AbbUUXYGObOj3HM9_tbVJw-1; Thu, 06 Feb 2020 10:18:39 -0500
+X-MC-Unique: AbbUUXYGObOj3HM9_tbVJw-1
+Received: by mail-wr1-f69.google.com with SMTP id w17so3580938wrr.9
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2020 07:18:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bmV5fzydc3rcIazejW+HPUQs71G2JgpFlEg2HuiWNZ4=;
+        b=rORt7xuSI6A5MznZ3ANbqH4U/wpLxSSZd/kpcalDV4wMSeE+g8cLcvTqVaW/b3S1sp
+         0A6X6p3Fu7x2Cyd5/oK8fhIEkq8kDdrK+b8Q1mBZy1/0dbXq4OhJEp90X7E/Kv+o76AJ
+         RRaXIwX3JtnY3AyVz3h2EoxBelTyVDn9vLLJ7H2CeWIJsUfYf/5DoaR8nD78844LIh5a
+         Rj6Ph02gvGuk0CTtB4YXXuhPldhV+2dWJB3qDl3S3AEuGpxjvIpmM9oagTmDKQpfWATB
+         WbyM8LhFeCkl0XTNt2TGaN2xA0jb/rOjtmhwZHYcbzVJ7VyPXz8UhZnncMBnECZmXoJ0
+         mPfA==
+X-Gm-Message-State: APjAAAWjv8XnPDQRYXw038J70VhKuXKdjcVaV0G2aX+Wd+QsqmSvueWf
+        QFN5/60SqYSEzHrT02VkbRz+fCaEfVkHg+HFg40woMu2qcSOY1BqmUcuvkOwLM3qthFwDJJcrVR
+        ej61+B1P8C5ua9B2Rabgg
+X-Received: by 2002:a7b:ca49:: with SMTP id m9mr5329736wml.50.1581002318399;
+        Thu, 06 Feb 2020 07:18:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzAJWYqhylWktnILpnrmT9YkEhB6Yu5lRTU8758ARVrJbf++M5496LmTA7BV6VbGzIBWVT6Uw==
+X-Received: by 2002:a7b:ca49:: with SMTP id m9mr5329708wml.50.1581002318087;
+        Thu, 06 Feb 2020 07:18:38 -0800 (PST)
+Received: from [10.201.49.5] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
+        by smtp.gmail.com with ESMTPSA id p15sm3918709wma.40.2020.02.06.07.18.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2020 07:18:37 -0800 (PST)
+Subject: Re: [PATCH v2 00/27] docs: virt: manually convert text documents to
+ ReST format
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-doc@vger.kernel.org,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>,
+        Jeff Dike <jdike@addtoit.com>, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f8dab5f5-3b54-0b0a-0b34-c1c450813af5@redhat.com>
+Date:   Thu, 6 Feb 2020 16:18:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Not much to be done here:
+On 06/02/20 15:49, Mauro Carvalho Chehab wrote:
+> Manually convert the documentation under Documentation/virt to ReST,
+> minimizing the usage of uneeded markups and preserving the documentation
+> writer's style.
+> 
+> PS.: Patches are against linux-next tree (20200204).
+> 
+> v2:
+> 
+> - Solved a conflict with linux-next;
+> - Added SPDX headers.
+> 
+> Mauro Carvalho Chehab (27):
+>   docs: kvm: add arm/pvtime.rst to index.rst
+>   docs: virt: convert UML documentation to ReST
+>   docs: virt: user_mode_linux.rst: update compiling instructions
+>   docs: virt: user_mode_linux.rst: fix URL references
+>   docs: virt: convert halt-polling.txt to ReST format
+>   docs: virt: Convert msr.txt to ReST format
+>   docs: kvm: devices/arm-vgic-its.txt to ReST format
+>   docs: kvm: devices/arm-vgit-v3.txt to ReST
+>   docs: kvm: convert devices/arm-vgit.txt to ReST
+>   docs: kvm: convert devices/mpic.txt to ReST
+>   docs: kvm: convert devices/s390_flic.txt to ReST
+>   docs: kvm: convert devices/vcpu.txt to ReST
+>   docs: kvm: convert devices/vcpu.txt to ReST
+>   docs: kvm: convert devices/vm.txt to ReST
+>   docs: kvm: convert devices/xics.txt to ReST
+>   docs: kvm: convert devices/xive.txt to ReST
+>   docs: kvm: Convert api.txt to ReST format
+>   docs: kvm: convert arm/hyp-abi.txt to ReST
+>   docs: kvm: arm/psci.txt: convert to ReST
+>   docs: kvm: Convert hypercalls.txt to ReST format
+>   docs: kvm: Convert locking.txt to ReST format
+>   docs: kvm: Convert mmu.txt to ReST format
+>   docs: kvm: Convert nested-vmx.txt to ReST format
+>   docs: kvm: Convert ppc-pv.txt to ReST format
+>   docs: kvm: Convert s390-diag.txt to ReST format
+>   docs: kvm: Convert timekeeping.txt to ReST format
+>   docs: kvm: review-checklist.txt: rename to ReST
+> 
+>  Documentation/virt/index.rst                  |    1 +
+>  Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
+>  .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
+>  Documentation/virt/kvm/arm/index.rst          |   12 +
+>  .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
+>  .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
+>  .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
+>  .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
+>  Documentation/virt/kvm/devices/index.rst      |   19 +
+>  .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
+>  .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
+>  Documentation/virt/kvm/devices/vcpu.rst       |  114 +
+>  Documentation/virt/kvm/devices/vcpu.txt       |   76 -
+>  .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
+>  .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
+>  .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
+>  .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
+>  .../{halt-polling.txt => halt-polling.rst}    |   86 +-
+>  .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
+>  Documentation/virt/kvm/index.rst              |   16 +
+>  .../virt/kvm/{locking.txt => locking.rst}     |  111 +-
+>  Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
+>  Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
+>  .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
+>  .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
+>  ...iew-checklist.txt => review-checklist.rst} |    3 +
+>  .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
+>  .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
+>  ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
+>  29 files changed, 4003 insertions(+), 3121 deletions(-)
+>  rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
+>  rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+>  create mode 100644 Documentation/virt/kvm/arm/index.rst
+>  rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+>  create mode 100644 Documentation/virt/kvm/devices/index.rst
+>  rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+>  rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+>  create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+>  delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
+>  rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
+>  rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
+>  rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
+>  rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
+>  rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+>  rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
+>  rename Documentation/virt/kvm/{locking.txt => locking.rst} (78%)
+>  rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+>  rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+>  rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
+>  rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+>  rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+>  rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
+>  rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
+>  rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
+> 
 
-- add SPDX header;
-- add a document title;
-- use :field: markup for the version number;
-- add to networking/index.rst.
+Wow, thanks very much for doing this.  It would be great if we could get
+this to Linus not long after the merge window; I'll do my best to review
+it quickly.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/networking/{defza.txt => defza.rst} | 8 +++++++-
- Documentation/networking/index.rst                | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
- rename Documentation/networking/{defza.txt => defza.rst} (91%)
-
-diff --git a/Documentation/networking/defza.txt b/Documentation/networking/defza.rst
-similarity index 91%
-rename from Documentation/networking/defza.txt
-rename to Documentation/networking/defza.rst
-index 663e4a906751..73c2f793ea26 100644
---- a/Documentation/networking/defza.txt
-+++ b/Documentation/networking/defza.rst
-@@ -1,4 +1,10 @@
--Notes on the DEC FDDIcontroller 700 (DEFZA-xx) driver v.1.1.4.
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================================
-+Notes on the DEC FDDIcontroller 700 (DEFZA-xx) driver
-+=====================================================
-+
-+:Version: v.1.1.4
- 
- 
- DEC FDDIcontroller 700 is DEC's first-generation TURBOchannel FDDI
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 3acf02aaacee..198851d45b26 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -49,6 +49,7 @@ Contents:
-    dccp
-    dctcp
-    decnet
-+   defza
- 
- .. only::  subproject and html
- 
--- 
-2.24.1
+Paolo
 
