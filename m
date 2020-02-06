@@ -2,188 +2,104 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C1FC33CAC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09AD4C33CAC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:47:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8BF7221741
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581003966;
-	bh=qkTT9QVfoW5Hqi+5sQCx4C739P1VAWdOEN6lyWVwXek=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=y+JukF62y61aoz+528j0OFHxTeM4emcLoh2fKIQi+ffqMxnJJb+8c4hcI0ZGZPFjc
-	 rmbEJ3Tn/93KtRJOgCfxpnJeSJ6o00guP7LhGFctgSfvmvT99OJAQB/8uBbNMtVQ7T
-	 I/p5msI7C7B6+Ihn/ihFI2SHqTAG1oxWrtTo+b1A=
+	by mail.kernel.org (Postfix) with ESMTP id D52AE214AF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:47:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cjq76PXD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727457AbgBFPqG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:46:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60752 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727060AbgBFPqG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Feb 2020 10:46:06 -0500
-Received: from xps13 (lfbn-tou-1-1151-102.w90-76.abo.wanadoo.fr [90.76.211.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727509AbgBFPrf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:47:35 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51232 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727440AbgBFPrf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:47:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581004054;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=W5o7VzK3YB2cNDyLSCiswlw0M+bsMwT1Ow82wmetAgA=;
+        b=Cjq76PXDMV7r8uYCg3JVCyUJgDq2DXNpakX0Um/UL7PLT04S/rvoTZwRHoQO2HRo613Knt
+        1x6Uccau736Vn8l2qTmR9mUX8aAgYrms3kuI5To9TijfL/EVu57/PucfflPlWAbCVMIBJo
+        ClVMavMCdKGUnaysA/wyIR7Giz9dwII=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-166-YMY6GAxdN8Cgz_voIOvalw-1; Thu, 06 Feb 2020 10:47:30 -0500
+X-MC-Unique: YMY6GAxdN8Cgz_voIOvalw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 74C24214AF;
-        Thu,  6 Feb 2020 15:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581003965;
-        bh=qkTT9QVfoW5Hqi+5sQCx4C739P1VAWdOEN6lyWVwXek=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eZiEGmPzLMlAvJlOgWtAC1//RnQHWe6BlLdIFgB4P21fSmFf73hVfnIE568YwqCdy
-         6c1N/cnrZ39J4LVGQQbD3NH1KR9YIHKzsK2sxUGDUF40hT+LcM8ogCd019xQqqyfvp
-         TE5ilZjcZtI8o7sUYgnr8wMRMvvQ8XHjO305gjBA=
-Date:   Thu, 6 Feb 2020 16:45:59 +0100
-From:   Miquel Raynal <mraynal@kernel.org>
-To:     liaoweixiong <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v1 11/11] mtd: new support oops logger based on
- pstore/blk
-Message-ID: <20200206164559.59c5eb6a@xps13>
-In-Reply-To: <e135f947-226f-8dd0-b328-fb87c5064914@allwinnertech.com>
-References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
-        <1579482233-2672-12-git-send-email-liaoweixiong@allwinnertech.com>
-        <20200120110306.32e53fd8@xps13>
-        <27226590-379c-8784-f461-f5d701015611@allwinnertech.com>
-        <20200121094802.61f8cb4d@xps13>
-        <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
-        <20200122184114.125b42c8@xps13>
-        <e135f947-226f-8dd0-b328-fb87c5064914@allwinnertech.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6368996F85;
+        Thu,  6 Feb 2020 15:47:29 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2587B1001B05;
+        Thu,  6 Feb 2020 15:47:28 +0000 (UTC)
+Date:   Thu, 6 Feb 2020 16:47:25 +0100
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 12/27] docs: kvm: convert devices/vcpu.txt to ReST
+Message-ID: <20200206164725.4a7914bc.cohuck@redhat.com>
+In-Reply-To: <011ccabd61ce299e638a9545adf7f59eead15131.1581000481.git.mchehab+huawei@kernel.org>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+        <011ccabd61ce299e638a9545adf7f59eead15131.1581000481.git.mchehab+huawei@kernel.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi liao,
+On Thu,  6 Feb 2020 15:50:09 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Thu, 6 Feb 2020
-21:10:47 +0800:
+> - Use title markups;
+> - adjust indentation and add blank lines as needed;
+> - adjust tables to match ReST accepted formats;
+> - use :field: markups;
+> - mark code blocks as such.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/virt/kvm/devices/index.rst |   1 +
+>  Documentation/virt/kvm/devices/vcpu.rst  | 114 +++++++++++++++++++++++
+>  Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+>  3 files changed, 115 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+>  delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
-> hi Miquel Raynal,
->=20
-> On 2020/1/23 AM 1:41, Miquel Raynal wrote:
-> > Hello,
-> >=20
-> >  =20
-> >>>>>> +/*
-> >>>>>> + * All zones will be read as pstore/blk will read zone one by one=
- when do
-> >>>>>> + * recover.
-> >>>>>> + */
-> >>>>>> +static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
-> >>>>>> +{
-> >>>>>> +	struct mtdpstore_context *cxt =3D &oops_cxt;
-> >>>>>> +	size_t retlen;
-> >>>>>> +	int ret;
-> >>>>>> +
-> >>>>>> +	if (mtdpstore_block_isbad(cxt, off))
-> >>>>>> +		return -ENEXT;
-> >>>>>> +
-> >>>>>> +	pr_debug("try to read off 0x%llx size %zu\n", off, size);
-> >>>>>> +	ret =3D mtd_read(cxt->mtd, off, size, &retlen, (u_char *)buf);
-> >>>>>> +	if ((ret < 0 && !mtd_is_bitflip(ret)) || size !=3D retlen)  { =20
-> >>>>>
-> >>>>> IIRC size !=3D retlen does not mean it failed, but that you should
-> >>>>> continue reading after retlen bytes, no? =20
-> >>>>>     >> =20
-> >>>> Yes, you are right. I will fix it. Thanks. =20
-> >>>>   >>>>> Also, mtd_is_bitflip() does not mean that you are reading a =
-false =20
-> >>>>> buffer, but that the data has been corrected as it contained bitfli=
-ps.
-> >>>>> mtd_is_eccerr() however, would be meaningful. =20
-> >>>>>     >> =20
-> >>>> Sure I know mtd_is_bitflip() does not mean failure, but I do not thi=
-nk
-> >>>> mtd_is_eccerr() should be here since the codes are ret < 0 and NOT
-> >>>> mtd_is_bitflip(). =20
-> >>>
-> >>> Yes, just drop this check, only keep ret < 0. =20
-> >>>    >> =20
-> >> If I don't get it wrong, it should not	 be dropped here. Like your wor=
-ds,
-> >> "mtd_is_bitflip() does not mean that you are reading a false buffer,
-> >> but that the data has been corrected as it contained bitflips.", the
-> >> data I get are valid even if mtd_is_bitflip() return true. It's correct
-> >> data and it's no need to go to handle error. To me, the codes
-> >> should be:
-> >> 	if (ret < 0 && !mit_is_bitflip())
-> >> 		[error handling] =20
-> >=20
-> > Please check the implementation of mtd_is_bitflip(). You'll probably
-> > figure out what I am saying.
-> >=20
-> > https://elixir.bootlin.com/linux/latest/source/include/linux/mtd/mtd.h#=
-L585
-> >  =20
->=20
-> How about the codes as follows:
->=20
-> for (done =3D 0, retlen =3D 0; done < size; done +=3D retlen) {
-> 	ret =3D mtd_read(..., &retlen, ...);
-> 	if (!ret)
-> 		continue;
-> 	/*
-> 	 * do nothing if bitflip and ecc error occurs because whether
-> 	 * it's bitflip or ECC error, just a small number of bits flip
-> 	 * and the impact on log data is so small. The mtdpstore just
-> 	 * hands over what it gets and user can judge whether the data
-> 	 * is valid or not.
-> 	 */
-> 	if (mtd_is_bitflip(ret)) {
-> 		dev_warn("bitflip at....");
-> 		continue;
+Forgot to do a git mv? Makes this a tad hard to review.
 
-I don't understand why do you check for bitflips. Bitflips have been
-corrected at this stage, you just get the information that there
-has been bitflips, but the data integrity is fine.
+(...)
 
-I am not against ignoring ECC errors in this case though. I would
-propose:
+> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+> new file mode 100644
+> index 000000000000..e4e41b7fcac3
+> --- /dev/null
+> +++ b/Documentation/virt/kvm/devices/vcpu.rst
 
-	for (...) {
-		if (ret < 0) {
-			complain;
-			return;
-		}
+(...)
 
-		if (mtd_is_eccerr())
-			complain;
-	}
-	=09
-> 	} else if (mtd_is_eccerr(ret)) {
-> 		dev_warn("eccerr at....");
-> 		retlen =3D retlen =3D=3D 0 ? size : retlen;
-> 		continue;
-> 	} else {
-> 		dev_err("read failure at...");
-> 		/* this zone is broken, try next one */
-> 		return -ENEXT;
-> 	}
-> }
->=20
+> +2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+> +=================================
+> +
+> +:Architectures: ARM,ARM64
 
+As you're touching this anyway, add a blank before 'ARM64'?
 
-Thanks,
-Miqu=C3=A8l
