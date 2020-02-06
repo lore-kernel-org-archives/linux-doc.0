@@ -2,57 +2,64 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81568C3B18C
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 729DFC3B186
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 541F7217F4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4613521741
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581001913;
-	bh=kDZPlakYE4tkJOE5yXMZJFhwHWqmyBXvNK9LQWRx8r4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=pX2kPwGjhyx2g7IuT3ffiTp6Jm9rn1ZHJaz7ABcPiJuj4ZM/8OClB1YdFRRj3mc2m
-	 +jglhOhZcGaORXzpGfLYxNXZbKT7TyMgNbN9b2RgxWpyqO1zqSUMv1zj9JSY0pp2S/
-	 X6oq0B4d9YaGP3wZR60+aizyEH9ej4FrGsBGOhQY=
+	s=default; t=1581001911;
+	bh=i30whJ7D2bpvmToMc489B2VfCm0FjpxIYAYkHNRm1/k=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=ucw69bAsM/L2CwOOJ22gllwqF+4HV5QArKZHbwpqf/ynyK1jqH2yZFeCFy2EpnJLJ
+	 SLzaLYY1tXa1xP1IcXOcNAx5HN2+glzoJNLdu77PKR78pD1iJ83GVBvWqV2xCMX2h4
+	 IftO8ozgyD38OEhPLPeh0M9LbE0PLLzi9NQQExNw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727591AbgBFPLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:11:52 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37544 "EHLO
+        id S1727586AbgBFPLt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:11:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37572 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727562AbgBFPLn (ORCPT
+        with ESMTP id S1727590AbgBFPLn (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=GtwkLmmzfM76VxBMXlHIbbgbtZN35Zt+G8w8FKWpUbY=; b=gtmaFmBzc7TUFZpa1WBBmsWNZG
-        bnRSg5bQ7Zxp5SxXh4e7PMjaCDGr53jQs0aUUJa3nbxXUX9drKZkcBO/zbWpWF7V3D/c1Uk6LafcP
-        0LyloVeX1aYk0OZJkD5xcY4AxCx8ssey3+qj11HH47PVc5L6ZQsTj+JUq9J1TiuTPe5lAsyd6bEzk
-        ogeYDjYUefW1uf3RU1IBNPfuzjUlCRcnM+zN5z49SAGZS2S5G95xLvyUeSKWHCsSrfkrYq+yvjV6i
-        Y8NH50o1NrKePx4Uj9m0nLM9NJ6mRznchrvA7FeCMWpLkXlHfmmtEh6DuGJXDTxIHf9a3ErNfTzhm
-        yZEqLpJQ==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=bJ6PILGfUOQthYtbZN3ove/bOTHIs1fSUTSyIzy3I3s=; b=Sef8CK/oc5vfowAvrz0puPQxZS
+        3pQTIUt14KlxR/ipQqYeok30cNc070WFIlyNjf7QPepexT9TtKJyhAr7vi+jUOzdSLNwVOOFYiW3W
+        0Ux486wUblaP4/DyDEqsvG5fnhzIrUe6h4Uvvj9FmIoRJXTzqWxb22F+YmvZfAI3NMGovBXDPW/H2
+        SbMtEk1qWe0qufiTx1oOJ5GKvQmdNeCP3ioiSvUs7Iry8RGyRASwZNW5BdmeEa1NaYaw0xqzZJpz+
+        Lsh3zeo56Hc1hm9TdZauCL6VJSKwjrUreM5Qtt6Fzq2nOq4s83fAUIEjikevO1CqUyCSgiItFSWH4
+        cCEPbHMw==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izioc-000436-DR; Thu, 06 Feb 2020 15:11:42 +0000
+        id 1izioc-000434-UW; Thu, 06 Feb 2020 15:11:42 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1izioV-002oNL-Vd; Thu, 06 Feb 2020 16:11:31 +0100
+        id 1izioV-002oMj-Lo; Thu, 06 Feb 2020 16:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 08/11] docs: misc-devices/pci-endpoint-test.txt: convert to ReST
-Date:   Thu,  6 Feb 2020 16:11:27 +0100
-Message-Id: <9766bd8385fc1605aa131acc7fb4fdc3614a6f89.1581001737.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Javi Merino <javi.merino@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        David Howells <dhowells@redhat.com>,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        keyrings@vger.kernel.org
+Subject: [PATCH 00/11] Manually convert  thermal, crypto and misc-devices to ReST
+Date:   Thu,  6 Feb 2020 16:11:19 +0100
+Message-Id: <cover.1581001737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581001737.git.mchehab+huawei@kernel.org>
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -60,140 +67,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use titles markups;
-- Adjust identation;
-- use literal markup;
-- Use the proper notation for footnotes.
+Manually convert some files from thermal, crypto and misc-devices
+to ReST format.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/misc-devices/index.rst          |  1 +
- .../misc-devices/pci-endpoint-test.rst        | 56 +++++++++++++++++++
- .../misc-devices/pci-endpoint-test.txt        | 41 --------------
- 3 files changed, 57 insertions(+), 41 deletions(-)
+This patch is against linux-next 20200204 tag.
+
+Mauro Carvalho Chehab (11):
+  docs: thermal: convert cpu-idle-cooling.rst to ReST
+  docs: crypto: convert asymmetric-keys.txt to ReST
+  docs: crypto: convert api-intro.txt to ReST format
+  docs: crypto: convert async-tx-api.txt to ReST format
+  docs: crypto: descore-readme.txt: convert to ReST format
+  docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/c2port.txt: convert to ReST format
+  docs: misc-devices/bh1770glc.txt: convert to ReST
+  docs: misc-devices/apds990x.txt: convert to ReST format
+
+ .../crypto/{api-intro.txt => api-intro.rst}   | 186 +++++++------
+ ...symmetric-keys.txt => asymmetric-keys.rst} |  91 +++----
+ .../{async-tx-api.txt => async-tx-api.rst}    | 253 +++++++++++-------
+ ...{descore-readme.txt => descore-readme.rst} | 152 +++++++----
+ Documentation/crypto/index.rst                |   5 +
+ .../driver-api/thermal/cpu-idle-cooling.rst   |  18 +-
+ Documentation/driver-api/thermal/index.rst    |   1 +
+ .../{ad525x_dpot.txt => ad525x_dpot.rst}      |  24 +-
+ .../{apds990x.txt => apds990x.rst}            |  31 ++-
+ .../{bh1770glc.txt => bh1770glc.rst}          |  45 +++-
+ .../misc-devices/{c2port.txt => c2port.rst}   |  58 ++--
+ Documentation/misc-devices/index.rst          |   6 +
+ .../misc-devices/pci-endpoint-test.rst        |  56 ++++
+ .../misc-devices/pci-endpoint-test.txt        |  41 ---
+ .../misc-devices/spear-pcie-gadget.rst        | 170 ++++++++++++
+ .../misc-devices/spear-pcie-gadget.txt        | 130 ---------
+ 16 files changed, 747 insertions(+), 520 deletions(-)
+ rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
+ rename Documentation/crypto/{async-tx-api.txt => async-tx-api.rst} (55%)
+ rename Documentation/crypto/{descore-readme.txt => descore-readme.rst} (81%)
+ rename Documentation/misc-devices/{ad525x_dpot.txt => ad525x_dpot.rst} (85%)
+ rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
+ rename Documentation/misc-devices/{bh1770glc.txt => bh1770glc.rst} (83%)
+ rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
  create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
  delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
+ create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
+ delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 005547c1ad5d..04f5dab2384c 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -21,5 +21,6 @@ fit into other categories.
-    isl29003
-    lis3lv02d
-    max6875
-+   pci-endpoint-test
-    spear-pcie-gadget
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/pci-endpoint-test.rst b/Documentation/misc-devices/pci-endpoint-test.rst
-new file mode 100644
-index 000000000000..26e5d9ba146b
---- /dev/null
-+++ b/Documentation/misc-devices/pci-endpoint-test.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
-+Driver for PCI Endpoint Test Function
-+=====================================
-+
-+This driver should be used as a host side driver if the root complex is
-+connected to a configurable PCI endpoint running ``pci_epf_test`` function
-+driver configured according to [1]_.
-+
-+The "pci_endpoint_test" driver can be used to perform the following tests.
-+
-+The PCI driver for the test device performs the following tests:
-+
-+	#) verifying addresses programmed in BAR
-+	#) raise legacy IRQ
-+	#) raise MSI IRQ
-+	#) raise MSI-X IRQ
-+	#) read data
-+	#) write data
-+	#) copy data
-+
-+This misc driver creates /dev/pci-endpoint-test.<num> for every
-+``pci_epf_test`` function connected to the root complex and "ioctls"
-+should be used to perform the above tests.
-+
-+ioctl
-+-----
-+
-+ PCITEST_BAR:
-+	      Tests the BAR. The number of the BAR to be tested
-+	      should be passed as argument.
-+ PCITEST_LEGACY_IRQ:
-+	      Tests legacy IRQ
-+ PCITEST_MSI:
-+	      Tests message signalled interrupts. The MSI number
-+	      to be tested should be passed as argument.
-+ PCITEST_MSIX:
-+	      Tests message signalled interrupts. The MSI-X number
-+	      to be tested should be passed as argument.
-+ PCITEST_SET_IRQTYPE:
-+	      Changes driver IRQ type configuration. The IRQ type
-+	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-+ PCITEST_GET_IRQTYPE:
-+	      Gets driver IRQ type configuration.
-+ PCITEST_WRITE:
-+	      Perform write tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_READ:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_COPY:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+
-+.. [1] Documentation/PCI/endpoint/function/binding/pci-test.txt
-diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-deleted file mode 100644
-index 58ccca4416b1..000000000000
---- a/Documentation/misc-devices/pci-endpoint-test.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Driver for PCI Endpoint Test Function
--
--This driver should be used as a host side driver if the root complex is
--connected to a configurable PCI endpoint running *pci_epf_test* function
--driver configured according to [1].
--
--The "pci_endpoint_test" driver can be used to perform the following tests.
--
--The PCI driver for the test device performs the following tests
--	*) verifying addresses programmed in BAR
--	*) raise legacy IRQ
--	*) raise MSI IRQ
--	*) raise MSI-X IRQ
--	*) read data
--	*) write data
--	*) copy data
--
--This misc driver creates /dev/pci-endpoint-test.<num> for every
--*pci_epf_test* function connected to the root complex and "ioctls"
--should be used to perform the above tests.
--
--ioctl
-------
-- PCITEST_BAR: Tests the BAR. The number of the BAR to be tested
--	      should be passed as argument.
-- PCITEST_LEGACY_IRQ: Tests legacy IRQ
-- PCITEST_MSI: Tests message signalled interrupts. The MSI number
--	      to be tested should be passed as argument.
-- PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
--	      to be tested should be passed as argument.
-- PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
--	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-- PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
-- PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
--		as argument.
-- PCITEST_READ: Perform read tests. The size of the buffer should be passed
--	       as argument.
-- PCITEST_COPY: Perform read tests. The size of the buffer should be passed
--	       as argument.
--
--[1] -> Documentation/PCI/endpoint/function/binding/pci-test.txt
 -- 
 2.24.1
+
 
