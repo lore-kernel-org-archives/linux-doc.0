@@ -2,201 +2,102 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E186C352A3
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 19:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97F2C3F68F
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:09:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1DE5D214AF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 19:23:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80D3221D7D
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:09:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EPfii1aY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kuUiSonA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727922AbgBFTXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 14:23:06 -0500
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:50969 "EHLO
-        mail-wm1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727822AbgBFTXG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 14:23:06 -0500
-Received: by mail-wm1-f53.google.com with SMTP id a5so1249352wmb.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2020 11:23:04 -0800 (PST)
+        id S1727822AbgBFUJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 15:09:12 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:35345 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727711AbgBFUJM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 15:09:12 -0500
+Received: by mail-qv1-f65.google.com with SMTP id u10so3475359qvi.2;
+        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OFxWhBE8bCLkAqt3LltRZI+Cx2EWphixiKp7DcpUO/0=;
-        b=EPfii1aYTJIzjpQ7Ag+p8JdkObOGGXjn000PKaanUZFEK/9ZTopIuUpSYjMABv6D2t
-         DYoVeBOVMd6JNFsPnKwXEGAm41Ux1DNvqRD5yWArwSwaiHcT150ahPWydxSH46gFP4wG
-         W/gW1e0FBvf73ONT40/pARQLAAmS0vil8HaJTQ41ZyuW+5ezSWvNz1xwRRtrwrGYM/nQ
-         bhy684fiJSYAXVJFOHd6+vp3zRNeJSXavFxPfhRVJdGKPVaUDEZE3GijvNFikGu6MG3f
-         wkbqINqNfPCOqB/aQSajogPme/1aZ6WNuUaH13Vjeva8tdunxbscU3y84RYKlOO+GT5D
-         7GOQ==
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
+        b=kuUiSonA/JF14yPtB328dGv2ZFketNfYeNQToJMcG/Htw4vUokh3dj+dIHt0d0Yon+
+         0CR60f+DsLaokT9YM/jfr35pIDhiKmrLdd2uADpC1Fwxb88MptMZ7Zk/RKqvtWLJcNSJ
+         8ojHpwusmYv0qotY1UWZQ46vFY8CyK6DFdkrBktAL8JY/PV4RaEYlGMdjaq1Xskq4Sab
+         H72yOwkrQogyoU2oz1cLvPIS3nQ5TkLlJ8JcK+xyM2zEK71oyaQ44X6l2c4Xykt6BI0m
+         fsG9HJaBVgMORnnnvf6q7QhkppKUGfm5T7jSSO4bKxDu1urzK5BQgO/pYX46oyapK8Qk
+         v46Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OFxWhBE8bCLkAqt3LltRZI+Cx2EWphixiKp7DcpUO/0=;
-        b=eJbI8Wznp+UtJw5skmCxmCXmQCWGr29xI4L0ce8yXrZcCoK/1qevsUQqkthZkFSt0/
-         xYzg59l+j2HQuihDHsVDdEggu60G8SNlfoo/iqManWowLEBUvuDLsJis0x5+SrI+00aE
-         b9U+gpftynx44bnoFyS71kvxDii9DUgCrO0k7vZpt3pnRB4mAY/zYYvlRJmq5YrxOCpu
-         j6bH26R1wvYdFlz/12ABqRFKz/J597z5R7+tu/jetEUjo1MtYDNI7Z5DNb5GQKZzySDW
-         86/pzCSWqkWbaaY327YX+0tmTuPfDZDmMgckl0JQfLC2qghtUn+edcII8Qy8wo5BZgFp
-         nfHw==
-X-Gm-Message-State: APjAAAU4GJ12aGiEzUFYXeowuiKq0TGr4tRkBX5MotSdUtUSCSVjlWLn
-        dGpy8SeX0Dl/7tcXSeWi38jhmVB1bJ8jolebpwz/gQ==
-X-Google-Smtp-Source: APXvYqwiaUUJbmWMm5tH32QPYYnFh9/ZzKme5n+D6QrxLS3rAho5DSsyxWHFSjxijisjTB59RnopY5Mkmq0zskdlFCc=
-X-Received: by 2002:a05:600c:2942:: with SMTP id n2mr5993040wmd.87.1581016983392;
- Thu, 06 Feb 2020 11:23:03 -0800 (PST)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
+        b=hP5jGO79NWR3UhIx6lL+i1wvXRdMFVNg7xjdobRBhOWuAPNAnjyZSEoPkjtRbckMR1
+         VCab6ppak8exVBL6RKBDJtLxKu4g4A7LdBAFRn4bAOT8mTkSv09u5eZt/xcfLDTOx6NY
+         LkfqpULuLK5EmUytScHekrtmktdqHGCxjKMlz4/hFPftGAaZ+zD3f0bOX3Jx1oHOIPHB
+         VVQOB9lk7hv6YZUuAfRkGUfGQ0F3DXEwHsVVsyaWCojNQelQSDkahFmb5m+r5mtgbGYH
+         4M9L1NVO7nSLQsKr4SvrEduuTC9hIr2q2SdpxSuC1VI/sO7yoiHLWy3fRcbTDpemEIxL
+         tNyw==
+X-Gm-Message-State: APjAAAVt2CBLjSIBL2E1+0whSa25+D0HgQoEvkrBev9Ubf2hBjf7EK9R
+        kXs1jTkq4xvaIVgcLzId61Y=
+X-Google-Smtp-Source: APXvYqwtAGA5HmBkm4221OA1Xq3lblCEh7YX9e2NpzpIrAsVtjFxlWi2C30mv7+gD9ez+uzWx96O/A==
+X-Received: by 2002:a0c:9c86:: with SMTP id i6mr3903089qvf.214.1581019751108;
+        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
+Received: from localhost (tripoint.kitware.com. [66.194.253.20])
+        by smtp.gmail.com with ESMTPSA id h8sm180826qtm.51.2020.02.06.12.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2020 12:09:10 -0800 (PST)
+From:   Ben Boeckel <mathstuf@gmail.com>
+X-Google-Original-From: Ben Boeckel <list.lkml.keyrings@me.benboeckel.net>
+Date:   Thu, 6 Feb 2020 15:09:11 -0500
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org
+Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
+Message-ID: <20200206200911.GA2830394@erythro.kitware.com>
+Reply-To: list.lkml.keyrings@me.benboeckel.net
+References: <cover.1581001737.git.mchehab+huawei@kernel.org>
+ <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20200130230812.142642-1-brendanhiggins@google.com>
- <20200130230812.142642-3-brendanhiggins@google.com> <e060bdfc-5cdb-fb62-48b0-cc54c7bc72ce@gmail.com>
- <CAFd5g46irbQ7j_DOY+bQPoo1TWjwvu6n9iyQ7abe9pfqydeMYg@mail.gmail.com>
- <1da1538d-2e4c-0ed0-5fae-6f9033230c46@gmail.com> <CAFd5g45=m9Rvqf__5FW6HXjSytHJwX=mue-BO+TZMg0JP-BGmw@mail.gmail.com>
-In-Reply-To: <CAFd5g45=m9Rvqf__5FW6HXjSytHJwX=mue-BO+TZMg0JP-BGmw@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Thu, 6 Feb 2020 11:22:51 -0800
-Message-ID: <CABVgOSkiLi0UNijH1xTSvmsJEE5+ocCZ7nkzmKzxDLzzfqBSzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] arch: um: add linker section for KUnit test suites
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Knut Omang <knut.omang@oracle.com>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-arch@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.13.3 (2020-01-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 4, 2020 at 5:17 PM 'Brendan Higgins' via KUnit Development
-<kunit-dev@googlegroups.com> wrote:
->
-> On Tue, Feb 4, 2020 at 3:17 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> >
-> > On 2/4/20 4:30 PM, Brendan Higgins wrote:
-> > > On Tue, Feb 4, 2020 at 1:59 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> > >>
-> > >> Can you please add a section to the KUnit documentation that lists things
-> > >> like the expectations, requirements, limitations, etc for a test case that
-> > >> is run by KUnit?  Some examples that pop to mind from recent discussions
-> > >> and my own experiences:
-> > >>
-> > >>   - Each test case is invoked after late_init is complete.
-> > >>       + Exception: the possible value of being able to run a unit test
-> > >>         at a specific runlevel has been expressed.  If an actual unit
-> > >>         test can be shown to require running earlier, this restriction
-> > >>         will be re-visited.
-> > >>
-> > >>   - Each test case must be idempotent.  Each test case may be called
-> > >>     multiple times, and must generate the same result each time it
-> > >>     is called.
-> > >>       + Exception 1: a test case can be declared to not be idempotent
-> > >>         [[ mechanism TBD ]], in which case KUnit will not call the
-> > >>         test case a second time without the kernel rebooting.
-> > >>       + Exception 2: hardware may not be deterministic, so a test that
-> > >>         always passes or fails when run under UML may not always to
-> > >>         so on real hardware.  <--- sentence copied from
-> > >>         Documentation/dev-tools/kunit/usage.rst
-> > >>           [[ This item and 1st exception do not exist yet, but will exist
-> > >>           in some form if the proposed proc filesystem interface is
-> > >>           added. ]]
-> > >>
-> > >>   - KUnit provides a helpful wrapper to simplify building a UML kernel
-> > >>     containing the KUnit test cases, booting the UML kernel, and
-> > >>     formatting the output from the test cases.  This wrapper MUST NOT
-> > >>     be required to run the test cases or to determine a test result.
-> > >>     The formatting may provide additional analysis and improve
-> > >>     readability of a test result.
-> > >>
-> > >>   - .... There is more that belongs here, but I'm getting side tracked
-> > >>     here, when I'm trying to instead convert devicetree unittests to
-> > >>     KUnit and want to get back to that.
-> > >
-> > > Sure, I think that's a great start! Thanks for that. I hope you don't
-> > > mind if I copy and paste some of it.
-> >
-> > Please do.  And no need to credit me.
-> >
-> >
-> > > It kind of sounds like you are talking about more of a requirements
-> > > doc than the design doc I was imagining in my reply to you on the
-> > > cover letter, which is fine. The documentation is primarily for people
-> > > other than me, so whatever you and others think is useful, I will do.
-> > >
-> >
-> > I wasn't really sure what to label it as.  My inspiration was based
-> > a little bit on reading through the Linux 5.5 KUnit source and
-> > documentation, and trying to understand the expectations of the
-> > KUnit framework and what the test cases have to either obey or
-> > can expect.
-> >
-> > I think there is a lot of history that you know, but is only visible
-> > to test implementors if they read through the past couple of years
-> > email threads.
->
-> Yeah, that's no good. We need to provide a better experience than
-> that. David has gotten deeply involved relatively recently: I suspect
-> that he might have some good insight on this.
->
-> David, you mentioned offline that there are some philosophical changes
-> in how we think about KUnit that has happened that you feel have never
-> quite been captured in the docs. Do you think this is part of what
-> Frank has pointed out here? If not, do you have any thoughts about
-> what we should call this documentation section?
->
-> Shuah's first KUnit PR seemed to imply that KUnit was primarily for
-> UML, or only fully supported under UML. So I think I might be the odd
-> one out thinking that that has changed and the documentation properly
-> conveys that.
+On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
+> - (1) If the criterion string is of the form "id:<hexdigits>" then the match
+> +  1) If the criterion string is of the form "id:<hexdigits>" then the match
 
-Yeah: I think the documentation could do with some improvements on
-these fronts: there are a few places which imply that KUnit requires
-UML, which is definitely not the case. We still want to encourage
-people to try UML: it's usually the quickest way of running tests, but
-KUnit itself should remain architecture-independent, as should as many
-tests as possible.
+This update was followed in all the enumeration changes except…
 
-I think there are probably (at least) two different things that need
-doing to make these sorts of miscommunications less likely. The bulk
-of the documentation needs to stop referring to KUnit as something
-built upon or using UML (while still making it clear that some of our
-tooling defaults to or requires UML at the moment). This shows up in a
-lot of the "What is KUnit/Why use KUnit" sections in both the kernel
-docs and the KUnit website.
+> - (2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
+> + 2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
 
-Secondly, we need to document the test environment (possibly alongside
-some test style best practises, possibly separately). Given that work
-like the debugfs stuff and how to support tests which need __init data
-or need to only run once is still ongoing, I'm not sure if we can
-definitively state what the solutions there will be yet, but noting
-that tests should not depend on a specific architecture like UML
-(unless they're testing architecture-specific code in a way that can't
-reasonably be made architecture independent) is worth doing sooner
-rather than later.
+The whitespace here doesn't match up. Which is preferred?
 
-I'll see if I can put a few doc patches together to update/fix at
-least some of the most egregious examples.
+> - (1) Signature verification.
+> +1) Signature verification.
 
-Cheers,
--- David
+Here, the indentation was lost too. Is this intentional?
+
+--Ben
