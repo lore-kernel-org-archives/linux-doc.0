@@ -2,400 +2,80 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53071C2D0B1
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB32EC352A2
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F21F20838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581000698;
-	bh=CyGNxVjzir9kuH2VLQn0LMWhQenChWL3R72MZl3SISQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hc8zXE2iKjZkjTdq63DWRwQJiOF4xRMMilGFkMsFT/glpPE2nU2PG2tfrl8u0a2EB
-	 javoXj18wlcb0M045ik8PKpUscuXjv+aZhEJzsr5ySKiRl0O6A39gB+QKBwL/H1F5m
-	 LsFkDo0KLXOfUOHbWSTUNgZZayf4Nw4fYHVzq5fk=
+	by mail.kernel.org (Postfix) with ESMTP id CA8C021775
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727526AbgBFOvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:51:31 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55382 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727519AbgBFOuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=+ryQXThK+1JUVV4yzJL6CFcmCQNGKVDBk28FWUEG9JU=; b=NBNOAs84i34VYOuPbHOTSbmti3
-        3tzI4b2bwFOvsUs/8oofMPoUu4DWpVJQ5XNsTc7RT3b67nICXudMpuhZmAfP9QbyUnyXnTcZttnRd
-        Qd1FNnl8RtAVFVjXWjtOKr9CkmCnXdX9LtXklYjAFaDDP+FXeIO2Yt68yrziwqvhQ3+L/mZRZ5V3i
-        9gcF5WnpTSYI0kxYlp/IJS+FPpPiY4AP60QK+oPtCRfSILoyDm4w54HHY5Aienp7zBSa6L1FVUawh
-        bjZywCUlVPdZ5HdMU1P7ZJOqQe1F4NNpmEGBNUODdjWFCRGqq/n6Azu2r41f2Kq9ArZ9RIr4gnkbI
-        GpgC14qg==;
-Received: from [179.95.15.160] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUE-0004IP-AC; Thu, 06 Feb 2020 14:50:35 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU6-002nKf-DC; Thu, 06 Feb 2020 15:50:26 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        id S1727894AbgBFOvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 09:51:40 -0500
+Received: from mga02.intel.com ([134.134.136.20]:60948 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727501AbgBFOue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Feb 2020 09:50:34 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Feb 2020 06:50:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,410,1574150400"; 
+   d="scan'208";a="279692433"
+Received: from dgbrowne-mobl.ger.corp.intel.com (HELO localhost) ([10.252.14.106])
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Feb 2020 06:50:28 -0800
+Date:   Thu, 6 Feb 2020 16:50:27 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-sgx@vger.kernel.org, akpm@linux-foundation.org,
+        dave.hansen@intel.com, sean.j.christopherson@intel.com,
+        nhorman@redhat.com, npmccallum@redhat.com, haitao.huang@intel.com,
+        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
+        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
+        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
+        cedric.xing@intel.com, puiterwijk@redhat.com,
         linux-doc@vger.kernel.org
-Subject: [PATCH v2 06/27] docs: virt: Convert msr.txt to ReST format
-Date:   Thu,  6 Feb 2020 15:50:03 +0100
-Message-Id: <43504c7b8aab378cb7019533885536c43787fed0.1581000481.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v25 21/21] docs: x86/sgx: Document SGX micro architecture
+ and kernel internals
+Message-ID: <20200206145027.GA8148@linux.intel.com>
+References: <20200204060545.31729-1-jarkko.sakkinen@linux.intel.com>
+ <20200204060545.31729-22-jarkko.sakkinen@linux.intel.com>
+ <5ea28632-cd64-bc26-fab6-2868142eb9e4@infradead.org>
+ <20200205230756.GB28111@linux.intel.com>
+ <64d57033-cd19-ae6f-48c5-d7e01a97ad5e@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64d57033-cd19-ae6f-48c5-d7e01a97ad5e@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title markup;
-- Convert tables;
-- Add blank lines and adjust indentation.
+On Wed, Feb 05, 2020 at 03:10:47PM -0800, Randy Dunlap wrote:
+> On 2/5/20 3:07 PM, Jarkko Sakkinen wrote:
+> > I rewrote it as:
+> > 
+> > "Intel provides a proprietary binary version of the PCE. This is a
+> > necessity when the software needs to prove to be running inside a legit
+> 
+> s/legit/legitimate/ please
+> 
+> > enclave on real hardware."
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/kvm/index.rst            |   1 +
- Documentation/virt/kvm/{msr.txt => msr.rst} | 147 ++++++++++++--------
- 2 files changed, 93 insertions(+), 55 deletions(-)
- rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+Hmm, actually it reads what I have now in the repository already
+legitimate [1] :-) I guess I changed the text still after sending
+the email.
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index b39f4894b61d..cc6dde47b267 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -10,6 +10,7 @@ KVM
-    amd-memory-encryption
-    cpuid
-    halt-polling
-+   msr
-    vcpu-requests
- 
-    arm/index
-diff --git a/Documentation/virt/kvm/msr.txt b/Documentation/virt/kvm/msr.rst
-similarity index 74%
-rename from Documentation/virt/kvm/msr.txt
-rename to Documentation/virt/kvm/msr.rst
-index df1f4338b3ca..33892036672d 100644
---- a/Documentation/virt/kvm/msr.txt
-+++ b/Documentation/virt/kvm/msr.rst
-@@ -1,6 +1,10 @@
--KVM-specific MSRs.
--Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
--=====================================================
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+KVM-specific MSRs
-+=================
-+
-+:Author: Glauber Costa <glommer@redhat.com>, Red Hat Inc, 2010
- 
- KVM makes use of some custom MSRs to service some requests.
- 
-@@ -9,34 +13,39 @@ Custom MSRs have a range reserved for them, that goes from
- but they are deprecated and their use is discouraged.
- 
- Custom MSR list
----------
-+---------------
- 
- The current supported Custom MSR list is:
- 
--MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
-+MSR_KVM_WALL_CLOCK_NEW:
-+	0x4b564d00
- 
--	data: 4-byte alignment physical address of a memory area which must be
-+data:
-+	4-byte alignment physical address of a memory area which must be
- 	in guest RAM. This memory is expected to hold a copy of the following
--	structure:
-+	structure::
- 
--	struct pvclock_wall_clock {
-+	 struct pvclock_wall_clock {
- 		u32   version;
- 		u32   sec;
- 		u32   nsec;
--	} __attribute__((__packed__));
-+	  } __attribute__((__packed__));
- 
- 	whose data will be filled in by the hypervisor. The hypervisor is only
- 	guaranteed to update this data at the moment of MSR write.
- 	Users that want to reliably query this information more than once have
- 	to write more than once to this MSR. Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		sec: number of seconds for wallclock at time of boot.
-+	sec:
-+		 number of seconds for wallclock at time of boot.
- 
--		nsec: number of nanoseconds for wallclock at time of boot.
-+	nsec:
-+		 number of nanoseconds for wallclock at time of boot.
- 
- 	In order to get the current wallclock time, the system_time from
- 	MSR_KVM_SYSTEM_TIME_NEW needs to be added.
-@@ -47,13 +56,15 @@ MSR_KVM_WALL_CLOCK_NEW:   0x4b564d00
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
-+MSR_KVM_SYSTEM_TIME_NEW:
-+	0x4b564d01
- 
--	data: 4-byte aligned physical address of a memory area which must be in
-+data:
-+	4-byte aligned physical address of a memory area which must be in
- 	guest RAM, plus an enable bit in bit 0. This memory is expected to hold
--	a copy of the following structure:
-+	a copy of the following structure::
- 
--	struct pvclock_vcpu_time_info {
-+	  struct pvclock_vcpu_time_info {
- 		u32   version;
- 		u32   pad0;
- 		u64   tsc_timestamp;
-@@ -62,7 +73,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 		s8    tsc_shift;
- 		u8    flags;
- 		u8    pad[2];
--	} __attribute__((__packed__)); /* 32 bytes */
-+	  } __attribute__((__packed__)); /* 32 bytes */
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -72,23 +83,28 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 	Fields have the following meanings:
- 
--		version: guest has to check version before and after grabbing
-+	version:
-+		guest has to check version before and after grabbing
- 		time information and check that they are both equal and even.
- 		An odd version indicates an in-progress update.
- 
--		tsc_timestamp: the tsc value at the current VCPU at the time
-+	tsc_timestamp:
-+		the tsc value at the current VCPU at the time
- 		of the update of this structure. Guests can subtract this value
- 		from current tsc to derive a notion of elapsed time since the
- 		structure update.
- 
--		system_time: a host notion of monotonic time, including sleep
-+	system_time:
-+		a host notion of monotonic time, including sleep
- 		time at the time this structure was last updated. Unit is
- 		nanoseconds.
- 
--		tsc_to_system_mul: multiplier to be used when converting
-+	tsc_to_system_mul:
-+		multiplier to be used when converting
- 		tsc-related quantity to nanoseconds
- 
--		tsc_shift: shift to be used when converting tsc-related
-+	tsc_shift:
-+		shift to be used when converting tsc-related
- 		quantity to nanoseconds. This shift will ensure that
- 		multiplication with tsc_to_system_mul does not overflow.
- 		A positive value denotes a left shift, a negative value
-@@ -96,7 +112,7 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 
- 		The conversion from tsc to nanoseconds involves an additional
- 		right shift by 32 bits. With this information, guests can
--		derive per-CPU time by doing:
-+		derive per-CPU time by doing::
- 
- 			time = (current_tsc - tsc_timestamp)
- 			if (tsc_shift >= 0)
-@@ -106,29 +122,34 @@ MSR_KVM_SYSTEM_TIME_NEW:  0x4b564d01
- 			time = (time * tsc_to_system_mul) >> 32
- 			time = time + system_time
- 
--		flags: bits in this field indicate extended capabilities
-+	flags:
-+		bits in this field indicate extended capabilities
- 		coordinated between the guest and the hypervisor. Availability
- 		of specific flags has to be checked in 0x40000001 cpuid leaf.
- 		Current flags are:
- 
--		 flag bit   | cpuid bit    | meaning
--		-------------------------------------------------------------
--			    |	           | time measures taken across
--		     0      |	   24      | multiple cpus are guaranteed to
--			    |		   | be monotonic
--		-------------------------------------------------------------
--			    |		   | guest vcpu has been paused by
--		     1	    |	  N/A	   | the host
--			    |		   | See 4.70 in api.txt
--		-------------------------------------------------------------
-+
-+		+-----------+--------------+----------------------------------+
-+		| flag bit  | cpuid bit    | meaning			      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | time measures taken across       |
-+		|    0      |	   24      | multiple cpus are guaranteed to  |
-+		|	    |		   | be monotonic		      |
-+		+-----------+--------------+----------------------------------+
-+		|	    |		   | guest vcpu has been paused by    |
-+		|    1	    |	  N/A	   | the host			      |
-+		|	    |		   | See 4.70 in api.txt	      |
-+		+-----------+--------------+----------------------------------+
- 
- 	Availability of this MSR must be checked via bit 3 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
- 
--MSR_KVM_WALL_CLOCK:  0x11
-+MSR_KVM_WALL_CLOCK:
-+	0x11
- 
--	data and functioning: same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_WALL_CLOCK_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -136,9 +157,11 @@ MSR_KVM_WALL_CLOCK:  0x11
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--MSR_KVM_SYSTEM_TIME: 0x12
-+MSR_KVM_SYSTEM_TIME:
-+	0x12
- 
--	data and functioning: same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
-+data and functioning:
-+	same as MSR_KVM_SYSTEM_TIME_NEW. Use that instead.
- 
- 	This MSR falls outside the reserved KVM range and may be removed in the
- 	future. Its usage is deprecated.
-@@ -146,7 +169,7 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 	Availability of this MSR must be checked via bit 0 in 0x4000001 cpuid
- 	leaf prior to usage.
- 
--	The suggested algorithm for detecting kvmclock presence is then:
-+	The suggested algorithm for detecting kvmclock presence is then::
- 
- 		if (!kvm_para_available())    /* refer to cpuid.txt */
- 			return NON_PRESENT;
-@@ -163,8 +186,11 @@ MSR_KVM_SYSTEM_TIME: 0x12
- 		} else
- 			return NON_PRESENT;
- 
--MSR_KVM_ASYNC_PF_EN: 0x4b564d02
--	data: Bits 63-6 hold 64-byte aligned physical address of a
-+MSR_KVM_ASYNC_PF_EN:
-+	0x4b564d02
-+
-+data:
-+	Bits 63-6 hold 64-byte aligned physical address of a
- 	64 byte memory area which must be in guest RAM and must be
- 	zeroed. Bits 5-3 are reserved and should be zero. Bit 0 is 1
- 	when asynchronous page faults are enabled on the vcpu 0 when
-@@ -200,20 +226,22 @@ MSR_KVM_ASYNC_PF_EN: 0x4b564d02
- 	Currently type 2 APF will be always delivered on the same vcpu as
- 	type 1 was, but guest should not rely on that.
- 
--MSR_KVM_STEAL_TIME: 0x4b564d03
-+MSR_KVM_STEAL_TIME:
-+	0x4b564d03
- 
--	data: 64-byte alignment physical address of a memory area which must be
-+data:
-+	64-byte alignment physical address of a memory area which must be
- 	in guest RAM, plus an enable bit in bit 0. This memory is expected to
--	hold a copy of the following structure:
-+	hold a copy of the following structure::
- 
--	struct kvm_steal_time {
-+	  struct kvm_steal_time {
- 		__u64 steal;
- 		__u32 version;
- 		__u32 flags;
- 		__u8  preempted;
- 		__u8  u8_pad[3];
- 		__u32 pad[11];
--	}
-+	  }
- 
- 	whose data will be filled in by the hypervisor periodically. Only one
- 	write, or registration, is needed for each VCPU. The interval between
-@@ -224,25 +252,32 @@ MSR_KVM_STEAL_TIME: 0x4b564d03
- 
- 	Fields have the following meanings:
- 
--		version: a sequence counter. In other words, guest has to check
-+	version:
-+		a sequence counter. In other words, guest has to check
- 		this field before and after grabbing time information and make
- 		sure they are both equal and even. An odd version indicates an
- 		in-progress update.
- 
--		flags: At this point, always zero. May be used to indicate
-+	flags:
-+		At this point, always zero. May be used to indicate
- 		changes in this structure in the future.
- 
--		steal: the amount of time in which this vCPU did not run, in
-+	steal:
-+		the amount of time in which this vCPU did not run, in
- 		nanoseconds. Time during which the vcpu is idle, will not be
- 		reported as steal time.
- 
--		preempted: indicate the vCPU who owns this struct is running or
-+	preempted:
-+		indicate the vCPU who owns this struct is running or
- 		not. Non-zero values mean the vCPU has been preempted. Zero
- 		means the vCPU is not preempted. NOTE, it is always zero if the
- 		the hypervisor doesn't support this field.
- 
--MSR_KVM_EOI_EN: 0x4b564d04
--	data: Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
-+MSR_KVM_EOI_EN:
-+	0x4b564d04
-+
-+data:
-+	Bit 0 is 1 when PV end of interrupt is enabled on the vcpu; 0
- 	when disabled.  Bit 1 is reserved and must be zero.  When PV end of
- 	interrupt is enabled (bit 0 set), bits 63-2 hold a 4-byte aligned
- 	physical address of a 4 byte memory area which must be in guest RAM and
-@@ -274,11 +309,13 @@ MSR_KVM_EOI_EN: 0x4b564d04
- 	clear it using a single CPU instruction, such as test and clear, or
- 	compare and exchange.
- 
--MSR_KVM_POLL_CONTROL: 0x4b564d05
-+MSR_KVM_POLL_CONTROL:
-+	0x4b564d05
-+
- 	Control host-side polling.
- 
--	data: Bit 0 enables (1) or disables (0) host-side HLT polling logic.
-+data:
-+	Bit 0 enables (1) or disables (0) host-side HLT polling logic.
- 
- 	KVM guests can request the host not to poll on HLT, for example if
- 	they are performing polling themselves.
--
--- 
-2.24.1
+Thank you for such detailed comments.
 
+[1] https://github.com/jsakkine-intel/linux-sgx/blob/master/Documentation/x86/sgx.rst1
+
+/Jarkko
