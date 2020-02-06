@@ -2,102 +2,89 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A97F2C3F68F
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:09:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F11BEC352A3
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:37:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80D3221D7D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:09:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kuUiSonA"
+	by mail.kernel.org (Postfix) with ESMTP id C74A1218AC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgBFUJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 15:09:12 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:35345 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbgBFUJM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 15:09:12 -0500
-Received: by mail-qv1-f65.google.com with SMTP id u10so3475359qvi.2;
-        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
-        b=kuUiSonA/JF14yPtB328dGv2ZFketNfYeNQToJMcG/Htw4vUokh3dj+dIHt0d0Yon+
-         0CR60f+DsLaokT9YM/jfr35pIDhiKmrLdd2uADpC1Fwxb88MptMZ7Zk/RKqvtWLJcNSJ
-         8ojHpwusmYv0qotY1UWZQ46vFY8CyK6DFdkrBktAL8JY/PV4RaEYlGMdjaq1Xskq4Sab
-         H72yOwkrQogyoU2oz1cLvPIS3nQ5TkLlJ8JcK+xyM2zEK71oyaQ44X6l2c4Xykt6BI0m
-         fsG9HJaBVgMORnnnvf6q7QhkppKUGfm5T7jSSO4bKxDu1urzK5BQgO/pYX46oyapK8Qk
-         v46Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
-        b=hP5jGO79NWR3UhIx6lL+i1wvXRdMFVNg7xjdobRBhOWuAPNAnjyZSEoPkjtRbckMR1
-         VCab6ppak8exVBL6RKBDJtLxKu4g4A7LdBAFRn4bAOT8mTkSv09u5eZt/xcfLDTOx6NY
-         LkfqpULuLK5EmUytScHekrtmktdqHGCxjKMlz4/hFPftGAaZ+zD3f0bOX3Jx1oHOIPHB
-         VVQOB9lk7hv6YZUuAfRkGUfGQ0F3DXEwHsVVsyaWCojNQelQSDkahFmb5m+r5mtgbGYH
-         4M9L1NVO7nSLQsKr4SvrEduuTC9hIr2q2SdpxSuC1VI/sO7yoiHLWy3fRcbTDpemEIxL
-         tNyw==
-X-Gm-Message-State: APjAAAVt2CBLjSIBL2E1+0whSa25+D0HgQoEvkrBev9Ubf2hBjf7EK9R
-        kXs1jTkq4xvaIVgcLzId61Y=
-X-Google-Smtp-Source: APXvYqwtAGA5HmBkm4221OA1Xq3lblCEh7YX9e2NpzpIrAsVtjFxlWi2C30mv7+gD9ez+uzWx96O/A==
-X-Received: by 2002:a0c:9c86:: with SMTP id i6mr3903089qvf.214.1581019751108;
-        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
-Received: from localhost (tripoint.kitware.com. [66.194.253.20])
-        by smtp.gmail.com with ESMTPSA id h8sm180826qtm.51.2020.02.06.12.09.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2020 12:09:10 -0800 (PST)
-From:   Ben Boeckel <mathstuf@gmail.com>
-X-Google-Original-From: Ben Boeckel <list.lkml.keyrings@me.benboeckel.net>
-Date:   Thu, 6 Feb 2020 15:09:11 -0500
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1727885AbgBFUhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 15:37:33 -0500
+Received: from mga11.intel.com ([192.55.52.93]:45767 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727773AbgBFUhd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Feb 2020 15:37:33 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Feb 2020 12:37:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,410,1574150400"; 
+   d="scan'208";a="226268571"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Feb 2020 12:37:32 -0800
+Message-ID: <b0e7e487d1bf92bf19df2ecf199b90c76d9097dd.camel@intel.com>
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org
-Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
-Message-ID: <20200206200911.GA2830394@erythro.kitware.com>
-Reply-To: list.lkml.keyrings@me.benboeckel.net
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
- <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Thu, 06 Feb 2020 12:17:30 -0800
+In-Reply-To: <af5ee976-3b57-4afe-6304-fcab8de45c77@infradead.org>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-2-yu-cheng.yu@intel.com>
+         <af5ee976-3b57-4afe-6304-fcab8de45c77@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.13.3 (2020-01-12)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
-> - (1) If the criterion string is of the form "id:<hexdigits>" then the match
-> +  1) If the criterion string is of the form "id:<hexdigits>" then the match
+On Wed, 2020-02-05 at 16:16 -0800, Randy Dunlap wrote:
+> Hi,
+> 
+> I have a few comments and a question (please see inline below).
+> 
+> 
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+[...]
+> > +arch_prctl(ARCH_X86_CET_LOCK)
+> > +    Lock in CET feature.
+> 
+> which feature?
 
-This update was followed in all the enumeration changes except…
+Both SHSTK and IBT are locked.  They cannot be turned off afterwards.
 
-> - (2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
-> + 2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
+I will check things you pointed out.
 
-The whitespace here doesn't match up. Which is preferred?
+Thanks,
+Yu-cheng
 
-> - (1) Signature verification.
-> +1) Signature verification.
-
-Here, the indentation was lost too. Is this intentional?
-
---Ben
