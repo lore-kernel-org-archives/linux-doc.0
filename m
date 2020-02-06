@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF77C33CAC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A147C352A2
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D640320838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAAC720838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1581002317;
-	bh=/Culu79HFxkRulQxzgpbPJE8TsHwmmDiryyieX6rRD4=;
+	bh=WsUjLft8s/0sVeDKMpuCn8hiOrg7iJGOX9NrHavdXX4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=L2oYPLe8H372bFkJWzW+/HHm33BfW4g2q6vmhFIftOLwTxvNilOsKP8sb2eHumc3S
-	 VSNoNvl6hcODorRD/AM5j6fo+CW15v9w/SSwIdQ5ItbDveSv2qxdt7ESVErINzF/3P
-	 yG8iHADw3N7CPlNWpcwZQi3w2lWEsnouQqXBi1hY=
+	b=IjoVKF2iHFqeNerQxjzJpk+M0a59tWMUbS0M12wkfxvyGUXFZcFLcp26PwBUeBu/U
+	 /mYJONE3vsZL3Uj+PYH8ryorvk+3+JFBXaotfNxVPfq7uLWGgz55xsdUe+L/bZ0LuE
+	 y1Cu1QhKSgadUbEncDDMR9Yja9kttokaoV6QCrYQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727641AbgBFPS2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:18:28 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38140 "EHLO
+        id S1727855AbgBFPSh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:18:37 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38150 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbgBFPSA (ORCPT
+        with ESMTP id S1727604AbgBFPSA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:18:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=7R5rOEjiQJgu3JKBqpUIwtawZxDmbkPVLBEmH6fmrs8=; b=L18IOdG7KS5OnbHr7BOXb5MsT5
-        GOOkRR7l9NMLAl6yW399ndU/SiAOEVQDoxi4AChtx0Sj2IGOzJt8IqCADpdWQXom/Ac/NyLQ9B2j8
-        KnK5OHQVMPwTZXutRv6o0lTFkzZWfLCkzV4Zvs4gZU9JhIHh60/OgZzj0SAYZd1wcwMYoYVME+HQB
-        NEo8cru8Ta09w63NA/C6GbQ1frmG+14V3A4VrkTvuDhYQKwpQy8nGKkDx5nB/AiiNiko/hoeBwxzP
-        bwa/QBUz8HI8Nie5V5gEH/Np2x6tc5j13i3OAs7BLzI+2PnVjxwIjZ8hu+0Z+Qp2od5xUmFshEoBr
-        BEmSr5pg==;
+        bh=hxtqPG2PmCrRsqAVYVDHkWSaT6ymA3jSiP5ZLoDasWE=; b=R2q93KJMFjW/TXg1otCvKSICSO
+        NeDoZ6Y0QPiIolUzlSEgwgHrklzCGbSkt6O7yjg3dHj55DIyxOFxSs5678HMqqHtQgNzbwr+HCLIj
+        hYo6O77bI/poQh8Wm/dnOh1Tdqbx6k3zGUESaPQfOMiE38/ZpFW8E0jBdFryRPz9K2fbfn29yeIXr
+        2vJa7g0gPjlky4lk3ErkL/oqslGf8fwvJ+5AGudci99G0KB1cTnWJrleq+rNjrpHx/2DQLFqIGNsw
+        iWTomgF7q/VwMLmhF7i57K5kU5it+CVpBAyYSmukDzWNCKgDO1w73fkDHY/QFkY7oaMYrdhn1Hcsn
+        48U5Ssrw==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziuk-0005j6-QJ; Thu, 06 Feb 2020 15:18:00 +0000
+        id 1iziul-0005jK-LQ; Thu, 06 Feb 2020 15:18:00 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziuc-002oUo-De; Thu, 06 Feb 2020 16:17:50 +0100
+        id 1iziuc-002oUz-Md; Thu, 06 Feb 2020 16:17:50 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -50,9 +50,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 01/28] docs: networking: caif: convert to ReST
-Date:   Thu,  6 Feb 2020 16:17:21 +0100
-Message-Id: <6c4463a019d655044c974c20e86d548a55977dfb.1581002063.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/28] docs: networking: convert altera_tse.txt to ReST
+Date:   Thu,  6 Feb 2020 16:17:24 +0100
+Message-Id: <4904cf566caff70fefba1c3e4bdb8a3ec0ab94aa.1581002063.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
 References: <cover.1581002062.git.mchehab+huawei@kernel.org>
@@ -63,645 +63,186 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two text files for caif, plus one already converted
-file.
-
-Convert the two remaining ones to ReST, create a new index.rst
-file for CAIF, adding it to the main networking documentation
-index.
+- add SPDX header;
+- use copyright symbol;
+- adjust titles and chapters, adding proper markups;
+- mark lists as such;
+- adjust identation, whitespaces and blank lines;
+- add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/caif/caif.rst        |   2 -
- Documentation/networking/caif/index.rst       |  13 +
- .../caif/{Linux-CAIF.txt => linux_caif.rst}   |  54 +++--
- Documentation/networking/caif/spi_porting.rst | 229 ++++++++++++++++++
- Documentation/networking/caif/spi_porting.txt | 208 ----------------
- Documentation/networking/index.rst            |   1 +
- 6 files changed, 280 insertions(+), 227 deletions(-)
- create mode 100644 Documentation/networking/caif/index.rst
- rename Documentation/networking/caif/{Linux-CAIF.txt => linux_caif.rst} (90%)
- create mode 100644 Documentation/networking/caif/spi_porting.rst
- delete mode 100644 Documentation/networking/caif/spi_porting.txt
+ .../{altera_tse.txt => altera_tse.rst}        | 87 ++++++++++++-------
+ Documentation/networking/index.rst            |  1 +
+ 2 files changed, 56 insertions(+), 32 deletions(-)
+ rename Documentation/networking/{altera_tse.txt => altera_tse.rst} (85%)
 
-diff --git a/Documentation/networking/caif/caif.rst b/Documentation/networking/caif/caif.rst
-index 07afc8063d4d..a07213030ccf 100644
---- a/Documentation/networking/caif/caif.rst
-+++ b/Documentation/networking/caif/caif.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: <isonum.txt>
+diff --git a/Documentation/networking/altera_tse.txt b/Documentation/networking/altera_tse.rst
+similarity index 85%
+rename from Documentation/networking/altera_tse.txt
+rename to Documentation/networking/altera_tse.rst
+index 50b8589d12fd..7a7040072e58 100644
+--- a/Documentation/networking/altera_tse.txt
++++ b/Documentation/networking/altera_tse.rst
+@@ -1,6 +1,12 @@
+-       Altera Triple-Speed Ethernet MAC driver
++.. SPDX-License-Identifier: GPL-2.0
  
-diff --git a/Documentation/networking/caif/index.rst b/Documentation/networking/caif/index.rst
-new file mode 100644
-index 000000000000..86e5b7832ec3
---- /dev/null
-+++ b/Documentation/networking/caif/index.rst
-@@ -0,0 +1,13 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+CAIF
-+====
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   linux_caif
-+   caif
-+   spi_porting
-diff --git a/Documentation/networking/caif/Linux-CAIF.txt b/Documentation/networking/caif/linux_caif.rst
-similarity index 90%
-rename from Documentation/networking/caif/Linux-CAIF.txt
-rename to Documentation/networking/caif/linux_caif.rst
-index 0aa4bd381bec..a0480862ab8c 100644
---- a/Documentation/networking/caif/Linux-CAIF.txt
-+++ b/Documentation/networking/caif/linux_caif.rst
-@@ -1,12 +1,19 @@
-+.. SPDX-License-Identifier: GPL-2.0
+-Copyright (C) 2008-2014 Altera Corporation
 +.. include:: <isonum.txt>
 +
-+==========
- Linux CAIF
--===========
--copyright (C) ST-Ericsson AB 2010
--Author: Sjur Brendeland/ sjur.brandeland@stericsson.com
--License terms: GNU General Public License (GPL) version 2
-+==========
++=======================================
++Altera Triple-Speed Ethernet MAC driver
++=======================================
 +
-+Copyright |copy| ST-Ericsson AB 2010
++Copyright |copy| 2008-2014 Altera Corporation
+ 
+ This is the driver for the Altera Triple-Speed Ethernet (TSE) controllers
+ using the SGDMA and MSGDMA soft DMA IP components. The driver uses the
+@@ -46,23 +52,33 @@ Jumbo frames are not supported at this time.
+ The driver limits PHY operations to 10/100Mbps, and has not yet been fully
+ tested for 1Gbps. This support will be added in a future maintenance update.
+ 
+-1) Kernel Configuration
++1. Kernel Configuration
++=======================
 +
-+:Author: Sjur Brendeland/ sjur.brandeland@stericsson.com
-+:License terms: GNU General Public License (GPL) version 2
- 
- 
- Introduction
--------------
-+============
+ The kernel configuration option is ALTERA_TSE:
 +
- CAIF is a MUX protocol used by ST-Ericsson cellular modems for
- communication between Modem and host. The host processes can open virtual AT
- channels, initiate GPRS Data connections, Video channels and Utility Channels.
-@@ -16,13 +23,16 @@ ST-Ericsson modems support a number of transports between modem
- and host. Currently, UART and Loopback are available for Linux.
+  Device Drivers ---> Network device support ---> Ethernet driver support --->
+  Altera Triple-Speed Ethernet MAC support (ALTERA_TSE)
  
- 
--Architecture:
--------------
-+Architecture
-+============
+-2) Driver parameters list:
+-	debug: message level (0: no output, 16: all);
+-	dma_rx_num: Number of descriptors in the RX list (default is 64);
+-	dma_tx_num: Number of descriptors in the TX list (default is 64).
++2. Driver parameters list
++=========================
 +
- The implementation of CAIF is divided into:
++	- debug: message level (0: no output, 16: all);
++	- dma_rx_num: Number of descriptors in the RX list (default is 64);
++	- dma_tx_num: Number of descriptors in the TX list (default is 64).
 +
- * CAIF Socket Layer and GPRS IP Interface.
- * CAIF Core Protocol Implementation
- * CAIF Link Layer, implemented as NET devices.
- 
-+::
- 
-   RTNL
-    !
-@@ -46,12 +56,12 @@ The implementation of CAIF is divided into:
- 
- 
- 
--I M P L E M E N T A T I O N
--===========================
-+Implementation
-+==============
- 
- 
- CAIF Core Protocol Layer
--=========================================
-+------------------------
- 
- CAIF Core layer implements the CAIF protocol as defined by ST-Ericsson.
- It implements the CAIF protocol stack in a layered approach, where
-@@ -59,8 +69,11 @@ each layer described in the specification is implemented as a separate layer.
- The architecture is inspired by the design patterns "Protocol Layer" and
- "Protocol Packet".
- 
--== CAIF structure ==
-+CAIF structure
-+^^^^^^^^^^^^^^
++3. Command line options
++=======================
 +
- The Core CAIF implementation contains:
-+
-       -	Simple implementation of CAIF.
-       -	Layered architecture (a la Streams), each layer in the CAIF
- 	specification is implemented in a separate c-file.
-@@ -73,7 +86,8 @@ The Core CAIF implementation contains:
- 	to the called function (except for framing layers' receive function)
++Driver parameters can be also passed in command line by using::
  
- Layered Architecture
----------------------
+-3) Command line options
+-Driver parameters can be also passed in command line by using:
+ 	altera_tse=dma_rx_num:128,dma_tx_num:512
+ 
+-4) Driver information and notes
++4. Driver information and notes
++===============================
+ 
+-4.1) Transmit process
++4.1. Transmit process
++---------------------
+ When the driver's transmit routine is called by the kernel, it sets up a
+ transmit descriptor by calling the underlying DMA transmit routine (SGDMA or
+ MSGDMA), and initiates a transmit operation. Once the transmit is complete, an
+@@ -70,7 +86,8 @@ interrupt is driven by the transmit DMA logic. The driver handles the transmit
+ completion in the context of the interrupt handling chain by recycling
+ resource required to send and track the requested transmit operation.
+ 
+-4.2) Receive process
++4.2. Receive process
++--------------------
+ The driver will post receive buffers to the receive DMA logic during driver
+ initialization. Receive buffers may or may not be queued depending upon the
+ underlying DMA logic (MSGDMA is able queue receive buffers, SGDMA is not able
+@@ -79,34 +96,39 @@ received, the DMA logic generates an interrupt. The driver handles a receive
+ interrupt by obtaining the DMA receive logic status, reaping receive
+ completions until no more receive completions are available.
+ 
+-4.3) Interrupt Mitigation
++4.3. Interrupt Mitigation
++-------------------------
+ The driver is able to mitigate the number of its DMA interrupts
+ using NAPI for receive operations. Interrupt mitigation is not yet supported
+ for transmit operations, but will be added in a future maintenance release.
+ 
+ 4.4) Ethtool support
++--------------------
+ Ethtool is supported. Driver statistics and internal errors can be taken using:
+ ethtool -S ethX command. It is possible to dump registers etc.
+ 
+ 4.5) PHY Support
++----------------
+ The driver is compatible with PAL to work with PHY and GPHY devices.
+ 
+ 4.7) List of source files:
+- o Kconfig
+- o Makefile
+- o altera_tse_main.c: main network device driver
+- o altera_tse_ethtool.c: ethtool support
+- o altera_tse.h: private driver structure and common definitions
+- o altera_msgdma.h: MSGDMA implementation function definitions
+- o altera_sgdma.h: SGDMA implementation function definitions
+- o altera_msgdma.c: MSGDMA implementation
+- o altera_sgdma.c: SGDMA implementation
+- o altera_sgdmahw.h: SGDMA register and descriptor definitions
+- o altera_msgdmahw.h: MSGDMA register and descriptor definitions
+- o altera_utils.c: Driver utility functions
+- o altera_utils.h: Driver utility function definitions
++--------------------------
++ - Kconfig
++ - Makefile
++ - altera_tse_main.c: main network device driver
++ - altera_tse_ethtool.c: ethtool support
++ - altera_tse.h: private driver structure and common definitions
++ - altera_msgdma.h: MSGDMA implementation function definitions
++ - altera_sgdma.h: SGDMA implementation function definitions
++ - altera_msgdma.c: MSGDMA implementation
++ - altera_sgdma.c: SGDMA implementation
++ - altera_sgdmahw.h: SGDMA register and descriptor definitions
++ - altera_msgdmahw.h: MSGDMA register and descriptor definitions
++ - altera_utils.c: Driver utility functions
++ - altera_utils.h: Driver utility function definitions
+ 
+-5) Debug Information
++5. Debug Information
 +====================
-+
- The CAIF protocol can be divided into two parts: Support functions and Protocol
- Implementation. The support functions include:
  
-@@ -112,7 +126,7 @@ The CAIF Protocol implementation contains:
-       - CFSERL CAIF Serial layer. Handles concatenation/split of frames
- 	into CAIF Frames with correct length.
+ The driver exports debug information such as internal statistics,
+ debug information, MAC and DMA registers etc.
+@@ -118,17 +140,18 @@ or sees the MAC registers: e.g. using: ethtool -d ethX
+ The developer can also use the "debug" module parameter to get
+ further debug information.
  
--
-+::
+-6) Statistics Support
++6. Statistics Support
++=====================
  
- 		    +---------+
- 		    | Config  |
-@@ -143,18 +157,24 @@ The CAIF Protocol implementation contains:
+ The controller and driver support a mix of IEEE standard defined statistics,
+ RFC defined statistics, and driver or Altera defined statistics. The four
+ specifications containing the standard definitions for these statistics are
+ as follows:
  
+- o IEEE 802.3-2012 - IEEE Standard for Ethernet.
+- o RFC 2863 found at http://www.rfc-editor.org/rfc/rfc2863.txt.
+- o RFC 2819 found at http://www.rfc-editor.org/rfc/rfc2819.txt.
+- o Altera Triple Speed Ethernet User Guide, found at http://www.altera.com
++ - IEEE 802.3-2012 - IEEE Standard for Ethernet.
++ - RFC 2863 found at http://www.rfc-editor.org/rfc/rfc2863.txt.
++ - RFC 2819 found at http://www.rfc-editor.org/rfc/rfc2819.txt.
++ - Altera Triple Speed Ethernet User Guide, found at http://www.altera.com
  
- In this layered approach the following "rules" apply.
-+
-       - All layers embed the same structure "struct cflayer"
-       - A layer does not depend on any other layer's private data.
--      - Layers are stacked by setting the pointers
-+      - Layers are stacked by setting the pointers::
-+
- 		  layer->up , layer->dn
--      -	In order to send data upwards, each layer should do
-+
-+      -	In order to send data upwards, each layer should do::
-+
- 		 layer->up->receive(layer->up, packet);
--      - In order to send data downwards, each layer should do
-+
-+      - In order to send data downwards, each layer should do::
-+
- 		 layer->dn->transmit(layer->dn, packet);
+ The statistics supported by the TSE and the device driver are as follows:
  
- 
- CAIF Socket and IP interface
--===========================
-+============================
- 
- The IP interface and CAIF socket API are implemented on top of the
- CAIF Core protocol. The IP Interface and CAIF socket have an instance of
-diff --git a/Documentation/networking/caif/spi_porting.rst b/Documentation/networking/caif/spi_porting.rst
-new file mode 100644
-index 000000000000..d49f874b20ac
---- /dev/null
-+++ b/Documentation/networking/caif/spi_porting.rst
-@@ -0,0 +1,229 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================
-+CAIF SPI porting
-+================
-+
-+CAIF SPI basics
-+===============
-+
-+Running CAIF over SPI needs some extra setup, owing to the nature of SPI.
-+Two extra GPIOs have been added in order to negotiate the transfers
-+between the master and the slave. The minimum requirement for running
-+CAIF over SPI is a SPI slave chip and two GPIOs (more details below).
-+Please note that running as a slave implies that you need to keep up
-+with the master clock. An overrun or underrun event is fatal.
-+
-+CAIF SPI framework
-+==================
-+
-+To make porting as easy as possible, the CAIF SPI has been divided in
-+two parts. The first part (called the interface part) deals with all
-+generic functionality such as length framing, SPI frame negotiation
-+and SPI frame delivery and transmission. The other part is the CAIF
-+SPI slave device part, which is the module that you have to write if
-+you want to run SPI CAIF on a new hardware. This part takes care of
-+the physical hardware, both with regard to SPI and to GPIOs.
-+
-+- Implementing a CAIF SPI device:
-+
-+	- Functionality provided by the CAIF SPI slave device:
-+
-+	In order to implement a SPI device you will, as a minimum,
-+	need to implement the following
-+	functions:
-+
-+	::
-+
-+	    int (*init_xfer) (struct cfspi_xfer * xfer, struct cfspi_dev *dev):
-+
-+	This function is called by the CAIF SPI interface to give
-+	you a chance to set up your hardware to be ready to receive
-+	a stream of data from the master. The xfer structure contains
-+	both physical and logical addresses, as well as the total length
-+	of the transfer in both directions.The dev parameter can be used
-+	to map to different CAIF SPI slave devices.
-+
-+	::
-+
-+	    void (*sig_xfer) (bool xfer, struct cfspi_dev *dev):
-+
-+	This function is called by the CAIF SPI interface when the output
-+	(SPI_INT) GPIO needs to change state. The boolean value of the xfer
-+	variable indicates whether the GPIO should be asserted (HIGH) or
-+	deasserted (LOW). The dev parameter can be used to map to different CAIF
-+	SPI slave devices.
-+
-+	- Functionality provided by the CAIF SPI interface:
-+
-+	::
-+
-+	    void (*ss_cb) (bool assert, struct cfspi_ifc *ifc);
-+
-+	This function is called by the CAIF SPI slave device in order to
-+	signal a change of state of the input GPIO (SS) to the interface.
-+	Only active edges are mandatory to be reported.
-+	This function can be called from IRQ context (recommended in order
-+	not to introduce latency). The ifc parameter should be the pointer
-+	returned from the platform probe function in the SPI device structure.
-+
-+	::
-+
-+	    void (*xfer_done_cb) (struct cfspi_ifc *ifc);
-+
-+	This function is called by the CAIF SPI slave device in order to
-+	report that a transfer is completed. This function should only be
-+	called once both the transmission and the reception are completed.
-+	This function can be called from IRQ context (recommended in order
-+	not to introduce latency). The ifc parameter should be the pointer
-+	returned from the platform probe function in the SPI device structure.
-+
-+	- Connecting the bits and pieces:
-+
-+		- Filling in the SPI slave device structure:
-+
-+		  Connect the necessary callback functions.
-+
-+		  Indicate clock speed (used to calculate toggle delays).
-+
-+		  Chose a suitable name (helps debugging if you use several CAIF
-+		  SPI slave devices).
-+
-+		  Assign your private data (can be used to map to your
-+		  structure).
-+
-+		- Filling in the SPI slave platform device structure:
-+
-+		  Add name of driver to connect to ("cfspi_sspi").
-+
-+		  Assign the SPI slave device structure as platform data.
-+
-+Padding
-+=======
-+
-+In order to optimize throughput, a number of SPI padding options are provided.
-+Padding can be enabled independently for uplink and downlink transfers.
-+Padding can be enabled for the head, the tail and for the total frame size.
-+The padding needs to be correctly configured on both sides of the link.
-+The padding can be changed via module parameters in cfspi_sspi.c or via
-+the sysfs directory of the cfspi_sspi driver (before device registration).
-+
-+- CAIF SPI device template::
-+
-+    /*
-+    *	Copyright (C) ST-Ericsson AB 2010
-+    *	Author: Daniel Martensson / Daniel.Martensson@stericsson.com
-+    *	License terms: GNU General Public License (GPL), version 2.
-+    *
-+    */
-+
-+    #include <linux/init.h>
-+    #include <linux/module.h>
-+    #include <linux/device.h>
-+    #include <linux/wait.h>
-+    #include <linux/interrupt.h>
-+    #include <linux/dma-mapping.h>
-+    #include <net/caif/caif_spi.h>
-+
-+    MODULE_LICENSE("GPL");
-+
-+    struct sspi_struct {
-+	    struct cfspi_dev sdev;
-+	    struct cfspi_xfer *xfer;
-+    };
-+
-+    static struct sspi_struct slave;
-+    static struct platform_device slave_device;
-+
-+    static irqreturn_t sspi_irq(int irq, void *arg)
-+    {
-+	    /* You only need to trigger on an edge to the active state of the
-+	    * SS signal. Once a edge is detected, the ss_cb() function should be
-+	    * called with the parameter assert set to true. It is OK
-+	    * (and even advised) to call the ss_cb() function in IRQ context in
-+	    * order not to add any delay. */
-+
-+	    return IRQ_HANDLED;
-+    }
-+
-+    static void sspi_complete(void *context)
-+    {
-+	    /* Normally the DMA or the SPI framework will call you back
-+	    * in something similar to this. The only thing you need to
-+	    * do is to call the xfer_done_cb() function, providing the pointer
-+	    * to the CAIF SPI interface. It is OK to call this function
-+	    * from IRQ context. */
-+    }
-+
-+    static int sspi_init_xfer(struct cfspi_xfer *xfer, struct cfspi_dev *dev)
-+    {
-+	    /* Store transfer info. For a normal implementation you should
-+	    * set up your DMA here and make sure that you are ready to
-+	    * receive the data from the master SPI. */
-+
-+	    struct sspi_struct *sspi = (struct sspi_struct *)dev->priv;
-+
-+	    sspi->xfer = xfer;
-+
-+	    return 0;
-+    }
-+
-+    void sspi_sig_xfer(bool xfer, struct cfspi_dev *dev)
-+    {
-+	    /* If xfer is true then you should assert the SPI_INT to indicate to
-+	    * the master that you are ready to receive the data from the master
-+	    * SPI. If xfer is false then you should de-assert SPI_INT to indicate
-+	    * that the transfer is done.
-+	    */
-+
-+	    struct sspi_struct *sspi = (struct sspi_struct *)dev->priv;
-+    }
-+
-+    static void sspi_release(struct device *dev)
-+    {
-+	    /*
-+	    * Here you should release your SPI device resources.
-+	    */
-+    }
-+
-+    static int __init sspi_init(void)
-+    {
-+	    /* Here you should initialize your SPI device by providing the
-+	    * necessary functions, clock speed, name and private data. Once
-+	    * done, you can register your device with the
-+	    * platform_device_register() function. This function will return
-+	    * with the CAIF SPI interface initialized. This is probably also
-+	    * the place where you should set up your GPIOs, interrupts and SPI
-+	    * resources. */
-+
-+	    int res = 0;
-+
-+	    /* Initialize slave device. */
-+	    slave.sdev.init_xfer = sspi_init_xfer;
-+	    slave.sdev.sig_xfer = sspi_sig_xfer;
-+	    slave.sdev.clk_mhz = 13;
-+	    slave.sdev.priv = &slave;
-+	    slave.sdev.name = "spi_sspi";
-+	    slave_device.dev.release = sspi_release;
-+
-+	    /* Initialize platform device. */
-+	    slave_device.name = "cfspi_sspi";
-+	    slave_device.dev.platform_data = &slave.sdev;
-+
-+	    /* Register platform device. */
-+	    res = platform_device_register(&slave_device);
-+	    if (res) {
-+		    printk(KERN_WARNING "sspi_init: failed to register dev.\n");
-+		    return -ENODEV;
-+	    }
-+
-+	    return res;
-+    }
-+
-+    static void __exit sspi_exit(void)
-+    {
-+	    platform_device_del(&slave_device);
-+    }
-+
-+    module_init(sspi_init);
-+    module_exit(sspi_exit);
-diff --git a/Documentation/networking/caif/spi_porting.txt b/Documentation/networking/caif/spi_porting.txt
-deleted file mode 100644
-index 9efd0687dc4c..000000000000
---- a/Documentation/networking/caif/spi_porting.txt
-+++ /dev/null
-@@ -1,208 +0,0 @@
--- CAIF SPI porting -
--
--- CAIF SPI basics:
--
--Running CAIF over SPI needs some extra setup, owing to the nature of SPI.
--Two extra GPIOs have been added in order to negotiate the transfers
-- between the master and the slave. The minimum requirement for running
--CAIF over SPI is a SPI slave chip and two GPIOs (more details below).
--Please note that running as a slave implies that you need to keep up
--with the master clock. An overrun or underrun event is fatal.
--
--- CAIF SPI framework:
--
--To make porting as easy as possible, the CAIF SPI has been divided in
--two parts. The first part (called the interface part) deals with all
--generic functionality such as length framing, SPI frame negotiation
--and SPI frame delivery and transmission. The other part is the CAIF
--SPI slave device part, which is the module that you have to write if
--you want to run SPI CAIF on a new hardware. This part takes care of
--the physical hardware, both with regard to SPI and to GPIOs.
--
--- Implementing a CAIF SPI device:
--
--	- Functionality provided by the CAIF SPI slave device:
--
--	In order to implement a SPI device you will, as a minimum,
--	need to implement the following
--	functions:
--
--	int (*init_xfer) (struct cfspi_xfer * xfer, struct cfspi_dev *dev):
--
--	This function is called by the CAIF SPI interface to give
--	you a chance to set up your hardware to be ready to receive
--	a stream of data from the master. The xfer structure contains
--	both physical and logical addresses, as well as the total length
--	of the transfer in both directions.The dev parameter can be used
--	to map to different CAIF SPI slave devices.
--
--	void (*sig_xfer) (bool xfer, struct cfspi_dev *dev):
--
--	This function is called by the CAIF SPI interface when the output
--	(SPI_INT) GPIO needs to change state. The boolean value of the xfer
--	variable indicates whether the GPIO should be asserted (HIGH) or
--	deasserted (LOW). The dev parameter can be used to map to different CAIF
--	SPI slave devices.
--
--	- Functionality provided by the CAIF SPI interface:
--
--	void (*ss_cb) (bool assert, struct cfspi_ifc *ifc);
--
--	This function is called by the CAIF SPI slave device in order to
--	signal a change of state of the input GPIO (SS) to the interface.
--	Only active edges are mandatory to be reported.
--	This function can be called from IRQ context (recommended in order
--	not to introduce latency). The ifc parameter should be the pointer
--	returned from the platform probe function in the SPI device structure.
--
--	void (*xfer_done_cb) (struct cfspi_ifc *ifc);
--
--	This function is called by the CAIF SPI slave device in order to
--	report that a transfer is completed. This function should only be
--	called once both the transmission and the reception are completed.
--	This function can be called from IRQ context (recommended in order
--	not to introduce latency). The ifc parameter should be the pointer
--	returned from the platform probe function in the SPI device structure.
--
--	- Connecting the bits and pieces:
--
--		- Filling in the SPI slave device structure:
--
--		Connect the necessary callback functions.
--		Indicate clock speed (used to calculate toggle delays).
--		Chose a suitable name (helps debugging if you use several CAIF
--		SPI slave devices).
--		Assign your private data (can be used to map to your structure).
--
--		- Filling in the SPI slave platform device structure:
--		Add name of driver to connect to ("cfspi_sspi").
--		Assign the SPI slave device structure as platform data.
--
--- Padding:
--
--In order to optimize throughput, a number of SPI padding options are provided.
--Padding can be enabled independently for uplink and downlink transfers.
--Padding can be enabled for the head, the tail and for the total frame size.
--The padding needs to be correctly configured on both sides of the link.
--The padding can be changed via module parameters in cfspi_sspi.c or via
--the sysfs directory of the cfspi_sspi driver (before device registration).
--
--- CAIF SPI device template:
--
--/*
-- *	Copyright (C) ST-Ericsson AB 2010
-- *	Author: Daniel Martensson / Daniel.Martensson@stericsson.com
-- *	License terms: GNU General Public License (GPL), version 2.
-- *
-- */
--
--#include <linux/init.h>
--#include <linux/module.h>
--#include <linux/device.h>
--#include <linux/wait.h>
--#include <linux/interrupt.h>
--#include <linux/dma-mapping.h>
--#include <net/caif/caif_spi.h>
--
--MODULE_LICENSE("GPL");
--
--struct sspi_struct {
--	struct cfspi_dev sdev;
--	struct cfspi_xfer *xfer;
--};
--
--static struct sspi_struct slave;
--static struct platform_device slave_device;
--
--static irqreturn_t sspi_irq(int irq, void *arg)
--{
--	/* You only need to trigger on an edge to the active state of the
--	 * SS signal. Once a edge is detected, the ss_cb() function should be
--	 * called with the parameter assert set to true. It is OK
--	 * (and even advised) to call the ss_cb() function in IRQ context in
--	 * order not to add any delay. */
--
--	return IRQ_HANDLED;
--}
--
--static void sspi_complete(void *context)
--{
--	/* Normally the DMA or the SPI framework will call you back
--	 * in something similar to this. The only thing you need to
--	 * do is to call the xfer_done_cb() function, providing the pointer
--	 * to the CAIF SPI interface. It is OK to call this function
--	 * from IRQ context. */
--}
--
--static int sspi_init_xfer(struct cfspi_xfer *xfer, struct cfspi_dev *dev)
--{
--	/* Store transfer info. For a normal implementation you should
--	 * set up your DMA here and make sure that you are ready to
--	 * receive the data from the master SPI. */
--
--	struct sspi_struct *sspi = (struct sspi_struct *)dev->priv;
--
--	sspi->xfer = xfer;
--
--	return 0;
--}
--
--void sspi_sig_xfer(bool xfer, struct cfspi_dev *dev)
--{
--	/* If xfer is true then you should assert the SPI_INT to indicate to
--	 * the master that you are ready to receive the data from the master
--	 * SPI. If xfer is false then you should de-assert SPI_INT to indicate
--	 * that the transfer is done.
--	 */
--
--	struct sspi_struct *sspi = (struct sspi_struct *)dev->priv;
--}
--
--static void sspi_release(struct device *dev)
--{
--	/*
--	 * Here you should release your SPI device resources.
--	 */
--}
--
--static int __init sspi_init(void)
--{
--	/* Here you should initialize your SPI device by providing the
--	 * necessary functions, clock speed, name and private data. Once
--	 * done, you can register your device with the
--	 * platform_device_register() function. This function will return
--	 * with the CAIF SPI interface initialized. This is probably also
--	 * the place where you should set up your GPIOs, interrupts and SPI
--	 * resources. */
--
--	int res = 0;
--
--	/* Initialize slave device. */
--	slave.sdev.init_xfer = sspi_init_xfer;
--	slave.sdev.sig_xfer = sspi_sig_xfer;
--	slave.sdev.clk_mhz = 13;
--	slave.sdev.priv = &slave;
--	slave.sdev.name = "spi_sspi";
--	slave_device.dev.release = sspi_release;
--
--	/* Initialize platform device. */
--	slave_device.name = "cfspi_sspi";
--	slave_device.dev.platform_data = &slave.sdev;
--
--	/* Register platform device. */
--	res = platform_device_register(&slave_device);
--	if (res) {
--		printk(KERN_WARNING "sspi_init: failed to register dev.\n");
--		return -ENODEV;
--	}
--
--	return res;
--}
--
--static void __exit sspi_exit(void)
--{
--	platform_device_del(&slave_device);
--}
--
--module_init(sspi_init);
--module_exit(sspi_exit);
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index d07d9855dcd3..3ccb89bf5585 100644
+index 0b8b4848683d..16778c7e023b 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -14,6 +14,7 @@ Contents:
-    device_drivers/index
-    dsa/index
-    devlink/index
-+   caif/index
-    ethtool-netlink
-    ieee802154
-    j1939
+@@ -36,6 +36,7 @@ Contents:
+    nfc
+    6lowpan
+    6pack
++   altera_tse
+ 
+ .. only::  subproject and html
+ 
 -- 
 2.24.1
 
