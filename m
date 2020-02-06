@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C79DC33CAC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 16:12:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF62C33CAC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 16:13:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4336F21741
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 16:12:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C06C21741
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 16:13:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cgQxXUHe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WzjZFdTs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727680AbgBFQL7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 11:11:59 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26690 "EHLO
+        id S1727305AbgBFQNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 11:13:54 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33253 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727305AbgBFQL7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 11:11:59 -0500
+        by vger.kernel.org with ESMTP id S1727478AbgBFQNy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 11:13:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581005518;
+        s=mimecast20190719; t=1581005633;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=18+o6TfGXpLztzsh5x4Te5uYEvWgLyhtqiu+swIUrG4=;
-        b=cgQxXUHemJQhcnPxcUcI/O0Mkn3/onETcTAFwLBXteRFihoCdTyPv1oJv6Eleuh7I9SzLp
-        DKT00RtHd9NEM9OrI8xHyMBnHqKaIEQVZxK5C3nQXA5g8ygu8iAQIEe7QVv77wltvUPPAh
-        NvKOFm0zA1ggZMhYyoMDBXWXiZZXDcs=
+        bh=PqsiX+3faasAmY8XavRfzT6A/YLWx6plCJX7GW5l8Hk=;
+        b=WzjZFdTsxOXLJXvPBtR4HHZ+bw+o4IIRn8vZiwgpVGdhTr8IPcu3HLew7eMdvicrrQdzWN
+        toaLoqXnRem6GWMibu++xjj8PgRKk3PG5Ux80ggZt6rChGpwKqwsMCPg81H1J2F9tlG837
+        TKfB/nmMZ2fzMzkU6Y5RP2okz10ia1U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-wcezRl1PMrSFEwtfhcfOyw-1; Thu, 06 Feb 2020 11:11:52 -0500
-X-MC-Unique: wcezRl1PMrSFEwtfhcfOyw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-243-vYYP-_LVO3-FLvHUAPJu1A-1; Thu, 06 Feb 2020 11:13:49 -0500
+X-MC-Unique: vYYP-_LVO3-FLvHUAPJu1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B6268C1EE1;
-        Thu,  6 Feb 2020 16:11:50 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257C3802597;
+        Thu,  6 Feb 2020 16:13:48 +0000 (UTC)
 Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E45A226FBA;
-        Thu,  6 Feb 2020 16:11:48 +0000 (UTC)
-Date:   Thu, 6 Feb 2020 17:11:32 +0100
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DACF590067;
+        Thu,  6 Feb 2020 16:13:45 +0000 (UTC)
+Date:   Thu, 6 Feb 2020 17:13:43 +0100
 From:   Cornelia Huck <cohuck@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
@@ -51,95 +51,36 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
-Message-ID: <20200206171132.4f51f17a.cohuck@redhat.com>
-In-Reply-To: <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2 27/27] docs: kvm: review-checklist.txt: rename to
+ ReST
+Message-ID: <20200206171343.40e4a1ca.cohuck@redhat.com>
+In-Reply-To: <8efe2cb409b6aaea2f01f4167db3c13e816129c5.1581000481.git.mchehab+huawei@kernel.org>
 References: <cover.1581000481.git.mchehab+huawei@kernel.org>
-        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+        <8efe2cb409b6aaea2f01f4167db3c13e816129c5.1581000481.git.mchehab+huawei@kernel.org>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  6 Feb 2020 15:50:18 +0100
+On Thu,  6 Feb 2020 15:50:24 +0100
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> - Use document title and chapter markups;
-> - Add markups for literal blocks;
-> - use :field: for field descriptions;
-> - Add blank lines and adjust indentation.
+> This file is already in ReST compatible format.
+> So, rename it and add to the kvm's index.rst.
+> 
+> While here, use the standard conversion for document titles.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/virt/kvm/index.rst              |   1 +
->  .../virt/kvm/{locking.txt => locking.rst}     | 111 ++++++++++--------
->  2 files changed, 63 insertions(+), 49 deletions(-)
->  rename Documentation/virt/kvm/{locking.txt => locking.rst} (78%)
+>  Documentation/virt/kvm/index.rst                               | 2 ++
+>  .../virt/kvm/{review-checklist.txt => review-checklist.rst}    | 3 +++
+>  2 files changed, 5 insertions(+)
+>  rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
 
-(...)
-
-> @@ -48,19 +52,23 @@ restore the saved R/X bits if VMX_EPT_TRACK_ACCESS mask is set, or both. This
->  is safe because whenever changing these bits can be detected by cmpxchg.
->  
->  But we need carefully check these cases:
-> -1): The mapping from gfn to pfn
-> +
-> +1) The mapping from gfn to pfn
-> +
->  The mapping from gfn to pfn may be changed since we can only ensure the pfn
->  is not changed during cmpxchg. This is a ABA problem, for example, below case
->  will happen:
->  
-> -At the beginning:
-> -gpte = gfn1
-> -gfn1 is mapped to pfn1 on host
-> -spte is the shadow page table entry corresponding with gpte and
-> -spte = pfn1
-> +At the beginning::
->  
-> -   VCPU 0                           VCPU0
-> -on fast page fault path:
-> +	gpte = gfn1
-> +	gfn1 is mapped to pfn1 on host
-> +	spte is the shadow page table entry corresponding with gpte and
-> +	spte = pfn1
-> +
-> +	   VCPU 0                           VCPU0
-> +
-> +on fast page fault path::
->  
->     old_spte = *spte;
->                                   pfn1 is swapped out:
-
-I'm wondering if that should rather be converted to a proper table.
-
-(...)
-
-> @@ -99,12 +109,14 @@ Accessed bit and Dirty bit can not be lost.
->  But it is not true after fast page fault since the spte can be marked
->  writable between reading spte and updating spte. Like below case:
->  
-> -At the beginning:
-> -spte.W = 0
-> -spte.Accessed = 1
-> +At the beginning::
->  
-> -   VCPU 0                                       VCPU0
-> -In mmu_spte_clear_track_bits():
-> +	spte.W = 0
-> +	spte.Accessed = 1
-> +
-> +	   VCPU 0                                       VCPU0
-> +
-> +In mmu_spte_clear_track_bits()::
->  
->     old_spte = *spte;
->  
-
-This one as well.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
