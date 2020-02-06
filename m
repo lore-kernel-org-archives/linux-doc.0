@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 455BFC388EB
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59062C352A2
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0E17520838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3037721741
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581002346;
-	bh=dBhE4o4pk/p9mLyeGVwtLnBU7UYdhbrjbCFpmZv3YQM=;
+	s=default; t=1581002353;
+	bh=2Mawod64NFX0+DNbDsAjvHcZKaflcbm7E0Cs2R/Nxnk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ogX3/ALz+Oa6dkSz77EXcX3eYy/oWImOuVu6y2EUsat9N+70cWKPuOrw+T87JUSj8
-	 PUMmj9u0OpCPI1DMZwmb2WEGEhiAhi4qV+B3h1MYwzpCXM+yB6xIEXkOKb9uEAkLT/
-	 sooGRYWEabuoiaWe3k7ESRznnRZJSgu5fYTpSzxk=
+	b=0hTbkNLA3jUlrF7LBtwCV+35Q/HXnzKhQ3mgf6gh2UjmWZMjMYBzO/ospEZHTVs6+
+	 dBYpxmE56Q0p6HJzBH487f/US6aU5MPruCuuncbPxURst5VTYkCYrXvtjRC9zo8EPr
+	 zO6rcA9RyoZ03z18AASr8GP5hME5uyVM4pf6AyLU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727943AbgBFPTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:19:05 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38054 "EHLO
+        id S1727456AbgBFPR7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:17:59 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38008 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727548AbgBFPR7 (ORCPT
+        with ESMTP id S1726765AbgBFPR7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:17:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description;
-        bh=nnWg+8aH8ZOHODuRm5r6ALThw0WyVVTSxDI4IeVcmA8=; b=Wqr+twoyQB1AVUq905ouezfJKy
-        jDmqD61YbBlTFM0BOBte7IwCudSMG+QSSinKk4Nz8bBXt0rKomwwi8MpXj8wwmUmphagTOZul7Q9B
-        Cgj8EZrYSNvnYcSJBGvmLRj61KuBX4OS3w8DhjS6CuZTKqfoDSIZ3TDe3DPCWYQUdJ6mcMVjqqjJW
-        cFULsIKe0uC/HZN6ZJz0Vba+kyNJ/XaLl/4NyO8E6DGqiZ73Y5nIvA1CIn9/SWfUKRf5i9/pNE3n/
-        YiyIksxi0sO6XOkOZ7Qyr0WF1ES9//F6zmBE4PyE4WH2dQtYW1VTrmd3NANR1TMSdscQVAC506cr+
-        asYyLbiw==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=59Rj5dPhY9QjBXLCWQNJNtM4PkBOcp2rHBZAfQ+2spU=; b=SuoPjsrrJHuiUwMiBOGH300RKT
+        WSEdXNFijv4qI8mZTWYRDrsiLkIEv/dHJ8AYnKHwVfQe4EDAN3o1T+sflkxsKIo/KLLF2+JnqeKMG
+        Se3sRTHeH5PFa2KnjtPf09RKbyp6/X/mZhlclphk0fwn+iVDPZTwdRz7yqrw2TrSfF0deMik/NyGq
+        E4S9TQuLIJq+3E4mAMrGo8zWPsMuZJUddMoCDGp0gUq5+HansZaRBpBdBEg00+9jNytYmq9N89BZE
+        vOj/bzV1a1655th3AvAyN7IV0f7KasTXCIewkjyqfdnKhODr7pt0EY15GP+qPQyPwX5+qm3ChBizf
+        MgqIedmQ==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziul-0005jI-4E; Thu, 06 Feb 2020 15:17:59 +0000
+        id 1iziuk-0005jW-N8; Thu, 06 Feb 2020 15:17:58 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziuc-002oUv-KM; Thu, 06 Feb 2020 16:17:50 +0100
+        id 1iziud-002oVZ-9Y; Thu, 06 Feb 2020 16:17:51 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -50,14 +50,13 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 03/28] docs: networking: convert 6pack.txt to ReST
-Date:   Thu,  6 Feb 2020 16:17:23 +0100
-Message-Id: <a3f4a0a45533b6182d69e6577be5fdc00548dac1.1581002063.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/28] docs: networking: convert cxacru.txt to ReST
+Date:   Thu,  6 Feb 2020 16:17:33 +0100
+Message-Id: <cedfce80cf6e20877748b5b24c862fdfbc6e3413.1581002063.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
 References: <cover.1581002062.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -65,161 +64,171 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- use title markups;
+- add a document title;
 - mark code blocks and literals as such;
+- mark lists as such;
 - adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../networking/{6pack.txt => 6pack.rst}       | 46 +++++++++++++------
+ .../networking/{cxacru.txt => cxacru.rst}     | 86 ++++++++++++-------
  Documentation/networking/index.rst            |  1 +
- 2 files changed, 32 insertions(+), 15 deletions(-)
- rename Documentation/networking/{6pack.txt => 6pack.rst} (90%)
+ 2 files changed, 54 insertions(+), 33 deletions(-)
+ rename Documentation/networking/{cxacru.txt => cxacru.rst} (66%)
 
-diff --git a/Documentation/networking/6pack.txt b/Documentation/networking/6pack.rst
-similarity index 90%
-rename from Documentation/networking/6pack.txt
-rename to Documentation/networking/6pack.rst
-index 8f339428fdf4..bc5bf1f1a98f 100644
---- a/Documentation/networking/6pack.txt
-+++ b/Documentation/networking/6pack.rst
-@@ -1,27 +1,36 @@
+diff --git a/Documentation/networking/cxacru.txt b/Documentation/networking/cxacru.rst
+similarity index 66%
+rename from Documentation/networking/cxacru.txt
+rename to Documentation/networking/cxacru.rst
+index 2cce04457b4d..6088af2ffeda 100644
+--- a/Documentation/networking/cxacru.txt
++++ b/Documentation/networking/cxacru.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==============
-+6pack Protocol
-+==============
++========================
++ATM cxacru device driver
++========================
 +
- This is the 6pack-mini-HOWTO, written by
+ Firmware is required for this device: http://accessrunner.sourceforge.net/
  
- Andreas Könsgen DG3KQ
--Internet: ajk@comnets.uni-bremen.de
--AMPR-net: dg3kq@db0pra.ampr.org
--AX.25:    dg3kq@db0ach.#nrw.deu.eu
+ While it is capable of managing/maintaining the ADSL connection without the
+@@ -19,29 +25,35 @@ several sysfs attribute files for retrieving device statistics:
+ 
+ * adsl_headend
+ * adsl_headend_environment
+-	Information about the remote headend.
 +
-+:Internet: ajk@comnets.uni-bremen.de
-+:AMPR-net: dg3kq@db0pra.ampr.org
-+:AX.25:    dg3kq@db0ach.#nrw.deu.eu
++	- Information about the remote headend.
  
- Last update: April 7, 1998
- 
- 1. What is 6pack, and what are the advantages to KISS?
-+======================================================
- 
- 6pack is a transmission protocol for data exchange between the PC and
- the TNC over a serial line. It can be used as an alternative to KISS.
- 
- 6pack has two major advantages:
+ * adsl_config
+-	Configuration writing interface.
+-	Write parameters in hexadecimal format <index>=<value>,
+-	separated by whitespace, e.g.:
 +
- - The PC is given full control over the radio
-   channel. Special control data is exchanged between the PC and the TNC so
-   that the PC knows at any time if the TNC is receiving data, if a TNC
-   buffer underrun or overrun has occurred, if the PTT is
-   set and so on. This control data is processed at a higher priority than
-   normal data, so a data stream can be interrupted at any time to issue an
--  important event. This helps to improve the channel access and timing 
--  algorithms as everything is computed in the PC. It would even be possible 
--  to experiment with something completely different from the known CSMA and 
-+  important event. This helps to improve the channel access and timing
-+  algorithms as everything is computed in the PC. It would even be possible
-+  to experiment with something completely different from the known CSMA and
-   DAMA channel access methods.
-   This kind of real-time control is especially important to supply several
-   TNCs that are connected between each other and the PC by a daisy chain
-@@ -36,6 +45,7 @@ More details about 6pack are described in the file 6pack.ps that is located
- in the doc directory of the AX.25 utilities package.
- 
- 2. Who has developed the 6pack protocol?
-+========================================
- 
- The 6pack protocol has been developed by Ekki Plicht DF4OR, Henning Rech
- DF9IC and Gunter Jost DK7WJ. A driver for 6pack, written by Gunter Jost and
-@@ -44,12 +54,14 @@ They have also written a firmware for TNCs to perform the 6pack
- protocol (see section 4 below).
- 
- 3. Where can I get the latest version of 6pack for LinuX?
-+=========================================================
- 
- At the moment, the 6pack stuff can obtained via anonymous ftp from
- db0bm.automation.fh-aachen.de. In the directory /incoming/dg3kq,
- there is a file named 6pack.tgz.
- 
- 4. Preparing the TNC for 6pack operation
-+========================================
- 
- To be able to use 6pack, a special firmware for the TNC is needed. The EPROM
- of a newly bought TNC does not contain 6pack, so you will have to
-@@ -75,12 +87,14 @@ and the status LED are lit for about a second if the firmware initialises
- the TNC correctly.
- 
- 5. Building and installing the 6pack driver
-+===========================================
- 
- The driver has been tested with kernel version 2.1.90. Use with older
- kernels may lead to a compilation error because the interface to a kernel
- function has been changed in the 2.1.8x kernels.
- 
- How to turn on 6pack support:
-+=============================
- 
- - In the linux kernel configuration program, select the code maturity level
-   options menu and turn on the prompting for development drivers.
-@@ -94,27 +108,28 @@ To use the driver, the kissattach program delivered with the AX.25 utilities
- has to be modified.
- 
- - Do a cd to the directory that holds the kissattach sources. Edit the
--  kissattach.c file. At the top, insert the following lines:
-+  kissattach.c file. At the top, insert the following lines::
- 
--  #ifndef N_6PACK
--  #define N_6PACK (N_AX25+1)
--  #endif
-+    #ifndef N_6PACK
-+    #define N_6PACK (N_AX25+1)
-+    #endif
- 
--  Then find the line
--   
--  int disc = N_AX25;
-+  Then find the line:
++	- Configuration writing interface.
++	- Write parameters in hexadecimal format <index>=<value>,
++	  separated by whitespace, e.g.:
 +
-+    int disc = N_AX25;
+ 		"1=0 a=5"
+-	Up to 7 parameters at a time will be sent and the modem will restart
+-	the ADSL connection when any value is set. These are logged for future
+-	reference.
++
++	- Up to 7 parameters at a time will be sent and the modem will restart
++	  the ADSL connection when any value is set. These are logged for future
++	  reference.
  
-   and replace N_AX25 by N_6PACK.
+ * downstream_attenuation (dB)
+ * downstream_bits_per_frame
+ * downstream_rate (kbps)
+ * downstream_snr_margin (dB)
+-	Downstream stats.
++
++	- Downstream stats.
  
- - Recompile kissattach. Rename it to spattach to avoid confusions.
+ * upstream_attenuation (dB)
+ * upstream_bits_per_frame
+ * upstream_rate (kbps)
+ * upstream_snr_margin (dB)
+ * transmitter_power (dBm/Hz)
+-	Upstream stats.
++
++	- Upstream stats.
  
- Installing the driver:
-+----------------------
+ * downstream_crc_errors
+ * downstream_fec_errors
+@@ -49,48 +61,56 @@ several sysfs attribute files for retrieving device statistics:
+ * upstream_crc_errors
+ * upstream_fec_errors
+ * upstream_hec_errors
+-	Error counts.
++
++	- Error counts.
  
--- Do an insmod 6pack. Look at your /var/log/messages file to check if the 
-+- Do an insmod 6pack. Look at your /var/log/messages file to check if the
-   module has printed its initialization message.
+ * line_startable
+-	Indicates that ADSL support on the device
+-	is/can be enabled, see adsl_start.
++
++	- Indicates that ADSL support on the device
++	  is/can be enabled, see adsl_start.
  
- - Do a spattach as you would launch kissattach when starting a KISS port.
--  Check if the kernel prints the message '6pack: TNC found'. 
-+  Check if the kernel prints the message '6pack: TNC found'.
+ * line_status
+-	"initialising"
+-	"down"
+-	"attempting to activate"
+-	"training"
+-	"channel analysis"
+-	"exchange"
+-	"waiting"
+-	"up"
++
++	 - "initialising"
++	 - "down"
++	 - "attempting to activate"
++	 - "training"
++	 - "channel analysis"
++	 - "exchange"
++	 - "waiting"
++	 - "up"
  
- - From here, everything should work as if you were setting up a KISS port.
-   The only difference is that the network device that represents
-@@ -138,6 +153,7 @@ from the PC to the TNC over the serial line, the status LED if data is
- sent to the PC.
+ 	Changes between "down" and "attempting to activate"
+ 	if there is no signal.
  
- 6. Known problems
-+=================
+ * link_status
+-	"not connected"
+-	"connected"
+-	"lost"
++
++	 - "not connected"
++	 - "connected"
++	 - "lost"
  
- When testing the driver with 2.0.3x kernels and
- operating with data rates on the radio channel of 9600 Baud or higher,
+ * mac_address
+ 
+ * modulation
+-	"" (when not connected)
+-	"ANSI T1.413"
+-	"ITU-T G.992.1 (G.DMT)"
+-	"ITU-T G.992.2 (G.LITE)"
++
++	 - "" (when not connected)
++	 - "ANSI T1.413"
++	 - "ITU-T G.992.1 (G.DMT)"
++	 - "ITU-T G.992.2 (G.LITE)"
+ 
+ * startup_attempts
+-	Count of total attempts to initialise ADSL.
++
++	- Count of total attempts to initialise ADSL.
+ 
+ To enable/disable ADSL, the following can be written to the adsl_state file:
+-	"start"
+-	"stop
+-	"restart" (stops, waits 1.5s, then starts)
+-	"poll" (used to resume status polling if it was disabled due to failure)
+ 
+-Changes in adsl/line state are reported via kernel log messages:
++	 - "start"
++	 - "stop
++	 - "restart" (stops, waits 1.5s, then starts)
++	 - "poll" (used to resume status polling if it was disabled due to failure)
++
++Changes in adsl/line state are reported via kernel log messages::
++
+ 	[4942145.150704] ATM dev 0: ADSL state: running
+ 	[4942243.663766] ATM dev 0: ADSL line: down
+ 	[4942249.665075] ATM dev 0: ADSL line: attempting to activate
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index cc34c06477eb..0b8b4848683d 100644
+index 2201f848d8f7..4f8dc5fd6b20 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -35,6 +35,7 @@ Contents:
-    tls-offload
-    nfc
-    6lowpan
-+   6pack
+@@ -45,6 +45,7 @@ Contents:
+    bonding
+    cdc_mbim
+    cops
++   cxacru
  
  .. only::  subproject and html
  
