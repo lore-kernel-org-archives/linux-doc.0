@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD39CC388EB
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D1FC2D0B1
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A98B420838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B94DE20838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581000666;
-	bh=GeNTq8Ib30C29iPt/Ha8uLjw7D0/RugAMZJjMF0ErXs=;
+	s=default; t=1581000667;
+	bh=+clo8FgPb4q70r58fBUH/QXip8iRiCaMaHncrZxi6X8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=bnoZi71wiq71EoXwtXcFWSDGzerCN3xGzYvbrnHGNYu5uxFlBhwv9Y4oRnc/g/D3Y
-	 m3ZFk71Cy9KJL8/XjvHHRDqCkKGWW0L5Z/aSMGh/paY8SE2WlPTnNNzQeoSl8hB6yb
-	 gdEDlld1mwxfIZfZ0rWMzyKO5D/px61hWc4G9Yu0=
+	b=lB4lU3FPqm6LKRGML8KUM6AXUdT9zRkYrYfwdy4yS1IRiFz7YioRkl8SIUqJiBCsv
+	 8bCIX6ab9AUDlMaeunDyFMko7/1MtkBlG8sYX1Stru9y+1G/QZ9E6RePjvFg1rYVbM
+	 FV4B0TDaEO5HMra9h0Qll8SxWctfvOaVXfGyt+eo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727653AbgBFOvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:51:03 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55638 "EHLO
+        id S1727605AbgBFOuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 09:50:39 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55586 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727609AbgBFOuj (ORCPT
+        with ESMTP id S1727599AbgBFOuj (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=UoVoTfeqJAIn1DpUiVy/iSRc5XPT39jOF0FCEyMWDLs=; b=dECDheo3GZPnOsipNUiHMLh5G5
-        AR5OZi02gOZj3gDa4Q64I7117Mgz2KnjvXyeZ0djFimRF8tQf1I3Tk/UyZnzTdVN1vX3bUchoeI0E
-        OwKPNCVAfZ/j/H5fjJqQVGermrxJN4jwM808vY71lQx8x+Bc8khan8lUfqdybsyu5M9twoTLwKg5V
-        XPACpMaIHDCNH2tGptB31NuPcDJGDKE5+uAvzTOf8Zj7rAmzXytXrFZZUprj7GzEOk/mO8+bphdiq
-        E+FOiOzreFJ/IDweWVlez3u0Qjseuf2o+727lscR1i+nBvLafCGIQLMXOUhOBKCXOL3HbZmGaGSZD
-        45DmwlVA==;
+        bh=BBkxbTIBsbP281l/EajrQ33Ah82OprSYBCybWSzNyDw=; b=Y4FLe/XHPEPK7NrVGVgKxy2KT5
+        SePDaNyK7vUUorE/rwONhNANltY//QyMa95hhAJfdXMqYiPrYqMfcwAeOOB007vYBRd2tp7QLPBkI
+        RmtwDvuGHBoSKgx2/FJXnEjXxtyzyl7ZR0aPMU6rE0VTaLNq9WLsrXnfUGmrUxVeFfJdu1P0qORw/
+        vmEkhjvwXy97ssiZBkeKQxoUS4TzmRlriJRamXg5t92PAzDJemC0PRhYq6HQK/sVhsjjgfRgfbGGj
+        GKYvFmMI8JSKwVWCyHjx85PVLyZwn8B53pTJKkU5ue+25LE8/QhvhRwte3j8rUB9KHfcIhlFmXvMR
+        lXi5Qsyg==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUJ-0004It-EF; Thu, 06 Feb 2020 14:50:39 +0000
+        id 1iziUI-0004Ip-U8; Thu, 06 Feb 2020 14:50:38 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU6-002nKr-Gd; Thu, 06 Feb 2020 15:50:26 +0100
+        id 1iziU6-002nKz-IX; Thu, 06 Feb 2020 15:50:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2 09/27] docs: kvm: convert devices/arm-vgit.txt to ReST
-Date:   Thu,  6 Feb 2020 15:50:06 +0100
-Message-Id: <9d0b1c94cc9515ba4e753464a6ee95a89ba2b3b0.1581000481.git.mchehab+huawei@kernel.org>
+        linux-doc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2 11/27] docs: kvm: convert devices/s390_flic.txt to ReST
+Date:   Thu,  6 Feb 2020 15:50:08 +0100
+Message-Id: <a09bd17c6228c2a6ee30b487b583d811ad7bc1f3.1581000481.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
 References: <cover.1581000481.git.mchehab+huawei@kernel.org>
@@ -62,176 +62,172 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use title markups;
-- change indent to match ReST syntax;
-- use proper table markups;
-- use literal block markups.
+- Use standard markup for document title;
+- Adjust indentation and add blank lines as needed;
+- use the notes markup;
+- mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- .../devices/{arm-vgic.txt => arm-vgic.rst}    | 89 ++++++++++++-------
  Documentation/virt/kvm/devices/index.rst      |  1 +
- 2 files changed, 60 insertions(+), 30 deletions(-)
- rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+ .../devices/{s390_flic.txt => s390_flic.rst}  | 70 +++++++++++--------
+ 2 files changed, 41 insertions(+), 30 deletions(-)
+ rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
 
-diff --git a/Documentation/virt/kvm/devices/arm-vgic.txt b/Documentation/virt/kvm/devices/arm-vgic.rst
-similarity index 66%
-rename from Documentation/virt/kvm/devices/arm-vgic.txt
-rename to Documentation/virt/kvm/devices/arm-vgic.rst
-index 97b6518148f8..40bdeea1d86e 100644
---- a/Documentation/virt/kvm/devices/arm-vgic.txt
-+++ b/Documentation/virt/kvm/devices/arm-vgic.rst
-@@ -1,8 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================================
- ARM Virtual Generic Interrupt Controller v2 (VGIC)
- ==================================================
- 
- Device types supported:
--  KVM_DEV_TYPE_ARM_VGIC_V2     ARM Generic Interrupt Controller v2.0
-+
-+  - KVM_DEV_TYPE_ARM_VGIC_V2     ARM Generic Interrupt Controller v2.0
- 
- Only one VGIC instance may be instantiated through either this API or the
- legacy KVM_CREATE_IRQCHIP API.  The created VGIC will act as the VM interrupt
-@@ -17,7 +21,8 @@ create both a GICv3 and GICv2 device on the same VM.
- 
- Groups:
-   KVM_DEV_ARM_VGIC_GRP_ADDR
--  Attributes:
-+   Attributes:
-+
-     KVM_VGIC_V2_ADDR_TYPE_DIST (rw, 64-bit)
-       Base address in the guest physical address space of the GIC distributor
-       register mappings. Only valid for KVM_DEV_TYPE_ARM_VGIC_V2.
-@@ -27,19 +32,25 @@ Groups:
-       Base address in the guest physical address space of the GIC virtual cpu
-       interface register mappings. Only valid for KVM_DEV_TYPE_ARM_VGIC_V2.
-       This address needs to be 4K aligned and the region covers 4 KByte.
-+
-   Errors:
--    -E2BIG:  Address outside of addressable IPA range
--    -EINVAL: Incorrectly aligned address
--    -EEXIST: Address already configured
--    -ENXIO:  The group or attribute is unknown/unsupported for this device
-+
-+    =======  =============================================================
-+    -E2BIG   Address outside of addressable IPA range
-+    -EINVAL  Incorrectly aligned address
-+    -EEXIST  Address already configured
-+    -ENXIO   The group or attribute is unknown/unsupported for this device
-              or hardware support is missing.
--    -EFAULT: Invalid user pointer for attr->addr.
-+    -EFAULT  Invalid user pointer for attr->addr.
-+    =======  =============================================================
- 
-   KVM_DEV_ARM_VGIC_GRP_DIST_REGS
--  Attributes:
--    The attr field of kvm_device_attr encodes two values:
--    bits:     | 63   ....  40 | 39 ..  32  |  31   ....    0 |
--    values:   |    reserved   | vcpu_index |      offset     |
-+   Attributes:
-+
-+    The attr field of kvm_device_attr encodes two values::
-+
-+      bits:     | 63   ....  40 | 39 ..  32  |  31   ....    0 |
-+      values:   |    reserved   | vcpu_index |      offset     |
- 
-     All distributor regs are (rw, 32-bit)
- 
-@@ -58,16 +69,22 @@ Groups:
-     KVM_DEV_ARM_VGIC_GRP_DIST_REGS and KVM_DEV_ARM_VGIC_GRP_CPU_REGS) to ensure
-     the expected behavior. Unless GICD_IIDR has been set from userspace, writes
-     to the interrupt group registers (GICD_IGROUPR) are ignored.
-+
-   Errors:
--    -ENXIO: Getting or setting this register is not yet supported
--    -EBUSY: One or more VCPUs are running
--    -EINVAL: Invalid vcpu_index supplied
-+
-+    =======  =====================================================
-+    -ENXIO   Getting or setting this register is not yet supported
-+    -EBUSY   One or more VCPUs are running
-+    -EINVAL  Invalid vcpu_index supplied
-+    =======  =====================================================
- 
-   KVM_DEV_ARM_VGIC_GRP_CPU_REGS
--  Attributes:
--    The attr field of kvm_device_attr encodes two values:
--    bits:     | 63   ....  40 | 39 ..  32  |  31   ....    0 |
--    values:   |    reserved   | vcpu_index |      offset     |
-+   Attributes:
-+
-+    The attr field of kvm_device_attr encodes two values::
-+
-+      bits:     | 63   ....  40 | 39 ..  32  |  31   ....    0 |
-+      values:   |    reserved   | vcpu_index |      offset     |
- 
-     All CPU interface regs are (rw, 32-bit)
- 
-@@ -101,27 +118,39 @@ Groups:
-     value left by 3 places to obtain the actual priority mask level.
- 
-   Errors:
--    -ENXIO: Getting or setting this register is not yet supported
--    -EBUSY: One or more VCPUs are running
--    -EINVAL: Invalid vcpu_index supplied
-+
-+    =======  =====================================================
-+    -ENXIO   Getting or setting this register is not yet supported
-+    -EBUSY   One or more VCPUs are running
-+    -EINVAL  Invalid vcpu_index supplied
-+    =======  =====================================================
- 
-   KVM_DEV_ARM_VGIC_GRP_NR_IRQS
--  Attributes:
-+   Attributes:
-+
-     A value describing the number of interrupts (SGI, PPI and SPI) for
-     this GIC instance, ranging from 64 to 1024, in increments of 32.
- 
-   Errors:
--    -EINVAL: Value set is out of the expected range
--    -EBUSY: Value has already be set, or GIC has already been initialized
--            with default values.
-+
-+    =======  =============================================================
-+    -EINVAL  Value set is out of the expected range
-+    -EBUSY   Value has already be set, or GIC has already been initialized
-+             with default values.
-+    =======  =============================================================
- 
-   KVM_DEV_ARM_VGIC_GRP_CTRL
--  Attributes:
-+   Attributes:
-+
-     KVM_DEV_ARM_VGIC_CTRL_INIT
-       request the initialization of the VGIC or ITS, no additional parameter
-       in kvm_device_attr.addr.
-+
-   Errors:
--    -ENXIO: VGIC not properly configured as required prior to calling
--     this attribute
--    -ENODEV: no online VCPU
--    -ENOMEM: memory shortage when allocating vgic internal data
-+
-+    =======  =========================================================
-+    -ENXIO   VGIC not properly configured as required prior to calling
-+             this attribute
-+    -ENODEV  no online VCPU
-+    -ENOMEM  memory shortage when allocating vgic internal data
-+    =======  =========================================================
 diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-index 80c1e0e225f4..7eabce80c61e 100644
+index 9e5586e371de..e6caccc36623 100644
 --- a/Documentation/virt/kvm/devices/index.rst
 +++ b/Documentation/virt/kvm/devices/index.rst
-@@ -8,4 +8,5 @@ Devices
-    :maxdepth: 2
- 
-    arm-vgic-its
-+   arm-vgic
+@@ -11,3 +11,4 @@ Devices
+    arm-vgic
     arm-vgic-v3
+    mpic
++   s390_flic
+diff --git a/Documentation/virt/kvm/devices/s390_flic.txt b/Documentation/virt/kvm/devices/s390_flic.rst
+similarity index 87%
+rename from Documentation/virt/kvm/devices/s390_flic.txt
+rename to Documentation/virt/kvm/devices/s390_flic.rst
+index a4e20a090174..954190da7d04 100644
+--- a/Documentation/virt/kvm/devices/s390_flic.txt
++++ b/Documentation/virt/kvm/devices/s390_flic.rst
+@@ -1,3 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================================
+ FLIC (floating interrupt controller)
+ ====================================
+ 
+@@ -31,8 +34,10 @@ Groups:
+     Copies all floating interrupts into a buffer provided by userspace.
+     When the buffer is too small it returns -ENOMEM, which is the indication
+     for userspace to try again with a bigger buffer.
++
+     -ENOBUFS is returned when the allocation of a kernelspace buffer has
+     failed.
++
+     -EFAULT is returned when copying data to userspace failed.
+     All interrupts remain pending, i.e. are not deleted from the list of
+     currently pending interrupts.
+@@ -60,38 +65,41 @@ Groups:
+ 
+   KVM_DEV_FLIC_ADAPTER_REGISTER
+     Register an I/O adapter interrupt source. Takes a kvm_s390_io_adapter
+-    describing the adapter to register:
++    describing the adapter to register::
+ 
+-struct kvm_s390_io_adapter {
+-	__u32 id;
+-	__u8 isc;
+-	__u8 maskable;
+-	__u8 swap;
+-	__u8 flags;
+-};
++	struct kvm_s390_io_adapter {
++		__u32 id;
++		__u8 isc;
++		__u8 maskable;
++		__u8 swap;
++		__u8 flags;
++	};
+ 
+    id contains the unique id for the adapter, isc the I/O interruption subclass
+    to use, maskable whether this adapter may be masked (interrupts turned off),
+    swap whether the indicators need to be byte swapped, and flags contains
+    further characteristics of the adapter.
++
+    Currently defined values for 'flags' are:
++
+    - KVM_S390_ADAPTER_SUPPRESSIBLE: adapter is subject to AIS
+      (adapter-interrupt-suppression) facility. This flag only has an effect if
+      the AIS capability is enabled.
++
+    Unknown flag values are ignored.
+ 
+ 
+   KVM_DEV_FLIC_ADAPTER_MODIFY
+     Modifies attributes of an existing I/O adapter interrupt source. Takes
+-    a kvm_s390_io_adapter_req specifying the adapter and the operation:
++    a kvm_s390_io_adapter_req specifying the adapter and the operation::
+ 
+-struct kvm_s390_io_adapter_req {
+-	__u32 id;
+-	__u8 type;
+-	__u8 mask;
+-	__u16 pad0;
+-	__u64 addr;
+-};
++	struct kvm_s390_io_adapter_req {
++		__u32 id;
++		__u8 type;
++		__u8 mask;
++		__u16 pad0;
++		__u64 addr;
++	};
+ 
+     id specifies the adapter and type the operation. The supported operations
+     are:
+@@ -103,8 +111,9 @@ struct kvm_s390_io_adapter_req {
+       perform a gmap translation for the guest address provided in addr,
+       pin a userspace page for the translated address and add it to the
+       list of mappings
+-      Note: A new mapping will be created unconditionally; therefore,
+-            the calling code should avoid making duplicate mappings.
++
++      .. note:: A new mapping will be created unconditionally; therefore,
++	        the calling code should avoid making duplicate mappings.
+ 
+     KVM_S390_IO_ADAPTER_UNMAP
+       release a userspace page for the translated address specified in addr
+@@ -112,16 +121,17 @@ struct kvm_s390_io_adapter_req {
+ 
+   KVM_DEV_FLIC_AISM
+     modify the adapter-interruption-suppression mode for a given isc if the
+-    AIS capability is enabled. Takes a kvm_s390_ais_req describing:
++    AIS capability is enabled. Takes a kvm_s390_ais_req describing::
+ 
+-struct kvm_s390_ais_req {
+-	__u8 isc;
+-	__u16 mode;
+-};
++	struct kvm_s390_ais_req {
++		__u8 isc;
++		__u16 mode;
++	};
+ 
+     isc contains the target I/O interruption subclass, mode the target
+     adapter-interruption-suppression mode. The following modes are
+     currently supported:
++
+     - KVM_S390_AIS_MODE_ALL: ALL-Interruptions Mode, i.e. airq injection
+       is always allowed;
+     - KVM_S390_AIS_MODE_SINGLE: SINGLE-Interruption Mode, i.e. airq
+@@ -139,12 +149,12 @@ struct kvm_s390_ais_req {
+ 
+   KVM_DEV_FLIC_AISM_ALL
+     Gets or sets the adapter-interruption-suppression mode for all ISCs. Takes
+-    a kvm_s390_ais_all describing:
++    a kvm_s390_ais_all describing::
+ 
+-struct kvm_s390_ais_all {
+-       __u8 simm; /* Single-Interruption-Mode mask */
+-       __u8 nimm; /* No-Interruption-Mode mask *
+-};
++	struct kvm_s390_ais_all {
++	       __u8 simm; /* Single-Interruption-Mode mask */
++	       __u8 nimm; /* No-Interruption-Mode mask *
++	};
+ 
+     simm contains Single-Interruption-Mode mask for all ISCs, nimm contains
+     No-Interruption-Mode mask for all ISCs. Each bit in simm and nimm corresponds
+@@ -159,5 +169,5 @@ ENXIO, as specified in the API documentation). It is not possible to conclude
+ that a FLIC operation is unavailable based on the error code resulting from a
+ usage attempt.
+ 
+-Note: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a zero
+-schid is specified.
++.. note:: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a
++	  zero schid is specified.
 -- 
 2.24.1
 
