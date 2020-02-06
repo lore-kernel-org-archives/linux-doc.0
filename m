@@ -2,143 +2,175 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F209BC352A3
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EDCC35247
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 21:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C7DCF21775
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 20:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581022043;
-	bh=b5L/7neZks6SxBsJUMzzaZtT0XdM3q38CPeJu18A/co=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0NcLFXbkxjuGTPYMMP1+0/uJKdd6zAs/NzlBxJtwTWCTMl9rtr0t4Tyejkxy0oDYN
-	 WL4ATrXvxVlHmrFZoMECdorzEyNRPB0eu+77BUPLMCU/7JjTjpbCqw5bpPW1QN9xid
-	 Wf2MVlzRoS0Hl2hEoGeaqNNLWhUp04PvLEdJRFjA=
+	by mail.kernel.org (Postfix) with ESMTP id 61E0F214AF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 21:57:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FGZ/e3iN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbgBFUpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 15:45:36 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33877 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727830AbgBFUpg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 15:45:36 -0500
-Received: by mail-pf1-f194.google.com with SMTP id i6so64517pfc.1;
-        Thu, 06 Feb 2020 12:45:34 -0800 (PST)
+        id S1727509AbgBFV5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 16:57:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21483 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726765AbgBFV5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 16:57:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581026267;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=10sxOSYhRMsVf98oXqVUEQI4+OBsS58gSL9iiVuqLjE=;
+        b=FGZ/e3iN8XwtLsTMLyUmFaR1Yab+RnDGkVH9q2c777Xda8ALepSoXKvhyvejMMY7BUBaXa
+        DhtutlXhc9icsbXcPtz2ksaJuEejp74rW+FENdaKGe61Iun9Iu6tFWkYlV+lnv0wFVyrkW
+        +LNLoasvYiR+7XRLlGbJZOovfBsm0uY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-e-oMuF3SN8mTCkS7uLYqqw-1; Thu, 06 Feb 2020 16:57:45 -0500
+X-MC-Unique: e-oMuF3SN8mTCkS7uLYqqw-1
+Received: by mail-wr1-f71.google.com with SMTP id c6so115476wrm.18
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2020 13:57:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UQjt4WVJ28WaJURpUjHhblvvrGRzOLhJAhseMuxTJOc=;
-        b=TOpwL3yNtPnkzaQ1hjrp+t58b2pHbZoU27pdiq5x7Eoyf1KeXVY3YEZPe9w0GFPTUU
-         V5llv0oMgVtFp3yydTNlfHXSkOWIvKQKgZanigHqOzmv3xFguP7FNLPuMo3g/LkCUDEk
-         ph9UhH//gBVOOMzp51rqdx4dsApvAemlh5cloumLerk9BN0UsJlqPcVvFLbRSlBIbei1
-         6G2VO02N3ghvOLoylPKRnRrGoU/mDOJ9ikhExia8NsUb9NLsNqmt/WpldNjx88ZQ7E+X
-         fuaZwAJ/MyYY5R/GaTsLML/38T7KYrhgZ+OH+d19wze/oThFprzKf56ryQZyPXyGk3t/
-         RAbg==
-X-Gm-Message-State: APjAAAUhJBNZGIMJBDkmJx10pOrzD1LR0jfe0Sosy61bgF/T1/Qr7yX1
-        67R46EuuCJYZXTm6HaVUUg==
-X-Google-Smtp-Source: APXvYqy59y0DOw/mTxpVJ6WbFI4h+r6pFsRuD3AZ2j+dQn50bkNfTE4aLed3JpZuFsPT5ruTsWdXSw==
-X-Received: by 2002:aa7:9633:: with SMTP id r19mr6165120pfg.90.1581021934395;
-        Thu, 06 Feb 2020 12:45:34 -0800 (PST)
-Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net. [63.158.47.182])
-        by smtp.gmail.com with ESMTPSA id v7sm281923pfn.61.2020.02.06.12.45.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2020 12:45:33 -0800 (PST)
-Received: (nullmailer pid 8782 invoked by uid 1000);
-        Thu, 06 Feb 2020 17:12:10 -0000
-Date:   Thu, 6 Feb 2020 17:12:10 +0000
-From:   Rob Herring <robh@kernel.org>
-To:     Mike Jones <michael-a1.jones@analog.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@roeck-us.net, jdelvare@suse.com, corbet@lwn.net
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/ltc2978): add support for more parts.
-Message-ID: <20200206171210.GA4241@bogus>
-References: <1580234400-2829-1-git-send-email-michael-a1.jones@analog.com>
- <1580234400-2829-3-git-send-email-michael-a1.jones@analog.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=10sxOSYhRMsVf98oXqVUEQI4+OBsS58gSL9iiVuqLjE=;
+        b=fa/aScXfcrfmJab4Hw1r0zO9MvDTL4s7ZQOufNz4LtpSBN65WI/gDOsB+nTuFCSdT1
+         lYYgkybakt5v7CH70mdgXrAZJqnmoL0RHCHubL5RZjV5vN+sPxKTLkQnSfWVFylx/4dk
+         AVncdPaL+vivR3JLw+6jCYuOoAV86L++s3sghoJyuxXNSDSYkkVf0MRYp/hmS44/T628
+         9L3pKxww4yDks4q05Zc5dwBVxq6poRRQ4r1/l4uv7PQmBNY3x7yESHAQ/K4Qt3lS8m66
+         K5bWGqdrmQKRzUKuKq6z7lKyakNyVdOn0QTtwe43blpi2v492IwVSxeLvAZbVtPF7OB6
+         ytOg==
+X-Gm-Message-State: APjAAAXnRZWUWxC7XzC8gaC/dhFcDMrPRBk8xK/6NAn6bHhLR69kispV
+        Mw6YOdUgUpFvpFSmUjzMS+k6vfGmSmewELncoZWRmE1kH2Ew3ZANXdUUzYrkPaAvyNalgciLyeb
+        LbK2uYjbFkLQof9DgPfcL
+X-Received: by 2002:adf:f44a:: with SMTP id f10mr112380wrp.16.1581026263797;
+        Thu, 06 Feb 2020 13:57:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxkLFknJmswfLS3WjKUC9icqucrhzXHz50poy/wudiPuIytWlnrCqIq9yCj0/e3FcMbZ4huIQ==
+X-Received: by 2002:adf:f44a:: with SMTP id f10mr112362wrp.16.1581026263425;
+        Thu, 06 Feb 2020 13:57:43 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:a9f0:cbc3:a8a6:fc56? ([2001:b07:6468:f312:a9f0:cbc3:a8a6:fc56])
+        by smtp.gmail.com with ESMTPSA id e16sm733749wrs.73.2020.02.06.13.57.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2020 13:57:42 -0800 (PST)
+Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
+To:     Cornelia Huck <cohuck@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+ <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+ <20200206171132.4f51f17a.cohuck@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
+Date:   Thu, 6 Feb 2020 22:57:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1580234400-2829-3-git-send-email-michael-a1.jones@analog.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200206171132.4f51f17a.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 28, 2020 at 11:00:00AM -0700, Mike Jones wrote:
-> LTC2972, LTC2979, LTC3884, LTC3889, LTC7880, LTM4664, LTM4677,
-> LTM4678, LTM4680, LTM4700.
+On 06/02/20 17:11, Cornelia Huck wrote:
+> On Thu,  6 Feb 2020 15:50:18 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
-> ---
->  .../devicetree/bindings/hwmon/ltc2978.txt          |  22 ++-
-
-DT bindings should be a separate patch.
-
->  Documentation/hwmon/ltc2978.rst                    | 164 ++++++++++++++++-----
->  drivers/hwmon/pmbus/Kconfig                        |  11 +-
->  drivers/hwmon/pmbus/ltc2978.c                      |  92 +++++++++++-
->  4 files changed, 238 insertions(+), 51 deletions(-)
+>> - Use document title and chapter markups;
+>> - Add markups for literal blocks;
+>> - use :field: for field descriptions;
+>> - Add blank lines and adjust indentation.
+>>
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> ---
+>>  Documentation/virt/kvm/index.rst              |   1 +
+>>  .../virt/kvm/{locking.txt => locking.rst}     | 111 ++++++++++--------
+>>  2 files changed, 63 insertions(+), 49 deletions(-)
+>>  rename Documentation/virt/kvm/{locking.txt => locking.rst} (78%)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ltc2978.txt b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> index b428a70..4e7f621 100644
-> --- a/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> +++ b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> @@ -2,20 +2,30 @@ ltc2978
->  
->  Required properties:
->  - compatible: should contain one of:
-> +  * "lltc,ltc2972"
->    * "lltc,ltc2974"
->    * "lltc,ltc2975"
->    * "lltc,ltc2977"
->    * "lltc,ltc2978"
-> +  * "lltc,ltc2979"
->    * "lltc,ltc2980"
->    * "lltc,ltc3880"
->    * "lltc,ltc3882"
->    * "lltc,ltc3883"
-> +  * "lltc,ltc3884"
->    * "lltc,ltc3886"
->    * "lltc,ltc3887"
-> +  * "lltc,ltc3889"
-> +  * "lltc,ltc7880"
->    * "lltc,ltm2987"
-> +  * "lltc,ltm4664"
->    * "lltc,ltm4675"
->    * "lltc,ltm4676"
-> +  * "lltc,ltm4677"
-> +  * "lltc,ltm4678"
-> +  * "lltc,ltm4680"
->    * "lltc,ltm4686"
-> +  * "lltc,ltm4700"
->  - reg: I2C slave address
->  
->  Optional properties:
-> @@ -25,13 +35,17 @@ Optional properties:
->    standard binding for regulators; see regulator.txt.
->  
->  Valid names of regulators depend on number of supplies supported per device:
-> +  * ltc2972 vout0 - vout1
->    * ltc2974, ltc2975 : vout0 - vout3
-> -  * ltc2977, ltc2980, ltm2987 : vout0 - vout7
-> +  * ltc2977, ltc2979, ltc2980, ltm2987 : vout0 - vout7
->    * ltc2978 : vout0 - vout7
-> -  * ltc3880, ltc3882, ltc3886 : vout0 - vout1
-> +  * ltc3880, ltc3882, ltc3884, ltc3886, ltc3887, ltc3889 : vout0 - vout1
-> +  * ltc7880 : vout0 - vout1
->    * ltc3883 : vout0
-> -  * ltm4676 : vout0 - vout1
-> -  * ltm4686 : vout0 - vout1
-> +  * ltm4664 : vout0 - vout1
-> +  * ltm4675, ltm4676, ltm4677, ltm4678 : vout0 - vout1
-> +  * ltm4680, ltm4686 : vout0 - vout1
-> +  * ltm4700 : vout0 - vout1
->  
->  Example:
->  ltc2978@5e {
+> (...)
+> 
+>> @@ -48,19 +52,23 @@ restore the saved R/X bits if VMX_EPT_TRACK_ACCESS mask is set, or both. This
+>>  is safe because whenever changing these bits can be detected by cmpxchg.
+>>  
+>>  But we need carefully check these cases:
+>> -1): The mapping from gfn to pfn
+>> +
+>> +1) The mapping from gfn to pfn
+>> +
+>>  The mapping from gfn to pfn may be changed since we can only ensure the pfn
+>>  is not changed during cmpxchg. This is a ABA problem, for example, below case
+>>  will happen:
+>>  
+>> -At the beginning:
+>> -gpte = gfn1
+>> -gfn1 is mapped to pfn1 on host
+>> -spte is the shadow page table entry corresponding with gpte and
+>> -spte = pfn1
+>> +At the beginning::
+>>  
+>> -   VCPU 0                           VCPU0
+>> -on fast page fault path:
+>> +	gpte = gfn1
+>> +	gfn1 is mapped to pfn1 on host
+>> +	spte is the shadow page table entry corresponding with gpte and
+>> +	spte = pfn1
+>> +
+>> +	   VCPU 0                           VCPU0
+>> +
+>> +on fast page fault path::
+>>  
+>>     old_spte = *spte;
+>>                                   pfn1 is swapped out:
+> 
+> I'm wondering if that should rather be converted to a proper table.
+
+Would be nicer but this is acceptable too I think.  Especially, the
+monospaced font allows breaking the table and keeping the parts aligned.
+
+But the two headers should be "CPU 0" and "CPU 1", and it's worth
+changing that while we're at it.  Same for the table below.
+
+Paolo
+
+
+> 
+>> @@ -99,12 +109,14 @@ Accessed bit and Dirty bit can not be lost.
+>>  But it is not true after fast page fault since the spte can be marked
+>>  writable between reading spte and updating spte. Like below case:
+>>  
+>> -At the beginning:
+>> -spte.W = 0
+>> -spte.Accessed = 1
+>> +At the beginning::
+>>  
+>> -   VCPU 0                                       VCPU0
+>> -In mmu_spte_clear_track_bits():
+>> +	spte.W = 0
+>> +	spte.Accessed = 1
+>> +
+>> +	   VCPU 0                                       VCPU0
+>> +
+>> +In mmu_spte_clear_track_bits()::
+>>  
+>>     old_spte = *spte;
+>>  
+> 
+> This one as well.
+
+
+
