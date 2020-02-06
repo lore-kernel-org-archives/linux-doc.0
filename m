@@ -2,59 +2,58 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AC8C2D0B1
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 005F8C2D0B1
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A313F21741
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C351B20838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581000682;
-	bh=+rRbAd3TlFK7nPTr4w5ejAYTzpI7e3h8QdYEc9RALgw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=x73KySOFKrHl0yhYtFbFQOM0W9swNqeET+/sulTLbpuu8fMdAWKDhl4Rgi1hSvh6L
-	 i06VpgXa7zromjQV7SWyafydN8A2QLaQN7kiMt5vQV7sJnSKMBM/LB62KmKr8ceSTB
-	 LolBIDmWwmUpWgsQaOOotxBXSGI80+gtyFPEQ310=
+	s=default; t=1581000690;
+	bh=5X2La3a5x7Cxk21OTJcv25o3pPeoJHOAlmOEaeD51Sw=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=YNgkJ8Kj4hI7JkLNPMBKvbItRsefhAmWnsRSgk/8kLguFPKDY4QEPiX2RzCz47rFl
+	 aifl/XEcYX9a8UAh3usi8aKyV3f4ScWU/i2tUfd31d3WWvFicg6vG2fbJAIdgvMQfH
+	 mDOUgvQJpFQ4/Wr/QGt3ssl3ZKEOkrwB/mVazCvw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726744AbgBFOvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:51:19 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55392 "EHLO
+        id S1727474AbgBFOvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 09:51:22 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55410 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727527AbgBFOug (ORCPT
+        with ESMTP id S1727542AbgBFOug (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=qTpK99sN7WRqIfWf+ZjYD4CgBdyOTvR2MsNxs1Vzre8=; b=SiLIfsQECfdhy3NHjPkIWI/fa2
-        QemtgGMo27Lpw3GUYAKeZfBsXv3dfYZnUqr2QS4qOydsZ6LnC4jE2LymDvI0Ixy6Q9gvE3rFTNg9E
-        9jzhG7iiEDt8B1o8eg+rEc62ylhRoGSunTwt5WogAjXRG2Kxm5hRi78TWHvoha1RR5fhfbIXEL6h1
-        cldDeXtCS/d15Dgg6SgmLVU0fLlj3muUx1cpe418cSTneutynX6iUSsP+soLWj1F4pP5s+5jyBpla
-        Kpcr+mR5/JcZwcCvzTZM8/Z1FV4UkJTPJOMTxi1bcYd7sv8fktJFrFZGEnXnNMG5qS4oVMihaMfrM
-        zUiMACJw==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=CFTgqqR2acxHA5DJomm2PAamk9pZ/zM9hwGQ2WMtNfY=; b=JleqWJzuQMdqgilcjxy2q0YU3p
+        Zy28uGKU9tvzuIds0rI4IO7SfN6BFcLn7mfla3HzvwJyvHDa0Z9S/I3y6mqXg2Cb4C4MpyQO4SXuV
+        VGPacStQh+oUTjE84Go67+OqnGS0EQb72LpreKnq3Q6s4IuJCslUiuRvpefh8F5ki6MnOaGvyhGrq
+        k4jCcCAQJwtr4/Tm1UHsJaVWS2/UmhwRpr9ZTQZYS1E1hdrSN+IGybq22EQ30JQeH+R+pbA8QkhkY
+        oiM7tPwCaPDszRwwdkWS2S835N1xXc2SWyqaTczNHoaNMImot1L8MCNMCJAehSaC3mLW9TpQunedW
+        iA8lxqVw==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUE-0004Ia-RY; Thu, 06 Feb 2020 14:50:35 +0000
+        id 1iziUE-0004IX-QJ; Thu, 06 Feb 2020 14:50:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU7-002nLn-0e; Thu, 06 Feb 2020 15:50:27 +0100
+        id 1iziU6-002nKI-5y; Thu, 06 Feb 2020 15:50:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2 22/27] docs: kvm: Convert mmu.txt to ReST format
-Date:   Thu,  6 Feb 2020 15:50:19 +0100
-Message-Id: <6d1a51c7f1ab22a8722c14b05caa3c80cac9fbf0.1581000481.git.mchehab+huawei@kernel.org>
+        linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>,
+        Jeff Dike <jdike@addtoit.com>, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org
+Subject: [PATCH v2 00/27] docs: virt: manually convert text documents to ReST format
+Date:   Thu,  6 Feb 2020 15:49:57 +0100
+Message-Id: <cover.1581000481.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -62,205 +61,105 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title and chapter markups;
-- Add markups for tables;
-- Add markups for literal blocks;
-- Add blank lines and adjust indentation.
+Manually convert the documentation under Documentation/virt to ReST,
+minimizing the usage of uneeded markups and preserving the documentation
+writer's style.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/kvm/index.rst            |  1 +
- Documentation/virt/kvm/{mmu.txt => mmu.rst} | 62 ++++++++++++++++-----
- 2 files changed, 49 insertions(+), 14 deletions(-)
+PS.: Patches are against linux-next tree (20200204).
+
+v2:
+
+- Solved a conflict with linux-next;
+- Added SPDX headers.
+
+Mauro Carvalho Chehab (27):
+  docs: kvm: add arm/pvtime.rst to index.rst
+  docs: virt: convert UML documentation to ReST
+  docs: virt: user_mode_linux.rst: update compiling instructions
+  docs: virt: user_mode_linux.rst: fix URL references
+  docs: virt: convert halt-polling.txt to ReST format
+  docs: virt: Convert msr.txt to ReST format
+  docs: kvm: devices/arm-vgic-its.txt to ReST format
+  docs: kvm: devices/arm-vgit-v3.txt to ReST
+  docs: kvm: convert devices/arm-vgit.txt to ReST
+  docs: kvm: convert devices/mpic.txt to ReST
+  docs: kvm: convert devices/s390_flic.txt to ReST
+  docs: kvm: convert devices/vcpu.txt to ReST
+  docs: kvm: convert devices/vcpu.txt to ReST
+  docs: kvm: convert devices/vm.txt to ReST
+  docs: kvm: convert devices/xics.txt to ReST
+  docs: kvm: convert devices/xive.txt to ReST
+  docs: kvm: Convert api.txt to ReST format
+  docs: kvm: convert arm/hyp-abi.txt to ReST
+  docs: kvm: arm/psci.txt: convert to ReST
+  docs: kvm: Convert hypercalls.txt to ReST format
+  docs: kvm: Convert locking.txt to ReST format
+  docs: kvm: Convert mmu.txt to ReST format
+  docs: kvm: Convert nested-vmx.txt to ReST format
+  docs: kvm: Convert ppc-pv.txt to ReST format
+  docs: kvm: Convert s390-diag.txt to ReST format
+  docs: kvm: Convert timekeeping.txt to ReST format
+  docs: kvm: review-checklist.txt: rename to ReST
+
+ Documentation/virt/index.rst                  |    1 +
+ Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
+ .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
+ Documentation/virt/kvm/arm/index.rst          |   12 +
+ .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
+ .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
+ .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
+ .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
+ Documentation/virt/kvm/devices/index.rst      |   19 +
+ .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
+ .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
+ Documentation/virt/kvm/devices/vcpu.rst       |  114 +
+ Documentation/virt/kvm/devices/vcpu.txt       |   76 -
+ .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
+ .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
+ .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
+ .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
+ .../{halt-polling.txt => halt-polling.rst}    |   86 +-
+ .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
+ Documentation/virt/kvm/index.rst              |   16 +
+ .../virt/kvm/{locking.txt => locking.rst}     |  111 +-
+ Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
+ Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
+ .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
+ .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
+ ...iew-checklist.txt => review-checklist.rst} |    3 +
+ .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
+ .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
+ ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
+ 29 files changed, 4003 insertions(+), 3121 deletions(-)
+ rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
+ rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+ create mode 100644 Documentation/virt/kvm/arm/index.rst
+ rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
+ rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+ rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
+ rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+ create mode 100644 Documentation/virt/kvm/devices/index.rst
+ rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+ rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
+ rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
+ rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
+ rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
+ rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
+ rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+ rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
+ rename Documentation/virt/kvm/{locking.txt => locking.rst} (78%)
  rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+ rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+ rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
+ rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+ rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+ rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
+ rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
+ rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 9be8f53b729d..95e2487d38f4 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -13,6 +13,7 @@ KVM
-    halt-polling
-    hypercalls
-    locking
-+   mmu
-    msr
-    vcpu-requests
- 
-diff --git a/Documentation/virt/kvm/mmu.txt b/Documentation/virt/kvm/mmu.rst
-similarity index 94%
-rename from Documentation/virt/kvm/mmu.txt
-rename to Documentation/virt/kvm/mmu.rst
-index dadb29e8738f..60981887d20b 100644
---- a/Documentation/virt/kvm/mmu.txt
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -1,3 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
- The x86 kvm shadow mmu
- ======================
- 
-@@ -7,27 +10,37 @@ physical addresses to host physical addresses.
- 
- The mmu code attempts to satisfy the following requirements:
- 
--- correctness: the guest should not be able to determine that it is running
-+- correctness:
-+	       the guest should not be able to determine that it is running
-                on an emulated mmu except for timing (we attempt to comply
-                with the specification, not emulate the characteristics of
-                a particular implementation such as tlb size)
--- security:    the guest must not be able to touch host memory not assigned
-+- security:
-+	       the guest must not be able to touch host memory not assigned
-                to it
--- performance: minimize the performance penalty imposed by the mmu
--- scaling:     need to scale to large memory and large vcpu guests
--- hardware:    support the full range of x86 virtualization hardware
--- integration: Linux memory management code must be in control of guest memory
-+- performance:
-+               minimize the performance penalty imposed by the mmu
-+- scaling:
-+               need to scale to large memory and large vcpu guests
-+- hardware:
-+               support the full range of x86 virtualization hardware
-+- integration:
-+               Linux memory management code must be in control of guest memory
-                so that swapping, page migration, page merging, transparent
-                hugepages, and similar features work without change
--- dirty tracking: report writes to guest memory to enable live migration
-+- dirty tracking:
-+               report writes to guest memory to enable live migration
-                and framebuffer-based displays
--- footprint:   keep the amount of pinned kernel memory low (most memory
-+- footprint:
-+               keep the amount of pinned kernel memory low (most memory
-                should be shrinkable)
--- reliability:  avoid multipage or GFP_ATOMIC allocations
-+- reliability:
-+               avoid multipage or GFP_ATOMIC allocations
- 
- Acronyms
- ========
- 
-+====  ====================================================================
- pfn   host page frame number
- hpa   host physical address
- hva   host virtual address
-@@ -41,6 +54,7 @@ pte   page table entry (used also to refer generically to paging structure
- gpte  guest pte (referring to gfns)
- spte  shadow pte (referring to pfns)
- tdp   two dimensional paging (vendor neutral term for NPT and EPT)
-+====  ====================================================================
- 
- Virtual and real hardware supported
- ===================================
-@@ -90,11 +104,13 @@ Events
- The mmu is driven by events, some from the guest, some from the host.
- 
- Guest generated events:
-+
- - writes to control registers (especially cr3)
- - invlpg/invlpga instruction execution
- - access to missing or protected translations
- 
- Host generated events:
-+
- - changes in the gpa->hpa translation (either through gpa->hva changes or
-   through hva->hpa changes)
- - memory pressure (the shrinker)
-@@ -117,16 +133,19 @@ Leaf ptes point at guest pages.
- The following table shows translations encoded by leaf ptes, with higher-level
- translations in parentheses:
- 
-- Non-nested guests:
-+ Non-nested guests::
-+
-   nonpaging:     gpa->hpa
-   paging:        gva->gpa->hpa
-   paging, tdp:   (gva->)gpa->hpa
-- Nested guests:
-+
-+ Nested guests::
-+
-   non-tdp:       ngva->gpa->hpa  (*)
-   tdp:           (ngva->)ngpa->gpa->hpa
- 
--(*) the guest hypervisor will encode the ngva->gpa translation into its page
--    tables if npt is not present
-+  (*) the guest hypervisor will encode the ngva->gpa translation into its page
-+      tables if npt is not present
- 
- Shadow pages contain the following information:
-   role.level:
-@@ -291,28 +310,41 @@ Handling a page fault is performed as follows:
- 
-  - if the RSV bit of the error code is set, the page fault is caused by guest
-    accessing MMIO and cached MMIO information is available.
-+
-    - walk shadow page table
-    - check for valid generation number in the spte (see "Fast invalidation of
-      MMIO sptes" below)
-    - cache the information to vcpu->arch.mmio_gva, vcpu->arch.mmio_access and
-      vcpu->arch.mmio_gfn, and call the emulator
-+
-  - If both P bit and R/W bit of error code are set, this could possibly
-    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
-    the description in Documentation/virt/kvm/locking.txt.
-+
-  - if needed, walk the guest page tables to determine the guest translation
-    (gva->gpa or ngpa->gpa)
-+
-    - if permissions are insufficient, reflect the fault back to the guest
-+
-  - determine the host page
-+
-    - if this is an mmio request, there is no host page; cache the info to
-      vcpu->arch.mmio_gva, vcpu->arch.mmio_access and vcpu->arch.mmio_gfn
-+
-  - walk the shadow page table to find the spte for the translation,
-    instantiating missing intermediate page tables as necessary
-+
-    - If this is an mmio request, cache the mmio info to the spte and set some
-      reserved bit on the spte (see callers of kvm_mmu_set_mmio_spte_mask)
-+
-  - try to unsynchronize the page
-+
-    - if successful, we can let the guest continue and modify the gpte
-+
-  - emulate the instruction
-+
-    - if failed, unshadow the page and let the guest continue
-+
-  - update any translations that were modified by the instruction
- 
- invlpg handling:
-@@ -324,10 +356,12 @@ invlpg handling:
- Guest control register updates:
- 
- - mov to cr3
-+
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
- 
- - mov to cr0/cr4/efer
-+
-   - set up mmu context for new paging mode
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
-@@ -358,6 +392,7 @@ on fault type:
- (user write faults generate a #PF)
- 
- In the first case there are two additional complications:
-+
- - if CR4.SMEP is enabled: since we've turned the page into a kernel page,
-   the kernel may now execute it.  We handle this by also setting spte.nx.
-   If we get a user fetch or read fault, we'll change spte.u=1 and
-@@ -446,4 +481,3 @@ Further reading
- 
- - NPT presentation from KVM Forum 2008
-   http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
--
 -- 
 2.24.1
+
 
