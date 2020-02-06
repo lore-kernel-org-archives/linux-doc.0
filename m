@@ -4,164 +4,199 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B393FC352A4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F87AC2D0B1
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A4EE21741
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30E0520838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581001918;
-	bh=GXfnyk+5mxcLxh7DS10kpV2zW4ajtTvIlfSvgF1m6HE=;
+	s=default; t=1581002280;
+	bh=ujAU9kFfO+i79vVX94Zx3u7o+aAom7ufmHsIW5TLoGE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=wuhA0wUTgF2ks+DQFLJy+40c76g8MWtN+4VKnhVbCrE5PaFiIoF/+Z4dEeOWMfxty
-	 9o9s/YhqFFJIuGmjGXx1nHwjVyxtm8kE8iejj+t/MImFKuKyIXMPCHEJRHNFq1ZBS7
-	 zf4AucNxx1wZ17uuLqLw4GnBGizgQwFMEKCFlPws=
+	b=yfqGDn/SXYsZ+XAeoOi7KB052EyLUzw9ds4wi6w8NPHIvSI/p/Hq55pvSAIvD0GS5
+	 08jxeOAiyCQD8CJolMXh5cjqiQszrMXaJScfOR1/rDnGCJnAtCQXa7tQ6u81n+UF+r
+	 hNKC3DB9TWwfTN1cjvoZYAb+dMeRxlunfNG0TACM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727450AbgBFPLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:11:43 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37532 "EHLO
+        id S1727571AbgBFPR7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:17:59 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38012 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbgBFPLm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:11:42 -0500
+        with ESMTP id S1726956AbgBFPR7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:17:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description;
-        bh=bJnoUKgVIb6mtplglvS+byAU4SeZA8CY+LwJLXnSv9Q=; b=d4FOvoR9mB6MjJZx9PSZuP7cMs
-        8Lk51gnZiYVTlTMhF4EsGFD6ToJ60uQM4F1z/tfidYrtd2Z/d3Vx1/tAepsJS+vX2Vw5bvtQvSWfQ
-        ITfIfsrOEY8H2nNNRxEZDdHdOO7oj/3nnHnagHEO00aPO9n8HaloG3GVtAQ4new1L8StvMrPtqCuf
-        AELbxsHSqcEJMEB0sfJ9tE13gQIfWXMGH9eD02llxz7qLW4xZElg8JIvwpWyCTuaSDaQfHRDMMhH9
-        VuN5tgp9ETqldP3c5p8VhzSkHgX7KwccuTklXw9xyz17FIEYmDivSlD4WDzJseFR+HhumxXQ+bsXV
-        AuF0dzug==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=jamutMjPpFV0b/KpqTKM/1NPs0Wk4CSrFS6j8vN5Ty4=; b=bEnrLp5lnF1FNsLATAWmwBdgZC
+        LrUKTDWRT1ZaYb+dqxy61jWNurFD8ZxeSTAbk1EWIz961eEWPtr3eg5iVUG42/+kClhHHaSeaa41C
+        ou+EFt1KhOFztl8AqVGF++Er4A2ZTTQTTwt7HOUaYp58rE9/jf/0ZdwxrqngWJY3s0m2zJmZNdQK4
+        48Svc5MyLArtnrbdVQSDlePyQFuhH8aGfnk/K6w801g2QOgTXEyleo9RwiSbC9E1XGZnnUcSm0MDB
+        oCxzhGyw26Mf02lC7d6cGyNGrKLi8++VrEaDxoQrvLlFZlOHMgB0o1qZW78DDLmuWvBbrNDJk1X8b
+        78bg27KQ==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izioc-000432-UC; Thu, 06 Feb 2020 15:11:42 +0000
+        id 1iziuk-0005jX-NN; Thu, 06 Feb 2020 15:17:58 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1izioV-002oMm-N9; Thu, 06 Feb 2020 16:11:31 +0100
+        id 1iziud-002oVd-Ba; Thu, 06 Feb 2020 16:17:51 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 01/11] docs: thermal: convert cpu-idle-cooling.rst to ReST
-Date:   Thu,  6 Feb 2020 16:11:20 +0100
-Message-Id: <67d691731dc980b0dc9f599c8b6d031bdaba122d.1581001737.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/28] docs: networking: convert dccp.txt to ReST
+Date:   Thu,  6 Feb 2020 16:17:34 +0100
+Message-Id: <8952844e1979198f367ef29b54347f396b5b589e.1581002063.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581001737.git.mchehab+huawei@kernel.org>
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
+References: <cover.1581002062.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Despite being named with .rst extension, this file doesn't
-match the ReST standard. It actually causes a crash at
-Sphinx:
-
-	Sphinx parallel build error:
-	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
-
-Add needed markups for it to be properly parsed.
-
-While here, add it to the thermal index.rst.
+- add SPDX header;
+- adjust title markup;
+- comment out text-only TOC from html/pdf output;
+- mark code blocks and literals as such;
+- adjust identation, whitespaces and blank lines;
+- add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst    | 18 ++++++++++++------
- Documentation/driver-api/thermal/index.rst     |  1 +
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ .../networking/{dccp.txt => dccp.rst}         | 39 ++++++++++++-------
+ Documentation/networking/index.rst            |  1 +
+ 2 files changed, 25 insertions(+), 15 deletions(-)
+ rename Documentation/networking/{dccp.txt => dccp.rst} (94%)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index 9f0016ee4cfb..357d2f023605 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/networking/dccp.txt b/Documentation/networking/dccp.rst
+similarity index 94%
+rename from Documentation/networking/dccp.txt
+rename to Documentation/networking/dccp.rst
+index 55c575fcaf17..dde16be04456 100644
+--- a/Documentation/networking/dccp.txt
++++ b/Documentation/networking/dccp.rst
+@@ -1,16 +1,18 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================
-+CPU Idle Cooling
-+================
++=============
+ DCCP protocol
+ =============
+ 
+ 
+-Contents
+-========
+-- Introduction
+-- Missing features
+-- Socket options
+-- Sysctl variables
+-- IOCTLs
+-- Other tunables
+-- Notes
++.. Contents
++   - Introduction
++   - Missing features
++   - Socket options
++   - Sysctl variables
++   - IOCTLs
++   - Other tunables
++   - Notes
+ 
+ 
+ Introduction
+@@ -38,6 +40,7 @@ The Linux DCCP implementation does not currently support all the features that a
+ specified in RFCs 4340...42.
+ 
+ The known bugs are at:
 +
+ 	http://www.linuxfoundation.org/collaborate/workgroups/networking/todo#DCCP
  
- Situation:
- ----------
-@@ -45,7 +51,7 @@ idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
- relation with the OPP’s sustainable power and can be computed with a
--coefficient similar to:
-+coefficient similar to::
+ For more up-to-date versions of the DCCP implementation, please consider using
+@@ -54,7 +57,8 @@ defined: the "simple" policy (DCCPQ_POLICY_SIMPLE), which does nothing special,
+ and a priority-based variant (DCCPQ_POLICY_PRIO). The latter allows to pass an
+ u32 priority value as ancillary data to sendmsg(), where higher numbers indicate
+ a higher packet priority (similar to SO_PRIORITY). This ancillary data needs to
+-be formatted using a cmsg(3) message header filled in as follows:
++be formatted using a cmsg(3) message header filled in as follows::
++
+ 	cmsg->cmsg_level = SOL_DCCP;
+ 	cmsg->cmsg_type	 = DCCP_SCM_PRIORITY;
+ 	cmsg->cmsg_len	 = CMSG_LEN(sizeof(uint32_t));	/* or CMSG_LEN(4) */
+@@ -94,7 +98,7 @@ must be registered on the socket before calling connect() or listen().
  
- 	    Power(IdleCycle) = Coef x Power(OPP)
+ DCCP_SOCKOPT_TX_CCID is read/write. It returns the current CCID (if set) or sets
+ the preference list for the TX CCID, using the same format as DCCP_SOCKOPT_CCID.
+-Please note that the getsockopt argument type here is `int', not uint8_t.
++Please note that the getsockopt argument type here is ``int``, not uint8_t.
  
-@@ -136,7 +142,7 @@ Power considerations
- --------------------
+ DCCP_SOCKOPT_RX_CCID is analogous to DCCP_SOCKOPT_TX_CCID, but for the RX CCID.
  
- When we reach the thermal trip point, we have to sustain a specified
--power for a specific temperature but at this time we consume:
-+power for a specific temperature but at this time we consume::
+@@ -113,6 +117,7 @@ be enabled at the receiver, too with suitable choice of CsCov.
+ DCCP_SOCKOPT_SEND_CSCOV sets the sender checksum coverage. Values in the
+ 	range 0..15 are acceptable. The default setting is 0 (full coverage),
+ 	values between 1..15 indicate partial coverage.
++
+ DCCP_SOCKOPT_RECV_CSCOV is for the receiver and has a different meaning: it
+ 	sets a threshold, where again values 0..15 are acceptable. The default
+ 	of 0 means that all packets with a partial coverage will be discarded.
+@@ -123,11 +128,13 @@ DCCP_SOCKOPT_RECV_CSCOV is for the receiver and has a different meaning: it
  
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
+ The following two options apply to CCID 3 exclusively and are getsockopt()-only.
+ In either case, a TFRC info struct (defined in <linux/tfrc.h>) is returned.
++
+ DCCP_SOCKOPT_CCID_RX_INFO
+-	Returns a `struct tfrc_rx_info' in optval; the buffer for optval and
++	Returns a ``struct tfrc_rx_info`` in optval; the buffer for optval and
+ 	optlen must be set to at least sizeof(struct tfrc_rx_info).
++
+ DCCP_SOCKOPT_CCID_TX_INFO
+-	Returns a `struct tfrc_tx_info' in optval; the buffer for optval and
++	Returns a ``struct tfrc_tx_info`` in optval; the buffer for optval and
+ 	optlen must be set to at least sizeof(struct tfrc_tx_info).
  
-@@ -145,7 +151,7 @@ wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
- fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
- because we don’t want to change the OPP. We can group the
- ‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have:
-+‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
+ On unidirectional connections it is useful to close the unused half-connection
+@@ -182,7 +189,7 @@ sync_ratelimit = 125 ms
+ IOCTLS
+ ======
+ FIONREAD
+-	Works as in udp(7): returns in the `int' argument pointer the size of
++	Works as in udp(7): returns in the ``int`` argument pointer the size of
+ 	the next pending datagram in bytes, or 0 when no datagram is pending.
  
-  Pdyn = Cdyn x Voltage^2 x Frequency
  
-@@ -154,7 +160,7 @@ in order to target the sustainable power defined in the device
- tree. So with the idle injection mechanism, we want an average power
- (Ptarget) resulting in an amount of time running at full power on a
- specific OPP and idle another amount of time. That could be put in a
--equation:
-+equation::
+@@ -191,10 +198,12 @@ Other tunables
+ Per-route rto_min support
+ 	CCID-2 supports the RTAX_RTO_MIN per-route setting for the minimum value
+ 	of the RTO timer. This setting can be modified via the 'rto_min' option
+-	of iproute2; for example:
++	of iproute2; for example::
++
+ 		> ip route change 10.0.0.0/24   rto_min 250j dev wlan0
+ 		> ip route add    10.0.0.254/32 rto_min 800j dev wlan0
+ 		> ip route show dev wlan0
++
+ 	CCID-3 also supports the rto_min setting: it is used to define the lower
+ 	bound for the expiry of the nofeedback timer. This can be useful on LANs
+ 	with very low RTTs (e.g., loopback, Gbit ethernet).
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 4f8dc5fd6b20..56372aae88a3 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -46,6 +46,7 @@ Contents:
+    cdc_mbim
+    cops
+    cxacru
++   dccp
  
-  P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
- 			(Trunning + Tidle)
-@@ -165,7 +171,7 @@ equation:
- 
- At this point if we know the running period for the CPU, that gives us
- the idle injection we need. Alternatively if we have the idle
--injection duration, we can compute the running duration with:
-+injection duration, we can compute the running duration with::
- 
-  Trunning = Tidle / ((P(opp)running / P(opp)target) - 1)
- 
-@@ -188,7 +194,7 @@ However, in this demonstration we ignore three aspects:
-    target residency, otherwise we end up consuming more energy and
-    potentially invert the mitigation effect
- 
--So the final equation is:
-+So the final equation is::
- 
-  Trunning = (Tidle - Twakeup ) x
- 		(((P(opp)dyn + P(opp)static ) - P(opp)target) / P(opp)target )
-diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-index 5ba61d19c6ae..4cb0b9b6bfb8 100644
---- a/Documentation/driver-api/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -8,6 +8,7 @@ Thermal
-    :maxdepth: 1
- 
-    cpu-cooling-api
-+   cpu-idle-cooling
-    sysfs-api
-    power_allocator
+ .. only::  subproject and html
  
 -- 
 2.24.1
