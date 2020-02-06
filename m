@@ -2,80 +2,165 @@ Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB32EC352A2
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DA0C2D0B1
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CA8C021775
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F06F20838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581000706;
+	bh=60RSXW44yNEj8FiDNv1QrFsi8MaCSUjBdmEwFNfoauE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=PQSxs8pVO15OlE60L+SvSIjx+kEwHluIkkb1jh6ZEdRJ7O4ADS6n8LgfBtS5MH9cB
+	 9QUPTlDzVruzn+YOart3AgS1P74+1Gp2yuZtOziY8pN8UH7uQDv5nHDWco0KUmwODA
+	 X3MbRhydnCXQxOAnMXJ0GQauVl2rC70FvEJtb8pM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727894AbgBFOvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:51:40 -0500
-Received: from mga02.intel.com ([134.134.136.20]:60948 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727501AbgBFOue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Feb 2020 09:50:34 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Feb 2020 06:50:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,410,1574150400"; 
-   d="scan'208";a="279692433"
-Received: from dgbrowne-mobl.ger.corp.intel.com (HELO localhost) ([10.252.14.106])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Feb 2020 06:50:28 -0800
-Date:   Thu, 6 Feb 2020 16:50:27 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-sgx@vger.kernel.org, akpm@linux-foundation.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, bp@alien8.de, josh@joshtriplett.org,
-        luto@kernel.org, kai.huang@intel.com, rientjes@google.com,
-        cedric.xing@intel.com, puiterwijk@redhat.com,
+        id S1727543AbgBFOvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 09:51:39 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55352 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727502AbgBFOuf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=XosaEvF5KfBIIrC0UH6xsRambxzgg5W02cFwNp6pBOU=; b=SxnVs9o4vezqnoIY9++vdzM7sW
+        kamK6k89M+nrW8oelGpUmWb6h1mFPPfOzujl5fB2NC07NWfsOK1LTX4pNlWovVOAoAUaNinxWwpEQ
+        ubnnXXaGNnsL2ChjFsajlACPdDrdB7/L82uQLGTK7pmHNrP8br9+HKpMfvjlgajBIMktPmx6cZtw1
+        RMcptMRq1b4ifvpeDnBxsUBOPQ5w7n8BMKucmXtLQrRFlu0eNvWf2A9fL7FOSMNgwPcFTcqZveTXv
+        TSwPiIFbtKDdoA2/lplqRXHwOfgZKpv96lit+8EEHdC25dq7C2sohvJwd72JXJ/7evg1HsdRMXLJ5
+        SU2KkZHg==;
+Received: from [179.95.15.160] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iziUE-0004IU-K1; Thu, 06 Feb 2020 14:50:34 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1iziU7-002nLs-1k; Thu, 06 Feb 2020 15:50:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v25 21/21] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-Message-ID: <20200206145027.GA8148@linux.intel.com>
-References: <20200204060545.31729-1-jarkko.sakkinen@linux.intel.com>
- <20200204060545.31729-22-jarkko.sakkinen@linux.intel.com>
- <5ea28632-cd64-bc26-fab6-2868142eb9e4@infradead.org>
- <20200205230756.GB28111@linux.intel.com>
- <64d57033-cd19-ae6f-48c5-d7e01a97ad5e@infradead.org>
+Subject: [PATCH v2 23/27] docs: kvm: Convert nested-vmx.txt to ReST format
+Date:   Thu,  6 Feb 2020 15:50:20 +0100
+Message-Id: <ad6afb424e24e76da703e04afd3f6f3877fced8b.1581000481.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64d57033-cd19-ae6f-48c5-d7e01a97ad5e@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 05, 2020 at 03:10:47PM -0800, Randy Dunlap wrote:
-> On 2/5/20 3:07 PM, Jarkko Sakkinen wrote:
-> > I rewrote it as:
-> > 
-> > "Intel provides a proprietary binary version of the PCE. This is a
-> > necessity when the software needs to prove to be running inside a legit
-> 
-> s/legit/legitimate/ please
-> 
-> > enclave on real hardware."
+This file is almost in ReST format. Just a small set of
+changes were needed:
 
-Hmm, actually it reads what I have now in the repository already
-legitimate [1] :-) I guess I changed the text still after sending
-the email.
+    - Add markups for lists;
+    - Add markups for a literal block;
+    - Adjust whitespaces.
 
-Thank you for such detailed comments.
+While here, use the standard markup for the document title.
 
-[1] https://github.com/jsakkine-intel/linux-sgx/blob/master/Documentation/x86/sgx.rst1
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/virt/kvm/index.rst              |  1 +
+ .../kvm/{nested-vmx.txt => nested-vmx.rst}    | 37 +++++++++++--------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
+ rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
 
-/Jarkko
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index 95e2487d38f4..123385d0a74a 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -15,6 +15,7 @@ KVM
+    locking
+    mmu
+    msr
++   nested-vmx
+    vcpu-requests
+ 
+    arm/index
+diff --git a/Documentation/virt/kvm/nested-vmx.txt b/Documentation/virt/kvm/nested-vmx.rst
+similarity index 90%
+rename from Documentation/virt/kvm/nested-vmx.txt
+rename to Documentation/virt/kvm/nested-vmx.rst
+index 97eb1353e962..592b0ab6970b 100644
+--- a/Documentation/virt/kvm/nested-vmx.txt
++++ b/Documentation/virt/kvm/nested-vmx.rst
+@@ -1,3 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==========
+ Nested VMX
+ ==========
+ 
+@@ -41,9 +44,9 @@ No modifications are required to user space (qemu). However, qemu's default
+ emulated CPU type (qemu64) does not list the "VMX" CPU feature, so it must be
+ explicitly enabled, by giving qemu one of the following options:
+ 
+-     -cpu host              (emulated CPU has all features of the real CPU)
++     - cpu host              (emulated CPU has all features of the real CPU)
+ 
+-     -cpu qemu64,+vmx       (add just the vmx feature to a named CPU type)
++     - cpu qemu64,+vmx       (add just the vmx feature to a named CPU type)
+ 
+ 
+ ABIs
+@@ -75,6 +78,8 @@ of this structure changes, this can break live migration across KVM versions.
+ VMCS12_REVISION (from vmx.c) should be changed if struct vmcs12 or its inner
+ struct shadow_vmcs is ever changed.
+ 
++::
++
+ 	typedef u64 natural_width;
+ 	struct __packed vmcs12 {
+ 		/* According to the Intel spec, a VMCS region must start with
+@@ -220,21 +225,21 @@ Authors
+ -------
+ 
+ These patches were written by:
+-     Abel Gordon, abelg <at> il.ibm.com
+-     Nadav Har'El, nyh <at> il.ibm.com
+-     Orit Wasserman, oritw <at> il.ibm.com
+-     Ben-Ami Yassor, benami <at> il.ibm.com
+-     Muli Ben-Yehuda, muli <at> il.ibm.com
++    - Abel Gordon, abelg <at> il.ibm.com
++    - Nadav Har'El, nyh <at> il.ibm.com
++    - Orit Wasserman, oritw <at> il.ibm.com
++    - Ben-Ami Yassor, benami <at> il.ibm.com
++    - Muli Ben-Yehuda, muli <at> il.ibm.com
+ 
+ With contributions by:
+-     Anthony Liguori, aliguori <at> us.ibm.com
+-     Mike Day, mdday <at> us.ibm.com
+-     Michael Factor, factor <at> il.ibm.com
+-     Zvi Dubitzky, dubi <at> il.ibm.com
++    - Anthony Liguori, aliguori <at> us.ibm.com
++    - Mike Day, mdday <at> us.ibm.com
++    - Michael Factor, factor <at> il.ibm.com
++    - Zvi Dubitzky, dubi <at> il.ibm.com
+ 
+ And valuable reviews by:
+-     Avi Kivity, avi <at> redhat.com
+-     Gleb Natapov, gleb <at> redhat.com
+-     Marcelo Tosatti, mtosatti <at> redhat.com
+-     Kevin Tian, kevin.tian <at> intel.com
+-     and others.
++    - Avi Kivity, avi <at> redhat.com
++    - Gleb Natapov, gleb <at> redhat.com
++    - Marcelo Tosatti, mtosatti <at> redhat.com
++    - Kevin Tian, kevin.tian <at> intel.com
++    - and others.
+-- 
+2.24.1
+
