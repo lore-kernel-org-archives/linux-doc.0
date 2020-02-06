@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D1FC2D0B1
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1501AC352A3
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B94DE20838
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA4A620838
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 14:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581000667;
-	bh=+clo8FgPb4q70r58fBUH/QXip8iRiCaMaHncrZxi6X8=;
+	s=default; t=1581000672;
+	bh=B47c8Al+6iQ2tgcWTE3AAmrsaWJcmEa6iC3S6ArETJs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lB4lU3FPqm6LKRGML8KUM6AXUdT9zRkYrYfwdy4yS1IRiFz7YioRkl8SIUqJiBCsv
-	 8bCIX6ab9AUDlMaeunDyFMko7/1MtkBlG8sYX1Stru9y+1G/QZ9E6RePjvFg1rYVbM
-	 FV4B0TDaEO5HMra9h0Qll8SxWctfvOaVXfGyt+eo=
+	b=inROShtw05chcci+5LixtDHUfZJ8JriOc7eaHBBYDzJ3y+/OmcxIkIcfKjkWH0Pci
+	 prZ6VJdxivI7lVplq77IsVxzQJt0tbxLOLVn3iy8mGJZgyWaLQdBagFcy1gNn3/n9R
+	 gH8MPh74qgysg+dPNqaUNyfSYepGzqWANnQ9qiEg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727605AbgBFOuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:50:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55586 "EHLO
+        id S1727581AbgBFOuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 09:50:37 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55424 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbgBFOuj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:39 -0500
+        with ESMTP id S1727543AbgBFOug (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 09:50:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=BBkxbTIBsbP281l/EajrQ33Ah82OprSYBCybWSzNyDw=; b=Y4FLe/XHPEPK7NrVGVgKxy2KT5
-        SePDaNyK7vUUorE/rwONhNANltY//QyMa95hhAJfdXMqYiPrYqMfcwAeOOB007vYBRd2tp7QLPBkI
-        RmtwDvuGHBoSKgx2/FJXnEjXxtyzyl7ZR0aPMU6rE0VTaLNq9WLsrXnfUGmrUxVeFfJdu1P0qORw/
-        vmEkhjvwXy97ssiZBkeKQxoUS4TzmRlriJRamXg5t92PAzDJemC0PRhYq6HQK/sVhsjjgfRgfbGGj
-        GKYvFmMI8JSKwVWCyHjx85PVLyZwn8B53pTJKkU5ue+25LE8/QhvhRwte3j8rUB9KHfcIhlFmXvMR
-        lXi5Qsyg==;
+        bh=FqVErvmVr/kmvX0U1kiBgRQBNHoVkPvgsDYIqSYOrG8=; b=p4M4d4YprrlSQYLCpq7rH0t1w2
+        GHM5t2Kxm1LdPhEV4nweN0WU1F5yzkcjYIMWSqOGL3srvz8mn9JQVnh0yW3BUS8tCdVoK6K8d9yjw
+        OJzGjQWfN3q8SbKfKMaCwJcCYkFs0gkVN/ulu2efD7s8DyQP/bOzvG+0CHJXrL7ZFWeFSVoZbhsmC
+        U6y7BKJmmAE33VRe7jqPIirbMvkxymYFr818WHkrNs4PufJAzoSLUS0q0gECj4adau25AUXN3kEOk
+        xEuBl5uFF7CWVC3HSTXK+W/aaSJlLD4UuB/K9t6X8HfHdYOEa1zInIvNOo7C7FVH9aHAg8Buz8tAK
+        S+vzO69A==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUI-0004Ip-U8; Thu, 06 Feb 2020 14:50:38 +0000
+        id 1iziUE-0004IW-PP; Thu, 06 Feb 2020 14:50:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU6-002nKz-IX; Thu, 06 Feb 2020 15:50:26 +0100
+        id 1iziU7-002nMG-6i; Thu, 06 Feb 2020 15:50:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v2 11/27] docs: kvm: convert devices/s390_flic.txt to ReST
-Date:   Thu,  6 Feb 2020 15:50:08 +0100
-Message-Id: <a09bd17c6228c2a6ee30b487b583d811ad7bc1f3.1581000481.git.mchehab+huawei@kernel.org>
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 26/27] docs: kvm: Convert timekeeping.txt to ReST format
+Date:   Thu,  6 Feb 2020 15:50:23 +0100
+Message-Id: <8d13e860ddb2cdea9244253826f3e2f5cfa9cd40.1581000481.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
 References: <cover.1581000481.git.mchehab+huawei@kernel.org>
@@ -62,172 +62,538 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use standard markup for document title;
-- Adjust indentation and add blank lines as needed;
-- use the notes markup;
-- mark code blocks as such.
+- Use document title and chapter markups;
+- Add markups for literal blocks;
+- Add markups for tables;
+- use :field: for field descriptions;
+- Add blank lines and adjust indentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- Documentation/virt/kvm/devices/index.rst      |  1 +
- .../devices/{s390_flic.txt => s390_flic.rst}  | 70 +++++++++++--------
- 2 files changed, 41 insertions(+), 30 deletions(-)
- rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+ Documentation/virt/kvm/index.rst              |   1 +
+ .../kvm/{timekeeping.txt => timekeeping.rst}  | 221 ++++++++++--------
+ 2 files changed, 128 insertions(+), 94 deletions(-)
+ rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
 
-diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-index 9e5586e371de..e6caccc36623 100644
---- a/Documentation/virt/kvm/devices/index.rst
-+++ b/Documentation/virt/kvm/devices/index.rst
-@@ -11,3 +11,4 @@ Devices
-    arm-vgic
-    arm-vgic-v3
-    mpic
-+   s390_flic
-diff --git a/Documentation/virt/kvm/devices/s390_flic.txt b/Documentation/virt/kvm/devices/s390_flic.rst
-similarity index 87%
-rename from Documentation/virt/kvm/devices/s390_flic.txt
-rename to Documentation/virt/kvm/devices/s390_flic.rst
-index a4e20a090174..954190da7d04 100644
---- a/Documentation/virt/kvm/devices/s390_flic.txt
-+++ b/Documentation/virt/kvm/devices/s390_flic.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index e5ea75f97d52..7c1be8910837 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -18,6 +18,7 @@ KVM
+    nested-vmx
+    ppc-pv
+    s390-diag
++   timekeeping
+    vcpu-requests
+ 
+    arm/index
+diff --git a/Documentation/virt/kvm/timekeeping.txt b/Documentation/virt/kvm/timekeeping.rst
+similarity index 85%
+rename from Documentation/virt/kvm/timekeeping.txt
+rename to Documentation/virt/kvm/timekeeping.rst
+index 76808a17ad84..21ae7efa29ba 100644
+--- a/Documentation/virt/kvm/timekeeping.txt
++++ b/Documentation/virt/kvm/timekeeping.rst
+@@ -1,17 +1,21 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+====================================
- FLIC (floating interrupt controller)
- ====================================
  
-@@ -31,8 +34,10 @@ Groups:
-     Copies all floating interrupts into a buffer provided by userspace.
-     When the buffer is too small it returns -ENOMEM, which is the indication
-     for userspace to try again with a bigger buffer.
-+
-     -ENOBUFS is returned when the allocation of a kernelspace buffer has
-     failed.
-+
-     -EFAULT is returned when copying data to userspace failed.
-     All interrupts remain pending, i.e. are not deleted from the list of
-     currently pending interrupts.
-@@ -60,38 +65,41 @@ Groups:
+-	Timekeeping Virtualization for X86-Based Architectures
++======================================================
++Timekeeping Virtualization for X86-Based Architectures
++======================================================
  
-   KVM_DEV_FLIC_ADAPTER_REGISTER
-     Register an I/O adapter interrupt source. Takes a kvm_s390_io_adapter
--    describing the adapter to register:
-+    describing the adapter to register::
+-	Zachary Amsden <zamsden@redhat.com>
+-	Copyright (c) 2010, Red Hat.  All rights reserved.
++:Author: Zachary Amsden <zamsden@redhat.com>
++:Copyright: (c) 2010, Red Hat.  All rights reserved.
  
--struct kvm_s390_io_adapter {
--	__u32 id;
--	__u8 isc;
--	__u8 maskable;
--	__u8 swap;
--	__u8 flags;
--};
-+	struct kvm_s390_io_adapter {
-+		__u32 id;
-+		__u8 isc;
-+		__u8 maskable;
-+		__u8 swap;
-+		__u8 flags;
-+	};
+-1) Overview
+-2) Timing Devices
+-3) TSC Hardware
+-4) Virtualization Problems
++.. Contents
  
-    id contains the unique id for the adapter, isc the I/O interruption subclass
-    to use, maskable whether this adapter may be masked (interrupts turned off),
-    swap whether the indicators need to be byte swapped, and flags contains
-    further characteristics of the adapter.
-+
-    Currently defined values for 'flags' are:
-+
-    - KVM_S390_ADAPTER_SUPPRESSIBLE: adapter is subject to AIS
-      (adapter-interrupt-suppression) facility. This flag only has an effect if
-      the AIS capability is enabled.
-+
-    Unknown flag values are ignored.
+-=========================================================================
++   1) Overview
++   2) Timing Devices
++   3) TSC Hardware
++   4) Virtualization Problems
  
+-1) Overview
++1. Overview
++===========
  
-   KVM_DEV_FLIC_ADAPTER_MODIFY
-     Modifies attributes of an existing I/O adapter interrupt source. Takes
--    a kvm_s390_io_adapter_req specifying the adapter and the operation:
-+    a kvm_s390_io_adapter_req specifying the adapter and the operation::
+ One of the most complicated parts of the X86 platform, and specifically,
+ the virtualization of this platform is the plethora of timing devices available
+@@ -27,15 +31,15 @@ The purpose of this document is to collect data and information relevant to
+ timekeeping which may be difficult to find elsewhere, specifically,
+ information relevant to KVM and hardware-based virtualization.
  
--struct kvm_s390_io_adapter_req {
--	__u32 id;
--	__u8 type;
--	__u8 mask;
--	__u16 pad0;
--	__u64 addr;
--};
-+	struct kvm_s390_io_adapter_req {
-+		__u32 id;
-+		__u8 type;
-+		__u8 mask;
-+		__u16 pad0;
-+		__u64 addr;
-+	};
+-=========================================================================
+-
+-2) Timing Devices
++2. Timing Devices
++=================
  
-     id specifies the adapter and type the operation. The supported operations
-     are:
-@@ -103,8 +111,9 @@ struct kvm_s390_io_adapter_req {
-       perform a gmap translation for the guest address provided in addr,
-       pin a userspace page for the translated address and add it to the
-       list of mappings
--      Note: A new mapping will be created unconditionally; therefore,
--            the calling code should avoid making duplicate mappings.
-+
-+      .. note:: A new mapping will be created unconditionally; therefore,
-+	        the calling code should avoid making duplicate mappings.
+ First we discuss the basic hardware devices available.  TSC and the related
+ KVM clock are special enough to warrant a full exposition and are described in
+ the following section.
  
-     KVM_S390_IO_ADAPTER_UNMAP
-       release a userspace page for the translated address specified in addr
-@@ -112,16 +121,17 @@ struct kvm_s390_io_adapter_req {
+-2.1) i8254 - PIT
++2.1. i8254 - PIT
++----------------
  
-   KVM_DEV_FLIC_AISM
-     modify the adapter-interruption-suppression mode for a given isc if the
--    AIS capability is enabled. Takes a kvm_s390_ais_req describing:
-+    AIS capability is enabled. Takes a kvm_s390_ais_req describing::
+ One of the first timer devices available is the programmable interrupt timer,
+ or PIT.  The PIT has a fixed frequency 1.193182 MHz base clock and three
+@@ -50,13 +54,13 @@ The PIT uses I/O ports 0x40 - 0x43.  Access to the 16-bit counters is done
+ using single or multiple byte access to the I/O ports.  There are 6 modes
+ available, but not all modes are available to all timers, as only timer 2
+ has a connected gate input, required for modes 1 and 5.  The gate line is
+-controlled by port 61h, bit 0, as illustrated in the following diagram.
++controlled by port 61h, bit 0, as illustrated in the following diagram::
  
--struct kvm_s390_ais_req {
--	__u8 isc;
--	__u16 mode;
--};
-+	struct kvm_s390_ais_req {
-+		__u8 isc;
-+		__u16 mode;
-+	};
+- --------------             ----------------
+-|              |           |                |
+-|  1.1932 MHz  |---------->| CLOCK      OUT | ---------> IRQ 0
+-|    Clock     |   |       |                |
+- --------------    |    +->| GATE  TIMER 0  |
++  --------------             ----------------
++  |            |           |                |
++  |  1.1932 MHz|---------->| CLOCK      OUT | ---------> IRQ 0
++  |    Clock   |   |       |                |
++  --------------   |    +->| GATE  TIMER 0  |
+                    |        ----------------
+                    |
+                    |        ----------------
+@@ -70,29 +74,33 @@ controlled by port 61h, bit 0, as illustrated in the following diagram.
+                    |       |                |
+                    |------>| CLOCK      OUT | ---------> Port 61h, bit 5
+                            |                |      |
+-Port 61h, bit 0 ---------->| GATE  TIMER 2  |       \_.----   ____
++  Port 61h, bit 0 -------->| GATE  TIMER 2  |       \_.----   ____
+                             ----------------         _|    )--|LPF|---Speaker
+                                                     / *----   \___/
+-Port 61h, bit 1 -----------------------------------/
++  Port 61h, bit 1 ---------------------------------/
  
-     isc contains the target I/O interruption subclass, mode the target
-     adapter-interruption-suppression mode. The following modes are
-     currently supported:
-+
-     - KVM_S390_AIS_MODE_ALL: ALL-Interruptions Mode, i.e. airq injection
-       is always allowed;
-     - KVM_S390_AIS_MODE_SINGLE: SINGLE-Interruption Mode, i.e. airq
-@@ -139,12 +149,12 @@ struct kvm_s390_ais_req {
+ The timer modes are now described.
  
-   KVM_DEV_FLIC_AISM_ALL
-     Gets or sets the adapter-interruption-suppression mode for all ISCs. Takes
--    a kvm_s390_ais_all describing:
-+    a kvm_s390_ais_all describing::
+-Mode 0: Single Timeout.   This is a one-shot software timeout that counts down
++Mode 0: Single Timeout.
++ This is a one-shot software timeout that counts down
+  when the gate is high (always true for timers 0 and 1).  When the count
+  reaches zero, the output goes high.
  
--struct kvm_s390_ais_all {
--       __u8 simm; /* Single-Interruption-Mode mask */
--       __u8 nimm; /* No-Interruption-Mode mask *
--};
-+	struct kvm_s390_ais_all {
-+	       __u8 simm; /* Single-Interruption-Mode mask */
-+	       __u8 nimm; /* No-Interruption-Mode mask *
-+	};
+-Mode 1: Triggered One-shot.  The output is initially set high.  When the gate
++Mode 1: Triggered One-shot.
++ The output is initially set high.  When the gate
+  line is set high, a countdown is initiated (which does not stop if the gate is
+  lowered), during which the output is set low.  When the count reaches zero,
+  the output goes high.
  
-     simm contains Single-Interruption-Mode mask for all ISCs, nimm contains
-     No-Interruption-Mode mask for all ISCs. Each bit in simm and nimm corresponds
-@@ -159,5 +169,5 @@ ENXIO, as specified in the API documentation). It is not possible to conclude
- that a FLIC operation is unavailable based on the error code resulting from a
- usage attempt.
+-Mode 2: Rate Generator.  The output is initially set high.  When the countdown
++Mode 2: Rate Generator.
++ The output is initially set high.  When the countdown
+  reaches 1, the output goes low for one count and then returns high.  The value
+  is reloaded and the countdown automatically resumes.  If the gate line goes
+  low, the count is halted.  If the output is low when the gate is lowered, the
+  output automatically goes high (this only affects timer 2).
  
--Note: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a zero
--schid is specified.
-+.. note:: The KVM_DEV_FLIC_CLEAR_IO_IRQ ioctl will return EINVAL in case a
-+	  zero schid is specified.
+-Mode 3: Square Wave.   This generates a high / low square wave.  The count
++Mode 3: Square Wave.
++ This generates a high / low square wave.  The count
+  determines the length of the pulse, which alternates between high and low
+  when zero is reached.  The count only proceeds when gate is high and is
+  automatically reloaded on reaching zero.  The count is decremented twice at
+@@ -103,12 +111,14 @@ Mode 3: Square Wave.   This generates a high / low square wave.  The count
+  values are not observed when reading.  This is the intended mode for timer 2,
+  which generates sine-like tones by low-pass filtering the square wave output.
+ 
+-Mode 4: Software Strobe.  After programming this mode and loading the counter,
++Mode 4: Software Strobe.
++ After programming this mode and loading the counter,
+  the output remains high until the counter reaches zero.  Then the output
+  goes low for 1 clock cycle and returns high.  The counter is not reloaded.
+  Counting only occurs when gate is high.
+ 
+-Mode 5: Hardware Strobe.  After programming and loading the counter, the
++Mode 5: Hardware Strobe.
++ After programming and loading the counter, the
+  output remains high.  When the gate is raised, a countdown is initiated
+  (which does not stop if the gate is lowered).  When the counter reaches zero,
+  the output goes low for 1 clock cycle and then returns high.  The counter is
+@@ -118,49 +128,49 @@ In addition to normal binary counting, the PIT supports BCD counting.  The
+ command port, 0x43 is used to set the counter and mode for each of the three
+ timers.
+ 
+-PIT commands, issued to port 0x43, using the following bit encoding:
++PIT commands, issued to port 0x43, using the following bit encoding::
+ 
+-Bit 7-4: Command (See table below)
+-Bit 3-1: Mode (000 = Mode 0, 101 = Mode 5, 11X = undefined)
+-Bit 0  : Binary (0) / BCD (1)
++  Bit 7-4: Command (See table below)
++  Bit 3-1: Mode (000 = Mode 0, 101 = Mode 5, 11X = undefined)
++  Bit 0  : Binary (0) / BCD (1)
+ 
+-Command table:
++Command table::
+ 
+-0000 - Latch Timer 0 count for port 0x40
++  0000 - Latch Timer 0 count for port 0x40
+ 	sample and hold the count to be read in port 0x40;
+ 	additional commands ignored until counter is read;
+ 	mode bits ignored.
+ 
+-0001 - Set Timer 0 LSB mode for port 0x40
++  0001 - Set Timer 0 LSB mode for port 0x40
+ 	set timer to read LSB only and force MSB to zero;
+ 	mode bits set timer mode
+ 
+-0010 - Set Timer 0 MSB mode for port 0x40
++  0010 - Set Timer 0 MSB mode for port 0x40
+ 	set timer to read MSB only and force LSB to zero;
+ 	mode bits set timer mode
+ 
+-0011 - Set Timer 0 16-bit mode for port 0x40
++  0011 - Set Timer 0 16-bit mode for port 0x40
+ 	set timer to read / write LSB first, then MSB;
+ 	mode bits set timer mode
+ 
+-0100 - Latch Timer 1 count for port 0x41 - as described above
+-0101 - Set Timer 1 LSB mode for port 0x41 - as described above
+-0110 - Set Timer 1 MSB mode for port 0x41 - as described above
+-0111 - Set Timer 1 16-bit mode for port 0x41 - as described above
++  0100 - Latch Timer 1 count for port 0x41 - as described above
++  0101 - Set Timer 1 LSB mode for port 0x41 - as described above
++  0110 - Set Timer 1 MSB mode for port 0x41 - as described above
++  0111 - Set Timer 1 16-bit mode for port 0x41 - as described above
+ 
+-1000 - Latch Timer 2 count for port 0x42 - as described above
+-1001 - Set Timer 2 LSB mode for port 0x42 - as described above
+-1010 - Set Timer 2 MSB mode for port 0x42 - as described above
+-1011 - Set Timer 2 16-bit mode for port 0x42 as described above
++  1000 - Latch Timer 2 count for port 0x42 - as described above
++  1001 - Set Timer 2 LSB mode for port 0x42 - as described above
++  1010 - Set Timer 2 MSB mode for port 0x42 - as described above
++  1011 - Set Timer 2 16-bit mode for port 0x42 as described above
+ 
+-1101 - General counter latch
++  1101 - General counter latch
+ 	Latch combination of counters into corresponding ports
+ 	Bit 3 = Counter 2
+ 	Bit 2 = Counter 1
+ 	Bit 1 = Counter 0
+ 	Bit 0 = Unused
+ 
+-1110 - Latch timer status
++  1110 - Latch timer status
+ 	Latch combination of counter mode into corresponding ports
+ 	Bit 3 = Counter 2
+ 	Bit 2 = Counter 1
+@@ -177,7 +187,8 @@ Command table:
+ 	Bit 3-1 = Mode
+ 	Bit 0 = Binary (0) / BCD mode (1)
+ 
+-2.2) RTC
++2.2. RTC
++--------
+ 
+ The second device which was available in the original PC was the MC146818 real
+ time clock.  The original device is now obsolete, and usually emulated by the
+@@ -201,21 +212,21 @@ in progress, as indicated in the status register.
+ The clock uses a 32.768kHz crystal, so bits 6-4 of register A should be
+ programmed to a 32kHz divider if the RTC is to count seconds.
+ 
+-This is the RAM map originally used for the RTC/CMOS:
++This is the RAM map originally used for the RTC/CMOS::
+ 
+-Location    Size    Description
+-------------------------------------------
+-00h         byte    Current second (BCD)
+-01h         byte    Seconds alarm (BCD)
+-02h         byte    Current minute (BCD)
+-03h         byte    Minutes alarm (BCD)
+-04h         byte    Current hour (BCD)
+-05h         byte    Hours alarm (BCD)
+-06h         byte    Current day of week (BCD)
+-07h         byte    Current day of month (BCD)
+-08h         byte    Current month (BCD)
+-09h         byte    Current year (BCD)
+-0Ah         byte    Register A
++  Location    Size    Description
++  ------------------------------------------
++  00h         byte    Current second (BCD)
++  01h         byte    Seconds alarm (BCD)
++  02h         byte    Current minute (BCD)
++  03h         byte    Minutes alarm (BCD)
++  04h         byte    Current hour (BCD)
++  05h         byte    Hours alarm (BCD)
++  06h         byte    Current day of week (BCD)
++  07h         byte    Current day of month (BCD)
++  08h         byte    Current month (BCD)
++  09h         byte    Current year (BCD)
++  0Ah         byte    Register A
+                        bit 7   = Update in progress
+                        bit 6-4 = Divider for clock
+                                   000 = 4.194 MHz
+@@ -234,7 +245,7 @@ Location    Size    Description
+                                  1101 = 125 mS
+                                  1110 = 250 mS
+                                  1111 = 500 mS
+-0Bh         byte    Register B
++  0Bh         byte    Register B
+                        bit 7   = Run (0) / Halt (1)
+                        bit 6   = Periodic interrupt enable
+                        bit 5   = Alarm interrupt enable
+@@ -243,19 +254,20 @@ Location    Size    Description
+                        bit 2   = BCD calendar (0) / Binary (1)
+                        bit 1   = 12-hour mode (0) / 24-hour mode (1)
+                        bit 0   = 0 (DST off) / 1 (DST enabled)
+-OCh         byte    Register C (read only)
++  OCh         byte    Register C (read only)
+                        bit 7   = interrupt request flag (IRQF)
+                        bit 6   = periodic interrupt flag (PF)
+                        bit 5   = alarm interrupt flag (AF)
+                        bit 4   = update interrupt flag (UF)
+                        bit 3-0 = reserved
+-ODh         byte    Register D (read only)
++  ODh         byte    Register D (read only)
+                        bit 7   = RTC has power
+                        bit 6-0 = reserved
+-32h         byte    Current century BCD (*)
++  32h         byte    Current century BCD (*)
+   (*) location vendor specific and now determined from ACPI global tables
+ 
+-2.3) APIC
++2.3. APIC
++---------
+ 
+ On Pentium and later processors, an on-board timer is available to each CPU
+ as part of the Advanced Programmable Interrupt Controller.  The APIC is
+@@ -276,7 +288,8 @@ timer is programmed through the LVT (local vector timer) register, is capable
+ of one-shot or periodic operation, and is based on the bus clock divided down
+ by the programmable divider register.
+ 
+-2.4) HPET
++2.4. HPET
++---------
+ 
+ HPET is quite complex, and was originally intended to replace the PIT / RTC
+ support of the X86 PC.  It remains to be seen whether that will be the case, as
+@@ -297,7 +310,8 @@ indicated through ACPI tables by the BIOS.
+ Detailed specification of the HPET is beyond the current scope of this
+ document, as it is also very well documented elsewhere.
+ 
+-2.5) Offboard Timers
++2.5. Offboard Timers
++--------------------
+ 
+ Several cards, both proprietary (watchdog boards) and commonplace (e1000) have
+ timing chips built into the cards which may have registers which are accessible
+@@ -307,9 +321,8 @@ general frowned upon as not playing by the agreed rules of the game.  Such a
+ timer device would require additional support to be virtualized properly and is
+ not considered important at this time as no known operating system does this.
+ 
+-=========================================================================
+-
+-3) TSC Hardware
++3. TSC Hardware
++===============
+ 
+ The TSC or time stamp counter is relatively simple in theory; it counts
+ instruction cycles issued by the processor, which can be used as a measure of
+@@ -340,7 +353,8 @@ allows the guest visible TSC to be offset by a constant.  Newer implementations
+ promise to allow the TSC to additionally be scaled, but this hardware is not
+ yet widely available.
+ 
+-3.1) TSC synchronization
++3.1. TSC synchronization
++------------------------
+ 
+ The TSC is a CPU-local clock in most implementations.  This means, on SMP
+ platforms, the TSCs of different CPUs may start at different times depending
+@@ -357,7 +371,8 @@ practice, getting a perfectly synchronized TSC will not be possible unless all
+ values are read from the same clock, which generally only is possible on single
+ socket systems or those with special hardware support.
+ 
+-3.2) TSC and CPU hotplug
++3.2. TSC and CPU hotplug
++------------------------
+ 
+ As touched on already, CPUs which arrive later than the boot time of the system
+ may not have a TSC value that is synchronized with the rest of the system.
+@@ -367,7 +382,8 @@ a guarantee.  This can have the effect of bringing a system from a state where
+ TSC is synchronized back to a state where TSC synchronization flaws, however
+ small, may be exposed to the OS and any virtualization environment.
+ 
+-3.3) TSC and multi-socket / NUMA
++3.3. TSC and multi-socket / NUMA
++--------------------------------
+ 
+ Multi-socket systems, especially large multi-socket systems are likely to have
+ individual clocksources rather than a single, universally distributed clock.
+@@ -385,7 +401,8 @@ standards for telecommunications and computer equipment.
+ It is recommended not to trust the TSCs to remain synchronized on NUMA or
+ multiple socket systems for these reasons.
+ 
+-3.4) TSC and C-states
++3.4. TSC and C-states
++---------------------
+ 
+ C-states, or idling states of the processor, especially C1E and deeper sleep
+ states may be problematic for TSC as well.  The TSC may stop advancing in such
+@@ -396,7 +413,8 @@ based on CPU and chipset identifications.
+ The TSC in such a case may be corrected by catching it up to a known external
+ clocksource.
+ 
+-3.5) TSC frequency change / P-states
++3.5. TSC frequency change / P-states
++------------------------------------
+ 
+ To make things slightly more interesting, some CPUs may change frequency.  They
+ may or may not run the TSC at the same rate, and because the frequency change
+@@ -416,14 +434,16 @@ other processors.  In such cases, the TSC on halted CPUs could advance faster
+ than that of non-halted processors.  AMD Turion processors are known to have
+ this problem.
+ 
+-3.6) TSC and STPCLK / T-states
++3.6. TSC and STPCLK / T-states
++------------------------------
+ 
+ External signals given to the processor may also have the effect of stopping
+ the TSC.  This is typically done for thermal emergency power control to prevent
+ an overheating condition, and typically, there is no way to detect that this
+ condition has happened.
+ 
+-3.7) TSC virtualization - VMX
++3.7. TSC virtualization - VMX
++-----------------------------
+ 
+ VMX provides conditional trapping of RDTSC, RDMSR, WRMSR and RDTSCP
+ instructions, which is enough for full virtualization of TSC in any manner.  In
+@@ -431,14 +451,16 @@ addition, VMX allows passing through the host TSC plus an additional TSC_OFFSET
+ field specified in the VMCS.  Special instructions must be used to read and
+ write the VMCS field.
+ 
+-3.8) TSC virtualization - SVM
++3.8. TSC virtualization - SVM
++-----------------------------
+ 
+ SVM provides conditional trapping of RDTSC, RDMSR, WRMSR and RDTSCP
+ instructions, which is enough for full virtualization of TSC in any manner.  In
+ addition, SVM allows passing through the host TSC plus an additional offset
+ field specified in the SVM control block.
+ 
+-3.9) TSC feature bits in Linux
++3.9. TSC feature bits in Linux
++------------------------------
+ 
+ In summary, there is no way to guarantee the TSC remains in perfect
+ synchronization unless it is explicitly guaranteed by the architecture.  Even
+@@ -448,13 +470,16 @@ despite being locally consistent.
+ The following feature bits are used by Linux to signal various TSC attributes,
+ but they can only be taken to be meaningful for UP or single node systems.
+ 
+-X86_FEATURE_TSC 		: The TSC is available in hardware
+-X86_FEATURE_RDTSCP		: The RDTSCP instruction is available
+-X86_FEATURE_CONSTANT_TSC 	: The TSC rate is unchanged with P-states
+-X86_FEATURE_NONSTOP_TSC		: The TSC does not stop in C-states
+-X86_FEATURE_TSC_RELIABLE	: TSC sync checks are skipped (VMware)
++=========================	=======================================
++X86_FEATURE_TSC			The TSC is available in hardware
++X86_FEATURE_RDTSCP		The RDTSCP instruction is available
++X86_FEATURE_CONSTANT_TSC	The TSC rate is unchanged with P-states
++X86_FEATURE_NONSTOP_TSC		The TSC does not stop in C-states
++X86_FEATURE_TSC_RELIABLE	TSC sync checks are skipped (VMware)
++=========================	=======================================
+ 
+-4) Virtualization Problems
++4. Virtualization Problems
++==========================
+ 
+ Timekeeping is especially problematic for virtualization because a number of
+ challenges arise.  The most obvious problem is that time is now shared between
+@@ -473,7 +498,8 @@ BIOS, but not in such an extreme fashion.  However, the fact that SMM mode may
+ cause similar problems to virtualization makes it a good justification for
+ solving many of these problems on bare metal.
+ 
+-4.1) Interrupt clocking
++4.1. Interrupt clocking
++-----------------------
+ 
+ One of the most immediate problems that occurs with legacy operating systems
+ is that the system timekeeping routines are often designed to keep track of
+@@ -502,7 +528,8 @@ thus requires interrupt slewing to keep proper time.  It does use a low enough
+ rate (ed: is it 18.2 Hz?) however that it has not yet been a problem in
+ practice.
+ 
+-4.2) TSC sampling and serialization
++4.2. TSC sampling and serialization
++-----------------------------------
+ 
+ As the highest precision time source available, the cycle counter of the CPU
+ has aroused much interest from developers.  As explained above, this timer has
+@@ -524,7 +551,8 @@ it may be necessary for an implementation to guard against "backwards" reads of
+ the TSC as seen from other CPUs, even in an otherwise perfectly synchronized
+ system.
+ 
+-4.3) Timespec aliasing
++4.3. Timespec aliasing
++----------------------
+ 
+ Additionally, this lack of serialization from the TSC poses another challenge
+ when using results of the TSC when measured against another time source.  As
+@@ -548,7 +576,8 @@ This aliasing requires care in the computation and recalibration of kvmclock
+ and any other values derived from TSC computation (such as TSC virtualization
+ itself).
+ 
+-4.4) Migration
++4.4. Migration
++--------------
+ 
+ Migration of a virtual machine raises problems for timekeeping in two ways.
+ First, the migration itself may take time, during which interrupts cannot be
+@@ -566,7 +595,8 @@ always be caught up to the original rate.  KVM clock avoids these problems by
+ simply storing multipliers and offsets against the TSC for the guest to convert
+ back into nanosecond resolution values.
+ 
+-4.5) Scheduling
++4.5. Scheduling
++---------------
+ 
+ Since scheduling may be based on precise timing and firing of interrupts, the
+ scheduling algorithms of an operating system may be adversely affected by
+@@ -579,7 +609,8 @@ In an attempt to work around this, several implementations have provided a
+ paravirtualized scheduler clock, which reveals the true amount of CPU time for
+ which a virtual machine has been running.
+ 
+-4.6) Watchdogs
++4.6. Watchdogs
++--------------
+ 
+ Watchdog timers, such as the lock detector in Linux may fire accidentally when
+ running under hardware virtualization due to timer interrupts being delayed or
+@@ -587,7 +618,8 @@ misinterpretation of the passage of real time.  Usually, these warnings are
+ spurious and can be ignored, but in some circumstances it may be necessary to
+ disable such detection.
+ 
+-4.7) Delays and precision timing
++4.7. Delays and precision timing
++--------------------------------
+ 
+ Precise timing and delays may not be possible in a virtualized system.  This
+ can happen if the system is controlling physical hardware, or issues delays to
+@@ -600,7 +632,8 @@ The second issue may cause performance problems, but this is unlikely to be a
+ significant issue.  In many cases these delays may be eliminated through
+ configuration or paravirtualization.
+ 
+-4.8) Covert channels and leaks
++4.8. Covert channels and leaks
++------------------------------
+ 
+ In addition to the above problems, time information will inevitably leak to the
+ guest about the host in anything but a perfect implementation of virtualized
 -- 
 2.24.1
 
