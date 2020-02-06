@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA132C352A5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCE10C33CAC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A7217217BA
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD354227BF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581001906;
-	bh=SztlBQsLTubgONx1R67ynBAWclkkbNLwSVtuZbE88Bs=;
+	s=default; t=1581001907;
+	bh=v7VaydWSAceQL49yaEGidbrVpAS3EDgUZ7WBRom2Iok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xvZJzJhdCen9sWxlroW3QQOJfwBQHljgoLZTQt5VgddzzxUKASOI1zoolIxn+I6aN
-	 vVSRq1x2j8Qm6GMNErsNOk4WvNWcsznKcXR/JRqgbUMhDUhuK1/673YlvZuScG2JVp
-	 pjs+pXhA04tLN6QszzxvpfdKWSoxtqOfX95DCbc0=
+	b=1vgXrmYrH/1t8h2Es6HDnJx/QPtNmfe+hYedws3OAqVvBe1h948VD/PTPftm4Ftkw
+	 OkUQ4V/RV9ABUkBzWxq5SNT6wVosIGNoAdxOGfwVORiudXlKVzm2PkXfBn6pUNHnjG
+	 DVV7N1FPnRa4edi8gj9ZhNsWaZ1hOC3ONdEvCVg4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727564AbgBFPLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:11:43 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37566 "EHLO
+        id S1727717AbgBFPLq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:11:46 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37564 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727589AbgBFPLn (ORCPT
+        with ESMTP id S1727586AbgBFPLn (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=tQKSPVS1xeeao2HSiQdMD6DVzUR/7bXFDqMVsLnfJyI=; b=DRfSTy2zFyufdS7daYWJ+WlEEA
-        5k9kvZypG79V6Cvvwm6t50NA8nQzOSpPMW0u+4dkCmZepss2mEjLse3r8k+cBNATom+45z2B8psh2
-        q8A+/0EoeQOR480y0d5wReOQ0x0bLzHDsYugssdbH18zTR3vsCzrcXdqPiZjWOAok9ABjBFP4nmyY
-        ngonDAuDpX5leOw/AUq4n5NFkBCSN1BGMI3ptX7cQ8s3jeNx3HcWR9ytxCbosmBl7uNSEiFbcFHbC
-        JKHrK0sdl7pIuEc1MygjIdNydgWIGZOZEum0IlBPaKxdSxmnwo6JE2knQpnqM1HeJ3cGhpThcz4oC
-        q19/4alA==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description;
+        bh=VuPZopcPVgZNDCW51vVmxg0nP0lSy2Z9nj9rgMXxMGE=; b=oEMWikM547BejTB3Bf8tF5ReeT
+        MuNfvoyQKIj3bPsdWbXtYMA0/JxHk7PrseMXGozyFS8CsHx6RDdLIZ/ckNEbUFFQXwYnieSfKFUzu
+        2Iuo6K49GbphWudWsugqLVBuzvhd+3q2lf/6aoiriPeU7qlXdJfAQJ6uBBpASlmGYyH91dRaSQAa/
+        XUosRKCj2ZnNwgltECJzr88CST5IgA7UcASB8Rw37lzRkWMyBWV+KJBRaJWWDEMSY4HR39mldKwSx
+        ES9gumOyzD31K7hb+uA9gxomOQQp7l+i7Hf6VasXeCcsCAGVsXqq/6GXSrRkyGmCOK+Hks5q+HiaC
+        dKQgRB9A==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izioc-000431-Lh; Thu, 06 Feb 2020 15:11:42 +0000
+        id 1izioc-000433-UO; Thu, 06 Feb 2020 15:11:42 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1izioV-002oN6-Sa; Thu, 06 Feb 2020 16:11:31 +0100
+        id 1izioV-002oMw-PI; Thu, 06 Feb 2020 16:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -50,452 +50,364 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 05/11] docs: crypto: descore-readme.txt: convert to ReST format
-Date:   Thu,  6 Feb 2020 16:11:24 +0100
-Message-Id: <6dcad7bb8feb264625ef0124fe86b2137427ad08.1581001737.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/11] docs: crypto: convert api-intro.txt to ReST format
+Date:   Thu,  6 Feb 2020 16:11:22 +0100
+Message-Id: <a8b452cd37f90bc96841af29e84dccf3f7b37560.1581001737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581001737.git.mchehab+huawei@kernel.org>
 References: <cover.1581001737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this readme file to ReST file format, preserving its
-contents as-is as much as possible. The only changes are:
-
-- Added chapter and title markups;
-- Added blank lines where needed;
-- Added list markups where needed;
-- Use a table markup;
-- replace markups like `foo' to ``foo``;
-- add one extra literal markup to avoid warnings.
+- Change title markups;
+- Mark literal blocks;
+- Use list markups at authors/credits;
+- Add blank lines when needed;
+- Remove trailing whitespaces.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- ...{descore-readme.txt => descore-readme.rst} | 152 ++++++++++++------
+ .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++++++++++--------
  Documentation/crypto/index.rst                |   1 +
- 2 files changed, 108 insertions(+), 45 deletions(-)
- rename Documentation/crypto/{descore-readme.txt => descore-readme.rst} (81%)
+ 2 files changed, 100 insertions(+), 87 deletions(-)
+ rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
 
-diff --git a/Documentation/crypto/descore-readme.txt b/Documentation/crypto/descore-readme.rst
-similarity index 81%
-rename from Documentation/crypto/descore-readme.txt
-rename to Documentation/crypto/descore-readme.rst
-index 16e9e6350755..45bd9c8babf4 100644
---- a/Documentation/crypto/descore-readme.txt
-+++ b/Documentation/crypto/descore-readme.rst
-@@ -1,8 +1,20 @@
--Below is the original README file from the descore.shar package.
+diff --git a/Documentation/crypto/api-intro.txt b/Documentation/crypto/api-intro.rst
+similarity index 70%
+rename from Documentation/crypto/api-intro.txt
+rename to Documentation/crypto/api-intro.rst
+index 45d943fcae5b..bcff47d42189 100644
+--- a/Documentation/crypto/api-intro.txt
++++ b/Documentation/crypto/api-intro.rst
+@@ -1,7 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+===========================================
-+Fast & Portable DES encryption & decryption
-+===========================================
-+
-+.. note::
-+
-+   Below is the original README file from the descore.shar package,
-+   converted to ReST format.
-+
- ------------------------------------------------------------------------------
  
- des - fast & portable DES encryption & decryption.
--Copyright (C) 1992  Dana L. How
+-                    Scatterlist Cryptographic API
+-                   
+-INTRODUCTION
++=============================
++Scatterlist Cryptographic API
++=============================
 +
-+Copyright |copy| 1992  Dana L. How
- 
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU Library General Public License as published by
-@@ -20,13 +32,12 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
- Author's address: how@isl.stanford.edu
- 
--$Id: README,v 1.15 1992/05/20 00:25:32 how E $
--
--
--==>> To compile after untarring/unsharring, just `make' <<==
-+.. README,v 1.15 1992/05/20 00:25:32 how E
- 
-+==>> To compile after untarring/unsharring, just ``make`` <<==
- 
- This package was designed with the following goals:
-+
- 1.	Highest possible encryption/decryption PERFORMANCE.
- 2.	PORTABILITY to any byte-addressable host with a 32bit unsigned C type
- 3.	Plug-compatible replacement for KERBEROS's low-level routines.
-@@ -36,7 +47,7 @@ register-starved machines.  My discussions with Richard Outerbridge,
- 71755.204@compuserve.com, sparked a number of these enhancements.
- 
- To more rapidly understand the code in this package, inspect desSmallFips.i
--(created by typing `make') BEFORE you tackle desCode.h.  The latter is set
-+(created by typing ``make``) BEFORE you tackle desCode.h.  The latter is set
- up in a parameterized fashion so it can easily be modified by speed-daemon
- hackers in pursuit of that last microsecond.  You will find it more
- illuminating to inspect one specific implementation,
-@@ -47,11 +58,13 @@ performance comparison to other available des code which i could
- compile on a SPARCStation 1 (cc -O4, gcc -O2):
- 
- this code (byte-order independent):
--   30us per encryption (options: 64k tables, no IP/FP)
--   33us per encryption (options: 64k tables, FIPS standard bit ordering)
--   45us per encryption (options:  2k tables, no IP/FP)
--   48us per encryption (options:  2k tables, FIPS standard bit ordering)
--  275us to set a new key (uses 1k of key tables)
-+
-+  - 30us per encryption (options: 64k tables, no IP/FP)
-+  - 33us per encryption (options: 64k tables, FIPS standard bit ordering)
-+  - 45us per encryption (options:  2k tables, no IP/FP)
-+  - 48us per encryption (options:  2k tables, FIPS standard bit ordering)
-+  - 275us to set a new key (uses 1k of key tables)
-+
- 	this has the quickest encryption/decryption routines i've seen.
- 	since i was interested in fast des filters rather than crypt(3)
- 	and password cracking, i haven't really bothered yet to speed up
-@@ -63,15 +76,20 @@ this code (byte-order independent):
- 	are highly variable because of cache effects).
- 
- kerberos des replacement from australia (version 1.95):
--   53us per encryption (uses 2k of tables)
--   96us to set a new key (uses 2.25k of key tables)
-+
-+  - 53us per encryption (uses 2k of tables)
-+  - 96us to set a new key (uses 2.25k of key tables)
-+
- 	so despite the author's inclusion of some of the performance
- 	improvements i had suggested to him, this package's
- 	encryption/decryption is still slower on the sparc and 68000.
- 	more specifically, 19-40% slower on the 68020 and 11-35% slower
- 	on the sparc,  depending on the compiler;
- 	in full gory detail (ALT_ECB is a libdes variant):
-+
-+	===============	==============	===============	=================
- 	compiler   	machine		desCore	libdes	ALT_ECB	slower by
-+	===============	==============	===============	=================
- 	gcc 2.1 -O2	Sun 3/110	304  uS	369.5uS	461.8uS	 22%
- 	cc      -O1	Sun 3/110	336  uS	436.6uS	399.3uS	 19%
- 	cc      -O2	Sun 3/110	360  uS	532.4uS	505.1uS	 40%
-@@ -79,10 +97,15 @@ kerberos des replacement from australia (version 1.95):
- 	gcc 2.1 -O2	Sun 4/50	 48  uS	 53.4uS	 57.5uS	 11%
- 	cc      -O2	Sun 4/50	 48  uS	 64.6uS	 64.7uS	 35%
- 	cc      -O4	Sun 4/50	 48  uS	 64.7uS	 64.9uS	 35%
-+	===============	==============	===============	=================
-+
- 	(my time measurements are not as accurate as his).
-+
-    the comments in my first release of desCore on version 1.92:
--   68us per encryption (uses 2k of tables)
--   96us to set a new key (uses 2.25k of key tables)
-+
-+   - 68us per encryption (uses 2k of tables)
-+   - 96us to set a new key (uses 2.25k of key tables)
-+
- 	this is a very nice package which implements the most important
- 	of the optimizations which i did in my encryption routines.
- 	it's a bit weak on common low-level optimizations which is why
-@@ -91,48 +114,60 @@ kerberos des replacement from australia (version 1.95):
- 	speed up the key-setting routines with impressive results.
- 	(at some point i may do the same in my package).  he also implements
- 	the rest of the mit des library.
-+
- 	(code from eay@psych.psy.uq.oz.au via comp.sources.misc)
- 
- fast crypt(3) package from denmark:
-+
- 	the des routine here is buried inside a loop to do the
- 	crypt function and i didn't feel like ripping it out and measuring
- 	performance. his code takes 26 sparc instructions to compute one
- 	des iteration; above, Quick (64k) takes 21 and Small (2k) takes 37.
- 	he claims to use 280k of tables but the iteration calculation seems
- 	to use only 128k.  his tables and code are machine independent.
-+
- 	(code from glad@daimi.aau.dk via alt.sources or comp.sources.misc)
- 
- swedish reimplementation of Kerberos des library
--  108us per encryption (uses 34k worth of tables)
--  134us to set a new key (uses 32k of key tables to get this speed!)
-+
-+  - 108us per encryption (uses 34k worth of tables)
-+  - 134us to set a new key (uses 32k of key tables to get this speed!)
-+
- 	the tables used seem to be machine-independent;
- 	he seems to have included a lot of special case code
--	so that, e.g., `long' loads can be used instead of 4 `char' loads
-+	so that, e.g., ``long`` loads can be used instead of 4 ``char`` loads
- 	when the machine's architecture allows it.
-+
- 	(code obtained from chalmers.se:pub/des)
- 
- crack 3.3c package from england:
-+
- 	as in crypt above, the des routine is buried in a loop. it's
- 	also very modified for crypt.  his iteration code uses 16k
- 	of tables and appears to be slow.
-+
- 	(code obtained from aem@aber.ac.uk via alt.sources or comp.sources.misc)
- 
--``highly optimized'' and tweaked Kerberos/Athena code (byte-order dependent):
--  165us per encryption (uses 6k worth of tables)
--  478us to set a new key (uses <1k of key tables)
-+``highly optimized`` and tweaked Kerberos/Athena code (byte-order dependent):
-+
-+  - 165us per encryption (uses 6k worth of tables)
-+  - 478us to set a new key (uses <1k of key tables)
-+
- 	so despite the comments in this code, it was possible to get
- 	faster code AND smaller tables, as well as making the tables
- 	machine-independent.
- 	(code obtained from prep.ai.mit.edu)
- 
- UC Berkeley code (depends on machine-endedness):
--  226us per encryption
--10848us to set a new key
-+  -  226us per encryption
-+  - 10848us to set a new key
-+
- 	table sizes are unclear, but they don't look very small
- 	(code obtained from wuarchive.wustl.edu)
- 
- 
- motivation and history
-+======================
- 
- a while ago i wanted some des routines and the routines documented on sun's
- man pages either didn't exist or dumped core.  i had heard of kerberos,
-@@ -142,10 +177,10 @@ it was too convoluted, the code had been written without taking
- advantage of the regular structure of operations such as IP, E, and FP
- (i.e. the author didn't sit down and think before coding),
- it was excessively slow,  the author had attempted to clarify the code
--by adding MORE statements to make the data movement more `consistent'
-+by adding MORE statements to make the data movement more ``consistent``
- instead of simplifying his implementation and cutting down on all data
- movement (in particular, his use of L1, R1, L2, R2), and it was full of
--idiotic `tweaks' for particular machines which failed to deliver significant
-+idiotic ``tweaks`` for particular machines which failed to deliver significant
- speedups but which did obfuscate everything.  so i took the test data
- from his verification program and rewrote everything else.
- 
-@@ -167,12 +202,13 @@ than versions hand-written in assembly for the sparc!
- 
- 
- porting notes
-+=============
- 
- one thing i did not want to do was write an enormous mess
- which depended on endedness and other machine quirks,
- and which necessarily produced different code and different lookup tables
- for different machines.  see the kerberos code for an example
--of what i didn't want to do; all their endedness-specific `optimizations'
-+of what i didn't want to do; all their endedness-specific ``optimizations``
- obfuscate the code and in the end were slower than a simpler machine
- independent approach.  however, there are always some portability
- considerations of some kind, and i have included some options
-@@ -184,8 +220,8 @@ perhaps some will still regard the result as a mess!
-    i assume word pointers can be freely cast to and from char pointers.
-    note that 99% of C programs make these assumptions.
-    i always use unsigned char's if the high bit could be set.
--2) the typedef `word' means a 32 bit unsigned integral type.
--   if `unsigned long' is not 32 bits, change the typedef in desCore.h.
-+2) the typedef ``word`` means a 32 bit unsigned integral type.
-+   if ``unsigned long`` is not 32 bits, change the typedef in desCore.h.
-    i assume sizeof(word) == 4 EVERYWHERE.
- 
- the (worst-case) cost of my NOT doing endedness-specific optimizations
-@@ -195,40 +231,46 @@ the input and output work areas do not need to be word-aligned.
- 
- 
- OPTIONAL performance optimizations
-+==================================
- 
--1) you should define one of `i386,' `vax,' `mc68000,' or `sparc,'
-+1) you should define one of ``i386,`` ``vax,`` ``mc68000,`` or ``sparc,``
-    whichever one is closest to the capabilities of your machine.
-    see the start of desCode.h to see exactly what this selection implies.
-    note that if you select the wrong one, the des code will still work;
-    these are just performance tweaks.
--2) for those with functional `asm' keywords: you should change the
-+2) for those with functional ``asm`` keywords: you should change the
-    ROR and ROL macros to use machine rotate instructions if you have them.
-    this will save 2 instructions and a temporary per use,
-    or about 32 to 40 instructions per en/decryption.
-+
-    note that gcc is smart enough to translate the ROL/R macros into
-    machine rotates!
- 
- these optimizations are all rather persnickety, yet with them you should
- be able to get performance equal to assembly-coding, except that:
-+
- 1) with the lack of a bit rotate operator in C, rotates have to be synthesized
--   from shifts.  so access to `asm' will speed things up if your machine
-+   from shifts.  so access to ``asm`` will speed things up if your machine
-    has rotates, as explained above in (3) (not necessary if you use gcc).
- 2) if your machine has less than 12 32-bit registers i doubt your compiler will
-    generate good code.
--   `i386' tries to configure the code for a 386 by only declaring 3 registers
-+
-+   ``i386`` tries to configure the code for a 386 by only declaring 3 registers
-    (it appears that gcc can use ebx, esi and edi to hold register variables).
-    however, if you like assembly coding, the 386 does have 7 32-bit registers,
--   and if you use ALL of them, use `scaled by 8' address modes with displacement
-+   and if you use ALL of them, use ``scaled by 8`` address modes with displacement
-    and other tricks, you can get reasonable routines for DesQuickCore... with
-    about 250 instructions apiece.  For DesSmall... it will help to rearrange
-    des_keymap, i.e., now the sbox # is the high part of the index and
-    the 6 bits of data is the low part; it helps to exchange these.
-+
-    since i have no way to conveniently test it i have not provided my
-    shoehorned 386 version.  note that with this release of desCore, gcc is able
-    to put everything in registers(!), and generate about 370 instructions apiece
-    for the DesQuickCore... routines!
- 
- coding notes
++Introduction
 +============
  
- the en/decryption routines each use 6 necessary register variables,
- with 4 being actively used at once during the inner iterations.
-@@ -236,15 +278,18 @@ if you don't have 4 register variables get a new machine.
- up to 8 more registers are used to hold constants in some configurations.
+ The Scatterlist Crypto API takes page vectors (scatterlists) as
+ arguments, and works directly on pages.  In some cases (e.g. ECB
+@@ -13,22 +17,23 @@ so that processing can be applied to paged skb's without the need
+ for linearization.
  
- i assume that the use of a constant is more expensive than using a register:
+ 
+-DETAILS
++Details
++=======
+ 
+ At the lowest level are algorithms, which register dynamically with the
+ API.
+ 
+ 'Transforms' are user-instantiated objects, which maintain state, handle all
+-of the implementation logic (e.g. manipulating page vectors) and provide an 
+-abstraction to the underlying algorithms.  However, at the user 
++of the implementation logic (e.g. manipulating page vectors) and provide an
++abstraction to the underlying algorithms.  However, at the user
+ level they are very simple.
+ 
+-Conceptually, the API layering looks like this:
++Conceptually, the API layering looks like this::
+ 
+   [transform api]  (user interface)
+   [transform ops]  (per-type logic glue e.g. cipher.c, compress.c)
+   [algorithm api]  (for registering algorithms)
+-  
 +
- a) additionally, i have tried to put the larger constants in registers.
-    registering priority was by the following:
--	anything more than 12 bits (bad for RISC and CISC)
--	greater than 127 in value (can't use movq or byte immediate on CISC)
--	9-127 (may not be able to use CISC shift immediate or add/sub quick),
--	1-8 were never registered, being the cheapest constants.
+ The idea is to make the user interface and algorithm registration API
+ very simple, while hiding the core logic from both.  Many good ideas
+ from existing APIs such as Cryptoapi and Nettle have been adapted for this.
+@@ -44,21 +49,21 @@ one block while the former can operate on an arbitrary amount of data,
+ subject to block size requirements (i.e., non-stream ciphers can only
+ process multiples of blocks).
+ 
+-Here's an example of how to use the API:
++Here's an example of how to use the API::
+ 
+ 	#include <crypto/hash.h>
+ 	#include <linux/err.h>
+ 	#include <linux/scatterlist.h>
+-	
 +
-+	- anything more than 12 bits (bad for RISC and CISC)
-+	- greater than 127 in value (can't use movq or byte immediate on CISC)
-+	- 9-127 (may not be able to use CISC shift immediate or add/sub quick),
-+	- 1-8 were never registered, being the cheapest constants.
+ 	struct scatterlist sg[2];
+ 	char result[128];
+ 	struct crypto_ahash *tfm;
+ 	struct ahash_request *req;
+-	
 +
- b) the compiler may be too stupid to realize table and table+256 should
-    be assigned to different constant registers and instead repetitively
--   do the arithmetic, so i assign these to explicit `m' register variables
-+   do the arithmetic, so i assign these to explicit ``m`` register variables
-    when possible and helpful.
- 
- i assume that indexing is cheaper or equivalent to auto increment/decrement,
-@@ -253,25 +298,31 @@ this assumption is reversed for 68k and vax.
- 
- i assume that addresses can be cheaply formed from two registers,
- or from a register and a small constant.
--for the 68000, the `two registers and small offset' form is used sparingly.
-+for the 68000, the ``two registers and small offset`` form is used sparingly.
- all index scaling is done explicitly - no hidden shifts by log2(sizeof).
- 
- the code is written so that even a dumb compiler
- should never need more than one hidden temporary,
- increasing the chance that everything will fit in the registers.
- KEEP THIS MORE SUBTLE POINT IN MIND IF YOU REWRITE ANYTHING.
+ 	tfm = crypto_alloc_ahash("md5", 0, CRYPTO_ALG_ASYNC);
+ 	if (IS_ERR(tfm))
+ 		fail();
+-		
 +
- (actually, there are some code fragments now which do require two temps,
- but fixing it would either break the structure of the macros or
- require declaring another temporary).
+ 	/* ... set up the scatterlists ... */
  
+ 	req = ahash_request_alloc(tfm, GFP_ATOMIC);
+@@ -67,18 +72,19 @@ Here's an example of how to use the API:
  
- special efficient data format
-+==============================
+ 	ahash_request_set_callback(req, 0, NULL, NULL);
+ 	ahash_request_set_crypt(req, sg, result, 2);
+-	
 +
-+bits are manipulated in this arrangement most of the time (S7 S5 S3 S1)::
+ 	if (crypto_ahash_digest(req))
+ 		fail();
  
--bits are manipulated in this arrangement most of the time (S7 S5 S3 S1):
- 	003130292827xxxx242322212019xxxx161514131211xxxx080706050403xxxx
+ 	ahash_request_free(req);
+ 	crypto_free_ahash(tfm);
+ 
+-    
 +
- (the x bits are still there, i'm just emphasizing where the S boxes are).
--bits are rotated left 4 when computing S6 S4 S2 S0:
-+bits are rotated left 4 when computing S6 S4 S2 S0::
+ Many real examples are available in the regression test module (tcrypt.c).
+ 
+ 
+-DEVELOPER NOTES
++Developer Notes
++===============
+ 
+ Transforms may only be allocated in user context, and cryptographic
+ methods may only be called from softirq and user contexts.  For
+@@ -91,7 +97,8 @@ size (typically 8 bytes).  This prevents having to do any copying
+ across non-aligned page fragment boundaries.
+ 
+ 
+-ADDING NEW ALGORITHMS
++Adding New Algorithms
++=====================
+ 
+ When submitting a new algorithm for inclusion, a mandatory requirement
+ is that at least a few test vectors from known sources (preferably
+@@ -119,132 +126,137 @@ Also check the TODO list at the web site listed below to see what people
+ might already be working on.
+ 
+ 
+-BUGS
++Bugs
++====
+ 
+ Send bug reports to:
+-linux-crypto@vger.kernel.org
+-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
++    linux-crypto@vger.kernel.org
 +
- 	282726252423xxxx201918171615xxxx121110090807xxxx040302010031xxxx
++Cc:
++    Herbert Xu <herbert@gondor.apana.org.au>,
+     David S. Miller <davem@redhat.com>
+ 
+ 
+-FURTHER INFORMATION
++Further Information
++===================
+ 
+ For further patches and various updates, including the current TODO
+ list, see:
+ http://gondor.apana.org.au/~herbert/crypto/
+ 
+ 
+-AUTHORS
++Authors
++=======
+ 
+-James Morris
+-David S. Miller
+-Herbert Xu
++- James Morris
++- David S. Miller
++- Herbert Xu
+ 
+ 
+-CREDITS
++Credits
++=======
+ 
+ The following people provided invaluable feedback during the development
+ of the API:
+ 
+-  Alexey Kuznetzov
+-  Rusty Russell
+-  Herbert Valerio Riedel
+-  Jeff Garzik
+-  Michael Richardson
+-  Andrew Morton
+-  Ingo Oeser
+-  Christoph Hellwig
++  - Alexey Kuznetzov
++  - Rusty Russell
++  - Herbert Valerio Riedel
++  - Jeff Garzik
++  - Michael Richardson
++  - Andrew Morton
++  - Ingo Oeser
++  - Christoph Hellwig
+ 
+ Portions of this API were derived from the following projects:
+-  
 +
- the rightmost two bits are usually cleared so the lower byte can be used
- as an index into an sbox mapping table. the next two x'd bits are set
- to various values to access different parts of the tables.
-@@ -288,7 +339,7 @@ datatypes:
- 	must be long-aligned.
+   Kerneli Cryptoapi (http://www.kerneli.org/)
+-    Alexander Kjeldaas
+-    Herbert Valerio Riedel
+-    Kyle McMartin
+-    Jean-Luc Cooke
+-    David Bryson
+-    Clemens Fruhwirth
+-    Tobias Ringstrom
+-    Harald Welte
++   - Alexander Kjeldaas
++   - Herbert Valerio Riedel
++   - Kyle McMartin
++   - Jean-Luc Cooke
++   - David Bryson
++   - Clemens Fruhwirth
++   - Tobias Ringstrom
++   - Harald Welte
  
- DesQuickInit()
--	call this before using any other routine with `Quick' in its name.
-+	call this before using any other routine with ``Quick`` in its name.
- 	it generates the special 64k table these routines need.
- DesQuickDone()
- 	frees this table
-@@ -298,6 +349,7 @@ DesMethod(m, k)
- 	which must have odd parity (or -1 is returned) and which must
- 	not be a (semi-)weak key (or -2 is returned).
- 	normally DesMethod() returns 0.
+ and;
+-  
 +
- 	m is filled in from k so that when one of the routines below
- 	is called with m, the routine will act like standard des
- 	en/decryption with the key k. if you use DesMethod,
-@@ -308,19 +360,26 @@ DesMethod(m, k)
- 	will be set to magic constants which speed up the encryption/decryption
- 	on some machines.  and yes, each byte controls
- 	a specific sbox during a specific iteration.
+   Nettle (http://www.lysator.liu.se/~nisse/nettle/)
+-    Niels Möller
++   - Niels Möller
+ 
+ Original developers of the crypto algorithms:
+ 
+-  Dana L. How (DES)
+-  Andrew Tridgell and Steve French (MD4)
+-  Colin Plumb (MD5)
+-  Steve Reid (SHA1)
+-  Jean-Luc Cooke (SHA256, SHA384, SHA512)
+-  Kazunori Miyazawa / USAGI (HMAC)
+-  Matthew Skala (Twofish)
+-  Dag Arne Osvik (Serpent)
+-  Brian Gladman (AES)
+-  Kartikey Mahendra Bhatt (CAST6)
+-  Jon Oberheide (ARC4)
+-  Jouni Malinen (Michael MIC)
+-  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
++  - Dana L. How (DES)
++  - Andrew Tridgell and Steve French (MD4)
++  - Colin Plumb (MD5)
++  - Steve Reid (SHA1)
++  - Jean-Luc Cooke (SHA256, SHA384, SHA512)
++  - Kazunori Miyazawa / USAGI (HMAC)
++  - Matthew Skala (Twofish)
++  - Dag Arne Osvik (Serpent)
++  - Brian Gladman (AES)
++  - Kartikey Mahendra Bhatt (CAST6)
++  - Jon Oberheide (ARC4)
++  - Jouni Malinen (Michael MIC)
++  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
+ 
+ SHA1 algorithm contributors:
+-  Jean-Francois Dive
+-  
++  - Jean-Francois Dive
 +
- 	you really shouldn't use the 768bit format directly;  i should
- 	provide a routine that converts 128 6-bit bytes (specified in
- 	S-box mapping order or something) into the right format for you.
- 	this would entail some byte concatenation and rotation.
+ DES algorithm contributors:
+-  Raimar Falke
+-  Gisle Sælensminde
+-  Niels Möller
++  - Raimar Falke
++  - Gisle Sælensminde
++  - Niels Möller
  
- Des{Small|Quick}{Fips|Core}{Encrypt|Decrypt}(d, m, s)
--	performs des on the 8 bytes at s into the 8 bytes at d. (d,s: char *).
-+	performs des on the 8 bytes at s into the 8 bytes at
-+	``d. (d,s: char *)``.
+ Blowfish algorithm contributors:
+-  Herbert Valerio Riedel
+-  Kyle McMartin
++  - Herbert Valerio Riedel
++  - Kyle McMartin
+ 
+ Twofish algorithm contributors:
+-  Werner Koch
+-  Marc Mutz
++  - Werner Koch
++  - Marc Mutz
+ 
+ SHA256/384/512 algorithm contributors:
+-  Andrew McDonald
+-  Kyle McMartin
+-  Herbert Valerio Riedel
+-  
++  - Andrew McDonald
++  - Kyle McMartin
++  - Herbert Valerio Riedel
 +
- 	uses m as a 768bit key as explained above.
-+
- 	the Encrypt|Decrypt choice is obvious.
-+
- 	Fips|Core determines whether a completely standard FIPS initial
- 	and final permutation is done; if not, then the data is loaded
- 	and stored in a nonstandard bit order (FIPS w/o IP/FP).
-+
- 	Fips slows down Quick by 10%, Small by 9%.
-+
- 	Small|Quick determines whether you use the normal routine
- 	or the crazy quick one which gobbles up 64k more of memory.
- 	Small is 50% slower then Quick, but Quick needs 32 times as much
-@@ -329,15 +388,17 @@ Des{Small|Quick}{Fips|Core}{Encrypt|Decrypt}(d, m, s)
+ AES algorithm contributors:
+-  Alexander Kjeldaas
+-  Herbert Valerio Riedel
+-  Kyle McMartin
+-  Adam J. Richter
+-  Fruhwirth Clemens (i586)
+-  Linus Torvalds (i586)
++  - Alexander Kjeldaas
++  - Herbert Valerio Riedel
++  - Kyle McMartin
++  - Adam J. Richter
++  - Fruhwirth Clemens (i586)
++  - Linus Torvalds (i586)
  
+ CAST5 algorithm contributors:
+-  Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
++  - Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
  
- Getting it to compile on your machine
-+=====================================
+ TEA/XTEA algorithm contributors:
+-  Aaron Grothe
+-  Michael Ringe
++  - Aaron Grothe
++  - Michael Ringe
  
- there are no machine-dependencies in the code (see porting),
--except perhaps the `now()' macro in desTest.c.
-+except perhaps the ``now()`` macro in desTest.c.
- ALL generated tables are machine independent.
- you should edit the Makefile with the appropriate optimization flags
- for your compiler (MAX optimization).
+ Khazad algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
  
+ Whirlpool algorithm contributors:
+-  Aaron Grothe
+-  Jean-Luc Cooke
++  - Aaron Grothe
++  - Jean-Luc Cooke
  
- Speeding up kerberos (and/or its des library)
-+=============================================
+ Anubis algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
  
- note that i have included a kerberos-compatible interface in desUtil.c
- through the functions des_key_sched() and des_ecb_encrypt().
-@@ -347,6 +408,7 @@ you should not need to #include desCore.h;  just include the header
- file provided with the kerberos library.
+ Tiger algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
  
- Other uses
-+==========
+ VIA PadLock contributors:
+-  Michal Ludvig
++  - Michal Ludvig
  
- the macros in desCode.h would be very useful for putting inline des
- functions in more complicated encryption routines.
+ Camellia algorithm contributors:
+-  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
++  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
+ 
+ Generic scatterwalk code by Adam J. Richter <adam@yggdrasil.com>
+ 
+ Please send any credits updates or corrections to:
+ Herbert Xu <herbert@gondor.apana.org.au>
+-
 diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 22a6870bf356..21338fa92642 100644
+index 2bcaf422731e..b2eeab3c8631 100644
 --- a/Documentation/crypto/index.rst
 +++ b/Documentation/crypto/index.rst
-@@ -27,3 +27,4 @@ for cryptographic use cases, as well as programming examples.
-    crypto_engine
-    api
-    api-samples
-+   descore-readme
+@@ -17,6 +17,7 @@ for cryptographic use cases, as well as programming examples.
+    :maxdepth: 2
+ 
+    intro
++   api-intro
+    architecture
+    asymmetric-keys
+    devel-algos
 -- 
 2.24.1
 
