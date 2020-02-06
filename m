@@ -4,52 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D059C2D0B1
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9000BC352A2
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 30E3B21927
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 671E022464
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 15:11:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581001903;
-	bh=H6v8m9+eTb8TJjP7/IX9nuNDh4mqr7FOvBYBGbPbrrI=;
+	s=default; t=1581001905;
+	bh=u5Yw0OLXPSvNgAJ5LYG+l7EhzV4LNWqwQEZZAxowmoQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=JcVIC3eO6rWEtVvfM1CSOQHiPhULnDmg2GgpamY2q6TNV2qHSD8Zb9dsYJgDXa3oz
-	 xyWJ6jFTJCBvfJMgQTZzCEFfFor4+FwTDXXFL4HuMBKmlMcrD4JM/yTNqDcm3M00Bo
-	 yAHG8RvN7SZnS4dEiGHCAIvCLG34dQ9wq2iEQwMg=
+	b=nVOQS0PMNpnxr5gC5Y7KrXMZ9W0f63i/xwmlxXVFD3eYRKyWiXuQ6eS+1k7DiwgDI
+	 4szhB1zKf5vr7R6Lq9pj3ylCDe3OCWRvS0GZm5IPGgDB5XpGWBMbLOaeOKkUbkCaZt
+	 gQRjv1uW5Mv6xej8oYny8mgJ47hU11W3GwrGzfvE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbgBFPLm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 10:11:42 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37526 "EHLO
+        id S1727799AbgBFPLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 10:11:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37582 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727450AbgBFPLm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:11:42 -0500
+        with ESMTP id S1727602AbgBFPLn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 10:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=CdqmLOZ5sQ/Aflxvzy0izWi/tvqp/in3SnUYEGpwbcw=; b=c9XnhoYKCB1t/Ir0JOCrXRdVmI
-        4j2ExvLFcfIDC1WGd7F6hP5uLaq0meoHKIdmwf1+by44zO90p4L+0RN9bqNYW68wSIZMS/bbCYxO6
-        eCCjFdeXgKm8eMbxr48U9CWdKDUVX8Sb1dPT4bs1qzKpAC2S9r8przpKsUZoj86HmJkhYwRk7PoDW
-        Gdz/xTw5gciIvoxC572NhQJ5QPKKCJBZy8URSs6/hDo/ITyBF1R663YINYNYAOyu1veNK37D03tuN
-        12j8H873ffk2r5GjtEnp7qt0vpZ9FmeG27kZeLvCS6FbHPJ3+Rq/vOTLXtxAh5MoDFrn9GkAxLuRm
-        DKXAMaTQ==;
+        bh=UhxvxepcKfB+Wfh8eN9De8M7E0rqIZOFN8yjyXgRbHc=; b=GAnLgO2v9sLQP9LnMDfDtF1fH4
+        C/kM/KBZRnluJAHtyFTkvb4oYk4F292J1aAFv6dbblnnVecDomnxBsSivtkmjpd+rEKjzB9ZjJIJ9
+        aziyPesQmWFoVJerDdaWCdczZTh+226F5F1FJ9NnnbxxDJkqtD/NZzPadqlMrJDUFFLxDy8cShvYn
+        4q2lhN/Ud0l3Mt+m6YFqlcdTe8vM3FjhtQdyQYHjuMVoVJK9RgBdSqnP77Cys1cEV/88lwqMy2RJ5
+        L1NlhEYRC3mrdhA8vxFpSJMNwIFfBSI4v9gsTmxxF3gpTpC96nFJ7h1S9O4YCqt0Ox+VdCMRW9vMR
+        lWJj5kuA==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izioc-000437-U5; Thu, 06 Feb 2020 15:11:42 +0000
+        id 1izioc-000430-DU; Thu, 06 Feb 2020 15:11:42 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1izioW-002oNQ-0v; Thu, 06 Feb 2020 16:11:32 +0100
+        id 1izioV-002oMr-OA; Thu, 06 Feb 2020 16:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 09/11] docs: misc-devices/c2port.txt: convert to ReST format
-Date:   Thu,  6 Feb 2020 16:11:28 +0100
-Message-Id: <0a053afb27db3fe13443ea54885ef9afcf480b34.1581001737.git.mchehab+huawei@kernel.org>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org
+Subject: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
+Date:   Thu,  6 Feb 2020 16:11:21 +0100
+Message-Id: <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581001737.git.mchehab+huawei@kernel.org>
 References: <cover.1581001737.git.mchehab+huawei@kernel.org>
@@ -60,132 +65,332 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use copyright symbol;
-- use title markups;
-- adjust indentation;
-- mark literal blocks as such.
+This file is almost compatible with ReST. Just minor changes
+were needed:
+
+- Adjust document and titles markups;
+- Adjust numbered list markups;
+- Add a comments markup for the Contents section;
+- Add markups for literal blocks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../misc-devices/{c2port.txt => c2port.rst}   | 58 ++++++++++---------
- Documentation/misc-devices/index.rst          |  1 +
- 2 files changed, 32 insertions(+), 27 deletions(-)
- rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
+ ...symmetric-keys.txt => asymmetric-keys.rst} | 91 +++++++++----------
+ Documentation/crypto/index.rst                |  1 +
+ 2 files changed, 44 insertions(+), 48 deletions(-)
+ rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
 
-diff --git a/Documentation/misc-devices/c2port.txt b/Documentation/misc-devices/c2port.rst
-similarity index 59%
-rename from Documentation/misc-devices/c2port.txt
-rename to Documentation/misc-devices/c2port.rst
-index ea7344465610..258e1c1d43c7 100644
---- a/Documentation/misc-devices/c2port.txt
-+++ b/Documentation/misc-devices/c2port.rst
-@@ -1,7 +1,11 @@
--			C2 port support
--			---------------
+diff --git a/Documentation/crypto/asymmetric-keys.txt b/Documentation/crypto/asymmetric-keys.rst
+similarity index 91%
+rename from Documentation/crypto/asymmetric-keys.txt
+rename to Documentation/crypto/asymmetric-keys.rst
+index 8763866b11cf..34063f8959fe 100644
+--- a/Documentation/crypto/asymmetric-keys.txt
++++ b/Documentation/crypto/asymmetric-keys.rst
+@@ -1,8 +1,10 @@
+-		=============================================
+-		ASYMMETRIC / PUBLIC-KEY CRYPTOGRAPHY KEY TYPE
+-		=============================================
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
  
--(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
-+===============
-+C2 port support
-+===============
+-Contents:
++=============================================
++Asymmetric / Public-key Cryptography Key Type
++=============================================
 +
-+|copy| Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
++.. Contents:
  
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
-@@ -32,10 +36,10 @@ The C2 Interface main references are at (http://www.silabs.com)
- Silicon Laboratories site], see:
+   - Overview.
+   - Key identification.
+@@ -13,8 +15,7 @@ Contents:
+   - Keyring link restrictions.
  
- - AN127: FLASH Programming via the C2 Interface at
--http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf 
-+  http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf
  
- - C2 Specification at
--http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
-+  http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
+-========
+-OVERVIEW
++Overview
+ ========
  
- however it implements a two wire serial communication protocol (bit
- banging) designed to enable in-system programming, debugging, and
-@@ -47,44 +51,44 @@ Using the driver
- ----------------
+ The "asymmetric" key type is designed to be a container for the keys used in
+@@ -42,8 +43,7 @@ key, or it may interpret it as a reference to a key held somewhere else in the
+ system (for example, a TPM).
  
- Once the driver is loaded you can use sysfs support to get C2port's
--info or read/write in-system flash.
-+info or read/write in-system flash::
  
--# ls /sys/class/c2port/c2port0/
--access            flash_block_size  flash_erase       rev_id
--dev_id            flash_blocks_num  flash_size        subsystem/
--flash_access      flash_data        reset             uevent
-+  # ls /sys/class/c2port/c2port0/
-+  access            flash_block_size  flash_erase       rev_id
-+  dev_id            flash_blocks_num  flash_size        subsystem/
-+  flash_access      flash_data        reset             uevent
+-==================
+-KEY IDENTIFICATION
++Key Identification
+ ==================
  
- Initially the C2port access is disabled since you hardware may have
- such lines multiplexed with other devices so, to get access to the
--C2port, you need the command:
-+C2port, you need the command::
+ If a key is added with an empty name, the instantiation data parsers are given
+@@ -57,49 +57,48 @@ The asymmetric key type's match function can then perform a wider range of
+ comparisons than just the straightforward comparison of the description with
+ the criterion string:
  
--# echo 1 > /sys/class/c2port/c2port0/access
-+  # echo 1 > /sys/class/c2port/c2port0/access
+- (1) If the criterion string is of the form "id:<hexdigits>" then the match
++  1) If the criterion string is of the form "id:<hexdigits>" then the match
+      function will examine a key's fingerprint to see if the hex digits given
+-     after the "id:" match the tail.  For instance:
++     after the "id:" match the tail.  For instance::
  
- after that you should read the device ID and revision ID of the
--connected micro controller:
-+connected micro controller::
+ 	keyctl search @s asymmetric id:5acc2142
  
--# cat /sys/class/c2port/c2port0/dev_id
--8
--# cat /sys/class/c2port/c2port0/rev_id
--1
-+  # cat /sys/class/c2port/c2port0/dev_id
-+  8
-+  # cat /sys/class/c2port/c2port0/rev_id
-+  1
+-     will match a key with fingerprint:
++     will match a key with fingerprint::
  
- However, for security reasons, the in-system flash access in not
--enabled yet, to do so you need the command:
-+enabled yet, to do so you need the command::
+ 	1A00 2040 7601 7889 DE11  882C 3823 04AD 5ACC 2142
  
--# echo 1 > /sys/class/c2port/c2port0/flash_access
-+  # echo 1 > /sys/class/c2port/c2port0/flash_access
+- (2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
++ 2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
+      match will match the ID as in (1), but with the added restriction that
+      only keys of the specified subtype (e.g. tpm) will be matched.  For
+-     instance:
++     instance::
  
--After that you can read the whole flash:
-+After that you can read the whole flash::
+ 	keyctl search @s asymmetric tpm:5acc2142
  
--# cat /sys/class/c2port/c2port0/flash_data > image
-+  # cat /sys/class/c2port/c2port0/flash_data > image
+ Looking in /proc/keys, the last 8 hex digits of the key fingerprint are
+-displayed, along with the subtype:
++displayed, along with the subtype::
  
--erase it:
-+erase it::
+ 	1a39e171 I-----     1 perm 3f010000     0     0 asymmetric modsign.0: DSA 5acc2142 []
  
--# echo 1 > /sys/class/c2port/c2port0/flash_erase
-+  # echo 1 > /sys/class/c2port/c2port0/flash_erase
  
--and write it:
-+and write it::
+-=========================
+-ACCESSING ASYMMETRIC KEYS
++Accessing Asymmetric Keys
+ =========================
  
--# cat image > /sys/class/c2port/c2port0/flash_data
-+  # cat image > /sys/class/c2port/c2port0/flash_data
+ For general access to asymmetric keys from within the kernel, the following
+-inclusion is required:
++inclusion is required::
  
--after writing you have to reset the device to execute the new code:
-+after writing you have to reset the device to execute the new code::
+ 	#include <crypto/public_key.h>
  
--# echo 1 > /sys/class/c2port/c2port0/reset
-+  # echo 1 > /sys/class/c2port/c2port0/reset
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 04f5dab2384c..c2e880d78734 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -16,6 +16,7 @@ fit into other categories.
+ This gives access to functions for dealing with asymmetric / public keys.
+ Three enums are defined there for representing public-key cryptography
+-algorithms:
++algorithms::
  
-    ad525x_dpot
-    eeprom
-+   c2port
-    ibmvmc
-    ics932s401
-    isl29003
+ 	enum pkey_algo
+ 
+-digest algorithms used by those:
++digest algorithms used by those::
+ 
+ 	enum pkey_hash_algo
+ 
+-and key identifier representations:
++and key identifier representations::
+ 
+ 	enum pkey_id_type
+ 
+@@ -110,25 +109,25 @@ PGP-specific metadata, whereas X.509 has arbitrary certificate identifiers.
+ 
+ The operations defined upon a key are:
+ 
+- (1) Signature verification.
++1) Signature verification.
+ 
+ Other operations are possible (such as encryption) with the same key data
+ required for verification, but not currently supported, and others
+ (eg. decryption and signature generation) require extra key data.
+ 
+ 
+-SIGNATURE VERIFICATION
++Signature Verification
+ ----------------------
+ 
+ An operation is provided to perform cryptographic signature verification, using
+-an asymmetric key to provide or to provide access to the public key.
++an asymmetric key to provide or to provide access to the public key::
+ 
+ 	int verify_signature(const struct key *key,
+ 			     const struct public_key_signature *sig);
+ 
+ The caller must have already obtained the key from some source and can then use
+ it to check the signature.  The caller must have parsed the signature and
+-transferred the relevant bits to the structure pointed to by sig.
++transferred the relevant bits to the structure pointed to by sig::
+ 
+ 	struct public_key_signature {
+ 		u8 *digest;
+@@ -159,8 +158,7 @@ data; or -ENOMEM if an allocation can't be performed.  -EINVAL can be returned
+ if the key argument is the wrong type or is incompletely set up.
+ 
+ 
+-=======================
+-ASYMMETRIC KEY SUBTYPES
++Asymmetric Key Subtypes
+ =======================
+ 
+ Asymmetric keys have a subtype that defines the set of operations that can be
+@@ -171,11 +169,11 @@ The subtype is selected by the key data parser and the parser must initialise
+ the data required for it.  The asymmetric key retains a reference on the
+ subtype module.
+ 
+-The subtype definition structure can be found in:
++The subtype definition structure can be found in::
+ 
+ 	#include <keys/asymmetric-subtype.h>
+ 
+-and looks like the following:
++and looks like the following::
+ 
+ 	struct asymmetric_key_subtype {
+ 		struct module		*owner;
+@@ -198,39 +196,37 @@ the subtype.  Currently, the name is only used for print statements.
+ 
+ There are a number of operations defined by the subtype:
+ 
+- (1) describe().
++  1) describe().
+ 
+      Mandatory.  This allows the subtype to display something in /proc/keys
+      against the key.  For instance the name of the public key algorithm type
+      could be displayed.  The key type will display the tail of the key
+      identity string after this.
+ 
+- (2) destroy().
++  2) destroy().
+ 
+      Mandatory.  This should free the memory associated with the key.  The
+      asymmetric key will look after freeing the fingerprint and releasing the
+      reference on the subtype module.
+ 
+- (3) query().
++  3) query().
+ 
+      Mandatory.  This is a function for querying the capabilities of a key.
+ 
+- (4) eds_op().
++  4) eds_op().
+ 
+      Optional.  This is the entry point for the encryption, decryption and
+      signature creation operations (which are distinguished by the operation ID
+      in the parameter struct).  The subtype may do anything it likes to
+      implement an operation, including offloading to hardware.
+ 
+- (5) verify_signature().
++  5) verify_signature().
+ 
+      Optional.  This is the entry point for signature verification.  The
+      subtype may do anything it likes to implement an operation, including
+      offloading to hardware.
+ 
+-
+-==========================
+-INSTANTIATION DATA PARSERS
++Instantiation Data Parsers
+ ==========================
+ 
+ The asymmetric key type doesn't generally want to store or to deal with a raw
+@@ -254,11 +250,11 @@ Examples of blob formats for which parsers could be implemented include:
+ During key instantiation each parser in the list is tried until one doesn't
+ return -EBADMSG.
+ 
+-The parser definition structure can be found in:
++The parser definition structure can be found in::
+ 
+ 	#include <keys/asymmetric-parser.h>
+ 
+-and looks like the following:
++and looks like the following::
+ 
+ 	struct asymmetric_key_parser {
+ 		struct module	*owner;
+@@ -273,7 +269,7 @@ the parser.
+ There is currently only a single operation defined by the parser, and it is
+ mandatory:
+ 
+- (1) parse().
++  1) parse().
+ 
+      This is called to preparse the key from the key creation and update paths.
+      In particular, it is called during the key creation _before_ a key is
+@@ -282,7 +278,7 @@ mandatory:
+ 
+      The caller passes a pointer to the following struct with all of the fields
+      cleared, except for data, datalen and quotalen [see
+-     Documentation/security/keys/core.rst].
++     Documentation/security/keys/core.rst]::
+ 
+ 	struct key_preparsed_payload {
+ 		char		*description;
+@@ -321,7 +317,7 @@ mandatory:
+      public-key algorithm such as RSA and DSA this will likely be a printable
+      hex version of the key's fingerprint.
+ 
+-Functions are provided to register and unregister parsers:
++Functions are provided to register and unregister parsers::
+ 
+ 	int register_asymmetric_key_parser(struct asymmetric_key_parser *parser);
+ 	void unregister_asymmetric_key_parser(struct asymmetric_key_parser *subtype);
+@@ -330,8 +326,7 @@ Parsers may not have the same name.  The names are otherwise only used for
+ displaying in debugging messages.
+ 
+ 
+-=========================
+-KEYRING LINK RESTRICTIONS
++Keyring Link Restrictions
+ =========================
+ 
+ Keyrings created from userspace using add_key can be configured to check the
+@@ -340,7 +335,7 @@ allowed to link.
+ 
+ Several restriction methods are available:
+ 
+- (1) Restrict using the kernel builtin trusted keyring
++  1) Restrict using the kernel builtin trusted keyring
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "builtin_trusted"
+@@ -350,7 +345,7 @@ Several restriction methods are available:
+      rejected.  The ca_keys kernel parameter also affects which keys are used
+      for signature verification.
+ 
+- (2) Restrict using the kernel builtin and secondary trusted keyrings
++  2) Restrict using the kernel builtin and secondary trusted keyrings
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "builtin_and_secondary_trusted"
+@@ -361,7 +356,7 @@ Several restriction methods are available:
+      kernel parameter also affects which keys are used for signature
+      verification.
+ 
+- (3) Restrict using a separate key or keyring
++  3) Restrict using a separate key or keyring
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "key_or_keyring:<key or keyring serial number>[:chain]"
+@@ -378,7 +373,7 @@ Several restriction methods are available:
+      certificate in order (starting closest to the root) to a keyring.  For
+      instance, one keyring can be populated with links to a set of root
+      certificates, with a separate, restricted keyring set up for each
+-     certificate chain to be validated:
++     certificate chain to be validated::
+ 
+ 	# Create and populate a keyring for root certificates
+ 	root_id=`keyctl add keyring root-certs "" @s`
+@@ -400,7 +395,7 @@ Several restriction methods are available:
+      one of the root certificates.
+ 
+      A single keyring can be used to verify a chain of signatures by
+-     restricting the keyring after linking the root certificate:
++     restricting the keyring after linking the root certificate::
+ 
+ 	# Create a keyring for the certificate chain and add the root
+ 	chain2_id=`keyctl add keyring chain2 "" @s`
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index c4ff5d791233..2bcaf422731e 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -18,6 +18,7 @@ for cryptographic use cases, as well as programming examples.
+ 
+    intro
+    architecture
++   asymmetric-keys
+    devel-algos
+    userspace-if
+    crypto_engine
 -- 
 2.24.1
 
