@@ -6,24 +6,22 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1933C35247
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 02:38:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE13C35247
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:35:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AAB85222C2
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 02:38:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1582B222C2
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:35:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727028AbgBGCiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 21:38:03 -0500
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:57018 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726597AbgBGCiD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 21:38:03 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R651e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TpJB1NS_1581043075;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TpJB1NS_1581043075)
+        id S1726755AbgBGDe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 22:34:59 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:60017 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726674AbgBGDe7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 22:34:59 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04428;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TpKMeB3_1581046489;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TpKMeB3_1581046489)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 07 Feb 2020 10:37:56 +0800
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Subject: [PATCH RESEND v8 0/2] sched/numa: introduce numa locality
+          Fri, 07 Feb 2020 11:34:49 +0800
 To:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
@@ -40,19 +38,13 @@ To:     Ingo Molnar <mingo@redhat.com>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
-References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
- <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
- <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
- <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
- <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
- <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
- <a95a7e05-ad60-b9ee-ca39-f46c8e08887d@linux.alibaba.com>
-Message-ID: <ed20f40d-140f-cbad-f869-8731e7db2bcf@linux.alibaba.com>
-Date:   Fri, 7 Feb 2020 10:37:55 +0800
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Subject: [PATCH RESEND v8 0/2] sched/numa: introduce numa locality
+Message-ID: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
+Date:   Fri, 7 Feb 2020 11:34:48 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
  Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <a95a7e05-ad60-b9ee-ca39-f46c8e08887d@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -117,3 +109,4 @@ Michael Wang (2):
 
 -- 
 2.14.4.44.g2045bb6
+
