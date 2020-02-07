@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E34CC3F68F
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05EF7C47409
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E870421927
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D230022464
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BCVsa9Vg"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qCL7wJvy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbgBGDhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727548AbgBGDhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 6 Feb 2020 22:37:40 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13345 "EHLO
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13343 "EHLO
         hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727527AbgBGDhj (ORCPT
+        with ESMTP id S1727524AbgBGDhj (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 22:37:39 -0500
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3cdb680003>; Thu, 06 Feb 2020 19:37:12 -0800
+        id <B5e3cdb680002>; Thu, 06 Feb 2020 19:37:12 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
   Thu, 06 Feb 2020 19:37:37 -0800
 X-PGP-Universal: processed;
         by hqpgpgate102.nvidia.com on Thu, 06 Feb 2020 19:37:37 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
- 2020 03:37:37 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 7 Feb 2020 03:37:37 +0000
+ 2020 03:37:36 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 7 Feb 2020 03:37:36 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e3cdb800008>; Thu, 06 Feb 2020 19:37:36 -0800
+        id <B5e3cdb800005>; Thu, 06 Feb 2020 19:37:36 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -55,11 +55,10 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
         <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v5 06/12] mm/gup: require FOLL_GET for get_user_pages_fast()
-Date:   Thu, 6 Feb 2020 19:37:29 -0800
-Message-ID: <20200207033735.308000-7-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v5 04/12] mm: introduce page_ref_sub_return()
+Date:   Thu, 6 Feb 2020 19:37:27 -0800
+Message-ID: <20200207033735.308000-5-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207033735.308000-1-jhubbard@nvidia.com>
 References: <20200207033735.308000-1-jhubbard@nvidia.com>
@@ -68,89 +67,58 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581046633; bh=zdKJN+80LnhrM42H0YcEzysuucpfBmwOwmXaeST0eWY=;
+        t=1581046632; bh=DhMMWR0L+su36XhWVkaUTT8AIpyvoaCJ7tCBpQiPc3M=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=BCVsa9Vg/FLx131VkBwVusgApBWD3rXCMU4HwFYgqK+JHpePFTfpxlV7oG9uqvwoD
-         eFInmWS/uaWR2xl9VFdCBWhGrmcdqU43SUDY+MjXrnqfaP1+yCtpfUdgqU2hzEGK3j
-         OMpaRT/Yiw0G3m/vV1RCf5Xl1oK5n4Q587r5K2jjOC9vErW93juZY6sOFBaqP+MZok
-         7EdA7Ui/FblkaCwg16abHqUYqltQJA7CKenmPCbrJteRfvVY/d+b5anez4HgL/09d9
-         yLGxVuVVc7GjMkopOFdmOp6vT2zV+F4i1Lx9L2gWpSQfJxkLl+Xmb7ViCvcDclCSnF
-         xK8ZrUQ/PlMtQ==
+        b=qCL7wJvyuAIwVgPSCBkxszuO0dlj80eWg/EDbClYxweQTRNHL+GTW+zK5ITf9LNig
+         uRb9r+NQmOvLYXjHpxOGosNBSj7qAFzD1Gp/gXOyn3l/7Eqt4KN7cqUq1efOgufStl
+         7Bea1KDIgNa9pQWBFdc/LdEPKGUGmPWbDZMoxCXH+5lY5tU5TD64FzekAlyXNuUnXd
+         Myo9xS52/un25I1eAeSv6b3cg81SSkeMiPJec39TyWWzQLsEdozMVBZqphrxjT7MNM
+         jkW3BmWsPJ7q587TT4lIOdnmBBkxgFCDUucq88TsdGmsVVI9cKN0B+bb69YA/DJtdV
+         8Nhet+MSTrAig==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Internal to mm/gup.c, require that get_user_pages_fast()
-and __get_user_pages_fast() identify themselves, by setting
-FOLL_GET. This is required in order to be able to make decisions
-based on "FOLL_PIN, or FOLL_GET, or both or neither are set", in
-upcoming patches.
+An upcoming patch requires subtracting a large chunk of refcounts from
+a page, and checking what the resulting refcount is. This is a little
+different than the usual "check for zero refcount" that many of the
+page ref functions already do. However, it is similar to a few other
+routines that (like this one) are generally useful for things such as
+1-based refcounting.
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Add page_ref_sub_return(), that subtracts a chunk of refcounts
+atomically, and returns an atomic snapshot of the result.
+
 Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/gup.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ include/linux/page_ref.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index e5f75e886663..c8affbea2019 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2390,6 +2390,14 @@ int __get_user_pages_fast(unsigned long start, int n=
-r_pages, int write,
- 	unsigned long len, end;
- 	unsigned long flags;
- 	int nr =3D 0;
-+	/*
-+	 * Internally (within mm/gup.c), gup fast variants must set FOLL_GET,
-+	 * because gup fast is always a "pin with a +1 page refcount" request.
-+	 */
-+	unsigned int gup_flags =3D FOLL_GET;
-+
-+	if (write)
-+		gup_flags |=3D FOLL_WRITE;
-=20
- 	start =3D untagged_addr(start) & PAGE_MASK;
- 	len =3D (unsigned long) nr_pages << PAGE_SHIFT;
-@@ -2415,7 +2423,7 @@ int __get_user_pages_fast(unsigned long start, int nr=
-_pages, int write,
- 	if (IS_ENABLED(CONFIG_HAVE_FAST_GUP) &&
- 	    gup_fast_permitted(start, end)) {
- 		local_irq_save(flags);
--		gup_pgd_range(start, end, write ? FOLL_WRITE : 0, pages, &nr);
-+		gup_pgd_range(start, end, gup_flags, pages, &nr);
- 		local_irq_restore(flags);
- 	}
-=20
-@@ -2454,7 +2462,7 @@ static int internal_get_user_pages_fast(unsigned long=
- start, int nr_pages,
- 	int nr =3D 0, ret =3D 0;
-=20
- 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
--				       FOLL_FORCE | FOLL_PIN)))
-+				       FOLL_FORCE | FOLL_PIN | FOLL_GET)))
- 		return -EINVAL;
-=20
- 	start =3D untagged_addr(start) & PAGE_MASK;
-@@ -2521,6 +2529,13 @@ int get_user_pages_fast(unsigned long start, int nr_=
-pages,
- 	if (WARN_ON_ONCE(gup_flags & FOLL_PIN))
- 		return -EINVAL;
-=20
-+	/*
-+	 * The caller may or may not have explicitly set FOLL_GET; either way is
-+	 * OK. However, internally (within mm/gup.c), gup fast variants must set
-+	 * FOLL_GET, because gup fast is always a "pin with a +1 page refcount"
-+	 * request.
-+	 */
-+	gup_flags |=3D FOLL_GET;
- 	return internal_get_user_pages_fast(start, nr_pages, gup_flags, pages);
+diff --git a/include/linux/page_ref.h b/include/linux/page_ref.h
+index 14d14beb1f7f..d27701199a4d 100644
+--- a/include/linux/page_ref.h
++++ b/include/linux/page_ref.h
+@@ -102,6 +102,15 @@ static inline void page_ref_sub(struct page *page, int=
+ nr)
+ 		__page_ref_mod(page, -nr);
  }
- EXPORT_SYMBOL_GPL(get_user_pages_fast);
+=20
++static inline int page_ref_sub_return(struct page *page, int nr)
++{
++	int ret =3D atomic_sub_return(nr, &page->_refcount);
++
++	if (page_ref_tracepoint_active(__tracepoint_page_ref_mod_and_return))
++		__page_ref_mod_and_return(page, -nr, ret);
++	return ret;
++}
++
+ static inline void page_ref_inc(struct page *page)
+ {
+ 	atomic_inc(&page->_refcount);
 --=20
 2.25.0
 
