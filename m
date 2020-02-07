@@ -2,227 +2,208 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D656C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 19:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B8FC35250
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:05:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C8E821775
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 19:46:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDEAC217BA
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:05:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qz9fEfJs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgBGTqJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 14:46:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41696 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726974AbgBGTqI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Feb 2020 14:46:08 -0500
-Received: from oasis.local.home (unknown [12.174.139.122])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B39220726;
-        Fri,  7 Feb 2020 19:46:05 +0000 (UTC)
-Date:   Fri, 7 Feb 2020 14:46:03 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1727130AbgBGVFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 16:05:54 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14260 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726987AbgBGVFy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 16:05:54 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3dd1220000>; Fri, 07 Feb 2020 13:05:38 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 07 Feb 2020 13:05:52 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 07 Feb 2020 13:05:52 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
+ 2020 21:05:52 +0000
+Subject: Re: [PATCH v5 01/12] mm: dump_page(): better diagnostics for compound
+ pages
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use
- bootconfig for init command line
-Message-ID: <20200207144603.30688b94@oasis.local.home>
-In-Reply-To: <202002070954.C18E7F58B@keescook>
-References: <157867220019.17873.13377985653744804396.stgit@devnote2>
-        <157867229521.17873.654222294326542349.stgit@devnote2>
-        <202002070954.C18E7F58B@keescook>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20200207033735.308000-1-jhubbard@nvidia.com>
+ <20200207033735.308000-2-jhubbard@nvidia.com>
+ <20200207172746.GE8731@bombadil.infradead.org>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <3477bf65-64dc-7854-6720-589f7fcdac07@nvidia.com>
+Date:   Fri, 7 Feb 2020 13:05:52 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200207172746.GE8731@bombadil.infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1581109538; bh=7ut/wdkDS0FpA4HZltu5HfFGDc856CHfoKcOQZwZpKY=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qz9fEfJsgWpbE4ES0N4b0U2KdwU7WUZEPZkyZm1lWT+ssrEe4QmCYIAwcG3u59fsO
+         95bqQChY9FUbxQMy5LQyXcscufnj54mi7NnbUyVO1c9YXqIGoXNGYVv7DfIdlzn4Tj
+         6eWA4Vw0ML9zfUsTRNEdC/sts2heSOLYkbUKAXS7fxbr6Uq8tSFyBtoxinnLFhqb6n
+         aySRLrY5vdGSNUXd4haLTwimnVQ9jcXQ0irFEl9ctRbxH1z9GqDwtOj3hAHBktAXL6
+         8uczRol4+YH/ds6EseuIL253d1QTCTZ+4mXBq7e7xq9kpwVILZjJfMVmcYDSZAZOkm
+         0rCBfeUgW//tg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 7 Feb 2020 10:03:16 -0800
-Kees Cook <keescook@chromium.org> wrote:
-
-> >  static void __init setup_command_line(char *command_line)
-> >  {
-> > -	size_t len, xlen = 0;
-> > +	size_t len, xlen = 0, ilen = 0;
-> >  
-> >  	if (extra_command_line)
-> >  		xlen = strlen(extra_command_line);
-> > +	if (extra_init_args)
-> > +		ilen = strlen(extra_init_args) + 4; /* for " -- " */
-> >  
-> >  	len = xlen + strlen(boot_command_line) + 1;
-> >  
-> > -	saved_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
-> > +	saved_command_line = memblock_alloc(len + ilen, SMP_CACHE_BYTES);
-> >  	if (!saved_command_line)
-> > -		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
-> > +		panic("%s: Failed to allocate %zu bytes\n", __func__, len + ilen);
-> >  
-> >  	static_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
-> >  	if (!static_command_line)
-> > @@ -533,6 +539,22 @@ static void __init setup_command_line(char *command_line)
-> >  	}
-> >  	strcpy(saved_command_line + xlen, boot_command_line);
-> >  	strcpy(static_command_line + xlen, command_line);
-> > +
-> > +	if (ilen) {
-> > +		/*
-> > +		 * Append supplemental init boot args to saved_command_line
-> > +		 * so that user can check what command line options passed
-> > +		 * to init.
-> > +		 */
-> > +		len = strlen(saved_command_line);
-> > +		if (!strstr(boot_command_line, " -- ")) {
-> > +			strcpy(saved_command_line + len, " -- ");
-> > +			len += 4;
-> > +		} else
-> > +			saved_command_line[len++] = ' ';
-> > +
-> > +		strcpy(saved_command_line + len, extra_init_args);
-> > +	}  
+On 2/7/20 9:27 AM, Matthew Wilcox wrote:
+...
 > 
-> This isn't safe because it will destroy any argument with " -- " in
-> quotes and anything after it. For example, booting with:
+> A definite improvement, but I think we could do better.  For example,
+> you've changed PageCompound to PageTail here, whereas we really do want
+> to dump some more information for PageHead pages than the plain vanilla
+> order-0 page has.  Another thing is that page_mapping() calls compound_head(),
+> so if the page is corrupted, we're going to get a funky pointer dereference.
 > 
-> thing=on acpi_osi="! -- " other=setting
-> 
-> will wreck acpi_osi's value and potentially overwrite "other=settings",
-> etc.
-> 
-> (Yes, this seems very unlikely, but you can't treat " -- " as special,
-> the command line string must be correct parsed for double quotes, as
-> parse_args() does.)
+> I spent a bit of time on this reimplementation ... what do you think?
 > 
 
-This is not the args you are looking for. ;-)
+It looks fine to me. I gave it a quick spin, here's the output for a normal
+and a huge page, and it has everything we want to see:
 
-There is a slight bug, but not as bad as you may think it is.
-bootconfig (when added to the command line) will look for a json like
-file appended to the initrd, and it will parse that. That's what all the
-xbc_*() functions do (extended boot commandline). If one of the options
-in that json like file is "init", then it will create the
-extra_init_args, which will make ilen greater than zero.
+page:ffffea0010f0d640 refcount:1025 mapcount:1 mapping:0000000021857089 index:0xed
+anon flags: 0x17ffe0000080036(referenced|uptodate|lru|active|swapbacked)
+raw: 017ffe0000080036 ffffea0011731f08 ffffea0011730008 ffff8884777272c1
+raw: 00000000000000ed 0000000000000000 0000040100000000 0000000000000000
+page dumped because: testing dump_page()
 
-The above if statement looks for that ' -- ', and if it doesn't find it
-(strcmp() returns NULL when not found) it will than append " -- " to
-the boot_command_line. If it is found, then the " -- " is not added. In
-either case, the init args found in the json like file in the initrd is
-appended to the saved_command_line.
-
-I did say there's a slight bug here. If you have your condition, and
-you add init arguments to that json file, it wont properly add the " --
-", and the init arguments in that file will be ignored.
-
-That should be fixed, and I think I was able to do that below. I also
-noticed that we don't properly look for "bootconfig" either.
-
--- Steve
+page:ffffea0010ef1b80 head:ffffea0010ef0000 refcount:0 mapcount:1 mapping:00000000a8e1c7fa index:0xed order:9 compound_mapcount: 1
+anon flags: 0x17ffe0000000000()
+raw: 017ffe0000000000 ffffea0010ef0001 ffffea0010ef1b88 dead000000000400
+raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+head: 017ffe0000090036 ffffea0011734548 ffffea0010ef8008 ffff8884777271b9
+head: 000000000000007f 0000000000000000 00000201ffffffff 0000000000000000
+page dumped because: testing dump_page()
 
 
+>  - Print the mapping pointer using %p insted of %px.  The actual value of
+>    the pointer can be read out of the raw page dump and using %p gives a
+>    chance to correlate it to earlier printk of the mapping pointer.
+>  - Add the order of the page for compound pages
+>  - Dump the raw head page as well as the raw page being dumped
+> 
+> diff --git a/mm/debug.c b/mm/debug.c
+> index ecccd9f17801..0564d4cb8233 100644
+> --- a/mm/debug.c
+> +++ b/mm/debug.c
+> @@ -44,8 +44,10 @@ const struct trace_print_flags vmaflag_names[] = {
+>  
+>  void __dump_page(struct page *page, const char *reason)
+>  {
+> +	struct page *head = compound_head(page);
+>  	struct address_space *mapping;
+>  	bool page_poisoned = PagePoisoned(page);
+> +	bool compound = PageCompound(page);
+>  	/*
+>  	 * Accessing the pageblock without the zone lock. It could change to
+>  	 * "isolate" again in the meantime, but since we are just dumping the
+> @@ -66,25 +68,32 @@ void __dump_page(struct page *page, const char *reason)
+>  		goto hex_only;
+>  	}
+>  
+> -	mapping = page_mapping(page);
+> +	if (page < head || (page >= head + MAX_ORDER_NR_PAGES)) {
+> +		/* Corrupt page, cannot call page_mapping */
+> +		mapping = page->mapping;
+> +		head = page;
+> +		compound = false;
+> +	} else {
+> +		mapping = page_mapping(page);
+> +	}
+>  
+>  	/*
+>  	 * Avoid VM_BUG_ON() in page_mapcount().
+>  	 * page->_mapcount space in struct page is used by sl[aou]b pages to
+>  	 * encode own info.
+>  	 */
+> -	mapcount = PageSlab(page) ? 0 : page_mapcount(page);
+> +	mapcount = PageSlab(head) ? 0 : page_mapcount(head);
+>  
+> -	if (PageCompound(page))
+> -		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
+> -			"index:%#lx compound_mapcount: %d\n",
+> -			page, page_ref_count(page), mapcount,
+> +	if (compound)
+> +		pr_warn("page:%px head:%px refcount:%d mapcount:%d mapping:%p "
+> +			"index:%#lx order:%u compound_mapcount: %d\n",
+> +			page, head, page_ref_count(page), mapcount,
+>  			page->mapping, page_to_pgoff(page),
+> -			compound_mapcount(page));
+> +			compound_order(head), compound_mapcount(page));
+>  	else
+> -		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
+> +		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p index:%#lx\n",
+>  			page, page_ref_count(page), mapcount,
+> -			page->mapping, page_to_pgoff(page));
+> +			mapping, page_to_pgoff(page));
+>  	if (PageKsm(page))
+>  		type = "ksm ";
+>  	else if (PageAnon(page))
+> @@ -106,6 +115,10 @@ void __dump_page(struct page *page, const char *reason)
+>  	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
+>  			sizeof(unsigned long), page,
+>  			sizeof(struct page), false);
+> +	if (!page_poisoned && compound)
+> +		print_hex_dump(KERN_WARNING, "head: ", DUMP_PREFIX_NONE, 32,
+> +			sizeof(unsigned long), head,
+> +			sizeof(struct page), false);
 
 
-> >  }
-> >  
-> >  /*
-> > @@ -759,6 +781,9 @@ asmlinkage __visible void __init start_kernel(void)
-> >  	if (!IS_ERR_OR_NULL(after_dashes))
-> >  		parse_args("Setting init args", after_dashes, NULL, 0, -1, -1,
-> >  			   NULL, set_init_arg);
-> > +	if (extra_init_args)
-> > +		parse_args("Setting extra init args", extra_init_args,
-> > +			   NULL, 0, -1, -1, NULL, set_init_arg);  
+Good thought to get the hex dump of the head page in this case, yes.
 
-diff --git a/init/main.c b/init/main.c
-index 491f1cdb3105..113c8244e5f0 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -142,6 +142,15 @@ static char *extra_command_line;
- /* Extra init arguments */
- static char *extra_init_args;
- 
-+#ifdef CONFIG_BOOT_CONFIG
-+/* Is bootconfig on command line? */
-+static bool bootconfig_found;
-+static bool initargs_found;
-+#else
-+# define bootconfig_found false
-+# define initargs_found false
-+#endif
-+
- static char *execute_command;
- static char *ramdisk_execute_command;
- 
-@@ -336,17 +345,32 @@ u32 boot_config_checksum(unsigned char *p, u32 size)
- 	return ret;
- }
- 
-+static int __init bootconfig_params(char *param, char *val,
-+				    const char *unused, void *arg)
-+{
-+	if (strcmp(param, "bootconfig") == 0) {
-+		bootconfig_found = true;
-+	} else if (strcmp(param, "--") == 0) {
-+		initargs_found = true;
-+	}
-+	return 0;
-+}
-+
- static void __init setup_boot_config(const char *cmdline)
- {
-+	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
- 	u32 size, csum;
- 	char *data, *copy;
- 	const char *p;
- 	u32 *hdr;
- 	int ret;
- 
--	p = strstr(cmdline, "bootconfig");
--	if (!p || (p != cmdline && !isspace(*(p-1))) ||
--	    (p[10] && !isspace(p[10])))
-+	/* All fall through to do_early_param. */
-+	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-+	parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-+		   bootconfig_params);
-+
-+	if (!bootconfig_found)
- 		return;
- 
- 	if (!initrd_end)
-@@ -563,11 +587,12 @@ static void __init setup_command_line(char *command_line)
- 		 * to init.
- 		 */
- 		len = strlen(saved_command_line);
--		if (!strstr(boot_command_line, " -- ")) {
-+		if (initargs_found) {
-+			saved_command_line[len++] = ' ';
-+		} else {
- 			strcpy(saved_command_line + len, " -- ");
- 			len += 4;
--		} else
--			saved_command_line[len++] = ' ';
-+		}
- 
- 		strcpy(saved_command_line + len, extra_init_args);
- 	}
+
+>  
+>  	if (reason)
+>  		pr_warn("page dumped because: %s\n", reason);
+> 
+
+
+Seeing as how I want to further enhance dump_page() slightly for this series (to 
+include the 3rd struct page's hpage_pincount), would you care to send this as a 
+formal patch that I could insert into this series, to replace patch 5?
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
