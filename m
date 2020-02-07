@@ -2,166 +2,224 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A590C352A3
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 08:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ADE4C352A2
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 10:30:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12A5A217BA
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 08:48:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ATnYdnC1"
+	by mail.kernel.org (Postfix) with ESMTP id 7628D2082E
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 10:30:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbgBGIsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 03:48:14 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45896 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726130AbgBGIsO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 03:48:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581065293;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cJ1SfKxvE9crgTE3OrX7M8hasjRet+oX1Q810pUeSAA=;
-        b=ATnYdnC1/dJ+rZAsGbg0JhBY5I3+/+zvzqbyp1WzkvOXTjxwSl0OWE7DuUWUEXklIdQh7k
-        XDO1RUj9Lbvj8UTUytWP67ttelitEHObtutPnozBLtWitGGhgE1YFy76P3bQ9l1oF0CVyI
-        bHt5uTNejmcwJ6VyrKvoF/MCoQq+AQg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-1z69S-cjNPOwon6_YYUBUw-1; Fri, 07 Feb 2020 03:48:09 -0500
-X-MC-Unique: 1z69S-cjNPOwon6_YYUBUw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24CDE800E21;
-        Fri,  7 Feb 2020 08:48:08 +0000 (UTC)
-Received: from gondolin (ovpn-117-112.ams2.redhat.com [10.36.117.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 565FB77931;
-        Fri,  7 Feb 2020 08:48:06 +0000 (UTC)
-Date:   Fri, 7 Feb 2020 09:48:03 +0100
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
-Message-ID: <20200207094803.152f0c9b.cohuck@redhat.com>
-In-Reply-To: <20200207072409.2cb038da@infradead.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
-        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
-        <20200206171132.4f51f17a.cohuck@redhat.com>
-        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
-        <20200206234736.196ef417@kernel.org>
-        <20200207072409.2cb038da@infradead.org>
-Organization: Red Hat GmbH
+        id S1726857AbgBGKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 05:30:46 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:41971 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726587AbgBGKaq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 05:30:46 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436287|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.126263-0.0024786-0.871258;DS=CONTINUE|ham_regular_dialog|0.0595875-0.00190005-0.938512;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03279;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.GlYZUym_1581071437;
+Received: from 192.168.31.126(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.GlYZUym_1581071437)
+          by smtp.aliyun-inc.com(10.147.44.118);
+          Fri, 07 Feb 2020 18:30:38 +0800
+Subject: Re: [PATCH v1 11/11] mtd: new support oops logger based on pstore/blk
+To:     Miquel Raynal <mraynal@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <1579482233-2672-12-git-send-email-liaoweixiong@allwinnertech.com>
+ <20200120110306.32e53fd8@xps13>
+ <27226590-379c-8784-f461-f5d701015611@allwinnertech.com>
+ <20200121094802.61f8cb4d@xps13>
+ <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
+ <20200122184114.125b42c8@xps13>
+ <e135f947-226f-8dd0-b328-fb87c5064914@allwinnertech.com>
+ <20200206164559.59c5eb6a@xps13>
+ <6a1b50f4-320f-43d1-50e3-b0a2c3c7fb96@allwinnertech.com>
+ <20200207094121.0ad702d0@xps13>
+From:   liaoweixiong <liaoweixiong@allwinnertech.com>
+Message-ID: <05c21cb6-988b-63a7-60ff-c4e975f25817@allwinnertech.com>
+Date:   Fri, 7 Feb 2020 18:30:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200207094121.0ad702d0@xps13>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 7 Feb 2020 07:24:09 +0100
-Mauro Carvalho Chehab <mchehab@infradead.org> wrote:
+hi Miquel Raynal,
 
-> >   
-> > > 
-> > > Would be nicer but this is acceptable too I think.  Especially, the
-> > > monospaced font allows breaking the table and keeping the parts aligned.    
+On 2020/2/7 下午4:41, Miquel Raynal wrote:
+> Hi Liao,
 > 
-> I couldn't resist trying to use a table ;-)
+> liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Fri, 7 Feb 2020
+> 12:13:08 +0800:
 > 
-> The following patch does that. IMO, it looks nice on both text and html
-> outputs.
-
-Now that I see this, I think this version is actually more readable
-than the existing text.
-
+>> hi Miquel Raynal,
+>>
+>> On 2020/2/6 PM 11:45, Miquel Raynal wrote:
+>>> Hi liao,
+>>>
+>>> liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Thu, 6 Feb 2020
+>>> 21:10:47 +0800:
+>>>    
+>>>> hi Miquel Raynal,
+>>>>
+>>>> On 2020/1/23 AM 1:41, Miquel Raynal wrote:
+>>>>> Hello,
+>>>>>   
+>>>>>     >>>>>>>> +/*
+>>>>>>>>>> + * All zones will be read as pstore/blk will read zone one by one when do
+>>>>>>>>>> + * recover.
+>>>>>>>>>> + */
+>>>>>>>>>> +static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
+>>>>>>>>>> +{
+>>>>>>>>>> +	struct mtdpstore_context *cxt = &oops_cxt;
+>>>>>>>>>> +	size_t retlen;
+>>>>>>>>>> +	int ret;
+>>>>>>>>>> +
+>>>>>>>>>> +	if (mtdpstore_block_isbad(cxt, off))
+>>>>>>>>>> +		return -ENEXT;
+>>>>>>>>>> +
+>>>>>>>>>> +	pr_debug("try to read off 0x%llx size %zu\n", off, size);
+>>>>>>>>>> +	ret = mtd_read(cxt->mtd, off, size, &retlen, (u_char *)buf);
+>>>>>>>>>> +	if ((ret < 0 && !mtd_is_bitflip(ret)) || size != retlen)  {
+>>>>>>>>>
+>>>>>>>>> IIRC size != retlen does not mean it failed, but that you should
+>>>>>>>>> continue reading after retlen bytes, no?
+>>>>>>>>>       >>
+>>>>>>>> Yes, you are right. I will fix it. Thanks.
+>>>>>>>>     >>>>> Also, mtd_is_bitflip() does not mean that you are reading a false
+>>>>>>>>> buffer, but that the data has been corrected as it contained bitflips.
+>>>>>>>>> mtd_is_eccerr() however, would be meaningful.
+>>>>>>>>>       >>
+>>>>>>>> Sure I know mtd_is_bitflip() does not mean failure, but I do not think
+>>>>>>>> mtd_is_eccerr() should be here since the codes are ret < 0 and NOT
+>>>>>>>> mtd_is_bitflip().
+>>>>>>>
+>>>>>>> Yes, just drop this check, only keep ret < 0.
+>>>>>>>      >>
+>>>>>> If I don't get it wrong, it should not	 be dropped here. Like your words,
+>>>>>> "mtd_is_bitflip() does not mean that you are reading a false buffer,
+>>>>>> but that the data has been corrected as it contained bitflips.", the
+>>>>>> data I get are valid even if mtd_is_bitflip() return true. It's correct
+>>>>>> data and it's no need to go to handle error. To me, the codes
+>>>>>> should be:
+>>>>>> 	if (ret < 0 && !mit_is_bitflip())
+>>>>>> 		[error handling]
+>>>>>
+>>>>> Please check the implementation of mtd_is_bitflip(). You'll probably
+>>>>> figure out what I am saying.
+>>>>>
+>>>>> https://elixir.bootlin.com/linux/latest/source/include/linux/mtd/mtd.h#L585
+>>>>>     >>
+>>>> How about the codes as follows:
+>>>>
+>>>> for (done = 0, retlen = 0; done < size; done += retlen) {
+>>>> 	ret = mtd_read(..., &retlen, ...);
+>>>> 	if (!ret)
+>>>> 		continue;
+>>>> 	/*
+>>>> 	 * do nothing if bitflip and ecc error occurs because whether
+>>>> 	 * it's bitflip or ECC error, just a small number of bits flip
+>>>> 	 * and the impact on log data is so small. The mtdpstore just
+>>>> 	 * hands over what it gets and user can judge whether the data
+>>>> 	 * is valid or not.
+>>>> 	 */
+>>>> 	if (mtd_is_bitflip(ret)) {
+>>>> 		dev_warn("bitflip at....");
+>>>> 		continue;
+>>
+>>> I don't understand why do you check for bitflips. Bitflips have been
+>>> corrected at this stage, you just get the information that there
+>>> has been bitflips, but the data integrity is fine.
+>>>    
+>>
+>> Both of bitflip and eccerror are not real wrong in this
+>> case. So we must check them.
+>>
+>>> I am not against ignoring ECC errors in this case though. I would
+>>> propose:
+>>>
+>>> 	for (...) {
+>>> 		if (ret < 0) {
+>>> 			complain;
+>>> 			return;
+>>> 		}
+>>>    
+>>
+>> -117 (-EUCLEAN) means bitflip but be corrected.
+>> -74 (-EBADMSG) means ecc error that uncorrectable
+>> All of them are negative number that smaller than 0. If it just keeps
+>> "ret < 0", it can never make a difference between bitflip/eccerror
+>> and others.
 > 
-> Cheers,
-> Mauro
+> I forgot about these, your're right, so what about:
 > 
-> diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-> index 428cb3412ecc..c02291beac3f 100644
-> --- a/Documentation/virt/kvm/locking.rst
-> +++ b/Documentation/virt/kvm/locking.rst
-> @@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
->  is not changed during cmpxchg. This is a ABA problem, for example, below case
->  will happen:
->  
-> -At the beginning::
-> -
-> -	gpte = gfn1
-> -	gfn1 is mapped to pfn1 on host
-> -	spte is the shadow page table entry corresponding with gpte and
-> -	spte = pfn1
-> -
-> -	   VCPU 0                           VCPU0
-> -
-> -on fast page fault path::
-> -
-> -   old_spte = *spte;
-> -                                 pfn1 is swapped out:
-> -                                    spte = 0;
-> -
-> -                                 pfn1 is re-alloced for gfn2.
-> -
-> -                                 gpte is changed to point to
-> -                                 gfn2 by the guest:
-> -                                    spte = pfn1;
-> -
-> -   if (cmpxchg(spte, old_spte, old_spte+W)
-> -	mark_page_dirty(vcpu->kvm, gfn1)
-> -             OOPS!!!
-> ++------------------------------------------------------------------------+
-> +| At the beginning::                                                     |
-> +|                                                                        |
-> +|	gpte = gfn1                                                      |
-> +|	gfn1 is mapped to pfn1 on host                                   |
-> +|	spte is the shadow page table entry corresponding with gpte and  |
-> +|	spte = pfn1                                                      |
-> ++------------------------------------------------------------------------+
-> +| On fast page fault path:                                               |
-> ++------------------------------------+-----------------------------------+
-> +| CPU 0:                             | CPU 1:                            |
-> ++------------------------------------+-----------------------------------+
-> +| ::                                 |                                   |
+> 	static bool mtdpstore_is_io_error(int ret)
+> 	{
+> 		return ret < 0 && !mtd_is_eccerr(ret)> && !mtd_is_bitflip(ret);
+> 	}
+> 
+> 	for (...) {
+> 		if (mtdpstore_is_io_error(ret))
+> 			return ret;
+> 
+> 		/*
+> 		 * Comment explaining why we still return valid data
+> 		 * despite ECC errors.
+> 		 */
+> 		if (mtd_is_eccerr(ret))
+> 			just-complain();
+> 	}
+> 
+> This snippet makes a difference between any "controller/bus
+> timeout/error : data could not be retrieved" and "ECC error, maybe we
+> can still read it and try to understand (risky, must be warned)".
+> 
 
-The '::' directives look a bit like leftover christmas decorations,
-but it's not really distracting, and on the plus side, we'll get nice
-html formatting.
+That seems good to me. I will fix it later.
+Thanks for your review.
 
-> +|                                    |                                   |
-> +|   old_spte = *spte;                |                                   |
-> ++------------------------------------+-----------------------------------+
-> +|                                    | pfn1 is swapped out::             |
-> +|                                    |                                   |
-> +|                                    |    spte = 0;                      |
-> +|                                    |                                   |
-> +|                                    | pfn1 is re-alloced for gfn2.      |
-> +|                                    |                                   |
-> +|                                    | gpte is changed to point to       |
-> +|                                    | gfn2 by the guest::               |
-> +|                                    |                                   |
-> +|                                    |    spte = pfn1;                   |
-> ++------------------------------------+-----------------------------------+
-> +| ::                                                                     |
-> +|                                                                        |
-> +|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
-> +|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
-> +|            OOPS!!!                                                     |
-> ++------------------------------------------------------------------------+
->  
->  We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
->  
-
-So I'd like to cast my vote for this version :)
-
+>>
+>>> 		if (mtd_is_eccerr())
+>>> 			complain;
+>>> 	}
+>>> 		
+>>>> 	} else if (mtd_is_eccerr(ret)) {
+>>>> 		dev_warn("eccerr at....");
+>>>> 		retlen = retlen == 0 ? size : retlen;
+>>>> 		continue;
+>>>> 	} else {
+>>>> 		dev_err("read failure at...");
+>>>> 		/* this zone is broken, try next one */
+>>>> 		return -ENEXT;
+>>>> 	}
+>>>> }
+>>>>   
+>>>
+>>>
+>>> Thanks,
+>>> Miquèl
+>>>    
+> 
+> Thanks,
+> Miquèl
+> 
