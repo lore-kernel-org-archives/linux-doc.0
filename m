@@ -2,224 +2,130 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ADE4C352A2
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 10:30:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3D2C352A4
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 11:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7628D2082E
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 10:30:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DB8320720
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 11:08:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=fujitsu.onmicrosoft.com header.i=@fujitsu.onmicrosoft.com header.b="opUbTulR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbgBGKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 05:30:46 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:41971 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726587AbgBGKaq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 05:30:46 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436287|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.126263-0.0024786-0.871258;DS=CONTINUE|ham_regular_dialog|0.0595875-0.00190005-0.938512;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03279;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.GlYZUym_1581071437;
-Received: from 192.168.31.126(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.GlYZUym_1581071437)
-          by smtp.aliyun-inc.com(10.147.44.118);
-          Fri, 07 Feb 2020 18:30:38 +0800
-Subject: Re: [PATCH v1 11/11] mtd: new support oops logger based on pstore/blk
-To:     Miquel Raynal <mraynal@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1579482233-2672-12-git-send-email-liaoweixiong@allwinnertech.com>
- <20200120110306.32e53fd8@xps13>
- <27226590-379c-8784-f461-f5d701015611@allwinnertech.com>
- <20200121094802.61f8cb4d@xps13>
- <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
- <20200122184114.125b42c8@xps13>
- <e135f947-226f-8dd0-b328-fb87c5064914@allwinnertech.com>
- <20200206164559.59c5eb6a@xps13>
- <6a1b50f4-320f-43d1-50e3-b0a2c3c7fb96@allwinnertech.com>
- <20200207094121.0ad702d0@xps13>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <05c21cb6-988b-63a7-60ff-c4e975f25817@allwinnertech.com>
-Date:   Fri, 7 Feb 2020 18:30:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726819AbgBGLIW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 06:08:22 -0500
+Received: from esa4.fujitsucc.c3s2.iphmx.com ([68.232.151.214]:16773 "EHLO
+        esa4.fujitsucc.c3s2.iphmx.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726798AbgBGLIW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 06:08:22 -0500
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Feb 2020 06:08:21 EST
+IronPort-SDR: SY5hAT5za79qQlKTdG/SZDoLhaEaHgGZWN0RxJE8fyzRi9HqB5YjLX5/ZsKHyHxF8S4PAsLLlX
+ mFqDwuiUF8h037OTecDBuO/W60IrLxMEL/VlH0HJGO3NFqrsqEYSehXDqzsJHyGGuKu4STshlU
+ w3Q5HCs0V77UMBlIQmvLC5VclAW8zMxen3ibpQT5JMthPI6X/GL6ODaeJPXfltOh3WmTZO3ZMh
+ sF2jy6XrCbk694eKaPI9qCvD/pmZse2/VhLHj+0HgLktxX2pNRqwp7rQIsmqhznolLfSQ1QuBO
+ +/w=
+X-IronPort-AV: E=McAfee;i="6000,8403,9523"; a="18137640"
+X-IronPort-AV: E=Sophos;i="5.70,413,1574089200"; 
+   d="scan'208";a="18137640"
+Received: from mail-os2jpn01lp2054.outbound.protection.outlook.com (HELO JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.54])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2020 20:01:11 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jD2+sxpi4XNpI6YdprZ4dKlxomeSZf0tEbtsxlXRqRHraOyywtNlBFw8qoNhKEMA8lbJmad/9jcJsKs6skLuCUwakqyFFWk1/7GE6rR5eoAxvhzEdzN3usK6L0bFwhepN9IfncH3NZnfZmv/roYnl7jhGkh554wpDE9K4Rd27VUK/iNOEeOmFgeMjfCmeqLFnDhBT1pOz6xt/1pyA5C9h7YfO/3t3quBSAZV+QPrprJvl6mnetHXE7N5yInJZyu3XjmrS/hr/mGwjawDh6Xl475mQAO+dIXsEA/D+P6nKdwOhJDVZXQCuiIZnlV7FHzc+usa7nARYQKVQ2I2p88Ilw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rPLfde6zdjHfElXPu7jIY7ob0bBojcOOzSt5YAU8Xk0=;
+ b=kMcqpz+7KMnMC7oTp0M6aA4Q868KrXcJrQGYXy/Cm1pgnNSMn0IS0QQcn9tjzKIaFVD5j2TEptcagLasZDbb80CHJWU+9P7EJpof54Xjnydd1V6jXNO9q8bLxOu/D/Fbp9VAbWZw9I59uDzzAIprsIYvN1lpFnQH151gTuhTW1C3mxuvkj0QstNqfHBYlhWkjiHPmdI+TsL9tqu2SzjvbDMKet8JQ5BdRFWU8I9mCA3isR58mOqrrbsg2NFl2yolOetybqayyG1xx1J30/kYxW0iAzqvkzr8m9/HE3cz0y5xphdf/I3FGOjtPDl8KYG9/3i9cX2qvSAUXHfb5BrmjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rPLfde6zdjHfElXPu7jIY7ob0bBojcOOzSt5YAU8Xk0=;
+ b=opUbTulRgu094QUUtoCPCfb3s1E6d4ieAv97Rmnj2VYnnOLZgbF4IDvxv008AAIS5AxvhzaxFs1pcy728NBIcfu8dljBVZa/msoPLkavVL9nhZqaccck1oy7Xyol/UUzDZ8WTly7z0rRRfyMgC31Kj3/v3lwAR0Yzium/pWA/a0=
+Received: from OSBPR01MB4006.jpnprd01.prod.outlook.com (20.178.98.151) by
+ OSBPR01MB2472.jpnprd01.prod.outlook.com (52.134.251.204) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21; Fri, 7 Feb 2020 11:01:07 +0000
+Received: from OSBPR01MB4006.jpnprd01.prod.outlook.com
+ ([fe80::1c51:734d:bcc3:8626]) by OSBPR01MB4006.jpnprd01.prod.outlook.com
+ ([fe80::1c51:734d:bcc3:8626%5]) with mapi id 15.20.2707.020; Fri, 7 Feb 2020
+ 11:01:07 +0000
+From:   "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>
+To:     "'corbet@lwn.net'" <corbet@lwn.net>,
+        "'linux-doc@vger.kernel.org'" <linux-doc@vger.kernel.org>,
+        "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] docs: admin-guide: Add description of %c corename format
+Thread-Topic: [PATCH] docs: admin-guide: Add description of %c corename format
+Thread-Index: AdXdpXEjPYYAtxVET9OBtFqSQhkV0A==
+Date:   Fri, 7 Feb 2020 11:01:07 +0000
+Message-ID: <OSBPR01MB4006A82736539529EDC8EB37951C0@OSBPR01MB4006.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=d.hatayama@fujitsu.com; 
+x-originating-ip: [210.170.118.169]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b992a750-feb3-41ce-3aa7-08d7abbd089b
+x-ms-traffictypediagnostic: OSBPR01MB2472:
+x-microsoft-antispam-prvs: <OSBPR01MB2472C31493E312D4CF61306A951C0@OSBPR01MB2472.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0306EE2ED4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(346002)(39860400002)(366004)(376002)(189003)(199004)(55016002)(76116006)(9686003)(8676002)(66946007)(85182001)(81156014)(81166006)(71200400001)(86362001)(8936002)(186003)(478600001)(110136005)(26005)(6506007)(316002)(5660300002)(64756008)(33656002)(52536014)(2906002)(66446008)(66556008)(66476007)(7696005)(4744005)(777600001)(491001);DIR:OUT;SFP:1101;SCL:1;SRVR:OSBPR01MB2472;H:OSBPR01MB4006.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TT4F94AN7hTeUhPwZ3MqbqFTcFX8EkkZp79F04n/dJnZvjbQnPUiTW9nnq22hAMj1+6cnR4teaYbNdPiNHROoh/FxIT1YE8wHN1OVVjhPxrfba0pr+ggBmuiSTM0513q/M5F+TrYJ83aPG7ReVkLTEOs2YnNTJUQn+lSwsBVLpcCh75W6vAd3MjLvjnlHkVRKcYtEisEk2SzKLrocFORbaD0lTPkbnZuB4400XxzVTOMe6CQVu/HdfFAS47E8UfA/5n2LmlAPZ2i/SrTUNwI1aSjQZNPPssdeey70jMEtTK2Rg7he7ZewEW4nfd1zTc20LHP4D9pJ9nGXKJdgvrSkxAE4eoYQkEvzuEDelqC2KyibYYwHfus2CPIosHxvvpHafkm61f7Gtg23vCpBLurdo7V5MSXgt4BtqymqRcy2KzcKjnLZ8t04sd2X/9Aw1lAR/UQGR3xfPKd0PS+BHaTI7qnDSkAxJldCu92MXCSZdrkVCAAx/P8BN8jV9Jatga4
+x-ms-exchange-antispam-messagedata: d6BmxvagUyuVm+B7h2KgjGZJfyrlErE2qIaszZwBXuWlL0z/t6JwWTBlm4KwIgs95FN3OqsuzyfYI84NnpwsCzzTRm+uIOgqBP8SvNOnkqKaJSBHFlSAxabksr1ElWCCSs3ferE8iEuDYhRIIZ003Q==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20200207094121.0ad702d0@xps13>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b992a750-feb3-41ce-3aa7-08d7abbd089b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2020 11:01:07.6854
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GLIJsOLvLzXLgBGOJ8+qECIPVeAqa9qxwhG6LhgGkogFO4664vx7NjcLqOFSOLyR6DkRW40+nfpxPbWAmExp0RJneHc7rLMmTDhLuCzV6l4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2472
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hi Miquel Raynal,
+There is somehow no description of %c corename format specifier for
+/proc/sys/kernel/core_pattern. The %c corename format specifier is
+used by user-space application such as systemd-coredump, so it should
+be documented.
 
-On 2020/2/7 下午4:41, Miquel Raynal wrote:
-> Hi Liao,
-> 
-> liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Fri, 7 Feb 2020
-> 12:13:08 +0800:
-> 
->> hi Miquel Raynal,
->>
->> On 2020/2/6 PM 11:45, Miquel Raynal wrote:
->>> Hi liao,
->>>
->>> liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Thu, 6 Feb 2020
->>> 21:10:47 +0800:
->>>    
->>>> hi Miquel Raynal,
->>>>
->>>> On 2020/1/23 AM 1:41, Miquel Raynal wrote:
->>>>> Hello,
->>>>>   
->>>>>     >>>>>>>> +/*
->>>>>>>>>> + * All zones will be read as pstore/blk will read zone one by one when do
->>>>>>>>>> + * recover.
->>>>>>>>>> + */
->>>>>>>>>> +static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
->>>>>>>>>> +{
->>>>>>>>>> +	struct mtdpstore_context *cxt = &oops_cxt;
->>>>>>>>>> +	size_t retlen;
->>>>>>>>>> +	int ret;
->>>>>>>>>> +
->>>>>>>>>> +	if (mtdpstore_block_isbad(cxt, off))
->>>>>>>>>> +		return -ENEXT;
->>>>>>>>>> +
->>>>>>>>>> +	pr_debug("try to read off 0x%llx size %zu\n", off, size);
->>>>>>>>>> +	ret = mtd_read(cxt->mtd, off, size, &retlen, (u_char *)buf);
->>>>>>>>>> +	if ((ret < 0 && !mtd_is_bitflip(ret)) || size != retlen)  {
->>>>>>>>>
->>>>>>>>> IIRC size != retlen does not mean it failed, but that you should
->>>>>>>>> continue reading after retlen bytes, no?
->>>>>>>>>       >>
->>>>>>>> Yes, you are right. I will fix it. Thanks.
->>>>>>>>     >>>>> Also, mtd_is_bitflip() does not mean that you are reading a false
->>>>>>>>> buffer, but that the data has been corrected as it contained bitflips.
->>>>>>>>> mtd_is_eccerr() however, would be meaningful.
->>>>>>>>>       >>
->>>>>>>> Sure I know mtd_is_bitflip() does not mean failure, but I do not think
->>>>>>>> mtd_is_eccerr() should be here since the codes are ret < 0 and NOT
->>>>>>>> mtd_is_bitflip().
->>>>>>>
->>>>>>> Yes, just drop this check, only keep ret < 0.
->>>>>>>      >>
->>>>>> If I don't get it wrong, it should not	 be dropped here. Like your words,
->>>>>> "mtd_is_bitflip() does not mean that you are reading a false buffer,
->>>>>> but that the data has been corrected as it contained bitflips.", the
->>>>>> data I get are valid even if mtd_is_bitflip() return true. It's correct
->>>>>> data and it's no need to go to handle error. To me, the codes
->>>>>> should be:
->>>>>> 	if (ret < 0 && !mit_is_bitflip())
->>>>>> 		[error handling]
->>>>>
->>>>> Please check the implementation of mtd_is_bitflip(). You'll probably
->>>>> figure out what I am saying.
->>>>>
->>>>> https://elixir.bootlin.com/linux/latest/source/include/linux/mtd/mtd.h#L585
->>>>>     >>
->>>> How about the codes as follows:
->>>>
->>>> for (done = 0, retlen = 0; done < size; done += retlen) {
->>>> 	ret = mtd_read(..., &retlen, ...);
->>>> 	if (!ret)
->>>> 		continue;
->>>> 	/*
->>>> 	 * do nothing if bitflip and ecc error occurs because whether
->>>> 	 * it's bitflip or ECC error, just a small number of bits flip
->>>> 	 * and the impact on log data is so small. The mtdpstore just
->>>> 	 * hands over what it gets and user can judge whether the data
->>>> 	 * is valid or not.
->>>> 	 */
->>>> 	if (mtd_is_bitflip(ret)) {
->>>> 		dev_warn("bitflip at....");
->>>> 		continue;
->>
->>> I don't understand why do you check for bitflips. Bitflips have been
->>> corrected at this stage, you just get the information that there
->>> has been bitflips, but the data integrity is fine.
->>>    
->>
->> Both of bitflip and eccerror are not real wrong in this
->> case. So we must check them.
->>
->>> I am not against ignoring ECC errors in this case though. I would
->>> propose:
->>>
->>> 	for (...) {
->>> 		if (ret < 0) {
->>> 			complain;
->>> 			return;
->>> 		}
->>>    
->>
->> -117 (-EUCLEAN) means bitflip but be corrected.
->> -74 (-EBADMSG) means ecc error that uncorrectable
->> All of them are negative number that smaller than 0. If it just keeps
->> "ret < 0", it can never make a difference between bitflip/eccerror
->> and others.
-> 
-> I forgot about these, your're right, so what about:
-> 
-> 	static bool mtdpstore_is_io_error(int ret)
-> 	{
-> 		return ret < 0 && !mtd_is_eccerr(ret)> && !mtd_is_bitflip(ret);
-> 	}
-> 
-> 	for (...) {
-> 		if (mtdpstore_is_io_error(ret))
-> 			return ret;
-> 
-> 		/*
-> 		 * Comment explaining why we still return valid data
-> 		 * despite ECC errors.
-> 		 */
-> 		if (mtd_is_eccerr(ret))
-> 			just-complain();
-> 	}
-> 
-> This snippet makes a difference between any "controller/bus
-> timeout/error : data could not be retrieved" and "ECC error, maybe we
-> can still read it and try to understand (risky, must be warned)".
-> 
+To find where %c is handled in the kernel source code, look at
+function format_corename() in fs/coredump.c.
 
-That seems good to me. I will fix it later.
-Thanks for your review.
+Signed-off-by: HATAYAMA Daisuke <d.hatayama@fujitsu.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
->>
->>> 		if (mtd_is_eccerr())
->>> 			complain;
->>> 	}
->>> 		
->>>> 	} else if (mtd_is_eccerr(ret)) {
->>>> 		dev_warn("eccerr at....");
->>>> 		retlen = retlen == 0 ? size : retlen;
->>>> 		continue;
->>>> 	} else {
->>>> 		dev_err("read failure at...");
->>>> 		/* this zone is broken, try next one */
->>>> 		return -ENEXT;
->>>> 	}
->>>> }
->>>>   
->>>
->>>
->>> Thanks,
->>> Miquèl
->>>    
-> 
-> Thanks,
-> Miquèl
-> 
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/ad=
+min-guide/sysctl/kernel.rst
+index def0748..4557907 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -213,6 +213,7 @@ core_pattern is used to specify a core dumpfile pattern=
+ name.
+        %h      hostname
+        %e      executable filename (may be shortened)
+        %E      executable path
++       %c      maximum size of core file by resource limit RLIMIT_CORE
+        %<OTHER> both are dropped
+
+ * If the first character of the pattern is a '|', the kernel will treat
+--
+1.8.3.1
+
