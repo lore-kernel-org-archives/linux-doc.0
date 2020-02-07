@@ -2,103 +2,67 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8188C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19079C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7F17F21741
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:14:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ZdmfPjVo"
+	by mail.kernel.org (Postfix) with ESMTP id E06B122314
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:55:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581112540;
+	bh=MIvv6CaYu0zTE0GTb/zh7bqZ4dno+909vzroeWAssOA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=rPmoHkYPRPAlAupqp4gnOVxVqENfVseABrahBrGyIEBjI4e9d7rH/Wc+OaJdJwW2e
+	 7IlS0qT6Ad8N3ho1i5uw49ZtfCSyey2MujijgWWaBidYwOSaHiACcjF+eLvENCg/67
+	 CYRzw9xe55IVEZ8ZH8FdANUMbwO93cEVAsAP55gY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727048AbgBGVOl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 16:14:41 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19037 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727031AbgBGVOl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 16:14:41 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3dd3030000>; Fri, 07 Feb 2020 13:13:39 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 07 Feb 2020 13:14:39 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 07 Feb 2020 13:14:39 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
- 2020 21:14:38 +0000
-Subject: Re: [PATCH v5 01/12] mm: dump_page(): better diagnostics for compound
- pages
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Matthew Wilcox <willy@infradead.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20200207033735.308000-1-jhubbard@nvidia.com>
- <20200207033735.308000-2-jhubbard@nvidia.com>
- <20200207172746.GE8731@bombadil.infradead.org>
- <3477bf65-64dc-7854-6720-589f7fcdac07@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <56cd46b1-1b11-4353-9434-78d512d50449@nvidia.com>
-Date:   Fri, 7 Feb 2020 13:14:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
-MIME-Version: 1.0
-In-Reply-To: <3477bf65-64dc-7854-6720-589f7fcdac07@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581110019; bh=E3GmveWPSSbsdDLhLFqFk5JXHlvotQhFoJQGu+g7DmY=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ZdmfPjVo/C2NEbdRItfd1rOG/JxoMZQRbFATOkrxsZjcd0aS/alUZJAljkLhNvdru
-         /JzZ7ih7vA8q+m8B/Rq2+lKKgv69kEtG5mRk1KE8e4W9Nv6kW2yY+9/+8ZhawMV2j8
-         i4/zU41iysChmRnG+ON8gqJp39Hud4XlSGZ5HaEOsrXhHq2kPMbmrvG/O8dcEyzVsS
-         T8WZoU21GJUVt+7UlEy1J/qvvv/hxPng7TNdJCsSgClrNOGQoZolNRAi67a3dq2Rvk
-         GoQINEZD+wlx0wjwR0NHK+rPBHZkD5Z7hhBXa+fRAqx+Ut61TWREleaxBKzCZ57mqO
-         Tff1t1Tt3tR2Q==
+        id S1727769AbgBGVzX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 16:55:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42492 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727754AbgBGVzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Feb 2020 16:55:21 -0500
+Subject: Re: [GIT PULL] Documentation fixes for 5.6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581112520;
+        bh=MIvv6CaYu0zTE0GTb/zh7bqZ4dno+909vzroeWAssOA=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=XsMl9dCghAlTcIkZlSEZPhwrwGir4GtXMbVYJwmy/KKhXIAyEKo5bDjqmKqz9cvB6
+         c110rhJHyHqt33k7gZ9VoNbIqTmiAALDZW44wdoxvZrp2vHplCvFkHmjpfVRfxVJjl
+         zgzogQEjdE8iCdHx06E7MJhXTSrBcOI+t/nW1g6E=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200207101614.4b5d6bc0@lwn.net>
+References: <20200207101614.4b5d6bc0@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200207101614.4b5d6bc0@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.6-2
+X-PR-Tracked-Commit-Id: d1c9038ab5c1c96c0fd9d13ec56f2d650fe4c59f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 41dcd67e88688afbeb3b2bd23960eed5daec74e7
+Message-Id: <158111252088.9631.9448670431680002920.pr-tracker-bot@kernel.org>
+Date:   Fri, 07 Feb 2020 21:55:20 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/7/20 1:05 PM, John Hubbard wrote:
-...
+The pull request you sent on Fri, 7 Feb 2020 10:16:14 -0700:
 
-> Seeing as how I want to further enhance dump_page() slightly for this series (to 
-> include the 3rd struct page's hpage_pincount), would you care to send this as a 
-> formal patch that I could insert into this series, to replace patch 5?
-> 
+> git://git.lwn.net/linux.git tags/docs-5.6-2
 
-ahem, make that "to replace patch 1", please. Too many 5's in the subject lines for 
-me, I guess. :)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/41dcd67e88688afbeb3b2bd23960eed5daec74e7
 
-thanks,
+Thank you!
+
 -- 
-John Hubbard
-NVIDIA
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
