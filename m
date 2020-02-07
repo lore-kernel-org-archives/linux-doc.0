@@ -2,230 +2,207 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44309C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 17:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9951C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 18:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1A4BE2082E
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 17:28:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9486321775
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 18:03:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jsmA99uv"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PYPA0ttp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727234AbgBGR2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 12:28:10 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:51326 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726901AbgBGR2K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 12:28:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=myivX2M64tawJU//p7NCr6Swfjc7dU+qI4Gkm/F5Jqc=; b=jsmA99uv7NiFtEqo3DAeR4gvwh
-        Th9hLO16uiY9OHU7Kw9vz7yMFE3bMq3xH4ymZ/62PDWYug/SoCdc2K3/MjcOnzliNVh5LgxBjGLGT
-        gUbjWlYInXfl9ym+ZF4osdy3erkprlCYHCRkHCl8msISCezgHexDSjHIiIN24r0IfifglrRemmjox
-        As9m6xHUi4b9H+uJrKGhH2TYdkeEqnStsyN/TF9uayWe+LwUcdwOODkVcp1pgCnJuhJgZWd1KYlvZ
-        ZP62GgD0gtCZNSB+iJw8XabBeKdEiYlL299zlcgk2HiGmYZv/d6I2SWNhRVBBxnGNyhm6Dl6mR8dv
-        S8I7TzAg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j07Pu-0001vf-4e; Fri, 07 Feb 2020 17:27:46 +0000
-Date:   Fri, 7 Feb 2020 09:27:46 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
+        id S1727031AbgBGSDX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 13:03:23 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38023 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727071AbgBGSDU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 13:03:20 -0500
+Received: by mail-oi1-f196.google.com with SMTP id l9so2835154oii.5
+        for <linux-doc@vger.kernel.org>; Fri, 07 Feb 2020 10:03:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JRRbsgErUAdygrmUawyvbwsX1FDEnA0T+uTqNgnT/jc=;
+        b=PYPA0ttpp+vc1TnF/YbgoL8VN/4M6PsjI4WWmR8vyu+3R6KHEB43Hz3d4BiZQQyOmS
+         6hSONt7bVSi9vN0UJHUgktyq1UvvS3URDabSoLUNuTpum1G5TbVCieRi+jfxRvujRzuH
+         Vtn/0cEzDXf0egrjaO5NHlV8ohOxGEmTDDeIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JRRbsgErUAdygrmUawyvbwsX1FDEnA0T+uTqNgnT/jc=;
+        b=WB9556gWWKhnafbd/lZ1mw1lRYn67Q7p+qaugrU/xQa4vgOujbkf3t5OZtPbVHLw6S
+         YmFpBNsmIhGy1XifOHBGMt9kpgjJddufxp6XuhgtpxmFNlOItpTP3+QsOHQAirrD0ljS
+         PSUmd/IGdhPNY4tKDosE5VjJkj2KmZg10pUtRiJiZXHUHdw5vCJ3VcBzaei1CnS2lqmW
+         /7T0La8YsFqqE37dKJJpfmI/If5LfFjidPY5XNxaOeZsi1Q0sMrHGbgD7c7rI4MUaVLJ
+         qP1UwEopP97DpmXZ61f1jlovAFIYtgoseUUkd4cp3V0PrHzIxy4BQQvIqMHDB72cFI43
+         lzNQ==
+X-Gm-Message-State: APjAAAVcQRlH7R7HdamhVT28voFX+ItEY87y+Nh1asuQQgB3DshlGgqI
+        xN0NO3aFLB5S8uW/8VR6I38TrA==
+X-Google-Smtp-Source: APXvYqySIXJkC4E5+UAOxg9gQFoc/73ETVAbxtMnexlDJFWNypKUZaFeYl3y+TIOUNGOeYBgiO24Ig==
+X-Received: by 2002:aca:b183:: with SMTP id a125mr2895769oif.83.1581098599147;
+        Fri, 07 Feb 2020 10:03:19 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f22sm1314244otf.50.2020.02.07.10.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2020 10:03:18 -0800 (PST)
+Date:   Fri, 7 Feb 2020 10:03:16 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v5 01/12] mm: dump_page(): better diagnostics for
- compound pages
-Message-ID: <20200207172746.GE8731@bombadil.infradead.org>
-References: <20200207033735.308000-1-jhubbard@nvidia.com>
- <20200207033735.308000-2-jhubbard@nvidia.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use bootconfig
+ for init command line
+Message-ID: <202002070954.C18E7F58B@keescook>
+References: <157867220019.17873.13377985653744804396.stgit@devnote2>
+ <157867229521.17873.654222294326542349.stgit@devnote2>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200207033735.308000-2-jhubbard@nvidia.com>
+In-Reply-To: <157867229521.17873.654222294326542349.stgit@devnote2>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 06, 2020 at 07:37:24PM -0800, John Hubbard wrote:
-> A compound page collects the refcount in the head page, while leaving
-> the refcount of each tail page at zero. Therefore, when debugging a
-> problem that involves compound pages, it's best to have diagnostics that
-> reflect that situation. However, dump_page() is oblivious to these
-> points.
+On Sat, Jan 11, 2020 at 01:04:55AM +0900, Masami Hiramatsu wrote:
+> Since the current kernel command line is too short to describe
+> long and many options for init (e.g. systemd command line options),
+> this allows admin to use boot config for init command line.
 > 
-> Change dump_page() as follows:
+> All init command line under "init." keywords will be passed to
+> init.
 > 
-> 1) For tail pages, print relevant head page information: refcount, in
->    particular. But only do this if the page is not corrupted so badly
->    that the pointer to the head page is all wrong.
+> For example,
 > 
-> 2) Do a separate check to catch any (rare) cases of the tail page's
->    refcount being non-zero, and issue a separate, clear pr_warn() if
->    that ever happens.
+> init.systemd {
+> 	unified_cgroup_hierarchy = 1
+> 	debug_shell
+> 	default_timeout_start_sec = 60
+> }
 > 
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Suggested-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 > ---
->  mm/debug.c | 35 +++++++++++++++++++++++++++++------
->  1 file changed, 29 insertions(+), 6 deletions(-)
+>  init/main.c |   31 ++++++++++++++++++++++++++++---
+>  1 file changed, 28 insertions(+), 3 deletions(-)
 > 
-> diff --git a/mm/debug.c b/mm/debug.c
-> index ecccd9f17801..f074077eee11 100644
-> --- a/mm/debug.c
-> +++ b/mm/debug.c
-> @@ -42,6 +42,33 @@ const struct trace_print_flags vmaflag_names[] = {
->  	{0, NULL}
->  };
+> diff --git a/init/main.c b/init/main.c
+> index c0017d9d16e7..dd7da62d99a5 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -139,6 +139,8 @@ char *saved_command_line;
+>  static char *static_command_line;
+>  /* Untouched extra command line */
+>  static char *extra_command_line;
+> +/* Extra init arguments */
+> +static char *extra_init_args;
 >  
-> +static void __dump_tail_page(struct page *page, int mapcount)
-> +{
-> +	struct page *head = compound_head(page);
-> +
-> +	if ((page < head) || (page >= head + MAX_ORDER_NR_PAGES)) {
-> +		/*
-> +		 * Page is hopelessly corrupted, so limit any reporting to
-> +		 * information about the page itself. Do not attempt to look at
-> +		 * the head page.
-> +		 */
-> +		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
-> +			"index:%#lx (corrupted tail page case)\n",
-> +			page, page_ref_count(page), mapcount, page->mapping,
-> +			page_to_pgoff(page));
-> +	} else {
-> +		pr_warn("page:%px compound refcount:%d mapcount:%d mapping:%px "
-> +			"index:%#lx compound_mapcount:%d\n",
-> +			page, page_ref_count(head), mapcount, head->mapping,
-> +			page_to_pgoff(head), compound_mapcount(page));
-> +	}
-> +
-> +	if (page_ref_count(page) != 0) {
-> +		pr_warn("page:%px PROBLEM: non-zero refcount (==%d) on this "
-> +			"tail page\n", page, page_ref_count(page));
-> +	}
-> +}
-> +
->  void __dump_page(struct page *page, const char *reason)
+>  static char *execute_command;
+>  static char *ramdisk_execute_command;
+> @@ -372,6 +374,8 @@ static void __init setup_boot_config(void)
+>  		pr_info("Load boot config: %d bytes\n", size);
+>  		/* keys starting with "kernel." are passed via cmdline */
+>  		extra_command_line = xbc_make_cmdline("kernel");
+> +		/* Also, "init." keys are init arguments */
+> +		extra_init_args = xbc_make_cmdline("init");
+>  	}
+>  }
+>  #else
+> @@ -507,16 +511,18 @@ static inline void smp_prepare_cpus(unsigned int maxcpus) { }
+>   */
+>  static void __init setup_command_line(char *command_line)
 >  {
->  	struct address_space *mapping;
-> @@ -75,12 +102,8 @@ void __dump_page(struct page *page, const char *reason)
->  	 */
->  	mapcount = PageSlab(page) ? 0 : page_mapcount(page);
+> -	size_t len, xlen = 0;
+> +	size_t len, xlen = 0, ilen = 0;
 >  
-> -	if (PageCompound(page))
-> -		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
-> -			"index:%#lx compound_mapcount: %d\n",
-> -			page, page_ref_count(page), mapcount,
-> -			page->mapping, page_to_pgoff(page),
-> -			compound_mapcount(page));
-> +	if (PageTail(page))
-> +		__dump_tail_page(page, mapcount);
->  	else
->  		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
->  			page, page_ref_count(page), mapcount,
+>  	if (extra_command_line)
+>  		xlen = strlen(extra_command_line);
+> +	if (extra_init_args)
+> +		ilen = strlen(extra_init_args) + 4; /* for " -- " */
+>  
+>  	len = xlen + strlen(boot_command_line) + 1;
+>  
+> -	saved_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
+> +	saved_command_line = memblock_alloc(len + ilen, SMP_CACHE_BYTES);
+>  	if (!saved_command_line)
+> -		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
+> +		panic("%s: Failed to allocate %zu bytes\n", __func__, len + ilen);
+>  
+>  	static_command_line = memblock_alloc(len, SMP_CACHE_BYTES);
+>  	if (!static_command_line)
+> @@ -533,6 +539,22 @@ static void __init setup_command_line(char *command_line)
+>  	}
+>  	strcpy(saved_command_line + xlen, boot_command_line);
+>  	strcpy(static_command_line + xlen, command_line);
+> +
+> +	if (ilen) {
+> +		/*
+> +		 * Append supplemental init boot args to saved_command_line
+> +		 * so that user can check what command line options passed
+> +		 * to init.
+> +		 */
+> +		len = strlen(saved_command_line);
+> +		if (!strstr(boot_command_line, " -- ")) {
+> +			strcpy(saved_command_line + len, " -- ");
+> +			len += 4;
+> +		} else
+> +			saved_command_line[len++] = ' ';
+> +
+> +		strcpy(saved_command_line + len, extra_init_args);
+> +	}
 
-A definite improvement, but I think we could do better.  For example,
-you've changed PageCompound to PageTail here, whereas we really do want
-to dump some more information for PageHead pages than the plain vanilla
-order-0 page has.  Another thing is that page_mapping() calls compound_head(),
-so if the page is corrupted, we're going to get a funky pointer dereference.
+This isn't safe because it will destroy any argument with " -- " in
+quotes and anything after it. For example, booting with:
 
-I spent a bit of time on this reimplementation ... what do you think?
+thing=on acpi_osi="! -- " other=setting
 
- - Print the mapping pointer using %p insted of %px.  The actual value of
-   the pointer can be read out of the raw page dump and using %p gives a
-   chance to correlate it to earlier printk of the mapping pointer.
- - Add the order of the page for compound pages
- - Dump the raw head page as well as the raw page being dumped
+will wreck acpi_osi's value and potentially overwrite "other=settings",
+etc.
 
-diff --git a/mm/debug.c b/mm/debug.c
-index ecccd9f17801..0564d4cb8233 100644
---- a/mm/debug.c
-+++ b/mm/debug.c
-@@ -44,8 +44,10 @@ const struct trace_print_flags vmaflag_names[] = {
- 
- void __dump_page(struct page *page, const char *reason)
- {
-+	struct page *head = compound_head(page);
- 	struct address_space *mapping;
- 	bool page_poisoned = PagePoisoned(page);
-+	bool compound = PageCompound(page);
- 	/*
- 	 * Accessing the pageblock without the zone lock. It could change to
- 	 * "isolate" again in the meantime, but since we are just dumping the
-@@ -66,25 +68,32 @@ void __dump_page(struct page *page, const char *reason)
- 		goto hex_only;
- 	}
- 
--	mapping = page_mapping(page);
-+	if (page < head || (page >= head + MAX_ORDER_NR_PAGES)) {
-+		/* Corrupt page, cannot call page_mapping */
-+		mapping = page->mapping;
-+		head = page;
-+		compound = false;
-+	} else {
-+		mapping = page_mapping(page);
-+	}
- 
- 	/*
- 	 * Avoid VM_BUG_ON() in page_mapcount().
- 	 * page->_mapcount space in struct page is used by sl[aou]b pages to
- 	 * encode own info.
- 	 */
--	mapcount = PageSlab(page) ? 0 : page_mapcount(page);
-+	mapcount = PageSlab(head) ? 0 : page_mapcount(head);
- 
--	if (PageCompound(page))
--		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px "
--			"index:%#lx compound_mapcount: %d\n",
--			page, page_ref_count(page), mapcount,
-+	if (compound)
-+		pr_warn("page:%px head:%px refcount:%d mapcount:%d mapping:%p "
-+			"index:%#lx order:%u compound_mapcount: %d\n",
-+			page, head, page_ref_count(page), mapcount,
- 			page->mapping, page_to_pgoff(page),
--			compound_mapcount(page));
-+			compound_order(head), compound_mapcount(page));
- 	else
--		pr_warn("page:%px refcount:%d mapcount:%d mapping:%px index:%#lx\n",
-+		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p index:%#lx\n",
- 			page, page_ref_count(page), mapcount,
--			page->mapping, page_to_pgoff(page));
-+			mapping, page_to_pgoff(page));
- 	if (PageKsm(page))
- 		type = "ksm ";
- 	else if (PageAnon(page))
-@@ -106,6 +115,10 @@ void __dump_page(struct page *page, const char *reason)
- 	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
- 			sizeof(unsigned long), page,
- 			sizeof(struct page), false);
-+	if (!page_poisoned && compound)
-+		print_hex_dump(KERN_WARNING, "head: ", DUMP_PREFIX_NONE, 32,
-+			sizeof(unsigned long), head,
-+			sizeof(struct page), false);
- 
- 	if (reason)
- 		pr_warn("page dumped because: %s\n", reason);
+(Yes, this seems very unlikely, but you can't treat " -- " as special,
+the command line string must be correct parsed for double quotes, as
+parse_args() does.)
+
+>  }
+>  
+>  /*
+> @@ -759,6 +781,9 @@ asmlinkage __visible void __init start_kernel(void)
+>  	if (!IS_ERR_OR_NULL(after_dashes))
+>  		parse_args("Setting init args", after_dashes, NULL, 0, -1, -1,
+>  			   NULL, set_init_arg);
+> +	if (extra_init_args)
+> +		parse_args("Setting extra init args", extra_init_args,
+> +			   NULL, 0, -1, -1, NULL, set_init_arg);
+
+Here is where you can append the extra_init_args, since parse_args()
+will have done the work to find after_dashes correctly.
+
+-Kees
+
+>  
+>  	/*
+>  	 * These use large bootmem allocations and must precede
+> 
+
+-- 
+Kees Cook
