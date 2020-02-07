@@ -1,107 +1,135 @@
-Return-Path: <SRS0=cy2k=32=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43504C352A4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 23:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4780C35247
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 01:10:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 15D6321927
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Feb 2020 23:44:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0BB121741
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 01:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgBFXo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 18:44:29 -0500
-Received: from [65.157.77.67] ([65.157.77.67]:24832 "HELO ubuntu.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with SMTP
-        id S1726543AbgBFXo3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Feb 2020 18:44:29 -0500
-Received: by ubuntu.localdomain (Postfix, from userid 1000)
-        id D8602465309; Thu,  6 Feb 2020 16:44:27 -0700 (MST)
-From:   Mike Jones <michael-a1.jones@analog.com>
-To:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux@roeck-us.net, jdelvare@suse.com, robh+dt@kernel.org,
-        corbet@lwn.net, Mike Jones <michael-a1.jones@analog.com>
-Subject: [PATCH 2/2] bindings: (hwmon/ltc2978.txt): add support for more parts.
-Date:   Thu,  6 Feb 2020 16:44:14 -0700
-Message-Id: <1581032654-4330-2-git-send-email-michael-a1.jones@analog.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581032654-4330-1-git-send-email-michael-a1.jones@analog.com>
-References: <1581032654-4330-1-git-send-email-michael-a1.jones@analog.com>
+        id S1727234AbgBGBKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 20:10:52 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:57142 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726956AbgBGBKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 20:10:52 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TpJ7uBF_1581037833;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TpJ7uBF_1581037833)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 07 Feb 2020 09:10:46 +0800
+Subject: Re: [PATCH v8 0/2] sched/numa: introduce numa locality
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <743eecad-9556-a241-546b-c8a66339840e@linux.alibaba.com>
+ <207ef46c-672c-27c8-2012-735bd692a6de@linux.alibaba.com>
+ <040def80-9c38-4bcc-e4a8-8a0d10f131ed@linux.alibaba.com>
+ <25cf7ef5-e37e-7578-eea7-29ad0b76c4ea@linux.alibaba.com>
+ <443641e7-f968-0954-5ff6-3b7e7fed0e83@linux.alibaba.com>
+ <d2c4cace-623a-9317-c957-807e3875aa4a@linux.alibaba.com>
+ <a95a7e05-ad60-b9ee-ca39-f46c8e08887d@linux.alibaba.com>
+ <b9249375-fe8c-034e-c3bd-cacfe4e89658@linux.alibaba.com>
+Message-ID: <3b2c5a07-4bc0-1feb-2daf-260e4d58c7b6@linux.alibaba.com>
+Date:   Fri, 7 Feb 2020 09:10:33 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <b9249375-fe8c-034e-c3bd-cacfe4e89658@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-LTC2972, LTC2979, LTC3884, LTC3889, LTC7880, LTM4664, LTM4677,
-LTM4678, LTM4680, LTM4700.
+Hi, Peter, Ingo
 
-Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
----
- .../devicetree/bindings/hwmon/ltc2978.txt          | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+Could you give some comments please?
 
-diff --git a/Documentation/devicetree/bindings/hwmon/ltc2978.txt b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-index b428a70..4e7f621 100644
---- a/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-+++ b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-@@ -2,20 +2,30 @@ ltc2978
- 
- Required properties:
- - compatible: should contain one of:
-+  * "lltc,ltc2972"
-   * "lltc,ltc2974"
-   * "lltc,ltc2975"
-   * "lltc,ltc2977"
-   * "lltc,ltc2978"
-+  * "lltc,ltc2979"
-   * "lltc,ltc2980"
-   * "lltc,ltc3880"
-   * "lltc,ltc3882"
-   * "lltc,ltc3883"
-+  * "lltc,ltc3884"
-   * "lltc,ltc3886"
-   * "lltc,ltc3887"
-+  * "lltc,ltc3889"
-+  * "lltc,ltc7880"
-   * "lltc,ltm2987"
-+  * "lltc,ltm4664"
-   * "lltc,ltm4675"
-   * "lltc,ltm4676"
-+  * "lltc,ltm4677"
-+  * "lltc,ltm4678"
-+  * "lltc,ltm4680"
-   * "lltc,ltm4686"
-+  * "lltc,ltm4700"
- - reg: I2C slave address
- 
- Optional properties:
-@@ -25,13 +35,17 @@ Optional properties:
-   standard binding for regulators; see regulator.txt.
- 
- Valid names of regulators depend on number of supplies supported per device:
-+  * ltc2972 vout0 - vout1
-   * ltc2974, ltc2975 : vout0 - vout3
--  * ltc2977, ltc2980, ltm2987 : vout0 - vout7
-+  * ltc2977, ltc2979, ltc2980, ltm2987 : vout0 - vout7
-   * ltc2978 : vout0 - vout7
--  * ltc3880, ltc3882, ltc3886 : vout0 - vout1
-+  * ltc3880, ltc3882, ltc3884, ltc3886, ltc3887, ltc3889 : vout0 - vout1
-+  * ltc7880 : vout0 - vout1
-   * ltc3883 : vout0
--  * ltm4676 : vout0 - vout1
--  * ltm4686 : vout0 - vout1
-+  * ltm4664 : vout0 - vout1
-+  * ltm4675, ltm4676, ltm4677, ltm4678 : vout0 - vout1
-+  * ltm4680, ltm4686 : vout0 - vout1
-+  * ltm4700 : vout0 - vout1
- 
- Example:
- ltc2978@5e {
--- 
-2.7.4
+As Mel replied previously, he won't disagree the idea, so we're looking
+forward the opinion from the maintainers.
 
+Please allow me to highlight the necessary of monitoring NUMA Balancing
+again, this feature is critical to the performance on NUMA platform,
+it cost and benefit -- lot or less, however there are not enough
+information for an admin to analysis the trade-off, while locality could
+be the missing piece.
+
+Regards,
+Michael Wang
+
+On 2020/1/21 上午9:56, 王贇 wrote:
+> v8:
+>   * document edited
+> v7:
+>   * rebased on latest linux-next
+> v6:
+>   * fix compile failure when NUMA disabled
+> v5:
+>   * improved documentation
+> v4:
+>   * fix comments and improved documentation
+> v3:
+>   * simplified the locality concept & implementation
+> v2:
+>   * improved documentation
+> 
+> Modern production environment could use hundreds of cgroup to control
+> the resources for different workloads, along with the complicated
+> resource binding.
+> 
+> On NUMA platforms where we have multiple nodes, things become even more
+> complicated, we hope there are more local memory access to improve the
+> performance, and NUMA Balancing keep working hard to achieve that,
+> however, wrong memory policy or node binding could easily waste the
+> effort, result a lot of remote page accessing.
+> 
+> We need to notice such problems, then we got chance to fix it before
+> there are too much damages, however, there are no good monitoring
+> approach yet to help catch the mouse who introduced the remote access.
+> 
+> This patch set is trying to fill in the missing pieces， by introduce
+> the per-cgroup NUMA locality info, with this new statistics, we could
+> achieve the daily monitoring on NUMA efficiency, to give warning when
+> things going too wrong.
+> 
+> Please check the second patch for more details.
+> 
+> Michael Wang (2):
+>   sched/numa: introduce per-cgroup NUMA locality info
+>   sched/numa: documentation for per-cgroup numa statistics
+> 
+>  Documentation/admin-guide/cg-numa-stat.rst      | 178 ++++++++++++++++++++++++
+>  Documentation/admin-guide/index.rst             |   1 +
+>  Documentation/admin-guide/kernel-parameters.txt |   4 +
+>  Documentation/admin-guide/sysctl/kernel.rst     |   9 ++
+>  include/linux/sched.h                           |  15 ++
+>  include/linux/sched/sysctl.h                    |   6 +
+>  init/Kconfig                                    |  11 ++
+>  kernel/sched/core.c                             |  75 ++++++++++
+>  kernel/sched/fair.c                             |  62 +++++++++
+>  kernel/sched/sched.h                            |  12 ++
+>  kernel/sysctl.c                                 |  11 ++
+>  11 files changed, 384 insertions(+)
+>  create mode 100644 Documentation/admin-guide/cg-numa-stat.rst
+> 
