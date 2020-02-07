@@ -2,41 +2,40 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90525C3B185
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41DEDC352A2
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62E9F21927
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 146A121927
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 03:38:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Fup0b6Kv"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="LUxasBJo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727564AbgBGDhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 22:37:40 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4758 "EHLO
+        id S1727818AbgBGDi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Feb 2020 22:38:28 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4794 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727507AbgBGDhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 22:37:39 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3cdb460005>; Thu, 06 Feb 2020 19:36:39 -0800
+        with ESMTP id S1727571AbgBGDhl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 22:37:41 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3cdb460000>; Thu, 06 Feb 2020 19:36:38 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 06 Feb 2020 19:37:38 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 06 Feb 2020 19:37:37 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 06 Feb 2020 19:37:38 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
+        by hqpgpgate101.nvidia.com on Thu, 06 Feb 2020 19:37:37 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
  2020 03:37:37 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 7 Feb 2020 03:37:37 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 7 Feb 2020 03:37:36 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e3cdb810007>; Thu, 06 Feb 2020 19:37:37 -0800
+        id <B5e3cdb800007>; Thu, 06 Feb 2020 19:37:36 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -56,10 +55,11 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
         <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH v5 12/12] selftests/vm: run_vmtests: invoke gup_benchmark with basic FOLL_PIN coverage
-Date:   Thu, 6 Feb 2020 19:37:35 -0800
-Message-ID: <20200207033735.308000-13-jhubbard@nvidia.com>
+        John Hubbard <jhubbard@nvidia.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: [PATCH v5 05/12] mm/gup: pass gup flags to two more routines
+Date:   Thu, 6 Feb 2020 19:37:28 -0800
+Message-ID: <20200207033735.308000-6-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207033735.308000-1-jhubbard@nvidia.com>
 References: <20200207033735.308000-1-jhubbard@nvidia.com>
@@ -68,81 +68,134 @@ X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581046599; bh=Q/jtf1QAQWUBdGa6x5cGwrQgIxtlzXz53YFDTgazJkU=;
+        t=1581046598; bh=+TuU8OOcGV+ejGVFCndVV6S1iiJ5m64AX+o6oBv/wIw=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
          Content-Transfer-Encoding:Content-Type;
-        b=Fup0b6Kv4uhgXzCOkS/+I3lNjHs8zqmG+QDr/O+t3JAozUiZkX7jTu8SqFwVvmpKM
-         1tJBP4sx1VPnr6pykw5sUMOJJMYIgZ6G8lf/wN2RrG31B1YtQQ555sTEAfLmOfSCpr
-         10oRRP5we5qaMiglfsD1ew2GHzRV+tb0SpzRsIORnkcGLcQXHpwMDmlGJRqbAeBL4K
-         nHX4N4wCkCY/lAaghUjh3OqUECR80opukaMJyk3WfQj+Qav3SfTwiloLXVPxERyaUm
-         nmB8H+Cj6enSdkVE+NBbWCai4bKBQNXfN7bPjIh4TaPb6bfJ44+e7ZT3oRhXQaBNZe
-         9PmoL0ieTesJQ==
+        b=LUxasBJoN7P30/xAEnxWVKJg6G6A361EKR/cysoA4VHWOyt9C/Pc0l/xBI0VHnJPm
+         3rfu7+Rw25fCotPP2iyg5IkmU1y/7CyHH7WIRmIPAcyY2h1deS4FsJpZtZJTjdm1Sd
+         WHewDvSSvtqkNyPqBhU9GJMLe3hEz0uKqJa5USBT42Lpu9JmUrq1Seg4KLgnrrDWXY
+         hbA2TdjTcYFIcDT5VfNi0KJb+Y3Lxa7a8IZH+W86x9QPFzcddFI5AFIPovKdYnYUas
+         kYPv4lMZoStKZkZNc6P2NTBoIRshoitEDkeeAKr8g0mSmVuSGNyWO7w68EA900sIQO
+         OsUJZcIVSt9vw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's good to have basic unit test coverage of the new FOLL_PIN
-behavior. Fortunately, the gup_benchmark unit test is extremely
-fast (a few milliseconds), so adding it the the run_vmtests suite
-is going to cause no noticeable change in running time.
+In preparation for an upcoming patch, send gup flags args to two more
+routines: put_compound_head(), and undo_dev_pagemap().
 
-So, add two new invocations to run_vmtests:
-
-1) Run gup_benchmark with normal get_user_pages().
-
-2) Run gup_benchmark with pin_user_pages(). This is much like
-the first call, except that it sets FOLL_PIN.
-
-Running these two in quick succession also provide a visual
-comparison of the running times, which is convenient.
-
-The new invocations are fairly early in the run_vmtests script,
-because with test suites, it's usually preferable to put the
-shorter, faster tests first, all other things being equal.
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- tools/testing/selftests/vm/run_vmtests | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ mm/gup.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftes=
-ts/vm/run_vmtests
-index a692ea828317..df6a6bf3f238 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -112,6 +112,28 @@ echo "NOTE: The above hugetlb tests provide minimal co=
-verage.  Use"
- echo "      https://github.com/libhugetlbfs/libhugetlbfs.git for"
- echo "      hugetlb regression testing."
+diff --git a/mm/gup.c b/mm/gup.c
+index 9e117998274c..e5f75e886663 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1870,6 +1870,7 @@ static inline pte_t gup_get_pte(pte_t *ptep)
+ #endif /* CONFIG_GUP_GET_PTE_LOW_HIGH */
 =20
-+echo "--------------------------------------------"
-+echo "running 'gup_benchmark -U' (normal/slow gup)"
-+echo "--------------------------------------------"
-+./gup_benchmark -U
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+	exitcode=3D1
-+else
-+	echo "[PASS]"
-+fi
-+
-+echo "------------------------------------------"
-+echo "running gup_benchmark -b (pin_user_pages)"
-+echo "------------------------------------------"
-+./gup_benchmark -b
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+	exitcode=3D1
-+else
-+	echo "[PASS]"
-+fi
-+
- echo "-------------------"
- echo "running userfaultfd"
- echo "-------------------"
+ static void __maybe_unused undo_dev_pagemap(int *nr, int nr_start,
++					    unsigned int flags,
+ 					    struct page **pages)
+ {
+ 	while ((*nr) - nr_start) {
+@@ -1909,7 +1910,7 @@ static int gup_pte_range(pmd_t pmd, unsigned long add=
+r, unsigned long end,
+=20
+ 			pgmap =3D get_dev_pagemap(pte_pfn(pte), pgmap);
+ 			if (unlikely(!pgmap)) {
+-				undo_dev_pagemap(nr, nr_start, pages);
++				undo_dev_pagemap(nr, nr_start, flags, pages);
+ 				goto pte_unmap;
+ 			}
+ 		} else if (pte_special(pte))
+@@ -1974,7 +1975,7 @@ static int __gup_device_huge(unsigned long pfn, unsig=
+ned long addr,
+=20
+ 		pgmap =3D get_dev_pagemap(pfn, pgmap);
+ 		if (unlikely(!pgmap)) {
+-			undo_dev_pagemap(nr, nr_start, pages);
++			undo_dev_pagemap(nr, nr_start, flags, pages);
+ 			return 0;
+ 		}
+ 		SetPageReferenced(page);
+@@ -2001,7 +2002,7 @@ static int __gup_device_huge_pmd(pmd_t orig, pmd_t *p=
+mdp, unsigned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
+-		undo_dev_pagemap(nr, nr_start, pages);
++		undo_dev_pagemap(nr, nr_start, flags, pages);
+ 		return 0;
+ 	}
+ 	return 1;
+@@ -2019,7 +2020,7 @@ static int __gup_device_huge_pud(pud_t orig, pud_t *p=
+udp, unsigned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
+-		undo_dev_pagemap(nr, nr_start, pages);
++		undo_dev_pagemap(nr, nr_start, flags, pages);
+ 		return 0;
+ 	}
+ 	return 1;
+@@ -2053,7 +2054,7 @@ static int record_subpages(struct page *page, unsigne=
+d long addr,
+ 	return nr;
+ }
+=20
+-static void put_compound_head(struct page *page, int refs)
++static void put_compound_head(struct page *page, int refs, unsigned int fl=
+ags)
+ {
+ 	VM_BUG_ON_PAGE(page_ref_count(page) < refs, page);
+ 	/*
+@@ -2103,7 +2104,7 @@ static int gup_hugepte(pte_t *ptep, unsigned long sz,=
+ unsigned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pte_val(pte) !=3D pte_val(*ptep))) {
+-		put_compound_head(head, refs);
++		put_compound_head(head, refs, flags);
+ 		return 0;
+ 	}
+=20
+@@ -2163,7 +2164,7 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsi=
+gned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
+-		put_compound_head(head, refs);
++		put_compound_head(head, refs, flags);
+ 		return 0;
+ 	}
+=20
+@@ -2197,7 +2198,7 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsi=
+gned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
+-		put_compound_head(head, refs);
++		put_compound_head(head, refs, flags);
+ 		return 0;
+ 	}
+=20
+@@ -2226,7 +2227,7 @@ static int gup_huge_pgd(pgd_t orig, pgd_t *pgdp, unsi=
+gned long addr,
+ 		return 0;
+=20
+ 	if (unlikely(pgd_val(orig) !=3D pgd_val(*pgdp))) {
+-		put_compound_head(head, refs);
++		put_compound_head(head, refs, flags);
+ 		return 0;
+ 	}
+=20
 --=20
 2.25.0
 
