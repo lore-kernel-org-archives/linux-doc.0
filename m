@@ -2,184 +2,214 @@ Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F26FEC2D0B1
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 04:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F79C352A3
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 06:24:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CC3112064C
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 04:13:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AC04214AF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 06:24:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oUXSOgDc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgBGENS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Feb 2020 23:13:18 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:47475 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726674AbgBGENS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Feb 2020 23:13:18 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436726|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.0988076-0.0042804-0.896912;DS=CONTINUE|ham_regular_dialog|0.00396166-8.845e-05-0.99595;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16384;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.GlS9rBK_1581048788;
-Received: from 192.168.31.126(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.GlS9rBK_1581048788)
-          by smtp.aliyun-inc.com(10.147.41.143);
-          Fri, 07 Feb 2020 12:13:09 +0800
-Subject: Re: [PATCH v1 11/11] mtd: new support oops logger based on pstore/blk
-To:     Miquel Raynal <mraynal@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1579482233-2672-12-git-send-email-liaoweixiong@allwinnertech.com>
- <20200120110306.32e53fd8@xps13>
- <27226590-379c-8784-f461-f5d701015611@allwinnertech.com>
- <20200121094802.61f8cb4d@xps13>
- <2c6000b1-ae25-564b-911a-2879e9c244b2@allwinnertech.com>
- <20200122184114.125b42c8@xps13>
- <e135f947-226f-8dd0-b328-fb87c5064914@allwinnertech.com>
- <20200206164559.59c5eb6a@xps13>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <6a1b50f4-320f-43d1-50e3-b0a2c3c7fb96@allwinnertech.com>
-Date:   Fri, 7 Feb 2020 12:13:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726587AbgBGGYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 01:24:20 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:50288 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726451AbgBGGYU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Feb 2020 01:24:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=FZP0iQ7V7SgWd2g6clqUyIaa9pDDhceClvjQC6yZ8gc=; b=oUXSOgDctYqjzalLqUrfRY/oYl
+        3mNEyg7oK6ZeFlBNI96//BS/C/Ctcc5nSXpQ48i3TsFWVv+5j/mY1zaU671yoLGocq7yt7Xqrov/x
+        VEyXJU4iQtBmh1vacrt9kaitB3/6aZH//a6jhq5zeLEuZf7BzoyRo5ATwlW8puh6tSg9gNi2jppcX
+        8zG1W4Qq4Qjwc7xYQzVahjWAIc95ByxtYv+GgsM/z9iAG2r/jfUaMin6EN/2ns7MqG2P0AEfym/qk
+        YjrY/8ck2xuWrurwH40AplewuUuYbeUpx1aOxgBSKZncGs/ItS6xuC2zsabBoQJpZEojVBhvmEJPF
+        O/yIP+XQ==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1izx3k-0002BL-Vf; Fri, 07 Feb 2020 06:24:13 +0000
+Date:   Fri, 7 Feb 2020 07:24:09 +0100
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Cornelia Huck <cohuck@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
+Message-ID: <20200207072409.2cb038da@infradead.org>
+In-Reply-To: <20200206234736.196ef417@kernel.org>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+        <20200206171132.4f51f17a.cohuck@redhat.com>
+        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
+        <20200206234736.196ef417@kernel.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200206164559.59c5eb6a@xps13>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hi Miquel Raynal,
+> 
+> > 
+> > Would be nicer but this is acceptable too I think.  Especially, the
+> > monospaced font allows breaking the table and keeping the parts aligned.  
 
-On 2020/2/6 PM 11:45, Miquel Raynal wrote:
-> Hi liao,
-> 
-> liaoweixiong <liaoweixiong@allwinnertech.com> wrote on Thu, 6 Feb 2020
-> 21:10:47 +0800:
-> 
->> hi Miquel Raynal,
->>
->> On 2020/1/23 AM 1:41, Miquel Raynal wrote:
->>> Hello,
->>>
->>>    
->>>>>>>> +/*
->>>>>>>> + * All zones will be read as pstore/blk will read zone one by one when do
->>>>>>>> + * recover.
->>>>>>>> + */
->>>>>>>> +static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
->>>>>>>> +{
->>>>>>>> +	struct mtdpstore_context *cxt = &oops_cxt;
->>>>>>>> +	size_t retlen;
->>>>>>>> +	int ret;
->>>>>>>> +
->>>>>>>> +	if (mtdpstore_block_isbad(cxt, off))
->>>>>>>> +		return -ENEXT;
->>>>>>>> +
->>>>>>>> +	pr_debug("try to read off 0x%llx size %zu\n", off, size);
->>>>>>>> +	ret = mtd_read(cxt->mtd, off, size, &retlen, (u_char *)buf);
->>>>>>>> +	if ((ret < 0 && !mtd_is_bitflip(ret)) || size != retlen)  {
->>>>>>>
->>>>>>> IIRC size != retlen does not mean it failed, but that you should
->>>>>>> continue reading after retlen bytes, no?
->>>>>>>      >>
->>>>>> Yes, you are right. I will fix it. Thanks.
->>>>>>    >>>>> Also, mtd_is_bitflip() does not mean that you are reading a false
->>>>>>> buffer, but that the data has been corrected as it contained bitflips.
->>>>>>> mtd_is_eccerr() however, would be meaningful.
->>>>>>>      >>
->>>>>> Sure I know mtd_is_bitflip() does not mean failure, but I do not think
->>>>>> mtd_is_eccerr() should be here since the codes are ret < 0 and NOT
->>>>>> mtd_is_bitflip().
->>>>>
->>>>> Yes, just drop this check, only keep ret < 0.
->>>>>     >>
->>>> If I don't get it wrong, it should not	 be dropped here. Like your words,
->>>> "mtd_is_bitflip() does not mean that you are reading a false buffer,
->>>> but that the data has been corrected as it contained bitflips.", the
->>>> data I get are valid even if mtd_is_bitflip() return true. It's correct
->>>> data and it's no need to go to handle error. To me, the codes
->>>> should be:
->>>> 	if (ret < 0 && !mit_is_bitflip())
->>>> 		[error handling]
->>>
->>> Please check the implementation of mtd_is_bitflip(). You'll probably
->>> figure out what I am saying.
->>>
->>> https://elixir.bootlin.com/linux/latest/source/include/linux/mtd/mtd.h#L585
->>>    
->>
->> How about the codes as follows:
->>
->> for (done = 0, retlen = 0; done < size; done += retlen) {
->> 	ret = mtd_read(..., &retlen, ...);
->> 	if (!ret)
->> 		continue;
->> 	/*
->> 	 * do nothing if bitflip and ecc error occurs because whether
->> 	 * it's bitflip or ECC error, just a small number of bits flip
->> 	 * and the impact on log data is so small. The mtdpstore just
->> 	 * hands over what it gets and user can judge whether the data
->> 	 * is valid or not.
->> 	 */
->> 	if (mtd_is_bitflip(ret)) {
->> 		dev_warn("bitflip at....");
->> 		continue;
+I couldn't resist trying to use a table ;-)
 
-> I don't understand why do you check for bitflips. Bitflips have been
-> corrected at this stage, you just get the information that there
-> has been bitflips, but the data integrity is fine.
-> 
+The following patch does that. IMO, it looks nice on both text and html
+outputs.
 
-Both of bitflip and eccerror are not real wrong in this
-case. So we must check them.
+Cheers,
+Mauro
 
-> I am not against ignoring ECC errors in this case though. I would
-> propose:
-> 
-> 	for (...) {
-> 		if (ret < 0) {
-> 			complain;
-> 			return;
-> 		}
-> 
-
--117 (-EUCLEAN) means bitflip but be corrected.
--74 (-EBADMSG) means ecc error that uncorrectable
-All of them are negative number that smaller than 0. If it just keeps
-"ret < 0", it can never make a difference between bitflip/eccerror
-and others.
-
-> 		if (mtd_is_eccerr())
-> 			complain;
-> 	}
-> 		
->> 	} else if (mtd_is_eccerr(ret)) {
->> 		dev_warn("eccerr at....");
->> 		retlen = retlen == 0 ? size : retlen;
->> 		continue;
->> 	} else {
->> 		dev_err("read failure at...");
->> 		/* this zone is broken, try next one */
->> 		return -ENEXT;
->> 	}
->> }
->>
-> 
-> 
-> Thanks,
-> Miquèl
-> 
+diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
+index 428cb3412ecc..c02291beac3f 100644
+--- a/Documentation/virt/kvm/locking.rst
++++ b/Documentation/virt/kvm/locking.rst
+@@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
+ is not changed during cmpxchg. This is a ABA problem, for example, below case
+ will happen:
+ 
+-At the beginning::
+-
+-	gpte = gfn1
+-	gfn1 is mapped to pfn1 on host
+-	spte is the shadow page table entry corresponding with gpte and
+-	spte = pfn1
+-
+-	   VCPU 0                           VCPU0
+-
+-on fast page fault path::
+-
+-   old_spte = *spte;
+-                                 pfn1 is swapped out:
+-                                    spte = 0;
+-
+-                                 pfn1 is re-alloced for gfn2.
+-
+-                                 gpte is changed to point to
+-                                 gfn2 by the guest:
+-                                    spte = pfn1;
+-
+-   if (cmpxchg(spte, old_spte, old_spte+W)
+-	mark_page_dirty(vcpu->kvm, gfn1)
+-             OOPS!!!
+++------------------------------------------------------------------------+
++| At the beginning::                                                     |
++|                                                                        |
++|	gpte = gfn1                                                      |
++|	gfn1 is mapped to pfn1 on host                                   |
++|	spte is the shadow page table entry corresponding with gpte and  |
++|	spte = pfn1                                                      |
+++------------------------------------------------------------------------+
++| On fast page fault path:                                               |
+++------------------------------------+-----------------------------------+
++| CPU 0:                             | CPU 1:                            |
+++------------------------------------+-----------------------------------+
++| ::                                 |                                   |
++|                                    |                                   |
++|   old_spte = *spte;                |                                   |
+++------------------------------------+-----------------------------------+
++|                                    | pfn1 is swapped out::             |
++|                                    |                                   |
++|                                    |    spte = 0;                      |
++|                                    |                                   |
++|                                    | pfn1 is re-alloced for gfn2.      |
++|                                    |                                   |
++|                                    | gpte is changed to point to       |
++|                                    | gfn2 by the guest::               |
++|                                    |                                   |
++|                                    |    spte = pfn1;                   |
+++------------------------------------+-----------------------------------+
++| ::                                                                     |
++|                                                                        |
++|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
++|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
++|            OOPS!!!                                                     |
+++------------------------------------------------------------------------+
+ 
+ We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
+ 
+@@ -109,36 +118,42 @@ Accessed bit and Dirty bit can not be lost.
+ But it is not true after fast page fault since the spte can be marked
+ writable between reading spte and updating spte. Like below case:
+ 
+-At the beginning::
+-
+-	spte.W = 0
+-	spte.Accessed = 1
+-
+-	   VCPU 0                                       VCPU0
+-
+-In mmu_spte_clear_track_bits()::
+-
+-   old_spte = *spte;
+-
+-   /* 'if' condition is satisfied. */
+-   if (old_spte.Accessed == 1 &&
+-        old_spte.W == 0)
+-      spte = 0ull;
+-                                         on fast page fault path:
+-                                             spte.W = 1
+-                                         memory write on the spte:
+-                                             spte.Dirty = 1
+-
+-
+-   else
+-      old_spte = xchg(spte, 0ull)
+-
+-
+-   if (old_spte.Accessed == 1)
+-      kvm_set_pfn_accessed(spte.pfn);
+-   if (old_spte.Dirty == 1)
+-      kvm_set_pfn_dirty(spte.pfn);
+-      OOPS!!!
+++------------------------------------------------------------------------+
++| At the beginning::                                                     |
++|                                                                        |
++|	spte.W = 0                                                       |
++|	spte.Accessed = 1                                                |
+++------------------------------------+-----------------------------------+
++| CPU 0:                             | CPU 1:                            |
+++------------------------------------+-----------------------------------+
++| In mmu_spte_clear_track_bits()::   |                                   |
++|                                    |                                   |
++|  old_spte = *spte;                 |                                   |
++|                                    |                                   |
++|                                    |                                   |
++|  /* 'if' condition is satisfied. */|                                   |
++|  if (old_spte.Accessed == 1 &&     |                                   |
++|       old_spte.W == 0)             |                                   |
++|     spte = 0ull;                   |                                   |
+++------------------------------------+-----------------------------------+
++|                                    | on fast page fault path::         |
++|                                    |                                   |
++|                                    |    spte.W = 1                     |
++|                                    |                                   |
++|                                    | memory write on the spte::        |
++|                                    |                                   |
++|                                    |    spte.Dirty = 1                 |
+++------------------------------------+-----------------------------------+
++|  ::                                |                                   |
++|                                    |                                   |
++|   else                             |                                   |
++|     old_spte = xchg(spte, 0ull)    |                                   |
++|   if (old_spte.Accessed == 1)      |                                   |
++|     kvm_set_pfn_accessed(spte.pfn);|                                   |
++|   if (old_spte.Dirty == 1)         |                                   |
++|     kvm_set_pfn_dirty(spte.pfn);   |                                   |
++|     OOPS!!!                        |                                   |
+++------------------------------------+-----------------------------------+
+ 
+ The Dirty bit is lost in this case.
+ 
