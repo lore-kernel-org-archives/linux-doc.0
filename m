@@ -1,68 +1,155 @@
-Return-Path: <SRS0=vi1P=33=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=A2eK=34=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19079C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4496EC3F68F
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Feb 2020 00:26:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E06B122314
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Feb 2020 21:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581112540;
-	bh=MIvv6CaYu0zTE0GTb/zh7bqZ4dno+909vzroeWAssOA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=rPmoHkYPRPAlAupqp4gnOVxVqENfVseABrahBrGyIEBjI4e9d7rH/Wc+OaJdJwW2e
-	 7IlS0qT6Ad8N3ho1i5uw49ZtfCSyey2MujijgWWaBidYwOSaHiACcjF+eLvENCg/67
-	 CYRzw9xe55IVEZ8ZH8FdANUMbwO93cEVAsAP55gY=
+	by mail.kernel.org (Postfix) with ESMTP id 25D5A222D9
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Feb 2020 00:26:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbgBGVzX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Feb 2020 16:55:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42492 "EHLO mail.kernel.org"
+        id S1727076AbgBHA0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Feb 2020 19:26:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53734 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727754AbgBGVzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Feb 2020 16:55:21 -0500
-Subject: Re: [GIT PULL] Documentation fixes for 5.6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581112520;
-        bh=MIvv6CaYu0zTE0GTb/zh7bqZ4dno+909vzroeWAssOA=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=XsMl9dCghAlTcIkZlSEZPhwrwGir4GtXMbVYJwmy/KKhXIAyEKo5bDjqmKqz9cvB6
-         c110rhJHyHqt33k7gZ9VoNbIqTmiAALDZW44wdoxvZrp2vHplCvFkHmjpfVRfxVJjl
-         zgzogQEjdE8iCdHx06E7MJhXTSrBcOI+t/nW1g6E=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200207101614.4b5d6bc0@lwn.net>
-References: <20200207101614.4b5d6bc0@lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200207101614.4b5d6bc0@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.6-2
-X-PR-Tracked-Commit-Id: d1c9038ab5c1c96c0fd9d13ec56f2d650fe4c59f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 41dcd67e88688afbeb3b2bd23960eed5daec74e7
-Message-Id: <158111252088.9631.9448670431680002920.pr-tracker-bot@kernel.org>
-Date:   Fri, 07 Feb 2020 21:55:20 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S1727065AbgBHA0g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Feb 2020 19:26:36 -0500
+Received: from oasis.local.home (unknown [12.174.139.122])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B2012082E;
+        Sat,  8 Feb 2020 00:26:33 +0000 (UTC)
+Date:   Fri, 7 Feb 2020 19:26:32 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH] bootconfig: Use parse_args() to find bootconfig and '--'
+Message-ID: <20200207192632.0cd953a7@oasis.local.home>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 7 Feb 2020 10:16:14 -0700:
 
-> git://git.lwn.net/linux.git tags/docs-5.6-2
+From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/41dcd67e88688afbeb3b2bd23960eed5daec74e7
+The current implementation does a naive search of "bootconfig" on the kernel
+command line. But this could find "bootconfig" that is part of another
+option in quotes (although highly unlikely). But it also needs to find '--'
+on the kernel command line to know if it should append a '--' or not when a
+bootconfig in the initrd file has an "init" section. The check uses the
+naive strstr() to find to see if it exists. But this can return a false
+positive if it exists in an option and then the "init" section in the initrd
+will not be appended properly.
 
-Thank you!
+Using parse_args() to find both of these will solve both of these problems.
 
+Link: https://lore.kernel.org/r/202002070954.C18E7F58B@keescook
+
+Fixes: 7495e0926fdf3 ("bootconfig: Only load bootconfig if "bootconfig" is on the kernel cmdline")
+Fixes: 1319916209ce8 ("bootconfig: init: Allow admin to use bootconfig for init command line")
+Reported-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+---
+ init/main.c | 36 ++++++++++++++++++++++++++++++------
+ 1 file changed, 30 insertions(+), 6 deletions(-)
+
+diff --git a/init/main.c b/init/main.c
+index 491f1cdb3105..e7261f1a3523 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -142,6 +142,15 @@ static char *extra_command_line;
+ /* Extra init arguments */
+ static char *extra_init_args;
+ 
++#ifdef CONFIG_BOOT_CONFIG
++/* Is bootconfig on command line? */
++static bool bootconfig_found;
++static bool initargs_found;
++#else
++# define bootconfig_found false
++# define initargs_found false
++#endif
++
+ static char *execute_command;
+ static char *ramdisk_execute_command;
+ 
+@@ -336,17 +345,31 @@ u32 boot_config_checksum(unsigned char *p, u32 size)
+ 	return ret;
+ }
+ 
++static int __init bootconfig_params(char *param, char *val,
++				    const char *unused, void *arg)
++{
++	if (strcmp(param, "bootconfig") == 0) {
++		bootconfig_found = true;
++	} else if (strcmp(param, "--") == 0) {
++		initargs_found = true;
++	}
++	return 0;
++}
++
+ static void __init setup_boot_config(const char *cmdline)
+ {
++	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
+ 	u32 size, csum;
+ 	char *data, *copy;
+ 	const char *p;
+ 	u32 *hdr;
+ 	int ret;
+ 
+-	p = strstr(cmdline, "bootconfig");
+-	if (!p || (p != cmdline && !isspace(*(p-1))) ||
+-	    (p[10] && !isspace(p[10])))
++	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
++	parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
++		   bootconfig_params);
++
++	if (!bootconfig_found)
+ 		return;
+ 
+ 	if (!initrd_end)
+@@ -563,11 +586,12 @@ static void __init setup_command_line(char *command_line)
+ 		 * to init.
+ 		 */
+ 		len = strlen(saved_command_line);
+-		if (!strstr(boot_command_line, " -- ")) {
++		if (initargs_found) {
++			saved_command_line[len++] = ' ';
++		} else {
+ 			strcpy(saved_command_line + len, " -- ");
+ 			len += 4;
+-		} else
+-			saved_command_line[len++] = ' ';
++		}
+ 
+ 		strcpy(saved_command_line + len, extra_init_args);
+ 	}
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.20.1
+
