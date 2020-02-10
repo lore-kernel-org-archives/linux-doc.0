@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B700DC3B19A
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC18C3B191
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CD0624655
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAE1921927
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581314624;
-	bh=Pozb8GosQz9LrLDhDXKXyDoelLpC8NqP+5UFTtVm7Ps=;
+	s=default; t=1581314619;
+	bh=RQJBSrCBQoRjRPzNpPiEOUwoi4zmhWHM5Ddo22O4ojU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kngwL+KS1T0A0v4/t0Md4UM8nopT8TK0v2z71+jgt6TwFViaK9u8AGMzRrRj5iWoP
-	 A8YAaJXtvXrm8JwAvjjsgAOG2g+PG10uuT/OtO870e4BlCncjw8+twa1HhN3ekVMQf
-	 SoQpzCOkxKCZzGC0+TIYvb45fOwnQG/b1+/13MOY=
+	b=IsfY9xKU2sgISTsqjpdrx0Vpd3OoYZCakj32T6Zn9G+bOZnTnARS0Bg8Y4/6gJTHS
+	 XSndc+feFaGa2zMyLUiyBywIfGlId5a4vBt3o6Tusn6pd+WWMaOZhF9DYVRdxAmDC2
+	 fhdY6n2CF6OB2twF26NzWqJ3Kz2JYVd/LB05VFD4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbgBJGDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 01:03:42 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36366 "EHLO
+        id S1727548AbgBJGDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 01:03:12 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36292 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727536AbgBJGDM (ORCPT
+        with ESMTP id S1727437AbgBJGDM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=fPgd99gzsbfnyTVf997Pxp90sDFuBPYNRjGGdOIoAxs=; b=TXNXLGcqt5vieVnBrUlVn4Flzz
-        QgTyjpQT6PK8K0CiaXiFNBwokq2+jEcjoAhcuGc6MPVzIqcDKs+G+rQYHMlfbFSdycvSsdMYHz7Az
-        1LF1ee3O45clVoazI5rZkIft1pMx1hovgtTR6N+oxGUlR/AJ+neAvTL3exaBiiMWzqQm5cOy/v8co
-        cW1/KDdy1qYPkf88XavOd/Ef0suKzWKjOFphkjLe6mznBhgojuBJbVUyS6WqFfCfgxO1Z6TgGB2yo
-        CFaXzEHb7VSsNNlXIDrkxMI+ktWFbjrTacVXByE5qX0wuJZOVfbzfds8bpq2PQHJ8WXwoOF5qKhxV
-        bW6YFfew==;
+        bh=/hfBTm+pwI/qMUzI6610HUXH01FV0FRb49kTIzGz0Ww=; b=YY9qMpTF6MirjG2R1XRdVVXM/9
+        N2+i4gF3kDFNMMHfPjhir+tVy3kgLQ2Y+BluhTTxFRka0VQmvRE9kvlYdNwX60GvAGy/CrPTLRlt9
+        G42D6+D8EE+h8b2yY9SuOheFq81KCSUVgwX6VnNm1a3DdIu35kocWvdgtUb3vivkZJ4fw+jsSuXj1
+        6NVt2lsSLNxH3HZ0gS/XvEVQB8+So8pcGKeOFTN2xgRb8YwxL0qYpeXWbc160C13lCiJXmSsTkQcN
+        v3PUJPxMfjgpG7WxZsBlHCZRnnX9V9gF2ckDxXPT83FRs5I92MJEEemVUZrZgkqSMvsH5AlSBMAJE
+        6idRmYSg==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A4-0006Ty-DZ; Mon, 10 Feb 2020 06:03:12 +0000
+        id 1j12A3-0006Tb-DC; Mon, 10 Feb 2020 06:03:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A2-00C2WV-Ls; Mon, 10 Feb 2020 07:03:10 +0100
+        id 1j12A1-00C2Ud-Nl; Mon, 10 Feb 2020 07:03:09 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 24/28] docs: kvm: Convert ppc-pv.txt to ReST format
-Date:   Mon, 10 Feb 2020 07:03:02 +0100
-Message-Id: <a70871aae3c29401ca7c37e86f37eb5db9e16919.1581314317.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/28] docs: kvm: add arm/pvtime.rst to index.rst
+Date:   Mon, 10 Feb 2020 07:02:39 +0100
+Message-Id: <cdea3a1899e21395073b8e4a02fb3db88dc63974.1581314316.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
 References: <cover.1581314316.git.mchehab+huawei@kernel.org>
@@ -62,139 +62,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title and chapter markups;
-- Add markups for tables;
-- Use list markups;
-- Add markups for literal blocks;
-- Add blank lines.
+Add this file to a new kvm/arm index.rst, in order for it to
+be shown as part of the virt book.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst              |  1 +
- .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       | 26 +++++++++++++------
- 2 files changed, 19 insertions(+), 8 deletions(-)
- rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+ Documentation/virt/kvm/arm/index.rst | 10 ++++++++++
+ Documentation/virt/kvm/index.rst     |  2 ++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 Documentation/virt/kvm/arm/index.rst
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 123385d0a74a..d0e17e717461 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -16,6 +16,7 @@ KVM
-    mmu
-    msr
-    nested-vmx
-+   ppc-pv
-    vcpu-requests
- 
-    arm/index
-diff --git a/Documentation/virt/kvm/ppc-pv.txt b/Documentation/virt/kvm/ppc-pv.rst
-similarity index 91%
-rename from Documentation/virt/kvm/ppc-pv.txt
-rename to Documentation/virt/kvm/ppc-pv.rst
-index e26115ce4258..5fdb907670be 100644
---- a/Documentation/virt/kvm/ppc-pv.txt
-+++ b/Documentation/virt/kvm/ppc-pv.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/virt/kvm/arm/index.rst b/Documentation/virt/kvm/arm/index.rst
+new file mode 100644
+index 000000000000..e039d9b1e076
+--- /dev/null
++++ b/Documentation/virt/kvm/arm/index.rst
+@@ -0,0 +1,10 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=================================
- The PPC KVM paravirtual interface
- =================================
- 
-@@ -34,8 +37,9 @@ up the hypercall. To call a hypercall, just call these instructions.
- 
- The parameters are as follows:
- 
-+        ========	================	================
- 	Register	IN			OUT
--
-+        ========	================	================
- 	r0		-			volatile
- 	r3		1st parameter		Return code
- 	r4		2nd parameter		1st output value
-@@ -47,6 +51,7 @@ The parameters are as follows:
- 	r10		8th parameter		7th output value
- 	r11		hypercall number	8th output value
- 	r12		-			volatile
-+        ========	================	================
- 
- Hypercall definitions are shared in generic code, so the same hypercall numbers
- apply for x86 and powerpc alike with the exception that each KVM hypercall
-@@ -54,11 +59,13 @@ also needs to be ORed with the KVM vendor code which is (42 << 16).
- 
- Return codes can be as follows:
- 
-+	====		=========================
- 	Code		Meaning
--
-+	====		=========================
- 	0		Success
- 	12		Hypercall not implemented
- 	<0		Error
-+	====		=========================
- 
- The magic page
- ==============
-@@ -72,7 +79,7 @@ desired location. The first parameter indicates the effective address when the
- MMU is enabled. The second parameter indicates the address in real mode, if
- applicable to the target. For now, we always map the page to -4096. This way we
- can access it using absolute load and store functions. The following
--instruction reads the first field of the magic page:
-+instruction reads the first field of the magic page::
- 
- 	ld	rX, -4096(0)
- 
-@@ -93,8 +100,10 @@ a bitmap of available features inside the magic page.
- 
- The following enhancements to the magic page are currently available:
- 
-+  ============================  =======================================
-   KVM_MAGIC_FEAT_SR		Maps SR registers r/w in the magic page
-   KVM_MAGIC_FEAT_MAS0_TO_SPRG7	Maps MASn, ESR, PIR and high SPRGs
-+  ============================  =======================================
- 
- For enhanced features in the magic page, please check for the existence of the
- feature before using them!
-@@ -121,8 +130,8 @@ when entering the guest or don't have any impact on the hypervisor's behavior.
- 
- The following bits are safe to be set inside the guest:
- 
--  MSR_EE
--  MSR_RI
-+  - MSR_EE
-+  - MSR_RI
- 
- If any other bit changes in the MSR, please still use mtmsr(d).
- 
-@@ -138,9 +147,9 @@ guest. Implementing any of those mappings is optional, as the instruction traps
- also act on the shared page. So calling privileged instructions still works as
- before.
- 
-+======================= ================================
- From			To
--====			==
--
-+======================= ================================
- mfmsr	rX		ld	rX, magic_page->msr
- mfsprg	rX, 0		ld	rX, magic_page->sprg0
- mfsprg	rX, 1		ld	rX, magic_page->sprg1
-@@ -173,7 +182,7 @@ mtsrin	rX, rY		b	<special mtsrin section>
- 
- [BookE only]
- wrteei	[0|1]		b	<special wrteei section>
--
-+======================= ================================
- 
- Some instructions require more logic to determine what's going on than a load
- or store instruction can deliver. To enable patching of those, we keep some
-@@ -191,6 +200,7 @@ for example.
- 
- Hypercall ABIs in KVM on PowerPC
- =================================
++===
++ARM
++===
 +
- 1) KVM hypercalls (ePAPR)
- 
- These are ePAPR compliant hypercall implementation (mentioned above). Even
++.. toctree::
++   :maxdepth: 2
++
++   pvtime
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index ada224a511fe..488c6370a447 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -10,3 +10,5 @@ KVM
+    amd-memory-encryption
+    cpuid
+    vcpu-requests
++
++   arm/index
 -- 
 2.24.1
 
