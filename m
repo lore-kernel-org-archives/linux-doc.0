@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE15CC3B186
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0CA1C352A4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:40:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7896D20733
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:40:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BE3A2082F
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:40:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DAMLZ6xs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YxaO7hjn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727437AbgBJVkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 16:40:15 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38178 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727569AbgBJVkO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 16:40:14 -0500
-Received: by mail-wr1-f65.google.com with SMTP id y17so9647416wrh.5
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2020 13:40:13 -0800 (PST)
+        id S1727602AbgBJVkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 16:40:17 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52366 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727589AbgBJVkR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 16:40:17 -0500
+Received: by mail-wm1-f67.google.com with SMTP id p9so924191wmc.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2020 13:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=BucIs76BJlau9NCsGrtA8TwA9hcR+pRMGii5xstBwn8=;
-        b=DAMLZ6xsXlHLK3sZQmXH41o8Tf8TT1UdcJ+muRaSfpmgr6W0GYFIa7KWiz4exDRG3u
-         2EuW9uWMTd2GZKOEvP/vr5bc/efLsGWSnbsUHdKwtx8e7W6ImgBhiqcp5pmO92CfDVmn
-         zJsG9BZnYh6ndp6a8SsNi09T2uUtwN0R71pGxb4UUNtf0qDGB51DeQ7OuNh3LSDjgJdC
-         bN1FPvM49u8RlB0Uf9uAS2SzeD7iFbKAgBUawXxcUZjjFrZFVmtzlUiSqYHTsI7iY5YW
-         2mpTRD9NNvuWpZtOM7TC4w9OxdZVZboJPImp6eGgyXkcmzqbufXNtvcUHj0ERJ4T1yLt
-         PIGQ==
+        bh=K/OQ1Jgex7gK828pBxgz7p1Ugpl7TPPOgqjJJN6erjc=;
+        b=YxaO7hjn3Va92T6LP+C4q1uM+KVK1rIts5ZC69DpZIcgmx9dmerd0nxisDkx1toL1V
+         hzFvylRZyX6GBXAcsgih1BY/HI4QUDHM1B5zNw3D8JMroi6mAEsI3enDVbv4RqD5XR/y
+         pVO2tsdvk147GGaVi51tfHc+tSoltj23o74CmgkJMIGOTQpgNjB8+3bq+KqiibU1db/t
+         G3fP/CcRBfsM6eFr7zFouFXqAdv+5BLC1yKtsu+JyTNYkyaqQ/RttnK1VmMbodFTu6nn
+         p02OB24jUF467+1AjHYmKJR7aZF54iXSuyaXbFM2rX52LJFFrukLM5Mbyndh6zQI2f1N
+         WM6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=BucIs76BJlau9NCsGrtA8TwA9hcR+pRMGii5xstBwn8=;
-        b=RcEsKuSje6ElSOb7+5/1JlNR9Mzr6EWv21sliiDvHy96hQ+j6zxnlh9Hx80clKHgsp
-         a9OGV6e5cptzm5VRzPzzWtUT3l1GAlFsyBltwbfCFftTCv7JDwrzB7qpgZCuAYq7Avh1
-         rXjIFoAhR8SQEFSOx1tih1pxkSnC30A2c0wDmgBChtHJLSz967lJZ5CEqSszF3UdwUnQ
-         TM1n9MX3nH5d7B7QnKpz5MQP43aaNbzChSgC68XPvWggS2h3x38Fe9Ckun7+mJq3MR2P
-         FxEd0EvA2RHzmcOEmFihGjMIE1KzyChB4LBsCDCWlIyk765V7di0rgFc8l9SZbm2HHJM
-         1EFQ==
-X-Gm-Message-State: APjAAAWbCwlgTdOZ7cVw4WivXPKkSIzn3ZwJk53r+OLTjmyt/c20H56i
-        mUaoJ71cV8dAnN19s605Dk+/Lg==
-X-Google-Smtp-Source: APXvYqxLqrs/VFNxssB0igK6Era7TsoQLhQpCqL0glUc2q3kKtj99aUfk1ZCNNMf6gcVOPpiZGHDwQ==
-X-Received: by 2002:a5d:4a8c:: with SMTP id o12mr3856769wrq.43.1581370812329;
-        Mon, 10 Feb 2020 13:40:12 -0800 (PST)
+        bh=K/OQ1Jgex7gK828pBxgz7p1Ugpl7TPPOgqjJJN6erjc=;
+        b=r2LPs485eSHhMvHyHuFj38xg7v6xEUFqOjj7m58HaVVGJHLc4pLZyfNI6Z3J4VP6xA
+         daqMpyciVtmN9r0B5Q2/PzcRp7lqrAd4ZENr4teTWAMBN9JBliW4X1MhfNiLCqs6qKph
+         w3UlKTdu/kSRm+muGS0BEebEOsFhTCnfrNTjqWKlUE35Z1NF/eeRHGQmasrklg2zr4Ke
+         LH6RzK9Iar1fw1f7DiJzf/3XLx9XW1pOb2WN4T6ElOJU6u5ObC6N5nULujfMKUpXQWcS
+         D80p9cR3ch88K7pNQq0RAHh2Rd6jB/D0k9g1OI9sd3yBg5bbQPz7rI6TpIU2mt08/WPQ
+         8dnw==
+X-Gm-Message-State: APjAAAXXcmd39VLBRdDJgX2JZ3P8fCtWDOlVER5HcDwfaz4b1FwWQrSj
+        3kFTGRCLd87F2BNVekqUcCcjDA==
+X-Google-Smtp-Source: APXvYqxI3JtWODejHFqxpw4DFYd2nl5kw95snTyXr3bSutTTUyjXntP8LRfXqy2WWfBAmA219I33UQ==
+X-Received: by 2002:a7b:c183:: with SMTP id y3mr1038434wmi.0.1581370814718;
+        Mon, 10 Feb 2020 13:40:14 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:a1cf:b00b:5683:ed40])
-        by smtp.gmail.com with ESMTPSA id u14sm2118582wrm.51.2020.02.10.13.40.03
+        by smtp.gmail.com with ESMTPSA id u14sm2118582wrm.51.2020.02.10.13.40.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2020 13:40:11 -0800 (PST)
+        Mon, 10 Feb 2020 13:40:14 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
         devicetree@vger.kernel.org, coresight@lists.linaro.org,
@@ -61,9 +61,9 @@ Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
         suzuki.poulose@arm.com, robh+dt@kernel.org, maxime@cerno.tech,
         liviu.dudau@arm.com, sudeep.holla@arm.com,
         lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net
-Subject: [PATCH v9 12/15] dt-bindings: hisilicon: Add CTI bindings for hi-6220
-Date:   Mon, 10 Feb 2020 21:39:21 +0000
-Message-Id: <20200210213924.20037-13-mike.leach@linaro.org>
+Subject: [PATCH v9 14/15] docs: sysfs: coresight: Add sysfs ABI documentation for CTI
+Date:   Mon, 10 Feb 2020 21:39:23 +0000
+Message-Id: <20200210213924.20037-15-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200210213924.20037-1-mike.leach@linaro.org>
 References: <20200210213924.20037-1-mike.leach@linaro.org>
@@ -72,211 +72,241 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds in CTI device tree information for the Hikey620 board.
+Add API usage document for sysfs API in CTI driver.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Tested-by: Leo Yan <leo.yan@linaro.org>
 ---
- .../boot/dts/hisilicon/hi6220-coresight.dtsi  | 130 ++++++++++++++++--
- 1 file changed, 122 insertions(+), 8 deletions(-)
+ .../testing/sysfs-bus-coresight-devices-cti   | 221 ++++++++++++++++++
+ 1 file changed, 221 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
 
-diff --git a/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi b/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
-index 651771a73ed6..27f067e87601 100644
---- a/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
-+++ b/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
-@@ -213,7 +213,7 @@
- 			};
- 		};
- 
--		etm@f659c000 {
-+		etm0: etm@f659c000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf659c000 0 0x1000>;
- 
-@@ -232,7 +232,7 @@
- 			};
- 		};
- 
--		etm@f659d000 {
-+		etm1: etm@f659d000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf659d000 0 0x1000>;
- 
-@@ -251,7 +251,7 @@
- 			};
- 		};
- 
--		etm@f659e000 {
-+		etm2: etm@f659e000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf659e000 0 0x1000>;
- 
-@@ -270,7 +270,7 @@
- 			};
- 		};
- 
--		etm@f659f000 {
-+		etm3: etm@f659f000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf659f000 0 0x1000>;
- 
-@@ -289,7 +289,7 @@
- 			};
- 		};
- 
--		etm@f65dc000 {
-+		etm4: etm@f65dc000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf65dc000 0 0x1000>;
- 
-@@ -308,7 +308,7 @@
- 			};
- 		};
- 
--		etm@f65dd000 {
-+		etm5: etm@f65dd000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf65dd000 0 0x1000>;
- 
-@@ -327,7 +327,7 @@
- 			};
- 		};
- 
--		etm@f65de000 {
-+		etm6: etm@f65de000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf65de000 0 0x1000>;
- 
-@@ -346,7 +346,7 @@
- 			};
- 		};
- 
--		etm@f65df000 {
-+		etm7: etm@f65df000 {
- 			compatible = "arm,coresight-etm4x", "arm,primecell";
- 			reg = <0 0xf65df000 0 0x1000>;
- 
-@@ -364,5 +364,119 @@
- 				};
- 			};
- 		};
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+new file mode 100644
+index 000000000000..5ed54d196a17
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+@@ -0,0 +1,221 @@
++What:		/sys/bus/coresight/devices/<cti-name>/enable
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Enable/Disable the CTI hardware.
 +
-+		/* System CTIs */
-+		/* CTI 0 - TMC and TPIU connections */
-+		cti@f6403000 {
-+			compatible = "arm,coresight-cti", "arm,primecell";
-+			reg = <0 0xf6403000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/ctmid
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Display the associated CTM ID
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/nr_trigger_cons
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Number of devices connected to triggers on this CTI
 +
-+		/* CTI - CPU-0 */
-+		cti@f6598000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf6598000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/name
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Name of connected device <N>
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_signals
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Input trigger signals from connected device <N>
 +
-+			cpu = <&cpu0>;
-+			arm,cs-dev-assoc = <&etm0>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_types
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Functional types for the input trigger signals
++		from connected device <N>
 +
-+		/* CTI - CPU-1 */
-+		cti@f6599000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf6599000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_signals
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Output trigger signals to connected device <N>
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_types
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Functional types for the output trigger signals
++		to connected device <N>
 +
-+			cpu = <&cpu1>;
-+			arm,cs-dev-assoc = <&etm1>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/regs/inout_sel
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Select the index for inen and outen registers.
 +
-+		/* CTI - CPU-2 */
-+		cti@f659a000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf659a000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/regs/inen
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Read or write the CTIINEN register selected by inout_sel.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/regs/outen
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Read or write the CTIOUTEN register selected by inout_sel.
 +
-+			cpu = <&cpu2>;
-+			arm,cs-dev-assoc = <&etm2>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/regs/gate
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Read or write CTIGATE register.
 +
-+		/* CTI - CPU-3 */
-+		cti@f659b000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf659b000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/regs/asicctl
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Read or write ASICCTL register.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/regs/intack
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Write the INTACK register.
 +
-+			cpu = <&cpu3>;
-+			arm,cs-dev-assoc = <&etm3>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/regs/appset
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Set CTIAPPSET register to activate channel. Read back to
++		determine current value of register.
 +
-+		/* CTI - CPU-4 */
-+		cti@f65d8000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf65d8000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/regs/appclear
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Write APPCLEAR register to deactivate channel.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/regs/apppulse
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Write APPPULSE to pulse a channel active for one clock
++		cycle.
 +
-+			cpu = <&cpu4>;
-+			arm,cs-dev-assoc = <&etm4>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/regs/chinstatus
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) Read current status of channel inputs.
 +
-+		/* CTI - CPU-5 */
-+		cti@f65d9000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf65d9000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/regs/choutstatus
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) read current status of channel outputs.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/regs/triginstatus
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) read current status of input trigger signals
 +
-+			cpu = <&cpu5>;
-+			arm,cs-dev-assoc = <&etm5>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/regs/trigoutstatus
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) read current status of output trigger signals.
 +
-+		/* CTI - CPU-6 */
-+		cti@f65da000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf65da000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_attach
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Attach a CTI input trigger to a CTM channel.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_detach
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Detach a CTI input trigger from a CTM channel.
 +
-+			cpu = <&cpu6>;
-+			arm,cs-dev-assoc = <&etm6>;
-+		};
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_attach
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Attach a CTI output trigger to a CTM channel.
 +
-+		/* CTI - CPU-7 */
-+		cti@f65db000 {
-+			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
-+				     "arm,primecell";
-+			reg = <0 0xf65db000 0 0x1000>;
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_detach
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Detach a CTI output trigger from a CTM channel.
 +
-+			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
-+			clock-names = "apb_pclk";
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_enable
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Enable CTIGATE for single channel (W) or list enabled
++		channels through the gate (R).
 +
-+			cpu = <&cpu7>;
-+			arm,cs-dev-assoc = <&etm7>;
-+		};
- 	};
- };
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_disable
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Disable CTIGATE for single channel.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_set
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Activate a single channel.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_clear
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Deactivate a single channel.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_pulse
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Pulse a single channel - activate for a single clock cycle.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_filtered
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) List of output triggers filtered across all connections.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/trig_filter_enable
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Enable or disable trigger output signal filtering.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_inuse
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) show channels with at least one attached trigger signal.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_free
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(R) show channels with no attached trigger signals.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_view
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(RW) Write channel number to select a channel to view, read to
++		see triggers attached to selected channel on this CTI.
++
++What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_reset
++Date:		Jan 2020
++KernelVersion	5.6
++Contact:	Mike Leach or Mathieu Poirier
++Description:	(W) Clear all channel / trigger programming.
 -- 
 2.17.1
 
