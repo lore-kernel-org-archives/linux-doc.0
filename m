@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2717C352A4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F3DC3B18E
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CA85321927
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7D2721835
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581314641;
-	bh=kza+nIaub/EO+u1abwbBpyZvce4UHjBfCCjb8bXTkqw=;
+	s=default; t=1581314646;
+	bh=ArAUkNUQ/vF/uez6+ESqcEZUEceHpZziK7NIyODV0XA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UkIZCWfeeqBi2tvb3jo9+Jf/AnlqSxa26NHQTMfG+QEvVHTHkhqbKv/QTcDF6KrVh
-	 TSjEE5mfkZl6jDT/g5uB6jMOE32pKwYizP4OpEWL+Yr+j9V8/ZXHJUsCvmHUHV5yLM
-	 G0D4ZOirBwtaKZqboNJ44PV4sUJePgiup6LRtp0E=
+	b=h2YN8L4huS+FIJS8g4No9jU0ZOIR43Nk4/BTWb78+t3nG/bpVfuyIDbsnSdbqvq0F
+	 Py1wHNVGQX+KEJ35Pn0SJcgrkV7ppU8w8H1f6xIkYu5Z+vvLSoqBKJmYhMrMxyzmVs
+	 Zc2i+3AwINdceo408hHl8DC475iEEjCPfQKOsr3I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727742AbgBJGDp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 01:03:45 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36330 "EHLO
+        id S1727743AbgBJGEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 01:04:02 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36310 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727508AbgBJGDM (ORCPT
+        with ESMTP id S1727496AbgBJGDM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=p2YhU3jfC3+pZD58yyGjx9QrnEOyUsPJA0xSIIWllRk=; b=c9V4kU8saJN9Y9mvu0C3MA0dxc
-        2rNYXuRxjKsOO1gQZkbQyxByF2w2v6RHgT15ytnblAeVKkxTVLq62d49oRnZuR0PrGF8St9nlp+g8
-        bsAmfV0ch6BoCJVR6v+G7YPb6f6IWoKonrdKBGfbGrUpAOC4tvhjHjVEDKkwQhCciBlrgprgKp432
-        J07yMjFfnEWRAC4/SMnjBSHeqmTTvIN4hJeQ2JTNP+LeFzWs9JGrjW0H41dBcXhAo7W+sy38LO6kX
-        ojRYybOh2CCo52dlXCWD9zySo1lpkMhLvZYFv2aX9WVf0JBTNLJeiPEumzHtcP6mq3/wufxissrCS
-        hzjIDpeA==;
+        bh=8GfzltQhS3v+ZlAaDJGjOA5DZ8pCcqwOMokM0PKMq0I=; b=UV5Hfzhxx/q9CXwJ+S2gPVFR02
+        xGVsRspuI/Hs7JhCor9wCkWak8R55BUoiltwJ1+jX9DiIOVGiZEdCyHWQnpDk2v6Dkw0+wzykaalF
+        nAVy5puQLGx7oI95Uuysare59M228Eu8OujSw27zXYa2ge9hDvj5qY86TpNcZEVZzASoMRLH/SAoO
+        CBK7oJtUrbNDW94baXHod6TgkaqSGe3BUMFHo1PshH8lBLNS40A+iPs1h0vdLrwbs6NgqhIEnU2+d
+        1MnJuaUHE+XsHBfLJ78JhcdoSd43SXOJBCCO3Jlf8qDswHhG5e6na0f7DEB6SbkscAtlWQKfulaOO
+        AAX0I/Kw==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A4-0006Ts-2b; Mon, 10 Feb 2020 06:03:12 +0000
+        id 1j12A3-0006Tn-R8; Mon, 10 Feb 2020 06:03:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A2-00C2W0-Cs; Mon, 10 Feb 2020 07:03:10 +0100
+        id 1j12A2-00C2Vb-63; Mon, 10 Feb 2020 07:03:10 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 18/28] docs: kvm: convert arm/hyp-abi.txt to ReST
-Date:   Mon, 10 Feb 2020 07:02:56 +0100
-Message-Id: <f0ecf7be020cb410ee29f506d440b32e549d569a.1581314317.git.mchehab+huawei@kernel.org>
+        linux-doc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH 13/28] docs: kvm: convert devices/vfio.txt to ReST
+Date:   Mon, 10 Feb 2020 07:02:51 +0100
+Message-Id: <b3c9acd041a6097fb246aa5337737127e9c014a3.1581314317.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
 References: <cover.1581314316.git.mchehab+huawei@kernel.org>
@@ -62,85 +62,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add proper markups for titles;
-- Adjust whitespaces and blank lines to match ReST
-  needs;
-- Mark literal blocks as such.
+- Use standard title markup;
+- adjust lists;
+- mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} | 28 +++++++++++++------
- Documentation/virt/kvm/arm/index.rst          |  1 +
- 2 files changed, 20 insertions(+), 9 deletions(-)
- rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+ Documentation/virt/kvm/devices/index.rst      |  1 +
+ .../virt/kvm/devices/{vfio.txt => vfio.rst}   | 25 +++++++++++--------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
+ rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
 
-diff --git a/Documentation/virt/kvm/arm/hyp-abi.txt b/Documentation/virt/kvm/arm/hyp-abi.rst
-similarity index 79%
-rename from Documentation/virt/kvm/arm/hyp-abi.txt
-rename to Documentation/virt/kvm/arm/hyp-abi.rst
-index a20a0bee268d..d1fc27d848e9 100644
---- a/Documentation/virt/kvm/arm/hyp-abi.txt
-+++ b/Documentation/virt/kvm/arm/hyp-abi.rst
-@@ -1,4 +1,8 @@
--* Internal ABI between the kernel and HYP
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index 5a61838f0e61..cbbadda080d0 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -13,3 +13,4 @@ Devices
+    mpic
+    s390_flic
+    vcpu
++   vfio
+diff --git a/Documentation/virt/kvm/devices/vfio.txt b/Documentation/virt/kvm/devices/vfio.rst
+similarity index 72%
+rename from Documentation/virt/kvm/devices/vfio.txt
+rename to Documentation/virt/kvm/devices/vfio.rst
+index 528c77c8022c..2d20dc561069 100644
+--- a/Documentation/virt/kvm/devices/vfio.txt
++++ b/Documentation/virt/kvm/devices/vfio.rst
+@@ -1,8 +1,12 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=======================================
-+Internal ABI between the kernel and HYP
-+=======================================
++===================
+ VFIO virtual device
+ ===================
  
- This file documents the interaction between the Linux kernel and the
- hypervisor layer when running Linux as a hypervisor (for example
-@@ -19,25 +23,31 @@ and only act on individual CPUs.
- Unless specified otherwise, any built-in hypervisor must implement
- these functions (see arch/arm{,64}/include/asm/virt.h):
- 
--* r0/x0 = HVC_SET_VECTORS
--  r1/x1 = vectors
-+* ::
+ Device types supported:
+-  KVM_DEV_TYPE_VFIO
 +
-+    r0/x0 = HVC_SET_VECTORS
-+    r1/x1 = vectors
++  - KVM_DEV_TYPE_VFIO
  
-   Set HVBAR/VBAR_EL2 to 'vectors' to enable a hypervisor. 'vectors'
-   must be a physical address, and respect the alignment requirements
-   of the architecture. Only implemented by the initial stubs, not by
-   Linux hypervisors.
+ Only one VFIO instance may be created per VM.  The created device
+ tracks VFIO groups in use by the VM and features of those groups
+@@ -23,14 +27,15 @@ KVM_DEV_VFIO_GROUP attributes:
+ 	for the VFIO group.
+   KVM_DEV_VFIO_GROUP_SET_SPAPR_TCE: attaches a guest visible TCE table
+ 	allocated by sPAPR KVM.
+-	kvm_device_attr.addr points to a struct:
++	kvm_device_attr.addr points to a struct::
  
--* r0/x0 = HVC_RESET_VECTORS
-+* ::
+-	struct kvm_vfio_spapr_tce {
+-		__s32	groupfd;
+-		__s32	tablefd;
+-	};
++		struct kvm_vfio_spapr_tce {
++			__s32	groupfd;
++			__s32	tablefd;
++		};
+ 
+-	where
+-	@groupfd is a file descriptor for a VFIO group;
+-	@tablefd is a file descriptor for a TCE table allocated via
+-		KVM_CREATE_SPAPR_TCE.
++	where:
 +
-+    r0/x0 = HVC_RESET_VECTORS
- 
-   Turn HYP/EL2 MMU off, and reset HVBAR/VBAR_EL2 to the initials
-   stubs' exception vector value. This effectively disables an existing
-   hypervisor.
- 
--* r0/x0 = HVC_SOFT_RESTART
--  r1/x1 = restart address
--  x2 = x0's value when entering the next payload (arm64)
--  x3 = x1's value when entering the next payload (arm64)
--  x4 = x2's value when entering the next payload (arm64)
-+* ::
-+
-+    r0/x0 = HVC_SOFT_RESTART
-+    r1/x1 = restart address
-+    x2 = x0's value when entering the next payload (arm64)
-+    x3 = x1's value when entering the next payload (arm64)
-+    x4 = x2's value when entering the next payload (arm64)
- 
-   Mask all exceptions, disable the MMU, move the arguments into place
-   (arm64 only), and jump to the restart address while at HYP/EL2. This
-diff --git a/Documentation/virt/kvm/arm/index.rst b/Documentation/virt/kvm/arm/index.rst
-index e039d9b1e076..134fa5fa77e5 100644
---- a/Documentation/virt/kvm/arm/index.rst
-+++ b/Documentation/virt/kvm/arm/index.rst
-@@ -7,4 +7,5 @@ ARM
- .. toctree::
-    :maxdepth: 2
- 
-+   hyp-abi
-    pvtime
++	- @groupfd is a file descriptor for a VFIO group;
++	- @tablefd is a file descriptor for a TCE table allocated via
++	  KVM_CREATE_SPAPR_TCE.
 -- 
 2.24.1
 
