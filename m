@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2870EC3B198
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B1BC3B197
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3DEB21927
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E4FE21927
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581314622;
-	bh=+rRbAd3TlFK7nPTr4w5ejAYTzpI7e3h8QdYEc9RALgw=;
+	s=default; t=1581314619;
+	bh=N0OPd0iacFA/47RM0+QleZ2IobAGm95hjz/zZi9OeEU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=PnOa8USk4ShQ8ccJB0l89wUJ9vpCr2RpphA7CLyHcA/DFwlQHrG4lZiHJWZRdge4Y
-	 e1mu5N/QXCFcT4DB1cer2YDZ12k3wdDYAYikx5auWvWz9Jn+7rwj+KMfV60jMaRuKi
-	 AW6WeG/jSZ7Cqq+7ubRNOh0X1qpusIl0DMkNF6rA=
+	b=OXEsxQpnwNis3TXaTC4BLYN61kxHza9CyFiZgHn6Qk+doVhoY3ujWk5Cp01rfpwwW
+	 bZJlrgFDWch+tC3OyZEv1jWLDQ+s1zdH/efNsrn/OQCjboWzsjaGO5Is1QVcKCIDAZ
+	 2p4Y+XUUS7KWr7u2pc6YdtQfnKY/hanSzhJsZ5sk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbgBJGDj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 01:03:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36398 "EHLO
+        id S1727558AbgBJGDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 01:03:12 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36318 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727538AbgBJGDM (ORCPT
+        with ESMTP id S1727505AbgBJGDM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=qTpK99sN7WRqIfWf+ZjYD4CgBdyOTvR2MsNxs1Vzre8=; b=S5RThnkICdrMzL6Xf5nRW+bQhk
-        liXCG8vSjwnfEj7A8il8iYZadVrF/i11Ldpj2Gy9z5hVF2yO9HwUHpio8lh7MrmLadOWHUMtXW1l/
-        JVEIhjVpbUfEVZeP5RtAvbuzbtKZWTgxqQILDU2v0aw56mRYjF7jZtLQC9n25JgqFnMCMqHJrC4Re
-        TRX1z4g5yej2n7ydjVb9T+NLaEENRkQ2sex40FHvZD0CiOza6vdrIdfhy1hJCBL97e56vLWEWw2V7
-        MRkPC0vkUSRyQ7lzM4sTXRc7/ouNWf3pt5m66V1HWartdpm/Hx3MRleuCKyGkBZJbJatCZu0p3pUF
-        GcDrU+Yw==;
+        bh=TMlBkOqOYR3ysxOJY5Cjd1qwRLlnNrloXMHDgT46IzQ=; b=J0fcXwq5l1R5uWl8/SEMWZJJ8v
+        nNl0eTaDibgD04bLAeJtc/Mc81ulP0DrINjWEbzorIZIXYNMnGhhqO7CHidTYHWMOI2gAdUzVJ4qD
+        Qd/qB+zvAuPc2oXEmoIHZKopbhTSA0h2NAH2RbRqNVAe/zIfEddY0jjR6xcHNe0JooOka0VVwsYo/
+        l2y+eUA57tE5mdycIaQ2OaE7OwWMrEz5YHF/5KA7Mdg9UY9qV7G1aRkPqLgj/oww2mRYGTKKSa6Jy
+        chXWhMLFb/dVdhOx5rzgZWR3z7aM+A5590MWPvT/uosYoa0IUj+jCHIVhyI5SrZI2O0YFth+NSLUw
+        MQ89wmqQ==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A4-0006Tw-9B; Mon, 10 Feb 2020 06:03:12 +0000
+        id 1j12A3-0006Tm-QF; Mon, 10 Feb 2020 06:03:12 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A2-00C2WL-Io; Mon, 10 Feb 2020 07:03:10 +0100
+        id 1j12A2-00C2VW-4K; Mon, 10 Feb 2020 07:03:10 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 22/28] docs: kvm: Convert mmu.txt to ReST format
-Date:   Mon, 10 Feb 2020 07:03:00 +0100
-Message-Id: <cc49b89d0d605fda10f4cd0f5a4c6e6e9da487bf.1581314317.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/28] docs: kvm: convert devices/vcpu.txt to ReST
+Date:   Mon, 10 Feb 2020 07:02:50 +0100
+Message-Id: <2096c62896f7cb2a8e636e1b68135f00c23a0672.1581314317.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
 References: <cover.1581314316.git.mchehab+huawei@kernel.org>
@@ -62,205 +62,232 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use document title and chapter markups;
-- Add markups for tables;
-- Add markups for literal blocks;
-- Add blank lines and adjust indentation.
+- Use title markups;
+- adjust indentation and add blank lines as needed;
+- adjust tables to match ReST accepted formats;
+- use :field: markups;
+- mark code blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/index.rst            |  1 +
- Documentation/virt/kvm/{mmu.txt => mmu.rst} | 62 ++++++++++++++++-----
- 2 files changed, 49 insertions(+), 14 deletions(-)
- rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+ Documentation/virt/kvm/devices/index.rst |   1 +
+ Documentation/virt/kvm/devices/vcpu.rst  | 114 +++++++++++++++++++++++
+ Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+ 3 files changed, 115 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 9be8f53b729d..95e2487d38f4 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -13,6 +13,7 @@ KVM
-    halt-polling
-    hypercalls
-    locking
-+   mmu
-    msr
-    vcpu-requests
- 
-diff --git a/Documentation/virt/kvm/mmu.txt b/Documentation/virt/kvm/mmu.rst
-similarity index 94%
-rename from Documentation/virt/kvm/mmu.txt
-rename to Documentation/virt/kvm/mmu.rst
-index dadb29e8738f..60981887d20b 100644
---- a/Documentation/virt/kvm/mmu.txt
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index e6caccc36623..5a61838f0e61 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -12,3 +12,4 @@ Devices
+    arm-vgic-v3
+    mpic
+    s390_flic
++   vcpu
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+new file mode 100644
+index 000000000000..9963e680770a
+--- /dev/null
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -0,0 +1,114 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +======================
- The x86 kvm shadow mmu
- ======================
- 
-@@ -7,27 +10,37 @@ physical addresses to host physical addresses.
- 
- The mmu code attempts to satisfy the following requirements:
- 
--- correctness: the guest should not be able to determine that it is running
-+- correctness:
-+	       the guest should not be able to determine that it is running
-                on an emulated mmu except for timing (we attempt to comply
-                with the specification, not emulate the characteristics of
-                a particular implementation such as tlb size)
--- security:    the guest must not be able to touch host memory not assigned
-+- security:
-+	       the guest must not be able to touch host memory not assigned
-                to it
--- performance: minimize the performance penalty imposed by the mmu
--- scaling:     need to scale to large memory and large vcpu guests
--- hardware:    support the full range of x86 virtualization hardware
--- integration: Linux memory management code must be in control of guest memory
-+- performance:
-+               minimize the performance penalty imposed by the mmu
-+- scaling:
-+               need to scale to large memory and large vcpu guests
-+- hardware:
-+               support the full range of x86 virtualization hardware
-+- integration:
-+               Linux memory management code must be in control of guest memory
-                so that swapping, page migration, page merging, transparent
-                hugepages, and similar features work without change
--- dirty tracking: report writes to guest memory to enable live migration
-+- dirty tracking:
-+               report writes to guest memory to enable live migration
-                and framebuffer-based displays
--- footprint:   keep the amount of pinned kernel memory low (most memory
-+- footprint:
-+               keep the amount of pinned kernel memory low (most memory
-                should be shrinkable)
--- reliability:  avoid multipage or GFP_ATOMIC allocations
-+- reliability:
-+               avoid multipage or GFP_ATOMIC allocations
- 
- Acronyms
- ========
- 
-+====  ====================================================================
- pfn   host page frame number
- hpa   host physical address
- hva   host virtual address
-@@ -41,6 +54,7 @@ pte   page table entry (used also to refer generically to paging structure
- gpte  guest pte (referring to gfns)
- spte  shadow pte (referring to pfns)
- tdp   two dimensional paging (vendor neutral term for NPT and EPT)
-+====  ====================================================================
- 
- Virtual and real hardware supported
- ===================================
-@@ -90,11 +104,13 @@ Events
- The mmu is driven by events, some from the guest, some from the host.
- 
- Guest generated events:
++Generic vcpu interface
++======================
 +
- - writes to control registers (especially cr3)
- - invlpg/invlpga instruction execution
- - access to missing or protected translations
- 
- Host generated events:
++The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
++KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
++kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
 +
- - changes in the gpa->hpa translation (either through gpa->hva changes or
-   through hva->hpa changes)
- - memory pressure (the shrinker)
-@@ -117,16 +133,19 @@ Leaf ptes point at guest pages.
- The following table shows translations encoded by leaf ptes, with higher-level
- translations in parentheses:
- 
-- Non-nested guests:
-+ Non-nested guests::
++The groups and attributes per virtual cpu, if any, are architecture specific.
 +
-   nonpaging:     gpa->hpa
-   paging:        gva->gpa->hpa
-   paging, tdp:   (gva->)gpa->hpa
-- Nested guests:
++1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
++==================================
 +
-+ Nested guests::
++:Architectures: ARM64
 +
-   non-tdp:       ngva->gpa->hpa  (*)
-   tdp:           (ngva->)ngpa->gpa->hpa
- 
--(*) the guest hypervisor will encode the ngva->gpa translation into its page
--    tables if npt is not present
-+  (*) the guest hypervisor will encode the ngva->gpa translation into its page
-+      tables if npt is not present
- 
- Shadow pages contain the following information:
-   role.level:
-@@ -291,28 +310,41 @@ Handling a page fault is performed as follows:
- 
-  - if the RSV bit of the error code is set, the page fault is caused by guest
-    accessing MMIO and cached MMIO information is available.
++1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
++---------------------------------------
 +
-    - walk shadow page table
-    - check for valid generation number in the spte (see "Fast invalidation of
-      MMIO sptes" below)
-    - cache the information to vcpu->arch.mmio_gva, vcpu->arch.mmio_access and
-      vcpu->arch.mmio_gfn, and call the emulator
++:Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
++	     pointer to an int
 +
-  - If both P bit and R/W bit of error code are set, this could possibly
-    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
-    the description in Documentation/virt/kvm/locking.txt.
++Returns:
 +
-  - if needed, walk the guest page tables to determine the guest translation
-    (gva->gpa or ngpa->gpa)
++	 =======  ========================================================
++	 -EBUSY   The PMU overflow interrupt is already set
++	 -ENXIO   The overflow interrupt not set when attempting to get it
++	 -ENODEV  PMUv3 not supported
++	 -EINVAL  Invalid PMU overflow interrupt number supplied or
++		  trying to set the IRQ number without using an in-kernel
++		  irqchip.
++	 =======  ========================================================
 +
-    - if permissions are insufficient, reflect the fault back to the guest
++A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
++number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
++type must be same for each vcpu. As a PPI, the interrupt number is the same for
++all vcpus, while as an SPI it must be a separate number per vcpu.
 +
-  - determine the host page
++1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
++---------------------------------------
 +
-    - if this is an mmio request, there is no host page; cache the info to
-      vcpu->arch.mmio_gva, vcpu->arch.mmio_access and vcpu->arch.mmio_gfn
++:Parameters: no additional parameter in kvm_device_attr.addr
 +
-  - walk the shadow page table to find the spte for the translation,
-    instantiating missing intermediate page tables as necessary
++Returns:
 +
-    - If this is an mmio request, cache the mmio info to the spte and set some
-      reserved bit on the spte (see callers of kvm_mmu_set_mmio_spte_mask)
++	 =======  ======================================================
++	 -ENODEV  PMUv3 not supported or GIC not initialized
++	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
++		  configured as required prior to calling this attribute
++	 -EBUSY   PMUv3 already initialized
++	 =======  ======================================================
 +
-  - try to unsynchronize the page
++Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
++virtual GIC implementation, this must be done after initializing the in-kernel
++irqchip.
 +
-    - if successful, we can let the guest continue and modify the gpte
 +
-  - emulate the instruction
++2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
++=================================
 +
-    - if failed, unshadow the page and let the guest continue
++:Architectures: ARM, ARM64
 +
-  - update any translations that were modified by the instruction
- 
- invlpg handling:
-@@ -324,10 +356,12 @@ invlpg handling:
- Guest control register updates:
- 
- - mov to cr3
++2.1. ATTRIBUTES: KVM_ARM_VCPU_TIMER_IRQ_VTIMER, KVM_ARM_VCPU_TIMER_IRQ_PTIMER
++-----------------------------------------------------------------------------
 +
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
- 
- - mov to cr0/cr4/efer
++:Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
++	     pointer to an int
 +
-   - set up mmu context for new paging mode
-   - look up new shadow roots
-   - synchronize newly reachable shadow pages
-@@ -358,6 +392,7 @@ on fault type:
- (user write faults generate a #PF)
- 
- In the first case there are two additional complications:
++Returns:
 +
- - if CR4.SMEP is enabled: since we've turned the page into a kernel page,
-   the kernel may now execute it.  We handle this by also setting spte.nx.
-   If we get a user fetch or read fault, we'll change spte.u=1 and
-@@ -446,4 +481,3 @@ Further reading
- 
- - NPT presentation from KVM Forum 2008
-   http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
++	 =======  =================================
++	 -EINVAL  Invalid timer interrupt number
++	 -EBUSY   One or more VCPUs has already run
++	 =======  =================================
++
++A value describing the architected timer interrupt number when connected to an
++in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
++attribute overrides the default values (see below).
++
++=============================  ==========================================
++KVM_ARM_VCPU_TIMER_IRQ_VTIMER  The EL1 virtual timer intid (default: 27)
++KVM_ARM_VCPU_TIMER_IRQ_PTIMER  The EL1 physical timer intid (default: 30)
++=============================  ==========================================
++
++Setting the same PPI for different timers will prevent the VCPUs from running.
++Setting the interrupt number on a VCPU configures all VCPUs created at that
++time to use the number provided for a given timer, overwriting any previously
++configured values on other VCPUs.  Userspace should configure the interrupt
++numbers on at least one VCPU after creating all VCPUs and before running any
++VCPUs.
++
++3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
++==================================
++
++:Architectures: ARM64
++
++3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
++--------------------------------------
++
++:Parameters: 64-bit base address
++
++Returns:
++
++	 =======  ======================================
++	 -ENXIO   Stolen time not implemented
++	 -EEXIST  Base address already set for this VCPU
++	 -EINVAL  Base address not 64 byte aligned
++	 =======  ======================================
++
++Specifies the base address of the stolen time structure for this VCPU. The
++base address must be 64 byte aligned and exist within a valid guest memory
++region. See Documentation/virt/kvm/arm/pvtime.txt for more information
++including the layout of the stolen time structure.
+diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
+deleted file mode 100644
+index 6f3bd64a05b0..000000000000
+--- a/Documentation/virt/kvm/devices/vcpu.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-Generic vcpu interface
+-====================================
 -
+-The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
+-KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
+-kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
+-
+-The groups and attributes per virtual cpu, if any, are architecture specific.
+-
+-1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
+-Architectures: ARM64
+-
+-1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
+-Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
+-            pointer to an int
+-Returns: -EBUSY: The PMU overflow interrupt is already set
+-         -ENXIO: The overflow interrupt not set when attempting to get it
+-         -ENODEV: PMUv3 not supported
+-         -EINVAL: Invalid PMU overflow interrupt number supplied or
+-                  trying to set the IRQ number without using an in-kernel
+-                  irqchip.
+-
+-A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
+-number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
+-type must be same for each vcpu. As a PPI, the interrupt number is the same for
+-all vcpus, while as an SPI it must be a separate number per vcpu.
+-
+-1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
+-Parameters: no additional parameter in kvm_device_attr.addr
+-Returns: -ENODEV: PMUv3 not supported or GIC not initialized
+-         -ENXIO: PMUv3 not properly configured or in-kernel irqchip not
+-                 configured as required prior to calling this attribute
+-         -EBUSY: PMUv3 already initialized
+-
+-Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
+-virtual GIC implementation, this must be done after initializing the in-kernel
+-irqchip.
+-
+-
+-2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+-Architectures: ARM,ARM64
+-
+-2.1. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_VTIMER
+-2.2. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_PTIMER
+-Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
+-            pointer to an int
+-Returns: -EINVAL: Invalid timer interrupt number
+-         -EBUSY:  One or more VCPUs has already run
+-
+-A value describing the architected timer interrupt number when connected to an
+-in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
+-attribute overrides the default values (see below).
+-
+-KVM_ARM_VCPU_TIMER_IRQ_VTIMER: The EL1 virtual timer intid (default: 27)
+-KVM_ARM_VCPU_TIMER_IRQ_PTIMER: The EL1 physical timer intid (default: 30)
+-
+-Setting the same PPI for different timers will prevent the VCPUs from running.
+-Setting the interrupt number on a VCPU configures all VCPUs created at that
+-time to use the number provided for a given timer, overwriting any previously
+-configured values on other VCPUs.  Userspace should configure the interrupt
+-numbers on at least one VCPU after creating all VCPUs and before running any
+-VCPUs.
+-
+-3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
+-Architectures: ARM64
+-
+-3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
+-Parameters: 64-bit base address
+-Returns: -ENXIO:  Stolen time not implemented
+-         -EEXIST: Base address already set for this VCPU
+-         -EINVAL: Base address not 64 byte aligned
+-
+-Specifies the base address of the stolen time structure for this VCPU. The
+-base address must be 64 byte aligned and exist within a valid guest memory
+-region. See Documentation/virt/kvm/arm/pvtime.txt for more information
+-including the layout of the stolen time structure.
 -- 
 2.24.1
 
