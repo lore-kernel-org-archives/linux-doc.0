@@ -2,157 +2,177 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47193C35254
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 04:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7B6C35250
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 05:58:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C32A821739
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 04:44:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67D9820661
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 05:58:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="Tk+C+i2S"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jyj2X9LF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgBJEow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Feb 2020 23:44:52 -0500
-Received: from ozlabs.org ([203.11.71.1]:47507 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726950AbgBJEow (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 9 Feb 2020 23:44:52 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 48GCxV4nP4z9sRh;
-        Mon, 10 Feb 2020 15:44:46 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1581309888;
-        bh=eC7Vr4qMU4DoQXk5j0w+V5swoIMqa+xLz/r2Lpz2x4M=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Tk+C+i2SmiBkigHAQ6Fk9UeoYKVM2UomMO5RmbB1dJHzQeq4WDXIWYi4SJKXZlg0F
-         NrKCOIy9jb0nTUAIZF9HMrZ5pOx/xIqfBeXVElYyStaguNIBkGNtweJX7yVnQEMpkb
-         DrHuj/qp7c6GliUgZAjKsM6oo+CGy7WGFRRs7O9wO/0DxpSbv+l8m/nXDTr65Rn1GW
-         q016z92JCimTRS+xzo3aF1fLRVF3nAxIjiZTRaW1bJ+7WVAdE4ATP+aY8eJbVClUCx
-         ZqqROhVAhk/3AmYt08uqTHQWTBsSZAc3GqU5RWXt3A+YFIm4t2F7ShzvkBy339sQPp
-         hdrVQzNtjWNgA==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
-        linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org,
-        Sourabh Jain <sourabhjain@linux.ibm.com>
-Subject: Re: [PATCH v6 2/6] sysfs: wrap __compat_only_sysfs_link_entry_to_kobj function to change the symlink name
-In-Reply-To: <20191211160910.21656-3-sourabhjain@linux.ibm.com>
-References: <20191211160910.21656-1-sourabhjain@linux.ibm.com> <20191211160910.21656-3-sourabhjain@linux.ibm.com>
-Date:   Mon, 10 Feb 2020 15:44:42 +1100
-Message-ID: <878slb126d.fsf@mpe.ellerman.id.au>
+        id S1726167AbgBJF6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 00:58:19 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36216 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726061AbgBJF6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 00:58:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=7sfdFqk46az1QPOD/6II7HGpIuwSsyprujkSDw33YBQ=; b=Jyj2X9LFZcTwuqqlVM50jhYrsA
+        wai8EoLD+VGZZSAbYKufxCdmd5N02Lb6BV+xVt+bmi0OwUIsM7XrMSFkOPKvylMoBwErVngU/G1Ua
+        CmPLIHTIKgOULb39tFd8lFugFcb19CvRWc3Z9Ojmpmn/K0W4TTAzMXGQber17ExwwmZg/e9loEi0B
+        ycjpQYOqNh+/p5kcUQHvU41QHxQIO5i+3cW3kJXCAdM0hf14fRW3jtq2VcvvqpHYYO6R1L5lmPTyi
+        ipv3EkgbjKQm7fZ40HgIqzBdwYUASFgbvUldbVbjHicT3v0pjIu5Tgqj2xWYNwmsHmmlSGIh3maf1
+        zeCQfbPw==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j125B-0004xe-KU; Mon, 10 Feb 2020 05:58:09 +0000
+Date:   Mon, 10 Feb 2020 06:58:06 +0100
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Cornelia Huck <cohuck@redhat.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
+Message-ID: <20200210065806.00b4f634@infradead.org>
+In-Reply-To: <20200207094803.152f0c9b.cohuck@redhat.com>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+        <20200206171132.4f51f17a.cohuck@redhat.com>
+        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
+        <20200206234736.196ef417@kernel.org>
+        <20200207072409.2cb038da@infradead.org>
+        <20200207094803.152f0c9b.cohuck@redhat.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sourabh Jain <sourabhjain@linux.ibm.com> writes:
-> The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
-> kobject but doesn't provide an option to change the symlink file name.
->
-> This patch adds a wrapper function compat_only_sysfs_link_entry_to_kobj
-> that extends the __compat_only_sysfs_link_entry_to_kobj functionality
-> which allows function caller to customize the symlink name.
->
-> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> ---
->  fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
->  include/linux/sysfs.h | 12 ++++++++++++
->  2 files changed, 37 insertions(+), 3 deletions(-)
+Em Fri, 7 Feb 2020 09:48:03 +0100
+Cornelia Huck <cohuck@redhat.com> escreveu:
 
-I'll assume no one has any objections to this and merge it via the
-powerpc tree with the rest of the series.
+> On Fri, 7 Feb 2020 07:24:09 +0100
+> Mauro Carvalho Chehab <mchehab@infradead.org> wrote:
+> 
+> > >     
+> > > > 
+> > > > Would be nicer but this is acceptable too I think.  Especially, the
+> > > > monospaced font allows breaking the table and keeping the parts aligned.      
+> > 
+> > I couldn't resist trying to use a table ;-)
+> > 
+> > The following patch does that. IMO, it looks nice on both text and html
+> > outputs.  
+> 
+> Now that I see this, I think this version is actually more readable
+> than the existing text.
 
-cheers
+Yes, that was my feeling too: even for one reading the text version,
+it looked clearer on my eyes.
 
-> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-> index d41c21fef138..0993645f0b59 100644
-> --- a/fs/sysfs/group.c
-> +++ b/fs/sysfs/group.c
-> @@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
->  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  				      struct kobject *target_kobj,
->  				      const char *target_name)
-> +{
-> +	return compat_only_sysfs_link_entry_to_kobj(kobj, target_kobj,
-> +						target_name, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
-> +
-> +/**
-> + * compat_only_sysfs_link_entry_to_kobj - add a symlink to a kobject pointing
-> + * to a group or an attribute
-> + * @kobj:		The kobject containing the group.
-> + * @target_kobj:	The target kobject.
-> + * @target_name:	The name of the target group or attribute.
-> + * @symlink_name:	The name of the symlink file (target_name will be
-> + *			considered if symlink_name is NULL).
-> + */
-> +int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
-> +					 struct kobject *target_kobj,
-> +					 const char *target_name,
-> +					 const char *symlink_name)
->  {
->  	struct kernfs_node *target;
->  	struct kernfs_node *entry;
-> @@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  		return -ENOENT;
->  	}
->  
-> -	link = kernfs_create_link(kobj->sd, target_name, entry);
-> +	if (!symlink_name)
-> +		symlink_name = target_name;
-> +
-> +	link = kernfs_create_link(kobj->sd, symlink_name, entry);
->  	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
-> -		sysfs_warn_dup(kobj->sd, target_name);
-> +		sysfs_warn_dup(kobj->sd, symlink_name);
->  
->  	kernfs_put(entry);
->  	kernfs_put(target);
->  	return PTR_ERR_OR_ZERO(link);
->  }
-> -EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
-> +EXPORT_SYMBOL_GPL(compat_only_sysfs_link_entry_to_kobj);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index 5420817ed317..15b195a4529d 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
->  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
->  				      struct kobject *target_kobj,
->  				      const char *target_name);
-> +int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
-> +					 struct kobject *target_kobj,
-> +					 const char *target_name,
-> +					 const char *symlink_name);
->  
->  void sysfs_notify(struct kobject *kobj, const char *dir, const char *attr);
->  
-> @@ -508,6 +512,14 @@ static inline int __compat_only_sysfs_link_entry_to_kobj(
->  	return 0;
->  }
->  
-> +static int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
-> +						struct kobject *target_kobj,
-> +						const char *target_name,
-> +						const char *symlink_name)
-> +{
-> +	return 0;
-> +}
-> +
->  static inline void sysfs_notify(struct kobject *kobj, const char *dir,
->  				const char *attr)
->  {
-> -- 
-> 2.17.2
+> 
+> > 
+> > Cheers,
+> > Mauro
+> > 
+> > diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
+> > index 428cb3412ecc..c02291beac3f 100644
+> > --- a/Documentation/virt/kvm/locking.rst
+> > +++ b/Documentation/virt/kvm/locking.rst
+> > @@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
+> >  is not changed during cmpxchg. This is a ABA problem, for example, below case
+> >  will happen:
+> >  
+> > -At the beginning::
+> > -
+> > -	gpte = gfn1
+> > -	gfn1 is mapped to pfn1 on host
+> > -	spte is the shadow page table entry corresponding with gpte and
+> > -	spte = pfn1
+> > -
+> > -	   VCPU 0                           VCPU0
+> > -
+> > -on fast page fault path::
+> > -
+> > -   old_spte = *spte;
+> > -                                 pfn1 is swapped out:
+> > -                                    spte = 0;
+> > -
+> > -                                 pfn1 is re-alloced for gfn2.
+> > -
+> > -                                 gpte is changed to point to
+> > -                                 gfn2 by the guest:
+> > -                                    spte = pfn1;
+> > -
+> > -   if (cmpxchg(spte, old_spte, old_spte+W)
+> > -	mark_page_dirty(vcpu->kvm, gfn1)
+> > -             OOPS!!!
+> > ++------------------------------------------------------------------------+
+> > +| At the beginning::                                                     |
+> > +|                                                                        |
+> > +|	gpte = gfn1                                                      |
+> > +|	gfn1 is mapped to pfn1 on host                                   |
+> > +|	spte is the shadow page table entry corresponding with gpte and  |
+> > +|	spte = pfn1                                                      |
+> > ++------------------------------------------------------------------------+
+> > +| On fast page fault path:                                               |
+> > ++------------------------------------+-----------------------------------+
+> > +| CPU 0:                             | CPU 1:                            |
+> > ++------------------------------------+-----------------------------------+
+> > +| ::                                 |                                   |  
+> 
+> The '::' directives look a bit like leftover christmas decorations,
+> but it's not really distracting, and on the plus side, we'll get nice
+> html formatting.
+
+Yes the only downside are those extra "::". The alternatives to it that
+would produce a similar look and feel would be a lot worse.
+
+> 
+> > +|                                    |                                   |
+> > +|   old_spte = *spte;                |                                   |
+> > ++------------------------------------+-----------------------------------+
+> > +|                                    | pfn1 is swapped out::             |
+> > +|                                    |                                   |
+> > +|                                    |    spte = 0;                      |
+> > +|                                    |                                   |
+> > +|                                    | pfn1 is re-alloced for gfn2.      |
+> > +|                                    |                                   |
+> > +|                                    | gpte is changed to point to       |
+> > +|                                    | gfn2 by the guest::               |
+> > +|                                    |                                   |
+> > +|                                    |    spte = pfn1;                   |
+> > ++------------------------------------+-----------------------------------+
+> > +| ::                                                                     |
+> > +|                                                                        |
+> > +|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
+> > +|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
+> > +|            OOPS!!!                                                     |
+> > ++------------------------------------------------------------------------+
+> >  
+> >  We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
+> >    
+> 
+> So I'd like to cast my vote for this version :)
+> 
+
+Ok. I'm submitting version 3 with this version.
+
+Regards,
+Mauro
+
+Cheers,
+Mauro
