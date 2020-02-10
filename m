@@ -6,83 +6,87 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7095AC3B186
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 10:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54879C352A3
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 11:42:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A8CF20733
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 10:16:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 250C420838
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 11:42:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727045AbgBJKQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 05:16:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43448 "EHLO mx2.suse.de"
+        id S1727008AbgBJLmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 06:42:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45570 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726451AbgBJKQe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Feb 2020 05:16:34 -0500
+        id S1727003AbgBJLmQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Feb 2020 06:42:16 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 570C7B17A;
-        Mon, 10 Feb 2020 10:16:31 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id DE6281E0E2C; Mon, 10 Feb 2020 11:16:29 +0100 (CET)
-Date:   Mon, 10 Feb 2020 11:16:29 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
+        by mx2.suse.de (Postfix) with ESMTP id 9A0A5AF00;
+        Mon, 10 Feb 2020 11:42:12 +0000 (UTC)
+Date:   Mon, 10 Feb 2020 12:42:11 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     lijiazi <jqqlijiazi@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 10/12] mm/gup: /proc/vmstat: pin_user_pages (FOLL_PIN)
- reporting
-Message-ID: <20200210101629.GC12923@quack2.suse.cz>
-References: <20200207033735.308000-1-jhubbard@nvidia.com>
- <20200207033735.308000-11-jhubbard@nvidia.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        lijiazi <lijiazi@xiaomi.com>
+Subject: Re: [PATCH v3 3/3] lib/vsprintf: add two device node flags
+Message-ID: <20200210114211.ghtyu43g7c4veqdh@pathway.suse.cz>
+References: <54fe6854ede6e2f22eb9775837da1ad7a13a3df4.1579423564.git.lijiazi@xiaomi.com>
+ <2d432e67cab2eb51f36f5b2e904a185ef48df6e0.1579423564.git.lijiazi@xiaomi.com>
+ <49e5a1c51283b3ea829dc7a04028121764cf5961.1579423564.git.lijiazi@xiaomi.com>
+ <20200120141951.GO32742@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200207033735.308000-11-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200120141951.GO32742@smile.fi.intel.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 06-02-20 19:37:33, John Hubbard wrote:
-> @@ -2258,6 +2268,8 @@ static int record_subpages(struct page *page, unsigned long addr,
->  
->  static void put_compound_head(struct page *page, int refs, unsigned int flags)
->  {
-> +	int orig_refs = refs;
-> +
->  	if (flags & FOLL_PIN) {
->  		if (hpage_pincount_available(page))
->  			hpage_pincount_sub(page, refs);
-> @@ -2273,6 +2285,8 @@ static void put_compound_head(struct page *page, int refs, unsigned int flags)
->  	if (refs > 1)
->  		page_ref_sub(page, refs - 1);
->  	put_page(page);
-> +
-> +	mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED, orig_refs);
->  }
+On Mon 2020-01-20 16:19:51, Andy Shevchenko wrote:
+> On Mon, Jan 20, 2020 at 07:38:29PM +0800, lijiazi wrote:
+> > Add two device node flags, and use OF_DEVICE_NODE_FLAG_MAX instead
+> > of sizeof("xxxx").
+> 
+> ...
+> 
+> >  			tbuf[1] = of_node_check_flag(dn, OF_DETACHED) ? 'd' : '-';
+> >  			tbuf[2] = of_node_check_flag(dn, OF_POPULATED) ? 'P' : '-';
+> >  			tbuf[3] = of_node_check_flag(dn, OF_POPULATED_BUS) ? 'B' : '-';
+> 
+> > -			tbuf[4] = 0;
+> 
+> This is fine to leave untouched. See below.
+> 
+> > +			tbuf[4] = of_node_check_flag(dn, OF_OVERLAY) ? 'O' : '-';
+> > +			tbuf[5] = of_node_check_flag(dn, OF_OVERLAY_FREE_CSET) ? 'F' : '-';
+> 
+> These two should be part of patch 1, which in turn should be last in the series.
+> 
+> > +			tbuf[OF_DEVICE_NODE_FLAG_MAX] = 0;
+> 
+> This one also, but in a form of explicit number, if you afraid of problems
+> here, we may add something like
 
-Still not quite happy about this :) Now you update NR_FOLL_PIN_RELEASED
-even if 'flags' don't have FOLL_PIN set. You need to have the
-mod_node_page_state() inside the "if (flags & FOLL_PIN)" branch above...
+I agree that explicit number would be better here:
 
-									Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+			tbuf[6] = 0;
+
+And I like the build check. I would even check for the exact number.
+It would help to keep the code updated when the number is modified.
+
+	BUILD_BUG_ON(OF_DEVICE_NODE_FLAG_MAX != 6);
+
+Finally, I would put all three changes into the same patch. And
+remove the comment above OF_DEVICE_NODE_FLAG_MAX definition
+completely.
+
+Best Regards,
+Petr
