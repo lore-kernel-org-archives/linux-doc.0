@@ -2,77 +2,157 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5776AC35254
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 03:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47193C35254
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 04:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1EE092082E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 03:33:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C32A821739
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 04:44:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LPXf0Pu+"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="Tk+C+i2S"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbgBJDdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Feb 2020 22:33:55 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38796 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726944AbgBJDdz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Feb 2020 22:33:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=oRncvvmdgzXVF74B2wNtnPNmk7OdUtgqFN0vjqZU07o=; b=LPXf0Pu+YReu2OTEL9wFRRRWR+
-        5iNe32ZB4twnDYQ9AsDk8e1nwrEJVPAqEOwmJ/F3vgizml83pkXK/7zKYhr3LEDb/et26QQiutLov
-        taJkGTJ9z3E+l0tFA6RKcJ1RLI4qVszeriQST7yy/S6vceUJ2OlFidvMlWUKwtFgfX1DFH8epelmX
-        6oFzm0c0AFOPKLsiZ8VOvHcPEsfY11pDJDAYMac8/IORVi4LVgdDvnD//ErjWl5EAMzqTyzgSoKJp
-        +Tafanbwkcur9WLTZb+7GJb8FoNSQWTQIExvnB6PU6RR+7KUCR1hygf8fZ4F11v6cTBNPvycytqHp
-        OFkh6idQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j0zpZ-0001kt-Ra; Mon, 10 Feb 2020 03:33:53 +0000
-To:     Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: fuse: fix Sphinx directive warning
-Message-ID: <1f114330-bd67-bc07-912e-90432786b6b4@infradead.org>
-Date:   Sun, 9 Feb 2020 19:33:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727003AbgBJEow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Feb 2020 23:44:52 -0500
+Received: from ozlabs.org ([203.11.71.1]:47507 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726950AbgBJEow (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Feb 2020 23:44:52 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 48GCxV4nP4z9sRh;
+        Mon, 10 Feb 2020 15:44:46 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1581309888;
+        bh=eC7Vr4qMU4DoQXk5j0w+V5swoIMqa+xLz/r2Lpz2x4M=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Tk+C+i2SmiBkigHAQ6Fk9UeoYKVM2UomMO5RmbB1dJHzQeq4WDXIWYi4SJKXZlg0F
+         NrKCOIy9jb0nTUAIZF9HMrZ5pOx/xIqfBeXVElYyStaguNIBkGNtweJX7yVnQEMpkb
+         DrHuj/qp7c6GliUgZAjKsM6oo+CGy7WGFRRs7O9wO/0DxpSbv+l8m/nXDTr65Rn1GW
+         q016z92JCimTRS+xzo3aF1fLRVF3nAxIjiZTRaW1bJ+7WVAdE4ATP+aY8eJbVClUCx
+         ZqqROhVAhk/3AmYt08uqTHQWTBsSZAc3GqU5RWXt3A+YFIm4t2F7ShzvkBy339sQPp
+         hdrVQzNtjWNgA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc:     mahesh@linux.vnet.ibm.com, hbathini@linux.ibm.com,
+        linux-kernel@vger.kernel.org, linuxppc-dev@ozlabs.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org,
+        Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: Re: [PATCH v6 2/6] sysfs: wrap __compat_only_sysfs_link_entry_to_kobj function to change the symlink name
+In-Reply-To: <20191211160910.21656-3-sourabhjain@linux.ibm.com>
+References: <20191211160910.21656-1-sourabhjain@linux.ibm.com> <20191211160910.21656-3-sourabhjain@linux.ibm.com>
+Date:   Mon, 10 Feb 2020 15:44:42 +1100
+Message-ID: <878slb126d.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Sourabh Jain <sourabhjain@linux.ibm.com> writes:
+> The __compat_only_sysfs_link_entry_to_kobj function creates a symlink to a
+> kobject but doesn't provide an option to change the symlink file name.
+>
+> This patch adds a wrapper function compat_only_sysfs_link_entry_to_kobj
+> that extends the __compat_only_sysfs_link_entry_to_kobj functionality
+> which allows function caller to customize the symlink name.
+>
+> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+> ---
+>  fs/sysfs/group.c      | 28 +++++++++++++++++++++++++---
+>  include/linux/sysfs.h | 12 ++++++++++++
+>  2 files changed, 37 insertions(+), 3 deletions(-)
 
-Fix a documentation warning due to missing a blank line after a directive:
+I'll assume no one has any objections to this and merge it via the
+powerpc tree with the rest of the series.
 
-Documentation/filesystems/fuse.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+cheers
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- Documentation/filesystems/fuse.rst |    1 +
- 1 file changed, 1 insertion(+)
-
---- lnx-56-rc1.orig/Documentation/filesystems/fuse.rst
-+++ lnx-56-rc1/Documentation/filesystems/fuse.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+
- ==============
- FUSE
- ==============
-
+> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+> index d41c21fef138..0993645f0b59 100644
+> --- a/fs/sysfs/group.c
+> +++ b/fs/sysfs/group.c
+> @@ -424,6 +424,25 @@ EXPORT_SYMBOL_GPL(sysfs_remove_link_from_group);
+>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>  				      struct kobject *target_kobj,
+>  				      const char *target_name)
+> +{
+> +	return compat_only_sysfs_link_entry_to_kobj(kobj, target_kobj,
+> +						target_name, NULL);
+> +}
+> +EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
+> +
+> +/**
+> + * compat_only_sysfs_link_entry_to_kobj - add a symlink to a kobject pointing
+> + * to a group or an attribute
+> + * @kobj:		The kobject containing the group.
+> + * @target_kobj:	The target kobject.
+> + * @target_name:	The name of the target group or attribute.
+> + * @symlink_name:	The name of the symlink file (target_name will be
+> + *			considered if symlink_name is NULL).
+> + */
+> +int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+> +					 struct kobject *target_kobj,
+> +					 const char *target_name,
+> +					 const char *symlink_name)
+>  {
+>  	struct kernfs_node *target;
+>  	struct kernfs_node *entry;
+> @@ -448,12 +467,15 @@ int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>  		return -ENOENT;
+>  	}
+>  
+> -	link = kernfs_create_link(kobj->sd, target_name, entry);
+> +	if (!symlink_name)
+> +		symlink_name = target_name;
+> +
+> +	link = kernfs_create_link(kobj->sd, symlink_name, entry);
+>  	if (IS_ERR(link) && PTR_ERR(link) == -EEXIST)
+> -		sysfs_warn_dup(kobj->sd, target_name);
+> +		sysfs_warn_dup(kobj->sd, symlink_name);
+>  
+>  	kernfs_put(entry);
+>  	kernfs_put(target);
+>  	return PTR_ERR_OR_ZERO(link);
+>  }
+> -EXPORT_SYMBOL_GPL(__compat_only_sysfs_link_entry_to_kobj);
+> +EXPORT_SYMBOL_GPL(compat_only_sysfs_link_entry_to_kobj);
+> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+> index 5420817ed317..15b195a4529d 100644
+> --- a/include/linux/sysfs.h
+> +++ b/include/linux/sysfs.h
+> @@ -300,6 +300,10 @@ void sysfs_remove_link_from_group(struct kobject *kobj, const char *group_name,
+>  int __compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+>  				      struct kobject *target_kobj,
+>  				      const char *target_name);
+> +int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+> +					 struct kobject *target_kobj,
+> +					 const char *target_name,
+> +					 const char *symlink_name);
+>  
+>  void sysfs_notify(struct kobject *kobj, const char *dir, const char *attr);
+>  
+> @@ -508,6 +512,14 @@ static inline int __compat_only_sysfs_link_entry_to_kobj(
+>  	return 0;
+>  }
+>  
+> +static int compat_only_sysfs_link_entry_to_kobj(struct kobject *kobj,
+> +						struct kobject *target_kobj,
+> +						const char *target_name,
+> +						const char *symlink_name)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline void sysfs_notify(struct kobject *kobj, const char *dir,
+>  				const char *attr)
+>  {
+> -- 
+> 2.17.2
