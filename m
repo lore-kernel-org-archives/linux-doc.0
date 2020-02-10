@@ -2,97 +2,87 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43923C3B185
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7095AC3B186
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 10:16:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1176521927
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581315057;
-	bh=8g0hKppIhVXqTMKuYFDl3Cie2wyh70mX7s8ucWyEmP4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=wiEsFhqBUWs3hoYkhiU3A9sWhxLlP0JN7u0nhoxsllocL/dVTOyAKNcqjy6UXOWuL
-	 6+qDDG0eTPRt+3nnxYtKx9PKC4r89Ssy5G6lN62hblKYA9nAxgzO+ROoZBok6wgS4f
-	 +I3ANX++7XLx2p+Q4W8TH0+SPYH/6mQ6IDY66uDM=
+	by mail.kernel.org (Postfix) with ESMTP id 4A8CF20733
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 10:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbgBJGKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 01:10:55 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37068 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726188AbgBJGKz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:10:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=goUY2avRCYVAek7mCPEP6D9VvLCgLAVwzsr5XSoA9jI=; b=fCcxVNrKPFdXDSKhgC67R9+Gay
-        OPRuRD3lNe+D7m3D1M+6TCJG3HdpOC960ObyRUJghTHBcs5tnFLz3O3/jHYR58G9IoCl4NUTrYzkL
-        f9Bzz+TWoY6hibjVzfc0OrEeUBOQDYobAQ80+PaPp4ySQ4ZJi/pHVF41MjEumEU3UJhTSvbqkxG5H
-        Qsg89Z+AqdUEBI5FLIfdYeG3X4IXYyjk1HBc78/GYWhQuV/tS0R+PGWaXofxlkWEBkCmOpC81/JPR
-        CEGJjzOxoijWHqxapJT/aEva0/UljFlkYIhiPL/QsDJ0p0W3I2vCUdwYQLF0EJ5LA6v/qFPPpnSF1
-        kdMGLLbw==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12HT-0000wc-Dz; Mon, 10 Feb 2020 06:10:52 +0000
-Date:   Mon, 10 Feb 2020 07:10:47 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ben Boeckel <mathstuf@gmail.com>
-Cc:     list.lkml.keyrings@me.benboeckel.net,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1727045AbgBJKQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 05:16:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43448 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726451AbgBJKQe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Feb 2020 05:16:34 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 570C7B17A;
+        Mon, 10 Feb 2020 10:16:31 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id DE6281E0E2C; Mon, 10 Feb 2020 11:16:29 +0100 (CET)
+Date:   Mon, 10 Feb 2020 11:16:29 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org
-Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
-Message-ID: <20200210071047.0db3f3a6@kernel.org>
-In-Reply-To: <20200206200911.GA2830394@erythro.kitware.com>
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
-        <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
-        <20200206200911.GA2830394@erythro.kitware.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 10/12] mm/gup: /proc/vmstat: pin_user_pages (FOLL_PIN)
+ reporting
+Message-ID: <20200210101629.GC12923@quack2.suse.cz>
+References: <20200207033735.308000-1-jhubbard@nvidia.com>
+ <20200207033735.308000-11-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200207033735.308000-11-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 6 Feb 2020 15:09:11 -0500
-Ben Boeckel <mathstuf@gmail.com> escreveu:
+On Thu 06-02-20 19:37:33, John Hubbard wrote:
+> @@ -2258,6 +2268,8 @@ static int record_subpages(struct page *page, unsigned long addr,
+>  
+>  static void put_compound_head(struct page *page, int refs, unsigned int flags)
+>  {
+> +	int orig_refs = refs;
+> +
+>  	if (flags & FOLL_PIN) {
+>  		if (hpage_pincount_available(page))
+>  			hpage_pincount_sub(page, refs);
+> @@ -2273,6 +2285,8 @@ static void put_compound_head(struct page *page, int refs, unsigned int flags)
+>  	if (refs > 1)
+>  		page_ref_sub(page, refs - 1);
+>  	put_page(page);
+> +
+> +	mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED, orig_refs);
+>  }
 
-> On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
-> > - (1) If the criterion string is of the form "id:<hexdigits>" then the =
-match
-> > +  1) If the criterion string is of the form "id:<hexdigits>" then the =
-match =20
->=20
-> This update was followed in all the enumeration changes except=E2=80=A6
->=20
-> > - (2) If the criterion string is of the form "<subtype>:<hexdigits>" th=
-en the
-> > + 2) If the criterion string is of the form "<subtype>:<hexdigits>" the=
-n the =20
->=20
-> The whitespace here doesn't match up. Which is preferred?
+Still not quite happy about this :) Now you update NR_FOLL_PIN_RELEASED
+even if 'flags' don't have FOLL_PIN set. You need to have the
+mod_node_page_state() inside the "if (flags & FOLL_PIN)" branch above...
 
-That was a mistake.
-
->=20
-> > - (1) Signature verification.
-> > +1) Signature verification. =20
->=20
-> Here, the indentation was lost too. Is this intentional?
-
-Both ways would work. I'll keep the original indentation for the next
-version. Thanks for pointing it.
-
-Cheers,
-Mauro
+									Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
