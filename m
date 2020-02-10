@@ -2,58 +2,57 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EFDC3B18A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 339DCC3B188
 	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7798124680
+	by mail.kernel.org (Postfix) with ESMTP id 0A5F02467E
 	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1581314603;
-	bh=NuzkIMPNIATHPUl2aslNdscp/bAOQqrHc3oqypTnzvk=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=RrpIl5d/lXVMaP7aOtOGm6I+V8BGJ3XVG0kgstE4NCn+e4O5niFaX3tz9A91zeZEt
-	 u8hm01LrZl+3zLhxMhE1yqq0VtiVtgyUitAzjxHz2Pe2O7iUW3KuvTTTHbwC2Mq9qh
-	 1BJBpz9+n6zha6UgNKinwjUdyIHkW0nXLuqzy/Fs=
+	bh=qrSFIhXMQQyE2ijiNQgNxgOjRtILB8FazPr0GRSWFDQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Ji9jv0YDJL5eO5FDildnDxdEP88ppbn4iXettmzNi85DpQv6Tvjphsbm82ISvDZcg
+	 9AlMOFQeVmMRLZn/jnJn1V8DnVmz4IwwWk56ljeOOKgxaL3f6Q/0NjsYJojZmOjExW
+	 ane2hBjoZLmT2gcZR9b6eH9zcxEvFFTzkVBXSMjo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727668AbgBJGDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727584AbgBJGDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 10 Feb 2020 01:03:22 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36454 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:36470 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727579AbgBJGDN (ORCPT
+        with ESMTP id S1727588AbgBJGDN (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=8IP+Foq83syk0a2uyR2F+XgF3E1vw2G4B3g0j4/F4us=; b=sfCBvQ7MNhogIlCcfR3+8HZa53
-        rDOsE+SQoKoA986Wsk15ocRI2khmXCAUcKrsgvzUJaFKM/ryqHRnyOguerF6+z9KUS+HxjxNM5Yay
-        41VpZ6cCSyLrc9Uvx5t+sGuKAP1v9AvhL25SMWaTdhnLBpvrT86C60/0jEJEumNGCSYYIaSd0unKJ
-        iQZskDPCitiKIn+SFgi95AuWuuuFWopq/pEIGkPh/ZQuXguzElqfDxxByAy/nGnQQO5KP3cDzv6aN
-        GaLnme5ceFhXukGL9d52krtmob5mEgGESeQxhGBmlkZV6ruVkVqX+zXY9XOcu/idKScNhQwQShn83
-        Vj6LzIeA==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=eNrFz6CRMRgHnFevqnlIWroPTSTbSy2UTpFunBlwins=; b=bpGtW2VUBD7wTMpbCAg9wfg/9T
+        yLcnBTXkANMXsexTKSTXOyzofS6JhqCM88G2oSdWdWmCsiC53Lt9Y01vTeNYMQLEJ0SKCaw2AzfXs
+        M0FfG0LuLGYQWSRAMkKEuqDvdN07NUzVITZyG65CGD7tw6dGy8h5S95cGeemSuV2XsnzMU4yv7eUf
+        sBUL9TqUNYNnS0/gEiC2VzhIpTtFhP8n5ET7O6c7dzHTmQOB5fxYv/hGka7FuRFyhnRYCW9crtDdx
+        ydAuixpAPiW9Ky2/PDhM9ht5o2RBKCdO1TCCUme9pKswyitgx5Wi7p9XC8TJEuwDm8qt88Txty+n2
+        dxAGdaCg==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A3-0006Ta-Cq; Mon, 10 Feb 2020 06:03:11 +0000
+        id 1j12A5-0006V4-GB; Mon, 10 Feb 2020 06:03:13 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A1-00C2Ua-MU; Mon, 10 Feb 2020 07:03:09 +0100
+        id 1j12A3-00C2Wp-Qc; Mon, 10 Feb 2020 07:03:11 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        linux-um@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        Jeff Dike <jdike@addtoit.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Richard Weinberger <richard@nod.at>, kvm@vger.kernel.org
-Subject: [PATCH 00/28] docs: virt: manually convert text documents to ReST format
-Date:   Mon, 10 Feb 2020 07:02:38 +0100
-Message-Id: <cover.1581314316.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 28/28] docs: virt: guest-halt-polling.txt convert to ReST
+Date:   Mon, 10 Feb 2020 07:03:06 +0100
+Message-Id: <f72a1d3e72274953932ef9827e5ad4def3d027b1.1581314317.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
+References: <cover.1581314316.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -61,118 +60,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Manually convert the documentation under Documentation/virt to ReST,
-minimizing the usage of uneeded markups and preserving the documentation
-writer's style.
+Due to some merge conflict, this file ended being alone under
+Documentation/virtual.
 
-PS.: Patches are against linux-next tree (20200204).
+The file itself is almost at ReST format. Just minor
+adjustments are needed:
 
-v3:
+- Adjust title markup;
+- Adjust a list identation;
+- add a literal block markup;
+- Add some blank lines.
 
-- locking.rst now uses tables for the two concurrency examples;
-- The file guest-halt-polling.txt was still under Documentation/virtual.
-  Converted to ReST and moved to Documentaion/virt;
-- Addressed the issues pointed by Cornelia and Paolo.
-
-v2:
-
-- Solved a conflict with linux-next;
-- Added SPDX headers.
-
-
-Mauro Carvalho Chehab (28):
-  docs: kvm: add arm/pvtime.rst to index.rst
-  docs: virt: convert UML documentation to ReST
-  docs: virt: user_mode_linux.rst: update compiling instructions
-  docs: virt: user_mode_linux.rst: fix URL references
-  docs: virt: convert halt-polling.txt to ReST format
-  docs: virt: Convert msr.txt to ReST format
-  docs: kvm: devices/arm-vgic-its.txt to ReST format
-  docs: kvm: devices/arm-vgit-v3.txt to ReST
-  docs: kvm: convert devices/arm-vgit.txt to ReST
-  docs: kvm: convert devices/mpic.txt to ReST
-  docs: kvm: convert devices/s390_flic.txt to ReST
-  docs: kvm: convert devices/vcpu.txt to ReST
-  docs: kvm: convert devices/vfio.txt to ReST
-  docs: kvm: convert devices/vm.txt to ReST
-  docs: kvm: convert devices/xics.txt to ReST
-  docs: kvm: convert devices/xive.txt to ReST
-  docs: kvm: Convert api.txt to ReST format
-  docs: kvm: convert arm/hyp-abi.txt to ReST
-  docs: kvm: arm/psci.txt: convert to ReST
-  docs: kvm: Convert hypercalls.txt to ReST format
-  docs: kvm: Convert locking.txt to ReST format
-  docs: kvm: Convert mmu.txt to ReST format
-  docs: kvm: Convert nested-vmx.txt to ReST format
-  docs: kvm: Convert ppc-pv.txt to ReST format
-  docs: kvm: Convert s390-diag.txt to ReST format
-  docs: kvm: Convert timekeeping.txt to ReST format
-  docs: kvm: review-checklist.txt: rename to ReST
-  docs: virt: guest-halt-polling.txt convert to ReST
-
- .../guest-halt-polling.rst}                   |   12 +-
- Documentation/virt/index.rst                  |    2 +
- Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
- .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
- Documentation/virt/kvm/arm/index.rst          |   12 +
- .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
- .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
- .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
- .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
- Documentation/virt/kvm/devices/index.rst      |   19 +
- .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
- .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
- Documentation/virt/kvm/devices/vcpu.rst       |  114 +
- Documentation/virt/kvm/devices/vcpu.txt       |   76 -
- .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
- .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
- .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
- .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
- .../{halt-polling.txt => halt-polling.rst}    |   86 +-
- .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
- Documentation/virt/kvm/index.rst              |   16 +
- Documentation/virt/kvm/locking.rst            |  243 ++
- Documentation/virt/kvm/locking.txt            |  215 --
- Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
- Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
- .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
- .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
- ...iew-checklist.txt => review-checklist.rst} |    3 +
- .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
- .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
- ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
- 31 files changed, 4194 insertions(+), 3290 deletions(-)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../guest-halt-polling.rst}                          | 12 +++++++++---
+ Documentation/virt/index.rst                         |  1 +
+ 2 files changed, 10 insertions(+), 3 deletions(-)
  rename Documentation/{virtual/guest-halt-polling.txt => virt/guest-halt-polling.rst} (91%)
- rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
- rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
- create mode 100644 Documentation/virt/kvm/arm/index.rst
- rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
- rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
- rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
- rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
- create mode 100644 Documentation/virt/kvm/devices/index.rst
- rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
- rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
- create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
- delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
- rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
- rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
- rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
- rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
- rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
- rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
- create mode 100644 Documentation/virt/kvm/locking.rst
- delete mode 100644 Documentation/virt/kvm/locking.txt
- rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
- rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
- rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
- rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
- rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
- rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
- rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
- rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
 
+diff --git a/Documentation/virtual/guest-halt-polling.txt b/Documentation/virt/guest-halt-polling.rst
+similarity index 91%
+rename from Documentation/virtual/guest-halt-polling.txt
+rename to Documentation/virt/guest-halt-polling.rst
+index b3a2a294532d..b4e747942417 100644
+--- a/Documentation/virtual/guest-halt-polling.txt
++++ b/Documentation/virt/guest-halt-polling.rst
+@@ -1,9 +1,11 @@
++==================
+ Guest halt polling
+ ==================
+ 
+ The cpuidle_haltpoll driver, with the haltpoll governor, allows
+ the guest vcpus to poll for a specified amount of time before
+ halting.
++
+ This provides the following benefits to host side polling:
+ 
+ 	1) The POLL flag is set while polling is performed, which allows
+@@ -29,18 +31,21 @@ Module Parameters
+ The haltpoll governor has 5 tunable module parameters:
+ 
+ 1) guest_halt_poll_ns:
++
+ Maximum amount of time, in nanoseconds, that polling is
+ performed before halting.
+ 
+ Default: 200000
+ 
+ 2) guest_halt_poll_shrink:
++
+ Division factor used to shrink per-cpu guest_halt_poll_ns when
+ wakeup event occurs after the global guest_halt_poll_ns.
+ 
+ Default: 2
+ 
+ 3) guest_halt_poll_grow:
++
+ Multiplication factor used to grow per-cpu guest_halt_poll_ns
+ when event occurs after per-cpu guest_halt_poll_ns
+ but before global guest_halt_poll_ns.
+@@ -48,6 +53,7 @@ but before global guest_halt_poll_ns.
+ Default: 2
+ 
+ 4) guest_halt_poll_grow_start:
++
+ The per-cpu guest_halt_poll_ns eventually reaches zero
+ in case of an idle system. This value sets the initial
+ per-cpu guest_halt_poll_ns when growing. This can
+@@ -66,7 +72,7 @@ high once achieves global guest_halt_poll_ns value).
+ 
+ Default: Y
+ 
+-The module parameters can be set from the debugfs files in:
++The module parameters can be set from the debugfs files in::
+ 
+ 	/sys/module/haltpoll/parameters/
+ 
+@@ -74,5 +80,5 @@ Further Notes
+ =============
+ 
+ - Care should be taken when setting the guest_halt_poll_ns parameter as a
+-large value has the potential to drive the cpu usage to 100% on a machine which
+-would be almost entirely idle otherwise.
++  large value has the potential to drive the cpu usage to 100% on a machine
++  which would be almost entirely idle otherwise.
+diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+index 0a8f7fda64ad..de1ab81df958 100644
+--- a/Documentation/virt/index.rst
++++ b/Documentation/virt/index.rst
+@@ -10,6 +10,7 @@ Linux Virtualization Support
+    kvm/index
+    uml/user_mode_linux
+    paravirt_ops
++   guest-halt-polling
+ 
+ .. only:: html and subproject
+ 
 -- 
 2.24.1
-
 
