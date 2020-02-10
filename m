@@ -2,61 +2,58 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD5B6C3B189
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EFDC3B18A
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B55112467E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7798124680
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581314602;
-	bh=CCB9J07T/80+IsrntbbRDukpQNpe71X8YA4l6vdAkPk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RMYbiuvqOCTMjCRuZhXufqdKDJkMhtXT3AE9xJqpsnjN+fjYMSOVgECXeds8UKhmQ
-	 HEIiNHd61KEu8hejsJZLo/LlrSu6KIQSdJdyRcAevOB7GHohaWfuEvgbnJoP2dFg76
-	 ESdixojy8bTBk8NYQrArJm9k4hFO0Xcgz1zxQ34I=
+	s=default; t=1581314603;
+	bh=NuzkIMPNIATHPUl2aslNdscp/bAOQqrHc3oqypTnzvk=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=RrpIl5d/lXVMaP7aOtOGm6I+V8BGJ3XVG0kgstE4NCn+e4O5niFaX3tz9A91zeZEt
+	 u8hm01LrZl+3zLhxMhE1yqq0VtiVtgyUitAzjxHz2Pe2O7iUW3KuvTTTHbwC2Mq9qh
+	 1BJBpz9+n6zha6UgNKinwjUdyIHkW0nXLuqzy/Fs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727653AbgBJGDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727668AbgBJGDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 10 Feb 2020 01:03:22 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36456 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:36454 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727581AbgBJGDN (ORCPT
+        with ESMTP id S1727579AbgBJGDN (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=5C1Pl5mrdwkmC0Ibs5rVWyWq5pet5BdrcnU/u0rt7EY=; b=A/TznRQXNYBxeegModDRxPmZwR
-        QV0mWYWmotsCWAt8meRxLlJmp58JE2I41Mlbzdv7CvMLsNkFR4bA+AJ2creD0EVk5E9aDcKAO5wX0
-        KKK7O90S0fOHHLCkbd0cWfsvQfrHSWLJn3Fj7M6GYcU08+fLZuT5+ZrL5EZWNuF3ckfaBkVgYxvMB
-        WGCtLYbGsNAOhWLT/JAqdu44xv6HQuGwDw+e5Eb8iiFSpxBkc/OWjwT9hyYoz9dYmhKXkGAD5llAi
-        nxUpAyEsFg30W0TER7lk0Xq83OTlYE67V1zhaMGia341DM2CMVcz7LyHTj+y06M/cLuEStrG2dydL
-        c6HvShnw==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=8IP+Foq83syk0a2uyR2F+XgF3E1vw2G4B3g0j4/F4us=; b=sfCBvQ7MNhogIlCcfR3+8HZa53
+        rDOsE+SQoKoA986Wsk15ocRI2khmXCAUcKrsgvzUJaFKM/ryqHRnyOguerF6+z9KUS+HxjxNM5Yay
+        41VpZ6cCSyLrc9Uvx5t+sGuKAP1v9AvhL25SMWaTdhnLBpvrT86C60/0jEJEumNGCSYYIaSd0unKJ
+        iQZskDPCitiKIn+SFgi95AuWuuuFWopq/pEIGkPh/ZQuXguzElqfDxxByAy/nGnQQO5KP3cDzv6aN
+        GaLnme5ceFhXukGL9d52krtmob5mEgGESeQxhGBmlkZV6ruVkVqX+zXY9XOcu/idKScNhQwQShn83
+        Vj6LzIeA==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A3-0006Td-GC; Mon, 10 Feb 2020 06:03:11 +0000
+        id 1j12A3-0006Ta-Cq; Mon, 10 Feb 2020 06:03:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A1-00C2Un-Qx; Mon, 10 Feb 2020 07:03:09 +0100
+        id 1j12A1-00C2Ua-MU; Mon, 10 Feb 2020 07:03:09 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        linux-um@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
         Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
         Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 03/28] docs: virt: user_mode_linux.rst: update compiling instructions
-Date:   Mon, 10 Feb 2020 07:02:41 +0100
-Message-Id: <b678c16fb34280d844c278b8acfb2f53124f50ab.1581314316.git.mchehab+huawei@kernel.org>
+        Richard Weinberger <richard@nod.at>, kvm@vger.kernel.org
+Subject: [PATCH 00/28] docs: virt: manually convert text documents to ReST format
+Date:   Mon, 10 Feb 2020 07:02:38 +0100
+Message-Id: <cover.1581314316.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
-References: <cover.1581314316.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -64,125 +61,118 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of pointing for a pre-2.4 and a seaparate patch,
-update it to match current upstream, as UML was merged
-a long time ago.
+Manually convert the documentation under Documentation/virt to ReST,
+minimizing the usage of uneeded markups and preserving the documentation
+writer's style.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/uml/user_mode_linux.rst | 62 ++++------------------
- 1 file changed, 9 insertions(+), 53 deletions(-)
+PS.: Patches are against linux-next tree (20200204).
 
-diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
-index 6085d2c0f8a8..e0632d80753e 100644
---- a/Documentation/virt/uml/user_mode_linux.rst
-+++ b/Documentation/virt/uml/user_mode_linux.rst
-@@ -5,7 +5,7 @@ User Mode Linux HOWTO
- =====================
- 
- :Author:  User Mode Linux Core Team
--:Last-updated: Mon Nov 18 14:16:16 EST 2002
-+:Last-updated: Sat Jan 25 16:07:55 CET 2020
- 
- This document describes the use and abuse of Jeff Dike's User Mode
- Linux: a port of the Linux kernel as a normal Intel Linux process.
-@@ -223,23 +223,15 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
- 
- 
-   Compiling the user mode kernel is just like compiling any other
--  kernel.  Let's go through the steps, using 2.4.0-prerelease (current
--  as of this writing) as an example:
-+  kernel.
- 
- 
--  1. Download the latest UML patch from
--     the download page <http://user-mode-linux.sourceforge.net/
--
--     In this example, the file is uml-patch-2.4.0-prerelease.bz2.
--
--
--  2. Download the matching kernel from your favourite kernel mirror,
-+  1. Download the latest kernel from your favourite kernel mirror,
-      such as:
- 
--     ftp://ftp.ca.kernel.org/pub/kernel/v2.4/linux-2.4.0-prerelease.tar.bz2
-+     https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.4.14.tar.xz
- 
--
--  3. Make a directory and unpack the kernel into it::
-+  2. Make a directory and unpack the kernel into it::
- 
-        host%
-        mkdir ~/uml
-@@ -248,21 +240,10 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
-        cd ~/uml
- 
-        host%
--       tar -xzvf linux-2.4.0-prerelease.tar.bz2
-+       tar xvf linux-5.4.14.tar.xz
- 
- 
--
--  4. Apply the patch using::
--
--       host%
--       cd ~/uml/linux
--
--       host%
--       bzcat uml-patch-2.4.0-prerelease.bz2 | patch -p1
--
--
--
--  5. Run your favorite config; ``make xconfig ARCH=um`` is the most
-+  3. Run your favorite config; ``make xconfig ARCH=um`` is the most
-      convenient.  ``make config ARCH=um`` and ``make menuconfig ARCH=um``
-      will work as well.  The defaults will give you a useful kernel.  If
-      you want to change something, go ahead, it probably won't hurt
-@@ -276,34 +257,9 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
- 
- 
- 
--  6. Finish with ``make linux ARCH=um``: the result is a file called
-+  4. Finish with ``make linux ARCH=um``: the result is a file called
-      ``linux`` in the top directory of your source tree.
- 
--  Make sure that you don't build this kernel in /usr/src/linux.  On some
--  distributions, /usr/include/asm is a link into this pool.  The user-
--  mode build changes the other end of that link, and things that include
--  <asm/anything.h> stop compiling.
--
--  The sources are also available from cvs at the project's cvs page,
--  which has directions on getting the sources. You can also browse the
--  CVS pool from there.
--
--  If you get the CVS sources, you will have to check them out into an
--  empty directory. You will then have to copy each file into the
--  corresponding directory in the appropriate kernel pool.
--
--  If you don't have the latest kernel pool, you can get the
--  corresponding user-mode sources with::
--
--
--       host% cvs co -r v_2_3_x linux
--
--
--
--
--  where 'x' is the version in your pool. Note that you will not get the
--  bug fixes and enhancements that have gone into subsequent releases.
--
- 
- 2.2.  Compiling and installing kernel modules
- ---------------------------------------------
-@@ -416,7 +372,7 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
- 3.1.  Running UML
- -----------------
- 
--  It runs on 2.2.15 or later, and all 2.4 kernels.
-+  It runs on 2.2.15 or later, and all kernel versions since 2.4.
- 
- 
-   Booting UML is straightforward.  Simply run 'linux': it will try to
+v3:
+
+- locking.rst now uses tables for the two concurrency examples;
+- The file guest-halt-polling.txt was still under Documentation/virtual.
+  Converted to ReST and moved to Documentaion/virt;
+- Addressed the issues pointed by Cornelia and Paolo.
+
+v2:
+
+- Solved a conflict with linux-next;
+- Added SPDX headers.
+
+
+Mauro Carvalho Chehab (28):
+  docs: kvm: add arm/pvtime.rst to index.rst
+  docs: virt: convert UML documentation to ReST
+  docs: virt: user_mode_linux.rst: update compiling instructions
+  docs: virt: user_mode_linux.rst: fix URL references
+  docs: virt: convert halt-polling.txt to ReST format
+  docs: virt: Convert msr.txt to ReST format
+  docs: kvm: devices/arm-vgic-its.txt to ReST format
+  docs: kvm: devices/arm-vgit-v3.txt to ReST
+  docs: kvm: convert devices/arm-vgit.txt to ReST
+  docs: kvm: convert devices/mpic.txt to ReST
+  docs: kvm: convert devices/s390_flic.txt to ReST
+  docs: kvm: convert devices/vcpu.txt to ReST
+  docs: kvm: convert devices/vfio.txt to ReST
+  docs: kvm: convert devices/vm.txt to ReST
+  docs: kvm: convert devices/xics.txt to ReST
+  docs: kvm: convert devices/xive.txt to ReST
+  docs: kvm: Convert api.txt to ReST format
+  docs: kvm: convert arm/hyp-abi.txt to ReST
+  docs: kvm: arm/psci.txt: convert to ReST
+  docs: kvm: Convert hypercalls.txt to ReST format
+  docs: kvm: Convert locking.txt to ReST format
+  docs: kvm: Convert mmu.txt to ReST format
+  docs: kvm: Convert nested-vmx.txt to ReST format
+  docs: kvm: Convert ppc-pv.txt to ReST format
+  docs: kvm: Convert s390-diag.txt to ReST format
+  docs: kvm: Convert timekeeping.txt to ReST format
+  docs: kvm: review-checklist.txt: rename to ReST
+  docs: virt: guest-halt-polling.txt convert to ReST
+
+ .../guest-halt-polling.rst}                   |   12 +-
+ Documentation/virt/index.rst                  |    2 +
+ Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
+ .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
+ Documentation/virt/kvm/arm/index.rst          |   12 +
+ .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
+ .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
+ .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
+ .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
+ Documentation/virt/kvm/devices/index.rst      |   19 +
+ .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
+ .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
+ Documentation/virt/kvm/devices/vcpu.rst       |  114 +
+ Documentation/virt/kvm/devices/vcpu.txt       |   76 -
+ .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
+ .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
+ .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
+ .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
+ .../{halt-polling.txt => halt-polling.rst}    |   86 +-
+ .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
+ Documentation/virt/kvm/index.rst              |   16 +
+ Documentation/virt/kvm/locking.rst            |  243 ++
+ Documentation/virt/kvm/locking.txt            |  215 --
+ Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
+ Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
+ .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
+ .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
+ ...iew-checklist.txt => review-checklist.rst} |    3 +
+ .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
+ .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
+ ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
+ 31 files changed, 4194 insertions(+), 3290 deletions(-)
+ rename Documentation/{virtual/guest-halt-polling.txt => virt/guest-halt-polling.rst} (91%)
+ rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
+ rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+ create mode 100644 Documentation/virt/kvm/arm/index.rst
+ rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
+ rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+ rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
+ rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+ create mode 100644 Documentation/virt/kvm/devices/index.rst
+ rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+ rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
+ rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
+ rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
+ rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
+ rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
+ rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+ rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
+ create mode 100644 Documentation/virt/kvm/locking.rst
+ delete mode 100644 Documentation/virt/kvm/locking.txt
+ rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+ rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+ rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
+ rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+ rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+ rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
+ rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
+ rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
+
 -- 
 2.24.1
+
 
