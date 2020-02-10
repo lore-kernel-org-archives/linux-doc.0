@@ -2,149 +2,232 @@ Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8009EC352A5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 17:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC78FC3B186
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:39:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 55ECB2085B
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 17:52:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7749A20733
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 21:39:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GabQrhEI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d7whKnMC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgBJRwB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 12:52:01 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45481 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbgBJRwA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 12:52:00 -0500
-Received: by mail-pf1-f194.google.com with SMTP id 2so4041955pfg.12;
-        Mon, 10 Feb 2020 09:52:00 -0800 (PST)
+        id S1727490AbgBJVji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 16:39:38 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33798 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727437AbgBJVji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 16:39:38 -0500
+Received: by mail-wr1-f68.google.com with SMTP id t2so9680089wrr.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2020 13:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MM7R9V7x4SfJxszh3dZy1asc+0YpWfKxq+33iCkgJuw=;
-        b=GabQrhEI7g1MP+cMV9bvR9dwQktgpfyeF8s92oPxorCxTF65Quy0utpXliSB6ZnQBQ
-         ga5RUyXfhYrcya0a4d2CpRKwdinAK2ZV38KFlbOeqYhaSOxm9DSQWJXNXzXpc4OBCx4O
-         wRnDOReq10omnEy4z76YRO4B/0kIjbanwVaJvE6TSL77zCMPEdgTRxxhPBSGbIs5hfNI
-         Rzz+9PHNUpiaSib5CXqyZMQ+qvEjl+JMwTkwhag4ObuukgdfwLlWNLJVzsFdq13f1dYD
-         wHjtE6RKHL4TxlfDLK2sZ9I4UaEA30lv9sMBMyVIhOMmuXjXUecgiYRm486xs52W0eSn
-         CjYA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=6oIieVyHz+8Iv3bRfW5vGqMYr+WnaVMb6rPDak3UbxY=;
+        b=d7whKnMCCgC1xFBwxZmL6F0xxOIGyrRCFLYhOEoREnBLU7uoHpCYzYTboa2Uhy8s2t
+         vcev8KgIY6+eivICrYYl4nGfET7L91gWmVpjBDb5X4Y1dWfaG29TQb91RN3Nb2fOBr7B
+         +gWny4pyvKWUbBMDxNoo6a0CYgVszrx+6wsuWJbm5y5TETt/B9AS/fp/E6h7RFaVBGSt
+         fRgAP6BUAl4t+g0LA5oQg6nncb3euxsVNIaThWl1m091Jn0IL0hOiizrz0zQFw+HOsrb
+         nTE87qSHXp9NxofEWv/o/zulNSd4lGsr76svT++uACAv5tEc2Z3Bw1lWx9IjcsaEhl7M
+         +tCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MM7R9V7x4SfJxszh3dZy1asc+0YpWfKxq+33iCkgJuw=;
-        b=W9nmWdKbEq7hRnV9BM9uNYsIN7vyLtictv+JtAOrBH3Vlph8aPfvyziJUpu6RAyqQk
-         OIhIvjTYlsI4nfGH8QaMyYsWmc/4ybT8UFwf4tHrpfFCpNm+qrPhtV+XTtDA22kRbInA
-         NR43fIMk2Iuybre8MUTkr4wV71XzMUY/mEUUM2FrfrihmFIBX1zyWgQBhaMm/GpyBF2t
-         sZukOTh615zaHPK+4t6b9ngGTX8Ims6Tis5gciQ9iw7Fs8UcyMd4vUMNEZDXpiFClGeg
-         n6E1NBXhs43JWfY0hizw/pYqc9tuujZUu0MbrOpi3ij1+LpuKUU37hrKNarQLFj5Ip9C
-         MIHQ==
-X-Gm-Message-State: APjAAAWtBAPWetwi6s11uvxrOYQekzUVLrSGepohyF3SxCvj5KhtfGPb
-        2ObHr3mxJVT4KA9dfwqE1b0=
-X-Google-Smtp-Source: APXvYqz8OGqGIw6Dj/1NWzwwvsY0TYQ/8+Hmsz8n9Ry0oUOLEEcDPAe0ccT7JEe+q4YdqNfl35R2Iw==
-X-Received: by 2002:a63:7457:: with SMTP id e23mr2869807pgn.386.1581357120158;
-        Mon, 10 Feb 2020 09:52:00 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 70sm795638pgd.28.2020.02.10.09.51.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 10 Feb 2020 09:51:59 -0800 (PST)
-Date:   Mon, 10 Feb 2020 09:51:58 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mike Jones <michael-a1.jones@analog.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jdelvare@suse.com, robh+dt@kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 2/2] bindings: (hwmon/ltc2978.txt): add support for more
- parts.
-Message-ID: <20200210175158.GA31186@roeck-us.net>
-References: <1581032654-4330-1-git-send-email-michael-a1.jones@analog.com>
- <1581032654-4330-2-git-send-email-michael-a1.jones@analog.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1581032654-4330-2-git-send-email-michael-a1.jones@analog.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6oIieVyHz+8Iv3bRfW5vGqMYr+WnaVMb6rPDak3UbxY=;
+        b=mefCunIF/lRWlufNUn6eMWrGlG01VbZxHZnm64g03u4fx0mP2ZZ42bL+C/gMIVEPs+
+         jeSgvAObX6jwXkc0qm3i2KGwUKX37iD/jZqQqABJt94bEh4Gp2gC0HQ7HjbF6FUGXsyF
+         miNBopah/kt5PRkWVanjpA6A8qzna/lg59IgVpMivM03Rig5CLJ/XUvXeb3gaIySZndW
+         tJU91DBs4wKT14Fev2AQuRKrlhQ6xjBB8x68lreJ6cRPylE0LlZqbhCBxfTnU7EtLz4E
+         dfNhWit8oGYGA1KwfD/No0++dJOa/O0VWCJ8CpUGxe4x1J8SgrVjQlMNr/F5ybNBD6C9
+         xQ9A==
+X-Gm-Message-State: APjAAAX1yjN10dXvqznbRCCwED+9VcNiObS0ALAvqoVNia4bynOUVC7G
+        aNq+sMQxr/Ze0hXxrA8UAFTOKA==
+X-Google-Smtp-Source: APXvYqylCnt1h+aWJLVaieqgIzlpcvLdu9GTYCquy+tOi7cFbH0Fr9NOOh0YLX6zEsU3ODpGHjU5aA==
+X-Received: by 2002:adf:ecc2:: with SMTP id s2mr4053361wro.263.1581370773857;
+        Mon, 10 Feb 2020 13:39:33 -0800 (PST)
+Received: from linaro.org ([2a00:23c5:6815:3901:a1cf:b00b:5683:ed40])
+        by smtp.gmail.com with ESMTPSA id u14sm2118582wrm.51.2020.02.10.13.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2020 13:39:33 -0800 (PST)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
+        suzuki.poulose@arm.com, robh+dt@kernel.org, maxime@cerno.tech,
+        liviu.dudau@arm.com, sudeep.holla@arm.com,
+        lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net
+Subject: [PATCH v9 00/15] CoreSight CTI Driver
+Date:   Mon, 10 Feb 2020 21:39:09 +0000
+Message-Id: <20200210213924.20037-1-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 06, 2020 at 04:44:14PM -0700, Mike Jones wrote:
-> LTC2972, LTC2979, LTC3884, LTC3889, LTC7880, LTM4664, LTM4677,
-> LTM4678, LTM4680, LTM4700.
-> 
-> Signed-off-by: Mike Jones <michael-a1.jones@analog.com>
+CTIs are defined in the device tree and associated with other CoreSight
+devices. The core CoreSight code has been modified to enable the registration
+of the CTI devices on the same bus as the other CoreSight components,
+but as these are not actually trace generation / capture devices, they
+are not part of the Coresight path when generating trace.
 
-Conditionally applied to hwmon-next. We'll see if Rob would like to see
-any adjustments.
+However, the definition of the standard CoreSight device has been extended
+to include a reference to an associated CTI device, and the enable / disable
+trace path operations will auto enable/disable any associated CTI devices at
+the same time.
 
-Thanks,
-Guenter
+Programming is at present via sysfs - a full API is provided to utilise the
+hardware capabilities. As CTI devices are unprogrammed by default, the auto
+enable describe above will have no effect until explicit programming takes
+place.
 
-> ---
->  .../devicetree/bindings/hwmon/ltc2978.txt          | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ltc2978.txt b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> index b428a70..4e7f621 100644
-> --- a/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> +++ b/Documentation/devicetree/bindings/hwmon/ltc2978.txt
-> @@ -2,20 +2,30 @@ ltc2978
->  
->  Required properties:
->  - compatible: should contain one of:
-> +  * "lltc,ltc2972"
->    * "lltc,ltc2974"
->    * "lltc,ltc2975"
->    * "lltc,ltc2977"
->    * "lltc,ltc2978"
-> +  * "lltc,ltc2979"
->    * "lltc,ltc2980"
->    * "lltc,ltc3880"
->    * "lltc,ltc3882"
->    * "lltc,ltc3883"
-> +  * "lltc,ltc3884"
->    * "lltc,ltc3886"
->    * "lltc,ltc3887"
-> +  * "lltc,ltc3889"
-> +  * "lltc,ltc7880"
->    * "lltc,ltm2987"
-> +  * "lltc,ltm4664"
->    * "lltc,ltm4675"
->    * "lltc,ltm4676"
-> +  * "lltc,ltm4677"
-> +  * "lltc,ltm4678"
-> +  * "lltc,ltm4680"
->    * "lltc,ltm4686"
-> +  * "lltc,ltm4700"
->  - reg: I2C slave address
->  
->  Optional properties:
-> @@ -25,13 +35,17 @@ Optional properties:
->    standard binding for regulators; see regulator.txt.
->  
->  Valid names of regulators depend on number of supplies supported per device:
-> +  * ltc2972 vout0 - vout1
->    * ltc2974, ltc2975 : vout0 - vout3
-> -  * ltc2977, ltc2980, ltm2987 : vout0 - vout7
-> +  * ltc2977, ltc2979, ltc2980, ltm2987 : vout0 - vout7
->    * ltc2978 : vout0 - vout7
-> -  * ltc3880, ltc3882, ltc3886 : vout0 - vout1
-> +  * ltc3880, ltc3882, ltc3884, ltc3886, ltc3887, ltc3889 : vout0 - vout1
-> +  * ltc7880 : vout0 - vout1
->    * ltc3883 : vout0
-> -  * ltm4676 : vout0 - vout1
-> -  * ltm4686 : vout0 - vout1
-> +  * ltm4664 : vout0 - vout1
-> +  * ltm4675, ltm4676, ltm4677, ltm4678 : vout0 - vout1
-> +  * ltm4680, ltm4686 : vout0 - vout1
-> +  * ltm4700 : vout0 - vout1
->  
->  Example:
->  ltc2978@5e {
+A set of device tree bindings specific to the CTI topology has been defined.
+The driver accesses these in a platform agnostic manner, so ACPI bindings
+can be added later, once they have been agreed and defined for the CTI device.
+
+Documentation has been updated to describe both the CTI hardware, its use and
+programming in sysfs, and the new dts bindings required.
+
+Tested on DB410 board and Juno board, against the Linux 5.6-rc1, 5.5 trees.
+
+Changes since v8:
+1) Use devm_ allocation in cti_match_fixup_csdev() to match other allocations.
+2) Minor comment update per request.
+
+Changes since v7:
+NB: No functional driver changes in this set. Full set released for
+consistency, completeness and ease of use.
+1) Updates to device tree bindings .yaml following comments from Rob Herring.
+   Adds #size-cells and #address-cells to properties and constrained as
+   required. Validated using dt_binding_check.
+2) Minor typo fixes to cti documentation file.
+
+Changes since v6:
+NB: No functional driver changes in this set. Full set released for
+consistency, completeness and ease of use.
+1) Updates to .yaml following comments from Maxime Ripard. Correct child node
+   descriptions, fix validation, and ensure reg entries required in child
+   nodes as per DeviceTree specification.
+2) Update to Juno bindings to implement reg entry specification requirements.
+
+Changes since v5:
+1) Fixed up device tree .yaml file. Using extra compatible string for
+v8 architecture CTI connections.
+2) Ensure association code respects coresight mutex when setting cross
+referenced pointers. Add in shutdown code.
+3) Multiple minor code fixes & rationalisation. 
+
+Changes since v4:
+Multiple changes following feedback from Mathieu, Leo and Suzuki.
+1) Dropped RFC tag - wider distribution
+2) CTI bindings definition now presented as a .yaml file - tested with
+with 'dt-doc-validate' from devicetree.org/dt-schema project and in kernel
+build tree with 'make dtbs_check' per kernel docs.
+3) Sysfs links to other CoreSight devices moved out of this set into
+a following set that deals with all CoreSight devices & sysfs links.
+4) Documentation in .rst format and new directory following patchset in [1].
+Extended example provided in docs.
+5) Rationalised devicetree of_ specifics to use generic fwnode functions
+where possible to enable easier addition of ACPI support later.
+6) Other minor changes as requested in feedback from last patchset.
+
+Changes since v3:
+1) After discussion on CS mailing list, each CTI connection has a triggers<N>
+   sysfs directory with name and trigger signals listed for the connection.
+2) Initial code for creating sysfs links between CoreSight components is
+  introduced and implementation for CTI provided. This allows exploration
+  of the CoreSight topology within the sysfs infrastructure. Patches for
+  links between other CoreSight components to follow.
+3) Power management - CPU hotplug and idle omitted from this set as ongoing
+   developments may define required direction. Additional patch set to follow.
+4) Multiple fixes applied as requested by reviewers esp. Matthieu, Suzuki
+   and Leo. 
+
+Changes since v2:
+Updates to allow for new features on coresight/next and feedback from
+Mathieu and Leo.
+
+1) Rebase and restructuring to apply on top of ACPI support patch set,
+currently on coresight/next. of_coresight_cti has been renamed to
+coresight-cti-platform and device tree bindings added to this but accessed
+in a platform agnostic manner using fwnode for later ACPI support
+to be added.
+2) Split the sysfs patch info a series of functional patches.
+3) Revised the refcount and enabling support.
+4) Adopted the generic naming protocol - CTIs are either cti_cpuN or
+cti_sysM
+5) Various minor presentation /checkpatch issues highlighted in feedback.
+6) revised CPU hotplug to cover missing cases needed by ETM.
+
+Changes since v1:
+1) Significant restructuring of the source code. Adds cti-sysfs file and
+cti device tree file. Patches add per feature rather than per source
+file.
+2) CPU type power event handling for hotplug moved to CoreSight core,
+with generic registration interface provided for all CPU bound CS devices
+to use.
+3) CTI signal interconnection details in sysfs now generated dynamically
+from connection lists in driver. This to fix issue with multi-line sysfs
+output in previous version.
+4) Full device tree bindings for DB410 and Juno provided (to the extent
+that CTI information is available).
+5) AMBA driver update for UCI IDs are now upstream so no longer included
+in this set
+
+Mike Leach (15):
+  coresight: cti: Initial CoreSight CTI Driver
+  coresight: cti: Add sysfs coresight mgmt reg access.
+  coresight: cti: Add sysfs access to program function regs
+  coresight: cti: Add sysfs trigger / channel programming API
+  dt-bindings: arm: Adds CoreSight CTI hardware definitions.
+  coresight: cti: Add device tree support for v8 arch CTI
+  coresight: cti: Add device tree support for custom CTI.
+  coresight: cti: Enable CTI associated with devices.
+  coresight: cti: Add connection information to sysfs
+  dt-bindings: qcom: Add CTI options for qcom msm8916
+  dt-bindings: arm: Juno platform - add CTI entries to device tree.
+  dt-bindings: hisilicon: Add CTI bindings for hi-6220
+  docs: coresight: Update documentation for CoreSight to cover CTI.
+  docs: sysfs: coresight: Add sysfs ABI documentation for CTI
+  Update MAINTAINERS to add reviewer for CoreSight.
+
+ .../testing/sysfs-bus-coresight-devices-cti   |  221 ++++
+ .../bindings/arm/coresight-cti.yaml           |  336 +++++
+ .../devicetree/bindings/arm/coresight.txt     |    7 +
+ .../trace/coresight/coresight-ect.rst         |  211 +++
+ Documentation/trace/coresight/coresight.rst   |   13 +
+ MAINTAINERS                                   |    3 +
+ arch/arm64/boot/dts/arm/juno-base.dtsi        |  162 ++-
+ arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi     |   37 +-
+ arch/arm64/boot/dts/arm/juno-r1.dts           |   25 +
+ arch/arm64/boot/dts/arm/juno-r2.dts           |   25 +
+ arch/arm64/boot/dts/arm/juno.dts              |   25 +
+ .../boot/dts/hisilicon/hi6220-coresight.dtsi  |  130 +-
+ arch/arm64/boot/dts/qcom/msm8916.dtsi         |   85 +-
+ drivers/hwtracing/coresight/Kconfig           |   21 +
+ drivers/hwtracing/coresight/Makefile          |    3 +
+ .../coresight/coresight-cti-platform.c        |  485 +++++++
+ .../hwtracing/coresight/coresight-cti-sysfs.c | 1175 +++++++++++++++++
+ drivers/hwtracing/coresight/coresight-cti.c   |  748 +++++++++++
+ drivers/hwtracing/coresight/coresight-cti.h   |  235 ++++
+ .../hwtracing/coresight/coresight-platform.c  |   20 +
+ drivers/hwtracing/coresight/coresight-priv.h  |   15 +
+ drivers/hwtracing/coresight/coresight.c       |   86 +-
+ include/dt-bindings/arm/coresight-cti-dt.h    |   37 +
+ include/linux/coresight.h                     |   27 +
+ 24 files changed, 4101 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+ create mode 100644 Documentation/devicetree/bindings/arm/coresight-cti.yaml
+ create mode 100644 Documentation/trace/coresight/coresight-ect.rst
+ create mode 100644 drivers/hwtracing/coresight/coresight-cti-platform.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-cti-sysfs.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-cti.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-cti.h
+ create mode 100644 include/dt-bindings/arm/coresight-cti-dt.h
+
+-- 
+2.17.1
+
