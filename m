@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 186A5C3B190
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DF5C3B18A
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E302121927
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:03:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0943C21927
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 06:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581314640;
-	bh=AFD65OKSV1+A0vldGPtU8+SJqCThPuv3WOKajnC2d8U=;
+	s=default; t=1581314641;
+	bh=60RSXW44yNEj8FiDNv1QrFsi8MaCSUjBdmEwFNfoauE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DwZFWrNt7R5AUHyj4HDp3XoT4uC4ma6n55llyvmKq1I80HAs8b5iWCa/iY7VQIPK6
-	 4fL6qCgMCq9R3jhEvgTC26aGy59gvB2rZc8eooFc7/+1s4VEgHRGyZBXm8kakZyQi9
-	 TKRYXHJudodb9PE6Xh0gmyS42/0KhJHANVzCD4Co=
+	b=u/2+sd5pJ53CmZiSLxyh9zh3vh2pfa2e5dxRoKXzNVGjM1rc+E38yBa5LzKECNBe6
+	 LGkS4+I48KIzSC6xMRaS/BvsMSaQrR0Kqa+jgJtgv+uKk24l7ThBEljAHZ326wGc2N
+	 P5RHxPWBKpWFQGwG06fqqmMvW7AQpisbNwl7UdVk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727508AbgBJGDp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727753AbgBJGDp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 10 Feb 2020 01:03:45 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36284 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:36348 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726118AbgBJGDM (ORCPT
+        with ESMTP id S1727529AbgBJGDM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 01:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=0NdNmLSXcScD8m9tuo9ayLdWPmuOQKKz8+PbS3hVgr4=; b=AehLxRuByn2NTpWRzi5Lsrv58y
-        h/vUmObZsTl0oCOSMDZ7nR+ERk8G2IanwYl3gS6H6K9SjIo8tlbiJP7kP4UasDpegSD5e5HdY7Zoo
-        fOGhWepAJsAkEvju3O52baDKzKc9ia80Cvu7TVrHtgg6u7jFU0QkjYQOll/o24H/Iz3vZfDy83Bye
-        sXVglEDV7XiOBn1xGnPZCBR1riVWCNC/A0fzK9zZpz9xZfUN7T36c2/KPhbkonnoILxIPmWzL1irA
-        vc9H0y3+bKFY/Uv3KydPqc09Qaq1zvycGYXokwTmOiuu3iecF/Z1FM/UAB1JrSO3k+ccJFfUz2dfe
-        qwYFlBqw==;
+        bh=XosaEvF5KfBIIrC0UH6xsRambxzgg5W02cFwNp6pBOU=; b=ST/AVNVep2gTSjVNM1k6xoRsXb
+        YJ7sxMVLtwo4IBHdyiooEdTgEY4vO/BpPXpGyZ1GxFYvGyIzv6j2682/DiKEGq3iLf1XwXwYUbp2W
+        JzysTJ1SLJv4JSOC4WnYYQlpHWQs7k8zH6A69S2Eq76MFbydjVGDies0jRT2gqxUqNBTl3tgRVZYz
+        QqqTfC5a7ZB4GVIpB2WQrzHlubpA3yJvp8/QBmJeD+bsToi1o/HZAzz1x8iY3i2m05+EefQzx3g3A
+        DnlmOZeOMH7581pai+1fWHCqyJw6gW1KjbZuPJKL2SfZ7BLZXB9/4Q1F4KLSPitxAzIvrvQbyDGGd
+        8qYJJ5iA==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A3-0006Tk-ON; Mon, 10 Feb 2020 06:03:11 +0000
+        id 1j12A4-0006Tx-AV; Mon, 10 Feb 2020 06:03:12 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A2-00C2VM-2I; Mon, 10 Feb 2020 07:03:10 +0100
+        id 1j12A2-00C2WQ-KM; Mon, 10 Feb 2020 07:03:10 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 10/28] docs: kvm: convert devices/mpic.txt to ReST
-Date:   Mon, 10 Feb 2020 07:02:48 +0100
-Message-Id: <74b5fdc29eb05c3215fd316caeafa88bb4760f7d.1581314317.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 23/28] docs: kvm: Convert nested-vmx.txt to ReST format
+Date:   Mon, 10 Feb 2020 07:03:01 +0100
+Message-Id: <9ca9ada5133bd9c10208f78eafc34f263ceecb7d.1581314317.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
 References: <cover.1581314316.git.mchehab+huawei@kernel.org>
@@ -62,63 +62,105 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This document is almost in ReST format. The only thing
-needed is to mark a list as such and to add an extra
-whitespace.
+This file is almost in ReST format. Just a small set of
+changes were needed:
 
-Yet, let's also use the standard document title markup,
-as it makes easier if anyone wants later to add sessions
-to it.
+    - Add markups for lists;
+    - Add markups for a literal block;
+    - Adjust whitespaces.
+
+While here, use the standard markup for the document title.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/devices/index.rst              |  1 +
- Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} | 11 ++++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
- rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+ Documentation/virt/kvm/index.rst              |  1 +
+ .../kvm/{nested-vmx.txt => nested-vmx.rst}    | 37 +++++++++++--------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
+ rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
 
-diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-index 7eabce80c61e..9e5586e371de 100644
---- a/Documentation/virt/kvm/devices/index.rst
-+++ b/Documentation/virt/kvm/devices/index.rst
-@@ -10,3 +10,4 @@ Devices
-    arm-vgic-its
-    arm-vgic
-    arm-vgic-v3
-+   mpic
-diff --git a/Documentation/virt/kvm/devices/mpic.txt b/Documentation/virt/kvm/devices/mpic.rst
-similarity index 91%
-rename from Documentation/virt/kvm/devices/mpic.txt
-rename to Documentation/virt/kvm/devices/mpic.rst
-index 8257397adc3c..55cefe030d41 100644
---- a/Documentation/virt/kvm/devices/mpic.txt
-+++ b/Documentation/virt/kvm/devices/mpic.rst
-@@ -1,9 +1,13 @@
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index 95e2487d38f4..123385d0a74a 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -15,6 +15,7 @@ KVM
+    locking
+    mmu
+    msr
++   nested-vmx
+    vcpu-requests
+ 
+    arm/index
+diff --git a/Documentation/virt/kvm/nested-vmx.txt b/Documentation/virt/kvm/nested-vmx.rst
+similarity index 90%
+rename from Documentation/virt/kvm/nested-vmx.txt
+rename to Documentation/virt/kvm/nested-vmx.rst
+index 97eb1353e962..592b0ab6970b 100644
+--- a/Documentation/virt/kvm/nested-vmx.txt
++++ b/Documentation/virt/kvm/nested-vmx.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=========================
- MPIC interrupt controller
- =========================
++==========
+ Nested VMX
+ ==========
  
- Device types supported:
--  KVM_DEV_TYPE_FSL_MPIC_20     Freescale MPIC v2.0
--  KVM_DEV_TYPE_FSL_MPIC_42     Freescale MPIC v4.2
+@@ -41,9 +44,9 @@ No modifications are required to user space (qemu). However, qemu's default
+ emulated CPU type (qemu64) does not list the "VMX" CPU feature, so it must be
+ explicitly enabled, by giving qemu one of the following options:
+ 
+-     -cpu host              (emulated CPU has all features of the real CPU)
++     - cpu host              (emulated CPU has all features of the real CPU)
+ 
+-     -cpu qemu64,+vmx       (add just the vmx feature to a named CPU type)
++     - cpu qemu64,+vmx       (add just the vmx feature to a named CPU type)
+ 
+ 
+ ABIs
+@@ -75,6 +78,8 @@ of this structure changes, this can break live migration across KVM versions.
+ VMCS12_REVISION (from vmx.c) should be changed if struct vmcs12 or its inner
+ struct shadow_vmcs is ever changed.
+ 
++::
 +
-+  - KVM_DEV_TYPE_FSL_MPIC_20     Freescale MPIC v2.0
-+  - KVM_DEV_TYPE_FSL_MPIC_42     Freescale MPIC v4.2
+ 	typedef u64 natural_width;
+ 	struct __packed vmcs12 {
+ 		/* According to the Intel spec, a VMCS region must start with
+@@ -220,21 +225,21 @@ Authors
+ -------
  
- Only one MPIC instance, of any type, may be instantiated.  The created
- MPIC will act as the system interrupt controller, connecting to each
-@@ -11,7 +15,8 @@ vcpu's interrupt inputs.
+ These patches were written by:
+-     Abel Gordon, abelg <at> il.ibm.com
+-     Nadav Har'El, nyh <at> il.ibm.com
+-     Orit Wasserman, oritw <at> il.ibm.com
+-     Ben-Ami Yassor, benami <at> il.ibm.com
+-     Muli Ben-Yehuda, muli <at> il.ibm.com
++    - Abel Gordon, abelg <at> il.ibm.com
++    - Nadav Har'El, nyh <at> il.ibm.com
++    - Orit Wasserman, oritw <at> il.ibm.com
++    - Ben-Ami Yassor, benami <at> il.ibm.com
++    - Muli Ben-Yehuda, muli <at> il.ibm.com
  
- Groups:
-   KVM_DEV_MPIC_GRP_MISC
--  Attributes:
-+   Attributes:
-+
-     KVM_DEV_MPIC_BASE_ADDR (rw, 64-bit)
-       Base address of the 256 KiB MPIC register space.  Must be
-       naturally aligned.  A value of zero disables the mapping.
+ With contributions by:
+-     Anthony Liguori, aliguori <at> us.ibm.com
+-     Mike Day, mdday <at> us.ibm.com
+-     Michael Factor, factor <at> il.ibm.com
+-     Zvi Dubitzky, dubi <at> il.ibm.com
++    - Anthony Liguori, aliguori <at> us.ibm.com
++    - Mike Day, mdday <at> us.ibm.com
++    - Michael Factor, factor <at> il.ibm.com
++    - Zvi Dubitzky, dubi <at> il.ibm.com
+ 
+ And valuable reviews by:
+-     Avi Kivity, avi <at> redhat.com
+-     Gleb Natapov, gleb <at> redhat.com
+-     Marcelo Tosatti, mtosatti <at> redhat.com
+-     Kevin Tian, kevin.tian <at> intel.com
+-     and others.
++    - Avi Kivity, avi <at> redhat.com
++    - Gleb Natapov, gleb <at> redhat.com
++    - Marcelo Tosatti, mtosatti <at> redhat.com
++    - Kevin Tian, kevin.tian <at> intel.com
++    - and others.
 -- 
 2.24.1
 
