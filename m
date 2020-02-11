@@ -7,60 +7,60 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB7AC3B187
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 10:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4917BC352A3
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 10:58:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 127332086A
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 10:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1855020848
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 10:58:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDgv/t7s"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o9REiGwv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbgBKK6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 05:58:24 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37232 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727956AbgBKK6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 05:58:24 -0500
-Received: by mail-wr1-f68.google.com with SMTP id w15so11750344wru.4
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 02:58:21 -0800 (PST)
+        id S1727956AbgBKK6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 05:58:25 -0500
+Received: from mail-wr1-f43.google.com ([209.85.221.43]:36615 "EHLO
+        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727558AbgBKK6Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 05:58:25 -0500
+Received: by mail-wr1-f43.google.com with SMTP id z3so11758621wru.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 02:58:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=vNm6E41dD+3EcT2K0DKbvrPIUP9PYyF/XxhSVh53CX0=;
-        b=ZDgv/t7sP+1uEALXpOkZpnoz/ADtsfUQwiF774ux9bqMBNrEWL7M97gwvi2sQLez2u
-         U+GlZ39laxiS/Tu69JKhSRjgzOyMz7bf1p4ReTCQp9RRGB3ocKimww6VufV+oV4Jj6mU
-         jyWeu4+K89JcKCeCrJdcDMr3stiK838D1Mh9iNmRu/faef2dU60D/6yeIKfRxkaxkx/E
-         y0IwUc2urI63kdHNPEySEgZvnDjm4xKLfm6Fv5kNvYcycTmWz13BITMgn9tIBbUWI/G5
-         CIOak1SljGxKjKx5r0QTyudlwJf8mMm2fRIjH+aXljiKj4YwJt40GJl8QTW0fkNUeu9c
-         +Yqw==
+        bh=M6xq/OxJSWfSTPvEoweukyF8MINoDGNxuW+L6ZQztPM=;
+        b=o9REiGwvSPNR/g1Cq5hByCtYy8T9Rnf88hnGfwRNoSJKpw+DmpGOLV1vWzpSsPuWED
+         GaHauWwmfpvL7QKBT2AG/NxVhxpzIQ6H5rtfp/RZScgYYJfV9lq0BtRQgJzMEgjiCkHO
+         z61N6wQZ6jN9ewWiMyIkvg6kCv/2rOJnqL7DdBr7v5CXQBtTGEJ+FjkR1WpZ4pdLaJ6C
+         Ou2ILlM0zKRPLuaJxuMnyM7lg0EtBZgnxVQAF24tUOsAFJE85a/GB/ceVjjEVU50fmTJ
+         AH5vYkHvGyQSBrtzyz/mkYAG2aQuToPcsj0QBOZTVxHr1Urvqwmwt8BxYRff9kbd+QNR
+         oBCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=vNm6E41dD+3EcT2K0DKbvrPIUP9PYyF/XxhSVh53CX0=;
-        b=H/0NKpclLCpODEJSJzfm6BP9efgSEEV1FyyBProJSUteKJ+m3dQIrHnf/fskaxh/J6
-         +bxZKHEB8ocgyh6KdfTs3dGqs+bvsZ4PcNLbXm6ZE8AucTz+yUAmEQodZA6OL3wGT0ws
-         RH1AWnqJxDuHXU47KrcrlGZvbYfva//AJvhxRVm8QyXV8S298tBk1iABOvSul6MVR9bL
-         b5S6iFd6pbOo6jEUD6Ug4DL8QYE8EmqLtshrSZ060xrWikqjj9o4zph/sTUqyTglSads
-         aXTJtZGtH68LpVyRLKn0LgpBbjbTboz8Oshsq0+JCIBlowiSUGyOdpxvNBAbgZluY6ab
-         eYhQ==
-X-Gm-Message-State: APjAAAVZSfgB7Y64kUsT5RWBYRiEMcgM8D2Z96ZMD9Ndz4NA2Z4wmb5S
-        Ve4TbECNGU2A/UsabAsSU/Mnyw==
-X-Google-Smtp-Source: APXvYqzFlqJJqrPjFPpJYQFGxy5nia87NDWRjTSgfCOvhptfDM8hkWrlFc5afOgryjY0L3tap5GyRw==
-X-Received: by 2002:a5d:54c1:: with SMTP id x1mr7717644wrv.240.1581418701161;
-        Tue, 11 Feb 2020 02:58:21 -0800 (PST)
+        bh=M6xq/OxJSWfSTPvEoweukyF8MINoDGNxuW+L6ZQztPM=;
+        b=MhRvEC9qfvn5rQNSdZjNPy715wwSr8kmrRc+JDTbSPcI/JObTM8MsvXbxxDKH+lBi5
+         79DnA6k1lH/5lJXgRVDZOj7cg0CfX7TfHCNFMbYU/IXXQXjrho9hK0m/4GxDp661offT
+         FZIpoRKmaNa/1WeSYtSQC+cYEIv/bCA4ee+xT01QMfeDhxBYqrYkl6O1905FTcv1Rc50
+         fAf8Tgkt9eyVpTmjGhv+XDSgbBePbMJGsrH0vZ9oYF4PRuZK17qGrIAHvi8gDUkc39tl
+         CNdUNgJMKx4zCImgksIYtxBYr3yRoYxwO3i7lK6+krt2TI2RJ4AhlhSbXc8Dj+DGZdvT
+         d55A==
+X-Gm-Message-State: APjAAAUAU6g28hN7HBqEoCgHsoxoZrOW9CeoLoBkGu4enBUX7+8wip3W
+        wznuxIy7mqcB0QoznGPWCmB6tF0LLeo=
+X-Google-Smtp-Source: APXvYqxZhJedOIVtgpr6JvsCzPcDmeNJnY75P/JUMOwUUZ2QqThZYaJLjAdCNuPyV0wLn2/l3jy/Eg==
+X-Received: by 2002:a5d:4446:: with SMTP id x6mr7838462wrr.312.1581418702081;
+        Tue, 11 Feb 2020 02:58:22 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:a1cf:b00b:5683:ed40])
-        by smtp.gmail.com with ESMTPSA id g21sm3171291wmh.17.2020.02.11.02.58.20
+        by smtp.gmail.com with ESMTPSA id g21sm3171291wmh.17.2020.02.11.02.58.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2020 02:58:20 -0800 (PST)
+        Tue, 11 Feb 2020 02:58:21 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
         linux-doc@vger.kernel.org
 Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v4 5/6] coresight: cti: Add in sysfs links to other coresight devices.
-Date:   Tue, 11 Feb 2020 10:58:07 +0000
-Message-Id: <20200211105808.27884-6-mike.leach@linaro.org>
+Subject: [PATCH v4 6/6] coresight: docs: Add information about the topology representations.
+Date:   Tue, 11 Feb 2020 10:58:08 +0000
+Message-Id: <20200211105808.27884-7-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200211105808.27884-1-mike.leach@linaro.org>
 References: <20200211105808.27884-1-mike.leach@linaro.org>
@@ -69,99 +69,134 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds in sysfs links for connections where the connected device is another
-coresight device. This allows examination of the coresight topology.
-
-Non-coresight connections remain just as a reference name.
+Update the CoreSight documents to describe the new connections directory
+and the links between CoreSight devices in this directory.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
- drivers/hwtracing/coresight/coresight-cti.c | 41 ++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+ .../trace/coresight/coresight-ect.rst         |  5 +-
+ Documentation/trace/coresight/coresight.rst   | 85 +++++++++++++++++++
+ 2 files changed, 89 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-index 9e18e176831c..f620e9460e7d 100644
---- a/drivers/hwtracing/coresight/coresight-cti.c
-+++ b/drivers/hwtracing/coresight/coresight-cti.c
-@@ -441,6 +441,37 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
- 	return err;
- }
+diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
+index 067cee91c857..3539af895832 100644
+--- a/Documentation/trace/coresight/coresight-ect.rst
++++ b/Documentation/trace/coresight/coresight-ect.rst
+@@ -71,7 +71,7 @@ capable of generating or using trigger signals.::
  
-+static void cti_add_sysfs_link(struct cti_drvdata *drvdata,
-+			       struct cti_trig_con *tc)
-+{
-+	struct coresight_sysfs_link link_info;
-+
-+	link_info.orig = drvdata->csdev;
-+	link_info.orig_name = tc->con_dev_name;
-+	link_info.target = tc->con_dev;
-+	link_info.target_name = dev_name(&drvdata->csdev->dev);
-+	coresight_add_sysfs_link(&link_info);
-+}
-+
-+static void cti_remove_all_sysfs_links(struct cti_drvdata *drvdata)
-+{
-+	struct cti_trig_con *tc;
-+	struct cti_device *ctidev = &drvdata->ctidev;
-+	struct coresight_sysfs_link link_info;
-+
-+	/* origin device and target link name constant for this cti */
-+	link_info.orig = drvdata->csdev;
-+	link_info.target_name = dev_name(&drvdata->csdev->dev);
-+
-+	list_for_each_entry(tc, &ctidev->trig_cons, node) {
-+		if (tc->con_dev) {
-+			link_info.target = tc->con_dev;
-+			link_info.orig_name = tc->con_dev_name;
-+			coresight_remove_sysfs_link(&link_info);
-+		}
-+	}
-+}
-+
- /*
-  * Look for a matching connection device name in the list of connections.
-  * If found then swap in the csdev name, set trig con association pointer
-@@ -452,6 +483,8 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
- {
- 	struct cti_trig_con *tc;
- 	const char *csdev_name;
-+	struct cti_drvdata *drvdata = container_of(ctidev, struct cti_drvdata,
-+						   ctidev);
+   >$ ls /sys/bus/coresight/devices/etm0/cti_cpu0
+   channels  ctmid  enable  nr_trigger_cons mgmt  power  regs  subsystem
+-  triggers0 triggers1  uevent
++  connections triggers0 triggers1  uevent
  
- 	list_for_each_entry(tc, &ctidev->trig_cons, node) {
- 		if (tc->con_dev_name) {
-@@ -462,6 +495,7 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
- 					devm_kstrdup(&csdev->dev, csdev_name,
- 						     GFP_KERNEL);
- 				tc->con_dev = csdev;
-+				cti_add_sysfs_link(drvdata, tc);
- 				return true;
- 			}
- 		}
-@@ -546,10 +580,12 @@ static void cti_update_conn_xrefs(struct cti_drvdata *drvdata)
- 	struct cti_device *ctidev = &drvdata->ctidev;
+ *Key file items are:-*
+    * ``enable``: enables/disables the CTI.
+@@ -84,6 +84,9 @@ capable of generating or using trigger signals.::
+    * ``channels``: Contains the channel API - CTI main programming interface.
+    * ``regs``: Gives access to the raw programmable CTI regs.
+    * ``mgmt``: the standard CoreSight management registers.
++   * ``connections``: Links to connected *CoreSight* devices. The number of
++     links can be 0 to ``nr_trigger_cons``. Actual number given by ``nr_links``
++     in this directory.
  
- 	list_for_each_entry(tc, &ctidev->trig_cons, node) {
--		if (tc->con_dev)
-+		if (tc->con_dev) {
- 			/* set tc->con_dev->ect_dev */
- 			coresight_set_assoc_ectdev_mutex(tc->con_dev,
- 							 drvdata->csdev);
-+			cti_add_sysfs_link(drvdata, tc);
-+		}
- 	}
- }
  
-@@ -602,6 +638,9 @@ static void cti_device_release(struct device *dev)
- 	mutex_lock(&ect_mutex);
- 	cti_remove_conn_xrefs(drvdata);
+ triggers<N> directories
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 108600ee1e12..0b73acb44efa 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -241,6 +241,91 @@ to the newer scheme, to give a confirmation that what you see on your
+ system is not unexpected. One must use the "names" as they appear on
+ the system under specified locations.
  
-+	/* clear the dynamic sysfs associate with connections */
-+	cti_remove_all_sysfs_links(drvdata);
++Topology Representation
++-----------------------
 +
- 	/* remove from the list */
- 	list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
- 		if (ect_item == drvdata) {
++Each CoreSight component has a ``connections`` directory which will contain
++links to other CoreSight components. This allows the user to explore the trace
++topology and for larger systems, determine the most appropriate sink for a
++given source. The connection information can also be used to establish
++which CTI devices are connected to a given component. This directory contains a
++``nr_links`` attribute detailing the number of links in the directory.
++
++For an ETM source, in this case ``etm0`` on a Juno platform, a typical
++arrangement will be::
++
++  linaro-developer:~# ls - l /sys/bus/coresight/devices/etm0/connections
++  <file details>  cti_cpu0 -> ../../../23020000.cti/cti_cpu0
++  <file details>  nr_links
++  <file details>  out:0 -> ../../../230c0000.funnel/funnel2
++
++Following the out port to ``funnel2``::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/funnel2/connections
++  <file details> in:0 -> ../../../23040000.etm/etm0
++  <file details> in:1 -> ../../../23140000.etm/etm3
++  <file details> in:2 -> ../../../23240000.etm/etm4
++  <file details> in:3 -> ../../../23340000.etm/etm5
++  <file details> nr_links
++  <file details> out:0 -> ../../../20040000.funnel/funnel0
++
++And again to ``funnel0``::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/funnel0/connections
++  <file details> in:0 -> ../../../220c0000.funnel/funnel1
++  <file details> in:1 -> ../../../230c0000.funnel/funnel2
++  <file details> nr_links
++  <file details> out:0 -> ../../../20010000.etf/tmc_etf0
++
++Finding the first sink ``tmc_etf0``. This can be used to collect data
++as a sink, or as a link to propagate further along the chain::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/tmc_etf0/connections
++  <file details> cti_sys0 -> ../../../20020000.cti/cti_sys0
++  <file details> in:0 -> ../../../20040000.funnel/funnel0
++  <file details> nr_links
++  <file details> out:0 -> ../../../20150000.funnel/funnel4
++
++via ``funnel4``::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/funnel4/connections
++  <file details> in:0 -> ../../../20010000.etf/tmc_etf0
++  <file details> in:1 -> ../../../20140000.etf/tmc_etf1
++  <file details> nr_links
++  <file details> out:0 -> ../../../20120000.replicator/replicator0
++
++and a ``replicator0``::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/replicator0/connections
++  <file details> in:0 -> ../../../20150000.funnel/funnel4
++  <file details> nr_links
++  <file details> out:0 -> ../../../20030000.tpiu/tpiu0
++  <file details> out:1 -> ../../../20070000.etr/tmc_etr0
++
++Arriving at the final sink in the chain, ``tmc_etr0``::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/tmc_etr0/connections
++  <file details> cti_sys0 -> ../../../20020000.cti/cti_sys0
++  <file details> in:0 -> ../../../20120000.replicator/replicator0
++  <file details> nr_links
++
++As described below, when using sysfs it is sufficient to enable a sink and
++a source for successful trace. The framework will correctly enable all
++intermediate links as required.
++
++Note: ``cti_sys0`` appears in two of the connections lists above.
++CTIs can connect to multiple devices and are arranged in a star topology
++via the CTM. See (:doc:`coresight-ect`) [#fourth]_ for further details.
++Looking at this device we see 4 connections::
++
++  linaro-developer:~# ls -l /sys/bus/coresight/devices/cti_sys0/connections
++  <file details> nr_links
++  <file details> stm0 -> ../../../20100000.stm/stm0
++  <file details> tmc_etf0 -> ../../../20010000.etf/tmc_etf0
++  <file details> tmc_etr0 -> ../../../20070000.etr/tmc_etr0
++  <file details> tpiu0 -> ../../../20030000.tpiu/tpiu0
++
++
+ How to use the tracer modules
+ -----------------------------
+ 
 -- 
 2.17.1
 
