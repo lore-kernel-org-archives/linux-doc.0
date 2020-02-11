@@ -2,174 +2,106 @@ Return-Path: <SRS0=kPt+=37=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D08C3B186
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 13:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40CDBC352A3
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 15:31:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CD05C214DB
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 13:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 140222082F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 15:31:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov-name.20150623.gappssmtp.com header.i=@shutemov-name.20150623.gappssmtp.com header.b="bFc+jsaX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="drDd9fCc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728573AbgBKNVp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 08:21:45 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41247 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729018AbgBKNVp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 08:21:45 -0500
-Received: by mail-lf1-f68.google.com with SMTP id m30so6973071lfp.8
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 05:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Hr4RM1uoMUp4PqitGEd8DPH0BhvKXrOmDlEYhlDDK/I=;
-        b=bFc+jsaX1bV6Bl3CuP+Cavm+epSok3Y8YuARU6618UpGWA+riHbOEsKSpMLVF0ZXnU
-         bY7fqdQ0bEnWWZfLd6Oqd9qX1D757FrAYb+O8BaQ+LQhdXMTPs51Hy2WUXzJ4Ad24uj4
-         cvUYk6SVn5+//nUOhXYL42dvCGwEwZFRn+X4g8zbG1FE0jal/OsaVU08xzOzzjWLIm0D
-         8MwIcgxr3JmYIH/VoOmj8XDIQ6QhVzIhQMilukMtaXwupCH3WebHq6ULuGRH9rDVgw9o
-         yY56NRlMCQ15lfK+PifbXajl/TM4KUteetaHmFwDIJm5VG8+ct0cSww9niJRGFLxEBTQ
-         oHNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Hr4RM1uoMUp4PqitGEd8DPH0BhvKXrOmDlEYhlDDK/I=;
-        b=kcuoHLGv9jj+225ww1IFGzxgNkMHB0C2fnOmXRrs3AOFgXPMpJNa0he+zBhx/09NOJ
-         ORvl0YPcJ4tEIwo0j/nGqDNX9yHrSYC8kn8M4PG9AnEciZVnJWesQuGH2MOAUmyVScQI
-         HYvm6Oi9ZKt4vO1QoUXAGBRaYHFxx1/v2rPQ+JbJK35nL2ODJ8rfG7d05oTS6i2fij2X
-         s5wYSY2ov1oNXqvyTbHY+KJ3fBftQ0IbBdSSd7utl14cALB/17X2te/KCVemYW/ayqmi
-         mes+lEgabW1XeC+W8tXggVv1ebR1TZWls16NdDHkBbZJFYiORlQSKW/Gyyjq0WCMMDVw
-         NZMA==
-X-Gm-Message-State: APjAAAXfe4Z9FKShfep8lsadYxojc1hREfZvMPwVVlZ3yDYvVzhiesi8
-        c9P9okllwxF2MmAXlWzbX+X4kA==
-X-Google-Smtp-Source: APXvYqxV3rctot+0vYRe7IkamEeOz1L1i7WPyibLsi5dvBCjvN0112ivhIa5RgpfbLebu0hWGg8rAw==
-X-Received: by 2002:a19:8c4d:: with SMTP id i13mr3655524lfj.42.1581427301828;
-        Tue, 11 Feb 2020 05:21:41 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id a8sm2166091ljn.74.2020.02.11.05.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2020 05:21:41 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id D76B5100AFB; Tue, 11 Feb 2020 16:21:59 +0300 (+03)
-Date:   Tue, 11 Feb 2020 16:21:59 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v6 12/12] mm: dump_page(): additional diagnostics for
- huge pinned pages
-Message-ID: <20200211132159.pii2x5pssifemgaz@box>
-References: <20200211001536.1027652-1-jhubbard@nvidia.com>
- <20200211001536.1027652-13-jhubbard@nvidia.com>
+        id S1729319AbgBKPbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 10:31:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43644 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728294AbgBKPbq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 10:31:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581435105;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uXLnSaQF07b6MxmqqNLUnfPHd6pP4QaqXptooW+s8HA=;
+        b=drDd9fCctMa6+Gydl0vbfal+fwLHGCTifWyYhvwnTTKvHaTmBOcNd1uVNvF4t1VRqJ3tg3
+        5SGYlrjNDri5ctdF7JQqs+KRzPCLNh0d/z1lEuZhO1SRXhaHO3FqML70BIxqyEk0eUBo4N
+        SOios6rjRyPZpNdCw7XDWeu8H8e+LEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-1ho-v-lwPAWLy0isc_uERA-1; Tue, 11 Feb 2020 10:31:40 -0500
+X-MC-Unique: 1ho-v-lwPAWLy0isc_uERA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E809477;
+        Tue, 11 Feb 2020 15:31:38 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-34.pek2.redhat.com [10.72.12.34])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6A0435C1B5;
+        Tue, 11 Feb 2020 15:31:30 +0000 (UTC)
+From:   xiubli@redhat.com
+To:     jlayton@kernel.org, idryomov@gmail.com
+Cc:     sage@redhat.com, zyan@redhat.com, pdonnell@redhat.com,
+        ceph-devel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, Xiubo Li <xiubli@redhat.com>
+Subject: [RFC PATCH] ceph: fix description of some mount options
+Date:   Tue, 11 Feb 2020 10:31:20 -0500
+Message-Id: <20200211153120.21369-1-xiubli@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200211001536.1027652-13-jhubbard@nvidia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 04:15:36PM -0800, John Hubbard wrote:
-> As part of pin_user_pages() and related API calls, pages are
-> "dma-pinned". For the case of compound pages of order > 1, the per-page
-> accounting of dma pins is accomplished via the 3rd struct page in the
-> compound page. In order to support debugging of any pin_user_pages()-
-> related problems, enhance dump_page() so as to report the pin count
-> in that case.
-> 
-> Documentation/core-api/pin_user_pages.rst is also updated accordingly.
-> 
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-> ---
->  Documentation/core-api/pin_user_pages.rst |  7 +++++++
->  mm/debug.c                                | 21 ++++++++++++++++-----
->  2 files changed, 23 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
-> index 5c8a5f89756b..2e939ff10b86 100644
-> --- a/Documentation/core-api/pin_user_pages.rst
-> +++ b/Documentation/core-api/pin_user_pages.rst
-> @@ -238,6 +238,13 @@ long-term [R]DMA pins in place, or during pin/unpin transitions.
->  (...unless it was already out of balance due to a long-term RDMA pin being in
->  place.)
->  
-> +Other diagnostics
-> +=================
-> +
-> +dump_page() has been enhanced slightly, to handle these new counting fields, and
-> +to better report on compound pages in general. Specifically, for compound pages
-> +with order > 1, the exact (hpage_pinned_refcount) pincount is reported.
-> +
->  References
->  ==========
->  
-> diff --git a/mm/debug.c b/mm/debug.c
-> index f5ffb0784559..2189357f0987 100644
-> --- a/mm/debug.c
-> +++ b/mm/debug.c
-> @@ -85,11 +85,22 @@ void __dump_page(struct page *page, const char *reason)
->  	mapcount = PageSlab(head) ? 0 : page_mapcount(page);
->  
->  	if (compound)
-> -		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
-> -			"index:%#lx head:%px order:%u compound_mapcount:%d\n",
-> -			page, page_ref_count(head), mapcount,
-> -			mapping, page_to_pgoff(page), head,
-> -			compound_order(head), compound_mapcount(page));
-> +		if (hpage_pincount_available(page)) {
-> +			pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
-> +				"index:%#lx head:%px order:%u "
-> +				"compound_mapcount:%d compound_pincount:%d\n",
-> +				page, page_ref_count(head), mapcount,
-> +				mapping, page_to_pgoff(page), head,
-> +				compound_order(head), compound_mapcount(page),
-> +				compound_pincount(page));
-> +		} else {
-> +			pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
-> +				"index:%#lx head:%px order:%u "
-> +				"compound_mapcount:%d\n",
-> +				page, page_ref_count(head), mapcount,
-> +				mapping, page_to_pgoff(page), head,
-> +				compound_order(head), compound_mapcount(page));
-> +		}
+From: Xiubo Li <xiubli@redhat.com>
 
-Have you considered using pr_cont() here. I guess it would be easier to
-read.
+Based on the latest code, the default value for wsize/rsize is
+64MB and the default value for the mount_timeout is 60 seconds.
 
-You can use my Ack anyway.
+Signed-off-by: Xiubo Li <xiubli@redhat.com>
+---
+
+Checked the history of the code, I am a little confused about the
+default values for wsize/rsize, there never been 16MB as the default,
+and for the mount_timeout, never seen 30 as default.
+
+So did I miss something important about this ?
 
 
->  	else
->  		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p index:%#lx\n",
->  			page, page_ref_count(page), mapcount,
-> -- 
-> 2.25.0
-> 
+ Documentation/filesystems/ceph.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
--- 
- Kirill A. Shutemov
+diff --git a/Documentation/filesystems/ceph.txt b/Documentation/filesyste=
+ms/ceph.txt
+index b19b6a03f91c..92ffc9b3b018 100644
+--- a/Documentation/filesystems/ceph.txt
++++ b/Documentation/filesystems/ceph.txt
+@@ -103,17 +103,17 @@ Mount Options
+ 	address its connection to the monitor originates from.
+=20
+   wsize=3DX
+-	Specify the maximum write size in bytes.  Default: 16 MB.
++	Specify the maximum write size in bytes.  Default: 64 MB.
+=20
+   rsize=3DX
+-	Specify the maximum read size in bytes.  Default: 16 MB.
++	Specify the maximum read size in bytes.  Default: 64 MB.
+=20
+   rasize=3DX
+ 	Specify the maximum readahead size in bytes.  Default: 8 MB.
+=20
+   mount_timeout=3DX
+ 	Specify the timeout value for mount (in seconds), in the case
+-	of a non-responsive Ceph file system.  The default is 30
++	of a non-responsive Ceph file system.  The default is 60
+ 	seconds.
+=20
+   caps_max=3DX
+--=20
+2.21.0
+
