@@ -5,37 +5,37 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 244FFC3B18B
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5DF0C3B18B
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:16:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1CEC2168B
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F06720715
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:16:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Cd1yfw1/"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="hglMjuCC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727549AbgBKAQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 19:16:01 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4306 "EHLO
+        id S1727692AbgBKAPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 19:15:42 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4281 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727723AbgBKAPn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 19:15:43 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e41f1ec0003>; Mon, 10 Feb 2020 16:14:36 -0800
+        with ESMTP id S1727668AbgBKAPm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 19:15:42 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e41f1eb0001>; Mon, 10 Feb 2020 16:14:35 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 10 Feb 2020 16:15:39 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 10 Feb 2020 16:15:38 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 10 Feb 2020 16:15:39 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Feb
- 2020 00:15:38 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 11 Feb 2020 00:15:39 +0000
+        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 16:15:38 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Feb
+ 2020 00:15:37 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 11 Feb 2020 00:15:37 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e41f22a000b>; Mon, 10 Feb 2020 16:15:38 -0800
+        id <B5e41f2290006>; Mon, 10 Feb 2020 16:15:37 -0800
 From:   John Hubbard <jhubbard@nvidia.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 CC:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -57,105 +57,155 @@ CC:     Al Viro <viro@zeniv.linux.org.uk>,
         <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
         John Hubbard <jhubbard@nvidia.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v6 12/12] mm: dump_page(): additional diagnostics for huge pinned pages
-Date:   Mon, 10 Feb 2020 16:15:36 -0800
-Message-ID: <20200211001536.1027652-13-jhubbard@nvidia.com>
+Subject: [PATCH v6 02/12] mm/gup: pass a flags arg to __gup_device_* functions
+Date:   Mon, 10 Feb 2020 16:15:26 -0800
+Message-ID: <20200211001536.1027652-3-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200211001536.1027652-1-jhubbard@nvidia.com>
 References: <20200211001536.1027652-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581380076; bh=G6zg3dRvhO6eAf8mbf4UXoagNxuHvI4R2GOif2CoQS4=;
+        t=1581380075; bh=9vUvR7MWlrDY2h3QHPZ14a3zjGRWS++CvrjGW0mNfqY=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=Cd1yfw1/9CzPbKF6OSrgzdmEliYQ3R0HZd3+GQjeV4c0D3J3OusAurjqoXn7uEWpl
-         +LmNHWyGx0F8fXhtaLdXTzZvppVpddmCFnj+rmtLp5kgyxnI/MRZG5guKgEpyIlCqa
-         mmaobcG/RqaV4u3zFUiQKpqT8crsGJWtsPE3i/YQoXDv+emdSSOIa9yEjzPQKVbB1e
-         ZAtnLutXaqXjnpGVwBAbX7eo+vSKYDKCiDBJFT7/rRfE3V8StQpOM+cz/B00Y7d5vV
-         XHlNCGaY8lwO5FkrbQBa+LBxF1OvpglLDXXeV58ipgmai6fx3Q6Poed18DHTkyzAv9
-         5Q0c80gnKiDgA==
+         Content-Type:Content-Transfer-Encoding;
+        b=hglMjuCCYEGU0yZbY0/BPbJq4WZ9o9Q5NLX4SCaR+x2jgXCKSDaP+jTdmyV1QdEFv
+         22PeL91w5TJie8gGLTliMTLTsxi1lcEsg2iIrfH3HkWpKRhznH2uxT3SnHsYecigfE
+         lG0bUQoBejWhNDJArjM4gN9TqTgTLrPGJTe1Z1ENDiPmStScEguN95g5k5LZ74Xnfa
+         2HdrcUOE3iIx3KUNt5uhf4tkktv5tZM2LNXCSlDiOJt6NRzrRAQWL1gIwWO4do7O2W
+         Dt/0wia46hSMMbP6QqrOjNunpYszmb08i7fXSz07YlOrA4HcSzxh+fvjyaqoMcfqXM
+         7wylm7FMPrSBQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As part of pin_user_pages() and related API calls, pages are
-"dma-pinned". For the case of compound pages of order > 1, the per-page
-accounting of dma pins is accomplished via the 3rd struct page in the
-compound page. In order to support debugging of any pin_user_pages()-
-related problems, enhance dump_page() so as to report the pin count
-in that case.
+A subsequent patch requires access to gup flags, so pass the flags
+argument through to the __gup_device_* functions.
 
-Documentation/core-api/pin_user_pages.rst is also updated accordingly.
+Also placate checkpatch.pl by shortening a nearby line.
 
-Cc: Jan Kara <jack@suse.cz>
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- Documentation/core-api/pin_user_pages.rst |  7 +++++++
- mm/debug.c                                | 21 ++++++++++++++++-----
- 2 files changed, 23 insertions(+), 5 deletions(-)
+ mm/gup.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core=
--api/pin_user_pages.rst
-index 5c8a5f89756b..2e939ff10b86 100644
---- a/Documentation/core-api/pin_user_pages.rst
-+++ b/Documentation/core-api/pin_user_pages.rst
-@@ -238,6 +238,13 @@ long-term [R]DMA pins in place, or during pin/unpin tr=
-ansitions.
- (...unless it was already out of balance due to a long-term RDMA pin being=
- in
- place.)
+diff --git a/mm/gup.c b/mm/gup.c
+index b699500da077..9e117998274c 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1963,7 +1963,8 @@ static int gup_pte_range(pmd_t pmd, unsigned long add=
+r, unsigned long end,
 =20
-+Other diagnostics
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+dump_page() has been enhanced slightly, to handle these new counting field=
-s, and
-+to better report on compound pages in general. Specifically, for compound =
-pages
-+with order > 1, the exact (hpage_pinned_refcount) pincount is reported.
-+
- References
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ #if defined(CONFIG_ARCH_HAS_PTE_DEVMAP) && defined(CONFIG_TRANSPARENT_HUGE=
+PAGE)
+ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
+-		unsigned long end, struct page **pages, int *nr)
++			     unsigned long end, unsigned int flags,
++			     struct page **pages, int *nr)
+ {
+ 	int nr_start =3D *nr;
+ 	struct dev_pagemap *pgmap =3D NULL;
+@@ -1989,13 +1990,14 @@ static int __gup_device_huge(unsigned long pfn, uns=
+igned long addr,
+ }
 =20
-diff --git a/mm/debug.c b/mm/debug.c
-index f5ffb0784559..2189357f0987 100644
---- a/mm/debug.c
-+++ b/mm/debug.c
-@@ -85,11 +85,22 @@ void __dump_page(struct page *page, const char *reason)
- 	mapcount =3D PageSlab(head) ? 0 : page_mapcount(page);
+ static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long ad=
+dr,
+-		unsigned long end, struct page **pages, int *nr)
++				 unsigned long end, unsigned int flags,
++				 struct page **pages, int *nr)
+ {
+ 	unsigned long fault_pfn;
+ 	int nr_start =3D *nr;
 =20
- 	if (compound)
--		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
--			"index:%#lx head:%px order:%u compound_mapcount:%d\n",
--			page, page_ref_count(head), mapcount,
--			mapping, page_to_pgoff(page), head,
--			compound_order(head), compound_mapcount(page));
-+		if (hpage_pincount_available(page)) {
-+			pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
-+				"index:%#lx head:%px order:%u "
-+				"compound_mapcount:%d compound_pincount:%d\n",
-+				page, page_ref_count(head), mapcount,
-+				mapping, page_to_pgoff(page), head,
-+				compound_order(head), compound_mapcount(page),
-+				compound_pincount(page));
-+		} else {
-+			pr_warn("page:%px refcount:%d mapcount:%d mapping:%p "
-+				"index:%#lx head:%px order:%u "
-+				"compound_mapcount:%d\n",
-+				page, page_ref_count(head), mapcount,
-+				mapping, page_to_pgoff(page), head,
-+				compound_order(head), compound_mapcount(page));
-+		}
- 	else
- 		pr_warn("page:%px refcount:%d mapcount:%d mapping:%p index:%#lx\n",
- 			page, page_ref_count(page), mapcount,
+ 	fault_pfn =3D pmd_pfn(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
++	if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
+ 		return 0;
+=20
+ 	if (unlikely(pmd_val(orig) !=3D pmd_val(*pmdp))) {
+@@ -2006,13 +2008,14 @@ static int __gup_device_huge_pmd(pmd_t orig, pmd_t =
+*pmdp, unsigned long addr,
+ }
+=20
+ static int __gup_device_huge_pud(pud_t orig, pud_t *pudp, unsigned long ad=
+dr,
+-		unsigned long end, struct page **pages, int *nr)
++				 unsigned long end, unsigned int flags,
++				 struct page **pages, int *nr)
+ {
+ 	unsigned long fault_pfn;
+ 	int nr_start =3D *nr;
+=20
+ 	fault_pfn =3D pud_pfn(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-	if (!__gup_device_huge(fault_pfn, addr, end, pages, nr))
++	if (!__gup_device_huge(fault_pfn, addr, end, flags, pages, nr))
+ 		return 0;
+=20
+ 	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
+@@ -2023,14 +2026,16 @@ static int __gup_device_huge_pud(pud_t orig, pud_t =
+*pudp, unsigned long addr,
+ }
+ #else
+ static int __gup_device_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long ad=
+dr,
+-		unsigned long end, struct page **pages, int *nr)
++				 unsigned long end, unsigned int flags,
++				 struct page **pages, int *nr)
+ {
+ 	BUILD_BUG();
+ 	return 0;
+ }
+=20
+ static int __gup_device_huge_pud(pud_t pud, pud_t *pudp, unsigned long add=
+r,
+-		unsigned long end, struct page **pages, int *nr)
++				 unsigned long end, unsigned int flags,
++				 struct page **pages, int *nr)
+ {
+ 	BUILD_BUG();
+ 	return 0;
+@@ -2146,7 +2151,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsi=
+gned long addr,
+ 	if (pmd_devmap(orig)) {
+ 		if (unlikely(flags & FOLL_LONGTERM))
+ 			return 0;
+-		return __gup_device_huge_pmd(orig, pmdp, addr, end, pages, nr);
++		return __gup_device_huge_pmd(orig, pmdp, addr, end, flags,
++					     pages, nr);
+ 	}
+=20
+ 	page =3D pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+@@ -2167,7 +2173,8 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsi=
+gned long addr,
+ }
+=20
+ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
+-		unsigned long end, unsigned int flags, struct page **pages, int *nr)
++			unsigned long end, unsigned int flags,
++			struct page **pages, int *nr)
+ {
+ 	struct page *head, *page;
+ 	int refs;
+@@ -2178,7 +2185,8 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsi=
+gned long addr,
+ 	if (pud_devmap(orig)) {
+ 		if (unlikely(flags & FOLL_LONGTERM))
+ 			return 0;
+-		return __gup_device_huge_pud(orig, pudp, addr, end, pages, nr);
++		return __gup_device_huge_pud(orig, pudp, addr, end, flags,
++					     pages, nr);
+ 	}
+=20
+ 	page =3D pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
 --=20
 2.25.0
 
