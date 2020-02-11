@@ -2,151 +2,294 @@ Return-Path: <SRS0=kPt+=37=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64581C3B187
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 23:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF0CC3F68F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 23:40:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CC30206DB
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 23:13:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yz4M8AJn"
+	by mail.kernel.org (Postfix) with ESMTP id 5FF492070A
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 23:40:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727795AbgBKXNA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 18:13:00 -0500
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:35950 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727613AbgBKXM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 18:12:59 -0500
-Received: by mail-yb1-f195.google.com with SMTP id q190so3283299ybg.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 15:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=asxH5rE1mHmxca38giWrHRQ20XhnB22SkpjtANiGhwo=;
-        b=yz4M8AJnylgO83dqd5cHyCjYaG5DRQ4oA07sMnefBQQQRRBCvVJY+osWsi+9Nu03Ym
-         Nd18a44FRrJAJZ8GtRwQxwQpmiKD3/0GcxsgtiKJ50Oju6HP+mnhBMLqOxFNVrA6OJWt
-         XSebUd/CBV4Y5UMZsn9YFteKAlIMCXiRs740o+q3oOGzk5H5nUFVQcxvtaqcZCrJXyZ4
-         BSLVbiNVuufPe1A+TwmfZFeG7PX4HQvLeCsHqB47yQI69ky0//yxUSf9DnwZBJ+lktSw
-         OQwg05nLXKwaryExroWR4AWqlmEVCxSUAH7YtiRHXA+t3Rb0xlAw3HW1Cr/74HddoJab
-         zl+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=asxH5rE1mHmxca38giWrHRQ20XhnB22SkpjtANiGhwo=;
-        b=h2l6TPqHiwGROUb90gptvmvB5WU3Mm3HC+1uJQuQ6QNNQVe5oTNyEvzPjULTtS9sH1
-         tJKSToXt5Uv6YX6B0NGa07Jied7qVcQHMgerTNSUkPayWdi8tdfC0I0CQHp25E43OewA
-         bwNUFC0pmMxtCTl2cpvGEmvDdORGNKiNJ+sVggUsOOM/SWj2ku+LFO1aY+xaJ9XKON8r
-         1lW+yItJkYEfTYQWN6f9OV5OlSJArkgR/ruprkw1+/Os1lBhOvrj40lBFb9HP6Wm1qFg
-         nkMbuxhTGubQeId0eyryQsY8Y6T4l1JRLo28hMyi0Qh2ugbWubh6pigzC750lp/Qvz1S
-         n0uQ==
-X-Gm-Message-State: APjAAAW6XGOCuw2H3q3bnnmWpowxq+MmIiRhshyQYFd/NoLK0PwQ6IXl
-        okOqAPSYYl9oVs11BEmhbbUFzA==
-X-Google-Smtp-Source: APXvYqwJAiJjVFrxBA/F030e6zWj2VmgaEv8EblImL79DbW353avRqr/AqP54XIFrQYHhF+KJtDchA==
-X-Received: by 2002:a05:6902:526:: with SMTP id y6mr1973370ybs.132.1581462777524;
-        Tue, 11 Feb 2020 15:12:57 -0800 (PST)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id s31sm2597687ywa.30.2020.02.11.15.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2020 15:12:56 -0800 (PST)
-Date:   Tue, 11 Feb 2020 16:12:53 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Arnaud POULIQUEN <arnaud.pouliquen@st.com>
-Cc:     Clement Leger <cleger@kalray.eu>, Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
-Subject: Re: [PATCH v4 0/5] remoteproc: Add elf64 support
-Message-ID: <20200211231253.GC27770@xps15>
-References: <527785289.2852303.1581062223707.JavaMail.zimbra@kalray.eu>
- <20200210162209.23149-1-cleger@kalray.eu>
- <5b8045be-0942-2ecf-5dba-dad58071f6af@st.com>
+        id S1728041AbgBKXin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 18:38:43 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:50946 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727985AbgBKXim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 18:38:42 -0500
+Received: from 79.184.254.199.ipv4.supernova.orange.pl (79.184.254.199) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
+ id b104e132117a5803; Wed, 12 Feb 2020 00:38:40 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Amit Kucheria <amit.kucheria@linaro.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Subject: [PATCH 27/28] Documentation: PM: QoS: Update to reflect previous code changes
+Date:   Wed, 12 Feb 2020 00:36:35 +0100
+Message-ID: <263587662.Lb29Xrxheq@kreacher>
+In-Reply-To: <1654227.8mz0SueHsU@kreacher>
+References: <1654227.8mz0SueHsU@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b8045be-0942-2ecf-5dba-dad58071f6af@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 04:57:18PM +0100, Arnaud POULIQUEN wrote:
-> Hi Clement,
-> 
-> I tested the series on the stm32 platform for remote proc firmwre load: no regression found.
-> I do not test the da_to_va feature as not implemented on stm32 platform.
+From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 
-It would be very interesting if you could test the coredump, that would give us
-a lot more confidence in the implementation.
+Update the PM QoS documentation to reflect the previous code changes
+regarding the removal of PM QoS classes and the CPU latency QoS API
+rework.
 
-Thanks,
-Mathieu
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ Documentation/admin-guide/pm/cpuidle.rst | 73 +++++++++++++--------------
+ Documentation/power/pm_qos_interface.rst | 86 +++++++++++++++-----------------
+ 2 files changed, 75 insertions(+), 84 deletions(-)
 
-> 
-> Regards,
-> Arnaud
-> 
-> 
-> 
-> On 2/10/20 5:22 PM, Clement Leger wrote:
-> > This serie add support for elf64 in remoteproc (elf loader, coredump). 
-> > First two patches modifies the type of len argument (in da_to_va) and
-> > boot_addr in order to allow loading elf64 segment with a u64 size
-> > and a u64 entry point.
-> > Next patch introduce a set of macros to access elf64 and elf32
-> > transparently.
-> > Last two patches are the actual modification in the elf loader and
-> > remoteproc coredump support to add elf64 support.
-> > 
-> > Changes from V3:
-> >  - Adapt coredump to elf64 file format
-> >  - Rename remoteproc_elf_loader.h to remoteproc_elf_helpers.h
-> >  - Update copyright year in remoteproc_elf_helpers.h
-> >  - Rename macros elf_hdr_* to elf_get_hdr_* for coherency with elf_hdr_set_*
-> >  - Split elf64 loader patch in 3:
-> >    - boot_addr u64 change
-> >    - remoteproc_elf_helpers.h creation
-> >    - elf64 loading
-> > 
-> > Clement Leger (5):
-> >   remoteproc: Use u64 len for da_to_va
-> >   remoteproc: Use u64 type for boot_addr
-> >   remoteproc: Add elf helpers to access elf64 and elf32 fields
-> >   remoteproc: Add elf64 support in elf loader
-> >   remoteproc: Adapt coredump to generate correct elf type
-> > 
-> >  Documentation/remoteproc.txt                |   2 +-
-> >  drivers/remoteproc/imx_rproc.c              |  11 +-
-> >  drivers/remoteproc/keystone_remoteproc.c    |   4 +-
-> >  drivers/remoteproc/qcom_q6v5_adsp.c         |   2 +-
-> >  drivers/remoteproc/qcom_q6v5_mss.c          |   2 +-
-> >  drivers/remoteproc/qcom_q6v5_pas.c          |   2 +-
-> >  drivers/remoteproc/qcom_q6v5_wcss.c         |   2 +-
-> >  drivers/remoteproc/qcom_wcnss.c             |   2 +-
-> >  drivers/remoteproc/remoteproc_core.c        |  69 +++++++------
-> >  drivers/remoteproc/remoteproc_elf_helpers.h |  95 ++++++++++++++++++
-> >  drivers/remoteproc/remoteproc_elf_loader.c  | 150 ++++++++++++++++++----------
-> >  drivers/remoteproc/remoteproc_internal.h    |   4 +-
-> >  drivers/remoteproc/st_remoteproc.c          |   2 +-
-> >  drivers/remoteproc/st_slim_rproc.c          |   4 +-
-> >  drivers/remoteproc/wkup_m3_rproc.c          |   4 +-
-> >  include/linux/remoteproc.h                  |   7 +-
-> >  16 files changed, 252 insertions(+), 110 deletions(-)
-> >  create mode 100644 drivers/remoteproc/remoteproc_elf_helpers.h
-> > 
+diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
+index 6a06dc473dd6..5605cc6f9560 100644
+--- a/Documentation/admin-guide/pm/cpuidle.rst
++++ b/Documentation/admin-guide/pm/cpuidle.rst
+@@ -583,20 +583,17 @@ Power Management Quality of Service for CPUs
+ The power management quality of service (PM QoS) framework in the Linux kernel
+ allows kernel code and user space processes to set constraints on various
+ energy-efficiency features of the kernel to prevent performance from dropping
+-below a required level.  The PM QoS constraints can be set globally, in
+-predefined categories referred to as PM QoS classes, or against individual
+-devices.
++below a required level.
+ 
+ CPU idle time management can be affected by PM QoS in two ways, through the
+-global constraint in the ``PM_QOS_CPU_DMA_LATENCY`` class and through the
+-resume latency constraints for individual CPUs.  Kernel code (e.g. device
+-drivers) can set both of them with the help of special internal interfaces
+-provided by the PM QoS framework.  User space can modify the former by opening
+-the :file:`cpu_dma_latency` special device file under :file:`/dev/` and writing
+-a binary value (interpreted as a signed 32-bit integer) to it.  In turn, the
+-resume latency constraint for a CPU can be modified by user space by writing a
+-string (representing a signed 32-bit integer) to the
+-:file:`power/pm_qos_resume_latency_us` file under
++global CPU latency limit and through the resume latency constraints for
++individual CPUs.  Kernel code (e.g. device drivers) can set both of them with
++the help of special internal interfaces provided by the PM QoS framework.  User
++space can modify the former by opening the :file:`cpu_dma_latency` special
++device file under :file:`/dev/` and writing a binary value (interpreted as a
++signed 32-bit integer) to it.  In turn, the resume latency constraint for a CPU
++can be modified from user space by writing a string (representing a signed
++32-bit integer) to the :file:`power/pm_qos_resume_latency_us` file under
+ :file:`/sys/devices/system/cpu/cpu<N>/` in ``sysfs``, where the CPU number
+ ``<N>`` is allocated at the system initialization time.  Negative values
+ will be rejected in both cases and, also in both cases, the written integer
+@@ -605,32 +602,34 @@ number will be interpreted as a requested PM QoS constraint in microseconds.
+ The requested value is not automatically applied as a new constraint, however,
+ as it may be less restrictive (greater in this particular case) than another
+ constraint previously requested by someone else.  For this reason, the PM QoS
+-framework maintains a list of requests that have been made so far in each
+-global class and for each device, aggregates them and applies the effective
+-(minimum in this particular case) value as the new constraint.
++framework maintains a list of requests that have been made so far for the
++global CPU latency limit and for each individual CPU, aggregates them and
++applies the effective (minimum in this particular case) value as the new
++constraint.
+ 
+ In fact, opening the :file:`cpu_dma_latency` special device file causes a new
+-PM QoS request to be created and added to the priority list of requests in the
+-``PM_QOS_CPU_DMA_LATENCY`` class and the file descriptor coming from the
+-"open" operation represents that request.  If that file descriptor is then
+-used for writing, the number written to it will be associated with the PM QoS
+-request represented by it as a new requested constraint value.  Next, the
+-priority list mechanism will be used to determine the new effective value of
+-the entire list of requests and that effective value will be set as a new
+-constraint.  Thus setting a new requested constraint value will only change the
+-real constraint if the effective "list" value is affected by it.  In particular,
+-for the ``PM_QOS_CPU_DMA_LATENCY`` class it only affects the real constraint if
+-it is the minimum of the requested constraints in the list.  The process holding
+-a file descriptor obtained by opening the :file:`cpu_dma_latency` special device
+-file controls the PM QoS request associated with that file descriptor, but it
+-controls this particular PM QoS request only.
++PM QoS request to be created and added to a global priority list of CPU latency
++limit requests and the file descriptor coming from the "open" operation
++represents that request.  If that file descriptor is then used for writing, the
++number written to it will be associated with the PM QoS request represented by
++it as a new requested limit value.  Next, the priority list mechanism will be
++used to determine the new effective value of the entire list of requests and
++that effective value will be set as a new CPU latency limit.  Thus requesting a
++new limit value will only change the real limit if the effective "list" value is
++affected by it, which is the case if it is the minimum of the requested values
++in the list.
++
++The process holding a file descriptor obtained by opening the
++:file:`cpu_dma_latency` special device file controls the PM QoS request
++associated with that file descriptor, but it controls this particular PM QoS
++request only.
+ 
+ Closing the :file:`cpu_dma_latency` special device file or, more precisely, the
+ file descriptor obtained while opening it, causes the PM QoS request associated
+-with that file descriptor to be removed from the ``PM_QOS_CPU_DMA_LATENCY``
+-class priority list and destroyed.  If that happens, the priority list mechanism
+-will be used, again, to determine the new effective value for the whole list
+-and that value will become the new real constraint.
++with that file descriptor to be removed from the global priority list of CPU
++latency limit requests and destroyed.  If that happens, the priority list
++mechanism will be used again, to determine the new effective value for the whole
++list and that value will become the new limit.
+ 
+ In turn, for each CPU there is one resume latency PM QoS request associated with
+ the :file:`power/pm_qos_resume_latency_us` file under
+@@ -647,10 +646,10 @@ CPU in question every time the list of requests is updated this way or another
+ (there may be other requests coming from kernel code in that list).
+ 
+ CPU idle time governors are expected to regard the minimum of the global
+-effective ``PM_QOS_CPU_DMA_LATENCY`` class constraint and the effective
+-resume latency constraint for the given CPU as the upper limit for the exit
+-latency of the idle states they can select for that CPU.  They should never
+-select any idle states with exit latency beyond that limit.
++(effective) CPU latency limit and the effective resume latency constraint for
++the given CPU as the upper limit for the exit latency of the idle states that
++they are allowed to select for that CPU.  They should never select any idle
++states with exit latency beyond that limit.
+ 
+ 
+ Idle States Control Via Kernel Command Line
+diff --git a/Documentation/power/pm_qos_interface.rst b/Documentation/power/pm_qos_interface.rst
+index 0d62d506caf0..064f668fbdab 100644
+--- a/Documentation/power/pm_qos_interface.rst
++++ b/Documentation/power/pm_qos_interface.rst
+@@ -7,86 +7,78 @@ performance expectations by drivers, subsystems and user space applications on
+ one of the parameters.
+ 
+ Two different PM QoS frameworks are available:
+-1. PM QoS classes for cpu_dma_latency
++1. CPU latency QoS.
+ 2. The per-device PM QoS framework provides the API to manage the
+    per-device latency constraints and PM QoS flags.
+ 
+-Each parameters have defined units:
+-
+- * latency: usec
+- * timeout: usec
+- * throughput: kbs (kilo bit / sec)
+- * memory bandwidth: mbs (mega bit / sec)
++The latency unit used in the PM QoS framework is the microsecond (usec).
+ 
+ 
+ 1. PM QoS framework
+ ===================
+ 
+-The infrastructure exposes multiple misc device nodes one per implemented
+-parameter.  The set of parameters implement is defined by pm_qos_power_init()
+-and pm_qos_params.h.  This is done because having the available parameters
+-being runtime configurable or changeable from a driver was seen as too easy to
+-abuse.
+-
+-For each parameter a list of performance requests is maintained along with
+-an aggregated target value.  The aggregated target value is updated with
+-changes to the request list or elements of the list.  Typically the
+-aggregated target value is simply the max or min of the request values held
+-in the parameter list elements.
++A global list of CPU latency QoS requests is maintained along with an aggregated
++(effective) target value.  The aggregated target value is updated with changes
++to the request list or elements of the list.  For CPU latency QoS, the
++aggregated target value is simply the min of the request values held in the list
++elements.
++
+ Note: the aggregated target value is implemented as an atomic variable so that
+ reading the aggregated value does not require any locking mechanism.
+ 
++From kernel space the use of this interface is simple:
+ 
+-From kernel mode the use of this interface is simple:
+-
+-void pm_qos_add_request(handle, param_class, target_value):
+-  Will insert an element into the list for that identified PM QoS class with the
+-  target value.  Upon change to this list the new target is recomputed and any
+-  registered notifiers are called only if the target value is now different.
+-  Clients of pm_qos need to save the returned handle for future use in other
+-  pm_qos API functions.
++void cpu_latency_qos_add_request(handle, target_value):
++  Will insert an element into the CPU latency QoS list with the target value.
++  Upon change to this list the new target is recomputed and any registered
++  notifiers are called only if the target value is now different.
++  Clients of PM QoS need to save the returned handle for future use in other
++  PM QoS API functions.
+ 
+-void pm_qos_update_request(handle, new_target_value):
++void cpu_latency_qos_update_request(handle, new_target_value):
+   Will update the list element pointed to by the handle with the new target
+   value and recompute the new aggregated target, calling the notification tree
+   if the target is changed.
+ 
+-void pm_qos_remove_request(handle):
++void cpu_latency_qos_remove_request(handle):
+   Will remove the element.  After removal it will update the aggregate target
+   and call the notification tree if the target was changed as a result of
+   removing the request.
+ 
+-int pm_qos_request(param_class):
+-  Returns the aggregated value for a given PM QoS class.
++int cpu_latency_qos_limit():
++  Returns the aggregated value for the CPU latency QoS.
++
++int cpu_latency_qos_request_active(handle):
++  Returns if the request is still active, i.e. it has not been removed from the
++  CPU latency QoS list.
+ 
+-int pm_qos_request_active(handle):
+-  Returns if the request is still active, i.e. it has not been removed from a
+-  PM QoS class constraints list.
++int cpu_latency_qos_add_notifier(notifier):
++  Adds a notification callback function to the CPU latency QoS. The callback is
++  called when the aggregated value for the CPU latency QoS is changed.
+ 
+-int pm_qos_add_notifier(param_class, notifier):
+-  Adds a notification callback function to the PM QoS class. The callback is
+-  called when the aggregated value for the PM QoS class is changed.
++int cpu_latency_qos_remove_notifier(notifier):
++  Removes the notification callback function from the CPU latency QoS.
+ 
+-int pm_qos_remove_notifier(int param_class, notifier):
+-  Removes the notification callback function for the PM QoS class.
+ 
++From user space:
+ 
+-From user mode:
++The infrastructure exposes one device node, /dev/cpu_dma_latency, for the CPU
++latency QoS.
+ 
+-Only processes can register a pm_qos request.  To provide for automatic
++Only processes can register a PM QoS request.  To provide for automatic
+ cleanup of a process, the interface requires the process to register its
+-parameter requests in the following way:
++parameter requests as follows.
+ 
+-To register the default pm_qos target for the specific parameter, the process
+-must open /dev/cpu_dma_latency
++To register the default PM QoS target for the CPU latency QoS, the process must
++open /dev/cpu_dma_latency.
+ 
+ As long as the device node is held open that process has a registered
+ request on the parameter.
+ 
+-To change the requested target value the process needs to write an s32 value to
+-the open device node.  Alternatively the user mode program could write a hex
+-string for the value using 10 char long format e.g. "0x12345678".  This
+-translates to a pm_qos_update_request call.
++To change the requested target value, the process needs to write an s32 value to
++the open device node.  Alternatively, it can write a hex string for the value
++using the 10 char long format e.g. "0x12345678".  This translates to a
++cpu_latency_qos_update_request() call.
+ 
+ To remove the user mode request for a target value simply close the device
+ node.
+-- 
+2.16.4
+
+
+
+
+
