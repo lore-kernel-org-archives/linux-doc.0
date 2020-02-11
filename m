@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F61C3B187
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 21:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D30FC352A3
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 22:01:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DC20E2082F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 21:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7CED20714
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 22:01:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Anc5d4NC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XwXVHgHM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727279AbgBKV7G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 16:59:06 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:36570 "EHLO
+        id S1727433AbgBKWBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 17:01:43 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39424 "EHLO
         mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727111AbgBKV7G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 16:59:06 -0500
-Received: by mail-pl1-f194.google.com with SMTP id a6so96612plm.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 13:59:06 -0800 (PST)
+        with ESMTP id S1727052AbgBKWBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 17:01:43 -0500
+Received: by mail-pl1-f194.google.com with SMTP id g6so93856plp.6
+        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 14:01:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9h+gOqZrb8Pn305OGBZnfCQEnWlX+64gaRdYC8Jwu1Q=;
-        b=Anc5d4NC7yWC0HGeNdu3IE+cBqyU0n/LqZ/shNqTFnlbUUdq+f9z+8Xhzizqi/bCMk
-         VDwmu/x0oMOoOabwwPHDJhvcARSDl5DinZpMsZEizCXt6BTbfTgFEkEro5cJiM1BjsNi
-         RO38o5Hvuv2rPdSGpQ1LrArrpGZgGKeEsa22JtcLkZimJo2rhVap/XLefeOe0w2FeTB3
-         FCBTZxr11dDCRRTV/7W+gB1d2Ekd9eN6jECksOv5APNWiTkpiKJNeYSPH6ssMlL2FkVd
-         IsAwr+mJKcHMJ6RB2Yg0HWm41xeBbRvcx0cMeIAM2Gv8SzZyycFBmuUEqX8ztpcN0XJw
-         2gXA==
+        bh=aKZr9Nn9oPrGK2xfIwGCJXtf9vPWAVskjBr9vetGONI=;
+        b=XwXVHgHM2emkQEfI9tLsLCP17GoUihqbxlKF04GFa8syindlYGF6luInOgl9iJ2/SS
+         FCuP2FrjYOa4vYDvAKkApoQt3tqw6v27yFnaUuo2FZbWbsxUebIyTZ2SyvQ4blQ4P6Nd
+         UDpbPF+Wn1yRm86qcHQQwE6Lhzm+GtV71YILUdaQnD9ureO5q821PnZ0+zmp9zc3LZM3
+         Rl0HV9kXJOEEufifX8Qk/vnKBPpl6jH5Llf/BZF2IMH12MtUkmEjhOsOIFZjWwU+R70J
+         nqBpfeVFkLB0LoDPlHVHH5/WNPsNNYqslHgKeXp+o8ICblmT8PwZpaWNxgxO50IuLpnX
+         tsqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9h+gOqZrb8Pn305OGBZnfCQEnWlX+64gaRdYC8Jwu1Q=;
-        b=j/u+XJWheMdKjJ1zeWTwjTOyJwzocs0pHdA0vK9o8tRiNybVQIkUc8Sj7BojUAD3+C
-         sCX/RLgOrKQQmk5QT0Ei5OB6XqZRyzKJ98a11jp+AfAvdTbnN9NovqDsaJKe2VJkVSNi
-         KiHFe7Q6yWL8ieJ3xt3nqk0BbNx6k43eNlsFxpGmewO9TEqG+/oQZF0P4g4WhOUBxRY0
-         BjDvT3wSW6I+A17bfV2/HQyd/HkAPlznPhM5xcgQKKSAmOjQIv0U6NkE1PvxahCylBXI
-         PZ/eMJLTPPZp/v2wdXjIYs3TenM45nn94hiAbb+OazS5mSaBhPjzIAaBc7MqmiPhH7zP
-         KrPQ==
-X-Gm-Message-State: APjAAAWDyajfjgJhY5BHsZC8v+EoOBOtNLQEWXO5NPIaRLl0EpadlYQm
-        jPDe7oWPBy8py2MFDvUE5FAdW/weEeikSIWU22TGVQ==
-X-Google-Smtp-Source: APXvYqw93yT/Zf/7Z/6tsFK4ftr1310/hXB9PY5roG+jTUuwtIqIs15h+U7Uz6XTE1kiaSa4rkmGOd8h8SXG302Ebzk=
-X-Received: by 2002:a17:90a:858a:: with SMTP id m10mr6020385pjn.117.1581458345368;
- Tue, 11 Feb 2020 13:59:05 -0800 (PST)
+        bh=aKZr9Nn9oPrGK2xfIwGCJXtf9vPWAVskjBr9vetGONI=;
+        b=cBFRB9eoBWO4X/OGDO1BuFb24IzXx5dOjsuZIN9e+ueJF14KF9D7LLp2nKisTY6fvo
+         SYYngxDYBswzVDgskhEtDa44YufsP5bwSSXQcRZh316PjHG+sFW8eq7HBGp8l0XDTwtN
+         L8mZqANTE6yOQFsJNIPzO96C613nYUL2vcyeiKzMnarRSPfAOhedr9LmJamBI5bIsoGA
+         7aFFSdhQ+La8NN4uIGSlXOPH53EkATRfwsebvMEZQ/UjbNa61RvmhCpsLpGgBGcatrzt
+         PHLqR3IXwvtcpsoP3CGsF+XrdCpt7Meidrtu0afgpR6ZP35qBHyWRxCd6WcIVkYe6cQR
+         Irfg==
+X-Gm-Message-State: APjAAAWUp2VnDaZ8Ahb6ii+k0RCF0mNnfwyBgQOVGGaL+q3QIaxM1Q/F
+        F3y0/NJ03dkBQD88mounDZWlsJW8kmQVl3fhmBj+JA==
+X-Google-Smtp-Source: APXvYqxiyp8ZPewy/3SdNtAOX/zkfxDTYqfVAUM5KyHWCmZSU/tv3ddASBVflxRQ8siqw0nVjWdgoYsNWCnV2WD8RNs=
+X-Received: by 2002:a17:90a:6c26:: with SMTP id x35mr5717606pjj.84.1581458502683;
+ Tue, 11 Feb 2020 14:01:42 -0800 (PST)
 MIME-Version: 1.0
-References: <1581094694-6513-1-git-send-email-alan.maguire@oracle.com> <1581094694-6513-2-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1581094694-6513-2-git-send-email-alan.maguire@oracle.com>
+References: <1581094694-6513-1-git-send-email-alan.maguire@oracle.com> <1581094694-6513-3-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1581094694-6513-3-git-send-email-alan.maguire@oracle.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 11 Feb 2020 13:58:54 -0800
-Message-ID: <CAFd5g458oX0mEqg3xvTnonr3ztNd=HUBy3vhLSKgkKUsyRuycw@mail.gmail.com>
-Subject: Re: [PATCH v3 kunit-next 1/2] kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results
- display
+Date:   Tue, 11 Feb 2020 14:01:31 -0800
+Message-ID: <CAFd5g471GgE=Ebb5QMnWZz0Gjswu5mfTJe=e8kDcLudTG2rcRQ@mail.gmail.com>
+Subject: Re: [PATCH v3 kunit-next 2/2] kunit: update documentation to describe
+ debugfs representation
 To:     Alan Maguire <alan.maguire@oracle.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>, shuah <shuah@kernel.org>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
@@ -74,13 +74,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 7, 2020 at 8:58 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+On Fri, Feb 7, 2020 at 8:59 AM Alan Maguire <alan.maguire@oracle.com> wrote:
 >
-> add debugfs support for displaying kunit test suite results; this is
-> especially useful for module-loaded tests to allow disentangling of
-> test result display from other dmesg events.
->
-> As well as printk()ing messages, we append them to a per-test log.
+> Documentation should describe debugfs layout and semantics.
 >
 > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 
