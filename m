@@ -2,315 +2,180 @@ Return-Path: <SRS0=kPt+=37=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F5EC35242
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 18:26:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A07C35242
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 18:46:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 261EE20848
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 18:26:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="OnvPK8kq"
+	by mail.kernel.org (Postfix) with ESMTP id 441F520873
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 18:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730317AbgBKS0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 13:26:33 -0500
-Received: from mail-bn8nam12on2116.outbound.protection.outlook.com ([40.107.237.116]:26625
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729999AbgBKS0c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Feb 2020 13:26:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l+ynXf89wrd/u8Pff0zpkfjdZ8+3TzrsEIB+mUWoKWiZU8fm+DOhNpe5kU9T6cN1NNbHRp9s5caOyKYlZj0G8s3M6r+MAg7ciAtCzlJiR1xZQdzTeV1yX1FOWwiu64qErErogxxKAMrzUY/hhPUxmcGQa9MxS70rSsAyAGVSP20n4JWeAwD5OuWsFlamfL0ml02zyrANkM6a8TG3pLWm481VNlbIwjKV7m7fPbyYjeQbQQg2rRNsLWH9s7ToaLT4sRBQktQeJzEFzSgu1Z/Fv65vM1kWraGnlNy3gdXCTs2pTxR9sesfGI0fwSuR+xKdhPBk/I9wrEzInTLfzWc2qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fc4nOV4fNQRNImhP+Adk3xbUrs6CQngVU1ttnj89z/Q=;
- b=dkfDXooCMDCdSB92SyAN+IgSSx7+O3bDN65pXAnh0hsYnbMe2GVerYcyv4wrXMETRGOW7IUmdNpLtKlSG0sR/8p/67J9PILtxBb56tFf8pWLJTG61ql4Y3zU/uqgA7CBet4Mgdr0JCJAH5ajMQzn6t6GYjg34k/PCzYnJo8Pyc6Ft+B1LwUUCOXCReKAFk3Pf1bn67diezWCMcruyKLD400b2QqFx1On/jFgULB4PBFUTb3FX+iK1/KGE1Zggehp75bPVB+RqKqkzdyabQvMATS4jiaw16jZ9FB6XICElrGmyEAgaUpD1csPgwJ+JmeLM3cSKmyE9w23P+P/sc4Prw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
- s=selector2-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fc4nOV4fNQRNImhP+Adk3xbUrs6CQngVU1ttnj89z/Q=;
- b=OnvPK8kqkcWHT4ipUR/JzqcqxGWWOQ9AMXkNCA5Pgbdx5VC1VFfj0SRMVlCBYwTal4ysc+06BvwQu6lgwPUG9m7Iu2goGq/0RuKGQOf/3sXjYhhXC+icLivLws1dBSMhxpYnhTeOnwQk0CICH0bWVWz+UIZGrn075C4eqP9ewBk=
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com (10.169.172.155) by
- MWHPR13MB1728.namprd13.prod.outlook.com (10.171.147.135) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.16; Tue, 11 Feb 2020 18:26:29 +0000
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7544:fc2:b078:5dcd]) by MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7544:fc2:b078:5dcd%3]) with mapi id 15.20.2729.018; Tue, 11 Feb 2020
- 18:26:29 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     David Gow <davidgow@google.com>,
-        "brendanhiggins@google.com" <brendanhiggins@google.com>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-CC:     "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "frowand.list@gmail.com" <frowand.list@gmail.com>
-Subject: RE: [PATCH] Documentation: kunit: Make the KUnit documentation less
- UML-specific
-Thread-Topic: [PATCH] Documentation: kunit: Make the KUnit documentation less
- UML-specific
-Thread-Index: AQHV4HcatoCTynjO6kaI/RzCASfWF6gWOOPA
-Date:   Tue, 11 Feb 2020 18:26:28 +0000
-Message-ID: <MWHPR13MB08952F4236FD4114E0C0A9FAFD180@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <20200211010229.251757-1-davidgow@google.com>
-In-Reply-To: <20200211010229.251757-1-davidgow@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tim.Bird@sony.com; 
-x-originating-ip: [160.33.195.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1bf80a26-ade9-4c72-58d3-08d7af1fe960
-x-ms-traffictypediagnostic: MWHPR13MB1728:
-x-microsoft-antispam-prvs: <MWHPR13MB1728FCE028792864D8A5BD45FD180@MWHPR13MB1728.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0310C78181
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(366004)(396003)(39860400002)(376002)(136003)(199004)(189003)(55016002)(316002)(2906002)(52536014)(7696005)(6506007)(66556008)(66476007)(33656002)(5660300002)(8676002)(66946007)(81156014)(81166006)(66446008)(966005)(64756008)(86362001)(9686003)(8936002)(71200400001)(54906003)(110136005)(30864003)(26005)(186003)(478600001)(4326008)(76116006);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR13MB1728;H:MWHPR13MB0895.namprd13.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: sony.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NGuB7V5L+4bM5GCEHN6iCtto5WkA6vrKWE05Nld6jPDBaCBfzBHJSjWh0HgdnU14tYKW00+8I/Fv+Xk/b+WrBYGO7p68yEhsYLzUSMV4l7uC2SXHhOpFBI1oV8p2dMMILC8QK0DdIEargeqTO3Sfdwj/P1z+khmgc/zZvtrWZTbkTmgwCoo/rm1Dbz9PWh6WeUVnJYa9hUxf3/ANEb91kkXt8aDmJciPFGNYG9BIrJcvaNNhXDkFm4Mnli7gm5VwAE5p9HSCunm3T1QiowRUzjIcRI3oeFZVgmgTHfzefLNT5EpJz7kqXp97ZHQNGRz26Px6VeaFz1n6U+PNreaI4OGBdt6R5UEQRYWpJrwfZV1rhWN3p9IsPRzfEM85vJf3GQhh4vwSIOSWvALXNvQPgxMzWMN3zJOvVaC5a8Zv/K/338tV+7NQ8vwPIf9W2QScj5f75Q4mJplWCDLXZyb/CSRA4OuRxA4CKizCvn7aCtOX4Ir9RrbEWUHRmt0gdsIQXTnCTmtGyAsi4zqzhc/Org==
-x-ms-exchange-antispam-messagedata: sPy4Hg+LbEtn6otAC742iWH5U8ion4shrcmQVwe6E0ZTa03+wT9Dv+tPh+rPkt1QE0x1KGF77N/StynmHo2n70svSzPX7VtnD601FIKsfDz2+7/lkgQnpgaLHNMfwvxe/xlpheKQh9PwMoSXMVo9KQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bf80a26-ade9-4c72-58d3-08d7af1fe960
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2020 18:26:28.8817
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZYS/0EYE3NnRVPaWw5wdudcJ486jz6dHZqgyNb3G9h2uuPVQltnvN6lFs/wId2HhVITk5dWNzzux2p1u5m/5FQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR13MB1728
+        id S1730612AbgBKSqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 13:46:05 -0500
+Received: from foss.arm.com ([217.140.110.172]:52288 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729445AbgBKSqF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Feb 2020 13:46:05 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 939771FB;
+        Tue, 11 Feb 2020 10:46:04 -0800 (PST)
+Received: from e108754-lin.cambridge.arm.com (e108754-lin.cambridge.arm.com [10.1.198.52])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 620113F68F;
+        Tue, 11 Feb 2020 10:46:02 -0800 (PST)
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        lukasz.luba@arm.com, valentin.schneider@arm.com, rjw@rjwysocki.net,
+        ionela.voinescu@arm.com
+Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v3 0/7] arm64: ARMv8.4 Activity Monitors support
+Date:   Tue, 11 Feb 2020 18:45:35 +0000
+Message-Id: <20200211184542.29585-1-ionela.voinescu@arm.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogIERhdmlkIEdvdw0KPiBT
-ZW50OiBNb25kYXksIEZlYnJ1YXJ5IDEwLCAyMDIwIDY6MDIgUE0NCj4gDQo+IFJlbW92ZSBzb21l
-IG9mIHRoZSBvdXRtb2RlZCAiV2h5IEtVbml0IiByYXRpb25hbGUgLS0gd2hpY2ggZm9jdXNlcw0K
-PiBzaWduaWZpY2FudGx5IG9uIFVNTCAtLSBhbmQgdXBkYXRlIHRoZSBHZXR0aW5nIFN0YXJ0ZWQg
-Z3VpZGUgdG8gbWVudGlvbg0KPiBydW5uaW5nIHRlc3RzIHdpdGhvdXQgdGhlIGt1bml0X3Rvb2wg
-d3JhcHBlci4NCg0KWWVhaC4uLiBJIGRvbid0IGxpa2UgdGhlIHJlbW92YWwgb2Ygc29tZSBvZiB0
-aGUgcmF0aW9uYWxlLiAgVGhlcmUgd2VyZQ0Kc2lnbmlmaWNhbnQgZGlzY3Vzc2lvbnMgYWJvdXQg
-a3VuaXQgcHJpb3IgdG8gaXRzIGFjY2VwdGFuY2UgaW50byBtYWlubGluZSwgYW5kDQptYW55IHBl
-b3BsZSBhcmUgc3RpbGwgdW5mYW1pbGlhciB3aXRoIHRoZSBzeXN0ZW0gKGFuZCB3aXRoIGF1dG9t
-YXRlZCB0ZXN0aW5nDQppbiBnZW5lcmFsKS4gIEkgdGhpbmsgaXQncyB3b3J0aCBrZWVwaW5nIHNv
-bWUgb2YgdGhlIHJhdGlvbmFsZSwgdG8gYXZvaWQgcmVoYXNoaW5nDQp0aGVzZSBkaXNjdXNzaW9u
-cy4gIEVzcGVjaWFsbHkgdGhlIHBhcnQgYWJvdXQgc3BlZWQgY2hhbmdpbmcgdGhlIG5hdHVyZSBv
-ZiB0ZXN0DQp1c2FnZSBzaG91bGQgYmUsIElNSE8sIGtlcHQuDQoNCkkgdGhpbmsgcmV3b3JraW5n
-IGFueXRoaW5nIHRoYXQgaGFzIHRvIGRvIHdpdGggVU1MIGlzIE9LLg0KIA0KRGV0YWlsZWQgZmVl
-ZGJhY2sgYmVsb3cuDQoNCj4gU2lnbmVkLW9mZi1ieTogRGF2aWQgR293IDxkYXZpZGdvd0Bnb29n
-bGUuY29tPg0KPiAtLS0NCj4gVGhpcyBpcyBhbiBhdHRlbXB0IGF0IHJlc29sdmluZyBzb21lIG9m
-IHRoZSBpc3N1ZXMgd2l0aCB0aGUgS1VuaXQNCj4gZG9jdW1lbnRhdGlvbiBwb2ludGVkIG91dCBo
-ZXJlOg0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1rc2VsZnRlc3QvQ0FCVmdPU2tp
-TGkwVU5pakgxeFRTdm1zSkVFNStvY0NaN25rem1LenhETHp6ZnFCU3pRQG1haWwuZ21haWwuY29t
-Lw0KPiANCj4gVGhlcmUncyBkZWZpbml0ZWx5IHJvb20gZm9yIGZ1cnRoZXIgd29yayBvbiB0aGUg
-S1VuaXQgZG9jdW1lbnRhdGlvbg0KPiAoZS5nLiwgYWRkaW5nIG1vcmUgaW5mb3JtYXRpb24gYXJv
-dW5kIHRoZSBlbnZpcm9ubWVudCB0ZXN0cyBydW4gaW4pLCBidXQNCj4gdGhpcyBob3BlZnVsbHkg
-aXMgYmV0dGVyIHRoYW4gbm90aGluZyBhcyBhIHN0YXJ0aW5nIHBvaW50Lg0KPiANCj4gDQo+ICBE
-b2N1bWVudGF0aW9uL2Rldi10b29scy9rdW5pdC9pbmRleC5yc3QgfCA2MCArKysrLS0tLS0tLS0t
-LS0tLS0tDQo+ICBEb2N1bWVudGF0aW9uL2Rldi10b29scy9rdW5pdC9zdGFydC5yc3QgfCA4MCAr
-KysrKysrKysrKysrKysrKysrKystLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDc4IGluc2VydGlv
-bnMoKyksIDYyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
-ZGV2LXRvb2xzL2t1bml0L2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vZGV2LXRvb2xzL2t1bml0
-L2luZGV4LnJzdA0KPiBpbmRleCBkMTZhNGQyYzNhNDEuLjYwNjRjZDE0ZGZhZCAxMDA2NDQNCj4g
-LS0tIGEvRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva3VuaXQvaW5kZXgucnN0DQo+ICsrKyBiL0Rv
-Y3VtZW50YXRpb24vZGV2LXRvb2xzL2t1bml0L2luZGV4LnJzdA0KPiBAQCAtMTcsNjMgKzE3LDIz
-IEBAIFdoYXQgaXMgS1VuaXQ/DQo+ICA9PT09PT09PT09PT09PQ0KPiANCj4gIEtVbml0IGlzIGEg
-bGlnaHR3ZWlnaHQgdW5pdCB0ZXN0aW5nIGFuZCBtb2NraW5nIGZyYW1ld29yayBmb3IgdGhlIExp
-bnV4IGtlcm5lbC4NCj4gLVRoZXNlIHRlc3RzIGFyZSBhYmxlIHRvIGJlIHJ1biBsb2NhbGx5IG9u
-IGEgZGV2ZWxvcGVyJ3Mgd29ya3N0YXRpb24gd2l0aG91dCBhIFZNDQo+IC1vciBzcGVjaWFsIGhh
-cmR3YXJlLg0KSG93IGFib3V0IGp1c3QgY2hhbmdpbmcgdGhhdCB0bzoNCk1hbnkgb2YgdGhlc2Ug
-dGVzdHMgY2FuIGJlIHJ1biBsb2NhbGx5IG9uIGEgZGV2ZWxvcGVyJ3Mgd29ya3N0YXRpb24gd2l0
-aG91dCBhIFZNDQpvciBzcGVjaWFsIGhhcmR3YXJlLg0KPiANCj4gIEtVbml0IGlzIGhlYXZpbHkg
-aW5zcGlyZWQgYnkgSlVuaXQsIFB5dGhvbidzIHVuaXR0ZXN0Lm1vY2ssIGFuZA0KPiAgR29vZ2xl
-dGVzdC9Hb29nbGVtb2NrIGZvciBDKysuIEtVbml0IHByb3ZpZGVzIGZhY2lsaXRpZXMgZm9yIGRl
-ZmluaW5nIHVuaXQgdGVzdA0KPiAgY2FzZXMsIGdyb3VwaW5nIHJlbGF0ZWQgdGVzdCBjYXNlcyBp
-bnRvIHRlc3Qgc3VpdGVzLCBwcm92aWRpbmcgY29tbW9uDQo+ICBpbmZyYXN0cnVjdHVyZSBmb3Ig
-cnVubmluZyB0ZXN0cywgYW5kIG11Y2ggbW9yZS4NCj4gDQo+IC1HZXQgc3RhcnRlZCBub3c6IDpk
-b2M6YHN0YXJ0YA0KPiAtDQo+IC1XaHkgS1VuaXQ/DQo+IC09PT09PT09PT09DQo+IC0NCj4gLUEg
-dW5pdCB0ZXN0IGlzIHN1cHBvc2VkIHRvIHRlc3QgYSBzaW5nbGUgdW5pdCBvZiBjb2RlIGluIGlz
-b2xhdGlvbiwgaGVuY2UgdGhlDQo+IC1uYW1lLiBBIHVuaXQgdGVzdCBzaG91bGQgYmUgdGhlIGZp
-bmVzdCBncmFudWxhcml0eSBvZiB0ZXN0aW5nIGFuZCBhcyBzdWNoIHNob3VsZA0KPiAtYWxsb3cg
-YWxsIHBvc3NpYmxlIGNvZGUgcGF0aHMgdG8gYmUgdGVzdGVkIGluIHRoZSBjb2RlIHVuZGVyIHRl
-c3Q7IHRoaXMgaXMgb25seQ0KPiAtcG9zc2libGUgaWYgdGhlIGNvZGUgdW5kZXIgdGVzdCBpcyB2
-ZXJ5IHNtYWxsIGFuZCBkb2VzIG5vdCBoYXZlIGFueSBleHRlcm5hbA0KPiAtZGVwZW5kZW5jaWVz
-IG91dHNpZGUgb2YgdGhlIHRlc3QncyBjb250cm9sIGxpa2UgaGFyZHdhcmUuDQpJJ20gbm90IHN1
-cmUgd2h5IHRoaXMgcGFyYWdyYXBoIHdhcyByZW1vdmVkLiAgSXQgc3RhbmRzIHRvIGNvbnRyYXN0
-IGt1bml0DQpmcm9tIG90aGVyIGtzZWxmdGVzdCBvciBoaWdoZXItbGV2ZWwgdGVzdCBzdWl0ZXMu
-DQo+IC0NCj4gLU91dHNpZGUgb2YgS1VuaXQsIHRoZXJlIGFyZSBubyB0ZXN0aW5nIGZyYW1ld29y
-a3MgY3VycmVudGx5DQo+IC1hdmFpbGFibGUgZm9yIHRoZSBrZXJuZWwgdGhhdCBkbyBub3QgcmVx
-dWlyZSBpbnN0YWxsaW5nIHRoZSBrZXJuZWwgb24gYSB0ZXN0DQo+IC1tYWNoaW5lIG9yIGluIGEg
-Vk0gYW5kIGFsbCByZXF1aXJlIHRlc3RzIHRvIGJlIHdyaXR0ZW4gaW4gdXNlcnNwYWNlIHJ1bm5p
-bmcgb24NCj4gLXRoZSBrZXJuZWw7IHRoaXMgaXMgdHJ1ZSBmb3IgQXV0b3Rlc3QsIGFuZCBrc2Vs
-ZnRlc3QsIGRpc3F1YWxpZnlpbmcNCj4gLWFueSBvZiB0aGVtIGZyb20gYmVpbmcgY29uc2lkZXJl
-ZCB1bml0IHRlc3RpbmcgZnJhbWV3b3Jrcy4NCg0KVGhpcyBwYXJhZ3JhcGggc2VlbXMgbGlrZSBp
-dCBtaWdodCBiZWNvbWUgZGF0ZWQsIGFuZCBpcyBwcmV0dHkgc3BlY2lmaWMgdG8NCnRoZSBVTUwg
-YXJjaGl0ZWN0dXJlLCBzbyBJIGFncmVlIHdpdGggcmVtb3ZpbmcgaXQuDQoNCj4gK0tVbml0IGNv
-bnNpc3RzIG9mIGEga2VybmVsIGNvbXBvbmVudCwgd2hpY2ggcHJvdmlkZXMgYSBzZXQgb2YgbWFj
-cm9zIGZvciBlYXNpbHkNCj4gK3dyaXRpbmcgdW5pdCB0ZXN0cy4gVGVzdHMgd3JpdHRlbiBhZ2Fp
-bnN0IEtVbml0IHdpbGwgcnVuIG9uIGtlcm5lbCBib290IGlmDQo+ICtidWlsdC1pbiwgb3Igd2hl
-biBsb2FkZWQgaWYgYnVpbHQgYXMgYSBtb2R1bGUuIFRoZXNlIHRlc3RzIHdyaXRlIG91dCByZXN1
-bHRzIHRvDQo+ICt0aGUga2VybmVsIGxvZyBpbiBgVEFQIDxodHRwczovL3Rlc3Rhbnl0aGluZy5v
-cmcvPmBfIGZvcm1hdC4NCj4gDQo+IC1LVW5pdCBhZGRyZXNzZXMgdGhlIHByb2JsZW0gb2YgYmVp
-bmcgYWJsZSB0byBydW4gdGVzdHMgd2l0aG91dCBuZWVkaW5nIGEgdmlydHVhbA0KPiAtbWFjaGlu
-ZSBvciBhY3R1YWwgaGFyZHdhcmUgd2l0aCBVc2VyIE1vZGUgTGludXguIFVzZXIgTW9kZSBMaW51
-eCBpcyBhIExpbnV4DQo+IC1hcmNoaXRlY3R1cmUsIGxpa2UgQVJNIG9yIHg4NjsgaG93ZXZlciwg
-dW5saWtlIG90aGVyIGFyY2hpdGVjdHVyZXMgaXQgY29tcGlsZXMNCj4gLXRvIGEgc3RhbmRhbG9u
-ZSBwcm9ncmFtIHRoYXQgY2FuIGJlIHJ1biBsaWtlIGFueSBvdGhlciBwcm9ncmFtIGRpcmVjdGx5
-IGluc2lkZQ0KPiAtb2YgYSBob3N0IG9wZXJhdGluZyBzeXN0ZW07IHRvIGJlIGNsZWFyLCBpdCBk
-b2VzIG5vdCByZXF1aXJlIGFueSB2aXJ0dWFsaXphdGlvbg0KPiAtc3VwcG9ydDsgaXQgaXMganVz
-dCBhIHJlZ3VsYXIgcHJvZ3JhbS4NCj4gK1RvIG1ha2UgcnVubmluZyB0aGVzZSB0ZXN0cyAoYW5k
-IHJlYWRpbmcgdGhlIHJlc3VsdHMpIGVhc2llciwgS1VuaXQgb2Zmc2Vycw0KPiArOmRvYzpga3Vu
-aXRfdG9vbCA8a3VuaXQtdG9vbD5gLCB3aGljaCBidWlsZHMgYSBgVXNlciBNb2RlIExpbnV4DQo+
-ICs8aHR0cDovL3VzZXItbW9kZS1saW51eC5zb3VyY2Vmb3JnZS5uZXQ+YF8ga2VybmVsLCBydW5z
-IGl0LCBhbmQgcGFyc2VzIHRoZSB0ZXN0DQo+ICtyZXN1bHRzLiBUaGlzIHByb3ZpZGVzIGEgcXVp
-Y2sgd2F5IG9mIHJ1bm5pbmcgS1VuaXQgdGVzdHMgZHVyaW5nIGRldmVsb3BtZW50Lg0KDQpJTUhP
-IHlvdSd2ZSBkcm9wcGVkIHNvbWUgdmFsdWFibGUgaW5mb3JtYXRpb24gYWJvdXQgaG93IHRoZSBV
-TUwgY2FzZSB3b3Jrcy4NCklzIGl0IHN0aWxsIHN1cHBvcnRlZD8gIEluIHRoYXQgY2FzZSwgZXhw
-bGFpbmluZyBob3cgaXQgd29ya3MgaXMgdXNlZnVsLCBldmVuIGlmIGl0J3Mgbm90DQp0aGUgb25s
-eSBtZXRob2QgdG8gaW52b2tlIHRoZSB0ZXN0cy4NCiANCj4gLUFsdGVybmF0aXZlbHksIGt1bml0
-IGFuZCBrdW5pdCB0ZXN0cyBjYW4gYmUgYnVpbHQgYXMgbW9kdWxlcyBhbmQgdGVzdHMgd2lsbA0K
-PiAtcnVuIHdoZW4gdGhlIHRlc3QgbW9kdWxlIGlzIGxvYWRlZC4NCj4gLQ0KPiAtS1VuaXQgaXMg
-ZmFzdC4gRXhjbHVkaW5nIGJ1aWxkIHRpbWUsIGZyb20gaW52b2NhdGlvbiB0byBjb21wbGV0aW9u
-IEtVbml0IGNhbiBydW4NCj4gLXNldmVyYWwgZG96ZW4gdGVzdHMgaW4gb25seSAxMCB0byAyMCBz
-ZWNvbmRzOyB0aGlzIG1pZ2h0IG5vdCBzb3VuZCBsaWtlIGEgYmlnDQo+IC1kZWFsIHRvIHNvbWUg
-cGVvcGxlLCBidXQgaGF2aW5nIHN1Y2ggZmFzdCBhbmQgZWFzeSB0byBydW4gdGVzdHMgZnVuZGFt
-ZW50YWxseQ0KPiAtY2hhbmdlcyB0aGUgd2F5IHlvdSBnbyBhYm91dCB0ZXN0aW5nIGFuZCBldmVu
-IHdyaXRpbmcgY29kZSBpbiB0aGUgZmlyc3QgcGxhY2UuDQo+IC1MaW51cyBoaW1zZWxmIHNhaWQg
-aW4gaGlzIGBnaXQgdGFsayBhdCBHb29nbGUNCj4gLTxodHRwczovL2dpc3QuZ2l0aHViLmNvbS9s
-b3JuLzEyNzI2ODYvcmV2aXNpb25zI2RpZmYtNTNjNjU1NzIxMjc4NTVmMWIwMDNkYjQwNjRhOTQ1
-NzNSODc0PmBfOg0KPiAtDQo+IC0JIi4uLiBhIGxvdCBvZiBwZW9wbGUgc2VlbSB0byB0aGluayB0
-aGF0IHBlcmZvcm1hbmNlIGlzIGFib3V0IGRvaW5nIHRoZQ0KPiAtCXNhbWUgdGhpbmcsIGp1c3Qg
-ZG9pbmcgaXQgZmFzdGVyLCBhbmQgdGhhdCBpcyBub3QgdHJ1ZS4gVGhhdCBpcyBub3Qgd2hhdA0K
-PiAtCXBlcmZvcm1hbmNlIGlzIGFsbCBhYm91dC4gSWYgeW91IGNhbiBkbyBzb21ldGhpbmcgcmVh
-bGx5IGZhc3QsIHJlYWxseQ0KPiAtCXdlbGwsIHBlb3BsZSB3aWxsIHN0YXJ0IHVzaW5nIGl0IGRp
-ZmZlcmVudGx5LiINCj4gLQ0KPiAtSW4gdGhpcyBjb250ZXh0IExpbnVzIHdhcyB0YWxraW5nIGFi
-b3V0IGJyYW5jaGluZyBhbmQgbWVyZ2luZywNCj4gLWJ1dCB0aGlzIHBvaW50IGFsc28gYXBwbGll
-cyB0byB0ZXN0aW5nLiBJZiB5b3VyIHRlc3RzIGFyZSBzbG93LCB1bnJlbGlhYmxlLCBhcmUNCj4g
-LWRpZmZpY3VsdCB0byB3cml0ZSwgYW5kIHJlcXVpcmUgYSBzcGVjaWFsIHNldHVwIG9yIHNwZWNp
-YWwgaGFyZHdhcmUgdG8gcnVuLA0KPiAtdGhlbiB5b3Ugd2FpdCBhIGxvdCBsb25nZXIgdG8gd3Jp
-dGUgdGVzdHMsIGFuZCB5b3Ugd2FpdCBhIGxvdCBsb25nZXIgdG8gcnVuDQo+IC10ZXN0czsgdGhp
-cyBtZWFucyB0aGF0IHRlc3RzIGFyZSBsaWtlbHkgdG8gYnJlYWssIHVubGlrZWx5IHRvIHRlc3Qg
-YSBsb3Qgb2YNCj4gLXRoaW5ncywgYW5kIGFyZSB1bmxpa2VseSB0byBiZSByZXJ1biBvbmNlIHRo
-ZXkgcGFzcy4gSWYgeW91ciB0ZXN0cyBhcmUgcmVhbGx5DQo+IC1mYXN0LCB5b3UgcnVuIHRoZW0g
-YWxsIHRoZSB0aW1lLCBldmVyeSB0aW1lIHlvdSBtYWtlIGEgY2hhbmdlLCBhbmQgZXZlcnkgdGlt
-ZQ0KPiAtc29tZW9uZSBzZW5kcyB5b3Ugc29tZSBjb2RlLiBXaHkgdHJ1c3QgdGhhdCBzb21lb25l
-IHJhbiBhbGwgdGhlaXIgdGVzdHMNCj4gLWNvcnJlY3RseSBvbiBldmVyeSBjaGFuZ2Ugd2hlbiB5
-b3UgY2FuIGp1c3QgcnVuIHRoZW0geW91cnNlbGYgaW4gbGVzcyB0aW1lIHRoYW4NCj4gLWl0IHRh
-a2VzIHRvIHJlYWQgdGhlaXIgdGVzdCBsb2c/DQo+ICtHZXQgc3RhcnRlZCBub3c6IDpkb2M6YHN0
-YXJ0YA0KDQpJIHRoaW5rIHRoaXMgd2hvbGUgc2VjdGlvbiBzaG91bGQgYmUga2VwdC4gIEl0J3Mg
-dHJ1ZSB0aGF0IHRoZSB0ZXN0cyBzaG91bGQgYmUgZmFzdA0Kd2hldGhlciB5b3UncmUgdXNpbmcg
-VU1MIG9yIG5vdC4gV2hldGhlciB0aGUgbm9uLVVNTCB2ZXJzaW9uIG9mIHRlc3RpbmcgaXMNCmZh
-c3QgKmVub3VnaCogaXMgYSBtYXR0ZXIgb2Ygb3Bpbmlvbi4gIFRoZSBhYm92ZSBpcyBhIGdvb2Qg
-Z3VpZGluZyBwcmluY2lwbGUgZm9yIHVuaXQNCnRlc3RzIHdoZXRoZXIgdGhleSBhcmUgZXhlY3V0
-ZWQgdXNpbmcgVU1MIG9yIG5vdC4NCg0KVGhlIHJlc3Qgb2YgdGhlIGNoYW5nZXMgbG9vayBnb29k
-IChhdCBsZWFzdCwgSSdtIG5vdCBxdWFsaWZpZWQgdG8ganVkZ2UgdGhlbS4pDQogLS0gVGltDQoN
-Cj4gDQo+ICBIb3cgZG8gSSB1c2UgaXQ/DQo+ICA9PT09PT09PT09PT09PT09DQo+IEBAIC04MSwz
-ICs0MSw1IEBAIEhvdyBkbyBJIHVzZSBpdD8NCj4gICogICA6ZG9jOmBzdGFydGAgLSBmb3IgbmV3
-IHVzZXJzIG9mIEtVbml0DQo+ICAqICAgOmRvYzpgdXNhZ2VgIC0gZm9yIGEgbW9yZSBkZXRhaWxl
-ZCBleHBsYW5hdGlvbiBvZiBLVW5pdCBmZWF0dXJlcw0KPiAgKiAgIDpkb2M6YGFwaS9pbmRleGAg
-LSBmb3IgdGhlIGxpc3Qgb2YgS1VuaXQgQVBJcyB1c2VkIGZvciB0ZXN0aW5nDQo+ICsqICAgOmRv
-Yzpga3VuaXQtdG9vbGAgLSBmb3IgbW9yZSBpbmZvcm1hdGlvbiBvbiB0aGUga3VuaXRfdG9vbCBo
-ZWxwZXIgc2NyaXB0DQo+ICsqICAgOmRvYzpgZmFxYCAtIGZvciBhbnN3ZXJzIHRvIHNvbWUgY29t
-bW9uIHF1ZXN0aW9ucyBhYm91dCBLVW5pdA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
-ZXYtdG9vbHMva3VuaXQvc3RhcnQucnN0IGIvRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva3VuaXQv
-c3RhcnQucnN0DQo+IGluZGV4IDRlMWQyNGRiNmIxMy4uZTFjNWNlODBjZTEyIDEwMDY0NA0KPiAt
-LS0gYS9Eb2N1bWVudGF0aW9uL2Rldi10b29scy9rdW5pdC9zdGFydC5yc3QNCj4gKysrIGIvRG9j
-dW1lbnRhdGlvbi9kZXYtdG9vbHMva3VuaXQvc3RhcnQucnN0DQo+IEBAIC05LDExICs5LDEwIEBA
-IEluc3RhbGxpbmcgZGVwZW5kZW5jaWVzDQo+ICBLVW5pdCBoYXMgdGhlIHNhbWUgZGVwZW5kZW5j
-aWVzIGFzIHRoZSBMaW51eCBrZXJuZWwuIEFzIGxvbmcgYXMgeW91IGNhbiBidWlsZA0KPiAgdGhl
-IGtlcm5lbCwgeW91IGNhbiBydW4gS1VuaXQuDQo+IA0KPiAtS1VuaXQgV3JhcHBlcg0KPiAtPT09
-PT09PT09PT09PQ0KPiAtSW5jbHVkZWQgd2l0aCBLVW5pdCBpcyBhIHNpbXBsZSBQeXRob24gd3Jh
-cHBlciB0aGF0IGhlbHBzIGZvcm1hdCB0aGUgb3V0cHV0IHRvDQo+IC1lYXNpbHkgdXNlIGFuZCBy
-ZWFkIEtVbml0IG91dHB1dC4gSXQgaGFuZGxlcyBidWlsZGluZyBhbmQgcnVubmluZyB0aGUga2Vy
-bmVsLCBhcw0KPiAtd2VsbCBhcyBmb3JtYXR0aW5nIHRoZSBvdXRwdXQuDQo+ICtSdW5uaW5nIHRl
-c3RzIHdpdGggdGhlIEtVbml0IFdyYXBwZXINCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQ0KPiArSW5jbHVkZWQgd2l0aCBLVW5pdCBpcyBhIHNpbXBsZSBQeXRob24gd3Jh
-cHBlciB3aGljaCBydW5zIHRlc3RzIHVuZGVyIFVzZXIgTW9kZQ0KPiArTGludXgsIGFuZCBmb3Jt
-YXRzIHRoZSB0ZXN0IHJlc3VsdHMuDQo+IA0KPiAgVGhlIHdyYXBwZXIgY2FuIGJlIHJ1biB3aXRo
-Og0KPiANCj4gQEAgLTIxLDIyICsyMCw0MiBAQCBUaGUgd3JhcHBlciBjYW4gYmUgcnVuIHdpdGg6
-DQo+IA0KPiAgCS4vdG9vbHMvdGVzdGluZy9rdW5pdC9rdW5pdC5weSBydW4gLS1kZWZjb25maWcN
-Cj4gDQo+IC1Gb3IgbW9yZSBpbmZvcm1hdGlvbiBvbiB0aGlzIHdyYXBwZXIgKGFsc28gY2FsbGVk
-IGt1bml0X3Rvb2wpIGNoZWNrb3V0IHRoZQ0KPiArRm9yIG1vcmUgaW5mb3JtYXRpb24gb24gdGhp
-cyB3cmFwcGVyIChhbHNvIGNhbGxlZCBrdW5pdF90b29sKSBjaGVjayBvdXQgdGhlDQo+ICA6ZG9j
-OmBrdW5pdC10b29sYCBwYWdlLg0KPiANCj4gIENyZWF0aW5nIGEgLmt1bml0Y29uZmlnDQo+IC09
-PT09PT09PT09PT09PT09PT09PT09PQ0KPiAtVGhlIFB5dGhvbiBzY3JpcHQgaXMgYSB0aGluIHdy
-YXBwZXIgYXJvdW5kIEtidWlsZC4gQXMgc3VjaCwgaXQgbmVlZHMgdG8gYmUNCj4gLWNvbmZpZ3Vy
-ZWQgd2l0aCBhIGBgLmt1bml0Y29uZmlnYGAgZmlsZS4gVGhpcyBmaWxlIGVzc2VudGlhbGx5IGNv
-bnRhaW5zIHRoZQ0KPiAtcmVndWxhciBLZXJuZWwgY29uZmlnLCB3aXRoIHRoZSBzcGVjaWZpYyB0
-ZXN0IHRhcmdldHMgYXMgd2VsbC4NCj4gLQ0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4g
-K0lmIHlvdSB3YW50IHRvIHJ1biBhIHNwZWNpZmljIHNldCBvZiB0ZXN0cyAocmF0aGVyIHRoYW4g
-dGhvc2UgbGlzdGVkIGluIHRoZQ0KPiArS1VuaXQgZGVmY29uZmlnKSwgeW91IGNhbiBwcm92aWRl
-IEtjb25maWcgb3B0aW9ucyBpbiB0aGUgYGAua3VuaXRjb25maWdgYCBmaWxlLg0KPiArVGhpcyBm
-aWxlIGVzc2VudGlhbGx5IGNvbnRhaW5zIHRoZSByZWd1bGFyIEtlcm5lbCBjb25maWcsIHdpdGgg
-dGhlIHNwZWNpZmljDQo+ICt0ZXN0IHRhcmdldHMgYXMgd2VsbC4gVGhlIGBgLmt1bml0Y29uZmln
-YGAgc2hvdWxkIGFsc28gY29udGFpbiBhbnkgb3RoZXIgY29uZmlnDQo+ICtvcHRpb25zIHJlcXVp
-cmVkIGJ5IHRoZSB0ZXN0cy4NCj4gKw0KPiArQSBnb29kIHN0YXJ0aW5nIHBvaW50IGZvciBhIGBg
-Lmt1bml0Y29uZmlnYGAgaXMgdGhlIEtVbml0IGRlZmNvbmZpZzoNCj4gIC4uIGNvZGUtYmxvY2s6
-OiBiYXNoDQo+IA0KPiAgCWNkICRQQVRIX1RPX0xJTlVYX1JFUE8NCj4gIAljcCBhcmNoL3VtL2Nv
-bmZpZ3Mva3VuaXRfZGVmY29uZmlnIC5rdW5pdGNvbmZpZw0KPiANCj4gLVZlcmlmeWluZyBLVW5p
-dCBXb3Jrcw0KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICtZb3UgY2FuIHRoZW4gYWRkIGFu
-eSBvdGhlciBLY29uZmlnIG9wdGlvbnMgeW91IHdpc2gsIGUuZy46DQo+ICsuLiBjb2RlLWJsb2Nr
-Ojogbm9uZQ0KPiArDQo+ICsgICAgICAgIENPTkZJR19MSVNUX0tVTklUX1RFU1Q9eQ0KPiArDQo+
-ICs6ZG9jOmBrdW5pdF90b29sIDxrdW5pdC10b29sPmAgd2lsbCBlbnN1cmUgdGhhdCBhbGwgY29u
-ZmlnIG9wdGlvbnMgc2V0IGluDQo+ICtgYC5rdW5pdGNvbmZpZ2BgIGFyZSBzZXQgaW4gdGhlIGtl
-cm5lbCBgYC5jb25maWdgYCBiZWZvcmUgcnVubmluZyB0aGUgdGVzdHMuDQo+ICtJdCdsbCB3YXJu
-IHlvdSBpZiB5b3UgaGF2ZW4ndCBpbmNsdWRlZCB0aGUgZGVwZW5kZW5jaWVzIG9mIHRoZSBvcHRp
-b25zIHlvdSdyZQ0KPiArdXNpbmcuDQo+ICsNCj4gKy4uIG5vdGU6Og0KPiArICAgTm90ZSB0aGF0
-IHJlbW92aW5nIHNvbWV0aGluZyBmcm9tIHRoZSBgYC5rdW5pdGNvbmZpZ2BgIHdpbGwgbm90IHRy
-aWdnZXIgYQ0KPiArICAgcmVidWlsZCBvZiB0aGUgYGAuY29uZmlnYGAgZmlsZTogdGhlIGNvbmZp
-Z3VyYXRpb24gaXMgb25seSB1cGRhdGVkIGlmIHRoZQ0KPiArICAgYGAua3VuaXRjb25maWdgYCBp
-cyBub3QgYSBzdWJzZXQgb2YgYGAuY29uZmlnYGAuIFRoaXMgbWVhbnMgdGhhdCB5b3UgY2FuIHVz
-ZQ0KPiArICAgb3RoZXIgdG9vbHMgKHN1Y2ggYXMgbWFrZSBtZW51Y29uZmlnKSB0byBhZGp1c3Qg
-b3RoZXIgY29uZmlnIG9wdGlvbnMuDQo+ICsNCj4gKw0KPiArUnVubmluZyB0aGUgdGVzdHMNCj4g
-Ky0tLS0tLS0tLS0tLS0tLS0tDQo+IA0KPiAgVG8gbWFrZSBzdXJlIHRoYXQgZXZlcnl0aGluZyBp
-cyBzZXQgdXAgY29ycmVjdGx5LCBzaW1wbHkgaW52b2tlIHRoZSBQeXRob24NCj4gIHdyYXBwZXIg
-ZnJvbSB5b3VyIGtlcm5lbCByZXBvOg0KPiBAQCAtNjIsNiArODEsNDEgQEAgZm9sbG93ZWQgYnkg
-YSBsaXN0IG9mIHRlc3RzIHRoYXQgYXJlIHJ1bi4gQWxsIG9mIHRoZW0gc2hvdWxkIGJlIHBhc3Np
-bmcuDQo+ICAJQmVjYXVzZSBpdCBpcyBidWlsZGluZyBhIGxvdCBvZiBzb3VyY2VzIGZvciB0aGUg
-Zmlyc3QgdGltZSwgdGhlDQo+ICAJYGBCdWlsZGluZyBLVW5pdCBrZXJuZWxgYCBzdGVwIG1heSB0
-YWtlIGEgd2hpbGUuDQo+IA0KPiArUnVubmluZyB0ZXN0cyB3aXRob3V0IHRoZSBLVW5pdCBXcmFw
-cGVyDQo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gKw0KPiAr
-SWYgeW91J2QgcmF0aGVyIG5vdCB1c2UgdGhlIEtVbml0IFdyYXBwZXIgKGlmLCBmb3IgZXhhbXBs
-ZSwgeW91IG5lZWQgdG8NCj4gK2ludGVncmF0ZSB3aXRoIG90aGVyIHN5c3RlbXMsIG9yIHVzZSBh
-biBhcmNoaXRlY3R1cmUgb3RoZXIgdGhhbiBVTUwpLCBLVW5pdCBjYW4NCj4gK2JlIGluY2x1ZGVk
-IGluIGFueSBrZXJuZWwsIGFuZCB0aGUgcmVzdWx0cyByZWFkIG91dCBhbmQgcGFyc2VkIG1hbnVh
-bGx5Lg0KPiArDQo+ICsuLiBub3RlOjoNCj4gKyAgIEtVbml0IGlzIG5vdCBkZXNpZ25lZCBmb3Ig
-dXNlIGluIGEgcHJvZHVjdGlvbiBzeXN0ZW0sIGFuZCBpdCdzIHBvc3NpYmxlIHRoYXQNCj4gKyAg
-IHRlc3RzIG1heSByZWR1Y2UgdGhlIHN0YWJpbGl0eSBvciBzZWN1cml0eSBvZiB0aGUgc3lzdGVt
-Lg0KPiArDQo+ICsNCj4gKw0KPiArQ29uZmlndXJpbmcgdGhlIGtlcm5lbA0KPiArLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KPiArDQo+ICtJbiBvcmRlciB0byBlbmFibGUgS1VuaXQgaXRzZWxmLCB5
-b3Ugc2ltcGx5IG5lZWQgdG8gZW5hYmxlIHRoZSBgYENPTkZJR19LVU5JVGBgDQo+ICtLY29uZmln
-IG9wdGlvbiAoaXQncyB1bmRlciBLZXJuZWwgSGFja2luZy9LZXJuZWwgVGVzdGluZyBhbmQgQ292
-ZXJhZ2UgaW4NCj4gK21lbnVjb25maWcpLiBGcm9tIHRoZXJlLCB5b3UgY2FuIGVuYWJsZSBhbnkg
-S1VuaXQgdGVzdHMgeW91IHdhbnQ6IHRoZXkgdXN1YWxseQ0KPiAraGF2ZSBjb25maWcgb3B0aW9u
-cyBlbmRpbmcgaW4gYGBfS1VOSVRfVEVTVGBgLg0KPiArDQo+ICtLVW5pdCBhbmQgS1VuaXQgdGVz
-dHMgY2FuIGJlIGNvbXBpbGVkIGFzIG1vZHVsZXM6IGluIHRoaXMgY2FzZSB0aGUgdGVzdHMgaW4g
-YQ0KPiArbW9kdWxlIHdpbGwgYmUgcnVuIHdoZW4gdGhlIG1vZHVsZSBpcyBsb2FkZWQuDQo+ICsN
-Cj4gK1J1bm5pbmcgdGhlIHRlc3RzDQo+ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICtCdWls
-ZCBhbmQgcnVuIHlvdXIga2VybmVsIGFzIHVzdWFsLiBUZXN0IG91dHB1dCB3aWxsIGJlIHdyaXR0
-ZW4gdG8gdGhlIGtlcm5lbA0KPiArbG9nIGluIGBUQVAgPGh0dHBzOi8vdGVzdGFueXRoaW5nLm9y
-Zy8+YF8gZm9ybWF0Lg0KPiArDQo+ICsuLiBub3RlOjoNCj4gKyAgIEl0J3MgcG9zc2libGUgdGhh
-dCB0aGVyZSB3aWxsIGJlIG90aGVyIGxpbmVzIGFuZC9vciBkYXRhIGludGVyc3BlcnNlZCBpbiB0
-aGUNCj4gKyAgIFRBUCBvdXRwdXQuDQo+ICsNCj4gKw0KPiAgV3JpdGluZyB5b3VyIGZpcnN0IHRl
-c3QNCj4gID09PT09PT09PT09PT09PT09PT09PT09DQo+IA0KPiAtLQ0KPiAyLjI1LjAuMzQxLmc3
-NjBiZmJiMzA5LWdvb2cNCg0K
+These patches introduce support for the Activity Monitors Unit (AMU)
+CPU extension, an optional extension in ARMv8.4 CPUs. This provides
+performance counters intended for system management use. Two of these
+counters are then used to compute the frequency scale correction
+factor needed to achieve frequency invariance.
+
+With the CONFIG_ARM64_AMU_EXTN enabled and lacking the disable_amu
+kernel parameter, the kernel is able to safely run a mix of CPUs with
+and without support for the AMU extension. The AMU capability is
+unconditionally enabled in the kernel as to allow any late CPU to use
+the feature: the cpu_enable function will be called for all CPUs that
+match the criteria, including secondary and hotplugged CPUs, marking
+this feature as present on that respective CPU.
+
+To be noted that firmware must implement AMU support when running on
+CPUs that present the activity monitors extension: allow access to
+the registers from lower exception levels, enable the counters,
+implement save and restore functionality. More details can be found
+in the documentation.
+
+Given that the activity counters inform on activity on the CPUs, and 
+that not all CPUs might implement the extension, for functional and 
+security reasons, it's best to disable access to the AMU registers
+from userspace (EL0) and KVM guests.
+
+In the last patch of the series, two of the AMU counters are used to
+compute the frequency scale factor needed to achieve frequency
+invariance of signals in the scheduler, based on an interface added
+to support counter-based frequency invariance - arch_scale_freq_tick.
+The interface and update point for the counter-based frequency scale
+factor is based on the similar approach in the patch that introduces
+frequency invariance for x86 [1]. 
+
+The current series is based on tip/sched/core.
+
+Testing:
+ - Build tested for multiple architectures and defconfigs.
+ - AMU feature detection, EL0 and KVM guest access to AMU registers,
+   feature support in firmware (version 1.5 and later of the ARM 
+   Trusted Firmware) was tested on an Armv8-A Base Platform FVP:
+   Architecture Envelope Model [2] (supports version 8.0 to 8.5),
+   with the following configurations:
+
+   cluster0.has_arm_v8-4=1
+   cluster1.has_arm_v8-4=1
+   cluster0.has_amu=1
+   cluster1.has_amu=1
+
+v2 -> v3:
+ - v2 can be found at [4]
+ - [1/7] used cpumask instead of per-cpu variable to flag AMU presence
+   as; introduced disable_amu kernel parameter; removed ftr_id_pfr0 AMU
+   bits - recommended by Suzuki.
+ - [2/7] replaced obscure label as recommended by Valentin.
+ - [3/7] clarified activate_traps_vhe comment
+ - [4/7] dropped changes in arm64/cpu-feature-registers.txt; removed
+   use of variable names - recommended by Suzuki
+ - previous [5/6] - dropped as [1] as added to tip/sched/core
+ - [5/7] new patch introduced to cleanly obtain maximum hardware
+   frequency from cpufreq
+ - [6/7] (previously [6/6]):
+   - Removed use of workqueues by limiting the validation work done on
+     each cpu to the setting of the reference per-cpu counter variables.
+     This is now called directly from cpu_enable (cpufeature.c). Also,
+     further CPU, policy and system validation is done in a
+     late_initcall_sync function - waits for deferred probe work to
+     finish as well to ensure the maximum frequency is set by either
+     cpufreq drivers or platform drivers - recommended by Lukasz.
+   - Improved AMU use detection for CPUs in arch_set_freq_scale -
+     recommended by Lukasz.
+   - Properly validated arch_max_freq_scale and added detailed
+     documentation for how arch_max_freq_scale and freq_scale are
+     obtained based on counters - recommended by Valentin.
+   - Overall - limited tight coupling between AMU use and cpufreq
+     (use of maximum frequency information and policy validation).
+ - [7/7] introduced patch to warn if arch_timer_rate is too low
+   - functionality provided by Valentin.
+   
+
+v1 -> v2:
+ - v1 can be found at [3]
+ - Added patches that use the counters for the scheduler's frequency
+   invariance engine
+ - In patch arm64: add support for the AMU extension v1 - 
+    - Defined an accessor function cpu_has_amu_feat to allow a read
+      of amu_feat only from the current CPU, to ensure the safe use
+      of the per-cpu variable for the current user (arm64 topology
+      driver) and future users.
+    - Modified type of amu_feat from bool to u8 to satisfy sparse
+      checker's warning 'expression using sizeof _Bool [sparse]',
+      as the size of bool is compiler dependent.
+
+[1] https://lore.kernel.org/lkml/20200122151617.531-1-ggherdovich@suse.cz/
+[2] https://developer.arm.com/tools-and-software/simulation-models/fixed-virtual-platforms
+[3] https://lore.kernel.org/lkml/20190917134228.5369-1-ionela.voinescu@arm.com/
+[4] https://lore.kernel.org/lkml/20191218182607.21607-1-ionela.voinescu@arm.com/
+
+Ionela Voinescu (6):
+  arm64: add support for the AMU extension v1
+  arm64: trap to EL1 accesses to AMU counters from EL0
+  arm64/kvm: disable access to AMU registers from kvm guests
+  Documentation: arm64: document support for the AMU extension
+  cpufreq: add function to get the hardware max frequency
+  arm64: use activity monitors for frequency invariance
+
+Valentin Schneider (1):
+  clocksource/drivers/arm_arch_timer: validate arch_timer_rate
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ Documentation/arm64/amu.rst                   | 114 +++++++++++
+ Documentation/arm64/booting.rst               |  14 ++
+ Documentation/arm64/index.rst                 |   1 +
+ arch/arm64/Kconfig                            |  31 +++
+ arch/arm64/include/asm/assembler.h            |  10 +
+ arch/arm64/include/asm/cpucaps.h              |   3 +-
+ arch/arm64/include/asm/cpufeature.h           |   5 +
+ arch/arm64/include/asm/kvm_arm.h              |   1 +
+ arch/arm64/include/asm/sysreg.h               |  38 ++++
+ arch/arm64/include/asm/topology.h             |  16 ++
+ arch/arm64/kernel/cpufeature.c                | 101 ++++++++++
+ arch/arm64/kernel/topology.c                  | 185 ++++++++++++++++++
+ arch/arm64/kvm/hyp/switch.c                   |  14 +-
+ arch/arm64/kvm/sys_regs.c                     |  93 ++++++++-
+ arch/arm64/mm/proc.S                          |   3 +
+ drivers/base/arch_topology.c                  |   8 +
+ drivers/clocksource/arm_arch_timer.c          |  18 +-
+ drivers/cpufreq/cpufreq.c                     |  20 ++
+ include/linux/cpufreq.h                       |   5 +
+ include/linux/topology.h                      |   7 +
+ 21 files changed, 690 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/arm64/amu.rst
+
+
+base-commit: 25ac227a25ac946e0356772012398cd1710a8bab
+-- 
+2.17.1
+
