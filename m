@@ -1,75 +1,126 @@
-Return-Path: <SRS0=rYvz=36=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=kPt+=37=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 697C9C352A4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 23:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C8E9C3B187
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CF5D20708
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Feb 2020 23:42:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 560E020848
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Feb 2020 00:15:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="E4saXd/r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727523AbgBJXmM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Feb 2020 18:42:12 -0500
-Received: from zeniv.linux.org.uk ([195.92.253.2]:38614 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727192AbgBJXmM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 18:42:12 -0500
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j1Igp-00AcMq-LS; Mon, 10 Feb 2020 23:42:07 +0000
-Date:   Mon, 10 Feb 2020 23:42:07 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com
-Subject: Re: [PATCH v7 2/8] fs: Add standard casefolding support
-Message-ID: <20200210234207.GJ23230@ZenIV.linux.org.uk>
-References: <20200208013552.241832-1-drosen@google.com>
- <20200208013552.241832-3-drosen@google.com>
- <20200208021216.GE23230@ZenIV.linux.org.uk>
- <CA+PiJmTYbEA-hgrKwtp0jZXqsfYrzgogOZ0Pt=gTCtqhBfnqFA@mail.gmail.com>
+        id S1727704AbgBKAPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Feb 2020 19:15:42 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4283 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727669AbgBKAPm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Feb 2020 19:15:42 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e41f1eb0003>; Mon, 10 Feb 2020 16:14:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 10 Feb 2020 16:15:38 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 16:15:38 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Feb
+ 2020 00:15:38 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 11 Feb 2020 00:15:38 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e41f2290007>; Mon, 10 Feb 2020 16:15:37 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: [PATCH v6 03/12] mm: introduce page_ref_sub_return()
+Date:   Mon, 10 Feb 2020 16:15:27 -0800
+Message-ID: <20200211001536.1027652-4-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200211001536.1027652-1-jhubbard@nvidia.com>
+References: <20200211001536.1027652-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+PiJmTYbEA-hgrKwtp0jZXqsfYrzgogOZ0Pt=gTCtqhBfnqFA@mail.gmail.com>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1581380075; bh=Q5fLaghgFbabRh4AhaE8eo4PFQNGOCfHUCuIQWHMtww=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+         Content-Transfer-Encoding:Content-Type;
+        b=E4saXd/rsLx1Jd/Hqpfy2VR1S/vr6n2rRE1yCnca9yyLBq3F/vV2Uet6L0Qye+uny
+         KskQcpVdF+AdJ+aBTiA76vt9on1GhUmtZ/Yor21Z4R5H4hlfmezMPLqM7E25P+s671
+         cmmX3OaOw0WDUhKOEo0U0jtUnUlP6JPfrSXPqGjjTwLdNo90pH6CBuxc2qNtKlsM1X
+         1m5Pu0ViUqfmn/8U6Vqlw/EnO0zebRmhN7fZrn8sfVJXJv08CjeAEu+RFaEPCVYhLQ
+         XF0F2/tQt6EJyet8TXxIxsHCwyYLKXvCCEyG2wV+VjoRJaF5eKMH3ao9VPkV4HBQNS
+         ZxLBFKa29DTig==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 03:11:13PM -0800, Daniel Rosenberg wrote:
-> On Fri, Feb 7, 2020 at 6:12 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > On Fri, Feb 07, 2020 at 05:35:46PM -0800, Daniel Rosenberg wrote:
-> >
-> >
-> > Again, is that safe in case when the contents of the string str points to
-> > keeps changing under you?
-> 
-> I'm not sure what you mean. I thought it was safe to use the str and
-> len passed into d_compare. Even if it gets changed under RCU
-> conditions I thought there was some code to ensure that the name/len
-> pair passed in is consistent, and any other inconsistencies would get
-> caught by d_seq later. Are there unsafe code paths that can follow?
+An upcoming patch requires subtracting a large chunk of refcounts from
+a page, and checking what the resulting refcount is. This is a little
+different than the usual "check for zero refcount" that many of the
+page ref functions already do. However, it is similar to a few other
+routines that (like this one) are generally useful for things such as
+1-based refcounting.
 
-If you ever fetch the same byte twice, you might see different values.
-You need a fairly careful use of READ_ONCE() or equivalents to make
-sure that you don't get screwed over by that.
+Add page_ref_sub_return(), that subtracts a chunk of refcounts
+atomically, and returns an atomic snapshot of the result.
 
-Sure, ->d_seq mismatch will throw the result out, but you need to make
-sure you won't oops/step on uninitialized memory/etc. in process.
+Reviewed-by: Jan Kara <jack@suse.cz>
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ include/linux/page_ref.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-It's not impossible to get right, but it's not trivial and you need all
-code working with that much more careful than normal for string handling.
+diff --git a/include/linux/page_ref.h b/include/linux/page_ref.h
+index 14d14beb1f7f..d27701199a4d 100644
+--- a/include/linux/page_ref.h
++++ b/include/linux/page_ref.h
+@@ -102,6 +102,15 @@ static inline void page_ref_sub(struct page *page, int=
+ nr)
+ 		__page_ref_mod(page, -nr);
+ }
+=20
++static inline int page_ref_sub_return(struct page *page, int nr)
++{
++	int ret =3D atomic_sub_return(nr, &page->_refcount);
++
++	if (page_ref_tracepoint_active(__tracepoint_page_ref_mod_and_return))
++		__page_ref_mod_and_return(page, -nr, ret);
++	return ret;
++}
++
+ static inline void page_ref_inc(struct page *page)
+ {
+ 	atomic_inc(&page->_refcount);
+--=20
+2.25.0
+
