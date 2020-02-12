@@ -6,108 +6,68 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C82C3B186
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32129C3B186
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:12:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AAD772082F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:06:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 085B421569
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581487609;
-	bh=l14Pn3KEL9YjzF1tPgOKaV7EFnEulcGerPufvbmsbT0=;
+	s=default; t=1581487943;
+	bh=p9QKtIbrdilhU/XB3DWdE+4oKrcq3A9n3NGMmoeBPPs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=CSjeTJtO6zWUgwui7iAJ7Q6QJD7W40VZLQrWLiAZ/QKD2LrK9KuJwLaEYksqVHbGw
-	 xsQJGpJLImNotEbeVBClaoESJlZk8+8xMsdRq+7FxAgXqGtEIX5TYD72XgZ49sQm8n
-	 6Q6Di5ZUut5SUkMo27XGs2b+1tKlDT0mPrtsgo9c=
+	b=zrJog17578ffyjgJAHtWo2DxDQlI4Egogry4YJb5/zfR6j9sX5yk8QlHphtcvsUB+
+	 mlJXRIFIyNR5r5D3MW4qS2K5XBy8KNIcTjXknBmcgHOee5t2FhbXes7lryq4NE086j
+	 kb3LAtzqTRDW/3Yy+eqwhZb4So5PqZYWflAyrp/Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728196AbgBLGGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 01:06:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44012 "EHLO mail.kernel.org"
+        id S1728320AbgBLGMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 01:12:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47858 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725887AbgBLGGp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Feb 2020 01:06:45 -0500
+        id S1727893AbgBLGMT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Feb 2020 01:12:19 -0500
 Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20AE2206ED;
-        Wed, 12 Feb 2020 06:06:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B3BA206ED;
+        Wed, 12 Feb 2020 06:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581487604;
-        bh=l14Pn3KEL9YjzF1tPgOKaV7EFnEulcGerPufvbmsbT0=;
+        s=default; t=1581487939;
+        bh=p9QKtIbrdilhU/XB3DWdE+4oKrcq3A9n3NGMmoeBPPs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j5hgBd1bdd/1YHYNsBxsxgHhUKtp/yLRqow31sWL4QpSNfOvdiTIIPgVDMyiAGJqg
-         XUT1ZKQCNzV6zDB/nYfmYOsQBd6GPJPIW692CSRtURC/qPWn7rFN0+Tggepd4CFCDC
-         toZnWhAiEsjvVOMYcB1lfDxfzgO1q24ahIVd4gpI=
-Date:   Tue, 11 Feb 2020 22:06:42 -0800
+        b=raqwjbi5gzH8b9eutCh93MIHFdCbV4Wd2lKnKmfYD/QYHULXrN9X+9e4beJMl+GEX
+         N2j6JhwVSj+WuZ1bBya666D8Nfjg9adnCIYhTBJxds5KN4J+3gapEwGTSRfdSshtLM
+         kPRpOc7TJOmyAU2t6AMvrD+6TK3HcTCdB73dYpW4=
+Date:   Tue, 11 Feb 2020 22:12:17 -0800
 From:   Eric Biggers <ebiggers@kernel.org>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Daniel Rosenberg <drosen@google.com>,
-        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
         Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
         linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
         linux-mtd@lists.infradead.org,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Gabriel Krisman Bertazi <krisman@collabora.com>,
         kernel-team@android.com
-Subject: Re: [PATCH v7 6/8] f2fs: Handle casefolding with Encryption
-Message-ID: <20200212060642.GJ870@sol.localdomain>
+Subject: Re: [PATCH v7 0/8] Support fof Casefolding and Encryption
+Message-ID: <20200212061217.GK870@sol.localdomain>
 References: <20200208013552.241832-1-drosen@google.com>
- <20200208013552.241832-7-drosen@google.com>
- <20200212051013.GG870@sol.localdomain>
- <20200212055511.GL23230@ZenIV.linux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200212055511.GL23230@ZenIV.linux.org.uk>
+In-Reply-To: <20200208013552.241832-1-drosen@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 05:55:11AM +0000, Al Viro wrote:
-> On Tue, Feb 11, 2020 at 09:10:13PM -0800, Eric Biggers wrote:
-> 
-> > How about:
-> > 
-> > int f2fs_ci_compare(const struct inode *parent, const struct qstr *name,
-> > 		    u8 *de_name, size_t de_name_len, bool quick)
-> > {
-> > 	const struct super_block *sb = parent->i_sb;
-> > 	const struct unicode_map *um = sb->s_encoding;
-> > 	struct fscrypt_str decrypted_name = FSTR_INIT(NULL, de_name_len);
-> > 	struct qstr entry = QSTR_INIT(de_name, de_name_len);
-> > 	int ret;
-> > 
-> > 	if (IS_ENCRYPTED(parent)) {
-> 
-> oops.  parent->d_inode is unstable here; could have become NULL by that
-> point.
-> 
-> > 	if (quick)
-> > 		ret = utf8_strncasecmp_folded(um, name, &entry);
-> > 	else
-> > 		ret = utf8_strncasecmp(um, name, &entry);
-> > 	if (ret < 0) {
-> > 		/* Handle invalid character sequence as either an error
-> > 		 * or as an opaque byte sequence.
-> > 		 */
-> 
-> Really?  How would the callers possibly tell mismatch from an
-> error?  And if they could, would would they *do* with that
-> error, seeing that it might be an effect of a race with
-> rename()?
-> 
-> Again, ->d_compare() is NOT given a stable name.  Or *parent.  Or
-> (parent->d_inode).
+On Fri, Feb 07, 2020 at 05:35:44PM -0800, Daniel Rosenberg wrote:
+> Support fof Casefolding and Encryption
 
-After the patch earlier in the series that created generic_ci_d_compare() and
-switched f2fs to use it, f2fs_ci_compare() is only called when the filesystem is
-actually searching a directory, not from ->d_compare().  So the names and
-parent->d_inode are stable in it.
-
-But, that also means the GFP_ATOMIC isn't needed, and f2fs_ci_compare() should
-be made 'static'.
+You should fix the typo in the subject in the next version.  I assumed you'd
+notice, but both v6 and v7 have this...
 
 - Eric
