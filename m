@@ -2,48 +2,48 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE5DC2BA83
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 09:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377D5C3F68F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 10:02:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0DDCD20873
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 09:30:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 150EC20848
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 10:02:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728773AbgBLJaj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 04:30:39 -0500
-Received: from foss.arm.com ([217.140.110.172]:57938 "EHLO foss.arm.com"
+        id S1728987AbgBLKCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 05:02:01 -0500
+Received: from foss.arm.com ([217.140.110.172]:58362 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728530AbgBLJaj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Feb 2020 04:30:39 -0500
+        id S1728843AbgBLKCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Feb 2020 05:02:01 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D521130E;
-        Wed, 12 Feb 2020 01:30:38 -0800 (PST)
-Received: from [10.1.194.46] (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D400A3F6CF;
-        Wed, 12 Feb 2020 01:30:36 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 516BF30E;
+        Wed, 12 Feb 2020 02:02:00 -0800 (PST)
+Received: from [10.37.12.187] (unknown [10.37.12.187])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCACC3F68F;
+        Wed, 12 Feb 2020 02:01:56 -0800 (PST)
 Subject: Re: [PATCH v3 7/7] clocksource/drivers/arm_arch_timer: validate
  arch_timer_rate
 To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
         will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
-        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
-        rjw@rjwysocki.net
+        suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        valentin.schneider@arm.com, rjw@rjwysocki.net
 Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
         viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org
 References: <20200211184542.29585-1-ionela.voinescu@arm.com>
  <20200211184542.29585-8-ionela.voinescu@arm.com>
-From:   Valentin Schneider <valentin.schneider@arm.com>
-Message-ID: <05e257b6-0a39-135d-8117-7883739538c3@arm.com>
-Date:   Wed, 12 Feb 2020 09:30:34 +0000
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <89339501-5ee4-e871-3076-c8b02c6fbf6e@arm.com>
+Date:   Wed, 12 Feb 2020 10:01:54 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 In-Reply-To: <20200211184542.29585-8-ionela.voinescu@arm.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -51,7 +51,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/02/2020 18:45, Ionela Voinescu wrote:
+Hi Ionela, Valentin
+
+On 2/11/20 6:45 PM, Ionela Voinescu wrote:
 > From: Valentin Schneider <valentin.schneider@arm.com>
 > 
 > Using an arch timer with a frequency of less than 1MHz can result in an
@@ -63,22 +65,80 @@ On 11/02/2020 18:45, Ionela Voinescu wrote:
 > of a CPU. For arch timer frequencies less than 1MHz this ratio could
 > end up being 0 which is an invalid value for its use.
 > 
-
-I'm being pedantic here (as usual), but I'd contrast this a bit more. The
-activity monitor code checks by itself that the ratio doesn't end up being
-0, which is why we don't slam the brakes if the arch timer freq is < 1MHz.
-
-It's just a CNTFRQ sanity check that goes a bit beyond the 0 value check,
-IMO.
-
 > Therefore, warn if the arch timer rate is below 1MHz which contravenes
 > the recommended architecture interval of 1 to 50MHz.
 > 
 > Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
 > Cc: Mark Rutland <mark.rutland@arm.com>
 > Cc: Marc Zyngier <maz@kernel.org>
+> ---
+>   drivers/clocksource/arm_arch_timer.c | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
+> index 9a5464c625b4..4faa930eabf8 100644
+> --- a/drivers/clocksource/arm_arch_timer.c
+> +++ b/drivers/clocksource/arm_arch_timer.c
+> @@ -885,6 +885,17 @@ static int arch_timer_starting_cpu(unsigned int cpu)
+>   	return 0;
+>   }
+>   
+> +static int validate_timer_rate(void)
+> +{
+> +	if (!arch_timer_rate)
+> +		return -EINVAL;
+> +
+> +	/* Arch timer frequency < 1MHz can cause trouble */
+> +	WARN_ON(arch_timer_rate < 1000000);
 
-ISTR something somewhere that says the first signoff should be that of the
-author of the patch, and seeing as I just provided an untested diff that
-ought to be you :)
+I don't see a big value of having a patch just to add one extra warning,
+in a situation which we handle in our code with in 6/7 with:
 
++	if (!ratio) {
++		pr_err("System timer frequency too low.\n");
++		return -EINVAL;
++	}
+
+Furthermore, the value '100000' here is because of our code and
+calculation in there, so it does not belong to arch timer. Someone
+might ask why it's not 200000 or a define in our header...
+Or questions asking why do you warn when that arch timer and cpu is not
+AMU capable...
+
+> +
+> +	return 0;
+> +}
+> +
+>   /*
+>    * For historical reasons, when probing with DT we use whichever (non-zero)
+>    * rate was probed first, and don't verify that others match. If the first node
+> @@ -900,7 +911,7 @@ static void arch_timer_of_configure_rate(u32 rate, struct device_node *np)
+>   		arch_timer_rate = rate;
+>   
+>   	/* Check the timer frequency. */
+> -	if (arch_timer_rate == 0)
+> +	if (validate_timer_rate())
+>   		pr_warn("frequency not available\n");
+>   }
+>   
+> @@ -1594,9 +1605,10 @@ static int __init arch_timer_acpi_init(struct acpi_table_header *table)
+>   	 * CNTFRQ value. This *must* be correct.
+>   	 */
+>   	arch_timer_rate = arch_timer_get_cntfrq();
+> -	if (!arch_timer_rate) {
+> +	ret = validate_timer_rate();
+> +	if (ret) {
+>   		pr_err(FW_BUG "frequency not available.\n");
+> -		return -EINVAL;
+> +		return ret;
+>   	}
+>   
+>   	arch_timer_uses_ppi = arch_timer_select_ppi();
+> 
+
+Lastly, this is arch timer.
+To increase chances of getting merge soon, I would recommend to drop
+the patch from this series.
+
+Regards,
+Lukasz
