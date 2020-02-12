@@ -2,155 +2,239 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E8FBC2BA83
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 08:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B513BC3B186
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 09:17:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E0F8D2073C
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 08:15:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="fLOmkqx9"
+	by mail.kernel.org (Postfix) with ESMTP id 8CB7F20848
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 09:17:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbgBLIPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 03:15:40 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:4542 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728109AbgBLIPk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Feb 2020 03:15:40 -0500
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01C8E565008026;
-        Wed, 12 Feb 2020 09:15:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=PtC6MNcf5VPs91Jldvobvz5GRjrwYDD84llnPUFRTL0=;
- b=fLOmkqx94vwZALx+mLsgvtHIr0HUe1cy2XPFcoRq/OGj8RfZPNe/0NtjNzT7mjnPzGKs
- fYiiua5hrBMKV3MUONUDB+gRAg6EkgbcQNJ5wTLQ0iQFHIGPILin7PC3at4HRHN1Yyhi
- R3dCv/56cWP8qThjbbPC94tDPiUVPiwPYlKpFK7mK5hI2p8bVd0PENBEDarz8UL2tF9V
- yjHpWrHLGZRq6C7bBBdFJrJACXi+OCwx1pXQfk2MjTS57fxsJxaKNx6XhMG9FWO4w/kN
- P0BGAkLLjJNkC/JNq2XzpInfWM02EPZoXtyEbvcQfOEETYFSgMgDqqFv2KE8PD65eqoJ Tw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2y1uvdmhmx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 Feb 2020 09:15:22 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DCCAE10002A;
-        Wed, 12 Feb 2020 09:15:21 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BFBE3220BCC;
-        Wed, 12 Feb 2020 09:15:21 +0100 (CET)
-Received: from lmecxl0889.lme.st.com (10.75.127.46) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Feb
- 2020 09:15:20 +0100
-Subject: Re: [PATCH v4 0/5] remoteproc: Add elf64 support
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-CC:     Clement Leger <cleger@kalray.eu>, Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        id S1728698AbgBLJRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 04:17:49 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47802 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728150AbgBLJRs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Feb 2020 04:17:48 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 5A7EDAC16;
+        Wed, 12 Feb 2020 09:17:44 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 132C61E0E01; Wed, 12 Feb 2020 10:17:43 +0100 (CET)
+Date:   Wed, 12 Feb 2020 10:17:43 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        <linux-remoteproc@vger.kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
-References: <527785289.2852303.1581062223707.JavaMail.zimbra@kalray.eu>
- <20200210162209.23149-1-cleger@kalray.eu>
- <5b8045be-0942-2ecf-5dba-dad58071f6af@st.com> <20200211231253.GC27770@xps15>
-From:   Arnaud POULIQUEN <arnaud.pouliquen@st.com>
-Message-ID: <8fa9ed3c-240f-1b82-913e-a4393013d333@st.com>
-Date:   Wed, 12 Feb 2020 09:15:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 08/12] mm/gup: /proc/vmstat: pin_user_pages (FOLL_PIN)
+ reporting
+Message-ID: <20200212091743.GC25573@quack2.suse.cz>
+References: <20200211001536.1027652-1-jhubbard@nvidia.com>
+ <20200211001536.1027652-9-jhubbard@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200211231253.GC27770@xps15>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE1.st.com
- (10.75.127.7)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-02-12_02:2020-02-11,2020-02-12 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200211001536.1027652-9-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2/12/20 12:12 AM, Mathieu Poirier wrote:
-> On Tue, Feb 11, 2020 at 04:57:18PM +0100, Arnaud POULIQUEN wrote:
->> Hi Clement,
->>
->> I tested the series on the stm32 platform for remote proc firmwre load: no regression found.
->> I do not test the da_to_va feature as not implemented on stm32 platform.
+On Mon 10-02-20 16:15:32, John Hubbard wrote:
+> Now that pages are "DMA-pinned" via pin_user_page*(), and unpinned via
+> unpin_user_pages*(), we need some visibility into whether all of this is
+> working correctly.
 > 
-> It would be very interesting if you could test the coredump, that would give us
-> a lot more confidence in the implementation.
-I also tested the coredump generation. LGTM
+> Add two new fields to /proc/vmstat:
+> 
+>     nr_foll_pin_acquired
+>     nr_foll_pin_released
+> 
+> These are documented in Documentation/core-api/pin_user_pages.rst.
+> They represent the number of pages (since boot time) that have been
+> pinned ("nr_foll_pin_acquired") and unpinned ("nr_foll_pin_released"),
+> via pin_user_pages*() and unpin_user_pages*().
+> 
+> In the absence of long-running DMA or RDMA operations that hold pages
+> pinned, the above two fields will normally be equal to each other.
+> 
+> Also: update Documentation/core-api/pin_user_pages.rst, to remove an
+> earlier (now confirmed untrue) claim about a performance problem with
+> /proc/vmstat.
+> 
+> Also: updated Documentation/core-api/pin_user_pages.rst to rename the
+> new /proc/vmstat entries, to the names listed here.
+> 
+> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
+The patch looks good to me now. You can add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  Documentation/core-api/pin_user_pages.rst | 33 +++++++++++++++++++----
+>  include/linux/mmzone.h                    |  2 ++
+>  mm/gup.c                                  | 13 +++++++++
+>  mm/vmstat.c                               |  2 ++
+>  4 files changed, 45 insertions(+), 5 deletions(-)
 > 
-> Thanks,
-> Mathieu
+> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
+> index 7e5dd8b1b3f2..5c8a5f89756b 100644
+> --- a/Documentation/core-api/pin_user_pages.rst
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -208,12 +208,35 @@ has the following new calls to exercise the new pin*() wrapper functions:
+>  You can monitor how many total dma-pinned pages have been acquired and released
+>  since the system was booted, via two new /proc/vmstat entries: ::
+>  
+> -    /proc/vmstat/nr_foll_pin_requested
+> -    /proc/vmstat/nr_foll_pin_requested
+> +    /proc/vmstat/nr_foll_pin_acquired
+> +    /proc/vmstat/nr_foll_pin_released
+>  
+> -Those are both going to show zero, unless CONFIG_DEBUG_VM is set. This is
+> -because there is a noticeable performance drop in unpin_user_page(), when they
+> -are activated.
+> +Under normal conditions, these two values will be equal unless there are any
+> +long-term [R]DMA pins in place, or during pin/unpin transitions.
+> +
+> +* nr_foll_pin_acquired: This is the number of logical pins that have been
+> +  acquired since the system was powered on. For huge pages, the head page is
+> +  pinned once for each page (head page and each tail page) within the huge page.
+> +  This follows the same sort of behavior that get_user_pages() uses for huge
+> +  pages: the head page is refcounted once for each tail or head page in the huge
+> +  page, when get_user_pages() is applied to a huge page.
+> +
+> +* nr_foll_pin_released: The number of logical pins that have been released since
+> +  the system was powered on. Note that pages are released (unpinned) on a
+> +  PAGE_SIZE granularity, even if the original pin was applied to a huge page.
+> +  Becaused of the pin count behavior described above in "nr_foll_pin_acquired",
+> +  the accounting balances out, so that after doing this::
+> +
+> +    pin_user_pages(huge_page);
+> +    for (each page in huge_page)
+> +        unpin_user_page(page);
+> +
+> +...the following is expected::
+> +
+> +    nr_foll_pin_released == nr_foll_pin_acquired
+> +
+> +(...unless it was already out of balance due to a long-term RDMA pin being in
+> +place.)
+>  
+>  References
+>  ==========
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 462f6873905a..4bca42eeb439 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -243,6 +243,8 @@ enum node_stat_item {
+>  	NR_DIRTIED,		/* page dirtyings since bootup */
+>  	NR_WRITTEN,		/* page writings since bootup */
+>  	NR_KERNEL_MISC_RECLAIMABLE,	/* reclaimable non-slab kernel pages */
+> +	NR_FOLL_PIN_ACQUIRED,	/* via: pin_user_page(), gup flag: FOLL_PIN */
+> +	NR_FOLL_PIN_RELEASED,	/* pages returned via unpin_user_page() */
+>  	NR_VM_NODE_STAT_ITEMS
+>  };
+>  
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 4d0d94405639..441f7a48f370 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -86,6 +86,8 @@ static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+>  	if (flags & FOLL_GET)
+>  		return try_get_compound_head(page, refs);
+>  	else if (flags & FOLL_PIN) {
+> +		int orig_refs = refs;
+> +
+>  		/*
+>  		 * When pinning a compound page of order > 1 (which is what
+>  		 * hpage_pincount_available() checks for), use an exact count to
+> @@ -104,6 +106,9 @@ static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+>  		if (hpage_pincount_available(page))
+>  			hpage_pincount_add(page, refs);
+>  
+> +		mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_ACQUIRED,
+> +				    orig_refs);
+> +
+>  		return page;
+>  	}
+>  
+> @@ -158,6 +163,8 @@ bool __must_check try_grab_page(struct page *page, unsigned int flags)
+>  		 * once, so that the page really is pinned.
+>  		 */
+>  		page_ref_add(page, refs);
+> +
+> +		mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_ACQUIRED, 1);
+>  	}
+>  
+>  	return true;
+> @@ -178,6 +185,7 @@ static bool __unpin_devmap_managed_user_page(struct page *page)
+>  
+>  	count = page_ref_sub_return(page, refs);
+>  
+> +	mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED, 1);
+>  	/*
+>  	 * devmap page refcounts are 1-based, rather than 0-based: if
+>  	 * refcount is 1, then the page is free and the refcount is
+> @@ -228,6 +236,8 @@ void unpin_user_page(struct page *page)
+>  
+>  	if (page_ref_sub_and_test(page, refs))
+>  		__put_page(page);
+> +
+> +	mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED, 1);
+>  }
+>  EXPORT_SYMBOL(unpin_user_page);
+>  
+> @@ -2259,6 +2269,9 @@ static int record_subpages(struct page *page, unsigned long addr,
+>  static void put_compound_head(struct page *page, int refs, unsigned int flags)
+>  {
+>  	if (flags & FOLL_PIN) {
+> +		mod_node_page_state(page_pgdat(page), NR_FOLL_PIN_RELEASED,
+> +				    refs);
+> +
+>  		if (hpage_pincount_available(page))
+>  			hpage_pincount_sub(page, refs);
+>  		else
+> diff --git a/mm/vmstat.c b/mm/vmstat.c
+> index 78d53378db99..c9c0d71f917f 100644
+> --- a/mm/vmstat.c
+> +++ b/mm/vmstat.c
+> @@ -1168,6 +1168,8 @@ const char * const vmstat_text[] = {
+>  	"nr_dirtied",
+>  	"nr_written",
+>  	"nr_kernel_misc_reclaimable",
+> +	"nr_foll_pin_acquired",
+> +	"nr_foll_pin_released",
+>  
+>  	/* enum writeback_stat_item counters */
+>  	"nr_dirty_threshold",
+> -- 
+> 2.25.0
 > 
->>
->> Regards,
->> Arnaud
->>
->>
->>
->> On 2/10/20 5:22 PM, Clement Leger wrote:
->>> This serie add support for elf64 in remoteproc (elf loader, coredump). 
->>> First two patches modifies the type of len argument (in da_to_va) and
->>> boot_addr in order to allow loading elf64 segment with a u64 size
->>> and a u64 entry point.
->>> Next patch introduce a set of macros to access elf64 and elf32
->>> transparently.
->>> Last two patches are the actual modification in the elf loader and
->>> remoteproc coredump support to add elf64 support.
->>>
->>> Changes from V3:
->>>  - Adapt coredump to elf64 file format
->>>  - Rename remoteproc_elf_loader.h to remoteproc_elf_helpers.h
->>>  - Update copyright year in remoteproc_elf_helpers.h
->>>  - Rename macros elf_hdr_* to elf_get_hdr_* for coherency with elf_hdr_set_*
->>>  - Split elf64 loader patch in 3:
->>>    - boot_addr u64 change
->>>    - remoteproc_elf_helpers.h creation
->>>    - elf64 loading
->>>
->>> Clement Leger (5):
->>>   remoteproc: Use u64 len for da_to_va
->>>   remoteproc: Use u64 type for boot_addr
->>>   remoteproc: Add elf helpers to access elf64 and elf32 fields
->>>   remoteproc: Add elf64 support in elf loader
->>>   remoteproc: Adapt coredump to generate correct elf type
->>>
->>>  Documentation/remoteproc.txt                |   2 +-
->>>  drivers/remoteproc/imx_rproc.c              |  11 +-
->>>  drivers/remoteproc/keystone_remoteproc.c    |   4 +-
->>>  drivers/remoteproc/qcom_q6v5_adsp.c         |   2 +-
->>>  drivers/remoteproc/qcom_q6v5_mss.c          |   2 +-
->>>  drivers/remoteproc/qcom_q6v5_pas.c          |   2 +-
->>>  drivers/remoteproc/qcom_q6v5_wcss.c         |   2 +-
->>>  drivers/remoteproc/qcom_wcnss.c             |   2 +-
->>>  drivers/remoteproc/remoteproc_core.c        |  69 +++++++------
->>>  drivers/remoteproc/remoteproc_elf_helpers.h |  95 ++++++++++++++++++
->>>  drivers/remoteproc/remoteproc_elf_loader.c  | 150 ++++++++++++++++++----------
->>>  drivers/remoteproc/remoteproc_internal.h    |   4 +-
->>>  drivers/remoteproc/st_remoteproc.c          |   2 +-
->>>  drivers/remoteproc/st_slim_rproc.c          |   4 +-
->>>  drivers/remoteproc/wkup_m3_rproc.c          |   4 +-
->>>  include/linux/remoteproc.h                  |   7 +-
->>>  16 files changed, 252 insertions(+), 110 deletions(-)
->>>  create mode 100644 drivers/remoteproc/remoteproc_elf_helpers.h
->>>
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
