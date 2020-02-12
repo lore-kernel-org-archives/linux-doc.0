@@ -2,152 +2,297 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB879C3B187
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 04:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6774BC3B18A
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 04:33:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9358520842
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 04:14:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vQNupsIM"
+	by mail.kernel.org (Postfix) with ESMTP id 3DFAC24672
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 04:33:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581482003;
+	bh=4SOoc2Nbh2rSNo2yGq926YQp0lIyS9cGIkfQQ1oG+mU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=d3AEVj6Mpl05GttoiR7wC4MfXqzEjcc8XWJ8LNwREpM/bxrcT8c8aMzvxYn8ktZ0c
+	 WMfrJxySu8dGp3QlFkSfLwEv1/pfHJKiA2NOxNMtogmRM6BLzbRhNhKmRBjYDC6qHV
+	 ZKF5eFhpRFFg9hBhJ8lalyw7TgZtJ7ium5yELYkI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728096AbgBLEOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Feb 2020 23:14:35 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:32791 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728093AbgBLEOe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Feb 2020 23:14:34 -0500
-Received: by mail-pg1-f196.google.com with SMTP id 6so517589pgk.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2020 20:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XZ3ZYbaVLun1NnfPLPAT22OHZ6g8sxnkwxcv5sKT920=;
-        b=vQNupsIMA2yXCaE1orRwVW77FW+9VIa30eWb7zpP19R5c/Aih8ZgTyNQWe/XbON4pp
-         ZAGo0WOkutbDdtQLKAzVtyrVRRhxAwGjxr3+mFB3Hv4v1pwuNMx5ki8A/xACtlMQRLQ8
-         SLh6uz4/TLXATlp98R1FKlY5R3OrsuTMidbmEsFLMCAhKICB0ecvembRyye8ck/s6nqZ
-         6nXjwE9wuBqhdlYLIlMBy0xefSOnrTpW4S7a5bTWkjWxXPp2RKb5H4ScgK+3yHjUZdC3
-         ojjGwDcvhic8PndBNnoRpwyull81g/oyxJLqGmiSHapM75PAkbOAJFEwnpH611F80DQ1
-         DMzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XZ3ZYbaVLun1NnfPLPAT22OHZ6g8sxnkwxcv5sKT920=;
-        b=N1B3oLOT9JiPTAfBbgWMzWsSoVBD8tz0/ZA4kL/MWTtXJJbVoPezXCLdDq2miHPwHa
-         G3qmEg5E7q2au+80aq+iQLyaL0BNvctneO4wssFv/OASfjre49NnKlv56Z8DeYUCBtZA
-         HG/FL7ryPQz54xIpiW5reftO/fG60YcXk+juIyKzZzMDknm5EuwxOhrFsGb5WltNl6Vw
-         UidH2DHSNTxXfaONf1mfZiEjT6xTp/oCJJPJWFFHqXbdrJxGyb3DViS8N9Gb/Hiya+IU
-         02j75CbWxc5puFjQ7Yoei9kckUtatQqYx7sXcMF3OLeKZivZxTDKhkN1GKqyLIJcVFW3
-         0imQ==
-X-Gm-Message-State: APjAAAWSAimoP4h3mcL8/rGMyAtldXlBH5WCSTG5Mk8dLuPQvk4eIRZ1
-        DA+LvxbEPNdhMTTJMgk/DEc/uw==
-X-Google-Smtp-Source: APXvYqyHSqNTHRqD5NdDHMKHmKYMxDu37PNMyx96YHdVHIep/S7UjgfUEP5hGW8Wmb29BaOidFuxrg==
-X-Received: by 2002:a63:36c2:: with SMTP id d185mr10840052pga.59.1581480874044;
-        Tue, 11 Feb 2020 20:14:34 -0800 (PST)
-Received: from localhost ([122.167.210.63])
-        by smtp.gmail.com with ESMTPSA id h11sm121982pgk.48.2020.02.11.20.14.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Feb 2020 20:14:33 -0800 (PST)
-Date:   Wed, 12 Feb 2020 09:44:31 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com, rjw@rjwysocki.net,
-        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] cpufreq: add function to get the hardware max
- frequency
-Message-ID: <20200212041431.x5ginopepyyqu7wt@vireshk-i7>
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-6-ionela.voinescu@arm.com>
+        id S1727915AbgBLEdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Feb 2020 23:33:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726960AbgBLEdT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Feb 2020 23:33:19 -0500
+Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 92CBC2073C;
+        Wed, 12 Feb 2020 04:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581481998;
+        bh=4SOoc2Nbh2rSNo2yGq926YQp0lIyS9cGIkfQQ1oG+mU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=O60NQdE8jAFyNF0SAHQT8GR+UMl7E2lJIOTWf8Uo/Tqha4pAxCK/D+fPznAVrKxgW
+         v/xNQyc8BMHN38UxW2hJ+x1WBpgq6IO1oRgS14ekunkSDN0yLDKtXkbOlPBnm+nbnw
+         13/CfytNLoUG3c+VUrkutq90C8PsQ2IALQrHN+5k=
+Date:   Tue, 11 Feb 2020 20:33:16 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com
+Subject: Re: [PATCH v7 5/8] fscrypt: Have filesystems handle their d_ops
+Message-ID: <20200212043316.GF870@sol.localdomain>
+References: <20200208013552.241832-1-drosen@google.com>
+ <20200208013552.241832-6-drosen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211184542.29585-6-ionela.voinescu@arm.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20200208013552.241832-6-drosen@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11-02-20, 18:45, Ionela Voinescu wrote:
-> Add weak function to return the hardware maximum frequency of a
-> CPU, with the default implementation returning cpuinfo.max_freq.
+On Fri, Feb 07, 2020 at 05:35:49PM -0800, Daniel Rosenberg wrote:
+> This shifts the responsibility of setting up dentry operations from
+> fscrypt to the individual filesystems, allowing them to have their own
+> operations while still setting fscrypt's d_revalidate as appropriate.
 > 
-> The default can be overwritten by a strong function in platforms
-> that want to provide an alternative implementation.
+> Also added helper function to libfs to unify ext4 and f2fs
+> implementations.
 > 
-> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-> Cc: Rafael J. Wysocki <rjw@rjwysocki.net>
-> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 > ---
->  drivers/cpufreq/cpufreq.c | 20 ++++++++++++++++++++
->  include/linux/cpufreq.h   |  5 +++++
->  2 files changed, 25 insertions(+)
+>  fs/crypto/fname.c           |  7 ++----
+>  fs/crypto/fscrypt_private.h |  1 -
+>  fs/crypto/hooks.c           |  1 -
+>  fs/ext4/dir.c               |  7 ------
+>  fs/ext4/namei.c             |  1 +
+>  fs/ext4/super.c             |  5 ----
+>  fs/f2fs/dir.c               |  7 ------
+>  fs/f2fs/f2fs.h              |  3 ---
+>  fs/f2fs/namei.c             |  1 +
+>  fs/f2fs/super.c             |  1 -
+>  fs/libfs.c                  | 50 +++++++++++++++++++++++++++++++++++++
+>  fs/ubifs/dir.c              | 18 +++++++++++++
+>  include/linux/fs.h          |  2 ++
+>  include/linux/fscrypt.h     |  6 +++--
+>  14 files changed, 78 insertions(+), 32 deletions(-)
+
+This patch is hard to review because it does a lot of different things and
+touches a lot of different kernel subsystems.  Can you please split it up?
+At least you could do:
+
+1. Export fscrypt_d_revalidate()
+2. Add the libfs functions
+3. The rest
+
+But maybe you can think of a way to split up (3) too.  (It might not be possible
+because d_set_d_op() can't be called again to override the dentry_operations
+that __fscrypt_prepare_lookup() sets, until that part is removed.)
+
 > 
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 77114a3897fb..d2ff3018861d 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -1733,6 +1733,26 @@ unsigned int cpufreq_quick_get_max(unsigned int cpu)
+> diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
+> index 128198ed1a96f..18b8da7ba92f6 100644
+> --- a/fs/ext4/dir.c
+> +++ b/fs/ext4/dir.c
+> @@ -665,10 +665,3 @@ const struct file_operations ext4_dir_operations = {
+>  	.open		= ext4_dir_open,
+>  	.release	= ext4_release_dir,
+>  };
+> -
+> -#ifdef CONFIG_UNICODE
+> -const struct dentry_operations ext4_dentry_ops = {
+> -	.d_hash = generic_ci_d_hash,
+> -	.d_compare = generic_ci_d_compare,
+> -};
+> -#endif
+
+Please remove the declaration of ext4_dentry_ops from ext4.h too.
+
+> diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+> index 53ce3c331528e..e4715c154b60f 100644
+> --- a/fs/ext4/namei.c
+> +++ b/fs/ext4/namei.c
+> @@ -1614,6 +1614,7 @@ static struct buffer_head *ext4_lookup_entry(struct inode *dir,
+>  	struct buffer_head *bh;
+>  
+>  	err = ext4_fname_prepare_lookup(dir, dentry, &fname);
+> +	generic_set_encrypted_ci_d_ops(dir, dentry);
+>  	if (err == -ENOENT)
+>  		return NULL;
+>  	if (err)
+> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+> index 9717c802d889d..4d866c3b8bdbf 100644
+> --- a/fs/ext4/super.c
+> +++ b/fs/ext4/super.c
+> @@ -4542,11 +4542,6 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
+>  		goto failed_mount4;
+>  	}
+>  
+> -#ifdef CONFIG_UNICODE
+> -	if (sb->s_encoding)
+> -		sb->s_d_op = &ext4_dentry_ops;
+> -#endif
+
+This changes the place that the dentry operations for casefolding are set, but
+that's not mentioned in the commit message.  In fact, the commit message doesn't
+mention casefolding at all.  Can you please explain it?  Does this result in any
+behavior change?
+
+Likewise for f2fs.
+
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index 433c283df3099..75dcf1e1a0488 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -1437,4 +1437,54 @@ int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
+>  	return ret;
 >  }
->  EXPORT_SYMBOL(cpufreq_quick_get_max);
->  
+>  EXPORT_SYMBOL(generic_ci_d_hash);
+> +
+> +static const struct dentry_operations generic_ci_dentry_ops = {
+> +	.d_hash = generic_ci_d_hash,
+> +	.d_compare = generic_ci_d_compare,
+> +};
+> +#endif
+> +
+> +#ifdef CONFIG_FS_ENCRYPTION
+> +static const struct dentry_operations generic_encrypted_dentry_ops = {
+> +	.d_revalidate = fscrypt_d_revalidate,
+> +};
+> +#endif
+> +
+> +#if IS_ENABLED(CONFIG_UNICODE) && IS_ENABLED(CONFIG_FS_ENCRYPTION)
+> +static const struct dentry_operations generic_encrypted_ci_dentry_ops = {
+> +	.d_hash = generic_ci_d_hash,
+> +	.d_compare = generic_ci_d_compare,
+> +	.d_revalidate = fscrypt_d_revalidate,
+> +};
+> +#endif
+> +
 > +/**
-> + * cpufreq_get_hw_max_freq - get the max hardware frequency of the CPU
-> + * @cpu: CPU number
+> + * generic_set_encrypted_ci_d_ops - helper for setting d_ops for given dentry
+> + * @dir:	parent of dentry whose ops to set
+> + * @dentry:	detnry to set ops on
+
+Typo: "detnry" 
+
 > + *
-> + * The default return value is the max_freq field of cpuinfo.
+> + * This function sets the dentry ops for the given dentry to handle both
+> + * casefolding and encryption of the dentry name.
 > + */
-> +__weak unsigned int cpufreq_get_hw_max_freq(unsigned int cpu)
+
+It would be helpful if this comment explained why the two features are handled
+differently.  For encryption the dentry_operations are only set for certain
+dentries, while for casefolding they're set for all dentries on the filesystem.
+
+> +void generic_set_encrypted_ci_d_ops(struct inode *dir, struct dentry *dentry)
 > +{
-> +	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> +	unsigned int ret_freq = 0;
-> +
-> +	if (policy) {
-> +		ret_freq = policy->cpuinfo.max_freq;
-> +		cpufreq_cpu_put(policy);
+> +#ifdef CONFIG_FS_ENCRYPTION
+> +	if (dentry->d_flags & DCACHE_ENCRYPTED_NAME) {
+> +#ifdef CONFIG_UNICODE
+> +		if (dir->i_sb->s_encoding) {
+> +			d_set_d_op(dentry, &generic_encrypted_ci_dentry_ops);
+> +			return;
+> +		}
+>  #endif
+> +		d_set_d_op(dentry, &generic_encrypted_dentry_ops);
+> +		return;
 > +	}
-> +
-> +	return ret_freq;
+> +#endif
+> +#ifdef CONFIG_UNICODE
+> +	if (dir->i_sb->s_encoding) {
+> +		d_set_d_op(dentry, &generic_ci_dentry_ops);
+> +		return;
+> +	}
+> +#endif
 > +}
-> +EXPORT_SYMBOL(cpufreq_get_hw_max_freq);
-> +
->  static unsigned int __cpufreq_get(struct cpufreq_policy *policy)
->  {
->  	if (unlikely(policy_is_inactive(policy)))
-> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-> index 31b1b0e03df8..b4423ff619f4 100644
-> --- a/include/linux/cpufreq.h
-> +++ b/include/linux/cpufreq.h
-> @@ -194,6 +194,7 @@ extern struct kobject *cpufreq_global_kobject;
->  unsigned int cpufreq_get(unsigned int cpu);
->  unsigned int cpufreq_quick_get(unsigned int cpu);
->  unsigned int cpufreq_quick_get_max(unsigned int cpu);
-> +unsigned int cpufreq_get_hw_max_freq(unsigned int cpu);
->  void disable_cpufreq(void);
->  
->  u64 get_cpu_idle_time(unsigned int cpu, u64 *wall, int io_busy);
-> @@ -223,6 +224,10 @@ static inline unsigned int cpufreq_quick_get_max(unsigned int cpu)
->  {
+> +EXPORT_SYMBOL(generic_set_encrypted_ci_d_ops);
+> diff --git a/fs/ubifs/dir.c b/fs/ubifs/dir.c
+> index ef85ec167a843..f3c96d99c0514 100644
+> --- a/fs/ubifs/dir.c
+> +++ b/fs/ubifs/dir.c
+> @@ -196,6 +196,7 @@ static int dbg_check_name(const struct ubifs_info *c,
 >  	return 0;
 >  }
-> +static inline unsigned int cpufreq_get_hw_max_freq(unsigned int cpu)
-> +{
-> +	return 0;
-> +}
->  static inline void disable_cpufreq(void) { }
+>  
+> +static void ubifs_set_d_ops(struct inode *dir, struct dentry *dentry);
+>  static struct dentry *ubifs_lookup(struct inode *dir, struct dentry *dentry,
+>  				   unsigned int flags)
+>  {
+> @@ -209,6 +210,7 @@ static struct dentry *ubifs_lookup(struct inode *dir, struct dentry *dentry,
+>  	dbg_gen("'%pd' in dir ino %lu", dentry, dir->i_ino);
+>  
+>  	err = fscrypt_prepare_lookup(dir, dentry, &nm);
+> +	ubifs_set_d_ops(dir, dentry);
+>  	if (err == -ENOENT)
+>  		return d_splice_alias(NULL, dentry);
+>  	if (err)
+> @@ -1655,3 +1657,19 @@ const struct file_operations ubifs_dir_operations = {
+>  	.compat_ioctl   = ubifs_compat_ioctl,
 >  #endif
+>  };
+> +
+> +#ifdef CONFIG_FS_ENCRYPTION
+> +static const struct dentry_operations ubifs_encrypted_dentry_ops = {
+> +	.d_revalidate = fscrypt_d_revalidate,
+> +};
+> +#endif
+> +
+> +static void ubifs_set_d_ops(struct inode *dir, struct dentry *dentry)
+> +{
+> +#ifdef CONFIG_FS_ENCRYPTION
+> +	if (dentry->d_flags & DCACHE_ENCRYPTED_NAME) {
+> +		d_set_d_op(dentry, &ubifs_encrypted_dentry_ops);
+> +		return;
+> +	}
+> +#endif
+> +}
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Why can't UBIFS just use the new helper function you're adding to libfs.c?
+UBIFS doesn't support casefolding, but that just means that the ci_dentry_ops
+won't be used; only the generic_encrypted_dentry_ops will be.
 
--- 
-viresh
+> diff --git a/include/linux/fscrypt.h b/include/linux/fscrypt.h
+> index 556f4adf5dc58..340ef5b88772f 100644
+> --- a/include/linux/fscrypt.h
+> +++ b/include/linux/fscrypt.h
+> @@ -134,6 +134,7 @@ static inline struct page *fscrypt_pagecache_page(struct page *bounce_page)
+>  }
+>  
+>  extern void fscrypt_free_bounce_page(struct page *bounce_page);
+> +extern int fscrypt_d_revalidate(struct dentry *dentry, unsigned int flags);
+
+When possible, can you please keep the order of declarations in line with the
+definitions?  That means putting the declaration of fscrypt_d_revalidate() in
+the "fname.c" section after fscrypt_fname_siphash(), not here.
+
+>  
+>  /* policy.c */
+>  extern int fscrypt_ioctl_set_policy(struct file *, const void __user *);
+> @@ -595,8 +596,9 @@ static inline int fscrypt_prepare_rename(struct inode *old_dir,
+>   * filenames are presented in encrypted form.  Therefore, we'll try to set up
+>   * the directory's encryption key, but even without it the lookup can continue.
+>   *
+> - * This also installs a custom ->d_revalidate() method which will invalidate the
+> - * dentry if it was created without the key and the key is later added.
+> + * After calling this function, a filesystem should ensure that it's dentry
+> + * operations contain fscrypt_d_revalidate if DCACHE_ENCRYPTED_NAME was set,
+> + * so that the dentry can be invalidated if the key is later added.
+
+"it's" => "its"
+
+- Eric
