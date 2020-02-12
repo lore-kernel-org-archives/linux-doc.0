@@ -2,47 +2,50 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB79C352A4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 18:59:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7307FC352A4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 19:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EAB9620848
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 18:59:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 509E52082F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 19:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728911AbgBLS7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 13:59:37 -0500
-Received: from foss.arm.com ([217.140.110.172]:36592 "EHLO foss.arm.com"
+        id S1728958AbgBLTT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 14:19:58 -0500
+Received: from foss.arm.com ([217.140.110.172]:36782 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727372AbgBLS7h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Feb 2020 13:59:37 -0500
+        id S1728816AbgBLTT5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Feb 2020 14:19:57 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A93F930E;
-        Wed, 12 Feb 2020 10:59:36 -0800 (PST)
-Received: from [10.37.12.230] (unknown [10.37.12.230])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F07773F68E;
-        Wed, 12 Feb 2020 10:59:32 -0800 (PST)
-Subject: Re: [PATCH v3 6/7] arm64: use activity monitors for frequency
- invariance
-To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
-        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
-        suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        valentin.schneider@arm.com, rjw@rjwysocki.net
-Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5ADE30E;
+        Wed, 12 Feb 2020 11:19:56 -0800 (PST)
+Received: from [192.168.0.21] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 597093F68E;
+        Wed, 12 Feb 2020 11:19:53 -0800 (PST)
+Subject: Re: [PATCH v3 1/7] arm64: add support for the AMU extension v1
+To:     Ionela.Voinescu@arm.com
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, sudeep.holla@arm.com, lukasz.luba@arm.com,
+        valentin.schneider@arm.com, rjw@rjwysocki.net,
+        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
         viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org
 References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-7-ionela.voinescu@arm.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <a63fd15f-f02d-6afe-6e1f-817b9eb452d1@arm.com>
-Date:   Wed, 12 Feb 2020 18:59:30 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <20200211184542.29585-2-ionela.voinescu@arm.com>
+ <93472f17-6465-641d-ea82-3230b5697ffd@arm.com>
+ <20200212161045.GA7475@arm.com>
+ <133890f7-59bb-63b9-0ca8-2294e3596058@arm.com>
+ <20200212182008.GA25421@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <f35dc0e3-c85e-30da-6119-fcf398b4b428@arm.com>
+Date:   Wed, 12 Feb 2020 19:24:13 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200211184542.29585-7-ionela.voinescu@arm.com>
+In-Reply-To: <20200212182008.GA25421@arm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,185 +56,110 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Ionela,
 
-On 2/11/20 6:45 PM, Ionela Voinescu wrote:
-> The Frequency Invariance Engine (FIE) is providing a frequency
-> scaling correction factor that helps achieve more accurate
-> load-tracking.
+On 02/12/2020 06:20 PM, Ionela Voinescu wrote:
+> Hi Suzuki,
 > 
-> So far, for arm and arm64 platforms, this scale factor has been
-> obtained based on the ratio between the current frequency and the
-> maximum supported frequency recorded by the cpufreq policy. The
-> setting of this scale factor is triggered from cpufreq drivers by
-> calling arch_set_freq_scale. The current frequency used in computation
-> is the frequency requested by a governor, but it may not be the
-> frequency that was implemented by the platform.
+> On Wednesday 12 Feb 2020 at 16:20:56 (+0000), Suzuki Kuruppassery Poulose wrote:
+>>>>> +static bool has_amu(const struct arm64_cpu_capabilities *cap,
+>>>>> +		       int __unused)
+>>>>> +{
+>>>>> +	/*
+>>>>> +	 * The AMU extension is a non-conflicting feature: the kernel can
+>>>>> +	 * safely run a mix of CPUs with and without support for the
+>>>>> +	 * activity monitors extension. Therefore, if not disabled through
+>>>>> +	 * the kernel command line early parameter, enable the capability
+>>>>> +	 * to allow any late CPU to use the feature.
+>>>>> +	 *
+>>>>> +	 * With this feature enabled, the cpu_enable function will be called
+>>>>> +	 * for all CPUs that match the criteria, including secondary and
+>>>>> +	 * hotplugged, marking this feature as present on that respective CPU.
+>>>>> +	 * The enable function will also print a detection message.
+>>>>> +	 */
+>>>>> +
+>>>>> +	if (!disable_amu && !zalloc_cpumask_var(&amu_cpus, GFP_KERNEL)) {
+>>>>
+>>>> This looks problematic. Don't we end up in allocating the memory during
+>>>> "each CPU" check and thus leaking memory ? Do we really need to allocate
+>>>> this dynamically ?
+>>>>
+>>>
+>>> Yes, it does make some assumptions. Given that the AMU capability is
+>>> a WEAK_LOCAL_CPU_FEATURE I relied on the match function being called
+>>> only once, when the return value is true. If the return value is false,
+>>
+>> That is not correct. A WEAK_LOCAL_CPU_FEATURE is still SCOPE_LOCAL_CPU,
+>> implies it is run on all the booting CPUs (including the hotplugged
+>> ones). The WEAK is there to imply that its "permitted" or "optional"
+>> for a hotplugged CPU. So, eventually you will re-allocate this variable
+>> every single time a CPU turns up, where you could also loose the current
+>> state.
+>>
 > 
-> This correction factor can also be obtained using a core counter and a
-> constant counter to get information on the performance (frequency based
-> only) obtained in a period of time. This will more accurately reflect
-> the actual current frequency of the CPU, compared with the alternative
-> implementation that reflects the request of a performance level from
-> the OS.
+>>> which will result in it being called multiple times, it's either because
+>>> disable_amu == false, or it has become false due to a previous failed
+>>> allocation, in which case a new allocation will not be attempted.
 > 
-> Therefore, implement arch_scale_freq_tick to use activity monitors, if
-> present, for the computation of the frequency scale factor.
+> First of all, I agree with you that this should be corrected.
 > 
-> The use of AMU counters depends on:
->   - CONFIG_ARM64_AMU_EXTN - depents on the AMU extension being present
->   - (optional) CONFIG_CPU_FREQ - the current frequency obtained using
->     counter information is divided by the maximum frequency obtained from
->     the cpufreq policy. But the use of cpufreq policy maximum frequency
->     is weak and cpu_get_max_freq can be redefined to provide the data
->     some other way.
+> But for completion (and my education) I retraced my steps in regards
+> to my assumption above. While cpu_enable is called for all CPUs - boot,
+> secondary, hotplugged, the matches function (in this case has_amu) is
+> not always called for all CPUs, and that's where the confusion came
+> from.
 > 
-> While it is possible to have a combination of CPUs in the system with
-> and without support for activity monitors, the use of counters for
-> frequency invariance is only enabled for a CPU if all related CPUs
-> (CPUs in the same frequency domain) support and have enabled the core
-> and constant activity monitor counters. In this way, there is a clear
-> separation between the policies for which arch_set_freq_scale (cpufreq
-> based FIE) is used, and the policies for which arch_scale_freq_tick
-> (counter based FIE) is used to set the frequency scale factor. For
-> this purpose, a late_initcall_sync is registered to trigger validation
-> work for policies that will enable or disable the use of AMU counters
-> for frequency invariance. If CONFIG_CPU_FREQ is not defined, the use
-> of counters is enabled on all CPUs only if all possible CPUs correctly
-> support the necessary counters.
+> Looking over the update_cpu_capabilities function, that's called from
+> both setup_boot_cpu_capabilities and check_local_cpu_capabilities
+> (secondary CPUs) for SCOPE_LOCAL_CPU:
 > 
-> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> -----
+> static void update_cpu_capabilities(u16 scope_mask)
+> {
+>          int i;
+>          const struct arm64_cpu_capabilities *caps;
+> 
+>          scope_mask &= ARM64_CPUCAP_SCOPE_MASK;
+>          for (i = 0; i < ARM64_NCAPS; i++) {
+>                  caps = cpu_hwcaps_ptrs[i];
+>                  if (!caps || !(caps->type & scope_mask) ||
+>                      cpus_have_cap(caps->capability) ||
+>                      !caps->matches(caps, cpucap_default_scope(caps)))
+>                          continue;
+> 
+> --> The matches function is only called if !cpus_have_cap
+
+Agreed. Your analysis is correct. This was done as a micro
+optimization(!) as it is pointless to check if something should be set, 
+when it is already set.
+
+> 
+> 
+>                  if (caps->desc)
+>                          pr_info("detected: %s\n", caps->desc);
+>                  cpus_set_cap(caps->capability);
+> 
+> --> If matches returns true we mark it as present in cpu_hwcaps.
+> 
+>                  if ((scope_mask & SCOPE_BOOT_CPU) && (caps->type & SCOPE_BOOT_CPU))
+>                          set_bit(caps->capability, boot_capabilities);
+>          }
+> }
 > ---
->   arch/arm64/include/asm/topology.h |  16 +++
->   arch/arm64/kernel/cpufeature.c    |   4 +
->   arch/arm64/kernel/topology.c      | 185 ++++++++++++++++++++++++++++++
->   drivers/base/arch_topology.c      |   8 ++
->   include/linux/topology.h          |   7 ++
->   5 files changed, 220 insertions(+)
 > 
-> diff --git a/arch/arm64/include/asm/topology.h b/arch/arm64/include/asm/topology.h
-> index a4d945db95a2..d910d463cf76 100644
-> --- a/arch/arm64/include/asm/topology.h
-> +++ b/arch/arm64/include/asm/topology.h
-> @@ -16,6 +16,22 @@ int pcibus_to_node(struct pci_bus *bus);
->   
->   #include <linux/arch_topology.h>
->   
-> +#ifdef CONFIG_ARM64_AMU_EXTN
-> +extern unsigned int cpu_get_max_freq(unsigned int cpu);
-> +/*
-> + * Replace default function that signals use of counters
-> + * for frequency invariance for given CPUs.
-> + */
-> +bool topology_cpu_freq_counters(struct cpumask *cpus);
-> +#define arch_cpu_freq_counters topology_cpu_freq_counters
-> +/*
-> + * Replace task scheduler's default counter-based
-> + * frequency-invariance scale factor setting.
-> + */
-> +void topology_scale_freq_tick(void);
-> +#define arch_scale_freq_tick topology_scale_freq_tick
-> +#endif /* CONFIG_ARM64_AMU_EXTN */
-> +
->   /* Replace task scheduler's default frequency-invariant accounting */
->   #define arch_scale_freq_capacity topology_get_freq_scale
->   
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index 029a473ad273..a4620b269b56 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -1172,12 +1172,16 @@ bool cpu_has_amu_feat(int cpu)
->   	return false;
->   }
->   
-> +/* Initialize the use of AMU counters for frequency invariance */
-> +extern void init_cpu_freq_invariance_counters(void);
-> +
->   static void cpu_amu_enable(struct arm64_cpu_capabilities const *cap)
->   {
->   	if (has_cpuid_feature(cap, SCOPE_LOCAL_CPU)) {
->   		pr_info("detected CPU%d: Activity Monitors Unit (AMU)\n",
->   			smp_processor_id());
->   		cpumask_set_cpu(smp_processor_id(), amu_cpus);
-> +		init_cpu_freq_invariance_counters();
->   	}
->   }
->   
-> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-> index fa9528dfd0ce..3f6e379f07b3 100644
-> --- a/arch/arm64/kernel/topology.c
-> +++ b/arch/arm64/kernel/topology.c
-> @@ -14,6 +14,7 @@
->   #include <linux/acpi.h>
->   #include <linux/arch_topology.h>
->   #include <linux/cacheinfo.h>
-> +#include <linux/cpufreq.h>
->   #include <linux/init.h>
->   #include <linux/percpu.h>
->   
-> @@ -120,4 +121,188 @@ int __init parse_acpi_topology(void)
->   }
->   #endif
->   
-> +#ifdef CONFIG_ARM64_AMU_EXTN
->   
-> +#undef pr_fmt
-> +#define pr_fmt(fmt) "AMU: " fmt
-> +
-> +static DEFINE_PER_CPU_READ_MOSTLY(unsigned long, arch_max_freq_scale);
-> +static DEFINE_PER_CPU(u64, arch_const_cycles_prev);
-> +static DEFINE_PER_CPU(u64, arch_core_cycles_prev);
-> +static cpumask_var_t amu_fie_cpus;
-> +
-> +/* Obtain max frequency (in KHz) as reported by hardware */
-> +__weak unsigned int cpu_get_max_freq(unsigned int cpu)
-> +{
-> +	return 0;
-> +}
-> +
-> +#ifdef CONFIG_CPU_FREQ
-> +/* Replace max frequency getter with cpufreq based function */
-> +#define cpu_get_max_freq cpufreq_get_hw_max_freq
-> +#endif
+> Therefore caps->matches (in this case has_amu) will only be called as
+> long as it returns false. This is where my assumption above came from.
+> Also, this is the reason it was working nicely in my testing, as I did
+> not test hotplug this time.
+> 
+> Where the has_amu code breaks is when we end up calling
+> verify_local_cpu_capabilities instead of update_cpu_capabilities after
+> sys_caps_initialised, which will happen for hotplugged CPUs.
+> In that case we call caps->matches for all CPUs. Also, if anyone in the
+> future ends up calling this_cpu_has_cap for the AMU capability.
 
-Can we just use cpufreq_get_hw_max_freq()?
-We have cpufreq_get_hw_max_freq returning 0 in such case, so it should
-be OK.
+True.
 
-Is there a possibility that some platform which has !CONFIG_CPU_FREQ
-would define its own cpu_get_max_freq() overwriting the weak function
-above?
-Based on the code which checks 'if (unlikely(!max_freq_hz))' it should,
-otherwise 'valid_cpus' is not set.
+> 
+> I will fix this.
 
-I would assume that we won't see such platform, interested
-in AMU freq invariance without CONFIG_CPU_FREQ.
-
-We already have a lot of these defines or __weak functions, which is
-hard to follow.
-
-Apart from that and the issue with cpu_has_amu_feat() it looks good.
-
-> +
-> +/* Initialize counter reference per-cpu variables for the current CPU */
-> +void init_cpu_freq_invariance_counters(void)
-> +{
-> +	this_cpu_write(arch_core_cycles_prev,
-> +		       read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0));
-> +	this_cpu_write(arch_const_cycles_prev,
-> +		       read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0));
-> +}
-> +
-> +static int validate_cpu_freq_invariance_counters(int cpu)
-> +{
-> +	u64 max_freq_hz, ratio;
-> +
-> +	if (!cpu_has_amu_feat(cpu)) {
-
-As Suzuki pointed out with 'amu_cpus', make sure we read
-a one instance of mask here.
-
-
-Regards,
-Lukasz
+Cheers
+Suzuki
