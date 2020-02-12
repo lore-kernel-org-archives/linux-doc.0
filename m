@@ -2,144 +2,155 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF01C3B186
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E8FBC2BA83
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 08:15:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D90A020873
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 06:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581490660;
-	bh=19SiagyBycCgiJZF31FnbdIK3NQ4MFyvHwRPT//W9JE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=JdPRASLl9gnLiCwZ6JvFGTARCSh4FAnozOcHKj4ufaDXZP/K+hOMABxlRpylbvSjA
-	 mUlv2rTj1fpFir2iNXlXRywkaHNaEkBSfC7qbhmAZ2LK5Rp+SVW+om3evxpn4Nbp/k
-	 nhBWcFNHcoIMZrt8B9sxAteyLmwJrzvBijiuNdrI=
+	by mail.kernel.org (Postfix) with ESMTP id E0F8D2073C
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 08:15:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="fLOmkqx9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728234AbgBLG5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 01:57:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33294 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728148AbgBLG5h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Feb 2020 01:57:37 -0500
-Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E34E22073C;
-        Wed, 12 Feb 2020 06:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581490656;
-        bh=19SiagyBycCgiJZF31FnbdIK3NQ4MFyvHwRPT//W9JE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h+dAaEROsZffCQMVY8G50cRWmHjM/wRDc/9JlSSWDsBr6/IAgHBKtnX222ZTx5Q2Q
-         H77nJ9ax+MWcXCxYZ+7U/B4M3oavH5FuxwsoOg4BTYZI36prcxXHdxlvNgfXkOy/lv
-         avaF1djrLaSPyjJTb1dEC5HGal0mzJPA5odqCW9M=
-Date:   Tue, 11 Feb 2020 22:57:34 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Daniel Rosenberg <drosen@google.com>,
-        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com
-Subject: Re: [PATCH v7 2/8] fs: Add standard casefolding support
-Message-ID: <20200212065734.GA157327@sol.localdomain>
-References: <20200208013552.241832-1-drosen@google.com>
- <20200208013552.241832-3-drosen@google.com>
- <20200208021216.GE23230@ZenIV.linux.org.uk>
- <CA+PiJmTYbEA-hgrKwtp0jZXqsfYrzgogOZ0Pt=gTCtqhBfnqFA@mail.gmail.com>
- <20200210234207.GJ23230@ZenIV.linux.org.uk>
- <20200212063440.GL870@sol.localdomain>
+        id S1728388AbgBLIPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 03:15:40 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:4542 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728109AbgBLIPk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Feb 2020 03:15:40 -0500
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01C8E565008026;
+        Wed, 12 Feb 2020 09:15:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=PtC6MNcf5VPs91Jldvobvz5GRjrwYDD84llnPUFRTL0=;
+ b=fLOmkqx94vwZALx+mLsgvtHIr0HUe1cy2XPFcoRq/OGj8RfZPNe/0NtjNzT7mjnPzGKs
+ fYiiua5hrBMKV3MUONUDB+gRAg6EkgbcQNJ5wTLQ0iQFHIGPILin7PC3at4HRHN1Yyhi
+ R3dCv/56cWP8qThjbbPC94tDPiUVPiwPYlKpFK7mK5hI2p8bVd0PENBEDarz8UL2tF9V
+ yjHpWrHLGZRq6C7bBBdFJrJACXi+OCwx1pXQfk2MjTS57fxsJxaKNx6XhMG9FWO4w/kN
+ P0BGAkLLjJNkC/JNq2XzpInfWM02EPZoXtyEbvcQfOEETYFSgMgDqqFv2KE8PD65eqoJ Tw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2y1uvdmhmx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 Feb 2020 09:15:22 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DCCAE10002A;
+        Wed, 12 Feb 2020 09:15:21 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BFBE3220BCC;
+        Wed, 12 Feb 2020 09:15:21 +0100 (CET)
+Received: from lmecxl0889.lme.st.com (10.75.127.46) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Feb
+ 2020 09:15:20 +0100
+Subject: Re: [PATCH v4 0/5] remoteproc: Add elf64 support
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+CC:     Clement Leger <cleger@kalray.eu>, Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
+References: <527785289.2852303.1581062223707.JavaMail.zimbra@kalray.eu>
+ <20200210162209.23149-1-cleger@kalray.eu>
+ <5b8045be-0942-2ecf-5dba-dad58071f6af@st.com> <20200211231253.GC27770@xps15>
+From:   Arnaud POULIQUEN <arnaud.pouliquen@st.com>
+Message-ID: <8fa9ed3c-240f-1b82-913e-a4393013d333@st.com>
+Date:   Wed, 12 Feb 2020 09:15:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200212063440.GL870@sol.localdomain>
+In-Reply-To: <20200211231253.GC27770@xps15>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG5NODE1.st.com (10.75.127.13) To SFHDAG3NODE1.st.com
+ (10.75.127.7)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-02-12_02:2020-02-11,2020-02-12 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 10:34:40PM -0800, Eric Biggers wrote:
-> On Mon, Feb 10, 2020 at 11:42:07PM +0000, Al Viro wrote:
-> > On Mon, Feb 10, 2020 at 03:11:13PM -0800, Daniel Rosenberg wrote:
-> > > On Fri, Feb 7, 2020 at 6:12 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > > >
-> > > > On Fri, Feb 07, 2020 at 05:35:46PM -0800, Daniel Rosenberg wrote:
-> > > >
-> > > >
-> > > > Again, is that safe in case when the contents of the string str points to
-> > > > keeps changing under you?
-> > > 
-> > > I'm not sure what you mean. I thought it was safe to use the str and
-> > > len passed into d_compare. Even if it gets changed under RCU
-> > > conditions I thought there was some code to ensure that the name/len
-> > > pair passed in is consistent, and any other inconsistencies would get
-> > > caught by d_seq later. Are there unsafe code paths that can follow?
-> > 
-> > If you ever fetch the same byte twice, you might see different values.
-> > You need a fairly careful use of READ_ONCE() or equivalents to make
-> > sure that you don't get screwed over by that.
-> > 
-> > Sure, ->d_seq mismatch will throw the result out, but you need to make
-> > sure you won't oops/step on uninitialized memory/etc. in process.
-> > 
-> > It's not impossible to get right, but it's not trivial and you need all
-> > code working with that much more careful than normal for string handling.
-> 
-> It looks like this is a real problem, not just a "theoretical" data race.
-> For example, see:
-> 
-> utf8ncursor():
->         /* The first byte of s may not be an utf8 continuation. */
->         if (len > 0 && (*s & 0xC0) == 0x80)
->                 return -1;
-> 
-> and then utf8byte():
->                 } else if ((*u8c->s & 0xC0) == 0x80) {
->                         /* This is a continuation of the current character. */
->                         if (!u8c->p)
->                                 u8c->len--;
->                         return (unsigned char)*u8c->s++;
-> 
-> The first byte of the string is checked in two different functions, so it's very
-> likely to be loaded twice.  In between, it could change from a non-continuation
-> byte to a continuation byte.  That would cause the string length to be
-> decremented from 0 to UINT_MAX.  Then utf8_strncasecmp() would run beyond the
-> bounds of the string until something happened to mismatch.
-> 
-> That's just an example that I found right away; there are probably more.
-> 
-> IMO, this needs to be fixed before anyone can actually use the ext4 and f2fs
-> casefolding stuff.
-> 
-> I don't know the best solution.  One option is to fix fs/unicode/ to handle
-> concurrently modified strings.  Another could be to see what it would take to
-> serialize lookups and renames for casefolded directories...
-> 
 
-Or (just throwing another idea out there) the dentry's name could be copied to a
-temporary buffer in ->d_compare().  The simplest version would be:
 
-	u8 _name[NAME_MAX];
+On 2/12/20 12:12 AM, Mathieu Poirier wrote:
+> On Tue, Feb 11, 2020 at 04:57:18PM +0100, Arnaud POULIQUEN wrote:
+>> Hi Clement,
+>>
+>> I tested the series on the stm32 platform for remote proc firmwre load: no regression found.
+>> I do not test the da_to_va feature as not implemented on stm32 platform.
+> 
+> It would be very interesting if you could test the coredump, that would give us
+> a lot more confidence in the implementation.
+I also tested the coredump generation. LGTM
 
-	memcpy(_name, name, len);
-	name = _name;
-
-Though, 255 bytes is a bit large for a stack buffer (so for long names it may
-need kmalloc with GFP_ATOMIC), and technically it would need a special version
-of memcpy() to be guaranteed safe from compiler optimizations (though I expect
-this would work in practice).
-
-Alternatively, take_dentry_name_snapshot() kind of does this already, except
-that it takes a dentry and not a (name, len) pair.
-
-- Eric
+> 
+> Thanks,
+> Mathieu
+> 
+>>
+>> Regards,
+>> Arnaud
+>>
+>>
+>>
+>> On 2/10/20 5:22 PM, Clement Leger wrote:
+>>> This serie add support for elf64 in remoteproc (elf loader, coredump). 
+>>> First two patches modifies the type of len argument (in da_to_va) and
+>>> boot_addr in order to allow loading elf64 segment with a u64 size
+>>> and a u64 entry point.
+>>> Next patch introduce a set of macros to access elf64 and elf32
+>>> transparently.
+>>> Last two patches are the actual modification in the elf loader and
+>>> remoteproc coredump support to add elf64 support.
+>>>
+>>> Changes from V3:
+>>>  - Adapt coredump to elf64 file format
+>>>  - Rename remoteproc_elf_loader.h to remoteproc_elf_helpers.h
+>>>  - Update copyright year in remoteproc_elf_helpers.h
+>>>  - Rename macros elf_hdr_* to elf_get_hdr_* for coherency with elf_hdr_set_*
+>>>  - Split elf64 loader patch in 3:
+>>>    - boot_addr u64 change
+>>>    - remoteproc_elf_helpers.h creation
+>>>    - elf64 loading
+>>>
+>>> Clement Leger (5):
+>>>   remoteproc: Use u64 len for da_to_va
+>>>   remoteproc: Use u64 type for boot_addr
+>>>   remoteproc: Add elf helpers to access elf64 and elf32 fields
+>>>   remoteproc: Add elf64 support in elf loader
+>>>   remoteproc: Adapt coredump to generate correct elf type
+>>>
+>>>  Documentation/remoteproc.txt                |   2 +-
+>>>  drivers/remoteproc/imx_rproc.c              |  11 +-
+>>>  drivers/remoteproc/keystone_remoteproc.c    |   4 +-
+>>>  drivers/remoteproc/qcom_q6v5_adsp.c         |   2 +-
+>>>  drivers/remoteproc/qcom_q6v5_mss.c          |   2 +-
+>>>  drivers/remoteproc/qcom_q6v5_pas.c          |   2 +-
+>>>  drivers/remoteproc/qcom_q6v5_wcss.c         |   2 +-
+>>>  drivers/remoteproc/qcom_wcnss.c             |   2 +-
+>>>  drivers/remoteproc/remoteproc_core.c        |  69 +++++++------
+>>>  drivers/remoteproc/remoteproc_elf_helpers.h |  95 ++++++++++++++++++
+>>>  drivers/remoteproc/remoteproc_elf_loader.c  | 150 ++++++++++++++++++----------
+>>>  drivers/remoteproc/remoteproc_internal.h    |   4 +-
+>>>  drivers/remoteproc/st_remoteproc.c          |   2 +-
+>>>  drivers/remoteproc/st_slim_rproc.c          |   4 +-
+>>>  drivers/remoteproc/wkup_m3_rproc.c          |   4 +-
+>>>  include/linux/remoteproc.h                  |   7 +-
+>>>  16 files changed, 252 insertions(+), 110 deletions(-)
+>>>  create mode 100644 drivers/remoteproc/remoteproc_elf_helpers.h
+>>>
