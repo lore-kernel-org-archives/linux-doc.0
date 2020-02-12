@@ -2,117 +2,205 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83690C2BA83
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 12:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB152C2BA83
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 13:57:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 57B5720675
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 12:29:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94C9C20724
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 13:57:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8U/Fx8w"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YKjUjnp0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727548AbgBLM2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 07:28:54 -0500
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:38362 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726775AbgBLM2y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Feb 2020 07:28:54 -0500
-Received: by mail-pj1-f66.google.com with SMTP id j17so837564pjz.3;
-        Wed, 12 Feb 2020 04:28:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=o6YHmTmd7GelSUnBu81RYSqne6glWPQqZ5iKt8T5eF4=;
-        b=g8U/Fx8wOh6YZnfn4GfBs3/ZWT2ZsOkiSx4Nu6I52ueuzKY7+C1AXLqU76GHn/94m5
-         LF2VLfB41JcZzqs/NGHZJ2sJA5AQXB4sX0BLdBgcHGlClGEDdGIZWubiXmzrUXlo4rZd
-         f/qaXOcpAhvE2H8vhUf4c5PqVMXigYkrzctJupL+ki3oqng1TuEq6g33S73SlrUktME1
-         0Dio3bUBb7OIX7AjywQTfHqt1c4b1sZPhNn/C2LQu5MEfFG7VTJYD8oCY75qVth8J7lZ
-         kdzfPqXd/X8EI7CmIMr94e92/0BDUmta8Zh9PD5HgFVMhB1jDIirP0EjLUyEXiuPlGof
-         4ljQ==
+        id S1728076AbgBLN5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 08:57:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57292 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727665AbgBLN5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Feb 2020 08:57:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581515860;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XhZU1+6bKYY6WdUOFJEVR29ZW1MDpAhntuL3EmoRqyM=;
+        b=YKjUjnp0yxM4sVfGZ6TKGOsYq5OwpZfzdFlvqtOi3FgRlhIx6w4mzd6AfIFvYDU8UCeTGz
+        oHT4u/p4rDqybXFGckClqy0luNH7nFB1RkN6RtQAzTNHaiBpNtXQ2OmmD7wH3r/9356lvM
+        XB9kHiUcoSFa0B9Hnc+v7S2PeEtlqHY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-W3Rl19BFN5ySWzlRKIhlRg-1; Wed, 12 Feb 2020 08:57:39 -0500
+X-MC-Unique: W3Rl19BFN5ySWzlRKIhlRg-1
+Received: by mail-wr1-f69.google.com with SMTP id d8so835931wrq.12
+        for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2020 05:57:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=o6YHmTmd7GelSUnBu81RYSqne6glWPQqZ5iKt8T5eF4=;
-        b=kL2ZoXL6azH5cARflJTpKkcVlIkls3wi7bQVQG9O7rOPeF59cGhtJawEoROSltvtX2
-         t+tWizx876L9FyARtcxNyOfltaYkoTYF0KO65VEt1j+u6mm6mwReuhlTUJY8/12udYX+
-         lr81MjhQb3kjqOUOSRRZLetvUB46UShrM/bMCeYXyCD5CDPW6KAgilmoqpWQ4Urp04kR
-         77suFssTNI+rRypnS6+h0LEvTERD3EnnWoqN9PQGTw91avKwr93oeQ2Esru55W56Ug/x
-         bDmkj4ujr/KurIQAO5tn9rM6y7TZ2t1f+yG/gNjspl3bOp25xYxrL2M3gt04Muj5sOAQ
-         T2Sw==
-X-Gm-Message-State: APjAAAXadDAK/WVRb887ObxuQy4HPEqHLKTVko4eQdjG9pWkwjxlFH4u
-        XX5d87fk0NSNZt6mtS/XXgpY0+LCIBndyA==
-X-Google-Smtp-Source: APXvYqzgDNJ68+G9or86b3sOYFLL0hLe5xSeJtl038OZMcSSm/cPagZ7IYU+SZkzkwUUaqYtLRY/HA==
-X-Received: by 2002:a17:90a:de05:: with SMTP id m5mr5540219pjv.10.1581510533922;
-        Wed, 12 Feb 2020 04:28:53 -0800 (PST)
-Received: from mail.google.com ([149.248.10.52])
-        by smtp.gmail.com with ESMTPSA id y1sm293953pgi.56.2020.02.12.04.28.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2020 04:28:50 -0800 (PST)
-Date:   Wed, 12 Feb 2020 20:28:42 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XhZU1+6bKYY6WdUOFJEVR29ZW1MDpAhntuL3EmoRqyM=;
+        b=KnpBt1Hd+JgM3vJ2bH9m+xvXHwvi3TF5DssJy+cXvKH3Jtt98YVV4rj4Dd/pki0J07
+         ywa1A9ZEUaGuKuL1AgVfU5LxrBC88jA7XHpXiQA+6tD9yTCWmyb5hyxekih5J+jzxXJp
+         eHTsMl0obnivlI+j7YkhzXVEVBAIR0rry/SO7DGVArL21GRnRtOdwY8NCJ0JZRHzCPoO
+         OBfYLku5tm7XgZYvqlBkQ24Nsj2p/qSLwcGkEDuPlZYCL9TvL50/UEi8ulOSHilS97Bu
+         kMrHbCarV5/9zGWSMF6HJ5Xw6WmSHjKqXrr1/CszQSxnK92wD3XAJaJGS90h84KS7Y1l
+         xjNA==
+X-Gm-Message-State: APjAAAWJCcoC07CXuSsmkUPBGKHB+SLYB+e4v3veTqrPJ6VmjNWrKQK7
+        scSLcvGUpTmcF9oY4S0hxXsgVBbyqy4+p5aDlYoiSMQ9Edd4A1lck4X1ZFyx5gWwEtrZMc1w5xI
+        Fvnu3uqTIxMiYgACaRCpg
+X-Received: by 2002:adf:ec83:: with SMTP id z3mr14899119wrn.133.1581515857777;
+        Wed, 12 Feb 2020 05:57:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx1UL41yok/NYFVCUGXeIq9qvVNdc4F1tTrJr6pnhP9ZMJWkRNMNVE/JPhpbyhfdNhHDw2z/g==
+X-Received: by 2002:adf:ec83:: with SMTP id z3mr14899096wrn.133.1581515857454;
+        Wed, 12 Feb 2020 05:57:37 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:652c:29a6:517b:66d9? ([2001:b07:6468:f312:652c:29a6:517b:66d9])
+        by smtp.gmail.com with ESMTPSA id f8sm769782wru.12.2020.02.12.05.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2020 05:57:36 -0800 (PST)
+Subject: Re: [PATCH 00/28] docs: virt: manually convert text documents to ReST
+ format
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-doc@vger.kernel.org, linux-um@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add SANITIZE_xx.o & SANITIZE and apply them to x86
-Message-ID: <20200212122840.5p3kvijii3qboltt@mail.google.com>
-References: <20200201062459.7150-1-changbin.du@gmail.com>
+        Jeff Dike <jdike@addtoit.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>, kvm@vger.kernel.org
+References: <cover.1581314316.git.mchehab+huawei@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f624c644-56e5-9f74-61b4-de6165145d10@redhat.com>
+Date:   Wed, 12 Feb 2020 14:57:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200201062459.7150-1-changbin.du@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Any comments? Thanks.
+On 10/02/20 07:02, Mauro Carvalho Chehab wrote:
+> Manually convert the documentation under Documentation/virt to ReST,
+> minimizing the usage of uneeded markups and preserving the documentation
+> writer's style.
+> 
+> PS.: Patches are against linux-next tree (20200204).
+> 
+> v3:
+> 
+> - locking.rst now uses tables for the two concurrency examples;
+> - The file guest-halt-polling.txt was still under Documentation/virtual.
+>   Converted to ReST and moved to Documentaion/virt;
+> - Addressed the issues pointed by Cornelia and Paolo.
+> 
+> v2:
+> 
+> - Solved a conflict with linux-next;
+> - Added SPDX headers.
+> 
+> 
+> Mauro Carvalho Chehab (28):
+>   docs: kvm: add arm/pvtime.rst to index.rst
+>   docs: virt: convert UML documentation to ReST
+>   docs: virt: user_mode_linux.rst: update compiling instructions
+>   docs: virt: user_mode_linux.rst: fix URL references
+>   docs: virt: convert halt-polling.txt to ReST format
+>   docs: virt: Convert msr.txt to ReST format
+>   docs: kvm: devices/arm-vgic-its.txt to ReST format
+>   docs: kvm: devices/arm-vgit-v3.txt to ReST
+>   docs: kvm: convert devices/arm-vgit.txt to ReST
+>   docs: kvm: convert devices/mpic.txt to ReST
+>   docs: kvm: convert devices/s390_flic.txt to ReST
+>   docs: kvm: convert devices/vcpu.txt to ReST
+>   docs: kvm: convert devices/vfio.txt to ReST
+>   docs: kvm: convert devices/vm.txt to ReST
+>   docs: kvm: convert devices/xics.txt to ReST
+>   docs: kvm: convert devices/xive.txt to ReST
+>   docs: kvm: Convert api.txt to ReST format
+>   docs: kvm: convert arm/hyp-abi.txt to ReST
+>   docs: kvm: arm/psci.txt: convert to ReST
+>   docs: kvm: Convert hypercalls.txt to ReST format
+>   docs: kvm: Convert locking.txt to ReST format
+>   docs: kvm: Convert mmu.txt to ReST format
+>   docs: kvm: Convert nested-vmx.txt to ReST format
+>   docs: kvm: Convert ppc-pv.txt to ReST format
+>   docs: kvm: Convert s390-diag.txt to ReST format
+>   docs: kvm: Convert timekeeping.txt to ReST format
+>   docs: kvm: review-checklist.txt: rename to ReST
+>   docs: virt: guest-halt-polling.txt convert to ReST
+> 
+>  .../guest-halt-polling.rst}                   |   12 +-
+>  Documentation/virt/index.rst                  |    2 +
+>  Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
+>  .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
+>  Documentation/virt/kvm/arm/index.rst          |   12 +
+>  .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
+>  .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
+>  .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
+>  .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
+>  Documentation/virt/kvm/devices/index.rst      |   19 +
+>  .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
+>  .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
+>  Documentation/virt/kvm/devices/vcpu.rst       |  114 +
+>  Documentation/virt/kvm/devices/vcpu.txt       |   76 -
+>  .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
+>  .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
+>  .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
+>  .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
+>  .../{halt-polling.txt => halt-polling.rst}    |   86 +-
+>  .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
+>  Documentation/virt/kvm/index.rst              |   16 +
+>  Documentation/virt/kvm/locking.rst            |  243 ++
+>  Documentation/virt/kvm/locking.txt            |  215 --
+>  Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
+>  Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
+>  .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
+>  .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
+>  ...iew-checklist.txt => review-checklist.rst} |    3 +
+>  .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
+>  .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
+>  ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
+>  31 files changed, 4194 insertions(+), 3290 deletions(-)
+>  rename Documentation/{virtual/guest-halt-polling.txt => virt/guest-halt-polling.rst} (91%)
+>  rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
+>  rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+>  create mode 100644 Documentation/virt/kvm/arm/index.rst
+>  rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+>  create mode 100644 Documentation/virt/kvm/devices/index.rst
+>  rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+>  rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+>  create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+>  delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
+>  rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
+>  rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
+>  rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
+>  rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
+>  rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+>  rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
+>  create mode 100644 Documentation/virt/kvm/locking.rst
+>  delete mode 100644 Documentation/virt/kvm/locking.txt
+>  rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+>  rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+>  rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
+>  rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+>  rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+>  rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
+>  rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
+>  rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
+> 
 
-On Sat, Feb 01, 2020 at 02:24:57PM +0800, Changbin Du wrote:
-> These two patches add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
-> specific files, and apply them to x86 booting code.
-> 
-> We need to disable UBSAN for some of ealy stage code:
->  o For code which could operate in one-one mapping mode. In this case,
->    kernel would crash at accessing data parameter when invoking UBSAN
->    handlers.
->  o Since UBSAN handlers are instrumented by KASAN, so invoking UBSAN
->    handlers before KASAN is initiated also is not allowed.
-> 
-> Changbin Du (2):
->   sanitize: Add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
->     specific files
->   x86: Disable both KASAN and UBSAN for some booting code
-> 
->  Documentation/dev-tools/kasan.rst | 12 ++++++++++++
->  arch/x86/boot/Makefile            |  2 +-
->  arch/x86/boot/compressed/Makefile |  2 +-
->  arch/x86/entry/vdso/Makefile      |  3 +--
->  arch/x86/kernel/Makefile          | 10 +++++-----
->  arch/x86/lib/Makefile             |  2 +-
->  arch/x86/mm/Makefile              |  4 ++--
->  arch/x86/realmode/Makefile        |  2 +-
->  arch/x86/realmode/rm/Makefile     |  2 +-
->  scripts/Makefile.lib              |  4 ++--
->  10 files changed, 27 insertions(+), 16 deletions(-)
-> 
-> -- 
-> 2.24.0
-> 
+Queued, thanks very much for this.
 
--- 
-Cheers,
-Changbin Du
+Paolo
+
