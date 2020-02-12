@@ -2,127 +2,187 @@ Return-Path: <SRS0=JB9+=4A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7163AC2BA83
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 10:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCC0C2BA83
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 11:10:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4481C2082F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 10:59:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IRTyv1Rd"
+	by mail.kernel.org (Postfix) with ESMTP id BBD4C21569
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Feb 2020 11:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581505854;
+	bh=LlIyVq7WjPeyLskoujzf/DfkF5Lzbz51INctcfhm79E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=gtt8KNH2HkFtBPIix71yXmxWN4ftjoePiioMUxVNDhQHTjO7+H3d9y8HkLMkiPJ8d
+	 fW6lzvKcyfyq7GVkX9f+rJeK4LeBm/HgmYg4/pEOO2PkCq7HW+MOU6Z8SOXUhwSrp9
+	 YRlceD7HGSfDQThCB+hpjty/gWJDRoH3UENNqUNs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbgBLK7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Feb 2020 05:59:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24088 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725874AbgBLK7Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Feb 2020 05:59:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581505163;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1wWs3AW6y8lE5TwJCJ2ppY67pjWhRdhMeg/j2iS2Rgs=;
-        b=IRTyv1RdWqD79PBWWNI8fV/Br/8MiIvZGQxu+YRMg94GGH/72hgFtnzU83uzXUSkWeBVyR
-        2E43XNMLroDJXJ6/dTs2EMaIXjAytEmZxDZm8qXD5O4H28hItX/ncdbkBhjREv2udFNuXE
-        /6Tc/JAmcaW4XWj22Bl95wi2mh329HA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-C8bx2NfuMnWEi2LOg6SWng-1; Wed, 12 Feb 2020 05:59:22 -0500
-X-MC-Unique: C8bx2NfuMnWEi2LOg6SWng-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725821AbgBLLKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Feb 2020 06:10:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgBLLKy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Feb 2020 06:10:54 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69ED800D48;
-        Wed, 12 Feb 2020 10:59:20 +0000 (UTC)
-Received: from [10.72.12.209] (ovpn-12-209.pek2.redhat.com [10.72.12.209])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EFEA1001B09;
-        Wed, 12 Feb 2020 10:59:15 +0000 (UTC)
-Subject: Re: [RFC PATCH] ceph: fix description of some mount options
-To:     Jeff Layton <jlayton@kernel.org>, idryomov@gmail.com
-Cc:     sage@redhat.com, zyan@redhat.com, pdonnell@redhat.com,
-        ceph-devel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-References: <20200211153120.21369-1-xiubli@redhat.com>
- <537a2c4a37f601fe402fa7b893061fd9f4270f56.camel@kernel.org>
-From:   Xiubo Li <xiubli@redhat.com>
-Message-ID: <473f2e9b-93af-c232-aef7-49ab9fa1efa6@redhat.com>
-Date:   Wed, 12 Feb 2020 18:59:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        by mail.kernel.org (Postfix) with ESMTPSA id C267220848;
+        Wed, 12 Feb 2020 11:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581505852;
+        bh=LlIyVq7WjPeyLskoujzf/DfkF5Lzbz51INctcfhm79E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RDDWxK80jCu8hM2zS0GMo7uXnqEmx0Rv+dXEG71zMiZJm/Y2BjTUA+9b0VhNEjBZg
+         ubnSDKtg1FmUuDLeSRNfYQc6TRDT4Udw9UOezOi4nbMOryoAIIX6VdHQS4CCBTwPs9
+         LoX9tPVnLqYXTnyCFA4kniVQISYJPT4RDffbRrcs=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <maz@kernel.org>)
+        id 1j1put-004ZNr-3U; Wed, 12 Feb 2020 11:10:51 +0000
 MIME-Version: 1.0
-In-Reply-To: <537a2c4a37f601fe402fa7b893061fd9f4270f56.camel@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Wed, 12 Feb 2020 11:10:51 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
+        will@kernel.org, mark.rutland@arm.com, suzuki.poulose@arm.com,
+        sudeep.holla@arm.com, valentin.schneider@arm.com,
+        rjw@rjwysocki.net, peterz@infradead.org, mingo@redhat.com,
+        vincent.guittot@linaro.org, viresh.kumar@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] clocksource/drivers/arm_arch_timer: validate
+ arch_timer_rate
+In-Reply-To: <289c6110-b7ea-1d61-d795-551723263803@arm.com>
+References: <20200211184542.29585-1-ionela.voinescu@arm.com>
+ <20200211184542.29585-8-ionela.voinescu@arm.com>
+ <89339501-5ee4-e871-3076-c8b02c6fbf6e@arm.com>
+ <a24aa6c86e7a565b6269f48d4026bca2@kernel.org>
+ <289c6110-b7ea-1d61-d795-551723263803@arm.com>
+Message-ID: <f01a6384e7297de87a434e83bd1479d8@kernel.org>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/1.3.10
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: lukasz.luba@arm.com, ionela.voinescu@arm.com, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, suzuki.poulose@arm.com, sudeep.holla@arm.com, valentin.schneider@arm.com, rjw@rjwysocki.net, peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org, viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020/2/12 0:48, Jeff Layton wrote:
-> On Tue, 2020-02-11 at 10:31 -0500, xiubli@redhat.com wrote:
->> From: Xiubo Li <xiubli@redhat.com>
->>
->> Based on the latest code, the default value for wsize/rsize is
->> 64MB and the default value for the mount_timeout is 60 seconds.
->>
->> Signed-off-by: Xiubo Li <xiubli@redhat.com>
->> ---
->>
->> Checked the history of the code, I am a little confused about the
->> default values for wsize/rsize, there never been 16MB as the default,
->> and for the mount_timeout, never seen 30 as default.
->>
->> So did I miss something important about this ?
->>
-> It looks like the default rsize/wsize were 16M prior to 94e6992bb560b.
-> It then went to 32 and then 64 a little while afterward.
+On 2020-02-12 10:55, Lukasz Luba wrote:
+> On 2/12/20 10:12 AM, Marc Zyngier wrote:
+>> On 2020-02-12 10:01, Lukasz Luba wrote:
+>>> Hi Ionela, Valentin
+>>> 
+>>> On 2/11/20 6:45 PM, Ionela Voinescu wrote:
+>>>> From: Valentin Schneider <valentin.schneider@arm.com>
+>>>> 
+>>>> Using an arch timer with a frequency of less than 1MHz can result in 
+>>>> an
+>>>> incorrect functionality of the system which assumes a reasonable 
+>>>> rate.
+>>>> 
+>>>> One example is the use of activity monitors for frequency invariance
+>>>> which uses the rate of the arch timer as the known rate of the 
+>>>> constant
+>>>> cycle counter in computing its ratio compared to the maximum 
+>>>> frequency
+>>>> of a CPU. For arch timer frequencies less than 1MHz this ratio could
+>>>> end up being 0 which is an invalid value for its use.
+>>>> 
+>>>> Therefore, warn if the arch timer rate is below 1MHz which 
+>>>> contravenes
+>>>> the recommended architecture interval of 1 to 50MHz.
+>>>> 
+>>>> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+>>>> Cc: Mark Rutland <mark.rutland@arm.com>
+>>>> Cc: Marc Zyngier <maz@kernel.org>
+>>>> ---
+>>>>   drivers/clocksource/arm_arch_timer.c | 18 +++++++++++++++---
+>>>>   1 file changed, 15 insertions(+), 3 deletions(-)
+>>>> 
+>>>> diff --git a/drivers/clocksource/arm_arch_timer.c 
+>>>> b/drivers/clocksource/arm_arch_timer.c
+>>>> index 9a5464c625b4..4faa930eabf8 100644
+>>>> --- a/drivers/clocksource/arm_arch_timer.c
+>>>> +++ b/drivers/clocksource/arm_arch_timer.c
+>>>> @@ -885,6 +885,17 @@ static int arch_timer_starting_cpu(unsigned int 
+>>>> cpu)
+>>>>       return 0;
+>>>>   }
+>>>>   +static int validate_timer_rate(void)
+>>>> +{
+>>>> +    if (!arch_timer_rate)
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    /* Arch timer frequency < 1MHz can cause trouble */
+>>>> +    WARN_ON(arch_timer_rate < 1000000);
+>>> 
+>>> I don't see a big value of having a patch just to add one extra 
+>>> warning,
+>>> in a situation which we handle in our code with in 6/7 with:
+>>> 
+>>> +    if (!ratio) {
+>>> +        pr_err("System timer frequency too low.\n");
+>>> +        return -EINVAL;
+>>> +    }
+>>> 
+>>> Furthermore, the value '100000' here is because of our code and
+>>> calculation in there, so it does not belong to arch timer. Someone
+>>> might ask why it's not 200000 or a define in our header...
+>>> Or questions asking why do you warn when that arch timer and cpu is 
+>>> not
+>>> AMU capable...
+>> 
+>> Because, as the commit message outlines it, such a frequency is 
+>> terribly
+>> out of spec?
+> 
+> I don't see in the RM that < 1MHz is terribly out of spec.
+> 'Frequency
+> Increments at a fixed frequency, typically in the range 1-50MHz.
+> Can support one or more alternative operating modes in which it
+> increments by larger amounts at a
+> lower frequency, typically for power-saving.'
 
-Yeah, it is.
+Hint: constant apparent frequency.
 
-Thanks,
+> There is even an example how to operate at 20kHz and increment by 500.
+> 
+> I don't know the code if it's supported, thought.
 
-BRs
-
->   I don't see
-> where the mount_timeout was ever 30s though.
->
-> Merged into testing branch since this seems obviously correct.
->
->>   Documentation/filesystems/ceph.txt | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/filesystems/ceph.txt b/Documentation/filesystems/ceph.txt
->> index b19b6a03f91c..92ffc9b3b018 100644
->> --- a/Documentation/filesystems/ceph.txt
->> +++ b/Documentation/filesystems/ceph.txt
->> @@ -103,17 +103,17 @@ Mount Options
->>   	address its connection to the monitor originates from.
->>   
->>     wsize=X
->> -	Specify the maximum write size in bytes.  Default: 16 MB.
->> +	Specify the maximum write size in bytes.  Default: 64 MB.
->>   
->>     rsize=X
->> -	Specify the maximum read size in bytes.  Default: 16 MB.
->> +	Specify the maximum read size in bytes.  Default: 64 MB.
->>   
->>     rasize=X
->>   	Specify the maximum readahead size in bytes.  Default: 8 MB.
->>   
->>     mount_timeout=X
->>   	Specify the timeout value for mount (in seconds), in the case
->> -	of a non-responsive Ceph file system.  The default is 30
->> +	of a non-responsive Ceph file system.  The default is 60
->>   	seconds.
->>   
->>     caps_max=X
+You're completely missing the point, I'm afraid. Nobody has to know that
+this is happening. For all intent and purposes, the counter has always
+the same frequency, even if the HW does fewer ticks of larger 
+increments.
 
 
+[...]
+
+>>> Lastly, this is arch timer.
+>>> To increase chances of getting merge soon, I would recommend to drop
+>>> the patch from this series.
+>> 
+>> And? It seems to address a potential issue where the time frequency
+>> is out of spec, and makes sure we don't end up with additional 
+>> problems
+>> in the AMU code.
+> 
+> This patch just prints warning, does not change anything in booting or
+> in any code related to AMU.
+
+It seems to solve an issue with an assumption made in the AMU driver,
+and would help debugging the problem on broken systems. Are you saying
+that this is not the case and that the AMU code can perfectly cope with
+the frequency being less than 1MHz?
+
+         M.
+-- 
+Jazz is not dead. It just smells funny...
