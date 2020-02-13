@@ -2,82 +2,97 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4734DC3B18B
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:00:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55AF0C2BA83
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:25:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F462222C2
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:00:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29FBC222C2
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581596724;
+	bh=wcUkB/qvqYxIurEZtPWTvB8owEKyzBux/PSCSEsvFWY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=ZTCZng0IqK6M2Z4khaqYbXfrvOJiRpC5ASfE8JBsZyjUqlaYPc46zYLD+NF6ORpoo
+	 Osh/typBsXf9i6J5hDeBS1pwkFlv40M0nGtp0dEY+jETPFmO6dqIdrRDEvo9HLnEsa
+	 aOGDSq9PaS8MpeVBmzqmzjNTlFUptX56vXLZwyN8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729932AbgBMMAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 07:00:03 -0500
-Received: from foss.arm.com ([217.140.110.172]:45610 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729531AbgBMMAD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 07:00:03 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB8D61FB;
-        Thu, 13 Feb 2020 04:00:02 -0800 (PST)
-Received: from [10.1.195.59] (ifrit.cambridge.arm.com [10.1.195.59])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1AA03F6CF;
-        Thu, 13 Feb 2020 04:00:00 -0800 (PST)
-Subject: Re: [PATCH v3 5/7] cpufreq: add function to get the hardware max
- frequency
-To:     Ionela Voinescu <ionela.voinescu@arm.com>, catalin.marinas@arm.com,
-        will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
-        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
-        rjw@rjwysocki.net
-Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-6-ionela.voinescu@arm.com>
-From:   Valentin Schneider <valentin.schneider@arm.com>
-Message-ID: <b63a4a47-99e5-9c71-73be-740aedde4714@arm.com>
-Date:   Thu, 13 Feb 2020 11:59:56 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200211184542.29585-6-ionela.voinescu@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1729531AbgBMMZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 07:25:23 -0500
+Received: from conuserg-11.nifty.com ([210.131.2.78]:46825 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729428AbgBMMZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 07:25:23 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 01DCOMZL025517;
+        Thu, 13 Feb 2020 21:24:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 01DCOMZL025517
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1581596663;
+        bh=rQmwN5cWJQbpc39YRPGbcHf4QKGfkTR21bK6Myswez8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HXJyoP3VfUiao9FilYZL3qHAzts0YcWEhCCsDPGxxwzSPQH98PDUWQO6i0fNiYrbd
+         Z9Co1RiXOl+L/FCDZl/3h4SI2TjNtLR1ZfOMZs5eV6p1PAsOQXS6VjAAxGK+A2HrjR
+         OrUtetibC6LyhIHylAhb9MAa8OAqU++C+5cN43jwNxigYj76gU0FHRLO3XMcndzqNq
+         dw7b4D7m7FMxHdXoKYjy4Rav2jIrtjqizGUoSB8ZnUQHdhkW9+anG8hP1GDQKYH5es
+         So972K1R8HDBwyW5iNdvsFr8Oz9EZlfeA/9JKjALTdqJ+xwaZr627LgehFrrTgXG8s
+         Z+EY4LSWXSqBg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Emese Revfy <re.emese@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] gcc-plugins: fix gcc-plugins directory path in documentation
+Date:   Thu, 13 Feb 2020 21:24:10 +0900
+Message-Id: <20200213122410.1605-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/11/20 6:45 PM, Ionela Voinescu wrote:
-> +/**
-> + * cpufreq_get_hw_max_freq - get the max hardware frequency of the CPU
-> + * @cpu: CPU number
-> + *
-> + * The default return value is the max_freq field of cpuinfo.
-> + */
-> +__weak unsigned int cpufreq_get_hw_max_freq(unsigned int cpu)
-> +{
-> +	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> +	unsigned int ret_freq = 0;
-> +
-> +	if (policy) {
-> +		ret_freq = policy->cpuinfo.max_freq;
-> +		cpufreq_cpu_put(policy);
+Fix typos "plgins" -> "plugins".
 
-What about intel_pstate / turbo stuff? IIRC one of Giovanni's issues was that
-turbo freq is not always reported as the max freq. Dunno if we can do
-anything about it; at the very least maybe document the caveat?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> +	}
-> +
-> +	return ret_freq;
-> +}
-> +EXPORT_SYMBOL(cpufreq_get_hw_max_freq);
-> +
->  static unsigned int __cpufreq_get(struct cpufreq_policy *policy)
->  {
->  	if (unlikely(policy_is_inactive(policy)))
+ Documentation/kbuild/reproducible-builds.rst | 2 +-
+ scripts/gcc-plugins/Kconfig                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+index 503393854e2e..3b25655e441b 100644
+--- a/Documentation/kbuild/reproducible-builds.rst
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -101,7 +101,7 @@ Structure randomisation
+ 
+ If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
+ pre-generate the random seed in
+-``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
++``scripts/gcc-plugins/randomize_layout_seed.h`` so the same value
+ is used in rebuilds.
+ 
+ Debug info conflicts
+diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+index e3569543bdac..7b63c819610c 100644
+--- a/scripts/gcc-plugins/Kconfig
++++ b/scripts/gcc-plugins/Kconfig
+@@ -86,7 +86,7 @@ config GCC_PLUGIN_RANDSTRUCT
+ 	  source tree isn't cleaned after kernel installation).
+ 
+ 	  The seed used for compilation is located at
+-	  scripts/gcc-plgins/randomize_layout_seed.h.  It remains after
++	  scripts/gcc-plugins/randomize_layout_seed.h.  It remains after
+ 	  a make clean to allow for external modules to be compiled with
+ 	  the existing seed and will be removed by a make mrproper or
+ 	  make distclean.
+-- 
+2.17.1
 
