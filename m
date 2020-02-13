@@ -2,38 +2,37 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA51EC2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0B1BC2BA83
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:38:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 829F9222C2
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:33:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA0F5222C2
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgBMSdr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 13:33:47 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46922 "EHLO ms.lwn.net"
+        id S1727954AbgBMSiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 13:38:15 -0500
+Received: from ms.lwn.net ([45.79.88.28]:46940 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgBMSdr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 13:33:47 -0500
+        id S1727720AbgBMSiP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Feb 2020 13:38:15 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 554F3740;
-        Thu, 13 Feb 2020 18:33:46 +0000 (UTC)
-Date:   Thu, 13 Feb 2020 11:33:45 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id E37B72D8;
+        Thu, 13 Feb 2020 18:38:14 +0000 (UTC)
+Date:   Thu, 13 Feb 2020 11:38:13 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yue Hu <zbestahu@gmail.com>
-Cc:     minchan@kernel.org, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, huyue2@yulong.com, zbestahu@163.com
-Subject: Re: [PATCH] Documentation: zram: fix the description about
- orig_data_size of mm_stat
-Message-ID: <20200213113345.187b1424@lwn.net>
-In-Reply-To: <20200206111031.9524-1-zbestahu@gmail.com>
-References: <20200206111031.9524-1-zbestahu@gmail.com>
+To:     "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>
+Cc:     "'linux-doc@vger.kernel.org'" <linux-doc@vger.kernel.org>,
+        "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: admin-guide: Add description of %c corename
+ format
+Message-ID: <20200213113813.356ca854@lwn.net>
+In-Reply-To: <OSBPR01MB4006A82736539529EDC8EB37951C0@OSBPR01MB4006.jpnprd01.prod.outlook.com>
+References: <OSBPR01MB4006A82736539529EDC8EB37951C0@OSBPR01MB4006.jpnprd01.prod.outlook.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,33 +42,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  6 Feb 2020 19:10:31 +0800
-Yue Hu <zbestahu@gmail.com> wrote:
+On Fri, 7 Feb 2020 11:01:07 +0000
+"d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com> wrote:
 
-> From: Yue Hu <zbestahu@163.com>
+> There is somehow no description of %c corename format specifier for
+> /proc/sys/kernel/core_pattern. The %c corename format specifier is
+> used by user-space application such as systemd-coredump, so it should
+> be documented.
 > 
-> orig_data_size counted the same_pages by commit 51f9f82c855d ("zram:
-> count same page write as page_stored"), so let's fix it.
+> To find where %c is handled in the kernel source code, look at
+> function format_corename() in fs/coredump.c.
 > 
-> Signed-off-by: Yue Hu <zbestahu@163.com>
+> Signed-off-by: HATAYAMA Daisuke <d.hatayama@fujitsu.com>
 > ---
->  Documentation/admin-guide/blockdev/zram.rst | 2 --
->  1 file changed, 2 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
-> index 27c77d853028..a6fd1f9b5faf 100644
-> --- a/Documentation/admin-guide/blockdev/zram.rst
-> +++ b/Documentation/admin-guide/blockdev/zram.rst
-> @@ -251,8 +251,6 @@ line of text and contains the following stats separated by whitespace:
->  
->   ================ =============================================================
->   orig_data_size   uncompressed size of data stored in this disk.
-> -		  This excludes same-element-filled pages (same_pages) since
-> -		  no memory is allocated for them.
->                    Unit: bytes
->   compr_data_size  compressed size of data stored in this disk
->   mem_used_total   the amount of memory allocated for this disk. This
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index def0748..4557907 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -213,6 +213,7 @@ core_pattern is used to specify a core dumpfile pattern name.
+>         %h      hostname
+>         %e      executable filename (may be shortened)
+>         %E      executable path
+> +       %c      maximum size of core file by resource limit RLIMIT_CORE
+>         %<OTHER> both are dropped
+> 
+>  * If the first character of the pattern is a '|', the kernel will treat
 
-Applied, thanks.
+Applied, thanks.  A couple of notes:
+
+ - The patch was whitespace corrupted; I worked around that.
+ - There is no need to resend after five days; it can take me a little
+   while to catch up sometimes.
 
 jon
