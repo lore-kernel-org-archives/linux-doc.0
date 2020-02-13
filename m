@@ -2,102 +2,93 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43AA4C2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 11:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DBF2C3B189
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 11:44:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 19CAE217F4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 11:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581593932;
-	bh=WtrY112A2RghlYtdoVfwx6fYgQy60lACbzr8hKJEDi4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=v2jIJwdlv6EwwlV9NX0ICPWEyxjnmpO9Dpq1hlL3anKzh5gO4t8oLnfwAA+7qByM/
-	 xTHJztZnf6/a0oXNRvgLIvkdlHBO0oLfv+LUVDLziU/kMDcMv2MBNNvHqvOUk+mIbe
-	 6I8YazAR2YyWFZrQUBj93Tq17O0TVanKZ0UTtMMU=
+	by mail.kernel.org (Postfix) with ESMTP id 731C4218AC
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 11:44:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=interia.pl header.i=@interia.pl header.b="AAOrYEO6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729942AbgBMLit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 06:38:49 -0500
-Received: from foss.arm.com ([217.140.110.172]:45430 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729854AbgBMLit (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 06:38:49 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EC491FB;
-        Thu, 13 Feb 2020 03:38:48 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D795B3F6CF;
-        Thu, 13 Feb 2020 03:38:47 -0800 (PST)
-Date:   Thu, 13 Feb 2020 11:38:46 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Jerome Brunet <jbrunet@baylibre.com>
-Cc:     Samuel Holland <samuel@sholland.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/4] ASoC: simple-card: Add support for codec-to-codec
- dai_links
-Message-ID: <20200213113846.GB4333@sirena.org.uk>
-References: <20200213061147.29386-1-samuel@sholland.org>
- <20200213061147.29386-5-samuel@sholland.org>
- <1jpneialqa.fsf@starbuckisacylon.baylibre.com>
+        id S1729901AbgBMLn4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 06:43:56 -0500
+Received: from smtpo.poczta.interia.pl ([217.74.65.152]:60803 "EHLO
+        smtpo.poczta.interia.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727059AbgBMLn4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 06:43:56 -0500
+X-Interia-R: Interia
+X-Interia-R-IP: 185.15.80.246
+X-Interia-R-Helo: <photon>
+Received: from photon (185-15-80-246.ksi-system.net [185.15.80.246])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
+        Thu, 13 Feb 2020 12:43:53 +0100 (CET)
+Date:   Thu, 13 Feb 2020 12:43:52 +0100
+From:   Radoslaw Smigielski <radoslaw.smigielski@interia.pl>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
+        radoslaw.smigielski@interia.pl, alsa-devel@alsa-project.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [alsa-devel] [PATCH] ALSA: doc: fix snd_hda_intel driver name
+Message-ID: <20200213114352.GA742571@photon>
+References: <20200213103636.733463-1-radoslaw.smigielski@interia.pl>
+ <s5ha75mrbyb.wl-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1jpneialqa.fsf@starbuckisacylon.baylibre.com>
-X-Cookie: Academicians care, that's who.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <s5ha75mrbyb.wl-tiwai@suse.de>
+X-Interia-Antivirus: OK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=interia.pl;
+        s=biztos; t=1581594234;
+        bh=HMNQ0ByYostuHLzXcVPMAhsXuFIIt6ZWJhldOgLujpY=;
+        h=X-Interia-R:X-Interia-R-IP:X-Interia-R-Helo:Date:From:To:Cc:
+         Subject:Message-ID:References:MIME-Version:Content-Type:
+         Content-Disposition:In-Reply-To:X-Interia-Antivirus;
+        b=AAOrYEO6R7Hn9ML3o/K6XyBmIXIZI7Ly2yKJcfedYXDVziYuujxykWtv9BRGtr9C5
+         FpUswTD3tiYlaFDm6ClLr1LdyoDBuO4MsLHVSIKFUOIPHZnk7JRj+ilaT4AFJIQG4S
+         TN3GkfpEmECy9gZICuJW1Qopqb98wprYHPyLYjWY=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Feb 13, 2020 at 11:58:04AM +0100, Takashi Iwai wrote:
+> On Thu, 13 Feb 2020 11:36:37 +0100,
+> Radoslaw Smigielski wrote:
+> > 
+> > Update driver name snd-hda-intel to proper, existing driver
+> > name snd_hda_intel in Documentation/sound/hd-audio/notes.rst.
+> 
+> snd-hda-intel is correct from the module file name POV.
+> Both are handled equivalently.
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
 
---/NkBOFFp2J2Af1nK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Takashi-san, I agree that the names with hyphens (snd-hda-intel)
+are present in help sections of many options in sound/pci/hda/Kconfig.
+But snd-hda-intel is confusing from end user point of view.
+After reading notes.rst, end user is going to do someting like this:
 
-On Thu, Feb 13, 2020 at 10:18:53AM +0100, Jerome Brunet wrote:
-> On Thu 13 Feb 2020 at 07:11, Samuel Holland <samuel@sholland.org> wrote:
+    lsmod | grep snd-hda-intel
 
-> > +- codec-to-codec			: Indicates a codec-to-codec
-> > dai-link.
+and this command gives false result.
 
-> I wonder if such property could be viewed as a Linux implementation
-> detail ?
+Also this modprobe.conf file is not going to work but it's an existing
+example in Documentation/sound/hd-audio/notes.rst:
 
-Yes, it is.
+> > -    options snd-hda-intel patch=on-board-patch,hdmi-patch
 
-> Should the card figure out the codec-to-codec links on its own or is it
-> something generic enough to put in DT ?
 
-We should be able to figure it out by ourselves, we already have a link
-between two CODECs - we should be able to infer that it is in fact a
-link between two CODECs with the information we already have, probably
-by looking at the two devices that are referenced.
-
---/NkBOFFp2J2Af1nK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5FNUUACgkQJNaLcl1U
-h9AQ3Af/XaLbts6WjJP/3bk73GDv0QmGgaskQL8b6m1D39K+JlBEpJFtRFU8dbwI
-lRAtiipudev/YrYxB1zTgCbspo7bZ+p9X+lKGs3duT/Mbu/S19AJXn1oczaI9bSr
-ry8cckwgoWfaT5KEgf32ZKhLPL2RYOGUfxK8YD3V2SVj74QapjdY3S4cOWFYCGSy
-G9RP0+ReSirSQ9p4MFiA3zxj5lLgNHnCoMkVrIUktLtLfbE9T6vyW0eZhc0+9wXC
-td2NQln5v755wOwxzGvfZ0hmO1Zil4FZEoCCdGT/izv7joqZaB18lG/XVlBCHQbn
-Sm25vTaxFqSe2wL3vQlqmRW5BEYsTQ==
-=eGwg
------END PGP SIGNATURE-----
-
---/NkBOFFp2J2Af1nK--
+Cheers,
+Radek
