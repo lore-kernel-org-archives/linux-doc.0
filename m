@@ -2,94 +2,93 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C62F6C2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4A9C2BA83
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 99E242168B
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:53:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m+QNAx4s"
+	by mail.kernel.org (Postfix) with ESMTP id 0C34B24670
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729557AbgBMMxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 07:53:31 -0500
-Received: from mail-pj1-f53.google.com ([209.85.216.53]:53688 "EHLO
-        mail-pj1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729578AbgBMMxb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 07:53:31 -0500
-Received: by mail-pj1-f53.google.com with SMTP id n96so2353362pjc.3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2020 04:53:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=o8zEb9mG2Y3P6v3oJOK0eTiooqYu+ji3YHmVQM8w9HI=;
-        b=m+QNAx4sJzpz4W5nnyxQwscfbeVrzJj+E2Q6dm5TFnGv65/Nl1JbbvJJ0XJkUW3DY2
-         1IYkqf5sGmcx5t096Em1oLdgJGcSOmjbPfwEPoyEDbSH8iLLFLy2WTFryNcKJGaHxRLU
-         Ls+pMP8N3uQgz+rRLfnzrpZNhqr+840I+rZxS5o3gy+LEcT3x4+TrDO6TccO4OABr9iO
-         qZPWJndGiLGgGjv0HnU1RbFELTKRxwlqi6WrdZD9UsUO+C+mL69wkO0hxrdmaIoVI8AP
-         JOW4gV791yTjaMpz8+NfraMJJVkjThu7l5j2qVlLcODuFszQz51STIulkoFLIuM0FwDU
-         p1Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=o8zEb9mG2Y3P6v3oJOK0eTiooqYu+ji3YHmVQM8w9HI=;
-        b=mRMM+6MlJvD6KpWOjp52dvc34AmoCDCFMrxL+G2aAv1SQ2u74Ga4y+ItodZ5Z6n5YL
-         sRB9KuHG09zKkWjXmu8YRgw+iaPAr6MDLPPq2LfaIwBkHFzYv05fJuki/aPfAhw1fndB
-         +3VhqAGFp7NH/wZt3zDG3pIqd0zGRZhVFUYVi79te6MrO79td9oWl6O2UxkQEvD6tB9u
-         dOpfYCESlJ8PNy6Ahw7f5Dc9TFgK5cVz+HCa59GxgEEhoaEz5wGP4imNliMLR8zeqLa/
-         QQv60TRmeK5C37yMCPC28+MoSEycoXIlMgpQsnqz47qxRmreJO0+rXQWxhZbSm/vj59B
-         1oOA==
-X-Gm-Message-State: APjAAAV9RZbrYR58CFE7kqbjxxRoeyhP9AthRAritDxC6D4fVxqoRncK
-        GtEWGR5/ic4okEZeQjaOJjkH
-X-Google-Smtp-Source: APXvYqwOVc3Qa+xpA9FhMuvlruavX1Bntnwnlc60/Le7U3TUUYrhhLjOu0SdMABKhDu+zUgiufHQxA==
-X-Received: by 2002:a17:90a:fb45:: with SMTP id iq5mr4977157pjb.93.1581598410238;
-        Thu, 13 Feb 2020 04:53:30 -0800 (PST)
-Received: from localhost.localdomain ([103.59.133.81])
-        by smtp.googlemail.com with ESMTPSA id u11sm2633944pjn.2.2020.02.13.04.53.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 04:53:29 -0800 (PST)
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] docs: kref: Clarify the use of two kref_put() in example code
-Date:   Thu, 13 Feb 2020 18:23:11 +0530
-Message-Id: <20200213125311.21256-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1729572AbgBMM7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 07:59:21 -0500
+Received: from foss.arm.com ([217.140.110.172]:46336 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729428AbgBMM7V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Feb 2020 07:59:21 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B69091FB;
+        Thu, 13 Feb 2020 04:59:20 -0800 (PST)
+Received: from localhost (unknown [10.1.198.52])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 580063F6CF;
+        Thu, 13 Feb 2020 04:59:20 -0800 (PST)
+Date:   Thu, 13 Feb 2020 12:59:18 +0000
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        lukasz.luba@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
+        mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] cpufreq: add function to get the hardware max
+ frequency
+Message-ID: <20200213125918.GA2397@arm.com>
+References: <20200211184542.29585-1-ionela.voinescu@arm.com>
+ <20200211184542.29585-6-ionela.voinescu@arm.com>
+ <b63a4a47-99e5-9c71-73be-740aedde4714@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b63a4a47-99e5-9c71-73be-740aedde4714@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Eventhough the current documentation explains that the reference count
-gets incremented by both kref_init() and kref_get(), it is often
-misunderstood that only one instance of kref_put() is needed in the
-example code. So let's clarify that a bit.
+On Thursday 13 Feb 2020 at 11:59:56 (+0000), Valentin Schneider wrote:
+> On 2/11/20 6:45 PM, Ionela Voinescu wrote:
+> > +/**
+> > + * cpufreq_get_hw_max_freq - get the max hardware frequency of the CPU
+> > + * @cpu: CPU number
+> > + *
+> > + * The default return value is the max_freq field of cpuinfo.
+> > + */
+> > +__weak unsigned int cpufreq_get_hw_max_freq(unsigned int cpu)
+> > +{
+> > +	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+> > +	unsigned int ret_freq = 0;
+> > +
+> > +	if (policy) {
+> > +		ret_freq = policy->cpuinfo.max_freq;
+> > +		cpufreq_cpu_put(policy);
+> 
+> What about intel_pstate / turbo stuff? IIRC one of Giovanni's issues was that
+> turbo freq is not always reported as the max freq. Dunno if we can do
+> anything about it; at the very least maybe document the caveat?
+>
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- Documentation/kref.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+Okay, I can add details in the description in regards to potential
+reasons to overwrite this function. But basically this is one of the
+reasons for making this a weak function. The best information we can
+generically get for maximum hardware frequency is cpuinfo.max_freq.
+But if platforms have the possibility to obtain this differently from
+either hardware or firmware they can overwrite this.
 
-diff --git a/Documentation/kref.txt b/Documentation/kref.txt
-index 3af384156d7e..c61eea6f1bf2 100644
---- a/Documentation/kref.txt
-+++ b/Documentation/kref.txt
-@@ -128,6 +128,10 @@ since we already have a valid pointer that we own a refcount for.  The
- put needs no lock because nothing tries to get the data without
- already holding a pointer.
- 
-+In the above example, kref_put() will be called 2 times in both success
-+and error paths. This is necessary because the reference count got
-+incremented 2 times by kref_init() and kref_get().
-+
- Note that the "before" in rule 1 is very important.  You should never
- do something like::
- 
--- 
-2.17.1
+Thanks,
+Ionela.
 
+> > +	}
+> > +
+> > +	return ret_freq;
+> > +}
+> > +EXPORT_SYMBOL(cpufreq_get_hw_max_freq);
+> > +
+> >  static unsigned int __cpufreq_get(struct cpufreq_policy *policy)
+> >  {
+> >  	if (unlikely(policy_is_inactive(policy)))
+> 
