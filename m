@@ -2,124 +2,103 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D61B3C3B1AA
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 16:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF66C3B18C
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 16:52:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A0F57206ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 16:52:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55A2E222C2
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 16:52:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Iz+vmyg7"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JBUM8iQO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgBMQwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 11:52:21 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40681 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728180AbgBMQwO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 11:52:14 -0500
-Received: by mail-wm1-f67.google.com with SMTP id t14so7543986wmi.5
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2020 08:52:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=U26fffvgwp71+SNBZes7kN68yqENzqleBMzpKeSvYfk=;
-        b=Iz+vmyg7ylIYn6p7q9yd68KiPD4WwU9BkBaQerkI2NZdwzP5RRGj2wGHMVtCtezAPj
-         u9bwehyH/NAlF9xyvFYYt9G82ostbC0FdUsO6U9xm/GVk0pYppfITCABiL8OFgK4KdC2
-         VSZYeLfzQQvXfnC5qPGdZHw1KHNVOQSizYQ6Pgc6n8542Kng0v8keVX+xH1LbP7xSSpg
-         uIi6TMeDA0Kv/w5GdtWY083xSiqHItXR9sT7EPm3ixtOzf66CJlPNnc4N/CWisrWmkjI
-         Ybt5zO3XS7dRVC8RKFKepqhMG7zvG3xAiFjhjBL1ATOBv5o4hB54Wk8Nh2QMNFzB8P5f
-         ppFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=U26fffvgwp71+SNBZes7kN68yqENzqleBMzpKeSvYfk=;
-        b=kKWWiL1MffuZ+gtd2PYn0wsKK7FOT+99UcXKyuQsixUUzxcBd5YXSjJY0nQ70oKRSH
-         GwjVinuFOTCkJ5vtbG8Z2ISKbxxE2vhT9dQX8Znj1Xm1K072yrANELvm4Mil+8vRTXdZ
-         Ajqt8YqUEC2SC/OH2QJBUKJdtrs0zcWN81wSmhIpZSc3t4AMeU9s7OGn3EUr//VJ7+p3
-         umYRr5K+UMlLWZ3ozmtILFT0zuIeDaj+XKTjG4HKuda4BF4SLPchPSuSGhDzoAq9bA7D
-         jRaQnJIkJZiTtgvGMrbRio6Va6JbYhW8eWHR6AqQEN7txXFE/VC526WA7M7dEcttOPE+
-         heuA==
-X-Gm-Message-State: APjAAAXpcJjEnKm88Kr/gJk5FBxO0d95HzHcchwiCE3QpLyDzEhn0/ud
-        21WOhu3Egbt3hgp6UNkWvd851w==
-X-Google-Smtp-Source: APXvYqwEOVyFHf6MJNfobIBMxCR5I4cYgsgZ8hgKlRwEfXmjyl79QF77D1oEmVHeHNVbhhjKa0kvHw==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr6550304wma.62.1581612732115;
-        Thu, 13 Feb 2020 08:52:12 -0800 (PST)
-Received: from localhost.localdomain ([2001:171b:2276:930:116c:c27a:3e7f:5eaf])
-        by smtp.gmail.com with ESMTPSA id y6sm3484807wrl.17.2020.02.13.08.52.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 08:52:11 -0800 (PST)
-From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
-To:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
-        lorenzo.pieralisi@arm.com, joro@8bytes.org,
-        baolu.lu@linux.intel.com, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-Cc:     corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
-        sudeep.holla@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
-        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: [PATCH 07/11] iommu/arm-smmu-v3: Use pci_ats_supported()
-Date:   Thu, 13 Feb 2020 17:50:45 +0100
-Message-Id: <20200213165049.508908-8-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200213165049.508908-1-jean-philippe@linaro.org>
-References: <20200213165049.508908-1-jean-philippe@linaro.org>
+        id S1728434AbgBMQwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 11:52:37 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:46614 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727974AbgBMQwh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 11:52:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=cZxDY29j03egGuOzSuPQnoSmNJqLyVF7ItSFUUkhZwU=; b=JBUM8iQOxjfXJ1NwROkkTtaNtr
+        D18QNlb3bk66JbihoyQaT1FstmFmxy12XPJxCgkmek6tDtv8nQE6IQehSHMndaERFY9gLiTUtjUKi
+        hlou1G2HBwQG4NKLUihtNCahDHvlxH51yWThLprJ4fo0PpY8Tjjb1w6avcN9p6Saopz6yM6S470fk
+        j1U50kASgdWDwP6cPz1xqKenA6I8D9rodhaEt1AD+/cSuMLN71jPvQ9b2q++wAI5Lzf11nOcJ/m1u
+        dlp2keYTL6PyAd+05U2Oq6+A9BnuJva7tmJszPh+jzlEe2lUBrwZCt1cLVf1NNJKhTe7KBiXDHjbE
+        WqAhdXoA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j2HjA-0006KS-E9; Thu, 13 Feb 2020 16:52:36 +0000
+Subject: Re: [PATCH] docs: hmon: ltc2978.rst: fix a broken table
+To:     "Jones, Michael-A1" <Michael-A1.Jones@analog.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>
+References: <9188836b1ec6744d3d936df8fbfe08f25422879e.1581610553.git.mchehab+huawei@kernel.org>
+ <20200213162403.GB16294@roeck-us.net>
+ <SN6PR03MB40322F27BA88395ADD0BD5B8F61A0@SN6PR03MB4032.namprd03.prod.outlook.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <92227ac0-44e6-51a7-bbca-5b2b477bc508@infradead.org>
+Date:   Thu, 13 Feb 2020 08:52:35 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <SN6PR03MB40322F27BA88395ADD0BD5B8F61A0@SN6PR03MB4032.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The new pci_ats_supported() function checks if a device supports ATS and
-is allowed to use it.
+On 2/13/20 8:38 AM, Jones, Michael-A1 wrote:
+> 
+> 
+> -----Original Message-----
+> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+> Sent: Thursday, February 13, 2020 9:24 AM
+> To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>; Jonathan Corbet <corbet@lwn.net>; Jean Delvare <jdelvare@suse.com>; Jones, Michael-A1 <Michael-A1.Jones@analog.com>; linux-hwmon@vger.kernel.org
+> Subject: Re: [PATCH] docs: hmon: ltc2978.rst: fix a broken table
+> 
+> [External]
+> 
+> On Thu, Feb 13, 2020 at 05:15:55PM +0100, Mauro Carvalho Chehab wrote:
+>> /devel/v4l/docs/Documentation/hwmon/ltc2978.rst:320: WARNING: Malformed table.
+>> Text in column margin in table line 80.
+>>
+>> Cc: Mike Jones <michael-a1.jones@analog.com>
+>> Fixes: 6d36d475215a ("hwmon: (pmbus/ltc2978) add support for more parts.")
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> Sorry, I may have messed that up when trying to fix lines exceeding 
+> 80 columns in that file. The problem is already fixed in -next.
+> 
+> MJ: I would like to know what tool produced the warning so I can run it next time before submission.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- drivers/iommu/arm-smmu-v3.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Hi,
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 034ad9671b83..bd2cfd946a36 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2577,26 +2577,14 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
- 	}
- }
- 
--#ifdef CONFIG_PCI_ATS
- static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
- {
--	struct pci_dev *pdev;
-+	struct device *dev = master->dev;
- 	struct arm_smmu_device *smmu = master->smmu;
--	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
--
--	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
--	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
--		return false;
- 
--	pdev = to_pci_dev(master->dev);
--	return !pdev->untrusted && pdev->ats_cap;
-+	return (smmu->features & ARM_SMMU_FEAT_ATS) && dev_is_pci(dev) &&
-+		pci_ats_supported(to_pci_dev(dev));
- }
--#else
--static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
--{
--	return false;
--}
--#endif
- 
- static void arm_smmu_enable_ats(struct arm_smmu_master *master)
- {
+To see only hwmon docs build, do this (I capture the output to a file;
+I also use a separate build dir for DOCS):
+
+$ cd linux-5.6-rc1
+
+$ mkdir -p DOCS
+
+$ make SPHINXDIRS="hwmon" O=DOCS htmldocs 2>&1 | tee dochwmon.out
+
+and then search thru dochwmon.out for files or subjects that
+you are interested in.
+
 -- 
-2.25.0
+~Randy
 
