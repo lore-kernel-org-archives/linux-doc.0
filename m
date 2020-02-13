@@ -4,84 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B82C352A3
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 20:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A08C352A3
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 21:49:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 281E32469F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 20:14:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 507CF206DB
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 21:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727879AbgBMUOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 15:14:38 -0500
-Received: from 6.mo3.mail-out.ovh.net ([188.165.43.173]:42748 "EHLO
-        6.mo3.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728462AbgBMUOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 15:14:38 -0500
-X-Greylist: delayed 8718 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Feb 2020 15:14:37 EST
-Received: from player715.ha.ovh.net (unknown [10.110.171.173])
-        by mo3.mail-out.ovh.net (Postfix) with ESMTP id 87E23241A8F
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2020 18:49:18 +0100 (CET)
-Received: from sk2.org (cre33-1_migr-88-122-126-116.fbx.proxad.net [88.122.126.116])
-        (Authenticated sender: steve@sk2.org)
-        by player715.ha.ovh.net (Postfix) with ESMTPSA id 71AF0F2A6770;
-        Thu, 13 Feb 2020 17:49:02 +0000 (UTC)
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH 6/6] docs: document panic fully in sysctl/kernel.rst
-Date:   Thu, 13 Feb 2020 18:47:01 +0100
-Message-Id: <20200213174701.3200366-7-steve@sk2.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200213174701.3200366-1-steve@sk2.org>
-References: <20200213174701.3200366-1-steve@sk2.org>
+        id S1728022AbgBMVtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 16:49:11 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:58184 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727754AbgBMVtK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 16:49:10 -0500
+Received: from 2.general.tyhicks.us.vpn ([10.172.64.53] helo=sec.work.tihix.com)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <tyhicks@canonical.com>)
+        id 1j2MM2-0004dO-Rc; Thu, 13 Feb 2020 21:49:03 +0000
+From:   Tyler Hicks <tyhicks@canonical.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>
+Subject: [PATCH] Documentation/process: Swap out the ambassador for Canonical
+Date:   Thu, 13 Feb 2020 21:48:42 +0000
+Message-Id: <20200213214842.21312-1-tyhicks@canonical.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 10096507416016735621
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrieekgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekkedruddvvddruddviedrudduieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The description of panic doesn’t cover all the supported scenarios;
-this patch fixes that, describing the three possibilities (no reboot,
-immediate reboot, reboot after a delay).
+John Johansen will take over as the process ambassador for Canonical
+when dealing with embargoed hardware issues.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: John Johansen <john.johansen@canonical.com>
+Signed-off-by: Tyler Hicks <tyhicks@canonical.com>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+ .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index a792345ac6db..7ee4685861ea 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -562,9 +562,15 @@ The default is 65534.
- panic
- =====
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 33edae654599..31963e68601b 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -254,7 +254,7 @@ an involved disclosed party. The current ambassadors list:
+   VMware
+   Xen		Andrew Cooper <andrew.cooper3@citrix.com>
  
--The value in this file represents the number of seconds the kernel
--waits before rebooting on a panic. When you use the software watchdog,
--the recommended setting is 60.
-+The value in this file determines the behaviour of the kernel on a
-+panic:
-+
-+* if zero, the kernel will loop forever;
-+* if negative, the kernel will reboot immediately;
-+* if positive, the kernel will reboot after the corresponding number
-+  of seconds.
-+
-+When you use the software watchdog, the recommended setting is 60.
+-  Canonical	Tyler Hicks <tyhicks@canonical.com>
++  Canonical	John Johansen <john.johansen@canonical.com>
+   Debian	Ben Hutchings <ben@decadent.org.uk>
+   Oracle	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+   Red Hat	Josh Poimboeuf <jpoimboe@redhat.com>
+diff --git a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+index b93f1af68261..88273ebe7823 100644
+--- a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+@@ -183,7 +183,7 @@ CVE分配
+   VMware
+   Xen		Andrew Cooper <andrew.cooper3@citrix.com>
  
- 
- panic_on_io_nmi
+-  Canonical	Tyler Hicks <tyhicks@canonical.com>
++  Canonical	John Johansen <john.johansen@canonical.com>
+   Debian	Ben Hutchings <ben@decadent.org.uk>
+   Oracle	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+   Red Hat	Josh Poimboeuf <jpoimboe@redhat.com>
 -- 
-2.24.1
+2.17.1
 
