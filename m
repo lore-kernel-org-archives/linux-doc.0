@@ -2,130 +2,80 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A82BC2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 077E3C2BA83
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:27:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D8656218AC
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581618420;
-	bh=Tgkvt23nlRf0XRm+t9xKVRBeZnNy7mLvrbdLPrq1dno=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=nGMjZ2amxPW4SB3Sxzt2pVDfS5qaNDWf5iZfiNxyzv/KgK2MI/qu9xczit5MQvmur
-	 bdqp55qy1ngksi38s9oNHvswTFJDBmBd9sNk4b1yFXLbKflguIjU8WaxbW/JB37nCn
-	 6HlloLUoVUfozh9eK35UKf89A9y8gLHHzEr+yhA4=
+	by mail.kernel.org (Postfix) with ESMTP id E0BB5217F4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 18:27:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727658AbgBMS1A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 13:27:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39828 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgBMS1A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 13:27:00 -0500
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7E991222C2;
-        Thu, 13 Feb 2020 18:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581618419;
-        bh=Tgkvt23nlRf0XRm+t9xKVRBeZnNy7mLvrbdLPrq1dno=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bz+2U90q4xyRoqgdjfbIX6rHvFOv6QdyFS6R6dKIw0F240hKve4cOqhYLU6RzTo0/
-         xYdsNw0MvvYnOGpW6fTmgezOVEAz5tB7pLxYFgxHqnypwKMrBJCb0typQTORRXWsQ1
-         h3oFcMDISvLmyBj62uGuw7KgJxdfMKD092DRS7Qc=
-Received: by mail-qk1-f171.google.com with SMTP id h4so6675378qkm.0;
-        Thu, 13 Feb 2020 10:26:59 -0800 (PST)
-X-Gm-Message-State: APjAAAUgAbpss0fNhG8qSnBl1pnJO0Al7CI4TIfyc5jCiJvb43UwLgmT
-        AohdDweq6JgpMao3YinTOyzOOUGSQftkNYm0/Q==
-X-Google-Smtp-Source: APXvYqydhKuBg+/ZrL4Cf+7gEQaOWH7r03zYxO/RkcD73vQs6Tc8XsgSRSpX2/PYrxCooFDmMvbFm0IEPx+1x/u9y3A=
-X-Received: by 2002:a37:85c4:: with SMTP id h187mr17247898qkd.223.1581618418620;
- Thu, 13 Feb 2020 10:26:58 -0800 (PST)
+        id S1727910AbgBMS1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 13:27:10 -0500
+Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:48829 "EHLO
+        1.mo179.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727433AbgBMS1K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 13:27:10 -0500
+Received: from player715.ha.ovh.net (unknown [10.110.208.131])
+        by mo179.mail-out.ovh.net (Postfix) with ESMTP id 6191D158DFD
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2020 18:47:55 +0100 (CET)
+Received: from sk2.org (cre33-1_migr-88-122-126-116.fbx.proxad.net [88.122.126.116])
+        (Authenticated sender: steve@sk2.org)
+        by player715.ha.ovh.net (Postfix) with ESMTPSA id E5037F2A64BB;
+        Thu, 13 Feb 2020 17:47:44 +0000 (UTC)
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH 0/6] docs: sysctl/kernel.rst rework
+Date:   Thu, 13 Feb 2020 18:46:55 +0100
+Message-Id: <20200213174701.3200366-1-steve@sk2.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200213165049.508908-1-jean-philippe@linaro.org> <20200213165049.508908-4-jean-philippe@linaro.org>
-In-Reply-To: <20200213165049.508908-4-jean-philippe@linaro.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 13 Feb 2020 12:26:46 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKZP9u7bFsVT=5TzqmnHWm_bvH39ffkbN3q9-k32ynVig@mail.gmail.com>
-Message-ID: <CAL_JsqKZP9u7bFsVT=5TzqmnHWm_bvH39ffkbN3q9-k32ynVig@mail.gmail.com>
-Subject: Re: [PATCH 03/11] PCI: OF: Check whether the host bridge supports ATS
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 10073144994123304325
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrieekgddutdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekkedruddvvddruddviedrudduieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 10:52 AM Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
->
-> Copy the ats-supported flag into the pci_host_bridge structure.
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  drivers/pci/controller/pci-host-common.c | 1 +
->  drivers/pci/of.c                         | 9 +++++++++
->  include/linux/of_pci.h                   | 3 +++
->  3 files changed, 13 insertions(+)
->
-> diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
-> index 250a3fc80ec6..a6ac927be291 100644
-> --- a/drivers/pci/controller/pci-host-common.c
-> +++ b/drivers/pci/controller/pci-host-common.c
-> @@ -92,6 +92,7 @@ int pci_host_common_probe(struct platform_device *pdev,
->                 return ret;
->         }
->
-> +       of_pci_host_check_ats(bridge);
->         platform_set_drvdata(pdev, bridge->bus);
->         return 0;
->  }
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index 81ceeaa6f1d5..4b8a877f1e9f 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -576,6 +576,15 @@ int pci_parse_request_of_pci_ranges(struct device *dev,
->  }
->  EXPORT_SYMBOL_GPL(pci_parse_request_of_pci_ranges);
->
-> +void of_pci_host_check_ats(struct pci_host_bridge *bridge)
-> +{
-> +       struct device_node *np = bridge->bus->dev.of_node;
-> +
-> +       if (!np)
-> +               return;
-> +
-> +       bridge->ats_supported = of_property_read_bool(np, "ats-supported");
-> +}
+Hi,
 
-Not really any point in a common function if we expect this to be only
-for ECAM hosts which it seems to be based on the binding.
+A recent discussion about differences in the "panic" description in
+sysctl/kernel.rst led me to look into completing that file, and it
+turned out that more work was needed than documenting "panic". This
+patch series is the first batch, making the resulting documentation
+hopefully nicer and more accurate. It doesn't add fields that are
+present in 5.5 but not documented, that's the subject of another
+series of patches I haven't started working on yet...
 
-Otherwise, needs an export if not.
+Regards,
 
-Rob
+Stephen
+
+
+Stephen Kitt (6):
+  docs: pretty up sysctl/kernel.rst
+  docs: merge debugging-modules.txt into sysctl/kernel.rst
+  docs: drop l2cr from sysctl/kernel.rst
+  docs: add missing IPC documentation in sysctl/kernel.rst
+  docs: document stop-a in sysctl/kernel.rst
+  docs: document panic fully in sysctl/kernel.rst
+
+ Documentation/admin-guide/sysctl/kernel.rst | 1026 ++++++++++---------
+ Documentation/debugging-modules.txt         |   22 -
+ 2 files changed, 530 insertions(+), 518 deletions(-)
+ delete mode 100644 Documentation/debugging-modules.txt
+
+
+base-commit: 359c92c02bfae1a6f1e8e37c298e518fd256642c
+-- 
+2.24.1
+
