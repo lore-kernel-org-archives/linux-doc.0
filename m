@@ -2,101 +2,115 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D38C2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 09:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDCEC3B188
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 10:44:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45DE620848
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 09:47:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34AB9217F4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 10:44:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=interia.pl header.i=@interia.pl header.b="Kuxf4Ium"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729531AbgBMJrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 04:47:07 -0500
-Received: from foss.arm.com ([217.140.110.172]:44026 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729494AbgBMJrG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 04:47:06 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0132A1FB;
-        Thu, 13 Feb 2020 01:47:05 -0800 (PST)
-Received: from localhost (unknown [10.1.198.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 959CF3F6CF;
-        Thu, 13 Feb 2020 01:47:05 -0800 (PST)
-Date:   Thu, 13 Feb 2020 09:47:04 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        valentin.schneider@arm.com, rjw@rjwysocki.net,
-        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] arm64: use activity monitors for frequency
- invariance
-Message-ID: <20200213094704.GA30335@arm.com>
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-7-ionela.voinescu@arm.com>
- <a63fd15f-f02d-6afe-6e1f-817b9eb452d1@arm.com>
+        id S1729428AbgBMKot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 05:44:49 -0500
+Received: from smtpo.poczta.interia.pl ([217.74.65.152]:38591 "EHLO
+        smtpo.poczta.interia.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729759AbgBMKor (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 05:44:47 -0500
+X-Greylist: delayed 443 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Feb 2020 05:44:47 EST
+X-Interia-R: Interia
+X-Interia-R-IP: 185.15.80.246
+X-Interia-R-Helo: <photon.emea.nsn-net.net>
+Received: from photon.emea.nsn-net.net (185-15-80-246.ksi-system.net [185.15.80.246])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
+        Thu, 13 Feb 2020 11:37:20 +0100 (CET)
+From:   Radoslaw Smigielski <radoslaw.smigielski@interia.pl>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        alsa-devel@alsa-project.org, corbet@lwn.net, tiwai@suse.com,
+        perex@perex.cz, radoslaw.smigielski@interia.pl
+Subject: [alsa-devel] [PATCH] ALSA: doc: fix snd_hda_intel driver name
+Date:   Thu, 13 Feb 2020 11:36:37 +0100
+Message-Id: <20200213103636.733463-1-radoslaw.smigielski@interia.pl>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a63fd15f-f02d-6afe-6e1f-817b9eb452d1@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+X-Interia-Antivirus: OK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=interia.pl;
+        s=biztos; t=1581590241;
+        bh=gVqMAKSIPkY8OiAd077JlbnTBYo5wVcLt3iZ6loGT8Y=;
+        h=X-Interia-R:X-Interia-R-IP:X-Interia-R-Helo:From:To:Subject:Date:
+         Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+         X-Interia-Antivirus;
+        b=Kuxf4Ium3/75vWo/SUnB0MPiRIZaAhRwFeR3fVI2USNtD0mDfNojDrYcVc7jj4236
+         ja6CwFGQc5CIwIKyNFO2xuKqU4nu06YQ2FuYAffUqfmwzXsA6sJXQg7nf1P37FJcc6
+         XlS8uu5sIaKwuV0GVLrPR6YLjYqX2fFsdBEbuRUs=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lukasz,
+Update driver name snd-hda-intel to proper, existing driver
+name snd_hda_intel in Documentation/sound/hd-audio/notes.rst.
 
-[..]
-> > +
-> > +/* Obtain max frequency (in KHz) as reported by hardware */
-> > +__weak unsigned int cpu_get_max_freq(unsigned int cpu)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +#ifdef CONFIG_CPU_FREQ
-> > +/* Replace max frequency getter with cpufreq based function */
-> > +#define cpu_get_max_freq cpufreq_get_hw_max_freq
-> > +#endif
-> 
-> Can we just use cpufreq_get_hw_max_freq()?
-> We have cpufreq_get_hw_max_freq returning 0 in such case, so it should
-> be OK.
-> 
+Signed-off-by: Radoslaw Smigielski <radoslaw.smigielski@interia.pl>
+---
+ Documentation/sound/hd-audio/notes.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-The reasoning for the implementation is the following:
- - For CONFIG_CPU_FREQ we use cpufreq_get_hw_max_freq (weak default or
-   strong alternative)
- - For !CONFIG_CPU_FREQ cpufreq_get_hw_max_freq returns 0 - it signals
-   that cpufreq cannot return the hardware max frequency. In this case
-   cpu_get_max_freq is used (weak default or strong alternative
-   implementation).
+diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
+index 0f3109d9abc8..56ccc15f4d26 100644
+--- a/Documentation/sound/hd-audio/notes.rst
++++ b/Documentation/sound/hd-audio/notes.rst
+@@ -17,12 +17,12 @@ methods for the	HD-audio hardware.
+ 
+ The HD-audio component consists of two parts: the controller chip and 
+ the codec chips on the HD-audio bus.  Linux provides a single driver
+-for all controllers, snd-hda-intel.  Although the driver name contains
++for all controllers, snd_hda_intel.  Although the driver name contains
+ a word of a well-known hardware vendor, it's not specific to it but for
+ all controller chips by other companies.  Since the HD-audio
+ controllers are supposed to be compatible, the single snd-hda-driver
+ should work in most cases.  But, not surprisingly, there are known
+-bugs and issues specific to each controller type.  The snd-hda-intel
++bugs and issues specific to each controller type.  The snd_hda_intel
+ driver has a bunch of workarounds for these as described below.
+ 
+ A controller may have multiple codecs.  Usually you have one audio
+@@ -31,7 +31,7 @@ multiple audio codecs, e.g. for analog and digital outputs, and the
+ driver might not work properly because of conflict of mixer elements.
+ This should be fixed in future if such hardware really exists.
+ 
+-The snd-hda-intel driver has several different codec parsers depending
++The snd_hda_intel driver has several different codec parsers depending
+ on the codec.  It has a generic parser as a fallback, but this
+ functionality is fairly limited until now.  Instead of the generic
+ parser, usually the codec-specific parser (coded in patch_*.c) is used
+@@ -226,7 +226,7 @@ the external amplifier bits.  Thus a headphone output has a slightly
+ better chance.
+ 
+ Before making a bug report, double-check whether the mixer is set up
+-correctly.  The recent version of snd-hda-intel driver provides mostly
++correctly.  The recent version of snd_hda_intel driver provides mostly
+ "Master" volume control as well as "Front" volume (where Front
+ indicates the front-channels).  In addition, there can be individual
+ "Headphone" and "Speaker" controls.
+@@ -596,7 +596,7 @@ For example, if you have two cards, one for an on-board analog and one
+ for an HDMI video board, you may pass patch option like below:
+ ::
+ 
+-    options snd-hda-intel patch=on-board-patch,hdmi-patch
++    options snd_hda_intel patch=on-board-patch,hdmi-patch
+ 
+ 
+ Power-Saving
+-- 
+2.24.1
 
-> Is there a possibility that some platform which has !CONFIG_CPU_FREQ
-> would define its own cpu_get_max_freq() overwriting the weak function
-> above?
-> Based on the code which checks 'if (unlikely(!max_freq_hz))' it should,
-> otherwise 'valid_cpus' is not set.
-> 
-> I would assume that we won't see such platform, interested
-> in AMU freq invariance without CONFIG_CPU_FREQ.
-> 
-> We already have a lot of these defines or __weak functions, which is
-> hard to follow.
-
-There is no dependency between CONFIG_CPU_FREQ and frequency invariance.
-Therefore, I did not see a reason to potentially bypass the use of AMU
-for frequency invariance for !CONFIG_CPU_FREQ.
-
-But I agree it makes the code harder to read so I can remove
-cpu_get_max_freq and keep cpufreq_get_hw_max_freq only until there is a
-provable need for this. 
-
-Thank you for the review,
-Ionela.
