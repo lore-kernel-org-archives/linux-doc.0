@@ -2,93 +2,116 @@ Return-Path: <SRS0=/07d=4B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4A9C2BA83
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9EEC2BA83
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 13:32:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C34B24670
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 12:59:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 825D720873
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Feb 2020 13:32:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581600722;
+	bh=Y/3200Xe91pK1588PjJBG4y3ejf01YSeXXgdUWVo2ug=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=NM3Llo0TCzCCECspNbcWZqjeQisWsWEazmX+OkaU82esBsQerfEaMFpvcg6fNVUgw
+	 blO7AWXF3d8P42SjcS+Jkh/9KKCFsJS4voKi31OzC6YXw0PmCBtO+xF6vZxuqWzpoA
+	 13YxQhQCciw30+fGFcufd+BGDuAp0QesMPj6LyrQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729572AbgBMM7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 07:59:21 -0500
-Received: from foss.arm.com ([217.140.110.172]:46336 "EHLO foss.arm.com"
+        id S1729931AbgBMNb7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Feb 2020 08:31:59 -0500
+Received: from foss.arm.com ([217.140.110.172]:46636 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729428AbgBMM7V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Feb 2020 07:59:21 -0500
+        id S1729901AbgBMNb7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Feb 2020 08:31:59 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B69091FB;
-        Thu, 13 Feb 2020 04:59:20 -0800 (PST)
-Received: from localhost (unknown [10.1.198.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 580063F6CF;
-        Thu, 13 Feb 2020 04:59:20 -0800 (PST)
-Date:   Thu, 13 Feb 2020 12:59:18 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] cpufreq: add function to get the hardware max
- frequency
-Message-ID: <20200213125918.GA2397@arm.com>
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-6-ionela.voinescu@arm.com>
- <b63a4a47-99e5-9c71-73be-740aedde4714@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b63a4a47-99e5-9c71-73be-740aedde4714@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77F861FB;
+        Thu, 13 Feb 2020 05:31:58 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E74B73F6CF;
+        Thu, 13 Feb 2020 05:31:57 -0800 (PST)
+Date:   Thu, 13 Feb 2020 13:31:56 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Liam Girdwood <lgirdwood@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>, stable@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>
+Subject: Applied "ASoC: codec2codec: avoid invalid/double-free of pcm runtime" to the asoc tree
+In-Reply-To: <20200213061147.29386-2-samuel@sholland.org>
+Message-Id: <applied-20200213061147.29386-2-samuel@sholland.org>
+X-Patchwork-Hint: ignore
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday 13 Feb 2020 at 11:59:56 (+0000), Valentin Schneider wrote:
-> On 2/11/20 6:45 PM, Ionela Voinescu wrote:
-> > +/**
-> > + * cpufreq_get_hw_max_freq - get the max hardware frequency of the CPU
-> > + * @cpu: CPU number
-> > + *
-> > + * The default return value is the max_freq field of cpuinfo.
-> > + */
-> > +__weak unsigned int cpufreq_get_hw_max_freq(unsigned int cpu)
-> > +{
-> > +	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> > +	unsigned int ret_freq = 0;
-> > +
-> > +	if (policy) {
-> > +		ret_freq = policy->cpuinfo.max_freq;
-> > +		cpufreq_cpu_put(policy);
-> 
-> What about intel_pstate / turbo stuff? IIRC one of Giovanni's issues was that
-> turbo freq is not always reported as the max freq. Dunno if we can do
-> anything about it; at the very least maybe document the caveat?
->
+The patch
 
-Okay, I can add details in the description in regards to potential
-reasons to overwrite this function. But basically this is one of the
-reasons for making this a weak function. The best information we can
-generically get for maximum hardware frequency is cpuinfo.max_freq.
-But if platforms have the possibility to obtain this differently from
-either hardware or firmware they can overwrite this.
+   ASoC: codec2codec: avoid invalid/double-free of pcm runtime
+
+has been applied to the asoc tree at
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Ionela.
+Mark
 
-> > +	}
-> > +
-> > +	return ret_freq;
-> > +}
-> > +EXPORT_SYMBOL(cpufreq_get_hw_max_freq);
-> > +
-> >  static unsigned int __cpufreq_get(struct cpufreq_policy *policy)
-> >  {
-> >  	if (unlikely(policy_is_inactive(policy)))
-> 
+From b6570fdb96edf45bcf71884bd2644bd73d348d1a Mon Sep 17 00:00:00 2001
+From: Samuel Holland <samuel@sholland.org>
+Date: Thu, 13 Feb 2020 00:11:44 -0600
+Subject: [PATCH] ASoC: codec2codec: avoid invalid/double-free of pcm runtime
+
+The PCM runtime was freed during PMU in the case that the event hook
+encountered an error. However, it is also unconditionally freed during
+PMD. Avoid a double-free by dropping the call to kfree in the PMU hook.
+
+Fixes: a72706ed8208 ("ASoC: codec2codec: remove ephemeral variables")
+Cc: stable@vger.kernel.org
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Link: https://lore.kernel.org/r/20200213061147.29386-2-samuel@sholland.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/soc-dapm.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index bc20ad9abf8b..8b24396675ec 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -3916,9 +3916,6 @@ snd_soc_dai_link_event_pre_pmu(struct snd_soc_dapm_widget *w,
+ 	runtime->rate = params_rate(params);
+ 
+ out:
+-	if (ret < 0)
+-		kfree(runtime);
+-
+ 	kfree(params);
+ 	return ret;
+ }
+-- 
+2.20.1
+
