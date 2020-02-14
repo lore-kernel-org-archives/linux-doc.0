@@ -2,129 +2,184 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F16EC35242
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90061C35242
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:58:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 31D25206D7
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:55:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5784D20848
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:58:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="lMB9oxYb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u90Wxsf5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbgBNWzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 17:55:39 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:47035 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727566AbgBNWzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 17:55:39 -0500
-Received: by mail-pf1-f193.google.com with SMTP id k29so5546513pfp.13
-        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 14:55:39 -0800 (PST)
+        id S1727938AbgBNW6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 17:58:43 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:33039 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727815AbgBNW6n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 17:58:43 -0500
+Received: by mail-yb1-f196.google.com with SMTP id b6so5606805ybr.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 14:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=9BMR/1ljfo4sHSBuMNZ+z5Tv5CN3Fmzs3LXwrUy/C1M=;
-        b=lMB9oxYbtxwZWaVxgPBrpGz3OfFoEKkkUMWGNVnlsm3iFyaCa0cjEmOXHQj2nzc+VT
-         B7brjzcauvcMJokIGxHtpFuUTSCq4aWZpiHSjdUJRfFz5JX2uXlkKoOxVAUcrCDi4Sh7
-         bvqG5k2c05sfl0lm44DR7VYwR06+QYS2c3cj12dJiB0nWGMXoYv7Aj0/TIt5f3ES2y8V
-         L47gSEWe9Fi7+BUM9fVN8PhJdR1nZjkoZWXKPIOk5WIMaYlXuik+qdZAipxZ9Q0x60ey
-         8sk6Wrh7HRmJIoLDhnMYHANbIGBRBpqEdRXpA5FYeTibUOszk1YyV58RCZkD1Fuon4ua
-         3L+A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=OfncaOBUirWGLh9Iq7kwxxSsByucOt2Wppw4ynvXDuo=;
+        b=u90Wxsf5Ig6CIpSBubkniP8EqwOm+uA3CGPM2VlU1xJwm/CNWNMzqWgIgc4zTvEKnZ
+         pXIiA2MJtIB5CaDlq0rjvS5gBY7vXxXr1nTjo5Ber3QKd8vkG51mHN2D3JbfQLrFsQDA
+         1Dbm6iHADDO1Q6eUbS+x/kWC0EkLDSzWXa9LJHgp139x0L6qTtm8MVNkfj92bSkWE4O3
+         Z1jWuFWLfGlcFh+dD/4KvBYKz9ssSO9bEo7/MpSw93nIxa1FFVBq5MLgwCeZhPo0KOwk
+         gQXux8ij+iBCPMTfbs+DsjU9Hchfr4oxd9RgjsohIAaTo2JcuonM/kV1CFl0WIwtqSjO
+         e0hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=9BMR/1ljfo4sHSBuMNZ+z5Tv5CN3Fmzs3LXwrUy/C1M=;
-        b=DpO3XNsD3LVeyinGxxw+qFX3Ji0zSeUKh9EtJssgFfyeLy7O0+hNC+Ecwwfy0Ngntc
-         /4A2c3+P9rmxeSLorHBE/ghUEFgIs0aUAmh4kpYInVnuRdLuEWoGn+IhygDDWiRuUA/j
-         VrDWTBPlcozZ2oBd3WiMT+cAwsoeDpD3DvvhoW5v2+usnW9cPVQUOIS4esKfbKR93WdC
-         w2aHfXmbN5N6Y/1MoExkmAv6C4AOFA/y2RnlMqxL6WDhNXea/VNoVW3+xlFPwOhA2XvN
-         JomdhtpwDhZXl7GeT1MwK2UEjP28Mdu/9v2KixTAbHCXCuZR9YzYSDXmkSyV7P4EO3f+
-         dlwg==
-X-Gm-Message-State: APjAAAUd5xFqRB80paUuw1JRqBzg2Xibes7euOxAgA/ocKt3agEH+WIn
-        PKJ9GUYUMeMRgJAA6M1fZzW+sciFnEI=
-X-Google-Smtp-Source: APXvYqy9aqh2YWKxZGcjHmox0Uy657jDNwnRb5bPLy/I7HQrDO1i0qmtW04hETu/klN6F2ngy7B/Hg==
-X-Received: by 2002:a63:4804:: with SMTP id v4mr5710281pga.373.1581720938430;
-        Fri, 14 Feb 2020 14:55:38 -0800 (PST)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.googlemail.com with ESMTPSA id r9sm8314708pfl.136.2020.02.14.14.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 14:55:37 -0800 (PST)
-Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>, Rob Herring <robh@kernel.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Potapenko <glider@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <158166060044.9887.549561499483343724.stgit@devnote2>
- <158166062748.9887.15284887096084339722.stgit@devnote2>
- <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
- <20200214224744.GC439135@mit.edu>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
-Date:   Fri, 14 Feb 2020 14:55:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OfncaOBUirWGLh9Iq7kwxxSsByucOt2Wppw4ynvXDuo=;
+        b=umTsOHV8v1OXX5709ZbL2XS6YqMMowolBrgdgc+EJn4fgY8t1SOtXvrdIiN72GyXw6
+         BnHvlNzEqhcTYzGBYgE8Gm/2gEpmU9SxdrPCj8skp674UFjwFiESZmvXtyRLPndZvH4k
+         vKGgfEZkYsNlPkJLzDY2k20bnCLXidnyjHj88rZMXa1pVeaOqC14IiTf8/KF9vTb9X2s
+         IDRcM1PDNRKfPAjit+uAIWmXA/ZPdkseGGXRWDONtUlx0p2JWGn7GVJob8JM++0dTJLx
+         HICm8/5QsRqNmhrQ+0AOEmEcczwqfhrc5CnTy7HuhoVw47Z1qyZvu7RHXOxYbEffgK7b
+         Op7Q==
+X-Gm-Message-State: APjAAAUkX1Viu5FY/gHHIpjFuHIZpT+0M9Stsf+Gr2EkWZcpmmZgl9cw
+        HjlPjdg1Kvv1ZSf59l7c+hgRzA==
+X-Google-Smtp-Source: APXvYqzE3ne/xD31Jgns9lDh+Obe40lIZIm7x1bBVViPpTWpRAdA9aqaJHaVEF5ciDTUGB5ipW67/w==
+X-Received: by 2002:a25:6d88:: with SMTP id i130mr5279654ybc.402.1581721122491;
+        Fri, 14 Feb 2020 14:58:42 -0800 (PST)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id c84sm3331908ywa.1.2020.02.14.14.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2020 14:58:42 -0800 (PST)
+Date:   Fri, 14 Feb 2020 15:58:39 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com
+Subject: Re: [PATCH v4 5/6] coresight: cti: Add in sysfs links to other
+ coresight devices.
+Message-ID: <20200214225839.GB20024@xps15>
+References: <20200211105808.27884-1-mike.leach@linaro.org>
+ <20200211105808.27884-6-mike.leach@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200214224744.GC439135@mit.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200211105808.27884-6-mike.leach@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/20 2:47 PM, Theodore Y. Ts'o wrote:
-> On Fri, Feb 14, 2020 at 01:58:35PM -0600, Rob Herring wrote:
->> On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
->>> From: Mark Salyzyn <salyzyn@android.com>
->>>
->>> commit 428826f5358c922dc378830a1717b682c0823160
->>> ("fdt: add support for rng-seed") makes the assumption that the data
->>> in rng-seed is binary, when it is typically constructed of utf-8
->> Typically? Why is that?
->>
->>> characters which has a bitness of roughly 6 to give appropriate
->>> credit due for the entropy.
-> This is why I really think what gets specified via the boot command
-> line, or bootconfig, should specify the bits of entropy and the
-> entropy seed *separately*, so it can be specified explicitly, instead
-> of assuming that *everyone knows* that rng-seed is either (a) a binary
-> string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
-> *not* know, or everyone will have a different implementation, which
-> everyone will say is *obviously* the only way to go....
->
-> 	      	     		     	  - Ted
+On Tue, Feb 11, 2020 at 10:58:07AM +0000, Mike Leach wrote:
+> Adds in sysfs links for connections where the connected device is another
+> coresight device. This allows examination of the coresight topology.
+> 
+> Non-coresight connections remain just as a reference name.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/coresight-cti.c | 41 ++++++++++++++++++++-
+>  1 file changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> index 9e18e176831c..f620e9460e7d 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> @@ -441,6 +441,37 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+>  	return err;
+>  }
+>  
+> +static void cti_add_sysfs_link(struct cti_drvdata *drvdata,
+> +			       struct cti_trig_con *tc)
+> +{
+> +	struct coresight_sysfs_link link_info;
+> +
+> +	link_info.orig = drvdata->csdev;
+> +	link_info.orig_name = tc->con_dev_name;
+> +	link_info.target = tc->con_dev;
+> +	link_info.target_name = dev_name(&drvdata->csdev->dev);
+> +	coresight_add_sysfs_link(&link_info);
 
-Given that the valid option are between 4 (hex), 6 (utf-8) or 8 
-(binary), we can either split the difference and accept 6; or take a 
-pass at the values and determine which of the set they belong to 
-[0-9a-fA-F], [!-~] or [\000-\377]  nor need to separately specify.
+I understand there isn't much to do if a problem occurs so just catch the error
+and add a comment to assert you're doing this on purpose.
 
--- Mark
+> +}
+> +
+> +static void cti_remove_all_sysfs_links(struct cti_drvdata *drvdata)
+> +{
+> +	struct cti_trig_con *tc;
+> +	struct cti_device *ctidev = &drvdata->ctidev;
+> +	struct coresight_sysfs_link link_info;
+> +
+> +	/* origin device and target link name constant for this cti */
+> +	link_info.orig = drvdata->csdev;
+> +	link_info.target_name = dev_name(&drvdata->csdev->dev);
+> +
+> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> +		if (tc->con_dev) {
+> +			link_info.target = tc->con_dev;
+> +			link_info.orig_name = tc->con_dev_name;
+> +			coresight_remove_sysfs_link(&link_info);
+> +		}
+> +	}
+> +}
+> +
+>  /*
+>   * Look for a matching connection device name in the list of connections.
+>   * If found then swap in the csdev name, set trig con association pointer
+> @@ -452,6 +483,8 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+>  {
+>  	struct cti_trig_con *tc;
+>  	const char *csdev_name;
+> +	struct cti_drvdata *drvdata = container_of(ctidev, struct cti_drvdata,
+> +						   ctidev);
+>  
+>  	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+>  		if (tc->con_dev_name) {
+> @@ -462,6 +495,7 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+>  					devm_kstrdup(&csdev->dev, csdev_name,
+>  						     GFP_KERNEL);
+>  				tc->con_dev = csdev;
+> +				cti_add_sysfs_link(drvdata, tc);
+>  				return true;
+>  			}
+>  		}
+> @@ -546,10 +580,12 @@ static void cti_update_conn_xrefs(struct cti_drvdata *drvdata)
+>  	struct cti_device *ctidev = &drvdata->ctidev;
+>  
+>  	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> -		if (tc->con_dev)
+> +		if (tc->con_dev) {
+>  			/* set tc->con_dev->ect_dev */
+>  			coresight_set_assoc_ectdev_mutex(tc->con_dev,
+>  							 drvdata->csdev);
+> +			cti_add_sysfs_link(drvdata, tc);
+> +		}
+>  	}
+>  }
+>  
+> @@ -602,6 +638,9 @@ static void cti_device_release(struct device *dev)
+>  	mutex_lock(&ect_mutex);
+>  	cti_remove_conn_xrefs(drvdata);
+>  
+> +	/* clear the dynamic sysfs associate with connections */
 
+s/associate/associated
+
+> +	cti_remove_all_sysfs_links(drvdata);
+> +
+>  	/* remove from the list */
+>  	list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
+>  		if (ect_item == drvdata) {
+
+With the above:
+
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+> -- 
+> 2.17.1
+> 
