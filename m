@@ -2,126 +2,115 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B98C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B283C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:42:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67E4F2082F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581701505;
-	bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ns3PSr3Tx1GV+L0hoOD3sqHApAYAV8Q1r4CWCJ/8ywg/55zi7R6O6IUAzdilv3SNF
-	 CccIvmBgPrZ0BVlcS2mtPACWVMoyTQ4RME3u/wHt5wR1+A4B1NpyaQCxGa2rahlKrl
-	 6nlXhLJnN3pUp19+vU1a+qdvcpVfwYQO9T1axy7g=
+	by mail.kernel.org (Postfix) with ESMTP id EDADE206B6
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:42:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="cVlFsWdK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389141AbgBNRbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 12:31:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57820 "EHLO mail.kernel.org"
+        id S2391350AbgBNRmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 12:42:46 -0500
+Received: from mout.gmx.net ([212.227.17.21]:58657 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390546AbgBNQG7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:06:59 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 435FF24676;
-        Fri, 14 Feb 2020 16:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696418;
-        bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cMIhEK82DJrou9J93Ax4DOUy14gY67BjDkIXnWICJNg4KVs5QBG23aGO740hrH+3L
-         3yCB0GsZFOY3haHshlnuundR2tftIiDUkndiW8p7VISHpCBEcN/QHQfKmL4fqgte8+
-         SWgoJ7ocNvL9BsaQdug3x5kGKdjVpV4YM8Mq2qNg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Peter Rosin <peda@axentia.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 239/459] fbdev: fix numbering of fbcon options
-Date:   Fri, 14 Feb 2020 10:58:09 -0500
-Message-Id: <20200214160149.11681-239-sashal@kernel.org>
+        id S2389707AbgBNRmp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 12:42:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1581702136;
+        bh=Fr/aV/fvvp0r0zg9ZhAl6tEBlqL/IG+UHnFaZMP2xXA=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=cVlFsWdKoSt6DNuU7j0/9SMkS/LfXVWu9Y5YxplA0E1j+GFiBiy/8KQ+7X8AcVt83
+         z8r9GHkYkNryJlimtlKmXEhRUs14jRbUmBsF0TC/ahR+pCPczyob8gcuh7V8aVuarO
+         9/rJJ/uKBGTQZm7fWnKEOhmrWwXsUOnFu3lHktWU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.214.12]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MjS9C-1jmBzm0bGs-00kvyP; Fri, 14
+ Feb 2020 18:42:16 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Shobhit Kukreti <shobhitkukreti@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Harald Seiler <hws@denx.de>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] docs: driver-api: edid: Fix list formatting
+Date:   Fri, 14 Feb 2020 18:41:32 +0100
+Message-Id: <20200214174139.16101-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FJvoTyFdd0RiK48roKn8aMvVl1k9p/41HXgnAtAMRT2NE40/nyQ
+ wDjPiwbkUtJQDugYSv9KVu1xKaKZSguMv5G2IDxWTTepwy7kG2f5JGlsyw8iOpfZqjTtu56
+ 9reNrw38kef/8044qU4pAqRcB815wsWNLeV7dUEVWs5OmgZOBhUIXwJEQ0t5CvgDjMVUJCY
+ OB6UFo/MaD81TWxkhefuw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XgJ0tGiKOuE=:+MYfgJk1i3iEep13DPweyr
+ tZPEKqpXJZPh5xLewfAPk1IbB6HZ574i88oikL9mIC4nYbGXozqTxUVSA1+nENn65EEe6PKTH
+ KddOGB0xUviOtO//sb9EiOSQ06GjXPBMxsFuyYCQqdqeXzd8a5OkNq0pSj02jXzXW0TYicqcH
+ lp2mY9KRzprWP20SIQ9/TqiTAKxu7/vepGqk7zhSmzN7g+Vi8kBUslC9bSQBRxW59YX8xklBW
+ oEjas1Zxq2zSDUPFqP0TIvMctN6ywS7eUsSjqaYdCR1qh4pqRoiYMk0GjxqUlmldpzD7sQhys
+ oRGfaHNTgDv+SYG/BKX3H6s4V7VXvKCM4nHxIMZZ55rjP1+q1yuJhH2sCCklc3silfEh4GB7S
+ tVW10YvafH8WOCqzfsF90O5Ba1OlsZBVxy/NlL194eb2PMOsRbQEIddpmx9LpBq3JS425iCSx
+ 5aRkAxkH8ljqT5++fncC4nSAO/dlKgdCs/xFQZ29u3FG5bTWmrFOZK3d7akbPNRRRD0B3R1/g
+ /Ycb5xFUNr4yjP+BaYgGakNEODRtaypH0YLKhdvTmx1xSOq3ANiIyisOsA6j8lOcRL39N8nSR
+ rrCrQCPerOXam7eek2PX2yVrkh99AedpETT5+xjag81hQapgPBelLxB3uPTLwAvEVSayAsa0n
+ ZDCIdHqmy8Noji7bFB6fiTCfYx5J+s9hRNKEH1bIAuGDvk2Fq5tksl2zjz6oixLboljarwHoF
+ 8KyYowkKJKYh/d39PvAqrqYg8yTLbSgmd1VirJWyvGQFoz3diOWorhPKq7qq50b0WHqEBtH72
+ d0gpG/bYNx2ktnZBfjx11snXOcKu2WsO5HR77+UwkbZ43P2lkg9ZEwjBpJ+xE7uaTymdJq8o4
+ pAbb/efS/YfH51YnN/FBoYb64bE8xiy3aU3Wlm5wLPSgs5oXXI6pxc/d2pT5/0dQ3QVoUTRsL
+ hzhj5TFkr7QpCzGm4ux7n0/4l58IV6WaY5j696+FkaZNB/DBwvKrsa88AvvkilzBOMyo5zGDn
+ RTCCVPG7Z56QYIhApdErGuSTqnYsbwZiCrJTbK18Gxd1EE2NdsaNw4MVwX3OY5CZDsnA1rSlM
+ 8Jx98TnmqWus7yslKsR3SwqtRVMZspS8wQoCTbu9p7sseQ9whW1ANHdB7nfuYHNfFlro+NL/j
+ PZJkowLKxsV2kPW/grVDsD7osJf9Lg2/W1M1x0tshVHNNkl5hY/4nSXzwOgYSd0eu5FyE2uZ/
+ a03AzZ596g3oX4M8e
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Peter Rosin <peda@axentia.se>
+Without the empty lines, Sphinx renders the list as part of the running
+text.
 
-[ Upstream commit fd933c00ebe220060e66fb136a7050a242456566 ]
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/driver-api/edid.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Three shall be the number thou shalt count, and the number of the
-counting shall be three. Four shalt thou not count...
+diff --git a/Documentation/driver-api/edid.rst b/Documentation/driver-api/=
+edid.rst
+index b1b5acd501ed..7dc07942ceb2 100644
+=2D-- a/Documentation/driver-api/edid.rst
++++ b/Documentation/driver-api/edid.rst
+@@ -11,11 +11,13 @@ Today, with the advent of Kernel Mode Setting, a graph=
+ics board is
+ either correctly working because all components follow the standards -
+ or the computer is unusable, because the screen remains dark after
+ booting or it displays the wrong area. Cases when this happens are:
++
+ - The graphics board does not recognize the monitor.
+ - The graphics board is unable to detect any EDID data.
+ - The graphics board incorrectly forwards EDID data to the driver.
+ - The monitor sends no or bogus EDID data.
+ - A KVM sends its own EDID data instead of querying the connected monitor=
+.
++
+ Adding the kernel parameter "nomodeset" helps in most cases, but causes
+ restrictions later on.
 
-One! Two! Five!
-
-Fixes: efb985f6b265 ("[PATCH] fbcon: Console Rotation - Add framebuffer console documentation")
-Signed-off-by: Peter Rosin <peda@axentia.se>
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190827110854.12574-2-peda@axentia.se
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/fb/fbcon.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index ebca41785abea..65ba402551374 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -127,7 +127,7 @@ C. Boot options
- 	is typically located on the same video card.  Thus, the consoles that
- 	are controlled by the VGA console will be garbled.
- 
--4. fbcon=rotate:<n>
-+5. fbcon=rotate:<n>
- 
- 	This option changes the orientation angle of the console display. The
- 	value 'n' accepts the following:
-@@ -152,21 +152,21 @@ C. Boot options
- 	Actually, the underlying fb driver is totally ignorant of console
- 	rotation.
- 
--5. fbcon=margin:<color>
-+6. fbcon=margin:<color>
- 
- 	This option specifies the color of the margins. The margins are the
- 	leftover area at the right and the bottom of the screen that are not
- 	used by text. By default, this area will be black. The 'color' value
- 	is an integer number that depends on the framebuffer driver being used.
- 
--6. fbcon=nodefer
-+7. fbcon=nodefer
- 
- 	If the kernel is compiled with deferred fbcon takeover support, normally
- 	the framebuffer contents, left in place by the firmware/bootloader, will
- 	be preserved until there actually is some text is output to the console.
- 	This option causes fbcon to bind immediately to the fbdev device.
- 
--7. fbcon=logo-pos:<location>
-+8. fbcon=logo-pos:<location>
- 
- 	The only possible 'location' is 'center' (without quotes), and when
- 	given, the bootup logo is moved from the default top-left corner
--- 
+=2D-
 2.20.1
 
