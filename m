@@ -2,308 +2,155 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 019D3C35242
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 23:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6199BC35242
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 23:39:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BDE52206B6
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 23:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EFFE222C4
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 23:39:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="arZTtfq3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GiyfG6xC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727458AbgBNXRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 18:17:10 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:43177 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgBNXRK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 18:17:10 -0500
-Received: by mail-yw1-f68.google.com with SMTP id f204so5001903ywc.10
-        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 15:17:09 -0800 (PST)
+        id S1728429AbgBNXjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 18:39:36 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:41088 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728508AbgBNXjg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 18:39:36 -0500
+Received: by mail-qt1-f194.google.com with SMTP id l21so8129944qtr.8;
+        Fri, 14 Feb 2020 15:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pyTRBMCVp91QtDenhmoQzqMCfGd84Vh8aWQ/JT+Qq5M=;
-        b=arZTtfq3IuYFvYo4HsF0usZchn45O4hmIUeyrGFD/a5oAV5Xkt+NDc184e6GsSzXNu
-         /3gVxkEfd4dp6kfe+8FkaL+zdU6LWhjf/sAyDl58QJGzHCopc7SzoygYknUGJ6P7d/xR
-         S0dNSKpD1PbIebPkxz5NPbfkIVSHhFp8jTe61rUQJmb1RFij/Jjsrso7s7O1V9MLTC++
-         n/n/scvbt1Bc+VEKkMc39HOJutbPYGtU4rRl1ol+8euo+PXpDVFo/E76/FUq6NKU9R1P
-         NQWmnfNKjCiF9F0XA2q++UvQif8XKWpESlzDdGV6+ZIpfhP7m1Z0cfWyDPxd1CTPx15C
-         ZDKw==
+         :content-disposition:in-reply-to;
+        bh=hoAgCZmN1XpQfzhP7Qb2SDiMGckSqZQxEo33rnXwsdw=;
+        b=GiyfG6xCNJtKMIsMrJ0JETDXBBAyOPTCbu/OraMznyUx6FTbJL+P5TOaGb7l8oGWQI
+         SXSFn7JcHaSQ+vy8eBzE4Mk1XvnK5pyxO8EhfqvyDtxqihB62wMHfVyjlvTk5MVx8bnY
+         EX6Jj55YMmfZXjLqb5KrFLzySRLvkr9LEVTIWpaePjmwccaAjQrH7IW8DU7MBSbSP++J
+         dC79e6C+6QcDHEsLoyYbxOBvy7eaYgtHwbzWsfAuD3K2SjMp6CMepOigSXJ0B3NvuwdK
+         xYvr/IsSW2s26mQHEC/nhHB/fY21FhfJpwjQGNROMOhHeuO7ZXDzllp0GSVRfiZHacO1
+         oMQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pyTRBMCVp91QtDenhmoQzqMCfGd84Vh8aWQ/JT+Qq5M=;
-        b=iqEkObf9b/5DcZOOCCzuuJc04XzwWwCJOmfN7ME1kRtitgpY7HWE0cwmXRp3g/r5df
-         GXUIJJtXos/NV5tRvXsKZOPfTNmwAionXQMyXkW0RKEdKU/PVQRslG1gsGhOKX+WtGD+
-         d7h0GTAXBqHh/w/5keMKxzly/PWqAiUd3XeV/17Th7PC4qc25EiUyH+E4Td5kgDXi71M
-         wB4UV8OR+320VIJtTUhZcalCpawOc4ur/BUHkS7FVKjd+EaOcqq73BqNSVBEGJtC0cSL
-         29vMyPpxYVnUxgboK1cgu26cJCdBqqSrVa76u/2uxVoe5T9arSGmwfKnNsYA+YwROrmd
-         2Yeg==
-X-Gm-Message-State: APjAAAW28IMRfRskXOnVR5bJDD3REWrZ3mkcNX//fMWJVIxQVjoSBGua
-        TBaZ7udFkQWPTaY1pmlQCXikzg==
-X-Google-Smtp-Source: APXvYqztSlqL5qyucSaXldZIzGpZYX2jVlDz5jrdS7qSUp8e7UOzwZCvE3AoF5wpajH9JbVUGqBi4Q==
-X-Received: by 2002:a81:99c7:: with SMTP id q190mr4725618ywg.480.1581722229050;
-        Fri, 14 Feb 2020 15:17:09 -0800 (PST)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id q130sm3171455ywg.52.2020.02.14.15.17.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 15:17:08 -0800 (PST)
-Date:   Fri, 14 Feb 2020 16:17:06 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org, suzuki.poulose@arm.com
-Subject: Re: [PATCH v4 3/6] coresight: Add generic sysfs link creation
- functions.
-Message-ID: <20200214231706.GD20024@xps15>
-References: <20200211105808.27884-1-mike.leach@linaro.org>
- <20200211105808.27884-4-mike.leach@linaro.org>
+         :mime-version:content-disposition:in-reply-to;
+        bh=hoAgCZmN1XpQfzhP7Qb2SDiMGckSqZQxEo33rnXwsdw=;
+        b=ozlqRrbo+kXz6ktM8AfcqR5uv359gfhI3Fvc0fx7Y3lRDToe3ytdu9jyCPZcv2uNJG
+         +8MBJAYoSuYWtXVN4w8kKcYoOg0yHwB4wD76w/mJm7/OgHeN2KNaYEavHvIxLG3oGlUn
+         4N+5rhmmif4SVzSIzxkkdwyDFoXG6oSlk76ybTFSIdhbxLCaV3tGbr5M7/wv2xNPQUre
+         unuqxhIy0c4XoOBcSqvTNkOT+GXRhmHTcyfbg1QF3GHAyOrX7NbHL1nNbMYvmvm9WEkk
+         wMgxasaRbTOQ0W6QnktuDXyILjH2S7NoWS60KW/Gp3rrJ7UpwNQ79+1vNNPvBFEAInC8
+         lB1A==
+X-Gm-Message-State: APjAAAV8vYX0g0JfaBZ0Mdr79JKjn3S5rkpmNavXPzYGDDaLgcrKguzk
+        atkGdUt1SoE9J8wfOXJD0ao=
+X-Google-Smtp-Source: APXvYqx3BeiZdYbFqiqZThJjhFru01Fhwt+njOg1zUCcKoBB9diaS5ss3OTQymFFbGM+iSitXjNXOw==
+X-Received: by 2002:ac8:7309:: with SMTP id x9mr4693926qto.338.1581723575009;
+        Fri, 14 Feb 2020 15:39:35 -0800 (PST)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id o55sm4442553qtf.46.2020.02.14.15.39.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Feb 2020 15:39:34 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 7471121B62;
+        Fri, 14 Feb 2020 18:39:33 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Fri, 14 Feb 2020 18:39:33 -0500
+X-ME-Sender: <xms:qy9HXqD7S2_2ZqlYI8eRO9_2pY3jghDRdk8hpj5jZQH-xaS5wqZ_xA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedugdduudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucffohhmrghinh
+    epkhgvrhhnvghlrdhorhhgnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvsh
+    hmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheeh
+    vddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:qy9HXhIviJvlUbTmxaxaQJVvEi3fKVyQeb0RKrzp9lPKCoMYFmfE9Q>
+    <xmx:qy9HXj-c_jflPjxVhRRBHFJJRtbhyklgy84Lc_ZKoiH-Msso6xSfDQ>
+    <xmx:qy9HXiq3aiESJx3K282WRdsyeyhNprRm-zdquoue6IfvbfgUKUgR1A>
+    <xmx:tS9HXm67rBD3WFnBqJcgx0XxstMh1eLdFKLsOBmDDscaGE_zwwCLvUS2b5c>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D4D7A30606E9;
+        Fri, 14 Feb 2020 18:39:22 -0500 (EST)
+Date:   Sat, 15 Feb 2020 07:39:21 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC 0/3] tools/memory-model: Add litmus tests for atomic APIs
+Message-ID: <20200214233921.GA110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200214040132.91934-1-boqun.feng@gmail.com>
+ <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211105808.27884-4-mike.leach@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 10:58:05AM +0000, Mike Leach wrote:
-> To allow the connections between coresight components to be represented
-> in sysfs, generic methods for creating sysfs links between two coresight
-> devices are added.
+On Fri, Feb 14, 2020 at 10:27:44AM -0500, Alan Stern wrote:
+> On Fri, 14 Feb 2020, Boqun Feng wrote:
 > 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> ---
->  drivers/hwtracing/coresight/Makefile          |   3 +-
->  drivers/hwtracing/coresight/coresight-priv.h  |   4 +
->  drivers/hwtracing/coresight/coresight-sysfs.c | 124 ++++++++++++++++++
->  include/linux/coresight.h                     |  20 +++
->  4 files changed, 150 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/hwtracing/coresight/coresight-sysfs.c
+> > A recent discussion raises up the requirement for having test cases for
+> > atomic APIs:
+> > 
+> > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
+> > 
+> > , and since we already have a way to generate a test module from a
+> > litmus test with klitmus[1]. It makes sense that we add more litmus
+> > tests for atomic APIs into memory-model.
 > 
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index 0e3e72f0f510..19497d1d92bf 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -2,7 +2,8 @@
->  #
->  # Makefile for CoreSight drivers.
->  #
-> -obj-$(CONFIG_CORESIGHT) += coresight.o coresight-etm-perf.o coresight-platform.o
-> +obj-$(CONFIG_CORESIGHT) += coresight.o coresight-etm-perf.o \
-> +			   coresight-platform.o coresight-sysfs.o
->  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o \
->  					     coresight-tmc-etf.o \
->  					     coresight-tmc-etr.o
-> diff --git a/drivers/hwtracing/coresight/coresight-priv.h b/drivers/hwtracing/coresight/coresight-priv.h
-> index 1cad642f27aa..a4a658d46045 100644
-> --- a/drivers/hwtracing/coresight/coresight-priv.h
-> +++ b/drivers/hwtracing/coresight/coresight-priv.h
-> @@ -153,6 +153,10 @@ struct coresight_device *coresight_get_sink_by_id(u32 id);
->  struct list_head *coresight_build_path(struct coresight_device *csdev,
->  				       struct coresight_device *sink);
->  void coresight_release_path(struct list_head *path);
-> +int coresight_add_sysfs_link(struct coresight_sysfs_link *info);
-> +void coresight_remove_sysfs_link(struct coresight_sysfs_link *info);
-> +int coresight_create_conns_sysfs_group(struct coresight_device *csdev);
-> +void coresight_remove_conns_sysfs_group(struct coresight_device *csdev);
->  
->  #ifdef CONFIG_CORESIGHT_SOURCE_ETM3X
->  extern int etm_readl_cp14(u32 off, unsigned int *val);
-> diff --git a/drivers/hwtracing/coresight/coresight-sysfs.c b/drivers/hwtracing/coresight/coresight-sysfs.c
-> new file mode 100644
-> index 000000000000..17d565941e5e
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-sysfs.c
-> @@ -0,0 +1,124 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2019, Linaro Limited, All rights reserved.
-> + * Author: Mike Leach <mike.leach@linaro.org>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/kernel.h>
-> +
-> +#include "coresight-priv.h"
-> +
-> +/*
-> + * Connections group - links attribute.
-> + * Count of created links between coresight components in the group.
-> + */
-> +static ssize_t nr_links_show(struct device *dev,
-> +			     struct device_attribute *attr,
-> +			     char *buf)
-> +{
-> +	struct coresight_device *csdev = to_coresight_device(dev);
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%d\n", csdev->nr_links);
-> +}
-> +static DEVICE_ATTR_RO(nr_links);
-> +
-> +static struct attribute *coresight_conns_attrs[] = {
-> +	&dev_attr_nr_links.attr,
-> +	NULL,
-> +};
-> +
-> +static struct attribute_group coresight_conns_group = {
-> +	.attrs = coresight_conns_attrs,
-> +	.name = "connections",
-> +};
-> +
-> +/*
-> + * Create connections group for CoreSight devices.
-> + * This group will then be used to collate the sysfs links between
-> + * devices.
-> + */
-> +int coresight_create_conns_sysfs_group(struct coresight_device *csdev)
-> +{
-> +	int ret = 0;
-> +
-> +	if (!csdev)
-> +		return -EINVAL;
-> +
-> +	ret = sysfs_create_group(&csdev->dev.kobj, &coresight_conns_group);
-> +	if (ret)
-> +		return ret;
-> +
-> +	csdev->has_conns_grp = true;
+> It might be worth discussing this point a little more fully.  The 
 
-The only place coresight_create_conns_sysfs_group() is used is in
-coresight_register() where an error is returned to driver probe() functions if
-an error occurs.  Have you found places where csdev->has_conns_grp is needed?
-If not please remove.
+I'm open to any suggestion, and ...
 
-> +	return ret;
-> +}
-> +
-> +void coresight_remove_conns_sysfs_group(struct coresight_device *csdev)
-> +{
-> +	if (!csdev)
-> +		return;
-> +
-> +	if (csdev->has_conns_grp) {
-> +		sysfs_remove_group(&csdev->dev.kobj, &coresight_conns_group);
-> +		csdev->has_conns_grp = false;
-> +	}
-> +}
-> +
-> +int coresight_add_sysfs_link(struct coresight_sysfs_link *info)
-> +{
-> +	int ret = 0;
-> +
-> +	if (!info)
-> +		return -EINVAL;
-> +	if (!info->orig || !info->target ||
-> +	    !info->orig_name || !info->target_name)
-> +		return -EINVAL;
-> +	if (!info->orig->has_conns_grp || !info->target->has_conns_grp)
-> +		return -EINVAL;
-> +
-> +	/* first link orig->target */
-> +	ret = sysfs_add_link_to_group(&info->orig->dev.kobj,
-> +				      coresight_conns_group.name,
-> +				      &info->target->dev.kobj,
-> +				      info->orig_name);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* second link target->orig */
-> +	ret = sysfs_add_link_to_group(&info->target->dev.kobj,
-> +				      coresight_conns_group.name,
-> +				      &info->orig->dev.kobj,
-> +				      info->target_name);
-> +
-> +	/* error in second link - remove first - otherwise inc counts */
-> +	if (ret) {
-> +		sysfs_remove_link_from_group(&info->orig->dev.kobj,
-> +					     coresight_conns_group.name,
-> +					     info->orig_name);
-> +	} else {
-> +		info->orig->nr_links++;
-> +		info->target->nr_links++;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +void coresight_remove_sysfs_link(struct coresight_sysfs_link *info)
-> +{
-> +	if (!info)
-> +		return;
-> +	if (!info->orig || !info->target ||
-> +	    !info->orig_name || !info->target_name)
-> +		return;
-> +
-> +	sysfs_remove_link_from_group(&info->orig->dev.kobj,
-> +				     coresight_conns_group.name,
-> +				     info->orig_name);
-> +
-> +	sysfs_remove_link_from_group(&info->target->dev.kobj,
-> +				     coresight_conns_group.name,
-> +				     info->target_name);
-> +
-> +	info->orig->nr_links--;
-> +	info->target->nr_links--;
-> +}
-> diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-> index 193cc9dbf448..a2ec25e02ca9 100644
-> --- a/include/linux/coresight.h
-> +++ b/include/linux/coresight.h
-> @@ -148,6 +148,20 @@ struct coresight_connection {
->  	struct coresight_device *child_dev;
->  };
->  
-> +/**
-> + * struct coresight_sysfs_link - representation of a connection in sysfs.
-> + * @orig:		Originating (master) coresight device for the link.
-> + * @orig_name:		Name to use for the link orig->target.
-> + * @target:		Target (slave) coresight device for the link.
-> + * @target_name:	Name to use for the link target->orig.
-> + */
-> +struct coresight_sysfs_link {
-> +	struct coresight_device *orig;
-> +	const char *orig_name;
-> +	struct coresight_device *target;
-> +	const char *target_name;
-> +};
-> +
->  /**
->   * struct coresight_device - representation of a device as used by the framework
->   * @pdata:	Platform data with device connections associated to this device.
-> @@ -165,6 +179,9 @@ struct coresight_connection {
->   * @ea:		Device attribute for sink representation under PMU directory.
->   * @ect_dev:	Associated cross trigger device. Not part of the trace data
->   *		path or connections.
-> + * @nr_links:   number of sysfs links created to other components from this
-> + *		device. These will appear in the "connections" group.
-> + * @has_conns_grp: Have added a "connections" group for sysfs links.
->   */
->  struct coresight_device {
->  	struct coresight_platform_data *pdata;
-> @@ -180,6 +197,9 @@ struct coresight_device {
->  	struct dev_ext_attribute *ea;
->  	/* cross trigger handling */
->  	struct coresight_device *ect_dev;
-> +	/* sysfs links between components */
-> +	int nr_links;
-> +	bool has_conns_grp;
->  };
+> set of tests in tools/memory-model/litmus-tests/ is deliberately rather 
+> limited.  Paul has a vastly more expansive set of litmus tests in a 
 
-With the above: 
+I'm OK if we want to limit the number of litmus tests in
+tools/memory-model/litmus-tests directory. But ...
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> GitHub repository, and I am doubtful about how many new tests we want 
+> to keep in the kernel source.
+> 
 
->  
->  /*
-> -- 
-> 2.17.1
+I think we all agree we want to use litmus tests as much as possbile for
+discussing locking/parallel programming/memory model related problems,
+right? This is benefical for both kernel and the herd tool, as they can
+improve each other.
+
+Atomic APIs (perhaps even {READ,WRITE}_ONCE(), smp_load_acquire() and
+smp_store_release()) have been longing for some more concrete examples
+as a complement for the semantics description in the docs, so that
+people can check their understandings. Further, with the help of
+klitmus, the litmus tests can be a useful tool for testing if a new arch
+support is added to kernel. That's why I plan to add litmus tests into
+kernel source.
+
+Thoughts?
+
+Regards,
+Boqun
+
+> Perhaps it makes sense to have tests corresponding to all the examples
+> in Documentation/, perhaps not.  How do people feel about this?
+> 
+> Alan
 > 
