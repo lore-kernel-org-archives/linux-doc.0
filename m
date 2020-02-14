@@ -2,126 +2,139 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1607AC3B19D
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E93C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E03FD24685
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581695696;
-	bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Q2U0H9lm7zQ9Tc7g1RqGJtQDWSJbZ+ISweAukgN9mqPjlxOjWXF4xkw+7o7/HnbZh
-	 v1wIC7de2oRMqknd7HNXGyEAycbEQZI9Cb3heanjyfErw00AGHMkeFiX0t5BVQaSIj
-	 zYQOGGeSf8JIGt7DD/yesqxYsZffbbMho4h+j3ps=
+	by mail.kernel.org (Postfix) with ESMTP id 8C0E32067D
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:00:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="E7rBgMfT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731640AbgBNPyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 10:54:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35392 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731241AbgBNPyx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:54:53 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1F1FE24676;
-        Fri, 14 Feb 2020 15:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695693;
-        bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TXINiA4tQ/z7WmhSii7nfOaOxTuxWgj1sNoDbKeNEcvEjlSizmEr4FdbspK8IeP2j
-         0I8GT3fGR5twOWil88spVScnqZjVNUQsMqGUJKT+SbvC/9z0+rt+PUtytSmnhWGe7w
-         ut8FOPFhr1hxrJn5Qh0aL0kK603Ns55PCNeqoQS8=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Peter Rosin <peda@axentia.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        id S2394410AbgBNRAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 12:00:20 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33060 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390858AbgBNRAT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 12:00:19 -0500
+Received: by mail-pf1-f193.google.com with SMTP id n7so5173884pfn.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 09:00:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=mMbk3LUtFFonCbHvxPtq3VRJfckeTUY1K1Awq5IpEbQ=;
+        b=E7rBgMfTslEdAa51yhBteDEbNwDifWOiivwEpnXPMMNzoZKvpflgLsVZc40XE+ngvI
+         5QH1pUHuUdcQwwYKHxR4MVzCMQSjfJchmWGwkHXa2N4V5ZoDb/PB75kOw5zrlNHkODpP
+         nDKL7tDcGoUnqt/iIS40qR9S7P+4WDRrgPAlCV1qS285y6B1MyOriTMeBCIVYaYR7Z0d
+         Hc8r6IeWSt4HRmi6C+2rqaOFeSdvRbelf6T3HH9GeF6vyXUgn/RI5m/8cpa8SfVttlm7
+         rQO64Ek2PuLq+5v2dQlFxFJbxfbA8BuI3h3cYoCNidcSsqwDv+4WR0MlvuC7wPz7P/pm
+         ddYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=mMbk3LUtFFonCbHvxPtq3VRJfckeTUY1K1Awq5IpEbQ=;
+        b=J5Q8YMSNuhMtnrcOgyJOB/jwwtnfh0zD4gU+TnY0cQ92hFzWKp4Yz8Kqo/EtKhFlMT
+         YzF/vDua8Vqy2ud6L6eXkfCM3ssSCBIS7QeJEsutgonIf69SXCWhk553vNM8IR4MOg/g
+         Ksrep/3VChyqRwtC3zajdqxM+0VOfgdCFRP/gqh1YYXCJnyg70VBX1B1pvHXxcY5c3aa
+         Ozi4lkCGYL3bcRD5i2wUXddh/LL+OAyaINy27W8OY+39rx6VGf0rFP2Zmdzhde9REJ0T
+         pvpqHrOv00GD2zyLrubmz+hD3ryP5lE3jVX2kSTtZ8MigkGEApmbBVoq/xEh7awd9gPC
+         fJcA==
+X-Gm-Message-State: APjAAAX+3iMsC5c712ZitrIZom3I5I32hI6WBHD63KEyfmqUMhhBgql9
+        u803bgufeIDD92Dwd/Vks7sXndXVkyE=
+X-Google-Smtp-Source: APXvYqx9pwndWjzTw48b+2ZezAwXcX8mfwTFPA0lWnMyxbbEihEqWPppJWAVTyKw1qxnoF6lMrSwkg==
+X-Received: by 2002:a62:8246:: with SMTP id w67mr4318627pfd.107.1581699617881;
+        Fri, 14 Feb 2020 09:00:17 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id 133sm7556599pfy.14.2020.02.14.09.00.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Feb 2020 09:00:17 -0800 (PST)
+Subject: Re: [PATCH 0/3] random: add random.rng_seed to bootconfig entry
+To:     Rob Herring <robh@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Theodore Ts'o <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Potapenko <glider@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 276/542] fbdev: fix numbering of fbcon options
-Date:   Fri, 14 Feb 2020 10:44:28 -0500
-Message-Id: <20200214154854.6746-276-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <158166060044.9887.549561499483343724.stgit@devnote2>
+ <CAL_JsqJ_VwHdpQ_WnQHu5J-bfs1vRPd5HQwVekR+5kKdVi4sXw@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <1694f42c-bfc9-570a-64d2-3984965c8940@android.com>
+Date:   Fri, 14 Feb 2020 09:00:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqJ_VwHdpQ_WnQHu5J-bfs1vRPd5HQwVekR+5kKdVi4sXw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Peter Rosin <peda@axentia.se>
+On 2/14/20 5:49 AM, Rob Herring wrote:
+> On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>> Hi,
+>>
+>> The following series is bootconfig based implementation of
+>> the rng_seed option patch originally from Mark Salyzyn.
+>> Note that I removed unrelated command line fixes from this
+>> series.
+> Why do we need this? There's already multiple other ways to pass
+> random seed and this doesn't pass the "too complex for the command
+> line" argument you had for needing bootconfig.
+>
+> Rob
 
-[ Upstream commit fd933c00ebe220060e66fb136a7050a242456566 ]
+Android is the use case I can vouch for. But also KVM.
 
-Three shall be the number thou shalt count, and the number of the
-counting shall be three. Four shalt thou not count...
+Android Cuttlefish is an emulated device used extensively in the testing 
+and development infrastructure for In-house, partner, and system and 
+application developers for Android. There is no bootloader, per-se. 
+Because of the Android GKI distribution, there is also no rng virtual 
+driver built in, it is loaded later as a module, too late for many 
+aspects of KASLR and networking. There is no Device Tree, it does 
+however have access to the content of the initrd image, and to the 
+command line for the kernel. The only convenient way to get early 
+entropy is going to have to be one of those two places.
 
-One! Two! Five!
+In addition, 2B Android devices on the planet, especially in light of 
+the Android GKI distribution were everything that is vendor created is 
+in a module, needs a way to collect early entropy prior to module load 
+and pass it to the kernel. Yes, they do have access to the recently 
+added Device Tree approach, and we expect them to use it, as I have an 
+active backport for the mechanism into the Android 4.19 and 5.4 kernels. 
+There may also be some benefit to allowing the 13000 different 
+bootloaders an option to use bootconfig as a way of propagating the much 
+needed entropy to their kernels. I could make a case to also allow them 
+command line as another option to relieve their development stress to 
+deliver product, but we can stop there. Regardless, this early entropy 
+has the benefit of greatly improving security and precious boot time.
 
-Fixes: efb985f6b265 ("[PATCH] fbcon: Console Rotation - Add framebuffer console documentation")
-Signed-off-by: Peter Rosin <peda@axentia.se>
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190827110854.12574-2-peda@axentia.se
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/fb/fbcon.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index ebca41785abea..65ba402551374 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -127,7 +127,7 @@ C. Boot options
- 	is typically located on the same video card.  Thus, the consoles that
- 	are controlled by the VGA console will be garbled.
- 
--4. fbcon=rotate:<n>
-+5. fbcon=rotate:<n>
- 
- 	This option changes the orientation angle of the console display. The
- 	value 'n' accepts the following:
-@@ -152,21 +152,21 @@ C. Boot options
- 	Actually, the underlying fb driver is totally ignorant of console
- 	rotation.
- 
--5. fbcon=margin:<color>
-+6. fbcon=margin:<color>
- 
- 	This option specifies the color of the margins. The margins are the
- 	leftover area at the right and the bottom of the screen that are not
- 	used by text. By default, this area will be black. The 'color' value
- 	is an integer number that depends on the framebuffer driver being used.
- 
--6. fbcon=nodefer
-+7. fbcon=nodefer
- 
- 	If the kernel is compiled with deferred fbcon takeover support, normally
- 	the framebuffer contents, left in place by the firmware/bootloader, will
- 	be preserved until there actually is some text is output to the console.
- 	This option causes fbcon to bind immediately to the fbdev device.
- 
--7. fbcon=logo-pos:<location>
-+8. fbcon=logo-pos:<location>
- 
- 	The only possible 'location' is 'center' (without quotes), and when
- 	given, the bootup logo is moved from the default top-left corner
--- 
-2.20.1
+Sincerely -- Mark Salyzyn
 
