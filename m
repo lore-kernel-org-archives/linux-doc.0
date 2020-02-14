@@ -2,166 +2,116 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C90C35242
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 04:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B06C35242
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 06:10:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A31F217F4
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 04:02:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zg92sSP7"
+	by mail.kernel.org (Postfix) with ESMTP id ED2C322314
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 06:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581660610;
+	bh=Kc2vb5ztTSiLTpw3SoX3wXVs2ZKMS6lfB2nsHx4fKT4=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=A4C2aiVN+WFQVyaG2NBrwdC54jOVfBcDx56N5eMeaDoc5tn5kp+dKyHm2kJcDlrLK
+	 effrcq5tPpwLg5sQw8YmQe+vwO/Z0y7aSbNqzc67v/WXkwrfgNpnTfK94oy+Wcd0x1
+	 69cSi18gIjA8nnxwEPUQEdW4kn3lE+ekGMMBKQAw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728513AbgBNECA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Feb 2020 23:02:00 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:38123 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728309AbgBNEBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Feb 2020 23:01:52 -0500
-Received: by mail-qk1-f196.google.com with SMTP id z19so7982072qkj.5;
-        Thu, 13 Feb 2020 20:01:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yknKVlNQwUI6dUMkFYithHZ6HnaPfn7u59ijVpemNQM=;
-        b=Zg92sSP7gDACRfvrM/iWZdX7Uht6GkDfcIzaO7uvMbqf4HTevYbqbmEVOto2UtK4nb
-         XIleeuSufLYEGPgSsZtEOvR9Km9K7+dnYs0WGk8KO1t5OmJXIoW+TTuQIQppUrhz0KBs
-         cTqKGxb+r49zSWv1bWWhpi5Yf92zDZqOTW9QANvniEaXk/uzOFBKRsfZ32Z5sPhVCHbN
-         puOdv/UxVda8Pfm4I/7BL2XrztMaVt8kSkaJvBG68oJMor3IWDhJh0Rs6taEkmJN17hA
-         7H8O3QmOXYogcK+VF4H+zmEZyKEJJWPvLWAbBJ8/3LDbTinxD4S5T7CQ4nkk68OCmNlU
-         VOBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yknKVlNQwUI6dUMkFYithHZ6HnaPfn7u59ijVpemNQM=;
-        b=E+kMJgcenuyLdcP/ODi7Z4BWd/xFmDeUmuYjRSpOzDgpmdV31sR5qCnrw8m+u0zKUU
-         3s2RbWd/7WN9yuUzdZwAQuXaiNqBnIf/fH5G/yr99dD7Iz1PlRqaFGQ/kkfKAhDC211D
-         NFN55gXLYnY+HH7OYwjfic4cH3XZ42XfXYhVr31VcfH5Zp7WH1m0QIoRCC3WLubLUqhC
-         OOinoPhDSBB5z2tiJHrNuud2bCHZzSzZv45CW7GH8i0uljOFwD6IMfWr0vU+CGI+bbrc
-         F6oPsoPFm4qzytjunD26QpoMDW4QXG7g23tczmIGFT03GsHA3hwkWh2mNH5K0Uff/IQA
-         rMIg==
-X-Gm-Message-State: APjAAAV+Au3GSKk+d1O6ZZx49toh1tzWbcnp0T30N7iPwpjm5ctzI60Q
-        d/VL7cNKPgVkqE8gBTLS9xA=
-X-Google-Smtp-Source: APXvYqyaH0Fwo2EG77Hr8mgRUar/MVsrg9xgTrXSuncizoiByQeg/BkqHxvhcNW6AFWwljmayF/Ijg==
-X-Received: by 2002:ae9:e210:: with SMTP id c16mr713180qkc.334.1581652909953;
-        Thu, 13 Feb 2020 20:01:49 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id s26sm2615823qkj.24.2020.02.13.20.01.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Feb 2020 20:01:48 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id C4B25221AD;
-        Thu, 13 Feb 2020 23:01:46 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 13 Feb 2020 23:01:46 -0500
-X-ME-Sender: <xms:phtGXuBYd1G46L8rktzp_QIQXixCJiQmE1Jnqbfr1bnpLCWS85U-kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrieelgdeiiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucfkphephedvrd
-    duheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqd
-    eiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhl
-    rdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:phtGXrJWH6xTqWnf417-9qen_q3Txk3sHK0PIKLOGOXXndc9NDC-5w>
-    <xmx:phtGXhGEbRNZIi84s5mneklQ_cRq-DjTzKJgjXNKCHQMbuabOkJrkQ>
-    <xmx:phtGXuF0etdtW7DKVvg70OZ5jc4TXbZ1vfJBv78txWqKA7sAwg8Rvw>
-    <xmx:qhtGXmOAKug2i9jraZVMufI8DnPaDXsUnVFvU7p6WYx0t7p5eYgbGS8EWiE>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3C2FD3060D1A;
-        Thu, 13 Feb 2020 23:01:42 -0500 (EST)
-From:   Boqun Feng <boqun.feng@gmail.com>
+        id S1725897AbgBNGKJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 01:10:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725818AbgBNGKJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 01:10:09 -0500
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3F4B8222C4;
+        Fri, 14 Feb 2020 06:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581660608;
+        bh=Kc2vb5ztTSiLTpw3SoX3wXVs2ZKMS6lfB2nsHx4fKT4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=meaeyX/E6WWGJsMTMfOx7+/Aj71hrpHp7m+9lqvX0r2tE97c1M+73DrRikm9erWw0
+         iZVrwWtk1CpRvPSnwnedxvuWTrp862DtxrnUFBqDWuOgqw7RzuQrtGeIAH6pC0u8mr
+         Vfi9a69CBTFudu4y19fKZdaxm25yd6zHhRljK4Uo=
+From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     linux-kernel@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
+Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
+        Theodore Ts'o <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>, Rob Herring <robh@kernel.org>,
         linux-doc@vger.kernel.org
-Subject: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
-Date:   Fri, 14 Feb 2020 12:01:31 +0800
-Message-Id: <20200214040132.91934-3-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200214040132.91934-1-boqun.feng@gmail.com>
-References: <20200214040132.91934-1-boqun.feng@gmail.com>
+Subject: [PATCH 0/3] random: add random.rng_seed to bootconfig entry
+Date:   Fri, 14 Feb 2020 15:10:00 +0900
+Message-Id: <158166060044.9887.549561499483343724.stgit@devnote2>
+X-Mailer: git-send-email 2.20.1
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We already use a litmus test in atomic_t.txt to describe the behavior of
-an atomic_set() with the an atomic RMW, so add it into the litmus-tests
-directory to make it easily accessible for anyone who cares about the
-semantics of our atomic APIs.
+Hi,
 
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+The following series is bootconfig based implementation of
+the rng_seed option patch originally from Mark Salyzyn.
+Note that I removed unrelated command line fixes from this
+series.
+
+To complete the support of UTF-8 for rng_seed, I added [1/3]
+to support non-ascii chars on the value (user can use 0x80-
+0xff at the value of bootconfig).
+
+For [3/3], I updated to use bootconfig (xbc_find_value)
+instead of command line. Also move the documentation under
+Documentation/admin-guide/bootconfig.
+
+Thank you,
+
 ---
- .../Atomic-set-observable-to-RMW.litmus       | 24 +++++++++++++++++++
- tools/memory-model/litmus-tests/README        |  3 +++
- 2 files changed, 27 insertions(+)
- create mode 100644 tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
 
-diff --git a/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
-new file mode 100644
-index 000000000000..4326f56f2c1a
---- /dev/null
-+++ b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
-@@ -0,0 +1,24 @@
-+C Atomic-set-observable-to-RMW
-+
-+(*
-+ * Result: Never
-+ *
-+ * Test of the result of atomic_set() must be observable to atomic RMWs.
-+ *)
-+
-+{
-+	atomic_t v = ATOMIC_INIT(1);
-+}
-+
-+P0(atomic_t *v)
-+{
-+	(void)atomic_add_unless(v,1,0);
-+}
-+
-+P1(atomic_t *v)
-+{
-+	atomic_set(v, 0);
-+}
-+
-+exists
-+(v=2)
-diff --git a/tools/memory-model/litmus-tests/README b/tools/memory-model/litmus-tests/README
-index 681f9067fa9e..81eeacebd160 100644
---- a/tools/memory-model/litmus-tests/README
-+++ b/tools/memory-model/litmus-tests/README
-@@ -2,6 +2,9 @@
- LITMUS TESTS
- ============
- 
-+Atomic-set-observable-to-RMW.litmus
-+	Test of the result of atomic_set() must be observable to atomic RMWs.
-+
- CoRR+poonceonce+Once.litmus
- 	Test of read-read coherence, that is, whether or not two
- 	successive reads from the same variable are ordered.
+Mark Salyzyn (2):
+      random: rng-seed source is utf-8
+      random: add random.rng_seed= bootconfig option
+
+Masami Hiramatsu (1):
+      bootconfig: Support non-ascii characters in value
+
+
+ Documentation/admin-guide/bootconfig/random.rst |   21 ++++++++++++
+ drivers/char/Kconfig                            |    1 +
+ drivers/char/random.c                           |   10 +++++-
+ fs/proc/bootconfig.c                            |    4 ++
+ include/linux/random.h                          |    7 ++++
+ init/main.c                                     |   41 ++++++++++++++++-------
+ lib/bootconfig.c                                |    2 +
+ tools/bootconfig/samples/good-non-ascii.bconf   |    1 +
+ 8 files changed, 73 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/admin-guide/bootconfig/random.rst
+ create mode 100644 tools/bootconfig/samples/good-non-ascii.bconf
+
 -- 
-2.25.0
-
+Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
