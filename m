@@ -2,193 +2,186 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0642DC2BA83
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 10:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16313C3B197
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 11:20:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C6C1F2067D
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 10:40:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D046B2187F
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 11:19:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jfsUBx95"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="tvGMtkBZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387401AbgBNKkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 05:40:11 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:44588 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387397AbgBNKkL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 05:40:11 -0500
-Received: by mail-qk1-f193.google.com with SMTP id v195so8675934qkb.11;
-        Fri, 14 Feb 2020 02:40:10 -0800 (PST)
+        id S1729092AbgBNLTz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 06:19:55 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:41177 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729007AbgBNLTz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 06:19:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tJhxXNnYsamX2r0UP9OC1Sb852WI9H8dlHsBa9UO8N4=;
-        b=jfsUBx959uUXPV83mnToKcz9chCKRabV1wlTciuX+ORRi1fNIgOCb7XwDbRqxrNY22
-         JyUA0nOjc6I+SetGTnbQgRRSK6zyvKYelah6i5rSbUV+CpImtkJlHUpzLh+3Bn+ZWqDr
-         eot3IhkJs1cCj91etVb7jT7T1gBReqAhDTpq5c/Kw/C0uTsfPj/k3Tl2l6NlyjW+URLD
-         GF5TBv6/o9+IOo8zySC/09akFj9GbaCfaV7Pk2GECFLCcZ4tXgJyJ+kqWRFAQpn8QO3J
-         vYpVThw3Ddirag9/PboUW00jDOaLKyUcrmt9qm0r2LY2Wu/cctlRB9FqXSnC0huU2Wbk
-         TbBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tJhxXNnYsamX2r0UP9OC1Sb852WI9H8dlHsBa9UO8N4=;
-        b=D56UU+hYjJFw/nN9AHspWxaOyK3hkqB4/unhN0zkPqQheWqkx9X1nJssXFVnfaJ4P6
-         BjPQmkDpl0vrE1L+t5NZMuiuqAMpiKsER7qsuwuLsHcw5krpT781RL3yP3u11asShAMQ
-         Jb4c1flRTAk8CmzX0RI/2/+W9hoXsl2TEssPr8yJAC1Eb0xUDj6LFbZ2wGFY6JioZwqM
-         5vHN9YKYCimffe03Mk+ZDuKq7NYX5c+WFMqmRzqRXfJSkBLsPM0xt4y7mBfypW1qkVXW
-         yLdi5pbIi47r0AGtKl12rPVbDg8Xp1SzqkNCpzC0zVjDfxQ8//I5xxG0wqNIxpLdOwjt
-         19fw==
-X-Gm-Message-State: APjAAAUzm5Xxv0OT6tmLXsKg3FNhABBliYIt8k758QEXALCrH8DVxgMK
-        sVHba36nGLZ0+s1oevcbSMX01CzNH0s=
-X-Google-Smtp-Source: APXvYqzeyu9koQGK/hj7hznU2WzZpQhheTCRsLATTOntd5zPKGvkLIiQfoQzy/Y/+ikg7BnT3xLzBg==
-X-Received: by 2002:a05:620a:579:: with SMTP id p25mr1717025qkp.291.1581676809790;
-        Fri, 14 Feb 2020 02:40:09 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id c192sm2923711qkg.125.2020.02.14.02.40.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Feb 2020 02:40:09 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 1C90B2220E;
-        Fri, 14 Feb 2020 05:40:08 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 14 Feb 2020 05:40:08 -0500
-X-ME-Sender: <xms:BXlGXqz5TYRTNfMnhjrZJPms419hr9Ic4Bx7RW4ieO4tmeVaNBUeSg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedtgddukecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvsh
-    hmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheeh
-    vddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:BXlGXoja4bT6jL_XNplMbaG209nOuilJcFNt4uiMfCdF-szdfWqKNA>
-    <xmx:BXlGXukXJD8-4xZ5FVYVTZipMaB4_ZfQ47xT7k0RTxf2jMMWqDZgOw>
-    <xmx:BXlGXmjyVPc5NSQCoFDxMUf2ytezFGTtPiQeG2Y9b5Zlo4pMWV7L7g>
-    <xmx:CHlGXiYoyTvuLPMcMYYEzIYneMmz0v13_M3F3vtZpN-q7o5JgAtNG046JxU>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1F083328005A;
-        Fri, 14 Feb 2020 05:40:04 -0500 (EST)
-Date:   Fri, 14 Feb 2020 18:40:03 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Andrea Parri <parri.andrea@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
-Message-ID: <20200214104003.GC20408@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-References: <20200214040132.91934-1-boqun.feng@gmail.com>
- <20200214040132.91934-3-boqun.feng@gmail.com>
- <20200214081213.GA17708@andrea>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1581679195; x=1613215195;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=PME62rzjRT944kut2rGoWJ6pM+hn9jgpFki6Z+JYUeQ=;
+  b=tvGMtkBZDl8mJH444fUvcwd5xH6JW5OT0kfexwLBIHV31T90obJL3TR+
+   qqs7MtZLt0Pt0j6A1es0B97iE9S1r8Y+cUUEMbPpKMT2KYIKpBglyYYCE
+   kJVZHOXtlCVeDFPLJgR3cJJtF1QRyAnDF8RJBU0i4qdRV8ylzcqlwIKPb
+   c=;
+IronPort-SDR: wZMG1CVCgh6hNDSyLaitOTVHUuzmNUPY2IH+MU39yYF+33GCoziAhrPUcdijDhuxkhod1IMKd+
+ rTJHgVvah00w==
+X-IronPort-AV: E=Sophos;i="5.70,440,1574121600"; 
+   d="scan'208";a="17095548"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-f273de60.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 14 Feb 2020 11:19:42 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1d-f273de60.us-east-1.amazon.com (Postfix) with ESMTPS id DDCB2A420A;
+        Fri, 14 Feb 2020 11:19:33 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Fri, 14 Feb 2020 11:19:32 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.54) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 14 Feb 2020 11:19:22 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     kbuild test robot <lkp@intel.com>
+CC:     <sjpark@amazon.com>, <kbuild-all@lists.01.org>,
+        <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <rostedt@goodmis.org>,
+        <sj38.park@gmail.com>, <vdavydov.dev@gmail.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v4 10/11] mm/damon: Add kunit tests
+Date:   Fri, 14 Feb 2020 12:19:07 +0100
+Message-ID: <20200214111907.7017-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <202002140021.Pr9vTFO6%lkp@intel.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200214081213.GA17708@andrea>
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.54]
+X-ClientProxiedBy: EX13D22UWB002.ant.amazon.com (10.43.161.28) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 09:12:13AM +0100, Andrea Parri wrote:
-> > @@ -0,0 +1,24 @@
-> > +C Atomic-set-observable-to-RMW
-> > +
-> > +(*
-> > + * Result: Never
-> > + *
-> > + * Test of the result of atomic_set() must be observable to atomic RMWs.
-> > + *)
-> > +
-> > +{
-> > +	atomic_t v = ATOMIC_INIT(1);
-> > +}
-> > +
-> > +P0(atomic_t *v)
-> > +{
-> > +	(void)atomic_add_unless(v,1,0);
+On Fri, 14 Feb 2020 00:56:50 +0800 kbuild test robot <lkp@intel.com> wrote:
+
+> [-- Attachment #1: Type: text/plain, Size: 3435 bytes --]
 > 
-> We blacklisted this primitive some time ago, cf. section "LIMITATIONS",
-> entry (6b) in tools/memory-model/README; the discussion was here:
+> Hi,
 > 
->   https://lkml.kernel.org/r/20180829211053.20531-3-paulmck@linux.vnet.ibm.com
+> Thank you for the patch! Yet something to improve:
 > 
-
-And in an email replying to that email, you just tried and seemed
-atomic_add_unless() works ;-)
-
-> but unfortunately I can't remember other details at the moment: maybe
-> it is just a matter of or the proper time to update that section.
+> [auto build test ERROR on d5226fa6dbae0569ee43ecfc08bdcd6770fc4755]
 > 
+> url:    https://github.com/0day-ci/linux/commits/sjpark-amazon-com/Introduce-Data-Access-MONitor-DAMON/20200213-003254
+> base:    d5226fa6dbae0569ee43ecfc08bdcd6770fc4755
+> config: x86_64-allmodconfig (attached as .config)
+> compiler: gcc-7 (Debian 7.5.0-4) 7.5.0
+> reproduce:
+>         # save the attached .config to linux build tree
+>         make ARCH=x86_64 
+> 
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from mm/damon.c:19:0:
+> >> include/linux/module.h:131:42: error: redefinition of '__inittest'
+>      static inline initcall_t __maybe_unused __inittest(void)  \
+>                                              ^
+>    include/linux/module.h:124:28: note: in expansion of macro 'module_init'
+>     #define late_initcall(fn)  module_init(fn)
+>                                ^~~~~~~~~~~
+>    include/kunit/test.h:224:2: note: in expansion of macro 'late_initcall'
+>      late_initcall(kunit_suite_init##suite)
+>      ^~~~~~~~~~~~~
+>    mm/damon-test.h:600:1: note: in expansion of macro 'kunit_test_suite'
+>     kunit_test_suite(damon_test_suite);
+>     ^~~~~~~~~~~~~~~~
+>    include/linux/module.h:131:42: note: previous definition of '__inittest' was here
+>      static inline initcall_t __maybe_unused __inittest(void)  \
+>                                              ^
+>    mm/damon.c:1406:1: note: in expansion of macro 'module_init'
+>     module_init(damon_init);
+>     ^~~~~~~~~~~
+> >> include/linux/module.h:133:6: error: redefinition of 'init_module'
+>      int init_module(void) __copy(initfn) __attribute__((alias(#initfn)));
+>          ^
+>    include/linux/module.h:124:28: note: in expansion of macro 'module_init'
+>     #define late_initcall(fn)  module_init(fn)
+>                                ^~~~~~~~~~~
+>    include/kunit/test.h:224:2: note: in expansion of macro 'late_initcall'
+>      late_initcall(kunit_suite_init##suite)
+>      ^~~~~~~~~~~~~
+>    mm/damon-test.h:600:1: note: in expansion of macro 'kunit_test_suite'
+>     kunit_test_suite(damon_test_suite);
+>     ^~~~~~~~~~~~~~~~
+>    include/linux/module.h:133:6: note: previous definition of 'init_module' was here
+>      int init_module(void) __copy(initfn) __attribute__((alias(#initfn)));
+>          ^
+>    mm/damon.c:1406:1: note: in expansion of macro 'module_init'
+>     module_init(damon_init);
+>     ^~~~~~~~~~~
+> 
+> vim +/__inittest +131 include/linux/module.h
+> 
+> 0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  128  
+> 0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  129  /* Each module must use one module_init(). */
+> 0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  130  #define module_init(initfn)					\
+> 1f318a8bafcfba9 Arnd Bergmann  2017-02-01 @131  	static inline initcall_t __maybe_unused __inittest(void)		\
+> 0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  132  	{ return initfn; }					\
+> a6e60d84989fa0e Miguel Ojeda   2019-01-19 @133  	int init_module(void) __copy(initfn) __attribute__((alias(#initfn)));
+> 0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  134  
+> 
+> :::::: The code at line 131 was first introduced by commit
+> :::::: 1f318a8bafcfba9f0d623f4870c4e890fd22e659 modules: mark __inittest/__exittest as __maybe_unused
+> 
+> :::::: TO: Arnd Bergmann <arnd@arndb.de>
+> :::::: CC: Jessica Yu <jeyu@redhat.com>
 
-I spend a few time looking into the changes in herd, the dependency
-problem seems to be as follow:
+Thank you for finding yet another problem!  The problem is reproducible if
+`CONFIG_DAMON=m` but `CONFIG_DAMON_KUNIT_TEST=y`.  Will fix this problem by
+simply adjusting the dependency of the tests as below.  It will avoid the build
+of the test code when DAMON is configured to be built as a module::
 
-For atomic_add_unless(ptr, a, u), the return value (true or false)
-depends on both *ptr and u, this is different than other atomic RMW,
-whose return value only depends on *ptr. Considering the following
-litmus test:
+    diff --git a/mm/Kconfig b/mm/Kconfig
+    index b279ab9c78d0..1a745ce0cbcb 100644
+    --- a/mm/Kconfig
+    +++ b/mm/Kconfig
+    @@ -753,7 +753,7 @@ config DAMON
+    
+     config DAMON_KUNIT_TEST
+            bool "Test for damon"
+    -       depends on DAMON && KUNIT
+    +       depends on DAMON=y && KUNIT
+            help
+              This builds the DAMON Kunit test suite.
 
-	C atomic_add_unless-dependency
+I think this is fair enough as KUNIT is not exporting its main functions to
+modules and thus cannot be used by modules anyway.
 
-	{
-		int y = 1;
-	}
 
-	P0(int *x, int *y, int *z)
-	{
-		int r0;
-		int r1;
-		int r2;
+Thanks,
+SeongJae Park
 
-		r0 = READ_ONCE(*x);
-		if (atomic_add_unless(y, 2, r0))
-			WRITE_ONCE(*z, 42);
-		else
-			WRITE_ONCE(*z, 1);
-	}
-
-	P1(int *x, int *y, int *z)
-	{
-		int r0;
-
-		r0 = smp_load_acquire(z);
-
-		WRITE_ONCE(*x, 1);
-	}
-
-	exists
-	(1:r0 = 1 /\ 0:r0 = 1)
-
-, the exist-clause will never trigger, however if we replace
-"atomic_add_unless(y, 2, r0)" with "atomic_add_unless(y, 2, 1)", the
-write on *z and the read from *x on CPU 0 are not ordered, so we could
-observe the exist-clause triggered.
-
-I just tried with the latest herd, and herd can work out this
-dependency. So I think we are good now and can change the limitation
-section in the document. But I will wait for Luc's input for this. Luc,
-did I get this correct? Is there any other limitation on
-atomic_add_unless() now?
-
-Regards,
-Boqun
-
-> Thanks,
->   Andrea
+> 
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> 
+> [-- Attachment #2: .config.gz --]
+> [-- Type: application/gzip, Size: 71807 bytes --]
