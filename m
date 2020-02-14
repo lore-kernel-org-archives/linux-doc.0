@@ -2,37 +2,64 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E3BC3F68F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:48:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F16EC35242
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 66FC22082F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:48:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31D25206D7
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 22:55:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="lMB9oxYb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgBNWs6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 17:48:58 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:33776 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727822AbgBNWs6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 17:48:58 -0500
-Received: from callcc.thunk.org (guestnat-104-133-0-101.corp.google.com [104.133.0.101] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 01EMljDT018457
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Feb 2020 17:47:45 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id AD4A242032C; Fri, 14 Feb 2020 17:47:44 -0500 (EST)
-Date:   Fri, 14 Feb 2020 17:47:44 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Rob Herring <robh@kernel.org>
+        id S1727529AbgBNWzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 17:55:39 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:47035 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727566AbgBNWzj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 17:55:39 -0500
+Received: by mail-pf1-f193.google.com with SMTP id k29so5546513pfp.13
+        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 14:55:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=9BMR/1ljfo4sHSBuMNZ+z5Tv5CN3Fmzs3LXwrUy/C1M=;
+        b=lMB9oxYbtxwZWaVxgPBrpGz3OfFoEKkkUMWGNVnlsm3iFyaCa0cjEmOXHQj2nzc+VT
+         B7brjzcauvcMJokIGxHtpFuUTSCq4aWZpiHSjdUJRfFz5JX2uXlkKoOxVAUcrCDi4Sh7
+         bvqG5k2c05sfl0lm44DR7VYwR06+QYS2c3cj12dJiB0nWGMXoYv7Aj0/TIt5f3ES2y8V
+         L47gSEWe9Fi7+BUM9fVN8PhJdR1nZjkoZWXKPIOk5WIMaYlXuik+qdZAipxZ9Q0x60ey
+         8sk6Wrh7HRmJIoLDhnMYHANbIGBRBpqEdRXpA5FYeTibUOszk1YyV58RCZkD1Fuon4ua
+         3L+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=9BMR/1ljfo4sHSBuMNZ+z5Tv5CN3Fmzs3LXwrUy/C1M=;
+        b=DpO3XNsD3LVeyinGxxw+qFX3Ji0zSeUKh9EtJssgFfyeLy7O0+hNC+Ecwwfy0Ngntc
+         /4A2c3+P9rmxeSLorHBE/ghUEFgIs0aUAmh4kpYInVnuRdLuEWoGn+IhygDDWiRuUA/j
+         VrDWTBPlcozZ2oBd3WiMT+cAwsoeDpD3DvvhoW5v2+usnW9cPVQUOIS4esKfbKR93WdC
+         w2aHfXmbN5N6Y/1MoExkmAv6C4AOFA/y2RnlMqxL6WDhNXea/VNoVW3+xlFPwOhA2XvN
+         JomdhtpwDhZXl7GeT1MwK2UEjP28Mdu/9v2KixTAbHCXCuZR9YzYSDXmkSyV7P4EO3f+
+         dlwg==
+X-Gm-Message-State: APjAAAUd5xFqRB80paUuw1JRqBzg2Xibes7euOxAgA/ocKt3agEH+WIn
+        PKJ9GUYUMeMRgJAA6M1fZzW+sciFnEI=
+X-Google-Smtp-Source: APXvYqy9aqh2YWKxZGcjHmox0Uy657jDNwnRb5bPLy/I7HQrDO1i0qmtW04hETu/klN6F2ngy7B/Hg==
+X-Received: by 2002:a63:4804:: with SMTP id v4mr5710281pga.373.1581720938430;
+        Fri, 14 Feb 2020 14:55:38 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id r9sm8314708pfl.136.2020.02.14.14.55.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Feb 2020 14:55:37 -0800 (PST)
+Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>, Rob Herring <robh@kernel.org>
 Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Android Kernel Team <kernel-team@android.com>,
-        Mark Salyzyn <salyzyn@android.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Richard Henderson <richard.henderson@linaro.org>,
@@ -53,40 +80,51 @@ Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Juergen Gross <jgross@suse.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
-Message-ID: <20200214224744.GC439135@mit.edu>
 References: <158166060044.9887.549561499483343724.stgit@devnote2>
  <158166062748.9887.15284887096084339722.stgit@devnote2>
  <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+ <20200214224744.GC439135@mit.edu>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
+Date:   Fri, 14 Feb 2020 14:55:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+In-Reply-To: <20200214224744.GC439135@mit.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 01:58:35PM -0600, Rob Herring wrote:
-> On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> >
-> > From: Mark Salyzyn <salyzyn@android.com>
-> >
-> > commit 428826f5358c922dc378830a1717b682c0823160
-> > ("fdt: add support for rng-seed") makes the assumption that the data
-> > in rng-seed is binary, when it is typically constructed of utf-8
-> 
-> Typically? Why is that?
-> 
-> > characters which has a bitness of roughly 6 to give appropriate
-> > credit due for the entropy.
+On 2/14/20 2:47 PM, Theodore Y. Ts'o wrote:
+> On Fri, Feb 14, 2020 at 01:58:35PM -0600, Rob Herring wrote:
+>> On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>>> From: Mark Salyzyn <salyzyn@android.com>
+>>>
+>>> commit 428826f5358c922dc378830a1717b682c0823160
+>>> ("fdt: add support for rng-seed") makes the assumption that the data
+>>> in rng-seed is binary, when it is typically constructed of utf-8
+>> Typically? Why is that?
+>>
+>>> characters which has a bitness of roughly 6 to give appropriate
+>>> credit due for the entropy.
+> This is why I really think what gets specified via the boot command
+> line, or bootconfig, should specify the bits of entropy and the
+> entropy seed *separately*, so it can be specified explicitly, instead
+> of assuming that *everyone knows* that rng-seed is either (a) a binary
+> string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
+> *not* know, or everyone will have a different implementation, which
+> everyone will say is *obviously* the only way to go....
+>
+> 	      	     		     	  - Ted
 
-This is why I really think what gets specified via the boot command
-line, or bootconfig, should specify the bits of entropy and the
-entropy seed *separately*, so it can be specified explicitly, instead
-of assuming that *everyone knows* that rng-seed is either (a) a binary
-string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
-*not* know, or everyone will have a different implementation, which
-everyone will say is *obviously* the only way to go....
+Given that the valid option are between 4 (hex), 6 (utf-8) or 8 
+(binary), we can either split the difference and accept 6; or take a 
+pass at the values and determine which of the set they belong to 
+[0-9a-fA-F], [!-~] or [\000-\377]  nor need to separately specify.
 
-	      	     		     	  - Ted
+-- Mark
+
