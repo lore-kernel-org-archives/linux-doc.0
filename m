@@ -2,65 +2,61 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E903CC3B1B9
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 18:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0CCC35242
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 19:58:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BCCA82168B
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 18:31:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="I2psfdBn"
+	by mail.kernel.org (Postfix) with ESMTP id B19A9206D7
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 19:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581710329;
+	bh=XC5HWZChdpdyVR/sHe3gjLYY5rs5zXxK4u7OywTLHpE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=LzSTbg0iUPR1Cp2LL0VgLO7A71CQ2yTTqk1j7GBjMd2M9gslCzH0YiPTrGOOa8uXu
+	 b1eGp1McL46vE/CcRphyke0EQoOZ1WVRn8thwSmPyAdT4eOKkomAyLJ+5SG4wLhyuW
+	 ODAnl2PUSEpLUVAUqG3Gcqft4uyXuS4oFZ2adX/4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729430AbgBNSbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 13:31:21 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:51909 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729479AbgBNSbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 13:31:21 -0500
-Received: by mail-pj1-f65.google.com with SMTP id fa20so4217285pjb.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 10:31:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=b2tZd1tExc8HDMdHBE3vQFxVxr8Zxh1LCSwV2NCLKvA=;
-        b=I2psfdBnjWffVVztPHbsuO6CJ1Wik63YRMJ7O0UZnYqwXbM0XbThRNVDNh7GFGt4JL
-         m70CeLxJ8CHuU6pM7QNVUuzZizPkY/avCoYD7zSwwE4x6KERh6m95jrh0i4ikiCd8XRY
-         WPcezJytnnIzv3FYja0Zv8mEzFdsDTKHCRBxPwmbEHB6K0wZDWc1FXRkYuX/iM//beDU
-         yN/oHf2wS9u+UmOZVh4lDTXPJZQvK/E35/Q6KyJ6dosvdc0edZzptawqkbxSHv2j2X/X
-         mEMwuXWsi9Hdw6P8gXgL3ZHPcW9ZTVJHBKjYEyVIO6W9jvKmpjrXxVlrsKStqjIQQGfG
-         xOCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=b2tZd1tExc8HDMdHBE3vQFxVxr8Zxh1LCSwV2NCLKvA=;
-        b=fzmL/+2XhgQdNXBzxXLeoyJLfAYbjTJhwTFa0w8uzo8C/zWPBeUNGnQqq5W4HjPVA0
-         dG7d5Hogbbt8xOz3c96lB2VEeZgFzJF/QUMdKxw8SBnrUiCX1GMzQhDNT+9ujoi2MSSV
-         1o7MRD4vAaFQYeXSebtVep8B+ScjcANnIWeheqEPeIDNMsW9Dar68VhJY1uueAs+bXuP
-         6hAWNQls0UdQwMP4TtahQhAYNO9IKBBZrPa7SxdZIv9wTteLGr4iNT8z/LfUXLhu9EPl
-         fiscjTchBRtXp4MZOMeuifKpTIKw3O6a78S5ZnttVCEakOMD8H84Qck0YzJ8GsSLOSwy
-         Jz3w==
-X-Gm-Message-State: APjAAAW91gzaxryq852HmPZQM7QHoXFvW0/66QXB4EqisablDOTdLljB
-        tJw8zgzkVQgSSRsVlCe5rqz7U4IPFE4=
-X-Google-Smtp-Source: APXvYqweRvrbcGI+TN/E706xtY2309e9rucgMW2XIhqLYDDV+p9y1XPcO+Pq087xKSbHaBwFV0buhg==
-X-Received: by 2002:a17:902:a616:: with SMTP id u22mr4596187plq.173.1581705080166;
-        Fri, 14 Feb 2020 10:31:20 -0800 (PST)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.googlemail.com with ESMTPSA id a10sm782832pgk.71.2020.02.14.10.31.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 10:31:19 -0800 (PST)
-Subject: Re: [PATCH 0/3] random: add random.rng_seed to bootconfig entry
-To:     Rob Herring <robh@kernel.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S2388798AbgBNT6t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 14:58:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32972 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387401AbgBNT6t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 14:58:49 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2889B24670;
+        Fri, 14 Feb 2020 19:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581710328;
+        bh=XC5HWZChdpdyVR/sHe3gjLYY5rs5zXxK4u7OywTLHpE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SY15NjUO9PcKLxh7i6ZwO6NX31YVMxbMgN4ezk3OERsu210IZREbcF5B2w3hN0RwC
+         ia6xMEt7nKfw8QRH0krNClFA+DXf7KMq8Kl/czVtkWG2Kt7JsBt5FoludaVoEKp48q
+         /Qx6We0s8Rv02n9NrPTUFSCnpX/x29Jk1GZ04t+w=
+Received: by mail-qt1-f182.google.com with SMTP id n17so7791614qtv.2;
+        Fri, 14 Feb 2020 11:58:48 -0800 (PST)
+X-Gm-Message-State: APjAAAVPkPL+dsvd7OtXFqP6ZobH84VutkU5Mdb2Pw5V4Auq4lpYE2uK
+        MEI1WIORkYxAy645nrw1+VzT9b4JJ3b8nyNgxw==
+X-Google-Smtp-Source: APXvYqwsXrnW+RM01kek/DuNdK+aWFf5bKCS1++/Ib4hvavk7926vsQnkmnIIg3GmV+0f7UWNCdv+H++sX8uLJIBQKA=
+X-Received: by 2002:ac8:6747:: with SMTP id n7mr3980294qtp.224.1581710327072;
+ Fri, 14 Feb 2020 11:58:47 -0800 (PST)
+MIME-Version: 1.0
+References: <158166060044.9887.549561499483343724.stgit@devnote2> <158166062748.9887.15284887096084339722.stgit@devnote2>
+In-Reply-To: <158166062748.9887.15284887096084339722.stgit@devnote2>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 14 Feb 2020 13:58:35 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+Message-ID: <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Android Kernel Team <kernel-team@android.com>,
-        Theodore Ts'o <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Mark Salyzyn <salyzyn@android.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Richard Henderson <richard.henderson@linaro.org>,
         Mark Brown <broonie@kernel.org>,
@@ -80,62 +76,21 @@ Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Juergen Gross <jgross@suse.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <158166060044.9887.549561499483343724.stgit@devnote2>
- <CAL_JsqJ_VwHdpQ_WnQHu5J-bfs1vRPd5HQwVekR+5kKdVi4sXw@mail.gmail.com>
- <1694f42c-bfc9-570a-64d2-3984965c8940@android.com>
- <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <7882e5d2-dd4d-cdfb-2aab-9a3d910882d4@android.com>
-Date:   Fri, 14 Feb 2020 10:31:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/20 10:14 AM, Rob Herring wrote:
-> On Fri, Feb 14, 2020 at 11:00 AM Mark Salyzyn <salyzyn@android.com> wrote:
->> On 2/14/20 5:49 AM, Rob Herring wrote:
->>> On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
->>>> Hi,
->>>>
->>>> The following series is bootconfig based implementation of
->>>> the rng_seed option patch originally from Mark Salyzyn.
->>>> Note that I removed unrelated command line fixes from this
->>>> series.
->>> Why do we need this? There's already multiple other ways to pass
->>> random seed and this doesn't pass the "too complex for the command
->>> line" argument you had for needing bootconfig.
->>>
->>> Rob
->> Android is the use case I can vouch for. But also KVM.
-. . .
-> I'm familiar with Cuttlefish somewhat. Guess who got virtio-gpu
-> working on Android[1]. :) I assume DT doesn't work for you because you
-> need x86 builds, but doesn't QEMU use UEFI in that case which also has
-> a mechanism for passing entropy.
-IDK, will have to ask the Cuttlefish Team why UEFI not being used, will 
-get back to you.
+On Fri, Feb 14, 2020 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
 >
-> To clarify my question: Why do we need random seed in bootconfig
-> rather than just the kernel command line? I'm not understanding why
-> things changed from your original patch.
+> From: Mark Salyzyn <salyzyn@android.com>
+>
+> commit 428826f5358c922dc378830a1717b682c0823160
+> ("fdt: add support for rng-seed") makes the assumption that the data
+> in rng-seed is binary, when it is typically constructed of utf-8
 
-Command line was identified as the simplest for them to implement 
-generically for the x86 and arm64 Cuttlefish instances and hence my 
-original patch series.
+Typically? Why is that?
 
-However, it also is limited in the size of the entropy string that can 
-be provided, so we flipped a coin and decided to accept the bootconfig 
-mechanism as a viable alternative; that BTW appeared to be simpler to 
-implement (mainly because rubbing out the entropy command line argument 
-is not easy).
-
--- Mark
-
+> characters which has a bitness of roughly 6 to give appropriate
+> credit due for the entropy.
