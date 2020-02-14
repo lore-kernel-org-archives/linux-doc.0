@@ -2,124 +2,126 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94985C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:47:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1607AC3B19D
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:54:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6BA2624650
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:47:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E03FD24685
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581695696;
+	bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Q2U0H9lm7zQ9Tc7g1RqGJtQDWSJbZ+ISweAukgN9mqPjlxOjWXF4xkw+7o7/HnbZh
+	 v1wIC7de2oRMqknd7HNXGyEAycbEQZI9Cb3heanjyfErw00AGHMkeFiX0t5BVQaSIj
+	 zYQOGGeSf8JIGt7DD/yesqxYsZffbbMho4h+j3ps=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728968AbgBNPru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 10:47:50 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:39802 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728264AbgBNPrt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 10:47:49 -0500
-Received: (qmail 3175 invoked by uid 2102); 14 Feb 2020 10:47:48 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 14 Feb 2020 10:47:48 -0500
-Date:   Fri, 14 Feb 2020 10:47:48 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Boqun Feng <boqun.feng@gmail.com>
-cc:     linux-kernel@vger.kernel.org,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-arch@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
-In-Reply-To: <20200214040132.91934-3-boqun.feng@gmail.com>
-Message-ID: <Pine.LNX.4.44L0.2002141028280.1579-100000@iolanthe.rowland.org>
+        id S1731640AbgBNPyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 10:54:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35392 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731241AbgBNPyx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:54:53 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F1FE24676;
+        Fri, 14 Feb 2020 15:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581695693;
+        bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TXINiA4tQ/z7WmhSii7nfOaOxTuxWgj1sNoDbKeNEcvEjlSizmEr4FdbspK8IeP2j
+         0I8GT3fGR5twOWil88spVScnqZjVNUQsMqGUJKT+SbvC/9z0+rt+PUtytSmnhWGe7w
+         ut8FOPFhr1hxrJn5Qh0aL0kK603Ns55PCNeqoQS8=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Peter Rosin <peda@axentia.se>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.5 276/542] fbdev: fix numbering of fbcon options
+Date:   Fri, 14 Feb 2020 10:44:28 -0500
+Message-Id: <20200214154854.6746-276-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
+References: <20200214154854.6746-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Feb 2020, Boqun Feng wrote:
+From: Peter Rosin <peda@axentia.se>
 
-> We already use a litmus test in atomic_t.txt to describe the behavior of
-> an atomic_set() with the an atomic RMW, so add it into the litmus-tests
-> directory to make it easily accessible for anyone who cares about the
-> semantics of our atomic APIs.
-> 
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> ---
->  .../Atomic-set-observable-to-RMW.litmus       | 24 +++++++++++++++++++
->  tools/memory-model/litmus-tests/README        |  3 +++
->  2 files changed, 27 insertions(+)
->  create mode 100644 tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
+[ Upstream commit fd933c00ebe220060e66fb136a7050a242456566 ]
 
-I don't like that name, or the corresponding sentence in atomic_t.txt:
+Three shall be the number thou shalt count, and the number of the
+counting shall be three. Four shalt thou not count...
 
-	A subtle detail of atomic_set{}() is that it should be
-	observable to the RMW ops.
+One! Two! Five!
 
-"Observable" doesn't get the point across -- the point being that the
-atomic RMW ops have to be _atomic_ with respect to all atomic store
-operations, including atomic_set.
+Fixes: efb985f6b265 ("[PATCH] fbcon: Console Rotation - Add framebuffer console documentation")
+Signed-off-by: Peter Rosin <peda@axentia.se>
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190827110854.12574-2-peda@axentia.se
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/fb/fbcon.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Suggestion: Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus, with 
-corresponding changes to the comment in the litmus test and the entry 
-in README.
-
-Alan
-
-> diff --git a/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
-> new file mode 100644
-> index 000000000000..4326f56f2c1a
-> --- /dev/null
-> +++ b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
-> @@ -0,0 +1,24 @@
-> +C Atomic-set-observable-to-RMW
-> +
-> +(*
-> + * Result: Never
-> + *
-> + * Test of the result of atomic_set() must be observable to atomic RMWs.
-> + *)
-> +
-> +{
-> +	atomic_t v = ATOMIC_INIT(1);
-> +}
-> +
-> +P0(atomic_t *v)
-> +{
-> +	(void)atomic_add_unless(v,1,0);
-> +}
-> +
-> +P1(atomic_t *v)
-> +{
-> +	atomic_set(v, 0);
-> +}
-> +
-> +exists
-> +(v=2)
-> diff --git a/tools/memory-model/litmus-tests/README b/tools/memory-model/litmus-tests/README
-> index 681f9067fa9e..81eeacebd160 100644
-> --- a/tools/memory-model/litmus-tests/README
-> +++ b/tools/memory-model/litmus-tests/README
-> @@ -2,6 +2,9 @@
->  LITMUS TESTS
->  ============
->  
-> +Atomic-set-observable-to-RMW.litmus
-> +	Test of the result of atomic_set() must be observable to atomic RMWs.
-> +
->  CoRR+poonceonce+Once.litmus
->  	Test of read-read coherence, that is, whether or not two
->  	successive reads from the same variable are ordered.
-> 
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index ebca41785abea..65ba402551374 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -127,7 +127,7 @@ C. Boot options
+ 	is typically located on the same video card.  Thus, the consoles that
+ 	are controlled by the VGA console will be garbled.
+ 
+-4. fbcon=rotate:<n>
++5. fbcon=rotate:<n>
+ 
+ 	This option changes the orientation angle of the console display. The
+ 	value 'n' accepts the following:
+@@ -152,21 +152,21 @@ C. Boot options
+ 	Actually, the underlying fb driver is totally ignorant of console
+ 	rotation.
+ 
+-5. fbcon=margin:<color>
++6. fbcon=margin:<color>
+ 
+ 	This option specifies the color of the margins. The margins are the
+ 	leftover area at the right and the bottom of the screen that are not
+ 	used by text. By default, this area will be black. The 'color' value
+ 	is an integer number that depends on the framebuffer driver being used.
+ 
+-6. fbcon=nodefer
++7. fbcon=nodefer
+ 
+ 	If the kernel is compiled with deferred fbcon takeover support, normally
+ 	the framebuffer contents, left in place by the firmware/bootloader, will
+ 	be preserved until there actually is some text is output to the console.
+ 	This option causes fbcon to bind immediately to the fbdev device.
+ 
+-7. fbcon=logo-pos:<location>
++8. fbcon=logo-pos:<location>
+ 
+ 	The only possible 'location' is 'center' (without quotes), and when
+ 	given, the bootup logo is moved from the default top-left corner
+-- 
+2.20.1
 
