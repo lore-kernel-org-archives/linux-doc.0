@@ -2,69 +2,70 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C71D0C2BA83
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 09:55:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4186C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 10:21:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 955F32187F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 09:55:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lc+gtWU1"
+	by mail.kernel.org (Postfix) with ESMTP id A76C2217F4
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 10:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581675660;
+	bh=9/hPWtp8YsjZFEEUcNmoaH6xEjTl1DSs4UF08Oz4AWs=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=jkZO4CxDyrE8Ip/nPhbIVHC/PxXzoY+/BI3I06H98fdP3z9cy8R7hOYuDkBGaWYU1
+	 SZtbfQU4mN0RFcYdtMniKFvnUYkdUAWSarkBMCwg1RyQXcD+q43jqrcTX0vuLggJgP
+	 Jn6xpuV/CN8YoiVzW05PHpRJVgXvx6Z7bBU+QDhA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728865AbgBNJzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 04:55:46 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:55058 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726004AbgBNJzp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 04:55:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=EIrr9N8HtFKPMFFBjN6WOJykZW1HaFopZKPkRsbYCNk=; b=lc+gtWU10tBCIZpKD430bBSFrF
-        jCCEbdppu9dBVJU2kX3w3Gb6BTnhJuugaPkn1dnf04gQlJHU/0yCpL68v1qn8HOFuo5tgtuTwAZ3q
-        I42ypa1pu5glbvyI6XK0XcWPeFDjqPHy5oewy3Ls3aDrmifpOYNxCxR8kMerB9w1/VqB6PB3VvohW
-        yY+nMf1kvcK6pFciXjdOvJaIDZOY1jfktifgymE+/RvtwKT5JpeaXVAh+42T7tOifWdgxCWnGAb4u
-        u6GGMhfT6l0p9Pkf+YEUDI9Ji1LcIVq2mEu4tJNkm91+ZqTw9A9VZaXFx4vArDqxPwPj+TnABRyon
-        W4wkenRw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j2Xgr-0008Og-Lj; Fri, 14 Feb 2020 09:55:17 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        id S1729070AbgBNKU5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 05:20:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34664 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729017AbgBNKU5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 05:20:57 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [62.84.152.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A6A3530066E;
-        Fri, 14 Feb 2020 10:53:23 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A779220254E63; Fri, 14 Feb 2020 10:55:13 +0100 (CET)
-Date:   Fri, 14 Feb 2020 10:55:13 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1069120873;
+        Fri, 14 Feb 2020 10:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581675656;
+        bh=9/hPWtp8YsjZFEEUcNmoaH6xEjTl1DSs4UF08Oz4AWs=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ZLD/cx+Cex6Odvr4iY8/FFPCc01Dev5jgD/s84fX+C5qkEqRhg8OBX4Gk/I+RtIee
+         ZgEbgmoK4STVB/b8Z51henezBfy2xNNGRzVAl4bv3l72y6tFxQiKcWaZqm0uSndXSg
+         MNpeQ1mpchh2Q5tXLbb810HBpbVdfYodlZg8937A=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id B29B03520C3C; Fri, 14 Feb 2020 02:20:52 -0800 (PST)
+Date:   Fri, 14 Feb 2020 02:20:52 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     Boqun Feng <boqun.feng@gmail.com>
 Cc:     linux-kernel@vger.kernel.org,
         Alan Stern <stern@rowland.harvard.edu>,
         Andrea Parri <parri.andrea@gmail.com>,
         Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Nicholas Piggin <npiggin@gmail.com>,
         David Howells <dhowells@redhat.com>,
         Jade Alglave <j.alglave@ucl.ac.uk>,
         Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Daniel Lustig <dlustig@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org
 Subject: Re: [RFC 0/3] tools/memory-model: Add litmus tests for atomic APIs
-Message-ID: <20200214095513.GJ14879@hirez.programming.kicks-ass.net>
+Message-ID: <20200214102052.GA26532@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <20200214040132.91934-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20200214040132.91934-1-boqun.feng@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -97,7 +98,36 @@ On Fri, Feb 14, 2020 at 12:01:29PM +0800, Boqun Feng wrote:
 > , so if this patchset looks good to everyone and someone plans to take
 > it (and I assume is Paul), please wait until that PR is settled. And
 > probably we need to bump the required herd version because of it.
-> 
-> Comments and suggesions are welcome!
 
-Very nice, thanks!
+Please let me know when you are ready for me to take them, and thank
+you for doing this!
+
+							Thanx, Paul
+
+> Comments and suggesions are welcome!
+> 
+> Regards,
+> Boqun
+> 
+> 
+> [1]: http://diy.inria.fr/doc/litmus.html#klitmus
+> [2]: https://github.com/paulmckrcu/litmus/tree/master/manual/atomic
+> 
+> *** BLURB HERE ***
+> 
+> Boqun Feng (3):
+>   Documentation/locking/atomic: Fix atomic-set litmus test
+>   tools/memory-model: Add a litmus test for atomic_set()
+>   tools/memory-model: Add litmus test for RMW + smp_mb__after_atomic()
+> 
+>  Documentation/atomic_t.txt                    | 14 ++++-----
+>  ...+mb__after_atomic-is-strong-acquire.litmus | 29 +++++++++++++++++++
+>  .../Atomic-set-observable-to-RMW.litmus       | 24 +++++++++++++++
+>  tools/memory-model/litmus-tests/README        |  8 +++++
+>  4 files changed, 68 insertions(+), 7 deletions(-)
+>  create mode 100644 tools/memory-model/litmus-tests/Atomic-RMW+mb__after_atomic-is-strong-acquire.litmus
+>  create mode 100644 tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
+> 
+> -- 
+> 2.25.0
+> 
