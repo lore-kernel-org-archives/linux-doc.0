@@ -2,124 +2,124 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 316C1C47409
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94985C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:47:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 13DAD2467D
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:45:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BA2624650
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 15:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729635AbgBNPp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 10:45:28 -0500
-Received: from foss.arm.com ([217.140.110.172]:35094 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729627AbgBNPp1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:45:27 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA4AC328;
-        Fri, 14 Feb 2020 07:45:26 -0800 (PST)
-Received: from localhost (e108754-lin.cambridge.arm.com [10.1.198.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B5D83F68E;
-        Fri, 14 Feb 2020 07:45:26 -0800 (PST)
-Date:   Fri, 14 Feb 2020 15:45:25 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com, rjw@rjwysocki.net,
-        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] clocksource/drivers/arm_arch_timer: validate
- arch_timer_rate
-Message-ID: <20200214154525.GA21875@arm.com>
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-8-ionela.voinescu@arm.com>
- <87mu9mgg41.fsf@nanos.tec.linutronix.de>
+        id S1728968AbgBNPru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 10:47:50 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:39802 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728264AbgBNPrt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 10:47:49 -0500
+Received: (qmail 3175 invoked by uid 2102); 14 Feb 2020 10:47:48 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 14 Feb 2020 10:47:48 -0500
+Date:   Fri, 14 Feb 2020 10:47:48 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Boqun Feng <boqun.feng@gmail.com>
+cc:     linux-kernel@vger.kernel.org,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-arch@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
+In-Reply-To: <20200214040132.91934-3-boqun.feng@gmail.com>
+Message-ID: <Pine.LNX.4.44L0.2002141028280.1579-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87mu9mgg41.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas,
+On Fri, 14 Feb 2020, Boqun Feng wrote:
 
-On Friday 14 Feb 2020 at 01:35:58 (+0100), Thomas Gleixner wrote:
-> Ionela Voinescu <ionela.voinescu@arm.com> writes:
+> We already use a litmus test in atomic_t.txt to describe the behavior of
+> an atomic_set() with the an atomic RMW, so add it into the litmus-tests
+> directory to make it easily accessible for anyone who cares about the
+> semantics of our atomic APIs.
 > 
-> > From: Valentin Schneider <valentin.schneider@arm.com>
-> >
-> > Using an arch timer with a frequency of less than 1MHz can result in an
-> > incorrect functionality of the system which assumes a reasonable rate.
-> >
-> > One example is the use of activity monitors for frequency invariance
-> > which uses the rate of the arch timer as the known rate of the constant
-> > cycle counter in computing its ratio compared to the maximum frequency
-> > of a CPU. For arch timer frequencies less than 1MHz this ratio could
-> > end up being 0 which is an invalid value for its use.
-> >
-> > Therefore, warn if the arch timer rate is below 1MHz which contravenes
-> > the recommended architecture interval of 1 to 50MHz.
-> >
-> > Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> ---
+>  .../Atomic-set-observable-to-RMW.litmus       | 24 +++++++++++++++++++
+>  tools/memory-model/litmus-tests/README        |  3 +++
+>  2 files changed, 27 insertions(+)
+>  create mode 100644 tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
+
+I don't like that name, or the corresponding sentence in atomic_t.txt:
+
+	A subtle detail of atomic_set{}() is that it should be
+	observable to the RMW ops.
+
+"Observable" doesn't get the point across -- the point being that the
+atomic RMW ops have to be _atomic_ with respect to all atomic store
+operations, including atomic_set.
+
+Suggestion: Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus, with 
+corresponding changes to the comment in the litmus test and the entry 
+in README.
+
+Alan
+
+> diff --git a/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
+> new file mode 100644
+> index 000000000000..4326f56f2c1a
+> --- /dev/null
+> +++ b/tools/memory-model/litmus-tests/Atomic-set-observable-to-RMW.litmus
+> @@ -0,0 +1,24 @@
+> +C Atomic-set-observable-to-RMW
+> +
+> +(*
+> + * Result: Never
+> + *
+> + * Test of the result of atomic_set() must be observable to atomic RMWs.
+> + *)
+> +
+> +{
+> +	atomic_t v = ATOMIC_INIT(1);
+> +}
+> +
+> +P0(atomic_t *v)
+> +{
+> +	(void)atomic_add_unless(v,1,0);
+> +}
+> +
+> +P1(atomic_t *v)
+> +{
+> +	atomic_set(v, 0);
+> +}
+> +
+> +exists
+> +(v=2)
+> diff --git a/tools/memory-model/litmus-tests/README b/tools/memory-model/litmus-tests/README
+> index 681f9067fa9e..81eeacebd160 100644
+> --- a/tools/memory-model/litmus-tests/README
+> +++ b/tools/memory-model/litmus-tests/README
+> @@ -2,6 +2,9 @@
+>  LITMUS TESTS
+>  ============
+>  
+> +Atomic-set-observable-to-RMW.litmus
+> +	Test of the result of atomic_set() must be observable to atomic RMWs.
+> +
+>  CoRR+poonceonce+Once.litmus
+>  	Test of read-read coherence, that is, whether or not two
+>  	successive reads from the same variable are ordered.
 > 
-> So this patch is from Valentin. Where is his Signed-off-by?
-> 
 
-Yes, sorry about this. This was based on a diff that Valentin provided
-in v2. I'll change the author as agreed at:
-https://lore.kernel.org/lkml/20200212103249.GA19041@arm.com/
-
-> >  
-> > +static int validate_timer_rate(void)
-> > +{
-> > +	if (!arch_timer_rate)
-> > +		return -EINVAL;
-> > +
-> > +	/* Arch timer frequency < 1MHz can cause trouble */
-> > +	WARN_ON(arch_timer_rate < 1000000);
-> 
-> This does not make sense to me. If the rate is out of bounds then why
-> warn an just continue instead of making it fail?
-> 
-
-Because it's not a hard restriction, it's just atypical for the rate to
-be below 1Mhz. The spec only mentions a typical range of 1 to 50MHz and
-the warning is only here to flag a potentially problematic rate, below
-what is assumed typical in the spec.
-
-In [1], where I'm actually relying on arch_timer_rate being higher than
-than 1/SCHED_CAPACITY_SCALE² of the maximum frequency, I am making it
-fail, as, for that scenario, it is a hard restriction.
-
-
-+	 * We use a factor of 2 * SCHED_CAPACITY_SHIFT -> SCHED_CAPACITY_SCALE²
-+	 * in order to ensure a good resolution for arch_max_freq_scale for
-+	 * very low arch timer frequencies (up to the KHz range which should be
-+	 * unlikely).
-+	 */
-+	ratio = (u64)arch_timer_get_rate() << (2 * SCHED_CAPACITY_SHIFT);
-+	ratio = div64_u64(ratio, max_freq_hz);
-+	if (!ratio) {
-+		pr_err("System timer frequency too low.\n");
-+		return -EINVAL;
-+	}
-+
-
-[1] https://lore.kernel.org/lkml/89339501-5ee4-e871-3076-c8b02c6fbf6e@arm.com/
-
-Thanks,
-Ionela.
-
-> Thanks,
-> 
->         tglx
