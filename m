@@ -2,128 +2,133 @@ Return-Path: <SRS0=xqSd=4C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA28C3B1B2
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:55:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E66D3C2BA83
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 18:15:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1078B206D7
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 17:55:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA031222C2
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Feb 2020 18:15:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hj1rflza"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388366AbgBNP5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 10:57:47 -0500
-Received: from foss.arm.com ([217.140.110.172]:35872 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388237AbgBNP5r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:57:47 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E40D328;
-        Fri, 14 Feb 2020 07:57:46 -0800 (PST)
-Received: from localhost (e108754-lin.cambridge.arm.com [10.1.198.52])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F3AAF3F68E;
-        Fri, 14 Feb 2020 07:57:45 -0800 (PST)
-Date:   Fri, 14 Feb 2020 15:57:44 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com, rjw@rjwysocki.net,
-        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] clocksource/drivers/arm_arch_timer: validate
- arch_timer_rate
-Message-ID: <20200214155744.GA8784@arm.com>
-References: <20200211184542.29585-1-ionela.voinescu@arm.com>
- <20200211184542.29585-8-ionela.voinescu@arm.com>
- <87mu9mgg41.fsf@nanos.tec.linutronix.de>
- <20200214154525.GA21875@arm.com>
+        id S2404476AbgBNSPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 13:15:09 -0500
+Received: from mail-il1-f195.google.com ([209.85.166.195]:33681 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404455AbgBNSPJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 13:15:09 -0500
+Received: by mail-il1-f195.google.com with SMTP id s18so8829607iln.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2020 10:15:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8xaqocqI7n6rLhfdsAfsTQaAIhwnxm1qjzL1SYx1WFE=;
+        b=hj1rflza0N0ahI/+Gib5Me4e1hJXe20b4t9CabubbAWx1ea4PGEDoBKz1g/sTDSHVh
+         BkrKDWptx3Iw26vTATPAmfUJDeuVBDraF8++mKvznG20mbE6Pice1TDSOeV6+MqN3YEb
+         3nbpfkMNy8ZmiUOCpbFFVmtuXK1tpbmsYgTLY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8xaqocqI7n6rLhfdsAfsTQaAIhwnxm1qjzL1SYx1WFE=;
+        b=NKVYZk3Qazr+sj6ZRVeUHMrleX99benk5rLXfiwVcu2vDMbRoDofwpy0TrdTrJFdNk
+         vfHv8zgIXWw63FEAYk1IgUoio+J3gUOS7Qc0E1ZQ+tUXoTyZemMN6m0KkzU15TWcu0MQ
+         oC2laYblC/SBkmQnyFvrvoF3A067Py2rP5o2DFFZbuZafj0RLmUcmOSNgD5+IoD8WoW9
+         QY3Ho3k+arpvHRIaLI7x0wlLj/kGYPGseekMBo3vAQFwU+WJ1Lgv9SBgmgofrycfjuKN
+         A1dFNNIA1/7RbukMaPv9c09oCIwp12TK17UTca5qV07tBXTBVinp48TvVKUo0flo5lto
+         89bg==
+X-Gm-Message-State: APjAAAWD9SXu/BhBS6+CUAGBguLL2zTZci719TDbOxPduv6+rV7rlZKj
+        DbpzGHnRm6IjLL5mIuiNIYaFx2UoJ4uOnwPMNIzXZA==
+X-Google-Smtp-Source: APXvYqyfILAtOIqub0HXb6q5FysHf639kfwZQi9NKsp0iDgHRaBKzXR2uoGVpx/vHgvyqNQMw/PayKSHtXU1wqjJCF8=
+X-Received: by 2002:a92:af8e:: with SMTP id v14mr4049827ill.150.1581704108241;
+ Fri, 14 Feb 2020 10:15:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200214154525.GA21875@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <158166060044.9887.549561499483343724.stgit@devnote2> <158166062748.9887.15284887096084339722.stgit@devnote2>
+In-Reply-To: <158166062748.9887.15284887096084339722.stgit@devnote2>
+From:   Hsin-Yi Wang <hsinyi@chromium.org>
+Date:   Sat, 15 Feb 2020 02:14:42 +0800
+Message-ID: <CAJMQK-hZAgCPjgdRE70QrkSKvJAgYPwmCHB9pjLUn3tQ6p_2YA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>, kernel-team@android.com,
+        Mark Salyzyn <salyzyn@android.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday 14 Feb 2020 at 15:45:25 (+0000), Ionela Voinescu wrote:
-> Hi Thomas,
-> 
-> On Friday 14 Feb 2020 at 01:35:58 (+0100), Thomas Gleixner wrote:
-> > Ionela Voinescu <ionela.voinescu@arm.com> writes:
-> > 
-> > > From: Valentin Schneider <valentin.schneider@arm.com>
-> > >
-> > > Using an arch timer with a frequency of less than 1MHz can result in an
-> > > incorrect functionality of the system which assumes a reasonable rate.
-> > >
-> > > One example is the use of activity monitors for frequency invariance
-> > > which uses the rate of the arch timer as the known rate of the constant
-> > > cycle counter in computing its ratio compared to the maximum frequency
-> > > of a CPU. For arch timer frequencies less than 1MHz this ratio could
-> > > end up being 0 which is an invalid value for its use.
-> > >
-> > > Therefore, warn if the arch timer rate is below 1MHz which contravenes
-> > > the recommended architecture interval of 1 to 50MHz.
-> > >
-> > > Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-> > 
-> > So this patch is from Valentin. Where is his Signed-off-by?
-> > 
-> 
-> Yes, sorry about this. This was based on a diff that Valentin provided
-> in v2. I'll change the author as agreed at:
-> https://lore.kernel.org/lkml/20200212103249.GA19041@arm.com/
-> 
-> > >  
-> > > +static int validate_timer_rate(void)
-> > > +{
-> > > +	if (!arch_timer_rate)
-> > > +		return -EINVAL;
-> > > +
-> > > +	/* Arch timer frequency < 1MHz can cause trouble */
-> > > +	WARN_ON(arch_timer_rate < 1000000);
-> > 
-> > This does not make sense to me. If the rate is out of bounds then why
-> > warn an just continue instead of making it fail?
-> > 
-> 
-> Because it's not a hard restriction, it's just atypical for the rate to
-> be below 1Mhz. The spec only mentions a typical range of 1 to 50MHz and
-> the warning is only here to flag a potentially problematic rate, below
-> what is assumed typical in the spec.
-> 
-> In [1], where I'm actually relying on arch_timer_rate being higher than
-> than 1/SCHED_CAPACITY_SCALE² of the maximum frequency, I am making it
-> fail, as, for that scenario, it is a hard restriction.
-> 
-> 
-> +	 * We use a factor of 2 * SCHED_CAPACITY_SHIFT -> SCHED_CAPACITY_SCALE²
-> +	 * in order to ensure a good resolution for arch_max_freq_scale for
-> +	 * very low arch timer frequencies (up to the KHz range which should be
-> +	 * unlikely).
-> +	 */
-> +	ratio = (u64)arch_timer_get_rate() << (2 * SCHED_CAPACITY_SHIFT);
-> +	ratio = div64_u64(ratio, max_freq_hz);
-> +	if (!ratio) {
-> +		pr_err("System timer frequency too low.\n");
-> +		return -EINVAL;
-> +	}
-> +
-> 
-> [1] https://lore.kernel.org/lkml/89339501-5ee4-e871-3076-c8b02c6fbf6e@arm.com/
+On Fri, Feb 14, 2020 at 2:10 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> From: Mark Salyzyn <salyzyn@android.com>
+>
+> commit 428826f5358c922dc378830a1717b682c0823160
+> ("fdt: add support for rng-seed") makes the assumption that the data
+> in rng-seed is binary, when it is typically constructed of utf-8
+> characters which has a bitness of roughly 6 to give appropriate
+> credit due for the entropy.
+>
+> Fixes: 428826f5358c ("fdt: add support for rng-seed")
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kernel-team@android.com
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Theodore Y. Ts'o <tytso@mit.edu>
+> ---
+>  drivers/char/random.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/char/random.c b/drivers/char/random.c
+> index c7f9584de2c8..ee21a6a584b1 100644
+> --- a/drivers/char/random.c
+> +++ b/drivers/char/random.c
+> @@ -2306,7 +2306,7 @@ EXPORT_SYMBOL_GPL(add_hwgenerator_randomness);
+>  void add_bootloader_randomness(const void *buf, unsigned int size)
+>  {
+>         if (IS_ENABLED(CONFIG_RANDOM_TRUST_BOOTLOADER))
+> -               add_hwgenerator_randomness(buf, size, size * 8);
+> +               add_hwgenerator_randomness(buf, size, size * 6);
+Hi,
 
-I've mistakenly referenced a bad link ^
+In the next patch, entropy is added by
++                       add_device_randomness(rng_seed, strlen(rng_seed));
++                       credit_trusted_entropy_bits(strlen(rng_seed) * 6);
 
-It was supposed to be:
+If the add_bootloader_randomness() function is only used for dt, do we
+need to shorten the credit bits?
 
-[1] https://lore.kernel.org/lkml/20200211184542.29585-7-ionela.voinescu@arm.com/
+In dt-schema[1] we stated that this is a uint8 array, and dt is able
+to generate this. It doesn't need to avoid using space for parameter
+splitting.
 
-Thanks,
-Ionela.
+For some device, asking for random number is time consuming. Shorten
+the credit length makes it have to generate longer seed for dt to meet
+the CRNG_INIT_CNT_THRESH threshold.
+
+[1] https://github.com/devicetree-org/dt-schema/blob/master/schemas/chosen.yaml#L55
+
+Thanks
