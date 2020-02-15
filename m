@@ -2,49 +2,38 @@ Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1D1C35242
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:17:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0E9C35242
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:57:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BD0142082F
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581725847;
-	bh=0TKEdWN6SIgbxXSKWc4lndzp4gWiftZNNLwKKtQQyF4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=pLDW4skTle9LzX53s3/2DjcWlnmchTNIvDRLUEGaQGiy/jtThQ2c0Lm0GrXkZA1EU
-	 C8jEK4dPrgGPEv3TOLDzAQHlTqIYz81YnNyurbRC/Vz3eh7Xf78Z6jCuU645q25zAU
-	 B0exJsd35k1OhVT6doYL36B5eT9SePyatybDJ9+k=
+	by mail.kernel.org (Postfix) with ESMTP id BBECA20726
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbgBOAR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 19:17:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42602 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726079AbgBOAR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Feb 2020 19:17:27 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D9D93207FF;
-        Sat, 15 Feb 2020 00:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581725846;
-        bh=0TKEdWN6SIgbxXSKWc4lndzp4gWiftZNNLwKKtQQyF4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GQAwE8iBhkKbW2wIezXRYLdvtYyBnfKcGq5xfMtirqsljp5zJjd4urdXNOvxfGGEk
-         mnET3Wm7ehwMqXNv49e/b+0M59o6q8mtdASEHsfuOLbno/BsvX+fwfXljZmWZCjyxe
-         Q7udDoqFD9xNFG3s+hEZ51hz3LV5oic0zuYXcX7g=
-Date:   Sat, 15 Feb 2020 09:17:18 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mark Salyzyn <salyzyn@android.com>,
+        id S1727529AbgBOA5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 19:57:25 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:38664 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725924AbgBOA5Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 19:57:25 -0500
+Received: from callcc.thunk.org (guestnat-104-133-0-101.corp.google.com [104.133.0.101] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 01F0raQM013843
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Feb 2020 19:53:37 -0500
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 1C4F942032C; Fri, 14 Feb 2020 19:53:36 -0500 (EST)
+Date:   Fri, 14 Feb 2020 19:53:36 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     Rob Herring <robh@kernel.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Android Kernel Team <kernel-team@android.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Richard Henderson <richard.henderson@linaro.org>,
         Mark Brown <broonie@kernel.org>,
@@ -64,74 +53,77 @@ Cc:     Mark Salyzyn <salyzyn@android.com>,
         Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Juergen Gross <jgross@suse.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] random: add random.rng_seed to bootconfig entry
-Message-Id: <20200215091718.129eecc9b65a9c41c91027b0@kernel.org>
-In-Reply-To: <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
+Message-ID: <20200215005336.GD439135@mit.edu>
 References: <158166060044.9887.549561499483343724.stgit@devnote2>
-        <CAL_JsqJ_VwHdpQ_WnQHu5J-bfs1vRPd5HQwVekR+5kKdVi4sXw@mail.gmail.com>
-        <1694f42c-bfc9-570a-64d2-3984965c8940@android.com>
-        <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <158166062748.9887.15284887096084339722.stgit@devnote2>
+ <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+ <20200214224744.GC439135@mit.edu>
+ <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+On Fri, Feb 14, 2020 at 02:55:36PM -0800, Mark Salyzyn wrote:
+> > This is why I really think what gets specified via the boot command
+> > line, or bootconfig, should specify the bits of entropy and the
+> > entropy seed *separately*, so it can be specified explicitly, instead
+> > of assuming that *everyone knows* that rng-seed is either (a) a binary
+> > string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
+> > *not* know, or everyone will have a different implementation, which
+> > everyone will say is *obviously* the only way to go....
+> > 
+> Given that the valid option are between 4 (hex), 6 (utf-8) or 8 (binary), we
+> can either split the difference and accept 6; or take a pass at the values
+> and determine which of the set they belong to [0-9a-fA-F], [!-~] or
+> [\000-\377]  nor need to separately specify.
 
-On Fri, 14 Feb 2020 12:14:53 -0600
-Rob Herring <robh@kernel.org> wrote:
+So let's split this up into separate issues.  First of all, from an
+architectural issue, I really think we need to change
+add_bootloader_randomness() in drivers/char/random.c so it looks like this:
 
-> To clarify my question: Why do we need random seed in bootconfig
-> rather than just the kernel command line? I'm not understanding why
-> things changed from your original patch.
+void add_bootloader_randomness(const void *buf, unsigned int size, unsigned int entropy_bits)
 
-I recommended to use it in the previous thread, because of simplicity.
-Since it has to hide from userspace and modules, it needs to modify
-kernel command line. But the bootconfig can make it simple, and it
-also architecture independent.
+That's because this is a general function that could be used by any
+number of bootloaders.  For example, for the UEFI bootloader, it can
+use the UEFI call that will return binary bits.  Some other bootloader
+might use utf-8, etc.  So it would be an abstraction violation to have
+code in drivers/char/random.c make assumption about how a particular
+bootloader might be behaving.
 
-> > In addition, 2B Android devices on the planet, especially in light of
-> > the Android GKI distribution were everything that is vendor created is
-> > in a module, needs a way to collect early entropy prior to module load
-> > and pass it to the kernel. Yes, they do have access to the recently
-> > added Device Tree approach, and we expect them to use it, as I have an
-> > active backport for the mechanism into the Android 4.19 and 5.4 kernels.
+The second question is we are going to be parsing an rng_seed
+parameter it shows up in bootconfig or in the boot command line, how
+do we decide how many bits of entropy it actually has.  The advantage
+of using the boot command line is we don't need to change the rest of
+the bootloader ecosystem.  But that's also a massive weakness, since
+apparently some people are already using it, and perhaps not in the
+same way.
 
-FYI, I backported bootconfig with boot-time tracer for 4.19 stable kernel
-recently.
+So what I'd really prefer is if we use something new, and we define it
+in a way that makes as close as possible to "impossible to misuse".
+(See Rusty Russell's API design manifesto[1]).  So I'm going to
+propose something different.  Let's use something new, say
+entropy_seed_hex, and let's say that it *must* be a hex string:
 
-https://github.com/mhiramat/linux/commits/ftrace-boottrace-4.19
+    entropy_seed_hex=7337db91a4824e3480ba6d2dfaa60bec
 
-You can check what commits are related.
+If it is not a valid hex string, it gets zero entropy credit.
 
-> > There may also be some benefit to allowing the 13000 different
-> > bootloaders an option to use bootconfig as a way of propagating the much
-> > needed entropy to their kernels. I could make a case to also allow them
-> > command line as another option to relieve their development stress to
-> > deliver product, but we can stop there. Regardless, this early entropy
-> > has the benefit of greatly improving security and precious boot time.
-> 
-> We're going to update 13000 bootloaders to understand bootconfig
-> rather than use the infrastructure already in place (DT and/or command
-> line)?
-> 
-> bootconfig is an ftrace feature only IMO. If it's more than that, I
-> imagine there will be some opinions about that. Adding new
-> bootloader-kernel interfaces is painful and not something to just add
-> without much review.
+I don't think we really need to worry about efficient encoding of the
+seed, since 256 bits is only 64 characters using a hex string.  And
+whether it's 32 characters or 64 characters, the max command line
+string is 32k, so it's probably not worth it to try to do something
+more complex.  (And only 128 bits is needed to declare the CRNG to be
+fully initialized, in which case we're talking about 16 characters
+versus 32 charaters.)
 
-The bootconfig itself is designed as a generic feature. I had tried to use
-devicetree, but that was rejected. Thus I made it as a "software
-configuration tree" (but far simpler.)
- 
-If you have any review comment on the bootconfig, always welcome!
-Seriously, I would like to have more comments. I want to make it better.
+[1] http://sweng.the-davies.net/Home/rustys-api-design-manifesto
 
-Thank you,
+						- Ted
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
