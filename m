@@ -2,115 +2,116 @@ Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F3EC2BA83
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 17:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 400C5C7114E
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 21:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3697122314
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 17:13:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17EF8217F4
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 21:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581786812;
-	bh=5l8Vi8hleqqzVtD4lt7Lj3hIV69+fYnulxZp4qYnC7Q=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=qnjW1GSPjCg7d/IqHKASdQB++jlE7V7qXWn6Dd2RmA2yXcDc4DH1STkPzBqSQcX8H
-	 FIPSIloMkJYknNCVMd6vfQCJD7adIvNvmuYNvaY1z6iKmL5yLCf7pbqg12EjNlaoHq
-	 cwrqQ/bx4i2MACEhYjEguXYlELvAypsA3MvQ0NFI=
+	s=default; t=1581801051;
+	bh=tEClT3+bvoTgI32MP1CwIfXkOx2B0xPFE4PgnQ/bh48=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=FwtO21MHNaI8qlvu2vbXCUPEXkgCGoPsVYym6TW90kXMjTvrZITgnYFx/jjr5mACk
+	 wGVVjiPpdBj385MyDaOgSOaasMOILPbJmCoJCj+QMXexGynrCAcSkiW4cyOV34diIg
+	 37u9tCHJza+gOBSXkCUzkuye4a6qsYoTVm4EfuZM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726273AbgBORNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Feb 2020 12:13:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55258 "EHLO mail.kernel.org"
+        id S1726705AbgBOVKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Feb 2020 16:10:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58800 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726254AbgBORNb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 Feb 2020 12:13:31 -0500
-Received: from paulmck-ThinkPad-P72.home (smb-adpcdg2-04.hotspot.hub-one.net [213.174.99.138])
+        id S1726254AbgBOVKu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 Feb 2020 16:10:50 -0500
+Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CF00D24676;
-        Sat, 15 Feb 2020 17:13:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 905702086A;
+        Sat, 15 Feb 2020 21:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581786811;
-        bh=5l8Vi8hleqqzVtD4lt7Lj3hIV69+fYnulxZp4qYnC7Q=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=OD6SuASqhLkiSk3WfOyp1pmpybaGcqpvStW+3m4XqP2l9Lb3Xu7kZVMTXPOL8162t
-         MKy04wUvMR2KxNoCJtdGNkCGGMQsY5xZQ3+DqZnb9X38qnicVnNwv3rsXlrH3M2eo7
-         69MW/dngshLWwqZ3/ULZG9SY1qsKhIa0e3SvNja8=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id E84FE35219C1; Sat, 15 Feb 2020 07:25:50 -0800 (PST)
-Date:   Sat, 15 Feb 2020 07:25:50 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC 0/3] tools/memory-model: Add litmus tests for atomic APIs
-Message-ID: <20200215152550.GA13636@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200214040132.91934-1-boqun.feng@gmail.com>
- <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
+        s=default; t=1581801050;
+        bh=tEClT3+bvoTgI32MP1CwIfXkOx2B0xPFE4PgnQ/bh48=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=j47cd6VEUSwkfygxE3Fl0jZ0+y96rV6rhCOwTbxqICgBpfUFlzCgbwqGdRnYiox7C
+         WKpb0mZuAn05weV4GJBx36SsMMc64S7A1LA6rWCgZ5DLfuiiSr3UJMQigOngLYguLD
+         3KhIlTuEB+wKTuzoV2SkhAffzCkX+GisJYG3Cb8A=
+Date:   Sat, 15 Feb 2020 15:10:47 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc:     will@kernel.org, robh+dt@kernel.org, lorenzo.pieralisi@arm.com,
+        joro@8bytes.org, baolu.lu@linux.intel.com,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
+        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
+        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH 02/11] PCI: Add ats_supported host bridge flag
+Message-ID: <20200215211047.GA124796@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200213165049.508908-3-jean-philippe@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 10:27:44AM -0500, Alan Stern wrote:
-> On Fri, 14 Feb 2020, Boqun Feng wrote:
+On Thu, Feb 13, 2020 at 05:50:40PM +0100, Jean-Philippe Brucker wrote:
+> Each vendor has their own way of describing whether a host bridge
+> supports ATS.  The Intel and AMD ACPI tables selectively enable or
+> disable ATS per device or sub-tree, while Arm has a single bit for each
+> host bridge.  For those that need it, add an ats_supported bit to the
+> host bridge structure.
 > 
-> > A recent discussion raises up the requirement for having test cases for
-> > atomic APIs:
-> > 
-> > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
-> > 
-> > , and since we already have a way to generate a test module from a
-> > litmus test with klitmus[1]. It makes sense that we add more litmus
-> > tests for atomic APIs into memory-model.
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  drivers/pci/probe.c | 7 +++++++
+>  include/linux/pci.h | 1 +
+>  2 files changed, 8 insertions(+)
 > 
-> It might be worth discussing this point a little more fully.  The 
-> set of tests in tools/memory-model/litmus-tests/ is deliberately rather 
-> limited.  Paul has a vastly more expansive set of litmus tests in a 
-> GitHub repository, and I am doubtful about how many new tests we want 
-> to keep in the kernel source.
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 512cb4312ddd..75c0a25af44e 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -598,6 +598,13 @@ static void pci_init_host_bridge(struct pci_host_bridge *bridge)
+>  	bridge->native_shpc_hotplug = 1;
+>  	bridge->native_pme = 1;
+>  	bridge->native_ltr = 1;
+> +
+> +	/*
+> +	 * Some systems may disable ATS at the host bridge (ACPI IORT,
+> +	 * device-tree), other filter it with a smaller granularity (ACPI DMAR
+> +	 * and IVRS).
+> +	 */
+> +	bridge->ats_supported = 1;
 
-Indeed, the current view is that the litmus tests in the kernel source
-tree are intended to provide examples of C-litmus-test-language features
-and functions, as opposed to exercising the full cross-product of
-Linux-kernel synchronization primitives.
+The cover letter says it's important to enable ATS only if the host
+bridge supports it.  From the other patches, it looks like we learn if
+the host bridge supports ATS from either a DT "ats-supported" property
+or an ACPI IORT table.  If that's the case, shouldn't the default here
+be "ATS is *not* supported"?
 
-For a semi-reasonable subset of that cross-product, as Alan says, please
-see https://github.com/paulmckrcu/litmus.
-
-For a list of the Linux-kernel synchronization primitives currently
-supported by LKMM, please see tools/memory-model/linux-kernel.def.
-
-> Perhaps it makes sense to have tests corresponding to all the examples
-> in Documentation/, perhaps not.  How do people feel about this?
-
-Agreed, we don't want to say that the set of litmus tests in the kernel
-source tree is limited for all time to the set currently present, but
-rather that the justification for adding more would involve useful and
-educational examples of litmus-test features and techniques rather than
-being a full-up LKMM test suite.
-
-I would guess that there are litmus-test tricks that could usefully
-be added to tools/memory-model/litmus-tests.  Any nomination?  Perhaps
-handling CAS loops while maintaining finite state space?  Something else?
-
-							Thanx, Paul
+>  }
+>  
+>  struct pci_host_bridge *pci_alloc_host_bridge(size_t priv)
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 3840a541a9de..9fe2e84d74d7 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -511,6 +511,7 @@ struct pci_host_bridge {
+>  	unsigned int	native_pme:1;		/* OS may use PCIe PME */
+>  	unsigned int	native_ltr:1;		/* OS may use PCIe LTR */
+>  	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+> +	unsigned int	ats_supported:1;
+>  
+>  	/* Resource alignment requirements */
+>  	resource_size_t (*align_resource)(struct pci_dev *dev,
+> -- 
+> 2.25.0
+> 
