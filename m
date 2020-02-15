@@ -2,211 +2,136 @@ Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D6CC35242
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1D1C35242
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:17:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8B8802073A
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:09:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewso7YgV"
+	by mail.kernel.org (Postfix) with ESMTP id BD0142082F
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 00:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581725847;
+	bh=0TKEdWN6SIgbxXSKWc4lndzp4gWiftZNNLwKKtQQyF4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=pLDW4skTle9LzX53s3/2DjcWlnmchTNIvDRLUEGaQGiy/jtThQ2c0Lm0GrXkZA1EU
+	 C8jEK4dPrgGPEv3TOLDzAQHlTqIYz81YnNyurbRC/Vz3eh7Xf78Z6jCuU645q25zAU
+	 B0exJsd35k1OhVT6doYL36B5eT9SePyatybDJ9+k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727683AbgBOAJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Feb 2020 19:09:51 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:46236 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727639AbgBOAJv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Feb 2020 19:09:51 -0500
-Received: by mail-qk1-f195.google.com with SMTP id u124so10436035qkh.13;
-        Fri, 14 Feb 2020 16:09:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8ia2+KV8baoEH8oMfE5Wevs73qaESjR2Z5zdSBZxQuI=;
-        b=ewso7YgViAjicIdY5qB7ZIpRtTj3iM1Q+4PKWdPGJHfD4A99zuGXyXr/t5xEFa3jEq
-         olay1KllHUW5Oqn+Wk2+PmZ0DF2mjJIabUM11l+G3ENZsiQJfHoOmEXdLJVgeBdV8GB3
-         gr8w3J2eXhOFBue7Amiftm3hpQD+ptBgEBKa47hox8SEEUTClzJP5nOYJNxx1OoCTmrQ
-         Lyo+NG+Csvf4TBZkXx/gvpfOsF+B93oT2p3AjoeL+i+NKuam1OSs8RSIXiHETWEweiAo
-         j9JmTUztfawQAIZqQJE2xArDaEo3KTHvkf1wfUwCmWFJc7useC37SSqAgSQfTBjMop7P
-         i8nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8ia2+KV8baoEH8oMfE5Wevs73qaESjR2Z5zdSBZxQuI=;
-        b=GbtYTdhmlczaiXT8AWDZXevpg3N2XU+SKTHT0sjciE1tpjTtTuH2VqD64tIDbmuRh+
-         355d/WUmuagSWcd8OvlqizIDmb/b6WwjCJ4TroNlQVd+NAziMwJYk47WE3QUB8PvTHNM
-         f2faKJ98dyHcKZX5/6pYa7p7+6m9ZKGVKYyb1gIfWQnYWIS0UFiQFUdhIhs1goVp0/hL
-         OXJwT/aW8Wu5bHMX9OPZir3SZrguNjgwJeITbhFJ/X7RGUrJxeOGbD3bDgmHefav6b28
-         JX8yWoIxTf8mt6svx16khLbTqJ9x5WtHaK5vQu5pS0VG88qb1jW42PZKzNBURGqUg62B
-         cEwA==
-X-Gm-Message-State: APjAAAV8mHd7q4LcAQrM46S+aZAH7AcID4yeM1v8WwgcOGmU2/4p2iBL
-        ZAQFE120ksI6V2XbULINi7o=
-X-Google-Smtp-Source: APXvYqyLaKbhc7BeMpPDAhC6zqtopsqrr8YevaVEmVAvqoCcgqnF5dodi7bMWW/sNU+bzLhXBQUdSw==
-X-Received: by 2002:a37:b602:: with SMTP id g2mr5038285qkf.174.1581725389745;
-        Fri, 14 Feb 2020 16:09:49 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id k37sm4523990qtf.70.2020.02.14.16.09.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Feb 2020 16:09:49 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id A38F721C05;
-        Fri, 14 Feb 2020 19:09:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 14 Feb 2020 19:09:48 -0500
-X-ME-Sender: <xms:yjZHXuYecYXr0T4Oc1zIRDVs3Ygt4QtLfRAMmESzGOwHXKHK0hEWdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedugddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucfkphephedvrd
-    duheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqd
-    eiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhl
-    rdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:yjZHXt3KJ6L-g-tXJMEr3rbbZsCl_mSAlR6cc1SK3nH3ajCvP0YpeQ>
-    <xmx:yjZHXgt2li36ZsKGv-OZzIvEu27WHRc1v0FqPNghMKN84KLkYLpK7w>
-    <xmx:yjZHXhh_hz9rEFyU-oV3hZOiZ0gC5LGswqdvlqO1yKv4rMEkmYzoRQ>
-    <xmx:zDZHXvkyCFa20zdkhQrUt18gHTQLjyVN9hxpcb9P1k_QQVibq2GPo-yKwes>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B27723280062;
-        Fri, 14 Feb 2020 19:09:45 -0500 (EST)
-Date:   Sat, 15 Feb 2020 08:09:44 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC 3/3] tools/memory-model: Add litmus test for RMW +
- smp_mb__after_atomic()
-Message-ID: <20200215000944.GC110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-References: <20200214040132.91934-4-boqun.feng@gmail.com>
- <Pine.LNX.4.44L0.2002141049310.1579-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2002141049310.1579-100000@iolanthe.rowland.org>
+        id S1727455AbgBOAR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Feb 2020 19:17:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726079AbgBOAR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Feb 2020 19:17:27 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D9D93207FF;
+        Sat, 15 Feb 2020 00:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581725846;
+        bh=0TKEdWN6SIgbxXSKWc4lndzp4gWiftZNNLwKKtQQyF4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GQAwE8iBhkKbW2wIezXRYLdvtYyBnfKcGq5xfMtirqsljp5zJjd4urdXNOvxfGGEk
+         mnET3Wm7ehwMqXNv49e/b+0M59o6q8mtdASEHsfuOLbno/BsvX+fwfXljZmWZCjyxe
+         Q7udDoqFD9xNFG3s+hEZ51hz3LV5oic0zuYXcX7g=
+Date:   Sat, 15 Feb 2020 09:17:18 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 0/3] random: add random.rng_seed to bootconfig entry
+Message-Id: <20200215091718.129eecc9b65a9c41c91027b0@kernel.org>
+In-Reply-To: <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
+References: <158166060044.9887.549561499483343724.stgit@devnote2>
+        <CAL_JsqJ_VwHdpQ_WnQHu5J-bfs1vRPd5HQwVekR+5kKdVi4sXw@mail.gmail.com>
+        <1694f42c-bfc9-570a-64d2-3984965c8940@android.com>
+        <CAL_JsqKb=qBH6QXphEZi7vMS+2K5kNj1riXQiUWma=bidAjN5A@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 10:58:57AM -0500, Alan Stern wrote:
-> On Fri, 14 Feb 2020, Boqun Feng wrote:
-> 
-> > We already use a litmus test in atomic_t.txt to describe atomic RMW +
-> > smp_mb__after_atomic() is "strong acquire" (both the read and the write
-> > part is ordered).
-> 
-> "strong acquire" is not an appropriate description -- there is no such
-> thing as a strong acquire in the LKMM -- nor is it a good name for the
-> litmus test.  A better description would be "stronger than acquire", as
-> in the sentence preceding the litmus test in atomic_t.txt.
-> 
+Hi Rob,
 
-Agreed, I will change it. 
+On Fri, 14 Feb 2020 12:14:53 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-And I can't help feeling this is another reason to add more litmus tests
-into kernel directory. During the review process you found two places
-where we can improve the text of the documents to be aligned to LKMM. I
-think we all want to use a unversial language (LKMM) to discuss things
-of parallel programming in kernel, and providing more litmus tests to
-people so that they can handly use them will cerntainly be helpful on
-this ;-)
+> To clarify my question: Why do we need random seed in bootconfig
+> rather than just the kernel command line? I'm not understanding why
+> things changed from your original patch.
 
-> >  So make it a litmus test in memory-model litmus-tests
-> > directory, so that people can access the litmus easily.
-> > 
-> > Additionally, change the processor numbers "P1, P2" to "P0, P1" in
-> > atomic_t.txt for the consistency with the processor numbers in the
-> > litmus test, which herd can handle.
-> > 
-> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> > ---
-> >  Documentation/atomic_t.txt                    |  6 ++--
-> >  ...+mb__after_atomic-is-strong-acquire.litmus | 29 +++++++++++++++++++
-> >  tools/memory-model/litmus-tests/README        |  5 ++++
-> >  3 files changed, 37 insertions(+), 3 deletions(-)
-> >  create mode 100644 tools/memory-model/litmus-tests/Atomic-RMW+mb__after_atomic-is-strong-acquire.litmus
-> > 
-> > diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
-> > index ceb85ada378e..e3ad4e4cd9ed 100644
-> > --- a/Documentation/atomic_t.txt
-> > +++ b/Documentation/atomic_t.txt
-> > @@ -238,14 +238,14 @@ strictly stronger than ACQUIRE. As illustrated:
-> >    {
-> >    }
-> >  
-> > -  P1(int *x, atomic_t *y)
-> > +  P0(int *x, atomic_t *y)
-> >    {
-> >      r0 = READ_ONCE(*x);
-> >      smp_rmb();
-> >      r1 = atomic_read(y);
-> >    }
-> >  
-> > -  P2(int *x, atomic_t *y)
-> > +  P1(int *x, atomic_t *y)
-> >    {
-> >      atomic_inc(y);
-> >      smp_mb__after_atomic();
-> > @@ -260,7 +260,7 @@ This should not happen; but a hypothetical atomic_inc_acquire() --
-> >  because it would not order the W part of the RMW against the following
-> >  WRITE_ONCE.  Thus:
-> >  
-> > -  P1			P2
-> > +  P0			P1
-> >  
-> >  			t = LL.acq *y (0)
-> >  			t++;
-> > diff --git a/tools/memory-model/litmus-tests/Atomic-RMW+mb__after_atomic-is-strong-acquire.litmus b/tools/memory-model/litmus-tests/Atomic-RMW+mb__after_atomic-is-strong-acquire.litmus
-> > new file mode 100644
-> > index 000000000000..e7216cf9d92a
-> > --- /dev/null
-> > +++ b/tools/memory-model/litmus-tests/Atomic-RMW+mb__after_atomic-is-strong-acquire.litmus
-> > @@ -0,0 +1,29 @@
-> > +C Atomic-RMW+mb__after_atomic-is-strong-acquire
-> > +
-> > +(*
-> > + * Result: Never
-> > + *
-> > + * Test of an atomic RMW followed by a smp_mb__after_atomic() is
-> 
-> s/Test of/Test that/
-> 
-> > + * "strong-acquire": both the read and write part of the RMW is ordered before
-> 
-> This should say "stronger than a normal acquire".  And "part" should be
-> "parts", and "is ordered" should be "are ordered".
-> 
+I recommended to use it in the previous thread, because of simplicity.
+Since it has to hide from userspace and modules, it needs to modify
+kernel command line. But the bootconfig can make it simple, and it
+also architecture independent.
 
-Thanks! I will improve in the next version.
+> > In addition, 2B Android devices on the planet, especially in light of
+> > the Android GKI distribution were everything that is vendor created is
+> > in a module, needs a way to collect early entropy prior to module load
+> > and pass it to the kernel. Yes, they do have access to the recently
+> > added Device Tree approach, and we expect them to use it, as I have an
+> > active backport for the mechanism into the Android 4.19 and 5.4 kernels.
 
-> Also, please try to arrange the line breaks so that the comment lines
-> don't have vastly different lengths.
+FYI, I backported bootconfig with boot-time tracer for 4.19 stable kernel
+recently.
+
+https://github.com/mhiramat/linux/commits/ftrace-boottrace-4.19
+
+You can check what commits are related.
+
+> > There may also be some benefit to allowing the 13000 different
+> > bootloaders an option to use bootconfig as a way of propagating the much
+> > needed entropy to their kernels. I could make a case to also allow them
+> > command line as another option to relieve their development stress to
+> > deliver product, but we can stop there. Regardless, this early entropy
+> > has the benefit of greatly improving security and precious boot time.
 > 
-> Similar changes should be made for the text added to README.
+> We're going to update 13000 bootloaders to understand bootconfig
+> rather than use the infrastructure already in place (DT and/or command
+> line)?
 > 
+> bootconfig is an ftrace feature only IMO. If it's more than that, I
+> imagine there will be some opinions about that. Adding new
+> bootloader-kernel interfaces is painful and not something to just add
+> without much review.
 
-Got it.
+The bootconfig itself is designed as a generic feature. I had tried to use
+devicetree, but that was rejected. Thus I made it as a "software
+configuration tree" (but far simpler.)
+ 
+If you have any review comment on the bootconfig, always welcome!
+Seriously, I would like to have more comments. I want to make it better.
 
-Regards,
-Boqun
+Thank you,
 
-> Alan Stern
-> 
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
