@@ -2,79 +2,119 @@ Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6026C2BA83
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 09:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7D9C2BA83
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 11:32:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 87C602081E
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 09:26:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E4A52073A
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 11:32:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Qf0utu9E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725963AbgBOJ0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Feb 2020 04:26:17 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:56938 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbgBOJ0R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Feb 2020 04:26:17 -0500
-Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1j2tiE-0005xL-FC; Sat, 15 Feb 2020 10:26:10 +0100
-Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
-        id E74BD101161; Sat, 15 Feb 2020 10:26:09 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Sean V Kelley <sean.v.kelley@linux.intel.com>, bhelgaas@google.com,
-        corbet@lwn.net, mingo@redhat.com, bp@alien8.de
-Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kar.hin.ong@ni.com, sassmann@kpanic.de,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>
-Subject: Re: [PATCH 0/2] Add boot interrupt quirk mechanism for Xeon chipsets
-In-Reply-To: <8736bctd7a.fsf@nanos.tec.linutronix.de>
-References: <20200214213313.66622-1-sean.v.kelley@linux.intel.com> <8736bctd7a.fsf@nanos.tec.linutronix.de>
-Date:   Sat, 15 Feb 2020 10:26:09 +0100
-Message-ID: <87zhdkryku.fsf@nanos.tec.linutronix.de>
+        id S1725977AbgBOLco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Feb 2020 06:32:44 -0500
+Received: from mout.gmx.net ([212.227.15.19]:39455 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725965AbgBOLcn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 Feb 2020 06:32:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1581766354;
+        bh=pOPA4vdkKum60vU2Sw008KD8mzmXUtj1ve/fnDeNt4o=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=Qf0utu9Er9uCdJjAwIzlzWlVbbgyK77QXdz28zP1NE6MmoSGyV4BTiZDEAUycMdKC
+         ChVzDBXeqTF3HN0gASznRlZucFRzgNYRHRFa/nHVwUQU1UUixmYr11MGwpE5pFWC4n
+         5sKGsOezwDtIFumElWLBjjs4JNIjnGKo7MAag2eM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([146.60.76.54]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFsUv-1jGQM11c2p-00HKFQ; Sat, 15
+ Feb 2020 12:32:34 +0100
+Date:   Sat, 15 Feb 2020 12:32:31 +0100
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     David Gow <davidgow@google.com>
+Cc:     brendanhiggins@google.com, skhan@linuxfoundation.org,
+        corbet@lwn.net, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, frowand.list@gmail.com,
+        Tim.Bird@sony.com
+Subject: Re: [PATCH v3] Documentation: kunit: Make the KUnit documentation
+ less UML-specific
+Message-ID: <20200215113231.GB2031@latitude>
+References: <20200214235723.254228-1-davidgow@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VrqPEDrXMn8OVzN4"
+Content-Disposition: inline
+In-Reply-To: <20200214235723.254228-1-davidgow@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:rGamt5ZN+2JamTtxWa+949Bwc4ai74Nlldylw7ATa7hNww9D7BE
+ /bziJu0IK7eIOEiblDQYdQvIiKXW/z+dRk/GH/2ESakG545IBuzDzYU1R9YY3ttXbj9r2P7
+ IYOjeUjc2quFYT6rlom6QWid4LXtrAm8OSawzbeqiKK46W2hYLkL3Lu/UzlqENMmcY/rN7S
+ DPjN9jGvI6ZMj+Hdd62OA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l56jit/555c=:OJcEhGVVIC44B/SxTchbcX
+ Fr8/OnlUjSULPzJDoaXWtq33lqaLjHW3/2u8N7nVjjkVNOZoyw4ryZtXv7ezG8lbiDk1F5e2b
+ mNExcqwEkFKiGjtnTyHU1icDXMbf/D2OSsTi20uBf0zNGBW3/p/gX+vwzeZZ/+rBbd+XG3XbN
+ btjhXaZPCqQQSKSpz4+kAR52llMT7pw3jkYlBaKSo391QF+qDQdX6qLFJip+Ss1OtuF2bHzAz
+ 7Uylg6+/4Y+mDNl6HpwHnQyYtbqvAe4BJD9Dfof2CQNL3pGrhMZxw9A0CdY6i0VQ/vigo4w5j
+ 2qZIIQCeSZBvvmFmTwHeSCZHErUSGFWFKoRAFEebxz1sW6aYS9Q9boOakVKf3OP2Y/o7wSJrA
+ gvjPQW/4Ptz3LmkfnzqNDyuVzPBw1XoJrmKcBbE3ZAFgndf0IGPU46SykodQ9nSNuL0X9BMlh
+ PeRDhtWBRu1VKOyh3E4wmMjoExvS8nsykk07VmioJpZIJBVou+IW0KEfhf+fZWBh+vd/ajGuR
+ N8tyx7flL1sSZKhc6YBzUnyY1FZzpEzo1O3x9ws6zI/dxLL3JpesUZ6tMyyhUMaUuI3ghPBgc
+ /qiBS5Zaj392Vot3z0oyKGLFQTAogoxKGVz2d0SakOSIy8tS8VV+2wV89sjFmkl2VrLHERI14
+ 3123MROhEXUYAlnl794FwZWXMmRJD5uRI3TqaCtghfhjtC8ByYR5pRBTseUdD0EGP1AJxRk1P
+ mmvrF/ldCS1zzWQ97X7t8hjeBV3cCHzg7ODv/U3YWCtfxKmMi0YfFXuOCFm8pahxg9wy121Eq
+ wXL1iG3dlT/im9vzNj3zLMjA3AbhkPM3xrXjD9WllZBd2WxG//uNI3FdX4MgEDzYkI/Dg0rP2
+ jxeM800TA1zyISpGmKTtUo30Sup1bzhYAnYTRDcp/j/Hqdqx6cAcya4mD/7EPhXAg4Bkr3m60
+ sHx4MeYL3LRg+nNNWfJRuCNKVqOJjTEbcB3zDvMYWcsbDfr9xLsCKrJZVIrn5lMM59zGOGVDY
+ FJmbACqTT3wdV7mDfuSGCDnRZJOGQMv6dQMZF1NnEmRMghHEWKOnDAzulZhIbMbIv5M6EN/9s
+ mocio8OP8kgpsfFziQOu35hb3rLIJy60Bwr9yLJqCykRsgCPjEKyswx/2PwVDiMolJ146pf/T
+ bFxILHzLeHppk5AVvPys5F1rs21pULO/v0ZQCuseO9SehJf/MxXRW2npjTp8d67Yigt589/ry
+ 2XUOug4X8C71RUIpp
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thomas Gleixner <tglx@linutronix.de> writes:
 
-> Sean V Kelley <sean.v.kelley@linux.intel.com> writes:
->> When IRQ lines on secondary or higher IO-APICs are masked (e.g.,
->> Real-Time threaded interrupts), many chipsets redirect IRQs on
->> this line to the legacy PCH and in turn the base IO-APIC in the
->> system. The unhandled interrupts on the base IO-APIC will be
->> identified by the Linux kernel as Spurious Interrupts and can
->> lead to disabled IRQ lines.
->>
->> Disabling this legacy PCI interrupt routing is chipset-specific and
->> varies in mechanism between chipset vendors and across generations.
->> In some cases the mechanism is exposed to BIOS but not all BIOS
->> vendors choose to pick it up. With the increasing usage of RT as it
->> marches towards mainline, additional issues have been raised with
->> more recent Xeon chipsets.
->>
->> This patchset disables the boot interrupt on these Xeon chipsets where
->> this is possible with an additional mechanism.  In addition, this
->> patchset includes documentation covering the background of this quirk.
->
-> Well done! The documentation is really appreciated!
->
-> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+--VrqPEDrXMn8OVzN4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Bjorn, this should go into stable as well IMO.
+Hi,
+
+On Fri, Feb 14, 2020 at 03:57:23PM -0800, David Gow wrote:
+[...]
+> +To make running these tests (and reading the results) easier, KUnit offs=
+ers
+
+There's a typo here: s/offsers/offers/
+
 
 Thanks,
+Jonathan Neusch=C3=A4fer
 
-        tglx
+--VrqPEDrXMn8OVzN4
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5H1sgACgkQCDBEmo7z
+X9vbGA//YSsL2+AzYJ+tyrjnjNWwnhgSigy7m6uufz/KqC0eU8Sfs6UXO+GwwnvD
+SoqCqelP5QF7zyeGZT3mCFfl7XbfcIzK1xTfyxEEr9MBvCQRKDvXjxQbNS0rahAm
+2V0YppxFHu05UNrc/FNpEsCvHoYQwd/91N8iJkIIknAPn/lcMdrJQIjqXuuuyCQd
+QmawN8LZOh7dZwAxjIGCXFlP5ip7gHcLKzi+my0gtCs2z7yYrUm9jBNZfyut2Lfd
+VUVOP7sYqXzMc0P0WpAd/5f5ivwKortWo6J2wK++trbpEIXjMvqx2dR1DA9n6SKb
+eGYhCDzEdxhlw7bU9DPdT75yo36zk8HlWmFxvC7Cg5TSoqbJEHHSQDRUd2VSoNVb
+ACRLtvGtpOhd4s0aaR9uPt1Q6Fs2c6vqAh3hPSEM8684rB+71A8R3U+KcSj3Zjus
+b8KnOsIGIV8Vwt1/q99AXXMrGrQ2ggya9i692yD8VvCBWygA96CZ42bdUwMKSbjn
+dcWIe3bL16ZXDRrf3CeNDNOQ3znkixw1J4aaRJ31PxuvKZGX+q9RerhwVf2ICtut
+5Aop/DS1pULN6D5Mcm3FPDk3Ank6c4h/pTtgsVXj3PjB74WNr5Iyt45VqBd0UqqG
+FqmVBpkZb6MKSepIXWBc7kz9RwPmW4hVngIwt9a/KRXBZCmwshQ=
+=awkR
+-----END PGP SIGNATURE-----
+
+--VrqPEDrXMn8OVzN4--
