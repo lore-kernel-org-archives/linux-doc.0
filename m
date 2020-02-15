@@ -2,119 +2,115 @@ Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7D9C2BA83
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 11:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F3EC2BA83
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 17:13:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E4A52073A
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 11:32:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Qf0utu9E"
+	by mail.kernel.org (Postfix) with ESMTP id 3697122314
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 17:13:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581786812;
+	bh=5l8Vi8hleqqzVtD4lt7Lj3hIV69+fYnulxZp4qYnC7Q=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=qnjW1GSPjCg7d/IqHKASdQB++jlE7V7qXWn6Dd2RmA2yXcDc4DH1STkPzBqSQcX8H
+	 FIPSIloMkJYknNCVMd6vfQCJD7adIvNvmuYNvaY1z6iKmL5yLCf7pbqg12EjNlaoHq
+	 cwrqQ/bx4i2MACEhYjEguXYlELvAypsA3MvQ0NFI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbgBOLco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Feb 2020 06:32:44 -0500
-Received: from mout.gmx.net ([212.227.15.19]:39455 "EHLO mout.gmx.net"
+        id S1726273AbgBORNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Feb 2020 12:13:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55258 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725965AbgBOLcn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 Feb 2020 06:32:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1581766354;
-        bh=pOPA4vdkKum60vU2Sw008KD8mzmXUtj1ve/fnDeNt4o=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Qf0utu9Er9uCdJjAwIzlzWlVbbgyK77QXdz28zP1NE6MmoSGyV4BTiZDEAUycMdKC
-         ChVzDBXeqTF3HN0gASznRlZucFRzgNYRHRFa/nHVwUQU1UUixmYr11MGwpE5pFWC4n
-         5sKGsOezwDtIFumElWLBjjs4JNIjnGKo7MAag2eM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([146.60.76.54]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFsUv-1jGQM11c2p-00HKFQ; Sat, 15
- Feb 2020 12:32:34 +0100
-Date:   Sat, 15 Feb 2020 12:32:31 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     David Gow <davidgow@google.com>
-Cc:     brendanhiggins@google.com, skhan@linuxfoundation.org,
-        corbet@lwn.net, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, frowand.list@gmail.com,
-        Tim.Bird@sony.com
-Subject: Re: [PATCH v3] Documentation: kunit: Make the KUnit documentation
- less UML-specific
-Message-ID: <20200215113231.GB2031@latitude>
-References: <20200214235723.254228-1-davidgow@google.com>
+        id S1726254AbgBORNb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 Feb 2020 12:13:31 -0500
+Received: from paulmck-ThinkPad-P72.home (smb-adpcdg2-04.hotspot.hub-one.net [213.174.99.138])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CF00D24676;
+        Sat, 15 Feb 2020 17:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581786811;
+        bh=5l8Vi8hleqqzVtD4lt7Lj3hIV69+fYnulxZp4qYnC7Q=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=OD6SuASqhLkiSk3WfOyp1pmpybaGcqpvStW+3m4XqP2l9Lb3Xu7kZVMTXPOL8162t
+         MKy04wUvMR2KxNoCJtdGNkCGGMQsY5xZQ3+DqZnb9X38qnicVnNwv3rsXlrH3M2eo7
+         69MW/dngshLWwqZ3/ULZG9SY1qsKhIa0e3SvNja8=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id E84FE35219C1; Sat, 15 Feb 2020 07:25:50 -0800 (PST)
+Date:   Sat, 15 Feb 2020 07:25:50 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC 0/3] tools/memory-model: Add litmus tests for atomic APIs
+Message-ID: <20200215152550.GA13636@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200214040132.91934-1-boqun.feng@gmail.com>
+ <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VrqPEDrXMn8OVzN4"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200214235723.254228-1-davidgow@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:rGamt5ZN+2JamTtxWa+949Bwc4ai74Nlldylw7ATa7hNww9D7BE
- /bziJu0IK7eIOEiblDQYdQvIiKXW/z+dRk/GH/2ESakG545IBuzDzYU1R9YY3ttXbj9r2P7
- IYOjeUjc2quFYT6rlom6QWid4LXtrAm8OSawzbeqiKK46W2hYLkL3Lu/UzlqENMmcY/rN7S
- DPjN9jGvI6ZMj+Hdd62OA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l56jit/555c=:OJcEhGVVIC44B/SxTchbcX
- Fr8/OnlUjSULPzJDoaXWtq33lqaLjHW3/2u8N7nVjjkVNOZoyw4ryZtXv7ezG8lbiDk1F5e2b
- mNExcqwEkFKiGjtnTyHU1icDXMbf/D2OSsTi20uBf0zNGBW3/p/gX+vwzeZZ/+rBbd+XG3XbN
- btjhXaZPCqQQSKSpz4+kAR52llMT7pw3jkYlBaKSo391QF+qDQdX6qLFJip+Ss1OtuF2bHzAz
- 7Uylg6+/4Y+mDNl6HpwHnQyYtbqvAe4BJD9Dfof2CQNL3pGrhMZxw9A0CdY6i0VQ/vigo4w5j
- 2qZIIQCeSZBvvmFmTwHeSCZHErUSGFWFKoRAFEebxz1sW6aYS9Q9boOakVKf3OP2Y/o7wSJrA
- gvjPQW/4Ptz3LmkfnzqNDyuVzPBw1XoJrmKcBbE3ZAFgndf0IGPU46SykodQ9nSNuL0X9BMlh
- PeRDhtWBRu1VKOyh3E4wmMjoExvS8nsykk07VmioJpZIJBVou+IW0KEfhf+fZWBh+vd/ajGuR
- N8tyx7flL1sSZKhc6YBzUnyY1FZzpEzo1O3x9ws6zI/dxLL3JpesUZ6tMyyhUMaUuI3ghPBgc
- /qiBS5Zaj392Vot3z0oyKGLFQTAogoxKGVz2d0SakOSIy8tS8VV+2wV89sjFmkl2VrLHERI14
- 3123MROhEXUYAlnl794FwZWXMmRJD5uRI3TqaCtghfhjtC8ByYR5pRBTseUdD0EGP1AJxRk1P
- mmvrF/ldCS1zzWQ97X7t8hjeBV3cCHzg7ODv/U3YWCtfxKmMi0YfFXuOCFm8pahxg9wy121Eq
- wXL1iG3dlT/im9vzNj3zLMjA3AbhkPM3xrXjD9WllZBd2WxG//uNI3FdX4MgEDzYkI/Dg0rP2
- jxeM800TA1zyISpGmKTtUo30Sup1bzhYAnYTRDcp/j/Hqdqx6cAcya4mD/7EPhXAg4Bkr3m60
- sHx4MeYL3LRg+nNNWfJRuCNKVqOJjTEbcB3zDvMYWcsbDfr9xLsCKrJZVIrn5lMM59zGOGVDY
- FJmbACqTT3wdV7mDfuSGCDnRZJOGQMv6dQMZF1NnEmRMghHEWKOnDAzulZhIbMbIv5M6EN/9s
- mocio8OP8kgpsfFziQOu35hb3rLIJy60Bwr9yLJqCykRsgCPjEKyswx/2PwVDiMolJ146pf/T
- bFxILHzLeHppk5AVvPys5F1rs21pULO/v0ZQCuseO9SehJf/MxXRW2npjTp8d67Yigt589/ry
- 2XUOug4X8C71RUIpp
+In-Reply-To: <Pine.LNX.4.44L0.2002141024141.1579-100000@iolanthe.rowland.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Feb 14, 2020 at 10:27:44AM -0500, Alan Stern wrote:
+> On Fri, 14 Feb 2020, Boqun Feng wrote:
+> 
+> > A recent discussion raises up the requirement for having test cases for
+> > atomic APIs:
+> > 
+> > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
+> > 
+> > , and since we already have a way to generate a test module from a
+> > litmus test with klitmus[1]. It makes sense that we add more litmus
+> > tests for atomic APIs into memory-model.
+> 
+> It might be worth discussing this point a little more fully.  The 
+> set of tests in tools/memory-model/litmus-tests/ is deliberately rather 
+> limited.  Paul has a vastly more expansive set of litmus tests in a 
+> GitHub repository, and I am doubtful about how many new tests we want 
+> to keep in the kernel source.
 
---VrqPEDrXMn8OVzN4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed, the current view is that the litmus tests in the kernel source
+tree are intended to provide examples of C-litmus-test-language features
+and functions, as opposed to exercising the full cross-product of
+Linux-kernel synchronization primitives.
 
-Hi,
+For a semi-reasonable subset of that cross-product, as Alan says, please
+see https://github.com/paulmckrcu/litmus.
 
-On Fri, Feb 14, 2020 at 03:57:23PM -0800, David Gow wrote:
-[...]
-> +To make running these tests (and reading the results) easier, KUnit offs=
-ers
+For a list of the Linux-kernel synchronization primitives currently
+supported by LKMM, please see tools/memory-model/linux-kernel.def.
 
-There's a typo here: s/offsers/offers/
+> Perhaps it makes sense to have tests corresponding to all the examples
+> in Documentation/, perhaps not.  How do people feel about this?
 
+Agreed, we don't want to say that the set of litmus tests in the kernel
+source tree is limited for all time to the set currently present, but
+rather that the justification for adding more would involve useful and
+educational examples of litmus-test features and techniques rather than
+being a full-up LKMM test suite.
 
-Thanks,
-Jonathan Neusch=C3=A4fer
+I would guess that there are litmus-test tricks that could usefully
+be added to tools/memory-model/litmus-tests.  Any nomination?  Perhaps
+handling CAS loops while maintaining finite state space?  Something else?
 
---VrqPEDrXMn8OVzN4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5H1sgACgkQCDBEmo7z
-X9vbGA//YSsL2+AzYJ+tyrjnjNWwnhgSigy7m6uufz/KqC0eU8Sfs6UXO+GwwnvD
-SoqCqelP5QF7zyeGZT3mCFfl7XbfcIzK1xTfyxEEr9MBvCQRKDvXjxQbNS0rahAm
-2V0YppxFHu05UNrc/FNpEsCvHoYQwd/91N8iJkIIknAPn/lcMdrJQIjqXuuuyCQd
-QmawN8LZOh7dZwAxjIGCXFlP5ip7gHcLKzi+my0gtCs2z7yYrUm9jBNZfyut2Lfd
-VUVOP7sYqXzMc0P0WpAd/5f5ivwKortWo6J2wK++trbpEIXjMvqx2dR1DA9n6SKb
-eGYhCDzEdxhlw7bU9DPdT75yo36zk8HlWmFxvC7Cg5TSoqbJEHHSQDRUd2VSoNVb
-ACRLtvGtpOhd4s0aaR9uPt1Q6Fs2c6vqAh3hPSEM8684rB+71A8R3U+KcSj3Zjus
-b8KnOsIGIV8Vwt1/q99AXXMrGrQ2ggya9i692yD8VvCBWygA96CZ42bdUwMKSbjn
-dcWIe3bL16ZXDRrf3CeNDNOQ3znkixw1J4aaRJ31PxuvKZGX+q9RerhwVf2ICtut
-5Aop/DS1pULN6D5Mcm3FPDk3Ank6c4h/pTtgsVXj3PjB74WNr5Iyt45VqBd0UqqG
-FqmVBpkZb6MKSepIXWBc7kz9RwPmW4hVngIwt9a/KRXBZCmwshQ=
-=awkR
------END PGP SIGNATURE-----
-
---VrqPEDrXMn8OVzN4--
+							Thanx, Paul
