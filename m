@@ -1,117 +1,153 @@
-Return-Path: <SRS0=bKbs=4D=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=wnrT=4E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 400C5C7114E
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 21:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F3FC3B1BF
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Feb 2020 04:46:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 17EF8217F4
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Feb 2020 21:10:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07C0620857
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Feb 2020 04:46:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581801051;
-	bh=tEClT3+bvoTgI32MP1CwIfXkOx2B0xPFE4PgnQ/bh48=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=FwtO21MHNaI8qlvu2vbXCUPEXkgCGoPsVYym6TW90kXMjTvrZITgnYFx/jjr5mACk
-	 wGVVjiPpdBj385MyDaOgSOaasMOILPbJmCoJCj+QMXexGynrCAcSkiW4cyOV34diIg
-	 37u9tCHJza+gOBSXkCUzkuye4a6qsYoTVm4EfuZM=
+	s=default; t=1581828415;
+	bh=gXC4tBD8426bmDuKyfsXtv5n7wRhlOdA3Vs3ONT1Naw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=vXgmqaS4u2H90Ta7QV3iwtrCbfRxtVOluCS+FP1W8fZG/JWYy4d/7ZDwzb9oJE6zT
+	 G+kd6bzYwT+o/fe48QzpMo5lq0v/B/WuqbSwcd6HZ2pwlXuvVWNgjB8gM6VdPhyDJJ
+	 jRej/6eZCYHgMfWF9eGy+0JGjN5aB+tVNlmdK7+g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbgBOVKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Feb 2020 16:10:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58800 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726254AbgBOVKu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 Feb 2020 16:10:50 -0500
-Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 905702086A;
-        Sat, 15 Feb 2020 21:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581801050;
-        bh=tEClT3+bvoTgI32MP1CwIfXkOx2B0xPFE4PgnQ/bh48=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=j47cd6VEUSwkfygxE3Fl0jZ0+y96rV6rhCOwTbxqICgBpfUFlzCgbwqGdRnYiox7C
-         WKpb0mZuAn05weV4GJBx36SsMMc64S7A1LA6rWCgZ5DLfuiiSr3UJMQigOngLYguLD
-         3KhIlTuEB+wKTuzoV2SkhAffzCkX+GisJYG3Cb8A=
-Date:   Sat, 15 Feb 2020 15:10:47 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     will@kernel.org, robh+dt@kernel.org, lorenzo.pieralisi@arm.com,
-        joro@8bytes.org, baolu.lu@linux.intel.com,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
-        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
-        sudeep.holla@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
-        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: Re: [PATCH 02/11] PCI: Add ats_supported host bridge flag
-Message-ID: <20200215211047.GA124796@google.com>
+        id S1726651AbgBPEqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Feb 2020 23:46:54 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:42736 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726634AbgBPEqy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Feb 2020 23:46:54 -0500
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 01G4knUL018848;
+        Sun, 16 Feb 2020 13:46:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 01G4knUL018848
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1581828410;
+        bh=kRDtLlY/sMJu/K4srmxboOx3IqTLY+xR78bIUykXjLE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KxDBp5N+FL3ryREMNWh/kC/WEIPSOjGnWsw8xE5DqYJYm/K+KuoAuycSwv59Ov+LX
+         q6qXypmIoU14tfcczuA+3VGbNP7daCHYwLx7/wTuY+OFfEKvyiQoeIBJS3dtc4h4V5
+         koIvsXNcZ4mgEdEk6HHlIHdFtgsmYaSzZZsROHnL5wviWdbRlmhNWgWd/90Tfi+3ws
+         03URtjD0FFe0x2pculeWmv/jECotLzXiCYRM9lkY/2A8kn1bai2Jbm1yW6QVuWkUnP
+         SlP4p8R1pKTrMrreqy19bpjl1Tmu6KDx4SHFfl4ikcHegmh2OqpUZwv1CwGAiI8Axa
+         aoHjuhND/bDxQ==
+X-Nifty-SrcIP: [209.85.221.175]
+Received: by mail-vk1-f175.google.com with SMTP id w4so3691431vkd.5;
+        Sat, 15 Feb 2020 20:46:50 -0800 (PST)
+X-Gm-Message-State: APjAAAXPUu5vjDJOY+e3qc099lEvASJCtFYy7meqXTh55SzlIlvwds0v
+        1yhOmnCTudYfmL/1oQRM87op/rjbmQb/CHca16A=
+X-Google-Smtp-Source: APXvYqw5njGV6lWi5rpITygFBQYX4hxKkyR82xkrXYNmCx92gIkgxqTDj11EB1ki+KarqeP6mV9EoIUZp5EpjS6aDfQ=
+X-Received: by 2002:a1f:bfc2:: with SMTP id p185mr2951268vkf.73.1581828408908;
+ Sat, 15 Feb 2020 20:46:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200213165049.508908-3-jean-philippe@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200201062459.7150-1-changbin.du@gmail.com> <20200201062459.7150-2-changbin.du@gmail.com>
+In-Reply-To: <20200201062459.7150-2-changbin.du@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 16 Feb 2020 13:46:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATvWpic8r6J6eUnKtLYMnF3bhKA17x9DNYwSK66me9LtA@mail.gmail.com>
+Message-ID: <CAK7LNATvWpic8r6J6eUnKtLYMnF3bhKA17x9DNYwSK66me9LtA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sanitize: Add SANITIZE_xx.o and SANITIZE to disable
+ all sanitizers for specific files
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 05:50:40PM +0100, Jean-Philippe Brucker wrote:
-> Each vendor has their own way of describing whether a host bridge
-> supports ATS.  The Intel and AMD ACPI tables selectively enable or
-> disable ATS per device or sub-tree, while Arm has a single bit for each
-> host bridge.  For those that need it, add an ats_supported bit to the
-> host bridge structure.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Hi Changbin,
+
+On Sat, Feb 1, 2020 at 3:25 PM Changbin Du <changbin.du@gmail.com> wrote:
+>
+> This patch add two new flags to disable all sanitizers (UBSAN and KASAN):
+>   o SANITIZE_xx.o - disable all sanitizers for a single file.
+>   o SANITIZE - disable all sanitizers for current directory.
+>
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
 > ---
->  drivers/pci/probe.c | 7 +++++++
->  include/linux/pci.h | 1 +
->  2 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 512cb4312ddd..75c0a25af44e 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -598,6 +598,13 @@ static void pci_init_host_bridge(struct pci_host_bridge *bridge)
->  	bridge->native_shpc_hotplug = 1;
->  	bridge->native_pme = 1;
->  	bridge->native_ltr = 1;
+>  Documentation/dev-tools/kasan.rst | 12 ++++++++++++
+>  scripts/Makefile.lib              |  4 ++--
+>  2 files changed, 14 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index e4d66e7c50de..f59fc5fb2cd8 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -55,6 +55,18 @@ similar to the following to the respective kernel Makefile:
+>
+>      KASAN_SANITIZE := n
+>
+> +Similarly, to disable all sanitizers (KASAN, UBSAN) for specific files or
+> +directories, add a line similar to the following to the respective kernel
+> +Makefile:
 > +
-> +	/*
-> +	 * Some systems may disable ATS at the host bridge (ACPI IORT,
-> +	 * device-tree), other filter it with a smaller granularity (ACPI DMAR
-> +	 * and IVRS).
-> +	 */
-> +	bridge->ats_supported = 1;
+> +- For a single file (e.g. main.o)::
+> +
+> +    SANITIZE_main.o := n
+> +
+> +- For all files in one directory::
+> +
+> +    SANITIZE := n
+> +
+>  Error reports
+>  ~~~~~~~~~~~~~
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 3fa32f83b2d7..9b7d784e3252 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -122,13 +122,13 @@ endif
+>  #
+>  ifeq ($(CONFIG_KASAN),y)
+>  _c_flags += $(if $(patsubst n%,, \
+> -               $(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
+> +               $(SANITIZE_$(basetarget).o)$(SANITIZE)$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
 
-The cover letter says it's important to enable ATS only if the host
-bridge supports it.  From the other patches, it looks like we learn if
-the host bridge supports ATS from either a DT "ats-supported" property
-or an ACPI IORT table.  If that's the case, shouldn't the default here
-be "ATS is *not* supported"?
 
->  }
->  
->  struct pci_host_bridge *pci_alloc_host_bridge(size_t priv)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 3840a541a9de..9fe2e84d74d7 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -511,6 +511,7 @@ struct pci_host_bridge {
->  	unsigned int	native_pme:1;		/* OS may use PCIe PME */
->  	unsigned int	native_ltr:1;		/* OS may use PCIe LTR */
->  	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
-> +	unsigned int	ats_supported:1;
->  
->  	/* Resource alignment requirements */
->  	resource_size_t (*align_resource)(struct pci_dev *dev,
-> -- 
-> 2.25.0
-> 
+I think this would be very unlikely to happen, but
+if both SANITIZE and KASAN_SANITIZE existed,
+KASAN_SANITIZE should take precedence over SANITIZE, maybe?
+
+
+Perhaps, like this?
+
+$(KASAN_SANITIZE_$(basetarget).o)$(SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)$(SANITIZE)y
+
+
+
+>                 $(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
+>  endif
+>
+>  ifeq ($(CONFIG_UBSAN),y)
+>  _c_flags += $(if $(patsubst n%,, \
+> -               $(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANITIZE_ALL)), \
+> +               $(SANITIZE_$(basetarget).o)$(SANITIZE)$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANITIZE_ALL)), \
+>                 $(CFLAGS_UBSAN))
+>  endif
+>
+> --
+> 2.24.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
