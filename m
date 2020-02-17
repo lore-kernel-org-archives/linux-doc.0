@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC470C3402A
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E516C3403B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D51F215A4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3734E22464
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955978;
-	bh=eNoE2m9f4RSaYCRFWKIGGWWEUErMH5TSMPV208E2KW8=;
+	s=default; t=1581955997;
+	bh=e40lzYBRbxdxgISi+TBUt68LHragSx2QTPx3if4+RJg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dQ5+v9kZchMHnSfWFgp1Uy0+GsWo1/uBg95O0WjceVHWf0VeeKlhiJbOiOYm7Bagt
-	 +3jOJplCk4khmYGVYE1OWMgSb8wjPf/5T62U9U3zyG+KWxgQoo32LuY3aTVAmfHz1+
-	 jXHXJOX7BJvwa5tqo+x+xIuzOPaZnanTOlFDYOvg=
+	b=1oC1aJdxQYiD872yAWXcxjPp5vDbCaZmp4B32pui+t8P7OsBR7X7SAH3JdViAufQI
+	 7BP0y7oYOUnEP6zoCRcXtfhcj0FBakaTI+nDfWPVQ5hc04CNC/rCoKqO3JYP2pcWLm
+	 aipSBWBuoSIl30eXMvpLmslsJFxWDJOM0xDXDHzg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729780AbgBQQM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:56 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47268 "EHLO
+        id S1729682AbgBQQNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47118 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728558AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1729672AbgBQQMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=PEqrgFvISIAaZ/B0HMya4ckarbzN8BQoSggebQYt5cc=; b=IbwNPCB4O/bav+b3m1LH1AVpmB
-        gEZI9Dn+BdKi09Mou9G+hxU6rmXlAw4UW2ujtXcwaJy3OZvmkIG96fMmDosAP5O44t4YxRaJJYA8J
-        qHfb6DFitFoTluC0tEoc54uDg6yws2lMm7pETqxTqVAO/zmqp78/FhhCbOQ0wNNnJ6U7EyyUltbZo
-        pQwmYbnmpr4FhO+d7CYXQch78ZdAEx9Fi8atw+nHASBAWZBvjypt8l3pwM1hrsV8pSycmqeaTwheO
-        mlOf0qHXay3ppjIkaiCtGZd9CSnf3fMlQELJnx/GYBBV1E0y1cVQFYkxgB6997M5FnR/kRB+Bu69K
-        iLQEXWEA==;
+        bh=XL0RC242yGEdYAKvPtjJDxMTTmgPVKj+8fzli+YYpH4=; b=dOiW/9AHKHJnUcSFfGGlb+zMxk
+        hDQcxfzbbLJptfRTAJNfT6pSxEvXJOECqnKhYWljDVZiOh721ZgW6C6xtua0b7PnYlY4XXrA7Ida6
+        FiOWQQpVaWtRdMfsFieofJJURufmTvZ0Ao6vHrXy3rarGlXwdeqdzyggHJ0p6Lc5i1Leie+eQBP8S
+        aM38b8VxkgxPRizvCUPN0lPMbwDWw7VxGPs3msKt/SpGuLng/g3RIeX+u1hvRXJHezvIy6Svsitqy
+        Sn8o6Vsd6CkGMOrRu8gh34lkRNvTxZIZfWS8cpn7l3CxA6e/SrMqY9aUOujof9Qt83DwgbnUikvVZ
+        gYZDU2iw==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0d-0006ux-49; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0c-0006uQ-4n; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fbk-6f; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0Z-000fZH-Mm; Mon, 17 Feb 2020 17:12:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 35/44] docs: filesystems: convert relay.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:21 +0100
-Message-Id: <f48bb0fdf64d197f28c6f469adb61a7a091adb75.1581955849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/44] docs: filesystems: convert autofs-mount-control.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:51 +0100
+Message-Id: <8cae057ae244d0f5b58d3c209bcdae5ed82bc52c.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -63,249 +63,181 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Adjust document title;
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
-- Add table markups;
-- Use notes markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ ...t-control.txt => autofs-mount-control.rst} | 102 +++++++++---------
  Documentation/filesystems/index.rst           |   1 +
- .../filesystems/{relay.txt => relay.rst}      | 129 +++++++++---------
- 2 files changed, 69 insertions(+), 61 deletions(-)
- rename Documentation/filesystems/{relay.txt => relay.rst} (91%)
+ 2 files changed, 53 insertions(+), 50 deletions(-)
+ rename Documentation/filesystems/{autofs-mount-control.txt => autofs-mount-control.rst} (89%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index b8689d082911..0aade8146d4d 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -84,5 +84,6 @@ Documentation for filesystem implementations.
-    proc
-    qnx6
-    ramfs-rootfs-initramfs
-+   relay
-    virtiofs
-    vfat
-diff --git a/Documentation/filesystems/relay.txt b/Documentation/filesystems/relay.rst
-similarity index 91%
-rename from Documentation/filesystems/relay.txt
-rename to Documentation/filesystems/relay.rst
-index cd709a94d054..04ad083cfe62 100644
---- a/Documentation/filesystems/relay.txt
-+++ b/Documentation/filesystems/relay.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/filesystems/autofs-mount-control.txt b/Documentation/filesystems/autofs-mount-control.rst
+similarity index 89%
+rename from Documentation/filesystems/autofs-mount-control.txt
+rename to Documentation/filesystems/autofs-mount-control.rst
+index acc02fc57993..2903aed92316 100644
+--- a/Documentation/filesystems/autofs-mount-control.txt
++++ b/Documentation/filesystems/autofs-mount-control.rst
+@@ -1,4 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================
- relay interface (formerly relayfs)
- ==================================
  
-@@ -108,6 +111,7 @@ The relay interface implements basic file operations for user space
- access to relay channel buffer data.  Here are the file operations
- that are available and some comments regarding their behavior:
++====================================================================
+ Miscellaneous Device control operations for the autofs kernel module
+ ====================================================================
  
-+=========== ============================================================
- open()	    enables user to open an _existing_ channel buffer.
+@@ -36,24 +38,24 @@ For example, there are two types of automount maps, direct (in the kernel
+ module source you will see a third type called an offset, which is just
+ a direct mount in disguise) and indirect.
  
- mmap()      results in channel buffer being mapped into the caller's
-@@ -136,13 +140,16 @@ poll()      POLLIN/POLLRDNORM/POLLERR supported.  User applications are
- close()     decrements the channel buffer's refcount.  When the refcount
- 	    reaches 0, i.e. when no process or kernel client has the
- 	    buffer open, the channel buffer is freed.
-+=========== ============================================================
+-Here is a master map with direct and indirect map entries:
++Here is a master map with direct and indirect map entries::
  
- In order for a user application to make use of relay files, the
--host filesystem must be mounted.  For example,
-+host filesystem must be mounted.  For example::
+-/-      /etc/auto.direct
+-/test   /etc/auto.indirect
++    /-      /etc/auto.direct
++    /test   /etc/auto.indirect
  
- 	mount -t debugfs debugfs /sys/kernel/debug
+-and the corresponding map files:
++and the corresponding map files::
  
--NOTE:   the host filesystem doesn't need to be mounted for kernel
-+.. Note::
-+
-+	the host filesystem doesn't need to be mounted for kernel
- 	clients to create or use channels - it only needs to be
- 	mounted when user space applications need access to the buffer
- 	data.
-@@ -154,7 +161,7 @@ The relay interface kernel API
- Here's a summary of the API the relay interface provides to in-kernel clients:
+-/etc/auto.direct:
++    /etc/auto.direct:
  
- TBD(curr. line MT:/API/)
--  channel management functions:
-+  channel management functions::
+-/automount/dparse/g6  budgie:/autofs/export1
+-/automount/dparse/g1  shark:/autofs/export1
+-and so on.
++    /automount/dparse/g6  budgie:/autofs/export1
++    /automount/dparse/g1  shark:/autofs/export1
++    and so on.
  
-     relay_open(base_filename, parent, subbuf_size, n_subbufs,
-                callbacks, private_data)
-@@ -162,17 +169,17 @@ TBD(curr. line MT:/API/)
-     relay_flush(chan)
-     relay_reset(chan)
+-/etc/auto.indirect:
++/etc/auto.indirect::
  
--  channel management typically called on instigation of userspace:
-+  channel management typically called on instigation of userspace::
+-g1    shark:/autofs/export1
+-g6    budgie:/autofs/export1
+-and so on.
++    g1    shark:/autofs/export1
++    g6    budgie:/autofs/export1
++    and so on.
  
-     relay_subbufs_consumed(chan, cpu, subbufs_consumed)
+ For the above indirect map an autofs file system is mounted on /test and
+ mounts are triggered for each sub-directory key by the inode lookup
+@@ -69,23 +71,23 @@ use the follow_link inode operation to trigger the mount.
+ But, each entry in direct and indirect maps can have offsets (making
+ them multi-mount map entries).
  
--  write functions:
-+  write functions::
+-For example, an indirect mount map entry could also be:
++For example, an indirect mount map entry could also be::
  
-     relay_write(chan, data, length)
-     __relay_write(chan, data, length)
-     relay_reserve(chan, length)
+-g1  \
+-   /        shark:/autofs/export5/testing/test \
+-   /s1      shark:/autofs/export/testing/test/s1 \
+-   /s2      shark:/autofs/export5/testing/test/s2 \
+-   /s1/ss1  shark:/autofs/export1 \
+-   /s2/ss2  shark:/autofs/export2
++    g1  \
++    /        shark:/autofs/export5/testing/test \
++    /s1      shark:/autofs/export/testing/test/s1 \
++    /s2      shark:/autofs/export5/testing/test/s2 \
++    /s1/ss1  shark:/autofs/export1 \
++    /s2/ss2  shark:/autofs/export2
  
--  callbacks:
-+  callbacks::
+-and a similarly a direct mount map entry could also be:
++and a similarly a direct mount map entry could also be::
  
-     subbuf_start(buf, subbuf, prev_subbuf, prev_padding)
-     buf_mapped(buf, filp)
-@@ -180,7 +187,7 @@ TBD(curr. line MT:/API/)
-     create_buf_file(filename, parent, mode, buf, is_global)
-     remove_buf_file(dentry)
+-/automount/dparse/g1 \
+-    /       shark:/autofs/export5/testing/test \
+-    /s1     shark:/autofs/export/testing/test/s1 \
+-    /s2     shark:/autofs/export5/testing/test/s2 \
+-    /s1/ss1 shark:/autofs/export2 \
+-    /s2/ss2 shark:/autofs/export2
++    /automount/dparse/g1 \
++	/       shark:/autofs/export5/testing/test \
++	/s1     shark:/autofs/export/testing/test/s1 \
++	/s2     shark:/autofs/export5/testing/test/s2 \
++	/s1/ss1 shark:/autofs/export2 \
++	/s2/ss2 shark:/autofs/export2
  
--  helper functions:
-+  helper functions::
+ One of the issues with version 4 of autofs was that, when mounting an
+ entry with a large number of offsets, possibly with nesting, we needed
+@@ -170,32 +172,32 @@ autofs Miscellaneous Device mount control interface
+ The control interface is opening a device node, typically /dev/autofs.
  
-     relay_buf_full(buf)
-     subbuf_start_reserve(buf, length)
-@@ -215,41 +222,41 @@ the file(s) created in create_buf_file() and is called during
- relay_close().
+ All the ioctls use a common structure to pass the needed parameter
+-information and return operation results:
++information and return operation results::
  
- Here are some typical definitions for these callbacks, in this case
--using debugfs:
-+using debugfs::
+-struct autofs_dev_ioctl {
+-	__u32 ver_major;
+-	__u32 ver_minor;
+-	__u32 size;             /* total size of data passed in
+-				 * including this struct */
+-	__s32 ioctlfd;          /* automount command fd */
++    struct autofs_dev_ioctl {
++	    __u32 ver_major;
++	    __u32 ver_minor;
++	    __u32 size;             /* total size of data passed in
++				    * including this struct */
++	    __s32 ioctlfd;          /* automount command fd */
  
--/*
-- * create_buf_file() callback.  Creates relay file in debugfs.
-- */
--static struct dentry *create_buf_file_handler(const char *filename,
--                                              struct dentry *parent,
--                                              umode_t mode,
--                                              struct rchan_buf *buf,
--                                              int *is_global)
--{
--        return debugfs_create_file(filename, mode, parent, buf,
--	                           &relay_file_operations);
--}
-+    /*
-+    * create_buf_file() callback.  Creates relay file in debugfs.
-+    */
-+    static struct dentry *create_buf_file_handler(const char *filename,
-+						struct dentry *parent,
-+						umode_t mode,
-+						struct rchan_buf *buf,
-+						int *is_global)
-+    {
-+	    return debugfs_create_file(filename, mode, parent, buf,
-+				    &relay_file_operations);
-+    }
+-	/* Command parameters */
+-	union {
+-		struct args_protover		protover;
+-		struct args_protosubver		protosubver;
+-		struct args_openmount		openmount;
+-		struct args_ready		ready;
+-		struct args_fail		fail;
+-		struct args_setpipefd		setpipefd;
+-		struct args_timeout		timeout;
+-		struct args_requester		requester;
+-		struct args_expire		expire;
+-		struct args_askumount		askumount;
+-		struct args_ismountpoint	ismountpoint;
+-	};
++	    /* Command parameters */
++	    union {
++		    struct args_protover		protover;
++		    struct args_protosubver		protosubver;
++		    struct args_openmount		openmount;
++		    struct args_ready		ready;
++		    struct args_fail		fail;
++		    struct args_setpipefd		setpipefd;
++		    struct args_timeout		timeout;
++		    struct args_requester		requester;
++		    struct args_expire		expire;
++		    struct args_askumount		askumount;
++		    struct args_ismountpoint	ismountpoint;
++	    };
  
--/*
-- * remove_buf_file() callback.  Removes relay file from debugfs.
-- */
--static int remove_buf_file_handler(struct dentry *dentry)
--{
--        debugfs_remove(dentry);
-+    /*
-+    * remove_buf_file() callback.  Removes relay file from debugfs.
-+    */
-+    static int remove_buf_file_handler(struct dentry *dentry)
-+    {
-+	    debugfs_remove(dentry);
- 
--        return 0;
--}
-+	    return 0;
-+    }
- 
--/*
-- * relay interface callbacks
-- */
--static struct rchan_callbacks relay_callbacks =
--{
--        .create_buf_file = create_buf_file_handler,
--        .remove_buf_file = remove_buf_file_handler,
+-	char path[0];
 -};
-+    /*
-+    * relay interface callbacks
-+    */
-+    static struct rchan_callbacks relay_callbacks =
-+    {
-+	    .create_buf_file = create_buf_file_handler,
-+	    .remove_buf_file = remove_buf_file_handler,
++	    char path[0];
 +    };
  
--And an example relay_open() invocation using them:
-+And an example relay_open() invocation using them::
+ The ioctlfd field is a mount point file descriptor of an autofs mount
+ point. It is returned by the open call and is used by all calls except
+@@ -212,7 +214,7 @@ is used account for the increased structure length when translating the
+ structure sent from user space.
  
-   chan = relay_open("cpu", NULL, SUBBUF_SIZE, N_SUBBUFS, &relay_callbacks, NULL);
+ This structure can be initialized before setting specific fields by using
+-the void function call init_autofs_dev_ioctl(struct autofs_dev_ioctl *).
++the void function call init_autofs_dev_ioctl(``struct autofs_dev_ioctl *``).
  
-@@ -339,23 +346,23 @@ whether or not to actually move on to the next sub-buffer.
- 
- To implement 'no-overwrite' mode, the userspace client would provide
- an implementation of the subbuf_start() callback something like the
--following:
-+following::
- 
--static int subbuf_start(struct rchan_buf *buf,
--                        void *subbuf,
--			void *prev_subbuf,
--			unsigned int prev_padding)
--{
--	if (prev_subbuf)
--		*((unsigned *)prev_subbuf) = prev_padding;
-+    static int subbuf_start(struct rchan_buf *buf,
-+			    void *subbuf,
-+			    void *prev_subbuf,
-+			    unsigned int prev_padding)
-+    {
-+	    if (prev_subbuf)
-+		    *((unsigned *)prev_subbuf) = prev_padding;
- 
--	if (relay_buf_full(buf))
--		return 0;
-+	    if (relay_buf_full(buf))
-+		    return 0;
- 
--	subbuf_start_reserve(buf, sizeof(unsigned int));
-+	    subbuf_start_reserve(buf, sizeof(unsigned int));
- 
--	return 1;
--}
-+	    return 1;
-+    }
- 
- If the current buffer is full, i.e. all sub-buffers remain unconsumed,
- the callback returns 0 to indicate that the buffer switch should not
-@@ -370,20 +377,20 @@ ready sub-buffers will relay_buf_full() return 0, in which case the
- buffer switch can continue.
- 
- The implementation of the subbuf_start() callback for 'overwrite' mode
--would be very similar:
-+would be very similar::
- 
--static int subbuf_start(struct rchan_buf *buf,
--                        void *subbuf,
--			void *prev_subbuf,
--			size_t prev_padding)
--{
--	if (prev_subbuf)
--		*((unsigned *)prev_subbuf) = prev_padding;
-+    static int subbuf_start(struct rchan_buf *buf,
-+			    void *subbuf,
-+			    void *prev_subbuf,
-+			    size_t prev_padding)
-+    {
-+	    if (prev_subbuf)
-+		    *((unsigned *)prev_subbuf) = prev_padding;
- 
--	subbuf_start_reserve(buf, sizeof(unsigned int));
-+	    subbuf_start_reserve(buf, sizeof(unsigned int));
- 
--	return 1;
--}
-+	    return 1;
-+    }
- 
- In this case, the relay_buf_full() check is meaningless and the
- callback always returns 1, causing the buffer switch to occur
+ All of the ioctls perform a copy of this structure from user space to
+ kernel space and return -EINVAL if the size parameter is smaller than
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 0598bc52abdc..c9480138d47e 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -51,6 +51,7 @@ Documentation for filesystem implementations.
+    affs
+    afs
+    autofs
++   autofs-mount-control
+    fuse
+    overlayfs
+    virtiofs
 -- 
 2.24.1
 
