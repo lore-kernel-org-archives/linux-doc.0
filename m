@@ -4,54 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE5BC3402A
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D688CC34026
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 94A3224649
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97E7D2465A
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581956456;
-	bh=+kQWxUlZFb3eujYdi0+FSk8vyk8VwKL5jr9omATOppY=;
+	s=default; t=1581956455;
+	bh=Pi0o4AIn8gmJMcH48gXgDETUbHI8Cq1MSzZBZEG9LXQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EpjHCnIZcpz95Ps5UmxCKvue59G2TJkXJBRytzMLFk58tgJhN0HIOlC5oaqlmw0I5
-	 780cHTO/SSBHRr3Mu7HxSgigl5f7NWkXZ3JxQqtVVACNY+wWjOm3/poY7JjAexdnLB
-	 ChGFMMYxtXIZtx3/z4nEDtzdKepV6G0dItf7/M74=
+	b=XjiYx+19F0Y2XbChglrLREQXVeBkGxH9QPT7oeQTpf4ms5olDl4sE3WS5rB+w7mRY
+	 c1cgXxV4poNA7e8JMnLYQHdvBDWm1DUdH5LwFrcUX0TG5znaoJCSbQRvoqHlSgg7br
+	 a8+8kHcERs3VyJZZuWP7mkPyO1QXh0BXy/IvKblY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbgBQQUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728662AbgBQQUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 17 Feb 2020 11:20:55 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55368 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:55480 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729021AbgBQQUw (ORCPT
+        with ESMTP id S1729141AbgBQQUw (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:20:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=eKGr+SzBvJriuzc15mOH1CYYgTYnW9bXfV94KX7bnC8=; b=Q6Iq4L331Xpeld1KgX7bqPN7Wh
-        STvcmg5ZB/lqgtPFMcto+KKETrVEmso44Bh6S/xcSxbTbn6jHxmctUHDGmgfQmLGP8u5sbx4F9B9e
-        ELfQwvIFYiNWjnEFctySOYD1Z9dsjtrg5ys4FZgMT9l5mgTIrJHK4qLhG55qQmx14vsa8HEttQpOH
-        ympkjgw75YT25CphmtqhH55wvXBHNpsQ2wGzFCfXete/V5J9I0l6mzYLJz5O6BUUWgisPhiNg4Fid
-        D0+6L0YcNLv0c1Taqkvnoqf9n96Viz55awJrVHPVqu4wpxbsKgGmllwWWDeCM9KPh/gMyhFX1Rnog
-        qaVqvBWg==;
+        bh=pA1Ytc4V6l+zv01/JwSvNvIG9QUyjZkI8aPimfUATz4=; b=Odl+TPknK3HUJhxjvOeLRzSBt5
+        0MyamttI8PfGaWxdEFqVVn4SwqeVTN00LmvLIUldzZE8qGsOGWojQf5tVP66J0zykrJkRzhUDgUOM
+        4PKQbKXVdpBMv4pKdbfIAoMOTVDI7RZoKXZYD9b3Th3YN3qJvKXWmZWJvkT8Wpf8a30deDO99qe30
+        wCv4B3K2+t45JR1bCgRdcG2zOnc52i4oV28vsWJ8DjjEkaXWCNA+mnIAiNxNxLhlgTxqk5ZjHJTve
+        2k/jshFTaCkL/7YoXgClFRjjHv8YDDfFCxB2YitOkoz+IVgjcYXxJ0RkGwTK1PWdzV686SHMAinAl
+        h0RPxbIw==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j8Y-00042G-9T; Mon, 17 Feb 2020 16:20:51 +0000
+        id 1j3j8Y-00042L-Ep; Mon, 17 Feb 2020 16:20:51 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j8W-000fpv-BL; Mon, 17 Feb 2020 17:20:44 +0100
+        id 1j3j8W-000fqK-HE; Mon, 17 Feb 2020 17:20:44 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v2 17/24] docs: cpu-freq: convert cpu-drivers.txt to ReST
-Date:   Mon, 17 Feb 2020 17:20:35 +0100
-Message-Id: <e323cd97bd3e7175e609b9b5aa2761f6b46031b7.1581956285.git.mchehab+huawei@kernel.org>
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org
+Subject: [PATCH v2 22/24] docs: sh: convert new-machine.txt to ReST
+Date:   Mon, 17 Feb 2020 17:20:40 +0100
+Message-Id: <3623fa8b3045ca7ad3373763578ba8690a469dbd.1581956285.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581956285.git.mchehab+huawei@kernel.org>
 References: <cover.1581956285.git.mchehab+huawei@kernel.org>
@@ -63,251 +62,310 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Add a document title, based on the original contents of
-  cpu-freq/index.txt;
-- Use lists where needed;
-- Comment out the existing text-only index;
-- Adjust some title marks;
-- Add table markups;
-- Add notes markups;
+- Adjust document title to follow ReST style;
 - Mark literal blocks as such;
-- use ``foo`` for literal texts;
-- Some whitespace fixes and new line breaks;
-- Add it to cpu-freq/index.rst.
+- Mark a table as such;
+- Add it to sh/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../{cpu-drivers.txt => cpu-drivers.rst}      | 129 +++++++++---------
- Documentation/cpu-freq/index.rst              |   1 +
- 2 files changed, 64 insertions(+), 66 deletions(-)
- rename Documentation/cpu-freq/{cpu-drivers.txt => cpu-drivers.rst} (72%)
+ Documentation/sh/index.rst                    |   5 +
+ .../sh/{new-machine.txt => new-machine.rst}   | 193 +++++++++---------
+ 2 files changed, 105 insertions(+), 93 deletions(-)
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (73%)
 
-diff --git a/Documentation/cpu-freq/cpu-drivers.txt b/Documentation/cpu-freq/cpu-drivers.rst
-similarity index 72%
-rename from Documentation/cpu-freq/cpu-drivers.txt
-rename to Documentation/cpu-freq/cpu-drivers.rst
-index 6e353d00cdc6..a697278ce190 100644
---- a/Documentation/cpu-freq/cpu-drivers.txt
-+++ b/Documentation/cpu-freq/cpu-drivers.rst
-@@ -1,35 +1,27 @@
--     CPU frequency and voltage scaling code in the Linux(TM) kernel
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..56c08790265d 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -4,6 +4,11 @@ SuperH Interfaces Guide
+ 
+ :Author: Paul Mundt
+ 
++.. toctree::
++    :maxdepth: 1
++
++    new-machine
++
+ Memory Management
+ =================
+ 
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 73%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..07d69049c220 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,6 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
  
-+===============================================
-+How to Implement a new CPUFreq Processor Driver
-+===============================================
+-                Adding a new board to LinuxSH
+-               ================================
++=============================
++Adding a new board to LinuxSH
++=============================
  
--		         L i n u x    C P U F r e q
-+Authors:
+                Paul Mundt <lethal@linux-sh.org>
  
--			   C P U   D r i v e r s 
+@@ -19,65 +21,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
  
--		       - information for developers -
-+	- Dominik Brodowski  <linux@brodo.de>
-+	- Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+	- Viresh Kumar <viresh.kumar@linaro.org>
+-Board-specific code:
++Board-specific code::
  
-+.. Contents
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
++    .
++    |-- arch
++    |   `-- sh
++    |       `-- boards
++    |           |-- adx
++    |           |   `-- board-specific files
++    |           |-- bigsur
++    |           |   `-- board-specific files
++    |           |
++    |           ... more boards here ...
++    |
++    `-- include
++	`-- asm-sh
++	    |-- adx
++	    |   `-- board-specific headers
++	    |-- bigsur
++	    |   `-- board-specific headers
++	    |
++	    .. more boards here ...
  
--		    Dominik Brodowski  <linux@brodo.de>
--		Rafael J. Wysocki <rafael.j.wysocki@intel.com>
--		   Viresh Kumar <viresh.kumar@linaro.org>
--
--
--
--   Clock scaling allows you to change the clock speed of the CPUs on the
--    fly. This is a nice method to save battery power, because the lower
--            the clock speed, the less power the CPU consumes.
--
--
--Contents:
-----------
--1.   What To Do?
--1.1  Initialization
--1.2  Per-CPU Initialization
--1.3  verify
--1.4  target/target_index or setpolicy?
--1.5  target/target_index
--1.6  setpolicy
--1.7  get_intermediate and target_intermediate
--2.   Frequency Table Helpers
-+   1.   What To Do?
-+   1.1  Initialization
-+   1.2  Per-CPU Initialization
-+   1.3  verify
-+   1.4  target/target_index or setpolicy?
-+   1.5  target/target_index
-+   1.6  setpolicy
-+   1.7  get_intermediate and target_intermediate
-+   2.   Frequency Table Helpers
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Next, for companion chips::
++
++    .
++    `-- arch
++	`-- sh
++	    `-- cchips
++		`-- hd6446x
++		    `-- hd64461
++			`-- cchip-specific files
  
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
  
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
++
++    .
++    |-- arch
++    |   `-- sh
++    |       |-- kernel
++    |       |   `-- cpu
++    |       |       |-- sh2
++    |       |       |   `-- SH-2 generic files
++    |       |       |-- sh3
++    |       |       |   `-- SH-3 generic files
++    |       |       `-- sh4
++    |       |           `-- SH-4 generic files
++    |       `-- mm
++    |           `-- This is also broken out per CPU family, so each family can
++    |               have their own set of cache/tlb functions.
++    |
++    `-- include
++	`-- asm-sh
++	    |-- cpu-sh2
++	    |   `-- SH-2 specific headers
++	    |-- cpu-sh3
++	    |   `-- SH-3 specific headers
++	    `-- cpu-sh4
++		`-- SH-4 specific headers
  
-@@ -49,7 +41,7 @@ function check whether this kernel runs on the right CPU and the right
- chipset. If so, register a struct cpufreq_driver with the CPUfreq core
- using cpufreq_register_driver()
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -110,33 +114,33 @@ arch/sh/boards and the include/asm-sh/ hierarchy. In order to better
+ explain this, we use some examples for adding an imaginary board. For
+ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+-might look something like:
++might look something like::
  
--What shall this struct cpufreq_driver contain? 
-+What shall this struct cpufreq_driver contain?
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++    /*
++    * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++    */
++    #include <linux/init.h>
  
-  .name - The name of this driver.
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++	    return "FooTech Vaporboard";
++    }
  
-@@ -108,37 +100,42 @@ Whenever a new CPU is registered with the device model, or after the
- cpufreq driver registers itself, the per-policy initialization function
- cpufreq_driver.init is called if no cpufreq policy existed for the CPU.
- Note that the .init() and .exit() routines are called only once for the
--policy and not for each CPU managed by the policy. It takes a struct
--cpufreq_policy *policy as argument. What to do now?
-+policy and not for each CPU managed by the policy. It takes a ``struct
-+cpufreq_policy *policy`` as argument. What to do now?
+-int __init platform_setup(void)
+-{
+-  	/*
+-	 * If our hardware actually existed, we would do real
+-	 * setup here. Though it's also sane to leave this empty
+-	 * if there's no real init work that has to be done for
+-	 * this board.
+-	 */
++    int __init platform_setup(void)
++    {
++	    /*
++	    * If our hardware actually existed, we would do real
++	    * setup here. Though it's also sane to leave this empty
++	    * if there's no real init work that has to be done for
++	    * this board.
++	    */
  
- If necessary, activate the CPUfreq support on your CPU.
+-	/* Start-up imaginary PCI ... */
++	    /* Start-up imaginary PCI ... */
  
- Then, the driver must fill in the following values:
+-	/* And whatever else ... */
++	    /* And whatever else ... */
  
--policy->cpuinfo.min_freq _and_
--policy->cpuinfo.max_freq -	the minimum and maximum frequency 
--				(in kHz) which is supported by 
--				this CPU
--policy->cpuinfo.transition_latency   the time it takes on this CPU to
--				switch between two frequencies in
--				nanoseconds (if appropriate, else
--				specify CPUFREQ_ETERNAL)
--
--policy->cur			The current operating frequency of
--				this CPU (if appropriate)
--policy->min, 
--policy->max, 
--policy->policy and, if necessary,
--policy->governor		must contain the "default policy" for
--				this CPU. A few moments later,
--				cpufreq_driver.verify and either
--				cpufreq_driver.setpolicy or
--				cpufreq_driver.target/target_index is called
--				with these values.
--policy->cpus			Update this with the masks of the
--				(online + offline) CPUs that do DVFS
--				along with this CPU (i.e.  that share
--				clock/voltage rails with it).
-++-----------------------------------+--------------------------------------+
-+|policy->cpuinfo.min_freq _and_	    |					   |
-+|policy->cpuinfo.max_freq	    | the minimum and maximum frequency	   |
-+|				    | (in kHz) which is supported by	   |
-+|				    | this CPU				   |
-++-----------------------------------+--------------------------------------+
-+|policy->cpuinfo.transition_latency | the time it takes on this CPU to	   |
-+|				    | switch between two frequencies in	   |
-+|				    | nanoseconds (if appropriate, else	   |
-+|				    | specify CPUFREQ_ETERNAL)		   |
-++-----------------------------------+--------------------------------------+
-+|policy->cur			    | The current operating frequency of   |
-+|				    | this CPU (if appropriate)		   |
-++-----------------------------------+--------------------------------------+
-+|policy->min,			    |					   |
-+|policy->max,			    |					   |
-+|policy->policy and, if necessary,  |					   |
-+|policy->governor		    | must contain the "default policy" for|
-+|				    | this CPU. A few moments later,       |
-+|				    | cpufreq_driver.verify and either     |
-+|				    | cpufreq_driver.setpolicy or          |
-+|				    | cpufreq_driver.target/target_index is|
-+|				    | called with these values.		   |
-++-----------------------------------+--------------------------------------+
-+|policy->cpus			    | Update this with the masks of the	   |
-+|				    | (online + offline) CPUs that do DVFS |
-+|				    | along with this CPU (i.e.  that share|
-+|				    | clock/voltage rails with it).	   |
-++-----------------------------------+--------------------------------------+
+-	return 0;
+-}
++	    return 0;
++    }
  
- For setting some of these values (cpuinfo.min[max]_freq, policy->min[max]), the
- frequency table helpers might be helpful. See the section 2 for more information
-@@ -151,8 +148,8 @@ on them.
- When the user decides a new policy (consisting of
- "policy,governor,min,max") shall be set, this policy must be validated
- so that incompatible values can be corrected. For verifying these
--values cpufreq_verify_within_limits(struct cpufreq_policy *policy,
--unsigned int min_freq, unsigned int max_freq) function might be helpful.
-+values cpufreq_verify_within_limits(``struct cpufreq_policy *policy``,
-+``unsigned int min_freq``, ``unsigned int max_freq``) function might be helpful.
- See section 2 for details on frequency table helpers.
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,7 +176,7 @@ sufficient.
+    vector.
  
- You need to make sure that at least one valid frequency (or operating
-@@ -163,7 +160,7 @@ policy->max first, and only if this is no solution, decrease policy->min.
- 1.4 target or target_index or setpolicy or fast_switch?
- -------------------------------------------------------
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
  
--Most cpufreq drivers or even most cpu frequency scaling algorithms 
-+Most cpufreq drivers or even most cpu frequency scaling algorithms
- only allow the CPU frequency to be set to predefined fixed values. For
- these, you use the ->target(), ->target_index() or ->fast_switch()
- callbacks.
-@@ -175,8 +172,8 @@ limits on their own. These shall use the ->setpolicy() callback.
- 1.5. target/target_index
- ------------------------
+ 	#define __IO_PREFIX vapor
+    	#include <asm/io_generic.h>
+@@ -181,7 +185,7 @@ sufficient.
+    have a legacy io.h should remove it entirely and switch to the new model.
  
--The target_index call has two arguments: struct cpufreq_policy *policy,
--and unsigned int index (into the exposed frequency table).
-+The target_index call has two arguments: ``struct cpufreq_policy *policy``,
-+and ``unsigned int`` index (into the exposed frequency table).
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
  
- The CPUfreq driver must set the new frequency when called here. The
- actual frequency must be determined by freq_table[index].frequency.
-@@ -184,9 +181,9 @@ actual frequency must be determined by freq_table[index].frequency.
- It should always restore to earlier frequency (i.e. policy->restore_freq) in
- case of errors, even if we switched to intermediate frequency earlier.
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,20 +206,20 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
  
--Deprecated:
-+Deprecated
- ----------
--The target call has three arguments: struct cpufreq_policy *policy,
-+The target call has three arguments: ``struct cpufreq_policy *policy``,
- unsigned int target_frequency, unsigned int relation.
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
  
- The CPUfreq driver must set the new frequency when called here. The
-@@ -210,14 +207,14 @@ Not all drivers are expected to implement it, as sleeping from within
- this callback isn't allowed. This callback must be highly optimized to
- do switching as fast as possible.
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
+-	  select Vapor if configuring for a FooTech Vaporboard.
++    config SH_VAPOR
++	    bool "Vapor"
++	    help
++	    select Vapor if configuring for a FooTech Vaporboard.
  
--This function has two arguments: struct cpufreq_policy *policy and
--unsigned int target_frequency.
-+This function has two arguments: ``struct cpufreq_policy *policy`` and
-+``unsigned int target_frequency``.
+ next, this has to be added into arch/sh/Makefile. All boards require a
+ machdir-y entry in order to be built. This entry needs to be the name of
+ the board directory as it appears in arch/sh/boards, even if it is in a
+ sub-directory (in which case, all parent directories below arch/sh/boards/
+-need to be listed). For our new board, this entry can look like:
++need to be listed). For our new board, this entry can look like::
  
+-machdir-$(CONFIG_SH_VAPOR)	+= vapor
++    machdir-$(CONFIG_SH_VAPOR)	+= vapor
  
- 1.7 setpolicy
- -------------
+ provided that we've placed everything in the arch/sh/boards/vapor/ directory.
  
--The setpolicy call only takes a struct cpufreq_policy *policy as
-+The setpolicy call only takes a ``struct cpufreq_policy *policy`` as
- argument. You need to set the lower limit of the in-processor or
- in-chipset dynamic frequency switching to policy->min, the upper limit
- to policy->max, and -if supported- select a performance-oriented
-@@ -278,10 +275,10 @@ table.
+@@ -230,7 +234,7 @@ This is done by adding an entry to the end of the arch/sh/tools/mach-types
+ list. The method for doing this is self explanatory, and so we won't waste
+ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+-common code, such as:
++common code, such as::
  
- cpufreq_for_each_valid_entry(pos, table) - iterates over all entries,
- excluding CPUFREQ_ENTRY_INVALID frequencies.
--Use arguments "pos" - a cpufreq_frequency_table * as a loop cursor and
--"table" - the cpufreq_frequency_table * you want to iterate over.
-+Use arguments "pos" - a ``cpufreq_frequency_table *`` as a loop cursor and
-+"table" - the ``cpufreq_frequency_table *`` you want to iterate over.
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+@@ -253,16 +257,19 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
  
--For example:
-+For example::
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
  
- 	struct cpufreq_frequency_table *pos, *driver_freq_table;
+-which then allows you to do:
++  =======================   =============================================
++  zImage                    Compressed kernel image (arch/sh/boot/zImage)
++  adx_defconfig             Build for adx
++  cqreek_defconfig          Build for cqreek
++  dreamcast_defconfig       Build for dreamcast
++  ...
++  vapor_defconfig           Build for vapor
++  =======================   =============================================
  
-diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
-index 8babc5a212dd..1ab3fff53956 100644
---- a/Documentation/cpu-freq/index.rst
-+++ b/Documentation/cpu-freq/index.rst
-@@ -16,6 +16,7 @@ Author: Dominik Brodowski  <linux@brodo.de>
+-$ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
++which then allows you to do::
++
++    $ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
  
-    amd-powernow
-    core
-+   cpu-drivers
- 
- Mailing List
- ------------
+ which will in turn copy the defconfig for this board, run it through
+ oldconfig (prompting you for any new options since the time of creation),
 -- 
 2.24.1
 
