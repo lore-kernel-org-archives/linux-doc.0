@@ -2,111 +2,135 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAABC34024
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:28:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCFBFC34025
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 15:40:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B5FBA20801
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:28:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A882422B48
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 15:40:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="dJwFzaEL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QUNDlRjh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728855AbgBQO2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 09:28:44 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:54582 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728817AbgBQO2n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 09:28:43 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01HEMldC045577;
-        Mon, 17 Feb 2020 14:28:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=F33e2h/VKg524zfDno3YmF4kFLz8ceA2/AbSPfczn2w=;
- b=dJwFzaELeFN4Iqx4jKy0xAUOUXyK4Qg/4OcKstysntyZ9ZoAORL2nzgz4XRXftvI82/D
- S9RxOheeEnDWNkz01bdJ/X8CSFF2pGAHl6TJ6i8BrkEfrDLRSj1gsW4NcsbRmJDGI7bL
- 3ZZQzTYKbsAko9Nxcm0JFlmY2cIInv9HwYnVCwjbjuS+yk4KpqckKoTOWCVhaoZgU/NP
- sfWsriNOHKZ1D/Jyg01KUxKPTxKeHlLH9jxjOfPcvu/gisGP0aaANNohd0ACfJYxstwO
- nV5j3fCLGKpfkHuJJLjjTbN3U/S/bobOqI14q0DAygJxsh/51+k1/l4xduRUt5NaA7S+ pQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 2y7aq5kq0w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 17 Feb 2020 14:28:38 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01HERjbB055355;
-        Mon, 17 Feb 2020 14:28:37 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 2y6t4g6j41-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 17 Feb 2020 14:28:37 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01HESZ8X011075;
-        Mon, 17 Feb 2020 14:28:35 GMT
-Received: from dhcp-10-175-161-198.vpn.oracle.com (/10.175.161.198)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 17 Feb 2020 06:28:35 -0800
-From:   Alan Maguire <alan.maguire@oracle.com>
-To:     skhan@linuxfoundation.org, brendanhiggins@google.com,
-        frowand.list@gmail.com
-Cc:     gregkh@linuxfoundation.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v4 kunit-next 3/3] kunit: update documentation to describe debugfs representation
-Date:   Mon, 17 Feb 2020 14:27:40 +0000
-Message-Id: <1581949660-20113-4-git-send-email-alan.maguire@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1581949660-20113-1-git-send-email-alan.maguire@oracle.com>
-References: <1581949660-20113-1-git-send-email-alan.maguire@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9533 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 mlxscore=0 malwarescore=0 suspectscore=3
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002170120
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9533 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0 adultscore=0
- spamscore=0 priorityscore=1501 suspectscore=3 clxscore=1015 bulkscore=0
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002170119
+        id S1727300AbgBQPkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 10:40:25 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43450 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728789AbgBQPkY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 10:40:24 -0500
+Received: by mail-wr1-f66.google.com with SMTP id r11so20234063wrq.10
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2020 07:40:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uBL44HTwPsTzK1hTlXHwrWPFvRz4I8cxeuhUA7nfr3s=;
+        b=QUNDlRjh2O+ooQ41KWBChztMd4j9tV2M8HiE6TDGhh6KZcCXQYdQmMqHkRy/oPre/d
+         E+T64sT8TUAqvGZCkZWcpAPXMK/psI/SMbqtUXH8WD/97O+XqMwt7rE0VgfYpg4SGCTu
+         72DvsxmGQ2FHB1KOF86wT5RUdwe9l5E14uXBkwlKILpzWF5nOlDot/mlGYQpzffkiZng
+         dV1PcmwTrlY7TdA4Y7kgPv5XUqhxhLqt6oG02ccYRx64/bgjYrAaemMkV8MHRgYP/RlA
+         RNsfj1wDY4F+M6s4FATLU+2N+UfYeGwZGxIXM15btV8V9U0AnPqJn9J60Be6mPZjxKkb
+         OLhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uBL44HTwPsTzK1hTlXHwrWPFvRz4I8cxeuhUA7nfr3s=;
+        b=eHYqQA8m8v0iMxTthLXiZz4yH02Q/3xmYvhfS8WRo+rAQ/CZvTqW1DxkIIuUgBfeLp
+         aYAMb5N0SJ2WT8xdWk3TwztU8kTUwuyIEWcvUNJWKsq7Yn0QwW5FuO4oWe++54W0jCxc
+         yowlyOZiMx3+7UhxWULFrumlWNnxRdpngURb2xmf0OKtVeKrE7YyoVkHcUeaOAZuWYov
+         6ztZ1cjR1nxw+nPdHYBmn3496BhRyeqpnJBktVNXSh8QvSqcyFF8w6k1HHiXGVcHmutJ
+         ynjsIluujCB/hQVhPcBvHq3jjREJAs3WhjUMPKowBM3Xv3A7JH0V1m3q/h5A5VA+2Y9u
+         YKdg==
+X-Gm-Message-State: APjAAAXJ3JE9pMmCAvkVhEdAJxX7mSW7dRFEjemR6a7/+OjOTsFDCKCL
+        tCP38gNTLHfygMyT3B+E1s7nQw==
+X-Google-Smtp-Source: APXvYqyK3wvWFPYLO6Oneazyxhd5g+tje1jkIBunochJVdUjHRcEMjjKDjk9tOFHPoHKB9Cr5dnXww==
+X-Received: by 2002:adf:f109:: with SMTP id r9mr22236398wro.406.1581954021861;
+        Mon, 17 Feb 2020 07:40:21 -0800 (PST)
+Received: from myrica ([2001:171b:2276:930:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id v131sm1106010wme.23.2020.02.17.07.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2020 07:40:21 -0800 (PST)
+Date:   Mon, 17 Feb 2020 16:40:12 +0100
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     will@kernel.org, robh+dt@kernel.org, lorenzo.pieralisi@arm.com,
+        joro@8bytes.org, baolu.lu@linux.intel.com,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
+        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
+        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH 02/11] PCI: Add ats_supported host bridge flag
+Message-ID: <20200217154012.GD1650092@myrica>
+References: <20200213165049.508908-3-jean-philippe@linaro.org>
+ <20200215211047.GA124796@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200215211047.GA124796@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation should describe debugfs layout and semantics.
+On Sat, Feb 15, 2020 at 03:10:47PM -0600, Bjorn Helgaas wrote:
+> On Thu, Feb 13, 2020 at 05:50:40PM +0100, Jean-Philippe Brucker wrote:
+> > Each vendor has their own way of describing whether a host bridge
+> > supports ATS.  The Intel and AMD ACPI tables selectively enable or
+> > disable ATS per device or sub-tree, while Arm has a single bit for each
+> > host bridge.  For those that need it, add an ats_supported bit to the
+> > host bridge structure.
+> > 
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > ---
+> >  drivers/pci/probe.c | 7 +++++++
+> >  include/linux/pci.h | 1 +
+> >  2 files changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> > index 512cb4312ddd..75c0a25af44e 100644
+> > --- a/drivers/pci/probe.c
+> > +++ b/drivers/pci/probe.c
+> > @@ -598,6 +598,13 @@ static void pci_init_host_bridge(struct pci_host_bridge *bridge)
+> >  	bridge->native_shpc_hotplug = 1;
+> >  	bridge->native_pme = 1;
+> >  	bridge->native_ltr = 1;
+> > +
+> > +	/*
+> > +	 * Some systems may disable ATS at the host bridge (ACPI IORT,
+> > +	 * device-tree), other filter it with a smaller granularity (ACPI DMAR
+> > +	 * and IVRS).
+> > +	 */
+> > +	bridge->ats_supported = 1;
+> 
+> The cover letter says it's important to enable ATS only if the host
+> bridge supports it.  From the other patches, it looks like we learn if
+> the host bridge supports ATS from either a DT "ats-supported" property
+> or an ACPI IORT table.  If that's the case, shouldn't the default here
+> be "ATS is *not* supported"?
 
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
----
- Documentation/dev-tools/kunit/usage.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+The ACPI IVRS table (AMD) doesn't have a property for the host bridge, it
+can only deselect ATS for a sub-range of devices. Similarly the DMAR table
+(Intel) declares that ATS is supported either by the whole PCIe domain or
+for sub-ranges of devices. I selected ats_supported at the bridge by
+default since IVRS needs it and DMAR has its own fine-grained ATS support
+configuration.
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 7cd56a1..816fff4 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -590,3 +590,16 @@ able to run one test case per invocation.
- 
- .. TODO(brendanhiggins@google.com): Add an actual example of an architecture
-    dependent KUnit test.
-+
-+KUnit debugfs representation
-+============================
-+When kunit test suites are initialized, they create an associated directory
-+in /sys/kernel/debug/kunit/<test-suite>.  The directory contains one file
-+
-+- results: "cat results" displays results of each test case and the results
-+  of the entire suite for the last test run.
-+
-+The debugfs representation is primarily of use when kunit test suites are
-+run in a native environment, either as modules or builtin.  Having a way
-+to display results like this is valuable as otherwise results can be
-+intermixed with other events in dmesg output.
--- 
-1.8.3.1
+I'm still not sure this is the right approach, given that the
+ats_supported bridge property doesn't exactly correspond to a firmware
+property on all platforms. Maybe the device-tree implementation should
+follow the IORT one where each device carries a fwspec property stating
+"root-complex supports ATS". But it isn't nice either so I tried a cleaner
+implementation (as discussed with Robin back on the ATS-with-SMMUv3 series
+[1]).
 
+Thanks,
+Jean
+
+[1] https://lore.kernel.org/linux-iommu/c10c7adb-c7f6-f8c6-05cc-f4f143427a2d@arm.com/
