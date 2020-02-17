@@ -7,48 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB125C34029
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B321AC3402B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B36C7214D8
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F996214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955984;
-	bh=zY8Oj4SDgEXhnJgJDcBCboKiZ/RFIwe/wNsvdlAoQlw=;
+	s=default; t=1581955988;
+	bh=tEf3NklvbusRaCVEV3AdWijTm5kqSJO2gBdWIlV+JJE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LLRtLPXsX42NmlKsoGXdCbY3qjPPl/ZqTfpE8HaLmMrQSLvcT6vVCSDiAZqjFLG/J
-	 hYTSV8hyW5S/Q1k+yn2JbRIjAZPMNppK1YMgYM8AWnzre/j7b0iJzDwbY5uUlG40Yt
-	 VjXA6sTQ709kR3Fa49pgXG+Gz/a+/jjq0PA1ERbQ=
+	b=Yzea0/NNRFPG4R8q7vcGCAUQo7z9xJSmUr5GuWAR0Mg71go9IWZUj/GgfefNx7iiK
+	 Lqdj9YTptdH4gkApziQFtKDtqhsx1bRsC+Epa2vis/LX3v5w26fkGCg0NvAx5Bfqgu
+	 K/SPLFoG/DpaUD7YjHuYBVGFJ5ojJE6UU4zlN5AA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729697AbgBQQNB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:13:01 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47228 "EHLO
+        id S1729689AbgBQQNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:05 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47162 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729705AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1729690AbgBQQMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=gJjvCx5x7Nd0YN16xjNOzO/IL9ZqVuLBb9vGtTtBIok=; b=cKExKLEUMhlc7In7aREdVCc0KQ
-        qwC8hId8tewy7fCGJCpR8K+CLFvOMITca/Wd6VHr1Gf+nfwGcL0kjmVlaiM0ChEF4R5LlHV+H9HAm
-        oUoUcs01YqzQM8XiZ1iQtZx50k+skqchuascHrI//BFTwCjWhIm0oe/e2MbzlNHulkDTeoiumSHYf
-        +wZLgnc6ouMCXT1TwZJmDHA0etis+pGnyXfIE6y1gcrBRYAJrHDsUoLgsAfYSOEvQviJJyel4ARls
-        qzpjnl1quNUaMZSOjYpAnmyTIaxNOZn1paW9KDmiX6creMQSnaU4FL1DIlOfVqpYcfp3iDCaNdV4K
-        mT+gZD+w==;
+        bh=Js8wnfpNmhMVRnwBxcUOBrEuHusxb+2FUX7Oyqu9/OI=; b=D3JVj2sPvh+T4sUVEGBcoasUTU
+        n5+OmMHN0qMUmbsxfAd0Zzn7Twvy3O69Mwdfk2yXeIiOypu6bkwNAT2X6q26n5JkmK1ogI4KMAys8
+        04OIOHBLlPtzf5uZnEmmmxVdaoCV0fqK+3Tb2FBSNyfYirjrbayh0ssfHC4XTUGnqCap8vPFRqx4H
+        GquTjfZfzlDhbuVf+RboREuB9aQfLiAe5emKUFUWakCo34hr8uugnqE/iHPGbiyzF1u2dlcRf1dUO
+        iry+3/DZyeolTNW1aMt4dqH5hM4Gze+In5069mQ3uIEvEnhLBUHwJbLNwvVTXmDTW46r7f7Ll9ybZ
+        ZgdrI8aA==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0d-0006uv-1J; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0c-0006ui-CL; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fba-48; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0a-000faX-Dy; Mon, 17 Feb 2020 17:12:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 33/44] docs: filesystems: convert qnx6.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:19 +0100
-Message-Id: <ccd22c1e1426ce4cb30ece9a71c39ebb41844762.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org, Bob Peterson <rpeterso@redhat.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        cluster-devel@redhat.com
+Subject: [PATCH 20/44] docs: filesystems: convert gfs2-uevents.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:06 +0100
+Message-Id: <1d1c46b7e86bd0a18d9abbea0de0bc2be84e5e2b.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -59,156 +62,129 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This document is almost in ReST format: all it needs is to have
+the titles adjusted and add a SPDX header. In other words:
+
 - Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
+- Add a document title;
+- Adjust section titles;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ .../{gfs2-uevents.txt => gfs2-uevents.rst}    | 20 +++++++++++++++----
  Documentation/filesystems/index.rst           |  1 +
- .../filesystems/{qnx6.txt => qnx6.rst}        | 22 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
- rename Documentation/filesystems/{qnx6.txt => qnx6.rst} (98%)
+ 2 files changed, 17 insertions(+), 4 deletions(-)
+ rename Documentation/filesystems/{gfs2-uevents.txt => gfs2-uevents.rst} (94%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 671906e2fee6..08883a481a76 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -82,5 +82,6 @@ Documentation for filesystem implementations.
-    orangefs
-    overlayfs
-    proc
-+   qnx6
-    virtiofs
-    vfat
-diff --git a/Documentation/filesystems/qnx6.txt b/Documentation/filesystems/qnx6.rst
-similarity index 98%
-rename from Documentation/filesystems/qnx6.txt
-rename to Documentation/filesystems/qnx6.rst
-index 48ea68f15845..b71308314070 100644
---- a/Documentation/filesystems/qnx6.txt
-+++ b/Documentation/filesystems/qnx6.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/filesystems/gfs2-uevents.txt b/Documentation/filesystems/gfs2-uevents.rst
+similarity index 94%
+rename from Documentation/filesystems/gfs2-uevents.txt
+rename to Documentation/filesystems/gfs2-uevents.rst
+index 19a19ebebc34..f162a2c76c69 100644
+--- a/Documentation/filesystems/gfs2-uevents.txt
++++ b/Documentation/filesystems/gfs2-uevents.rst
+@@ -1,14 +1,18 @@
+-                              uevents and GFS2
+-                             ==================
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===================
- The QNX6 Filesystem
- ===================
++================
++uevents and GFS2
++================
  
-@@ -14,10 +17,12 @@ Specification
+ During the lifetime of a GFS2 mount, a number of uevents are generated.
+ This document explains what the events are and what they are used
+ for (by gfs_controld in gfs2-utils).
  
- qnx6fs shares many properties with traditional Unix filesystems. It has the
- concepts of blocks, inodes and directories.
-+
- On QNX it is possible to create little endian and big endian qnx6 filesystems.
- This feature makes it possible to create and use a different endianness fs
- for the target (QNX is used on quite a range of embedded systems) platform
- running on a different endianness.
-+
- The Linux driver handles endianness transparently. (LE and BE)
+ A list of GFS2 uevents
+------------------------
++======================
  
- Blocks
-@@ -26,6 +31,7 @@ Blocks
- The space in the device or file is split up into blocks. These are a fixed
- size of 512, 1024, 2048 or 4096, which is decided when the filesystem is
- created.
-+
- Blockpointers are 32bit, so the maximum space that can be addressed is
- 2^32 * 4096 bytes or 16TB
+ 1. ADD
++------
  
-@@ -50,6 +56,7 @@ Each of these root nodes holds information like total size of the stored
- data and the addressing levels in that specific tree.
- If the level value is 0, up to 16 direct blocks can be addressed by each
- node.
-+
- Level 1 adds an additional indirect addressing level where each indirect
- addressing block holds up to blocksize / 4 bytes pointers to data blocks.
- Level 2 adds an additional indirect addressing block level (so, already up
-@@ -57,11 +64,13 @@ to 16 * 256 * 256 = 1048576 blocks that can be addressed by such a tree).
+ The ADD event occurs at mount time. It will always be the first
+ uevent generated by the newly created filesystem. If the mount
+@@ -21,6 +25,7 @@ with no journal assigned), and read-only (with journal assigned) status
+ of the filesystem respectively.
  
- Unused block pointers are always set to ~0 - regardless of root node,
- indirect addressing blocks or inodes.
-+
- Data leaves are always on the lowest level. So no data is stored on upper
- tree levels.
+ 2. ONLINE
++---------
  
- The first Superblock is located at 0x2000. (0x2000 is the bootblock size)
- The Audi MMI 3G first superblock directly starts at byte 0.
-+
- Second superblock position can either be calculated from the superblock
- information (total number of filesystem blocks) or by taking the highest
- device address, zeroing the last 3 bytes and then subtracting 0x1000 from
-@@ -84,6 +93,7 @@ Object mode field is POSIX format. (which makes things easier)
+ The ONLINE uevent is generated after a successful mount or remount. It
+ has the same environment variables as the ADD uevent. The ONLINE
+@@ -29,6 +34,7 @@ RDONLY are a relatively recent addition (2.6.32-rc+) and will not
+ be generated by older kernels.
  
- There are also pointers to the first 16 blocks, if the object data can be
- addressed with 16 direct blocks.
-+
- For more than 16 blocks an indirect addressing in form of another tree is
- used. (scheme is the same as the one used for the superblock root nodes)
+ 3. CHANGE
++---------
  
-@@ -96,13 +106,18 @@ Directories
- A directory is a filesystem object and has an inode just like a file.
- It is a specially formatted file containing records which associate each
- name with an inode number.
-+
- '.' inode number points to the directory inode
-+
- '..' inode number points to the parent directory inode
-+
- Eeach filename record additionally got a filename length field.
+ The CHANGE uevent is used in two places. One is when reporting the
+ successful mount of the filesystem by the first node (FIRSTMOUNT=Done).
+@@ -52,6 +58,7 @@ cluster. For this reason the ONLINE uevent was used when adding a new
+ uevent for a successful mount or remount.
  
- One special case are long filenames or subdirectory names.
-+
- These got set a filename length field of 0xff in the corresponding directory
- record plus the longfile inode number also stored in that record.
-+
- With that longfilename inode number, the longfilename tree can be walked
- starting with the superblock longfilename root node pointers.
+ 4. OFFLINE
++----------
  
-@@ -111,6 +126,7 @@ Special files
+ The OFFLINE uevent is only generated due to filesystem errors and is used
+ as part of the "withdraw" mechanism. Currently this doesn't give any
+@@ -59,6 +66,7 @@ information about what the error is, which is something that needs to
+ be fixed.
  
- Symbolic links are also filesystem objects with inodes. They got a specific
- bit in the inode mode field identifying them as symbolic link.
-+
- The directory entry file inode pointer points to the target file inode.
+ 5. REMOVE
++---------
  
- Hard links got an inode, a directory entry, but a specific mode bit set,
-@@ -126,9 +142,11 @@ Long filenames
+ The REMOVE uevent is generated at the end of an unsuccessful mount
+ or at the end of a umount of the filesystem. All REMOVE uevents will
+@@ -68,9 +76,10 @@ kobject subsystem.
  
- Long filenames are stored in a separate addressing tree. The staring point
- is the longfilename root node in the active superblock.
-+
- Each data block (tree leaves) holds one long filename. That filename is
- limited to 510 bytes. The first two starting bytes are used as length field
- for the actual filename.
-+
- If that structure shall fit for all allowed blocksizes, it is clear why there
- is a limit of 510 bytes for the actual filename stored.
  
-@@ -138,6 +156,7 @@ Bitmap
- The qnx6fs filesystem allocation bitmap is stored in a tree under bitmap
- root node in the superblock and each bit in the bitmap represents one
- filesystem block.
-+
- The first block is block 0, which starts 0x1000 after superblock start.
- So for a normal qnx6fs 0x3000 (bootblock + superblock) is the physical
- address at which block 0 is located.
-@@ -149,11 +168,14 @@ Bitmap system area
- ------------------
+ Information common to all GFS2 uevents (uevent environment variables)
+-----------------------------------------------------------------------
++=====================================================================
  
- The bitmap itself is divided into three parts.
-+
- First the system area, that is split into two halves.
-+
- Then userspace.
+ 1. LOCKTABLE=
++--------------
  
- The requirement for a static, fixed preallocated system area comes from how
- qnx6fs deals with writes.
-+
- Each superblock got it's own half of the system area. So superblock #1
- always uses blocks from the lower half while superblock #2 just writes to
- blocks represented by the upper half bitmap system area bits.
+ The LOCKTABLE is a string, as supplied on the mount command
+ line (locktable=) or via fstab. It is used as a filesystem label
+@@ -78,6 +87,7 @@ as well as providing the information for a lock_dlm mount to be
+ able to join the cluster.
+ 
+ 2. LOCKPROTO=
++-------------
+ 
+ The LOCKPROTO is a string, and its value depends on what is set
+ on the mount command line, or via fstab. It will be either
+@@ -85,12 +95,14 @@ lock_nolock or lock_dlm. In the future other lock managers
+ may be supported.
+ 
+ 3. JOURNALID=
++-------------
+ 
+ If a journal is in use by the filesystem (journals are not
+ assigned for spectator mounts) then this will give the
+ numeric journal id in all GFS2 uevents.
+ 
+ 4. UUID=
++--------
+ 
+ With recent versions of gfs2-utils, mkfs.gfs2 writes a UUID
+ into the filesystem superblock. If it exists, this will
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index f24befe78326..c16e517e37c5 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -66,6 +66,7 @@ Documentation for filesystem implementations.
+    ext3
+    f2fs
+    gfs2
++   gfs2-uevents
+    fuse
+    overlayfs
+    virtiofs
 -- 
 2.24.1
 
