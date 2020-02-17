@@ -2,111 +2,83 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A18C35254
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E64A7C3B185
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:02:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BCF720725
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:31:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B095E20725
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:02:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MPVJXxqy"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gmLivW0O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729226AbgBQKbh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 05:31:37 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:14481 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729221AbgBQKbh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 05:31:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1581935498; x=1613471498;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=O8LGBsnXgijOOUtrnFOXnfiw5ca+3nT7gjvYhrB43+o=;
-  b=MPVJXxqyKHG7AY8yivQYbBbqz81g21k84i5Eun24+rGZJICtNhXvYl6Y
-   aqWrYOT0g40xC5WtkdFBMErZupt1eo3mf6Rx+4manQEjHJxBzP1TwMSPS
-   sc/dz+cglqI8/eIyORgDTxP3qK1f5nBgFmNryfUbWcY5VR4UDp6EsTTYq
-   w=;
-IronPort-SDR: UljQtsMV0U1ryVfxzWUvyUspNcHPG69t+zMsaXYvIztCB8UJn6mgD33ejNklHacjZuH1wwGPZQ
- dKCUlPwxcYVg==
-X-IronPort-AV: E=Sophos;i="5.70,452,1574121600"; 
-   d="scan'208";a="17074701"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-397e131e.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 17 Feb 2020 10:31:37 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2c-397e131e.us-west-2.amazon.com (Postfix) with ESMTPS id 2039EA05D6;
-        Mon, 17 Feb 2020 10:31:35 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 17 Feb 2020 10:31:34 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.69) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 17 Feb 2020 10:31:24 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rostedt@goodmis.org>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <vdavydov.dev@gmail.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 14/14] MAINTAINERS: Update for DAMON
-Date:   Mon, 17 Feb 2020 11:31:10 +0100
-Message-ID: <20200217103110.30817-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200217102544.29012-1-sjpark@amazon.com>
-References: <20200217102544.29012-1-sjpark@amazon.com>
+        id S1727421AbgBQLCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 06:02:22 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:35996 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbgBQLCW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 06:02:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=N2KaWUW3ojsaIAWy3SDFA2ekcPzSJz1io3iUAiK0snA=; b=gmLivW0OFBNi55bZx67RzylSSS
+        JWNzLtb2M3xL25Gkxs9hnoHV4znUSqr2RxWiIeSXqtdJHx72CjLeripuiKieBhZk/Ui6PJOdcNL0c
+        5/mmA9YIhidKIJezIIS+GUyRVqtrdZu91OmGcVN0gBvWqD0GDSLPUbSWJXEfT0+zTTlmo6aC+jJr5
+        Zs/tjrIUYq7GLwGxcXY+5yVzGnkE8RZCsdV2udFACanGo/VYRy+vDhwfx2XRvxT98vJa0qNuGq5HV
+        wHzVsPUiVDmWuryfnmN5g5tSgzJ0SQzv7IW8hR1k3Pf5AAeJLYoFlt/+lDNJGz7/222bu/ZDt7ZSo
+        rJmWaI+Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j3eA7-0001BX-8W; Mon, 17 Feb 2020 11:02:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AC75D300EBB;
+        Mon, 17 Feb 2020 12:00:08 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 1682A29E09C0A; Mon, 17 Feb 2020 12:02:00 +0100 (CET)
+Date:   Mon, 17 Feb 2020 12:02:00 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
+Message-ID: <20200217110200.GO14914@hirez.programming.kicks-ass.net>
+References: <20200214040132.91934-3-boqun.feng@gmail.com>
+ <Pine.LNX.4.44L0.2002141028280.1579-100000@iolanthe.rowland.org>
+ <20200214235215.GB110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.69]
-X-ClientProxiedBy: EX13D39UWA001.ant.amazon.com (10.43.160.54) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200214235215.GB110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Sat, Feb 15, 2020 at 07:52:15AM +0800, Boqun Feng wrote:
+> I agree, and thanks for the suggestion! And I change the sentence in
+> atomic_t.txt with:
+> 
+> 	A note for the implementation of atomic_set{}() is that it
+> 	cannot break the atomicity of the RMW ops.
+> 
+> , since I think that part of the doc is more about the suggestion to
+> anyone who want to implement the atomic_set(). Peter, is that OK to you?
 
-This commit updates MAINTAINERS file for DAMON related files.
-
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 56765f542244..422c86f64cdd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4611,6 +4611,18 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/data_access_monitor.rst
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
-
+Sure.
