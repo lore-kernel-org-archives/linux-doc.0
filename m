@@ -2,299 +2,189 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E9BC34026
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 08:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFE3C34026
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4075220722
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 08:54:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vzKt+LpK"
+	by mail.kernel.org (Postfix) with ESMTP id 0A5F224649
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582017035;
+	bh=H6v8m9+eTb8TJjP7/IX9nuNDh4mqr7FOvBYBGbPbrrI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=uwp5TMYFRjct67z/1pg5vVrewzhiZpECNW2XCbRTkOo1gZD3P+ceIroeBOi7uUvd7
+	 gT7fFtihcABDan7EgaWzM3zQA1BrXZy+RfjZsbOcS3J3HfsXVkO+dOXvpErq75SjPI
+	 509Cj0rL652gu3J15u8EPKkirpO+rZmy50tAAZ+U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgBRIyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 03:54:37 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:26724 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726127AbgBRIyg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 03:54:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1582016077; x=1613552077;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=adALBkNXH0eWFKDu+TJ3ZoBrkHljhbeL1cdArgJQwAQ=;
-  b=vzKt+LpKjPn7lHdXkjw/jn00MCVhUrtzwuh1t1P/0DgedVW27hHmbBwu
-   ieLd/ON6pzXqvcYz5AUSNATsZSd+ztKr/vpaEik3lrl7NP+L+OrhMrRtV
-   9zxIWUXq04iqYZfyL0U1T9Ey8Z3lJ1I3WgL6eJLEgUmQGRgjx+0nVNTt1
-   k=;
-IronPort-SDR: mytlnP7L8JBYAJql1QFbn56Qc9R2CBU8Yl1dtRjZ+ddE7clSBS9S6WMJkYkV5RwNA8fPBWa+Ko
- l7fA0SZrMHew==
-X-IronPort-AV: E=Sophos;i="5.70,455,1574121600"; 
-   d="scan'208";a="27053928"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 18 Feb 2020 08:54:33 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com (Postfix) with ESMTPS id 268EE286AB9;
-        Tue, 18 Feb 2020 08:54:24 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Tue, 18 Feb 2020 08:54:24 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.108) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Tue, 18 Feb 2020 08:54:13 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rostedt@goodmis.org>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <vdavydov.dev@gmail.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC v2 4/4] mm/damon/schemes: Implement a debugfs interface
-Date:   Tue, 18 Feb 2020 09:53:09 +0100
-Message-ID: <20200218085309.18346-5-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200218085309.18346-1-sjpark@amazon.com>
-References: <20200218085309.18346-1-sjpark@amazon.com>
+        id S1726199AbgBRJKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 04:10:34 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:35174 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726186AbgBRJKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 04:10:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=CdqmLOZ5sQ/Aflxvzy0izWi/tvqp/in3SnUYEGpwbcw=; b=GQTK0tfVKYqBydcyzx4tuedINU
+        sLt6G5M349wSwoKo359zKoG0jTDuodwOtf0uEdagPSD3aB5YxsNFefDQTToqZilMk9oFxfWHCXI8S
+        o3D1xrrtrnRUeqBQGGzqivds0H4CpU+8O0f0UdoxMmtN007ccjLEeA1UgKf1pFq4I12n0ho/gywa2
+        +KKJC7VuZPIYpniO53GELz4cpeejga/JwmR85E87lK29F+fNRbBUm8dXksF55kIUSO6YKBDgZBbpy
+        omEMXGkBVwWLU6F5Z1yAyMxkIH9n5fDGdtVe+9KxR8F/9yJNfyJ375F3Vu//0u2IeezgkC5qEUerh
+        n6x3eAEA==;
+Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j3ytm-00046s-59; Tue, 18 Feb 2020 09:10:34 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1j3j8W-000fpH-24; Mon, 17 Feb 2020 17:20:44 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 09/24] docs: misc-devices/c2port.txt: convert to ReST format
+Date:   Mon, 17 Feb 2020 17:20:27 +0100
+Message-Id: <d9837c807f6d3f2a861ceaeef3803c3f62a6aac3.1581956285.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1581956285.git.mchehab+huawei@kernel.org>
+References: <cover.1581956285.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.108]
-X-ClientProxiedBy: EX13D10UWB004.ant.amazon.com (10.43.161.121) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+- Use copyright symbol;
+- use title markups;
+- adjust indentation;
+- mark literal blocks as such.
 
-This commit implements a debugfs interface for the data access
-monitoring oriented memory management schemes.  It is supposed to be
-used by administrators and privileged user space programs.  Users read
-and update the rules using ``<debugfs>/damon/schemes`` file.  The format
-is::
-
-    <min/max size> <min/max access frequency> <min/max age> <action>
-
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- mm/damon.c | 171 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 169 insertions(+), 2 deletions(-)
+ .../misc-devices/{c2port.txt => c2port.rst}   | 58 ++++++++++---------
+ Documentation/misc-devices/index.rst          |  1 +
+ 2 files changed, 32 insertions(+), 27 deletions(-)
+ rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
 
-diff --git a/mm/damon.c b/mm/damon.c
-index 45139d344f58..de3e2b343139 100644
---- a/mm/damon.c
-+++ b/mm/damon.c
-@@ -199,6 +199,29 @@ static void damon_destroy_task(struct damon_task *t)
- 	damon_free_task(t);
- }
+diff --git a/Documentation/misc-devices/c2port.txt b/Documentation/misc-devices/c2port.rst
+similarity index 59%
+rename from Documentation/misc-devices/c2port.txt
+rename to Documentation/misc-devices/c2port.rst
+index ea7344465610..258e1c1d43c7 100644
+--- a/Documentation/misc-devices/c2port.txt
++++ b/Documentation/misc-devices/c2port.rst
+@@ -1,7 +1,11 @@
+-			C2 port support
+-			---------------
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
  
-+static struct damos *damon_new_scheme(
-+		unsigned int min_sz_region, unsigned int max_sz_region,
-+		unsigned int min_nr_accesses, unsigned int max_nr_accesses,
-+		unsigned int min_age_region, unsigned int max_age_region,
-+		enum damos_action action)
-+{
-+	struct damos *ret;
+-(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
++===============
++C2 port support
++===============
 +
-+	ret = kmalloc(sizeof(struct damos), GFP_KERNEL);
-+	if (!ret)
-+		return NULL;
-+	ret->min_sz_region = min_sz_region;
-+	ret->max_sz_region = max_sz_region;
-+	ret->min_nr_accesses = min_nr_accesses;
-+	ret->max_nr_accesses = max_nr_accesses;
-+	ret->min_age_region = min_age_region;
-+	ret->max_age_region = max_age_region;
-+	ret->action = action;
-+	INIT_LIST_HEAD(&ret->list);
-+
-+	return ret;
-+}
-+
- static void damon_add_scheme(struct damon_ctx *ctx, struct damos *s)
- {
- 	list_add_tail(&s->list, &ctx->schemes_list);
-@@ -1273,6 +1296,144 @@ static ssize_t debugfs_monitor_on_write(struct file *file,
- 	return ret;
- }
++|copy| Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
  
-+static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
-+{
-+	struct damos *s;
-+	int written = 0;
-+	int rc;
-+
-+	damon_for_each_schemes(c, s) {
-+		rc = snprintf(&buf[written], len - written,
-+				"%u %u %u %u %u %u %d\n",
-+				s->min_sz_region, s->max_sz_region,
-+				s->min_nr_accesses, s->max_nr_accesses,
-+				s->min_age_region, s->max_age_region,
-+				s->action);
-+		if (!rc)
-+			return -ENOMEM;
-+		written += rc;
-+	}
-+	return written;
-+}
-+
-+static ssize_t debugfs_schemes_read(struct file *file, char __user *buf,
-+		size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = &damon_user_ctx;
-+	char *kbuf;
-+	ssize_t ret;
-+
-+	kbuf = kmalloc(count, GFP_KERNEL);
-+	if (!kbuf)
-+		return -ENOMEM;
-+
-+	ret = sprint_schemes(ctx, kbuf, count);
-+	if (ret < 0)
-+		goto out;
-+	ret = simple_read_from_buffer(buf, count, ppos, kbuf, ret);
-+
-+out:
-+	kfree(kbuf);
-+	return ret;
-+}
-+
-+static void free_schemes_arr(struct damos **schemes, ssize_t nr_schemes)
-+{
-+	ssize_t i;
-+
-+	for (i = 0; i < nr_schemes; i++)
-+		kfree(schemes[i]);
-+	kfree(schemes);
-+}
-+
-+/*
-+ * Converts a string into an array of struct damos pointers
-+ *
-+ * Returns an array of struct damos pointers that converted if the conversion
-+ * success, or NULL otherwise.
-+ */
-+static struct damos **str_to_schemes(const char *str, ssize_t len,
-+				ssize_t *nr_schemes)
-+{
-+	struct damos *scheme, **schemes;
-+	const int max_nr_schemes = 256;
-+	int pos = 0, parsed, ret;
-+	unsigned int min_sz, max_sz, min_nr_a, max_nr_a, min_age, max_age;
-+	int action;
-+
-+	schemes = kmalloc_array(max_nr_schemes, sizeof(struct damos *),
-+			GFP_KERNEL);
-+	if (!schemes)
-+		return NULL;
-+
-+	*nr_schemes = 0;
-+	while (pos < len && *nr_schemes < max_nr_schemes) {
-+		ret = sscanf(&str[pos], "%u %u %u %u %u %u %d%n",
-+				&min_sz, &max_sz, &min_nr_a, &max_nr_a,
-+				&min_age, &max_age, &action, &parsed);
-+		pos += parsed;
-+		if (ret != 7)
-+			break;
-+		if (action >= DAMOS_ACTION_LEN) {
-+			pr_err("wrong action %d\n", action);
-+			goto error;
-+		}
-+
-+		scheme = damon_new_scheme(min_sz, max_sz, min_nr_a, max_nr_a,
-+				min_age, max_age, action);
-+		if (!scheme)
-+			goto error;
-+
-+		schemes[*nr_schemes] = scheme;
-+		*nr_schemes += 1;
-+	}
-+	return schemes;
-+error:
-+	free_schemes_arr(schemes, *nr_schemes);
-+	return NULL;
-+}
-+
-+static ssize_t debugfs_schemes_write(struct file *file, const char __user *buf,
-+		size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = &damon_user_ctx;
-+	char *kbuf;
-+	struct damos **schemes;
-+	ssize_t nr_schemes, ret;
-+
-+	kbuf = kmalloc_array(count, sizeof(char), GFP_KERNEL);
-+	if (!kbuf)
-+		return -ENOMEM;
-+
-+	ret = simple_write_to_buffer(kbuf, count, ppos, buf, count);
-+	if (ret < 0)
-+		goto out;
-+
-+	schemes = str_to_schemes(kbuf, ret, &nr_schemes);
-+	if (!schemes) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	spin_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond)
-+		goto monitor_running;
-+
-+	damon_set_schemes(ctx, schemes, nr_schemes);
-+	spin_unlock(&ctx->kdamond_lock);
-+	goto free_schemes_out;
-+
-+monitor_running:
-+	spin_unlock(&ctx->kdamond_lock);
-+	pr_err("%s: kdamond is running. Turn it off first.\n", __func__);
-+	ret = -EINVAL;
-+free_schemes_out:
-+	free_schemes_arr(schemes, nr_schemes);
-+out:
-+	kfree(kbuf);
-+	return ret;
-+}
-+
- static ssize_t damon_sprint_pids(struct damon_ctx *ctx, char *buf, ssize_t len)
- {
- 	struct damon_task *t;
-@@ -1502,6 +1663,12 @@ static const struct file_operations pids_fops = {
- 	.write = debugfs_pids_write,
- };
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -32,10 +36,10 @@ The C2 Interface main references are at (http://www.silabs.com)
+ Silicon Laboratories site], see:
  
-+static const struct file_operations schemes_fops = {
-+	.owner = THIS_MODULE,
-+	.read = debugfs_schemes_read,
-+	.write = debugfs_schemes_write,
-+};
-+
- static const struct file_operations record_fops = {
- 	.owner = THIS_MODULE,
- 	.read = debugfs_record_read,
-@@ -1518,10 +1685,10 @@ static struct dentry *debugfs_root;
+ - AN127: FLASH Programming via the C2 Interface at
+-http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf 
++  http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf
  
- static int __init debugfs_init(void)
- {
--	const char * const file_names[] = {"attrs", "record",
-+	const char * const file_names[] = {"attrs", "record", "schemes",
- 		"pids", "monitor_on"};
- 	const struct file_operations *fops[] = {&attrs_fops, &record_fops,
--		&pids_fops, &monitor_on_fops};
-+		&schemes_fops, &pids_fops, &monitor_on_fops};
- 	int i;
+ - C2 Specification at
+-http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
++  http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
  
- 	debugfs_root = debugfs_create_dir("damon", NULL);
+ however it implements a two wire serial communication protocol (bit
+ banging) designed to enable in-system programming, debugging, and
+@@ -47,44 +51,44 @@ Using the driver
+ ----------------
+ 
+ Once the driver is loaded you can use sysfs support to get C2port's
+-info or read/write in-system flash.
++info or read/write in-system flash::
+ 
+-# ls /sys/class/c2port/c2port0/
+-access            flash_block_size  flash_erase       rev_id
+-dev_id            flash_blocks_num  flash_size        subsystem/
+-flash_access      flash_data        reset             uevent
++  # ls /sys/class/c2port/c2port0/
++  access            flash_block_size  flash_erase       rev_id
++  dev_id            flash_blocks_num  flash_size        subsystem/
++  flash_access      flash_data        reset             uevent
+ 
+ Initially the C2port access is disabled since you hardware may have
+ such lines multiplexed with other devices so, to get access to the
+-C2port, you need the command:
++C2port, you need the command::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/access
++  # echo 1 > /sys/class/c2port/c2port0/access
+ 
+ after that you should read the device ID and revision ID of the
+-connected micro controller:
++connected micro controller::
+ 
+-# cat /sys/class/c2port/c2port0/dev_id
+-8
+-# cat /sys/class/c2port/c2port0/rev_id
+-1
++  # cat /sys/class/c2port/c2port0/dev_id
++  8
++  # cat /sys/class/c2port/c2port0/rev_id
++  1
+ 
+ However, for security reasons, the in-system flash access in not
+-enabled yet, to do so you need the command:
++enabled yet, to do so you need the command::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/flash_access
++  # echo 1 > /sys/class/c2port/c2port0/flash_access
+ 
+-After that you can read the whole flash:
++After that you can read the whole flash::
+ 
+-# cat /sys/class/c2port/c2port0/flash_data > image
++  # cat /sys/class/c2port/c2port0/flash_data > image
+ 
+-erase it:
++erase it::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/flash_erase
++  # echo 1 > /sys/class/c2port/c2port0/flash_erase
+ 
+-and write it:
++and write it::
+ 
+-# cat image > /sys/class/c2port/c2port0/flash_data
++  # cat image > /sys/class/c2port/c2port0/flash_data
+ 
+-after writing you have to reset the device to execute the new code:
++after writing you have to reset the device to execute the new code::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/reset
++  # echo 1 > /sys/class/c2port/c2port0/reset
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index 04f5dab2384c..c2e880d78734 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -16,6 +16,7 @@ fit into other categories.
+ 
+    ad525x_dpot
+    eeprom
++   c2port
+    ibmvmc
+    ics932s401
+    isl29003
 -- 
-2.17.1
+2.24.1
 
