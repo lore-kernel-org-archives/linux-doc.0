@@ -7,49 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E3BC3402E
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5203C34037
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6016E208C4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6821E20801
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955979;
-	bh=8HzYoiOcO9BWM8OxEnz0McbA+9Uax7DvWIiIQsj1lD0=;
+	s=default; t=1581955980;
+	bh=ye12ZQHK+KI/FgNT69gKGYpKG8Z45/qqLVRx6QRrAY8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=a5yZa4cCsGtlhnJ0i4km9F4X5yAccOrHuICsr95oQZE/21V+l15KyTbfoqJZ3IYsg
-	 3pxXgEFCMKovnA9u91K7Ju2BAhkFZofrNdqynr6bTJGuG8iWXoQn4+CnsMg8a0S9XO
-	 +9G5w8v4IQVJRQpJF94dbktQodnz2fR5D+qaPIl8=
+	b=IWfA4A7geJP3aBFvqSd0A/CPKdVvuMBGAYdX5mOJ+MZ6Oym7pIsOid6oB+VCxnat9
+	 7hfHW3iMscUTQre/wR6nIL3qAMrKOLZOjU1ejO89C9zRZqYSSbnOpeTyzRNvsT3P3g
+	 RUpYkV43KhpFTDbvFhyhC/8uYS2F15NBW7uLOf10=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729703AbgBQQMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:35 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47110 "EHLO
+        id S1729788AbgBQQM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:59 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47198 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728776AbgBQQMe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
+        with ESMTP id S1729697AbgBQQMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=CXdGuJmKxAd/CW/aZCubCdPQ6ia2Ld7n97c6BPIfAuU=; b=F2z4wUQdR4Xz34FmagsUTbFPAh
-        EMDQ6uEceIn1nNb9QtL1+1w67VfQJrJOk54EQ38cHHZ3zSoFN7hfdz2tBB5nXRfy41xORc6MIvNJE
-        wL7zyIAVdYZ1X2S+JkiaLOWyWj9ucR4ieavJJ9EsNxoXnrAKgoefBncWB/0sru06U09ST4f2MQIRd
-        hWYRqKzHKv4ve2yaD1vV7H3Y57oQJQeT9E0+/iyoQkgdG+HcYXywYwq848AZ0zspkj4FCihiK0i2n
-        BBDUE5YkwiMLBf+tpdedF93duQkZHexg75mBgXH2TwymV8jzd49SqGNzDTsU1p/wEghMFVajN8yQp
-        2f2QcZNA==;
+        bh=N/9Z33HoMcMHaeifzNVULrHTVj9SAYN1jD9RU93RDJo=; b=snP3OGI8Remel3KchHkJrb8b13
+        Rci+R4BM9wzkRsCF9Jt2+MbMEV0vN/PuZIg3f2W0h+o0b3t5+cOEeeqoIavDxwbNAkWXJfXdEEan8
+        GbLIF1vOtnf3eiGbHFiBsr+NFWahuJ53SjtHjeET4SkVaBOCQnbT36zh2CVUDF0bL5vBcV9W2OXXx
+        Ro+GA/SN9zPuRTR5enBIw0f6jsgpbkoL4sjPqHrkW2Wamd4x2jXms0w6g/4wFaz5DPcyUxhIzT/pb
+        YopwZUaxdi5wJrnYNWvY+qWUcNjBdsmGidfwQvDE3MNcgIDnh/RFrg9iZ8SZD7b07zTvGwS0gKtTS
+        Cjfp1lTw==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uO-40; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006un-K1; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0Z-000fZ8-Kv; Mon, 17 Feb 2020 17:12:31 +0100
+        id 1j3j0a-000faw-MG; Mon, 17 Feb 2020 17:12:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, David Sterba <dsterba@suse.com>
-Subject: [PATCH 03/44] docs: filesystems: convert affs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:11:49 +0100
-Message-Id: <b44c56befe0e28cbc0eb1b3e281ad7d99737ff16.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
+Subject: [PATCH 25/44] docs: filesystems: convert isofs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:11 +0100
+Message-Id: <ec16dc09d0c23bb0c1af3d3f33a96896083a1d36.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -61,191 +60,157 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document title;
-- Add table markups;
-- Mark literal blocks as such;
+- Add a document title;
 - Some whitespace fixes and new line breaks;
+- Add table markups;
+- Add lists markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{affs.txt => affs.rst}        | 62 +++++++++++++------
- Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 44 insertions(+), 19 deletions(-)
- rename Documentation/filesystems/{affs.txt => affs.rst} (86%)
+ Documentation/filesystems/index.rst |  1 +
+ Documentation/filesystems/isofs.rst | 64 +++++++++++++++++++++++++++++
+ Documentation/filesystems/isofs.txt | 48 ----------------------
+ 3 files changed, 65 insertions(+), 48 deletions(-)
+ create mode 100644 Documentation/filesystems/isofs.rst
+ delete mode 100644 Documentation/filesystems/isofs.txt
 
-diff --git a/Documentation/filesystems/affs.txt b/Documentation/filesystems/affs.rst
-similarity index 86%
-rename from Documentation/filesystems/affs.txt
-rename to Documentation/filesystems/affs.rst
-index 71b63c2b9841..7f1a40dce6d3 100644
---- a/Documentation/filesystems/affs.txt
-+++ b/Documentation/filesystems/affs.rst
-@@ -1,9 +1,13 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================
- Overview of Amiga Filesystems
- =============================
- 
- Not all varieties of the Amiga filesystems are supported for reading and
- writing. The Amiga currently knows six different filesystems:
- 
-+==============	===============================================================
- DOS\0		The old or original filesystem, not really suited for
- 		hard disks and normally not used on them, either.
- 		Supported read/write.
-@@ -23,6 +27,7 @@ DOS\4		The original filesystem with directory cache. The directory
- 		sense on hard disks. Supported read only.
- 
- DOS\5		The Fast File System with directory cache. Supported read only.
-+==============	===============================================================
- 
- All of the above filesystems allow block sizes from 512 to 32K bytes.
- Supported block sizes are: 512, 1024, 2048 and 4096 bytes. Larger blocks
-@@ -36,14 +41,18 @@ are supported, too.
- Mount options for the AFFS
- ==========================
- 
--protect		If this option is set, the protection bits cannot be altered.
-+protect
-+		If this option is set, the protection bits cannot be altered.
- 
--setuid[=uid]	This sets the owner of all files and directories in the file
-+setuid[=uid]
-+		This sets the owner of all files and directories in the file
- 		system to uid or the uid of the current user, respectively.
- 
--setgid[=gid]	Same as above, but for gid.
-+setgid[=gid]
-+		Same as above, but for gid.
- 
--mode=mode	Sets the mode flags to the given (octal) value, regardless
-+mode=mode
-+		Sets the mode flags to the given (octal) value, regardless
- 		of the original permissions. Directories will get an x
- 		permission if the corresponding r bit is set.
- 		This is useful since most of the plain AmigaOS files
-@@ -53,33 +62,41 @@ nofilenametruncate
- 		The file system will return an error when filename exceeds
- 		standard maximum filename length (30 characters).
- 
--reserved=num	Sets the number of reserved blocks at the start of the
-+reserved=num
-+		Sets the number of reserved blocks at the start of the
- 		partition to num. You should never need this option.
- 		Default is 2.
- 
--root=block	Sets the block number of the root block. This should never
-+root=block
-+		Sets the block number of the root block. This should never
- 		be necessary.
- 
--bs=blksize	Sets the blocksize to blksize. Valid block sizes are 512,
-+bs=blksize
-+		Sets the blocksize to blksize. Valid block sizes are 512,
- 		1024, 2048 and 4096. Like the root option, this should
- 		never be necessary, as the affs can figure it out itself.
- 
--quiet		The file system will not return an error for disallowed
-+quiet
-+		The file system will not return an error for disallowed
- 		mode changes.
- 
--verbose		The volume name, file system type and block size will
-+verbose
-+		The volume name, file system type and block size will
- 		be written to the syslog when the filesystem is mounted.
- 
--mufs		The filesystem is really a muFS, also it doesn't
-+mufs
-+		The filesystem is really a muFS, also it doesn't
- 		identify itself as one. This option is necessary if
- 		the filesystem wasn't formatted as muFS, but is used
- 		as one.
- 
--prefix=path	Path will be prefixed to every absolute path name of
-+prefix=path
-+		Path will be prefixed to every absolute path name of
- 		symbolic links on an AFFS partition. Default = "/".
- 		(See below.)
- 
--volume=name	When symbolic links with an absolute path are created
-+volume=name
-+		When symbolic links with an absolute path are created
- 		on an AFFS partition, name will be prepended as the
- 		volume name. Default = "" (empty string).
- 		(See below.)
-@@ -119,7 +136,7 @@ The Linux rwxrwxrwx file mode is handled as follows:
- 
-   - All other flags (suid, sgid, ...) are ignored and will
-     not be retained.
--    
-+
- Newly created files and directories will get the user and group ID
- of the current user and a mode according to the umask.
- 
-@@ -148,11 +165,13 @@ might be "User", "WB" and "Graphics", the mount points /amiga/User,
- Examples
- ========
- 
--Command line:
-+Command line::
-+
-     mount  Archive/Amiga/Workbench3.1.adf /mnt -t affs -o loop,verbose
-     mount  /dev/sda3 /Amiga -t affs
- 
--/etc/fstab entry:
-+/etc/fstab entry::
-+
-     /dev/sdb5	/amiga/Workbench    affs    noauto,user,exec,verbose 0 0
- 
- IMPORTANT NOTE
-@@ -170,7 +189,8 @@ before booting Windows!
- 
- If the damage is already done, the following should fix the RDB
- (where <disk> is the device name).
--DO AT YOUR OWN RISK:
-+
-+DO AT YOUR OWN RISK::
- 
-   dd if=/dev/<disk> of=rdb.tmp count=1
-   cp rdb.tmp rdb.fixed
-@@ -189,10 +209,14 @@ By default, filenames are truncated to 30 characters without warning.
- 'nofilenametruncate' mount option can change that behavior.
- 
- Case is ignored by the affs in filename matching, but Linux shells
--do care about the case. Example (with /wb being an affs mounted fs):
-+do care about the case. Example (with /wb being an affs mounted fs)::
-+
-     rm /wb/WRONGCASE
--will remove /mnt/wrongcase, but
-+
-+will remove /mnt/wrongcase, but::
-+
-     rm /wb/WR*
-+
- will not since the names are matched by the shell.
- 
- The block allocation is designed for hard disk partitions. If more
-@@ -219,4 +243,4 @@ due to an incompatibility with the Amiga floppy controller.
- 
- If you are interested in an Amiga Emulator for Linux, look at
- 
--http://web.archive.org/web/*/http://www.freiburg.linux.de/~uae/
-+http://web.archive.org/web/%2E/http://www.freiburg.linux.de/~uae/
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 14dc89c94822..273d802ad5fb 100644
+index 5a737722652c..8c8813ada53f 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -48,6 +48,7 @@ Documentation for filesystem implementations.
- 
-    9p
-    adfs
-+   affs
-    autofs
+@@ -71,6 +71,7 @@ Documentation for filesystem implementations.
+    hfsplus
+    hpfs
+    inotify
++   isofs
     fuse
     overlayfs
+    virtiofs
+diff --git a/Documentation/filesystems/isofs.rst b/Documentation/filesystems/isofs.rst
+new file mode 100644
+index 000000000000..08fd469091d4
+--- /dev/null
++++ b/Documentation/filesystems/isofs.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================
++ISO9660 Filesystem
++==================
++
++Mount options that are the same as for msdos and vfat partitions.
++
++  =========	========================================================
++  gid=nnn	All files in the partition will be in group nnn.
++  uid=nnn	All files in the partition will be owned by user id nnn.
++  umask=nnn	The permission mask (see umask(1)) for the partition.
++  =========	========================================================
++
++Mount options that are the same as vfat partitions. These are only useful
++when using discs encoded using Microsoft's Joliet extensions.
++
++ ==============	=============================================================
++ iocharset=name Character set to use for converting from Unicode to
++		ASCII.  Joliet filenames are stored in Unicode format, but
++		Unix for the most part doesn't know how to deal with Unicode.
++		There is also an option of doing UTF-8 translations with the
++		utf8 option.
++  utf8          Encode Unicode names in UTF-8 format. Default is no.
++ ==============	=============================================================
++
++Mount options unique to the isofs filesystem.
++
++ ================= ============================================================
++  block=512        Set the block size for the disk to 512 bytes
++  block=1024       Set the block size for the disk to 1024 bytes
++  block=2048       Set the block size for the disk to 2048 bytes
++  check=relaxed    Matches filenames with different cases
++  check=strict     Matches only filenames with the exact same case
++  cruft            Try to handle badly formatted CDs.
++  map=off          Do not map non-Rock Ridge filenames to lower case
++  map=normal       Map non-Rock Ridge filenames to lower case
++  map=acorn        As map=normal but also apply Acorn extensions if present
++  mode=xxx         Sets the permissions on files to xxx unless Rock Ridge
++		   extensions set the permissions otherwise
++  dmode=xxx        Sets the permissions on directories to xxx unless Rock Ridge
++		   extensions set the permissions otherwise
++  overriderockperm Set permissions on files and directories according to
++		   'mode' and 'dmode' even though Rock Ridge extensions are
++		   present.
++  nojoliet         Ignore Joliet extensions if they are present.
++  norock           Ignore Rock Ridge extensions if they are present.
++  hide		   Completely strip hidden files from the file system.
++  showassoc	   Show files marked with the 'associated' bit
++  unhide	   Deprecated; showing hidden files is now default;
++		   If given, it is a synonym for 'showassoc' which will
++		   recreate previous unhide behavior
++  session=x        Select number of session on multisession CD
++  sbsector=xxx     Session begins from sector xxx
++ ================= ============================================================
++
++Recommended documents about ISO 9660 standard are located at:
++
++- http://www.y-adagio.com/
++- ftp://ftp.ecma.ch/ecma-st/Ecma-119.pdf
++
++Quoting from the PDF "This 2nd Edition of Standard ECMA-119 is technically
++identical with ISO 9660.", so it is a valid and gratis substitute of the
++official ISO specification.
+diff --git a/Documentation/filesystems/isofs.txt b/Documentation/filesystems/isofs.txt
+deleted file mode 100644
+index ba0a93384de0..000000000000
+--- a/Documentation/filesystems/isofs.txt
++++ /dev/null
+@@ -1,48 +0,0 @@
+-Mount options that are the same as for msdos and vfat partitions.
+-
+-  gid=nnn	All files in the partition will be in group nnn.
+-  uid=nnn	All files in the partition will be owned by user id nnn.
+-  umask=nnn	The permission mask (see umask(1)) for the partition.
+-
+-Mount options that are the same as vfat partitions. These are only useful
+-when using discs encoded using Microsoft's Joliet extensions.
+-  iocharset=name Character set to use for converting from Unicode to
+-		ASCII.  Joliet filenames are stored in Unicode format, but
+-		Unix for the most part doesn't know how to deal with Unicode.
+-		There is also an option of doing UTF-8 translations with the
+-		utf8 option.
+-  utf8          Encode Unicode names in UTF-8 format. Default is no.
+-
+-Mount options unique to the isofs filesystem.
+-  block=512     Set the block size for the disk to 512 bytes
+-  block=1024    Set the block size for the disk to 1024 bytes
+-  block=2048    Set the block size for the disk to 2048 bytes
+-  check=relaxed Matches filenames with different cases
+-  check=strict  Matches only filenames with the exact same case
+-  cruft         Try to handle badly formatted CDs.
+-  map=off       Do not map non-Rock Ridge filenames to lower case
+-  map=normal    Map non-Rock Ridge filenames to lower case
+-  map=acorn     As map=normal but also apply Acorn extensions if present
+-  mode=xxx      Sets the permissions on files to xxx unless Rock Ridge
+-		extensions set the permissions otherwise
+-  dmode=xxx     Sets the permissions on directories to xxx unless Rock Ridge
+-		extensions set the permissions otherwise
+-  overriderockperm Set permissions on files and directories according to
+-		'mode' and 'dmode' even though Rock Ridge extensions are
+-		present.
+-  nojoliet      Ignore Joliet extensions if they are present.
+-  norock        Ignore Rock Ridge extensions if they are present.
+-  hide		Completely strip hidden files from the file system.
+-  showassoc	Show files marked with the 'associated' bit
+-  unhide	Deprecated; showing hidden files is now default;
+-		If given, it is a synonym for 'showassoc' which will
+-		recreate previous unhide behavior
+-  session=x     Select number of session on multisession CD
+-  sbsector=xxx  Session begins from sector xxx
+-
+-Recommended documents about ISO 9660 standard are located at:
+-http://www.y-adagio.com/
+-ftp://ftp.ecma.ch/ecma-st/Ecma-119.pdf
+-Quoting from the PDF "This 2nd Edition of Standard ECMA-119 is technically 
+-identical with ISO 9660.", so it is a valid and gratis substitute of the
+-official ISO specification.
 -- 
 2.24.1
 
