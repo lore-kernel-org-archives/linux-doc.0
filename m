@@ -2,56 +2,73 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFE3C34026
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2724AC34033
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A5F224649
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECAF520659
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 09:10:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582017035;
-	bh=H6v8m9+eTb8TJjP7/IX9nuNDh4mqr7FOvBYBGbPbrrI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uwp5TMYFRjct67z/1pg5vVrewzhiZpECNW2XCbRTkOo1gZD3P+ceIroeBOi7uUvd7
-	 gT7fFtihcABDan7EgaWzM3zQA1BrXZy+RfjZsbOcS3J3HfsXVkO+dOXvpErq75SjPI
-	 509Cj0rL652gu3J15u8EPKkirpO+rZmy50tAAZ+U=
+	s=default; t=1582017037;
+	bh=qcx7hKSdA43lr91cefm69cgiRF+lTRlAhJkSkXl97uo=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=cjbAUPRnKf6vjbBW30B70oKZe/MIiA8mWpGVVfejoedU4FgVi5BKNeRxoWp+9rS+W
+	 HbanpS0RQpmYbB5J9KeQYut3BPsTgTfZn3yNyINrnughg5vz/nhHVZ70Sao9WEp1Wi
+	 4exoDDrb4xv3vT3Equ6B82WlSuTvg5u2z3C9Tics=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbgBRJKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 04:10:34 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:35174 "EHLO
+        id S1726264AbgBRJKg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 04:10:36 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:35180 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726186AbgBRJKe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 04:10:34 -0500
+        with ESMTP id S1726186AbgBRJKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 04:10:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=CdqmLOZ5sQ/Aflxvzy0izWi/tvqp/in3SnUYEGpwbcw=; b=GQTK0tfVKYqBydcyzx4tuedINU
-        sLt6G5M349wSwoKo359zKoG0jTDuodwOtf0uEdagPSD3aB5YxsNFefDQTToqZilMk9oFxfWHCXI8S
-        o3D1xrrtrnRUeqBQGGzqivds0H4CpU+8O0f0UdoxMmtN007ccjLEeA1UgKf1pFq4I12n0ho/gywa2
-        +KKJC7VuZPIYpniO53GELz4cpeejga/JwmR85E87lK29F+fNRbBUm8dXksF55kIUSO6YKBDgZBbpy
-        omEMXGkBVwWLU6F5Z1yAyMxkIH9n5fDGdtVe+9KxR8F/9yJNfyJ375F3Vu//0u2IeezgkC5qEUerh
-        n6x3eAEA==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=gtxCElNvSCXWFICx33F89B+eF/cQ+L9FjqnWYk2rKuI=; b=h/D+gqw5OmQpGOwUjnu/fi4+kH
+        bT0h8EUVx9iIS8HNfPlJzJPk40KKUsFKNf009z67RPKZuDo+88sdToDM6wpb5+YlEa7V9G6OJvFol
+        R8RQl98kwCpA4ooFYQSURvPloAPXb0/KOMWODRXhBfm93RtLstFP639AaaseMhA7rBw6OI8LTEr+J
+        PXc4gR41BMqKLfnINKvS8pLmCqR3uXPMYK/daZvPEV9ynEWBeYzh1jVee6AgvUIOeV700uQ2EOPBg
+        z3vWEhpNHMY0ljZor0m1CokA7zJdOq2gDEs8oPaHQ9a9htLoD+FYLhrx/s8ITQGSuGwynWgVTIITp
+        vszoRJOw==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3ytm-00046s-59; Tue, 18 Feb 2020 09:10:34 +0000
+        id 1j3ytn-00046s-Vd; Tue, 18 Feb 2020 09:10:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j8W-000fpH-24; Mon, 17 Feb 2020 17:20:44 +0100
+        id 1j3j8V-000foa-PM; Mon, 17 Feb 2020 17:20:43 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 09/24] docs: misc-devices/c2port.txt: convert to ReST format
-Date:   Mon, 17 Feb 2020 17:20:27 +0100
-Message-Id: <d9837c807f6d3f2a861ceaeef3803c3f62a6aac3.1581956285.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-arm-kernel@lists.infradead.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-sh@vger.kernel.org,
+        Will Deacon <will@kernel.org>,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        linux-crypto@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        keyrings@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        David Howells <dhowells@redhat.com>, linux-pci@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-pm@vger.kernel.org,
+        Javi Merino <javi.merino@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: [PATCH v2 00/24] Manually convert  thermal, crypto and misc devices to ReST
+Date:   Mon, 17 Feb 2020 17:20:18 +0100
+Message-Id: <cover.1581956285.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581956285.git.mchehab+huawei@kernel.org>
-References: <cover.1581956285.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -59,132 +76,110 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use copyright symbol;
-- use title markups;
-- adjust indentation;
-- mark literal blocks as such.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../misc-devices/{c2port.txt => c2port.rst}   | 58 ++++++++++---------
- Documentation/misc-devices/index.rst          |  1 +
- 2 files changed, 32 insertions(+), 27 deletions(-)
+Manually convert some files from thermal, crypto and misc-devices
+to ReST format.
+
+This patch is against linux-next 20200217 tag.
+
+v2: 
+
+- a small change at patch 2 to avoid uneeded whitespace changes;
+- added 13 new patches at the end
+
+Mauro Carvalho Chehab (24):
+  docs: thermal: convert cpu-idle-cooling.rst to ReST
+  docs: crypto: convert asymmetric-keys.txt to ReST
+  docs: crypto: convert api-intro.txt to ReST format
+  docs: crypto: convert async-tx-api.txt to ReST format
+  docs: crypto: descore-readme.txt: convert to ReST format
+  docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/c2port.txt: convert to ReST format
+  docs: misc-devices/bh1770glc.txt: convert to ReST
+  docs: misc-devices/apds990x.txt: convert to ReST format
+  docs: pci: endpoint/function/binding/pci-test.txt convert to ReST
+  docs: arm64: convert perf.txt to ReST format
+  docs: cpu-freq: convert index.txt to ReST
+  docs: cpu-freq: convert amd-powernow.txt to ReST
+  docs: cpu-freq: convert core.txt to ReST
+  docs: cpu-freq: convert cpu-drivers.txt to ReST
+  docs: cpu-freq: convert cpufreq-nforce2.txt to ReST
+  docs: cpu-freq: convert cpufreq-stats.txt to ReST
+  docs: cpu-freq: convert pcc-cpufreq.txt to ReST
+  docs: powerpc: convert vcpudispatch_stats.txt to ReST
+  docs: sh: convert new-machine.txt to ReST
+  docs: sh: convert register-banks.txt to ReST
+  docs: trace: ring-buffer-design.txt: convert to ReST format
+
+ .../endpoint/function/binding/pci-test.rst    |  26 +
+ .../endpoint/function/binding/pci-test.txt    |  19 -
+ Documentation/PCI/endpoint/index.rst          |   2 +
+ Documentation/arm64/index.rst                 |   1 +
+ Documentation/arm64/{perf.txt => perf.rst}    |   7 +-
+ .../{amd-powernow.txt => amd-powernow.rst}    |  12 +-
+ Documentation/cpu-freq/{core.txt => core.rst} |  65 +-
+ .../{cpu-drivers.txt => cpu-drivers.rst}      | 129 ++-
+ ...pufreq-nforce2.txt => cpufreq-nforce2.rst} |  18 +-
+ .../{cpufreq-stats.txt => cpufreq-stats.rst}  | 121 +--
+ Documentation/cpu-freq/index.rst              |  42 +
+ Documentation/cpu-freq/index.txt              |  56 --
+ .../{pcc-cpufreq.txt => pcc-cpufreq.rst}      |  86 +-
+ .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++--
+ ...symmetric-keys.txt => asymmetric-keys.rst} |  91 +-
+ .../{async-tx-api.txt => async-tx-api.rst}    | 253 +++---
+ ...{descore-readme.txt => descore-readme.rst} | 152 +++-
+ Documentation/crypto/index.rst                |   5 +
+ .../driver-api/thermal/cpu-idle-cooling.rst   |  18 +-
+ Documentation/driver-api/thermal/index.rst    |   1 +
+ Documentation/index.rst                       |   1 +
+ .../{ad525x_dpot.txt => ad525x_dpot.rst}      |  24 +-
+ .../{apds990x.txt => apds990x.rst}            |  31 +-
+ .../{bh1770glc.txt => bh1770glc.rst}          |  45 +-
+ .../misc-devices/{c2port.txt => c2port.rst}   |  58 +-
+ Documentation/misc-devices/index.rst          |   6 +
+ .../misc-devices/pci-endpoint-test.rst        |  56 ++
+ .../misc-devices/pci-endpoint-test.txt        |  41 -
+ .../misc-devices/spear-pcie-gadget.rst        | 170 ++++
+ .../misc-devices/spear-pcie-gadget.txt        | 130 ---
+ Documentation/powerpc/index.rst               |   1 +
+ ...patch_stats.txt => vcpudispatch_stats.rst} |  17 +-
+ Documentation/sh/index.rst                    |   6 +
+ .../sh/{new-machine.txt => new-machine.rst}   | 193 +++--
+ ...{register-banks.txt => register-banks.rst} |  12 +-
+ Documentation/trace/index.rst                 |   1 +
+ ...ffer-design.txt => ring-buffer-design.rst} | 802 ++++++++++--------
+ 37 files changed, 1603 insertions(+), 1281 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.rst
+ delete mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.txt
+ rename Documentation/arm64/{perf.txt => perf.rst} (95%)
+ rename Documentation/cpu-freq/{amd-powernow.txt => amd-powernow.rst} (89%)
+ rename Documentation/cpu-freq/{core.txt => core.rst} (69%)
+ rename Documentation/cpu-freq/{cpu-drivers.txt => cpu-drivers.rst} (72%)
+ rename Documentation/cpu-freq/{cpufreq-nforce2.txt => cpufreq-nforce2.rst} (55%)
+ rename Documentation/cpu-freq/{cpufreq-stats.txt => cpufreq-stats.rst} (53%)
+ create mode 100644 Documentation/cpu-freq/index.rst
+ delete mode 100644 Documentation/cpu-freq/index.txt
+ rename Documentation/cpu-freq/{pcc-cpufreq.txt => pcc-cpufreq.rst} (80%)
+ rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
+ rename Documentation/crypto/{async-tx-api.txt => async-tx-api.rst} (55%)
+ rename Documentation/crypto/{descore-readme.txt => descore-readme.rst} (81%)
+ rename Documentation/misc-devices/{ad525x_dpot.txt => ad525x_dpot.rst} (85%)
+ rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
+ rename Documentation/misc-devices/{bh1770glc.txt => bh1770glc.rst} (83%)
  rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
+ create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
+ delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
+ create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
+ delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
+ rename Documentation/powerpc/{vcpudispatch_stats.txt => vcpudispatch_stats.rst} (94%)
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (73%)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (88%)
+ rename Documentation/trace/{ring-buffer-design.txt => ring-buffer-design.rst} (55%)
 
-diff --git a/Documentation/misc-devices/c2port.txt b/Documentation/misc-devices/c2port.rst
-similarity index 59%
-rename from Documentation/misc-devices/c2port.txt
-rename to Documentation/misc-devices/c2port.rst
-index ea7344465610..258e1c1d43c7 100644
---- a/Documentation/misc-devices/c2port.txt
-+++ b/Documentation/misc-devices/c2port.rst
-@@ -1,7 +1,11 @@
--			C2 port support
--			---------------
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
--(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
-+===============
-+C2 port support
-+===============
-+
-+|copy| Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
- 
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
-@@ -32,10 +36,10 @@ The C2 Interface main references are at (http://www.silabs.com)
- Silicon Laboratories site], see:
- 
- - AN127: FLASH Programming via the C2 Interface at
--http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf 
-+  http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf
- 
- - C2 Specification at
--http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
-+  http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
- 
- however it implements a two wire serial communication protocol (bit
- banging) designed to enable in-system programming, debugging, and
-@@ -47,44 +51,44 @@ Using the driver
- ----------------
- 
- Once the driver is loaded you can use sysfs support to get C2port's
--info or read/write in-system flash.
-+info or read/write in-system flash::
- 
--# ls /sys/class/c2port/c2port0/
--access            flash_block_size  flash_erase       rev_id
--dev_id            flash_blocks_num  flash_size        subsystem/
--flash_access      flash_data        reset             uevent
-+  # ls /sys/class/c2port/c2port0/
-+  access            flash_block_size  flash_erase       rev_id
-+  dev_id            flash_blocks_num  flash_size        subsystem/
-+  flash_access      flash_data        reset             uevent
- 
- Initially the C2port access is disabled since you hardware may have
- such lines multiplexed with other devices so, to get access to the
--C2port, you need the command:
-+C2port, you need the command::
- 
--# echo 1 > /sys/class/c2port/c2port0/access
-+  # echo 1 > /sys/class/c2port/c2port0/access
- 
- after that you should read the device ID and revision ID of the
--connected micro controller:
-+connected micro controller::
- 
--# cat /sys/class/c2port/c2port0/dev_id
--8
--# cat /sys/class/c2port/c2port0/rev_id
--1
-+  # cat /sys/class/c2port/c2port0/dev_id
-+  8
-+  # cat /sys/class/c2port/c2port0/rev_id
-+  1
- 
- However, for security reasons, the in-system flash access in not
--enabled yet, to do so you need the command:
-+enabled yet, to do so you need the command::
- 
--# echo 1 > /sys/class/c2port/c2port0/flash_access
-+  # echo 1 > /sys/class/c2port/c2port0/flash_access
- 
--After that you can read the whole flash:
-+After that you can read the whole flash::
- 
--# cat /sys/class/c2port/c2port0/flash_data > image
-+  # cat /sys/class/c2port/c2port0/flash_data > image
- 
--erase it:
-+erase it::
- 
--# echo 1 > /sys/class/c2port/c2port0/flash_erase
-+  # echo 1 > /sys/class/c2port/c2port0/flash_erase
- 
--and write it:
-+and write it::
- 
--# cat image > /sys/class/c2port/c2port0/flash_data
-+  # cat image > /sys/class/c2port/c2port0/flash_data
- 
--after writing you have to reset the device to execute the new code:
-+after writing you have to reset the device to execute the new code::
- 
--# echo 1 > /sys/class/c2port/c2port0/reset
-+  # echo 1 > /sys/class/c2port/c2port0/reset
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 04f5dab2384c..c2e880d78734 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -16,6 +16,7 @@ fit into other categories.
- 
-    ad525x_dpot
-    eeprom
-+   c2port
-    ibmvmc
-    ics932s401
-    isl29003
 -- 
 2.24.1
+
 
