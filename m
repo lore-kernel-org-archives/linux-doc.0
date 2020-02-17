@@ -2,171 +2,135 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98897C34024
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 17:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C94DC34021
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 17:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67C41222D9
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 17:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 056CC214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 17:23:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfOX4D/P"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="bEe7Mh3Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728731AbgBQREp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 12:04:45 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:43475 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728142AbgBQREo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 12:04:44 -0500
-Received: by mail-yb1-f193.google.com with SMTP id b141so8989226ybg.10;
-        Mon, 17 Feb 2020 09:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vPLpeSe0bKkS49okauHP5fVKtMg3RhIDXruX05dtGX8=;
-        b=LfOX4D/PTIGCnYfTvq+ADMCpaVrTm8vspeWtE6AWPdFAZKq2T9anP5EHCU3J6vE5rX
-         O+IBBqXFskHMzEU8qcTz4DaLOCRGheG+BF21M0S/Ru4mislM/hvcUN418f8gXkFdaje7
-         ZHc6ZhfNcKnewUFnVsbPAiCiPXe38lJKDoiLLXPlb0IVP5ZTd+Erw255U12Ba6nz/kO+
-         cksC6T/fpsD6w3ONjsjGdDuLbi6AZuJ4UC3x5yrLVOolpNR4QgXEHW6xQ2zNC/mVqVC6
-         CcPjTObHWyPJsfIUhH6BvhuobWLjrOzrDiSLZwyKI0eCDCnGXq3NeAMB6e+rrpDS/KDE
-         UkmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vPLpeSe0bKkS49okauHP5fVKtMg3RhIDXruX05dtGX8=;
-        b=YLNtukE6l72hyN/yG3pd7/ufptgywO83mC8hzp/CGgSIg1zm3UIWAkJ4KIfGcgD73/
-         PWf3fvLSEAPSQ0LBZgf7pCgT/ilbfrlQ+S7jeGOzdPpkRboxNCGEHE9G6OWfW2lkDMmm
-         Y/AiKKhj8W18sFbhCANC3oEO2BvEA+wIqc+qaZ6HP2fmBfUC4/bqtA0dJdBd1h6Ma8IE
-         mcWZn5cps6ariwHcv2gpDR1MEO+Yv80/w9OqaVLf+gTTn9+hvChKtWWvDmW4/j6e+ElI
-         tj3psjnn1g+50tx77CfZD6YpuGvcd500/J8fZbvvkFdKQ40mVW/Jgd4X7OLO1C9mdJlk
-         oWDw==
-X-Gm-Message-State: APjAAAVqjXqS2ec7XmnOZ0H9yHd8r83jGQTGMmpDR3364AMvawURuJY1
-        VhSN/iGqBE3UveCchqeOMzk=
-X-Google-Smtp-Source: APXvYqzGlUZIsYYiKriIz2BhmO+hg4HO/NIKKz6IDfn53XLaaE1DGqXWxL9gY+5u8szaTp/bERwFkQ==
-X-Received: by 2002:a5b:885:: with SMTP id e5mr15959811ybq.449.1581959083612;
-        Mon, 17 Feb 2020 09:04:43 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id a74sm475022ywe.42.2020.02.17.09.04.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Feb 2020 09:04:43 -0800 (PST)
-Subject: Re: [PATCH v3 kunit-next 1/2] kunit: add debugfs
- /sys/kernel/debug/kunit/<suite>/results display
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     brendanhiggins@google.com, gregkh@linuxfoundation.org,
-        shuah@kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, davidgow@google.com
-References: <1581094694-6513-1-git-send-email-alan.maguire@oracle.com>
- <1581094694-6513-2-git-send-email-alan.maguire@oracle.com>
- <c42ac237-476a-526f-b445-61e7a63bc101@gmail.com>
- <alpine.LRH.2.20.2002171539210.21685@dhcp-10-175-161-198.vpn.oracle.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <51e1d60c-a232-bbef-7e6a-8695df684ae6@gmail.com>
-Date:   Mon, 17 Feb 2020 11:04:42 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728845AbgBQRX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 12:23:27 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:39516 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbgBQRX1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 12:23:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=oY8Hprjp+0+cXfhTnYBhP1nb+wmn9WucklmpZMOU5v0=; b=bEe7Mh3ZHtZITIcMegKi4Tbq4
+        cF+tqyiLbpTEFFpy450jEylMS4b4m+hbKMBKY71wdC+5KZTtI5/MOb2u6WU3FcjhGi1j1pEnut6Vo
+        sRL0jkk5D0BMR1L7eJoa66h+dB2q54hf0vhFhNLm9u5Yavss7dHxtDRlX5RCCQlT4WiCdHpAKI6UX
+        lxAU1dkOo6Gu6OTxbpoPD8/uecUCaX2OcbKPqabfYCPphI1IAlyGsHVSClmPRW1CXlRhn88AuagDO
+        sxOvIzOwdZyQAxJhOQyZLSJJN3JHwYJklWvrKhLi3986Exl+lCs4IkBsb/dT4De5XxR53+j+dU4EZ
+        UjtJnpZhQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53260)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j3k6g-000266-K1; Mon, 17 Feb 2020 17:22:54 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j3k6V-0006UE-2c; Mon, 17 Feb 2020 17:22:43 +0000
+Date:   Mon, 17 Feb 2020 17:22:43 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Felix Fietkau <nbd@openwrt.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jose Abreu <joabreu@synopsys.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>, netdev@vger.kernel.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>
+Subject: [CFT 0/8] rework phylink interface for split MAC/PCS support
+Message-ID: <20200217172242.GZ25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.20.2002171539210.21685@dhcp-10-175-161-198.vpn.oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/20 9:45 AM, Alan Maguire wrote:
-> On Wed, 12 Feb 2020, Frank Rowand wrote:
-> 
->> On 2/7/20 10:58 AM, Alan Maguire wrote:
->>> add debugfs support for displaying kunit test suite results; this is
->>> especially useful for module-loaded tests to allow disentangling of
->>> test result display from other dmesg events.
->>>
->>> As well as printk()ing messages, we append them to a per-test log.
->>>
->>> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
->>> ---
+Hi,
 
-< snip >
+The following series changes the phylink interface to allow us to
+better support split MAC / MAC PCS setups.  The fundamental change
+required for this turns out to be quite simple.
 
->>> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
->>> index 9242f93..aec607f 100644
->>> --- a/lib/kunit/test.c
->>> +++ b/lib/kunit/test.c
->>> @@ -10,6 +10,7 @@
->>>  #include <linux/kernel.h>
->>>  #include <linux/sched/debug.h>
->>>  
->>> +#include "debugfs.h"
->>>  #include "string-stream.h"
->>>  #include "try-catch-impl.h"
->>>  
->>> @@ -28,73 +29,91 @@ static void kunit_print_tap_version(void)
->>>  	}
->>>  }
->>>  
->>> -static size_t kunit_test_cases_len(struct kunit_case *test_cases)
->>> +size_t kunit_suite_num_test_cases(struct kunit_suite *suite)
->>>  {
->>>  	struct kunit_case *test_case;
->>>  	size_t len = 0;
->>>  
->>> -	for (test_case = test_cases; test_case->run_case; test_case++)
->>> +	kunit_suite_for_each_test_case(suite, test_case)
->>>  		len++;
->>>  
->>>  	return len;
->>>  }
->>> +EXPORT_SYMBOL_GPL(kunit_suite_num_test_cases);
->>>  
->>>  static void kunit_print_subtest_start(struct kunit_suite *suite)
->>>  {
->>>  	kunit_print_tap_version();
->>> -	pr_info("\t# Subtest: %s\n", suite->name);
->>> -	pr_info("\t1..%zd\n", kunit_test_cases_len(suite->test_cases));
->>> +	kunit_log(KERN_INFO, suite, "# Subtest: %s", suite->name);
->>> +	kunit_log(KERN_INFO, suite, "1..%zd",
->>> +		  kunit_suite_num_test_cases(suite));
->>
->> The subtest 'is a TAP stream indented 4 spaces'.  (So the old code was
->> also incorrect since it indented with a tab.)
->>
->> kunit_print_ok_not_ok() has a similar indentation issue.
->>
-> 
-> I'll defer to Brendan on the TAP format stuff if you don't
-> mind; the aim here is to preserve existing behaviour.  I
-> think it might be better to tackle TAP format issues in
-> a separate patchset.
+Today, mac_config() is used for everything to do with setting the
+parameters for the MAC, and mac_link_up() is used to inform the
+MAC driver that the link is now up (and so to allow packet flow.)
+mac_config() also has had a few implementation issues, with folk
+who believe that members such as "speed" and "duplex" are always
+valid, where "link" gets used inappropriately, etc.
 
-My first attempt to respond started with "That is a reasonable approach".
-But on reflection, the patch is adding code that is incorrect (even if
-the new code is replacing existing code that is incorrect).
+With the proposed patches, all this changes subtly - but in a
+backwards compatible way at this stage.
 
-If you don't want to change the spacing in patch 1/2, then please add
-patch 3/3 that corrects the spacing.  That allows patches 1/3 and 2/3
-to preserve existing behaviour.
+We pass the the full resolved link state (speed, duplex, pause) to
+mac_link_up(), and it is now guaranteed that these parameters to
+this function will always be valid (no more SPEED_UNKNOWN or
+DUPLEX_UNKNOWN here - unless phylink is fed with such things.)
 
-Thanks,
+Drivers should convert over to using the state in mac_link_up()
+rather than configuring the speed, duplex and pause in the
+mac_config() method. The patch series includes a number of MAC
+drivers which I've thought have been easy targets - I've left the
+remainder as I think they need maintainer input. However, *all*
+drivers will need conversion for future phylink development.
 
-Frank
+ Documentation/networking/sfp-phylink.rst          |  17 +++-
+ drivers/net/dsa/b53/b53_common.c                  |   4 +-
+ drivers/net/dsa/b53/b53_priv.h                    |   4 +-
+ drivers/net/dsa/bcm_sf2.c                         |   4 +-
+ drivers/net/dsa/lantiq_gswip.c                    |   4 +-
+ drivers/net/dsa/mt7530.c                          |   4 +-
+ drivers/net/dsa/mv88e6xxx/chip.c                  |  79 +++++++++++++----
+ drivers/net/dsa/sja1105/sja1105_main.c            |   4 +-
+ drivers/net/ethernet/cadence/macb.h               |   1 -
+ drivers/net/ethernet/cadence/macb_main.c          |  53 ++++++-----
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c  |  61 ++++++++-----
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h  |   1 +
+ drivers/net/ethernet/marvell/mvneta.c             |  63 ++++++++-----
+ drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c   | 102 +++++++++++++---------
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c       |   7 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |   4 +-
+ drivers/net/ethernet/xilinx/xilinx_axienet_main.c |  37 ++++----
+ drivers/net/phy/phylink.c                         |   9 +-
+ include/linux/phylink.h                           |  57 ++++++++----
+ include/net/dsa.h                                 |   4 +-
+ net/dsa/port.c                                    |   7 +-
+ 21 files changed, 350 insertions(+), 176 deletions(-)
 
-> 
-> I also updated the documentation patch in v4 (patch 3)
-> to incorporate the suggested wording.
-> 
-> Thanks for the careful review!
-> 
-> Alan
->  
->>
-
-< snip >
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
