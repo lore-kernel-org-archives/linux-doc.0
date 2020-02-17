@@ -4,51 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDD4C34021
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64044C3402D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40F5720718
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CB0A20801
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581956005;
-	bh=e/w+5CcSQSw+KamaOa23k3QFE/HSnPfXVB8dzGvDkhA=;
+	s=default; t=1581956000;
+	bh=fduZrHcElxuYur3Omy1fW66e9W35wT0ZnRaJTRZr+SQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Smlgi0+kK5uUF808aG5JC0tojVVQwx/6Sz32e7pxDXFn43DTsXVFRSxLj6v0ReGuY
-	 fsh5sV9OpFvE/mDRCpEwOFs9POlN/tFlaONo15Misf8B/KzXC5yX9KoelWUVwloe7O
-	 o2SzxsL2FYxrdVdqIkWxvdi84rH0jlxd9EDqpCUI=
+	b=zT6/YG8a4RJZzhAwTSgnAiLhDvMr+lzTNBKccV54awMKIlth/UtigC/z/VfKLWvFx
+	 iqgSthcXY1Ehn91XGZzmsHbEJAQRfS5Ft7BcW1eETtEAUkMZ3lROtuuB7RVvf60NR5
+	 nv6VpLM+46rCAhTnwcyhhUckNneAgOk9uimPYOT4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729672AbgBQQNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:13:24 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47126 "EHLO
+        id S1729826AbgBQQNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47142 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729673AbgBQQMe (ORCPT
+        with ESMTP id S1729682AbgBQQMe (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=1bNPuIyuSZ2/UdgmTbtGEMggf4pmcGLb2N9GWIrE96U=; b=ndHS5HUeQphK57MSbjMRy3rdm2
-        c1Tw0ueWL5RR38TNxQWMtO01xxXDPjZK1P6v+bQ/hiwVRJiFidZTFqOmLCJKQ5+E3JD5bOMha8OOI
-        SIXAtWYT5g/tDu0KwQM2aEMjwNWACyr7uXxrF/yxEGsanlRzGHbkqTURVEy8RDHcZgdjKlpxNzJnr
-        AI+36BVonpWX8Y4kgIXIN1lIUgpKS5FdP4gqn60NZPSKGvo0kF+fJOCqivO5aL9kN67fc6PRQFiQa
-        gsyjb5crVX6JGidmJxXP/4WfPTYiDfaKUY2WfOKxLsili/75jt29TLzaGJREjUFfDpJKr5A9J0PCV
-        KK4ee71Q==;
+        bh=vHNzFRvF7pskLSoBthZ/AINIY4LSd6XD26U4I0If7Qk=; b=GWhNVSCjep+mlWR91cjO3e+qSQ
+        zHjWzJBlrnixQ64H4M46th3FjFiHBJQwOxO4DmFOe7QtxZG7RkBaHfAQPMllw4rbu1Q1tz/7rSt+C
+        irnUmJVt9OAcUQHDWjq2BeshgfMLR5KskaUhkp4DXhjl74BfTfX6vOvLxu9JJI2tfrx13EoaVPphS
+        VF3Rt0EfqYhTxKDcN6R4GV8jp/GZ2IS+Is4JXA5irLlGbL0Lqcy8P3XUvHYMmvsXijYKRvObdoTVB
+        xkL03LKgNivkKSBgzv8tntbMr18BDarmwXF8x7xvbOlMYBT00rfYxWp+466e9wKXD0tOfTarLnUN9
+        ZJgNFCpA==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uM-5Y; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006uY-5Z; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0Z-000fZ4-Jv; Mon, 17 Feb 2020 17:12:31 +0100
+        id 1j3j0a-000fZw-0N; Mon, 17 Feb 2020 17:12:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 02/44] docs: filesystems: convert adfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:11:48 +0100
-Message-Id: <15ee92f03ec917e5d26bd7b863565dec88c843f6.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org, Tyler Hicks <code@tyhicks.com>,
+        ecryptfs@vger.kernel.org
+Subject: [PATCH 13/44] docs: filesystems: convert ecryptfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:59 +0100
+Message-Id: <6e13841ebd00c8d988027115c75c58821bb41a0c.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -61,107 +63,126 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
 - Add a document title;
-- Adjust section titles;
+- use :field: markup;
+- Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
+- Add table markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{adfs.txt => adfs.rst}        | 29 ++++++++++++-------
+ .../{ecryptfs.txt => ecryptfs.rst}            | 44 ++++++++++++-------
  Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 20 insertions(+), 10 deletions(-)
- rename Documentation/filesystems/{adfs.txt => adfs.rst} (85%)
+ 2 files changed, 28 insertions(+), 17 deletions(-)
+ rename Documentation/filesystems/{ecryptfs.txt => ecryptfs.rst} (70%)
 
-diff --git a/Documentation/filesystems/adfs.txt b/Documentation/filesystems/adfs.rst
-similarity index 85%
-rename from Documentation/filesystems/adfs.txt
-rename to Documentation/filesystems/adfs.rst
-index 0baa8e8c1fc1..5b22cae38e5e 100644
---- a/Documentation/filesystems/adfs.txt
-+++ b/Documentation/filesystems/adfs.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/filesystems/ecryptfs.txt b/Documentation/filesystems/ecryptfs.rst
+similarity index 70%
+rename from Documentation/filesystems/ecryptfs.txt
+rename to Documentation/filesystems/ecryptfs.rst
+index 01d8a08351ac..7236172300ef 100644
+--- a/Documentation/filesystems/ecryptfs.txt
++++ b/Documentation/filesystems/ecryptfs.rst
+@@ -1,14 +1,18 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===============================
-+Acorn Disc Filing System - ADFS
-+===============================
++======================================================
+ eCryptfs: A stacked cryptographic filesystem for Linux
++======================================================
+ 
+ eCryptfs is free software. Please see the file COPYING for details.
+ For documentation, please see the files in the doc/ subdirectory.  For
+ building and installation instructions please see the INSTALL file.
+ 
+-Maintainer: Phillip Hellewell
+-Lead developer: Michael A. Halcrow <mhalcrow@us.ibm.com>
+-Developers: Michael C. Thompson
+-            Kent Yoder
+-Web Site: http://ecryptfs.sf.net
++:Maintainer: Phillip Hellewell
++:Lead developer: Michael A. Halcrow <mhalcrow@us.ibm.com>
++:Developers: Michael C. Thompson
++             Kent Yoder
++:Web Site: http://ecryptfs.sf.net
+ 
+ This software is currently undergoing development. Make sure to
+ maintain a backup copy of any data you write into eCryptfs.
+@@ -19,13 +23,15 @@ SourceForge site:
+ http://sourceforge.net/projects/ecryptfs/
+ 
+ Userspace requirements include:
+- - David Howells' userspace keyring headers and libraries (version
+-   1.0 or higher), obtainable from
+-   http://people.redhat.com/~dhowells/keyutils/
+- - Libgcrypt
+ 
++- David Howells' userspace keyring headers and libraries (version
++  1.0 or higher), obtainable from
++  http://people.redhat.com/~dhowells/keyutils/
++- Libgcrypt
+ 
+-NOTES
 +
- Filesystems supported by ADFS
- -----------------------------
++Notes
++=====
  
-@@ -25,6 +31,7 @@ directory updates, specifically updating the access mode and timestamp.
- Mount options for ADFS
- ----------------------
+ In the beta/experimental releases of eCryptfs, when you upgrade
+ eCryptfs, you should copy the files to an unencrypted location and
+@@ -33,20 +39,21 @@ then copy the files back into the new eCryptfs mount to migrate the
+ files.
  
-+  ============  ======================================================
-   uid=nnn	All files in the partition will be owned by
- 		user id nnn.  Default 0 (root).
-   gid=nnn	All files in the partition will be in group
-@@ -36,22 +43,23 @@ Mount options for ADFS
-   ftsuffix=n	When ftsuffix=0, no file type suffix will be applied.
- 		When ftsuffix=1, a hexadecimal suffix corresponding to
- 		the RISC OS file type will be added.  Default 0.
-+  ============  ======================================================
  
- Mapping of ADFS permissions to Linux permissions
- ------------------------------------------------
+-MOUNT-WIDE PASSPHRASE
++Mount-wide Passphrase
++=====================
  
-   ADFS permissions consist of the following:
+ Create a new directory into which eCryptfs will write its encrypted
+ files (i.e., /root/crypt).  Then, create the mount point directory
+-(i.e., /mnt/crypt).  Now it's time to mount eCryptfs:
++(i.e., /mnt/crypt).  Now it's time to mount eCryptfs::
  
--	Owner read
--	Owner write
--	Other read
--	Other write
-+	- Owner read
-+	- Owner write
-+	- Other read
-+	- Other write
+-mount -t ecryptfs /root/crypt /mnt/crypt
++    mount -t ecryptfs /root/crypt /mnt/crypt
  
-   (In older versions, an 'execute' permission did exist, but this
--   does not hold the same meaning as the Linux 'execute' permission
--   and is now obsolete).
-+  does not hold the same meaning as the Linux 'execute' permission
-+  and is now obsolete).
+ You should be prompted for a passphrase and a salt (the salt may be
+ blank).
  
--  The mapping is performed as follows:
-+  The mapping is performed as follows::
+-Try writing a new file:
++Try writing a new file::
  
- 	Owner read				-> -r--r--r--
- 	Owner write				-> --w--w---w
-@@ -66,17 +74,18 @@ Mapping of ADFS permissions to Linux permissions
- 	Possible other mode permissions		-> ----rwxrwx
+-echo "Hello, World" > /mnt/crypt/hello.txt
++    echo "Hello, World" > /mnt/crypt/hello.txt
  
-   Hence, with the default masks, if a file is owner read/write, and
--  not a UnixExec filetype, then the permissions will be:
-+  not a UnixExec filetype, then the permissions will be::
+ The operation will complete.  Notice that there is a new file in
+ /root/crypt that is at least 12288 bytes in size (depending on your
+@@ -59,10 +66,13 @@ keyctl clear @u
+ Then umount /mnt/crypt and mount again per the instructions given
+ above.
  
- 			-rw-------
+-cat /mnt/crypt/hello.txt
++::
  
-   However, if the masks were ownmask=0770,othmask=0007, then this would
--  be modified to:
-+  be modified to::
++    cat /mnt/crypt/hello.txt
+ 
+-NOTES
 +
- 			-rw-rw----
++Notes
++=====
  
-   There is no restriction on what you can do with these masks.  You may
-   wish that either read bits give read access to the file for all, but
--  keep the default write protection (ownmask=0755,othmask=0577):
-+  keep the default write protection (ownmask=0755,othmask=0577)::
- 
- 			-rw-r--r--
- 
+ eCryptfs version 0.1 should only be mounted on (1) empty directories
+ or (2) directories containing files only created by eCryptfs. If you
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index a9330c3f8c2e..14dc89c94822 100644
+index c6885c7ef781..d6d69f1c9287 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -47,6 +47,7 @@ Documentation for filesystem implementations.
-    :maxdepth: 2
- 
-    9p
-+   adfs
-    autofs
+@@ -59,6 +59,7 @@ Documentation for filesystem implementations.
+    cramfs
+    debugfs
+    dlmfs
++   ecryptfs
     fuse
     overlayfs
+    virtiofs
 -- 
 2.24.1
 
