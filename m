@@ -2,78 +2,57 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MALFORMED_FREEMAIL,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CDEFC761A6
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 13:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D22DC35254
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 13:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D689A2070B
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 13:16:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqHzEm5U"
+	by mail.kernel.org (Postfix) with ESMTP id 6B23E2070B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 13:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727545AbgBQNQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 08:16:43 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44045 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727332AbgBQNQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 08:16:42 -0500
-Received: by mail-wr1-f68.google.com with SMTP id m16so19652387wrx.11;
-        Mon, 17 Feb 2020 05:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=p/uQQdbP6CtQI5bxDvGVhaC/f+9PVyfSbatM3OlAi4s=;
-        b=lqHzEm5UNtGWjo21PqgaH03h2WQqDhZVrATmmQneQSSxw0OAWr5pYizoWChwVr0djZ
-         9KUFAShTLryHyD5zqfG4hJTz/cAqtCvOLHIhJvr3Q7KVW+EurO+Yi4kEjjAuog8RigGO
-         DGvb3aibmZxA4agX8sEpSAcwhhczpYYzAiR20y1JYwfzl9KIMKskURQ3FGYPKEQTkJRN
-         mfhY785IoICmCuxwQaqqz6Q0gZUJZCgv6fJpJiAGE/RSng4jBWiQ9BLt3pjbDIFx1u9t
-         qvzerbnGe3rAk6Qyphb33szJbzvsZVEzT4Fc1dGLbCu58TTXyOxm6I3WzYZ71ZK4MutK
-         tjtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=p/uQQdbP6CtQI5bxDvGVhaC/f+9PVyfSbatM3OlAi4s=;
-        b=tNk2TjY3qGmQIOCldg8XLmO0mfJL8wLH2efnz7P2nDjtOxte6FGhAO70Qh2hpxJ2rG
-         R1tB/QOeTeivpH50IPfu0jYBab4S2TPIJtNi4ikgjAI03H2XU+HSupNVGJWkWofK4qnU
-         7Gti1CBc+dvK5dMt6BjlN2HPxltBU8P3g8G4Xe7YCw89oGBohromu89S9nsugjEKnOry
-         sjOnaTPbTU4eat1lPNg4XyPgNC013zvWkzQBBJabPz3xJ7a1cjCSL0sxtHuDBFDDrA4j
-         tHxYAOqAiJkZm6of5qEUd9trWHXo3Z2cJYUruLCCxLBemJGiCoAYuv8HwP/VIPCObwA6
-         qE9g==
-X-Gm-Message-State: APjAAAVLJG4b99lI7dF4ODaTFjy16sZnHKgcLH0HPRNpULNvPaHYD4xi
-        Rpy8QS7jJQGK7mxdhQK72HFzd5sHN1E=
-X-Google-Smtp-Source: APXvYqxl068Wx/x2bBMrsu8QHOx94CFshQcGiFI0JuLpMh4rhyh0RoBdBOR0XjR0R0lIfWKRPKlflA==
-X-Received: by 2002:a5d:484d:: with SMTP id n13mr21948552wrs.420.1581945400649;
-        Mon, 17 Feb 2020 05:16:40 -0800 (PST)
-Received: from felia ([2001:16b8:3888:da00:b474:2167:8661:27cf])
-        by smtp.gmail.com with ESMTPSA id n1sm999072wrw.52.2020.02.17.05.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 05:16:40 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Mon, 17 Feb 2020 14:16:38 +0100 (CET)
-X-X-Sender: lukas@felia
-To:     Christoph Hellwig <hch@lst.de>
-cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Anatoly Pugachev <matorola@gmail.com>, Pat Gefre <pfg@sgi.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
-        linux-doc@vger.kernel.org, Joe Perches <joe@perches.com>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] tty/serial: cleanup after ioc*_serial driver removal
-In-Reply-To: <20200217130828.GB26781@lst.de>
-Message-ID: <alpine.DEB.2.21.2002171409410.14734@felia>
-References: <20200217081558.10266-1-lukas.bulwahn@gmail.com> <CADxRZqwGBi=4A224mG0cPgONdNitnvi3LFD_KQckxdYSXzgBGg@mail.gmail.com> <alpine.DEB.2.21.2002170950390.11007@felia> <20200217130828.GB26781@lst.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1728362AbgBQNYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 08:24:14 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:35205 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728124AbgBQNYN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 08:24:13 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04452;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TqAk0uJ_1581945832;
+Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TqAk0uJ_1581945832)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 17 Feb 2020 21:23:53 +0800
+Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
+ locality info
+To:     Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Michal Koutn? <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
+ <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
+ <20200214151048.GL14914@hirez.programming.kicks-ass.net>
+ <20200217115810.GA3420@suse.de>
+From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
+Message-ID: <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
+Date:   Mon, 17 Feb 2020 21:23:52 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200217115810.GA3420@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -81,17 +60,61 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On Mon, 17 Feb 2020, Christoph Hellwig wrote:
-
-> On Mon, Feb 17, 2020 at 10:09:45AM +0100, Lukas Bulwahn wrote:
-> > The description is about situations on very outdated kernel versions, so 
-> > the whole page needs a general update.
+On 2020/2/17 下午7:58, Mel Gorman wrote:
+[snip]
+>> Mel, I suspect you still feel that way, right?
+>>
 > 
-> While the file doesn't seem all that useful, I think removing or updating
-> it should probably be a separate patch.
+> Yes, I still think it would be a struggle to interpret the data
+> meaningfully without very specific knowledge of the implementation. If
+> the scan rate was constant, it would be easier but that would make NUMA
+> balancing worse overall. Similarly, the stat might get very difficult to
+> interpret when NUMA balancing is failing because of a load imbalance,
+> pages are shared and being interleaved or NUMA groups span multiple
+> active nodes.
+
+Hi, Mel, appreciated to have you back on the table :-)
+
+IMHO the scan period changing should not be a problem now, since the
+maximum period is defined by user, so monitoring at maximum period
+on the accumulated page accessing counters is always meaningful, correct?
+
+FYI, by monitoring locality, we found that the kvm vcpu thread is not
+covered by NUMA Balancing, whatever how many maximum period passed, the
+counters are not increasing, or very slowly, although inside guest we are
+copying memory.
+
+Later we found such task rarely exit to user space to trigger task
+work callbacks, and NUMA Balancing scan depends on that, which help us
+realize the importance to enable NUMA Balancing inside guest, with the
+correct NUMA topo, a big performance risk I'll say :-P
+
+Maybe not a good example, but we just try to highlight that NUMA Balancing
+could have issue in some cases, and we want them to be exposed, somehow,
+maybe by the locality.
+
+Regards,
+Michael Wang
+
 > 
-Okay, I will send a v2 where I keep the documentation and I will add a
-maintainers entry for Documentation/ia64/ to IA64 (Itanium) PLATFORM.
+> For example, the series that reconciles NUMA and CPU balancers may look
+> worse in these stats even though the overall performance may be better.
+> 
+>> In the document (patch 2/2) you write:
+>>
+>>> +However, there are no hardware counters for per-task local/remote accessing
+>>> +info, we don't know how many remote page accesses have occurred for a
+>>> +particular task.
+>>
+>> We can of course 'fix' that by adding a tracepoint.
+>>
+>> Mel, would you feel better by having a tracepoint in task_numa_fault() ?
+>>
+> 
+> A bit, although interpreting the data would still be difficult and the
+> tracepoint would have to include information about the cgroup. While
+> I've never tried, this seems like the type of thing that would be suited
+> to a BPF script that probes task_numa_fault and extract the information
+> it needs.
 
-Lukas
-
+> 
