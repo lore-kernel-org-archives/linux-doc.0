@@ -5,47 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A4CC3B185
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 710D4C3B185
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:28:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0E71020836
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:28:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45CF620801
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 10:28:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="k8JYurr9"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PrFstMcE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729341AbgBQK1p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 05:27:45 -0500
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:42701 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729199AbgBQK1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 05:27:42 -0500
+        id S1729223AbgBQK2H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 05:28:07 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:4893 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729216AbgBQK2H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 05:28:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1581935261; x=1613471261;
+  t=1581935288; x=1613471288;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=aSiGqXkjiJX0FAW62gVOONeBZYwodZ9r71hBLfy8kJg=;
-  b=k8JYurr9T9AxMRXah96Bd0S0Ui2erbALqFygFI/eWgFjclRvVHtG+m5J
-   rsG96OgucovDf20JA2q+e85UMEKO5koITsryYSApQm0MFgz8hWQQdWfk6
-   XSjYWihlh6ve9tDwVyqQtqoAKfAUlBDatHFqzhUQQKjMNji24q9ZfOffX
-   0=;
-IronPort-SDR: UxgBqSWBu2EY49dqpopLIMnvH8QZ1RZ9RSJe6kkVGD8X6VewHDODRiFhwUzwcdOaUEhVl6l8YV
- /2Clj8TdsDrQ==
+  bh=2A0fIhiQIF8O2W3n0VajhwOLYj4CtmccUcjYQ7yAt60=;
+  b=PrFstMcEoXHoRNSG8RfJ2KH0aVUQh7LkHENBz/y2DbiYpw7BPrXORJ1A
+   NYj8dU8KJAaepedcMkDGzyEz/yqXNT3gQUjV2SwLsgKtmfLfC17p4UXWW
+   WxmEVeUnnUHMMG71vFI2y3yA15ypILzFK4hLhjbX67NIsfbaX4K9VX1QL
+   A=;
+IronPort-SDR: 0NKCf/iw94o7H5I8sETq4kAJX8V32mxW8+1nen47Oe5t/5fXgu23ijb/NOj6g1MkqBI/1K7NlH
+ WSUWxDY3tr/Q==
 X-IronPort-AV: E=Sophos;i="5.70,452,1574121600"; 
-   d="scan'208";a="16610883"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 17 Feb 2020 10:27:38 +0000
+   d="scan'208";a="18057977"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-859fe132.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 17 Feb 2020 10:28:04 +0000
 Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id B5908A22A9;
-        Mon, 17 Feb 2020 10:27:36 +0000 (UTC)
+        by email-inbound-relay-2b-859fe132.us-west-2.amazon.com (Postfix) with ESMTPS id 5EE2E222874;
+        Mon, 17 Feb 2020 10:28:01 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 17 Feb 2020 10:27:36 +0000
+ id 15.0.1236.3; Mon, 17 Feb 2020 10:28:00 +0000
 Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.214) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 17 Feb 2020 10:27:26 +0000
+ id 15.0.1367.3; Mon, 17 Feb 2020 10:27:51 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
@@ -59,9 +59,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <acme@kernel.org>,
         <sj38.park@gmail.com>, <vdavydov.dev@gmail.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 07/14] mm/damon: Implement kernel space API
-Date:   Mon, 17 Feb 2020 11:25:37 +0100
-Message-ID: <20200217102544.29012-8-sjpark@amazon.com>
+Subject: [PATCH v5 09/14] mm/damon: Add a tracepoint for result writing
+Date:   Mon, 17 Feb 2020 11:25:39 +0100
+Message-ID: <20200217102544.29012-10-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200217102544.29012-1-sjpark@amazon.com>
 References: <20200217102544.29012-1-sjpark@amazon.com>
@@ -77,207 +77,85 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit implements the DAMON api for the kernel.  Other kernel code
-can use DAMON by calling damon_start() and damon_stop() with their own
-'struct damon_ctx'.
+This commit adds a tracepoint for DAMON's result buffer writing.  It is
+called for each writing of the DAMON results and print the result data.
+Therefore, it would be used to easily integrated with other tracepoint
+supporting tracers such as perf.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- include/linux/damon.h | 71 +++++++++++++++++++++++++++++++++++++++++++
- mm/damon.c            | 71 +++++++++----------------------------------
- 2 files changed, 85 insertions(+), 57 deletions(-)
- create mode 100644 include/linux/damon.h
+ include/trace/events/damon.h | 32 ++++++++++++++++++++++++++++++++
+ mm/damon.c                   |  4 ++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 include/trace/events/damon.h
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
+diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
 new file mode 100644
-index 000000000000..78785cb88d42
+index 000000000000..fb33993620ce
 --- /dev/null
-+++ b/include/linux/damon.h
-@@ -0,0 +1,71 @@
++++ b/include/trace/events/damon.h
+@@ -0,0 +1,32 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * DAMON api
-+ *
-+ * Copyright 2019 Amazon.com, Inc. or its affiliates.  All rights reserved.
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM damon
 +
-+#ifndef _DAMON_H_
-+#define _DAMON_H_
++#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DAMON_H
 +
-+#include <linux/random.h>
-+#include <linux/spinlock_types.h>
-+#include <linux/time64.h>
 +#include <linux/types.h>
++#include <linux/tracepoint.h>
 +
-+/* Represents a monitoring target region on the virtual address space */
-+struct damon_region {
-+	unsigned long vm_start;
-+	unsigned long vm_end;
-+	unsigned long sampling_addr;
-+	unsigned int nr_accesses;
-+	struct list_head list;
-+};
++TRACE_EVENT(damon_write_rbuf,
 +
-+/* Represents a monitoring target task */
-+struct damon_task {
-+	unsigned long pid;
-+	struct list_head regions_list;
-+	struct list_head list;
-+};
++	TP_PROTO(void *buf, const ssize_t sz),
 +
-+struct damon_ctx {
-+	unsigned long sample_interval;
-+	unsigned long aggr_interval;
-+	unsigned long regions_update_interval;
-+	unsigned long min_nr_regions;
-+	unsigned long max_nr_regions;
++	TP_ARGS(buf, sz),
 +
-+	struct timespec64 last_aggregation;
-+	struct timespec64 last_regions_update;
++	TP_STRUCT__entry(
++		__dynamic_array(char, buf, sz)
++	),
 +
-+	unsigned char *rbuf;
-+	unsigned int rbuf_len;
-+	unsigned int rbuf_offset;
-+	char *rfile_path;
++	TP_fast_assign(
++		memcpy(__get_dynamic_array(buf), buf, sz);
++	),
 +
-+	struct task_struct *kdamond;
-+	bool kdamond_stop;
-+	spinlock_t kdamond_lock;
++	TP_printk("dat=%s", __print_hex(__get_dynamic_array(buf),
++			__get_dynamic_array_len(buf)))
++);
 +
-+	struct rnd_state rndseed;
++#endif /* _TRACE_DAMON_H */
 +
-+	struct list_head tasks_list;	/* 'damon_task' objects */
-+
-+	/* callbacks */
-+	void (*sample_cb)(struct damon_ctx *context);
-+	void (*aggregate_cb)(struct damon_ctx *context);
-+};
-+
-+int damon_set_pids(struct damon_ctx *ctx,
-+			unsigned long *pids, ssize_t nr_pids);
-+int damon_set_recording(struct damon_ctx *ctx,
-+			unsigned int rbuf_len, char *rfile_path);
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long s, unsigned long a,
-+			unsigned long r, unsigned long min, unsigned long max);
-+int damon_start(struct damon_ctx *ctx);
-+int damon_stop(struct damon_ctx *ctx);
-+
-+#endif
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 diff --git a/mm/damon.c b/mm/damon.c
-index 3d46bf5e353a..45d82128e3ac 100644
+index 6deccab354e9..699b035eb9cc 100644
 --- a/mm/damon.c
 +++ b/mm/damon.c
-@@ -9,6 +9,7 @@
+@@ -9,6 +9,8 @@
  
  #define pr_fmt(fmt) "damon: " fmt
  
-+#include <linux/damon.h>
++#define CREATE_TRACE_POINTS
++
+ #include <linux/damon.h>
+ #include <linux/debugfs.h>
  #include <linux/delay.h>
- #include <linux/kthread.h>
- #include <linux/mm.h>
-@@ -40,60 +41,6 @@
- #define damon_for_each_task_safe(ctx, t, next) \
- 	list_for_each_entry_safe(t, next, &(ctx)->tasks_list, list)
+@@ -20,6 +22,7 @@
+ #include <linux/sched/mm.h>
+ #include <linux/sched/task.h>
+ #include <linux/slab.h>
++#include <trace/events/damon.h>
  
--/* Represents a monitoring target region on the virtual address space */
--struct damon_region {
--	unsigned long vm_start;
--	unsigned long vm_end;
--	unsigned long sampling_addr;
--	unsigned int nr_accesses;
--	struct list_head list;
--};
--
--/* Represents a monitoring target task */
--struct damon_task {
--	unsigned long pid;
--	struct list_head regions_list;
--	struct list_head list;
--};
--
--/*
-- * For each 'sample_interval', DAMON checks whether each region is accessed or
-- * not.  It aggregates and keeps the access information (number of accesses to
-- * each region) for each 'aggr_interval' time.  And for each
-- * 'regions_update_interval', damon checks whether the memory mapping of the
-- * target tasks has changed (e.g., by mmap() calls from the applications) and
-- * applies the changes.
-- *
-- * All time intervals are in micro-seconds.
-- */
--struct damon_ctx {
--	unsigned long sample_interval;
--	unsigned long aggr_interval;
--	unsigned long regions_update_interval;
--	unsigned long min_nr_regions;
--	unsigned long max_nr_regions;
--
--	struct timespec64 last_aggregation;
--	struct timespec64 last_regions_update;
--
--	unsigned char *rbuf;
--	unsigned int rbuf_len;
--	unsigned int rbuf_offset;
--	char *rfile_path;
--
--	struct task_struct *kdamond;
--	bool kdamond_stop;
--	spinlock_t kdamond_lock;
--
--	struct rnd_state rndseed;
--
--	struct list_head tasks_list;	/* 'damon_task' objects */
--
--	/* callbacks */
--	void (*sample_cb)(struct damon_ctx *context);
--	void (*aggregate_cb)(struct damon_ctx *context);
--};
--
- #define MAX_RFILE_PATH_LEN	256
- 
- /* Get a random number in [l, r) */
-@@ -961,10 +908,20 @@ static int damon_turn_kdamond(struct damon_ctx *ctx, bool on)
- 	return 0;
- }
- 
-+int damon_start(struct damon_ctx *ctx)
-+{
-+	return damon_turn_kdamond(ctx, true);
-+}
-+
-+int damon_stop(struct damon_ctx *ctx)
-+{
-+	return damon_turn_kdamond(ctx, false);
-+}
-+
- /*
-  * This function should not be called while the kdamond is running.
+ #define damon_get_task_struct(t) \
+ 	(get_pid_task(find_vpid(t->pid), PIDTYPE_PID))
+@@ -553,6 +556,7 @@ static void damon_flush_rbuffer(struct damon_ctx *ctx)
   */
--static int damon_set_pids(struct damon_ctx *ctx,
-+int damon_set_pids(struct damon_ctx *ctx,
- 			unsigned long *pids, ssize_t nr_pids)
+ static void damon_write_rbuf(struct damon_ctx *ctx, void *data, ssize_t size)
  {
- 	ssize_t i;
-@@ -998,7 +955,7 @@ static int damon_set_pids(struct damon_ctx *ctx,
-  *
-  * Returns 0 on success, negative error code otherwise.
-  */
--static int damon_set_recording(struct damon_ctx *ctx,
-+int damon_set_recording(struct damon_ctx *ctx,
- 				unsigned int rbuf_len, char *rfile_path)
- {
- 	size_t rfile_path_len;
-@@ -1044,7 +1001,7 @@ static int damon_set_recording(struct damon_ctx *ctx,
-  *
-  * Returns 0 on success, negative error code otherwise.
-  */
--static int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
- 		unsigned long aggr_int, unsigned long regions_update_int,
- 		unsigned long min_nr_reg, unsigned long max_nr_reg)
- {
++	trace_damon_write_rbuf(data, size);
+ 	if (!ctx->rbuf_len || !ctx->rbuf)
+ 		return;
+ 	if (ctx->rbuf_offset + size > ctx->rbuf_len)
 -- 
 2.17.1
 
