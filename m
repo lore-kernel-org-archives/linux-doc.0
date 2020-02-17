@@ -2,219 +2,208 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE713C34022
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C0FDC34022
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:07:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 85ABD2064C
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:06:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581969993;
-	bh=Y6MOS9UT38QF5gOC7QLxU34bbRr7ibegBGJRpWNtbg0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=YWsSsc5MNlDiIF6qUuYhuXLgiGqmRuUYWnEWamX8rGlcngOsbc64YxH8BVFm6GOrS
-	 BrSP7Y6rY6fQ0smBWvNRrW1/e5cErIfKhijE597Yq05aWbq+CjnlYBva8HA7cGkLSY
-	 KHjt5pgWhKSH8eU8xQ/XiMsayNvA+bUmS19DN7po=
+	by mail.kernel.org (Postfix) with ESMTP id E53702072C
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:07:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=tyhicks-com.20150623.gappssmtp.com header.i=@tyhicks-com.20150623.gappssmtp.com header.b="GwIgaR7Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728991AbgBQUGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 15:06:33 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35354 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728810AbgBQUGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 15:06:33 -0500
-Received: by mail-ot1-f67.google.com with SMTP id r16so17313936otd.2;
-        Mon, 17 Feb 2020 12:06:32 -0800 (PST)
+        id S1729450AbgBQUHk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 15:07:40 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:38178 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729334AbgBQUHk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 15:07:40 -0500
+Received: by mail-qt1-f196.google.com with SMTP id i23so2752563qtr.5
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2020 12:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tyhicks-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WRwA/I2h7N76jJ29N/xHFETqMD8CrhcmkSDenSlSwPE=;
+        b=GwIgaR7Z144hwANO37ACfKdY3X4Jfr+EmMHyMMrlZGEqnA8DLnAfUAYyTXpHjOsVpM
+         LIe/nxFGGg3JkZ0SWkzZU0TCQGLEoXEk7gqL4h/ogwQaHQgiIensFgQ1MkbKyCSVxquM
+         rl2JLjLH5ZfzEOx/bl2Hy6d6+Ndblf4OQrJawcSFvPidwhvWcG7IvUsvmFOe8AjJ6wgL
+         rGbi2ftprZvXkLdQVaGWvhkVfHujx9e/tWa852n9W6+a0PhAVk1huB9cm92G4+ugt/ij
+         swNgIeltU28qeebhIGSWklM76yWYg7uUS3ZEUDriCaZcnpv+z5neVgyH4xaJlvle2Qix
+         OMeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t2E+C/i50SzbxX+GbIPms7/GnK56JF2oC6jfMglSKU8=;
-        b=NMeRDoz/vWlg+IaZKFSpD7ttqM9y/N0FS6XN6CoMTKCG0spElCn9RVsApbl6SPQlwF
-         IhD7a5i6YMiS4NtdH074EV/ndyXKufn6jKaxL4mODUvsTnMQ4WSpWyBjP/DYZQkGtLtJ
-         5r9T/NtWc8CUET5zg9zldbgZRIcdc4Sw/IMrpb33XHuWHnfUarwErTlGaJXrHWYJNrDh
-         vZDGtERcvG7K57nVthE+lxoVfkIrk5+lpkbitZ/k3ygyfRfczxx+y9PtCSR5zyXhUCTB
-         Vy/DejrzFvDDvTnwdZ8fqb/K9KnZasDq3jgYZ2Q1XFRMTwX/7o8l75AYysSCjuIMwmS2
-         clKw==
-X-Gm-Message-State: APjAAAWUjQz7adE7P6n4mp9ca4+dNi01Hu4FKBpHAeyLRugwQMHTIVzY
-        jyT1MK7CE7UKtiXH2clSG7PRBD5f8x+AR/V21kmb6w==
-X-Google-Smtp-Source: APXvYqx13YjUJPbDUgstSkyslXQIQ4L5MaVWTFHFHi0XOwMI1Tl8jiPMXxL0VdE2Kob0oYNgusXZthW8zxOte+A9bnU=
-X-Received: by 2002:a9d:67d7:: with SMTP id c23mr13410100otn.262.1581969991666;
- Mon, 17 Feb 2020 12:06:31 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1581956285.git.mchehab+huawei@kernel.org> <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
-In-Reply-To: <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 17 Feb 2020 21:06:20 +0100
-Message-ID: <CAJZ5v0jsQ51cp3LQ8qjmMj6tZJPC=t9Y_5SN78fLWe0mpJX08g@mail.gmail.com>
-Subject: Re: [PATCH v2 14/24] docs: cpu-freq: convert index.txt to ReST
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WRwA/I2h7N76jJ29N/xHFETqMD8CrhcmkSDenSlSwPE=;
+        b=ora7L+5YD65eWFwSAa3d4P68O8tRuje1sVINS81N37j753R/2prUNilIJU7FrfUGXL
+         Ba45BNmAAqVbFA+X4XkC/ogQo4kBojgrRcBYu4q7b/0HVV9Fp7asaeYlZIVXJU9D8lMq
+         WzNpLzF6N+uEkMQDj7ArfocT1PhnmOfoEvyGFGJzQ2zkmjIj2YBU5uDAQaEBvr3KgcRw
+         NPc4a45xE5ZTBQd1g411Zxu9K0yl1E8ba8rbW0boLUiXStvyDUT/2T5WEQYq+QDeav7r
+         NeFdV/I2CdO9crK1+QpklA8fqsrO1SXjD8wXYl/W+uDM0sk79vut9vMie1s6/8QvhTUa
+         h3OQ==
+X-Gm-Message-State: APjAAAVNK9dF1ZM2vzOH6BMi07ETY/ntmpxsgw0ILd/S5sWuRN2nvsxp
+        Q6GqpCGo+u3j4mvIVc36Y6y4RQ==
+X-Google-Smtp-Source: APXvYqzCfnwZfo0KKey4CpVeLut5atSFfTJKjVjZ7Ss08JTsNn80ACeHv0BuWp1XUZ6gbh4Ku1WXmw==
+X-Received: by 2002:ac8:6f5b:: with SMTP id n27mr13640761qtv.96.1581970057370;
+        Mon, 17 Feb 2020 12:07:37 -0800 (PST)
+Received: from elm ([184.169.45.4])
+        by smtp.gmail.com with ESMTPSA id l10sm749766qke.93.2020.02.17.12.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2020 12:07:36 -0800 (PST)
+Date:   Mon, 17 Feb 2020 14:07:21 -0600
+From:   Tyler Hicks <code@tyhicks.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org, ecryptfs@vger.kernel.org
+Subject: Re: [PATCH 13/44] docs: filesystems: convert ecryptfs.txt to ReST
+Message-ID: <20200217200721.GA277681@elm>
+References: <cover.1581955849.git.mchehab+huawei@kernel.org>
+ <6e13841ebd00c8d988027115c75c58821bb41a0c.1581955849.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6e13841ebd00c8d988027115c75c58821bb41a0c.1581955849.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 5:20 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> most of the stuff there can be re-used with ReST format,
-> but we need to add an empty TOC and remove the existing
-> entries, as the following conversion patches will be re-adding
-> them, as they're converted.
-
-I see a very little value in converting the files in the cpu-freq
-directory from .txt to .rst, which I have told you at least twice.
-
-They are just old-style driver API documents for cpufreq, but moving
-them under driver-api/ as they are would not be a good idea IMO,
-because at least some of them are outdated (note that the admin-guide
-part of the cpufreq documentation, in the .rst format, is located
-under admin-guide/).
-
-I haven't had the time to write a proper replacement for them yet and
-honestly I find it quite obnoxious to see these reoccurring attempts
-to blindly convert them to .rst without taking care of their contents
-and location.
-
-I will take care of these files at one point as promised, but that's
-not going to happen today or tomorrow and please just leave them alone
-if that is not a big deal.
-
-Thanks!
-
+On 2020-02-17 17:11:59, Mauro Carvalho Chehab wrote:
+> - Add a SPDX header;
+> - Add a document title;
+> - use :field: markup;
+> - Some whitespace fixes and new line breaks;
+> - Mark literal blocks as such;
+> - Add table markups;
+> - Add it to filesystems/index.rst.
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Acked-by: Tyler Hicks <code@tyhicks.com>
+
+This serves as a reminder that eCryptfs document is in serious need of
+some updates. Thanks!
+
+Tyler
+
 > ---
->  Documentation/cpu-freq/index.rst | 35 ++++++++++++++++++++
->  Documentation/cpu-freq/index.txt | 56 --------------------------------
->  Documentation/index.rst          |  1 +
->  3 files changed, 36 insertions(+), 56 deletions(-)
->  create mode 100644 Documentation/cpu-freq/index.rst
->  delete mode 100644 Documentation/cpu-freq/index.txt
->
-> diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
-> new file mode 100644
-> index 000000000000..1bff3dfddd23
-> --- /dev/null
-> +++ b/Documentation/cpu-freq/index.rst
-> @@ -0,0 +1,35 @@
+>  .../{ecryptfs.txt => ecryptfs.rst}            | 44 ++++++++++++-------
+>  Documentation/filesystems/index.rst           |  1 +
+>  2 files changed, 28 insertions(+), 17 deletions(-)
+>  rename Documentation/filesystems/{ecryptfs.txt => ecryptfs.rst} (70%)
+> 
+> diff --git a/Documentation/filesystems/ecryptfs.txt b/Documentation/filesystems/ecryptfs.rst
+> similarity index 70%
+> rename from Documentation/filesystems/ecryptfs.txt
+> rename to Documentation/filesystems/ecryptfs.rst
+> index 01d8a08351ac..7236172300ef 100644
+> --- a/Documentation/filesystems/ecryptfs.txt
+> +++ b/Documentation/filesystems/ecryptfs.rst
+> @@ -1,14 +1,18 @@
 > +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +==============================================================================
-> +Linux CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
-> +==============================================================================
+> +======================================================
+>  eCryptfs: A stacked cryptographic filesystem for Linux
+> +======================================================
+>  
+>  eCryptfs is free software. Please see the file COPYING for details.
+>  For documentation, please see the files in the doc/ subdirectory.  For
+>  building and installation instructions please see the INSTALL file.
+>  
+> -Maintainer: Phillip Hellewell
+> -Lead developer: Michael A. Halcrow <mhalcrow@us.ibm.com>
+> -Developers: Michael C. Thompson
+> -            Kent Yoder
+> -Web Site: http://ecryptfs.sf.net
+> +:Maintainer: Phillip Hellewell
+> +:Lead developer: Michael A. Halcrow <mhalcrow@us.ibm.com>
+> +:Developers: Michael C. Thompson
+> +             Kent Yoder
+> +:Web Site: http://ecryptfs.sf.net
+>  
+>  This software is currently undergoing development. Make sure to
+>  maintain a backup copy of any data you write into eCryptfs.
+> @@ -19,13 +23,15 @@ SourceForge site:
+>  http://sourceforge.net/projects/ecryptfs/
+>  
+>  Userspace requirements include:
+> - - David Howells' userspace keyring headers and libraries (version
+> -   1.0 or higher), obtainable from
+> -   http://people.redhat.com/~dhowells/keyutils/
+> - - Libgcrypt
+>  
+> +- David Howells' userspace keyring headers and libraries (version
+> +  1.0 or higher), obtainable from
+> +  http://people.redhat.com/~dhowells/keyutils/
+> +- Libgcrypt
+>  
+> -NOTES
 > +
-> +Author: Dominik Brodowski  <linux@brodo.de>
+> +Notes
+> +=====
+>  
+>  In the beta/experimental releases of eCryptfs, when you upgrade
+>  eCryptfs, you should copy the files to an unencrypted location and
+> @@ -33,20 +39,21 @@ then copy the files back into the new eCryptfs mount to migrate the
+>  files.
+>  
+>  
+> -MOUNT-WIDE PASSPHRASE
+> +Mount-wide Passphrase
+> +=====================
+>  
+>  Create a new directory into which eCryptfs will write its encrypted
+>  files (i.e., /root/crypt).  Then, create the mount point directory
+> -(i.e., /mnt/crypt).  Now it's time to mount eCryptfs:
+> +(i.e., /mnt/crypt).  Now it's time to mount eCryptfs::
+>  
+> -mount -t ecryptfs /root/crypt /mnt/crypt
+> +    mount -t ecryptfs /root/crypt /mnt/crypt
+>  
+>  You should be prompted for a passphrase and a salt (the salt may be
+>  blank).
+>  
+> -Try writing a new file:
+> +Try writing a new file::
+>  
+> -echo "Hello, World" > /mnt/crypt/hello.txt
+> +    echo "Hello, World" > /mnt/crypt/hello.txt
+>  
+>  The operation will complete.  Notice that there is a new file in
+>  /root/crypt that is at least 12288 bytes in size (depending on your
+> @@ -59,10 +66,13 @@ keyctl clear @u
+>  Then umount /mnt/crypt and mount again per the instructions given
+>  above.
+>  
+> -cat /mnt/crypt/hello.txt
+> +::
+>  
+> +    cat /mnt/crypt/hello.txt
+>  
+> -NOTES
 > +
-> +   Clock scaling allows you to change the clock speed of the CPUs on the
-> +   fly. This is a nice method to save battery power, because the lower
-> +   the clock speed, the less power the CPU consumes.
-> +
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +Mailing List
-> +------------
-> +There is a CPU frequency changing CVS commit and general list where
-> +you can report bugs, problems or submit patches. To post a message,
-> +send an email to linux-pm@vger.kernel.org.
-> +
-> +Links
-> +-----
-> +the FTP archives:
-> +* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
-> +
-> +how to access the CVS repository:
-> +* http://cvs.arm.linux.org.uk/
-> +
-> +the CPUFreq Mailing list:
-> +* http://vger.kernel.org/vger-lists.html#linux-pm
-> +
-> +Clock and voltage scaling for the SA-1100:
-> +* http://www.lartmaker.nl/projects/scaling
-> diff --git a/Documentation/cpu-freq/index.txt b/Documentation/cpu-freq/index.txt
-> deleted file mode 100644
-> index c15e75386a05..000000000000
-> --- a/Documentation/cpu-freq/index.txt
-> +++ /dev/null
-> @@ -1,56 +0,0 @@
-> -     CPU frequency and voltage scaling code in the Linux(TM) kernel
-> -
-> -
-> -                        L i n u x    C P U F r e q
-> -
-> -
-> -
-> -
-> -                   Dominik Brodowski  <linux@brodo.de>
-> -
-> -
-> -
-> -   Clock scaling allows you to change the clock speed of the CPUs on the
-> -    fly. This is a nice method to save battery power, because the lower
-> -            the clock speed, the less power the CPU consumes.
-> -
-> -
-> -
-> -Documents in this directory:
-> -----------------------------
-> -
-> -amd-powernow.txt -     AMD powernow driver specific file.
-> -
-> -core.txt       -       General description of the CPUFreq core and
-> -                       of CPUFreq notifiers.
-> -
-> -cpu-drivers.txt -      How to implement a new cpufreq processor driver.
-> -
-> -cpufreq-nforce2.txt -  nVidia nForce2 platform specific file.
-> -
-> -cpufreq-stats.txt -    General description of sysfs cpufreq stats.
-> -
-> -index.txt      -       File index, Mailing list and Links (this document)
-> -
-> -pcc-cpufreq.txt -      PCC cpufreq driver specific file.
-> -
-> -
-> -Mailing List
-> -------------
-> -There is a CPU frequency changing CVS commit and general list where
-> -you can report bugs, problems or submit patches. To post a message,
-> -send an email to linux-pm@vger.kernel.org.
-> -
-> -Links
-> ------
-> -the FTP archives:
-> -* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
-> -
-> -how to access the CVS repository:
-> -* http://cvs.arm.linux.org.uk/
-> -
-> -the CPUFreq Mailing list:
-> -* http://vger.kernel.org/vger-lists.html#linux-pm
-> -
-> -Clock and voltage scaling for the SA-1100:
-> -* http://www.lartmaker.nl/projects/scaling
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index e99d0bd2589d..4cf37ad1cd1d 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -99,6 +99,7 @@ needed).
->     accounting/index
->     block/index
->     cdrom/index
-> +   cpu-freq/index
->     ide/index
->     fb/index
->     fpga/index
-> --
+> +Notes
+> +=====
+>  
+>  eCryptfs version 0.1 should only be mounted on (1) empty directories
+>  or (2) directories containing files only created by eCryptfs. If you
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index c6885c7ef781..d6d69f1c9287 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -59,6 +59,7 @@ Documentation for filesystem implementations.
+>     cramfs
+>     debugfs
+>     dlmfs
+> +   ecryptfs
+>     fuse
+>     overlayfs
+>     virtiofs
+> -- 
 > 2.24.1
->
+> 
