@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D372AC3402B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E3BC3402E
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A22A8214D8
+	by mail.kernel.org (Postfix) with ESMTP id 6016E208C4
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1581955979;
-	bh=LG3oAFK5vpjMSOiIa7eciQ7mpgeIZ2uPo0CSanBN9fw=;
+	bh=8HzYoiOcO9BWM8OxEnz0McbA+9Uax7DvWIiIQsj1lD0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RD0hy8TG4DAq70dQNynz3j4auUFyg+1pGkjPHIfU1VY36xWqQ4RiDWTEukrPTkyDw
-	 J5zSitgA1gekgtnbVQov/IItpaOR4qd/LdRhd5qYs+oPRMLN+jmPf0w12Sztl1oR7F
-	 Q1JghHnnrDLdtkvL6MHz60UDP5KyqYLgrXHXL8+g=
+	b=a5yZa4cCsGtlhnJ0i4km9F4X5yAccOrHuICsr95oQZE/21V+l15KyTbfoqJZ3IYsg
+	 3pxXgEFCMKovnA9u91K7Ju2BAhkFZofrNdqynr6bTJGuG8iWXoQn4+CnsMg8a0S9XO
+	 +9G5w8v4IQVJRQpJF94dbktQodnz2fR5D+qaPIl8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729784AbgBQQM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:59 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47244 "EHLO
+        id S1729703AbgBQQMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:35 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47110 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729708AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1728776AbgBQQMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=hyKXSXNiYvlW+ifKDgwyMt87FRJRqPTrasipgk9/uCM=; b=cZ/CG8tosvGYPGXqpwJmi8xtKK
-        8udDVg+XbeXBpkwSqLFAKmMEiaj33SRk8FZEJU8i26DasTh95zCP2SmZAKns++TnAXUpUmexVBoPq
-        3ulboojjZEnAfDkrG4E6M0TfLPKVnvLMEoU8enlYjeN0HUJAQ9FRww+iaZAmZhtnP8D0wjTPJ4nkc
-        4uMDy05cXYOSXAsS0+Aq4sY9q1RWXnhatPLoAN85QsXZTOH4pGprk8BrS2iE/1gOb14w0703S0WQR
-        Vjy2SiTljmSGzv6kuxpJdwbj22iyI0tsHFDdgosr92kExstZwP88xDbuKgNw+rLRReCVoL0HKN/Ng
-        H/TTCK2A==;
+        bh=CXdGuJmKxAd/CW/aZCubCdPQ6ia2Ld7n97c6BPIfAuU=; b=F2z4wUQdR4Xz34FmagsUTbFPAh
+        EMDQ6uEceIn1nNb9QtL1+1w67VfQJrJOk54EQ38cHHZ3zSoFN7hfdz2tBB5nXRfy41xORc6MIvNJE
+        wL7zyIAVdYZ1X2S+JkiaLOWyWj9ucR4ieavJJ9EsNxoXnrAKgoefBncWB/0sru06U09ST4f2MQIRd
+        hWYRqKzHKv4ve2yaD1vV7H3Y57oQJQeT9E0+/iyoQkgdG+HcYXywYwq848AZ0zspkj4FCihiK0i2n
+        BBDUE5YkwiMLBf+tpdedF93duQkZHexg75mBgXH2TwymV8jzd49SqGNzDTsU1p/wEghMFVajN8yQp
+        2f2QcZNA==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0d-0006uw-3d; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0c-0006uO-40; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fbf-5X; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0Z-000fZ8-Kv; Mon, 17 Feb 2020 17:12:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 34/44] docs: filesystems: convert ramfs-rootfs-initramfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:20 +0100
-Message-Id: <89cbcc99a6371f3bff3ea1668fe497e8a15c226b.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org, David Sterba <dsterba@suse.com>
+Subject: [PATCH 03/44] docs: filesystems: convert affs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:49 +0100
+Message-Id: <b44c56befe0e28cbc0eb1b3e281ad7d99737ff16.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -60,155 +61,191 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Add a document title;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
+- Adjust document title;
 - Add table markups;
-- Use notes markups;
-- Add lists markups;
+- Mark literal blocks as such;
+- Some whitespace fixes and new line breaks;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ .../filesystems/{affs.txt => affs.rst}        | 62 +++++++++++++------
  Documentation/filesystems/index.rst           |  1 +
- ...itramfs.txt => ramfs-rootfs-initramfs.rst} | 54 +++++++++++--------
- 2 files changed, 33 insertions(+), 22 deletions(-)
- rename Documentation/filesystems/{ramfs-rootfs-initramfs.txt => ramfs-rootfs-initramfs.rst} (91%)
+ 2 files changed, 44 insertions(+), 19 deletions(-)
+ rename Documentation/filesystems/{affs.txt => affs.rst} (86%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 08883a481a76..b8689d082911 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -83,5 +83,6 @@ Documentation for filesystem implementations.
-    overlayfs
-    proc
-    qnx6
-+   ramfs-rootfs-initramfs
-    virtiofs
-    vfat
-diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-similarity index 91%
-rename from Documentation/filesystems/ramfs-rootfs-initramfs.txt
-rename to Documentation/filesystems/ramfs-rootfs-initramfs.rst
-index 97d42ccaa92d..6c576e241d86 100644
---- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-+++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-@@ -1,5 +1,11 @@
--ramfs, rootfs and initramfs
+diff --git a/Documentation/filesystems/affs.txt b/Documentation/filesystems/affs.rst
+similarity index 86%
+rename from Documentation/filesystems/affs.txt
+rename to Documentation/filesystems/affs.rst
+index 71b63c2b9841..7f1a40dce6d3 100644
+--- a/Documentation/filesystems/affs.txt
++++ b/Documentation/filesystems/affs.rst
+@@ -1,9 +1,13 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===========================
-+Ramfs, rootfs and initramfs
-+===========================
-+
- October 17, 2005
-+
- Rob Landley <rob@landley.net>
++=============================
+ Overview of Amiga Filesystems
  =============================
  
-@@ -99,14 +105,14 @@ out of that.
- All this differs from the old initrd in several ways:
+ Not all varieties of the Amiga filesystems are supported for reading and
+ writing. The Amiga currently knows six different filesystems:
  
-   - The old initrd was always a separate file, while the initramfs archive is
--    linked into the linux kernel image.  (The directory linux-*/usr is devoted
--    to generating this archive during the build.)
-+    linked into the linux kernel image.  (The directory ``linux-*/usr`` is
-+    devoted to generating this archive during the build.)
++==============	===============================================================
+ DOS\0		The old or original filesystem, not really suited for
+ 		hard disks and normally not used on them, either.
+ 		Supported read/write.
+@@ -23,6 +27,7 @@ DOS\4		The original filesystem with directory cache. The directory
+ 		sense on hard disks. Supported read only.
  
-   - The old initrd file was a gzipped filesystem image (in some file format,
-     such as ext2, that needed a driver built into the kernel), while the new
-     initramfs archive is a gzipped cpio archive (like tar only simpler,
--    see cpio(1) and Documentation/driver-api/early-userspace/buffer-format.rst).  The
--    kernel's cpio extraction code is not only extremely small, it's also
-+    see cpio(1) and Documentation/driver-api/early-userspace/buffer-format.rst).
-+    The kernel's cpio extraction code is not only extremely small, it's also
-     __init text and data that can be discarded during the boot process.
+ DOS\5		The Fast File System with directory cache. Supported read only.
++==============	===============================================================
  
-   - The program run by the old initrd (which was called /initrd, not /init) did
-@@ -139,7 +145,7 @@ and living in usr/Kconfig) can be used to specify a source for the
- initramfs archive, which will automatically be incorporated into the
- resulting binary.  This option can point to an existing gzipped cpio
- archive, a directory containing files to be archived, or a text file
--specification such as the following example:
-+specification such as the following example::
+ All of the above filesystems allow block sizes from 512 to 32K bytes.
+ Supported block sizes are: 512, 1024, 2048 and 4096 bytes. Larger blocks
+@@ -36,14 +41,18 @@ are supported, too.
+ Mount options for the AFFS
+ ==========================
  
-   dir /dev 755 0 0
-   nod /dev/console 644 0 0 c 5 1
-@@ -175,12 +181,12 @@ or extracting your own preprepared cpio files to feed to the kernel build
- (instead of a config file or directory).
+-protect		If this option is set, the protection bits cannot be altered.
++protect
++		If this option is set, the protection bits cannot be altered.
  
- The following command line can extract a cpio image (either by the above script
--or by the kernel build) back into its component files:
-+or by the kernel build) back into its component files::
+-setuid[=uid]	This sets the owner of all files and directories in the file
++setuid[=uid]
++		This sets the owner of all files and directories in the file
+ 		system to uid or the uid of the current user, respectively.
  
-   cpio -i -d -H newc -F initramfs_data.cpio --no-absolute-filenames
+-setgid[=gid]	Same as above, but for gid.
++setgid[=gid]
++		Same as above, but for gid.
  
- The following shell script can create a prebuilt cpio archive you can
--use in place of the above config file:
-+use in place of the above config file::
+-mode=mode	Sets the mode flags to the given (octal) value, regardless
++mode=mode
++		Sets the mode flags to the given (octal) value, regardless
+ 		of the original permissions. Directories will get an x
+ 		permission if the corresponding r bit is set.
+ 		This is useful since most of the plain AmigaOS files
+@@ -53,33 +62,41 @@ nofilenametruncate
+ 		The file system will return an error when filename exceeds
+ 		standard maximum filename length (30 characters).
  
-   #!/bin/sh
+-reserved=num	Sets the number of reserved blocks at the start of the
++reserved=num
++		Sets the number of reserved blocks at the start of the
+ 		partition to num. You should never need this option.
+ 		Default is 2.
  
-@@ -202,14 +208,17 @@ use in place of the above config file:
-     exit 1
-   fi
+-root=block	Sets the block number of the root block. This should never
++root=block
++		Sets the block number of the root block. This should never
+ 		be necessary.
  
--Note: The cpio man page contains some bad advice that will break your initramfs
--archive if you follow it.  It says "A typical way to generate the list
--of filenames is with the find command; you should give find the -depth option
--to minimize problems with permissions on directories that are unwritable or not
--searchable."  Don't do this when creating initramfs.cpio.gz images, it won't
--work.  The Linux kernel cpio extractor won't create files in a directory that
--doesn't exist, so the directory entries must go before the files that go in
--those directories.  The above script gets them in the right order.
-+.. Note::
+-bs=blksize	Sets the blocksize to blksize. Valid block sizes are 512,
++bs=blksize
++		Sets the blocksize to blksize. Valid block sizes are 512,
+ 		1024, 2048 and 4096. Like the root option, this should
+ 		never be necessary, as the affs can figure it out itself.
+ 
+-quiet		The file system will not return an error for disallowed
++quiet
++		The file system will not return an error for disallowed
+ 		mode changes.
+ 
+-verbose		The volume name, file system type and block size will
++verbose
++		The volume name, file system type and block size will
+ 		be written to the syslog when the filesystem is mounted.
+ 
+-mufs		The filesystem is really a muFS, also it doesn't
++mufs
++		The filesystem is really a muFS, also it doesn't
+ 		identify itself as one. This option is necessary if
+ 		the filesystem wasn't formatted as muFS, but is used
+ 		as one.
+ 
+-prefix=path	Path will be prefixed to every absolute path name of
++prefix=path
++		Path will be prefixed to every absolute path name of
+ 		symbolic links on an AFFS partition. Default = "/".
+ 		(See below.)
+ 
+-volume=name	When symbolic links with an absolute path are created
++volume=name
++		When symbolic links with an absolute path are created
+ 		on an AFFS partition, name will be prepended as the
+ 		volume name. Default = "" (empty string).
+ 		(See below.)
+@@ -119,7 +136,7 @@ The Linux rwxrwxrwx file mode is handled as follows:
+ 
+   - All other flags (suid, sgid, ...) are ignored and will
+     not be retained.
+-    
 +
-+   The cpio man page contains some bad advice that will break your initramfs
-+   archive if you follow it.  It says "A typical way to generate the list
-+   of filenames is with the find command; you should give find the -depth
-+   option to minimize problems with permissions on directories that are
-+   unwritable or not searchable."  Don't do this when creating
-+   initramfs.cpio.gz images, it won't work.  The Linux kernel cpio extractor
-+   won't create files in a directory that doesn't exist, so the directory
-+   entries must go before the files that go in those directories.
-+   The above script gets them in the right order.
+ Newly created files and directories will get the user and group ID
+ of the current user and a mode according to the umask.
  
- External initramfs images:
- --------------------------
-@@ -236,9 +245,10 @@ An initramfs archive is a complete self-contained root filesystem for Linux.
- If you don't already understand what shared libraries, devices, and paths
- you need to get a minimal root filesystem up and running, here are some
- references:
--http://www.tldp.org/HOWTO/Bootdisk-HOWTO/
--http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
--http://www.linuxfromscratch.org/lfs/view/stable/
+@@ -148,11 +165,13 @@ might be "User", "WB" and "Graphics", the mount points /amiga/User,
+ Examples
+ ========
+ 
+-Command line:
++Command line::
 +
-+- http://www.tldp.org/HOWTO/Bootdisk-HOWTO/
-+- http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
-+- http://www.linuxfromscratch.org/lfs/view/stable/
+     mount  Archive/Amiga/Workbench3.1.adf /mnt -t affs -o loop,verbose
+     mount  /dev/sda3 /Amiga -t affs
  
- The "klibc" package (http://www.kernel.org/pub/linux/libs/klibc) is
- designed to be a tiny C library to statically link early userspace
-@@ -255,7 +265,7 @@ name lookups, even when otherwise statically linked.)
+-/etc/fstab entry:
++/etc/fstab entry::
++
+     /dev/sdb5	/amiga/Workbench    affs    noauto,user,exec,verbose 0 0
  
- A good first step is to get initramfs to run a statically linked "hello world"
- program as init, and test it under an emulator like qemu (www.qemu.org) or
--User Mode Linux, like so:
-+User Mode Linux, like so::
+ IMPORTANT NOTE
+@@ -170,7 +189,8 @@ before booting Windows!
  
-   cat > hello.c << EOF
-   #include <stdio.h>
-@@ -326,8 +336,8 @@ the above threads) is:
+ If the damage is already done, the following should fix the RDB
+ (where <disk> is the device name).
+-DO AT YOUR OWN RISK:
++
++DO AT YOUR OWN RISK::
  
-    explained his reasoning:
+   dd if=/dev/<disk> of=rdb.tmp count=1
+   cp rdb.tmp rdb.fixed
+@@ -189,10 +209,14 @@ By default, filenames are truncated to 30 characters without warning.
+ 'nofilenametruncate' mount option can change that behavior.
  
--      http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html
--      http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html
-+     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html
-+     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html
+ Case is ignored by the affs in filename matching, but Linux shells
+-do care about the case. Example (with /wb being an affs mounted fs):
++do care about the case. Example (with /wb being an affs mounted fs)::
++
+     rm /wb/WRONGCASE
+-will remove /mnt/wrongcase, but
++
++will remove /mnt/wrongcase, but::
++
+     rm /wb/WR*
++
+ will not since the names are matched by the shell.
  
-    and, most importantly, designed and implemented the initramfs code.
+ The block allocation is designed for hard disk partitions. If more
+@@ -219,4 +243,4 @@ due to an incompatibility with the Amiga floppy controller.
  
+ If you are interested in an Amiga Emulator for Linux, look at
+ 
+-http://web.archive.org/web/*/http://www.freiburg.linux.de/~uae/
++http://web.archive.org/web/%2E/http://www.freiburg.linux.de/~uae/
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 14dc89c94822..273d802ad5fb 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -48,6 +48,7 @@ Documentation for filesystem implementations.
+ 
+    9p
+    adfs
++   affs
+    autofs
+    fuse
+    overlayfs
 -- 
 2.24.1
 
