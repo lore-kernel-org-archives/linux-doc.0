@@ -4,51 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C014C3402A
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC42C34024
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3D02120718
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CE4A20718
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955961;
-	bh=U6IFvrvCnT+c4jXhIkmsRzb1+53sVqgHD1t44T1z/ak=;
+	s=default; t=1581955962;
+	bh=0U05vWJvy3xZE4ZqJ3Xaxh0WA2ySYvkzYMcUZNI2vSA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=fVEYI1g/+S1cPtYXdlbNKtxCVDPcdzdF3Jvh1lG9VPKGqs/YIB60gYSXiY2rV9kSZ
-	 zW/rOgABMsDmLj9uY4aj7oYMrAMDAXVd4fb8RzxBpGexe8L60Rbe6nYvN0U4RiAm/T
-	 TMC26JYzY5jKeNopJoqrI3pQafE8uc01ejCq2NqA=
+	b=xdUiAUr3afTJCHv+hkqe/qSA4oQJvHYa79kO3EJg8YLGigsOh2y6TN6Z+HXZBFwIi
+	 RWYgF0BpEUdNMi3PGFcvFDqj/i+z+aXCv/WinuZh9DbA/joB589llGEV/c4L02WeMT
+	 +UKQ/U5vC3Y3ZBTcqlSJ7pCcG17AhAEWMMfN3S5A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729737AbgBQQMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47298 "EHLO
+        id S1729747AbgBQQMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:41 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47434 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728776AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1729733AbgBQQMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=FDO8dIrow+kQ1p3OE/iX0Ma8BirKgi5EBTlTgeO91S8=; b=WmmoJvXFYW6sz1N+josOahklRi
-        1svtjZiO+Yu5UADrmN0+BYDRbfZjGSQ3PqRei7ixfMSEelr/rTvTR7KF79gJIBQxxpBUWBNf/pmYc
-        6dCHwwVfgqpHnJnlxWnrFCUMCCRkxhhMkkI07cJIDjN4KehH/2txG2eguO5rGtlka5INBXPpA6Fvi
-        8SWRJuj+RhlJv75b7OUkb7WVOoOYuvTDw2XIw3lvKYEGVz2pGBooR9DHA51rWLAfXAeFlAutGCEYe
-        5aZW6ZiiQpCjQDJ/xwFNVqYfMhxi+BdcLsjvp1T75IZ+swPjLcHC38XP8UFqUbNcfxOv1hPTjwfKa
-        T6zsB5fg==;
+        bh=G8lDDv1JK8b0jHvPwyJYj+kHxvR8kXxKB1b/XhJcnWw=; b=HyJvKOEFutvgV3wfePY1Ucs+29
+        O1NCk/l6TVNSE4JdpekjkxQY5LiP1R4Tv5Tg5D/+1bAhKxX4OgKwAC1UcdJkKgh2vCs1kksZ7clmR
+        Tijozu0LNo/odIyXMOMEE00QzawIrNBT9r6ahZo5Dwy1QPBSvnZEgUkyXaTju3al/1W8Hahb23G18
+        dmj5LTEYlftTms05cAtUhhhjNuNmGo0vtz00Z6LL/HdKNoQxptIDp3SXOD6mBdYdvl5I9ZobLTzbk
+        Fceryla3WOgLvRaq8b2hW8Rby7c59S/adHi4jcl98gZiCI1Dz6HMk7tXW6R7Inrv7H/D9/8r70sPT
+        3NpP4emw==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0d-0006v0-6M; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0e-0006uh-3v; Mon, 17 Feb 2020 16:12:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fbz-9V; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0Z-000fZ0-IZ; Mon, 17 Feb 2020 17:12:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 38/44] docs: filesystems: convert sysfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:24 +0100
-Message-Id: <5c480dcb467315b5df6e25372a65e473b585c36d.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        v9fs-developer@lists.sourceforge.net
+Subject: [PATCH 01/44] docs: filesystems: convert 9p.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:47 +0100
+Message-Id: <96a060b7b5c0c3838ab1751addfe4d6d3bc37bd6.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -61,541 +66,234 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
 - Add a document title;
-- Adjust document and section titles;
-- use :field: markup;
+- Adjust section titles;
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
+- Add table markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |   1 +
- .../filesystems/{sysfs.txt => sysfs.rst}      | 324 +++++++++---------
- 2 files changed, 168 insertions(+), 157 deletions(-)
- rename Documentation/filesystems/{sysfs.txt => sysfs.rst} (56%)
+ Documentation/filesystems/{9p.txt => 9p.rst} | 114 +++++++++++--------
+ Documentation/filesystems/index.rst          |   1 +
+ 2 files changed, 70 insertions(+), 45 deletions(-)
+ rename Documentation/filesystems/{9p.txt => 9p.rst} (63%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 97a5f65ae509..bafe92c72433 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -87,5 +87,6 @@ Documentation for filesystem implementations.
-    relay
-    romfs
-    squashfs
-+   sysfs
-    virtiofs
-    vfat
-diff --git a/Documentation/filesystems/sysfs.txt b/Documentation/filesystems/sysfs.rst
-similarity index 56%
-rename from Documentation/filesystems/sysfs.txt
-rename to Documentation/filesystems/sysfs.rst
-index ddf15b1b0d5a..290891c3fecb 100644
---- a/Documentation/filesystems/sysfs.txt
-+++ b/Documentation/filesystems/sysfs.rst
-@@ -1,32 +1,36 @@
+diff --git a/Documentation/filesystems/9p.txt b/Documentation/filesystems/9p.rst
+similarity index 63%
+rename from Documentation/filesystems/9p.txt
+rename to Documentation/filesystems/9p.rst
+index fec7144e817c..f054d1c45e86 100644
+--- a/Documentation/filesystems/9p.txt
++++ b/Documentation/filesystems/9p.rst
+@@ -1,7 +1,10 @@
+-	  	    v9fs: Plan 9 Resource Sharing for Linux
+-		    =======================================
 +.. SPDX-License-Identifier: GPL-2.0
  
--sysfs - _The_ filesystem for exporting kernel objects. 
-+=====================================================
-+sysfs - _The_ filesystem for exporting kernel objects
-+=====================================================
- 
- Patrick Mochel	<mochel@osdl.org>
+-ABOUT
++=======================================
++v9fs: Plan 9 Resource Sharing for Linux
++=======================================
 +
- Mike Murphy <mamurph@cs.clemson.edu>
++About
+ =====
  
--Revised:    16 August 2011
--Original:   10 January 2003
-+:Revised:    16 August 2011
-+:Original:   10 January 2003
+ v9fs is a Unix implementation of the Plan 9 9p remote filesystem protocol.
+@@ -14,32 +17,34 @@ and Maya Gokhale.  Additional development by Greg Watson
  
- 
- What it is:
- ~~~~~~~~~~~
- 
- sysfs is a ram-based filesystem initially based on ramfs. It provides
--a means to export kernel data structures, their attributes, and the 
--linkages between them to userspace. 
-+a means to export kernel data structures, their attributes, and the
-+linkages between them to userspace.
- 
- sysfs is tied inherently to the kobject infrastructure. Please read
- Documentation/kobject.txt for more information concerning the kobject
--interface. 
-+interface.
- 
- 
- Using sysfs
- ~~~~~~~~~~~
- 
- sysfs is always compiled in if CONFIG_SYSFS is defined. You can access
--it by doing:
-+it by doing::
- 
--    mount -t sysfs sysfs /sys 
-+    mount -t sysfs sysfs /sys
- 
- 
- Directory Creation
-@@ -37,7 +41,7 @@ created for it in sysfs. That directory is created as a subdirectory
- of the kobject's parent, expressing internal object hierarchies to
- userspace. Top-level directories in sysfs represent the common
- ancestors of object hierarchies; i.e. the subsystems the objects
--belong to. 
-+belong to.
- 
- Sysfs internally stores a pointer to the kobject that implements a
- directory in the kernfs_node object associated with the directory. In
-@@ -58,63 +62,63 @@ attributes.
- Attributes should be ASCII text files, preferably with only one value
- per file. It is noted that it may not be efficient to contain only one
- value per file, so it is socially acceptable to express an array of
--values of the same type. 
-+values of the same type.
- 
- Mixing types, expressing multiple lines of data, and doing fancy
- formatting of data is heavily frowned upon. Doing these things may get
--you publicly humiliated and your code rewritten without notice. 
-+you publicly humiliated and your code rewritten without notice.
- 
- 
--An attribute definition is simply:
-+An attribute definition is simply::
- 
--struct attribute {
--        char                    * name;
--        struct module		*owner;
--        umode_t                 mode;
--};
-+    struct attribute {
-+	    char                    * name;
-+	    struct module		*owner;
-+	    umode_t                 mode;
-+    };
- 
- 
--int sysfs_create_file(struct kobject * kobj, const struct attribute * attr);
--void sysfs_remove_file(struct kobject * kobj, const struct attribute * attr);
-+    int sysfs_create_file(struct kobject * kobj, const struct attribute * attr);
-+    void sysfs_remove_file(struct kobject * kobj, const struct attribute * attr);
- 
- 
- A bare attribute contains no means to read or write the value of the
- attribute. Subsystems are encouraged to define their own attribute
- structure and wrapper functions for adding and removing attributes for
--a specific object type. 
-+a specific object type.
- 
--For example, the driver model defines struct device_attribute like:
-+For example, the driver model defines struct device_attribute like::
- 
--struct device_attribute {
--	struct attribute	attr;
--	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
--			char *buf);
--	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
--			 const char *buf, size_t count);
--};
-+    struct device_attribute {
-+	    struct attribute	attr;
-+	    ssize_t (*show)(struct device *dev, struct device_attribute *attr,
-+			    char *buf);
-+	    ssize_t (*store)(struct device *dev, struct device_attribute *attr,
-+			    const char *buf, size_t count);
-+    };
- 
--int device_create_file(struct device *, const struct device_attribute *);
--void device_remove_file(struct device *, const struct device_attribute *);
-+    int device_create_file(struct device *, const struct device_attribute *);
-+    void device_remove_file(struct device *, const struct device_attribute *);
- 
--It also defines this helper for defining device attributes: 
-+It also defines this helper for defining device attributes::
- 
--#define DEVICE_ATTR(_name, _mode, _show, _store) \
--struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
-+    #define DEVICE_ATTR(_name, _mode, _show, _store) \
-+    struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
- 
--For example, declaring
-+For example, declaring::
- 
--static DEVICE_ATTR(foo, S_IWUSR | S_IRUGO, show_foo, store_foo);
-+    static DEVICE_ATTR(foo, S_IWUSR | S_IRUGO, show_foo, store_foo);
- 
--is equivalent to doing:
-+is equivalent to doing::
- 
--static struct device_attribute dev_attr_foo = {
--	.attr = {
--		.name = "foo",
--		.mode = S_IWUSR | S_IRUGO,
--	},
--	.show = show_foo,
--	.store = store_foo,
--};
-+    static struct device_attribute dev_attr_foo = {
-+	    .attr = {
-+		    .name = "foo",
-+		    .mode = S_IWUSR | S_IRUGO,
-+	    },
-+	    .show = show_foo,
-+	    .store = store_foo,
-+    };
- 
- Note as stated in include/linux/kernel.h "OTHER_WRITABLE?  Generally
- considered a bad idea." so trying to set a sysfs file writable for
-@@ -127,15 +131,21 @@ readable. The above case could be shortened to:
- static struct device_attribute dev_attr_foo = __ATTR_RW(foo);
- 
- the list of helpers available to define your wrapper function is:
--__ATTR_RO(name): assumes default name_show and mode 0444
--__ATTR_WO(name): assumes a name_store only and is restricted to mode
+ The best detailed explanation of the Linux implementation and applications of
+ the 9p client is available in the form of a USENIX paper:
 +
-+__ATTR_RO(name):
-+		 assumes default name_show and mode 0444
-+__ATTR_WO(name):
-+		 assumes a name_store only and is restricted to mode
-                  0200 that is root write access only.
--__ATTR_RO_MODE(name, mode): fore more restrictive RO access currently
-+__ATTR_RO_MODE(name, mode):
-+	         fore more restrictive RO access currently
-                  only use case is the EFI System Resource Table
-                  (see drivers/firmware/efi/esrt.c)
--__ATTR_RW(name): assumes default name_show, name_store and setting
-+__ATTR_RW(name):
-+	         assumes default name_show, name_store and setting
-                  mode to 0644.
--__ATTR_NULL: which sets the name to NULL and is used as end of list
-+__ATTR_NULL:
-+	         which sets the name to NULL and is used as end of list
-                  indicator (see: kernel/workqueue.c)
- 
- Subsystem-Specific Callbacks
-@@ -143,12 +153,12 @@ Subsystem-Specific Callbacks
- 
- When a subsystem defines a new attribute type, it must implement a
- set of sysfs operations for forwarding read and write calls to the
--show and store methods of the attribute owners. 
-+show and store methods of the attribute owners::
- 
--struct sysfs_ops {
--        ssize_t (*show)(struct kobject *, struct attribute *, char *);
--        ssize_t (*store)(struct kobject *, struct attribute *, const char *, size_t);
--};
-+    struct sysfs_ops {
-+	    ssize_t (*show)(struct kobject *, struct attribute *, char *);
-+	    ssize_t (*store)(struct kobject *, struct attribute *, const char *, size_t);
-+    };
- 
- [ Subsystems should have already defined a struct kobj_type as a
- descriptor for this type, which is where the sysfs_ops pointer is
-@@ -157,29 +167,29 @@ stored. See the kobject documentation for more information. ]
- When a file is read or written, sysfs calls the appropriate method
- for the type. The method then translates the generic struct kobject
- and struct attribute pointers to the appropriate pointer types, and
--calls the associated methods. 
-+calls the associated methods.
- 
- 
--To illustrate:
-+To illustrate::
- 
--#define to_dev(obj) container_of(obj, struct device, kobj)
--#define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
-+    #define to_dev(obj) container_of(obj, struct device, kobj)
-+    #define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
- 
--static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
--                             char *buf)
--{
--        struct device_attribute *dev_attr = to_dev_attr(attr);
--        struct device *dev = to_dev(kobj);
--        ssize_t ret = -EIO;
-+    static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
-+				char *buf)
-+    {
-+	    struct device_attribute *dev_attr = to_dev_attr(attr);
-+	    struct device *dev = to_dev(kobj);
-+	    ssize_t ret = -EIO;
- 
--        if (dev_attr->show)
--                ret = dev_attr->show(dev, dev_attr, buf);
--        if (ret >= (ssize_t)PAGE_SIZE) {
--                printk("dev_attr_show: %pS returned bad count\n",
--                                dev_attr->show);
--        }
--        return ret;
--}
-+	    if (dev_attr->show)
-+		    ret = dev_attr->show(dev, dev_attr, buf);
-+	    if (ret >= (ssize_t)PAGE_SIZE) {
-+		    printk("dev_attr_show: %pS returned bad count\n",
-+				    dev_attr->show);
-+	    }
-+	    return ret;
-+    }
- 
- 
- 
-@@ -188,11 +198,11 @@ Reading/Writing Attribute Data
- 
- To read or write attributes, show() or store() methods must be
- specified when declaring the attribute. The method types should be as
--simple as those defined for device attributes:
-+simple as those defined for device attributes::
- 
--ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf);
--ssize_t (*store)(struct device *dev, struct device_attribute *attr,
--                 const char *buf, size_t count);
-+    ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf);
-+    ssize_t (*store)(struct device *dev, struct device_attribute *attr,
-+		    const char *buf, size_t count);
- 
- IOW, they should take only an object, an attribute, and a buffer as parameters.
- 
-@@ -200,11 +210,11 @@ IOW, they should take only an object, an attribute, and a buffer as parameters.
- sysfs allocates a buffer of size (PAGE_SIZE) and passes it to the
- method. Sysfs will call the method exactly once for each read or
- write. This forces the following behavior on the method
--implementations: 
-+implementations:
- 
--- On read(2), the show() method should fill the entire buffer. 
-+- On read(2), the show() method should fill the entire buffer.
-   Recall that an attribute should only be exporting one value, or an
--  array of similar values, so this shouldn't be that expensive. 
-+  array of similar values, so this shouldn't be that expensive.
- 
-   This allows userspace to do partial reads and forward seeks
-   arbitrarily over the entire file at will. If userspace seeks back to
-@@ -218,10 +228,10 @@ implementations:
- 
-   When writing sysfs files, userspace processes should first read the
-   entire file, modify the values it wishes to change, then write the
--  entire buffer back. 
-+  entire buffer back.
- 
-   Attribute method implementations should operate on an identical
--  buffer when reading and writing values. 
-+  buffer when reading and writing values.
- 
- Other notes:
- 
-@@ -229,7 +239,7 @@ Other notes:
-   file position.
- 
- - The buffer will always be PAGE_SIZE bytes in length. On i386, this
--  is 4096. 
-+  is 4096.
- 
- - show() methods should return the number of bytes printed into the
-   buffer. This is the return value of scnprintf().
-@@ -246,31 +256,31 @@ Other notes:
-   through, be sure to return an error.
- 
- - The object passed to the methods will be pinned in memory via sysfs
--  referencing counting its embedded object. However, the physical 
--  entity (e.g. device) the object represents may not be present. Be 
--  sure to have a way to check this, if necessary. 
-+  referencing counting its embedded object. However, the physical
-+  entity (e.g. device) the object represents may not be present. Be
-+  sure to have a way to check this, if necessary.
- 
- 
--A very simple (and naive) implementation of a device attribute is:
-+A very simple (and naive) implementation of a device attribute is::
- 
--static ssize_t show_name(struct device *dev, struct device_attribute *attr,
--                         char *buf)
--{
--	return scnprintf(buf, PAGE_SIZE, "%s\n", dev->name);
--}
-+    static ssize_t show_name(struct device *dev, struct device_attribute *attr,
-+			    char *buf)
-+    {
-+	    return scnprintf(buf, PAGE_SIZE, "%s\n", dev->name);
-+    }
- 
--static ssize_t store_name(struct device *dev, struct device_attribute *attr,
--                          const char *buf, size_t count)
--{
--        snprintf(dev->name, sizeof(dev->name), "%.*s",
--                 (int)min(count, sizeof(dev->name) - 1), buf);
--	return count;
--}
-+    static ssize_t store_name(struct device *dev, struct device_attribute *attr,
-+			    const char *buf, size_t count)
-+    {
-+	    snprintf(dev->name, sizeof(dev->name), "%.*s",
-+		    (int)min(count, sizeof(dev->name) - 1), buf);
-+	    return count;
-+    }
- 
--static DEVICE_ATTR(name, S_IRUGO, show_name, store_name);
-+    static DEVICE_ATTR(name, S_IRUGO, show_name, store_name);
- 
- 
--(Note that the real implementation doesn't allow userspace to set the 
-+(Note that the real implementation doesn't allow userspace to set the
- name for a device.)
- 
- 
-@@ -278,25 +288,25 @@ Top Level Directory Layout
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- The sysfs directory arrangement exposes the relationship of kernel
--data structures. 
-+data structures.
- 
--The top level sysfs directory looks like:
-+The top level sysfs directory looks like::
- 
--block/
--bus/
--class/
--dev/
--devices/
--firmware/
--net/
--fs/
-+    block/
-+    bus/
-+    class/
-+    dev/
-+    devices/
-+    firmware/
-+    net/
-+    fs/
- 
- devices/ contains a filesystem representation of the device tree. It maps
- directly to the internal kernel device tree, which is a hierarchy of
--struct device. 
-+struct device.
- 
- bus/ contains flat directory layout of the various bus types in the
--kernel. Each bus's directory contains two subdirectories:
-+kernel. Each bus's directory contains two subdirectories::
- 
- 	devices/
- 	drivers/
-@@ -331,71 +341,71 @@ Current Interfaces
- The following interface layers currently exist in sysfs:
- 
- 
--- devices (include/linux/device.h)
------------------------------------
--Structure:
-+devices (include/linux/device.h)
-+--------------------------------
-+Structure::
- 
--struct device_attribute {
--	struct attribute	attr;
--	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
--			char *buf);
--	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
--			 const char *buf, size_t count);
--};
-+    struct device_attribute {
-+	    struct attribute	attr;
-+	    ssize_t (*show)(struct device *dev, struct device_attribute *attr,
-+			    char *buf);
-+	    ssize_t (*store)(struct device *dev, struct device_attribute *attr,
-+			    const char *buf, size_t count);
-+    };
- 
--Declaring:
-+Declaring::
- 
--DEVICE_ATTR(_name, _mode, _show, _store);
-+    DEVICE_ATTR(_name, _mode, _show, _store);
- 
--Creation/Removal:
-+Creation/Removal::
- 
--int device_create_file(struct device *dev, const struct device_attribute * attr);
--void device_remove_file(struct device *dev, const struct device_attribute * attr);
-+    int device_create_file(struct device *dev, const struct device_attribute * attr);
-+    void device_remove_file(struct device *dev, const struct device_attribute * attr);
- 
- 
--- bus drivers (include/linux/device.h)
----------------------------------------
--Structure:
-+bus drivers (include/linux/device.h)
-+------------------------------------
-+Structure::
- 
--struct bus_attribute {
--        struct attribute        attr;
--        ssize_t (*show)(struct bus_type *, char * buf);
--        ssize_t (*store)(struct bus_type *, const char * buf, size_t count);
--};
-+    struct bus_attribute {
-+	    struct attribute        attr;
-+	    ssize_t (*show)(struct bus_type *, char * buf);
-+	    ssize_t (*store)(struct bus_type *, const char * buf, size_t count);
-+    };
- 
--Declaring:
-+Declaring::
- 
--static BUS_ATTR_RW(name);
--static BUS_ATTR_RO(name);
--static BUS_ATTR_WO(name);
-+    static BUS_ATTR_RW(name);
-+    static BUS_ATTR_RO(name);
-+    static BUS_ATTR_WO(name);
- 
--Creation/Removal:
-+Creation/Removal::
- 
--int bus_create_file(struct bus_type *, struct bus_attribute *);
--void bus_remove_file(struct bus_type *, struct bus_attribute *);
-+    int bus_create_file(struct bus_type *, struct bus_attribute *);
-+    void bus_remove_file(struct bus_type *, struct bus_attribute *);
- 
- 
--- device drivers (include/linux/device.h)
-------------------------------------------
-+device drivers (include/linux/device.h)
-+---------------------------------------
- 
--Structure:
-+Structure::
- 
--struct driver_attribute {
--        struct attribute        attr;
--        ssize_t (*show)(struct device_driver *, char * buf);
--        ssize_t (*store)(struct device_driver *, const char * buf,
--                         size_t count);
--};
-+    struct driver_attribute {
-+	    struct attribute        attr;
-+	    ssize_t (*show)(struct device_driver *, char * buf);
-+	    ssize_t (*store)(struct device_driver *, const char * buf,
-+			    size_t count);
-+    };
- 
--Declaring:
-+Declaring::
- 
--DRIVER_ATTR_RO(_name)
--DRIVER_ATTR_RW(_name)
-+    DRIVER_ATTR_RO(_name)
-+    DRIVER_ATTR_RW(_name)
- 
--Creation/Removal:
-+Creation/Removal::
- 
--int driver_create_file(struct device_driver *, const struct driver_attribute *);
--void driver_remove_file(struct device_driver *, const struct driver_attribute *);
-+    int driver_create_file(struct device_driver *, const struct driver_attribute *);
-+    void driver_remove_file(struct device_driver *, const struct driver_attribute *);
- 
- 
- Documentation
+    http://www.usenix.org/events/usenix05/tech/freenix/hensbergen.html
+ 
+ Other applications are described in the following papers:
++
+ 	* XCPU & Clustering
+-		http://xcpu.org/papers/xcpu-talk.pdf
++	  http://xcpu.org/papers/xcpu-talk.pdf
+ 	* KVMFS: control file system for KVM
+-		http://xcpu.org/papers/kvmfs.pdf
++	  http://xcpu.org/papers/kvmfs.pdf
+ 	* CellFS: A New Programming Model for the Cell BE
+-		http://xcpu.org/papers/cellfs-talk.pdf
++	  http://xcpu.org/papers/cellfs-talk.pdf
+ 	* PROSE I/O: Using 9p to enable Application Partitions
+-		http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
++	  http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
+ 	* VirtFS: A Virtualization Aware File System pass-through
+-		http://goo.gl/3WPDg
++	  http://goo.gl/3WPDg
+ 
+-USAGE
++Usage
+ =====
+ 
+-For remote file server:
++For remote file server::
+ 
+ 	mount -t 9p 10.10.1.2 /mnt/9
+ 
+-For Plan 9 From User Space applications (http://swtch.com/plan9)
++For Plan 9 From User Space applications (http://swtch.com/plan9)::
+ 
+ 	mount -t 9p `namespace`/acme /mnt/9 -o trans=unix,uname=$USER
+ 
+-For server running on QEMU host with virtio transport:
++For server running on QEMU host with virtio transport::
+ 
+ 	mount -t 9p -o trans=virtio <mount_tag> /mnt/9
+ 
+@@ -48,18 +53,22 @@ mount points. Each 9P export is seen by the client as a virtio device with an
+ associated "mount_tag" property. Available mount tags can be
+ seen by reading /sys/bus/virtio/drivers/9pnet_virtio/virtio<n>/mount_tag files.
+ 
+-OPTIONS
++Options
+ =======
+ 
++  ============= ===============================================================
+   trans=name	select an alternative transport.  Valid options are
+   		currently:
+-			unix 	- specifying a named pipe mount point
+-			tcp	- specifying a normal TCP/IP connection
+-			fd   	- used passed file descriptors for connection
+-                                (see rfdno and wfdno)
+-			virtio	- connect to the next virtio channel available
+-				(from QEMU with trans_virtio module)
+-			rdma	- connect to a specified RDMA channel
++
++			========  ============================================
++			unix 	  specifying a named pipe mount point
++			tcp	  specifying a normal TCP/IP connection
++			fd   	  used passed file descriptors for connection
++                                  (see rfdno and wfdno)
++			virtio	  connect to the next virtio channel available
++				  (from QEMU with trans_virtio module)
++			rdma	  connect to a specified RDMA channel
++			========  ============================================
+ 
+   uname=name	user name to attempt mount as on the remote server.  The
+   		server may override or ignore this value.  Certain user
+@@ -69,28 +78,36 @@ OPTIONS
+   		offering several exported file systems.
+ 
+   cache=mode	specifies a caching policy.  By default, no caches are used.
+-                        none = default no cache policy, metadata and data
++
++                        none
++				default no cache policy, metadata and data
+                                 alike are synchronous.
+-			loose = no attempts are made at consistency,
++			loose
++				no attempts are made at consistency,
+                                 intended for exclusive, read-only mounts
+-                        fscache = use FS-Cache for a persistent, read-only
++                        fscache
++				use FS-Cache for a persistent, read-only
+ 				cache backend.
+-                        mmap = minimal cache that is only used for read-write
++                        mmap
++				minimal cache that is only used for read-write
+                                 mmap.  Northing else is cached, like cache=none
+ 
+   debug=n	specifies debug level.  The debug level is a bitmask.
+-			0x01  = display verbose error messages
+-			0x02  = developer debug (DEBUG_CURRENT)
+-			0x04  = display 9p trace
+-			0x08  = display VFS trace
+-			0x10  = display Marshalling debug
+-			0x20  = display RPC debug
+-			0x40  = display transport debug
+-			0x80  = display allocation debug
+-			0x100 = display protocol message debug
+-			0x200 = display Fid debug
+-			0x400 = display packet debug
+-			0x800 = display fscache tracing debug
++
++			=====   ================================
++			0x01    display verbose error messages
++			0x02    developer debug (DEBUG_CURRENT)
++			0x04    display 9p trace
++			0x08    display VFS trace
++			0x10    display Marshalling debug
++			0x20    display RPC debug
++			0x40    display transport debug
++			0x80    display allocation debug
++			0x100   display protocol message debug
++			0x200   display Fid debug
++			0x400   display packet debug
++			0x800   display fscache tracing debug
++			=====   ================================
+ 
+   rfdno=n	the file descriptor for reading with trans=fd
+ 
+@@ -103,9 +120,12 @@ OPTIONS
+   noextend	force legacy mode (no 9p2000.u or 9p2000.L semantics)
+ 
+   version=name	Select 9P protocol version. Valid options are:
+-			9p2000          - Legacy mode (same as noextend)
+-			9p2000.u        - Use 9P2000.u protocol
+-			9p2000.L        - Use 9P2000.L protocol
++
++			========        ==============================
++			9p2000          Legacy mode (same as noextend)
++			9p2000.u        Use 9P2000.u protocol
++			9p2000.L        Use 9P2000.L protocol
++			========        ==============================
+ 
+   dfltuid	attempt to mount as a particular uid
+ 
+@@ -118,22 +138,27 @@ OPTIONS
+ 		hosts.  This functionality will be expanded in later versions.
+ 
+   access	there are four access modes.
+-			user  = if a user tries to access a file on v9fs
++			user
++				if a user tries to access a file on v9fs
+ 			        filesystem for the first time, v9fs sends an
+ 			        attach command (Tattach) for that user.
+ 				This is the default mode.
+-			<uid> = allows only user with uid=<uid> to access
++			<uid>
++				allows only user with uid=<uid> to access
+ 				the files on the mounted filesystem
+-			any   = v9fs does single attach and performs all
++			any
++				v9fs does single attach and performs all
+ 				operations as one user
+-			client = ACL based access check on the 9p client
++			clien
++				 ACL based access check on the 9p client
+ 			         side for access validation
+ 
+   cachetag	cache tag to use the specified persistent cache.
+ 		cache tags for existing cache sessions can be listed at
+ 		/sys/fs/9p/caches. (applies only to cache=fscache)
++  ============= ===============================================================
+ 
+-RESOURCES
++Resources
+ =========
+ 
+ Protocol specifications are maintained on github:
+@@ -158,4 +183,3 @@ http://plan9.bell-labs.com/plan9
+ 
+ For information on Plan 9 from User Space (Plan 9 applications and libraries
+ ported to Linux/BSD/OSX/etc) check out http://swtch.com/plan9
+-
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 45d791905e91..a9330c3f8c2e 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -46,6 +46,7 @@ Documentation for filesystem implementations.
+ .. toctree::
+    :maxdepth: 2
+ 
++   9p
+    autofs
+    fuse
+    overlayfs
 -- 
 2.24.1
 
