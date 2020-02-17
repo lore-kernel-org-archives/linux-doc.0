@@ -2,123 +2,137 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0C2C34021
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C737CC34024
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:28:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 42DDB2072C
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:16:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DFFF208C4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 14:28:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="sP2fP7Qi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbgBQOQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 09:16:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:51760 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726788AbgBQOQX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Feb 2020 09:16:23 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 22183B3C2;
-        Mon, 17 Feb 2020 14:16:21 +0000 (UTC)
-Date:   Mon, 17 Feb 2020 14:16:16 +0000
-From:   Mel Gorman <mgorman@suse.de>
-To:     ?????? <yun.wang@linux.alibaba.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Michal Koutn? <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
- locality info
-Message-ID: <20200217141616.GB3420@suse.de>
-References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
- <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
- <20200214151048.GL14914@hirez.programming.kicks-ass.net>
- <20200217115810.GA3420@suse.de>
- <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1728823AbgBQO2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 09:28:36 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:36420 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727898AbgBQO2g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 09:28:36 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01HES94V072667;
+        Mon, 17 Feb 2020 14:28:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=kuawTAcgFU/2dUv+hY9dAQNI6l7YT8VZDM2bAJZP8Hc=;
+ b=sP2fP7QinTVbnIpe0fa6WyKVjisPH1bAj5PXDRMN9MYZ9kSC1Dt17AHik7wzgsQNtHoC
+ 1AbVB9dGERoVtCgBFw4G1kAc/noSuHc0P29MAlkFwiJBXWfw5dIMFYXRU70fxhOv9bTF
+ o0OF/vbee3y104ENTQzgvbtON7uktn+V+apNe1qFo3xhU4ZjvkkxSdUbrtVded5xhct6
+ 9rOFX8DML+a9Eu0SXyevDEw1Wav9rVVV3Dot4OOau44wFHFqDvtbg63QyQ1QgbtjF2zW
+ TQFgk5ek+1oTPYBdKMX8Igg4qoNN1OfLF1Vj+65S7Xr071zEZQA6iPTQUtKiTE5ZK8TZ 1w== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2y699rgegj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 17 Feb 2020 14:28:29 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01HERY64022576;
+        Mon, 17 Feb 2020 14:28:29 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 2y6tc088nm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 17 Feb 2020 14:28:29 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01HESPPa011020;
+        Mon, 17 Feb 2020 14:28:25 GMT
+Received: from dhcp-10-175-161-198.vpn.oracle.com (/10.175.161.198)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 17 Feb 2020 06:28:25 -0800
+From:   Alan Maguire <alan.maguire@oracle.com>
+To:     skhan@linuxfoundation.org, brendanhiggins@google.com,
+        frowand.list@gmail.com
+Cc:     gregkh@linuxfoundation.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH v4 kunit-next 0/3] kunit: add debugfs representation to show results
+Date:   Mon, 17 Feb 2020 14:27:37 +0000
+Message-Id: <1581949660-20113-1-git-send-email-alan.maguire@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9533 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 suspectscore=3
+ mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002170120
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9533 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=3
+ malwarescore=0 priorityscore=1501 adultscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002170120
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 09:23:52PM +0800, ?????? wrote:
-> 
-> 
-> On 2020/2/17 ??????7:58, Mel Gorman wrote:
-> [snip]
-> >> Mel, I suspect you still feel that way, right?
-> >>
-> > 
-> > Yes, I still think it would be a struggle to interpret the data
-> > meaningfully without very specific knowledge of the implementation. If
-> > the scan rate was constant, it would be easier but that would make NUMA
-> > balancing worse overall. Similarly, the stat might get very difficult to
-> > interpret when NUMA balancing is failing because of a load imbalance,
-> > pages are shared and being interleaved or NUMA groups span multiple
-> > active nodes.
-> 
-> Hi, Mel, appreciated to have you back on the table :-)
-> 
-> IMHO the scan period changing should not be a problem now, since the
-> maximum period is defined by user, so monitoring at maximum period
-> on the accumulated page accessing counters is always meaningful, correct?
-> 
+When kunit tests are run on native (i.e. non-UML) environments, the results
+of test execution are often intermixed with dmesg output.  This patch
+series attempts to solve this by providing a debugfs representation
+of the results of the last test run, available as
 
-It has meaning but the scan rate drives the fault rate which is the basis
-for the stats you accumulate. If the scan rate is high when accesses
-are local, the stats can be skewed making it appear the task is much
-more local than it may really is at a later point in time. The scan rate
-affects the accuracy of the information. The counters have meaning but
-they needs careful interpretation.
+/sys/kernel/debug/kunit/<testsuite>/results
 
-> FYI, by monitoring locality, we found that the kvm vcpu thread is not
-> covered by NUMA Balancing, whatever how many maximum period passed, the
-> counters are not increasing, or very slowly, although inside guest we are
-> copying memory.
-> 
-> Later we found such task rarely exit to user space to trigger task
-> work callbacks, and NUMA Balancing scan depends on that, which help us
-> realize the importance to enable NUMA Balancing inside guest, with the
-> correct NUMA topo, a big performance risk I'll say :-P
-> 
+Changes since v3:
 
-Which is a very interesting corner case in itself but also one that
-could have potentially have been inferred from monitoring /proc/vmstat
-numa_pte_updates or on a per-task basis by monitoring /proc/PID/sched and
-watching numa_scan_seq and total_numa_faults. Accumulating the information
-on a per-cgroup basis would require a bit more legwork.
+- added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
+  representation, including string logging (Frank, patch 1)
+- removed unneeded NULL check for test_case in kunit_suite_for_each_test_case()
+  (Frank, patch 1)
+- added kunit log test to verify logging multiple strings works
+  (Frank, patch 2)
+- rephrased description of results file (Frank, patch 3)
 
-> Maybe not a good example, but we just try to highlight that NUMA Balancing
-> could have issue in some cases, and we want them to be exposed, somehow,
-> maybe by the locality.
-> 
+Changes since v2:
 
-Again, I'm somewhat neutral on the patch simply because I would not use
-the information for debugging problems with NUMA balancing. I would try
-using tracepoints and if the tracepoints were not good enough, I'd add or
-fix them -- similar to what I had to do with sched_stick_numa recently.
-The caveat is that I mostly look at this sort of problem as a developer.
-Sysadmins have very different requirements, especially simplicity even
-if the simplicity in this case is an illusion.
+- updated kunit_status2str() to kunit_status_to_string() and made it
+  static inline in include/kunit/test.h (Brendan)
+- added log string to struct kunit_suite and kunit_case, with log
+  pointer in struct kunit pointing at the case log.  This allows us
+  to collect kunit_[err|info|warning]() messages at the same time
+  as we printk() them.  This solves for the most part the sharing
+  of log messages between test execution and debugfs since we
+  just print the suite log (which contains the test suite preamble)
+  and the individual test logs.  The only exception is the suite-level
+  status, which we cannot store in the suite log as it would mean
+  we'd print the suite and its status prior to the suite's results.
+  (Brendan, patch 1)
+- dropped debugfs-based kunit run patch for now so as not to cause
+  problems with tests currently under development (Brendan)
+- fixed doc issues with code block (Brendan, patch 3)
+
+Changes since v1:
+ - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
+ - renamed global debugfs functions to be prefixed with kunit_ (Greg)
+ - removed error checking for debugfs operations (Greg)
+
+Alan Maguire (3):
+  kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+  kunit: add log test
+  kunit: update documentation to describe debugfs representation
+
+ Documentation/dev-tools/kunit/usage.rst |  13 ++++
+ include/kunit/test.h                    |  54 +++++++++++---
+ lib/kunit/Kconfig                       |   8 +++
+ lib/kunit/Makefile                      |   4 ++
+ lib/kunit/debugfs.c                     | 116 ++++++++++++++++++++++++++++++
+ lib/kunit/debugfs.h                     |  30 ++++++++
+ lib/kunit/kunit-test.c                  |  31 +++++++-
+ lib/kunit/test.c                        | 122 ++++++++++++++++++++++++--------
+ 8 files changed, 336 insertions(+), 42 deletions(-)
+ create mode 100644 lib/kunit/debugfs.c
+ create mode 100644 lib/kunit/debugfs.h
 
 -- 
-Mel Gorman
-SUSE Labs
+1.8.3.1
+
