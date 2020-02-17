@@ -4,51 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D97DC34024
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEDBC3402D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF0A224658
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32C7522525
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581956455;
-	bh=kDZPlakYE4tkJOE5yXMZJFhwHWqmyBXvNK9LQWRx8r4=;
+	s=default; t=1581956457;
+	bh=2VkSt+i/ceAmRbb7r0Z7CfMPO40e2ED8vWxBa+oZDNM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=L5Qe+EDX9ehcCu79rBNMXzBjiPESAmbt3LEHxIulVFpFWJizIz/gCZ7L5aDN8LeRN
-	 vkWi/ztyXXRAPdk+vqh5PHWoB8rSWSrxw+rb2FMf6s/XHy3uBp6RY1ScaaH105eRI9
-	 BMzx3GgvkThPEc4WA2agH37Ai4L3zwT+qb0x6gZU=
+	b=cG9eILSha7FYN34O9kTondbCJ7dTjK/MhVJ1XTGsAxBkNSzSg8TJKJQo5hCht9Zh2
+	 xXSW+KkNAtgsa7xYzZAIrhwmF4qvaMPQVuzPPjJkXfYqc4Nci1+cpN6P6qhCiMVuGP
+	 qv17WvLn7oTWVv8Deq1/qJYHeAChEQks3uJVF5Cc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726646AbgBQQUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:20:54 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54958 "EHLO
+        id S1728650AbgBQQU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:20:56 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55358 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728339AbgBQQUr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:20:47 -0500
+        with ESMTP id S1728789AbgBQQUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:20:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=GtwkLmmzfM76VxBMXlHIbbgbtZN35Zt+G8w8FKWpUbY=; b=K+dOfktr9QN8/ntiD0TbIiWSRW
-        HXG28ZPcrrX3MwhO+s7vuSbkqsADHKoq+hhZSYhLeJiZT7MdNR0DJftf/8scwJ7qguuf0pav4m9x4
-        HKMYEL1UfLEUO7sFqW4FtlWWVjJ7GAM1fVXRDwuLKsX9Sm5hnlif/hM2MZH7+WDksuFCfwTvXrl5/
-        zXHV4hv5sh3/03cnac0drHgE2qkSjqCVnB2LWsRgijmxiWpPrA/QmkKs6v+E3rCPML0Bk/U332JTr
-        ByLPrdxyZIZRuab0/oDNtpNXCZsqNE4X1s9d+aobq/O1N//f9pnKR/29Zksoo+o7RWhlv9mdLjCeJ
-        XciZLfQg==;
+        bh=jLWQhdjlNUCvPW2x0jtz8CREosgEHwxuovRUzRlgqDg=; b=hsSIlzNJdpuYMfFdAgTlQr4cMW
+        OBEQozCh2VV0JPvYBKObSHXd2OnmJ15hhPh06NffSd7dVkESle6A6+56gBRO8AoQWPk2DUTxFqgD3
+        rfhwg5p4XjO6+z2Pdv3GU4I6as2jlXa7SZtuFFTYEblb4q3ppiU8+ZVjcJUcP5dkE6vImtbM+fFWx
+        lYizYDJaZ1ySNMPoRyAS7qtQq7WAPi9VqFa75qWUN7Ya/jIq+E0ZzUMYrIe0peLvV5lyiK1ZmIRYR
+        cIP+1MKPMaPlofi/rUkhF0Zyj6CWm8bHkeH46zFGQ6sP+Z32/jGfF5+mLWpQgmNMx5Noz8tuIQFD5
+        Y5jc6IeA==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j8X-000427-V5; Mon, 17 Feb 2020 16:20:46 +0000
+        id 1j3j8Y-00042J-Cn; Mon, 17 Feb 2020 16:20:51 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j8W-000fpC-0y; Mon, 17 Feb 2020 17:20:44 +0100
+        id 1j3j8W-000fqA-Ef; Mon, 17 Feb 2020 17:20:44 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 08/24] docs: misc-devices/pci-endpoint-test.txt: convert to ReST
-Date:   Mon, 17 Feb 2020 17:20:26 +0100
-Message-Id: <09653768d9004106745ee1d2defaa1a43d2b5ba6.1581956285.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v2 20/24] docs: cpu-freq: convert pcc-cpufreq.txt to ReST
+Date:   Mon, 17 Feb 2020 17:20:38 +0100
+Message-Id: <63ed3462eb3083290d9bc41332ab45524a71b3d9.1581956285.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581956285.git.mchehab+huawei@kernel.org>
 References: <cover.1581956285.git.mchehab+huawei@kernel.org>
@@ -59,140 +62,165 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use titles markups;
-- Adjust identation;
-- use literal markup;
-- Use the proper notation for footnotes.
+- Add a SPDX header;
+- Add a document title, based on the original contents of
+  cpu-freq/index.txt;
+- Add copyright symbol;
+- Remove a c-like comment, adding the useful info not covered
+  by the SPDX and document title headers as text;
+- Comment out the existing text-only index;
+- Mark literal blocks as such;
+- Some whitespace fixes and new line breaks;
+- Add it to cpu-freq/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/misc-devices/index.rst          |  1 +
- .../misc-devices/pci-endpoint-test.rst        | 56 +++++++++++++++++++
- .../misc-devices/pci-endpoint-test.txt        | 41 --------------
- 3 files changed, 57 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
- delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
+ Documentation/cpu-freq/index.rst              |  1 +
+ .../{pcc-cpufreq.txt => pcc-cpufreq.rst}      | 86 ++++++++-----------
+ 2 files changed, 38 insertions(+), 49 deletions(-)
+ rename Documentation/cpu-freq/{pcc-cpufreq.txt => pcc-cpufreq.rst} (80%)
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 005547c1ad5d..04f5dab2384c 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -21,5 +21,6 @@ fit into other categories.
-    isl29003
-    lis3lv02d
-    max6875
-+   pci-endpoint-test
-    spear-pcie-gadget
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/pci-endpoint-test.rst b/Documentation/misc-devices/pci-endpoint-test.rst
-new file mode 100644
-index 000000000000..26e5d9ba146b
---- /dev/null
-+++ b/Documentation/misc-devices/pci-endpoint-test.rst
-@@ -0,0 +1,56 @@
+diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+index d12ef0bb78a5..fb2db2eb7eaf 100644
+--- a/Documentation/cpu-freq/index.rst
++++ b/Documentation/cpu-freq/index.rst
+@@ -19,6 +19,7 @@ Author: Dominik Brodowski  <linux@brodo.de>
+    cpu-drivers
+    cpufreq-nforce2
+    cpufreq-stats
++   pcc-cpufreq
+ 
+ Mailing List
+ ------------
+diff --git a/Documentation/cpu-freq/pcc-cpufreq.txt b/Documentation/cpu-freq/pcc-cpufreq.rst
+similarity index 80%
+rename from Documentation/cpu-freq/pcc-cpufreq.txt
+rename to Documentation/cpu-freq/pcc-cpufreq.rst
+index 9e3c3b33514c..6fd891f757a7 100644
+--- a/Documentation/cpu-freq/pcc-cpufreq.txt
++++ b/Documentation/cpu-freq/pcc-cpufreq.rst
+@@ -1,45 +1,29 @@
+-/*
+- *  pcc-cpufreq.txt - PCC interface documentation
+- *
+- *  Copyright (C) 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
+- *  Copyright (C) 2009 Hewlett-Packard Development Company, L.P.
+- *      Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
+- *
+- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; version 2 of the License.
+- *
+- *  This program is distributed in the hope that it will be useful, but
+- *  WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or NON
+- *  INFRINGEMENT. See the GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License along
+- *  with this program; if not, write to the Free Software Foundation, Inc.,
+- *  675 Mass Ave, Cambridge, MA 02139, USA.
+- *
+- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- */
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
+ 
++=========================================================
++Processor Clocking Control (PCC) CPUFreq Driver Specifics
++=========================================================
+ 
+-			Processor Clocking Control Driver
+-			---------------------------------
++Copyright |copy| 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
+ 
+-Contents:
+----------
+-1.	Introduction
+-1.1	PCC interface
+-1.1.1   Get Average Frequency
+-1.1.2	Set Desired Frequency
+-1.2	Platforms affected
+-2.	Driver and /sys details
+-2.1	scaling_available_frequencies
+-2.2	cpuinfo_transition_latency
+-2.3	cpuinfo_cur_freq
+-2.4	related_cpus
+-3.	Caveats
++Copyright |copy| 2009 Hewlett-Packard Development Company, L.P.,
++Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
 +
-+=====================================
-+Driver for PCI Endpoint Test Function
-+=====================================
 +
-+This driver should be used as a host side driver if the root complex is
-+connected to a configurable PCI endpoint running ``pci_epf_test`` function
-+driver configured according to [1]_.
++.. Contents:
 +
-+The "pci_endpoint_test" driver can be used to perform the following tests.
++   1.	Introduction
++   1.1	PCC interface
++   1.1.1   Get Average Frequency
++   1.1.2	Set Desired Frequency
++   1.2	Platforms affected
++   2.	Driver and /sys details
++   2.1	scaling_available_frequencies
++   2.2	cpuinfo_transition_latency
++   2.3	cpuinfo_cur_freq
++   2.4	related_cpus
++   3.	Caveats
+ 
+ 1. Introduction:
+ ----------------
+@@ -140,7 +124,9 @@ Internally, there is no need for the driver to convert the "target" frequency
+ to a corresponding P-state.
+ 
+ The VERSION number for the driver will be of the format v.xy.ab.
+-eg: 1.00.02
++eg::
 +
-+The PCI driver for the test device performs the following tests:
++   1.00.02
+    ----- --
+     |    |
+     |    -- this will increase with bug fixes/enhancements to the driver
+@@ -168,21 +154,21 @@ A) Often cpuinfo_cur_freq will show a value different than what is declared
+ in the scaling_available_frequencies or scaling_cur_freq, or scaling_max_freq.
+ This is due to "turbo boost" available on recent Intel processors. If certain
+ conditions are met the BIOS can achieve a slightly higher speed than requested
+-by OSPM. An example:
++by OSPM. An example::
+ 
+-scaling_cur_freq	: 2933000
+-cpuinfo_cur_freq	: 3196000
++	scaling_cur_freq	: 2933000
++	cpuinfo_cur_freq	: 3196000
+ 
+ B) There is a round-off error associated with the cpuinfo_cur_freq value.
+ Since the driver obtains the current frequency as a "percentage" (%) of the
+ nominal frequency from the BIOS, sometimes, the values displayed by
+-scaling_cur_freq and cpuinfo_cur_freq may not match. An example:
++scaling_cur_freq and cpuinfo_cur_freq may not match. An example::
+ 
+-scaling_cur_freq	: 1600000
+-cpuinfo_cur_freq	: 1583000
++	scaling_cur_freq	: 1600000
++	cpuinfo_cur_freq	: 1583000
+ 
+ In this example, the nominal frequency is 2933 MHz. The driver obtains the
+-current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency:
++current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency::
+ 
+ 	54% of 2933 MHz = 1583 MHz
+ 
+@@ -193,8 +179,10 @@ corresponds to the frequency of the P0 P-state.
+ -----------------
+ The related_cpus field is identical to affected_cpus.
+ 
+-affected_cpus	: 4
+-related_cpus	: 4
++::
 +
-+	#) verifying addresses programmed in BAR
-+	#) raise legacy IRQ
-+	#) raise MSI IRQ
-+	#) raise MSI-X IRQ
-+	#) read data
-+	#) write data
-+	#) copy data
-+
-+This misc driver creates /dev/pci-endpoint-test.<num> for every
-+``pci_epf_test`` function connected to the root complex and "ioctls"
-+should be used to perform the above tests.
-+
-+ioctl
-+-----
-+
-+ PCITEST_BAR:
-+	      Tests the BAR. The number of the BAR to be tested
-+	      should be passed as argument.
-+ PCITEST_LEGACY_IRQ:
-+	      Tests legacy IRQ
-+ PCITEST_MSI:
-+	      Tests message signalled interrupts. The MSI number
-+	      to be tested should be passed as argument.
-+ PCITEST_MSIX:
-+	      Tests message signalled interrupts. The MSI-X number
-+	      to be tested should be passed as argument.
-+ PCITEST_SET_IRQTYPE:
-+	      Changes driver IRQ type configuration. The IRQ type
-+	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-+ PCITEST_GET_IRQTYPE:
-+	      Gets driver IRQ type configuration.
-+ PCITEST_WRITE:
-+	      Perform write tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_READ:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_COPY:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+
-+.. [1] Documentation/PCI/endpoint/function/binding/pci-test.txt
-diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-deleted file mode 100644
-index 58ccca4416b1..000000000000
---- a/Documentation/misc-devices/pci-endpoint-test.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Driver for PCI Endpoint Test Function
--
--This driver should be used as a host side driver if the root complex is
--connected to a configurable PCI endpoint running *pci_epf_test* function
--driver configured according to [1].
--
--The "pci_endpoint_test" driver can be used to perform the following tests.
--
--The PCI driver for the test device performs the following tests
--	*) verifying addresses programmed in BAR
--	*) raise legacy IRQ
--	*) raise MSI IRQ
--	*) raise MSI-X IRQ
--	*) read data
--	*) write data
--	*) copy data
--
--This misc driver creates /dev/pci-endpoint-test.<num> for every
--*pci_epf_test* function connected to the root complex and "ioctls"
--should be used to perform the above tests.
--
--ioctl
-------
-- PCITEST_BAR: Tests the BAR. The number of the BAR to be tested
--	      should be passed as argument.
-- PCITEST_LEGACY_IRQ: Tests legacy IRQ
-- PCITEST_MSI: Tests message signalled interrupts. The MSI number
--	      to be tested should be passed as argument.
-- PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
--	      to be tested should be passed as argument.
-- PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
--	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-- PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
-- PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
--		as argument.
-- PCITEST_READ: Perform read tests. The size of the buffer should be passed
--	       as argument.
-- PCITEST_COPY: Perform read tests. The size of the buffer should be passed
--	       as argument.
--
--[1] -> Documentation/PCI/endpoint/function/binding/pci-test.txt
++	affected_cpus	: 4
++	related_cpus	: 4
+ 
+ Currently, the PCC driver does not evaluate _PSD. The platforms that support
+ PCC do not implement SW_ALL. So OSPM doesn't need to perform any coordination
 -- 
 2.24.1
 
