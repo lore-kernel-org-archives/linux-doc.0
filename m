@@ -4,55 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E5FC34025
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D37FC34027
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E23A1222D9
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36691215A4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955976;
-	bh=U5dKIoOJE6BobzoWcZ4/ZKqPlT78x+e3/2jrRlqibmQ=;
+	s=default; t=1581955972;
+	bh=9zDTR5QRjybyEBRbC0hot153DpoGQbXP0UsYdGuoZ4s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vc7+M4z+IXLw3yMHrgiikpCpKkYEhGlASJQA6VX2Ril1682RtnOmj8A+Dml2zoNn0
-	 JvG59FfY7GCtZNROblGtPuuK1VPnF6pculSv3TKvggwjZgGEarLjY22RvI4eYBe/7U
-	 F/qMVLPrewG7rluEZuXcXv7LJ9VWkdHdDy43vOKs=
+	b=tEPs/CnWmY7FIuYkV+rVZhnlltbUWK82KY74wI+ita3Dux3qz+5TPG8ls7kmz/fou
+	 8Y2G9UCZz0m3IujixNK4AZ604PW4Yq7tk6z02GbHQghXCaBlQfzjxqmRa019ztZQVU
+	 pzzf9zEYHED/3sitXrf9izCbEqjmjGEsDcXhnpjQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729750AbgBQQMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:54 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47350 "EHLO
+        id S1729735AbgBQQMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:38 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47306 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729727AbgBQQMg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:36 -0500
+        with ESMTP id S1729717AbgBQQMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=6VTKyitDm/dBa4zHGp3qXsdh5zEwRB0MexXfVcgXa+c=; b=T8QGLLCWQAAsjnN0SiQWDed7Xd
-        cMGrQgKFP9Y3mN3vRF+uTlHhyllorkZIn44jvG68AyxKhgKobr9LUmiHUoPmMJIfNtp56R/NFJooG
-        yiNuBp5ZKfZpnbTG1htIud0SQXopDzEhs2i81Su49RrAhiFFbjyaWrcQ1z158oH7+iJ7OZBr60XVv
-        S+0rFSzOws5qx6WVM2CEoNWDkOpA4Oe6PdaOYk44hk05suosStkFfGvuajiukXo9Z8kyJJ66sUFnP
-        TrLwV5CwmX4m6rNPzhB/4UricVeqzv7JrVnnjvt2D5CB0nI16owyRkf+81aMDZo2xTh0D4caNgz5M
-        c5SyK/XA==;
+        bh=DgeMFbHb+MCdIgt0dzyI2D6t1+JBcmRlYvY42H1ulsg=; b=oGWbRTY4yzQSOZAXJ1WwTMej+2
+        IvWeL4GJ1KS+WyQN8rrGiiDy4mgIpd1Lj20PjAO3vs0n+nlOD6pb3MYzzNQSbiTUKzrn3Z75zbLFv
+        /nPfhQ1hnJ1cWFCM6tombviJ9OaLIAQoJdMaoihKgSmCdqhJ4Nd4B/FJ/Z17OuKBdcY3Cbz292V58
+        tILIx3cFhA19zHOOD4mU4dSuMdLcxdP8EhvIuzfSzRvHQzI3WsK6Jo2el41JzdlXXRLwabgGzpBVb
+        USeXifSfWX4G7ev47L4yoeat962Xb3Jca7XqjhENj7rDXbHJgh4B81Tlbtj682mUuR2BAWXJyyvsT
+        abwzVkJw==;
 Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0e-0006uW-2u; Mon, 17 Feb 2020 16:12:36 +0000
+        id 1j3j0d-0006uU-Kv; Mon, 17 Feb 2020 16:12:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fcT-GN; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0b-000fc9-C9; Mon, 17 Feb 2020 17:12:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>
-Subject: [PATCH 44/44] docs: filesystems: convert zonefs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:30 +0100
-Message-Id: <42a7cfcd19f6b904a9a3188fd4af71bed5050052.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
+Subject: [PATCH 40/44] docs: filesystems: convert tmpfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:26 +0100
+Message-Id: <30397a47a78ca59760fbc0fc5f50c5f1002d487a.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -67,208 +63,159 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Add a document title;
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
+- Add table markups;
+- Use :field: markup;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |   1 +
- .../filesystems/{zonefs.txt => zonefs.rst}    | 106 ++++++++++--------
- 2 files changed, 58 insertions(+), 49 deletions(-)
- rename Documentation/filesystems/{zonefs.txt => zonefs.rst} (90%)
+ Documentation/filesystems/index.rst           |  1 +
+ .../filesystems/{tmpfs.txt => tmpfs.rst}      | 44 ++++++++++++-------
+ 2 files changed, 30 insertions(+), 15 deletions(-)
+ rename Documentation/filesystems/{tmpfs.txt => tmpfs.rst} (86%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index ec03cb4d7353..53f46a88e6ec 100644
+index d583b8b35196..27d37e7712da 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -95,3 +95,4 @@ Documentation for filesystem implementations.
-    udf
+@@ -89,5 +89,6 @@ Documentation for filesystem implementations.
+    squashfs
+    sysfs
+    sysv-fs
++   tmpfs
     virtiofs
     vfat
-+   zonefs
-diff --git a/Documentation/filesystems/zonefs.txt b/Documentation/filesystems/zonefs.rst
-similarity index 90%
-rename from Documentation/filesystems/zonefs.txt
-rename to Documentation/filesystems/zonefs.rst
-index 935bf22031ca..7e733e751e98 100644
---- a/Documentation/filesystems/zonefs.txt
-+++ b/Documentation/filesystems/zonefs.rst
-@@ -1,4 +1,8 @@
+diff --git a/Documentation/filesystems/tmpfs.txt b/Documentation/filesystems/tmpfs.rst
+similarity index 86%
+rename from Documentation/filesystems/tmpfs.txt
+rename to Documentation/filesystems/tmpfs.rst
+index 5ecbc03e6b2f..4e95929301a5 100644
+--- a/Documentation/filesystems/tmpfs.txt
++++ b/Documentation/filesystems/tmpfs.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================================================
- ZoneFS - Zone filesystem for Zoned block devices
-+================================================
- 
- Introduction
- ============
-@@ -29,6 +33,7 @@ Zoned block devices
- Zoned storage devices belong to a class of storage devices with an address
- space that is divided into zones. A zone is a group of consecutive LBAs and all
- zones are contiguous (there are no LBA gaps). Zones may have different types.
++=====
++Tmpfs
++=====
 +
- * Conventional zones: there are no access constraints to LBAs belonging to
-   conventional zones. Any read or write access can be executed, similarly to a
-   regular block device.
-@@ -158,6 +163,7 @@ Format options
- --------------
+ Tmpfs is a file system which keeps all files in virtual memory.
  
- Several optional features of zonefs can be enabled at format time.
+ 
+@@ -14,7 +20,7 @@ If you compare it to ramfs (which was the template to create tmpfs)
+ you gain swapping and limit checking. Another similar thing is the RAM
+ disk (/dev/ram*), which simulates a fixed size hard disk in physical
+ RAM, where you have to create an ordinary filesystem on top. Ramdisks
+-cannot swap and you do not have the possibility to resize them. 
++cannot swap and you do not have the possibility to resize them.
+ 
+ Since tmpfs lives completely in the page cache and on swap, all tmpfs
+ pages will be shown as "Shmem" in /proc/meminfo and "Shared" in
+@@ -26,7 +32,7 @@ tmpfs has the following uses:
+ 
+ 1) There is always a kernel internal mount which you will not see at
+    all. This is used for shared anonymous mappings and SYSV shared
+-   memory. 
++   memory.
+ 
+    This mount does not depend on CONFIG_TMPFS. If CONFIG_TMPFS is not
+    set, the user visible part of tmpfs is not build. But the internal
+@@ -34,7 +40,7 @@ tmpfs has the following uses:
+ 
+ 2) glibc 2.2 and above expects tmpfs to be mounted at /dev/shm for
+    POSIX shared memory (shm_open, shm_unlink). Adding the following
+-   line to /etc/fstab should take care of this:
++   line to /etc/fstab should take care of this::
+ 
+ 	tmpfs	/dev/shm	tmpfs	defaults	0 0
+ 
+@@ -56,15 +62,17 @@ tmpfs has the following uses:
+ 
+ tmpfs has three mount options for sizing:
+ 
+-size:      The limit of allocated bytes for this tmpfs instance. The 
++=========  ============================================================
++size       The limit of allocated bytes for this tmpfs instance. The
+            default is half of your physical RAM without swap. If you
+            oversize your tmpfs instances the machine will deadlock
+            since the OOM handler will not be able to free that memory.
+-nr_blocks: The same as size, but in blocks of PAGE_SIZE.
+-nr_inodes: The maximum number of inodes for this instance. The default
++nr_blocks  The same as size, but in blocks of PAGE_SIZE.
++nr_inodes  The maximum number of inodes for this instance. The default
+            is half of the number of your physical RAM pages, or (on a
+            machine with highmem) the number of lowmem RAM pages,
+            whichever is the lower.
++=========  ============================================================
+ 
+ These parameters accept a suffix k, m or g for kilo, mega and giga and
+ can be changed on remount.  The size parameter also accepts a suffix %
+@@ -82,6 +90,7 @@ tmpfs has a mount option to set the NUMA memory allocation policy for
+ all files in that instance (if CONFIG_NUMA is enabled) - which can be
+ adjusted on the fly via 'mount -o remount ...'
+ 
++======================== ==============================================
+ mpol=default             use the process allocation policy
+                          (see set_mempolicy(2))
+ mpol=prefer:Node         prefers to allocate memory from the given Node
+@@ -89,6 +98,7 @@ mpol=bind:NodeList       allocates memory only from nodes in NodeList
+ mpol=interleave          prefers to allocate from each node in turn
+ mpol=interleave:NodeList allocates from each node of NodeList in turn
+ mpol=local		 prefers to allocate memory from the local node
++======================== ==============================================
+ 
+ NodeList format is a comma-separated list of decimal numbers and ranges,
+ a range being two hyphen-separated decimal numbers, the smallest and
+@@ -98,9 +108,9 @@ A memory policy with a valid NodeList will be saved, as specified, for
+ use at file creation time.  When a task allocates a file in the file
+ system, the mount option memory policy will be applied with a NodeList,
+ if any, modified by the calling task's cpuset constraints
+-[See Documentation/admin-guide/cgroup-v1/cpusets.rst] and any optional flags, listed
+-below.  If the resulting NodeLists is the empty set, the effective memory
+-policy for the file will revert to "default" policy.
++[See Documentation/admin-guide/cgroup-v1/cpusets.rst] and any optional flags,
++listed below.  If the resulting NodeLists is the empty set, the effective
++memory policy for the file will revert to "default" policy.
+ 
+ NUMA memory allocation policies have optional flags that can be used in
+ conjunction with their modes.  These optional flags can be specified
+@@ -109,6 +119,8 @@ See Documentation/admin-guide/mm/numa_memory_policy.rst for a list of
+ all available memory allocation policy mode flags and their effect on
+ memory policy.
+ 
++::
 +
- * Conventional zone aggregation: ranges of contiguous conventional zones can be
-   aggregated into a single larger file instead of the default one file per zone.
- * File ownership: The owner UID and GID of zone files is by default 0 (root)
-@@ -249,7 +255,7 @@ permissions.
- Further action taken by zonefs I/O error recovery can be controlled by the user
- with the "errors=xxx" mount option. The table below summarizes the result of
- zonefs I/O error processing depending on the mount option and on the zone
--conditions.
-+conditions::
+ 	=static		is equivalent to	MPOL_F_STATIC_NODES
+ 	=relative	is equivalent to	MPOL_F_RELATIVE_NODES
  
-     +--------------+-----------+-----------------------------------------+
-     |              |           |            Post error state             |
-@@ -275,6 +281,7 @@ conditions.
-     +--------------+-----------+-----------------------------------------+
+@@ -128,9 +140,11 @@ on MountPoint, by 'mount -o remount,mpol=Policy:NodeList MountPoint'.
+ To specify the initial root directory you can use the following mount
+ options:
  
- Further notes:
-+
- * The "errors=remount-ro" mount option is the default behavior of zonefs I/O
-   error processing if no errors mount option is specified.
- * With the "errors=remount-ro" mount option, the change of the file access
-@@ -302,6 +309,7 @@ Mount options
- zonefs define the "errors=<behavior>" mount option to allow the user to specify
- zonefs behavior in response to I/O errors, inode size inconsistencies or zone
- condition chages. The defined behaviors are as follow:
-+
- * remount-ro (default)
- * zone-ro
- * zone-offline
-@@ -325,78 +333,78 @@ Examples
- --------
+-mode:	The permissions as an octal number
+-uid:	The user id 
+-gid:	The group id
++====	==================================
++mode	The permissions as an octal number
++uid	The user id
++gid	The group id
++====	==================================
  
- The following formats a 15TB host-managed SMR HDD with 256 MB zones
--with the conventional zones aggregation feature enabled.
-+with the conventional zones aggregation feature enabled::
+ These options do not have any effect on remount. You can change these
+ parameters with chmod(1), chown(1) and chgrp(1) on a mounted filesystem.
+@@ -141,9 +155,9 @@ will give you tmpfs instance on /mytmpfs which can allocate 10GB
+ RAM/SWAP in 10240 inodes and it is only accessible by root.
  
--# mkzonefs -o aggr_cnv /dev/sdX
--# mount -t zonefs /dev/sdX /mnt
--# ls -l /mnt/
--total 0
--dr-xr-xr-x 2 root root     1 Nov 25 13:23 cnv
--dr-xr-xr-x 2 root root 55356 Nov 25 13:23 seq
-+    # mkzonefs -o aggr_cnv /dev/sdX
-+    # mount -t zonefs /dev/sdX /mnt
-+    # ls -l /mnt/
-+    total 0
-+    dr-xr-xr-x 2 root root     1 Nov 25 13:23 cnv
-+    dr-xr-xr-x 2 root root 55356 Nov 25 13:23 seq
  
- The size of the zone files sub-directories indicate the number of files
- existing for each type of zones. In this example, there is only one
- conventional zone file (all conventional zones are aggregated under a single
--file).
-+file)::
- 
--# ls -l /mnt/cnv
--total 137101312
---rw-r----- 1 root root 140391743488 Nov 25 13:23 0
-+    # ls -l /mnt/cnv
-+    total 137101312
-+    -rw-r----- 1 root root 140391743488 Nov 25 13:23 0
- 
--This aggregated conventional zone file can be used as a regular file.
-+This aggregated conventional zone file can be used as a regular file::
- 
--# mkfs.ext4 /mnt/cnv/0
--# mount -o loop /mnt/cnv/0 /data
-+    # mkfs.ext4 /mnt/cnv/0
-+    # mount -o loop /mnt/cnv/0 /data
- 
- The "seq" sub-directory grouping files for sequential write zones has in this
--example 55356 zones.
-+example 55356 zones::
- 
--# ls -lv /mnt/seq
--total 14511243264
---rw-r----- 1 root root 0 Nov 25 13:23 0
---rw-r----- 1 root root 0 Nov 25 13:23 1
---rw-r----- 1 root root 0 Nov 25 13:23 2
--...
---rw-r----- 1 root root 0 Nov 25 13:23 55354
---rw-r----- 1 root root 0 Nov 25 13:23 55355
-+    # ls -lv /mnt/seq
-+    total 14511243264
-+    -rw-r----- 1 root root 0 Nov 25 13:23 0
-+    -rw-r----- 1 root root 0 Nov 25 13:23 1
-+    -rw-r----- 1 root root 0 Nov 25 13:23 2
-+    ...
-+    -rw-r----- 1 root root 0 Nov 25 13:23 55354
-+    -rw-r----- 1 root root 0 Nov 25 13:23 55355
- 
- For sequential write zone files, the file size changes as data is appended at
--the end of the file, similarly to any regular file system.
-+the end of the file, similarly to any regular file system::
- 
--# dd if=/dev/zero of=/mnt/seq/0 bs=4096 count=1 conv=notrunc oflag=direct
--1+0 records in
--1+0 records out
--4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00044121 s, 9.3 MB/s
-+    # dd if=/dev/zero of=/mnt/seq/0 bs=4096 count=1 conv=notrunc oflag=direct
-+    1+0 records in
-+    1+0 records out
-+    4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00044121 s, 9.3 MB/s
- 
--# ls -l /mnt/seq/0
---rw-r----- 1 root root 4096 Nov 25 13:23 /mnt/seq/0
-+    # ls -l /mnt/seq/0
-+    -rw-r----- 1 root root 4096 Nov 25 13:23 /mnt/seq/0
- 
- The written file can be truncated to the zone size, preventing any further
--write operation.
-+write operation::
- 
--# truncate -s 268435456 /mnt/seq/0
--# ls -l /mnt/seq/0
---rw-r----- 1 root root 268435456 Nov 25 13:49 /mnt/seq/0
-+    # truncate -s 268435456 /mnt/seq/0
-+    # ls -l /mnt/seq/0
-+    -rw-r----- 1 root root 268435456 Nov 25 13:49 /mnt/seq/0
- 
- Truncation to 0 size allows freeing the file zone storage space and restart
--append-writes to the file.
-+append-writes to the file::
- 
--# truncate -s 0 /mnt/seq/0
--# ls -l /mnt/seq/0
---rw-r----- 1 root root 0 Nov 25 13:49 /mnt/seq/0
-+    # truncate -s 0 /mnt/seq/0
-+    # ls -l /mnt/seq/0
-+    -rw-r----- 1 root root 0 Nov 25 13:49 /mnt/seq/0
- 
- Since files are statically mapped to zones on the disk, the number of blocks of
--a file as reported by stat() and fstat() indicates the size of the file zone.
-+a file as reported by stat() and fstat() indicates the size of the file zone::
- 
--# stat /mnt/seq/0
--  File: /mnt/seq/0
--  Size: 0         	Blocks: 524288     IO Block: 4096   regular empty file
--Device: 870h/2160d	Inode: 50431       Links: 1
--Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)
--Access: 2019-11-25 13:23:57.048971997 +0900
--Modify: 2019-11-25 13:52:25.553805765 +0900
--Change: 2019-11-25 13:52:25.553805765 +0900
-- Birth: -
-+    # stat /mnt/seq/0
-+    File: /mnt/seq/0
-+    Size: 0         	Blocks: 524288     IO Block: 4096   regular empty file
-+    Device: 870h/2160d	Inode: 50431       Links: 1
-+    Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)
-+    Access: 2019-11-25 13:23:57.048971997 +0900
-+    Modify: 2019-11-25 13:52:25.553805765 +0900
-+    Change: 2019-11-25 13:52:25.553805765 +0900
-+    Birth: -
- 
- The number of blocks of the file ("Blocks") in units of 512B blocks gives the
- maximum file size of 524288 * 512 B = 256 MB, corresponding to the device zone
+-Author:
++:Author:
+    Christoph Rohland <cr@sap.com>, 1.12.01
+-Updated:
++:Updated:
+    Hugh Dickins, 4 June 2007
+-Updated:
++:Updated:
+    KOSAKI Motohiro, 16 Mar 2010
 -- 
 2.24.1
 
