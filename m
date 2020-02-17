@@ -2,102 +2,86 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD4AC34024
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF05AC34026
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 19:02:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E90E20836
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:51:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="yhcdWpgX"
+	by mail.kernel.org (Postfix) with ESMTP id BBA9B20578
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 19:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbgBQSvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 13:51:55 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:40846 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726646AbgBQSvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 13:51:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=KvB6f7fGXolTqd/wL5HLgEvOSRwBBfxjMW4EXoEa9po=; b=yhcdWpgXTLtsE1Z1omWazoICP
-        DWJVggwX8ttrSOzK7AZnClBhh+SAi72l40EFLARh3Jt0rVM2r6xk1Jz88S9JIiJbImkK1IPxmu0/e
-        BU5wTD4PxDU4Vxrpj/2JsoAWktKHWB3LiN7E0FMjcZEE9aSIe+YD3fGyyaWanHJD01AyaRf+mfC/X
-        vfmW1ikUx1qrGertc+ueZLBDpuy2NdsBjPL/GjHm6b22OVdCPM3bfgQ9cLdBFmM0V2Zg1Jc85HXxO
-        oNRaL6CyA4ZnRywnqi5b7IVcoTtCVvXeqnXTixlkAA/EftaDf56IEL9tJAX8V7/7DEnxIs1Z8zlRP
-        5zZhq40hg==;
-Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:41636)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1j3lUU-0002YH-Ho; Mon, 17 Feb 2020 18:51:34 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1j3lUR-0006Xg-CX; Mon, 17 Feb 2020 18:51:31 +0000
-Date:   Mon, 17 Feb 2020 18:51:31 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Felix Fietkau <nbd@openwrt.org>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Crispin <john@phrozen.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jose Abreu <joabreu@synopsys.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>, netdev@vger.kernel.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [CFT 0/8] rework phylink interface for split MAC/PCS support
-Message-ID: <20200217185131.GC25745@shell.armlinux.org.uk>
-References: <20200217172242.GZ25745@shell.armlinux.org.uk>
- <20200217173324.GI31084@lunn.ch>
+        id S1728736AbgBQTCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 14:02:19 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43516 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728728AbgBQTCT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 14:02:19 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id A833F292457
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Eric Biggers <ebiggers@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v7 1/8] unicode: Add utf8_casefold_iter
+Organization: Collabora
+References: <20200208013552.241832-1-drosen@google.com>
+        <20200208013552.241832-2-drosen@google.com>
+        <20200212033800.GC870@sol.localdomain>
+        <CA+PiJmT_8EzyFO283_E62+UC6vtCGOJXKHAFqnH3QM9LA+PHAw@mail.gmail.com>
+Date:   Mon, 17 Feb 2020 14:02:10 -0500
+In-Reply-To: <CA+PiJmT_8EzyFO283_E62+UC6vtCGOJXKHAFqnH3QM9LA+PHAw@mail.gmail.com>
+        (Daniel Rosenberg's message of "Fri, 14 Feb 2020 13:47:37 -0800")
+Message-ID: <8536b95971.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200217173324.GI31084@lunn.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 06:33:24PM +0100, Andrew Lunn wrote:
-> On Mon, Feb 17, 2020 at 05:22:43PM +0000, Russell King - ARM Linux admin wrote:
-> > Hi,
-> > 
-> > The following series changes the phylink interface to allow us to
-> > better support split MAC / MAC PCS setups.  The fundamental change
-> > required for this turns out to be quite simple.
-> 
-> Hi Russell
-> 
-> Do you have a branch i can pull and test?
+Daniel Rosenberg <drosen@google.com> writes:
 
-Nothing beyond the branches I've mentioned in the previous heads-up as
-yet, sorry.
+> On Tue, Feb 11, 2020 at 7:38 PM Eric Biggers <ebiggers@kernel.org> wrote:
+>>
+>> Indirect function calls are expensive these days for various reasons, including
+>> Spectre mitigations and CFI.  Are you sure it's okay from a performance
+>> perspective to make an indirect call for every byte of the pathname?
+>>
+>> > +typedef int (*utf8_itr_actor_t)(struct utf8_itr_context *, int byte, int pos);
+>>
+>> The byte argument probably should be 'u8', to avoid confusion about whether it's
+>> a byte or a Unicode codepoint.
+>>
+
+just for the record, we use int utf8byte because it can fail
+error codes, but that is not the case here.  It should be u8.
+
+>
+> Gabriel, what do you think here? I could change it to either exposing
+> the things necessary to do the hashing in libfs, or instead of the
+> general purpose iterator, just have a hash function inside of unicode
+> that will compute the hash given a seed value.
+
+Sorry for the delay, I'm away on a long vacation and intentionally
+staying away from my laptop :)
+
+Eric has a very good point, if not prohibitively, it is unnecessarily
+expensive for a hot path.  Why not expose utf8ncursor and utf8byte to
+libfs and implement the hash in libfs?
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Gabriel Krisman Bertazi
