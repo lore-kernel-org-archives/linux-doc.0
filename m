@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5203C34037
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2FF1C3402F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6821E20801
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 974B6214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955980;
-	bh=ye12ZQHK+KI/FgNT69gKGYpKG8Z45/qqLVRx6QRrAY8=;
+	s=default; t=1581955982;
+	bh=kBEK4bEGBIziz6LQM2nj21cmLZrh5TZ1wl2c6s/z8m4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IWfA4A7geJP3aBFvqSd0A/CPKdVvuMBGAYdX5mOJ+MZ6Oym7pIsOid6oB+VCxnat9
-	 7hfHW3iMscUTQre/wR6nIL3qAMrKOLZOjU1ejO89C9zRZqYSSbnOpeTyzRNvsT3P3g
-	 RUpYkV43KhpFTDbvFhyhC/8uYS2F15NBW7uLOf10=
+	b=sUGmk/WOf0kJ94k7w438TmJTj9WYaa57JN+NR3iepzMNgHJEhWwh2n41/D19EWtZo
+	 OT4fgu6etK+SvVnGaUSGTfRoX/8+iae6fybsqrc7d1S8SqzzNMRDyWa1pG24PoLdL4
+	 3gUSuuD/NhF3UWXPwW4TgGMXV09J/6QaeKkf5Cwg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729788AbgBQQM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729786AbgBQQM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 17 Feb 2020 11:12:59 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47198 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:47248 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729697AbgBQQMf (ORCPT
+        with ESMTP id S1729710AbgBQQMf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=N/9Z33HoMcMHaeifzNVULrHTVj9SAYN1jD9RU93RDJo=; b=snP3OGI8Remel3KchHkJrb8b13
-        Rci+R4BM9wzkRsCF9Jt2+MbMEV0vN/PuZIg3f2W0h+o0b3t5+cOEeeqoIavDxwbNAkWXJfXdEEan8
-        GbLIF1vOtnf3eiGbHFiBsr+NFWahuJ53SjtHjeET4SkVaBOCQnbT36zh2CVUDF0bL5vBcV9W2OXXx
-        Ro+GA/SN9zPuRTR5enBIw0f6jsgpbkoL4sjPqHrkW2Wamd4x2jXms0w6g/4wFaz5DPcyUxhIzT/pb
-        YopwZUaxdi5wJrnYNWvY+qWUcNjBdsmGidfwQvDE3MNcgIDnh/RFrg9iZ8SZD7b07zTvGwS0gKtTS
-        Cjfp1lTw==;
+        bh=+1yQ7KOHidOa8+tAwdCUbwM8F6pK6BZLo+Kzg80+9w8=; b=aaS8lGonuXWnXLB5FER8Tk9luD
+        pHGBZY4LiwH46nAColHq8ilgpSpkY5qVYPG0iG9Ki69SePWzjD739TwUMd+eZNI2XO4+DUTOhTGyo
+        NBzXZdyP9GG281uaRNEo2XQdzXjJnCBwau2XsCc14kur4LfZQpxrOTw0vIHFKAZ2P4g9UVi3/i/pg
+        YB89fIsGKuBBFhYwdeouuARENiMvlNUqpGdrMgWK6MeRmZzllE98iR3TTU0RxPObysVvwR+a4xb+b
+        lYoTW4NemP/+St5uA+pzXRFmtutKH9cKlWywfJK+yQsENfpuNAtDft5MBm/S7QaTjSwsjC7usdvWp
+        0BiXk8hA==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006un-K1; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0d-0006uy-4W; Mon, 17 Feb 2020 16:12:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0a-000faw-MG; Mon, 17 Feb 2020 17:12:32 +0100
+        id 1j3j0b-000fbp-7d; Mon, 17 Feb 2020 17:12:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 25/44] docs: filesystems: convert isofs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:11 +0100
-Message-Id: <ec16dc09d0c23bb0c1af3d3f33a96896083a1d36.1581955849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 36/44] docs: filesystems: convert romfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:22 +0100
+Message-Id: <d2cc83e7cd6de63c793ccd3f2588ea40f7f1e764.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -62,155 +62,130 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Add a SPDX header;
 - Add a document title;
 - Some whitespace fixes and new line breaks;
+- Mark literal blocks as such;
 - Add table markups;
-- Add lists markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst |  1 +
- Documentation/filesystems/isofs.rst | 64 +++++++++++++++++++++++++++++
- Documentation/filesystems/isofs.txt | 48 ----------------------
- 3 files changed, 65 insertions(+), 48 deletions(-)
- create mode 100644 Documentation/filesystems/isofs.rst
- delete mode 100644 Documentation/filesystems/isofs.txt
+ Documentation/filesystems/index.rst           |  1 +
+ .../filesystems/{romfs.txt => romfs.rst}      | 42 +++++++++++--------
+ 2 files changed, 26 insertions(+), 17 deletions(-)
+ rename Documentation/filesystems/{romfs.txt => romfs.rst} (86%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 5a737722652c..8c8813ada53f 100644
+index 0aade8146d4d..3b26639517af 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -71,6 +71,7 @@ Documentation for filesystem implementations.
-    hfsplus
-    hpfs
-    inotify
-+   isofs
-    fuse
-    overlayfs
+@@ -85,5 +85,6 @@ Documentation for filesystem implementations.
+    qnx6
+    ramfs-rootfs-initramfs
+    relay
++   romfs
     virtiofs
-diff --git a/Documentation/filesystems/isofs.rst b/Documentation/filesystems/isofs.rst
-new file mode 100644
-index 000000000000..08fd469091d4
---- /dev/null
-+++ b/Documentation/filesystems/isofs.rst
-@@ -0,0 +1,64 @@
+    vfat
+diff --git a/Documentation/filesystems/romfs.txt b/Documentation/filesystems/romfs.rst
+similarity index 86%
+rename from Documentation/filesystems/romfs.txt
+rename to Documentation/filesystems/romfs.rst
+index e2b07cc9120a..465b11efa9be 100644
+--- a/Documentation/filesystems/romfs.txt
++++ b/Documentation/filesystems/romfs.rst
+@@ -1,4 +1,8 @@
+-ROMFS - ROM FILE SYSTEM
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==================
-+ISO9660 Filesystem
-+==================
++=======================
++ROMFS - ROM File System
++=======================
+ 
+ This is a quite dumb, read only filesystem, mainly for initial RAM
+ disks of installation disks.  It has grown up by the need of having
+@@ -51,9 +55,9 @@ the 16 byte padding for the name and the contents, also 16+14+15 = 45
+ bytes.  This is quite rare however, since most file names are longer
+ than 3 bytes, and shorter than 15 bytes.
+ 
+-The layout of the filesystem is the following:
++The layout of the filesystem is the following::
+ 
+-offset	    content
++ offset	    content
+ 
+ 	+---+---+---+---+
+   0	| - | r | o | m |  \
+@@ -84,9 +88,9 @@ the source.  This algorithm was chosen because although it's not quite
+ reliable, it does not require any tables, and it is very simple.
+ 
+ The following bytes are now part of the file system; each file header
+-must begin on a 16 byte boundary.
++must begin on a 16 byte boundary::
+ 
+-offset	    content
++ offset	    content
+ 
+      	+---+---+---+---+
+   0	| next filehdr|X|	The offset of the next file header
+@@ -114,7 +118,9 @@ file is user and group 0, this should never be a problem for the
+ intended use.  The mapping of the 8 possible values to file types is
+ the following:
+ 
++==	=============== ============================================
+ 	  mapping		spec.info means
++==	=============== ============================================
+  0	hard link	link destination [file header]
+  1	directory	first file's header
+  2	regular file	unused, must be zero [MBZ]
+@@ -123,6 +129,7 @@ the following:
+  5	char device		    - " -
+  6	socket		unused, MBZ
+  7	fifo		unused, MBZ
++==	=============== ============================================
+ 
+ Note that hard links are specifically marked in this filesystem, but
+ they will behave as you can expect (i.e. share the inode number).
+@@ -158,24 +165,24 @@ to romfs-subscribe@shadow.banki.hu, the content is irrelevant.
+ Pending issues:
+ 
+ - Permissions and owner information are pretty essential features of a
+-Un*x like system, but romfs does not provide the full possibilities.
+-I have never found this limiting, but others might.
++  Un*x like system, but romfs does not provide the full possibilities.
++  I have never found this limiting, but others might.
+ 
+ - The file system is read only, so it can be very small, but in case
+-one would want to write _anything_ to a file system, he still needs
+-a writable file system, thus negating the size advantages.  Possible
+-solutions: implement write access as a compile-time option, or a new,
+-similarly small writable filesystem for RAM disks.
++  one would want to write _anything_ to a file system, he still needs
++  a writable file system, thus negating the size advantages.  Possible
++  solutions: implement write access as a compile-time option, or a new,
++  similarly small writable filesystem for RAM disks.
+ 
+ - Since the files are only required to have alignment on a 16 byte
+-boundary, it is currently possibly suboptimal to read or execute files
+-from the filesystem.  It might be resolved by reordering file data to
+-have most of it (i.e. except the start and the end) laying at "natural"
+-boundaries, thus it would be possible to directly map a big portion of
+-the file contents to the mm subsystem.
++  boundary, it is currently possibly suboptimal to read or execute files
++  from the filesystem.  It might be resolved by reordering file data to
++  have most of it (i.e. except the start and the end) laying at "natural"
++  boundaries, thus it would be possible to directly map a big portion of
++  the file contents to the mm subsystem.
+ 
+ - Compression might be an useful feature, but memory is quite a
+-limiting factor in my eyes.
++  limiting factor in my eyes.
+ 
+ - Where it is used?
+ 
+@@ -183,4 +190,5 @@ limiting factor in my eyes.
+ 
+ 
+ Have fun,
 +
-+Mount options that are the same as for msdos and vfat partitions.
-+
-+  =========	========================================================
-+  gid=nnn	All files in the partition will be in group nnn.
-+  uid=nnn	All files in the partition will be owned by user id nnn.
-+  umask=nnn	The permission mask (see umask(1)) for the partition.
-+  =========	========================================================
-+
-+Mount options that are the same as vfat partitions. These are only useful
-+when using discs encoded using Microsoft's Joliet extensions.
-+
-+ ==============	=============================================================
-+ iocharset=name Character set to use for converting from Unicode to
-+		ASCII.  Joliet filenames are stored in Unicode format, but
-+		Unix for the most part doesn't know how to deal with Unicode.
-+		There is also an option of doing UTF-8 translations with the
-+		utf8 option.
-+  utf8          Encode Unicode names in UTF-8 format. Default is no.
-+ ==============	=============================================================
-+
-+Mount options unique to the isofs filesystem.
-+
-+ ================= ============================================================
-+  block=512        Set the block size for the disk to 512 bytes
-+  block=1024       Set the block size for the disk to 1024 bytes
-+  block=2048       Set the block size for the disk to 2048 bytes
-+  check=relaxed    Matches filenames with different cases
-+  check=strict     Matches only filenames with the exact same case
-+  cruft            Try to handle badly formatted CDs.
-+  map=off          Do not map non-Rock Ridge filenames to lower case
-+  map=normal       Map non-Rock Ridge filenames to lower case
-+  map=acorn        As map=normal but also apply Acorn extensions if present
-+  mode=xxx         Sets the permissions on files to xxx unless Rock Ridge
-+		   extensions set the permissions otherwise
-+  dmode=xxx        Sets the permissions on directories to xxx unless Rock Ridge
-+		   extensions set the permissions otherwise
-+  overriderockperm Set permissions on files and directories according to
-+		   'mode' and 'dmode' even though Rock Ridge extensions are
-+		   present.
-+  nojoliet         Ignore Joliet extensions if they are present.
-+  norock           Ignore Rock Ridge extensions if they are present.
-+  hide		   Completely strip hidden files from the file system.
-+  showassoc	   Show files marked with the 'associated' bit
-+  unhide	   Deprecated; showing hidden files is now default;
-+		   If given, it is a synonym for 'showassoc' which will
-+		   recreate previous unhide behavior
-+  session=x        Select number of session on multisession CD
-+  sbsector=xxx     Session begins from sector xxx
-+ ================= ============================================================
-+
-+Recommended documents about ISO 9660 standard are located at:
-+
-+- http://www.y-adagio.com/
-+- ftp://ftp.ecma.ch/ecma-st/Ecma-119.pdf
-+
-+Quoting from the PDF "This 2nd Edition of Standard ECMA-119 is technically
-+identical with ISO 9660.", so it is a valid and gratis substitute of the
-+official ISO specification.
-diff --git a/Documentation/filesystems/isofs.txt b/Documentation/filesystems/isofs.txt
-deleted file mode 100644
-index ba0a93384de0..000000000000
---- a/Documentation/filesystems/isofs.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--Mount options that are the same as for msdos and vfat partitions.
--
--  gid=nnn	All files in the partition will be in group nnn.
--  uid=nnn	All files in the partition will be owned by user id nnn.
--  umask=nnn	The permission mask (see umask(1)) for the partition.
--
--Mount options that are the same as vfat partitions. These are only useful
--when using discs encoded using Microsoft's Joliet extensions.
--  iocharset=name Character set to use for converting from Unicode to
--		ASCII.  Joliet filenames are stored in Unicode format, but
--		Unix for the most part doesn't know how to deal with Unicode.
--		There is also an option of doing UTF-8 translations with the
--		utf8 option.
--  utf8          Encode Unicode names in UTF-8 format. Default is no.
--
--Mount options unique to the isofs filesystem.
--  block=512     Set the block size for the disk to 512 bytes
--  block=1024    Set the block size for the disk to 1024 bytes
--  block=2048    Set the block size for the disk to 2048 bytes
--  check=relaxed Matches filenames with different cases
--  check=strict  Matches only filenames with the exact same case
--  cruft         Try to handle badly formatted CDs.
--  map=off       Do not map non-Rock Ridge filenames to lower case
--  map=normal    Map non-Rock Ridge filenames to lower case
--  map=acorn     As map=normal but also apply Acorn extensions if present
--  mode=xxx      Sets the permissions on files to xxx unless Rock Ridge
--		extensions set the permissions otherwise
--  dmode=xxx     Sets the permissions on directories to xxx unless Rock Ridge
--		extensions set the permissions otherwise
--  overriderockperm Set permissions on files and directories according to
--		'mode' and 'dmode' even though Rock Ridge extensions are
--		present.
--  nojoliet      Ignore Joliet extensions if they are present.
--  norock        Ignore Rock Ridge extensions if they are present.
--  hide		Completely strip hidden files from the file system.
--  showassoc	Show files marked with the 'associated' bit
--  unhide	Deprecated; showing hidden files is now default;
--		If given, it is a synonym for 'showassoc' which will
--		recreate previous unhide behavior
--  session=x     Select number of session on multisession CD
--  sbsector=xxx  Session begins from sector xxx
--
--Recommended documents about ISO 9660 standard are located at:
--http://www.y-adagio.com/
--ftp://ftp.ecma.ch/ecma-st/Ecma-119.pdf
--Quoting from the PDF "This 2nd Edition of Standard ECMA-119 is technically 
--identical with ISO 9660.", so it is a valid and gratis substitute of the
--official ISO specification.
+ Janos Farkas <chexum@shadow.banki.hu>
 -- 
 2.24.1
 
