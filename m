@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30312C34036
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EFAC34038
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0AEA3214D8
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FA8320801
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955996;
-	bh=B7QvITsLaRYnrQW/4vdNDPRdOfWdEF6cWmklc0cxRnw=;
+	s=default; t=1581955997;
+	bh=qoJVi1DWI9mdsI8WASco8Fo4BKkFUWAVrZnu5BVyC/Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DLFqzD5I3xcwJSoF8/TZbAc1d3dvqIxD5eNqOzv0O+YHuu1e8ZP0SQlr6vGZOQp9Y
-	 lwed41BZoFCYerMzgsZ+vHWwPldgY9GITsqX/PoIAD+oSvTWC112wUlhnHbncFe3ah
-	 kmoKewmfjcwj0dHngxQky29Wn2qWC9swb5+eW26U=
+	b=S4JcvrFHVCvkfqSPk+jepxiz+dg2QoXtC937OT5U5WY4eHjOOqOSzUkmYhb/CEpq0
+	 NqRKAJTHr6aNOaD1DJOOAnCYalV+w9uyZarR1Qb1wBthKssEbs3RJ8sMs+9yAGBQIf
+	 K5AmLAgiVvaYPTRPTKi2vcmT2Suf+X4JYiIV4yJk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbgBQQNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:13:15 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47152 "EHLO
+        id S1729829AbgBQQNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47128 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729686AbgBQQMe (ORCPT
+        with ESMTP id S1729675AbgBQQMe (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=Mlp2YudsgKj01KT2PuaX4p7SmB2D+Sxh5I7uxx47ouU=; b=HmBQfdJCJ+NPAgO1L03d9A3wSp
-        TZVXNHo1mmtHnNOYUHS5ErADQDwTYoSsnj7hiezvLE9vyUhlMiFdvRK/vwbRuPMfAWu2UG0ACZ1SU
-        +fJy2tEu6IYsDYJwG4UUZbelJpFZPWKssIttZqhQWd9Rs0iR2Xv8yLm+KVqbLb5critWcmjR2HetN
-        xDhLdd38SC6JzStItGOIiMjx8xTqjzqaCWoG4vSvTfC91oCep1u0IBXwsHOxSl/uVNcEnQtkkYryv
-        mx3zcd+c6dl8z97WJS+GKvji/xxJkaeGvyDrwoqBnaS0rVp4JS8cX5+6fiietDRnGkhGgsOP/2/e6
-        Qxs4zg7A==;
+        bh=sbalNe8GPhxriQnoQDqyFDZa3zOWbwh7URV7YbtN518=; b=DCBDbNyUkVfAM+GpA/PsjMv/zl
+        qP/WcCijYvIQ+C9LTHSMbRjzftJiTO8Dnbg7iTvg3yNpXeSXOIgLBRrrKZ0AGH8R77jR9qyBCzslQ
+        6Pex/Vp1mBY81i6EbYxTAa920m/6IfwafH/n+JWXgytQSYj3Yq570r2aWp+cBOyhznwAHETLJDEZE
+        TVoFKOfD3HoBC+MlUFEHVhLq6sdcVqKcS+50WEUFBAQ5Wez5n02dfB2JtMBDfsx4jO4lNZ+0lJ+pk
+        uiZEgifQDF58YH4mih00rYhipqbDuHvJ/P9Ro1dRMOtZKql6N0FQhygMGAZE8ICeYUJI93Ol2L+QK
+        F5v9rZMg==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uk-FT; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006ua-4p; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0a-000fah-HZ; Mon, 17 Feb 2020 17:12:32 +0100
+        id 1j3j0a-000fa1-1l; Mon, 17 Feb 2020 17:12:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 22/44] docs: filesystems: convert hfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:08 +0100
-Message-Id: <8a625d6652d88809730020048d26c3b9333ddbdf.1581955849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/44] docs: filesystems: convert efivarfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:00 +0100
+Message-Id: <215691d747055c4ccb038ec7d78d8d1fe87fe2c0.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -59,90 +59,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Trivial changes:
+
 - Add a SPDX header;
-- Adjust document and section titles;
-- Use notes markups;
-- Add lists markups;
+- Adjust document title;
+- Mark a literal block as such;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{hfs.txt => hfs.rst}          | 23 +++++++++++--------
- Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 15 insertions(+), 9 deletions(-)
- rename Documentation/filesystems/{hfs.txt => hfs.rst} (80%)
+ Documentation/filesystems/{efivarfs.txt => efivarfs.rst} | 5 ++++-
+ Documentation/filesystems/index.rst                      | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+ rename Documentation/filesystems/{efivarfs.txt => efivarfs.rst} (85%)
 
-diff --git a/Documentation/filesystems/hfs.txt b/Documentation/filesystems/hfs.rst
-similarity index 80%
-rename from Documentation/filesystems/hfs.txt
-rename to Documentation/filesystems/hfs.rst
-index d096df6db07a..ab17a005e9b1 100644
---- a/Documentation/filesystems/hfs.txt
-+++ b/Documentation/filesystems/hfs.rst
-@@ -1,11 +1,16 @@
--Note: This filesystem doesn't have a maintainer.
+diff --git a/Documentation/filesystems/efivarfs.txt b/Documentation/filesystems/efivarfs.rst
+similarity index 85%
+rename from Documentation/filesystems/efivarfs.txt
+rename to Documentation/filesystems/efivarfs.rst
+index 686a64bba775..90ac65683e7e 100644
+--- a/Documentation/filesystems/efivarfs.txt
++++ b/Documentation/filesystems/efivarfs.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
  
-+==================================
- Macintosh HFS Filesystem for Linux
- ==================================
++=======================================
+ efivarfs - a (U)EFI variable filesystem
++=======================================
  
--HFS stands for ``Hierarchical File System'' and is the filesystem used
-+
-+.. Note:: This filesystem doesn't have a maintainer.
-+
-+
-+HFS stands for ``Hierarchical File System`` and is the filesystem used
- by the Mac Plus and all later Macintosh models.  Earlier Macintosh
--models used MFS (``Macintosh File System''), which is not supported,
-+models used MFS (``Macintosh File System``), which is not supported,
- MacOS 8.1 and newer support a filesystem called HFS+ that's similar to
- HFS but is extended in various areas.  Use the hfsplus filesystem driver
- to access such filesystems from Linux.
-@@ -49,25 +54,25 @@ Writing to HFS Filesystems
- HFS is not a UNIX filesystem, thus it does not have the usual features you'd
- expect:
+ The efivarfs filesystem was created to address the shortcomings of
+ using entries in sysfs to maintain EFI variables. The old sysfs EFI
+@@ -11,7 +14,7 @@ than a single page, sysfs isn't the best interface for this.
+ Variables can be created, deleted and modified with the efivarfs
+ filesystem.
  
-- o You can't modify the set-uid, set-gid, sticky or executable bits or the uid
-+ * You can't modify the set-uid, set-gid, sticky or executable bits or the uid
-    and gid of files.
-- o You can't create hard- or symlinks, device files, sockets or FIFOs.
-+ * You can't create hard- or symlinks, device files, sockets or FIFOs.
+-efivarfs is typically mounted like this,
++efivarfs is typically mounted like this::
  
- HFS does on the other have the concepts of multiple forks per file.  These
- non-standard forks are represented as hidden additional files in the normal
- filesystems namespace which is kind of a cludge and makes the semantics for
- the a little strange:
+ 	mount -t efivarfs none /sys/firmware/efi/efivars
  
-- o You can't create, delete or rename resource forks of files or the
-+ * You can't create, delete or rename resource forks of files or the
-    Finder's metadata.
-- o They are however created (with default values), deleted and renamed
-+ * They are however created (with default values), deleted and renamed
-    along with the corresponding data fork or directory.
-- o Copying files to a different filesystem will loose those attributes
-+ * Copying files to a different filesystem will loose those attributes
-    that are essential for MacOS to work.
- 
- 
- Creating HFS filesystems
--===================================
-+========================
- 
- The hfsutils package from Robert Leslie contains a program called
- hformat that can be used to create HFS filesystem. See
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index c351bc8a8c85..f776411340cb 100644
+index d6d69f1c9287..4230f49d2732 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -67,6 +67,7 @@ Documentation for filesystem implementations.
-    f2fs
-    gfs2
-    gfs2-uevents
-+   hfs
-    hfsplus
+@@ -60,6 +60,7 @@ Documentation for filesystem implementations.
+    debugfs
+    dlmfs
+    ecryptfs
++   efivarfs
     fuse
     overlayfs
+    virtiofs
 -- 
 2.24.1
 
