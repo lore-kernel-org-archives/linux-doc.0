@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D37FC34027
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D372AC3402B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 36691215A4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A22A8214D8
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955972;
-	bh=9zDTR5QRjybyEBRbC0hot153DpoGQbXP0UsYdGuoZ4s=;
+	s=default; t=1581955979;
+	bh=LG3oAFK5vpjMSOiIa7eciQ7mpgeIZ2uPo0CSanBN9fw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tEPs/CnWmY7FIuYkV+rVZhnlltbUWK82KY74wI+ita3Dux3qz+5TPG8ls7kmz/fou
-	 8Y2G9UCZz0m3IujixNK4AZ604PW4Yq7tk6z02GbHQghXCaBlQfzjxqmRa019ztZQVU
-	 pzzf9zEYHED/3sitXrf9izCbEqjmjGEsDcXhnpjQ=
+	b=RD0hy8TG4DAq70dQNynz3j4auUFyg+1pGkjPHIfU1VY36xWqQ4RiDWTEukrPTkyDw
+	 J5zSitgA1gekgtnbVQov/IItpaOR4qd/LdRhd5qYs+oPRMLN+jmPf0w12Sztl1oR7F
+	 Q1JghHnnrDLdtkvL6MHz60UDP5KyqYLgrXHXL8+g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729735AbgBQQMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:38 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47306 "EHLO
+        id S1729784AbgBQQM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:59 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47244 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729717AbgBQQMf (ORCPT
+        with ESMTP id S1729708AbgBQQMf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=DgeMFbHb+MCdIgt0dzyI2D6t1+JBcmRlYvY42H1ulsg=; b=oGWbRTY4yzQSOZAXJ1WwTMej+2
-        IvWeL4GJ1KS+WyQN8rrGiiDy4mgIpd1Lj20PjAO3vs0n+nlOD6pb3MYzzNQSbiTUKzrn3Z75zbLFv
-        /nPfhQ1hnJ1cWFCM6tombviJ9OaLIAQoJdMaoihKgSmCdqhJ4Nd4B/FJ/Z17OuKBdcY3Cbz292V58
-        tILIx3cFhA19zHOOD4mU4dSuMdLcxdP8EhvIuzfSzRvHQzI3WsK6Jo2el41JzdlXXRLwabgGzpBVb
-        USeXifSfWX4G7ev47L4yoeat962Xb3Jca7XqjhENj7rDXbHJgh4B81Tlbtj682mUuR2BAWXJyyvsT
-        abwzVkJw==;
-Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
+        bh=hyKXSXNiYvlW+ifKDgwyMt87FRJRqPTrasipgk9/uCM=; b=cZ/CG8tosvGYPGXqpwJmi8xtKK
+        8udDVg+XbeXBpkwSqLFAKmMEiaj33SRk8FZEJU8i26DasTh95zCP2SmZAKns++TnAXUpUmexVBoPq
+        3ulboojjZEnAfDkrG4E6M0TfLPKVnvLMEoU8enlYjeN0HUJAQ9FRww+iaZAmZhtnP8D0wjTPJ4nkc
+        4uMDy05cXYOSXAsS0+Aq4sY9q1RWXnhatPLoAN85QsXZTOH4pGprk8BrS2iE/1gOb14w0703S0WQR
+        Vjy2SiTljmSGzv6kuxpJdwbj22iyI0tsHFDdgosr92kExstZwP88xDbuKgNw+rLRReCVoL0HKN/Ng
+        H/TTCK2A==;
+Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0d-0006uU-Kv; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0d-0006uw-3d; Mon, 17 Feb 2020 16:12:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fc9-C9; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0b-000fbf-5X; Mon, 17 Feb 2020 17:12:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 40/44] docs: filesystems: convert tmpfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:26 +0100
-Message-Id: <30397a47a78ca59760fbc0fc5f50c5f1002d487a.1581955849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 34/44] docs: filesystems: convert ramfs-rootfs-initramfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:20 +0100
+Message-Id: <89cbcc99a6371f3bff3ea1668fe497e8a15c226b.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -64,158 +64,151 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add table markups;
-- Use :field: markup;
+- Use notes markups;
+- Add lists markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/filesystems/index.rst           |  1 +
- .../filesystems/{tmpfs.txt => tmpfs.rst}      | 44 ++++++++++++-------
- 2 files changed, 30 insertions(+), 15 deletions(-)
- rename Documentation/filesystems/{tmpfs.txt => tmpfs.rst} (86%)
+ ...itramfs.txt => ramfs-rootfs-initramfs.rst} | 54 +++++++++++--------
+ 2 files changed, 33 insertions(+), 22 deletions(-)
+ rename Documentation/filesystems/{ramfs-rootfs-initramfs.txt => ramfs-rootfs-initramfs.rst} (91%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index d583b8b35196..27d37e7712da 100644
+index 08883a481a76..b8689d082911 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -89,5 +89,6 @@ Documentation for filesystem implementations.
-    squashfs
-    sysfs
-    sysv-fs
-+   tmpfs
+@@ -83,5 +83,6 @@ Documentation for filesystem implementations.
+    overlayfs
+    proc
+    qnx6
++   ramfs-rootfs-initramfs
     virtiofs
     vfat
-diff --git a/Documentation/filesystems/tmpfs.txt b/Documentation/filesystems/tmpfs.rst
-similarity index 86%
-rename from Documentation/filesystems/tmpfs.txt
-rename to Documentation/filesystems/tmpfs.rst
-index 5ecbc03e6b2f..4e95929301a5 100644
---- a/Documentation/filesystems/tmpfs.txt
-+++ b/Documentation/filesystems/tmpfs.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+similarity index 91%
+rename from Documentation/filesystems/ramfs-rootfs-initramfs.txt
+rename to Documentation/filesystems/ramfs-rootfs-initramfs.rst
+index 97d42ccaa92d..6c576e241d86 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+@@ -1,5 +1,11 @@
+-ramfs, rootfs and initramfs
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=====
-+Tmpfs
-+=====
++===========================
++Ramfs, rootfs and initramfs
++===========================
 +
- Tmpfs is a file system which keeps all files in virtual memory.
- 
- 
-@@ -14,7 +20,7 @@ If you compare it to ramfs (which was the template to create tmpfs)
- you gain swapping and limit checking. Another similar thing is the RAM
- disk (/dev/ram*), which simulates a fixed size hard disk in physical
- RAM, where you have to create an ordinary filesystem on top. Ramdisks
--cannot swap and you do not have the possibility to resize them. 
-+cannot swap and you do not have the possibility to resize them.
- 
- Since tmpfs lives completely in the page cache and on swap, all tmpfs
- pages will be shown as "Shmem" in /proc/meminfo and "Shared" in
-@@ -26,7 +32,7 @@ tmpfs has the following uses:
- 
- 1) There is always a kernel internal mount which you will not see at
-    all. This is used for shared anonymous mappings and SYSV shared
--   memory. 
-+   memory.
- 
-    This mount does not depend on CONFIG_TMPFS. If CONFIG_TMPFS is not
-    set, the user visible part of tmpfs is not build. But the internal
-@@ -34,7 +40,7 @@ tmpfs has the following uses:
- 
- 2) glibc 2.2 and above expects tmpfs to be mounted at /dev/shm for
-    POSIX shared memory (shm_open, shm_unlink). Adding the following
--   line to /etc/fstab should take care of this:
-+   line to /etc/fstab should take care of this::
- 
- 	tmpfs	/dev/shm	tmpfs	defaults	0 0
- 
-@@ -56,15 +62,17 @@ tmpfs has the following uses:
- 
- tmpfs has three mount options for sizing:
- 
--size:      The limit of allocated bytes for this tmpfs instance. The 
-+=========  ============================================================
-+size       The limit of allocated bytes for this tmpfs instance. The
-            default is half of your physical RAM without swap. If you
-            oversize your tmpfs instances the machine will deadlock
-            since the OOM handler will not be able to free that memory.
--nr_blocks: The same as size, but in blocks of PAGE_SIZE.
--nr_inodes: The maximum number of inodes for this instance. The default
-+nr_blocks  The same as size, but in blocks of PAGE_SIZE.
-+nr_inodes  The maximum number of inodes for this instance. The default
-            is half of the number of your physical RAM pages, or (on a
-            machine with highmem) the number of lowmem RAM pages,
-            whichever is the lower.
-+=========  ============================================================
- 
- These parameters accept a suffix k, m or g for kilo, mega and giga and
- can be changed on remount.  The size parameter also accepts a suffix %
-@@ -82,6 +90,7 @@ tmpfs has a mount option to set the NUMA memory allocation policy for
- all files in that instance (if CONFIG_NUMA is enabled) - which can be
- adjusted on the fly via 'mount -o remount ...'
- 
-+======================== ==============================================
- mpol=default             use the process allocation policy
-                          (see set_mempolicy(2))
- mpol=prefer:Node         prefers to allocate memory from the given Node
-@@ -89,6 +98,7 @@ mpol=bind:NodeList       allocates memory only from nodes in NodeList
- mpol=interleave          prefers to allocate from each node in turn
- mpol=interleave:NodeList allocates from each node of NodeList in turn
- mpol=local		 prefers to allocate memory from the local node
-+======================== ==============================================
- 
- NodeList format is a comma-separated list of decimal numbers and ranges,
- a range being two hyphen-separated decimal numbers, the smallest and
-@@ -98,9 +108,9 @@ A memory policy with a valid NodeList will be saved, as specified, for
- use at file creation time.  When a task allocates a file in the file
- system, the mount option memory policy will be applied with a NodeList,
- if any, modified by the calling task's cpuset constraints
--[See Documentation/admin-guide/cgroup-v1/cpusets.rst] and any optional flags, listed
--below.  If the resulting NodeLists is the empty set, the effective memory
--policy for the file will revert to "default" policy.
-+[See Documentation/admin-guide/cgroup-v1/cpusets.rst] and any optional flags,
-+listed below.  If the resulting NodeLists is the empty set, the effective
-+memory policy for the file will revert to "default" policy.
- 
- NUMA memory allocation policies have optional flags that can be used in
- conjunction with their modes.  These optional flags can be specified
-@@ -109,6 +119,8 @@ See Documentation/admin-guide/mm/numa_memory_policy.rst for a list of
- all available memory allocation policy mode flags and their effect on
- memory policy.
- 
-+::
+ October 17, 2005
 +
- 	=static		is equivalent to	MPOL_F_STATIC_NODES
- 	=relative	is equivalent to	MPOL_F_RELATIVE_NODES
+ Rob Landley <rob@landley.net>
+ =============================
  
-@@ -128,9 +140,11 @@ on MountPoint, by 'mount -o remount,mpol=Policy:NodeList MountPoint'.
- To specify the initial root directory you can use the following mount
- options:
+@@ -99,14 +105,14 @@ out of that.
+ All this differs from the old initrd in several ways:
  
--mode:	The permissions as an octal number
--uid:	The user id 
--gid:	The group id
-+====	==================================
-+mode	The permissions as an octal number
-+uid	The user id
-+gid	The group id
-+====	==================================
+   - The old initrd was always a separate file, while the initramfs archive is
+-    linked into the linux kernel image.  (The directory linux-*/usr is devoted
+-    to generating this archive during the build.)
++    linked into the linux kernel image.  (The directory ``linux-*/usr`` is
++    devoted to generating this archive during the build.)
  
- These options do not have any effect on remount. You can change these
- parameters with chmod(1), chown(1) and chgrp(1) on a mounted filesystem.
-@@ -141,9 +155,9 @@ will give you tmpfs instance on /mytmpfs which can allocate 10GB
- RAM/SWAP in 10240 inodes and it is only accessible by root.
+   - The old initrd file was a gzipped filesystem image (in some file format,
+     such as ext2, that needed a driver built into the kernel), while the new
+     initramfs archive is a gzipped cpio archive (like tar only simpler,
+-    see cpio(1) and Documentation/driver-api/early-userspace/buffer-format.rst).  The
+-    kernel's cpio extraction code is not only extremely small, it's also
++    see cpio(1) and Documentation/driver-api/early-userspace/buffer-format.rst).
++    The kernel's cpio extraction code is not only extremely small, it's also
+     __init text and data that can be discarded during the boot process.
  
+   - The program run by the old initrd (which was called /initrd, not /init) did
+@@ -139,7 +145,7 @@ and living in usr/Kconfig) can be used to specify a source for the
+ initramfs archive, which will automatically be incorporated into the
+ resulting binary.  This option can point to an existing gzipped cpio
+ archive, a directory containing files to be archived, or a text file
+-specification such as the following example:
++specification such as the following example::
  
--Author:
-+:Author:
-    Christoph Rohland <cr@sap.com>, 1.12.01
--Updated:
-+:Updated:
-    Hugh Dickins, 4 June 2007
--Updated:
-+:Updated:
-    KOSAKI Motohiro, 16 Mar 2010
+   dir /dev 755 0 0
+   nod /dev/console 644 0 0 c 5 1
+@@ -175,12 +181,12 @@ or extracting your own preprepared cpio files to feed to the kernel build
+ (instead of a config file or directory).
+ 
+ The following command line can extract a cpio image (either by the above script
+-or by the kernel build) back into its component files:
++or by the kernel build) back into its component files::
+ 
+   cpio -i -d -H newc -F initramfs_data.cpio --no-absolute-filenames
+ 
+ The following shell script can create a prebuilt cpio archive you can
+-use in place of the above config file:
++use in place of the above config file::
+ 
+   #!/bin/sh
+ 
+@@ -202,14 +208,17 @@ use in place of the above config file:
+     exit 1
+   fi
+ 
+-Note: The cpio man page contains some bad advice that will break your initramfs
+-archive if you follow it.  It says "A typical way to generate the list
+-of filenames is with the find command; you should give find the -depth option
+-to minimize problems with permissions on directories that are unwritable or not
+-searchable."  Don't do this when creating initramfs.cpio.gz images, it won't
+-work.  The Linux kernel cpio extractor won't create files in a directory that
+-doesn't exist, so the directory entries must go before the files that go in
+-those directories.  The above script gets them in the right order.
++.. Note::
++
++   The cpio man page contains some bad advice that will break your initramfs
++   archive if you follow it.  It says "A typical way to generate the list
++   of filenames is with the find command; you should give find the -depth
++   option to minimize problems with permissions on directories that are
++   unwritable or not searchable."  Don't do this when creating
++   initramfs.cpio.gz images, it won't work.  The Linux kernel cpio extractor
++   won't create files in a directory that doesn't exist, so the directory
++   entries must go before the files that go in those directories.
++   The above script gets them in the right order.
+ 
+ External initramfs images:
+ --------------------------
+@@ -236,9 +245,10 @@ An initramfs archive is a complete self-contained root filesystem for Linux.
+ If you don't already understand what shared libraries, devices, and paths
+ you need to get a minimal root filesystem up and running, here are some
+ references:
+-http://www.tldp.org/HOWTO/Bootdisk-HOWTO/
+-http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
+-http://www.linuxfromscratch.org/lfs/view/stable/
++
++- http://www.tldp.org/HOWTO/Bootdisk-HOWTO/
++- http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
++- http://www.linuxfromscratch.org/lfs/view/stable/
+ 
+ The "klibc" package (http://www.kernel.org/pub/linux/libs/klibc) is
+ designed to be a tiny C library to statically link early userspace
+@@ -255,7 +265,7 @@ name lookups, even when otherwise statically linked.)
+ 
+ A good first step is to get initramfs to run a statically linked "hello world"
+ program as init, and test it under an emulator like qemu (www.qemu.org) or
+-User Mode Linux, like so:
++User Mode Linux, like so::
+ 
+   cat > hello.c << EOF
+   #include <stdio.h>
+@@ -326,8 +336,8 @@ the above threads) is:
+ 
+    explained his reasoning:
+ 
+-      http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html
+-      http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html
++     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html
++     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html
+ 
+    and, most importantly, designed and implemented the initramfs code.
+ 
 -- 
 2.24.1
 
