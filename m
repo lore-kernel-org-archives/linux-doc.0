@@ -4,1218 +4,409 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA9DC34026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF56FC3402B
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C840824681
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C30D524680
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581956448;
-	bh=SB4DxHrmZaO+sDvzahFDE7q6i6CpsjHN7JV6YBKgZlY=;
+	s=default; t=1581956449;
+	bh=v7VaydWSAceQL49yaEGidbrVpAS3EDgUZ7WBRom2Iok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vyJBaS/KlIRvRiSaOk8TfsMp7RdfPodRQCXX6hBJIeyMlEvOnVxIC5mh/HKf7afI9
-	 cRHEH9C/mCmCy+dyQMYG1r4MEm124kIt/mdbXs3KrPLYAOrALh5cRoadaHt2ZTKkmM
-	 M4jLPXECv7CtNro12I/SzauyeTgYeheim0mFLjvA=
+	b=qHXO49pyVJNQ+ISdC5s35eZhZcQaHRUoM8BYBfHiaWAs+aabNxjytc1TitBwt9/UQ
+	 MkyzaIHhhE3IfEGDdiZiZ9Y579S1triuY2nW2rRCGYLJKOziH1CRLVJXLvlCk5Vimk
+	 TVBrRH9ITnVDi3E3GOKRjoMwIFDx9Uv+ie/QwqH0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbgBQQUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:20:48 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54970 "EHLO
+        id S1728641AbgBQQUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:20:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55010 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728504AbgBQQUr (ORCPT
+        with ESMTP id S1728671AbgBQQUr (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:20:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=va21xdwpKXMOJC9TVJd3hwu9mfh6LX6QYKWikZOSyHs=; b=ebgLgVLnU1zzoEV9wYpxIFKW4q
-        OHycBJVam8dl+BpeWB1VKVTGdt/4ldIC0LG6NBKhFcQVpb16Kq7fyfJgvxSf/axqicY0mrOMDdn2x
-        4a0CKQMH0zAuJZCqXiHBDm3ut57kBtwxa4ET7rIv10eJ9KeYjbksvJ/TxILr0BNaJjN7vUzYsgTqt
-        PefLTbprt12wb/TmFW1WQp+3J2BpO5ta3aQBOT+AGX6w5lRpMHL0z3ee026qKV79Cl4fv9sxZcyyk
-        rupCFC8GQDK3GNeYQQnxSRS9dPD3xOhZ2WW0qYl3qT05Vm9E0C8OskWRVOrR8rsPr03KQ0et+Puwj
-        CV9KpZkw==;
-Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description;
+        bh=VuPZopcPVgZNDCW51vVmxg0nP0lSy2Z9nj9rgMXxMGE=; b=rzetBbBLL9qVKmrzDEvmLnYTPq
+        yZ6vvD5YJOseHfQrtXawWNEbpUIcrErel9hP9QK1iofSgVVq2peKotpKL6wqyTMlrhdTmf1P+2hJb
+        MBbVJwsaAiQQ8QqmsZFbUK5VajB3BUeqfDA+61IfdbehN1DIkZwTBZD2xYteRyR4WpA/Z3c+hL58K
+        pJjVIBKbneC3HQLB07XOa9GATlqO7dr3qEYJJVa2AhPxlSaLbiDFhQMOlFe2sMqQOg5C9fX01pG9e
+        DKmv/Cc65A0vOH4fTHwHYRpajb19ulDIVUyWZDLJHoHCDRjTauoIgj6xj5+yYTTHsHIZcPo7e6rex
+        /wkJUmLQ==;
+Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j8Y-00042N-IR; Mon, 17 Feb 2020 16:20:47 +0000
+        id 1j3j8X-000422-S3; Mon, 17 Feb 2020 16:20:46 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j8W-000fqV-JV; Mon, 17 Feb 2020 17:20:44 +0100
+        id 1j3j8V-000fon-SQ; Mon, 17 Feb 2020 17:20:43 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 24/24] docs: trace: ring-buffer-design.txt: convert to ReST format
-Date:   Mon, 17 Feb 2020 17:20:42 +0100
-Message-Id: <79385eeca41df0febcfffa99fb5764199711286a.1581956285.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-crypto@vger.kernel.org
+Subject: [PATCH v2 03/24] docs: crypto: convert api-intro.txt to ReST format
+Date:   Mon, 17 Feb 2020 17:20:21 +0100
+Message-Id: <25c245a0a13777fe6bb6f9c0bf9e7aaacddb85b2.1581956285.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581956285.git.mchehab+huawei@kernel.org>
 References: <cover.1581956285.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Just like some media documents, this file is dual licensed
-  with GPL and GFDL. As right now the GFDL SPDX definition is
-  bogus (as it doesn't tell anything about invariant parts),
-  let's not use SPDX here. Let's use, instead, the same test
-  as we have on media.
-- Convert title to ReST format;
-- use :field:  markup;
-- Proper mark literal blocks as such;
-- Add it to trace/index.rst file.
+- Change title markups;
+- Mark literal blocks;
+- Use list markups at authors/credits;
+- Add blank lines when needed;
+- Remove trailing whitespaces.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/trace/index.rst                 |   1 +
- ...ffer-design.txt => ring-buffer-design.rst} | 802 ++++++++++--------
- 2 files changed, 428 insertions(+), 375 deletions(-)
- rename Documentation/trace/{ring-buffer-design.txt => ring-buffer-design.rst} (55%)
+ .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++++++++++--------
+ Documentation/crypto/index.rst                |   1 +
+ 2 files changed, 100 insertions(+), 87 deletions(-)
+ rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
 
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index fa9e1c730f6a..7d83156c9ac1 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -22,6 +22,7 @@ Linux Tracing Technologies
-    boottime-trace
-    hwlat_detector
-    intel_th
-+   ring-buffer-design
-    stm
-    sys-t
-    coresight/index
-diff --git a/Documentation/trace/ring-buffer-design.txt b/Documentation/trace/ring-buffer-design.rst
-similarity index 55%
-rename from Documentation/trace/ring-buffer-design.txt
-rename to Documentation/trace/ring-buffer-design.rst
-index 2d53c6f25b91..7e3e75105cb6 100644
---- a/Documentation/trace/ring-buffer-design.txt
-+++ b/Documentation/trace/ring-buffer-design.rst
-@@ -1,11 +1,39 @@
--		Lockless Ring Buffer Design
--		===========================
-+.. This file is dual-licensed: you can use it either under the terms
-+.. of the GPL 2.0 or the GFDL 1.2+ license, at your option. Note that this
-+.. dual licensing only applies to this file, and not this project as a
-+.. whole.
-+..
-+.. a) This file is free software; you can redistribute it and/or
-+..    modify it under the terms of the GNU General Public License as
-+..    published by the Free Software Foundation version 2 of
-+..    the License.
-+..
-+..    This file is distributed in the hope that it will be useful,
-+..    but WITHOUT ANY WARRANTY; without even the implied warranty of
-+..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+..    GNU General Public License for more details.
-+..
-+.. Or, alternatively,
-+..
-+.. b) Permission is granted to copy, distribute and/or modify this
-+..    document under the terms of the GNU Free Documentation License,
-+..    Version 1.1 or any later version published by the Free Software
-+..    Foundation, with no Invariant Sections, no Front-Cover Texts
-+..    and no Back-Cover Texts. A copy of the license is included at
-+..    Documentation/media/uapi/fdl-appendix.rst.
-+..
-+.. TODO: replace it to GPL-2.0 OR GFDL-1.2-or-later WITH no-invariant-sections
+diff --git a/Documentation/crypto/api-intro.txt b/Documentation/crypto/api-intro.rst
+similarity index 70%
+rename from Documentation/crypto/api-intro.txt
+rename to Documentation/crypto/api-intro.rst
+index 45d943fcae5b..bcff47d42189 100644
+--- a/Documentation/crypto/api-intro.txt
++++ b/Documentation/crypto/api-intro.rst
+@@ -1,7 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
+ 
+-                    Scatterlist Cryptographic API
+-                   
+-INTRODUCTION
++=============================
++Scatterlist Cryptographic API
++=============================
 +
-+===========================
-+Lockless Ring Buffer Design
-+===========================
++Introduction
++============
  
- Copyright 2009 Red Hat Inc.
--   Author:   Steven Rostedt <srostedt@redhat.com>
--  License:   The GNU Free Documentation License, Version 1.2
--               (dual licensed under the GPL v2)
--Reviewers:   Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
+ The Scatterlist Crypto API takes page vectors (scatterlists) as
+ arguments, and works directly on pages.  In some cases (e.g. ECB
+@@ -13,22 +17,23 @@ so that processing can be applied to paged skb's without the need
+ for linearization.
+ 
+ 
+-DETAILS
++Details
++=======
+ 
+ At the lowest level are algorithms, which register dynamically with the
+ API.
+ 
+ 'Transforms' are user-instantiated objects, which maintain state, handle all
+-of the implementation logic (e.g. manipulating page vectors) and provide an 
+-abstraction to the underlying algorithms.  However, at the user 
++of the implementation logic (e.g. manipulating page vectors) and provide an
++abstraction to the underlying algorithms.  However, at the user
+ level they are very simple.
+ 
+-Conceptually, the API layering looks like this:
++Conceptually, the API layering looks like this::
+ 
+   [transform api]  (user interface)
+   [transform ops]  (per-type logic glue e.g. cipher.c, compress.c)
+   [algorithm api]  (for registering algorithms)
+-  
 +
-+:Author:   Steven Rostedt <srostedt@redhat.com>
-+:License:  The GNU Free Documentation License, Version 1.2
-+           (dual licensed under the GPL v2)
-+:Reviewers:  Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
- 	     and Frederic Weisbecker.
+ The idea is to make the user interface and algorithm registration API
+ very simple, while hiding the core logic from both.  Many good ideas
+ from existing APIs such as Cryptoapi and Nettle have been adapted for this.
+@@ -44,21 +49,21 @@ one block while the former can operate on an arbitrary amount of data,
+ subject to block size requirements (i.e., non-stream ciphers can only
+ process multiples of blocks).
  
+-Here's an example of how to use the API:
++Here's an example of how to use the API::
  
-@@ -14,37 +42,50 @@ Written for: 2.6.31
- Terminology used in this Document
- ---------------------------------
- 
--tail - where new writes happen in the ring buffer.
-+tail
-+	- where new writes happen in the ring buffer.
- 
--head - where new reads happen in the ring buffer.
-+head
-+	- where new reads happen in the ring buffer.
- 
--producer - the task that writes into the ring buffer (same as writer)
-+producer
-+	- the task that writes into the ring buffer (same as writer)
- 
--writer - same as producer
-+writer
-+	- same as producer
- 
--consumer - the task that reads from the buffer (same as reader)
-+consumer
-+	- the task that reads from the buffer (same as reader)
- 
--reader - same as consumer.
-+reader
-+	- same as consumer.
- 
--reader_page - A page outside the ring buffer used solely (for the most part)
--    by the reader.
-+reader_page
-+	- A page outside the ring buffer used solely (for the most part)
-+	  by the reader.
- 
--head_page - a pointer to the page that the reader will use next
-+head_page
-+	- a pointer to the page that the reader will use next
- 
--tail_page - a pointer to the page that will be written to next
-+tail_page
-+	- a pointer to the page that will be written to next
- 
--commit_page - a pointer to the page with the last finished non-nested write.
-+commit_page
-+	- a pointer to the page with the last finished non-nested write.
- 
--cmpxchg - hardware-assisted atomic transaction that performs the following:
-+cmpxchg
-+	- hardware-assisted atomic transaction that performs the following::
- 
--   A = B if previous A == C
-+	    A = B if previous A == C
- 
--   R = cmpxchg(A, C, B) is saying that we replace A with B if and only if
--      current A is equal to C, and we put the old (current) A into R
-+	    R = cmpxchg(A, C, B) is saying that we replace A with B if and only
-+		if current A is equal to C, and we put the old (current)
-+		A into R
- 
--   R gets the previous A regardless if A is updated with B or not.
-+	    R gets the previous A regardless if A is updated with B or not.
- 
--   To see if the update was successful a compare of R == C may be used.
-+	  To see if the update was successful a compare of ``R == C``
-+	  may be used.
- 
- The Generic Ring Buffer
- -----------------------
-@@ -64,7 +105,7 @@ No two writers can write at the same time (on the same per-cpu buffer),
- but a writer may interrupt another writer, but it must finish writing
- before the previous writer may continue. This is very important to the
- algorithm. The writers act like a "stack". The way interrupts works
--enforces this behavior.
-+enforces this behavior::
- 
- 
-   writer1 start
-@@ -115,6 +156,8 @@ A sample of how the reader page is swapped: Note this does not
- show the head page in the buffer, it is for demonstrating a swap
- only.
- 
-+::
+ 	#include <crypto/hash.h>
+ 	#include <linux/err.h>
+ 	#include <linux/scatterlist.h>
+-	
 +
-   +------+
-   |reader|          RING BUFFER
-   |page  |
-@@ -172,21 +215,22 @@ only.
- It is possible that the page swapped is the commit page and the tail page,
- if what is in the ring buffer is less than what is held in a buffer page.
- 
-+::
- 
--          reader page    commit page   tail page
--              |              |             |
--              v              |             |
--             +---+           |             |
--             |   |<----------+             |
--             |   |<------------------------+
--             |   |------+
--             +---+      |
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+            reader page    commit page   tail page
-+                |              |             |
-+                v              |             |
-+               +---+           |             |
-+               |   |<----------+             |
-+               |   |<------------------------+
-+               |   |------+
-+               +---+      |
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- This case is still valid for this algorithm.
- When the writer leaves the page, it simply goes into the ring buffer
-@@ -196,15 +240,19 @@ buffer.
- 
- The main pointers:
- 
--  reader page - The page used solely by the reader and is not part
--                of the ring buffer (may be swapped in)
-+  reader page
-+	    - The page used solely by the reader and is not part
-+              of the ring buffer (may be swapped in)
- 
--  head page - the next page in the ring buffer that will be swapped
-+  head page
-+	    - the next page in the ring buffer that will be swapped
-               with the reader page.
- 
--  tail page - the page where the next write will take place.
-+  tail page
-+	    - the page where the next write will take place.
- 
--  commit page - the page that last finished a write.
-+  commit page
-+	    - the page that last finished a write.
- 
- The commit page only is updated by the outermost writer in the
- writer stack. A writer that preempts another writer will not move the
-@@ -219,7 +267,7 @@ transaction. If another write happens it must finish before continuing
- with the previous write.
- 
- 
--   Write reserve:
-+   Write reserve::
- 
-        Buffer page
-       +---------+
-@@ -230,7 +278,7 @@ with the previous write.
-       | empty   |
-       +---------+
- 
--   Write commit:
-+   Write commit::
- 
-        Buffer page
-       +---------+
-@@ -242,7 +290,7 @@ with the previous write.
-       +---------+
- 
- 
-- If a write happens after the first reserve:
-+ If a write happens after the first reserve::
- 
-        Buffer page
-       +---------+
-@@ -253,7 +301,7 @@ with the previous write.
-       |reserved |
-       +---------+ <--- tail pointer
- 
--  After second writer commits:
-+  After second writer commits::
- 
- 
-        Buffer page
-@@ -266,7 +314,7 @@ with the previous write.
-       |commit   |
-       +---------+ <--- tail pointer
- 
--  When the first writer commits:
-+  When the first writer commits::
- 
-        Buffer page
-       +---------+
-@@ -292,21 +340,22 @@ be several pages ahead. If the tail page catches up to the commit
- page then no more writes may take place (regardless of the mode
- of the ring buffer: overwrite and produce/consumer).
- 
--The order of pages is:
-+The order of pages is::
- 
-  head page
-  commit page
-  tail page
- 
--Possible scenario:
--                             tail page
--  head page         commit page  |
--      |                 |        |
--      v                 v        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+Possible scenario::
+ 	struct scatterlist sg[2];
+ 	char result[128];
+ 	struct crypto_ahash *tfm;
+ 	struct ahash_request *req;
+-	
 +
-+                               tail page
-+    head page         commit page  |
-+        |                 |        |
-+        v                 v        v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- There is a special case that the head page is after either the commit page
- and possibly the tail page. That is when the commit (and tail) page has been
-@@ -315,24 +364,25 @@ part of the ring buffer, but the reader page is not. Whenever there
- has been less than a full page that has been committed inside the ring buffer,
- and a reader swaps out a page, it will be swapping out the commit page.
- 
-+::
- 
--          reader page    commit page   tail page
--              |              |             |
--              v              |             |
--             +---+           |             |
--             |   |<----------+             |
--             |   |<------------------------+
--             |   |------+
--             +---+      |
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
--                        ^
--                        |
--                    head page
-+            reader page    commit page   tail page
-+                |              |             |
-+                v              |             |
-+               +---+           |             |
-+               |   |<----------+             |
-+               |   |<------------------------+
-+               |   |------+
-+               +---+      |
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
-+                          ^
-+                          |
-+                      head page
- 
- 
- In this case, the head page will not move when the tail and commit
-@@ -347,42 +397,42 @@ When the tail meets the head page, if the buffer is in overwrite mode,
- the head page will be pushed ahead one. If the buffer is in producer/consumer
- mode, the write will fail.
- 
--Overwrite mode:
-+Overwrite mode::
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
--                        ^
--                        |
--                    head page
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
-+                          ^
-+                          |
-+                      head page
- 
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
--                                 ^
--                                 |
--                             head page
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
-+                                   ^
-+                                   |
-+                               head page
- 
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
--                                 ^
--                                 |
--                             head page
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
-+                                   ^
-+                                   |
-+                               head page
- 
- Note, the reader page will still point to the previous head page.
- But when a swap takes place, it will use the most recent head page.
-@@ -397,7 +447,7 @@ State flags are placed inside the pointer to the page. To do this,
- each page must be aligned in memory by 4 bytes. This will allow the 2
- least significant bits of the address to be used as flags, since
- they will always be zero for the address. To get the address,
--simply mask out the flags.
-+simply mask out the flags::
- 
-   MASK = ~3
- 
-@@ -405,24 +455,27 @@ simply mask out the flags.
- 
- Two flags will be kept by these two bits:
- 
--   HEADER - the page being pointed to is a head page
-+   HEADER
-+	- the page being pointed to is a head page
- 
--   UPDATE - the page being pointed to is being updated by a writer
-+   UPDATE
-+	- the page being pointed to is being updated by a writer
-           and was or is about to be a head page.
- 
-+::
- 
--          reader page
--              |
--              v
--             +---+
--             |   |------+
--             +---+      |
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+	      reader page
-+		  |
-+	 	  v
-+		+---+
-+		|   |------+
-+		+---+      |
-+			    |
-+			    v
-+	+---+    +---+    +---+    +---+
-+    <---|   |--->|   |-H->|   |--->|   |--->
-+    --->|   |<---|   |<---|   |<---|   |<---
-+	+---+    +---+    +---+    +---+
- 
- 
- The above pointer "-H->" would have the HEADER flag set. That is
-@@ -430,24 +483,24 @@ the next page is the next page to be swapped out by the reader.
- This pointer means the next page is the head page.
- 
- When the tail page meets the head pointer, it will use cmpxchg to
--change the pointer to the UPDATE state:
-+change the pointer to the UPDATE state::
- 
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-H->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- "-U->" represents a pointer in the UPDATE state.
- 
-@@ -462,7 +515,7 @@ head page does not have the HEADER flag set, the compare will fail
- and the reader will need to look for the new head page and try again.
- Note, the flags UPDATE and HEADER are never set at the same time.
- 
--The reader swaps the reader page as follows:
-+The reader swaps the reader page as follows::
- 
-   +------+
-   |reader|          RING BUFFER
-@@ -477,7 +530,7 @@ The reader swaps the reader page as follows:
-                    +-----H-------------+
- 
- The reader sets the reader page next pointer as HEADER to the page after
--the head page.
-+the head page::
- 
- 
-   +------+
-@@ -495,7 +548,7 @@ the head page.
- 
- It does a cmpxchg with the pointer to the previous head page to make it
- point to the reader page. Note that the new pointer does not have the HEADER
--flag set.  This action atomically moves the head page forward.
-+flag set.  This action atomically moves the head page forward::
- 
-   +------+
-   |reader|          RING BUFFER
-@@ -511,7 +564,7 @@ flag set.  This action atomically moves the head page forward.
-     +------------------------------------+
- 
- After the new head page is set, the previous pointer of the head page is
--updated to the reader page.
-+updated to the reader page::
- 
-   +------+
-   |reader|          RING BUFFER
-@@ -548,7 +601,7 @@ prev pointers may not.
- 
- Note, the way to determine a reader page is simply by examining the previous
- pointer of the page. If the next pointer of the previous page does not
--point back to the original page, then the original page is a reader page:
-+point back to the original page, then the original page is a reader page::
- 
- 
-              +--------+
-@@ -572,54 +625,54 @@ not be able to swap the head page from the buffer, nor will it be able to
- move the head page, until the writer is finished with the move.
- 
- This eliminates any races that the reader can have on the writer. The reader
--must spin, and this is why the reader cannot preempt the writer.
-+must spin, and this is why the reader cannot preempt the writer::
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-H->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--The following page will be made into the new head page.
-+The following page will be made into the new head page::
- 
--           tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+             tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- After the new head page has been set, we can set the old head page
--pointer back to NORMAL.
-+pointer back to NORMAL::
- 
--           tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+             tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--After the head page has been moved, the tail page may now move forward.
-+After the head page has been moved, the tail page may now move forward::
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- 
- The above are the trivial updates. Now for the more complex scenarios.
-@@ -630,26 +683,26 @@ tail page may make it all the way around the buffer and meet the commit
- page. At this time, we must start dropping writes (usually with some kind
- of warning to the user). But what happens if the commit was still on the
- reader page? The commit page is not part of the ring buffer. The tail page
--must account for this.
-+must account for this::
- 
- 
--          reader page    commit page
--              |              |
--              v              |
--             +---+           |
--             |   |<----------+
--             |   |
--             |   |------+
--             +---+      |
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
--               ^
--               |
--           tail page
-+            reader page    commit page
-+                |              |
-+                v              |
-+               +---+           |
-+               |   |<----------+
-+               |   |
-+               |   |------+
-+               +---+      |
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-H->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
-+                 ^
-+                 |
-+             tail page
- 
- If the tail page were to simply push the head page forward, the commit when
- leaving the reader page would not be pointing to the correct page.
-@@ -676,7 +729,7 @@ the head page if the head page is the next page. If the head page
- is not the next page, the tail page is simply updated with a cmpxchg.
- 
- Only writers move the tail page. This must be done atomically to protect
--against nested writers.
-+against nested writers::
- 
-   temp_page = tail_page
-   next_page = temp_page->next
-@@ -684,54 +737,54 @@ against nested writers.
- 
- The above will update the tail page if it is still pointing to the expected
- page. If this fails, a nested write pushed it forward, the current write
--does not need to push it.
-+does not need to push it::
- 
- 
--           temp page
--               |
--               v
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+             temp page
-+                 |
-+                 v
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--Nested write comes in and moves the tail page forward:
-+Nested write comes in and moves the tail page forward::
- 
--                    tail page (moved by nested writer)
--            temp page   |
--               |        |
--               v        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page (moved by nested writer)
-+              temp page   |
-+                 |        |
-+                 v        v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- The above would fail the cmpxchg, but since the tail page has already
- been moved forward, the writer will just try again to reserve storage
- on the new tail page.
- 
--But the moving of the head page is a bit more complex.
-+But the moving of the head page is a bit more complex::
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-H->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--The write converts the head page pointer to UPDATE.
-+The write converts the head page pointer to UPDATE::
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- But if a nested writer preempts here, it will see that the next
- page is a head page, but it is also nested. It will detect that
-@@ -739,217 +792,216 @@ it is nested and will save that information. The detection is the
- fact that it sees the UPDATE flag instead of a HEADER or NORMAL
- pointer.
- 
--The nested writer will set the new head page pointer.
-+The nested writer will set the new head page pointer::
- 
--           tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+             tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- But it will not reset the update back to normal. Only the writer
- that converted a pointer from HEAD to UPDATE will convert it back
--to NORMAL.
-+to NORMAL::
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- After the nested writer finishes, the outermost writer will convert
--the UPDATE pointer to NORMAL.
-+the UPDATE pointer to NORMAL::
- 
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- 
- It can be even more complex if several nested writes came in and moved
--the tail page ahead several pages:
-+the tail page ahead several pages::
- 
- 
--(first writer)
-+  (first writer)
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-H->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-H->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--The write converts the head page pointer to UPDATE.
-+The write converts the head page pointer to UPDATE::
- 
--            tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+              tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- Next writer comes in, and sees the update and sets up the new
--head page.
-+head page::
- 
--(second writer)
-+  (second writer)
- 
--           tail page
--               |
--               v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+             tail page
-+                 |
-+                 v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- The nested writer moves the tail page forward. But does not set the old
--update page to NORMAL because it is not the outermost writer.
-+update page to NORMAL because it is not the outermost writer::
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- Another writer preempts and sees the page after the tail page is a head page.
--It changes it from HEAD to UPDATE.
-+It changes it from HEAD to UPDATE::
- 
--(third writer)
-+  (third writer)
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-U->|   |--->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-U->|   |--->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
--The writer will move the head page forward:
-+The writer will move the head page forward::
- 
- 
--(third writer)
-+  (third writer)
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-U->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-U->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- But now that the third writer did change the HEAD flag to UPDATE it
--will convert it to normal:
-+will convert it to normal::
- 
- 
--(third writer)
-+  (third writer)
- 
--                    tail page
--                        |
--                        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                      tail page
-+                          |
-+                          v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- 
--Then it will move the tail page, and return back to the second writer.
-+Then it will move the tail page, and return back to the second writer::
- 
- 
--(second writer)
-+  (second writer)
- 
--                             tail page
--                                 |
--                                 v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                               tail page
-+                                   |
-+                                   v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- 
- The second writer will fail to move the tail page because it was already
- moved, so it will try again and add its data to the new tail page.
--It will return to the first writer.
-+It will return to the first writer::
- 
- 
--(first writer)
-+  (first writer)
- 
--                             tail page
--                                 |
--                                 v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                               tail page
-+                                   |
-+                                   v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- The first writer cannot know atomically if the tail page moved
- while it updates the HEAD page. It will then update the head page to
--what it thinks is the new head page.
-+what it thinks is the new head page::
- 
- 
--(first writer)
-+  (first writer)
- 
--                             tail page
--                                 |
--                                 v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                               tail page
-+                                   |
-+                                   v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- Since the cmpxchg returns the old value of the pointer the first writer
- will see it succeeded in updating the pointer from NORMAL to HEAD.
- But as we can see, this is not good enough. It must also check to see
--if the tail page is either where it use to be or on the next page:
-+if the tail page is either where it use to be or on the next page::
- 
- 
--(first writer)
-+  (first writer)
- 
--               A        B    tail page
--               |        |        |
--               v        v        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |-H->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                 A        B    tail page
-+                 |        |        |
-+                 v        v        v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |-H->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- If tail page != A and tail page != B, then it must reset the pointer
- back to NORMAL. The fact that it only needs to worry about nested
--writers means that it only needs to check this after setting the HEAD page.
-+writers means that it only needs to check this after setting the HEAD page::
- 
- 
--(first writer)
-+  (first writer)
- 
--               A        B    tail page
--               |        |        |
--               v        v        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |-U->|   |--->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+                 A        B    tail page
-+                 |        |        |
-+                 v        v        v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |-U->|   |--->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
- 
- Now the writer can update the head page. This is also why the head page must
- remain in UPDATE and only reset by the outermost writer. This prevents
--the reader from seeing the incorrect head page.
-+the reader from seeing the incorrect head page::
- 
- 
--(first writer)
+ 	tfm = crypto_alloc_ahash("md5", 0, CRYPTO_ALG_ASYNC);
+ 	if (IS_ERR(tfm))
+ 		fail();
+-		
++
+ 	/* ... set up the scatterlists ... */
+ 
+ 	req = ahash_request_alloc(tfm, GFP_ATOMIC);
+@@ -67,18 +72,19 @@ Here's an example of how to use the API:
+ 
+ 	ahash_request_set_callback(req, 0, NULL, NULL);
+ 	ahash_request_set_crypt(req, sg, result, 2);
+-	
++
+ 	if (crypto_ahash_digest(req))
+ 		fail();
+ 
+ 	ahash_request_free(req);
+ 	crypto_free_ahash(tfm);
+ 
+-    
++
+ Many real examples are available in the regression test module (tcrypt.c).
+ 
+ 
+-DEVELOPER NOTES
++Developer Notes
++===============
+ 
+ Transforms may only be allocated in user context, and cryptographic
+ methods may only be called from softirq and user contexts.  For
+@@ -91,7 +97,8 @@ size (typically 8 bytes).  This prevents having to do any copying
+ across non-aligned page fragment boundaries.
+ 
+ 
+-ADDING NEW ALGORITHMS
++Adding New Algorithms
++=====================
+ 
+ When submitting a new algorithm for inclusion, a mandatory requirement
+ is that at least a few test vectors from known sources (preferably
+@@ -119,132 +126,137 @@ Also check the TODO list at the web site listed below to see what people
+ might already be working on.
+ 
+ 
+-BUGS
++Bugs
++====
+ 
+ Send bug reports to:
+-linux-crypto@vger.kernel.org
+-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
++    linux-crypto@vger.kernel.org
++
++Cc:
++    Herbert Xu <herbert@gondor.apana.org.au>,
+     David S. Miller <davem@redhat.com>
+ 
+ 
+-FURTHER INFORMATION
++Further Information
++===================
+ 
+ For further patches and various updates, including the current TODO
+ list, see:
+ http://gondor.apana.org.au/~herbert/crypto/
+ 
+ 
+-AUTHORS
++Authors
++=======
+ 
+-James Morris
+-David S. Miller
+-Herbert Xu
++- James Morris
++- David S. Miller
++- Herbert Xu
+ 
+ 
+-CREDITS
++Credits
++=======
+ 
+ The following people provided invaluable feedback during the development
+ of the API:
+ 
+-  Alexey Kuznetzov
+-  Rusty Russell
+-  Herbert Valerio Riedel
+-  Jeff Garzik
+-  Michael Richardson
+-  Andrew Morton
+-  Ingo Oeser
+-  Christoph Hellwig
++  - Alexey Kuznetzov
++  - Rusty Russell
++  - Herbert Valerio Riedel
++  - Jeff Garzik
++  - Michael Richardson
++  - Andrew Morton
++  - Ingo Oeser
++  - Christoph Hellwig
+ 
+ Portions of this API were derived from the following projects:
+-  
++
+   Kerneli Cryptoapi (http://www.kerneli.org/)
+-    Alexander Kjeldaas
+-    Herbert Valerio Riedel
+-    Kyle McMartin
+-    Jean-Luc Cooke
+-    David Bryson
+-    Clemens Fruhwirth
+-    Tobias Ringstrom
+-    Harald Welte
++   - Alexander Kjeldaas
++   - Herbert Valerio Riedel
++   - Kyle McMartin
++   - Jean-Luc Cooke
++   - David Bryson
++   - Clemens Fruhwirth
++   - Tobias Ringstrom
++   - Harald Welte
+ 
+ and;
+-  
++
+   Nettle (http://www.lysator.liu.se/~nisse/nettle/)
+-    Niels Möller
++   - Niels Möller
+ 
+ Original developers of the crypto algorithms:
+ 
+-  Dana L. How (DES)
+-  Andrew Tridgell and Steve French (MD4)
+-  Colin Plumb (MD5)
+-  Steve Reid (SHA1)
+-  Jean-Luc Cooke (SHA256, SHA384, SHA512)
+-  Kazunori Miyazawa / USAGI (HMAC)
+-  Matthew Skala (Twofish)
+-  Dag Arne Osvik (Serpent)
+-  Brian Gladman (AES)
+-  Kartikey Mahendra Bhatt (CAST6)
+-  Jon Oberheide (ARC4)
+-  Jouni Malinen (Michael MIC)
+-  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
++  - Dana L. How (DES)
++  - Andrew Tridgell and Steve French (MD4)
++  - Colin Plumb (MD5)
++  - Steve Reid (SHA1)
++  - Jean-Luc Cooke (SHA256, SHA384, SHA512)
++  - Kazunori Miyazawa / USAGI (HMAC)
++  - Matthew Skala (Twofish)
++  - Dag Arne Osvik (Serpent)
++  - Brian Gladman (AES)
++  - Kartikey Mahendra Bhatt (CAST6)
++  - Jon Oberheide (ARC4)
++  - Jouni Malinen (Michael MIC)
++  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
+ 
+ SHA1 algorithm contributors:
+-  Jean-Francois Dive
+-  
++  - Jean-Francois Dive
++
+ DES algorithm contributors:
+-  Raimar Falke
+-  Gisle Sælensminde
+-  Niels Möller
++  - Raimar Falke
++  - Gisle Sælensminde
++  - Niels Möller
+ 
+ Blowfish algorithm contributors:
+-  Herbert Valerio Riedel
+-  Kyle McMartin
++  - Herbert Valerio Riedel
++  - Kyle McMartin
+ 
+ Twofish algorithm contributors:
+-  Werner Koch
+-  Marc Mutz
++  - Werner Koch
++  - Marc Mutz
+ 
+ SHA256/384/512 algorithm contributors:
+-  Andrew McDonald
+-  Kyle McMartin
+-  Herbert Valerio Riedel
+-  
++  - Andrew McDonald
++  - Kyle McMartin
++  - Herbert Valerio Riedel
++
+ AES algorithm contributors:
+-  Alexander Kjeldaas
+-  Herbert Valerio Riedel
+-  Kyle McMartin
+-  Adam J. Richter
+-  Fruhwirth Clemens (i586)
+-  Linus Torvalds (i586)
++  - Alexander Kjeldaas
++  - Herbert Valerio Riedel
++  - Kyle McMartin
++  - Adam J. Richter
++  - Fruhwirth Clemens (i586)
++  - Linus Torvalds (i586)
+ 
+ CAST5 algorithm contributors:
+-  Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
++  - Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
+ 
+ TEA/XTEA algorithm contributors:
+-  Aaron Grothe
+-  Michael Ringe
++  - Aaron Grothe
++  - Michael Ringe
+ 
+ Khazad algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
+ 
+ Whirlpool algorithm contributors:
+-  Aaron Grothe
+-  Jean-Luc Cooke
++  - Aaron Grothe
++  - Jean-Luc Cooke
+ 
+ Anubis algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
+ 
+ Tiger algorithm contributors:
+-  Aaron Grothe
++  - Aaron Grothe
+ 
+ VIA PadLock contributors:
+-  Michal Ludvig
++  - Michal Ludvig
+ 
+ Camellia algorithm contributors:
+-  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
++  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
+ 
+ Generic scatterwalk code by Adam J. Richter <adam@yggdrasil.com>
+ 
+ Please send any credits updates or corrections to:
+ Herbert Xu <herbert@gondor.apana.org.au>
 -
--               A        B    tail page
--               |        |        |
--               v        v        v
--    +---+    +---+    +---+    +---+
--<---|   |--->|   |--->|   |--->|   |-H->
----->|   |<---|   |<---|   |<---|   |<---
--    +---+    +---+    +---+    +---+
-+  (first writer)
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index 2bcaf422731e..b2eeab3c8631 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -17,6 +17,7 @@ for cryptographic use cases, as well as programming examples.
+    :maxdepth: 2
  
-+                 A        B    tail page
-+                 |        |        |
-+                 v        v        v
-+      +---+    +---+    +---+    +---+
-+  <---|   |--->|   |--->|   |--->|   |-H->
-+  --->|   |<---|   |<---|   |<---|   |<---
-+      +---+    +---+    +---+    +---+
+    intro
++   api-intro
+    architecture
+    asymmetric-keys
+    devel-algos
 -- 
 2.24.1
 
