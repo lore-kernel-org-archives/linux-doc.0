@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6AFC34029
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E5FC34025
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B49D6215A4
+	by mail.kernel.org (Postfix) with ESMTP id E23A1222D9
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955975;
-	bh=qSrWDRrZQRpp/Wn6RhAJZBD2Tvx8kR1GXGWF3+vZZzE=;
+	s=default; t=1581955976;
+	bh=U5dKIoOJE6BobzoWcZ4/ZKqPlT78x+e3/2jrRlqibmQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lMTXL1Py5HR2OS9MwW3xUpWnrmxL+pl1dA00ujVKdpqRuF+vTEZcjRhLL4TgVcSTR
-	 Q7FH337C1DAnPLOh26wcS5GAM0QgUjFLAmesXsMhW82QfzS/GpJ2iwa1husU57MkKG
-	 /JR/cAW8PQR/eZmSl8WfqhRlYPLfwmgjTB+FYrfM=
+	b=vc7+M4z+IXLw3yMHrgiikpCpKkYEhGlASJQA6VX2Ril1682RtnOmj8A+Dml2zoNn0
+	 JvG59FfY7GCtZNROblGtPuuK1VPnF6pculSv3TKvggwjZgGEarLjY22RvI4eYBe/7U
+	 F/qMVLPrewG7rluEZuXcXv7LJ9VWkdHdDy43vOKs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729727AbgBQQMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729750AbgBQQMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 17 Feb 2020 11:12:54 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47300 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:47350 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729719AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1729727AbgBQQMg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=KPt7qVo1+xEzYE120ubz82lJQ4hiA9QwOcTJQY1LUAs=; b=agVR2So/NOOApV6WEzr7CCpX5R
-        lTbYeXoFJfSRCccEIwcNa93e4YgEhLTqDTwkDDerKMA7JJZ0e5xzkSznHAIlCTO0qq+9gU7Vnh9r5
-        cUc2FYmU+c4coZgUE0sciPOsHTFdSNXx2pAF0XOBqQyB8Mo9bz9huy7y3RHHBJycoDMTKBo5QP5wb
-        6nIvOS3CNtG4zWP4jHBLabLeFXhk74WZkkM5xKNBKUg441xvSUeBd2w9I4goCNTeYQDEhGK3vFawk
-        5vFwwUyat4pmuomrdBcPfALvW/WsbI0fFKWjQvY7ZhWGtZYTzhsigGLdPFa1eZwnGInzXDhu91FDL
-        BIN8mmzw==;
+        bh=6VTKyitDm/dBa4zHGp3qXsdh5zEwRB0MexXfVcgXa+c=; b=T8QGLLCWQAAsjnN0SiQWDed7Xd
+        cMGrQgKFP9Y3mN3vRF+uTlHhyllorkZIn44jvG68AyxKhgKobr9LUmiHUoPmMJIfNtp56R/NFJooG
+        yiNuBp5ZKfZpnbTG1htIud0SQXopDzEhs2i81Su49RrAhiFFbjyaWrcQ1z158oH7+iJ7OZBr60XVv
+        S+0rFSzOws5qx6WVM2CEoNWDkOpA4Oe6PdaOYk44hk05suosStkFfGvuajiukXo9Z8kyJJ66sUFnP
+        TrLwV5CwmX4m6rNPzhB/4UricVeqzv7JrVnnjvt2D5CB0nI16owyRkf+81aMDZo2xTh0D4caNgz5M
+        c5SyK/XA==;
 Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006ut-Uc; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0e-0006uW-2u; Mon, 17 Feb 2020 16:12:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0b-000fbQ-00; Mon, 17 Feb 2020 17:12:33 +0100
+        id 1j3j0b-000fcT-GN; Mon, 17 Feb 2020 17:12:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        devel@lists.orangefs.org
-Subject: [PATCH 31/44] docs: filesystems: convert orangefs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:17 +0100
-Message-Id: <6f438eeff5b029d229197a602bd9b74004fe9b63.1581955849.git.mchehab+huawei@kernel.org>
+        linux-fsdevel@vger.kernel.org,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        Johannes Thumshirn <jth@kernel.org>
+Subject: [PATCH 44/44] docs: filesystems: convert zonefs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:30 +0100
+Message-Id: <42a7cfcd19f6b904a9a3188fd4af71bed5050052.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -63,7 +64,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document and section titles;
+- Add a document title;
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add it to filesystems/index.rst.
@@ -71,425 +72,203 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/filesystems/index.rst           |   1 +
- .../{orangefs.txt => orangefs.rst}            | 187 ++++++++++--------
- 2 files changed, 107 insertions(+), 81 deletions(-)
- rename Documentation/filesystems/{orangefs.txt => orangefs.rst} (83%)
+ .../filesystems/{zonefs.txt => zonefs.rst}    | 106 ++++++++++--------
+ 2 files changed, 58 insertions(+), 49 deletions(-)
+ rename Documentation/filesystems/{zonefs.txt => zonefs.rst} (90%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index fbee77175840..fed53f831192 100644
+index ec03cb4d7353..53f46a88e6ec 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -79,6 +79,7 @@ Documentation for filesystem implementations.
-    ocfs2
-    ocfs2-online-filecheck
-    omfs
-+   orangefs
-    overlayfs
+@@ -95,3 +95,4 @@ Documentation for filesystem implementations.
+    udf
     virtiofs
     vfat
-diff --git a/Documentation/filesystems/orangefs.txt b/Documentation/filesystems/orangefs.rst
-similarity index 83%
-rename from Documentation/filesystems/orangefs.txt
-rename to Documentation/filesystems/orangefs.rst
-index f4ba94950e3f..7d6d4cad73c4 100644
---- a/Documentation/filesystems/orangefs.txt
-+++ b/Documentation/filesystems/orangefs.rst
-@@ -1,3 +1,6 @@
++   zonefs
+diff --git a/Documentation/filesystems/zonefs.txt b/Documentation/filesystems/zonefs.rst
+similarity index 90%
+rename from Documentation/filesystems/zonefs.txt
+rename to Documentation/filesystems/zonefs.rst
+index 935bf22031ca..7e733e751e98 100644
+--- a/Documentation/filesystems/zonefs.txt
++++ b/Documentation/filesystems/zonefs.rst
+@@ -1,4 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+========
- ORANGEFS
- ========
++================================================
+ ZoneFS - Zone filesystem for Zoned block devices
++================================================
  
-@@ -21,25 +24,25 @@ Orangefs features include:
-   * Stateless
- 
- 
--MAILING LIST ARCHIVES
-+Mailing List Archives
- =====================
- 
- http://lists.orangefs.org/pipermail/devel_lists.orangefs.org/
- 
- 
--MAILING LIST SUBMISSIONS
-+Mailing List Submissions
- ========================
- 
- devel@lists.orangefs.org
- 
- 
--DOCUMENTATION
-+Documentation
- =============
- 
- http://www.orangefs.org/documentation/
- 
- 
--USERSPACE FILESYSTEM SOURCE
-+Userspace Filesystem Source
- ===========================
- 
- http://www.orangefs.org/download
-@@ -48,16 +51,16 @@ Orangefs versions prior to 2.9.3 would not be compatible with the
- upstream version of the kernel client.
- 
- 
--RUNNING ORANGEFS ON A SINGLE SERVER
-+Running ORANGEFS On a Single Server
- ===================================
- 
- OrangeFS is usually run in large installations with multiple servers and
- clients, but a complete filesystem can be run on a single machine for
- development and testing.
- 
--On Fedora, install orangefs and orangefs-server.
-+On Fedora, install orangefs and orangefs-server::
- 
--dnf -y install orangefs orangefs-server
-+    dnf -y install orangefs orangefs-server
- 
- There is an example server configuration file in
- /etc/orangefs/orangefs.conf.  Change localhost to your hostname if
-@@ -70,29 +73,29 @@ single line.  Uncomment it and change the hostname if necessary.  This
- controls clients which use libpvfs2.  This does not control the
- pvfs2-client-core.
- 
--Create the filesystem.
-+Create the filesystem::
- 
--pvfs2-server -f /etc/orangefs/orangefs.conf
-+    pvfs2-server -f /etc/orangefs/orangefs.conf
- 
--Start the server.
-+Start the server::
- 
--systemctl start orangefs-server
-+    systemctl start orangefs-server
- 
--Test the server.
-+Test the server::
- 
--pvfs2-ping -m /pvfsmnt
-+    pvfs2-ping -m /pvfsmnt
- 
- Start the client.  The module must be compiled in or loaded before this
--point.
-+point::
- 
--systemctl start orangefs-client
-+    systemctl start orangefs-client
- 
--Mount the filesystem.
-+Mount the filesystem::
- 
--mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
-+    mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
- 
- 
--BUILDING ORANGEFS ON A SINGLE SERVER
-+Building ORANGEFS on a Single Server
- ====================================
- 
- Where OrangeFS cannot be installed from distribution packages, it may be
-@@ -102,49 +105,51 @@ You can omit --prefix if you don't care that things are sprinkled around
- in /usr/local.  As of version 2.9.6, OrangeFS uses Berkeley DB by
- default, we will probably be changing the default to LMDB soon.
- 
--./configure --prefix=/opt/ofs --with-db-backend=lmdb
-+::
- 
--make
-+    ./configure --prefix=/opt/ofs --with-db-backend=lmdb
- 
--make install
-+    make
- 
--Create an orangefs config file.
-+    make install
- 
--/opt/ofs/bin/pvfs2-genconfig /etc/pvfs2.conf
-+Create an orangefs config file::
- 
--Create an /etc/pvfs2tab file.
-+    /opt/ofs/bin/pvfs2-genconfig /etc/pvfs2.conf
- 
--echo tcp://localhost:3334/orangefs /pvfsmnt pvfs2 defaults,noauto 0 0 > \
--    /etc/pvfs2tab
-+Create an /etc/pvfs2tab file::
- 
--Create the mount point you specified in the tab file if needed.
-+    echo tcp://localhost:3334/orangefs /pvfsmnt pvfs2 defaults,noauto 0 0 > \
-+	/etc/pvfs2tab
- 
--mkdir /pvfsmnt
-+Create the mount point you specified in the tab file if needed::
- 
--Bootstrap the server.
-+    mkdir /pvfsmnt
- 
--/opt/ofs/sbin/pvfs2-server -f /etc/pvfs2.conf
-+Bootstrap the server::
- 
--Start the server.
-+    /opt/ofs/sbin/pvfs2-server -f /etc/pvfs2.conf
- 
--/opt/osf/sbin/pvfs2-server /etc/pvfs2.conf
-+Start the server::
+ Introduction
+ ============
+@@ -29,6 +33,7 @@ Zoned block devices
+ Zoned storage devices belong to a class of storage devices with an address
+ space that is divided into zones. A zone is a group of consecutive LBAs and all
+ zones are contiguous (there are no LBA gaps). Zones may have different types.
 +
-+    /opt/osf/sbin/pvfs2-server /etc/pvfs2.conf
+ * Conventional zones: there are no access constraints to LBAs belonging to
+   conventional zones. Any read or write access can be executed, similarly to a
+   regular block device.
+@@ -158,6 +163,7 @@ Format options
+ --------------
  
- Now the server should be running. Pvfs2-ls is a simple
--test to verify that the server is running.
-+test to verify that the server is running::
- 
--/opt/ofs/bin/pvfs2-ls /pvfsmnt
-+    /opt/ofs/bin/pvfs2-ls /pvfsmnt
- 
- If stuff seems to be working, load the kernel module and
--turn on the client core.
-+turn on the client core::
- 
--/opt/ofs/sbin/pvfs2-client -p /opt/osf/sbin/pvfs2-client-core
-+    /opt/ofs/sbin/pvfs2-client -p /opt/osf/sbin/pvfs2-client-core
- 
--Mount your filesystem.
-+Mount your filesystem::
- 
--mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
-+    mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
- 
- 
--RUNNING XFSTESTS
-+Running xfstests
- ================
- 
- It is useful to use a scratch filesystem with xfstests.  This can be
-@@ -159,21 +164,23 @@ Then there are two FileSystem sections: orangefs and scratch.
- 
- This change should be made before creating the filesystem.
- 
--pvfs2-server -f /etc/orangefs/orangefs.conf
-+::
- 
--To run xfstests, create /etc/xfsqa.config.
-+    pvfs2-server -f /etc/orangefs/orangefs.conf
- 
--TEST_DIR=/orangefs
--TEST_DEV=tcp://localhost:3334/orangefs
--SCRATCH_MNT=/scratch
--SCRATCH_DEV=tcp://localhost:3334/scratch
-+To run xfstests, create /etc/xfsqa.config::
- 
--Then xfstests can be run
-+    TEST_DIR=/orangefs
-+    TEST_DEV=tcp://localhost:3334/orangefs
-+    SCRATCH_MNT=/scratch
-+    SCRATCH_DEV=tcp://localhost:3334/scratch
- 
--./check -pvfs2
-+Then xfstests can be run::
- 
-+    ./check -pvfs2
- 
--OPTIONS
+ Several optional features of zonefs can be enabled at format time.
 +
-+Options
- =======
+ * Conventional zone aggregation: ranges of contiguous conventional zones can be
+   aggregated into a single larger file instead of the default one file per zone.
+ * File ownership: The owner UID and GID of zone files is by default 0 (root)
+@@ -249,7 +255,7 @@ permissions.
+ Further action taken by zonefs I/O error recovery can be controlled by the user
+ with the "errors=xxx" mount option. The table below summarizes the result of
+ zonefs I/O error processing depending on the mount option and on the zone
+-conditions.
++conditions::
  
- The following mount options are accepted:
-@@ -193,32 +200,32 @@ The following mount options are accepted:
-     Distributed locking is being worked on for the future.
+     +--------------+-----------+-----------------------------------------+
+     |              |           |            Post error state             |
+@@ -275,6 +281,7 @@ conditions.
+     +--------------+-----------+-----------------------------------------+
  
- 
--DEBUGGING
-+Debugging
- =========
- 
- If you want the debug (GOSSIP) statements in a particular
--source file (inode.c for example) go to syslog:
-+source file (inode.c for example) go to syslog::
- 
-   echo inode > /sys/kernel/debug/orangefs/kernel-debug
- 
--No debugging (the default):
-+No debugging (the default)::
- 
-   echo none > /sys/kernel/debug/orangefs/kernel-debug
- 
--Debugging from several source files:
-+Debugging from several source files::
- 
-   echo inode,dir > /sys/kernel/debug/orangefs/kernel-debug
- 
--All debugging:
-+All debugging::
- 
-   echo all > /sys/kernel/debug/orangefs/kernel-debug
- 
--Get a list of all debugging keywords:
-+Get a list of all debugging keywords::
- 
-   cat /sys/kernel/debug/orangefs/debug-help
- 
- 
--PROTOCOL BETWEEN KERNEL MODULE AND USERSPACE
-+Protocol between Kernel Module and Userspace
- ============================================
- 
- Orangefs is a user space filesystem and an associated kernel module.
-@@ -234,7 +241,8 @@ The kernel module implements a pseudo device that userspace
- can read from and write to. Userspace can also manipulate the
- kernel module through the pseudo device with ioctl.
- 
--THE BUFMAP:
-+The Bufmap
-+----------
- 
- At startup userspace allocates two page-size-aligned (posix_memalign)
- mlocked memory buffers, one is used for IO and one is used for readdir
-@@ -250,7 +258,8 @@ copied from user space to kernel space with copy_from_user and is used
- to initialize the kernel module's "bufmap" (struct orangefs_bufmap), which
- then contains:
- 
--  * refcnt - a reference counter
-+  * refcnt
-+    - a reference counter
-   * desc_size - PVFS2_BUFMAP_DEFAULT_DESC_SIZE (4194304) - the IO buffer's
-     partition size, which represents the filesystem's block size and
-     is used for s_blocksize in super blocks.
-@@ -259,17 +268,19 @@ then contains:
-   * desc_shift - log2(desc_size), used for s_blocksize_bits in super blocks.
-   * total_size - the total size of the IO buffer.
-   * page_count - the number of 4096 byte pages in the IO buffer.
--  * page_array - a pointer to page_count * (sizeof(struct page*)) bytes
-+  * page_array - a pointer to ``page_count * (sizeof(struct page*))`` bytes
-     of kcalloced memory. This memory is used as an array of pointers
-     to each of the pages in the IO buffer through a call to get_user_pages.
--  * desc_array - a pointer to desc_count * (sizeof(struct orangefs_bufmap_desc))
-+  * desc_array - a pointer to ``desc_count * (sizeof(struct orangefs_bufmap_desc))``
-     bytes of kcalloced memory. This memory is further intialized:
- 
-       user_desc is the kernel's copy of the IO buffer's ORANGEFS_dev_map_desc
-       structure. user_desc->ptr points to the IO buffer.
- 
--      pages_per_desc = bufmap->desc_size / PAGE_SIZE
--      offset = 0
-+      ::
+ Further notes:
 +
-+	pages_per_desc = bufmap->desc_size / PAGE_SIZE
-+	offset = 0
- 
-         bufmap->desc_array[0].page_array = &bufmap->page_array[offset]
-         bufmap->desc_array[0].array_count = pages_per_desc = 1024
-@@ -293,7 +304,8 @@ then contains:
-   * readdir_index_lock - a spinlock to protect readdir_index_array during
-     update.
- 
--OPERATIONS:
-+Operations
-+----------
- 
- The kernel module builds an "op" (struct orangefs_kernel_op_s) when it
- needs to communicate with userspace. Part of the op contains the "upcall"
-@@ -308,13 +320,19 @@ in flight at any given time.
- 
- Ops are stateful:
- 
-- * unknown  - op was just initialized
-- * waiting  - op is on request_list (upward bound)
-- * inprogr  - op is in progress (waiting for downcall)
-- * serviced - op has matching downcall; ok
-- * purged   - op has to start a timer since client-core
-+ * unknown
-+	    - op was just initialized
-+ * waiting
-+	    - op is on request_list (upward bound)
-+ * inprogr
-+	    - op is in progress (waiting for downcall)
-+ * serviced
-+	    - op has matching downcall; ok
-+ * purged
-+	    - op has to start a timer since client-core
-               exited uncleanly before servicing op
-- * given up - submitter has given up waiting for it
-+ * given up
-+	    - submitter has given up waiting for it
- 
- When some arbitrary userspace program needs to perform a
- filesystem operation on Orangefs (readdir, I/O, create, whatever)
-@@ -389,10 +407,15 @@ union of structs, each of which is associated with a particular
- response type.
- 
- The several members outside of the union are:
-- - int32_t type - type of operation.
-- - int32_t status - return code for the operation.
-- - int64_t trailer_size - 0 unless readdir operation.
-- - char *trailer_buf - initialized to NULL, used during readdir operations.
+ * The "errors=remount-ro" mount option is the default behavior of zonefs I/O
+   error processing if no errors mount option is specified.
+ * With the "errors=remount-ro" mount option, the change of the file access
+@@ -302,6 +309,7 @@ Mount options
+ zonefs define the "errors=<behavior>" mount option to allow the user to specify
+ zonefs behavior in response to I/O errors, inode size inconsistencies or zone
+ condition chages. The defined behaviors are as follow:
 +
-+ ``int32_t type``
-+    - type of operation.
-+ ``int32_t status``
-+    - return code for the operation.
-+ ``int64_t trailer_size``
-+    - 0 unless readdir operation.
-+ ``char *trailer_buf``
-+    - initialized to NULL, used during readdir operations.
+ * remount-ro (default)
+ * zone-ro
+ * zone-offline
+@@ -325,78 +333,78 @@ Examples
+ --------
  
- The appropriate member inside the union is filled out for any
- particular response.
-@@ -449,18 +472,20 @@ Userspace uses writev() on /dev/pvfs2-req to pass responses to the requests
- made by the kernel side.
+ The following formats a 15TB host-managed SMR HDD with 256 MB zones
+-with the conventional zones aggregation feature enabled.
++with the conventional zones aggregation feature enabled::
  
- A buffer_list containing:
-+
-   - a pointer to the prepared response to the request from the
-     kernel (struct pvfs2_downcall_t).
-   - and also, in the case of a readdir request, a pointer to a
-     buffer containing descriptors for the objects in the target
-     directory.
-+
- ... is sent to the function (PINT_dev_write_list) which performs
- the writev.
+-# mkzonefs -o aggr_cnv /dev/sdX
+-# mount -t zonefs /dev/sdX /mnt
+-# ls -l /mnt/
+-total 0
+-dr-xr-xr-x 2 root root     1 Nov 25 13:23 cnv
+-dr-xr-xr-x 2 root root 55356 Nov 25 13:23 seq
++    # mkzonefs -o aggr_cnv /dev/sdX
++    # mount -t zonefs /dev/sdX /mnt
++    # ls -l /mnt/
++    total 0
++    dr-xr-xr-x 2 root root     1 Nov 25 13:23 cnv
++    dr-xr-xr-x 2 root root 55356 Nov 25 13:23 seq
  
- PINT_dev_write_list has a local iovec array: struct iovec io_array[10];
+ The size of the zone files sub-directories indicate the number of files
+ existing for each type of zones. In this example, there is only one
+ conventional zone file (all conventional zones are aggregated under a single
+-file).
++file)::
  
- The first four elements of io_array are initialized like this for all
--responses:
-+responses::
+-# ls -l /mnt/cnv
+-total 137101312
+--rw-r----- 1 root root 140391743488 Nov 25 13:23 0
++    # ls -l /mnt/cnv
++    total 137101312
++    -rw-r----- 1 root root 140391743488 Nov 25 13:23 0
  
-   io_array[0].iov_base = address of local variable "proto_ver" (int32_t)
-   io_array[0].iov_len = sizeof(int32_t)
-@@ -475,7 +500,7 @@ responses:
-                          of global variable vfs_request (vfs_request_t)
-   io_array[3].iov_len = sizeof(pvfs2_downcall_t)
+-This aggregated conventional zone file can be used as a regular file.
++This aggregated conventional zone file can be used as a regular file::
  
--Readdir responses initialize the fifth element io_array like this:
-+Readdir responses initialize the fifth element io_array like this::
+-# mkfs.ext4 /mnt/cnv/0
+-# mount -o loop /mnt/cnv/0 /data
++    # mkfs.ext4 /mnt/cnv/0
++    # mount -o loop /mnt/cnv/0 /data
  
-   io_array[4].iov_base = contents of member trailer_buf (char *)
-                          from out_downcall member of global variable
-@@ -517,13 +542,13 @@ from a dentry is cheap, obtaining it from userspace is relatively expensive,
- hence the motivation to use the dentry when possible.
+ The "seq" sub-directory grouping files for sequential write zones has in this
+-example 55356 zones.
++example 55356 zones::
  
- The timeout values d_time and getattr_time are jiffy based, and the
--code is designed to avoid the jiffy-wrap problem:
-+code is designed to avoid the jiffy-wrap problem::
+-# ls -lv /mnt/seq
+-total 14511243264
+--rw-r----- 1 root root 0 Nov 25 13:23 0
+--rw-r----- 1 root root 0 Nov 25 13:23 1
+--rw-r----- 1 root root 0 Nov 25 13:23 2
+-...
+--rw-r----- 1 root root 0 Nov 25 13:23 55354
+--rw-r----- 1 root root 0 Nov 25 13:23 55355
++    # ls -lv /mnt/seq
++    total 14511243264
++    -rw-r----- 1 root root 0 Nov 25 13:23 0
++    -rw-r----- 1 root root 0 Nov 25 13:23 1
++    -rw-r----- 1 root root 0 Nov 25 13:23 2
++    ...
++    -rw-r----- 1 root root 0 Nov 25 13:23 55354
++    -rw-r----- 1 root root 0 Nov 25 13:23 55355
  
--"In general, if the clock may have wrapped around more than once, there
--is no way to tell how much time has elapsed. However, if the times t1
--and t2 are known to be fairly close, we can reliably compute the
--difference in a way that takes into account the possibility that the
--clock may have wrapped between times."
-+    "In general, if the clock may have wrapped around more than once, there
-+    is no way to tell how much time has elapsed. However, if the times t1
-+    and t2 are known to be fairly close, we can reliably compute the
-+    difference in a way that takes into account the possibility that the
-+    clock may have wrapped between times."
+ For sequential write zone files, the file size changes as data is appended at
+-the end of the file, similarly to any regular file system.
++the end of the file, similarly to any regular file system::
  
--                      from course notes by instructor Andy Wang
-+from course notes by instructor Andy Wang
+-# dd if=/dev/zero of=/mnt/seq/0 bs=4096 count=1 conv=notrunc oflag=direct
+-1+0 records in
+-1+0 records out
+-4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00044121 s, 9.3 MB/s
++    # dd if=/dev/zero of=/mnt/seq/0 bs=4096 count=1 conv=notrunc oflag=direct
++    1+0 records in
++    1+0 records out
++    4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00044121 s, 9.3 MB/s
  
+-# ls -l /mnt/seq/0
+--rw-r----- 1 root root 4096 Nov 25 13:23 /mnt/seq/0
++    # ls -l /mnt/seq/0
++    -rw-r----- 1 root root 4096 Nov 25 13:23 /mnt/seq/0
+ 
+ The written file can be truncated to the zone size, preventing any further
+-write operation.
++write operation::
+ 
+-# truncate -s 268435456 /mnt/seq/0
+-# ls -l /mnt/seq/0
+--rw-r----- 1 root root 268435456 Nov 25 13:49 /mnt/seq/0
++    # truncate -s 268435456 /mnt/seq/0
++    # ls -l /mnt/seq/0
++    -rw-r----- 1 root root 268435456 Nov 25 13:49 /mnt/seq/0
+ 
+ Truncation to 0 size allows freeing the file zone storage space and restart
+-append-writes to the file.
++append-writes to the file::
+ 
+-# truncate -s 0 /mnt/seq/0
+-# ls -l /mnt/seq/0
+--rw-r----- 1 root root 0 Nov 25 13:49 /mnt/seq/0
++    # truncate -s 0 /mnt/seq/0
++    # ls -l /mnt/seq/0
++    -rw-r----- 1 root root 0 Nov 25 13:49 /mnt/seq/0
+ 
+ Since files are statically mapped to zones on the disk, the number of blocks of
+-a file as reported by stat() and fstat() indicates the size of the file zone.
++a file as reported by stat() and fstat() indicates the size of the file zone::
+ 
+-# stat /mnt/seq/0
+-  File: /mnt/seq/0
+-  Size: 0         	Blocks: 524288     IO Block: 4096   regular empty file
+-Device: 870h/2160d	Inode: 50431       Links: 1
+-Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)
+-Access: 2019-11-25 13:23:57.048971997 +0900
+-Modify: 2019-11-25 13:52:25.553805765 +0900
+-Change: 2019-11-25 13:52:25.553805765 +0900
+- Birth: -
++    # stat /mnt/seq/0
++    File: /mnt/seq/0
++    Size: 0         	Blocks: 524288     IO Block: 4096   regular empty file
++    Device: 870h/2160d	Inode: 50431       Links: 1
++    Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)
++    Access: 2019-11-25 13:23:57.048971997 +0900
++    Modify: 2019-11-25 13:52:25.553805765 +0900
++    Change: 2019-11-25 13:52:25.553805765 +0900
++    Birth: -
+ 
+ The number of blocks of the file ("Blocks") in units of 512B blocks gives the
+ maximum file size of 524288 * 512 B = 256 MB, corresponding to the device zone
 -- 
 2.24.1
 
