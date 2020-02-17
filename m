@@ -7,50 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 829DDC34033
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6AFC34029
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 54EC6222D9
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B49D6215A4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955976;
-	bh=mF4A8NG+feSC7R4cpAdDk757AnrgFJjwcoS0Tpxxxac=;
+	s=default; t=1581955975;
+	bh=qSrWDRrZQRpp/Wn6RhAJZBD2Tvx8kR1GXGWF3+vZZzE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ohR/ww1xG/TSIBsM2iVWR6zn3BISSiDd3i0sEtYQ3dAHhEGGoT0p5rdmxyFh19R8X
-	 q4OJXrVp4Y7Q0fS5TEqAmZMG2TGVgmMAZXnzHXcPDAwLu+VxyDHfOp5mCD8InbENoy
-	 m748lXdzby/+0MXlHkEraQDjCeUDKksFpzzLAPKY=
+	b=lMTXL1Py5HR2OS9MwW3xUpWnrmxL+pl1dA00ujVKdpqRuF+vTEZcjRhLL4TgVcSTR
+	 Q7FH337C1DAnPLOh26wcS5GAM0QgUjFLAmesXsMhW82QfzS/GpJ2iwa1husU57MkKG
+	 /JR/cAW8PQR/eZmSl8WfqhRlYPLfwmgjTB+FYrfM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729715AbgBQQMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:35 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47190 "EHLO
+        id S1729727AbgBQQMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:54 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47300 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729696AbgBQQMf (ORCPT
+        with ESMTP id S1729719AbgBQQMf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=2WSAgbalKoJi48MBVBQl1Gh1grIgegQP+YR8aKAMr5s=; b=XOlgfN3TOhu5J/XQ9KvYjTLORg
-        TTBpg5jWgVN0KRejF5RHFfofViLs+arf1q+9yOvv/W4au5GQaLZm4JGIpDxPyaaq8pDNoP3sxh3wA
-        4vTWuEaYLJrOygTwrn0hiWVR4Hp03TgnMyARupMO70pjk8+BfUOuGi7rKquxm0yc5mw9kLpUMyy8a
-        ePA33SsZS+oYHdrQinoWsKoni0a79WBzBBXDukCn6tkVqPki1U7ABYTPFkQ0N/WdGiNpqsRF8HGZi
-        Q2qBceWh8WvJ19vwxPh+vO7rZ+hZD8EdV/hryYvp6fIRwGGR8TkP+LW1MS2kG5GoMROFPCbZvATfq
-        0K7W1AHQ==;
-Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
+        bh=KPt7qVo1+xEzYE120ubz82lJQ4hiA9QwOcTJQY1LUAs=; b=agVR2So/NOOApV6WEzr7CCpX5R
+        lTbYeXoFJfSRCccEIwcNa93e4YgEhLTqDTwkDDerKMA7JJZ0e5xzkSznHAIlCTO0qq+9gU7Vnh9r5
+        cUc2FYmU+c4coZgUE0sciPOsHTFdSNXx2pAF0XOBqQyB8Mo9bz9huy7y3RHHBJycoDMTKBo5QP5wb
+        6nIvOS3CNtG4zWP4jHBLabLeFXhk74WZkkM5xKNBKUg441xvSUeBd2w9I4goCNTeYQDEhGK3vFawk
+        5vFwwUyat4pmuomrdBcPfALvW/WsbI0fFKWjQvY7ZhWGtZYTzhsigGLdPFa1eZwnGInzXDhu91FDL
+        BIN8mmzw==;
+Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uN-6k; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006ut-Uc; Mon, 17 Feb 2020 16:12:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0Z-000fZC-Ls; Mon, 17 Feb 2020 17:12:31 +0100
+        id 1j3j0b-000fbQ-00; Mon, 17 Feb 2020 17:12:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, David Howells <dhowells@redhat.com>,
-        linux-afs@lists.infradead.org
-Subject: [PATCH 04/44] docs: filesystems: convert afs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:11:50 +0100
-Message-Id: <d77f5afdb5da0f8b0ec3dbe720aef23f1ce73bb5.1581955849.git.mchehab+huawei@kernel.org>
+        linux-fsdevel@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        devel@lists.orangefs.org
+Subject: [PATCH 31/44] docs: filesystems: convert orangefs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:17 +0100
+Message-Id: <6f438eeff5b029d229197a602bd9b74004fe9b63.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -63,255 +64,432 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
 - Adjust document and section titles;
-- Comment out text-only ToC;
+- Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{afs.txt => afs.rst}          | 73 +++++++++----------
- Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 34 insertions(+), 40 deletions(-)
- rename Documentation/filesystems/{afs.txt => afs.rst} (90%)
+ Documentation/filesystems/index.rst           |   1 +
+ .../{orangefs.txt => orangefs.rst}            | 187 ++++++++++--------
+ 2 files changed, 107 insertions(+), 81 deletions(-)
+ rename Documentation/filesystems/{orangefs.txt => orangefs.rst} (83%)
 
-diff --git a/Documentation/filesystems/afs.txt b/Documentation/filesystems/afs.rst
-similarity index 90%
-rename from Documentation/filesystems/afs.txt
-rename to Documentation/filesystems/afs.rst
-index 8c6ea7b41048..c4ec39a5966e 100644
---- a/Documentation/filesystems/afs.txt
-+++ b/Documentation/filesystems/afs.rst
-@@ -1,8 +1,10 @@
--			     ====================
--			     kAFS: AFS FILESYSTEM
--			     ====================
-+.. SPDX-License-Identifier: GPL-2.0
- 
--Contents:
-+====================
-+kAFS: AFS FILESYSTEM
-+====================
-+
-+.. Contents:
- 
-  - Overview.
-  - Usage.
-@@ -14,8 +16,7 @@ Contents:
-  - The @sys substitution.
- 
- 
--========
--OVERVIEW
-+Overview
- ========
- 
- This filesystem provides a fairly simple secure AFS filesystem driver. It is
-@@ -35,35 +36,33 @@ It does not yet support the following AFS features:
-  (*) pioctl() system call.
- 
- 
--===========
--COMPILATION
-+Compilation
- ===========
- 
- The filesystem should be enabled by turning on the kernel configuration
--options:
-+options::
- 
- 	CONFIG_AF_RXRPC		- The RxRPC protocol transport
- 	CONFIG_RXKAD		- The RxRPC Kerberos security handler
- 	CONFIG_AFS		- The AFS filesystem
- 
--Additionally, the following can be turned on to aid debugging:
-+Additionally, the following can be turned on to aid debugging::
- 
- 	CONFIG_AF_RXRPC_DEBUG	- Permit AF_RXRPC debugging to be enabled
- 	CONFIG_AFS_DEBUG	- Permit AFS debugging to be enabled
- 
- They permit the debugging messages to be turned on dynamically by manipulating
--the masks in the following files:
-+the masks in the following files::
- 
- 	/sys/module/af_rxrpc/parameters/debug
- 	/sys/module/kafs/parameters/debug
- 
- 
--=====
--USAGE
-+Usage
- =====
- 
- When inserting the driver modules the root cell must be specified along with a
--list of volume location server IP addresses:
-+list of volume location server IP addresses::
- 
- 	modprobe rxrpc
- 	modprobe kafs rootcell=cambridge.redhat.com:172.16.18.73:172.16.18.91
-@@ -77,14 +76,14 @@ The second module is the kerberos RxRPC security driver, and the third module
- is the actual filesystem driver for the AFS filesystem.
- 
- Once the module has been loaded, more modules can be added by the following
--procedure:
-+procedure::
- 
- 	echo add grand.central.org 18.9.48.14:128.2.203.61:130.237.48.87 >/proc/fs/afs/cells
- 
- Where the parameters to the "add" command are the name of a cell and a list of
- volume location servers within that cell, with the latter separated by colons.
- 
--Filesystems can be mounted anywhere by commands similar to the following:
-+Filesystems can be mounted anywhere by commands similar to the following::
- 
- 	mount -t afs "%cambridge.redhat.com:root.afs." /afs
- 	mount -t afs "#cambridge.redhat.com:root.cell." /afs/cambridge
-@@ -104,8 +103,7 @@ named volume will be looked up in the cell specified during modprobe.
- Additional cells can be added through /proc (see later section).
- 
- 
--===========
--MOUNTPOINTS
-+Mountpoints
- ===========
- 
- AFS has a concept of mountpoints. In AFS terms, these are specially formatted
-@@ -123,42 +121,40 @@ culled first.  If all are culled, then the requested volume will also be
- unmounted, otherwise error EBUSY will be returned.
- 
- This can be used by the administrator to attempt to unmount the whole AFS tree
--mounted on /afs in one go by doing:
-+mounted on /afs in one go by doing::
- 
- 	umount /afs
- 
- 
--============
--DYNAMIC ROOT
-+Dynamic Root
- ============
- 
- A mount option is available to create a serverless mount that is only usable
--for dynamic lookup.  Creating such a mount can be done by, for example:
-+for dynamic lookup.  Creating such a mount can be done by, for example::
- 
- 	mount -t afs none /afs -o dyn
- 
- This creates a mount that just has an empty directory at the root.  Attempting
- to look up a name in this directory will cause a mountpoint to be created that
--looks up a cell of the same name, for example:
-+looks up a cell of the same name, for example::
- 
- 	ls /afs/grand.central.org/
- 
- 
--===============
--PROC FILESYSTEM
-+Proc Filesystem
- ===============
- 
- The AFS modules creates a "/proc/fs/afs/" directory and populates it:
- 
-   (*) A "cells" file that lists cells currently known to the afs module and
--      their usage counts:
-+      their usage counts::
- 
- 	[root@andromeda ~]# cat /proc/fs/afs/cells
- 	USE NAME
- 	  3 cambridge.redhat.com
- 
-   (*) A directory per cell that contains files that list volume location
--      servers, volumes, and active servers known within that cell.
-+      servers, volumes, and active servers known within that cell::
- 
- 	[root@andromeda ~]# cat /proc/fs/afs/cambridge.redhat.com/servers
- 	USE ADDR            STATE
-@@ -171,8 +167,7 @@ The AFS modules creates a "/proc/fs/afs/" directory and populates it:
- 	  1 Val 20000000 20000001 20000002 root.afs
- 
- 
--=================
--THE CELL DATABASE
-+The Cell Database
- =================
- 
- The filesystem maintains an internal database of all the cells it knows and the
-@@ -181,7 +176,7 @@ the system belongs is added to the database when modprobe is performed by the
- "rootcell=" argument or, if compiled in, using a "kafs.rootcell=" argument on
- the kernel command line.
- 
--Further cells can be added by commands similar to the following:
-+Further cells can be added by commands similar to the following::
- 
- 	echo add CELLNAME VLADDR[:VLADDR][:VLADDR]... >/proc/fs/afs/cells
- 	echo add grand.central.org 18.9.48.14:128.2.203.61:130.237.48.87 >/proc/fs/afs/cells
-@@ -189,8 +184,7 @@ Further cells can be added by commands similar to the following:
- No other cell database operations are available at this time.
- 
- 
--========
--SECURITY
-+Security
- ========
- 
- Secure operations are initiated by acquiring a key using the klog program.  A
-@@ -198,17 +192,17 @@ very primitive klog program is available at:
- 
- 	http://people.redhat.com/~dhowells/rxrpc/klog.c
- 
--This should be compiled by:
-+This should be compiled by::
- 
- 	make klog LDLIBS="-lcrypto -lcrypt -lkrb4 -lkeyutils"
- 
--And then run as:
-+And then run as::
- 
- 	./klog
- 
- Assuming it's successful, this adds a key of type RxRPC, named for the service
- and cell, eg: "afs@<cellname>".  This can be viewed with the keyctl program or
--by cat'ing /proc/keys:
-+by cat'ing /proc/keys::
- 
- 	[root@andromeda ~]# keyctl show
- 	Session Keyring
-@@ -232,20 +226,19 @@ socket), then the operations on the file will be made with key that was used to
- open the file.
- 
- 
--=====================
--THE @SYS SUBSTITUTION
-+The @sys Substitution
- =====================
- 
- The list of up to 16 @sys substitutions for the current network namespace can
--be configured by writing a list to /proc/fs/afs/sysname:
-+be configured by writing a list to /proc/fs/afs/sysname::
- 
- 	[root@andromeda ~]# echo foo amd64_linux_26 >/proc/fs/afs/sysname
- 
--or cleared entirely by writing an empty list:
-+or cleared entirely by writing an empty list::
- 
- 	[root@andromeda ~]# echo >/proc/fs/afs/sysname
- 
--The current list for current network namespace can be retrieved by:
-+The current list for current network namespace can be retrieved by::
- 
- 	[root@andromeda ~]# cat /proc/fs/afs/sysname
- 	foo
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 273d802ad5fb..0598bc52abdc 100644
+index fbee77175840..fed53f831192 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -49,6 +49,7 @@ Documentation for filesystem implementations.
-    9p
-    adfs
-    affs
-+   afs
-    autofs
-    fuse
+@@ -79,6 +79,7 @@ Documentation for filesystem implementations.
+    ocfs2
+    ocfs2-online-filecheck
+    omfs
++   orangefs
     overlayfs
+    virtiofs
+    vfat
+diff --git a/Documentation/filesystems/orangefs.txt b/Documentation/filesystems/orangefs.rst
+similarity index 83%
+rename from Documentation/filesystems/orangefs.txt
+rename to Documentation/filesystems/orangefs.rst
+index f4ba94950e3f..7d6d4cad73c4 100644
+--- a/Documentation/filesystems/orangefs.txt
++++ b/Documentation/filesystems/orangefs.rst
+@@ -1,3 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========
+ ORANGEFS
+ ========
+ 
+@@ -21,25 +24,25 @@ Orangefs features include:
+   * Stateless
+ 
+ 
+-MAILING LIST ARCHIVES
++Mailing List Archives
+ =====================
+ 
+ http://lists.orangefs.org/pipermail/devel_lists.orangefs.org/
+ 
+ 
+-MAILING LIST SUBMISSIONS
++Mailing List Submissions
+ ========================
+ 
+ devel@lists.orangefs.org
+ 
+ 
+-DOCUMENTATION
++Documentation
+ =============
+ 
+ http://www.orangefs.org/documentation/
+ 
+ 
+-USERSPACE FILESYSTEM SOURCE
++Userspace Filesystem Source
+ ===========================
+ 
+ http://www.orangefs.org/download
+@@ -48,16 +51,16 @@ Orangefs versions prior to 2.9.3 would not be compatible with the
+ upstream version of the kernel client.
+ 
+ 
+-RUNNING ORANGEFS ON A SINGLE SERVER
++Running ORANGEFS On a Single Server
+ ===================================
+ 
+ OrangeFS is usually run in large installations with multiple servers and
+ clients, but a complete filesystem can be run on a single machine for
+ development and testing.
+ 
+-On Fedora, install orangefs and orangefs-server.
++On Fedora, install orangefs and orangefs-server::
+ 
+-dnf -y install orangefs orangefs-server
++    dnf -y install orangefs orangefs-server
+ 
+ There is an example server configuration file in
+ /etc/orangefs/orangefs.conf.  Change localhost to your hostname if
+@@ -70,29 +73,29 @@ single line.  Uncomment it and change the hostname if necessary.  This
+ controls clients which use libpvfs2.  This does not control the
+ pvfs2-client-core.
+ 
+-Create the filesystem.
++Create the filesystem::
+ 
+-pvfs2-server -f /etc/orangefs/orangefs.conf
++    pvfs2-server -f /etc/orangefs/orangefs.conf
+ 
+-Start the server.
++Start the server::
+ 
+-systemctl start orangefs-server
++    systemctl start orangefs-server
+ 
+-Test the server.
++Test the server::
+ 
+-pvfs2-ping -m /pvfsmnt
++    pvfs2-ping -m /pvfsmnt
+ 
+ Start the client.  The module must be compiled in or loaded before this
+-point.
++point::
+ 
+-systemctl start orangefs-client
++    systemctl start orangefs-client
+ 
+-Mount the filesystem.
++Mount the filesystem::
+ 
+-mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
++    mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
+ 
+ 
+-BUILDING ORANGEFS ON A SINGLE SERVER
++Building ORANGEFS on a Single Server
+ ====================================
+ 
+ Where OrangeFS cannot be installed from distribution packages, it may be
+@@ -102,49 +105,51 @@ You can omit --prefix if you don't care that things are sprinkled around
+ in /usr/local.  As of version 2.9.6, OrangeFS uses Berkeley DB by
+ default, we will probably be changing the default to LMDB soon.
+ 
+-./configure --prefix=/opt/ofs --with-db-backend=lmdb
++::
+ 
+-make
++    ./configure --prefix=/opt/ofs --with-db-backend=lmdb
+ 
+-make install
++    make
+ 
+-Create an orangefs config file.
++    make install
+ 
+-/opt/ofs/bin/pvfs2-genconfig /etc/pvfs2.conf
++Create an orangefs config file::
+ 
+-Create an /etc/pvfs2tab file.
++    /opt/ofs/bin/pvfs2-genconfig /etc/pvfs2.conf
+ 
+-echo tcp://localhost:3334/orangefs /pvfsmnt pvfs2 defaults,noauto 0 0 > \
+-    /etc/pvfs2tab
++Create an /etc/pvfs2tab file::
+ 
+-Create the mount point you specified in the tab file if needed.
++    echo tcp://localhost:3334/orangefs /pvfsmnt pvfs2 defaults,noauto 0 0 > \
++	/etc/pvfs2tab
+ 
+-mkdir /pvfsmnt
++Create the mount point you specified in the tab file if needed::
+ 
+-Bootstrap the server.
++    mkdir /pvfsmnt
+ 
+-/opt/ofs/sbin/pvfs2-server -f /etc/pvfs2.conf
++Bootstrap the server::
+ 
+-Start the server.
++    /opt/ofs/sbin/pvfs2-server -f /etc/pvfs2.conf
+ 
+-/opt/osf/sbin/pvfs2-server /etc/pvfs2.conf
++Start the server::
++
++    /opt/osf/sbin/pvfs2-server /etc/pvfs2.conf
+ 
+ Now the server should be running. Pvfs2-ls is a simple
+-test to verify that the server is running.
++test to verify that the server is running::
+ 
+-/opt/ofs/bin/pvfs2-ls /pvfsmnt
++    /opt/ofs/bin/pvfs2-ls /pvfsmnt
+ 
+ If stuff seems to be working, load the kernel module and
+-turn on the client core.
++turn on the client core::
+ 
+-/opt/ofs/sbin/pvfs2-client -p /opt/osf/sbin/pvfs2-client-core
++    /opt/ofs/sbin/pvfs2-client -p /opt/osf/sbin/pvfs2-client-core
+ 
+-Mount your filesystem.
++Mount your filesystem::
+ 
+-mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
++    mount -t pvfs2 tcp://localhost:3334/orangefs /pvfsmnt
+ 
+ 
+-RUNNING XFSTESTS
++Running xfstests
+ ================
+ 
+ It is useful to use a scratch filesystem with xfstests.  This can be
+@@ -159,21 +164,23 @@ Then there are two FileSystem sections: orangefs and scratch.
+ 
+ This change should be made before creating the filesystem.
+ 
+-pvfs2-server -f /etc/orangefs/orangefs.conf
++::
+ 
+-To run xfstests, create /etc/xfsqa.config.
++    pvfs2-server -f /etc/orangefs/orangefs.conf
+ 
+-TEST_DIR=/orangefs
+-TEST_DEV=tcp://localhost:3334/orangefs
+-SCRATCH_MNT=/scratch
+-SCRATCH_DEV=tcp://localhost:3334/scratch
++To run xfstests, create /etc/xfsqa.config::
+ 
+-Then xfstests can be run
++    TEST_DIR=/orangefs
++    TEST_DEV=tcp://localhost:3334/orangefs
++    SCRATCH_MNT=/scratch
++    SCRATCH_DEV=tcp://localhost:3334/scratch
+ 
+-./check -pvfs2
++Then xfstests can be run::
+ 
++    ./check -pvfs2
+ 
+-OPTIONS
++
++Options
+ =======
+ 
+ The following mount options are accepted:
+@@ -193,32 +200,32 @@ The following mount options are accepted:
+     Distributed locking is being worked on for the future.
+ 
+ 
+-DEBUGGING
++Debugging
+ =========
+ 
+ If you want the debug (GOSSIP) statements in a particular
+-source file (inode.c for example) go to syslog:
++source file (inode.c for example) go to syslog::
+ 
+   echo inode > /sys/kernel/debug/orangefs/kernel-debug
+ 
+-No debugging (the default):
++No debugging (the default)::
+ 
+   echo none > /sys/kernel/debug/orangefs/kernel-debug
+ 
+-Debugging from several source files:
++Debugging from several source files::
+ 
+   echo inode,dir > /sys/kernel/debug/orangefs/kernel-debug
+ 
+-All debugging:
++All debugging::
+ 
+   echo all > /sys/kernel/debug/orangefs/kernel-debug
+ 
+-Get a list of all debugging keywords:
++Get a list of all debugging keywords::
+ 
+   cat /sys/kernel/debug/orangefs/debug-help
+ 
+ 
+-PROTOCOL BETWEEN KERNEL MODULE AND USERSPACE
++Protocol between Kernel Module and Userspace
+ ============================================
+ 
+ Orangefs is a user space filesystem and an associated kernel module.
+@@ -234,7 +241,8 @@ The kernel module implements a pseudo device that userspace
+ can read from and write to. Userspace can also manipulate the
+ kernel module through the pseudo device with ioctl.
+ 
+-THE BUFMAP:
++The Bufmap
++----------
+ 
+ At startup userspace allocates two page-size-aligned (posix_memalign)
+ mlocked memory buffers, one is used for IO and one is used for readdir
+@@ -250,7 +258,8 @@ copied from user space to kernel space with copy_from_user and is used
+ to initialize the kernel module's "bufmap" (struct orangefs_bufmap), which
+ then contains:
+ 
+-  * refcnt - a reference counter
++  * refcnt
++    - a reference counter
+   * desc_size - PVFS2_BUFMAP_DEFAULT_DESC_SIZE (4194304) - the IO buffer's
+     partition size, which represents the filesystem's block size and
+     is used for s_blocksize in super blocks.
+@@ -259,17 +268,19 @@ then contains:
+   * desc_shift - log2(desc_size), used for s_blocksize_bits in super blocks.
+   * total_size - the total size of the IO buffer.
+   * page_count - the number of 4096 byte pages in the IO buffer.
+-  * page_array - a pointer to page_count * (sizeof(struct page*)) bytes
++  * page_array - a pointer to ``page_count * (sizeof(struct page*))`` bytes
+     of kcalloced memory. This memory is used as an array of pointers
+     to each of the pages in the IO buffer through a call to get_user_pages.
+-  * desc_array - a pointer to desc_count * (sizeof(struct orangefs_bufmap_desc))
++  * desc_array - a pointer to ``desc_count * (sizeof(struct orangefs_bufmap_desc))``
+     bytes of kcalloced memory. This memory is further intialized:
+ 
+       user_desc is the kernel's copy of the IO buffer's ORANGEFS_dev_map_desc
+       structure. user_desc->ptr points to the IO buffer.
+ 
+-      pages_per_desc = bufmap->desc_size / PAGE_SIZE
+-      offset = 0
++      ::
++
++	pages_per_desc = bufmap->desc_size / PAGE_SIZE
++	offset = 0
+ 
+         bufmap->desc_array[0].page_array = &bufmap->page_array[offset]
+         bufmap->desc_array[0].array_count = pages_per_desc = 1024
+@@ -293,7 +304,8 @@ then contains:
+   * readdir_index_lock - a spinlock to protect readdir_index_array during
+     update.
+ 
+-OPERATIONS:
++Operations
++----------
+ 
+ The kernel module builds an "op" (struct orangefs_kernel_op_s) when it
+ needs to communicate with userspace. Part of the op contains the "upcall"
+@@ -308,13 +320,19 @@ in flight at any given time.
+ 
+ Ops are stateful:
+ 
+- * unknown  - op was just initialized
+- * waiting  - op is on request_list (upward bound)
+- * inprogr  - op is in progress (waiting for downcall)
+- * serviced - op has matching downcall; ok
+- * purged   - op has to start a timer since client-core
++ * unknown
++	    - op was just initialized
++ * waiting
++	    - op is on request_list (upward bound)
++ * inprogr
++	    - op is in progress (waiting for downcall)
++ * serviced
++	    - op has matching downcall; ok
++ * purged
++	    - op has to start a timer since client-core
+               exited uncleanly before servicing op
+- * given up - submitter has given up waiting for it
++ * given up
++	    - submitter has given up waiting for it
+ 
+ When some arbitrary userspace program needs to perform a
+ filesystem operation on Orangefs (readdir, I/O, create, whatever)
+@@ -389,10 +407,15 @@ union of structs, each of which is associated with a particular
+ response type.
+ 
+ The several members outside of the union are:
+- - int32_t type - type of operation.
+- - int32_t status - return code for the operation.
+- - int64_t trailer_size - 0 unless readdir operation.
+- - char *trailer_buf - initialized to NULL, used during readdir operations.
++
++ ``int32_t type``
++    - type of operation.
++ ``int32_t status``
++    - return code for the operation.
++ ``int64_t trailer_size``
++    - 0 unless readdir operation.
++ ``char *trailer_buf``
++    - initialized to NULL, used during readdir operations.
+ 
+ The appropriate member inside the union is filled out for any
+ particular response.
+@@ -449,18 +472,20 @@ Userspace uses writev() on /dev/pvfs2-req to pass responses to the requests
+ made by the kernel side.
+ 
+ A buffer_list containing:
++
+   - a pointer to the prepared response to the request from the
+     kernel (struct pvfs2_downcall_t).
+   - and also, in the case of a readdir request, a pointer to a
+     buffer containing descriptors for the objects in the target
+     directory.
++
+ ... is sent to the function (PINT_dev_write_list) which performs
+ the writev.
+ 
+ PINT_dev_write_list has a local iovec array: struct iovec io_array[10];
+ 
+ The first four elements of io_array are initialized like this for all
+-responses:
++responses::
+ 
+   io_array[0].iov_base = address of local variable "proto_ver" (int32_t)
+   io_array[0].iov_len = sizeof(int32_t)
+@@ -475,7 +500,7 @@ responses:
+                          of global variable vfs_request (vfs_request_t)
+   io_array[3].iov_len = sizeof(pvfs2_downcall_t)
+ 
+-Readdir responses initialize the fifth element io_array like this:
++Readdir responses initialize the fifth element io_array like this::
+ 
+   io_array[4].iov_base = contents of member trailer_buf (char *)
+                          from out_downcall member of global variable
+@@ -517,13 +542,13 @@ from a dentry is cheap, obtaining it from userspace is relatively expensive,
+ hence the motivation to use the dentry when possible.
+ 
+ The timeout values d_time and getattr_time are jiffy based, and the
+-code is designed to avoid the jiffy-wrap problem:
++code is designed to avoid the jiffy-wrap problem::
+ 
+-"In general, if the clock may have wrapped around more than once, there
+-is no way to tell how much time has elapsed. However, if the times t1
+-and t2 are known to be fairly close, we can reliably compute the
+-difference in a way that takes into account the possibility that the
+-clock may have wrapped between times."
++    "In general, if the clock may have wrapped around more than once, there
++    is no way to tell how much time has elapsed. However, if the times t1
++    and t2 are known to be fairly close, we can reliably compute the
++    difference in a way that takes into account the possibility that the
++    clock may have wrapped between times."
+ 
+-                      from course notes by instructor Andy Wang
++from course notes by instructor Andy Wang
+ 
 -- 
 2.24.1
 
