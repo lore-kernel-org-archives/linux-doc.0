@@ -7,43 +7,42 @@ X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BF1C35242
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42339C35242
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:54:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 10F1320702
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:42:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08AB720725
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:54:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PFv2kuVx"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nWc35DAB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbgBQEmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Feb 2020 23:42:40 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:40326 "EHLO
+        id S1727872AbgBQEyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Feb 2020 23:54:22 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42514 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726656AbgBQEmk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Feb 2020 23:42:40 -0500
+        with ESMTP id S1727789AbgBQEyW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Feb 2020 23:54:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=j5xYGsqatix9Wvp6r37SE7HlFrIRp5sccIPwkdusUgw=; b=PFv2kuVxmKyTv/vL9P5ucI7Kcq
-        zbXfsJTGMdZai0nWspDOd1RVKO6/M6vZbU2cUKPuPyzOHL76btnCoNZVosmnKZSRt2CPmMjbpqdTA
-        eywYiK32nNE0zFskUsoOlT/5xRRyuvPm/6qzzhmWqdoLi9qn7/TH7K6QKUofW1SUVRQISh23TQnTC
-        BiE4Re9POUeS8qOi6QFnlm9qLry7UzLHmB0QYH8x7Qp7rfzs8OCt0Pgw7z3x5HoKbAwcKgX/Dl1+/
-        Pwlkh8Zk4QWPdcXHSIfRnJwO3+4WNJXmlUS6SWsg+ij14H/cL3Tlu8s0VUeLheSZKJk020MetNyhs
-        O6+CKP8A==;
+        bh=k5opVoMpuRar8bobAnOBPFuQK3PPZAwrp6fhQdw1Y6E=; b=nWc35DABXLQ88LHytoOlqPLxTV
+        qEOe4DCb2+3I234jrA83WFNTHaSe5wmnHW40HxJQOrxHGZabQRu4N3LU6O9nywf0lAPxX9ixYXHMb
+        MpKvgFa+5S5w8X81fLPogjo2oOjR9Gtc0/MHWUSe+JChDTNm24+vdjdNSBHF+zS6QiUd+8bu24fnT
+        QB0liRDEAu25mXlYvHrIkWnXMVfkrsjnVqtUiSLatOq5yX4UecUUZz3lLhuI3/zhwvle0oZcODEnu
+        OWOGCgp1CW7uOGIi6xijrmcP1U0nXGrqDpoeqp5VAp0L3UJyEluYiSP7JFKwEKFw8+kTBODBI9wtK
+        c+wWmG3Q==;
 Received: from [2601:1c0:6280:3f0::19c2]
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3YEv-00018f-Hj; Mon, 17 Feb 2020 04:42:37 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        ACPI Devel Mailing List <linux-acpi@vger.kernel.org>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        id 1j3YQI-0005Hi-2E; Mon, 17 Feb 2020 04:54:22 +0000
+To:     Linux PM list <linux-pm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation/admin-guide/acpi: fix
- fan_performance_states.rst warnings
-Message-ID: <98d72d3b-c9eb-36bc-1d68-2c3020bdf9c5@infradead.org>
-Date:   Sun, 16 Feb 2020 20:42:36 -0800
+Subject: [PATCH -next] Documentation/power: fix pm_qos_interface.rst format
+ warning
+Message-ID: <561e2780-111a-1939-43fb-ae32d7abce8d@infradead.org>
+Date:   Sun, 16 Feb 2020 20:54:21 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
@@ -57,38 +56,31 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix Sphinx format warnings in fan_performace_states.rst
-by adding indentation.
+Fix Sphinx warnings by indenting the bullet list (and making it
+unnumbered).
 
-Documentation/admin-guide/acpi/fan_performance_states.rst:21: WARNING: Literal block ends without a blank line; unexpected unindent.
-Documentation/admin-guide/acpi/fan_performance_states.rst:41: WARNING: Literal block expected; none found.
+Documentation/power/pm_qos_interface.rst:12: WARNING: Unexpected indentation.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: linux-pm@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 ---
- Documentation/admin-guide/acpi/fan_performance_states.rst |    4 ++--
+ Documentation/power/pm_qos_interface.rst |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- lnx-56-rc2.orig/Documentation/admin-guide/acpi/fan_performance_states.rst
-+++ lnx-56-rc2/Documentation/admin-guide/acpi/fan_performance_states.rst
-@@ -18,7 +18,7 @@ may look as follows::
+--- linux-next-20200217.orig/Documentation/power/pm_qos_interface.rst
++++ linux-next-20200217/Documentation/power/pm_qos_interface.rst
+@@ -7,8 +7,8 @@ performance expectations by drivers, sub
+ one of the parameters.
  
-  $ ls -l /sys/bus/acpi/devices/INT3404:00/
-  total 0
--...
-+ ...
-  -r--r--r-- 1 root root 4096 Dec 13 20:38 state0
-  -r--r--r-- 1 root root 4096 Dec 13 20:38 state1
-  -r--r--r-- 1 root root 4096 Dec 13 20:38 state10
-@@ -38,7 +38,7 @@ where each of the "state*" files represe
- and contains a colon-separated list of 5 integer numbers (fields) with the
- following interpretation::
+ Two different PM QoS frameworks are available:
+-1. CPU latency QoS.
+-2. The per-device PM QoS framework provides the API to manage the
++ * CPU latency QoS.
++ * The per-device PM QoS framework provides the API to manage the
+    per-device latency constraints and PM QoS flags.
  
--control_percent:trip_point_index:speed_rpm:noise_level_mdb:power_mw
-+  control_percent:trip_point_index:speed_rpm:noise_level_mdb:power_mw
- 
- * ``control_percent``: The percent value to be used to set the fan speed to a
-   specific level using the _FSL object (0-100).
-
+ The latency unit used in the PM QoS framework is the microsecond (usec).
 
