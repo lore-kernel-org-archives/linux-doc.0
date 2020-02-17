@@ -2,55 +2,57 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 354CEC34027
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4565C34025
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 00831208C4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94F6620718
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581955960;
-	bh=o7C550c1A/V7Fm2kfluS2bm+bs+H1NtkeAV5ibvk99Q=;
+	s=default; t=1581955961;
+	bh=SXgQ5EJyySGwhrkWvfWm6jNSjd4mbeRqHEhn3Zy3uoU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TdyOx3Vjm9TL30M9CGzAvls+ltdiL/OYz4Damkl4Dh5kSv8qvCQVkK5q7KHkQh0Zn
-	 QjwStGpJdvmxsBJYmNWjXe09OG4KiZjOJE/k4hPZDz1egmNI8mhDnTZW6tPUIOh2gz
-	 HXBLwt0UQhen3nZuoNGaOeqe94HlP0f6KcgIBhTI=
+	b=Cb5vPF9Lcy8Y0Eus2fLCqLGPAp7xxIbsWclbq19CZzF0EAdOkwFOuOWgWvjnqkKip
+	 QkBRYL1Qo1LpER/B1gJ1k+/VOX8rY0H2bi/bJq/Da8VG68RtHo/N9971p7dI2nHVBA
+	 rntbZwLJrCqpXSPpXm9Z3bqSMH5ZQnU+rKzhl4xc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729739AbgBQQMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:12:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47280 "EHLO
+        id S1729742AbgBQQMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:12:41 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47412 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729714AbgBQQMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:35 -0500
+        with ESMTP id S1729723AbgBQQMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=1KFmEKTTdS2fmZ0fD7fcJLsUxO/bYA23wrQJz6uNIM8=; b=Qm1qjo5ZP0I83tOkK04IAclxwo
-        kDswq7PZ/5Zhqse//4vyKG88jyw6wBwHFt+JMEEk2yQnrrwTV+Gib6FgQrhjtJL1R144WwIzWMLmH
-        G664ARZI+er13OOvESbuT/wQPPYz4W1F937FjD+prG6NLELHYRZc/Re8SDzBl/VXmKRgLbI2HjH0F
-        Nlpp3j820FKHfedphMrg+16dYeLlQkE7da/rxYlkUOyz40waAisZ53vhCbWckjHtgITTsqGYsEOFS
-        Q9NQYgcSuW9I9TzhybdQAAOlkqWVscystNHyzkZ5Vk9xNOw8TuasY0Jayb9SrH5nUX5owe0kaYAnV
-        ilpmfE5g==;
-Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=bombadil.infradead.org)
+        bh=8ve1EdRGT1AOdRBBer85+9QRZqy+lJPvusfJVzOT22E=; b=NK5G7rjy/2utgRFINiJJInCGhW
+        RuRc3TtcskV73Vl+cJD+ZToPaAl9y73ZpUp8WKmV+okPqje3UNvpHQQfNrnY3mtZ4lLTXeQYuW2Yt
+        fn6n60qGx+HNzMR0sRu2kY251Pw+UeD2CuW4Cgy8A7tRpKvp7ldXWnNviTzPGBQrFGTPOxF9VuoyL
+        S6d7b3H9btpQfAaLgvaDhqrwGyvuDtmsKto/AYIWWuAKJF/BcBjbWg2RBWzc/PDdPs3U5KvZaH0N6
+        447mi5czOtSC/zj1xvSr+cgaF0XOmSiBRyD61bvTYXlSmbX7iJ6SPXOfLBzneuHBky5xE1H90qNNx
+        4nCY/xGg==;
+Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006us-Sy; Mon, 17 Feb 2020 16:12:35 +0000
+        id 1j3j0c-0006uX-3Z; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0a-000fbL-UX; Mon, 17 Feb 2020 17:12:32 +0100
+        id 1j3j0Z-000fZr-Vl; Mon, 17 Feb 2020 17:12:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, Bob Copeland <me@bobcopeland.com>,
-        linux-karma-devel@lists.sourceforge.net
-Subject: [PATCH 30/44] docs: filesystems: convert omfs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:16 +0100
-Message-Id: <0c125c7c971d81a557ca954992b8d770a9d1e3e8.1581955849.git.mchehab+huawei@kernel.org>
+        linux-fsdevel@vger.kernel.org, Mark Fasheh <mark@fasheh.com>,
+        Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        ocfs2-devel@oss.oracle.com
+Subject: [PATCH 12/44] docs: filesystems: convert dlmfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:58 +0100
+Message-Id: <efc9e59925723e17d1a4741b11049616c221463e.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -62,262 +64,94 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
+- Use copyright symbol;
 - Adjust document title;
+- Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add table markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst |   1 +
- Documentation/filesystems/omfs.rst  | 112 ++++++++++++++++++++++++++++
- Documentation/filesystems/omfs.txt  | 106 --------------------------
- 3 files changed, 113 insertions(+), 106 deletions(-)
- create mode 100644 Documentation/filesystems/omfs.rst
- delete mode 100644 Documentation/filesystems/omfs.txt
+ .../filesystems/{dlmfs.txt => dlmfs.rst}      | 28 +++++++++++++------
+ Documentation/filesystems/index.rst           |  1 +
+ 2 files changed, 20 insertions(+), 9 deletions(-)
+ rename Documentation/filesystems/{dlmfs.txt => dlmfs.rst} (86%)
 
+diff --git a/Documentation/filesystems/dlmfs.txt b/Documentation/filesystems/dlmfs.rst
+similarity index 86%
+rename from Documentation/filesystems/dlmfs.txt
+rename to Documentation/filesystems/dlmfs.rst
+index fcf4d509d118..68daaa7facf9 100644
+--- a/Documentation/filesystems/dlmfs.txt
++++ b/Documentation/filesystems/dlmfs.rst
+@@ -1,20 +1,25 @@
+-dlmfs
+-==================
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++=====
++DLMFS
++=====
++
+ A minimal DLM userspace interface implemented via a virtual file
+ system.
+ 
+ dlmfs is built with OCFS2 as it requires most of its infrastructure.
+ 
+-Project web page:    http://ocfs2.wiki.kernel.org
+-Tools web page:      https://github.com/markfasheh/ocfs2-tools
+-OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
++:Project web page:    http://ocfs2.wiki.kernel.org
++:Tools web page:      https://github.com/markfasheh/ocfs2-tools
++:OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
+ 
+ All code copyright 2005 Oracle except when otherwise noted.
+ 
+-CREDITS
++Credits
+ =======
+ 
+-Some code taken from ramfs which is Copyright (C) 2000 Linus Torvalds
++Some code taken from ramfs which is Copyright |copy| 2000 Linus Torvalds
+ and Transmeta Corp.
+ 
+ Mark Fasheh <mark.fasheh@oracle.com>
+@@ -96,14 +101,19 @@ operation. If the lock succeeds, you'll get an fd.
+ open(2) with O_CREAT to ensure the resource inode is created - dlmfs does
+ not automatically create inodes for existing lock resources.
+ 
++============  ===========================
+ Open Flag     Lock Request Type
+----------     -----------------
++============  ===========================
+ O_RDONLY      Shared Read
+ O_RDWR        Exclusive
++============  ===========================
+ 
++
++============  ===========================
+ Open Flag     Resulting Locking Behavior
+----------     --------------------------
++============  ===========================
+ O_NONBLOCK    Trylock operation
++============  ===========================
+ 
+ You must provide exactly one of O_RDONLY or O_RDWR.
+ 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 3b2b07491c98..fbee77175840 100644
+index ab3b656bbe60..c6885c7ef781 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -78,6 +78,7 @@ Documentation for filesystem implementations.
-    ntfs
-    ocfs2
-    ocfs2-online-filecheck
-+   omfs
+@@ -58,6 +58,7 @@ Documentation for filesystem implementations.
+    ceph
+    cramfs
+    debugfs
++   dlmfs
+    fuse
     overlayfs
     virtiofs
-    vfat
-diff --git a/Documentation/filesystems/omfs.rst b/Documentation/filesystems/omfs.rst
-new file mode 100644
-index 000000000000..4c8bb3074169
---- /dev/null
-+++ b/Documentation/filesystems/omfs.rst
-@@ -0,0 +1,112 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+Optimized MPEG Filesystem (OMFS)
-+================================
-+
-+Overview
-+========
-+
-+OMFS is a filesystem created by SonicBlue for use in the ReplayTV DVR
-+and Rio Karma MP3 player.  The filesystem is extent-based, utilizing
-+block sizes from 2k to 8k, with hash-based directories.  This
-+filesystem driver may be used to read and write disks from these
-+devices.
-+
-+Note, it is not recommended that this FS be used in place of a general
-+filesystem for your own streaming media device.  Native Linux filesystems
-+will likely perform better.
-+
-+More information is available at:
-+
-+    http://linux-karma.sf.net/
-+
-+Various utilities, including mkomfs and omfsck, are included with
-+omfsprogs, available at:
-+
-+    http://bobcopeland.com/karma/
-+
-+Instructions are included in its README.
-+
-+Options
-+=======
-+
-+OMFS supports the following mount-time options:
-+
-+    ============   ========================================
-+    uid=n          make all files owned by specified user
-+    gid=n          make all files owned by specified group
-+    umask=xxx      set permission umask to xxx
-+    fmask=xxx      set umask to xxx for files
-+    dmask=xxx      set umask to xxx for directories
-+    ============   ========================================
-+
-+Disk format
-+===========
-+
-+OMFS discriminates between "sysblocks" and normal data blocks.  The sysblock
-+group consists of super block information, file metadata, directory structures,
-+and extents.  Each sysblock has a header containing CRCs of the entire
-+sysblock, and may be mirrored in successive blocks on the disk.  A sysblock may
-+have a smaller size than a data block, but since they are both addressed by the
-+same 64-bit block number, any remaining space in the smaller sysblock is
-+unused.
-+
-+Sysblock header information::
-+
-+    struct omfs_header {
-+	    __be64 h_self;                  /* FS block where this is located */
-+	    __be32 h_body_size;             /* size of useful data after header */
-+	    __be16 h_crc;                   /* crc-ccitt of body_size bytes */
-+	    char h_fill1[2];
-+	    u8 h_version;                   /* version, always 1 */
-+	    char h_type;                    /* OMFS_INODE_X */
-+	    u8 h_magic;                     /* OMFS_IMAGIC */
-+	    u8 h_check_xor;                 /* XOR of header bytes before this */
-+	    __be32 h_fill2;
-+    };
-+
-+Files and directories are both represented by omfs_inode::
-+
-+    struct omfs_inode {
-+	    struct omfs_header i_head;      /* header */
-+	    __be64 i_parent;                /* parent containing this inode */
-+	    __be64 i_sibling;               /* next inode in hash bucket */
-+	    __be64 i_ctime;                 /* ctime, in milliseconds */
-+	    char i_fill1[35];
-+	    char i_type;                    /* OMFS_[DIR,FILE] */
-+	    __be32 i_fill2;
-+	    char i_fill3[64];
-+	    char i_name[OMFS_NAMELEN];      /* filename */
-+	    __be64 i_size;                  /* size of file, in bytes */
-+    };
-+
-+Directories in OMFS are implemented as a large hash table.  Filenames are
-+hashed then prepended into the bucket list beginning at OMFS_DIR_START.
-+Lookup requires hashing the filename, then seeking across i_sibling pointers
-+until a match is found on i_name.  Empty buckets are represented by block
-+pointers with all-1s (~0).
-+
-+A file is an omfs_inode structure followed by an extent table beginning at
-+OMFS_EXTENT_START::
-+
-+    struct omfs_extent_entry {
-+	    __be64 e_cluster;               /* start location of a set of blocks */
-+	    __be64 e_blocks;                /* number of blocks after e_cluster */
-+    };
-+
-+    struct omfs_extent {
-+	    __be64 e_next;                  /* next extent table location */
-+	    __be32 e_extent_count;          /* total # extents in this table */
-+	    __be32 e_fill;
-+	    struct omfs_extent_entry e_entry;       /* start of extent entries */
-+    };
-+
-+Each extent holds the block offset followed by number of blocks allocated to
-+the extent.  The final extent in each table is a terminator with e_cluster
-+being ~0 and e_blocks being ones'-complement of the total number of blocks
-+in the table.
-+
-+If this table overflows, a continuation inode is written and pointed to by
-+e_next.  These have a header but lack the rest of the inode structure.
-+
-diff --git a/Documentation/filesystems/omfs.txt b/Documentation/filesystems/omfs.txt
-deleted file mode 100644
-index 1d0d41ff5c65..000000000000
---- a/Documentation/filesystems/omfs.txt
-+++ /dev/null
-@@ -1,106 +0,0 @@
--Optimized MPEG Filesystem (OMFS)
--
--Overview
--========
--
--OMFS is a filesystem created by SonicBlue for use in the ReplayTV DVR
--and Rio Karma MP3 player.  The filesystem is extent-based, utilizing
--block sizes from 2k to 8k, with hash-based directories.  This
--filesystem driver may be used to read and write disks from these
--devices.
--
--Note, it is not recommended that this FS be used in place of a general
--filesystem for your own streaming media device.  Native Linux filesystems
--will likely perform better.
--
--More information is available at:
--
--    http://linux-karma.sf.net/
--
--Various utilities, including mkomfs and omfsck, are included with
--omfsprogs, available at:
--
--    http://bobcopeland.com/karma/
--
--Instructions are included in its README.
--
--Options
--=======
--
--OMFS supports the following mount-time options:
--
--    uid=n        - make all files owned by specified user
--    gid=n        - make all files owned by specified group
--    umask=xxx    - set permission umask to xxx
--    fmask=xxx    - set umask to xxx for files
--    dmask=xxx    - set umask to xxx for directories
--
--Disk format
--===========
--
--OMFS discriminates between "sysblocks" and normal data blocks.  The sysblock
--group consists of super block information, file metadata, directory structures,
--and extents.  Each sysblock has a header containing CRCs of the entire
--sysblock, and may be mirrored in successive blocks on the disk.  A sysblock may
--have a smaller size than a data block, but since they are both addressed by the
--same 64-bit block number, any remaining space in the smaller sysblock is
--unused.
--
--Sysblock header information:
--
--struct omfs_header {
--        __be64 h_self;                  /* FS block where this is located */
--        __be32 h_body_size;             /* size of useful data after header */
--        __be16 h_crc;                   /* crc-ccitt of body_size bytes */
--        char h_fill1[2];
--        u8 h_version;                   /* version, always 1 */
--        char h_type;                    /* OMFS_INODE_X */
--        u8 h_magic;                     /* OMFS_IMAGIC */
--        u8 h_check_xor;                 /* XOR of header bytes before this */
--        __be32 h_fill2;
--};
--
--Files and directories are both represented by omfs_inode:
--
--struct omfs_inode {
--        struct omfs_header i_head;      /* header */
--        __be64 i_parent;                /* parent containing this inode */
--        __be64 i_sibling;               /* next inode in hash bucket */
--        __be64 i_ctime;                 /* ctime, in milliseconds */
--        char i_fill1[35];
--        char i_type;                    /* OMFS_[DIR,FILE] */
--        __be32 i_fill2;
--        char i_fill3[64];
--        char i_name[OMFS_NAMELEN];      /* filename */
--        __be64 i_size;                  /* size of file, in bytes */
--};
--
--Directories in OMFS are implemented as a large hash table.  Filenames are
--hashed then prepended into the bucket list beginning at OMFS_DIR_START.
--Lookup requires hashing the filename, then seeking across i_sibling pointers
--until a match is found on i_name.  Empty buckets are represented by block
--pointers with all-1s (~0).
--
--A file is an omfs_inode structure followed by an extent table beginning at
--OMFS_EXTENT_START:
--
--struct omfs_extent_entry {
--        __be64 e_cluster;               /* start location of a set of blocks */
--        __be64 e_blocks;                /* number of blocks after e_cluster */
--};
--
--struct omfs_extent {
--        __be64 e_next;                  /* next extent table location */
--        __be32 e_extent_count;          /* total # extents in this table */
--        __be32 e_fill;
--        struct omfs_extent_entry e_entry;       /* start of extent entries */
--};
--
--Each extent holds the block offset followed by number of blocks allocated to
--the extent.  The final extent in each table is a terminator with e_cluster
--being ~0 and e_blocks being ones'-complement of the total number of blocks
--in the table.
--
--If this table overflows, a continuation inode is written and pointed to by
--e_next.  These have a header but lack the rest of the inode structure.
--
 -- 
 2.24.1
 
