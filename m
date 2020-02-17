@@ -2,64 +2,219 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAB9C34029
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 19:34:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE713C34022
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:06:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6654F20637
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 19:34:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85ABD2064C
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 20:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581969993;
+	bh=Y6MOS9UT38QF5gOC7QLxU34bbRr7ibegBGJRpWNtbg0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=YWsSsc5MNlDiIF6qUuYhuXLgiGqmRuUYWnEWamX8rGlcngOsbc64YxH8BVFm6GOrS
+	 BrSP7Y6rY6fQ0smBWvNRrW1/e5cErIfKhijE597Yq05aWbq+CjnlYBva8HA7cGkLSY
+	 KHjt5pgWhKSH8eU8xQ/XiMsayNvA+bUmS19DN7po=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728667AbgBQTeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 14:34:23 -0500
-Received: from ms.lwn.net ([45.79.88.28]:49104 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728543AbgBQTeX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Feb 2020 14:34:23 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 791D3316;
-        Mon, 17 Feb 2020 19:34:20 +0000 (UTC)
-Date:   Mon, 17 Feb 2020 12:34:14 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     David Sterba <dsterba@suse.cz>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH 08/44] docs: filesystems: convert btrfs.txt to ReST
-Message-ID: <20200217123414.00942903@lwn.net>
-In-Reply-To: <20200217185011.GI2902@twin.jikos.cz>
-References: <cover.1581955849.git.mchehab+huawei@kernel.org>
-        <1ef76da4ac24a9a6f6187723554733c702ea19ae.1581955849.git.mchehab+huawei@kernel.org>
-        <20200217185011.GI2902@twin.jikos.cz>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728991AbgBQUGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 15:06:33 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35354 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728810AbgBQUGd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 15:06:33 -0500
+Received: by mail-ot1-f67.google.com with SMTP id r16so17313936otd.2;
+        Mon, 17 Feb 2020 12:06:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t2E+C/i50SzbxX+GbIPms7/GnK56JF2oC6jfMglSKU8=;
+        b=NMeRDoz/vWlg+IaZKFSpD7ttqM9y/N0FS6XN6CoMTKCG0spElCn9RVsApbl6SPQlwF
+         IhD7a5i6YMiS4NtdH074EV/ndyXKufn6jKaxL4mODUvsTnMQ4WSpWyBjP/DYZQkGtLtJ
+         5r9T/NtWc8CUET5zg9zldbgZRIcdc4Sw/IMrpb33XHuWHnfUarwErTlGaJXrHWYJNrDh
+         vZDGtERcvG7K57nVthE+lxoVfkIrk5+lpkbitZ/k3ygyfRfczxx+y9PtCSR5zyXhUCTB
+         Vy/DejrzFvDDvTnwdZ8fqb/K9KnZasDq3jgYZ2Q1XFRMTwX/7o8l75AYysSCjuIMwmS2
+         clKw==
+X-Gm-Message-State: APjAAAWUjQz7adE7P6n4mp9ca4+dNi01Hu4FKBpHAeyLRugwQMHTIVzY
+        jyT1MK7CE7UKtiXH2clSG7PRBD5f8x+AR/V21kmb6w==
+X-Google-Smtp-Source: APXvYqx13YjUJPbDUgstSkyslXQIQ4L5MaVWTFHFHi0XOwMI1Tl8jiPMXxL0VdE2Kob0oYNgusXZthW8zxOte+A9bnU=
+X-Received: by 2002:a9d:67d7:: with SMTP id c23mr13410100otn.262.1581969991666;
+ Mon, 17 Feb 2020 12:06:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <cover.1581956285.git.mchehab+huawei@kernel.org> <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
+In-Reply-To: <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 17 Feb 2020 21:06:20 +0100
+Message-ID: <CAJZ5v0jsQ51cp3LQ8qjmMj6tZJPC=t9Y_5SN78fLWe0mpJX08g@mail.gmail.com>
+Subject: Re: [PATCH v2 14/24] docs: cpu-freq: convert index.txt to ReST
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Feb 2020 19:50:12 +0100
-David Sterba <dsterba@suse.cz> wrote:
+On Mon, Feb 17, 2020 at 5:20 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> most of the stuff there can be re-used with ReST format,
+> but we need to add an empty TOC and remove the existing
+> entries, as the following conversion patches will be re-adding
+> them, as they're converted.
 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> Thanks. I can take the patch through btrfs tree, unless Jon wants all
-> doc patches go through his tree.
-> 
-I'm generally happy either way.  With this particular set, though,
-splitting them across trees seems likely to create a lot of merge
-conflicts on the index.rst file, so it might be better to keep them all
-together.
+I see a very little value in converting the files in the cpu-freq
+directory from .txt to .rst, which I have told you at least twice.
 
-Thanks,
+They are just old-style driver API documents for cpufreq, but moving
+them under driver-api/ as they are would not be a good idea IMO,
+because at least some of them are outdated (note that the admin-guide
+part of the cpufreq documentation, in the .rst format, is located
+under admin-guide/).
 
-jon
+I haven't had the time to write a proper replacement for them yet and
+honestly I find it quite obnoxious to see these reoccurring attempts
+to blindly convert them to .rst without taking care of their contents
+and location.
+
+I will take care of these files at one point as promised, but that's
+not going to happen today or tomorrow and please just leave them alone
+if that is not a big deal.
+
+Thanks!
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/cpu-freq/index.rst | 35 ++++++++++++++++++++
+>  Documentation/cpu-freq/index.txt | 56 --------------------------------
+>  Documentation/index.rst          |  1 +
+>  3 files changed, 36 insertions(+), 56 deletions(-)
+>  create mode 100644 Documentation/cpu-freq/index.rst
+>  delete mode 100644 Documentation/cpu-freq/index.txt
+>
+> diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+> new file mode 100644
+> index 000000000000..1bff3dfddd23
+> --- /dev/null
+> +++ b/Documentation/cpu-freq/index.rst
+> @@ -0,0 +1,35 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==============================================================================
+> +Linux CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
+> +==============================================================================
+> +
+> +Author: Dominik Brodowski  <linux@brodo.de>
+> +
+> +   Clock scaling allows you to change the clock speed of the CPUs on the
+> +   fly. This is a nice method to save battery power, because the lower
+> +   the clock speed, the less power the CPU consumes.
+> +
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +Mailing List
+> +------------
+> +There is a CPU frequency changing CVS commit and general list where
+> +you can report bugs, problems or submit patches. To post a message,
+> +send an email to linux-pm@vger.kernel.org.
+> +
+> +Links
+> +-----
+> +the FTP archives:
+> +* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
+> +
+> +how to access the CVS repository:
+> +* http://cvs.arm.linux.org.uk/
+> +
+> +the CPUFreq Mailing list:
+> +* http://vger.kernel.org/vger-lists.html#linux-pm
+> +
+> +Clock and voltage scaling for the SA-1100:
+> +* http://www.lartmaker.nl/projects/scaling
+> diff --git a/Documentation/cpu-freq/index.txt b/Documentation/cpu-freq/index.txt
+> deleted file mode 100644
+> index c15e75386a05..000000000000
+> --- a/Documentation/cpu-freq/index.txt
+> +++ /dev/null
+> @@ -1,56 +0,0 @@
+> -     CPU frequency and voltage scaling code in the Linux(TM) kernel
+> -
+> -
+> -                        L i n u x    C P U F r e q
+> -
+> -
+> -
+> -
+> -                   Dominik Brodowski  <linux@brodo.de>
+> -
+> -
+> -
+> -   Clock scaling allows you to change the clock speed of the CPUs on the
+> -    fly. This is a nice method to save battery power, because the lower
+> -            the clock speed, the less power the CPU consumes.
+> -
+> -
+> -
+> -Documents in this directory:
+> -----------------------------
+> -
+> -amd-powernow.txt -     AMD powernow driver specific file.
+> -
+> -core.txt       -       General description of the CPUFreq core and
+> -                       of CPUFreq notifiers.
+> -
+> -cpu-drivers.txt -      How to implement a new cpufreq processor driver.
+> -
+> -cpufreq-nforce2.txt -  nVidia nForce2 platform specific file.
+> -
+> -cpufreq-stats.txt -    General description of sysfs cpufreq stats.
+> -
+> -index.txt      -       File index, Mailing list and Links (this document)
+> -
+> -pcc-cpufreq.txt -      PCC cpufreq driver specific file.
+> -
+> -
+> -Mailing List
+> -------------
+> -There is a CPU frequency changing CVS commit and general list where
+> -you can report bugs, problems or submit patches. To post a message,
+> -send an email to linux-pm@vger.kernel.org.
+> -
+> -Links
+> ------
+> -the FTP archives:
+> -* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
+> -
+> -how to access the CVS repository:
+> -* http://cvs.arm.linux.org.uk/
+> -
+> -the CPUFreq Mailing list:
+> -* http://vger.kernel.org/vger-lists.html#linux-pm
+> -
+> -Clock and voltage scaling for the SA-1100:
+> -* http://www.lartmaker.nl/projects/scaling
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index e99d0bd2589d..4cf37ad1cd1d 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -99,6 +99,7 @@ needed).
+>     accounting/index
+>     block/index
+>     cdrom/index
+> +   cpu-freq/index
+>     ide/index
+>     fb/index
+>     fpga/index
+> --
+> 2.24.1
+>
