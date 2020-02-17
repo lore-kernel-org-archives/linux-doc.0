@@ -4,54 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A70C34036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDD4C34021
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8270020718
+	by mail.kernel.org (Postfix) with ESMTP id 40F5720718
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1581956005;
-	bh=xzyxUyPeN484AsN77Dim+IvS5vS9F2u5lXoE076GCGs=;
+	bh=e/w+5CcSQSw+KamaOa23k3QFE/HSnPfXVB8dzGvDkhA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ne7bf//cNWGAGMe9boQFI4L7GEMB1nrWLFn7QsPzf/HCE1jHrJXoJ+80/yP1dUa5C
-	 DDrho+tcGC9bMmIjZjMDXhmTwvRQ7EQaqPWgifWjnnfECVbDPglfLnny+zdRmyEhwL
-	 Sr+N+ClaXVO1bfKRkpuQ5CX9tXIcxNWQAcIxepUY=
+	b=Smlgi0+kK5uUF808aG5JC0tojVVQwx/6Sz32e7pxDXFn43DTsXVFRSxLj6v0ReGuY
+	 fsh5sV9OpFvE/mDRCpEwOFs9POlN/tFlaONo15Misf8B/KzXC5yX9KoelWUVwloe7O
+	 o2SzxsL2FYxrdVdqIkWxvdi84rH0jlxd9EDqpCUI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729834AbgBQQNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:13:25 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47150 "EHLO
+        id S1729672AbgBQQNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:24 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47126 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729683AbgBQQMe (ORCPT
+        with ESMTP id S1729673AbgBQQMe (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=n3OHHKHQGHUcansjehJKA6e6cfXC7iQMHoNdNp59CMg=; b=bYrIFGs8GrTjw4I8PIA47Wqa3i
-        orFDB1PWN0qzOUKmTiNGKZthhhYaKvlY9vBOffJZbvw4YwYzQqomUT7jMvkEunfgAoWlG7vsrErH+
-        yjhxDUU0BvCgGmd3HLYVVc98wr47Mc2tTt1DfGwyqg9K64MAhyGn9g6ee9rtv9/K5KD36Zg2RnDwg
-        1kHkB6Zvusy84duZfkCVksCYxkWDydlxGozS5v8BsRkrC6J03jT+oAgOlbpj0X+GVdXivsHXmBxhB
-        n7N2sjZoAVnl1V8JOU42uNSH/KiUzTsflOG3HqyIPv5S02Y27Swkw9oiALpJnbZq+WDBQOPdNwmsB
-        xDPiPOiw==;
+        bh=1bNPuIyuSZ2/UdgmTbtGEMggf4pmcGLb2N9GWIrE96U=; b=ndHS5HUeQphK57MSbjMRy3rdm2
+        c1Tw0ueWL5RR38TNxQWMtO01xxXDPjZK1P6v+bQ/hiwVRJiFidZTFqOmLCJKQ5+E3JD5bOMha8OOI
+        SIXAtWYT5g/tDu0KwQM2aEMjwNWACyr7uXxrF/yxEGsanlRzGHbkqTURVEy8RDHcZgdjKlpxNzJnr
+        AI+36BVonpWX8Y4kgIXIN1lIUgpKS5FdP4gqn60NZPSKGvo0kF+fJOCqivO5aL9kN67fc6PRQFiQa
+        gsyjb5crVX6JGidmJxXP/4WfPTYiDfaKUY2WfOKxLsili/75jt29TLzaGJREjUFfDpJKr5A9J0PCV
+        KK4ee71Q==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uR-6R; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006uM-5Y; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0Z-000fZN-Nk; Mon, 17 Feb 2020 17:12:31 +0100
+        id 1j3j0Z-000fZ4-Jv; Mon, 17 Feb 2020 17:12:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org,
-        Luis de Bethencourt <luisbg@kernel.org>,
-        Salah Triki <salah.triki@gmail.com>
-Subject: [PATCH 06/44] docs: filesystems: convert befs.txt to ReST
-Date:   Mon, 17 Feb 2020 17:11:52 +0100
-Message-Id: <3e29ea6df6cd569021cfa953ccb8ed7dfc146f3d.1581955849.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
+Subject: [PATCH 02/44] docs: filesystems: convert adfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:11:48 +0100
+Message-Id: <15ee92f03ec917e5d26bd7b863565dec88c843f6.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -63,175 +60,108 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document and section titles;
-- Some whitespace fixes and new line breaks;
+- Add a document title;
+- Adjust section titles;
 - Mark literal blocks as such;
-- Add table markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{befs.txt => befs.rst}        | 59 +++++++++++--------
+ .../filesystems/{adfs.txt => adfs.rst}        | 29 ++++++++++++-------
  Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 36 insertions(+), 24 deletions(-)
- rename Documentation/filesystems/{befs.txt => befs.rst} (83%)
+ 2 files changed, 20 insertions(+), 10 deletions(-)
+ rename Documentation/filesystems/{adfs.txt => adfs.rst} (85%)
 
-diff --git a/Documentation/filesystems/befs.txt b/Documentation/filesystems/befs.rst
-similarity index 83%
-rename from Documentation/filesystems/befs.txt
-rename to Documentation/filesystems/befs.rst
-index da45e6c842b8..79f9740d76ff 100644
---- a/Documentation/filesystems/befs.txt
-+++ b/Documentation/filesystems/befs.rst
-@@ -1,48 +1,54 @@
+diff --git a/Documentation/filesystems/adfs.txt b/Documentation/filesystems/adfs.rst
+similarity index 85%
+rename from Documentation/filesystems/adfs.txt
+rename to Documentation/filesystems/adfs.rst
+index 0baa8e8c1fc1..5b22cae38e5e 100644
+--- a/Documentation/filesystems/adfs.txt
++++ b/Documentation/filesystems/adfs.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=========================
- BeOS filesystem for Linux
-+=========================
- 
- Document last updated: Dec 6, 2001
- 
--WARNING
-+Warning
- =======
- Make sure you understand that this is alpha software.  This means that the
--implementation is neither complete nor well-tested. 
-+implementation is neither complete nor well-tested.
- 
- I DISCLAIM ALL RESPONSIBILITY FOR ANY POSSIBLE BAD EFFECTS OF THIS CODE!
- 
--LICENSE
--=====
--This software is covered by the GNU General Public License. 
-+License
-+=======
-+This software is covered by the GNU General Public License.
- See the file COPYING for the complete text of the license.
- Or the GNU website: <http://www.gnu.org/licenses/licenses.html>
- 
--AUTHOR
--=====
-+Author
-+======
- The largest part of the code written by Will Dyson <will_dyson@pobox.com>
- He has been working on the code since Aug 13, 2001. See the changelog for
- details.
- 
- Original Author: Makoto Kato <m_kato@ga2.so-net.ne.jp>
++===============================
++Acorn Disc Filing System - ADFS
++===============================
 +
- His original code can still be found at:
- <http://hp.vector.co.jp/authors/VA008030/bfs/>
+ Filesystems supported by ADFS
+ -----------------------------
+ 
+@@ -25,6 +31,7 @@ directory updates, specifically updating the access mode and timestamp.
+ Mount options for ADFS
+ ----------------------
+ 
++  ============  ======================================================
+   uid=nnn	All files in the partition will be owned by
+ 		user id nnn.  Default 0 (root).
+   gid=nnn	All files in the partition will be in group
+@@ -36,22 +43,23 @@ Mount options for ADFS
+   ftsuffix=n	When ftsuffix=0, no file type suffix will be applied.
+ 		When ftsuffix=1, a hexadecimal suffix corresponding to
+ 		the RISC OS file type will be added.  Default 0.
++  ============  ======================================================
+ 
+ Mapping of ADFS permissions to Linux permissions
+ ------------------------------------------------
+ 
+   ADFS permissions consist of the following:
+ 
+-	Owner read
+-	Owner write
+-	Other read
+-	Other write
++	- Owner read
++	- Owner write
++	- Other read
++	- Other write
+ 
+   (In older versions, an 'execute' permission did exist, but this
+-   does not hold the same meaning as the Linux 'execute' permission
+-   and is now obsolete).
++  does not hold the same meaning as the Linux 'execute' permission
++  and is now obsolete).
+ 
+-  The mapping is performed as follows:
++  The mapping is performed as follows::
+ 
+ 	Owner read				-> -r--r--r--
+ 	Owner write				-> --w--w---w
+@@ -66,17 +74,18 @@ Mapping of ADFS permissions to Linux permissions
+ 	Possible other mode permissions		-> ----rwxrwx
+ 
+   Hence, with the default masks, if a file is owner read/write, and
+-  not a UnixExec filetype, then the permissions will be:
++  not a UnixExec filetype, then the permissions will be::
+ 
+ 			-rw-------
+ 
+   However, if the masks were ownmask=0770,othmask=0007, then this would
+-  be modified to:
++  be modified to::
 +
- Does anyone know of a more current email address for Makoto? He doesn't
- respond to the address given above...
+ 			-rw-rw----
  
- This filesystem doesn't have a maintainer.
+   There is no restriction on what you can do with these masks.  You may
+   wish that either read bits give read access to the file for all, but
+-  keep the default write protection (ownmask=0755,othmask=0577):
++  keep the default write protection (ownmask=0755,othmask=0577)::
  
--WHAT IS THIS DRIVER?
--==================
--This module implements the native filesystem of BeOS http://www.beincorporated.com/ 
-+What is this Driver?
-+====================
-+This module implements the native filesystem of BeOS http://www.beincorporated.com/
- for the linux 2.4.1 and later kernels. Currently it is a read-only
- implementation.
- 
- Which is it, BFS or BEFS?
--================
--Be, Inc said, "BeOS Filesystem is officially called BFS, not BeFS". 
-+=========================
-+Be, Inc said, "BeOS Filesystem is officially called BFS, not BeFS".
- But Unixware Boot Filesystem is called bfs, too. And they are already in
- the kernel. Because of this naming conflict, on Linux the BeOS
- filesystem is called befs.
- 
--HOW TO INSTALL
-+How to Install
- ==============
- step 1.  Install the BeFS  patch into the source code tree of linux.
- 
-@@ -54,16 +60,16 @@ is called patch-befs-xxx, you would do the following:
- 	patch -p1 < /path/to/patch-befs-xxx
- 
- if the patching step fails (i.e. there are rejected hunks), you can try to
--figure it out yourself (it shouldn't be hard), or mail the maintainer 
-+figure it out yourself (it shouldn't be hard), or mail the maintainer
- (Will Dyson <will_dyson@pobox.com>) for help.
- 
- step 2.  Configuration & make kernel
- 
- The linux kernel has many compile-time options. Most of them are beyond the
- scope of this document. I suggest the Kernel-HOWTO document as a good general
--reference on this topic. http://www.linuxdocs.org/HOWTOs/Kernel-HOWTO-4.html 
-+reference on this topic. http://www.linuxdocs.org/HOWTOs/Kernel-HOWTO-4.html
- 
--However, to use the BeFS module, you must enable it at configure time.
-+However, to use the BeFS module, you must enable it at configure time::
- 
- 	cd /foo/bar/linux
- 	make menuconfig (or xconfig)
-@@ -82,35 +88,40 @@ step 3.  Install
- See the kernel howto <http://www.linux.com/howto/Kernel-HOWTO.html> for
- instructions on this critical step.
- 
--USING BFS
-+Using BFS
- =========
- To use the BeOS filesystem, use filesystem type 'befs'.
- 
--ex)
-+ex::
-+
-     mount -t befs /dev/fd0 /beos
- 
--MOUNT OPTIONS
-+Mount Options
- =============
-+
-+=============  ===========================================================
- uid=nnn        All files in the partition will be owned by user id nnn.
- gid=nnn	       All files in the partition will be in group nnn.
- iocharset=xxx  Use xxx as the name of the NLS translation table.
- debug          The driver will output debugging information to the syslog.
-+=============  ===========================================================
- 
--HOW TO GET LASTEST VERSION
-+How to Get Lastest Version
- ==========================
- 
- The latest version is currently available at:
- <http://befs-driver.sourceforge.net/>
- 
--ANY KNOWN BUGS?
--===========
-+Any Known Bugs?
-+===============
- As of Jan 20, 2002:
--	
-+
- 	None
- 
--SPECIAL THANKS
-+Special Thanks
- ==============
- Dominic Giampalo ... Writing "Practical file system design with Be filesystem"
-+
- Hiroyuki Yamada  ... Testing LinuxPPC.
- 
+ 			-rw-r--r--
  
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index c9480138d47e..98de437f5500 100644
+index a9330c3f8c2e..14dc89c94822 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -52,6 +52,7 @@ Documentation for filesystem implementations.
-    afs
+@@ -47,6 +47,7 @@ Documentation for filesystem implementations.
+    :maxdepth: 2
+ 
+    9p
++   adfs
     autofs
-    autofs-mount-control
-+   befs
     fuse
     overlayfs
-    virtiofs
 -- 
 2.24.1
 
