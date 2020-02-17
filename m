@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA41C34039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30312C34036
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 99E19214D8
+	by mail.kernel.org (Postfix) with ESMTP id 0AEA3214D8
 	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 16:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1581955996;
-	bh=E9wHHcvBmmu2s572iWfqpO1JiHtihnoPCff6jLUibmk=;
+	bh=B7QvITsLaRYnrQW/4vdNDPRdOfWdEF6cWmklc0cxRnw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nQWpyFulhDM9JSqoEvQLoJ8lLa0ve5X7CLJDr0gY/bjtUE7liv9xt9nBRf2zA48E+
-	 cdtfNcqvajW2Z/6VykjZql8zMx3TDXc7dV87UuoAnnRMlP9myvk1fpqw0jqNjqQea6
-	 uX5NRqyYuhCqGJ2VaEHCisZiAcLwI5zHGsVWj/pw=
+	b=DLFqzD5I3xcwJSoF8/TZbAc1d3dvqIxD5eNqOzv0O+YHuu1e8ZP0SQlr6vGZOQp9Y
+	 lwed41BZoFCYerMzgsZ+vHWwPldgY9GITsqX/PoIAD+oSvTWC112wUlhnHbncFe3ah
+	 kmoKewmfjcwj0dHngxQky29Wn2qWC9swb5+eW26U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729827AbgBQQNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 11:13:16 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:47156 "EHLO
+        id S1726704AbgBQQNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 11:13:15 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47152 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729687AbgBQQMe (ORCPT
+        with ESMTP id S1729686AbgBQQMe (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 11:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=zxYnd8vOctQKhIzAX3Aug75pQPWyw3LwrJRpdfjW0a8=; b=AGozPQmwPJ/n8NKyCmWV4+mhjZ
-        /zPurxFVL3h9MEHS3+1jSBoM1QRcI5H4fQ8Z8iUxQ0ZZvNm3Jy1XFU6GlJl+bHVkSEb65rQScMwUA
-        GXgQ/1wubMRW4+CgilMzjXUVigtiio9XB7ZoCcqiVQ5MATOJnKPnY99CgMSLl5kIporMZIjfqSsRq
-        PNVkpE0bpLhmiTXWhJjvgSJHaY5FEYkpQFZJFtShz0jOeICpLeFiNo2whes0bxe00dp9CSO3toIF3
-        ybJCiZ1AW64czwKRVIiGADzP5SYFOqLCBMpOlzv6fKIHZSH9TRyG1RvMz/wQCt5TY/e4jieuqnqam
-        7FtDXYTg==;
+        bh=Mlp2YudsgKj01KT2PuaX4p7SmB2D+Sxh5I7uxx47ouU=; b=HmBQfdJCJ+NPAgO1L03d9A3wSp
+        TZVXNHo1mmtHnNOYUHS5ErADQDwTYoSsnj7hiezvLE9vyUhlMiFdvRK/vwbRuPMfAWu2UG0ACZ1SU
+        +fJy2tEu6IYsDYJwG4UUZbelJpFZPWKssIttZqhQWd9Rs0iR2Xv8yLm+KVqbLb5critWcmjR2HetN
+        xDhLdd38SC6JzStItGOIiMjx8xTqjzqaCWoG4vSvTfC91oCep1u0IBXwsHOxSl/uVNcEnQtkkYryv
+        mx3zcd+c6dl8z97WJS+GKvji/xxJkaeGvyDrwoqBnaS0rVp4JS8cX5+6fiietDRnGkhGgsOP/2/e6
+        Qxs4zg7A==;
 Received: from tmo-109-126.customers.d1-online.com ([80.187.109.126] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3j0c-0006uj-EH; Mon, 17 Feb 2020 16:12:34 +0000
+        id 1j3j0c-0006uk-FT; Mon, 17 Feb 2020 16:12:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j3j0a-000fac-Fs; Mon, 17 Feb 2020 17:12:32 +0100
+        id 1j3j0a-000fah-HZ; Mon, 17 Feb 2020 17:12:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 21/44] docs: filesystems: convert hfsplus.txt to ReST
-Date:   Mon, 17 Feb 2020 17:12:07 +0100
-Message-Id: <4298409da951fbee000201a6c8d9c85e961b2b79.1581955849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 22/44] docs: filesystems: convert hfs.txt to ReST
+Date:   Mon, 17 Feb 2020 17:12:08 +0100
+Message-Id: <8a625d6652d88809730020048d26c3b9333ddbdf.1581955849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581955849.git.mchehab+huawei@kernel.org>
 References: <cover.1581955849.git.mchehab+huawei@kernel.org>
@@ -59,47 +59,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just trivial changes:
-
 - Add a SPDX header;
+- Adjust document and section titles;
+- Use notes markups;
+- Add lists markups;
 - Add it to filesystems/index.rst.
-
-While here, adjust document title, just to make it use the same
-style of the other docs.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/{hfsplus.txt => hfsplus.rst} | 2 ++
- Documentation/filesystems/index.rst                    | 1 +
- 2 files changed, 3 insertions(+)
- rename Documentation/filesystems/{hfsplus.txt => hfsplus.rst} (95%)
+ .../filesystems/{hfs.txt => hfs.rst}          | 23 +++++++++++--------
+ Documentation/filesystems/index.rst           |  1 +
+ 2 files changed, 15 insertions(+), 9 deletions(-)
+ rename Documentation/filesystems/{hfs.txt => hfs.rst} (80%)
 
-diff --git a/Documentation/filesystems/hfsplus.txt b/Documentation/filesystems/hfsplus.rst
-similarity index 95%
-rename from Documentation/filesystems/hfsplus.txt
-rename to Documentation/filesystems/hfsplus.rst
-index 59f7569fc9ed..f02f4f5fc020 100644
---- a/Documentation/filesystems/hfsplus.txt
-+++ b/Documentation/filesystems/hfsplus.rst
-@@ -1,4 +1,6 @@
+diff --git a/Documentation/filesystems/hfs.txt b/Documentation/filesystems/hfs.rst
+similarity index 80%
+rename from Documentation/filesystems/hfs.txt
+rename to Documentation/filesystems/hfs.rst
+index d096df6db07a..ab17a005e9b1 100644
+--- a/Documentation/filesystems/hfs.txt
++++ b/Documentation/filesystems/hfs.rst
+@@ -1,11 +1,16 @@
+-Note: This filesystem doesn't have a maintainer.
 +.. SPDX-License-Identifier: GPL-2.0
  
-+======================================
- Macintosh HFSPlus Filesystem for Linux
- ======================================
++==================================
+ Macintosh HFS Filesystem for Linux
+ ==================================
  
+-HFS stands for ``Hierarchical File System'' and is the filesystem used
++
++.. Note:: This filesystem doesn't have a maintainer.
++
++
++HFS stands for ``Hierarchical File System`` and is the filesystem used
+ by the Mac Plus and all later Macintosh models.  Earlier Macintosh
+-models used MFS (``Macintosh File System''), which is not supported,
++models used MFS (``Macintosh File System``), which is not supported,
+ MacOS 8.1 and newer support a filesystem called HFS+ that's similar to
+ HFS but is extended in various areas.  Use the hfsplus filesystem driver
+ to access such filesystems from Linux.
+@@ -49,25 +54,25 @@ Writing to HFS Filesystems
+ HFS is not a UNIX filesystem, thus it does not have the usual features you'd
+ expect:
+ 
+- o You can't modify the set-uid, set-gid, sticky or executable bits or the uid
++ * You can't modify the set-uid, set-gid, sticky or executable bits or the uid
+    and gid of files.
+- o You can't create hard- or symlinks, device files, sockets or FIFOs.
++ * You can't create hard- or symlinks, device files, sockets or FIFOs.
+ 
+ HFS does on the other have the concepts of multiple forks per file.  These
+ non-standard forks are represented as hidden additional files in the normal
+ filesystems namespace which is kind of a cludge and makes the semantics for
+ the a little strange:
+ 
+- o You can't create, delete or rename resource forks of files or the
++ * You can't create, delete or rename resource forks of files or the
+    Finder's metadata.
+- o They are however created (with default values), deleted and renamed
++ * They are however created (with default values), deleted and renamed
+    along with the corresponding data fork or directory.
+- o Copying files to a different filesystem will loose those attributes
++ * Copying files to a different filesystem will loose those attributes
+    that are essential for MacOS to work.
+ 
+ 
+ Creating HFS filesystems
+-===================================
++========================
+ 
+ The hfsutils package from Robert Leslie contains a program called
+ hformat that can be used to create HFS filesystem. See
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index c16e517e37c5..c351bc8a8c85 100644
+index c351bc8a8c85..f776411340cb 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
 @@ -67,6 +67,7 @@ Documentation for filesystem implementations.
     f2fs
     gfs2
     gfs2-uevents
-+   hfsplus
++   hfs
+    hfsplus
     fuse
     overlayfs
-    virtiofs
 -- 
 2.24.1
 
