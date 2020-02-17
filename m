@@ -7,44 +7,46 @@ X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 174BAC3B1BF
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 01:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BF1C35242
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:42:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D5FA62072C
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 01:53:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10F1320702
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 04:42:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dw2SFnan"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PFv2kuVx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbgBQBxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Feb 2020 20:53:12 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54722 "EHLO
+        id S1727362AbgBQEmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Feb 2020 23:42:40 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:40326 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgBQBxM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Feb 2020 20:53:12 -0500
+        with ESMTP id S1726656AbgBQEmk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Feb 2020 23:42:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ZvKy8cN1oeW6FFUvXPgwsqS+7nTP4G4tR9YL0f/QYMY=; b=dw2SFnanczrBwiVB1Iho3fr7ie
-        HJtHtssC1AxzBlaTxdx6p0cU+JIxiLcQenc/AT0lwTPptBkjf1h5sFExh1wwdM4M2dDpOofwpl7L+
-        /N3oC/SyJbFk/t/5jvNnww7RojkgyXvdB655RLFQmyNClJM15seyOXW+XVAjTBodxbJHs22PkxEqE
-        e6PHnS4XfRIjpickmU4XlbNrDcs4G+Z02d/kcITAVkwrzhoq1q4hjkv8OHq9yA8sCLsr2U0UndynO
-        kiUYg8I6C2ncfJ6VT8a6QQbIAII6ndk24MKm2FcmXUAGEgcb9U35JFXiLZOnQan6c46kJnf7Uu1UC
-        VQvjZ2aA==;
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=j5xYGsqatix9Wvp6r37SE7HlFrIRp5sccIPwkdusUgw=; b=PFv2kuVxmKyTv/vL9P5ucI7Kcq
+        zbXfsJTGMdZai0nWspDOd1RVKO6/M6vZbU2cUKPuPyzOHL76btnCoNZVosmnKZSRt2CPmMjbpqdTA
+        eywYiK32nNE0zFskUsoOlT/5xRRyuvPm/6qzzhmWqdoLi9qn7/TH7K6QKUofW1SUVRQISh23TQnTC
+        BiE4Re9POUeS8qOi6QFnlm9qLry7UzLHmB0QYH8x7Qp7rfzs8OCt0Pgw7z3x5HoKbAwcKgX/Dl1+/
+        Pwlkh8Zk4QWPdcXHSIfRnJwO3+4WNJXmlUS6SWsg+ij14H/cL3Tlu8s0VUeLheSZKJk020MetNyhs
+        O6+CKP8A==;
 Received: from [2601:1c0:6280:3f0::19c2]
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3Vax-0006fX-8X; Mon, 17 Feb 2020 01:53:11 +0000
-Subject: Re: [PATCH] Documentation: bring process docs up to date
-To:     Tony Fischetti <tony.fischetti@gmail.com>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200217000826.55767-1-tony.fischetti@gmail.com>
+        id 1j3YEv-00018f-Hj; Mon, 17 Feb 2020 04:42:37 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        ACPI Devel Mailing List <linux-acpi@vger.kernel.org>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5e8c6ff0-951f-e447-9606-0c1177a596cd@infradead.org>
-Date:   Sun, 16 Feb 2020 17:53:10 -0800
+Subject: [PATCH] Documentation/admin-guide/acpi: fix
+ fan_performance_states.rst warnings
+Message-ID: <98d72d3b-c9eb-36bc-1d68-2c3020bdf9c5@infradead.org>
+Date:   Sun, 16 Feb 2020 20:42:36 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217000826.55767-1-tony.fischetti@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,26 +55,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/16/20 4:08 PM, Tony Fischetti wrote:
-> The guide to the kernel dev process documentation, for example, contains
-> references to older kernels and their timelines. In addition, one of the
-> "long term support kernels" listed have since reached EOL, and a new one
-> has been named. This patch brings information/tables up to date.
-> 
-> Additionally, some very trivial grammatical errors, unclear sentences,
-> and potentially unsavory diction have been edited.
-> 
-> Signed-off-by: Tony Fischetti <tony.fischetti@gmail.com>
-> ---
->  Documentation/process/2.Process.rst    | 108 +++++++++++++------------
->  Documentation/process/coding-style.rst |  18 ++---
->  Documentation/process/howto.rst        |  17 ++--
->  3 files changed, 73 insertions(+), 70 deletions(-)
+From: Randy Dunlap <rdunlap@infradead.org>
 
+Fix Sphinx format warnings in fan_performace_states.rst
+by adding indentation.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Documentation/admin-guide/acpi/fan_performance_states.rst:21: WARNING: Literal block ends without a blank line; unexpected unindent.
+Documentation/admin-guide/acpi/fan_performance_states.rst:41: WARNING: Literal block expected; none found.
 
-Thanks.
--- 
-~Randy
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ Documentation/admin-guide/acpi/fan_performance_states.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- lnx-56-rc2.orig/Documentation/admin-guide/acpi/fan_performance_states.rst
++++ lnx-56-rc2/Documentation/admin-guide/acpi/fan_performance_states.rst
+@@ -18,7 +18,7 @@ may look as follows::
+ 
+  $ ls -l /sys/bus/acpi/devices/INT3404:00/
+  total 0
+-...
++ ...
+  -r--r--r-- 1 root root 4096 Dec 13 20:38 state0
+  -r--r--r-- 1 root root 4096 Dec 13 20:38 state1
+  -r--r--r-- 1 root root 4096 Dec 13 20:38 state10
+@@ -38,7 +38,7 @@ where each of the "state*" files represe
+ and contains a colon-separated list of 5 integer numbers (fields) with the
+ following interpretation::
+ 
+-control_percent:trip_point_index:speed_rpm:noise_level_mdb:power_mw
++  control_percent:trip_point_index:speed_rpm:noise_level_mdb:power_mw
+ 
+ * ``control_percent``: The percent value to be used to set the fan speed to a
+   specific level using the _FSL object (0-100).
+
 
