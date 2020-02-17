@@ -2,83 +2,168 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 422CAC34021
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A901C34022
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:11:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 08A5220836
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:04:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F4E2207FD
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 18:11:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BnuGyA1s"
+	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="TG79T83F";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="t3nXETdj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbgBQSEH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 13:04:07 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:35848 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbgBQSEH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 13:04:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=KBvfvthRTAHTakV8+xxFydSvjqVVrmxm/9il+ERwTbU=; b=BnuGyA1s7r2P7oP49/RtrqXVSQ
-        keie8EtHezI6LfM1yAITkAUaxnRWcTxHGujEIQ4DadLGPjc+0iv5ICykU3o7kheh1mierIM/0trIR
-        /CDKVRpw44nUeOTY8huhKEU7FN1Yc0L7YEymzQcSyXutwrdCUfIngtFhFa721El9e0+rsh2qMz+mR
-        IOFXkY3XidPrMRMg0S8jR6pETj1DjbP//K01KP6ZXmF85U5C8B+ODA85fVvVnFXId2qo0s3Ic7Jki
-        sG+SeJXVEwtwFya7PFN5i2SWy3GyAFMin6ixgW/O97WMmFeWc887FqWB4So1OdAlwcW3asFkX7fML
-        1F9F2ZVw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3kkR-0003n7-Tk; Mon, 17 Feb 2020 18:03:59 +0000
-Date:   Mon, 17 Feb 2020 10:03:59 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Felix Fietkau <nbd@openwrt.org>,
-        John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [CFT 1/8] net: phylink: propagate resolved link config via
- mac_link_up()
-Message-ID: <20200217180359.GK7778@bombadil.infradead.org>
-References: <20200217172242.GZ25745@shell.armlinux.org.uk>
- <E1j3k7e-00071q-3R@rmk-PC.armlinux.org.uk>
+        id S1729851AbgBQSLd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 13:11:33 -0500
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:54447 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729423AbgBQSLd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 13:11:33 -0500
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 73ED15DB6A;
+        Mon, 17 Feb 2020 13:11:27 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=Gls5yVlIPXoemlcn4YXzjgF9Xr4=; b=TG79T8
+        3FbsjkBKESEcHAXz5uPEeCeY/KejcslcqdSHWJ5u1wa10tTQR3+FkSUVc8Wp0EjX
+        t57tJt64hQImLFtPFs/3ZQBLfq4FSYrF8Us58RA58+8jBHH28FN1VW/FNXe8bSS1
+        nuO16y8ajPx3uEDrDH6kHW7HWP7juoAvl03ps=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 5E9B25DB69;
+        Mon, 17 Feb 2020 13:11:27 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=iyn9UhINCd5hDDfrjRg1PJ2j7YzorLyUaLg7k1+K+d0=; b=t3nXETdjohRCFzFiurIjePK5uG1QJGEk5hhjr8L20+8d2pmH/Nf1CXIM6p7QAzf36eGAWQ86R02OFdiugmLPDn+feCtAD9PTicWRFp7Bupj0nZxoX2368tK7jXY4K6YiwEvW4fFmHQRc3H29/0njPRw0HIkZVT7q8/CdWf1Nr/M=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id BAE565DB68;
+        Mon, 17 Feb 2020 13:11:26 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id EFAD62DA01B8;
+        Mon, 17 Feb 2020 13:11:25 -0500 (EST)
+Date:   Mon, 17 Feb 2020 13:11:25 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 10/44] docs: filesystems: convert cramfs.txt to ReST
+In-Reply-To: <e87b267e71f99974b7bb3fc0a4a08454ff58165e.1581955849.git.mchehab+huawei@kernel.org>
+Message-ID: <nycvar.YSQ.7.76.2002171310460.1559@knanqh.ubzr>
+References: <cover.1581955849.git.mchehab+huawei@kernel.org> <e87b267e71f99974b7bb3fc0a4a08454ff58165e.1581955849.git.mchehab+huawei@kernel.org>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1j3k7e-00071q-3R@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: E9DC501E-51B0-11EA-B5D4-C28CBED8090B-78420484!pb-smtp1.pobox.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 05:23:54PM +0000, Russell King wrote:
-> +   Please see :c:func:`mac_link_up` for more information on this.
+On Mon, 17 Feb 2020, Mauro Carvalho Chehab wrote:
 
-FYI, Jon recently added the ability to specify functions as
+> - Add a SPDX header;
+> - Adjust document title;
+> - Some whitespace fixes and new line breaks;
+> - Mark literal blocks as such;
+> - Add table markups;
+> - Add it to filesystems/index.rst.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-+   Please see mac_link_up() for more information on this.
+Acked-by: Nicolas Pitre <nico@fluxnic.net>
 
-and it's now the preferred way to do this.  Nothing that should stand in
-the way of this patch-set, of course.
+
+> ---
+>  .../filesystems/{cramfs.txt => cramfs.rst}    | 19 ++++++++++++-------
+>  Documentation/filesystems/index.rst           |  1 +
+>  2 files changed, 13 insertions(+), 7 deletions(-)
+>  rename Documentation/filesystems/{cramfs.txt => cramfs.rst} (88%)
+> 
+> diff --git a/Documentation/filesystems/cramfs.txt b/Documentation/filesystems/cramfs.rst
+> similarity index 88%
+> rename from Documentation/filesystems/cramfs.txt
+> rename to Documentation/filesystems/cramfs.rst
+> index 8e19a53d648b..afbdbde98bd2 100644
+> --- a/Documentation/filesystems/cramfs.txt
+> +++ b/Documentation/filesystems/cramfs.rst
+> @@ -1,12 +1,15 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+>  
+> -	Cramfs - cram a filesystem onto a small ROM
+> +===========================================
+> +Cramfs - cram a filesystem onto a small ROM
+> +===========================================
+>  
+> -cramfs is designed to be simple and small, and to compress things well. 
+> +cramfs is designed to be simple and small, and to compress things well.
+>  
+>  It uses the zlib routines to compress a file one page at a time, and
+>  allows random page access.  The meta-data is not compressed, but is
+>  expressed in a very terse representation to make it use much less
+> -diskspace than traditional filesystems. 
+> +diskspace than traditional filesystems.
+>  
+>  You can't write to a cramfs filesystem (making it compressible and
+>  compact also makes it _very_ hard to update on-the-fly), so you have to
+> @@ -28,9 +31,9 @@ issue.
+>  Hard links are supported, but hard linked files
+>  will still have a link count of 1 in the cramfs image.
+>  
+> -Cramfs directories have no `.' or `..' entries.  Directories (like
+> +Cramfs directories have no ``.`` or ``..`` entries.  Directories (like
+>  every other file on cramfs) always have a link count of 1.  (There's
+> -no need to use -noleaf in `find', btw.)
+> +no need to use -noleaf in ``find``, btw.)
+>  
+>  No timestamps are stored in a cramfs, so these default to the epoch
+>  (1970 GMT).  Recently-accessed files may have updated timestamps, but
+> @@ -70,9 +73,9 @@ MTD drivers are cfi_cmdset_0001 (Intel/Sharp CFI flash) or physmap
+>  (Flash device in physical memory map). MTD partitions based on such devices
+>  are fine too. Then that device should be specified with the "mtd:" prefix
+>  as the mount device argument. For example, to mount the MTD device named
+> -"fs_partition" on the /mnt directory:
+> +"fs_partition" on the /mnt directory::
+>  
+> -$ mount -t cramfs mtd:fs_partition /mnt
+> +    $ mount -t cramfs mtd:fs_partition /mnt
+>  
+>  To boot a kernel with this as root filesystem, suffice to specify
+>  something like "root=mtd:fs_partition" on the kernel command line.
+> @@ -90,6 +93,7 @@ https://github.com/npitre/cramfs-tools
+>  For /usr/share/magic
+>  --------------------
+>  
+> +=====	=======================	=======================
+>  0	ulelong	0x28cd3d45	Linux cramfs offset 0
+>  >4	ulelong	x		size %d
+>  >8	ulelong	x		flags 0x%x
+> @@ -110,6 +114,7 @@ For /usr/share/magic
+>  >552	ulelong	x		fsid.blocks %d
+>  >556	ulelong	x		fsid.files %d
+>  >560	string	>\0		name "%.16s"
+> +=====	=======================	=======================
+>  
+>  
+>  Hacker Notes
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index ddd8f7b2bb25..8fe848ea04af 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -56,6 +56,7 @@ Documentation for filesystem implementations.
+>     bfs
+>     btrfs
+>     ceph
+> +   cramfs
+>     fuse
+>     overlayfs
+>     virtiofs
+> -- 
+> 2.24.1
+> 
+> 
