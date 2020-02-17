@@ -2,83 +2,115 @@ Return-Path: <SRS0=VB12=4F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E64A7C3B185
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF30C35254
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:58:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B095E20725
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:02:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gmLivW0O"
+	by mail.kernel.org (Postfix) with ESMTP id 5E04020725
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Feb 2020 11:58:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbgBQLCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 06:02:22 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:35996 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbgBQLCW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 06:02:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=N2KaWUW3ojsaIAWy3SDFA2ekcPzSJz1io3iUAiK0snA=; b=gmLivW0OFBNi55bZx67RzylSSS
-        JWNzLtb2M3xL25Gkxs9hnoHV4znUSqr2RxWiIeSXqtdJHx72CjLeripuiKieBhZk/Ui6PJOdcNL0c
-        5/mmA9YIhidKIJezIIS+GUyRVqtrdZu91OmGcVN0gBvWqD0GDSLPUbSWJXEfT0+zTTlmo6aC+jJr5
-        Zs/tjrIUYq7GLwGxcXY+5yVzGnkE8RZCsdV2udFACanGo/VYRy+vDhwfx2XRvxT98vJa0qNuGq5HV
-        wHzVsPUiVDmWuryfnmN5g5tSgzJ0SQzv7IW8hR1k3Pf5AAeJLYoFlt/+lDNJGz7/222bu/ZDt7ZSo
-        rJmWaI+Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3eA7-0001BX-8W; Mon, 17 Feb 2020 11:02:03 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AC75D300EBB;
-        Mon, 17 Feb 2020 12:00:08 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1682A29E09C0A; Mon, 17 Feb 2020 12:02:00 +0100 (CET)
-Date:   Mon, 17 Feb 2020 12:02:00 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        linux-kernel@vger.kernel.org,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
-Message-ID: <20200217110200.GO14914@hirez.programming.kicks-ass.net>
-References: <20200214040132.91934-3-boqun.feng@gmail.com>
- <Pine.LNX.4.44L0.2002141028280.1579-100000@iolanthe.rowland.org>
- <20200214235215.GB110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+        id S1729074AbgBQL6S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 06:58:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38340 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728773AbgBQL6R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Feb 2020 06:58:17 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 7594CAAC2;
+        Mon, 17 Feb 2020 11:58:15 +0000 (UTC)
+Date:   Mon, 17 Feb 2020 11:58:10 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     ?????? <yun.wang@linux.alibaba.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Michal Koutn? <mkoutny@suse.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
+ locality info
+Message-ID: <20200217115810.GA3420@suse.de>
+References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
+ <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
+ <20200214151048.GL14914@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <20200214235215.GB110915@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200214151048.GL14914@hirez.programming.kicks-ass.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 15, 2020 at 07:52:15AM +0800, Boqun Feng wrote:
-> I agree, and thanks for the suggestion! And I change the sentence in
-> atomic_t.txt with:
+On Fri, Feb 14, 2020 at 04:10:48PM +0100, Peter Zijlstra wrote:
+> On Fri, Feb 07, 2020 at 11:35:30AM +0800, ?????? wrote:
+> > By monitoring the increments, we will be able to locate the per-cgroup
+> > workload which NUMA Balancing can't helpwith (usually caused by wrong
+> > CPU and memory node bindings), then we got chance to fix that in time.
+> > 
+> > Cc: Mel Gorman <mgorman@suse.de>
+> > Cc: Peter Zijlstra <peterz@infradead.org>
+> > Cc: Michal Koutný <mkoutny@suse.com>
+> > Signed-off-by: Michael Wang <yun.wang@linux.alibaba.com>
 > 
-> 	A note for the implementation of atomic_set{}() is that it
-> 	cannot break the atomicity of the RMW ops.
+> So here:
 > 
-> , since I think that part of the doc is more about the suggestion to
-> anyone who want to implement the atomic_set(). Peter, is that OK to you?
+>   https://lkml.kernel.org/r/20191127101932.GN28938@suse.de
+> 
+> Mel argues that the information exposed is fairly implementation
+> specific and hard to use without understanding how NUMA balancing works.
+> 
+> By exposing it to userspace, we tie ourselves to these particulars. We
+> can no longer change these NUMA balancing details if we wanted to, due
+> to UAPI concerns.
+> 
+> Mel, I suspect you still feel that way, right?
+> 
 
-Sure.
+Yes, I still think it would be a struggle to interpret the data
+meaningfully without very specific knowledge of the implementation. If
+the scan rate was constant, it would be easier but that would make NUMA
+balancing worse overall. Similarly, the stat might get very difficult to
+interpret when NUMA balancing is failing because of a load imbalance,
+pages are shared and being interleaved or NUMA groups span multiple
+active nodes.
+
+For example, the series that reconciles NUMA and CPU balancers may look
+worse in these stats even though the overall performance may be better.
+
+> In the document (patch 2/2) you write:
+> 
+> > +However, there are no hardware counters for per-task local/remote accessing
+> > +info, we don't know how many remote page accesses have occurred for a
+> > +particular task.
+> 
+> We can of course 'fix' that by adding a tracepoint.
+> 
+> Mel, would you feel better by having a tracepoint in task_numa_fault() ?
+> 
+
+A bit, although interpreting the data would still be difficult and the
+tracepoint would have to include information about the cgroup. While
+I've never tried, this seems like the type of thing that would be suited
+to a BPF script that probes task_numa_fault and extract the information
+it needs.
+
+-- 
+Mel Gorman
+SUSE Labs
