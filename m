@@ -2,177 +2,111 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15925C34044
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D00C34026
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:38:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E004F208C4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:01:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62A8C21D56
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:38:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="ICU3JWbY"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="HB3Mdirm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgBRQB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 11:01:56 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:38850 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726546AbgBRQBz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 11:01:55 -0500
-Received: by mail-pj1-f68.google.com with SMTP id j17so1186988pjz.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2020 08:01:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=dVP6ZBY2M+JrXuQUqUGK+vQhunheflUolWE45cf3nnw=;
-        b=ICU3JWbYKsPU2LQp9Pckivg7ORJ9M0upNPytjf4vm+H9SRKAwOgapZ9KcctfHeA+cs
-         bywLjK6tFX3QDzLFtM1sM35d6Avu+T7vs11eS+du7H9AHKztudeKBZUXvXWPD7Kay8+j
-         pRyVPOHpuZZGL6M8jVEGkixipV4gSqIIPjICKCo4WZbPC3jmdIs0GKV7DmDtmHxk4ysY
-         sxx4qeEO95aiclgGRrYs01bqfPNlFpsqjLg2Kg6wlkGR+V8asWPf5H/jpTLjx+HsEYtK
-         aNlE8hwR7vOicYF6qRcqXU0BurifiTLUV3w3E3olt8B0VOlDP8EQBx31+blfuU+raNch
-         T9Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=dVP6ZBY2M+JrXuQUqUGK+vQhunheflUolWE45cf3nnw=;
-        b=MIhY9a7C/ei/sveFsy0ol4VJOEZPWlPMequ2rXZUuHOe+09Hub5+HKUAPQ6qkOCGKJ
-         MO0Q12IIgJCx4X2eCUjwIzoK4bjfcJPe0z0boLx1JlBchDwgrrsg8W88JMG9UHPTDg2K
-         zl9VkYeeQxpvMrCTsMVzlKBUyQ2YDNVvYXwqPLz5+SG0FHaGeK2+bF4N+q1GRFbSwcO7
-         /NwETB4dXjCOR9th0OLssIiNaelsf2Uzfnod1tdUVZIFiHSDaBtSM+uxLHq2ZDUMvi6R
-         PRWS5jxLsv8B2fROzxMyE3rW7FihQcZlZFhozGp/4spxuxoE2zVfO4YtRv4+Zi3HhJuR
-         FAoA==
-X-Gm-Message-State: APjAAAUovx2uaNrnHC3qt9msJ2zCnGKIG8ecgYDk88CBoZlb9RbhT/HW
-        bMLdVrz1tglffPpzm1oV/ZCHgmOwMdY=
-X-Google-Smtp-Source: APXvYqzvg0IX1qJX1aYNAwvN1mdrx8cX2z3C4UiXMydXlRlI5aTm13AWzHtr/FnhIrHybbtSueEusw==
-X-Received: by 2002:a17:902:8c98:: with SMTP id t24mr20343697plo.51.1582041713571;
-        Tue, 18 Feb 2020 08:01:53 -0800 (PST)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
-        by smtp.googlemail.com with ESMTPSA id l10sm3804643pjy.5.2020.02.18.08.01.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 08:01:52 -0800 (PST)
-Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Rob Herring <robh@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Potapenko <glider@google.com>,
+        id S1726415AbgBRQi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 11:38:56 -0500
+Received: from mout.gmx.net ([212.227.15.15]:32891 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726411AbgBRQiz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Feb 2020 11:38:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1582043923;
+        bh=IVqXr+uGnPkGBbiJMPcgDjV0gt1/2BJIB3tZaSUyyaI=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=HB3MdirmzLWQ1eotKO/Ult0RApNyzTgD8D1ARKawYM/AyUqYViqKKZbbiBey3Vo0t
+         viqMcHpDl5Bloh+iFaRuogzg7hI/1c0d+tZXr1hpOHrfTL9PYpfupfauxfLT1ONUnF
+         ESFJtxfCCABeBYsTzmPEZ3aOUrkTWFj6hmHx644A=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.194.223]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTRMs-1is6xj0oVY-00TiE8; Tue, 18
+ Feb 2020 17:38:43 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <158166060044.9887.549561499483343724.stgit@devnote2>
- <158166062748.9887.15284887096084339722.stgit@devnote2>
- <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
- <20200214224744.GC439135@mit.edu>
- <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
- <20200215005336.GD439135@mit.edu>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <243ab5a8-2ce1-1465-0175-3f5d483cbde1@android.com>
-Date:   Tue, 18 Feb 2020 08:01:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: arm: tcm: Fix a few typos
+Date:   Tue, 18 Feb 2020 17:38:25 +0100
+Message-Id: <20200218163829.13066-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200215005336.GD439135@mit.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XsnEgpb0SMbuM6bL4zw9xAPjlpTKAnjPflEqQ3J0j4jlcSGxCbZ
+ ANaFs1yeZ10GIpUxF52R2meypAxdC/N+swCiqGyaNjGTdWxJ7lXMpXESWc4is4Htsy19NVq
+ 0EW3MKKqgG/EgSJR+nxqH+taN0rgKr595qJeIQSUccK/rJGzSzhO32uPMCqfZ4quAk7QSWQ
+ b3B8iuyvRySJUxuqicw8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VJyloGK0TWI=:xint09mz6iPT/v6ozwcg6+
+ y0gDM9MM4dx6qUkOSDO2l8ymL/L1Gmf/Rw1XF6LmVy6aMpwQ5BGsGjxsY5om928qgJIGwNSZF
+ JhRNMHInPAkkA04TDO9MlaklWI4ijAR0hJgpdb+rld/S9g9q26rG/uvweGK//CV7LFQUd4bZv
+ CIuSF78wd+KHUWdU23OMWdBAiLPzBhf4cgC+AFn9YpfWaa67c9bxuegQlNvhkKtN2XSvbDDJr
+ aQ6VbNEGJfZc3prxlVZgVO4Odf7I2yMPWonbQv3+VmsrGCFvgSj2wxoe2Gl5ZEXRsWub8n84Z
+ a8toFrF7CLgNJGgZcnleQzOyw6jGNm+UnDEif6mdmT//ZuIa8retKh99tTRgD5ygWIHAEbS8d
+ S410ipOyKZiiqg1y0bjEZXZv4itk3SoikDq1rBH+8H8JrWug3OSbagVDV+1ouP6loNsYrcohB
+ XY4XlsuclYQ8kzroebgkrhYiLTlMpVYQZLS/Tg0DKPY6X4XB2pCYPAsFPT9KYSkF7167+P3Qo
+ 8nJJ/lOy26mtLk7rY9ma7+/Upri6nESIGfgR7S0FPDR3123w1typcXZD6Tr7yy6/AlH8HWqla
+ QI6QybP6U3kDKa5T9d4d9j2gBK2mBXSNcCQSEVnr2/UgKy5SW18ix76u/s0Wq/Kx0whKeMKqR
+ RaqEegg4A1OZPeWXNwbG8fHvoMwCassZmAjWx+8aitMY6H8xmWZvkH4b41j93Ke3xhhwWKaWk
+ IwvM6y4ZDwdIaF79SeOm0wXWRRb/82hS5xjoIctOyzUn2uCFY28hL0t7Gq/9Grqjdj6t3rSqz
+ A1m14PzWDE1hQaBdTZ2coT+3aByODiT1vwhpBKpKMJ/+kkyI8gHULZHN2EIV4fFaHR0HHRl1n
+ YDkQOJNAndC7NLU/CaEjN4afMovz7L9fK0h5XpkSPYTKwrnVkOXmtDDKbenmnfWatW29lrbbK
+ KKywXZ3BdcFvqokZ/dH1ndBqxJiuczqKluBihB694mcHpKrtFD7cblpW34pzZKg2rq/PJFXeW
+ /FD3u0xBAB8GY34nNE8TNl8vwZJPHBqNcgn30h/zd8feg86qvssicTRc91kY47oREjYwFhqtg
+ Q+nnzzsEoS5k8GN034IFzx4peR+rQ2myX8LSU8oC1P2iA6i6icQgW1XTMrBXtTjX2MYTK88WP
+ ljWouDSpJdTO53nxcT8VK0IABbWajxOUsb1VEIZxnCMlfupH77dK8P4egZYgNVvzZFJP5BxSZ
+ k3ZZYzGq41bBfNFxI
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/20 4:53 PM, Theodore Y. Ts'o wrote:
-> On Fri, Feb 14, 2020 at 02:55:36PM -0800, Mark Salyzyn wrote:
->>> This is why I really think what gets specified via the boot command
->>> line, or bootconfig, should specify the bits of entropy and the
->>> entropy seed *separately*, so it can be specified explicitly, instead
->>> of assuming that *everyone knows* that rng-seed is either (a) a binary
->>> string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
->>> *not* know, or everyone will have a different implementation, which
->>> everyone will say is *obviously* the only way to go....
->>>
->> Given that the valid option are between 4 (hex), 6 (utf-8) or 8 (binary), we
->> can either split the difference and accept 6; or take a pass at the values
->> and determine which of the set they belong to [0-9a-fA-F], [!-~] or
->> [\000-\377]  nor need to separately specify.
-> So let's split this up into separate issues.  First of all, from an
-> architectural issue, I really think we need to change
-> add_bootloader_randomness() in drivers/char/random.c so it looks like this:
->
-> void add_bootloader_randomness(const void *buf, unsigned int size, unsigned int entropy_bits)
->
-> That's because this is a general function that could be used by any
-> number of bootloaders.  For example, for the UEFI bootloader, it can
-> use the UEFI call that will return binary bits.  Some other bootloader
-> might use utf-8, etc.  So it would be an abstraction violation to have
-> code in drivers/char/random.c make assumption about how a particular
-> bootloader might be behaving.
->
-> The second question is we are going to be parsing an rng_seed
-> parameter it shows up in bootconfig or in the boot command line, how
-> do we decide how many bits of entropy it actually has.  The advantage
-> of using the boot command line is we don't need to change the rest of
-> the bootloader ecosystem.  But that's also a massive weakness, since
-> apparently some people are already using it, and perhaps not in the
-> same way.
->
-> So what I'd really prefer is if we use something new, and we define it
-> in a way that makes as close as possible to "impossible to misuse".
-> (See Rusty Russell's API design manifesto[1]).  So I'm going to
-> propose something different.  Let's use something new, say
-> entropy_seed_hex, and let's say that it *must* be a hex string:
->
->      entropy_seed_hex=7337db91a4824e3480ba6d2dfaa60bec
->
-> If it is not a valid hex string, it gets zero entropy credit.
->
-> I don't think we really need to worry about efficient encoding of the
-> seed, since 256 bits is only 64 characters using a hex string.  An
-> whether it's 32 characters or 64 characters, the max command line
-> string is 32k, so it's probably not worth it to try to do something
-> more complex.  (And only 128 bits is needed to declare the CRNG to be
-> fully initialized, in which case we're talking about 16 characters
-> versus 32 charaters.)
->
-> [1] http://sweng.the-davies.net/Home/rustys-api-design-manifesto
->
-> 						- Ted
->
-I am additionally concerned about add_bootloader_randomness() because it 
-is possible for it to sleep because of add_hwgenerator_randomness() as 
-once it hits the entropy threshold. As-is it can not be used inside 
-start_kernel() because the sleep would result in a kernel panic, and I 
-suspect its use inside early_init_dt_scan_chosen() for the commit "fdt: 
-add support for rng-seed" might also be problematic since it is 
-effectively called underneath start_kernel() is it not?
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/arm/tcm.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-If add_bootloader_randomness was rewritten to call 
-add_device_randomness() always, and when trusted also called the 
-functionality of the new credit_trusted_entropy_bits (no longer needing 
-to be exported if so), then the function could be used in both 
-start_kernel() and early_init_dt_scan_chosen().
+diff --git a/Documentation/arm/tcm.rst b/Documentation/arm/tcm.rst
+index effd9c7bc968..b256f9783883 100644
+=2D-- a/Documentation/arm/tcm.rst
++++ b/Documentation/arm/tcm.rst
+@@ -4,18 +4,18 @@ ARM TCM (Tightly-Coupled Memory) handling in Linux
 
+ Written by Linus Walleij <linus.walleij@stericsson.com>
 
--- Mark
+-Some ARM SoC:s have a so-called TCM (Tightly-Coupled Memory).
++Some ARM SoCs have a so-called TCM (Tightly-Coupled Memory).
+ This is usually just a few (4-64) KiB of RAM inside the ARM
+ processor.
+
+-Due to being embedded inside the CPU The TCM has a
++Due to being embedded inside the CPU, the TCM has a
+ Harvard-architecture, so there is an ITCM (instruction TCM)
+ and a DTCM (data TCM). The DTCM can not contain any
+ instructions, but the ITCM can actually contain data.
+ The size of DTCM or ITCM is minimum 4KiB so the typical
+ minimum configuration is 4KiB ITCM and 4KiB DTCM.
+
+-ARM CPU:s have special registers to read out status, physical
++ARM CPUs have special registers to read out status, physical
+ location and size of TCM memories. arch/arm/include/asm/cputype.h
+ defines a CPUID_TCM register that you can read out from the
+ system control coprocessor. Documentation from ARM can be found
+=2D-
+2.20.1
 
