@@ -2,97 +2,164 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1608AC34031
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 07:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF88BC34031
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 07:10:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D1486207FD
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 07:01:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2eMOiAK"
+	by mail.kernel.org (Postfix) with ESMTP id A2D8021D56
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 07:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbgBRHBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 02:01:53 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:39680 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgBRHBx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 02:01:53 -0500
-Received: by mail-pj1-f67.google.com with SMTP id e9so582222pjr.4;
-        Mon, 17 Feb 2020 23:01:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yh8ep9gNRxe++6137Mgm10a6D9w4c5jPeBlJuaZxcZA=;
-        b=V2eMOiAKF72gwUEuH7p6XRTElP7ocxjgHZocnwMH5eF1qSUs6UX2npOE4+YdJUAoKx
-         0Zp9mUe+Rm6AFZWixvEgMQbrMy3KjuMgZPczWtlHJjaGDxyrefNMVjtg+RUVCeDIM2sx
-         gwNn6h1nt9JJFP/QvYjRZFHhtgzK+fqh+YRKWbdFzXu3HLFkaE1XGfVHMxDUxv2oOAnr
-         iWNN400G+JMikJvftTftqEo9Uoxux5+B1IULNfUqeuJMbQqVi/+UVXHKyUfKu8qn25Yn
-         ruAxMqj7lE5T/J2KakBeCneQk6tiPTMKusNtoMvsixh596FEIYTX6XRpTSm4xhFD6k+t
-         LSPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yh8ep9gNRxe++6137Mgm10a6D9w4c5jPeBlJuaZxcZA=;
-        b=PSvS0nX1FjIY2aIIa9itrav8pHt8uIY9mBAeQlJBG0V4HZeBcZQru7UoxbGXq6r2N1
-         YzjT4qwXfuSA6TAl60wv4OUSp/vB58xO/N/RfuSnEN3z/w/9+urvbak0F5GLidsu/tYc
-         ZaqyPCLdlBFA5GfCGgp/qgoof+uN6TErfZYfihwqIfKu6dXu2x2A9DMQvmn1yT4s1TcK
-         PX1cw2q2S8+fgsdsZ7l0Z3DUZtS5FuF1OscYZhx6x4dLRx3X8czsVZvWi0E8sH/Mc6HN
-         gpKm7eleS4zEa8eyrCDGb9TO0ynjAk77O3U8831HwxCcbPC/+nKsGzPpRSXCWImwOsRa
-         QsOQ==
-X-Gm-Message-State: APjAAAWicnVl59lqET1isha7R/AgXqIlk61NM9iJgQyMv2s1/zizr1Gc
-        SabHxYcTyoNwZHbTbiSsHU4=
-X-Google-Smtp-Source: APXvYqwlLvkPUqXEWnYVfQarWFj/PrcjIut8GZl8vw95gsfK2HGSJCSmcu0IzizTmT0u2U90FqMb5w==
-X-Received: by 2002:a17:902:7687:: with SMTP id m7mr19309706pll.136.1582009312456;
-        Mon, 17 Feb 2020 23:01:52 -0800 (PST)
-Received: from localhost.localdomain ([103.231.91.38])
-        by smtp.gmail.com with ESMTPSA id h13sm1756680pjc.9.2020.02.17.23.01.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Feb 2020 23:01:51 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     corbet@lwn.net, federico.vaga@vaga.pv.it, rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Replace stale url with active one for Mutt
-Date:   Tue, 18 Feb 2020 12:28:54 +0530
-Message-Id: <20200218065854.13152-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        id S1726104AbgBRHK6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 02:10:58 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36386 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726072AbgBRHK6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Feb 2020 02:10:58 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 36FB2AEF6;
+        Tue, 18 Feb 2020 07:10:56 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id CB5611E0CF7; Tue, 18 Feb 2020 08:10:54 +0100 (CET)
+Date:   Tue, 18 Feb 2020 08:10:54 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+        Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH 24/44] docs: filesystems: convert inotify.txt to ReST
+Message-ID: <20200218071054.GA16121@quack2.suse.cz>
+References: <cover.1581955849.git.mchehab+huawei@kernel.org>
+ <8f846843ecf1914988feb4d001e3a53d27dc1a65.1581955849.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f846843ecf1914988feb4d001e3a53d27dc1a65.1581955849.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch will replace  dead/stale url with the active urls.
+On Mon 17-02-20 17:12:10, Mauro Carvalho Chehab wrote:
+> - Add a SPDX header;
+> - Add a document title;
+> - Adjust document title;
+> - Fix list markups;
+> - Some whitespace fixes and new line breaks;
+> - Add it to filesystems/index.rst.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/process/email-clients.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks. You can add:
 
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index 5273d06c8ff6..bf8b4c9a4efe 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -237,9 +237,9 @@ using Mutt to send patches through Gmail::
+Acked-by: Jan Kara <jack@suse.cz>
 
- The Mutt docs have lots more information:
+or tell me if you want me to pick up this patch.
 
--    http://dev.mutt.org/trac/wiki/UseCases/Gmail
-+    https://gitlab.com/muttmua/mutt/-/wikis/UseCases/Gmail
+								Honza
 
--    http://dev.mutt.org/doc/manual.html
-+    http://www.mutt.org/#doc
-
- Pine (TUI)
- **********
---
-2.24.1
-
+> ---
+>  Documentation/filesystems/index.rst           |  1 +
+>  .../filesystems/{inotify.txt => inotify.rst}  | 33 ++++++++++++-------
+>  2 files changed, 23 insertions(+), 11 deletions(-)
+>  rename Documentation/filesystems/{inotify.txt => inotify.rst} (83%)
+> 
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 3fbe2fa0b5c5..5a737722652c 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -70,6 +70,7 @@ Documentation for filesystem implementations.
+>     hfs
+>     hfsplus
+>     hpfs
+> +   inotify
+>     fuse
+>     overlayfs
+>     virtiofs
+> diff --git a/Documentation/filesystems/inotify.txt b/Documentation/filesystems/inotify.rst
+> similarity index 83%
+> rename from Documentation/filesystems/inotify.txt
+> rename to Documentation/filesystems/inotify.rst
+> index 51f61db787fb..7f7ef8af0e1e 100644
+> --- a/Documentation/filesystems/inotify.txt
+> +++ b/Documentation/filesystems/inotify.rst
+> @@ -1,27 +1,36 @@
+> -				   inotify
+> -	    a powerful yet simple file change notification system
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============================================================
+> +Inotify - A Powerful yet Simple File Change Notification System
+> +===============================================================
+>  
+>  
+>  
+>  Document started 15 Mar 2005 by Robert Love <rml@novell.com>
+> +
+>  Document updated 4 Jan 2015 by Zhang Zhen <zhenzhang.zhang@huawei.com>
+> -	--Deleted obsoleted interface, just refer to manpages for user interface.
+> +
+> +	- Deleted obsoleted interface, just refer to manpages for user interface.
+>  
+>  (i) Rationale
+>  
+> -Q: What is the design decision behind not tying the watch to the open fd of
+> +Q:
+> +   What is the design decision behind not tying the watch to the open fd of
+>     the watched object?
+>  
+> -A: Watches are associated with an open inotify device, not an open file.
+> +A:
+> +   Watches are associated with an open inotify device, not an open file.
+>     This solves the primary problem with dnotify: keeping the file open pins
+>     the file and thus, worse, pins the mount.  Dnotify is therefore infeasible
+>     for use on a desktop system with removable media as the media cannot be
+>     unmounted.  Watching a file should not require that it be open.
+>  
+> -Q: What is the design decision behind using an-fd-per-instance as opposed to
+> +Q:
+> +   What is the design decision behind using an-fd-per-instance as opposed to
+>     an fd-per-watch?
+>  
+> -A: An fd-per-watch quickly consumes more file descriptors than are allowed,
+> +A:
+> +   An fd-per-watch quickly consumes more file descriptors than are allowed,
+>     more fd's than are feasible to manage, and more fd's than are optimally
+>     select()-able.  Yes, root can bump the per-process fd limit and yes, users
+>     can use epoll, but requiring both is a silly and extraneous requirement.
+> @@ -29,8 +38,8 @@ A: An fd-per-watch quickly consumes more file descriptors than are allowed,
+>     spaces is thus sensible.  The current design is what user-space developers
+>     want: Users initialize inotify, once, and add n watches, requiring but one
+>     fd and no twiddling with fd limits.  Initializing an inotify instance two
+> -   thousand times is silly.  If we can implement user-space's preferences 
+> -   cleanly--and we can, the idr layer makes stuff like this trivial--then we 
+> +   thousand times is silly.  If we can implement user-space's preferences
+> +   cleanly--and we can, the idr layer makes stuff like this trivial--then we
+>     should.
+>  
+>     There are other good arguments.  With a single fd, there is a single
+> @@ -65,9 +74,11 @@ A: An fd-per-watch quickly consumes more file descriptors than are allowed,
+>     need not be a one-fd-per-process mapping; it is one-fd-per-queue and a
+>     process can easily want more than one queue.
+>  
+> -Q: Why the system call approach?
+> +Q:
+> +   Why the system call approach?
+>  
+> -A: The poor user-space interface is the second biggest problem with dnotify.
+> +A:
+> +   The poor user-space interface is the second biggest problem with dnotify.
+>     Signals are a terrible, terrible interface for file notification.  Or for
+>     anything, for that matter.  The ideal solution, from all perspectives, is a
+>     file descriptor-based one that allows basic file I/O and poll/select.
+> -- 
+> 2.24.1
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
