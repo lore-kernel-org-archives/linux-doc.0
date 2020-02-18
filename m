@@ -2,165 +2,536 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB34C34048
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C605C34026
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:01:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AFBCD2467E
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 16:52:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AC7A208C4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:01:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Dd9R74vF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d4R98e0F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgBRQwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 11:52:47 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:38721 "EHLO
+        id S1726463AbgBRRBz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 12:01:55 -0500
+Received: from mail-il1-f196.google.com ([209.85.166.196]:41057 "EHLO
         mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbgBRQwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 11:52:46 -0500
-Received: by mail-il1-f196.google.com with SMTP id f5so17940374ilq.5
-        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2020 08:52:46 -0800 (PST)
+        with ESMTP id S1726411AbgBRRBz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 12:01:55 -0500
+Received: by mail-il1-f196.google.com with SMTP id f10so17921888ils.8
+        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2020 09:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p0fkl9Uzjvd3+WRgDhEFvb5mku/9M7bl3Tq60YNDT/A=;
-        b=Dd9R74vFY8XS/S+w0Y6unMczYIsI66Q07QH2IgANqOiXC0pEUPyBNl+kG52Av/fUSz
-         CdrR69dTJ44steJ4WnF8tX2hA5d8+I6ewvazMQllAJY8kSzOKtnKExR5GxWUElqp16G5
-         OT/RxIdkO4pKiAlC0G2kUsI4LKGwfsdgp89HY=
+         :cc:content-transfer-encoding;
+        bh=L7YKkStQy0HaUDpQ8otD8q6JN+bPGYhLImttcQHkX8Q=;
+        b=d4R98e0FbzzaHiYbVom63VEbEXnKqJt9F5o+wAvUXXXqobPuzNHsNygVS6CrJwebDT
+         6cUZwOg6tbAwf7f5FsZPy/GGkgwo7iImbBkJxTcZ6+WLeYDNeL7mkhtoDQObIwhPiJpo
+         RPMdix/FsGNnIz29BhiK8dr7Tlw6sMZEgEp/vMB88VgpafClp1rxxVsQVnPHBCDvVpml
+         89XA3cTGSd+nCpm5rTEgCgSxrS1CWudCISBZgXPcsbG9Nd6rPMGTUlFTo3HOQVyXnpub
+         Vzv3phq2P6SgXl0wxvJAywtSIAiUBTSYKhTM+JWJV8LMnV9i/4BMf1rQDiTm8ev4yrDl
+         HNtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p0fkl9Uzjvd3+WRgDhEFvb5mku/9M7bl3Tq60YNDT/A=;
-        b=FR/L4NexplaMqCfUiweb6o/XzkbS2ZrFG6FNqAGQl43wy2+RLkBXx2oJ8J2euD5C8y
-         dbMyzLf05HzcKLAdB80w8ZaK0/HDtnAY8bCK4/wrJVyaqAtTCJcQYL8YXPG94bGUls70
-         wY9x+KY31+E4T+D66ze4HN9W3g7V471z87IfWQIUJJTDBDDDCGQnuhQgVfWi6lK0aIQs
-         jWxfi1fkNrUd1zgMtPOIk5Qo2IwXvuL0JR6bHYZjpZnNvZtv9xfZL1iU1CKwrpcmerj7
-         CD9BFpq8cdnTxkS5hrX0+RkBwjTAY4l6iV2THpQMbaLwf7bTl6jLKhhj/mzIuQoY+7My
-         /JPg==
-X-Gm-Message-State: APjAAAXtWqzbZfHNP9eViqVo/fhRJTbPtblqpEDVqw4FdbjYP73w5Wqd
-        JwmcaNoLH5x9Ad4/yrHarCPiBIbnAKp4UFJR/o+8PQ==
-X-Google-Smtp-Source: APXvYqwweWZEL08yiHntB60lwMDPipKRE4zbu6p4on2cRYdzLYfnMWh8srysRNrqrHm3fle6Do0l5tq3x8H+qOlYX7o=
-X-Received: by 2002:a92:5d88:: with SMTP id e8mr20676161ilg.106.1582044765519;
- Tue, 18 Feb 2020 08:52:45 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=L7YKkStQy0HaUDpQ8otD8q6JN+bPGYhLImttcQHkX8Q=;
+        b=bLAbiqb7WJgNjHF0NF0ElgExz0l0+rQ6ZGk12+N4juixBts6vYZCcnDzWsMr7nHS6J
+         kcwf4fVPRE5+jvXPLkfsRwjofZTYQGNpXFYg/aAFzaEyrWtnU88iU0IaRWs5P5fIGxZL
+         QVEv9x1j3qci6IHezz/q5EA5x58kAVVQkjXu8AsNjH5IiuD2q0WiMXj+e7wGxLD/8jTV
+         fuNxpkbTGM4Y1dxrOorpdtYOHu5Dp+Snh8ldESBwSEBpoOZfxOrXBnheBtje8JRwIOsL
+         pHYIshQS2BnnoTkD+G4FJgpHTFOMXUUQ0g3rWiq13AUGgj/+bbi1PbVofsGT9JgdsoXj
+         HU5g==
+X-Gm-Message-State: APjAAAUUeicG+SIkaz6YhURRu5TZq2IBQq2+QEN5sO4nI3VKyX9UApDp
+        ueF4HdHPxnY58xtTYuq5uu1hxrbL7yOoAENC0rlbCw==
+X-Google-Smtp-Source: APXvYqwfn4fdNup7x4UGoQOtyzaO68ZX3fk4LhwnvVvbzyczVPr39XqLTkXFa2nRjhAD3qGaS6KQ3xI4u4bp6dg3xrI=
+X-Received: by 2002:a92:8309:: with SMTP id f9mr11117890ild.50.1582045314347;
+ Tue, 18 Feb 2020 09:01:54 -0800 (PST)
 MIME-Version: 1.0
-References: <158166060044.9887.549561499483343724.stgit@devnote2>
- <158166062748.9887.15284887096084339722.stgit@devnote2> <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
- <20200214224744.GC439135@mit.edu> <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
- <20200215005336.GD439135@mit.edu> <243ab5a8-2ce1-1465-0175-3f5d483cbde1@android.com>
-In-Reply-To: <243ab5a8-2ce1-1465-0175-3f5d483cbde1@android.com>
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-Date:   Wed, 19 Feb 2020 00:52:19 +0800
-Message-ID: <CAJMQK-j8w5++R-CCAVVupba96JRVJ+O91J=O-MT3nep+rx1Yzw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>, Rob Herring <robh@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Potapenko <glider@google.com>,
+References: <527785289.2852303.1581062223707.JavaMail.zimbra@kalray.eu>
+ <20200210162209.23149-1-cleger@kalray.eu> <20200210162209.23149-2-cleger@kalray.eu>
+ <4465bade-e3de-88b8-63a5-e5410de9adc0@st.com> <884697376.3644142.1581439161953.JavaMail.zimbra@kalray.eu>
+ <20200211223715.GA27770@xps15> <296765414.3763778.1581503820255.JavaMail.zimbra@kalray.eu>
+ <CANLsYkzK1Sd1dtNZy-bv6eZf5CjJNsOrpaVVYU=ww3n398NzYw@mail.gmail.com> <838984434.4934674.1582020604015.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <838984434.4934674.1582020604015.JavaMail.zimbra@kalray.eu>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Tue, 18 Feb 2020 10:01:43 -0700
+Message-ID: <CANLsYkz7tA8A8n-xUFu=xSCJnFvzWJBc7c0f5zPgHhzW28Qwig@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] remoteproc: Use u64 len for da_to_va
+To:     =?UTF-8?Q?Cl=C3=A9ment_Leger?= <cleger@kalrayinc.com>
+Cc:     Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 12:01 AM Mark Salyzyn <salyzyn@android.com> wrote:
+On Tue, 18 Feb 2020 at 03:10, Cl=C3=A9ment Leger <cleger@kalrayinc.com> wro=
+te:
 >
-> On 2/14/20 4:53 PM, Theodore Y. Ts'o wrote:
-> > On Fri, Feb 14, 2020 at 02:55:36PM -0800, Mark Salyzyn wrote:
-> >>> This is why I really think what gets specified via the boot command
-> >>> line, or bootconfig, should specify the bits of entropy and the
-> >>> entropy seed *separately*, so it can be specified explicitly, instead
-> >>> of assuming that *everyone knows* that rng-seed is either (a) a binary
-> >>> string, or (b) utf-8, or (c) a hex string.  The fact is, everyone does
-> >>> *not* know, or everyone will have a different implementation, which
-> >>> everyone will say is *obviously* the only way to go....
-> >>>
-> >> Given that the valid option are between 4 (hex), 6 (utf-8) or 8 (binary), we
-> >> can either split the difference and accept 6; or take a pass at the values
-> >> and determine which of the set they belong to [0-9a-fA-F], [!-~] or
-> >> [\000-\377]  nor need to separately specify.
-> > So let's split this up into separate issues.  First of all, from an
-> > architectural issue, I really think we need to change
-> > add_bootloader_randomness() in drivers/char/random.c so it looks like this:
-> >
-> > void add_bootloader_randomness(const void *buf, unsigned int size, unsigned int entropy_bits)
-> >
-> > That's because this is a general function that could be used by any
-> > number of bootloaders.  For example, for the UEFI bootloader, it can
-> > use the UEFI call that will return binary bits.  Some other bootloader
-> > might use utf-8, etc.  So it would be an abstraction violation to have
-> > code in drivers/char/random.c make assumption about how a particular
-> > bootloader might be behaving.
-> >
-> > The second question is we are going to be parsing an rng_seed
-> > parameter it shows up in bootconfig or in the boot command line, how
-> > do we decide how many bits of entropy it actually has.  The advantage
-> > of using the boot command line is we don't need to change the rest of
-> > the bootloader ecosystem.  But that's also a massive weakness, since
-> > apparently some people are already using it, and perhaps not in the
-> > same way.
-> >
-> > So what I'd really prefer is if we use something new, and we define it
-> > in a way that makes as close as possible to "impossible to misuse".
-> > (See Rusty Russell's API design manifesto[1]).  So I'm going to
-> > propose something different.  Let's use something new, say
-> > entropy_seed_hex, and let's say that it *must* be a hex string:
-> >
-> >      entropy_seed_hex=7337db91a4824e3480ba6d2dfaa60bec
-> >
-> > If it is not a valid hex string, it gets zero entropy credit.
-> >
-> > I don't think we really need to worry about efficient encoding of the
-> > seed, since 256 bits is only 64 characters using a hex string.  An
-> > whether it's 32 characters or 64 characters, the max command line
-> > string is 32k, so it's probably not worth it to try to do something
-> > more complex.  (And only 128 bits is needed to declare the CRNG to be
-> > fully initialized, in which case we're talking about 16 characters
-> > versus 32 charaters.)
-> >
-> > [1] http://sweng.the-davies.net/Home/rustys-api-design-manifesto
-> >
-> >                                               - Ted
-> >
-> I am additionally concerned about add_bootloader_randomness() because it
-> is possible for it to sleep because of add_hwgenerator_randomness() as
-> once it hits the entropy threshold. As-is it can not be used inside
-> start_kernel() because the sleep would result in a kernel panic, and I
-> suspect its use inside early_init_dt_scan_chosen() for the commit "fdt:
-> add support for rng-seed" might also be problematic since it is
-> effectively called underneath start_kernel() is it not?
+> Hi Mathieu,
 >
-> If add_bootloader_randomness was rewritten to call
-> add_device_randomness() always, and when trusted also called the
-> functionality of the new credit_trusted_entropy_bits (no longer needing
-> to be exported if so), then the function could be used in both
-> start_kernel() and early_init_dt_scan_chosen().
+> ----- On 12 Feb, 2020, at 22:59, Mathieu Poirier mathieu.poirier@linaro.o=
+rg wrote:
 >
-I tested 64 bytes rng-seed previously so didn't hit the threshold that
-makes it suspend. Thanks for pointing this out.
-+1 for changing the add_bootloader_randomness() function as you
-suggested to avoid this issue. But besides credit_entropy_bits(), they
-are also different on crng_init (crng_fast_load/crng_slow_load).
+> > On Wed, 12 Feb 2020 at 03:37, Cl=C3=A9ment Leger <cleger@kalray.eu> wro=
+te:
+> >>
+> >> Hi Mathieu,
+> >>
+> >> ----- On 11 Feb, 2020, at 23:37, Mathieu Poirier mathieu.poirier@linar=
+o.org
+> >> wrote:
+> >>
+> >> > On Tue, Feb 11, 2020 at 05:39:21PM +0100, Cl=C3=A9ment Leger wrote:
+> >> >> Hi Arnaud,
+> >> >>
+> >> >> ----- On 11 Feb, 2020, at 16:53, Arnaud Pouliquen arnaud.pouliquen@=
+st.com wrote:
+> >> >>
+> >> >> > On 2/10/20 5:22 PM, Clement Leger wrote:
+> >> >> >> With upcoming changes in elf loader for elf64 support, section s=
+ize will
+> >> >> >> be a u64. When used with da_to_va, this will potentially lead to
+> >> >> >> overflow if using the current "int" type for len argument. Chang=
+e
+> >> >> >> da_to_va prototype to use a u64 for len and fix all users of thi=
+s
+> >> >> >> function.
+> >> >> >>
+> >> >> >> Signed-off-by: Clement Leger <cleger@kalray.eu>
+> >> >> >> ---
+> >> >> >>  drivers/remoteproc/imx_rproc.c           | 11 ++++++-----
+> >> >> >>  drivers/remoteproc/keystone_remoteproc.c |  4 ++--
+> >> >> >>  drivers/remoteproc/qcom_q6v5_adsp.c      |  2 +-
+> >> >> >>  drivers/remoteproc/qcom_q6v5_mss.c       |  2 +-
+> >> >> >>  drivers/remoteproc/qcom_q6v5_pas.c       |  2 +-
+> >> >> >>  drivers/remoteproc/qcom_q6v5_wcss.c      |  2 +-
+> >> >> >>  drivers/remoteproc/qcom_wcnss.c          |  2 +-
+> >> >> >>  drivers/remoteproc/remoteproc_core.c     |  2 +-
+> >> >> >>  drivers/remoteproc/remoteproc_internal.h |  2 +-
+> >> >> >>  drivers/remoteproc/st_slim_rproc.c       |  4 ++--
+> >> >> >>  drivers/remoteproc/wkup_m3_rproc.c       |  4 ++--
+> >> >> >>  include/linux/remoteproc.h               |  2 +-
+> >> >> >>  12 files changed, 20 insertions(+), 19 deletions(-)
+> >> >> >>
+> >> >> >> diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc=
+/imx_rproc.c
+> >> >> >> index 3e72b6f38d4b..f497f5b49b18 100644
+> >> >> >> --- a/drivers/remoteproc/imx_rproc.c
+> >> >> >> +++ b/drivers/remoteproc/imx_rproc.c
+> >> >> >> @@ -186,7 +186,7 @@ static int imx_rproc_stop(struct rproc *rpro=
+c)
+> >> >> >>  }
+> >> >> >>
+> >> >> >>  static int imx_rproc_da_to_sys(struct imx_rproc *priv, u64 da,
+> >> >> >> -                        int len, u64 *sys)
+> >> >> >> +                        u64 len, u64 *sys)
+> >> >> >>  {
+> >> >> >>   const struct imx_rproc_dcfg *dcfg =3D priv->dcfg;
+> >> >> >>   int i;
+> >> >> >> @@ -203,19 +203,19 @@ static int imx_rproc_da_to_sys(struct imx_=
+rproc *priv, u64
+> >> >> >> da,
+> >> >> >>           }
+> >> >> >>   }
+> >> >> >>
+> >> >> >> - dev_warn(priv->dev, "Translation failed: da =3D 0x%llx len =3D=
+ 0x%x\n",
+> >> >> >> + dev_warn(priv->dev, "Translation failed: da =3D 0x%llx len =3D=
+ 0x%llx\n",
+> >> >> >>            da, len);
+> >> >> >>   return -ENOENT;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, in=
+t len)
+> >> >> >> +static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, u6=
+4 len)
+> >> >> >>  {
+> >> >> >>   struct imx_rproc *priv =3D rproc->priv;
+> >> >> >>   void *va =3D NULL;
+> >> >> >>   u64 sys;
+> >> >> >>   int i;
+> >> >> >>
+> >> >> >> - if (len <=3D 0)
+> >> >> >> + if (len =3D=3D 0)
+> >> >> >>           return NULL;
+> >> >> >>
+> >> >> >>   /*
+> >> >> >> @@ -235,7 +235,8 @@ static void *imx_rproc_da_to_va(struct rproc=
+ *rproc, u64 da,
+> >> >> >> int len)
+> >> >> >>           }
+> >> >> >>   }
+> >> >> >>
+> >> >> >> - dev_dbg(&rproc->dev, "da =3D 0x%llx len =3D 0x%x va =3D 0x%p\n=
+", da, len, va);
+> >> >> >> + dev_dbg(&rproc->dev, "da =3D 0x%llx len =3D 0x%llx va =3D 0x%p=
+\n",
+> >> >> >> +         da, len, va);
+> >> >> >>
+> >> >> >>   return va;
+> >> >> >>  }
+> >> >> >> diff --git a/drivers/remoteproc/keystone_remoteproc.c
+> >> >> >> b/drivers/remoteproc/keystone_remoteproc.c
+> >> >> >> index 5c4658f00b3d..466093f48814 100644
+> >> >> >> --- a/drivers/remoteproc/keystone_remoteproc.c
+> >> >> >> +++ b/drivers/remoteproc/keystone_remoteproc.c
+> >> >> >> @@ -246,7 +246,7 @@ static void keystone_rproc_kick(struct rproc=
+ *rproc, int
+> >> >> >> vqid)
+> >> >> >>   * can be used either by the remoteproc core for loading (when =
+using kernel
+> >> >> >>   * remoteproc loader), or by any rpmsg bus drivers.
+> >> >> >>   */
+> >> >> >> -static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 d=
+a, int len)
+> >> >> >> +static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 d=
+a, u64 len)
+> >> >> >>  {
+> >> >> >>   struct keystone_rproc *ksproc =3D rproc->priv;
+> >> >> >>   void __iomem *va =3D NULL;
+> >> >> >> @@ -255,7 +255,7 @@ static void *keystone_rproc_da_to_va(struct =
+rproc *rproc,
+> >> >> >> u64 da, int len)
+> >> >> >>   size_t size;
+> >> >> >>   int i;
+> >> >> >>
+> >> >> >> - if (len <=3D 0)
+> >> >> >> + if (len =3D=3D 0)
+> >> >> >>           return NULL;
+> >> >> >>
+> >> >> >>   for (i =3D 0; i < ksproc->num_mems; i++) {
+> >> >> >> diff --git a/drivers/remoteproc/qcom_q6v5_adsp.c
+> >> >> >> b/drivers/remoteproc/qcom_q6v5_adsp.c
+> >> >> >> index e953886b2eb7..7518e67a49e5 100644
+> >> >> >> --- a/drivers/remoteproc/qcom_q6v5_adsp.c
+> >> >> >> +++ b/drivers/remoteproc/qcom_q6v5_adsp.c
+> >> >> >> @@ -270,7 +270,7 @@ static int adsp_stop(struct rproc *rproc)
+> >> >> >>   return ret;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len=
+)
+> >> >> >> +static void *adsp_da_to_va(struct rproc *rproc, u64 da, u64 len=
+)
+> >> >> >>  {
+> >> >> >>   struct qcom_adsp *adsp =3D (struct qcom_adsp *)rproc->priv;
+> >> >> >>   int offset;
+> >> >> >> diff --git a/drivers/remoteproc/qcom_q6v5_mss.c
+> >> >> >> b/drivers/remoteproc/qcom_q6v5_mss.c
+> >> >> >> index 471128a2e723..248febde6fc1 100644
+> >> >> >> --- a/drivers/remoteproc/qcom_q6v5_mss.c
+> >> >> >> +++ b/drivers/remoteproc/qcom_q6v5_mss.c
+> >> >> >> @@ -1148,7 +1148,7 @@ static int q6v5_stop(struct rproc *rproc)
+> >> >> >>   return 0;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *q6v5_da_to_va(struct rproc *rproc, u64 da, int len=
+)
+> >> >> >> +static void *q6v5_da_to_va(struct rproc *rproc, u64 da, u64 len=
+)
+> >> >> >>  {
+> >> >> >>   struct q6v5 *qproc =3D rproc->priv;
+> >> >> >>   int offset;
+> >> >> >> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c
+> >> >> >> b/drivers/remoteproc/qcom_q6v5_pas.c
+> >> >> >> index db4b3c4bacd7..cf2cd609c90d 100644
+> >> >> >> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> >> >> >> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> >> >> >> @@ -159,7 +159,7 @@ static int adsp_stop(struct rproc *rproc)
+> >> >> >>   return ret;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len=
+)
+> >> >> >> +static void *adsp_da_to_va(struct rproc *rproc, u64 da, u64 len=
+)
+> >> >> >>  {
+> >> >> >>   struct qcom_adsp *adsp =3D (struct qcom_adsp *)rproc->priv;
+> >> >> >>   int offset;
+> >> >> >> diff --git a/drivers/remoteproc/qcom_q6v5_wcss.c
+> >> >> >> b/drivers/remoteproc/qcom_q6v5_wcss.c
+> >> >> >> index f93e1e4a1cc0..3a6b82a16961 100644
+> >> >> >> --- a/drivers/remoteproc/qcom_q6v5_wcss.c
+> >> >> >> +++ b/drivers/remoteproc/qcom_q6v5_wcss.c
+> >> >> >> @@ -406,7 +406,7 @@ static int q6v5_wcss_stop(struct rproc *rpro=
+c)
+> >> >> >>   return 0;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, in=
+t len)
+> >> >> >> +static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, u6=
+4 len)
+> >> >> >>  {
+> >> >> >>   struct q6v5_wcss *wcss =3D rproc->priv;
+> >> >> >>   int offset;
+> >> >> >> diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remotepro=
+c/qcom_wcnss.c
+> >> >> >> index dc135754bb9c..f893219e45a8 100644
+> >> >> >> --- a/drivers/remoteproc/qcom_wcnss.c
+> >> >> >> +++ b/drivers/remoteproc/qcom_wcnss.c
+> >> >> >> @@ -287,7 +287,7 @@ static int wcnss_stop(struct rproc *rproc)
+> >> >> >>   return ret;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *wcnss_da_to_va(struct rproc *rproc, u64 da, int le=
+n)
+> >> >> >> +static void *wcnss_da_to_va(struct rproc *rproc, u64 da, u64 le=
+n)
+> >> >> >>  {
+> >> >> >>   struct qcom_wcnss *wcnss =3D (struct qcom_wcnss *)rproc->priv;
+> >> >> >>   int offset;
+> >> >> >> diff --git a/drivers/remoteproc/remoteproc_core.c
+> >> >> >> b/drivers/remoteproc/remoteproc_core.c
+> >> >> >> index 307df98347ba..9e6d3c6a60ee 100644
+> >> >> >> --- a/drivers/remoteproc/remoteproc_core.c
+> >> >> >> +++ b/drivers/remoteproc/remoteproc_core.c
+> >> >> >> @@ -185,7 +185,7 @@ EXPORT_SYMBOL(rproc_va_to_pa);
+> >> >> >>   * here the output of the DMA API for the carveouts, which shou=
+ld be more
+> >> >> >>   * correct.
+> >> >> >>   */
+> >> >> >> -void *rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> >> >> >> +void *rproc_da_to_va(struct rproc *rproc, u64 da, u64 len)
+> >> >> >
+> >> >> > This function is exported, don't see any update in consequence...
+> >> >> > references:
+> >> >> > https://elixir.bootlin.com/linux/v5.6-rc1/ident/rproc_da_to_va
+> >> >> > For instance the function rproc_trace_read use it. it quite stran=
+ge that my gcc
+> >> >> > does not warns for the cast but i suppose that some could.
+> >> >>
+> >> >> Agreed, even if len should never have been a signed type since it c=
+an't be
+> >> >> negative. I will try to fix all callers.
+> >> >>
+> >> >> > An indirect consequence is that the len field in rproc_mem_entry =
+struct should
+> >> >> > probably been updated to u64 to be aligned.
+> >> >>
+> >> >> Ok, I will do that once we settle on the type of len.
+> >> >>
+> >> >> >
+> >> >> > I'm still wondering about the use of size_t instead,which seems m=
+ore rational
+> >> >> > from my window.
+> >> >> > So i you or Mathieu remember it was decided to use u64, please co=
+uld remind me
+> >> >> > the arguments?
+> >> >>
+> >> >> I tried to find the notes of a meeting we had for OpenAMP but I did=
+ not found
+> >> >> them. Anyway, the argument was coming from Tomas or someone else, (=
+I can't
+> >> >> remember) talking about a 32 bits CPU executing code on a 64 bits a=
+ccelerator.
+> >> >> In that case, the size_t type could fail due to being only 32bits o=
+n the host
+> >> >> CPU but larger than 4G.
+> >> >>
+> >> >> However, I can't say if it's a real usecase or not... All I can say=
+ is
+> >> >> that keeping it open is probably better if one day somebody comes w=
+ith such
+> >> >> architecture.
+> >> >
+> >> > In order to support a 32bit AP with a 64bit MCU we'd also have to de=
+al with all
+> >> > the dma_attr_t in the structure we use.
+> >>
+> >> Totally ok with that...
+> >>
+> >> >
+> >> > Also something that became very clear to me while thinking about thi=
+s patchset
+> >> > is that supporting elf64 does __not__ mean we support 64bit MCU.  As=
+ long as
+> >> > the addresses conveyed by the elf64 image fit within 32 bits we are =
+fine.
+> >> > Supporting 64bit MCUs is a completely different topic, one that will=
+ demand
+> >> > serious refactoring.
+> >>
+> >> Exactly, an elf64 can potentially contain an executable fitting in 32 =
+bits.
+> >>
+> >> >
+> >> > So moving from "int len" to "u64 len" doesn't give us much.  It does=
+n't hurt to
+> >> > do it but if @len ever becomes bigger than 31 bits we'll have other =
+problems to
+> >> > deal with.
+> >>
+> >> Agreed, so what would be your recommendation reagrding the type of len=
+ ?
+> >> I'm ok with Arnaud statement too and using a size_t is probably more
+> >> "type-safe" than a u64. At least it adds some information.
+> >
+> > If @len becomes big enough that it doesn't fit in 31bit then it is
+> > very likely that things will break even before we get to call
+> > rproc_da_to_va().  Fixing it here is possible but will introduce a
+> > fair amount of ripple effect that we probably don't want to deal with
+> > right now.
+>
+> I did the modification using u64 and tried to follow various code path.
+> Some end up in dma_alloc_coherent which uses a size_t member. Since
+> these might be called by rproc with a u64 len, I would be more
+> inclined to use a size_t. I can probably also add a check in elf loader
+> which verifies that if sizeof(size_t) < sizeof(u64), then the len must
+> fit in 32bits. This seems more clean IMHO.
+>
+
+I'm all good with that.
+
+> Cl=C3=A9ment.
+>
+> >
+> > Other people might feel more opinionated on this but as far as I'm
+> > concerned, I would keep it as it is and fix it for real when the time
+> > comes to add support for 64bit MCUs.
+> >
+> >>
+> >> Thanks,
+> >>
+> >> Cl=C3=A9ment
+> >>
+> >> >
+> >> >>
+> >> >> > As an alternative a check should be added for 32 bits processors =
+to ensure that
+> >> >> > the size is not higher than
+> >> >> > its address range capability...
+> >> >>
+> >> >> Agreed.
+> >> >> I was even thinking about a mecanism for remoteproc drivers to decl=
+are the type
+> >> >> of supported elfs files (such as EM_*, ELFCLASS* and other needed t=
+hing).
+> >> >> Or should it be supported by overriding .sanity_check in drivers  t=
+o reject
+> >> >> elf64 for instance ?
+> >> >>
+> >> >> Since elf is a "specific format" and that rproc can support other f=
+ormats,
+> >> >> I did not want to add a specific elf_sanity_check field to rproc op=
+s.
+> >> >>
+> >> >> Regards,
+> >> >>
+> >> >> Cl=C3=A9ment
+> >> >>
+> >> >> >
+> >> >> > Regards
+> >> >> > Arnaud
+> >> >> >
+> >> >> >>  {
+> >> >> >>   struct rproc_mem_entry *carveout;
+> >> >> >>   void *ptr =3D NULL;
+> >> >> >> diff --git a/drivers/remoteproc/remoteproc_internal.h
+> >> >> >> b/drivers/remoteproc/remoteproc_internal.h
+> >> >> >> index 493ef9262411..004867061721 100644
+> >> >> >> --- a/drivers/remoteproc/remoteproc_internal.h
+> >> >> >> +++ b/drivers/remoteproc/remoteproc_internal.h
+> >> >> >> @@ -50,7 +50,7 @@ void rproc_exit_sysfs(void);
+> >> >> >>  void rproc_free_vring(struct rproc_vring *rvring);
+> >> >> >>  int rproc_alloc_vring(struct rproc_vdev *rvdev, int i);
+> >> >> >>
+> >> >> >> -void *rproc_da_to_va(struct rproc *rproc, u64 da, int len);
+> >> >> >> +void *rproc_da_to_va(struct rproc *rproc, u64 da, u64 len);
+> >> >> >>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
+> >> >> >>  int rproc_trigger_recovery(struct rproc *rproc);
+> >> >> >>
+> >> >> >> diff --git a/drivers/remoteproc/st_slim_rproc.c
+> >> >> >> b/drivers/remoteproc/st_slim_rproc.c
+> >> >> >> index 04492fead3c8..fc01cd879b60 100644
+> >> >> >> --- a/drivers/remoteproc/st_slim_rproc.c
+> >> >> >> +++ b/drivers/remoteproc/st_slim_rproc.c
+> >> >> >> @@ -174,7 +174,7 @@ static int slim_rproc_stop(struct rproc *rpr=
+oc)
+> >> >> >>   return 0;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, i=
+nt len)
+> >> >> >> +static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, u=
+64 len)
+> >> >> >>  {
+> >> >> >>   struct st_slim_rproc *slim_rproc =3D rproc->priv;
+> >> >> >>   void *va =3D NULL;
+> >> >> >> @@ -191,7 +191,7 @@ static void *slim_rproc_da_to_va(struct rpro=
+c *rproc, u64
+> >> >> >> da, int len)
+> >> >> >>           }
+> >> >> >>   }
+> >> >> >>
+> >> >> >> - dev_dbg(&rproc->dev, "da =3D 0x%llx len =3D 0x%x va =3D 0x%pK\=
+n",
+> >> >> >> + dev_dbg(&rproc->dev, "da =3D 0x%llx len =3D 0x%llx va =3D 0x%p=
+K\n",
+> >> >> >>           da, len, va);
+> >> >> >>
+> >> >> >>   return va;
+> >> >> >> diff --git a/drivers/remoteproc/wkup_m3_rproc.c
+> >> >> >> b/drivers/remoteproc/wkup_m3_rproc.c
+> >> >> >> index 3984e585c847..91485b467407 100644
+> >> >> >> --- a/drivers/remoteproc/wkup_m3_rproc.c
+> >> >> >> +++ b/drivers/remoteproc/wkup_m3_rproc.c
+> >> >> >> @@ -80,14 +80,14 @@ static int wkup_m3_rproc_stop(struct rproc *=
+rproc)
+> >> >> >>   return 0;
+> >> >> >>  }
+> >> >> >>
+> >> >> >> -static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da=
+, int len)
+> >> >> >> +static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da=
+, u64 len)
+> >> >> >>  {
+> >> >> >>   struct wkup_m3_rproc *wkupm3 =3D rproc->priv;
+> >> >> >>   void *va =3D NULL;
+> >> >> >>   int i;
+> >> >> >>   u32 offset;
+> >> >> >>
+> >> >> >> - if (len <=3D 0)
+> >> >> >> + if (len =3D=3D 0)
+> >> >> >>           return NULL;
+> >> >> >>
+> >> >> >>   for (i =3D 0; i < WKUPM3_MEM_MAX; i++) {
+> >> >> >> diff --git a/include/linux/remoteproc.h b/include/linux/remotepr=
+oc.h
+> >> >> >> index 16ad66683ad0..f84bd5fe0211 100644
+> >> >> >> --- a/include/linux/remoteproc.h
+> >> >> >> +++ b/include/linux/remoteproc.h
+> >> >> >> @@ -374,7 +374,7 @@ struct rproc_ops {
+> >> >> >>   int (*start)(struct rproc *rproc);
+> >> >> >>   int (*stop)(struct rproc *rproc);
+> >> >> >>   void (*kick)(struct rproc *rproc, int vqid);
+> >> >> >> - void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
+> >> >> >> + void * (*da_to_va)(struct rproc *rproc, u64 da, u64 len);
+> >> >> >>   int (*parse_fw)(struct rproc *rproc, const struct firmware *fw=
+);
+> >> >> >>   int (*handle_rsc)(struct rproc *rproc, u32 rsc_type, void *rsc=
+,
+> > > > > >>                            int offset, int avail);
