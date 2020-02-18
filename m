@@ -2,90 +2,112 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752FFC34026
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:13:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A379C34026
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:30:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3FD76206E2
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582020808;
-	bh=klTasm9LzG4RoLivUD2OrerRSmXKijdCremdXLEBvh0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=gXE4eG7l97p70IjZBwnImyo4YF7PIXfYtwacT8R1vWi0/m9yLnTZl5e/4WbVN0Ksd
-	 5kC99F9n2lDwo22GwGH1AwmOnXIWbsgnyIoWRGAWXBl0sthMCLEh9NGwRk8E2ZG/dH
-	 KzhIvRj7USgJ0505K/7JJ2EyqWBHoY3B/7Bp6A/c=
+	by mail.kernel.org (Postfix) with ESMTP id 4FA0A24649
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:30:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="L3ZDybIg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbgBRKN1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 05:13:27 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37656 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgBRKN1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 05:13:27 -0500
+        id S1726353AbgBRKaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 05:30:08 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:51458 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbgBRKaH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 05:30:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=klTasm9LzG4RoLivUD2OrerRSmXKijdCremdXLEBvh0=; b=d/MdY8cGRwIIMHUhEvnXgfqz06
-        HdKW+VCqQ6b4XRRaiTe6RIUcQMVKB1BtGQKfWhc4FIv75+rkDeVGNeycCn2X105vziKkk4fZEBmIG
-        CFe5Jwehv4WpArBNCOsbI7y2iR3WCwnmH2SQDA0ttCDvkyOq6yXcRJYwC1AHUODAReSTsPIRM5xhT
-        JetUMlXdAY6+HRm6IuLKv018N2XqlwB+rHxWmOhtvtcvOPCfCzpp2SHRSjxzeAqMFR2WBMAnnCfrR
-        x4nH2WM+A6TpjsqiqPI9j7+z9seTK5PxV0LjRswFXGMdDvJGlIdDzfOZE5DrsbgwCVt9UN9esniUy
-        Psr6buFQ==;
-Received: from ip-109-41-129-189.web.vodafone.de ([109.41.129.189] helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j3zsd-0007eU-07; Tue, 18 Feb 2020 10:13:27 +0000
-Date:   Tue, 18 Feb 2020 11:13:23 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=TsJ7rijmH0yW9ZZDdkUsZMwrbM/8nqThPqBsqCAkk4k=; b=L3ZDybIgpFGLp7UVUhoCXj1/g
+        FS5mIbnpAfGKZgRDZJXQxOaKF06XZr57BggWSmgADckVoW4D7AMr8gTjS38MdEZOL9TeWol0l0bk+
+        U7qlP7l1mreO6UVfaOl4hYzXYUSZN3aV7Csl2bEm/70CABSFHClKiUmgot65zS+mTuLvCFaHW4EzP
+        q4UNUUwpLqYgMeyyoDkNqOwoK5Au+kfwgup4jtPJDiyVVuhwXFm73HYINp7x+qIXcY1YfRG43Wdu8
+        0VkAT1CiAiATvQN4La90Pz+i2MjCwKWWOvHYy3BGQ3QzKrP9haO2YhfeX1iybGW9bhxVrPw0JNkd0
+        lQ9hjaEww==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53586)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j408V-0006be-OY; Tue, 18 Feb 2020 10:29:52 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j408M-0000Lm-2I; Tue, 18 Feb 2020 10:29:42 +0000
+Date:   Tue, 18 Feb 2020 10:29:42 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-doc@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Felix Fietkau <nbd@openwrt.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.com>
-Subject: Re: [PATCH 43/44] docs: filesystems: convert udf.txt to ReST
-Message-ID: <20200218111138.4e387143@kernel.org>
-In-Reply-To: <20200218071205.GC16121@quack2.suse.cz>
-References: <cover.1581955849.git.mchehab+huawei@kernel.org>
-        <2887f8a3a813a31170389eab687e9f199327dc7d.1581955849.git.mchehab+huawei@kernel.org>
-        <20200218071205.GC16121@quack2.suse.cz>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Michal Simek <michal.simek@xilinx.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        linux-mediatek@lists.infradead.org,
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [CFT 0/8] rework phylink interface for split MAC/PCS support
+Message-ID: <20200218102941.GE25745@shell.armlinux.org.uk>
+References: <20200217172242.GZ25745@shell.armlinux.org.uk>
+ <20200217173324.GI31084@lunn.ch>
+ <20200217185131.GC25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200217185131.GC25745@shell.armlinux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 18 Feb 2020 08:12:05 +0100
-Jan Kara <jack@suse.cz> escreveu:
+On Mon, Feb 17, 2020 at 06:51:31PM +0000, Russell King - ARM Linux admin wrote:
+> On Mon, Feb 17, 2020 at 06:33:24PM +0100, Andrew Lunn wrote:
+> > On Mon, Feb 17, 2020 at 05:22:43PM +0000, Russell King - ARM Linux admin wrote:
+> > > Hi,
+> > > 
+> > > The following series changes the phylink interface to allow us to
+> > > better support split MAC / MAC PCS setups.  The fundamental change
+> > > required for this turns out to be quite simple.
+> > 
+> > Hi Russell
+> > 
+> > Do you have a branch i can pull and test?
+> 
+> Nothing beyond the branches I've mentioned in the previous heads-up as
+> yet, sorry.
 
-> On Mon 17-02-20 17:12:29, Mauro Carvalho Chehab wrote:
-> > - Add a SPDX header;
-> > - Add a document title;
-> > - Add table markups;
-> > - Add lists markups;
-> > - Add it to filesystems/index.rst.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =20
->=20
-> Thanks! You can add:
->=20
-> Acked-by: Jan Kara <jack@suse.cz>
+In any case, for any particular network driver, there are three patches
+maximum that you need - the first, and the one or two patches specific
+to the network driver, depending whether it's a DSA driver or not. You
+don't need all 8 patches to test this series. All can be applied on top
+of yesterday's net-next, specifically
 
-Thanks for reviewing it!
-=20
-> and I can pickup the patch if you want.
+92df9f8a745e ("Merge branch 'mvneta-xdp-ethtool-stats'")
 
-=46rom my side, it would be ok if you want to pick any patches from this seri=
-es.
-
-Still, as they all touch Documentation/filesystems/index.rst, in order
-to avoid (trivial) conflicts, IMO the best would be to have all of them
-applied at the same tree (either a FS tree or the docs tree).
-
-Cheers,
-Mauro
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
