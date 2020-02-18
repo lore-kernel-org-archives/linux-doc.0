@@ -2,134 +2,120 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6BDC34022
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 01:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 517E0C34022
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 01:53:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AC0CA208C4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 01:39:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29F9D20836
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 01:53:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Y8gnB20+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgBRBjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Feb 2020 20:39:41 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:36215 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726097AbgBRBjl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 20:39:41 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TqCOUvS_1581989975;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TqCOUvS_1581989975)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 18 Feb 2020 09:39:36 +0800
-Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
- locality info
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Michal Koutn? <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1726231AbgBRBxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Feb 2020 20:53:49 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:45530 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726108AbgBRBxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Feb 2020 20:53:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Zi/r8mbt3ArBElcGWaOvulYaFWwCLLGqTvQ8tW82sm8=; b=Y8gnB20+kMGP6TPFsLqUZ+xR9
+        pCvJWoL/yMGmbYUsAEci98dSssqiYXl4OWUljCcU4eHFI8HrQCM0++2E5GNyHqVKjF59duOtOrG2A
+        ak+/ETbJituUu0nCLLaNL3q8KWuEg83+5Jr0P5e6yFYEkCdNP7nmktmOafEQVvpd4xS495RiBcrZr
+        SQf9jBeY3cMkdURtEJ+9F1sGUl1I31qIPpR4+wWdsAC5X8htuiLH78zBGcApEm+A+TQsKl4dXTA8S
+        /a3RN+Kh/upi1G0HG8YWCUk9PP/pXQiOAV8BAolOaw353yla1DrrL7QVVQkQu/nvyh0s+GhK5fOK9
+        gnx8OUMcg==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:41782)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j3s4u-0004Jk-S6; Tue, 18 Feb 2020 01:53:37 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j3s4l-0006oC-Qv; Tue, 18 Feb 2020 01:53:27 +0000
+Date:   Tue, 18 Feb 2020 01:53:27 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
- <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
- <20200214151048.GL14914@hirez.programming.kicks-ass.net>
- <20200217115810.GA3420@suse.de>
- <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
- <20200217141616.GB3420@suse.de>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <114519ab-4e9e-996a-67b8-4f5fcecba72a@linux.alibaba.com>
-Date:   Tue, 18 Feb 2020 09:39:35 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.4.1
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Felix Fietkau <nbd@openwrt.org>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        linux-mediatek@lists.infradead.org,
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [CFT 1/8] net: phylink: propagate resolved link config via
+ mac_link_up()
+Message-ID: <20200218015327.GD25745@shell.armlinux.org.uk>
+References: <20200217172242.GZ25745@shell.armlinux.org.uk>
+ <E1j3k7e-00071q-3R@rmk-PC.armlinux.org.uk>
+ <16f6912c-84a9-f1ab-6688-6a55ebf34270@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200217141616.GB3420@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16f6912c-84a9-f1ab-6688-6a55ebf34270@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2020/2/17 下午10:16, Mel Gorman wrote:
-> On Mon, Feb 17, 2020 at 09:23:52PM +0800, ?????? wrote:
-[snip]
->>
->> IMHO the scan period changing should not be a problem now, since the
->> maximum period is defined by user, so monitoring at maximum period
->> on the accumulated page accessing counters is always meaningful, correct?
->>
+On Mon, Feb 17, 2020 at 01:54:19PM -0800, Florian Fainelli wrote:
 > 
-> It has meaning but the scan rate drives the fault rate which is the basis
-> for the stats you accumulate. If the scan rate is high when accesses
-> are local, the stats can be skewed making it appear the task is much
-> more local than it may really is at a later point in time. The scan rate
-> affects the accuracy of the information. The counters have meaning but
-> they needs careful interpretation.
-
-Yeah, to zip so many information from NUMA Balancing to some statistics
-is a challenge itself, the locality still not so easy to be understood by
-NUMA newbie :-P
-
 > 
->> FYI, by monitoring locality, we found that the kvm vcpu thread is not
->> covered by NUMA Balancing, whatever how many maximum period passed, the
->> counters are not increasing, or very slowly, although inside guest we are
->> copying memory.
->>
->> Later we found such task rarely exit to user space to trigger task
->> work callbacks, and NUMA Balancing scan depends on that, which help us
->> realize the importance to enable NUMA Balancing inside guest, with the
->> correct NUMA topo, a big performance risk I'll say :-P
->>
+> On 2/17/2020 9:23 AM, Russell King wrote:
+> > Propagate the resolved link parameters via the mac_link_up() call for
+> > MACs that do not automatically track their PCS state.
+> > 
+> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> > ---
 > 
-> Which is a very interesting corner case in itself but also one that
-> could have potentially have been inferred from monitoring /proc/vmstat
-> numa_pte_updates or on a per-task basis by monitoring /proc/PID/sched and
-> watching numa_scan_seq and total_numa_faults. Accumulating the information
-> on a per-cgroup basis would require a bit more legwork.
-
-That's not working for daily monitoring...
-
-Besides, compared with locality, this require much more deeper understand
-on the implementation, which could even be tough for NUMA developers to
-assemble all these statistics together.
-
+> [snip]
 > 
->> Maybe not a good example, but we just try to highlight that NUMA Balancing
->> could have issue in some cases, and we want them to be exposed, somehow,
->> maybe by the locality.
->>
 > 
-> Again, I'm somewhat neutral on the patch simply because I would not use
-> the information for debugging problems with NUMA balancing. I would try
-> using tracepoints and if the tracepoints were not good enough, I'd add or
-> fix them -- similar to what I had to do with sched_stick_numa recently.
-> The caveat is that I mostly look at this sort of problem as a developer.
-> Sysadmins have very different requirements, especially simplicity even
-> if the simplicity in this case is an illusion.
-
-Fair enough, but I guess PeterZ still want your Ack, so neutral means
-refuse in this case :-(
-
-BTW, how do you think about the documentation in second patch?
-
-Do you think it's necessary to have a doc to explain NUMA related statistics?
-
-Regards,
-Michael Wang
-
+> > -static void macb_mac_link_up(struct phylink_config *config, unsigned int mode,
+> > -			     phy_interface_t interface, struct phy_device *phy)
+> > +static void macb_mac_link_up(struct phylink_config *config,
+> > +			     struct phy_device *phy,
+> > +			     unsigned int mode, phy_interface_t interface,
+> > +			     int speed, int duplex,
+> > +			     bool tx_pause, bool rx_pause)
 > 
+> I have not been able to find an answer so I will ask this question, why
+> not pass a const struct phylink_link_state reference here instead of
+> splitting those link settings as individual function parameters? Or
+> maybe introduce a phylink_link_settings comprised of all of those 4
+> settings and embed it within phylink_link_state as well?
+
+History of mac_config() has shown that passing something like
+struct phylink_link_state results in stuff that should not be used
+being used inspite of documentation saying otherwise.  Passing
+just the appropriate state ensures that stuff which should not
+be used can't be got at.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
