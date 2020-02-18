@@ -2,103 +2,93 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C50C34026
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3652DC34026
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:55:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 104E424125
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:34:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BCA5207FD
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 10:55:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbgBRKey convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 05:34:54 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:45937 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbgBRKey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 05:34:54 -0500
-X-Originating-IP: 90.76.211.102
-Received: from xps13 (lfbn-tou-1-1151-102.w90-76.abo.wanadoo.fr [90.76.211.102])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 2377840009;
-        Tue, 18 Feb 2020 10:34:49 +0000 (UTC)
-Date:   Tue, 18 Feb 2020 11:34:49 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
+        id S1726373AbgBRKzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 05:55:47 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:45718 "EHLO
+        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726327AbgBRKzr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 05:55:47 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R791e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04396;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TqHf9et_1582023340;
+Received: from JosephdeMacBook-Pro.local(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0TqHf9et_1582023340)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 18 Feb 2020 18:55:40 +0800
+Subject: Re: [PATCH 12/44] docs: filesystems: convert dlmfs.txt to ReST
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 11/11] mtd: new support oops logger based on
- pstore/blk
-Message-ID: <20200218113449.5ac44955@xps13>
-In-Reply-To: <1581078355-19647-12-git-send-email-liaoweixiong@allwinnertech.com>
-References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
-        <1581078355-19647-12-git-send-email-liaoweixiong@allwinnertech.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        linux-fsdevel@vger.kernel.org, Mark Fasheh <mark@fasheh.com>,
+        Joel Becker <jlbec@evilplan.org>, ocfs2-devel@oss.oracle.com
+References: <cover.1581955849.git.mchehab+huawei@kernel.org>
+ <efc9e59925723e17d1a4741b11049616c221463e.1581955849.git.mchehab+huawei@kernel.org>
+ <3b40d7d4-3798-08db-220d-b45704ada48a@linux.alibaba.com>
+ <20200218110731.2890658d@kernel.org>
+From:   Joseph Qi <joseph.qi@linux.alibaba.com>
+Message-ID: <ce80d0cd-a94f-caa8-b8bd-9788afd3927f@linux.alibaba.com>
+Date:   Tue, 18 Feb 2020 18:55:40 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20200218110731.2890658d@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi WeiXiong,
 
-WeiXiong Liao <liaoweixiong@allwinnertech.com> wrote on Fri,  7 Feb
-2020 20:25:55 +0800:
 
-> It's the last one of a series of patches for adaptive to MTD device.
+On 20/2/18 18:07, Mauro Carvalho Chehab wrote:
+> Em Tue, 18 Feb 2020 09:21:51 +0800
+> Joseph Qi <joseph.qi@linux.alibaba.com> escreveu:
 > 
-> The mtdpstore is similar to mtdoops but more powerful. It bases on
-> pstore/blk, aims to store panic and oops logs to a flash partition,
-> where it can be read back as files after mounting pstore filesystem.
+>> On 20/2/18 00:11, Mauro Carvalho Chehab wrote:
 > 
-> The pstore/blk and blkoops, a wrapper for pstore/blk, are designed for
-> block device at the very beginning, but now, compatible to not only
-> block device. After this series of patches, pstore/blk can also work
-> for MTD device. To make it work, 'blkdev' on kconfig or module
-> parameter of blkoops should be set as mtd device name or mtd number.
-> See more about pstore/blk and blkoops on:
->     Documentation/admin-guide/pstore-block.rst
+>>> @@ -96,14 +101,19 @@ operation. If the lock succeeds, you'll get an fd.
+>>>  open(2) with O_CREAT to ensure the resource inode is created - dlmfs does
+>>>  not automatically create inodes for existing lock resources.
+>>>  
+>>> +============  ===========================
+>>>  Open Flag     Lock Request Type
+>>> ----------     -----------------  
+>>
+>> Better to remove the above line.
+>>
+>>> +============  ===========================
+>>>  O_RDONLY      Shared Read
+>>>  O_RDWR        Exclusive
+>>> +============  ===========================
+>>>  
+>>> +
+>>> +============  ===========================
+>>>  Open Flag     Resulting Locking Behavior
+>>> ----------     --------------------------  
+>>
+>> Ditto.
 > 
-> Why do we need mtdpstore?
-> 1. repetitive jobs between pstore and mtdoops
->    Both of pstore and mtdoops do the same jobs that store panic/oops log.
->    They have much similar logic that register to kmsg dumper and store
->    log to several chunks one by one.
-> 2. do what a driver should do
->    To me, a driver should provide methods instead of policies. What MTD
->    should do is to provide read/write/erase operations, geting rid of codes
->    about chunk management, kmsg dumper and configuration.
-> 3. enhanced feature
->    Not only store log, but also show it as files.
->    Not only log, but also trigger time and trigger count.
->    Not only panic/oops log, but also log recorder for pmsg, console and
->    ftrace in the future.
+> Ok. So, I guess we can just merge the two tables into one, like:
 > 
-> Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Richard, your PoV on this is welcome.
-
-I suppose this patch depends on the others to work correctly so maybe
-we should wait the next release before applying it.
+> 	============  =================
+> 	O_RDONLY      Shared Read
+> 	O_RDWR        Exclusive
+> 	O_NONBLOCK    Trylock operation
+> 	============  =================
+> 
+> Right?
+> 
+I think they should be in different section.
+The first two are lock level, while the last is lock behavior.
 
 Thanks,
-Miquèl
+Joseph
