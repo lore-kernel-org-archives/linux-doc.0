@@ -2,184 +2,510 @@ Return-Path: <SRS0=SFNS=4G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE01DC3404C
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 20:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 432B3C34031
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 21:38:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7F06B24655
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 20:49:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="dTeLpuFT"
+	by mail.kernel.org (Postfix) with ESMTP id F0AD824125
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 21:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbgBRUtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 15:49:24 -0500
-Received: from mail-dm6nam10on2091.outbound.protection.outlook.com ([40.107.93.91]:27744
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726449AbgBRUtY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Feb 2020 15:49:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Trk9Ox4TA7n1M+YJnNe+QTtC33xpKClzYEc8OGVKzNrWklPz2dfLp0ZW1AWtBFXEloptCSPiudLWOmVEM0s/07bhezzHD+9m+goknVZd7KUKKtwwnlNxUr8s30VIzUFE7jDiIauOM3bpdT87YdcwPZPoPmmT4EzsV6fMUVNzD795txRrqa5AcnmgHkR/9PWI4AkbpoKL9RNFCTok5XFMupj9BUmHgItMHIIx5wiiThXFz+VV+3SsPHfMM4P3bKr9SxBZGczWOXF3gIOD0mfi0+/8UmFZ4NCqo6DifWzTQ8e8TtghuJvhy1fOq5HobqitSha2plo24cfALQ9x9dF71g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XAYJeHDPMp+nXjJddP+wGPF6zJ/hu0G+tXQ0rLrLHhI=;
- b=iXxcRMLLGHOkiko+6P3Mqh5tVbUiymJCH9cxQpYPZomHVVcZGJ606H3a0zlLOgLCDNFPLLEvkEEV1XfzcUxiuNM6Wm4QHSf8/PPVUWx+pLck1KcYjenzsXN3tMu+rX1kXKpNpDaKQ82CBg36MPTysA2qpxf9cSX0Mng0VEq5q/wM9tqkH4vHEozPvE6dR84tylNH8ll2DFxLxtPuLqYrvYRg7W7pz0/giV9jnvzHSa2UhVgya/mkarM4tVImABvbKUCI6oTUUcMvivtEIvSv2HH0yJqPKpLG9qnN26YKnKhcXwEdlNFHyZShEUwZNRlc+ERpJOyUr0Djg1pXGQpC9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
- s=selector2-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XAYJeHDPMp+nXjJddP+wGPF6zJ/hu0G+tXQ0rLrLHhI=;
- b=dTeLpuFTmRPLkNv57SzWxF67TjYTbdCQ3waqXKul4K0CfGMigyz37SYbO2aP6JxSMZrZqKY/LaSg+UuflO3Eu0FtgCEwZiag5mqR9lSNhPViJ2khH+TH7oAvpLs+97fnMK4p/FoeV6xawPqAidltzYjs60L5MI4nAN0+CQVH6wM=
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com (10.169.172.155) by
- MWHPR13MB1824.namprd13.prod.outlook.com (10.171.145.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.8; Tue, 18 Feb 2020 20:49:21 +0000
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7544:fc2:b078:5dcd]) by MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7544:fc2:b078:5dcd%3]) with mapi id 15.20.2750.014; Tue, 18 Feb 2020
- 20:49:21 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Frank Rowand <frowand.list@gmail.com>
-CC:     Alan Maguire <alan.maguire@oracle.com>,
-        Greg KH <gregkh@linuxfoundation.org>, shuah <shuah@kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Gow <davidgow@google.com>
-Subject: RE: [PATCH v3 kunit-next 1/2] kunit: add debugfs
- /sys/kernel/debug/kunit/<suite>/results display
-Thread-Topic: [PATCH v3 kunit-next 1/2] kunit: add debugfs
- /sys/kernel/debug/kunit/<suite>/results display
-Thread-Index: AQHV3dfv58zRX/NXyUSJApFF8BhfLqgYfqyAgAjt7ICAAAqyEA==
-Date:   Tue, 18 Feb 2020 20:49:21 +0000
-Message-ID: <MWHPR13MB0895A9AC64475539ECF99987FD110@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <1581094694-6513-1-git-send-email-alan.maguire@oracle.com>
- <1581094694-6513-2-git-send-email-alan.maguire@oracle.com>
- <c42ac237-476a-526f-b445-61e7a63bc101@gmail.com>
- <CAFd5g47p9wnbz=HrNh0U2bbc=0ZaJ7n0U+_=E8yp8yPMrqwzaA@mail.gmail.com>
-In-Reply-To: <CAFd5g47p9wnbz=HrNh0U2bbc=0ZaJ7n0U+_=E8yp8yPMrqwzaA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tim.Bird@sony.com; 
-x-originating-ip: [160.33.66.122]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: ae6cdb8a-0152-4005-6a0b-08d7b4b407de
-x-ms-traffictypediagnostic: MWHPR13MB1824:
-x-microsoft-antispam-prvs: <MWHPR13MB18247D34D0F4F9538B49FE57FD110@MWHPR13MB1824.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 031763BCAF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(346002)(376002)(136003)(39860400002)(396003)(199004)(189003)(81166006)(81156014)(8676002)(9686003)(8936002)(66476007)(64756008)(66446008)(66556008)(316002)(86362001)(76116006)(7696005)(66946007)(26005)(7416002)(6506007)(53546011)(52536014)(5660300002)(110136005)(71200400001)(33656002)(54906003)(4326008)(2906002)(186003)(478600001)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR13MB1824;H:MWHPR13MB0895.namprd13.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: sony.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PAnKW4bVwIxGnxLE/h+jhwSzDutBewGNb7BURginga29xCDq6RojuKNv6p6Exot7dINZEExz0CYSK/WsQpslrpT3z9w4mG8kFAH0lvWlpA6bASwbCLnp2Ubc3/GEtixQiQ4jtH9lcV4uSbWMmi4E9rIMasIkyX0PjHiuaO+V9Us1KgGJcTEkp8/G2+rIcZ75H9n0dva7Y789lJlGxWYZh6Y4dmHU5AD8ITql203ysT2zSkFlly6NsZtbmulaJeEj6hMA/XeTzdp6NidzmepR+5Waz6I+1+VQUkV4COwtZ6Dx6vaAjXy4ZuAh3SNxGF3oz4ZAc3RuvOx+bE6T7rnMCNl26f3wcMCfayGYPDSegsxv8z5DHchbz5/OrtTYY4HC5bsp2VEUEyj1elyhwcEXjZqLjvCsInHgsMZMpHYDC+tJoek5tauzctm0jC29xsx3
-x-ms-exchange-antispam-messagedata: 22DcSCF4ivWthAYgW1TCMkIHkcj+FmXWYNB4MW+YAuLoGJ3Fpq1oYJjC5gBrllK7p8UFFbx5ygcHgfmwQSxiBtCMGsdVOt3R8VA3rrgh+LCJYckAKlF8Chq1n3iSIff+7s7docdx9kx/kXveOlUlCA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1727680AbgBRVi1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 16:38:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50887 "EHLO eggs.gnu.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726595AbgBRVi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Feb 2020 16:38:27 -0500
+Received: from fencepost.gnu.org ([2001:470:142:3::e]:54528)
+        by eggs.gnu.org with esmtp (Exim 4.71)
+        (envelope-from <lxsameer@gnu.org>)
+        id 1j4AZU-0001Sy-Fv; Tue, 18 Feb 2020 16:38:24 -0500
+Received: from [46.7.45.31] (port=59144 helo=localhost.localdomain)
+        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+        (Exim 4.82)
+        (envelope-from <lxsameer@gnu.org>)
+        id 1j4AZS-0004eR-Sa; Tue, 18 Feb 2020 16:38:23 -0500
+From:   lxsameer@gnu.org
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, Sameer Rahmani <lxsameer@gnu.org>
+Subject: [PATCH] Documentation: kobject.txt has been reviewed and converted to rst
+Date:   Tue, 18 Feb 2020 21:38:15 +0000
+Message-Id: <20200218213815.60856-1-lxsameer@gnu.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae6cdb8a-0152-4005-6a0b-08d7b4b407de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2020 20:49:21.4074
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NT4R1thDKC7zssVPm/iOvbsVzM8brPltfEgujkhVkJuVC9p46/BKsfV8XTtvmjB7AChkDLaAVJZORFWBoPnsTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR13MB1824
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogIEJyZW5kYW4gSGlnZ2lu
-cw0KPiANCj4gT24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgNzoyNSBQTSBGcmFuayBSb3dhbmQgPGZy
-b3dhbmQubGlzdEBnbWFpbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gT24gMi83LzIwIDEwOjU4IEFN
-LCBBbGFuIE1hZ3VpcmUgd3JvdGU6DQoNCi4uLg0KDQo+ID4gPiBkaWZmIC0tZ2l0IGEvbGliL2t1
-bml0L3Rlc3QuYyBiL2xpYi9rdW5pdC90ZXN0LmMNCj4gPiA+IGluZGV4IDkyNDJmOTMuLmFlYzYw
-N2YgMTAwNjQ0DQo+ID4gPiAtLS0gYS9saWIva3VuaXQvdGVzdC5jDQo+ID4gPiArKysgYi9saWIv
-a3VuaXQvdGVzdC5jDQo+ID4gPiBAQCAtMTAsNiArMTAsNyBAQA0KPiA+ID4gICNpbmNsdWRlIDxs
-aW51eC9rZXJuZWwuaD4NCj4gPiA+ICAjaW5jbHVkZSA8bGludXgvc2NoZWQvZGVidWcuaD4NCj4g
-PiA+DQo+ID4gPiArI2luY2x1ZGUgImRlYnVnZnMuaCINCj4gPiA+ICAjaW5jbHVkZSAic3RyaW5n
-LXN0cmVhbS5oIg0KPiA+ID4gICNpbmNsdWRlICJ0cnktY2F0Y2gtaW1wbC5oIg0KPiA+ID4NCj4g
-PiA+IEBAIC0yOCw3MyArMjksOTEgQEAgc3RhdGljIHZvaWQga3VuaXRfcHJpbnRfdGFwX3ZlcnNp
-b24odm9pZCkNCj4gPiA+ICAgICAgIH0NCj4gPiA+ICB9DQo+ID4gPg0KPiA+ID4gLXN0YXRpYyBz
-aXplX3Qga3VuaXRfdGVzdF9jYXNlc19sZW4oc3RydWN0IGt1bml0X2Nhc2UgKnRlc3RfY2FzZXMp
-DQo+ID4gPiArc2l6ZV90IGt1bml0X3N1aXRlX251bV90ZXN0X2Nhc2VzKHN0cnVjdCBrdW5pdF9z
-dWl0ZSAqc3VpdGUpDQo+ID4gPiAgew0KPiA+ID4gICAgICAgc3RydWN0IGt1bml0X2Nhc2UgKnRl
-c3RfY2FzZTsNCj4gPiA+ICAgICAgIHNpemVfdCBsZW4gPSAwOw0KPiA+ID4NCj4gPiA+IC0gICAg
-IGZvciAodGVzdF9jYXNlID0gdGVzdF9jYXNlczsgdGVzdF9jYXNlLT5ydW5fY2FzZTsgdGVzdF9j
-YXNlKyspDQo+ID4gPiArICAgICBrdW5pdF9zdWl0ZV9mb3JfZWFjaF90ZXN0X2Nhc2Uoc3VpdGUs
-IHRlc3RfY2FzZSkNCj4gPiA+ICAgICAgICAgICAgICAgbGVuKys7DQo+ID4gPg0KPiA+ID4gICAg
-ICAgcmV0dXJuIGxlbjsNCj4gPiA+ICB9DQo+ID4gPiArRVhQT1JUX1NZTUJPTF9HUEwoa3VuaXRf
-c3VpdGVfbnVtX3Rlc3RfY2FzZXMpOw0KPiA+ID4NCj4gPiA+ICBzdGF0aWMgdm9pZCBrdW5pdF9w
-cmludF9zdWJ0ZXN0X3N0YXJ0KHN0cnVjdCBrdW5pdF9zdWl0ZSAqc3VpdGUpDQo+ID4gPiAgew0K
-PiA+ID4gICAgICAga3VuaXRfcHJpbnRfdGFwX3ZlcnNpb24oKTsNCj4gPiA+IC0gICAgIHByX2lu
-Zm8oIlx0IyBTdWJ0ZXN0OiAlc1xuIiwgc3VpdGUtPm5hbWUpOw0KPiA+ID4gLSAgICAgcHJfaW5m
-bygiXHQxLi4lemRcbiIsIGt1bml0X3Rlc3RfY2FzZXNfbGVuKHN1aXRlLT50ZXN0X2Nhc2VzKSk7
-DQo+ID4gPiArICAgICBrdW5pdF9sb2coS0VSTl9JTkZPLCBzdWl0ZSwgIiMgU3VidGVzdDogJXMi
-LCBzdWl0ZS0+bmFtZSk7DQo+ID4gPiArICAgICBrdW5pdF9sb2coS0VSTl9JTkZPLCBzdWl0ZSwg
-IjEuLiV6ZCIsDQo+ID4gPiArICAgICAgICAgICAgICAga3VuaXRfc3VpdGVfbnVtX3Rlc3RfY2Fz
-ZXMoc3VpdGUpKTsNCj4gPg0KPiA+IFRoZSBzdWJ0ZXN0ICdpcyBhIFRBUCBzdHJlYW0gaW5kZW50
-ZWQgNCBzcGFjZXMnLiAgKFNvIHRoZSBvbGQgY29kZSB3YXMNCj4gPiBhbHNvIGluY29ycmVjdCBz
-aW5jZSBpdCBpbmRlbnRlZCB3aXRoIGEgdGFiLikNCj4gDQo+IFdob29wcy4NCj4gDQo+IEkgYWdy
-ZWUgdGhhdCBmaXhpbmcgdGFicyB0byBzcGFjZXMgaXMgcHJvYmFibHkgdGhlIGVhc2llc3QgdGhp
-bmcgdG8gZG8NCj4gaGVyZTsgbmV2ZXJ0aGVsZXNzLCBJIHRoaW5rIHRoaXMgbWlnaHQgYmUgYSBn
-b29kIHRpbWUgdG8gdGFsayBhYm91dA0KPiBvdGhlciBkZXZpYXRpb25zIGZyb20gdGhlIHNwZWMg
-YW5kIHdoYXQgdG8gZG8gYWJvdXQgaXQuIFRoaXMgbWlnaHQNCj4gYWxzbyBiZSBhIGdvb2QgdGlt
-ZSB0byBicmluZyB1cCBUaW0ncyBjb21tZW50IGF0IExQQyBsYXN0IHllYXIgYWJvdXQNCj4gZm9y
-a2luZyBUQVAuIEFyZ3VhYmx5IEkgYWxyZWFkeSBoYXZlIGdpdmVuIHRoYXQgVEFQMTQgaXMgc3Rp
-bGwgdW5kZXINCj4gcmV2aWV3IGFuZCBpcyBjb25zZXF1ZW50bHkgc3ViamVjdCB0byBjaGFuZ2Uu
-DQo+IA0KPiBBZGRpdGlvbmFsbHksIHRoZSB3YXkgSSByZXBvcnQgZXhwZWN0YXRpb24vYXNzZXJ0
-aW9uIGZhaWx1cmVzIGFyZSBteQ0KPiBvd24gZXh0ZW5zaW9uIHRvIHRoZSBUQVAgc3BlYy4gSSBk
-aWQgdGhpcyBiZWNhdXNlIGF0IHRoZSB0aW1lIEkgd2Fzbid0DQo+IHJlYWR5IHRvIG9wZW4gdGhl
-IGNhbiBvZiB3b3JtcyB0aGF0IHdhcyBhZGRpbmcgYSBZQU1MIHNlcmlhbGl6ZXIgdG8NCj4gdGhl
-IExpbnV4IGtlcm5lbDsgSSBtZW50aW9uZWQgYWRkaW5nIGEgWUFNTCBzZXJpYWxpemVyIGF0IExQ
-QyBhbmQNCj4gcGVvcGxlIGRpZG4ndCBzZWVtIHN1cGVyIHRocmlsbGVkIHdpdGggdGhlIGlkZWEu
-DQoNCkknbSBub3Qgc3VyZSBJIGZvbGxvdy4gIEFyZSB5b3UgdGFsa2luZyBhYm91dCB3cml0aW5n
-IFlBTUwgb3IgaW50ZXJwcmV0aW5nDQpZQU1MLiAgWW91IGRvbid0IG5lZWQgYSBzZXJpYWxpemVy
-IHRvIHdyaXRlIFlBTUwuICBJdCBjYW4gYmUgZG9uZSANCndpdGggc3RyYWlnaHQgdGV4dCBvdXRw
-dXQuICBJIGd1ZXNzIGl0IGRlcGVuZHMgb24gdGhlIHNjb3BlIG9mIHdoYXQgeW91DQplbnZpc2lv
-bi4gIEV2ZW4gaWYgeW91IHdhbnQgdG8gZG8gbW9yZSB0aGFuIHRyaXZpYWwgc3RydWN0dXJlZCBv
-dXRwdXQsDQpJIGRvbid0IHRoaW5rIHlvdSdsbCBuZWVkIGEgZnVsbCBzZXJpYWxpemVyLiAgKElP
-VywgSSB0aGluayB5b3UgY291bGQgc25lYWsNCnNvbWV0aGluZyBpbiBhbmQganVzdCBjYWxsIGl0
-IGEgdGVzdCBvdXRwdXQgZm9ybWF0dGVyLiAgSnVzdCBkb24ndCBjYWxsIGl0IFlBTUwNCmFuZCBt
-b3N0IHBlb3BsZSB3b24ndCBub3RpY2UuIDotKQ0KDQo+IA0KPiBGdXJ0aGVyIGJvdGggdGhlIFRB
-UCBpbXBsZW1lbnRhdGlvbiBoZXJlIGFzIHdlbGwgYXMgd2hhdCBpcyBpbg0KPiBrc2VsZnRlc3Qg
-aGF2ZSBhcmJpdHJhcnkga2VybmVsIG91dHB1dCBtaXhlZCBpbiB3aXRoIFRBUCBvdXRwdXQsIHdo
-aWNoDQo+IHNlZW1zIHRvIGJlIGEgZnVydGhlciBkZXZpYXRpb24gZnJvbSB0aGUgc3BlYy4NCldl
-bGwgdGhhdCdzIGEgZGlmZmVyZW50IGtldHRsZSBvZiB3b3JtcywgYW5kIHJlYWxseSBhcmd1ZXMg
-Zm9yIHN0YXlpbmcNCndpdGggc29tZXRoaW5nIHRoYXQgaXMgc3RyaWN0bHkgbGluZS1iYXNlZC4N
-Cg0KPiANCj4gSW4gYW4gZWZmb3J0IHRvIGRvIHRoaXMsIGFuZCBzbyB0aGF0IGF0IHRoZSB2ZXJ5
-IGxlYXN0IEkgY291bGQNCj4gZG9jdW1lbnQgd2hhdCBJIGhhdmUgZG9uZSBoZXJlLCBJIGhhdmUg
-YmVlbiBsb29raW5nIGludG8gZ2V0dGluZyBhDQo+IGNvcHkgb2YgVEFQIGludG8gdGhlIGtlcm5l
-bC4gVW5mb3J0dW5hdGVseSwgVEFQIGFwcGVhcnMgdG8gaGF2ZSBzb21lDQo+IGxpY2Vuc2luZyBp
-c3N1ZXMuIFRBUCBzYXlzIHRoYXQgaXQgY2FuIGJlIHVzZWQvbW9kaWZpZWQgInVuZGVyIHRoZQ0K
-PiBzYW1lIHRlcm1zIGFzIFBlcmwgaXRzZWxmIiBhbmQgdGhlbiBwcm92aWRlcyBhIGRlYWQgbGlu
-ay4gSSBmaWxlZCBhDQo+IHB1bGwgcmVxdWVzdCB0byB1cGRhdGUgdGhlIGxpY2VuY2UgdG8gdGhl
-IFBlcmwgQXJ0aXN0aWMgTGljZW5jZSAxLjANCj4gc2luY2UgSSBiZWxpZXZlIHRoYXQgaXMgd2hh
-dCB0aGV5IGFyZSByZWZlcmVuY2luZzsgaG93ZXZlciwgSSBoYXZlIG5vdA0KPiBoZWFyZCBiYWNr
-IGZyb20gdGhlbSB5ZXQuDQoNCldoZW4geW91IHNheSAiZ2V0dGluZyBhIGNvcHkgb2YgVEFQIGlu
-dG8gdGhlIGtlcm5lbCIsIEkgcHJlc3VtZSB5b3UgbWVhbg0KYW4gZXhpc3RpbmcgaW1wbGVtZW50
-YXRpb24gdG8gcHJvZHVjZSBUQVAgb3V0cHV0PyAgT3IgYXJlIHlvdSB0YWxraW5nIGFib3V0DQph
-IFRBUCBpbnRlcnByZXRlcj8gIEknbSBub3Qgc3VyZSB0aGUgZm9ybWVyIG5lZWRzIHRvIHVzZSBh
-biBleGlzdGluZyBpbXBsZW1lbnRhdGlvbi4NCg0KSSBwcmV2aW91c2x5IHZvbHVudGVlcmVkIChp
-biBMaXNib24pIHRvIHdyaXRlIHVwIHRoZSBUQVAgZGV2aWF0aW9ucywNCmFuZCBuZXZlciBnb3Qg
-YXJvdW5kIHRvIGl0LiAgIFNvcnJ5IGFib3V0IHRoYXQuIEkgY2FuIHRyeSB0byB3b3JrIG9uIGl0
-IG5vdyBpZg0KcGVvcGxlIGFyZSBzdGlsbCBpbnRlcmVzdGVkLg0KIC0tIFRpbQ0KDQpbcmVzdCBv
-ZiBwYXRjaCBvbWl0dGVkXQ0KDQoNCg==
+From: Sameer Rahmani <lxsameer@gnu.org>
+
+Reivew the `kobject.txt` file and moved the converted rst version to `core-api`
+section where it makes more sense.
+
+Signed-off-by: Sameer Rahmani <lxsameer@gnu.org>
+---
+ Documentation/core-api/index.rst   |   1 +
+ Documentation/core-api/kobject.rst | 434 +++++++++++++++++++++++++++++
+ 2 files changed, 435 insertions(+)
+ create mode 100644 Documentation/core-api/kobject.rst
+
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index a501dc1c90d0..65035d60f5ee 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -11,6 +11,7 @@ Core utilities
+ .. toctree::
+    :maxdepth: 1
+ 
++   kobject
+    kernel-api
+    assoc_array
+    atomic_ops
+diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+new file mode 100644
+index 000000000000..42f47ee36b63
+--- /dev/null
++++ b/Documentation/core-api/kobject.rst
+@@ -0,0 +1,434 @@
++=====================================================================
++Everything you never wanted to know about kobjects, ksets, and ktypes
++=====================================================================
++
++:Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++:Last updated: Feb 18, 2020
++
++Based on an original article by Jon Corbet for lwn.net written October 1,
++2003 and located at http://lwn.net/Articles/51437/
++
++Part of the difficulty in understanding the driver model - and the kobject
++abstraction upon which it is built - is that there is no obvious starting
++place. Dealing with kobjects requires understanding a few different types,
++all of which make reference to each other. In an attempt to make things
++easier, we'll take a multi-pass approach, starting with vague terms and
++adding detail as we go. To that end, here are some quick definitions of
++some terms we will be working with.
++
++ - A kobject is an object of type struct kobject.  Kobjects have a name
++   and a reference count.  A kobject also has a parent pointer (allowing
++   objects to be arranged into hierarchies), a specific type, and,
++   usually, a representation in the sysfs virtual filesystem.
++
++   Kobjects are generally not interesting on their own; instead, they are
++   usually embedded within some other structure which contains the stuff
++   the code is really interested in.
++
++   No structure should **EVER** have more than one kobject embedded within it.
++   If it does, the reference counting for the object is sure to be messed
++   up and incorrect, and your code will be buggy.  So do not do this.
++
++ - A ktype is the type of object that embeds a kobject.  Every structure
++   that embeds a kobject needs a corresponding ktype.  The ktype controls
++   what happens to the kobject when it is created and destroyed.
++
++ - A kset is a group of kobjects.  These kobjects can be of the same ktype
++   or belong to different ktypes.  The kset is the basic container type for
++   collections of kobjects. Ksets contain their own kobjects, but you can
++   safely ignore that implementation detail as the kset core code handles
++   this kobject automatically.
++
++   When you see a sysfs directory full of other directories, generally each
++   of those directories corresponds to a kobject in the same kset.
++
++We'll look at how to create and manipulate all of these types. A bottom-up
++approach will be taken, so we'll go back to kobjects.
++
++
++Embedding kobjects
++==================
++
++It is rare for kernel code to create a standalone kobject, with one major
++exception explained below.  Instead, kobjects are used to control access to
++a larger, domain-specific object.  To this end, kobjects will be found
++embedded in other structures.  If you are used to thinking of things in
++object-oriented terms, kobjects can be seen as a top-level, abstract class
++from which other classes are derived.  A kobject implements a set of
++capabilities which are not particularly useful by themselves, but are
++nice to have in other objects.  The C language does not allow for the
++direct expression of inheritance, so other techniques - such as structure
++embedding - must be used.
++
++(As an aside, for those familiar with the kernel linked list implementation,
++this is analogous as to how "list_head" structs are rarely useful on
++their own, but are invariably found embedded in the larger objects of
++interest.)
++
++So, for example, the UIO code in ``drivers/uio/uio.c`` has a structure that
++defines the memory region associated with a uio device::
++
++    struct uio_map {
++	struct kobject kobj;
++	struct uio_mem *mem;
++    };
++
++If you have a struct uio_map structure, finding its embedded kobject is
++just a matter of using the kobj member.  Code that works with kobjects will
++often have the opposite problem, however: given a struct kobject pointer,
++what is the pointer to the containing structure?  You must avoid tricks
++(such as assuming that the kobject is at the beginning of the structure)
++and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
++
++    container_of(pointer, type, member)
++
++where:
++
++  * ``pointer`` is the pointer to the embedded kobject,
++  * ``type`` is the type of the containing structure, and
++  * ``member`` is the name of the structure field to which ``pointer`` points.
++
++The return value from container_of() is a pointer to the corresponding
++container type. So, for example, a pointer ``kp`` to a struct kobject
++embedded **within** a struct uio_map could be converted to a pointer to the
++*containing* uio_map structure with::
++
++    struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
++
++For convenience, programmers often define a simple macro for **back-casting**
++kobject pointers to the containing type.  Exactly this happens in the
++earlier ``drivers/uio/uio.c``, as you can see here::
++
++    struct uio_map {
++        struct kobject kobj;
++        struct uio_mem *mem;
++    };
++
++    #define to_map(map) container_of(map, struct uio_map, kobj)
++
++where the macro argument "map" is a pointer to the struct kobject in
++question.  That macro is subsequently invoked with::
++
++    struct uio_map *map = to_map(kobj);
++
++
++Initialization of kobjects
++==========================
++
++Code which creates a kobject must, of course, initialize that object. Some
++of the internal fields are setup with a (mandatory) call to kobject_init()::
++
++    void kobject_init(struct kobject *kobj, struct kobj_type *ktype);
++
++The ktype is required for a kobject to be created properly, as every kobject
++must have an associated kobj_type.  After calling kobject_init(), to
++register the kobject with sysfs, the function kobject_add() must be called::
++
++    int kobject_add(struct kobject *kobj, struct kobject *parent,
++		    const char *fmt, ...);
++
++This sets up the parent of the kobject and the name for the kobject
++properly.  If the kobject is to be associated with a specific kset,
++kobj->kset must be assigned before calling kobject_add().  If a kset is
++associated with a kobject, then the parent for the kobject can be set to
++NULL in the call to kobject_add() and then the kobject's parent will be the
++kset itself.
++
++As the name of the kobject is set when it is added to the kernel, the name
++of the kobject should never be manipulated directly.  If you must change
++the name of the kobject, call kobject_rename()::
++
++    int kobject_rename(struct kobject *kobj, const char *new_name);
++
++kobject_rename does not perform any locking or have a solid notion of
++what names are valid so the caller must provide their own sanity checking
++and serialization.
++
++There is a function called kobject_set_name() but that is legacy cruft and
++is being removed.  If your code needs to call this function, it is
++incorrect and needs to be fixed.
++
++To properly access the name of the kobject, use the function
++kobject_name()::
++
++    const char *kobject_name(const struct kobject * kobj);
++
++There is a helper function to both initialize and add the kobject to the
++kernel at the same time, called surprisingly enough kobject_init_and_add()::
++
++    int kobject_init_and_add(struct kobject *kobj, struct kobj_type *ktype,
++                             struct kobject *parent, const char *fmt, ...);
++
++The arguments are the same as the individual kobject_init() and
++kobject_add() functions described above.
++
++
++Uevents
++=======
++
++After a kobject has been registered with the kobject core, you need to
++announce to the world that it has been created.  This can be done with a
++call to kobject_uevent()::
++
++    int kobject_uevent(struct kobject *kobj, enum kobject_action action);
++
++Use the **KOBJ_ADD** action for when the kobject is first added to the kernel.
++This should be done only after any attributes or children of the kobject
++have been initialized properly, as userspace will instantly start to look
++for them when this call happens.
++
++When the kobject is removed from the kernel (details on how to do that are
++below), the uevent for **KOBJ_REMOVE** will be automatically created by the
++kobject core, so the caller does not have to worry about doing that by
++hand.
++
++
++Reference counts
++================
++
++One of the key functions of a kobject is to serve as a reference counter
++for the object in which it is embedded. As long as references to the object
++exist, the object (and the code which supports it) must continue to exist.
++The low-level functions for manipulating a kobject's reference counts are::
++
++    struct kobject *kobject_get(struct kobject *kobj);
++    void kobject_put(struct kobject *kobj);
++
++A successful call to kobject_get() will increment the kobject's reference
++counter and return the pointer to the kobject.
++
++When a reference is released, the call to kobject_put() will decrement the
++reference count and, possibly, free the object. Note that kobject_init()
++sets the reference count to one, so the code which sets up the kobject will
++need to do a kobject_put() eventually to release that reference.
++
++Because kobjects are dynamic, they must not be declared statically or on
++the stack, but instead, always allocated dynamically.  Future versions of
++the kernel will contain a run-time check for kobjects that are created
++statically and will warn the developer of this improper usage.
++
++If all that you want to use a kobject for is to provide a reference counter
++for your structure, please use the struct kref instead; a kobject would be
++overkill.  For more information on how to use struct kref, please see the
++file Documentation/kref.txt in the Linux kernel source tree.
++
++
++Creating "simple" kobjects
++==========================
++
++Sometimes all that a developer wants is a way to create a simple directory
++in the sysfs hierarchy, and not have to mess with the whole complication of
++ksets, show and store functions, and other details.  This is the one
++exception where a single kobject should be created.  To create such an
++entry, use the function::
++
++    struct kobject *kobject_create_and_add(char *name, struct kobject *parent);
++
++This function will create a kobject and place it in sysfs in the location
++underneath the specified parent kobject.  To create simple attributes
++associated with this kobject, use::
++
++    static inline int sysfs_create_files(struct kobject *kobj, const struct attribute * const *attr);
++
++or::
++
++    int sysfs_create_group(struct kobject *kobj, struct attribute_group *grp);
++
++Both types of attributes used here, with a kobject that has been created
++with the kobject_create_and_add(), can be of type kobj_attribute, so no
++special custom attribute is needed to be created.
++
++See the example module, ``samples/kobject/kobject-example.c`` for an
++implementation of a simple kobject and attributes.
++
++
++
++ktypes and release methods
++==========================
++
++One important thing still missing from the discussion is what happens to a
++kobject when its reference count reaches zero. The code which created the
++kobject generally does not know when that will happen; if it did, there
++would be little point in using a kobject in the first place. Even
++predictable object lifecycles become more complicated when sysfs is brought
++in as other portions of the kernel can get a reference on any kobject that
++is registered in the system.
++
++The end result is that a structure protected by a kobject cannot be freed
++before its reference count goes to zero. The reference count is not under
++the direct control of the code which created the kobject. So that code must
++be notified asynchronously whenever the last reference to one of its
++kobjects goes away.
++
++Once you registered your kobject via kobject_add(), you must never use
++kfree() to free it directly. The only safe way is to use kobject_put(). It
++is good practice to always use kobject_put() after kobject_init() to avoid
++errors creeping in.
++
++This notification is done through a kobject's release() method. Usually
++such a method has a form like::
++
++    void my_object_release(struct kobject *kobj)
++    {
++    	    struct my_object *mine = container_of(kobj, struct my_object, kobj);
++
++	    /* Perform any additional cleanup on this object, then... */
++	    kfree(mine);
++    }
++
++One important point cannot be overstated: every kobject must have a
++release() method, and the kobject must persist (in a consistent state)
++until that method is called. If these constraints are not met, the code is
++flawed. Note that the kernel will warn you if you forget to provide a
++release() method.  Do not try to get rid of this warning by providing an
++"empty" release function.
++
++If all your cleanup function needs to do is call kfree(), then you must
++create a wrapper function which uses container_of() to upcast to the correct
++type (as shown in the example above) and then calls kfree() on the overall
++structure.
++
++Note, the name of the kobject is available in the release function, but it
++must NOT be changed within this callback.  Otherwise there will be a memory
++leak in the kobject core, which makes people unhappy.
++
++Interestingly, the release() method is not stored in the kobject itself;
++instead, it is associated with the ktype. So let us introduce struct
++kobj_type::
++
++    struct kobj_type {
++	    void (*release)(struct kobject *kobj);
++	    const struct sysfs_ops *sysfs_ops;
++	    struct attribute **default_attrs;
++	    const struct kobj_ns_type_operations *(*child_ns_type)(struct kobject *kobj);
++	    const void *(*namespace)(struct kobject *kobj);
++    };
++
++This structure is used to describe a particular type of kobject (or, more
++correctly, of containing object). Every kobject needs to have an associated
++kobj_type structure; a pointer to that structure must be specified when you
++call kobject_init() or kobject_init_and_add().
++
++The release field in struct kobj_type is, of course, a pointer to the
++release() method for this type of kobject. The other two fields (sysfs_ops
++and default_attrs) control how objects of this type are represented in
++sysfs; they are beyond the scope of this document.
++
++The default_attrs pointer is a list of default attributes that will be
++automatically created for any kobject that is registered with this ktype.
++
++
++ksets
++=====
++
++A kset is merely a collection of kobjects that want to be associated with
++each other.  There is no restriction that they be of the same ktype, but be
++very careful if they are not.
++
++A kset serves these functions:
++
++ - It serves as a bag containing a group of objects. A kset can be used by
++   the kernel to track "all block devices" or "all PCI device drivers."
++
++ - A kset is also a subdirectory in sysfs, where the associated kobjects
++   with the kset can show up.  Every kset contains a kobject which can be
++   set up to be the parent of other kobjects; the top-level directories of
++   the sysfs hierarchy are constructed in this way.
++
++ - Ksets can support the "hotplugging" of kobjects and influence how
++   uevent events are reported to user space.
++
++In object-oriented terms, "kset" is the top-level container class; ksets
++contain their own kobject, but that kobject is managed by the kset code and
++should not be manipulated by any other user.
++
++A kset keeps its children in a standard kernel linked list.  Kobjects point
++back to their containing kset via their kset field. In almost all cases,
++the kobjects belonging to a kset have that kset (or, strictly, its embedded
++kobject) in their parent.
++
++As a kset contains a kobject within it, it should always be dynamically
++created and never declared statically or on the stack.  To create a new
++kset use::
++
++  struct kset *kset_create_and_add(const char *name,
++				   struct kset_uevent_ops *u,
++				   struct kobject *parent);
++
++When you are finished with the kset, call::
++
++  void kset_unregister(struct kset *kset);
++
++to destroy it.  This removes the kset from sysfs and decrements its reference
++count.  When the reference count goes to zero, the kset will be released.
++Because other references to the kset may still exist, the release may happen
++after kset_unregister() returns.
++
++An example of using a kset can be seen in the
++``samples/kobject/kset-example.c`` file in the kernel tree.
++
++If a kset wishes to control the uevent operations of the kobjects
++associated with it, it can use the struct kset_uevent_ops to handle it::
++
++  struct kset_uevent_ops {
++        int (*filter)(struct kset *kset, struct kobject *kobj);
++        const char *(*name)(struct kset *kset, struct kobject *kobj);
++        int (*uevent)(struct kset *kset, struct kobject *kobj,
++                      struct kobj_uevent_env *env);
++  };
++
++
++The filter function allows a kset to prevent a uevent from being emitted to
++userspace for a specific kobject.  If the function returns 0, the uevent
++will not be emitted.
++
++The name function will be called to override the default name of the kset
++that the uevent sends to userspace.  By default, the name will be the same
++as the kset itself, but this function, if present, can override that name.
++
++The uevent function will be called when the uevent is about to be sent to
++userspace to allow more environment variables to be added to the uevent.
++
++One might ask how, exactly, a kobject is added to a kset, given that no
++functions which perform that function have been presented.  The answer is
++that this task is handled by kobject_add().  When a kobject is passed to
++kobject_add(), its kset member should point to the kset to which the
++kobject will belong.  kobject_add() will handle the rest.
++
++If the kobject belonging to a kset has no parent kobject set, it will be
++added to the kset's directory.  Not all members of a kset do necessarily
++live in the kset directory.  If an explicit parent kobject is assigned
++before the kobject is added, the kobject is registered with the kset, but
++added below the parent kobject.
++
++
++Kobject removal
++===============
++
++After a kobject has been registered with the kobject core successfully, it
++must be cleaned up when the code is finished with it.  To do that, call
++kobject_put().  By doing this, the kobject core will automatically clean up
++all of the memory allocated by this kobject.  If a ``KOBJ_ADD`` uevent has been
++sent for the object, a corresponding ``KOBJ_REMOVE`` uevent will be sent, and
++any other sysfs housekeeping will be handled for the caller properly.
++
++If you need to do a two-stage delete of the kobject (say you are not
++allowed to sleep when you need to destroy the object), then call
++kobject_del() which will unregister the kobject from sysfs.  This makes the
++kobject "invisible", but it is not cleaned up, and the reference count of
++the object is still the same.  At a later time call kobject_put() to finish
++the cleanup of the memory associated with the kobject.
++
++kobject_del() can be used to drop the reference to the parent object, if
++circular references are constructed.  It is valid in some cases, that a
++parent objects references a child.  Circular references _must_ be broken
++with an explicit call to kobject_del(), so that a release functions will be
++called, and the objects in the former circle release each other.
++
++
++Example code to copy from
++=========================
++
++For a more complete example of using ksets and kobjects properly, see the
++example programs ``samples/kobject/{kobject-example.c,kset-example.c}``,
++which will be built as loadable modules if you select ``CONFIG_SAMPLE_KOBJECT``.
+-- 
+2.25.0
+
