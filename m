@@ -6,96 +6,88 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E73D1C34047
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC77C34047
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:16:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C933E21D56
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:04:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2A28208C4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Feb 2020 17:16:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgBRREk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 12:04:40 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:35877 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726399AbgBRREk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 12:04:40 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 2C33D3C057C;
-        Tue, 18 Feb 2020 18:04:37 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OHopyV6qEM96; Tue, 18 Feb 2020 18:04:31 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5F1653C00C5;
-        Tue, 18 Feb 2020 18:04:31 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 18 Feb
- 2020 18:04:30 +0100
-Date:   Tue, 18 Feb 2020 18:04:27 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        id S1726546AbgBRRQ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 12:16:59 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:35770 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726475AbgBRRQ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 12:16:59 -0500
+Received: from callcc.thunk.org (guestnat-104-133-8-109.corp.google.com [104.133.8.109] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 01IHEs2F021040
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 18 Feb 2020 12:14:56 -0500
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id AF6994211EF; Tue, 18 Feb 2020 12:14:53 -0500 (EST)
+Date:   Tue, 18 Feb 2020 12:14:53 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Potapenko <glider@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v5 0/5] gpio: Add GPIO Aggregator
-Message-ID: <20200218170427.GA7423@lxhi-065.adit-jv.com>
-References: <20200218151812.7816-1-geert+renesas@glider.be>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/3] random: rng-seed source is utf-8
+Message-ID: <20200218171453.GE147128@mit.edu>
+References: <158166060044.9887.549561499483343724.stgit@devnote2>
+ <158166062748.9887.15284887096084339722.stgit@devnote2>
+ <CAL_Jsq+BDfWgGTVtppD-JEFHZRqpc00WaV2N7c6qsPBSaxOEPw@mail.gmail.com>
+ <20200214224744.GC439135@mit.edu>
+ <f15511bf-b840-0633-3354-506b7b0607fe@android.com>
+ <20200215005336.GD439135@mit.edu>
+ <243ab5a8-2ce1-1465-0175-3f5d483cbde1@android.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200218151812.7816-1-geert+renesas@glider.be>
-X-Originating-IP: [10.72.93.66]
+In-Reply-To: <243ab5a8-2ce1-1465-0175-3f5d483cbde1@android.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
+On Tue, Feb 18, 2020 at 08:01:51AM -0800, Mark Salyzyn wrote:
+> I am additionally concerned about add_bootloader_randomness() because it is
+> possible for it to sleep because of add_hwgenerator_randomness() as once it
+> hits the entropy threshold. As-is it can not be used inside start_kernel()
+> because the sleep would result in a kernel panic, and I suspect its use
+> inside early_init_dt_scan_chosen() for the commit "fdt: add support for
+> rng-seed" might also be problematic since it is effectively called
+> underneath start_kernel() is it not?
+> 
+> If add_bootloader_randomness was rewritten to call add_device_randomness()
+> always, and when trusted also called the functionality of the new
+> credit_trusted_entropy_bits (no longer needing to be exported if so), then
+> the function could be used in both start_kernel() and
+> early_init_dt_scan_chosen().
 
-On Tue, Feb 18, 2020 at 04:18:07PM +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> GPIO controllers are exported to userspace using /dev/gpiochip*
-> character devices.  Access control to these devices is provided by
-> standard UNIX file system permissions, on an all-or-nothing basis:
-> either a GPIO controller is accessible for a user, or it is not.
-> Currently no mechanism exists to control access to individual GPIOs.
-> 
-> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
-> them as a new gpiochip.  This is useful for implementing access control,
-> and assigning a set of GPIOs to a specific user.  Furthermore, this
-> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
-> can just grab the full GPIO controller, and no longer needs to care
-> about which GPIOs to grab and which not, reducing the attack surface.
-> 
-> Recently, other use cases have been discovered[1]:
->   - Describing simple GPIO-operated devices in DT, and using the GPIO
->     Aggregator as a generic GPIO driver for userspace, which is useful
->     for industrial control.
-> 
-> Changes compared to v4[2]:
->   - Add Reviewed-by, Tested-by,
->   - Fix inconsistent indentation in documentation.
+That's a good point, and it's a bug in add_bootloader_randomness().
+That should be easily fixed by simply having it call mix_pool_bytes()
+and credit_entropy_bits() directly.  I'll create a patch...
 
-I confirm that the diff between v4 and v5 comprises whitespace only.
-Thanks for your time to develop this useful functionality!
-
--- 
-Best Regards
-Eugeniu Rosca
+    			  	     	  	   - Ted
