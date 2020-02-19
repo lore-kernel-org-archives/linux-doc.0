@@ -2,270 +2,82 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA42EC34047
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 15:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 773D0C34047
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 15:38:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E20C24654
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 15:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CF4C2464E
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 15:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbgBSPfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 10:35:17 -0500
-Received: from 9.mo178.mail-out.ovh.net ([46.105.75.45]:35174 "EHLO
-        9.mo178.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726664AbgBSPfR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 10:35:17 -0500
-Received: from player739.ha.ovh.net (unknown [10.110.208.168])
-        by mo178.mail-out.ovh.net (Postfix) with ESMTP id 1CEDD8EB35
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2020 16:35:13 +0100 (CET)
-Received: from sk2.org (cre33-1_migr-88-122-126-116.fbx.proxad.net [88.122.126.116])
-        (Authenticated sender: steve@sk2.org)
-        by player739.ha.ovh.net (Postfix) with ESMTPSA id B14AEB8813C7;
-        Wed, 19 Feb 2020 15:35:00 +0000 (UTC)
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH v3] docs: add a script to check sysctl docs
-Date:   Wed, 19 Feb 2020 16:34:42 +0100
-Message-Id: <20200219153442.10205-1-steve@sk2.org>
-X-Mailer: git-send-email 2.20.1
+        id S1726766AbgBSPiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 10:38:03 -0500
+Received: from mga02.intel.com ([134.134.136.20]:31284 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726645AbgBSPiC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Feb 2020 10:38:02 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2020 07:38:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,461,1574150400"; 
+   d="scan'208";a="315421676"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga001.jf.intel.com with ESMTP; 19 Feb 2020 07:37:59 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1j4RQG-003KMF-NA; Wed, 19 Feb 2020 17:38:00 +0200
+Date:   Wed, 19 Feb 2020 17:38:00 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Tobin C . Harding" <me@tobin.cc>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] vsprintf: sanely handle NULL passed to %pe
+Message-ID: <20200219153800.GZ10400@smile.fi.intel.com>
+References: <CAHk-=wjEd-gZ1g52kgi_g8gq-QCF2E01TkQd5Hmj4W5aThLw3A@mail.gmail.com>
+ <20200219082155.6787-1-linux@rasmusvillemoes.dk>
+ <CAOi1vP-4=QCSZ2A89g1po2p=6n_g09SXUCa0_r2SBJm2greRmw@mail.gmail.com>
+ <0fef2a1f-9391-43a9-32d5-2788ae96c529@rasmusvillemoes.dk>
+ <20200219134826.qqdhy2z67ubsnr2m@pathway.suse.cz>
+ <5459eb50-48e2-2fd9-3560-0bc921e3678c@rasmusvillemoes.dk>
+ <20200219144558.2jbawr52qb63vysq@pathway.suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 6174716565579910533
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrkedtgdejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekkedruddvvddruddviedrudduieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200219144558.2jbawr52qb63vysq@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This script allows sysctl documentation to be checked against the
-kernel source code, to identify missing or obsolete entries. Running
-it against 5.5 shows for example that sysctl/kernel.rst has two
-obsolete entries and is missing 52 entries.
+On Wed, Feb 19, 2020 at 03:45:58PM +0100, Petr Mladek wrote:
+> On Wed 2020-02-19 14:56:32, Rasmus Villemoes wrote:
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
-Changes since v2:
-* drop UTF-8 characters
-* fix license identifier
-* fix example invocation to include path as well as table
+...
 
-v2 was the initial submission (in v2 of the sysctl/kernel.rst patch
-set).
----
- Documentation/admin-guide/sysctl/kernel.rst |   3 +
- scripts/check-sysctl-docs                   | 181 ++++++++++++++++++++
- 2 files changed, 184 insertions(+)
- create mode 100755 scripts/check-sysctl-docs
+> Sigh, I should have been more strict[*]. The function should have been
+> called err_ptr() and located right below null_pointer().
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 6fbfa497388a..ba4b51bb1f3e 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -2,6 +2,9 @@
- Documentation for /proc/sys/kernel/
- ===================================
- 
-+.. See scripts/check-sysctl-docs to keep this up to date
-+
-+
- Copyright (c) 1998, 1999,  Rik van Riel <riel@nl.linux.org>
- 
- Copyright (c) 2009,        Shen Feng<shen@cn.fujitsu.com>
-diff --git a/scripts/check-sysctl-docs b/scripts/check-sysctl-docs
-new file mode 100755
-index 000000000000..8bcb9e26c7bc
---- /dev/null
-+++ b/scripts/check-sysctl-docs
-@@ -0,0 +1,181 @@
-+#!/usr/bin/gawk -f
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# Script to check sysctl documentation against source files
-+#
-+# Copyright (c) 2020 Stephen Kitt
-+
-+# Example invocation:
-+#	scripts/check-sysctl-docs -vtable="kernel" \
-+#		Documentation/admin-guide/sysctl/kernel.rst \
-+#		$(git grep -l register_sysctl_)
-+#
-+# Specify -vdebug=1 to see debugging information
-+
-+BEGIN {
-+    if (!table) {
-+	print "Please specify the table to look for using the table variable" > "/dev/stderr"
-+	exit 1
-+    }
-+}
-+
-+# The following globals are used:
-+# children: maps ctl_table names and procnames to child ctl_table names
-+# documented: maps documented entries (each key is an entry)
-+# entries: maps ctl_table names and procnames to counts (so
-+#          enumerating the subkeys for a given ctl_table lists its
-+#          procnames)
-+# files: maps procnames to source file names
-+# paths: maps ctl_path names to paths
-+# curpath: the name of the current ctl_path struct
-+# curtable: the name of the current ctl_table struct
-+# curentry: the name of the current proc entry (procname when parsing
-+#           a ctl_table, constructed path when parsing a ctl_path)
-+
-+
-+# Remove punctuation from the given value
-+function trimpunct(value) {
-+    while (value ~ /^["&]/) {
-+	value = substr(value, 2)
-+    }
-+    while (value ~ /[]["&,}]$/) {
-+	value = substr(value, 1, length(value) - 1)
-+    }
-+    return value
-+}
-+
-+# Print the information for the given entry
-+function printentry(entry) {
-+    seen[entry]++
-+    printf "* %s from %s", entry, file[entry]
-+    if (documented[entry]) {
-+	printf " (documented)"
-+    }
-+    print ""
-+}
-+
-+
-+# Stage 1: build the list of documented entries
-+FNR == NR && /^=+$/ {
-+    if (prevline ~ /Documentation for/) {
-+	# This is the main title
-+	next
-+    }
-+
-+    # The previous line is a section title, parse it
-+    $0 = prevline
-+    if (debug) print "Parsing " $0
-+    inbrackets = 0
-+    for (i = 1; i <= NF; i++) {
-+	if (length($i) == 0) {
-+	    continue
-+	}
-+	if (!inbrackets && substr($i, 1, 1) == "(") {
-+	    inbrackets = 1
-+	}
-+	if (!inbrackets) {
-+	    token = trimpunct($i)
-+	    if (length(token) > 0 && token != "and") {
-+		if (debug) print trimpunct($i)
-+		documented[trimpunct($i)]++
-+	    }
-+	}
-+	if (inbrackets && substr($i, length($i), 1) == ")") {
-+	    inbrackets = 0
-+	}
-+    }
-+}
-+
-+FNR == NR {
-+    prevline = $0
-+    next
-+}
-+
-+
-+# Stage 2: process each file and find all sysctl tables
-+BEGINFILE {
-+    delete children
-+    delete entries
-+    delete paths
-+    curpath = ""
-+    curtable = ""
-+    curentry = ""
-+    if (debug) print "Processing file " FILENAME
-+}
-+
-+/^static struct ctl_path/ {
-+    match($0, /static struct ctl_path ([^][]+)/, tables)
-+    curpath = tables[1]
-+    if (debug) print "Processing path " curpath
-+}
-+
-+/^static struct ctl_table/ {
-+    match($0, /static struct ctl_table ([^][]+)/, tables)
-+    curtable = tables[1]
-+    if (debug) print "Processing table " curtable
-+}
-+
-+/^};$/ {
-+    curpath = ""
-+    curtable = ""
-+    curentry = ""
-+}
-+
-+curpath && /\.procname[\t ]*=[\t ]*".+"/ {
-+    match($0, /.procname[\t ]*=[\t ]*"([^"]+)"/, names)
-+    if (curentry) {
-+	curentry = curentry "/" names[1]
-+    } else {
-+	curentry = names[1]
-+    }
-+    if (debug) print "Setting path " curpath " to " curentry
-+    paths[curpath] = curentry
-+}
-+
-+curtable && /\.procname[\t ]*=[\t ]*".+"/ {
-+    match($0, /.procname[\t ]*=[\t ]*"([^"]+)"/, names)
-+    curentry = names[1]
-+    if (debug) print "Adding entry " curentry " to table " curtable
-+    entries[curtable][curentry]++
-+    file[curentry] = FILENAME
-+}
-+
-+/\.child[\t ]*=/ {
-+    child = trimpunct($NF)
-+    if (debug) print "Linking child " child " to table " curtable " entry " curentry
-+    children[curtable][curentry] = child
-+}
-+
-+/register_sysctl_table\(.*\)/ {
-+    match($0, /register_sysctl_table\(([^)]+)\)/, tables)
-+    if (debug) print "Registering table " tables[1]
-+    if (children[tables[1]][table]) {
-+	for (entry in entries[children[tables[1]][table]]) {
-+	    printentry(entry)
-+	}
-+    }
-+}
-+
-+/register_sysctl_paths\(.*\)/ {
-+    match($0, /register_sysctl_paths\(([^)]+), ([^)]+)\)/, tables)
-+    if (debug) print "Attaching table " tables[2] " to path " tables[1]
-+    if (paths[tables[1]] == table) {
-+	for (entry in entries[tables[2]]) {
-+	    printentry(entry)
-+	}
-+    }
-+    split(paths[tables[1]], components, "/")
-+    if (length(components) > 1 && components[1] == table) {
-+	# Count the first subdirectory as seen
-+	seen[components[2]]++
-+    }
-+}
-+
-+
-+END {
-+    for (entry in documented) {
-+	if (!seen[entry]) {
-+	    print "No implementation for " entry
-+	}
-+    }
-+}
+But taking above into consideration it should be rather error_pointer().
+No?
+
+> [*] I am still trying to find a right balance between preventing
+> nitpicking, bikeshedding, enforcing my style, and creating a mess.
+
 -- 
-2.20.1
+With Best Regards,
+Andy Shevchenko
+
 
