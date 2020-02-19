@@ -2,160 +2,138 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE3EC3404D
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 08:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29639C34050
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 08:42:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E8901208E4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 08:22:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="Cm0jHNzM"
+	by mail.kernel.org (Postfix) with ESMTP id 045D12465D
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 08:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbgBSIWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 03:22:01 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42070 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgBSIWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 03:22:01 -0500
-Received: by mail-lj1-f196.google.com with SMTP id d10so26086424ljl.9
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2020 00:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QocX4xe51J3RSXYlXcQqHwsZ0qHMm3/L1TgcBAZQ+18=;
-        b=Cm0jHNzMc1wmARq03auILfDgmxjx8hfusAXEN/NwWQEsQBIwbiehu3i/OXuo8MCUqe
-         UK01W2dHxUcersBp1PLHwu4XScDXkYvJIlowTtjV4wf9B4SqgLlTdsa/GHPJBOkJWcZb
-         1J85DJvKFxy3ico7+zzcsRRLWuyFpJxWZ0iz4=
+        id S1727561AbgBSIm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 03:42:27 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38480 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727513AbgBSImY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 03:42:24 -0500
+Received: by mail-oi1-f194.google.com with SMTP id r137so3474135oie.5;
+        Wed, 19 Feb 2020 00:42:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QocX4xe51J3RSXYlXcQqHwsZ0qHMm3/L1TgcBAZQ+18=;
-        b=s8hCx6suCmAjfZbUgCMoxKHh9BUr8WoK34GWQhWfs3AoFF4325dvHGxq4TKmkcY0im
-         5jWKb+TCjb/hn2uxceYiSitnwF/VVAoX5r5nyxSrlG+KNdyIv6jkxNZd7RsqwkfaADnB
-         KtrsvX7Ik/LjJ4ZssTAlK3QovPMUyObA9Pt6sOS3nwgYZbbiUl6e/LIppfxwyCf4qDkK
-         HQmVpctxIWsGzG2vtROnyHE1Pjn+ApsGWBvsuAbeVUJD8OLVir49Hp+C7DQ+uwXHKbE9
-         n1kCWgAhQeJAQPej1EzpsqcLyK9FCAgX0Od+RWhT9BBj2HXWHfZxLajF2+eRLJKdy6U1
-         Ycpw==
-X-Gm-Message-State: APjAAAV1c9UGhsrISFl/XQNf8lIxxVdC2xAptcM8FNzXNJrlZIiGWkgt
-        WU3i8uyJ+d7gP07sSLEFLnfmhg==
-X-Google-Smtp-Source: APXvYqzjQ7poQEj9Hw7Tcdbo3KnqE29g1euQ3vNK0hzI4uLgZ2V+I7OOd8vEE+X3k+9GXDA5rDXoMw==
-X-Received: by 2002:a2e:b68c:: with SMTP id l12mr14792534ljo.36.1582100519172;
-        Wed, 19 Feb 2020 00:21:59 -0800 (PST)
-Received: from prevas-ravi.prevas.se ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id s18sm821624ljj.36.2020.02.19.00.21.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 00:21:58 -0800 (PST)
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Ilya Dryomov <idryomov@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Tobin C . Harding" <me@tobin.cc>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] vsprintf: sanely handle NULL passed to %pe
-Date:   Wed, 19 Feb 2020 09:21:55 +0100
-Message-Id: <20200219082155.6787-1-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <CAHk-=wjEd-gZ1g52kgi_g8gq-QCF2E01TkQd5Hmj4W5aThLw3A@mail.gmail.com>
-References: 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gcGrTtSZqo75NtjJJ7mVC6SXcJFXr8kJ31jQXw/H/KQ=;
+        b=NyWvCZmb/ZhQuWuhTB6KcDNc6/NifMcxvCzFi0KeeNpo0KBdzXEhQNeRpwWFBTW+SC
+         rr/KEcuzwVkx+DZroLcnUPZlftpDYzmEwoyLK7Ci8+auP4LXhAYfJdivbjnL54fj+ylx
+         MYbzSc9FhXx+Ud98tw3fVOEoOs/0otB0ClAD4e72BBj8GT12tW1OQfaaLmV3wXsYMKOX
+         l0PGGeKwEYZX+jTqbZI1X58F6KWkGHOH8fYbUn5dXUXK/BcNIni9sn+wHVC6wXXfDQ9A
+         3ESbxREPl1rg2EZoYspUTbzaixSlXtTVrG8xzptprJxz67x92Fmc8chfJwvvpLFlCch7
+         XlrQ==
+X-Gm-Message-State: APjAAAW6V1G0Jt5ZOJT8M5ZhB+SAfegdtKIjFlzxZg6TB18GYS9szwYW
+        O6t3gkH94OzOBRCIzt1oahXAURv6gHNI8JWkJ0knDkV4
+X-Google-Smtp-Source: APXvYqwXN+JTU40xx/WiTO9R063gRnVxxMUOM08YTvRovwTavoMCLPf3oKtDrBoe6c7DGxqkQRQZoNf+fGvgE1SDjlw=
+X-Received: by 2002:aca:1a06:: with SMTP id a6mr3748069oia.148.1582101742559;
+ Wed, 19 Feb 2020 00:42:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200219074950.23344-1-masahiroy@kernel.org>
+In-Reply-To: <20200219074950.23344-1-masahiroy@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 19 Feb 2020 09:42:10 +0100
+Message-ID: <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        John Stultz <john.stultz@linaro.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Mark Brown <broonie@kernel.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend %pe to pretty-print NULL in addition to ERR_PTRs,
-i.e. everything IS_ERR_OR_NULL().
+Hi Yamada-san,
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
-Something like this? The actual code change is +2,-1 with another +1
-for a test case.
+On Wed, Feb 19, 2020 at 8:51 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> The 'imply' statement may create unmet direct dependency when the
+> implied symbol depends on m.
+>
+> [Test Code]
+>
+>   config FOO
+>           tristate "foo"
+>           imply BAZ
+>
+>   config BAZ
+>           tristate "baz"
+>           depends on BAR
+>
+>   config BAR
+>           def_tristate m
+>
+>   config MODULES
+>           def_bool y
+>           option modules
+>
+> If you set FOO=y, BAZ is also promoted to y, which results in the
+> following .config file:
+>
+>   CONFIG_FOO=y
+>   CONFIG_BAZ=y
+>   CONFIG_BAR=m
+>   CONFIG_MODULES=y
+>
+> This ignores the dependency "BAZ depends on BAR".
+>
+> Unlike 'select', what is worse, Kconfig never shows the
+> "WARNING: unmet direct dependencies detected for ..." for this case.
+>
+> Because 'imply' should be weaker than 'depends on', Kconfig should
+> take the direct dependency into account.
+>
+> Describe this case in Documentation/kbuild/kconfig-language.rst for
+> clarification.
+>
+> Commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword") says that
+> a symbol implied by y is restricted to y or n, excluding m.
+>
+> As for the combination of FOO=y and BAR=m, the case of BAZ=m is excluded
+> by the 'imply', and BAZ=y is also excluded by 'depends on'. So, only the
+> possible value is BAZ=n.
+>
+> Having said that, this case was probably "We don't care" at that time
+> because Kconfig did not handle 'depends on m' correctly until
+> commit f622f8279581 ("kconfig: warn unmet direct dependency of tristate
+> symbols selected by y") fixed it.
+>
+> Backporting this to 4.19+ will probably be fine. If you care this
+> problem on 4.14.x, you need to backport f622f8279581 as well.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
- Documentation/core-api/printk-formats.rst | 9 +++++----
- lib/errname.c                             | 4 ++++
- lib/test_printf.c                         | 1 +
- lib/vsprintf.c                            | 4 ++--
- 4 files changed, 12 insertions(+), 6 deletions(-)
+Thanks a lot! This fixes the build issues in
+https://lore.kernel.org/alsa-devel/CAMuHMdW8SvDgQJyenTtEm4Xn2Ma6PK9pfwKR2_gn60t2AqNWXg@mail.gmail.com/
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 8ebe46b1af39..964b55291445 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -86,10 +86,11 @@ Error Pointers
- 
- 	%pe	-ENOSPC
- 
--For printing error pointers (i.e. a pointer for which IS_ERR() is true)
--as a symbolic error name. Error values for which no symbolic name is
--known are printed in decimal, while a non-ERR_PTR passed as the
--argument to %pe gets treated as ordinary %p.
-+For printing error pointers (i.e. a pointer for which IS_ERR() is
-+true) as a symbolic error name. Error values for which no symbolic
-+name is known are printed in decimal. A NULL pointer is printed as
-+NULL. All other pointer values (i.e. anything !IS_ERR_OR_NULL()) get
-+treated as ordinary %p.
- 
- Symbols/Function Pointers
- -------------------------
-diff --git a/lib/errname.c b/lib/errname.c
-index 0c4d3e66170e..7757bc00f564 100644
---- a/lib/errname.c
-+++ b/lib/errname.c
-@@ -11,9 +11,13 @@
-  * allocated errnos (with EHWPOISON = 257 on parisc, and EDQUOT = 1133
-  * on mips), so this wastes a bit of space on those - though we
-  * special case the EDQUOT case.
-+ *
-+ * For the benefit of %pe being able to print any ERR_OR_NULL pointer
-+ * symbolically, 0 is also treated specially.
-  */
- #define E(err) [err + BUILD_BUG_ON_ZERO(err <= 0 || err > 300)] = "-" #err
- static const char *names_0[] = {
-+	[0] = "NULL",
- 	E(E2BIG),
- 	E(EACCES),
- 	E(EADDRINUSE),
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 2d9f520d2f27..3a37d0e9e735 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -641,6 +641,7 @@ errptr(void)
- 	test("[-EIO    ]", "[%-8pe]", ERR_PTR(-EIO));
- 	test("[    -EIO]", "[%8pe]", ERR_PTR(-EIO));
- 	test("-EPROBE_DEFER", "%pe", ERR_PTR(-EPROBE_DEFER));
-+	test("[NULL]", "[%pe]", NULL);
- #endif
- }
- 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 7c488a1ce318..b7118d78eb20 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -2247,8 +2247,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
- 	case 'x':
- 		return pointer_string(buf, end, ptr, spec);
- 	case 'e':
--		/* %pe with a non-ERR_PTR gets treated as plain %p */
--		if (!IS_ERR(ptr))
-+		/* %pe with a non-ERR_OR_NULL ptr gets treated as plain %p */
-+		if (!IS_ERR_OR_NULL(ptr))
- 			break;
- 		return err_ptr(buf, end, ptr, spec);
- 	}
+Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.23.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
