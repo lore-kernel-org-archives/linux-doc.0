@@ -2,199 +2,98 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD6AC3404E
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 07:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3989FC34022
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 07:54:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 00D6121D56
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 07:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582098706;
-	bh=AuiuY44Grg31bHYi1FEZ+W1LLV8zMJGA8HVNelAlbK4=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=MYC0I3qPPnz4z1y96rZyjgBPKrkozWiyU/o98KB9YqPh6J1fZkfTaXyvKeAtlItfy
-	 vPQX/pmWiCIwZZ30VjQsn+LpFDTKSr1AghnD6HcVqCuKpUI0p6mKsd6zEzaznb4Laq
-	 UeCZ1E//Q7gXZf6vC0dpY4Pnz8UnCZSKDApmgme4=
+	by mail.kernel.org (Postfix) with ESMTP id 0B00921D56
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 07:54:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726764AbgBSHvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 02:51:42 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:34486 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726664AbgBSHvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 02:51:42 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 01J7oBm0008413;
-        Wed, 19 Feb 2020 16:50:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 01J7oBm0008413
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582098613;
-        bh=CmAkppl+SFFJV1RkBUsjbfUnoQtSHwVJbJtqBWpmqgs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=s4e2LiFvAWd7foi/qebZk1ywEQ32xF0d+kOi1DjnzKKpbe5UQLKkqw8c8vcHIFVlp
-         lN9rLpbyNAz2hdK5TVf4/kPse1mIRuW7/r0JjIi8EKBwdzwz2/Ne+VQHKcSyJcsz/A
-         17B8wd1IgKZvBL93419ZmZ1AjXGE0MY3haxcK0inoJAiAanJ0fGTzU34btlV+8lfyM
-         YWjBxDtVvxQG79sgxvqeW/SggmrC5b5cvAb0Ky0qc/hQobueIL2XcHq6Q25Hkcr24l
-         d11ENJQGH8SZaTFxsN61gaZotxPiAEueW+6KYAxDrh+MvlI8lAmaYIkqTyuflr7tFt
-         1zDTvo1+NMmDA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
-        Richard Cochran <richardcochran@gmail.com>,
+        id S1726195AbgBSHyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 02:54:45 -0500
+Received: from mga07.intel.com ([134.134.136.100]:6491 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726156AbgBSHyp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Feb 2020 02:54:45 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Feb 2020 23:54:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,459,1574150400"; 
+   d="scan'208";a="436148633"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Feb 2020 23:54:42 -0800
+Received: from [10.125.252.130] (abudanko-mobl.ccr.corp.intel.com [10.125.252.130])
+        by linux.intel.com (Postfix) with ESMTP id 40E9A580270;
+        Tue, 18 Feb 2020 23:54:36 -0800 (PST)
+Subject: Re: [PATCH v7 01/12] capabilities: introduce CAP_PERFMON to kernel
+ and user space
+To:     James Morris <jmorris@namei.org>
+Cc:     Serge Hallyn <serge@hallyn.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Helge Deller <deller@gmx.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        John Stultz <john.stultz@linaro.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Mark Brown <broonie@kernel.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: make 'imply' obey the direct dependency
-Date:   Wed, 19 Feb 2020 16:49:50 +0900
-Message-Id: <20200219074950.23344-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        oprofile-list@lists.sf.net,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+References: <c8de937a-0b3a-7147-f5ef-69f467e87a13@linux.intel.com>
+ <f56fbb5c-1477-44d5-7346-85a1ca0869dc@linux.intel.com>
+ <alpine.LRH.2.21.2002190621180.10165@namei.org>
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <4664bbc7-e4ef-5d6e-7f71-96e5567fcf60@linux.intel.com>
+Date:   Wed, 19 Feb 2020 10:54:35 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LRH.2.21.2002190621180.10165@namei.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 'imply' statement may create unmet direct dependency when the
-implied symbol depends on m.
 
-[Test Code]
+On 18.02.2020 22:21, James Morris wrote:
+> On Mon, 17 Feb 2020, Alexey Budankov wrote:
+> 
+>>
+>> Introduce CAP_PERFMON capability designed to secure system performance
+>> monitoring and observability operations so that CAP_PERFMON would assist
+>> CAP_SYS_ADMIN capability in its governing role for performance
+>> monitoring and observability subsystems.
+> 
+> 
+> Acked-by: James Morris <jamorris@linux.microsoft.com>
 
-  config FOO
-          tristate "foo"
-          imply BAZ
+Thanks James! 
+I appreciate your involvement and collaboration 
+w.r.t to the whole patch set.
 
-  config BAZ
-          tristate "baz"
-          depends on BAR
-
-  config BAR
-          def_tristate m
-
-  config MODULES
-          def_bool y
-          option modules
-
-If you set FOO=y, BAZ is also promoted to y, which results in the
-following .config file:
-
-  CONFIG_FOO=y
-  CONFIG_BAZ=y
-  CONFIG_BAR=m
-  CONFIG_MODULES=y
-
-This ignores the dependency "BAZ depends on BAR".
-
-Unlike 'select', what is worse, Kconfig never shows the
-"WARNING: unmet direct dependencies detected for ..." for this case.
-
-Because 'imply' should be weaker than 'depends on', Kconfig should
-take the direct dependency into account.
-
-Describe this case in Documentation/kbuild/kconfig-language.rst for
-clarification.
-
-Commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword") says that
-a symbol implied by y is restricted to y or n, excluding m.
-
-As for the combination of FOO=y and BAR=m, the case of BAZ=m is excluded
-by the 'imply', and BAZ=y is also excluded by 'depends on'. So, only the
-possible value is BAZ=n.
-
-Having said that, this case was probably "We don't care" at that time
-because Kconfig did not handle 'depends on m' correctly until
-commit f622f8279581 ("kconfig: warn unmet direct dependency of tristate
-symbols selected by y") fixed it.
-
-Backporting this to 4.19+ will probably be fine. If you care this
-problem on 4.14.x, you need to backport f622f8279581 as well.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/kconfig-language.rst |  7 +++++--
- scripts/kconfig/symbol.c                  | 17 +++++++++++++----
- 2 files changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index d0111dd26410..9141f03ff744 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -159,11 +159,11 @@ applicable everywhere (see syntax).
-   Given the following example::
- 
-     config FOO
--	tristate
-+	tristate "foo"
- 	imply BAZ
- 
-     config BAZ
--	tristate
-+	tristate "baz"
- 	depends on BAR
- 
-   The following values are possible:
-@@ -174,6 +174,9 @@ applicable everywhere (see syntax).
- 	n		y		n		N/m/y
- 	m		y		m		M/y/n
- 	y		y		y		Y/n
-+	n		m		n		N/m
-+	m		m		m		M/n
-+	y		m		n		N
- 	y		n		*		N
- 	===		===		=============	==============
- 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8d38b700b314..6100e6ead8ad 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -221,7 +221,7 @@ static void sym_calc_visibility(struct symbol *sym)
- 		sym_set_changed(sym);
- 	}
- 	tri = no;
--	if (sym->implied.expr && sym->dir_dep.tri != no)
-+	if (sym->implied.expr)
- 		tri = expr_calc_value(sym->implied.expr);
- 	if (tri == mod && sym_get_type(sym) == S_BOOLEAN)
- 		tri = yes;
-@@ -393,7 +393,17 @@ void sym_calc_value(struct symbol *sym)
- 				}
- 				if (sym->implied.tri != no) {
- 					sym->flags |= SYMBOL_WRITE;
--					newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
-+					newval.tri = EXPR_OR(newval.tri,
-+							     sym->implied.tri);
-+					newval.tri = EXPR_AND(newval.tri,
-+							      sym->dir_dep.tri);
-+
-+					if (newval.tri == mod && sym->implied.tri == yes) {
-+						if (sym->dir_dep.tri == yes)
-+							newval.tri = yes;
-+						else
-+							newval.tri = no;
-+					}
- 				}
- 			}
- 		calc_newval:
-@@ -401,8 +411,7 @@ void sym_calc_value(struct symbol *sym)
- 				sym_warn_unmet_dep(sym);
- 			newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
- 		}
--		if (newval.tri == mod &&
--		    (sym_get_type(sym) == S_BOOLEAN || sym->implied.tri == yes))
-+		if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
- 			newval.tri = yes;
- 		break;
- 	case S_STRING:
--- 
-2.17.1
-
+Gratefully,
+Alexey
