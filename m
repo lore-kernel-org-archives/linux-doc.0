@@ -6,236 +6,164 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0D7C34047
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 09:54:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC167C3404D
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 10:17:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 502E021D56
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 09:54:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F924207FD
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 10:17:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgBSJyP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 04:54:15 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40960 "EHLO
+        id S1726682AbgBSKRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 05:17:12 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45111 "EHLO
         mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbgBSJyO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 04:54:14 -0500
-Received: by mail-ot1-f66.google.com with SMTP id r27so22501090otc.8;
-        Wed, 19 Feb 2020 01:54:13 -0800 (PST)
+        with ESMTP id S1726210AbgBSKRM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 05:17:12 -0500
+Received: by mail-ot1-f66.google.com with SMTP id 59so22599722otp.12;
+        Wed, 19 Feb 2020 02:17:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+Bwu5MvltkUCeRO6er5fMDfuqToYZYnvunzcK/Xsz8w=;
-        b=GipGYnlpTXfmKu7qfmhDTY3idobdA8zsr75Pls5mhIOG2NgwC81J+DvqBpItncaLNf
-         jaG0UrnWYRhlr5gW9gctnYEO1Q4XahLC7uMe2KOAZinYIiwaNkxECUkEJ1Btv3Zd5GYu
-         3KJLHblGdFqK9lxNwx9vGtVlvct1vOO2dWGMMmtXMr8wEAkJq+15jw96TWh8pK8kJCcW
-         yOdBWAbQa4cVuoKoqlXq/y3KqssiWL9HUFAxv9KCJhpA/6A5QmdsQftg3HNqanXs+7jd
-         uZuLoEsl7qQU5LQvcGp6s5D8rEFRtLA0oxnvDkz2Tz23yT/LcxdtxcF1b/gCR4RUSGxX
-         4p8A==
-X-Gm-Message-State: APjAAAXr1XuIvwT4w+9JUA+KFZwC0+ukMOIFLUf6RnyfsbsRbvuhSClT
-        VZzlHPxztOU3mvmirHgOlvS7m6Y0YoymkaGQYWc=
-X-Google-Smtp-Source: APXvYqzhFpH5yv+pwpfRXrH0llwuXSBHn72PI0fYAG3+XUnu4MPJ7Jwpc2zSdUW9NS/fDFpYU1Crl8Xj9Aev933ISaQ=
-X-Received: by 2002:a9d:7602:: with SMTP id k2mr19153780otl.39.1582106053391;
- Wed, 19 Feb 2020 01:54:13 -0800 (PST)
+        bh=GJAqVwXdCZXPTne0AiTX4Fk1uxObKIcjDphAbJJ660k=;
+        b=q2Gzjl9HuMen1wCAAI9CmaFnjtFH+hhjKyFKWC1FHFAG2fuRnJWJ3dc36IiZGTliii
+         Qr5swYw5AAwaJR/VoF6Ib9ahaWgnWDW27pc5C4WrE8CZTW3EwORywr/6rMK5/r1bamnz
+         hfxVSh4nWn6MACSaO3MKLLedDWhsNKUiwObN0L+ePjA3th5X8MAQp5IuSAIupNTNgA5x
+         r50XSXQjL/Pe+kVnj+F61TClq5HLlfv+uIFmcxAGI3hOWzWVCHzBFQQVEMA2essz/HC/
+         fG9sEjVUjl0ilb2w93Du2sxLt+H0iBgjt7XUIZY+HlYD4uuisrGdYqZ9Yo/wF3Z6O7px
+         SqmQ==
+X-Gm-Message-State: APjAAAV8nxCB3RI1PNqrBtwTDHirbqBY9vaE2CzT3aylLYZNF61rFm26
+        zYWCkPTQ+wBmCwipf20hAPLEG7UtWRbety8E8es=
+X-Google-Smtp-Source: APXvYqzZrdQJH/Cfn4il9kL1X9oAi45ce4JPx5PKjIVPqq1ze44X+v1H30gqpKR+Zhq1zOgAfO3sVmnLElkeTuTigJI=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr4220978otk.145.1582107430981;
+ Wed, 19 Feb 2020 02:17:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20200219074950.23344-1-masahiroy@kernel.org> <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
- <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com>
-In-Reply-To: <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com>
+References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-3-geert+renesas@glider.be>
+In-Reply-To: <20200218151812.7816-3-geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 19 Feb 2020 10:54:02 +0100
-Message-ID: <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        John Stultz <john.stultz@linaro.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Mark Brown <broonie@kernel.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
+Date:   Wed, 19 Feb 2020 11:17:00 +0100
+Message-ID: <CAMuHMdVzkN5c1P3=xD5BzC=R-O8fWJfMRdDtWxcTLO0TUy5n1Q@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] gpiolib: Add support for GPIO line table lookup
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yamada-san,
+On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Currently GPIOs can only be referred to by GPIO controller and offset in
+> GPIO lookup tables.
+>
+> Add support for looking them up by line name.
+> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
+> that this field can have two meanings, and update the kerneldoc and
+> GPIO_LOOKUP*() macros.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-On Wed, Feb 19, 2020 at 10:24 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> On Wed, Feb 19, 2020 at 5:42 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Wed, Feb 19, 2020 at 8:51 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > The 'imply' statement may create unmet direct dependency when the
-> > > implied symbol depends on m.
-> > >
-> > > [Test Code]
-> > >
-> > >   config FOO
-> > >           tristate "foo"
-> > >           imply BAZ
-> > >
-> > >   config BAZ
-> > >           tristate "baz"
-> > >           depends on BAR
-> > >
-> > >   config BAR
-> > >           def_tristate m
-> > >
-> > >   config MODULES
-> > >           def_bool y
-> > >           option modules
-> > >
-> > > If you set FOO=y, BAZ is also promoted to y, which results in the
-> > > following .config file:
-> > >
-> > >   CONFIG_FOO=y
-> > >   CONFIG_BAZ=y
-> > >   CONFIG_BAR=m
-> > >   CONFIG_MODULES=y
-> > >
-> > > This ignores the dependency "BAZ depends on BAR".
-> > >
-> > > Unlike 'select', what is worse, Kconfig never shows the
-> > > "WARNING: unmet direct dependencies detected for ..." for this case.
-> > >
-> > > Because 'imply' should be weaker than 'depends on', Kconfig should
-> > > take the direct dependency into account.
-> > >
-> > > Describe this case in Documentation/kbuild/kconfig-language.rst for
-> > > clarification.
-> > >
-> > > Commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword") says that
-> > > a symbol implied by y is restricted to y or n, excluding m.
-> > >
-> > > As for the combination of FOO=y and BAR=m, the case of BAZ=m is excluded
-> > > by the 'imply', and BAZ=y is also excluded by 'depends on'. So, only the
-> > > possible value is BAZ=n.
-> > >
-> > > Having said that, this case was probably "We don't care" at that time
-> > > because Kconfig did not handle 'depends on m' correctly until
-> > > commit f622f8279581 ("kconfig: warn unmet direct dependency of tristate
-> > > symbols selected by y") fixed it.
-> > >
-> > > Backporting this to 4.19+ will probably be fine. If you care this
-> > > problem on 4.14.x, you need to backport f622f8279581 as well.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >
-> > Thanks a lot! This fixes the build issues in
-> > https://lore.kernel.org/alsa-devel/CAMuHMdW8SvDgQJyenTtEm4Xn2Ma6PK9pfwKR2_gn60t2AqNWXg@mail.gmail.com/
-> >
-> > Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> --- a/include/linux/gpio/machine.h
+> +++ b/include/linux/gpio/machine.h
+> @@ -20,8 +20,9 @@ enum gpio_lookup_flags {
 >
-> Even if this patch fixes the build issues,
-> the result may not be what you expect.
->
-> The very subtle part of 'imply' is that
-> symbols implied by 'y' cannot be 'm'.
->
-> When CONFIG_SND_SOC_ALL_CODECS=y,
-> the select'ed drivers were previously able to be 'm'.
->
-> After ea00d95200d02, drivers that were previously
-> 'm' are now 'n'.
->
-> Probably, it shrunk the test-coverage.
->
-> I'd recommend to compare the .config file.
+>  /**
+>   * struct gpiod_lookup - lookup table
+> - * @chip_label: name of the chip the GPIO belongs to
+> - * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO
+> + * @key: either the name of the chip the GPIO belongs to, or the GPIO line name
+> + * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO, or
+> + *              U16_MAX to indicate that @key is a GPIO line name
+>   * @con_id: name of the GPIO from the device's point of view
+>   * @idx: index of the GPIO in case several GPIOs share the same name
+>   * @flags: bitmask of gpio_lookup_flags GPIO_* values
+> @@ -30,7 +31,7 @@ enum gpio_lookup_flags {
+>   * functions using platform data.
+>   */
+>  struct gpiod_lookup {
+> -       const char *chip_label;
+> +       const char *key;
+>         u16 chip_hwnum;
+>         const char *con_id;
+>         unsigned int idx;
 
-I always do, when running make oldconfig ;-)
+This needs an update in the documentation:
 
-I only see expected changes from y to m.
-I don't see any unexpected changes from m to n.
-I do see a few unexpected "CONFIG_<foo> is not set" that are no longer
-suppressed.
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -113,13 +113,15 @@ files that desire to do so need to include the
+following header::
+ GPIOs are mapped by the means of tables of lookups, containing instances of the
+ gpiod_lookup structure. Two macros are defined to help declaring such
+mappings::
 
---- .config.orig        2020-02-19 09:26:41.411812042 +0100
-+++ .config     2020-02-19 09:28:05.143822097 +0100
-@@ -1193,7 +1193,7 @@
- CONFIG_REGMAP=y
- CONFIG_REGMAP_AC97=y
- CONFIG_REGMAP_I2C=y
--CONFIG_REGMAP_SLIMBUS=y
-+CONFIG_REGMAP_SLIMBUS=m
- CONFIG_REGMAP_SPI=y
- CONFIG_REGMAP_MMIO=y
- CONFIG_REGMAP_IRQ=y
-@@ -5235,7 +5235,7 @@
- CONFIG_SND_SOC_UDA1334=y
- CONFIG_SND_SOC_UDA134X=y
- CONFIG_SND_SOC_UDA1380=y
- CONFIG_SND_SOC_WCD934X=m
- CONFIG_SND_SOC_WL1273=y
- CONFIG_SND_SOC_WM0010=y
-@@ -5017,6 +5017,7 @@
- CONFIG_SND_SOC_ARIZONA=y
- CONFIG_SND_SOC_WM_HUBS=y
- CONFIG_SND_SOC_WM_ADSP=y
-+# CONFIG_SND_SOC_AB8500_CODEC is not set
- CONFIG_SND_SOC_AC97_CODEC=y
- CONFIG_SND_SOC_AD1836=y
- CONFIG_SND_SOC_AD193X=y
-@@ -5085,6 +5086,7 @@
- CONFIG_SND_SOC_CS4341=y
- CONFIG_SND_SOC_CS4349=y
- CONFIG_SND_SOC_CS47L15=y
-+# CONFIG_SND_SOC_CS47L24 is not set
- CONFIG_SND_SOC_CS47L35=y
- CONFIG_SND_SOC_CS47L85=y
- CONFIG_SND_SOC_CS47L90=y
-@@ -5117,6 +5119,7 @@
- CONFIG_SND_SOC_INNO_RK3036=y
- CONFIG_SND_SOC_ISABELLE=y
- CONFIG_SND_SOC_LM49453=y
-+# CONFIG_SND_SOC_LOCHNAGAR_SC is not set
- CONFIG_SND_SOC_MADERA=y
- CONFIG_SND_SOC_MAX98088=y
- CONFIG_SND_SOC_MAX98090=y
-@@ -5228,11 +5231,12 @@
- CONFIG_SND_SOC_TSCS42XX=y
- CONFIG_SND_SOC_TSCS454=y
- CONFIG_SND_SOC_TWL4030=y
-+# CONFIG_SND_SOC_TWL6040 is not set
- CONFIG_SND_SOC_UDA1334=y
- CONFIG_SND_SOC_UDA134X=y
- CONFIG_SND_SOC_UDA1380=y
--CONFIG_SND_SOC_WCD9335=y
--CONFIG_SND_SOC_WCD934X=y
-+CONFIG_SND_SOC_WCD9335=m
-+CONFIG_SND_SOC_WCD934X=m
- CONFIG_SND_SOC_WL1273=y
- CONFIG_SND_SOC_WM0010=y
- CONFIG_SND_SOC_WM1250_EV1=y
-@@ -5241,6 +5245,8 @@
- CONFIG_SND_SOC_WM5100=y
- CONFIG_SND_SOC_WM5102=m
- CONFIG_SND_SOC_WM5110=y
-+# CONFIG_SND_SOC_WM8350 is not set
-+# CONFIG_SND_SOC_WM8400 is not set
- CONFIG_SND_SOC_WM8510=y
- CONFIG_SND_SOC_WM8523=y
- CONFIG_SND_SOC_WM8524=y
-@@ -5293,7 +5299,7 @@
- CONFIG_SND_SOC_MAX9768=y
- CONFIG_SND_SOC_MAX9877=y
- # CONFIG_SND_SOC_DUMMY is not set
--CONFIG_SND_SOC_MC13783=y
-+CONFIG_SND_SOC_MC13783=m
- CONFIG_SND_SOC_ML26124=y
- CONFIG_SND_SOC_MT6351=y
- CONFIG_SND_SOC_MT6358=y
-@@ -5899,6 +5905,7 @@
- # CONFIG_COMMON_CLK_MT8516 is not set
- # end of Clock driver for MediaTek SoC
+-       GPIO_LOOKUP(chip_label, chip_hwnum, con_id, flags)
+-       GPIO_LOOKUP_IDX(chip_label, chip_hwnum, con_id, idx, flags)
++       GPIO_LOOKUP(key, chip_hwnum, con_id, flags)
++       GPIO_LOOKUP_IDX(key, chip_hwnum, con_id, idx, flags)
 
-+# CONFIG_COMMON_CLK_AXG_AUDIO is not set
- CONFIG_QCOM_GDSC=y
- CONFIG_COMMON_CLK_QCOM=m
- CONFIG_QCOM_A53PLL=m
+ where
+
+-  - chip_label is the label of the gpiod_chip instance providing the GPIO
+-  - chip_hwnum is the hardware number of the GPIO within the chip
++  - key is either the label of the gpiod_chip instance providing the GPIO, or
++    the GPIO line name
++  - chip_hwnum is the hardware number of the GPIO within the chip, or U16_MAX
++    to indicate that key is a GPIO line name
+   - con_id is the name of the GPIO function from the device point of view. It
+        can be NULL, in which case it will match any function.
+   - idx is the index of the GPIO within the function.
+
+
+Furthermore, a few drivers populate the gpiod_lookup members directly,
+instead of using the convenience macros:
+
+    arch/arm/mach-integrator/impd1.c
+    drivers/i2c/busses/i2c-i801.c
+    drivers/mfd/sm501.c
+
+Either they have to be updated s/chip_label/key/, or start using the macros,
+e.g.
+
+--- a/drivers/i2c/busses/i2c-i801.c
++++ b/drivers/i2c/busses/i2c-i801.c
+@@ -1444,9 +1444,9 @@ static int i801_add_mux(struct i801_priv *priv)
+                return -ENOMEM;
+        lookup->dev_id = "i2c-mux-gpio";
+        for (i = 0; i < mux_config->n_gpios; i++) {
+-               lookup->table[i].chip_label = mux_config->gpio_chip;
+-               lookup->table[i].chip_hwnum = mux_config->gpios[i];
+-               lookup->table[i].con_id = "mux";
++               lookup->table[i] = (struct gpiod_lookup)
++                       GPIO_LOOKUP(mux_config->gpio_chip,
++                                   mux_config->gpios[i], "mux", 0);
+        }
+        gpiod_add_lookup_table(lookup);
+        priv->lookup = lookup;
+
+Do you have any preference?
+Thanks!
 
 Gr{oetje,eeting}s,
 
