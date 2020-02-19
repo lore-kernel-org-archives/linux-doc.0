@@ -2,112 +2,92 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 779FEC34031
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 01:12:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 124DAC34031
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 01:15:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5446724656
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 01:12:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF67E24656
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 01:15:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582074957;
+	bh=dgqtIWD0L8ScdXh2q1SSLy1IjtKo/3HQUJh/ytmk58w=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=GC/kBh9krkuLNcjrL4w9FDh4V7Df7prXHqIixjvZyHN/mzu7XlHaUEk8KMh1Se5zd
+	 /gznN/VBvXUOGYsH75ODeAVgeIxJuvfTghfDmhHHWI/Lc3IuBBZl73oK+ME8fU3izG
+	 TE8toNNrOkapD2fy9Tth5x2/M+COh2dJi9LxUiXg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726863AbgBSBMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Feb 2020 20:12:49 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:46063 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726757AbgBSBMt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 20:12:49 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07472768|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.264101-0.0159969-0.719902;DS=SPAM|spam_other|0.930438-0.00178347-0.0677784;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03310;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.GpVrOsg_1582074763;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.GpVrOsg_1582074763)
-          by smtp.aliyun-inc.com(10.147.40.44);
-          Wed, 19 Feb 2020 09:12:44 +0800
-Subject: Re: [PATCH v2 11/11] mtd: new support oops logger based on pstore/blk
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
+        id S1726922AbgBSBPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Feb 2020 20:15:54 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:49770 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726757AbgBSBPy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Feb 2020 20:15:54 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 01J1FOWs024252;
+        Wed, 19 Feb 2020 10:15:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 01J1FOWs024252
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1582074924;
+        bh=x5q5ov7Cw9u4udBCfk7SDYEcaEVCvCFCUa560+L2gIs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eF5b7/rIckmhO2sOvwLQL9BB6SHnKop2wzh2JAeGOq/pgEGJcaJ3/Borx/3jcbezx
+         WMcIWG7EYsk74t+c3W3gf4SjFOFpEFYtjT/wvunZBZSW35zCQl4yTq7naU1LcOZJw+
+         J5y+3WDYgKwmxQmiQQMwXVKWwfx5sMVI06zs+bt/VV3XukBUZhxfizVgx67si5LoTe
+         8A8Jhqqo2DIjfNak/lVGGvUGcAh/uyDQmoNQ7q1CgVQnGcx0JLjlNnvXMMqhzM11kw
+         OntSOjubpo8yhLemFkY/5r9asuS0UxgGCGAJCV2cIAbasEXctcuZG4jtcXnNt/44Uw
+         uwHjJkrHXA8AA==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-12-git-send-email-liaoweixiong@allwinnertech.com>
- <20200218113449.5ac44955@xps13>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <5e95d596-3ba1-09e6-1777-007a5257f1cc@allwinnertech.com>
-Date:   Wed, 19 Feb 2020 09:13:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20200218113449.5ac44955@xps13>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove wrong documentation about mandatory-y
+Date:   Wed, 19 Feb 2020 10:15:19 +0900
+Message-Id: <20200219011519.22148-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hi Miquel Raynal,
+This sentence does not make sense in the section about mandatory-y.
 
-On 2020/2/18 下午6:34, Miquel Raynal wrote:
-> Hi WeiXiong,
-> 
-> WeiXiong Liao <liaoweixiong@allwinnertech.com> wrote on Fri,  7 Feb
-> 2020 20:25:55 +0800:
-> 
->> It's the last one of a series of patches for adaptive to MTD device.
->>
->> The mtdpstore is similar to mtdoops but more powerful. It bases on
->> pstore/blk, aims to store panic and oops logs to a flash partition,
->> where it can be read back as files after mounting pstore filesystem.
->>
->> The pstore/blk and blkoops, a wrapper for pstore/blk, are designed for
->> block device at the very beginning, but now, compatible to not only
->> block device. After this series of patches, pstore/blk can also work
->> for MTD device. To make it work, 'blkdev' on kconfig or module
->> parameter of blkoops should be set as mtd device name or mtd number.
->> See more about pstore/blk and blkoops on:
->>     Documentation/admin-guide/pstore-block.rst
->>
->> Why do we need mtdpstore?
->> 1. repetitive jobs between pstore and mtdoops
->>    Both of pstore and mtdoops do the same jobs that store panic/oops log.
->>    They have much similar logic that register to kmsg dumper and store
->>    log to several chunks one by one.
->> 2. do what a driver should do
->>    To me, a driver should provide methods instead of policies. What MTD
->>    should do is to provide read/write/erase operations, geting rid of codes
->>    about chunk management, kmsg dumper and configuration.
->> 3. enhanced feature
->>    Not only store log, but also show it as files.
->>    Not only log, but also trigger time and trigger count.
->>    Not only panic/oops log, but also log recorder for pmsg, console and
->>    ftrace in the future.
->>
->> Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-> 
-> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> 
-> Richard, your PoV on this is welcome.
-> 
-> I suppose this patch depends on the others to work correctly so maybe
-> we should wait the next release before applying it.
-> 
+This seems to be a copy-paste mistake of commit fcc8487d477a ("uapi:
+export all headers under uapi directories").
 
-Of couse, thank you for your review
+The correct description would be "The convention is to list one
+mandatory-y per line ...".
 
-> Thanks,
-> Miquèl
-> 
+I just removed it instead of fixing it. If such information is needed,
+it could be commented in include/asm-generic/Kbuild and
+include/uapi/asm-generic/Kbuild.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/makefiles.rst | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 0e0eb2c8da7d..4018ad7c7a11 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1379,9 +1379,6 @@ See subsequent chapter for the syntax of the Kbuild file.
+ 	in arch/$(ARCH)/include/(uapi/)/asm, Kbuild will automatically generate
+ 	a wrapper of the asm-generic one.
+ 
+-	The convention is to list one subdir per line and
+-	preferably in alphabetic order.
+-
+ 8 Kbuild Variables
+ ==================
+ 
 -- 
-liaoweixiong
+2.17.1
+
