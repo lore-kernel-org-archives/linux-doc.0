@@ -2,130 +2,278 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B6EC169F9
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 17:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2065CC169F9
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 18:32:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8FA9A206DB
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 17:44:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E516920801
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 18:32:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5cq4mF/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nZo1hfcm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgBSRor (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 12:44:47 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:36550 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbgBSRoq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 12:44:46 -0500
-Received: by mail-lf1-f66.google.com with SMTP id f24so813561lfh.3;
-        Wed, 19 Feb 2020 09:44:44 -0800 (PST)
+        id S1726707AbgBSSci (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 13:32:38 -0500
+Received: from mail-pj1-f73.google.com ([209.85.216.73]:57309 "EHLO
+        mail-pj1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbgBSSch (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 13:32:37 -0500
+Received: by mail-pj1-f73.google.com with SMTP id d7so659900pjx.6
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2020 10:32:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uPOumAcBRmkHJ4EJLjVwjyx0UkodYRqLQx2fcbRzjcU=;
-        b=e5cq4mF/bFwQMZTp+Vg5gt8plzWasQB/r379lvjWCErASKW+BA24SB2zyRZyLc7oSZ
-         eKHynbtTSgcyUJYqX+Jqk+hTx5l+o5ytfPRpvB8WPsPBQHThkSIWoujH9ARG2lEYmljh
-         Sa5plISmGyfd5q9hLgFzpxQKAELhTv2KoKASuA+jpf+fzErpbrZ/BUx7QH1X6S8ZlOUA
-         z6S+YwuBYuPsVwJ9Auuythr9wVH6piDHCcXCH+ECIltgt6y6HT9dxZARyfD4LqYNSPZ8
-         fSCHMfObm2ls8WuoqWT3eLjzLPLAp0P22mi/GAvLHFu7lzuvB88AQYdHT04Yfrvt4QH/
-         RPlA==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=zFruNTKZBAM8RkLpTspdsuM2wT5ff3lBQN6EhMK/Qfs=;
+        b=nZo1hfcm/opYasop1hhcJdvlI7Hd58D/ghHgn6ziaB7sOH5bRpIcqSxkKEAiSQBr2L
+         rXeKmlDaDHIOo7qmdUez3nIJdpiOMWZ4F1Zk4kK2toKh0dyCr4BaYArxc1MQ7YNnr9Vt
+         t6xNia7JOHOyr88t3SAudJtU/OaXuGX+FADLu2SDEcD6AIesqTXQuPuLtw+s4GVluJk6
+         FV7f5eY6SbC+zRBGB2lUvUB/4pHwGjnvjaa+jklZ5S3qWgBel8XccGjLA2jpQqTIAuQ7
+         UGxu7jfJ5Zpp7/FpQh/7h+7WMevcjeNEq5nNbzdnZhBFRStGiD6XNk2anBdaUo5Stdbz
+         Pj3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uPOumAcBRmkHJ4EJLjVwjyx0UkodYRqLQx2fcbRzjcU=;
-        b=G5ouDUSr6vEQA41NgErXP1VhP0li4TOijwsliMr3ocroWYVecmLWW1tbHg1ZaQqKwa
-         W7SUnZT/CevepzvPMlZ2FbMum52vDP+9S/0BP/f7LQhpTBRENY8WBsxQz3Mk2v7ktGZf
-         nLTylRLWLCfFVophLOg1UvK353DUByf0ej1EZTt1zR60edoX3dBPkw6f0OhjfYErpDOp
-         Gbi2GeJcou+oR0R9+laYpJrb8EzktuvV32+aJqMGFZQwHuYpoIwBfEXPca+DBXttiJlD
-         jYMP5NkoBLkMx+MES7/xT/LKeBPDyza7ZO1tNkIaNgsaa7ifRg0XwARnkAXHwZwvOHWM
-         84Qw==
-X-Gm-Message-State: APjAAAX3a/lTZTXX+JpklliJ9nL3lTpTOKD3HrdpeJOsVB7Ei6WEXAmU
-        5FsrMIVJ170rR5K3KSjBUGl8h9ah
-X-Google-Smtp-Source: APXvYqw3ltqhA/bDiRtozOcGmk+Vo3B59KY45uUdjerXfOUHP0AtD/B/7ZhTC9AxNjJ9jBSxV6oGVA==
-X-Received: by 2002:a19:5e41:: with SMTP id z1mr14182445lfi.101.1582134283843;
-        Wed, 19 Feb 2020 09:44:43 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id s17sm254568ljo.18.2020.02.19.09.44.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2020 09:44:43 -0800 (PST)
-Subject: Re: [PATCH v1] partitions/efi: Add 'gpt_sector' kernel cmdline
- parameter
-To:     Stephen Warren <swarren@wwwdotorg.org>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
-        Colin Cross <ccross@android.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>, linux-efi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200219162339.16192-1-digetx@gmail.com>
- <20200219162738.GA10644@infradead.org>
- <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0c0d0cff-7b20-f777-8724-0d2b07e60e3d@gmail.com>
-Date:   Wed, 19 Feb 2020 20:44:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=zFruNTKZBAM8RkLpTspdsuM2wT5ff3lBQN6EhMK/Qfs=;
+        b=Noyhuuhg406e6tiJkJM/mgqPuXUN1uAlcQIef7TNbi9+oLcynTcyb3ePnRzDORpRsK
+         rB+EIKxZvvTnafrx7FW1Od9Y/8LiBLPJrPDT344nm3sJeJ/Z4mmTMfv3sKvf7jsDNGPk
+         FSXfvenLDqCephtATp6CYmAQBAQa89yz0lh5FWnc92cgMychOBjvFxouAVdVqHWl/hd2
+         Krepmxm4WMAazynII40wF7BAglR3QT7/MJqD9mQHoAILhvw6Cw+GJpPDyAZE1yObhAOJ
+         OUOvTMMJtPyDIfsfFVHPPoynjfhYZmN3IOXyHQO9ftPOv+Bokw+zBpMsM6LIUMDZ3jY3
+         rq1g==
+X-Gm-Message-State: APjAAAXk3y47pbT1wPVaE9zJwWLpPzgGk2j8OFiOuBMTXgulK1dOfUIi
+        oHScTymGel1nsZ8QvDE7dpMNAyqj3y0=
+X-Google-Smtp-Source: APXvYqxhvcKVw/diJCynlqB2lru85+53G3ZpgZcqbCpYVEhha2J9sASo3WL4GOAjY/i8V+Vj8zO6KgdEM0A=
+X-Received: by 2002:a65:67c5:: with SMTP id b5mr5600943pgs.138.1582137155236;
+ Wed, 19 Feb 2020 10:32:35 -0800 (PST)
+Date:   Wed, 19 Feb 2020 10:32:31 -0800
+Message-Id: <20200219183231.50985-1-balejs@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH] cgroup-v1: freezer: optionally killable freezer
+From:   Marco Ballesio <balejs@google.com>
+To:     tj@kernel.org, guro@fb.com, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lizefan@huawei.com,
+        hannes@cmpxchg.org, corbet@lwn.net, rjw@rjwysocki.net,
+        pavel@ucw.cz, len.brown@intel.com, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, minchan@google.com, surenb@google.com,
+        dancol@google.com
+Cc:     Marco Ballesio <balejs@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-19.02.2020 19:59, Stephen Warren пишет:
-> On 2/19/20 9:27 AM, Christoph Hellwig wrote:
->> On Wed, Feb 19, 2020 at 07:23:39PM +0300, Dmitry Osipenko wrote:
->>> The gpt_sector=<sector> causes the GPT partition search to look at the
->>> specified sector for a valid GPT header if the GPT is not found at the
->>> beginning or the end of block device.
->>>
->>> In particular this is needed for NVIDIA Tegra consumer-grade Android
->>> devices in order to make them usable with the upstream kernel because
->>> these devices use a proprietary / closed-source partition table format
->>> for the EMMC and it's impossible to change the partition's format.
->>> Luckily
->>> there is a GPT table in addition to the proprietary table, which is
->>> placed
->>> in uncommon location of the EMMC storage and bootloader passes the
->>> location to kernel using "gpt gpt_sector=<sector>" cmdline parameters.
->>>
->>> This patch is based on the original work done by Colin Cross for the
->>> downstream Android kernel.
->>
->> I don't think a magic command line is the way to go.  The best would be
->> to reverse-engineer the proprietary partition table format.  If that is
->> too hard we can at least key off the odd GPT location based of it's
->> magic number.
-> 
-> I thought that the backup GPT was always present in the standard
-> location; it's just the primary GPT that's in an odd location. So, this
-> kernel parameter just forces the kernel to look first for the primary
-> GPT in the unusual location, thus avoiding an error message when that's
-> not there, and the system falls back to the backup GPT.
-> 
-> Or, do I misremember the layout, or the kernel's behaviour if primary
-> GPT is missing?
+The cgroup v2 freezer allows killing frozen processes without the need
+to unfreeze them first. This is not possible with the v1 freezer, where
+processes are to be unfrozen prior any pending kill signals to take effect.
 
-The backup GPT not always presents in the standard location. For example
-Tegra30 ASUS Google Nexus 7 has a backup GPT in the proper location and
-this is what KMSG prints:
+Add a configurable option to allow killing frozen tasks in a way similar to
+cgroups v2. Change the status of frozen tasks to TASK_INTERRUPTIBLE and reset
+their PF_FROZEN flag on pending fatal signals.
 
-[    1.722888] Primary GPT is invalid, using alternate GPT.
-[    1.723076]  mmcblk1: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10
+Use the run-time configurable option freezer.killable to enable killability,
+preserve the pre-existing behavior by default.
 
-But this doesn't work for Tegra20 Acer A500 and (IIRC) Tegra30 Ouya
-because both primary and backup GPTs are invalid at the standard locations.
+Signed-off-by: Marco Ballesio <balejs@google.com>
+---
+ .../cgroup-v1/freezer-subsystem.rst           | 12 ++++
+ include/linux/freezer.h                       |  1 +
+ kernel/cgroup/legacy_freezer.c                | 69 ++++++++++++++++++-
+ kernel/freezer.c                              | 20 +++++-
+ 4 files changed, 98 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
+index 582d3427de3f..06485ae9dccd 100644
+--- a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
++++ b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
+@@ -94,6 +94,18 @@ The following cgroupfs files are created by cgroup freezer.
+   Shows the parent-state.  0 if none of the cgroup's ancestors is
+   frozen; otherwise, 1.
+ 
++* freezer.killable: Read-write
++
++  When read, returns the killable state of a cgroup - "1" if frozen
++  tasks will respond to fatal signals, or "0" if they won't.
++
++  When written, this property sets the killable state of the cgroup.
++  A value equal to "1" will switch the state of all frozen tasks in
++  the cgroup to TASK_INTERRUPTIBLE (similarly to cgroup v2) and will
++  make them react to fatal signals. A value of "0" will switch the
++  state of frozen tasks to TASK_UNINTERRUPTIBLE and they won't respond
++  to signals unless thawed or unfrozen.
++
+ The root cgroup is non-freezable and the above interface files don't
+ exist.
+ 
+diff --git a/include/linux/freezer.h b/include/linux/freezer.h
+index 21f5aa0b217f..1443810ac2bf 100644
+--- a/include/linux/freezer.h
++++ b/include/linux/freezer.h
+@@ -72,6 +72,7 @@ extern bool set_freezable(void);
+ 
+ #ifdef CONFIG_CGROUP_FREEZER
+ extern bool cgroup_freezing(struct task_struct *task);
++extern bool cgroup_freezer_killable(struct task_struct *task);
+ #else /* !CONFIG_CGROUP_FREEZER */
+ static inline bool cgroup_freezing(struct task_struct *task)
+ {
+diff --git a/kernel/cgroup/legacy_freezer.c b/kernel/cgroup/legacy_freezer.c
+index 08236798d173..5bbc26c4b822 100644
+--- a/kernel/cgroup/legacy_freezer.c
++++ b/kernel/cgroup/legacy_freezer.c
+@@ -35,6 +35,7 @@ enum freezer_state_flags {
+ 	CGROUP_FREEZING_SELF	= (1 << 1), /* this freezer is freezing */
+ 	CGROUP_FREEZING_PARENT	= (1 << 2), /* the parent freezer is freezing */
+ 	CGROUP_FROZEN		= (1 << 3), /* this and its descendants frozen */
++	CGROUP_FREEZER_KILLABLE = (1 << 4), /* frozen pocesses can be killed */
+ 
+ 	/* mask for all FREEZING flags */
+ 	CGROUP_FREEZING		= CGROUP_FREEZING_SELF | CGROUP_FREEZING_PARENT,
+@@ -73,6 +74,17 @@ bool cgroup_freezing(struct task_struct *task)
+ 	return ret;
+ }
+ 
++bool cgroup_freezer_killable(struct task_struct *task)
++{
++	bool ret;
++
++	rcu_read_lock();
++	ret = task_freezer(task)->state & CGROUP_FREEZER_KILLABLE;
++	rcu_read_unlock();
++
++	return ret;
++}
++
+ static const char *freezer_state_strs(unsigned int state)
+ {
+ 	if (state & CGROUP_FROZEN)
+@@ -111,9 +123,15 @@ static int freezer_css_online(struct cgroup_subsys_state *css)
+ 
+ 	freezer->state |= CGROUP_FREEZER_ONLINE;
+ 
+-	if (parent && (parent->state & CGROUP_FREEZING)) {
+-		freezer->state |= CGROUP_FREEZING_PARENT | CGROUP_FROZEN;
+-		atomic_inc(&system_freezing_cnt);
++	if (parent) {
++		if (parent->state & CGROUP_FREEZER_KILLABLE)
++			freezer->state |= CGROUP_FREEZER_KILLABLE;
++
++		if (parent->state & CGROUP_FREEZING) {
++			freezer->state |= CGROUP_FREEZING_PARENT |
++					CGROUP_FROZEN;
++			atomic_inc(&system_freezing_cnt);
++		}
+ 	}
+ 
+ 	mutex_unlock(&freezer_mutex);
+@@ -450,6 +468,45 @@ static u64 freezer_parent_freezing_read(struct cgroup_subsys_state *css,
+ 	return (bool)(freezer->state & CGROUP_FREEZING_PARENT);
+ }
+ 
++static u64 freezer_killable_read(struct cgroup_subsys_state *css,
++				     struct cftype *cft)
++{
++	struct freezer *freezer = css_freezer(css);
++
++	return (bool)(freezer->state & CGROUP_FREEZER_KILLABLE);
++}
++
++static int freezer_killable_write(struct cgroup_subsys_state *css,
++				      struct cftype *cft, u64 val)
++{
++	struct freezer *freezer = css_freezer(css);
++
++	if (val > 1)
++		return -EINVAL;
++
++	mutex_lock(&freezer_mutex);
++
++	if (val == !!(freezer->state & CGROUP_FREEZER_KILLABLE))
++		goto out;
++
++	if (val)
++		freezer->state |= CGROUP_FREEZER_KILLABLE;
++	else
++		freezer->state &= ~CGROUP_FREEZER_KILLABLE;
++
++
++	/*
++	 * Let __refrigerator spin once for each task to set it into the
++	 * appropriate state.
++	 */
++	unfreeze_cgroup(freezer);
++
++out:
++	mutex_unlock(&freezer_mutex);
++
++	return 0;
++}
++
+ static struct cftype files[] = {
+ 	{
+ 		.name = "state",
+@@ -467,6 +524,12 @@ static struct cftype files[] = {
+ 		.flags = CFTYPE_NOT_ON_ROOT,
+ 		.read_u64 = freezer_parent_freezing_read,
+ 	},
++	{
++		.name = "killable",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.write_u64 = freezer_killable_write,
++		.read_u64 = freezer_killable_read,
++	},
+ 	{ }	/* terminate */
+ };
+ 
+diff --git a/kernel/freezer.c b/kernel/freezer.c
+index dc520f01f99d..92de1bfe62cf 100644
+--- a/kernel/freezer.c
++++ b/kernel/freezer.c
+@@ -42,6 +42,9 @@ bool freezing_slow_path(struct task_struct *p)
+ 	if (test_tsk_thread_flag(p, TIF_MEMDIE))
+ 		return false;
+ 
++	if (cgroup_freezer_killable(p) && fatal_signal_pending(p))
++		return false;
++
+ 	if (pm_nosig_freezing || cgroup_freezing(p))
+ 		return true;
+ 
+@@ -63,7 +66,12 @@ bool __refrigerator(bool check_kthr_stop)
+ 	pr_debug("%s entered refrigerator\n", current->comm);
+ 
+ 	for (;;) {
+-		set_current_state(TASK_UNINTERRUPTIBLE);
++		bool killable = cgroup_freezer_killable(current);
++
++		if (killable)
++			set_current_state(TASK_INTERRUPTIBLE);
++		else
++			set_current_state(TASK_UNINTERRUPTIBLE);
+ 
+ 		spin_lock_irq(&freezer_lock);
+ 		current->flags |= PF_FROZEN;
+@@ -75,6 +83,16 @@ bool __refrigerator(bool check_kthr_stop)
+ 		if (!(current->flags & PF_FROZEN))
+ 			break;
+ 		was_frozen = true;
++
++		/*
++		 * Now we're sure that there is no pending fatal signal.
++		 * Clear TIF_SIGPENDING to not get out of schedule()
++		 * immediately (if there is a non-fatal signal pending), and
++		 * put the task into sleep.
++		 */
++		if (killable)
++			clear_thread_flag(TIF_SIGPENDING);
++
+ 		schedule();
+ 	}
+ 
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
