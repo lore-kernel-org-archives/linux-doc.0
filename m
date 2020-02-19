@@ -2,65 +2,63 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F901C34054
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 16:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3438EC34047
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 16:18:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 674142467B
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 16:18:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 095272067D
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 16:18:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aQ8bE6wR"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JFiRihx5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbgBSQSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 11:18:00 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:51140 "EHLO
+        id S1726949AbgBSQRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 11:17:51 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:51002 "EHLO
         aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgBSQR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 11:17:56 -0500
+        with ESMTP id S1726875AbgBSQRv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 11:17:51 -0500
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01JGDHqe099489;
-        Wed, 19 Feb 2020 16:17:48 GMT
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01JGDHTf099382;
+        Wed, 19 Feb 2020 16:17:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=nFAWhcrV0joF2RtzWKkLK8Yk9RZN9qZWY971I91UZ2E=;
- b=aQ8bE6wRiQZlI7iia79jGGVgdpxCStrMqX5FNzm2zylNQt6Vd/kJ1JEriAgA655fAncm
- WEqqpgeRq/O+1dHvQ5JPu33MXBhxfLDk4wFMhuw98NSXIkwGgmUBgIt4gZehRclfzOn0
- ocXfOMKz5ARKo1tFkfEO9TxNQFGo7lxhO62ABKamTyYffdMSrLFrEAwlZhPnAef68Oq1
- FzeQrsxZYnvWBjsVxq1IcvsshY/5fZYNAvvP77b3ZwwtoKNBSPfjk2m9mbRfokmN27Qv
- FpKt1KFG+vmYTD0Q5Q4pydhLGIFBzyK4s0X//hZ8FQimI+Dt66lWHqQhJSlVlcMq/fMY MA== 
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=BNcmBhywV0DFM128D29E/9FuWa/2cPZxKTGsz7YzcAQ=;
+ b=JFiRihx5XLYpFw5xwu4ZKZbDYNC1no12sHS4O4wwBerpzND8HlGPtLRjRJ4VUwRabnAy
+ GCJTlUxZXZodo56CSv+kx1tFdWUWFqYH64t2+cfVif5ncvBtdUrq0r8Df7XTNsKeuh6g
+ KEg269iNdtUK1ppzJsh/8WhVHDBCQE9Tzk4X4R3DiTn5VccymC7SYktKinj9+zlNYE/H
+ otosaGi6cYHdhvkhkkfWRWC+9Fq8H0OZNxppIXMffIh7q8ZA6/fx/xbNnoCOmu0eqPzi
+ y2Z07Cb/qKOxWubuzE+dJuQrEAwA0YxgpBuoWas5o9NmPTldWoY/RkCctB2wEMrNfoey vA== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 2y8udkc6h2-1
+        by aserp2120.oracle.com with ESMTP id 2y8udkc6g6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Feb 2020 16:17:48 +0000
+        Wed, 19 Feb 2020 16:17:41 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01JGCDWD017246;
-        Wed, 19 Feb 2020 16:17:48 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 2y8udasxbw-1
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01JGCJQa017716;
+        Wed, 19 Feb 2020 16:17:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2y8udasx8s-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Feb 2020 16:17:47 +0000
+        Wed, 19 Feb 2020 16:17:41 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01JGHkNm009570;
-        Wed, 19 Feb 2020 16:17:46 GMT
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01JGHbeN019137;
+        Wed, 19 Feb 2020 16:17:37 GMT
 Received: from dhcp-10-175-189-86.vpn.oracle.com (/10.175.189.86)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 19 Feb 2020 08:17:45 -0800
+        with ESMTP ; Wed, 19 Feb 2020 08:17:37 -0800
 From:   Alan Maguire <alan.maguire@oracle.com>
 To:     brendanhiggins@google.com, frowand.list@gmail.com,
         gregkh@linuxfoundation.org, shuah@kernel.org
 Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
         linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-doc@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v5 kunit-next 3/4] kunit: subtests should be indented 4 spaces according to TAP
-Date:   Wed, 19 Feb 2020 16:17:09 +0000
-Message-Id: <1582129030-22282-4-git-send-email-alan.maguire@oracle.com>
+Subject: [PATCH v5 kunit-next 0/4] kunit: add debugfs representation to show results
+Date:   Wed, 19 Feb 2020 16:17:06 +0000
+Message-Id: <1582129030-22282-1-git-send-email-alan.maguire@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582129030-22282-1-git-send-email-alan.maguire@oracle.com>
-References: <1582129030-22282-1-git-send-email-alan.maguire@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9536 signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
  mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=3 phishscore=0
@@ -77,184 +75,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce KUNIT_INDENT macro which corresponds to 4-space indentation,
-and use it to modify indentation from tab to 4 spaces.
+When kunit tests are run on native (i.e. non-UML) environments, the results
+of test execution are often intermixed with dmesg output.  This patch
+series attempts to solve this by providing a debugfs representation
+of the results of the last test run, available as
 
-Suggested-by: Frank Rowand <frowand.list@gmail.com>
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
----
- include/kunit/test.h |  7 ++++-
- lib/kunit/assert.c   | 79 ++++++++++++++++++++++++++--------------------------
- lib/kunit/test.c     |  2 +-
- 3 files changed, 47 insertions(+), 41 deletions(-)
+/sys/kernel/debug/kunit/<testsuite>/results
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 7ce5125..d32a119 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -84,6 +84,10 @@ struct kunit_resource {
- /* Size of log associated with test. */
- #define KUNIT_LOG_SIZE	512
- 
-+/* TAP specifies subtest indentation of 4 spaces. */
-+#define KUNIT_INDENT	"    "
-+#define KUNIT_INDENT2	KUNIT_INDENT KUNIT_INDENT
-+
- /**
-  * struct kunit_case - represents an individual test case.
-  *
-@@ -395,7 +399,8 @@ static inline void *kunit_kzalloc(struct kunit *test, size_t size, gfp_t gfp)
- 	} while (0)
- 
- #define kunit_printk(lvl, test, fmt, ...)				\
--	kunit_log(lvl, test, "\t# %s: " fmt, (test)->name, ##__VA_ARGS__)
-+	kunit_log(lvl, test, KUNIT_INDENT "# %s: " fmt, (test)->name,	\
-+		  ##__VA_ARGS__)
- 
- /**
-  * kunit_info() - Prints an INFO level message associated with @test.
-diff --git a/lib/kunit/assert.c b/lib/kunit/assert.c
-index b24bebc..17b0214 100644
---- a/lib/kunit/assert.c
-+++ b/lib/kunit/assert.c
-@@ -6,6 +6,7 @@
-  * Author: Brendan Higgins <brendanhiggins@google.com>
-  */
- #include <kunit/assert.h>
-+#include <kunit/test.h>
- 
- #include "string-stream.h"
- 
-@@ -53,12 +54,12 @@ void kunit_unary_assert_format(const struct kunit_assert *assert,
- 	kunit_base_assert_format(assert, stream);
- 	if (unary_assert->expected_true)
- 		string_stream_add(stream,
--				 "\tExpected %s to be true, but is false\n",
--				 unary_assert->condition);
-+				  KUNIT_INDENT "Expected %s to be true, but is false\n",
-+				  unary_assert->condition);
- 	else
- 		string_stream_add(stream,
--				 "\tExpected %s to be false, but is true\n",
--				 unary_assert->condition);
-+				  KUNIT_INDENT "Expected %s to be false, but is true\n",
-+				  unary_assert->condition);
- 	kunit_assert_print_msg(assert, stream);
- }
- EXPORT_SYMBOL_GPL(kunit_unary_assert_format);
-@@ -72,13 +73,13 @@ void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
- 	kunit_base_assert_format(assert, stream);
- 	if (!ptr_assert->value) {
- 		string_stream_add(stream,
--				 "\tExpected %s is not null, but is\n",
--				 ptr_assert->text);
-+				  KUNIT_INDENT "Expected %s is not null, but is\n",
-+				  ptr_assert->text);
- 	} else if (IS_ERR(ptr_assert->value)) {
- 		string_stream_add(stream,
--				 "\tExpected %s is not error, but is: %ld\n",
--				 ptr_assert->text,
--				 PTR_ERR(ptr_assert->value));
-+				  KUNIT_INDENT "Expected %s is not error, but is: %ld\n",
-+				  ptr_assert->text,
-+				  PTR_ERR(ptr_assert->value));
- 	}
- 	kunit_assert_print_msg(assert, stream);
- }
-@@ -92,16 +93,16 @@ void kunit_binary_assert_format(const struct kunit_assert *assert,
- 
- 	kunit_base_assert_format(assert, stream);
- 	string_stream_add(stream,
--			 "\tExpected %s %s %s, but\n",
--			 binary_assert->left_text,
--			 binary_assert->operation,
--			 binary_assert->right_text);
--	string_stream_add(stream, "\t\t%s == %lld\n",
--			 binary_assert->left_text,
--			 binary_assert->left_value);
--	string_stream_add(stream, "\t\t%s == %lld",
--			 binary_assert->right_text,
--			 binary_assert->right_value);
-+			  KUNIT_INDENT "Expected %s %s %s, but\n",
-+			  binary_assert->left_text,
-+			  binary_assert->operation,
-+			  binary_assert->right_text);
-+	string_stream_add(stream, KUNIT_INDENT2 "%s == %lld\n",
-+			  binary_assert->left_text,
-+			  binary_assert->left_value);
-+	string_stream_add(stream, KUNIT_INDENT "%s == %lld",
-+			  binary_assert->right_text,
-+			  binary_assert->right_value);
- 	kunit_assert_print_msg(assert, stream);
- }
- EXPORT_SYMBOL_GPL(kunit_binary_assert_format);
-@@ -114,16 +115,16 @@ void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
- 
- 	kunit_base_assert_format(assert, stream);
- 	string_stream_add(stream,
--			 "\tExpected %s %s %s, but\n",
--			 binary_assert->left_text,
--			 binary_assert->operation,
--			 binary_assert->right_text);
--	string_stream_add(stream, "\t\t%s == %pK\n",
--			 binary_assert->left_text,
--			 binary_assert->left_value);
--	string_stream_add(stream, "\t\t%s == %pK",
--			 binary_assert->right_text,
--			 binary_assert->right_value);
-+			  KUNIT_INDENT "Expected %s %s %s, but\n",
-+			  binary_assert->left_text,
-+			  binary_assert->operation,
-+			  binary_assert->right_text);
-+	string_stream_add(stream, KUNIT_INDENT2 "%s == %pK\n",
-+			  binary_assert->left_text,
-+			  binary_assert->left_value);
-+	string_stream_add(stream, KUNIT_INDENT2 "%s == %pK",
-+			  binary_assert->right_text,
-+			  binary_assert->right_value);
- 	kunit_assert_print_msg(assert, stream);
- }
- EXPORT_SYMBOL_GPL(kunit_binary_ptr_assert_format);
-@@ -136,16 +137,16 @@ void kunit_binary_str_assert_format(const struct kunit_assert *assert,
- 
- 	kunit_base_assert_format(assert, stream);
- 	string_stream_add(stream,
--			 "\tExpected %s %s %s, but\n",
--			 binary_assert->left_text,
--			 binary_assert->operation,
--			 binary_assert->right_text);
--	string_stream_add(stream, "\t\t%s == %s\n",
--			 binary_assert->left_text,
--			 binary_assert->left_value);
--	string_stream_add(stream, "\t\t%s == %s",
--			 binary_assert->right_text,
--			 binary_assert->right_value);
-+			  KUNIT_INDENT "Expected %s %s %s, but\n",
-+			  binary_assert->left_text,
-+			  binary_assert->operation,
-+			  binary_assert->right_text);
-+	string_stream_add(stream, KUNIT_INDENT2 "%s == %s\n",
-+			  binary_assert->left_text,
-+			  binary_assert->left_value);
-+	string_stream_add(stream, KUNIT_INDENT2 "%s == %s",
-+			  binary_assert->right_text,
-+			  binary_assert->right_value);
- 	kunit_assert_print_msg(assert, stream);
- }
- EXPORT_SYMBOL_GPL(kunit_binary_str_assert_format);
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index c0f65b9..a6e0b36 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -71,7 +71,7 @@ static void kunit_print_ok_not_ok(void *test_or_suite,
- 			kunit_status_to_string(is_ok),
- 			test_number, description);
- 	else
--		kunit_log(KERN_INFO, test, "\t%s %zd - %s",
-+		kunit_log(KERN_INFO, test, KUNIT_INDENT "%s %zd - %s",
- 			  kunit_status_to_string(is_ok),
- 			  test_number, description);
- }
+Changes since v4:
+
+- added suite-level log expectations to kunit log test (Brendan, patch 2)
+- added log expectations (of it being NULL) for case where
+  CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
+- added patch 3 which replaces subtest tab indentation with 4 space
+  indentation as per TAP 14 spec (Frank, patch 3)
+
+Changes since v3:
+
+- added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
+  representation, including string logging (Frank, patch 1)
+- removed unneeded NULL check for test_case in
+  kunit_suite_for_each_test_case() (Frank, patch 1)
+- added kunit log test to verify logging multiple strings works
+  (Frank, patch 2)
+- rephrased description of results file (Frank, patch 3)
+
+Changes since v2:
+
+- updated kunit_status2str() to kunit_status_to_string() and made it
+  static inline in include/kunit/test.h (Brendan)
+- added log string to struct kunit_suite and kunit_case, with log
+  pointer in struct kunit pointing at the case log.  This allows us
+  to collect kunit_[err|info|warning]() messages at the same time
+  as we printk() them.  This solves for the most part the sharing
+  of log messages between test execution and debugfs since we
+  just print the suite log (which contains the test suite preamble)
+  and the individual test logs.  The only exception is the suite-level
+  status, which we cannot store in the suite log as it would mean
+  we'd print the suite and its status prior to the suite's results.
+  (Brendan, patch 1)
+- dropped debugfs-based kunit run patch for now so as not to cause
+  problems with tests currently under development (Brendan)
+- fixed doc issues with code block (Brendan, patch 3)
+
+Changes since v1:
+ - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
+ - renamed global debugfs functions to be prefixed with kunit_ (Greg)
+ - removed error checking for debugfs operations (Greg)
+
+Alan Maguire (4):
+  kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+  kunit: add log test
+  kunit: subtests should be indented 4 spaces according to TAP
+  kunit: update documentation to describe debugfs representation
+
+ Documentation/dev-tools/kunit/usage.rst |  13 ++++
+ include/kunit/test.h                    |  59 ++++++++++++---
+ lib/kunit/Kconfig                       |   8 +++
+ lib/kunit/Makefile                      |   4 ++
+ lib/kunit/assert.c                      |  79 +++++++++++----------
+ lib/kunit/debugfs.c                     | 116 ++++++++++++++++++++++++++++++
+ lib/kunit/debugfs.h                     |  30 ++++++++
+ lib/kunit/kunit-test.c                  |  45 +++++++++++-
+ lib/kunit/test.c                        | 122 ++++++++++++++++++++++++--------
+ 9 files changed, 395 insertions(+), 81 deletions(-)
+ create mode 100644 lib/kunit/debugfs.c
+ create mode 100644 lib/kunit/debugfs.h
+
 -- 
 1.8.3.1
 
