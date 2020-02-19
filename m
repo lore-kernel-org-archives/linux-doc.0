@@ -2,91 +2,100 @@ Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB3FC5ACC4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:14:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A0DC5ACC4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F115E206EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:14:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gowdgx08"
+	by mail.kernel.org (Postfix) with ESMTP id 1B85E24690
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582151098;
+	bh=wZL3OOt1mgp9hbAl9bojkNL3ZJ0+D9P0cl+P8V4kYOs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=pZf+zlVhHaXucYxWISvuXwLd1IGLcpSVGWAMZ27Sk3WAoShqnCiSs1IBwi6g2mDvZ
+	 gqY4sBrSodLitpAhHaQQSj+S3+2cI53mP3+g9OGxCFBt1gCxscbOPlQdBP2Rf/rx3L
+	 CiS3trc2HMXXjnGvoWmo7wBiqpVnxm9GMUTWGa3s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727326AbgBSWOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 17:14:09 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43407 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbgBSWOJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 17:14:09 -0500
-Received: by mail-pg1-f196.google.com with SMTP id u12so795497pgb.10
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2020 14:14:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=TWI4qCqMhEw1k6KAKhbqnH5AxNi8DQe8QpDA2F+2Frk=;
-        b=gowdgx08ONSh35NJGdAHXGTosBs3S9E8JqmodD8dWAoGkWtezQQSFKUzC67dNWtv23
-         KzhIDrHsK3H9KMW4ZtXg39qY9wANloeIKW3+6/j6CAfAAnaZ+n2zVBjccNj93s8ibvJq
-         8xEPi3vm7Z5JWCs47CXt1gCyp1Tc1kzr4/h3U=
+        id S1727525AbgBSWY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 17:24:57 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34831 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727163AbgBSWY5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 17:24:57 -0500
+Received: by mail-oi1-f193.google.com with SMTP id b18so25521148oie.2;
+        Wed, 19 Feb 2020 14:24:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=TWI4qCqMhEw1k6KAKhbqnH5AxNi8DQe8QpDA2F+2Frk=;
-        b=jjHeVA16ZY5tnrxBo1lpvdTv0dFXhgc7jUmRE55Fvgx8Z2fAEgm0Uco0PW0eV2Uh9+
-         0oIqE0kLoNIzHI4sTlHPUrv+3vz+Xk42wL9V5dZ4gASyDgena962hDkUh3H/W+hrRExy
-         A8KQo/F6jJfWhkRnDhY/AOqu4sb1ERox8iW6tQixgDl37yYn7rGbBBCvFINKRZ70qVex
-         HJlaf5now321rk6PyDMqfm5xLGblZlkv3oVljkBVMnz5c2UcDTKXgAOn0FqndaqJWgxF
-         FM422WnMUWsR/lxjxsrxVL6r3ONVIIQzW2FlJWN+c+Gfn0rJ3LjyHJdnx+iWjQwUvsUc
-         bT1A==
-X-Gm-Message-State: APjAAAXwDIXE+vcNGRGAQA2wii8GdTXZp+JP1Ybwq4eMRmFoXkV5wycF
-        Oeq+gQZ0VQdqfHeXZNLFVLIEsg==
-X-Google-Smtp-Source: APXvYqw4uvtiO4n3G17rwQUbo02TkzNpy6L/IWvWcQw3KdjXAzbBj9fgqxQitCAt4fbZbLU89Ec+sg==
-X-Received: by 2002:a65:468d:: with SMTP id h13mr3298099pgr.359.1582150448869;
-        Wed, 19 Feb 2020 14:14:08 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-        by smtp.gmail.com with ESMTPSA id k8sm723327pgg.18.2020.02.19.14.14.07
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bw/arhxO0zD6uxPv9B55JT/z9CSekm6k6Bmp/kVtLV0=;
+        b=iDoyGV5c0sHKnm8fR8KkHHXF/ntWO0w46zg5ISA1UjqFbYZT6PWEJgNscnK/WbzFiq
+         zST2+piKM7q4lOxSJE3idurDkXnWN9cSm6HbTejthJM8QihAnSXj8sXAo7xbKMTtaAS7
+         R+WoTJmlNxUJkgnSnwOknoV1cqtrkw7YI9ZMijGBZoRy9hvljRb3nHsjSnn0202Hxko5
+         ctpdzYwDrwk5IAm+qS6+AOz7vbKP3Y95XtDb/Qv/Y2j1gvtcBF4uxDIfF+BjDYotZnno
+         20hfTkJf79AF5oeNR9v6EGFKZ/8u7aOzMtdKfUJeOVRhd5US+KM0S1fes2AIirl+AuPS
+         hjwQ==
+X-Gm-Message-State: APjAAAUGzG6jwCLUc/rfUKD8lpIHVFw6wRIecqwf7YvXqQxbHcZIFltT
+        MvGzhud4J5MSdT4SGnsLUg==
+X-Google-Smtp-Source: APXvYqzZzuIwDzmzfqhTKUe49az+Etwqyco/nG1nDw+t4D7VEkxMrWlgNAsahLPneOunxOSWnXEiHQ==
+X-Received: by 2002:aca:d903:: with SMTP id q3mr6124909oig.12.1582151096719;
+        Wed, 19 Feb 2020 14:24:56 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l80sm428436oib.37.2020.02.19.14.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 14:14:08 -0800 (PST)
-From:   Scott Branden <scott.branden@broadcom.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <trivial@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Scott Branden <scott.branden@broadcom.com>
-Subject: [PATCH] docs: arm64: fix trivial spelling enought to enough in memory.rst
-Date:   Wed, 19 Feb 2020 14:14:03 -0800
-Message-Id: <20200219221403.16740-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 19 Feb 2020 14:24:56 -0800 (PST)
+Received: (nullmailer pid 16262 invoked by uid 1000);
+        Wed, 19 Feb 2020 22:24:54 -0000
+Date:   Wed, 19 Feb 2020 16:24:54 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
+        lorenzo.pieralisi@arm.com, joro@8bytes.org,
+        baolu.lu@linux.intel.com, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        iommu@lists.linux-foundation.org, corbet@lwn.net,
+        mark.rutland@arm.com, liviu.dudau@arm.com, sudeep.holla@arm.com,
+        guohanjun@huawei.com, rjw@rjwysocki.net, lenb@kernel.org,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH 01/11] dt-bindings: PCI: generic: Add ats-supported
+ property
+Message-ID: <20200219222454.GA16221@bogus>
+References: <20200213165049.508908-1-jean-philippe@linaro.org>
+ <20200213165049.508908-2-jean-philippe@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200213165049.508908-2-jean-philippe@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix trivial spelling error enought to enough in memory.rst.
+On Thu, 13 Feb 2020 17:50:39 +0100, Jean-Philippe Brucker wrote:
+> Add a way for firmware to tell the OS that ATS is supported by the PCI
+> root complex. An endpoint with ATS enabled may send Translation Requests
+> and Translated Memory Requests, which look just like Normal Memory
+> Requests with a non-zero AT field. So a root controller that ignores the
+> AT field may simply forward the request to the IOMMU as a Normal Memory
+> Request, which could end badly. In any case, the endpoint will be
+> unusable.
+> 
+> The ats-supported property allows the OS to only enable ATS in endpoints
+> if the root controller can handle ATS requests. Only add the property to
+> pcie-host-ecam-generic for the moment. For non-generic root controllers,
+> availability of ATS can be inferred from the compatible string.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/pci/host-generic-pci.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Cc: trivial@kernel.org
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
----
- Documentation/arm64/memory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/arm64/memory.rst b/Documentation/arm64/memory.rst
-index 02e02175e6f5..cf03b3290800 100644
---- a/Documentation/arm64/memory.rst
-+++ b/Documentation/arm64/memory.rst
-@@ -129,7 +129,7 @@ this logic.
- 
- As a single binary will need to support both 48-bit and 52-bit VA
- spaces, the VMEMMAP must be sized large enough for 52-bit VAs and
--also must be sized large enought to accommodate a fixed PAGE_OFFSET.
-+also must be sized large enough to accommodate a fixed PAGE_OFFSET.
- 
- Most code in the kernel should not need to consider the VA_BITS, for
- code that does need to know the VA size the variables are
--- 
-2.17.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
