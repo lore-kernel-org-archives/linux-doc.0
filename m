@@ -2,151 +2,164 @@ Return-Path: <SRS0=o7tk=4I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F228C11D02
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 08:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC93C11D04
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 09:11:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2C52E24654
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 08:17:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92C0424654
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 09:11:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="D0KB/4YV"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="hcamI+q/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbgBTIRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Feb 2020 03:17:42 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:10017 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbgBTIRm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Feb 2020 03:17:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1582186662; x=1613722662;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=RLTXfx7fYdK319XaeyXL5HDwJIQwzFkcbgDe8LGSdWA=;
-  b=D0KB/4YVA0SmLyGX2GZmaGnPeCrIXZqZH8XWJDqAGjDx6ubrbUlqK+cu
-   PO5pC9SKU0DZB+XrtYMHj/VfrJwUv/CzVAyqaBK6akrCUQl7gny3TfIX6
-   FJpwz+BzrOi1HKEX0A10/LzAkiDTvICe3C6K0hkRr9fY6rVFIDWus3JyA
-   Y=;
-IronPort-SDR: VMdHx0aL2wlJwG7+qs5TKuDlO/e4vPV6vY+s/Qs5VqSBsTTWC4cluGFk7Fu2E5reftsEEwjPWV
- 25+EcFAggvZA==
-X-IronPort-AV: E=Sophos;i="5.70,463,1574121600"; 
-   d="scan'208";a="26277303"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 20 Feb 2020 08:17:40 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com (Postfix) with ESMTPS id 46840A040E;
-        Thu, 20 Feb 2020 08:17:37 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Thu, 20 Feb 2020 08:17:36 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 20 Feb 2020 08:17:25 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rostedt@goodmis.org>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <vdavydov.dev@gmail.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 00/14] Introduce Data Access MONitor (DAMON)
-Date:   Thu, 20 Feb 2020 09:17:10 +0100
-Message-ID: <20200220081710.15211-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200217102544.29012-1-sjpark@amazon.com> (raw)
+        id S1726779AbgBTJLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Feb 2020 04:11:43 -0500
+Received: from mout.web.de ([212.227.15.3]:33947 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726501AbgBTJLm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Feb 2020 04:11:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1582189845;
+        bh=vbMpoLairqKsk7lsZ4zCd9hpbkL0beCHN/AzVweLNtI=;
+        h=X-UI-Sender-Class:From:Subject:To:Cc:Date;
+        b=hcamI+q/q5SSrm/QLuCC74ywkKTqKsPuKsSkHJmrFFwLCRJWO1khrkPUt8ZcTDN51
+         /fRIw+qs8rpxThXROZz9/i6lbySHlvMZSMG9OS/uSjkL4w79u06hTV3pMXUs9lDGCQ
+         zUtdNTwVATrVlYB6r6XSY2g7gVDw/q9/ln57tpmA=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.244.175.64]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MLxrY-1j5oJV1UFA-007ifQ; Thu, 20
+ Feb 2020 10:10:45 +0100
+From:   Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [for-next][PATCH 12/26] Documentation: bootconfig: Add a doc for
+ extended boot config
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tim Bird <Tim.Bird@sony.com>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <23e371ca-5df8-3ae3-c685-b01c07b55540@web.de>
+Date:   Thu, 20 Feb 2020 10:10:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.53]
-X-ClientProxiedBy: EX13D23UWA004.ant.amazon.com (10.43.160.72) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:iz3EHkgef/ISzsnY3CSV+i+tHS29kp3ehQ7OyVu0j3Qh1MRjhD4
+ 2kNZozsuSbfAVgfZQ2c1f2reumTrdl+tygGxGYptax/fHEDxIV9ypPacshUWYPuiPbdJ7Xi
+ HaDH6A/4rRN83FCKqHZ9p/QzWzFKumXctso507UT6M+uKmV4+RRmqyydQTdtkiDdCLcex8y
+ wWaG2+ug23HgJlgjioIMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GxZTiIb8TFo=:BgRUH9Ab/NRq4bHPkY/hrX
+ ItkQAXfW7FOzZhvXJx47bwUUeKd+ouKyyneLmedUiDxakWbNC2yV/gMLLUltUVi3Lkr/JGHGh
+ HAFDglKVWnP+7b2a8lladClky+tVXC5jFIuKLE4Bc4bZ7EGyEi7bYZ3t5ISlhl0/RSxpYSFSx
+ DCwRbuBmUGfy/h9QQY3WNbrVkqbDDA0us/EeYeNUmDclafQTq6YFPdb+6rxBNwx8aQQJXItnD
+ YN/55J6Ht/aVHkBdTm0iOn/Pkafz0cFJROASD29pxoKzj5QE+hpNOwXPFH0JiXLr0QuaJcaYC
+ fhm50l3FN18mh4BXC/dYfSwZnHVpZ5R/fh0IWWQkk/feWavBkNzSK/Q5uNVObnN1tcxb2KvTE
+ soGVJZ+JoI1DTiNzxkY9he7LoH4RjislsjMAb0oJw6Lhd353h9X/upz5ktZIFW/J8v1ofVHof
+ WJmMuFOUNCIMKJlQTNhhqRuf9joLkyVCrlOipcwobSFjgGlkDYTtD+spTyELfvxdKCMnulD/h
+ 7eODoGi9o05VhTFHfVMbuAP9IsR0da1D1TG9B18DQo+9gZ6VjyDrbl4t6OvaDWf5X0GlXWhVz
+ j/x8XBwvsRnrVzFDvnDSdIq/EbPy6imT7/LFTNusay/cK7n2oE8QglPb7W90nVnGPnTS1Mbt6
+ XTDX1cSbMXwH8hbsJRoVrElioQP9RTihacRVKGGMrg84AElwSpAOSLVmZUEXTG7aVobJKTImN
+ DYMoixFt+QUM1sc6B7kHNmX+sLc0vqWAB7i5Q+OoGVAyYeK4W8opLinai4+02UmJbzkba314n
+ cN2iB2K4DbaaNmitOdrJgp3UbRxohPJwSKTYL2TT0T5LxIizhbGlNQ+VoJARqFJAP5s2wDgQM
+ NCW+aH22vdx8rAi5vwwKBe/LV4gl+Ii7/Uza0gf9VMjoZDIh4rsmYhH/JcRV08PkN+4avJkmY
+ lWJkg+na3cAnKZ6WgGDge/TnGvhaRuispzGihU9XfTtDmN7V6nKUWTBqkHL5zuUTVH2/910YO
+ 3n25tiopO1XpdFQnxsGgKh62VH0dKYu3nFyOr404GExcQRk34zvruHHTGXgwM8Lb3jBpjSOAz
+ zGzgkbKcL/VtbhZnegBZWKbrJVH9GSGQHmgROq067ReqM3HxgkxczfcgoBP3wTAxs47d3BqWb
+ V0BertZzXThSuFsfsFDxdf43FL4Ns5wt0/Iw8feluBycNpnMJ72pl1NK03tzac5WEa/G4VK40
+ giw5iOUp8pffI6ohl
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Feb 2020 11:25:30 +0100 SeongJae Park <sjpark@amazon.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> Introduction
-> ============
-> 
-> Memory management decisions can be improved if finer data access information is
-> available.  However, because such finer information usually comes with higher
-> overhead, most systems including Linux forgives the potential improvement and
-> rely on only coarse information or some light-weight heuristics.  The
-> pseudo-LRU and the aggressive THP promotions are such examples.
-> 
-> A number of experimental data access pattern awared memory management
-> optimizations (refer to 'Appendix A' for more details) say the sacrifices are
-> huge.  However, none of those has successfully adopted to Linux kernel mainly
-> due to the absence of a scalable and efficient data access monitoring
-> mechanism.  Refer to 'Appendix B' to see the limitations of existing memory
-> monitoring mechanisms.
-> 
-> DAMON is a data access monitoring subsystem for the problem.  It is 1) accurate
-> enough to be used for the DRAM level memory management (a straightforward
-> DAMON-based optimization achieved up to 2.55x speedup), 2) light-weight enough
-> to be applied online (compared to a straightforward access monitoring scheme,
-> DAMON is up to 94.242.42x lighter) and 3) keeps predefined upper-bound overhead
-> regardless of the size of target workloads (thus scalable).  Refer to 'Appendix
-> C' if you interested in how it is possible.
-> 
-> DAMON has mainly designed for the kernel's memory management mechanisms.
-> However, because it is implemented as a standalone kernel module and provides
-> several interfaces, it can be used by a wide range of users including kernel
-> space programs, user space programs, programmers, and administrators.  DAMON
-> is now supporting the monitoring only, but it will also provide simple and
-> convenient data access pattern awared memory managements by itself.  Refer to
-> 'Appendix D' for more detailed expected usages of DAMON.
-
-So, with this patchset, you can (1) do data access pattern based memory
-management optimizations and (2) analyze your program's dynamic data access
-pattern.  For the analysis, this patchset also supports visualization of the
-pattern in (1) heatmap form and distribution of the (2-1) dynamic working set
-size and (2-2) monitoring overhead.
-
-To help you better understand what DAMON can give you, I made web pages showing
-the visualized dynamic data access pattern of various realistic workloads,
-which I picked up from PARSEC3 and SPLASH-2X bechmark suites.  Note that
-another big part of DAMON's usecases, access pattern based optimization is not
-demonstrated in the pages, yet.
-
-There are pages showing the heatmap format dynamic access pattern of each
-workload for heap area[1], mmap()-ed area[2], and stack[3] area.  I splitted
-the entire address space to the three area because the total address space is
-too huge.
-
-You can also show how the dynamic working set size of each workload is
-distributed, and how it is changing chronologically[5].
-
-The biggest characteristic of DAMON is its promise of the upperbound of
-the monitoring overhead.  To show whether DAMON keeps the promise well, I
-visualized the number of monitoring operations required for each 5
-milliseconds, which is configured to not exceed 1000.  You can show the
-distribution of the numbers[6] and how it changes chronologically[7].
-
-As previously mentioned, these are only a fraction of the outputs of DAMON.  I
-believe DAMON can be used for more wide and creative purposes.  Nonetheless, I
-hope the pages help you understand what DAMON can give you in more intuitive
-fashion.
+I wonder about a few details in the added text.
 
 
-[1] https://damonitor.github.io/reports/latest/by_image/heatmap.0.png.html
-[2] https://damonitor.github.io/reports/latest/by_image/heatmap.1.png.html
-[3] https://damonitor.github.io/reports/latest/by_image/heatmap.2.png.html
-[4] https://damonitor.github.io/reports/latest/by_image/wss_sz.png.html
-[5] https://damonitor.github.io/reports/latest/by_image/wss_time.png.html
-[6] https://damonitor.github.io/reports/latest/by_image/nr_regions_sz.png.html
-[7] https://damonitor.github.io/reports/latest/by_image/nr_regions_time.png.html
+=E2=80=A6
+> +++ b/Documentation/admin-guide/bootconfig.rst
+=E2=80=A6
+> +C onfig File Limitation
+
+How do you think about to omit a space character at the beginning
+of this line?
+
+
+> +Currently the maximum config size size is 32KB =E2=80=A6
+
+Would you like to avoid a word duplication here?
+
+
+> +Note: this is not the number of entries but nodes, an entry must consum=
+e
+> +more than 2 nodes (a key-word and a value). =E2=80=A6
+
+I find the relevance of the term =E2=80=9Cnodes=E2=80=9D unclear at the mo=
+ment.
+
+
+Could an other wording be nicer than the abbreviation =E2=80=9Ca doc for =
+=E2=80=A6 config=E2=80=9D
+in the commit subject?
+
+Regards,
+Markus
