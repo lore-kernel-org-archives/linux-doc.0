@@ -1,101 +1,151 @@
-Return-Path: <SRS0=7zml=4H=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=o7tk=4I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A0DC5ACC4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF91C761A1
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 00:27:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B85E24690
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Feb 2020 22:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582151098;
-	bh=wZL3OOt1mgp9hbAl9bojkNL3ZJ0+D9P0cl+P8V4kYOs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=pZf+zlVhHaXucYxWISvuXwLd1IGLcpSVGWAMZ27Sk3WAoShqnCiSs1IBwi6g2mDvZ
-	 gqY4sBrSodLitpAhHaQQSj+S3+2cI53mP3+g9OGxCFBt1gCxscbOPlQdBP2Rf/rx3L
-	 CiS3trc2HMXXjnGvoWmo7wBiqpVnxm9GMUTWGa3s=
+	by mail.kernel.org (Postfix) with ESMTP id 814FC207FD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 00:27:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rofXMqqG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbgBSWY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Feb 2020 17:24:57 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34831 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727163AbgBSWY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 17:24:57 -0500
-Received: by mail-oi1-f193.google.com with SMTP id b18so25521148oie.2;
-        Wed, 19 Feb 2020 14:24:57 -0800 (PST)
+        id S1726767AbgBTA1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Feb 2020 19:27:23 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:44640 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726731AbgBTA1X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Feb 2020 19:27:23 -0500
+Received: by mail-qk1-f195.google.com with SMTP id j8so1969306qka.11;
+        Wed, 19 Feb 2020 16:27:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yBk+R8vCbSw5xpNQVNRg7HmG4Olx/oWqNTA9S4QsKz0=;
+        b=rofXMqqGIaLcHwa1DG5DkXkGjySQV4pFvsjSQerHl/4pTBIxj4RfCGmJC9d8P1kecz
+         hzOu77VzsqDVsryL613Ih8cqnqbUZ6s566WLJ0j7CQmrzmXfGMtQPpIVgeFF1fkfRtp7
+         QnJqoJ5qWzP0wVprLzoX50IS4ncv0AewPPTQey1M8LZQyAD/nFCdj0ta/IUBIfgdp9iS
+         xveLRcBygb3zfi8N6+JSqjeHvAXz4dUUhGpJZWXHo+kg91bWHUHNjfmm0fzBXJz5nabO
+         ZmTSseTB7VmHOXqv7YU2BkTCrhBR7Lamq6+ZFtsllfJA0u2wwCrhTTThimUvDQWgSbwW
+         AvlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bw/arhxO0zD6uxPv9B55JT/z9CSekm6k6Bmp/kVtLV0=;
-        b=iDoyGV5c0sHKnm8fR8KkHHXF/ntWO0w46zg5ISA1UjqFbYZT6PWEJgNscnK/WbzFiq
-         zST2+piKM7q4lOxSJE3idurDkXnWN9cSm6HbTejthJM8QihAnSXj8sXAo7xbKMTtaAS7
-         R+WoTJmlNxUJkgnSnwOknoV1cqtrkw7YI9ZMijGBZoRy9hvljRb3nHsjSnn0202Hxko5
-         ctpdzYwDrwk5IAm+qS6+AOz7vbKP3Y95XtDb/Qv/Y2j1gvtcBF4uxDIfF+BjDYotZnno
-         20hfTkJf79AF5oeNR9v6EGFKZ/8u7aOzMtdKfUJeOVRhd5US+KM0S1fes2AIirl+AuPS
-         hjwQ==
-X-Gm-Message-State: APjAAAUGzG6jwCLUc/rfUKD8lpIHVFw6wRIecqwf7YvXqQxbHcZIFltT
-        MvGzhud4J5MSdT4SGnsLUg==
-X-Google-Smtp-Source: APXvYqzZzuIwDzmzfqhTKUe49az+Etwqyco/nG1nDw+t4D7VEkxMrWlgNAsahLPneOunxOSWnXEiHQ==
-X-Received: by 2002:aca:d903:: with SMTP id q3mr6124909oig.12.1582151096719;
-        Wed, 19 Feb 2020 14:24:56 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l80sm428436oib.37.2020.02.19.14.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 14:24:56 -0800 (PST)
-Received: (nullmailer pid 16262 invoked by uid 1000);
-        Wed, 19 Feb 2020 22:24:54 -0000
-Date:   Wed, 19 Feb 2020 16:24:54 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
-        lorenzo.pieralisi@arm.com, joro@8bytes.org,
-        baolu.lu@linux.intel.com, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        iommu@lists.linux-foundation.org, corbet@lwn.net,
-        mark.rutland@arm.com, liviu.dudau@arm.com, sudeep.holla@arm.com,
-        guohanjun@huawei.com, rjw@rjwysocki.net, lenb@kernel.org,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: Re: [PATCH 01/11] dt-bindings: PCI: generic: Add ats-supported
- property
-Message-ID: <20200219222454.GA16221@bogus>
-References: <20200213165049.508908-1-jean-philippe@linaro.org>
- <20200213165049.508908-2-jean-philippe@linaro.org>
+         :mime-version:content-disposition:in-reply-to;
+        bh=yBk+R8vCbSw5xpNQVNRg7HmG4Olx/oWqNTA9S4QsKz0=;
+        b=Arh2RH3PQmmFTovat5S2zh9g8pdCfKoFGBw3IzxZ0TpWScljcbF63B9V0Tf+MTllKp
+         De0bApXCfYKWcq33XcQGfJaDdQyzJI+9oeSkVausr9zLG3dNALDSF0NbC6I5WJ2oJyYm
+         UvtSwaNO92ficlzdtmXpfzuTlCSjix/3039HMKWg6z+R7nX/yku1+dMWp3biAmarwJXU
+         nsdUsf8gdwq3POhFL65dGyDNG9HGH4X+0Qq55kOpXmGRKRhyqd1CrsVlwHTTNqCGBjpo
+         Vd6mkuuG4XmTXQH9tct0PTaTeEEGuxwhExuBrVXCJZ3YsxVKdvaNGOH3PkoQvhUTUI5T
+         W39Q==
+X-Gm-Message-State: APjAAAXQgSJVfw3F8KAg7pl0I8gmBC0MpPKaQuQo7+TmpdOVDBr9o6R2
+        ouGpQp7r+t4heI2ohQ6vTJ8=
+X-Google-Smtp-Source: APXvYqy3aAgDyTv7/CdGh1j7DLqx5eo/zj5tVgqNJdVXqys1VHflP07r9NZtd+tEADPW35EHgmd4EQ==
+X-Received: by 2002:a37:6393:: with SMTP id x141mr22771653qkb.134.1582158442595;
+        Wed, 19 Feb 2020 16:27:22 -0800 (PST)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id r37sm889732qtj.44.2020.02.19.16.27.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 19 Feb 2020 16:27:21 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id E2D1821B34;
+        Wed, 19 Feb 2020 19:27:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 19 Feb 2020 19:27:19 -0500
+X-ME-Sender: <xms:Z9JNXtSPSsab4cfiU9DymOc_Fz6gZePGaLcc3dBhnb80-JaqFXAybQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedugddvfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucfkphephedvrd
+    duheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqd
+    eiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhl
+    rdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:Z9JNXkkS1N5F4pGJ_Xoms083kNRJUYdvwMBNQgZ7ggatZAFnhSe3sQ>
+    <xmx:Z9JNXjve57JPgQ7Ig4v3yj7yqJ_0d5iC6mEs9YAThhudqOTRd4cUEA>
+    <xmx:Z9JNXv-nnt0zLmR8I_crAYAZ2aT3LbVP68fqgErYrzZaJbFgM8-7iQ>
+    <xmx:Z9JNXkY4PT0Ybf7bgfQC_hfVE2zmhcm9xhh3cVNUa4GzM8Zl1Ur1tBbnknA>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 9E2E63280059;
+        Wed, 19 Feb 2020 19:27:18 -0500 (EST)
+Date:   Thu, 20 Feb 2020 08:27:17 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC v2 3/4] Documentation/locking/atomic: Add a litmus test for
+ atomic_set()
+Message-ID: <20200220002717.GG69864@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200219062627.104736-4-boqun.feng@gmail.com>
+ <Pine.LNX.4.44L0.2002191004420.1514-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200213165049.508908-2-jean-philippe@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <Pine.LNX.4.44L0.2002191004420.1514-100000@iolanthe.rowland.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Feb 2020 17:50:39 +0100, Jean-Philippe Brucker wrote:
-> Add a way for firmware to tell the OS that ATS is supported by the PCI
-> root complex. An endpoint with ATS enabled may send Translation Requests
-> and Translated Memory Requests, which look just like Normal Memory
-> Requests with a non-zero AT field. So a root controller that ignores the
-> AT field may simply forward the request to the IOMMU as a Normal Memory
-> Request, which could end badly. In any case, the endpoint will be
-> unusable.
+On Wed, Feb 19, 2020 at 10:07:09AM -0500, Alan Stern wrote:
+> On Wed, 19 Feb 2020, Boqun Feng wrote:
 > 
-> The ats-supported property allows the OS to only enable ATS in endpoints
-> if the root controller can handle ATS requests. Only add the property to
-> pcie-host-ecam-generic for the moment. For non-generic root controllers,
-> availability of ATS can be inferred from the compatible string.
+> > We already use a litmus test in atomic_t.txt to describe the behavior of
+> > an atomic_set() with the an atomic RMW, so add it into atomic-tests
+> > directory to make it easily accessible for anyone who cares about the
+> > semantics of our atomic APIs.
+> > 
+> > Additionally, change the sentences describing the test in atomic_t.txt
+> > with better wording.
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  Documentation/devicetree/bindings/pci/host-generic-pci.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+> One very minor point about the new working in atomic_t.txt:
+> 
+> > diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
+> > index ceb85ada378e..d30cb3d87375 100644
+> > --- a/Documentation/atomic_t.txt
+> > +++ b/Documentation/atomic_t.txt
+> > @@ -85,10 +85,10 @@ smp_store_release() respectively. Therefore, if you find yourself only using
+> >  the Non-RMW operations of atomic_t, you do not in fact need atomic_t at all
+> >  and are doing it wrong.
+> >  
+> > -A subtle detail of atomic_set{}() is that it should be observable to the RMW
+> > -ops. That is:
+> > +A note for the implementation of atomic_set{}() is that it cannot break the
+> > +atomicity of the RMW ops. That is:
+> 
+> This would be slightly better if you changed it to: "it must not break".
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Got it. Indeed it's the better wording, thanks!
+
+Regards,
+Boqun
+
+> The comments in the litmus test and README file are okay as they stand.
+> 
+> Alan
+> 
