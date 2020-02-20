@@ -2,113 +2,186 @@ Return-Path: <SRS0=o7tk=4I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC69C761A1
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 05:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4180C11D01
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 07:46:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 930FC20801
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 05:29:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE7E5208C4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 07:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582176581;
-	bh=XDQHukBW5nB9NNO8yQ7uq4uTXt2JEPhHQbXyRzpE5jM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=z74M8Q20zD1FoL1FHWl6TqnAc1mqeyr10KsqS4qc22qUvtswW4gN2CPxTAiRWOPYX
-	 wv5TFtukpQZ82Wl4jETYZ/jyIO39WpP5RWAeeFkRz99DW5CIb2ssTbyo/yFeK93NmS
-	 u1yYHXIkHjMaDd+YcFb2TVb8xDpqObMTgztpPoW8=
+	s=default; t=1582184770;
+	bh=FpgJKzNaH50fFdPH9Fs/Jr3pMCVpVfuilrU4p7OEa4g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=e7dXIf8epnPed+0LqKoiLPVDq5nLboR++LjKnKEkllPGOcCYZaMqxdRjbyUHR88sm
+	 b4Ki+v/4ofszqJYlxbe0I+IAVNdnL9yvTkkPGLXDCeKAK+QqxGofBTTnAmGHUh9Tn0
+	 +hUYncOLvrmsjVNLVtUuqmgD3NUiVghICap3NOAI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbgBTF3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Feb 2020 00:29:41 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55588 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbgBTF3l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Feb 2020 00:29:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=/bm+Fs2a8O6/9ml+tzca2FzGm/kxq8txZe3TAzg+tRk=; b=Mnm56xC/kYa+Kd6mVqwdC9NS/q
-        IukXKtQ83/2x1+5fCtvi4bnMYIJUdlnNNVHhe0vvg1qJFAXhrF/yhfWYsyxvU2CB3SNM5M2AlDgJk
-        +kJxC4ZIxmAKlCgtdjHr58JWkii+2zsQPKZPo7kycCe6cbRcyncTBRXo9/KdXgP5L0DBkLVfNc70E
-        WR5KnAc6jN0teYdksakwO2jqjuk8eWcXMeWlRF/uk7+e2bM2jFv2cxRns1uHMgDKco5pmJLKQEhfi
-        +wxJIt0css9/snr4IwgXlxw7J/NYh/pHmL7w54EWoj9LR7UnP9VzluO/UZjZzo0TdK+nZ5ghYcfBk
-        89iQiZ0Q==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j4eP3-0003E6-Fx; Thu, 20 Feb 2020 05:29:37 +0000
-Date:   Thu, 20 Feb 2020 06:29:34 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: "staging" area for unsorted random files under
- Documentation/*.rst
-Message-ID: <20200220062934.552d2941@kernel.org>
-In-Reply-To: <20200219022951.6127e48b@lwn.net>
-References: <20200218113219.7b7cc460@kernel.org>
-        <87v9o4ulnd.fsf@intel.com>
-        <20200219022951.6127e48b@lwn.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726541AbgBTHqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Feb 2020 02:46:07 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:48072 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726248AbgBTHqH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Feb 2020 02:46:07 -0500
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 01K7jnNe017759;
+        Thu, 20 Feb 2020 16:45:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 01K7jnNe017759
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1582184750;
+        bh=6zhzpzAVSdaGoqnVCzrCzV7UypsIepdCzBEW+mzNg4g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LzqgfMc5G4lrLV1+sfUx8shwfKt4So/roIe/QPFBZsftvSnpYuoiMicA1h6NQHmHL
+         KRMW9qD0IKqNMz38uF7hSEK+A5cZQ/hj6QtlKf5DmnNnHMJjoOdlU4xvcXXMKz2I8x
+         ipN8SdwcTbtobL5tEqwwlJY9hs2PUmo3GEaN+pJjyNoqKSvWFqO9n8AR9TAecFdmTq
+         SmPZegvYZHleOTdJrJMDnugBnSF6JxMCQ/09vtHlgraz1gxRiKU4/MrF8jEzeyZLAY
+         PM7nNh1ry9rhrqwvAoUsI8MC9NgygmFLVrKYQOGNnyfjdj8nvrisv5X786gB435ppk
+         vMPK1IY94OzGQ==
+X-Nifty-SrcIP: [209.85.217.53]
+Received: by mail-vs1-f53.google.com with SMTP id b79so2071468vsd.9;
+        Wed, 19 Feb 2020 23:45:50 -0800 (PST)
+X-Gm-Message-State: APjAAAWqOH3hicYnmZzQ3CInviekLBJkHj93T5eGzbQzOiUTjuGCY2M9
+        CbF7i+zsSOP15i7jWj2h8Pbd9eFlTfG4C4qJppw=
+X-Google-Smtp-Source: APXvYqzet+Jcd7Q6URYa30drIqNgCGwf5AcZ20DJRwtg2ifTQsVzPG3djvIBPIpQovJgNJWuArA9QZh0McHY/6IivOw=
+X-Received: by 2002:a67:6485:: with SMTP id y127mr17007256vsb.54.1582184749282;
+ Wed, 19 Feb 2020 23:45:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200219074950.23344-1-masahiroy@kernel.org> <nycvar.YSQ.7.76.2002191046520.1559@knanqh.ubzr>
+In-Reply-To: <nycvar.YSQ.7.76.2002191046520.1559@knanqh.ubzr>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 20 Feb 2020 16:45:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASubs2oJ8-a-amsEhWjYrfpAx8QxeTzH4PnKsELKyLaUw@mail.gmail.com>
+Message-ID: <CAK7LNASubs2oJ8-a-amsEhWjYrfpAx8QxeTzH4PnKsELKyLaUw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
+To:     Nicolas Pitre <nico@fluxnic.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        John Stultz <john.stultz@linaro.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Mark Brown <broonie@kernel.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 Feb 2020 02:29:51 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Hi Nicolas,
 
-> On Tue, 18 Feb 2020 14:26:14 +0200
-> Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> 
-> > On Tue, 18 Feb 2020, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:  
-> > > Shifting those around is not easy (I tried a few times), as some discussions
-> > > are required in order to get them at their rightful places.
-> > >
-> > > So, my current proposal is to just rename them to *.rst, keeping them
-> > > where they are, and adding them into an "staging" area at the main
-> > > index.rst. See the enclosed patch.    
-> > 
-> > The obligatory bikeshedding comment, how about adding an actual
-> > "staging" directory under Documentation, perhaps with an index.rst of
-> > its own?  
-> 
-> I kind of agree, actually.  If we absolutely must create a trashpile of
-> random documents, the top-level directory seems like the worst place for
-> it.  Let's hide our shame rather than rubbing everybody's nose in it.
+On Thu, Feb 20, 2020 at 1:16 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+>
+> On Wed, 19 Feb 2020, Masahiro Yamada wrote:
+>
+> > The 'imply' statement may create unmet direct dependency when the
+> > implied symbol depends on m.
+> >
+> > [Test Code]
+> >
+> >   config FOO
+> >           tristate "foo"
+> >           imply BAZ
+> >
+> >   config BAZ
+> >           tristate "baz"
+> >           depends on BAR
+> >
+> >   config BAR
+> >           def_tristate m
+> >
+> >   config MODULES
+> >           def_bool y
+> >           option modules
+> >
+> > If you set FOO=y, BAZ is also promoted to y, which results in the
+> > following .config file:
+> >
+> >   CONFIG_FOO=y
+> >   CONFIG_BAZ=y
+> >   CONFIG_BAR=m
+> >   CONFIG_MODULES=y
+> >
+> > This ignores the dependency "BAZ depends on BAR".
+> >
+> > Unlike 'select', what is worse, Kconfig never shows the
+> > "WARNING: unmet direct dependencies detected for ..." for this case.
+> >
+> > Because 'imply' should be weaker than 'depends on', Kconfig should
+> > take the direct dependency into account.
+> >
+> > Describe this case in Documentation/kbuild/kconfig-language.rst for
+> > clarification.
+> >
+> > Commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword") says that
+> > a symbol implied by y is restricted to y or n, excluding m.
+> >
+> > As for the combination of FOO=y and BAR=m, the case of BAZ=m is excluded
+> > by the 'imply', and BAZ=y is also excluded by 'depends on'. So, only the
+> > possible value is BAZ=n.
+>
+> I don't think this is right. The imply keyword provide influence over
+> another symbol but it should not impose any restrictions. If BAR=m then
+> BAZ should still be allowed to be m or n.
+>
+> > @@ -174,6 +174,9 @@ applicable everywhere (see syntax).
+> >       n               y               n               N/m/y
+> >       m               y               m               M/y/n
+> >       y               y               y               Y/n
+> > +     n               m               n               N/m
+> > +     m               m               m               M/n
+> > +     y               m               n               N
+>
+> Here the last line shoule be y m n N/m.
+>
+> Generally speaking, the code enabled by FOO may rely on functionalities
+> provided by BAZ only when BAZ >= FOO. This is accomplished with
+> IS_REACHABLE():
+>
+>         foo_init()
+>         {
+>                 if (IS_REACHABLE(CONFIG_BAZ))
+>                         baz_register(&foo);
+>                 ...
+>         }
+>
+> So if FOO=y and BAZ=m then IS_REACHABLE(CONFIG_BAZ) will be false. Maybe
+> adding a note to that effect linked to the "y m n N/m" line in the table
+> would be a good idea.
+>
 
-Ok. I'll prepare a patch creating a Documentation/staging and move those
-unsorted stuff into it.
+I also thought so.
 
-I may try to do another attempt to move at least some of those unsorted
-documents to a better place before the final one that will place the
-remaining ones under staging/.
+I agree IS_REACHABLE() is much saner approach.
 
-> > Personally I don't really mind having .txt files around either, just
-> > *not* at the top level Documentation directory.  
-> 
-> In general, RST conversion is not my highest priority at this point.
+So, do you agree to change the current behavior
+as follows?
 
-Well, right now on my TODO list there are just ~20 files left to convert.
 
-I'm excluding from my TODO a few exceptions like config files with .txt 
-extensions and translations, plus a couple of text files whose previous
-conversion attempts generated heated discussions.
+index d0111dd26410..47dbfd1ee003 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -173,7 +173,7 @@ applicable everywhere (see syntax).
+        ===             ===             =============   ==============
+        n               y               n               N/m/y
+        m               y               m               M/y/n
+-       y               y               y               Y/n
++       y               y               y               Y/m/n
+        y               n               *               N
+        ===             ===             =============   ==============
 
-> There is only so much value in creating a more nicely formatted version
-> of an unorganized heap of obsolete documentation.  Hopefully we get get a
-> bit more focus on quality once this is all behind us...
 
-Yeah, there's little value nicely formatting outdated stuff. However, 
-having them converted make those docs more visible, which in turn helps 
-to attract devels to send patches updating them.
 
-The more important is that, once we get past this step, we can have a
-clearer view about what's left undocumented.
 
-Cheers,
-Mauro
+
+
+-- 
+Best Regards
+Masahiro Yamada
