@@ -6,44 +6,45 @@ X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DBCC35656
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A71C35657
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:47:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C6CD208E4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59267208E4
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:47:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FO11uySW"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GLzUnTFN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbgBUP2t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 10:28:49 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37552 "EHLO
+        id S1728081AbgBUPr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 10:47:28 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:43784 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729072AbgBUP2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 10:28:45 -0500
+        with ESMTP id S1727312AbgBUPr2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 10:47:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=teQadSX0wyV4ftQ41M/03hMOBJ7nffcslPnRS4n1cL0=; b=FO11uySWYfI+CHf4sRD/ycCuie
-        nHo0JseQxPLSNhugXNfrjWpNpFYClG0EJ6ZhsJjnA4J8gErKszWCl2gM2wO95J1dA7ORGjeTOGc1r
-        ACXPYJgq/Z/oTLUEJHHzz7Xdsva/ZoWzEWoZzpXzjqmFOpHtcqXLVo1H7eqSwhMds4sMo58AJLwd3
-        DQxRWRpw/60TICg7PHg/Yvr/nKsTJozL7slseewvBlRg2iJclSKEdCwigvnRCsG6s3/W0LVfgx8Gx
-        I7ZnmxVYGvd9qPsMMO2IjpDbUYh/g62/J/7dywfdJbrXUmeZ4kb5O7zWAqdEeFzLy6xXDrQmkLmQd
-        n1fjTRkQ==;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=8Rh9xF8Ip+2XcAggrOCPjsFTFtbK8F8PUpCWjSbTVZU=; b=GLzUnTFNRf5WlpOSGlBaxxK1ZC
+        IpoU1NE44kNrImK1uh9Sef+I0YAdgnqwG1Pkhh7KtJ70ldksZ923AfJu7Uq9wzl0RzXmMxUna3bxY
+        FOINcJWjHZV56i8v5AqYZx1o4FhLnFILkOxt/jIjvPTg++KVb3LQKGWrIaCg34EMdUegjJe4Ao8h2
+        6Yw618dxo9zCnjgA8G8znMLAP2JDiMaZDGeQUQbe32RmYzbdo7kelLvdyKPjMTQV/QfJPi5u4HARf
+        E0X6deyikcdxVDGDGvg0Aaf2ppErTkox1UMU1QjthyaXNKn3O5NKgKPdv9KfySiS7Vlfv1xCIyjjo
+        wCTf5cfA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5AE7-0001jI-81; Fri, 21 Feb 2020 15:28:27 +0000
+        id 1j5AWF-0001Zj-0o; Fri, 21 Feb 2020 15:47:11 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D4B5D306151;
-        Fri, 21 Feb 2020 16:26:30 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D0EB1300478;
+        Fri, 21 Feb 2020 16:45:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 29990209DB0F7; Fri, 21 Feb 2020 16:28:24 +0100 (CET)
-Date:   Fri, 21 Feb 2020 16:28:24 +0100
+        id 0B17B209DB0F7; Fri, 21 Feb 2020 16:47:07 +0100 (CET)
+Date:   Fri, 21 Feb 2020 16:47:07 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     =?utf-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     ?????? <yun.wang@linux.alibaba.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Vincent Guittot <vincent.guittot@linaro.org>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -60,38 +61,44 @@ Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
  locality info
-Message-ID: <20200221152824.GH18400@hirez.programming.kicks-ass.net>
+Message-ID: <20200221154706.GI18400@hirez.programming.kicks-ass.net>
 References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
  <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
  <20200214151048.GL14914@hirez.programming.kicks-ass.net>
  <20200217115810.GA3420@suse.de>
  <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
+ <20200217141616.GB3420@suse.de>
+ <114519ab-4e9e-996a-67b8-4f5fcecba72a@linux.alibaba.com>
+ <20200221142010.GT3420@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
+In-Reply-To: <20200221142010.GT3420@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 09:23:52PM +0800, 王贇 wrote:
-> FYI, by monitoring locality, we found that the kvm vcpu thread is not
-> covered by NUMA Balancing, whatever how many maximum period passed, the
-> counters are not increasing, or very slowly, although inside guest we are
-> copying memory.
-> 
-> Later we found such task rarely exit to user space to trigger task
-> work callbacks, and NUMA Balancing scan depends on that, which help us
-> realize the importance to enable NUMA Balancing inside guest, with the
-> correct NUMA topo, a big performance risk I'll say :-P
+On Fri, Feb 21, 2020 at 02:20:10PM +0000, Mel Gorman wrote:
+> I fully acknowledge that this may have value for sysadmins and may be a
+> good enough reason to merge it for environments that typically build and
+> configure their own kernels. I doubt that general distributions would
+> enable it but that's a guess.
 
-That's a bug in KVM, see:
+OTOH, many sysadmins seem to 'rely' on BPF scripts and other such fancy
+things these days.
 
-  https://lkml.kernel.org/r/20190801143657.785902257@linutronix.de
-  https://lkml.kernel.org/r/20190801143657.887648487@linutronix.de
+ ( of course, we have the open question on what happens when we break
+   one of those BPF 'important' scripts ... )
 
-ISTR there being newer versions of that patch-set, but I can't seem to
-find them in a hurry.
+My main reservation with this patch is that it exposes, to userspace, an
+ABI that is very hard to interpret and subject to implementation
+details.
+
+So while it can be disabled; people who have it enabled might suddenly
+complain when we change the meaning/interpretation/whatever of these
+magic numbers.
+
+Michael; you seem to have ignored the tracepoint / BPF angle earlier in
+this discussion; that is not something that could/would work for you?
