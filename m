@@ -1,131 +1,122 @@
-Return-Path: <SRS0=o7tk=4I=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B05EDC11D00
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 22:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70258C11D00
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:15:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82E40208CD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Feb 2020 22:49:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jEKUjFZF"
+	by mail.kernel.org (Postfix) with ESMTP id 4ACFE206DB
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:15:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729205AbgBTWtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Feb 2020 17:49:43 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34994 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729006AbgBTWtn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Feb 2020 17:49:43 -0500
-Received: by mail-pf1-f193.google.com with SMTP id i19so128490pfa.2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2020 14:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hrRbpCCPHpVPhWFltflgpHqU78+a02z0kjg48Y4OSdE=;
-        b=jEKUjFZFhAcyM3Q54oVvETk8kz+VWEk5bcp1YJ8iutaJKlUpUZaFbGVL0d5Zvk43Va
-         ns6ocmjFOERXx6rZNN5938XcsobSE7kCazoGW5s6j54UCts/HeB8hQ12gBiOYsh84O0O
-         /NKl3QYoUt2y2lm/+NJlM+PnUbQO8Wb/K0+pM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hrRbpCCPHpVPhWFltflgpHqU78+a02z0kjg48Y4OSdE=;
-        b=bnUoeyOgHEgLysXeBQXd25T43mjlS2hHF/7TLheEaKrv8oVgaJHJ4hIiFfDZntWQC7
-         lbEZ388GSDCRmOp7zsIv49kiWIWTUu8gYUxXdrx6rSwtc/PmwIEL/gJppwtMcFOBoRyV
-         NX2XSMMuAvQ4otAT1IGSCLuyHajG3mHG9J6D2RN0ke36U7iZv78xV0id2Dcp6W7QnVD4
-         LLSEWrhsmVWqigTeL6mPC+K7m4Vp61vanmahj0ThZsU2fqZzOSL8GX9iwzLpRRKyBE0g
-         OTVuKHy2eu/S7pBgWK++EpOCvH13v+0rmr75miatllaccAdXAGTuaeSGi/uxja90+PRJ
-         Xd6Q==
-X-Gm-Message-State: APjAAAWYMRpH7JuKk4Xd4dyvxV45URQpb/u6kBqYMgbEmhpz7qreKOrZ
-        5ojjOTCqKAaxnkWroc6fJCy6PA==
-X-Google-Smtp-Source: APXvYqx6sEdQKaVia+e8VEnJIw91Gg2LVx+bLKWp0mLVbV7vSH9biGF1JLIoeYZZ0MPRTM7n37/oeQ==
-X-Received: by 2002:a63:3407:: with SMTP id b7mr7687627pga.163.1582238982562;
-        Thu, 20 Feb 2020 14:49:42 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u11sm466950pjn.2.2020.02.20.14.49.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2020 14:49:41 -0800 (PST)
-Date:   Thu, 20 Feb 2020 14:49:39 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [Regression] Docs build broken by commit 51e46c7a4007
-Message-ID: <202002201448.62894C394@keescook>
-References: <CAJZ5v0he=WQ6159fyaYYffdi66y596rVo7z1yLyGFcH45PXNUg@mail.gmail.com>
- <202002201158.2911CE2388@keescook>
- <CAJZ5v0hkKUi7FUOneEy2nO-=RM8ZbcoG1uHRYNWzrjONEhKYxQ@mail.gmail.com>
+        id S1729416AbgBUAPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Feb 2020 19:15:54 -0500
+Received: from foss.arm.com ([217.140.110.172]:54118 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729410AbgBUAPx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Feb 2020 19:15:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC99531B;
+        Thu, 20 Feb 2020 16:15:52 -0800 (PST)
+Received: from [10.37.12.72] (unknown [10.37.12.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27B4B3F6CF;
+        Thu, 20 Feb 2020 16:15:49 -0800 (PST)
+Subject: Re: [PATCH v9 08/15] coresight: cti: Enable CTI associated with
+ devices.
+To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
+        robh+dt@kernel.org, maxime@cerno.tech, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, agross@kernel.org,
+        corbet@lwn.net
+References: <20200210213924.20037-1-mike.leach@linaro.org>
+ <20200210213924.20037-9-mike.leach@linaro.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <04b739fd-7bb3-bd28-8013-918e7d4dfcb7@arm.com>
+Date:   Fri, 21 Feb 2020 00:20:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0hkKUi7FUOneEy2nO-=RM8ZbcoG1uHRYNWzrjONEhKYxQ@mail.gmail.com>
+In-Reply-To: <20200210213924.20037-9-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 10:44:35PM +0100, Rafael J. Wysocki wrote:
-> On Thu, Feb 20, 2020 at 9:05 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Thu, Feb 20, 2020 at 07:50:47PM +0100, Rafael J. Wysocki wrote:
-> > > On two of my systems the docs build has been broken by commit
-> > > 51e46c7a4007 ("docs, parallelism: Rearrange how jobserver reservations
-> > > are made").
-> > >
-> > > The symptom is that the build system complains about the "output"
-> > > directory not being there and returns with an error.
-> > >
-> > > Reverting the problematic commit makes the problem go away.
-> >
-> > How strange! This must be some race in the parallel build.
+Hi Mike
+
+Sorry for the delay. one minor comment below.
+
+On 02/10/2020 09:39 PM, Mike Leach wrote:
+> The CoreSight subsystem enables a path of devices from source to sink.
+> Any CTI devices associated with the path devices must be enabled at the
+> same time.
 > 
-> I don't think so, I didn't use -j with htmldocs builds.
-
-What version of Sphinx do you have?
-
-> And you know what, adding "-j 2" to the command line actually makes it work. :-)
-
-Without a -j argument, the Documentation build has been using -jauto on
-Sphinx itself.
-
-> > AFAICT, "output" is made in the first sub-target (Documentation/media). This
-> > doesn't look entirely stable (there's no ordering implied by the "all"
-> > target in there)...
-> >
-> > Does this work for you?
+> This patch adds an associated coresight_device element to the main
+> coresight device structure, and uses this to create associations between
+> the CTI and other devices based on the device tree data. The associated
+> device element is used to enable CTI in conjunction with the path elements.
 > 
-> No, it doesn't.
-
-Well now I'm really baffled. What make target are you specifying? I was
-assuming you were doing "make htmldocs"?
-
--Kees
-
+> CTI devices are reference counted so where a single CTI is associated with
+> multiple elements on the path, it will be enabled on the first associated
+> device enable, and disabled with the last associated device disable.
 > 
-> >
-> > diff --git a/Documentation/Makefile b/Documentation/Makefile
-> > index d77bb607aea4..5654e087ae1e 100644
-> > --- a/Documentation/Makefile
-> > +++ b/Documentation/Makefile
-> > @@ -62,7 +62,8 @@ loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
-> >  #    e.g. "media" for the linux-tv book-set at ./Documentation/media
-> >
-> >  quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
-> > -      cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/media $2 && \
-> > +      cmd_sphinx = mkdir -p $(abspath $(BUILDDIR)) && \
-> > +       $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/media $2 && \
-> >         PYTHONDONTWRITEBYTECODE=1 \
-> >         BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
-> >         $(PYTHON) $(srctree)/scripts/jobserver-exec \
-> >
-> > --
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> ---
+>   drivers/hwtracing/coresight/coresight-cti.c  | 129 +++++++++++++++++++
+>   drivers/hwtracing/coresight/coresight-cti.h  |   1 +
+>   drivers/hwtracing/coresight/coresight-priv.h |  12 ++
+>   drivers/hwtracing/coresight/coresight.c      |  71 +++++++++-
+>   include/linux/coresight.h                    |   4 +
+>   5 files changed, 212 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> index 77c2af247917..c4494923d030 100644
+> --- a/drivers/hwtracing/coresight/coresight-cti.c
+> +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> @@ -4,6 +4,7 @@
+>    * Author: Mike Leach <mike.leach@linaro.org>
+>    */
+>   
+> +#include <linux/property.h>
+>   #include "coresight-cti.h"
+>   
+>   /**
+> @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+>   	return err;
+>   }
+>   
+> +/*
+> + * Look for a matching connection device name in the list of connections.
+> + * If found then swap in the csdev name, set trig con association pointer
+> + * and return found.
+> + */
+> +static bool
+> +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> +		      struct coresight_device *csdev)
+> +{
+> +	struct cti_trig_con *tc;
+> +	const char *csdev_name;
+> +
+> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> +		if (tc->con_dev_name) {
+> +			if (!strcmp(node_name, tc->con_dev_name)) {
+> +				/* match: so swap in csdev name & dev */
+> +				csdev_name = dev_name(&csdev->dev);
+> +				tc->con_dev_name =
+> +					devm_kstrdup(&csdev->dev, csdev_name,
+> +						     GFP_KERNEL);
 
--- 
-Kees Cook
+In the extreme rare case of an allocation failure, we may want to
+check if the allocation was successful or not, rather than silently
+ignoring it. With that fixed,
+
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
