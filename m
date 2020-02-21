@@ -2,60 +2,105 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8AFBC35669
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 21:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A28F8C3566F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:00:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A59B42072C
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 21:58:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AD54206DB
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:00:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PlOw0CR8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgBUV62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 16:58:28 -0500
-Received: from ms.lwn.net ([45.79.88.28]:59224 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726725AbgBUV62 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Feb 2020 16:58:28 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E8EF14A8;
-        Fri, 21 Feb 2020 21:58:24 +0000 (UTC)
-Date:   Fri, 21 Feb 2020 14:58:18 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: remove MPX from the x86 toc
-Message-ID: <20200221145818.2dc36f94@lwn.net>
-In-Reply-To: <20200221225642.006495c9@heffalump.sk2.org>
-References: <20200221205733.26351-1-steve@sk2.org>
-        <cc401ede-c94e-3688-5295-fd4d4a1806a4@intel.com>
-        <20200221225642.006495c9@heffalump.sk2.org>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728684AbgBUWAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 17:00:51 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:54006 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728384AbgBUWAv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 17:00:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=FW1hN29x0uVP93l527RDu/ZdBzffdMJbQ/PcTlZQETg=; b=PlOw0CR8EbJaLl2uO+5GN3XuCO
+        1m9kYcfyEJ6X+9r2oJmlzWVciX5rsZuLUCvgR67AVbSWtZS0VoC5pcbeqNsyZH7ZKXsCaeJhQKmiC
+        HOIUiyipePiOB1SGq9DhK+B0VZ2D6/wFDxLYdmOUuDgnJGmJo7KFbMf9u6FnIXvdi3YJGFWEOOuuh
+        84CtZvmRnMrTcW9hoyivuXtTowwB/WejdhA6HAFG0koRoJ1r9i+5OR2OuLPxwTvlf+1uHIEl0a0FA
+        bIQL6Jbm/wYMNAcF4H8cs3Yvxm9CpC+cHnmmK17A8+Ocr3STpNZiItF6YcX/Q6x/81nJc2WDF2boB
+        ZIklrAsw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j5GLq-0008NV-Ow; Fri, 21 Feb 2020 22:00:50 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     linux-doc@vger.kernel.org, linux-mm@kvack.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: [PATCH] mm: Add pagemap.h to the fine documentation
+Date:   Fri, 21 Feb 2020 14:00:44 -0800
+Message-Id: <20200221220045.24989-1-willy@infradead.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 Feb 2020 22:56:42 +0100
-Stephen Kitt <steve@sk2.org> wrote:
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 
-> > Fixes: 45fc24e89b7cc ("x86/mpx: remove MPX from arch/x86")  
-> 
-> Ah yes, it would be. What’s the etiquette here? Should I respin, or can
-> whoever merges this (Jon?) add this to the commit message?
+The documentation currently does not include the deathless prose
+written to describe functions in pagemap.h because it's not included
+in any rst file.  Fix up the mismatches between parameter names and the
+documentation and add the file to mm-api.
 
-I can add it, no worries.
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ Documentation/core-api/mm-api.rst | 3 +++
+ include/linux/pagemap.h           | 8 ++++----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-Thanks,
+diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+index be726986ff75..2adffb3f7914 100644
+--- a/Documentation/core-api/mm-api.rst
++++ b/Documentation/core-api/mm-api.rst
+@@ -73,6 +73,9 @@ File Mapping and Page Cache
+ .. kernel-doc:: mm/truncate.c
+    :export:
+ 
++.. kernel-doc:: include/linux/pagemap.h
++   :internal:
++
+ Memory pools
+ ============
+ 
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index ccb14b6a16b5..6462df717cff 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -33,8 +33,8 @@ enum mapping_flags {
+ 
+ /**
+  * mapping_set_error - record a writeback error in the address_space
+- * @mapping - the mapping in which an error should be set
+- * @error - the error to set in the mapping
++ * @mapping: the mapping in which an error should be set
++ * @error: the error to set in the mapping
+  *
+  * When writeback fails in some way, we must record that error so that
+  * userspace can be informed when fsync and the like are called.  We endeavor
+@@ -305,9 +305,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
+  * atomic allocation!
+  */
+ static inline struct page *find_or_create_page(struct address_space *mapping,
+-					pgoff_t offset, gfp_t gfp_mask)
++					pgoff_t index, gfp_t gfp_mask)
+ {
+-	return pagecache_get_page(mapping, offset,
++	return pagecache_get_page(mapping, index,
+ 					FGP_LOCK|FGP_ACCESSED|FGP_CREAT,
+ 					gfp_mask);
+ }
+-- 
+2.25.0
 
-jon
