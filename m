@@ -2,153 +2,132 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67456C3566F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AB7C35641
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 23:52:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3DD2B206EF
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:35:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3A9C2073A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 23:52:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ofwR7pM3"
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="TzE0OKRd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728914AbgBUWfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 17:35:54 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14279 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729292AbgBUWfy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 17:35:54 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e505b270000>; Fri, 21 Feb 2020 14:35:19 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 21 Feb 2020 14:35:52 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 21 Feb 2020 14:35:52 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Feb
- 2020 22:35:52 +0000
-Subject: Re: [PATCH] mm: Add pagemap.h to the fine documentation
-To:     Matthew Wilcox <willy@infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-mm@kvack.org>
-References: <20200221220045.24989-1-willy@infradead.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <dca6710c-fecc-9d5d-4ada-6a437811bacc@nvidia.com>
-Date:   Fri, 21 Feb 2020 14:35:52 -0800
+        id S1729100AbgBUXwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 18:52:32 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36379 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726802AbgBUXwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 18:52:32 -0500
+Received: by mail-lj1-f195.google.com with SMTP id r19so3973574ljg.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 15:52:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=37taAW5B0H3QnMxnoDwbwTmsfR9PUSHDmfFTksmg34c=;
+        b=TzE0OKRdyDVakmN5Ccv9lK426rKmJdfiIDBA3K1rysdgeI1zaNlWZ8EIYQ9z2qYTtl
+         lknCCU7X/eUoCSUG+Mgf+jyy9vuaJP9nEeESL9aOcRHKq6Z9ifnU7T2vUlDoPFeU7Bia
+         ORmXZHrp9L3EYUn3BOMtl3FiK39IGn32u8i04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=37taAW5B0H3QnMxnoDwbwTmsfR9PUSHDmfFTksmg34c=;
+        b=dVseOO9tlIm2lyQT0L9W2dXBtzggE62UfVlgbuqTd1KcTB+WxUCa5SgPLMoIVKYc0F
+         vDi5zyrl6BexxrAHstuJe/J/dtXl10fHkp70uSZng1yrtAuk8oN7i8/B+Hogwyyc5ucg
+         rtbZmNVkMLbhDsfnUqHrV1lGQjnYkOIgPxcprBCmcUPJpty+9l+T8FArkQgJoXG7C2o5
+         WbwI4vJnJ1QD+OaaAeyaiaE5J9HiwUi8gppibm1wBe4tF9PR7GmfmPm10BTkOTVxrCAr
+         pJgTk/JnlnCCD4ELrgZCYClp9gNHCl49jbtSQIn9WZpUtuMSOSQNVCtjf4uU1alm6RJf
+         9lvw==
+X-Gm-Message-State: APjAAAXrrJbKyRzBpYlSOkgTAgWxapHk66MWqz1FxgKz1GdvnkDLKFHs
+        z9yYmIX41Sb+Iu4HzeKzPgPmiJON3cUGJZLT
+X-Google-Smtp-Source: APXvYqwLB2N/GjtMztU31UKgh5A06Jxv1Qnwd1X7Th9MuPWCFH9qjT6wtz+briWNa2l39TLMrhfD7Q==
+X-Received: by 2002:a2e:2201:: with SMTP id i1mr23457116lji.110.1582329150369;
+        Fri, 21 Feb 2020 15:52:30 -0800 (PST)
+Received: from [192.168.1.149] (ip-5-186-115-35.cgn.fibianet.dk. [5.186.115.35])
+        by smtp.gmail.com with ESMTPSA id m14sm2281645lfk.7.2020.02.21.15.52.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Feb 2020 15:52:29 -0800 (PST)
+Subject: Re: [PATCH] vsprintf: sanely handle NULL passed to %pe
+To:     Petr Mladek <pmladek@suse.com>, Ilya Dryomov <idryomov@gmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Tobin C . Harding" <me@tobin.cc>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <CAHk-=wjEd-gZ1g52kgi_g8gq-QCF2E01TkQd5Hmj4W5aThLw3A@mail.gmail.com>
+ <20200219082155.6787-1-linux@rasmusvillemoes.dk>
+ <CAOi1vP-4=QCSZ2A89g1po2p=6n_g09SXUCa0_r2SBJm2greRmw@mail.gmail.com>
+ <0fef2a1f-9391-43a9-32d5-2788ae96c529@rasmusvillemoes.dk>
+ <20200219134826.qqdhy2z67ubsnr2m@pathway.suse.cz>
+ <5459eb50-48e2-2fd9-3560-0bc921e3678c@rasmusvillemoes.dk>
+ <20200219144558.2jbawr52qb63vysq@pathway.suse.cz>
+ <bcfb2f94-e7a8-0860-86e3-9fc866d98742@rasmusvillemoes.dk>
+ <20200220125707.hbcox3xgevpezq4l@pathway.suse.cz>
+ <CAOi1vP8E_DL7y=STP5-vbe_Wf5PZRiXWGTNV3rN96i4N2R3zUQ@mail.gmail.com>
+ <20200221130506.mly26uycxpdjl6oz@pathway.suse.cz>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <cec0c65b-5b5d-6268-dae0-1d4088baab76@rasmusvillemoes.dk>
+Date:   Sat, 22 Feb 2020 00:52:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200221220045.24989-1-willy@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200221130506.mly26uycxpdjl6oz@pathway.suse.cz>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582324519; bh=hxZQZBMx95ZMyImZVrhvVrTo4+W/JP/LsBSUf7TxITA=;
-        h=X-PGP-Universal:Subject:To:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ofwR7pM3CEluo6aTjmuddI6vJvWfIOq9hr66WH3+8DTaGRaIvOUaqU+UZh9bKJS/E
-         WB6EC/eDZ9isx5YiUpjtpx4JoAzYbdu/sDgZHcNqc1tFF5bfV7vuK84HUptzOcqgBY
-         CqJDragLQKo249h3N/NimKn8TLCpG0hB6MgeK3wWo4dC3Mq4eN84Ntwe0uJuiFtjY7
-         weq4UiFI1KY+VTVNnz6aAXvCafxvv3CgJBhopsDgn4pOwr/Yd75a7oXPq6t1C7+xSO
-         kMf/AhNhXVi0S7dHVH3+OFzb3GVrDhgybm1oybLMHQhASXS9O7j5CsJcNcilIjwj1l
-         iQGJQyRMCKR3Q==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/21/20 2:00 PM, Matthew Wilcox wrote:
-> From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+On 21/02/2020 14.05, Petr Mladek wrote:
+> On Thu 2020-02-20 16:02:48, Ilya Dryomov wrote:
+
+>> I would like to see it in 5.6, so that it is backported to 5.4 and 5.5.
 > 
-> The documentation currently does not include the deathless prose
-
-Yea, documentation!
-
-> written to describe functions in pagemap.h because it's not included
-> in any rst file.  Fix up the mismatches between parameter names and the
-
-
-Maybe "Fix up some of the mismatches"? ...below:
-
-
-> documentation and add the file to mm-api.
+> OK, it would make sense to make the patch minimalist to make it
+> easier for backporting.
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  Documentation/core-api/mm-api.rst | 3 +++
->  include/linux/pagemap.h           | 8 ++++----
->  2 files changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-> index be726986ff75..2adffb3f7914 100644
-> --- a/Documentation/core-api/mm-api.rst
-> +++ b/Documentation/core-api/mm-api.rst
-> @@ -73,6 +73,9 @@ File Mapping and Page Cache
->  .. kernel-doc:: mm/truncate.c
->     :export:
->  
-> +.. kernel-doc:: include/linux/pagemap.h
-> +   :internal:
-> +
->  Memory pools
->  ============
->  
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index ccb14b6a16b5..6462df717cff 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -33,8 +33,8 @@ enum mapping_flags {
->  
->  /**
->   * mapping_set_error - record a writeback error in the address_space
-> - * @mapping - the mapping in which an error should be set
-> - * @error - the error to set in the mapping
-> + * @mapping: the mapping in which an error should be set
-> + * @error: the error to set in the mapping
->   *
->   * When writeback fails in some way, we must record that error so that
->   * userspace can be informed when fsync and the like are called.  We endeavor
-> @@ -305,9 +305,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
->   * atomic allocation!
->   */
->  static inline struct page *find_or_create_page(struct address_space *mapping,
-> -					pgoff_t offset, gfp_t gfp_mask)
-> +					pgoff_t index, gfp_t gfp_mask)
->  {
-> -	return pagecache_get_page(mapping, offset,
-> +	return pagecache_get_page(mapping, index,
->  					FGP_LOCK|FGP_ACCESSED|FGP_CREAT,
->  					gfp_mask);
-
-
-...for example, the called function itself, pagecache_get_page(), declares
-its second arg with a name of "offset". 
-
-Not that it needs to affect this patch, but just to note that I think we might
-be at this for a while. :)
-
-Anyway, I also ran 'make htmldocs' on this and poked around, and everything looks
-like it should, so:
-
-    Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-
->  }
+>> Please note that I sent v2 of my patch ("[PATCH v2] vsprintf: don't
+>> obfuscate NULL and error pointers"), fixing null_pointer() and adding
+>> error_pointer() test cases, which conflicts with this restructure.
 > 
+> IMHO, v2 creates even more mess in print tests that would need
+> to be fixed later.
+> 
+> If we agree to have a minimalist patch for backport
+> then I suggest to take v1. We could clean up and update
+> tests later.
+> 
+> Rasmus, others, is anyone against this approach (v1 first,
+> tests later)?
 
+Sorry to be that guy, but yes, I'm against changing the behavior of
+vsnprintf() without at least some test(s) added to the test suite - the
+lack of machine-checked documentation in the form of tests is what led
+to that regression in the first place.
 
+But I agree that there's no point adding another helper function and
+muddying the test suite even more (especially as the name error_pointer
+is too close to the name errptr() I chose a few months back for the %pe).
 
+So how about
+
+- remove the now stale test_hashed("%p", NULL); from null_pointer()
+- add tests of "%p", NULL and "%p", ERR_PTR(-123) to plain()
+
+and we save testing the "%px" case for when we figure out a good name
+for a helper for that (explicit_pointer? pointer_as_hex?)
+
+?
+
+Rasmus
