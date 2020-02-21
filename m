@@ -2,105 +2,98 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28F8C3566F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E157CC35669
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:10:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AD54206DB
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:00:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8ABD207FD
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 22:10:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PlOw0CR8"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XYQ6WQet"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728684AbgBUWAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 17:00:51 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54006 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728384AbgBUWAv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 17:00:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=FW1hN29x0uVP93l527RDu/ZdBzffdMJbQ/PcTlZQETg=; b=PlOw0CR8EbJaLl2uO+5GN3XuCO
-        1m9kYcfyEJ6X+9r2oJmlzWVciX5rsZuLUCvgR67AVbSWtZS0VoC5pcbeqNsyZH7ZKXsCaeJhQKmiC
-        HOIUiyipePiOB1SGq9DhK+B0VZ2D6/wFDxLYdmOUuDgnJGmJo7KFbMf9u6FnIXvdi3YJGFWEOOuuh
-        84CtZvmRnMrTcW9hoyivuXtTowwB/WejdhA6HAFG0koRoJ1r9i+5OR2OuLPxwTvlf+1uHIEl0a0FA
-        bIQL6Jbm/wYMNAcF4H8cs3Yvxm9CpC+cHnmmK17A8+Ocr3STpNZiItF6YcX/Q6x/81nJc2WDF2boB
-        ZIklrAsw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5GLq-0008NV-Ow; Fri, 21 Feb 2020 22:00:50 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org, linux-mm@kvack.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: [PATCH] mm: Add pagemap.h to the fine documentation
-Date:   Fri, 21 Feb 2020 14:00:44 -0800
-Message-Id: <20200221220045.24989-1-willy@infradead.org>
-X-Mailer: git-send-email 2.21.1
+        id S1726787AbgBUWKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 17:10:46 -0500
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:38758 "EHLO
+        mail-pf1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726731AbgBUWKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 17:10:46 -0500
+Received: by mail-pf1-f174.google.com with SMTP id x185so1983335pfc.5
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 14:10:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7vKq81cD/QN29xYHn6q6pJWs0yVIhFoN9EiGZra3Ihw=;
+        b=XYQ6WQet1tacXR1VZfT7hTWyzI8rHIS8e6kJpBHmweWfwysSxzwwZv1FlW0mZAAA+S
+         Q8RKr3SEZ0MdVEiqis1bDZKsAlRSEYCjfHJ+yc8t8exywStwLFFFveNLM7mvEB2wtWmm
+         Ohdqgk5YfUSCkVSUnlm4LlNyKpU7bzOvffvFQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7vKq81cD/QN29xYHn6q6pJWs0yVIhFoN9EiGZra3Ihw=;
+        b=tSrtoX48eTPm82RGUJEdFHWnn2HJsvUzQcIwVEP5FKiomqzEBR6y78sh+C/Igcpa7L
+         ZNMZjuZ/KxU3hFOPS/ChWggd6Y9zsbiNwK7AGcawJ1lOGsRYgQ+2KtJ/IzSm5ozp7jIB
+         7SIAJBzvVCxz6iX0kqaTs59RMZKpFeK/Fwm0RYHz27f506wGtuE6jqJTRN58jmYFwsVE
+         6yhVmtCOo0Hk27BkxGIIaL1GBA6wcpyuzEof0JGeo3JB8k3Bu+IiNft0a9CNay2rlslO
+         wy35O7hRqwRfhdGMXQqv4Wjrc82U7mtRp1fPRCDbbU9/vrtE1Bd5D7FmYzaCbSuRm7gD
+         dKJw==
+X-Gm-Message-State: APjAAAWCP4iN21zbvk7ppI+jAwUd9ikWRrl4E1cijIVXCHHCFfPYI1L7
+        bIEzftWFFx/15k/odRG/FP8bYE0bYmw=
+X-Google-Smtp-Source: APXvYqw1OjW+NvIwbFd4uPw3koB9DcsYvuSNcix0/b9rql+L6DY8NMjXU0Ynp257vp3bAlge4aSuxQ==
+X-Received: by 2002:aa7:9f47:: with SMTP id h7mr37799596pfr.13.1582323045355;
+        Fri, 21 Feb 2020 14:10:45 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b25sm3816338pfo.38.2020.02.21.14.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2020 14:10:43 -0800 (PST)
+Date:   Fri, 21 Feb 2020 14:10:42 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [Regression] Docs build broken by commit 51e46c7a4007
+Message-ID: <202002211406.69D0BAFD@keescook>
+References: <CAJZ5v0he=WQ6159fyaYYffdi66y596rVo7z1yLyGFcH45PXNUg@mail.gmail.com>
+ <202002201158.2911CE2388@keescook>
+ <CAJZ5v0hkKUi7FUOneEy2nO-=RM8ZbcoG1uHRYNWzrjONEhKYxQ@mail.gmail.com>
+ <202002201448.62894C394@keescook>
+ <CAJZ5v0gu_2wkncukKK7u340KLzSCVL_7F9cJTz3wVhxfogR8NQ@mail.gmail.com>
+ <20200221014841.3137229d@lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200221014841.3137229d@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+On Fri, Feb 21, 2020 at 01:48:41AM -0700, Jonathan Corbet wrote:
+> On Fri, 21 Feb 2020 09:40:01 +0100
+> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+> 
+> > 1.6.5 (I realize that it is older than recommended, but it had been
+> > working fine before 5.5-rc1 :-)).
+> 
+> We still intend to support back to 1.4; this version should work.
+> 
+> > I've tried that too, but most often I do something like "make
+> > O=../build/somewhere/ htmldocs".
+> > 
+> > But I can do "make O=../build/somewhere/ -j 2 htmldocs" too just fine. :-)
+> 
+> I suspect that the O= plays into this somehow; that's not something I do
+> in my own testing.  I'll try to take a look at this, but I'm on the road
+> and somewhat distracted at the moment...
 
-The documentation currently does not include the deathless prose
-written to describe functions in pagemap.h because it's not included
-in any rst file.  Fix up the mismatches between parameter names and the
-documentation and add the file to mm-api.
+Ah! Yes, I've not used O= before. I bet it's something weird between the
+parallelism detection of a pre-1.7 version and the O=. I'll see if I can
+find the problem...
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/core-api/mm-api.rst | 3 +++
- include/linux/pagemap.h           | 8 ++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index be726986ff75..2adffb3f7914 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -73,6 +73,9 @@ File Mapping and Page Cache
- .. kernel-doc:: mm/truncate.c
-    :export:
- 
-+.. kernel-doc:: include/linux/pagemap.h
-+   :internal:
-+
- Memory pools
- ============
- 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index ccb14b6a16b5..6462df717cff 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -33,8 +33,8 @@ enum mapping_flags {
- 
- /**
-  * mapping_set_error - record a writeback error in the address_space
-- * @mapping - the mapping in which an error should be set
-- * @error - the error to set in the mapping
-+ * @mapping: the mapping in which an error should be set
-+ * @error: the error to set in the mapping
-  *
-  * When writeback fails in some way, we must record that error so that
-  * userspace can be informed when fsync and the like are called.  We endeavor
-@@ -305,9 +305,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
-  * atomic allocation!
-  */
- static inline struct page *find_or_create_page(struct address_space *mapping,
--					pgoff_t offset, gfp_t gfp_mask)
-+					pgoff_t index, gfp_t gfp_mask)
- {
--	return pagecache_get_page(mapping, offset,
-+	return pagecache_get_page(mapping, index,
- 					FGP_LOCK|FGP_ACCESSED|FGP_CREAT,
- 					gfp_mask);
- }
 -- 
-2.25.0
-
+Kees Cook
