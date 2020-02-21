@@ -2,162 +2,151 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3139C35646
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:44:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21759C35646
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:51:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE9D524650
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:44:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED3E7208C4
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:51:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="qLl9CquU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DtEiys/4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgBUQoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 11:44:44 -0500
-Received: from mout.web.de ([212.227.17.12]:40587 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725995AbgBUQoo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Feb 2020 11:44:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1582303422;
-        bh=DrigLGSU+ChrPwJZ0xAMM/fg21zb8HBlkMz62DQ3N8w=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=qLl9CquUEuagMOdV8hrTcvVyczf/I4hEP7K3zSed3QCbPjS6AVUytmVHOhS8rCrLD
-         E7Txu3Dslu0qrEZfFNaFGO0MS0NjkKqTjvzAo0Fv1fHM4/nuRs5/avHFsmZ2ymGjcU
-         c2axFXjdZEDfvGWz4yYxsRpyq7q/fU0ZrNZ/H2YU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.97.109]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LtWwK-1jWvRy0kTc-010rPX; Fri, 21
- Feb 2020 17:43:42 +0100
-Subject: Re: [for-next][12/26] Documentation: bootconfig: Add a doc for
- extended boot config
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tim Bird <Tim.Bird@sony.com>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>
-References: <23e371ca-5df8-3ae3-c685-b01c07b55540@web.de>
- <20200220221340.2b66fd2051a5da74775c474b@kernel.org>
- <5ed96b7b-7485-1ea0-16e2-d39c14ae266d@web.de>
- <20200221191637.e9eed4268ff607a98200628c@kernel.org>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <5ade73b0-a3e8-e71a-3685-6485f37ac8b7@web.de>
-Date:   Fri, 21 Feb 2020 17:43:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726762AbgBUQvi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 11:51:38 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:38392 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726823AbgBUQvi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 11:51:38 -0500
+Received: by mail-pj1-f67.google.com with SMTP id j17so1003369pjz.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 08:51:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tEM+tesVTVelhRXwBYSeP4xDuDSKuUzJHlaSkE25t30=;
+        b=DtEiys/4qhH8hyv+tP020VfRN3Jsc8PfosTjpDz8jJXXoNQnmpflnAl/Z/Ke1pMVx4
+         klW6vkgnfzp1+C9/Auk+0R6WmKjTSn0QrhLR/7oGTUXilWZQIpq77IHSeel/LOEsMBJA
+         EzjW1Bbrq19YEytPpTAeh44rz9FuRnjIO6MR/Z+uQ4qCVnCOWJrV01+sTWhKsWex8p8i
+         IzOEFbINdr1njk6bCmzgrHVWnrEjoWNrn1GmiRoYWeQma7l3xjNJZAVpgMoPmiSFCnJw
+         Gt6hzyCQmp8mKZf0da3x1LAz7MFh+KHPSoWwgotDTLtYCMlvuqb+/w0Ld2lLcBfAtqkc
+         YwzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tEM+tesVTVelhRXwBYSeP4xDuDSKuUzJHlaSkE25t30=;
+        b=FWOnNpWAllGH1NMWofkFv0K3XjNLnf+BXUdWPMtM2yunQfmFgVhOmK8xEYksb4zub8
+         SaOrRWtttrdE/BlavnTXtiz7e6PpwMlgeKEvGD5nz93sxpDWjw3r3VdYSaVRTc1vujE8
+         /ZpvLHfsBoKj3U2EkVcaE/le5xzVbO2XpPulB+nUqqwEXC9LQR5InZ1lhewO6l0BV/hy
+         AgzSK2yLaUCGeC4lonHCizBtMxYG6GpYlwvTS/a2z8zhXl82jpQq2i+QuR4mhT+qGw7b
+         Z8LXgnIOCyh/ZmnN+esa2O5Wv9Ag1AU7x7nNC7yfSZWfsxiqwCGqp8iixr0VbzQaMR1m
+         qRww==
+X-Gm-Message-State: APjAAAVJLpiPqTQ9ZgqVGRhcNMwGh4DUtByidQqZgSz/D0b0R2NWDxs/
+        hfhdlWBqiN9SghbGz8TVkx90eQ==
+X-Google-Smtp-Source: APXvYqzT+t3dCacWeKeKTixALPmwUeIlG7vCIxzI6q77A91pVv1ZgKkZhV/aajDg05G9jtXbeNxFcQ==
+X-Received: by 2002:a17:90a:c214:: with SMTP id e20mr4039464pjt.98.1582303897356;
+        Fri, 21 Feb 2020 08:51:37 -0800 (PST)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id ev5sm3104850pjb.4.2020.02.21.08.51.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2020 08:51:36 -0800 (PST)
+Date:   Fri, 21 Feb 2020 09:51:34 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        robh+dt@kernel.org, maxime@cerno.tech, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, agross@kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH v9 08/15] coresight: cti: Enable CTI associated with
+ devices.
+Message-ID: <20200221165134.GA25043@xps15>
+References: <20200210213924.20037-1-mike.leach@linaro.org>
+ <20200210213924.20037-9-mike.leach@linaro.org>
+ <04b739fd-7bb3-bd28-8013-918e7d4dfcb7@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200221191637.e9eed4268ff607a98200628c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HaBF0p1Y0Y48qrfqoqWmnTuF4Sl0nwT9DWOsds/JIPH+ixVTRyV
- PqXANwDrmoMXX0/c7fufFyJ0f5TqHRGdumh6bNkzIEkTjTiPbUNxJueh5rSt7Wl/6VkVe9K
- JYVrgpcGO1EPtgreqPjWp0+Tl/QaCqdGNe1TXhTB7CyOwb4mAz8u/ovk7ftIVr64Z7DIGoV
- Z0PtflPXWu30HjYE3UBPg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0NgdCAYYZu8=:aa3zSrP1xBMKh+kNR3MWys
- ExrWookpImL9/j67a5rqYXE5V4mvX0TLPf2lzCgS5k58PceGWRCTCsRxG1U//GFJnOkOUKDHP
- h7+Z8wddxL4MxPmr6oEShT2XqzSTK4ebHtVF3qyOmiS7nR1s2GRgss3roRVwLeluKu+0Pm9zS
- YAZohArhE6gzmR93ILiUEGHMExRH+FAYZ95eDgd2QJAhDHYWgCj2q4djGtLI95G2Gh3OswRMD
- IhqORcJUKYiquBHpsoxhS+PpLV6WhU4iWIOblA/Nbw0bAudu7+rFouGsP+1KVndBkVOMMFrya
- ceW21xTNUsDS1M305cOIv77ThEDxUKUC8UQrM8fC25H8gEzaakTdjwCrvFyEH1Ucmv1yiu6qI
- iY0rHPDWkaIxuWzXQimPccLQ+eez+B+jZXANa98VChc0EGx66uvlghHJvmONEBI6xw2Dak8Ao
- xqBV6oCGGFX1fWa5NnrY/eVtS3kLs4cfJh5m0z2pDgiKlCH2pMNBN2OFTOl8WpTtqdZhcZnYB
- PzTzrbNYBMoN4tOFyUb7vH/zMq45xO5hO67TQP5KCnwr9tW7S2W8x4ym7wa9Movx79Ks7JKQZ
- 5OunCKyvwHFGY4xquxnJX/txXCN4BF0meFrjkVrRW1SkzYyQvEcYonlY5VVXsN9CENm4QMC44
- DIzpnRhEtMCIIAIuManRw6I/KxAMf/IthQaK8N3jGuzCHFSB85kPd4jQswa4s7gCQQX3PZluM
- 3ry1sdc1kUSbeTw/BpVbidSYFcfrladHs1E52lURS7RYUkIjFh2fVorwkcK89bGAWV8yDXTcf
- LCakSr8eEPxz5rmiqRUSRlUTD+yVxfl5I+EFCaG3chtfNrG2xtqYRaXeFvDHrXrCzKiJE837k
- 3fl1vVeg0S28YakRStveBGZAN+NI+h8BBcMqZ/2XTRDeVCpzvUu5uGFkdLD8fhFQL5KxkkYhv
- PAEZmRzn/r4603JVh+MOQF46z7CzB4w40tRAL5imX1U/fTVYNLvc+gIu+rLsRHpfsWzKxzVH7
- +soyGMb8cpEhx5a/SqfQR0Ug3QW8/mLPYCqfiuacYu2NPKdilCqH4TEuOBb4Pp9jrPiVdaw/t
- erQYqFGTJrlQVGCOey/Josj8tf+U0DY5WOdJ9aPcdkxVqbGeWaCF3R4cAVmVz/vr1xTzViVHK
- At9GqlfUKwAuH0eHKyYHYXSO1AU2Y/6nFMBfoUMlfP4mSBx+pjDfHWDdqQWOBI5sJ7A/cRjEl
- AKs6JhlEgK5S8TmDd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04b739fd-7bb3-bd28-8013-918e7d4dfcb7@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> Is there a need to separate the number from the following unit?
->
-> Sorry, I couldn't understand what you pointed here.
+On Fri, Feb 21, 2020 at 12:20:17AM +0000, Suzuki K Poulose wrote:
+> Hi Mike
+> 
+> Sorry for the delay. one minor comment below.
+> 
+> On 02/10/2020 09:39 PM, Mike Leach wrote:
+> > The CoreSight subsystem enables a path of devices from source to sink.
+> > Any CTI devices associated with the path devices must be enabled at the
+> > same time.
+> > 
+> > This patch adds an associated coresight_device element to the main
+> > coresight device structure, and uses this to create associations between
+> > the CTI and other devices based on the device tree data. The associated
+> > device element is used to enable CTI in conjunction with the path elements.
+> > 
+> > CTI devices are reference counted so where a single CTI is associated with
+> > multiple elements on the path, it will be enabled on the first associated
+> > device enable, and disabled with the last associated device disable.
+> > 
+> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > ---
+> >   drivers/hwtracing/coresight/coresight-cti.c  | 129 +++++++++++++++++++
+> >   drivers/hwtracing/coresight/coresight-cti.h  |   1 +
+> >   drivers/hwtracing/coresight/coresight-priv.h |  12 ++
+> >   drivers/hwtracing/coresight/coresight.c      |  71 +++++++++-
+> >   include/linux/coresight.h                    |   4 +
+> >   5 files changed, 212 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> > index 77c2af247917..c4494923d030 100644
+> > --- a/drivers/hwtracing/coresight/coresight-cti.c
+> > +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> > @@ -4,6 +4,7 @@
+> >    * Author: Mike Leach <mike.leach@linaro.org>
+> >    */
+> > +#include <linux/property.h>
+> >   #include "coresight-cti.h"
+> >   /**
+> > @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+> >   	return err;
+> >   }
+> > +/*
+> > + * Look for a matching connection device name in the list of connections.
+> > + * If found then swap in the csdev name, set trig con association pointer
+> > + * and return found.
+> > + */
+> > +static bool
+> > +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> > +		      struct coresight_device *csdev)
+> > +{
+> > +	struct cti_trig_con *tc;
+> > +	const char *csdev_name;
+> > +
+> > +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> > +		if (tc->con_dev_name) {
+> > +			if (!strcmp(node_name, tc->con_dev_name)) {
+> > +				/* match: so swap in csdev name & dev */
+> > +				csdev_name = dev_name(&csdev->dev);
+> > +				tc->con_dev_name =
+> > +					devm_kstrdup(&csdev->dev, csdev_name,
+> > +						     GFP_KERNEL);
+> 
+> In the extreme rare case of an allocation failure, we may want to
+> check if the allocation was successful or not, rather than silently
+> ignoring it. With that fixed,
 
-Can the specification =E2=80=9C=E2=80=A6 size is 32 KiB =E2=80=A6=E2=80=9D=
-be more appropriate
-(besides a small wording adjustment)?
+Line 419 and 423 in patch 1 need the same attention.
 
-
-> Like "descriptions of ..." ?
-
-I got another idea also for the provided documentation format.
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/D=
-ocumentation/admin-guide/bootconfig.rst?id=3Dbee46b309a13ca158c99c325d0408=
-fb2f0db207f#n18
-
-* Will a file format description become helpful in the way of
-  an extended Backus=E2=80=93Naur form?
-
-* How will data processing evolve around the added structures?
-
-Regards,
-Markus
+> 
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
