@@ -2,121 +2,74 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70258C11D00
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159BEC11D00
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:48:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4ACFE206DB
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:15:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D20AA208CD
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 00:48:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="QJihoD3r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729416AbgBUAPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Feb 2020 19:15:54 -0500
-Received: from foss.arm.com ([217.140.110.172]:54118 "EHLO foss.arm.com"
+        id S1729419AbgBUAsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Feb 2020 19:48:55 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46453 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729410AbgBUAPx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Feb 2020 19:15:53 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC99531B;
-        Thu, 20 Feb 2020 16:15:52 -0800 (PST)
-Received: from [10.37.12.72] (unknown [10.37.12.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27B4B3F6CF;
-        Thu, 20 Feb 2020 16:15:49 -0800 (PST)
-Subject: Re: [PATCH v9 08/15] coresight: cti: Enable CTI associated with
- devices.
-To:     mike.leach@linaro.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
-        robh+dt@kernel.org, maxime@cerno.tech, liviu.dudau@arm.com,
-        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, agross@kernel.org,
-        corbet@lwn.net
-References: <20200210213924.20037-1-mike.leach@linaro.org>
- <20200210213924.20037-9-mike.leach@linaro.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <04b739fd-7bb3-bd28-8013-918e7d4dfcb7@arm.com>
-Date:   Fri, 21 Feb 2020 00:20:17 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1729365AbgBUAsz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Feb 2020 19:48:55 -0500
+Received: by ozlabs.org (Postfix, from userid 1034)
+        id 48NtBF05Wbz9sRl; Fri, 21 Feb 2020 11:48:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1582246133;
+        bh=qnBDIU3ClKj8LI+H5LWYwrMiiSASHJw9umw0hGd2zjY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QJihoD3rosrgvwZ17Qb9f+INJumUUNZlehOwdLKk1Ri8WSSQhM5ENnFvDFUV5K/un
+         zYmFq5JluyNw2rae+U9ecAKRfy7e8fC8DFY5KsMoO/R2BNAEolMQeysbvIhkTEaS4q
+         a0IZjQn5q3OjCPDyPZ0M4np2CxtrUWIHRqE3Fxg1SGVHzfXQuL6nxibkyF4vr5zUHD
+         8CqkBoZ+dbjzk2Z0hcBHh3gyKHnfIvcGPqEAMarRvI4Vzm0nNsMrZE8v+2o6kcjR1E
+         PauAbml+tDQzZdqD6tG7Aqt2TZWNdB+iBUoF6c8KpHiDPI37nvEvGJZ2o8yfSMYcBX
+         1aNWJRqf2stTg==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, keescook@chromium.org
+Subject: [PATCH] docs/core-api: Add Fedora instructions for GCC plugins
+Date:   Fri, 21 Feb 2020 11:48:43 +1100
+Message-Id: <20200221004843.1709-1-mpe@ellerman.id.au>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200210213924.20037-9-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike
+Add an example of how to install the necessary packages for GCC
+plugins on Fedora.
 
-Sorry for the delay. one minor comment below.
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+---
+ Documentation/core-api/gcc-plugins.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 02/10/2020 09:39 PM, Mike Leach wrote:
-> The CoreSight subsystem enables a path of devices from source to sink.
-> Any CTI devices associated with the path devices must be enabled at the
-> same time.
-> 
-> This patch adds an associated coresight_device element to the main
-> coresight device structure, and uses this to create associations between
-> the CTI and other devices based on the device tree data. The associated
-> device element is used to enable CTI in conjunction with the path elements.
-> 
-> CTI devices are reference counted so where a single CTI is associated with
-> multiple elements on the path, it will be enabled on the first associated
-> device enable, and disabled with the last associated device disable.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->   drivers/hwtracing/coresight/coresight-cti.c  | 129 +++++++++++++++++++
->   drivers/hwtracing/coresight/coresight-cti.h  |   1 +
->   drivers/hwtracing/coresight/coresight-priv.h |  12 ++
->   drivers/hwtracing/coresight/coresight.c      |  71 +++++++++-
->   include/linux/coresight.h                    |   4 +
->   5 files changed, 212 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-> index 77c2af247917..c4494923d030 100644
-> --- a/drivers/hwtracing/coresight/coresight-cti.c
-> +++ b/drivers/hwtracing/coresight/coresight-cti.c
-> @@ -4,6 +4,7 @@
->    * Author: Mike Leach <mike.leach@linaro.org>
->    */
->   
-> +#include <linux/property.h>
->   #include "coresight-cti.h"
->   
->   /**
-> @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
->   	return err;
->   }
->   
-> +/*
-> + * Look for a matching connection device name in the list of connections.
-> + * If found then swap in the csdev name, set trig con association pointer
-> + * and return found.
-> + */
-> +static bool
-> +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
-> +		      struct coresight_device *csdev)
-> +{
-> +	struct cti_trig_con *tc;
-> +	const char *csdev_name;
-> +
-> +	list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> +		if (tc->con_dev_name) {
-> +			if (!strcmp(node_name, tc->con_dev_name)) {
-> +				/* match: so swap in csdev name & dev */
-> +				csdev_name = dev_name(&csdev->dev);
-> +				tc->con_dev_name =
-> +					devm_kstrdup(&csdev->dev, csdev_name,
-> +						     GFP_KERNEL);
+diff --git a/Documentation/core-api/gcc-plugins.rst b/Documentation/core-api/gcc-plugins.rst
+index 8502f24396fb..4b1c10f88e30 100644
+--- a/Documentation/core-api/gcc-plugins.rst
++++ b/Documentation/core-api/gcc-plugins.rst
+@@ -72,6 +72,10 @@ You must install the gcc plugin headers for your gcc version,
+ 
+ 	apt-get install gcc-4.9-plugin-dev
+ 
++Or on Fedora::
++
++	dnf install gcc-plugin-devel
++
+ Enable a GCC plugin based feature in the kernel config::
+ 
+ 	CONFIG_GCC_PLUGIN_CYC_COMPLEXITY = y
+-- 
+2.21.1
 
-In the extreme rare case of an allocation failure, we may want to
-check if the allocation was successful or not, rather than silently
-ignoring it. With that fixed,
-
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
