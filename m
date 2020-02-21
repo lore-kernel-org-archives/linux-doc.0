@@ -2,153 +2,146 @@ Return-Path: <SRS0=i7Ry=4J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B42C35646
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F87C35646
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:34:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2C5524670
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 15:59:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="LTg9ika+"
+	by mail.kernel.org (Postfix) with ESMTP id 1B37820578
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Feb 2020 16:34:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729263AbgBUP74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 10:59:56 -0500
-Received: from mout.gmx.net ([212.227.17.21]:41707 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728704AbgBUP74 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Feb 2020 10:59:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1582300755;
-        bh=d2ZkK443d4BHT30ZFEmF6Y8U3raLXQ/NQ1CVDMenM0M=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=LTg9ika+vD8hPIt//SK4kmSd46v43EK/4HE+WJEEURoF/pDD/29GRFGH7iGOhrMsJ
-         VJjq6S9UZkotp0OlzayL7dsMC4svIhVIwUpF0CG7oXqPkNOjGT6SKXtjOt2XRj95Rh
-         pNskVbStFZl7QYGFbOGZ7E5ww7v6K+9HCqiALX6Y=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.194.18]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MAONX-1jAu0u1dVL-00BwT3; Fri, 21
- Feb 2020 16:59:15 +0100
-Date:   Fri, 21 Feb 2020 16:59:12 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Jaskaran Singh <jaskaransingh7654321@gmail.com>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] docs: ubifs-authentication: fix Sphinx warning
-Message-ID: <20200221155912.GF2031@latitude>
-References: <20200214170833.25803-1-j.neuschaefer@gmx.net>
- <20200214170833.25803-4-j.neuschaefer@gmx.net>
- <20200219041758.3b7316b8@lwn.net>
+        id S1726773AbgBUQeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 11:34:14 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46488 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725957AbgBUQeO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 11:34:14 -0500
+Received: by mail-oi1-f194.google.com with SMTP id a22so2122755oid.13;
+        Fri, 21 Feb 2020 08:34:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q0P9tu6IOsuIOQ9cj+JFMIkV9AXW3CYPDjGH2uYPm8M=;
+        b=TQan+uI+buGQSXnVw9oHBVYIl68M0Y0nZhJSw3qYaBAcnViQ2WE+xmpF7EGWl0C5MG
+         AFAYukVTvmPds0Yt1uZHImTdyhsE57op0/EoFBu7UANTInihLVOHjJ2LuuxNDyz+Jxt5
+         7h/VB8CivGoN5BgC06wfIYUC2h3LJvDv/OxXHq4rZlUlfTTmDYkv9NBQzpq7VUdloguW
+         8eoYJEWhtm6ny7lvbKekL9xfjF4BUUP+z6C8cw/H0tD/alyL93c0X4K1e5/SHII8ppNO
+         iqn+eSP95Mm7EtABezqcGciJ5oFvwGqNYbrDzjkyPXDc7kyk+w1Xlz4yDWNfx67VQt1P
+         BXJg==
+X-Gm-Message-State: APjAAAUrHi/8Nfwh6StJyLqXLHMdvEPp2NO2ws7uODFnGje9uJdNbnzN
+        3/JwM+hRTMVwoUN/M3rvgWXyaM5ZKqkYy8A6KLg=
+X-Google-Smtp-Source: APXvYqzPNoAH+zVsto1+IiOMGfW8xsdQo0YD/gttJz8Iqi71pUo1KidDfXV90s/3JMzKKHdE/I36dl+GbJbfTmLaY4E=
+X-Received: by 2002:aca:c4d2:: with SMTP id u201mr2773907oif.54.1582302853428;
+ Fri, 21 Feb 2020 08:34:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cYtjc4pxslFTELvY"
-Content-Disposition: inline
-In-Reply-To: <20200219041758.3b7316b8@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:YbDiWGoUlkw7KYFFvHP0EElkU/3+yZiQU6F1r601m4IhkiTOywM
- n4oxuP6TIHheM0ctLm+MSoLeEfLR9cakqC5W/UB1kuLb3lba3cUj81OIxmgq022idQwYIc8
- OY8+jOOE7oV0VYU8ryop5YuvWEf1Y0zh3fj6YMEfMiXtpDc5RBwUBmJjqAsWuVE/fIs3UBM
- bs65IMAAIibW7Dtf1AsEQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fAoSyRD/Elo=:3ud0ELJ0bSkRjL4aJnhrFi
- pMcEN++i6Jg7h71t8nR4u/z8NS9UrRQqAJi5aMEb2sX2yviRm6VgtnZ5YB+nfYWg2z2Cvs+oo
- P/iCFxuA2kk0oX2icRUSZFodntAS56U6GTcdGz3ZAdMJM9eLlj/GQvDDOkxwryEfQw5kfFr+Q
- Y6eydFu5a8EdJyxcjp2N0vsrah1u7gAdt+/oyQN3+S68DF5sjKQkH1EJP/Af/ci/4tHrbAaO+
- 6vcqIqG+552ZmiSYu8y20svUhV9NXAJhZwc+C3tQ416HfbXtyDxhrtwirKyeym3uq8mgl0xA5
- 6G0ZAR3Jij+1qKLaHXg9dC8YGxMT9jfFpICrdHaWzfs3plPryhef3ooAaIUflJtY6Bj5cwI6n
- ZNxNI55sl/Rf45GjIluOktV+90EHSDpWPfByvtrIp+2Hl/1+/WXa+95qVmV+nD8CSu7OczCll
- 7KdQ/qkBVZt3rEHi14IvlUTylW9duUMhlkGBkae4TZYbr2ANfROMPecLdfF3aNLtVjX4BJhyG
- Xj3qezWmgAhZEnCnTHwkkiIWrXx7PWDnKz4DMN5ouRy0acGdS6S7NIfdYqxwnQZ4bzZvmJ7wa
- X6ZzZLuLN09QbXa/wPyuTj2OpOaeblQ1+FiCOquEbVFMHiSERNfx4Iw5P7f4aA/tHCwFjdJdu
- zd+r4Ci7fGzUbGvhydH+wK8mwbx1X6nODfqI9x+p06AXB4NSssWH/iAxap8mWQVTeBeBtHf9O
- PEhWLtZGqwVaEJrrGqFgPTpWhKDwf9Wp9k3saf42lXI+DnxmZGBUrc/FiP1b4GRfTKeZDYNxP
- 0l4BQc+6XOi0G42cMi0U3hs9NI8j93MF1+Ao6/DOBGKdUHQej1KZgsWlJ63E7K+6J/97nTKhB
- Wwd83kpjKU4nj0ihtEBTnbufA3g2+M9WOiuhOgN9FboIgbrr/zdzTcZHkifVjViG2/xTOX0l1
- VK0O9YEPezqW4HS1T0u0mc+z9D0IW8zcHX7FSmsdwPk6TrPEXkHwbhVRU+rfFwqkIJ10hzBhX
- OitVbf9dpxS9+88oL9IACwFLXAWmgn+1yXtdFzP3Jb2iyVJoA4bKEOwenWQMpoE0Ljmj6iq9W
- 7LeAUrQGY4In2lzoUOZ7Q90PjHIvnzfV6k4pDlIm8yhkNXWmBb18VbkcNyf1LvvDphJI/w5dI
- IRIYBbMD/ovkLJ+e1E9Ne3rwS0vmUAECrifZPC+Jybe2iEPkogwnJCmr4OLVkbpQqKO5S9SLT
- 8k6UFNmCdzAzvdb16
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+ <20200218151812.7816-5-geert+renesas@glider.be> <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+In-Reply-To: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 21 Feb 2020 17:34:02 +0100
+Message-ID: <CAMuHMdUFV0nbfrpxY60av2x+UUN62wDiVLbcEG83133aqfFcUQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Randy,
 
---cYtjc4pxslFTELvY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Feb 18, 2020 at 7:30 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
+> > Document the GPIO Aggregator, and the two typical use-cases.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wed, Feb 19, 2020 at 04:17:58AM -0700, Jonathan Corbet wrote:
-> On Fri, 14 Feb 2020 18:08:07 +0100
-> Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
->=20
-> > This fixes the following warning:
-> >=20
-> > Documentation/filesystems/ubifs-authentication.rst:98: WARNING:
-> >   Inline interpreted text or phrase reference start-string without end-=
-string.
-> >=20
-> > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
->=20
-> So this, IMO, should be fixed in patch #2, when you're touching the file
-> anyway.  I don't see a lot of value in adding a warning to the docs build
-> then immediately removing it.
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
+> > @@ -0,0 +1,102 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +GPIO Aggregator
+> > +===============
+> > +
+> > +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
+>
+> "allows" really wants an object following the verb [although the kernel sources
+> and docs have many cases of it not having an object].  Something like
+>
+>                        allows {you, one, someone, users, a user} to aggregate
 
-Good point.
+Changing to:
 
-> Also, please send a cover letter with multi-part sets like this so we
-> know what the overall objective is.
+    provides a mechanism to aggregate GPIOs
 
-Ok, I'll remember to do that more.
+> > +gpio_chip.  This supports the following use cases.
+> > +
+> > +
+> > +Aggregating GPIOs using Sysfs
+> > +-----------------------------
+> > +
+> > +GPIO controllers are exported to userspace using /dev/gpiochip* character
+> > +devices.  Access control to these devices is provided by standard UNIX file
+> > +system permissions, on an all-or-nothing basis: either a GPIO controller is
+> > +accessible for a user, or it is not.
+> > +
+> > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
 
-In this case, I just saw this file and wanted it to work better with
-Sphinx.
+Changing to:
 
-> Note also that Mauro is also playing with this file (and ubifs.txt, which
-> really should be included as well) at the same time.
+    provides access control for a set of one or more GPIOs
 
-Hmm. I only saw Mauro's series after sending this one.
+> > +them into a new gpio_chip, which can be assigned to a group or user using
+> > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > +which not, reducing the attack surface.
 
-I think I'll respin this series after Mauro's is merged, to keep the
-potential for merge conflicts low.
+> > +Generic GPIO Driver
+> > +-------------------
+> > +
+> > +The GPIO Aggregator can also be used as a generic driver for a simple
+> > +GPIO-operated device described in DT, without a dedicated in-kernel driver.
+> > +This is useful in industrial control, and is not unlike e.g. spidev, which
+> > +allows to communicate with an SPI device from userspace.
+>
+>    allows {choose an object} to communicate
 
+Changing to:
 
-Thanks,
-Jonathan Neusch=C3=A4fer
+    allows the user to communicate
 
---cYtjc4pxslFTELvY
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5P/kgACgkQCDBEmo7z
-X9sf0xAAttAMODr7tW1ee559PLozbCkEl7bXel6cTaK1qGk/qmoVN+eSJJZs4c7t
-8sXO26osJt/lzIejt6aExNH9KmPhcGYpjT0Dw94H1KScLKBUnRFaP1IJOMJsIgVK
-NNWM2HpAM04Eycdv8/T52G8hGa9NwCV3woS0zxFOAlyzedRvjt1BEZ2w4RwbhADO
-tdRy5QqdVM9WNsT3oyHA21EDNr45xPPtBTfgCAYsKJTpdX91l6KzutTxlCvU+Dwc
-Oy1YDorPE4H6oj5o7LPZ3hqY9Ek2yfEPgzy3UZq29AfrH1atgSlHmT3hp3o05VQN
-bKYbtgAUl48xL76iay++F3Nm7rUzWSV3HI2ASSu/D/fL6CQXxHUhhbpvQXMp7RMp
-fdlY2zzYxmRH+iheFyEEzK5umZM8CfIREVwDoho/p64bprszXoKHio+icumOQ5Wc
-c7HTkoCJLL93rzJc9qfMAWCJ2pnyMb/iR5SBhmsFtY7lWuoFJBpQ0H6QKAv9lh2h
-t5+IbzBwpG0tCG6zNsGbgZl+/X9BFnmGyP49iTiEv6vqEyaoh4/QhknQ3oE4gj/e
-hsQYWEG58KT1iHmWpAOzuSd5Yg66Mdl0od5KQg+/D89LCdG/e+/pD3/p9dXgXQUS
-UlXU6ZpqdDDBMBaowopT7+BcdJcuXYItawdDnIs02mhLFI/H56I=
-=t+dZ
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---cYtjc4pxslFTELvY--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
