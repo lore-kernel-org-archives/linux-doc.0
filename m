@@ -2,56 +2,53 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACCAC35671
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12028C35669
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 053E62071E
+	by mail.kernel.org (Postfix) with ESMTP id D5E6D21D56
 	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1582362016;
-	bh=Dq4mh2vI/EZL6StM4aceCteMrQNQ+8JSuwvJ4I526v8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZyX6lrQWzFl2LV84q6MD+HtxZ/GjRjFjg8YT4mDzVxhZF8bRCTYpiAzoxGwKKCD/3
-	 q/xr3RLYxTBBaPLr6+4iEaF4LUA4OewfqxRdQ5YkzibLSfunc55DE6VNOOMUJANkYr
-	 TPvz4Fv6ESZHEOzYdrIWtBuXEgKxoRZWJBX8BLjo=
+	bh=Yz3dn0pNQ6DqgKoRpe27xbFPx6yYJdPurN9KvHO6DPM=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=j8LNO90A/vAIVVbbAjL/6pr+hnKjSw3kx/njdYsLmBcB7sO12Jq4GK7HQkPChbwUn
+	 1rNrdbUMhnSN5l8wJqpjgl+KQrFVDS3FcO+8Wf/bvIdE65CROWJFYp4+zytG6GJTqQ
+	 wLUaeIt50igYkQ7l1sFivOvS53ASmkDpX+XrY/0w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbgBVJAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726907AbgBVJAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 22 Feb 2020 04:00:15 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60476 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:60472 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgBVJAP (ORCPT
+        with ESMTP id S1726675AbgBVJAP (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 04:00:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=PP4lgn/h6ioXsXu9utr214+82oIHYAb+lHOYs+FUV8I=; b=tdZWdmnh9g3OXhs/7WNQSHmTKt
-        MGlffFWfnL3W6Bi+QDJyRZNRFpezZCREXO07q3695QdhgCS84HTDStMFx/XidLtkMX/bX1r9XTK+P
-        7mfHyUq62xGaXE3lCEv8LlOS4Uy497ZeyxlcXtFy4yh7zD3pDKqJBhNVA/f6DSseOBqz739BKqXZ6
-        wK69qQyCBMZVbqwoaAsARZBVyypOv5MhfF7XK4umSQqmdKImMON2JFkvfrf2EFVkK1i/hmaBRIG6e
-        stMm9HOPVhRkVQA6/yEhNDgeGRWz7gpLrokL8JXUw6gifwd/NAyyKq5o8DYjnD817Xn+2bcIw2Iel
-        ezyr/wAg==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=aJs9pJeE+9fdOcI7/UPFRTUtMdT9B/Ve+SdsB+frIL4=; b=KL1M64rWlOXYXR2gLzTT+zPcN0
+        qJErSWCTDKVHoG+nIA5ElK7DfGtiprKGHPXGLpDV1LczB13UpHImVFWeT12mRrHWh8wRjA6ILl+Mf
+        OMyKSAYmpetgZS05z01j7+ITUHKu/IXpupcntKqCzHloZiUjg5AD0ppdgId0bQJVfUTAUdzk1XVl4
+        8220qixRowcrOJ8sB6hqCtY4Df8/O8rWh+0qp6OkNyalcumYrcL0vlRG3cgHnEoVUvQOSSn6Dqk2e
+        OayOI5TEddGtj9SVpciPhAtQ5x1JfEP4RbUYLKw9kt/b1NvuM/jZWd4XK82wzBIDhQg4fEQLwogXh
+        xZ1Etujg==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5Qdz-0007Hn-5L; Sat, 22 Feb 2020 09:00:15 +0000
+        id 1j5Qdz-0007Hm-5U; Sat, 22 Feb 2020 09:00:15 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j5Qdx-001N4B-Gh; Sat, 22 Feb 2020 10:00:13 +0100
+        id 1j5Qdx-001N48-Fd; Sat, 22 Feb 2020 10:00:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 1/7] scripts: documentation-file-ref-check: improve :doc: handling
-Date:   Sat, 22 Feb 2020 10:00:01 +0100
-Message-Id: <dd46ed78051d084f238d031722861b65d24196dc.1582361737.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] Some cross-reference fixes due to fixes renames
+Date:   Sat, 22 Feb 2020 10:00:00 +0100
+Message-Id: <cover.1582361737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1582361737.git.mchehab+huawei@kernel.org>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -59,59 +56,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some issues at the script with regards to :doc:
-tags:
+There are some references that got broken due to renames
+(mostly .txt to .yaml and .rst, but also some files got moved
+to other directories).
 
-- It doesn't escape files under Documentation/sphinx,
-  leading to false positives;
-- It doesn't handle root URLs, like :doc:`/x86/boot`;
-- It doesn't output the file with a bad reference.
+The first patch actually contains a fix for
+documentation-file-ref-check, with currently reports several
+false positives.
 
-Address those things, in order to remove false positives
-from the list of problems.
+Mauro Carvalho Chehab (7):
+  scripts: documentation-file-ref-check: improve :doc: handling
+  docs: dt: fix several broken references due to renames
+  docs: fix broken references to text files
+  docs: adm1177: fix a broken reference
+  docs: fix broken references for ReST files that moved around
+  docs: remove nompx kernel parameter and intel_mpx from index.rst
+  docs: gpu: i915.rst: fix warnings due to file renames
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/documentation-file-ref-check | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt    | 14 +++++---------
+ Documentation/admin-guide/sysctl/kernel.rst        |  2 +-
+ Documentation/devicetree/bindings/arm/arm,scmi.txt |  2 +-
+ Documentation/devicetree/bindings/arm/arm,scpi.txt |  2 +-
+ .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt  |  2 +-
+ .../bindings/arm/hisilicon/hi3519-sysctrl.txt      |  2 +-
+ .../bindings/arm/msm/qcom,idle-state.txt           |  2 +-
+ Documentation/devicetree/bindings/arm/omap/mpu.txt |  2 +-
+ Documentation/devicetree/bindings/arm/psci.yaml    |  2 +-
+ .../bindings/clock/qcom,gcc-apq8064.yaml           |  2 +-
+ .../devicetree/bindings/display/tilcdc/tilcdc.txt  |  2 +-
+ Documentation/devicetree/bindings/leds/common.yaml |  2 +-
+ .../devicetree/bindings/leds/register-bit-led.txt  |  2 +-
+ .../bindings/memory-controllers/ti/emif.txt        |  2 +-
+ .../devicetree/bindings/misc/fsl,qoriq-mc.txt      |  2 +-
+ .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml   |  2 +-
+ .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml   |  2 +-
+ .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml   |  2 +-
+ .../bindings/power/amlogic,meson-ee-pwrc.yaml      |  2 +-
+ .../devicetree/bindings/reset/st,stm32mp1-rcc.txt  |  2 +-
+ .../bindings/thermal/brcm,avs-ro-thermal.yaml      |  2 +-
+ Documentation/doc-guide/maintainer-profile.rst     |  2 +-
+ Documentation/filesystems/cifs/cifsroot.txt        |  2 +-
+ Documentation/gpu/i915.rst                         |  4 ++--
+ Documentation/hwmon/adm1177.rst                    |  3 +--
+ Documentation/memory-barriers.txt                  |  2 +-
+ Documentation/process/submit-checklist.rst         |  2 +-
+ .../it_IT/process/submit-checklist.rst             |  2 +-
+ .../translations/ko_KR/memory-barriers.txt         |  2 +-
+ .../translations/zh_CN/filesystems/sysfs.txt       |  2 +-
+ .../zh_CN/process/submit-checklist.rst             |  2 +-
+ Documentation/virt/kvm/arm/pvtime.rst              |  2 +-
+ Documentation/virt/kvm/devices/vcpu.rst            |  2 +-
+ Documentation/virt/kvm/hypercalls.rst              |  4 ++--
+ Documentation/virt/kvm/mmu.rst                     |  2 +-
+ Documentation/virt/kvm/review-checklist.rst        |  2 +-
+ Documentation/x86/index.rst                        |  1 -
+ MAINTAINERS                                        |  8 ++++----
+ arch/powerpc/include/uapi/asm/kvm_para.h           |  2 +-
+ arch/x86/kvm/mmu/mmu.c                             |  2 +-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c    |  2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c  |  2 +-
+ .../crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c    |  2 +-
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c  |  2 +-
+ drivers/gpu/drm/Kconfig                            |  2 +-
+ drivers/gpu/drm/drm_ioctl.c                        |  2 +-
+ drivers/hwtracing/coresight/Kconfig                |  2 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c              |  2 +-
+ fs/fat/Kconfig                                     |  8 ++++----
+ fs/fuse/Kconfig                                    |  2 +-
+ fs/fuse/dev.c                                      |  2 +-
+ fs/nfs/Kconfig                                     |  2 +-
+ fs/overlayfs/Kconfig                               |  6 +++---
+ include/linux/mm.h                                 |  4 ++--
+ include/uapi/linux/ethtool_netlink.h               |  2 +-
+ include/uapi/linux/kvm.h                           |  4 ++--
+ include/uapi/rdma/rdma_user_ioctl_cmds.h           |  2 +-
+ mm/gup.c                                           | 12 ++++++------
+ net/ipv4/Kconfig                                   |  6 +++---
+ net/ipv4/ipconfig.c                                |  2 +-
+ scripts/documentation-file-ref-check               | 11 +++++++++--
+ tools/include/uapi/linux/kvm.h                     |  4 ++--
+ virt/kvm/arm/vgic/vgic-mmio-v3.c                   |  2 +-
+ virt/kvm/arm/vgic/vgic.h                           |  4 ++--
+ 64 files changed, 96 insertions(+), 95 deletions(-)
 
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index 7784c54aa38b..997202a18ddb 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -51,7 +51,9 @@ open IN, "git grep ':doc:\`' Documentation/|"
-      or die "Failed to run git grep";
- while (<IN>) {
- 	next if (!m,^([^:]+):.*\:doc\:\`([^\`]+)\`,);
-+	next if (m,sphinx/,);
- 
-+	my $file = $1;
- 	my $d = $1;
- 	my $doc_ref = $2;
- 
-@@ -60,7 +62,12 @@ while (<IN>) {
- 	$d =~ s,(.*/).*,$1,;
- 	$f =~ s,.*\<([^\>]+)\>,$1,;
- 
--	$f ="$d$f.rst";
-+	if ($f =~ m,^/,) {
-+		$f = "$f.rst";
-+		$f =~ s,^/,Documentation/,;
-+	} else {
-+		$f = "$d$f.rst";
-+	}
- 
- 	next if (grep -e, glob("$f"));
- 
-@@ -69,7 +76,7 @@ while (<IN>) {
- 	}
- 	$doc_fix++;
- 
--	print STDERR "$f: :doc:`$doc_ref`\n";
-+	print STDERR "$file: :doc:`$doc_ref`\n";
- }
- close IN;
- 
 -- 
 2.24.1
 
