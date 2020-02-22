@@ -2,53 +2,60 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12028C35669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1CAC35672
 	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D5E6D21D56
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1375D24670
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582362016;
-	bh=Yz3dn0pNQ6DqgKoRpe27xbFPx6yYJdPurN9KvHO6DPM=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=j8LNO90A/vAIVVbbAjL/6pr+hnKjSw3kx/njdYsLmBcB7sO12Jq4GK7HQkPChbwUn
-	 1rNrdbUMhnSN5l8wJqpjgl+KQrFVDS3FcO+8Wf/bvIdE65CROWJFYp4+zytG6GJTqQ
-	 wLUaeIt50igYkQ7l1sFivOvS53ASmkDpX+XrY/0w=
+	s=default; t=1582362017;
+	bh=ehPcdqKDedmtZdhcx7QZ6ydHVdHVAdkk3dkM9dUwmS8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=F6mCHNmCG4YZt1wy4RCTSEXSjWGaEISBrZ9aEkv1X3mMfCpdI+W4Hy7Xr3Dff8+yv
+	 x8ZaGBTiKmwGAYwcJDNKrYsuFYfCAS1tP6wpy9q6fYWy+TkxG5pvEYLWvVFYU/5JOX
+	 37BLDaNIzbWLuVDZETRGixmVV+W3UOmg4IX9oW6g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbgBVJAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 04:00:15 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60472 "EHLO
+        id S1727023AbgBVJAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 04:00:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:60486 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbgBVJAP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 04:00:15 -0500
+        with ESMTP id S1726930AbgBVJAQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 04:00:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=aJs9pJeE+9fdOcI7/UPFRTUtMdT9B/Ve+SdsB+frIL4=; b=KL1M64rWlOXYXR2gLzTT+zPcN0
-        qJErSWCTDKVHoG+nIA5ElK7DfGtiprKGHPXGLpDV1LczB13UpHImVFWeT12mRrHWh8wRjA6ILl+Mf
-        OMyKSAYmpetgZS05z01j7+ITUHKu/IXpupcntKqCzHloZiUjg5AD0ppdgId0bQJVfUTAUdzk1XVl4
-        8220qixRowcrOJ8sB6hqCtY4Df8/O8rWh+0qp6OkNyalcumYrcL0vlRG3cgHnEoVUvQOSSn6Dqk2e
-        OayOI5TEddGtj9SVpciPhAtQ5x1JfEP4RbUYLKw9kt/b1NvuM/jZWd4XK82wzBIDhQg4fEQLwogXh
-        xZ1Etujg==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=0gU+Ww+lXyNnbCfovazHo/QlVd1+/Lpel2osANT7sOc=; b=indTi53XWNQFszSF7G9eNjgnOv
+        KJMFNOLCOT+35EXCHrvhZy3y2Un7JkrShSGvhVnt9aDeSdN6kzfe56S1xrPpREUoE7tkT3KwYpvN3
+        Hqx3LtRw+39RJDtA5AMxOYxxqMt38A38oCSyh7OZsiaof2qg8QA1wTxEShO7Z3+nH1RqUAQ1lykiF
+        y1GtgLeJwe9RS9PJ+eeLwLY9VBDpssi0oZjNemjLbVHXEmH/JDKbTJt39au5gQZtTkNNW0DGJQTIU
+        /+JODLPSbtp3oRbJdudeTP+ORlFRci3azh8dnyeoUqOz44mcYksjQtlntMvrOdukq5T+QoYOy5Q4h
+        iivr3VDQ==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5Qdz-0007Hm-5U; Sat, 22 Feb 2020 09:00:15 +0000
+        id 1j5Qdz-0007Hs-Bk; Sat, 22 Feb 2020 09:00:15 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j5Qdx-001N48-Fd; Sat, 22 Feb 2020 10:00:13 +0100
+        id 1j5Qdx-001N4b-MI; Sat, 22 Feb 2020 10:00:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/7] Some cross-reference fixes due to fixes renames
-Date:   Sat, 22 Feb 2020 10:00:00 +0100
-Message-Id: <cover.1582361737.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Subject: [PATCH 6/7] docs: remove nompx kernel parameter and intel_mpx from index.rst
+Date:   Sat, 22 Feb 2020 10:00:06 +0100
+Message-Id: <934144ad8199db837c3b21479e6966c597706dab.1582361738.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1582361737.git.mchehab+huawei@kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -56,89 +63,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some references that got broken due to renames
-(mostly .txt to .yaml and .rst, but also some files got moved
-to other directories).
+The Intel MPX support was removed by changeset
+45fc24e89b7c ("x86/mpx: remove MPX from arch/x86").
+Remove the corresponding parameter that were mentioning
+a removed document, plus its entry at x86/index.rst.
 
-The first patch actually contains a fix for
-documentation-file-ref-check, with currently reports several
-false positives.
+Fixes: 45fc24e89b7c ("x86/mpx: remove MPX from arch/x86")
 
-Mauro Carvalho Chehab (7):
-  scripts: documentation-file-ref-check: improve :doc: handling
-  docs: dt: fix several broken references due to renames
-  docs: fix broken references to text files
-  docs: adm1177: fix a broken reference
-  docs: fix broken references for ReST files that moved around
-  docs: remove nompx kernel parameter and intel_mpx from index.rst
-  docs: gpu: i915.rst: fix warnings due to file renames
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 4 ----
+ Documentation/x86/index.rst                     | 1 -
+ 2 files changed, 5 deletions(-)
 
- Documentation/admin-guide/kernel-parameters.txt    | 14 +++++---------
- Documentation/admin-guide/sysctl/kernel.rst        |  2 +-
- Documentation/devicetree/bindings/arm/arm,scmi.txt |  2 +-
- Documentation/devicetree/bindings/arm/arm,scpi.txt |  2 +-
- .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt  |  2 +-
- .../bindings/arm/hisilicon/hi3519-sysctrl.txt      |  2 +-
- .../bindings/arm/msm/qcom,idle-state.txt           |  2 +-
- Documentation/devicetree/bindings/arm/omap/mpu.txt |  2 +-
- Documentation/devicetree/bindings/arm/psci.yaml    |  2 +-
- .../bindings/clock/qcom,gcc-apq8064.yaml           |  2 +-
- .../devicetree/bindings/display/tilcdc/tilcdc.txt  |  2 +-
- Documentation/devicetree/bindings/leds/common.yaml |  2 +-
- .../devicetree/bindings/leds/register-bit-led.txt  |  2 +-
- .../bindings/memory-controllers/ti/emif.txt        |  2 +-
- .../devicetree/bindings/misc/fsl,qoriq-mc.txt      |  2 +-
- .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml   |  2 +-
- .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml   |  2 +-
- .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml   |  2 +-
- .../bindings/power/amlogic,meson-ee-pwrc.yaml      |  2 +-
- .../devicetree/bindings/reset/st,stm32mp1-rcc.txt  |  2 +-
- .../bindings/thermal/brcm,avs-ro-thermal.yaml      |  2 +-
- Documentation/doc-guide/maintainer-profile.rst     |  2 +-
- Documentation/filesystems/cifs/cifsroot.txt        |  2 +-
- Documentation/gpu/i915.rst                         |  4 ++--
- Documentation/hwmon/adm1177.rst                    |  3 +--
- Documentation/memory-barriers.txt                  |  2 +-
- Documentation/process/submit-checklist.rst         |  2 +-
- .../it_IT/process/submit-checklist.rst             |  2 +-
- .../translations/ko_KR/memory-barriers.txt         |  2 +-
- .../translations/zh_CN/filesystems/sysfs.txt       |  2 +-
- .../zh_CN/process/submit-checklist.rst             |  2 +-
- Documentation/virt/kvm/arm/pvtime.rst              |  2 +-
- Documentation/virt/kvm/devices/vcpu.rst            |  2 +-
- Documentation/virt/kvm/hypercalls.rst              |  4 ++--
- Documentation/virt/kvm/mmu.rst                     |  2 +-
- Documentation/virt/kvm/review-checklist.rst        |  2 +-
- Documentation/x86/index.rst                        |  1 -
- MAINTAINERS                                        |  8 ++++----
- arch/powerpc/include/uapi/asm/kvm_para.h           |  2 +-
- arch/x86/kvm/mmu/mmu.c                             |  2 +-
- .../crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c    |  2 +-
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c  |  2 +-
- .../crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c    |  2 +-
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c  |  2 +-
- drivers/gpu/drm/Kconfig                            |  2 +-
- drivers/gpu/drm/drm_ioctl.c                        |  2 +-
- drivers/hwtracing/coresight/Kconfig                |  2 +-
- drivers/media/v4l2-core/v4l2-fwnode.c              |  2 +-
- fs/fat/Kconfig                                     |  8 ++++----
- fs/fuse/Kconfig                                    |  2 +-
- fs/fuse/dev.c                                      |  2 +-
- fs/nfs/Kconfig                                     |  2 +-
- fs/overlayfs/Kconfig                               |  6 +++---
- include/linux/mm.h                                 |  4 ++--
- include/uapi/linux/ethtool_netlink.h               |  2 +-
- include/uapi/linux/kvm.h                           |  4 ++--
- include/uapi/rdma/rdma_user_ioctl_cmds.h           |  2 +-
- mm/gup.c                                           | 12 ++++++------
- net/ipv4/Kconfig                                   |  6 +++---
- net/ipv4/ipconfig.c                                |  2 +-
- scripts/documentation-file-ref-check               | 11 +++++++++--
- tools/include/uapi/linux/kvm.h                     |  4 ++--
- virt/kvm/arm/vgic/vgic-mmio-v3.c                   |  2 +-
- virt/kvm/arm/vgic/vgic.h                           |  4 ++--
- 64 files changed, 96 insertions(+), 95 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e0fe9f70d22b..50a0cd2726e6 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -987,10 +987,6 @@
+ 			Documentation/admin-guide/dynamic-debug-howto.rst
+ 			for details.
+ 
+-	nompx		[X86] Disables Intel Memory Protection Extensions.
+-			See Documentation/x86/intel_mpx.rst for more
+-			information about the feature.
+-
+ 	nopku		[X86] Disable Memory Protection Keys CPU feature found
+ 			in some Intel CPUs.
+ 
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index a8de2fbc1caa..265d9e9a093b 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -19,7 +19,6 @@ x86-specific Documentation
+    tlb
+    mtrr
+    pat
+-   intel_mpx
+    intel-iommu
+    intel_txt
+    amd-memory-encryption
 -- 
 2.24.1
 
