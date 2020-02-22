@@ -2,102 +2,97 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B0FC35672
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 277ECC35671
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 08:14:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C0B25214DB
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582357068;
-	bh=wwlcvLyUUjq+aCUhLUkAhHiYjSH4uxAtpnE4vgF+h+s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=0suzoZV3yPtWZzAHS2cTwAE/unNehMRdxNiZIyB/pBZMxQmgxWofVmI7hoDbuZrpn
-	 Yygec9lPNipq1KWUTjyPgldbBsSyALiOvrpy0DGJl68IBQlqeOwLUOMjNN3umsOJbb
-	 4booKZTJmU7cO/J5nIAckx++6Khm7+tkUw5tZeZQ=
+	by mail.kernel.org (Postfix) with ESMTP id EADCB2071E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 08:14:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Da9GNL/o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727190AbgBVHhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 02:37:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58346 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726794AbgBVHhp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 Feb 2020 02:37:45 -0500
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6290E21D56
-        for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2020 07:37:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582357064;
-        bh=wwlcvLyUUjq+aCUhLUkAhHiYjSH4uxAtpnE4vgF+h+s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Sde1d7C2Mjm5LUHGg8qaINBz5JTdkBfBVrrLfsWGpon33qFPiE/ee/UOtpXKaJU6b
-         JUmiiHm+dNfZJAYZYLPWDvCawpz4J8r21Z4cdbveVj32CVYxIg6nmgLiidgfRSy4eU
-         0giwVyyBDBzF7qhezjrG2J6RzGKmKwFQqALnjHkg=
-Received: by mail-wm1-f50.google.com with SMTP id a9so4206259wmj.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 23:37:44 -0800 (PST)
-X-Gm-Message-State: APjAAAWwAVF8SnWeo24geXacO+L7z+FayFEkKTa0bBFhYyrhEpsHBIQN
-        rm0UMBrtQMaLs2EgAcuJU0r8fPnZgTx+84TznzaurA==
-X-Google-Smtp-Source: APXvYqzLEqjaOCEz1rffDgh/i9rxHLaVrhkmq+aVjKgFm+xgANVXwtlOL9ob2zJTeWHA7/jtQHU14ap2WODxfLZ++eY=
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr9246324wmk.68.1582357062812;
- Fri, 21 Feb 2020 23:37:42 -0800 (PST)
+        id S1726343AbgBVIOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 03:14:44 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45315 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725958AbgBVIOo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 03:14:44 -0500
+Received: by mail-pg1-f195.google.com with SMTP id b9so2182290pgk.12;
+        Sat, 22 Feb 2020 00:14:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5/sEM9m8/BfpN//Z+cqohWMKYfsWyIj6BtdHG+fGeTc=;
+        b=Da9GNL/ole8tIKOnRXqSb/UKpnSicVYDSkjADZ2BTQndythvM4xoihiGyRyvL49FqP
+         ehVg5wBYbKr2F0ESSTonTut4j7Cl0+y67/qKRcKUVb2rRc+VmnIz8zmwOJmMcq6mwr9a
+         ONE0zDxw1LlQeTTbwxRdaEt3rLxf1TXptzHvFPoPUOJHo1ZHKLyCbeiGhVCxDwsApRxm
+         qHxCIkmgR2nW3I/1mDdXnXwMkKvFgcFA/F1vKGyjbWQQ9G/KSukNsedcMLjgGIjIPT5D
+         7VbVGuu198KH50GCh0GGCAG+sFCCE6hESeiFKQfFcGvSO9CMRUA45EI1xNCjpUZjC17P
+         P91g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5/sEM9m8/BfpN//Z+cqohWMKYfsWyIj6BtdHG+fGeTc=;
+        b=Ai6+TvzC2ZutcG0kEztpTdRl6ZuXV954HsOTzHZKIQaPnQv5ZBR3I+hGE8w8WR4Q+V
+         vqKz4X2wKYXnfI4K3tfYypqL3+JJRjicQ3O5xajKqFIEbqV5x0E9M+RkXCrMHMKm0hFp
+         lEG8/6fX9LypiL9hBCWgF4ZLgchS1SE9URS0utAiKKphLmDWLAbGxHpaENmRzUwBXQ3M
+         +aRE65ojHtixfHyNm46LUYgztFAmPvjOS/0PL6mqh6Nd6wRGLxjY2nX6btNS6h4JaUFR
+         fWjmAKlsuPWP2Xwkwzw1Jn3Vpxk/FRYMectN6mSh3vsMa+tsrKVIu8r9/iQKPWyFYZSO
+         2ZaA==
+X-Gm-Message-State: APjAAAXsNydxgA4ocJWVeSpAQ3OrKOP7NvfM54Uo61PPGq9+td7rFjeS
+        I3+zs0dG66y1ax+S4cJ8BKhAY6WvHT65QDqUmOc=
+X-Google-Smtp-Source: APXvYqwnXN+u1jIKOYXizt0jOLd/M21T1Ya20W6R4Hw/0giVBYykU3S0HHyGxESG8ar+ffNtHFYsnmM7YWzYimpv6TY=
+X-Received: by 2002:a63:5a23:: with SMTP id o35mr41725204pgb.4.1582359283721;
+ Sat, 22 Feb 2020 00:14:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20200222014038.180923-1-saravanak@google.com> <20200222014038.180923-4-saravanak@google.com>
-In-Reply-To: <20200222014038.180923-4-saravanak@google.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Sat, 22 Feb 2020 08:37:31 +0100
-X-Gmail-Original-Message-ID: <CAKv+Gu8GtHQpFGM5U61uH86dnesnaVCkvqrPA6Y8wv4qRc8V4A@mail.gmail.com>
-Message-ID: <CAKv+Gu8GtHQpFGM5U61uH86dnesnaVCkvqrPA6Y8wv4qRc8V4A@mail.gmail.com>
-Subject: Re: [PATCH v1 3/5] efi/arm: Start using fw_devlink_get_flags()
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+References: <CAHk-=wjEd-gZ1g52kgi_g8gq-QCF2E01TkQd5Hmj4W5aThLw3A@mail.gmail.com>
+ <20200219082155.6787-1-linux@rasmusvillemoes.dk> <CAOi1vP-4=QCSZ2A89g1po2p=6n_g09SXUCa0_r2SBJm2greRmw@mail.gmail.com>
+ <0fef2a1f-9391-43a9-32d5-2788ae96c529@rasmusvillemoes.dk> <20200219134826.qqdhy2z67ubsnr2m@pathway.suse.cz>
+ <5459eb50-48e2-2fd9-3560-0bc921e3678c@rasmusvillemoes.dk> <20200219144558.2jbawr52qb63vysq@pathway.suse.cz>
+ <bcfb2f94-e7a8-0860-86e3-9fc866d98742@rasmusvillemoes.dk> <20200220125707.hbcox3xgevpezq4l@pathway.suse.cz>
+ <CAOi1vP8E_DL7y=STP5-vbe_Wf5PZRiXWGTNV3rN96i4N2R3zUQ@mail.gmail.com>
+ <20200221130506.mly26uycxpdjl6oz@pathway.suse.cz> <cec0c65b-5b5d-6268-dae0-1d4088baab76@rasmusvillemoes.dk>
+In-Reply-To: <cec0c65b-5b5d-6268-dae0-1d4088baab76@rasmusvillemoes.dk>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 22 Feb 2020 10:14:32 +0200
+Message-ID: <CAHp75Vft5YiHndMXvcQfHoV1R5M1VHc5bzLgZBAsiBmNFzgvsw@mail.gmail.com>
+Subject: Re: [PATCH] vsprintf: sanely handle NULL passed to %pe
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Petr Mladek <pmladek@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Tobin C . Harding" <me@tobin.cc>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 22 Feb 2020 at 02:40, Saravana Kannan <saravanak@google.com> wrote:
->
-> The fw_devlink_get_flags() provides the right flags to use when creating
-> mandatory device links derived from information provided by the
-> firmware. So, use that.
->
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
+On Sat, Feb 22, 2020 at 1:53 AM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+> On 21/02/2020 14.05, Petr Mladek wrote:
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+...
 
->  drivers/firmware/efi/arm-init.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> and we save testing the "%px" case for when we figure out a good name
+> for a helper for that (explicit_pointer? pointer_as_hex?)
 >
-> diff --git a/drivers/firmware/efi/arm-init.c b/drivers/firmware/efi/arm-init.c
-> index d99f5b0c8a09..6703bedfa9e1 100644
-> --- a/drivers/firmware/efi/arm-init.c
-> +++ b/drivers/firmware/efi/arm-init.c
-> @@ -349,7 +349,7 @@ static int efifb_add_links(const struct fwnode_handle *fwnode,
->          * If this fails, retrying this function at a later point won't
->          * change anything. So, don't return an error after this.
->          */
-> -       if (!device_link_add(dev, sup_dev, 0))
-> +       if (!device_link_add(dev, sup_dev, fw_devlink_get_flags()))
->                 dev_warn(dev, "device_link_add() failed\n");
->
->         put_device(sup_dev);
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+> ?
+
+real_pointer() ?
+
+-- 
+With Best Regards,
+Andy Shevchenko
