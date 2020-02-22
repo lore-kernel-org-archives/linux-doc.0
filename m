@@ -2,272 +2,161 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99508C35675
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5AEC35669
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:49:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 701E924650
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582362039;
-	bh=ID5ZHomWp6qMj0baZ6JmzNG3bQ+0NRPzPlFMypOUMPY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kpwq1QKldofpbk85xCQksqWwblpjI2suoIlmOANdyN3xZpBFoH/td+3oiz393kGyw
-	 iJ2Ib+DJQvefMPLJOfmi7he6q/pD/swC73KMElUSLfqgA7Nub4l6841RwWYbl5cEHs
-	 l/lWpg+OVfDDDQ/tFEBuLhxlM1v1syTyRaN3GqBo=
+	by mail.kernel.org (Postfix) with ESMTP id 93B0A208C4
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 09:49:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="pLB24Dr9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbgBVJAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 04:00:38 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:33420 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727197AbgBVJAi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 04:00:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=xKgnMQO93QJQetvJpI62DMGjkTEPv/l40a5j0YbnJr8=; b=NtnuuFF07+ZS96sT5Tf7PbHvO4
-        c3WI1tUJs6LrFs7X4oonh7aOnlrQKtQjbz/rW3g3hIW1FAJktFRcf0XuNeCTvDEDDonQAAI80pqX5
-        egozeqx0HHxsfoPg18q/Ic0Of41D1HOewiwgHX1ONcH+JN1F66Tww4fRd76NO2yCoarSZnnG1BuWE
-        Sy8gkjT7GwbQv7Epfe3LxsSZELfXnePAODutVa1Qqh9j+5dMQmxQQX2v/NBPza6u6IUICcWsQDdUK
-        aZv2tdFKwZQcGann9ONdLmr8DQA7JbgQu0gI+XwpfrN6Mb8QfiWy6aHPHiWOXdrbACyAPZHghSNc4
-        sMAYifuw==;
-Received: from [80.156.29.194] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5Qdz-0007Hr-C1; Sat, 22 Feb 2020 09:00:15 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j5Qdx-001N4V-LF; Sat, 22 Feb 2020 10:00:13 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1726836AbgBVJtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 04:49:36 -0500
+Received: from mout.web.de ([212.227.15.4]:40259 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726689AbgBVJtg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 Feb 2020 04:49:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1582364919;
+        bh=+OCqJaC9VSi5jYFd0OMBqy/FP0oCti8itkG6PGX9JtY=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=pLB24Dr93tOsYble4NG7RqXdpZcL/ObDjaBmAY49e6w+yLOxEwNQzlUtjKhz6a//D
+         UVbvyihRTz/VlVH6MZ3MfPybKynqULWo6cFwnTYQGjBtaJ+eu9Eb80cEGVhB7oMnTy
+         xHdZ1qHfEj245z/Z3lZrfcb9DKdqAq8JkJhLZxXo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.244.58.94]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LshGz-1jY45v2t0T-012Hx5; Sat, 22
+ Feb 2020 10:48:38 +0100
+Subject: Re: [for-next][12/26] Documentation: bootconfig: Add a doc for
+ extended boot config
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Corentin Labbe <clabbe.montjoie@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, kvm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 5/7] docs: fix broken references for ReST files that moved around
-Date:   Sat, 22 Feb 2020 10:00:05 +0100
-Message-Id: <df38697632818443686a52340d6b38ef83cb0654.1582361738.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1582361737.git.mchehab+huawei@kernel.org>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+        Tim Bird <Tim.Bird@sony.com>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>
+References: <23e371ca-5df8-3ae3-c685-b01c07b55540@web.de>
+ <20200220221340.2b66fd2051a5da74775c474b@kernel.org>
+ <5ed96b7b-7485-1ea0-16e2-d39c14ae266d@web.de>
+ <20200221191637.e9eed4268ff607a98200628c@kernel.org>
+ <5ade73b0-a3e8-e71a-3685-6485f37ac8b7@web.de>
+ <20200222131833.56a5be2d36033dc5a77a9f0b@kernel.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <370e675a-598e-71db-8213-f5494b852a71@web.de>
+Date:   Sat, 22 Feb 2020 10:48:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200222131833.56a5be2d36033dc5a77a9f0b@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Mhg9VuD6Ipk/Vdz21w/DGpsBNX3j8BfC/6m6vkf7qbb3JBrSbz9
+ LkD3aK3Yo71GwwLS8jzHbbYKF5vTYM14dO8C1W+tkqu5aDKnTjcBqxtihbV25NOPpQvGHV4
+ Tdi6qrLXQb45MUl+pQZu6HKkgSB329SCa9z69uYcYJf1F1yerD0fzvnxqavxmpdlV3VElvZ
+ rurxGuqV8VhvLTv88vzEg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ejzhsp9ICUs=:T/12jmPRl6LsCLfb2uvTht
+ RbOaNiEnfPP6IImrFT/aeE+hBMpBl/xtnZ1Xgpr5tybmB5C7g2LVErpRDOxb9W/56U9LAQKpM
+ qtCDx8i5sWmuNyU90PlWAi6PNIeLQdPsQ9kaLZLp4fzfwT984/2bFB/k7Yl/kYpDvrVZIPSQS
+ 4zneR5MuyPfmZrkZ7+7bqhluFASR+1GG2H3QQomSBZPBwJDOQWBSCTdk458ei1CoIlG77qBzd
+ 9zoa9s4rkAJLV6JcnPKhew4B0IiMkFL+NYdOwvAbJtAE6F0gDTiWRefjoL1ELhqf+BSzpZzap
+ wtnS3sMn90hGoDhtl/0V12QtT8wJ42949Qi9oY0uvZg4dkiVG9O+ELIrPQ1NoWzelU1UDckyC
+ PQH83s5JGhoi/iWzHKDtYSDxykXbD0/Y+tL765RuUSvMCppfrsBMz0q0/NKHekyQbU+2dQZft
+ AsUpq3qhr9AicDmY0Xz2pit8+kafhJq2cyWFvDO+dKmC3kIAI/I6xvYa/Lt+sJK9stHVpInVL
+ OamBhcAnNXM5ePXmKQMoKq+R278MFc+yu39mICMoZGnVFME7MaozNYnLMyY8ZdFSM146HJfcK
+ o8dVajpVF31j8u2tdl+0HjkQJv3OCQXIoE3mtAQsKxbp/5RMh4VxuRiyu7Kdw2fvUI4C5QZ74
+ DElQyPRTaXG3sbIpUlj909KzXMmu3EVlxdQbyXBSkxdND3xgQu9Z4AmhF+04FZ5nbNZ/PKAJf
+ qMoxJEEbrinr7fOALBXkxAJkb3ecDQC8xlj1N1ssc51dNm1YAAHDMbhMU6HJQ5eS8zrXOmK1w
+ UdAZwYr3kEjSJw/evHOmznfWWC15U9f4LB/wdHMO9mkcpCPi7EdwVaTsrTHR/jZvERqrTlGbW
+ CYC5luuqe/NZRmG9vpijaH5aSeuVnnKPhoRpzcTbEN6E9VQ0pqgz6ADOldRIBg31atbiJCFFO
+ /Sh4a8tlZZDkIh0CK7Y1mT3dnITvTWwk3eHysy6sDp465WiGgCeDLs6xW22wSdapHnUVdQeDG
+ U5PLHBwPkF36HKGlzTL20NPQw2ocGcN4ftUlesX/A92r2oieQ8BG+2ZHTYpaWcN2smjQ85qjV
+ F33VYBGYKLVrDYb3ntA81uF+rEUPFXIZex9/JHi6gobrxYZgD5W2GJEsYkdUzQyV7p67rTaEU
+ ZYAsS4VLh0LZDpO5y8EboEpRZxjH8nvUkh0dvNUPTFe9ou9ViMX7l72nZBcNSMYgy9FuljXxC
+ I2YovZK/o2QB9wsb+
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some broken references happened due to shifting files around
-and ReST renames. Those can't be auto-fixed by the script,
-so let's fix them manually.
+>> * Will a file format description become helpful in the way of
+>>   an extended Backus=E2=80=93Naur form?
+>
+> Good suggestion! Let me try to write an EBNF section.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/sysctl/kernel.rst         | 2 +-
- Documentation/doc-guide/maintainer-profile.rst      | 2 +-
- Documentation/virt/kvm/mmu.rst                      | 2 +-
- Documentation/virt/kvm/review-checklist.rst         | 2 +-
- arch/x86/kvm/mmu/mmu.c                              | 2 +-
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 2 +-
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 2 +-
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 2 +-
- drivers/media/v4l2-core/v4l2-fwnode.c               | 2 +-
- include/uapi/linux/kvm.h                            | 4 ++--
- tools/include/uapi/linux/kvm.h                      | 4 ++--
- 12 files changed, 14 insertions(+), 14 deletions(-)
+Is there a need to provide two format descriptions as separate files
+(so that they can help more for different software users)?
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 6c0d8c55101c..3b15ac13c8f3 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -51,7 +51,7 @@ free space valid for 30 seconds.
- acpi_video_flags
- ================
- 
--See Documentation/kernel/power/video.txt, it allows mode of video boot
-+See Documentation/power/video.rst, it allows mode of video boot
- to be set during run time.
- 
- 
-diff --git a/Documentation/doc-guide/maintainer-profile.rst b/Documentation/doc-guide/maintainer-profile.rst
-index 5afc0ddba40a..755d39f0d407 100644
---- a/Documentation/doc-guide/maintainer-profile.rst
-+++ b/Documentation/doc-guide/maintainer-profile.rst
-@@ -6,7 +6,7 @@ Documentation subsystem maintainer entry profile
- The documentation "subsystem" is the central coordinating point for the
- kernel's documentation and associated infrastructure.  It covers the
- hierarchy under Documentation/ (with the exception of
--Documentation/device-tree), various utilities under scripts/ and, at least
-+Documentation/devicetree), various utilities under scripts/ and, at least
- some of the time, LICENSES/.
- 
- It's worth noting, though, that the boundaries of this subsystem are rather
-diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
-index 60981887d20b..46126ecc70f7 100644
---- a/Documentation/virt/kvm/mmu.rst
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -319,7 +319,7 @@ Handling a page fault is performed as follows:
- 
-  - If both P bit and R/W bit of error code are set, this could possibly
-    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
--   the description in Documentation/virt/kvm/locking.txt.
-+   the description in Documentation/virt/kvm/locking.rst.
- 
-  - if needed, walk the guest page tables to determine the guest translation
-    (gva->gpa or ngpa->gpa)
-diff --git a/Documentation/virt/kvm/review-checklist.rst b/Documentation/virt/kvm/review-checklist.rst
-index 1f86a9d3f705..dc01aea4057b 100644
---- a/Documentation/virt/kvm/review-checklist.rst
-+++ b/Documentation/virt/kvm/review-checklist.rst
-@@ -10,7 +10,7 @@ Review checklist for kvm patches
- 2.  Patches should be against kvm.git master branch.
- 
- 3.  If the patch introduces or modifies a new userspace API:
--    - the API must be documented in Documentation/virt/kvm/api.txt
-+    - the API must be documented in Documentation/virt/kvm/api.rst
-     - the API must be discoverable using KVM_CHECK_EXTENSION
- 
- 4.  New state must include support for save/restore.
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 87e9ba27ada1..1b70373ee6c7 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -3595,7 +3595,7 @@ static bool fast_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
- 		/*
- 		 * Currently, fast page fault only works for direct mapping
- 		 * since the gfn is not stable for indirect shadow page. See
--		 * Documentation/virt/kvm/locking.txt to get more detail.
-+		 * Documentation/virt/kvm/locking.rst to get more detail.
- 		 */
- 		fault_handled = fast_pf_fix_direct_spte(vcpu, sp,
- 							iterator.sptep, spte,
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-index a5fd8975f3d3..a6abb701bfc6 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-@@ -8,7 +8,7 @@
-  * This file add support for AES cipher with 128,192,256 bits keysize in
-  * CBC and ECB mode.
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
-  */
- 
- #include <linux/crypto.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-index 3e4e4bbda34c..b957061424a1 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-@@ -7,7 +7,7 @@
-  *
-  * Core file which registers crypto algorithms supported by the CryptoEngine.
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
-  */
- #include <linux/clk.h>
- #include <linux/crypto.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-index 84d52fc3a2da..c89cb2ee2496 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-@@ -8,7 +8,7 @@
-  * This file add support for AES cipher with 128,192,256 bits keysize in
-  * CBC and ECB mode.
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
-  */
- 
- #include <linux/crypto.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-index 6b301afffd11..8ba4f9c81dac 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-@@ -7,7 +7,7 @@
-  *
-  * Core file which registers crypto algorithms supported by the SecuritySystem
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
-  */
- #include <linux/clk.h>
- #include <linux/crypto.h>
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 6ece4320e1d2..b3e8d4c328a8 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -820,7 +820,7 @@ static int v4l2_fwnode_reference_parse(struct device *dev,
-  *
-  * THIS EXAMPLE EXISTS MERELY TO DOCUMENT THIS FUNCTION. DO NOT USE IT AS A
-  * REFERENCE IN HOW ACPI TABLES SHOULD BE WRITTEN!! See documentation under
-- * Documentation/acpi/dsd instead and especially graph.txt,
-+ * Documentation/firmware-guide/acpi/dsd/ instead and especially graph.txt,
-  * data-node-references.txt and leds.txt .
-  *
-  *	Scope (\_SB.PCI0.I2C2)
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 4b95f9a31a2f..e5f32fcec68f 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -116,7 +116,7 @@ struct kvm_irq_level {
- 	 * ACPI gsi notion of irq.
- 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
- 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
--	 * For ARM: See Documentation/virt/kvm/api.txt
-+	 * For ARM: See Documentation/virt/kvm/api.rst
- 	 */
- 	union {
- 		__u32 irq;
-@@ -1100,7 +1100,7 @@ struct kvm_xen_hvm_config {
-  *
-  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
-  * the irqfd to operate in resampling mode for level triggered interrupt
-- * emulation.  See Documentation/virt/kvm/api.txt.
-+ * emulation.  See Documentation/virt/kvm/api.rst.
-  */
- #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
- 
-diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
-index 4b95f9a31a2f..e5f32fcec68f 100644
---- a/tools/include/uapi/linux/kvm.h
-+++ b/tools/include/uapi/linux/kvm.h
-@@ -116,7 +116,7 @@ struct kvm_irq_level {
- 	 * ACPI gsi notion of irq.
- 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
- 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
--	 * For ARM: See Documentation/virt/kvm/api.txt
-+	 * For ARM: See Documentation/virt/kvm/api.rst
- 	 */
- 	union {
- 		__u32 irq;
-@@ -1100,7 +1100,7 @@ struct kvm_xen_hvm_config {
-  *
-  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
-  * the irqfd to operate in resampling mode for level triggered interrupt
-- * emulation.  See Documentation/virt/kvm/api.txt.
-+ * emulation.  See Documentation/virt/kvm/api.rst.
-  */
- #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
- 
--- 
-2.24.1
+* RST
+* EBNF
 
+
+Will it matter to adjust another wording?
+
+-/proc/bootconfig is a user-space interface of the boot config.
++The file =E2=80=9C/proc/bootconfig=E2=80=9D is an user-space interface to=
+ the configuration
++of system boot parameters.
+
+Regards,
+Markus
