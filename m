@@ -2,149 +2,102 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C366C35671
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:23:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B0FC35672
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:37:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D17B2071E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:23:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0B25214DB
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 07:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582356211;
-	bh=L+ZsP6WZ4DwHSTD5i30VPMULFWV1J8oBT7dNUcAyNWM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=EtfN4qFce/n/SOOC/jKuxpQneC0QJeSApxz2f2VTLo/ZCQv1X9ijb248gH6EikhzR
-	 ByOrsABXJiOM/guaZiAptSdPKzW/3m8dRHks0bT5yF0NcMcT5SdQ7TUcWkjvHIPJ6s
-	 bNY/1//7lEDq001bwEwcRtORKLDQXctqRKMkaMMw=
+	s=default; t=1582357068;
+	bh=wwlcvLyUUjq+aCUhLUkAhHiYjSH4uxAtpnE4vgF+h+s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=0suzoZV3yPtWZzAHS2cTwAE/unNehMRdxNiZIyB/pBZMxQmgxWofVmI7hoDbuZrpn
+	 Yygec9lPNipq1KWUTjyPgldbBsSyALiOvrpy0DGJl68IBQlqeOwLUOMjNN3umsOJbb
+	 4booKZTJmU7cO/J5nIAckx++6Khm7+tkUw5tZeZQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbgBVHXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 02:23:30 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53928 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgBVHXa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 02:23:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=scVW4xX5JfBtmsx9GIikEwxmpS0180H9knVKkfAWZM4=; b=KWxWvyNWUm8gnbn7iRjo1MOrpZ
-        6kM+YeJHMCV/LyBIegG/Vu09vFqKtWSXP+NgBetUaEO8Fu2r4nf9CoT4PPoXOiduwZEerD7HJq4yP
-        RiaXisQSOb791wz+rOia5jUdPMnC0ada5/Gn9XiU+V/kl2E0IDh9paYlJba/AvrtPMlfeMPZ2+nU6
-        QkX+gMqfE/z5++q5iG4cLoFO4pBiAPvTVzPtb0X+YT45KrERXISitQc9YhmJql8FFJlwD3zx3Icyt
-        8gVJCERXPU3MAmupB9YGXPdllsb+VFMC8lzB8K7IHpvTxmTo7deuUqU9cmNX18RealTFruud+SWgj
-        ij+zFhPA==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5P8M-0005TH-B3; Sat, 22 Feb 2020 07:23:30 +0000
-Date:   Sat, 22 Feb 2020 08:23:24 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     "Bird, Tim" <Tim.Bird@sony.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: RFC: Fix for sphinx setup message
-Message-ID: <20200222082324.42fb46b2@kernel.org>
-In-Reply-To: <20200222081644.4ce926a0@kernel.org>
-References: <MWHPR13MB0895675B302AF38BB1D141BBFD120@MWHPR13MB0895.namprd13.prod.outlook.com>
-        <20200222081644.4ce926a0@kernel.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727190AbgBVHhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 02:37:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58346 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726794AbgBVHhp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 Feb 2020 02:37:45 -0500
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6290E21D56
+        for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2020 07:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582357064;
+        bh=wwlcvLyUUjq+aCUhLUkAhHiYjSH4uxAtpnE4vgF+h+s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Sde1d7C2Mjm5LUHGg8qaINBz5JTdkBfBVrrLfsWGpon33qFPiE/ee/UOtpXKaJU6b
+         JUmiiHm+dNfZJAYZYLPWDvCawpz4J8r21Z4cdbveVj32CVYxIg6nmgLiidgfRSy4eU
+         0giwVyyBDBzF7qhezjrG2J6RzGKmKwFQqALnjHkg=
+Received: by mail-wm1-f50.google.com with SMTP id a9so4206259wmj.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 23:37:44 -0800 (PST)
+X-Gm-Message-State: APjAAAWwAVF8SnWeo24geXacO+L7z+FayFEkKTa0bBFhYyrhEpsHBIQN
+        rm0UMBrtQMaLs2EgAcuJU0r8fPnZgTx+84TznzaurA==
+X-Google-Smtp-Source: APXvYqzLEqjaOCEz1rffDgh/i9rxHLaVrhkmq+aVjKgFm+xgANVXwtlOL9ob2zJTeWHA7/jtQHU14ap2WODxfLZ++eY=
+X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr9246324wmk.68.1582357062812;
+ Fri, 21 Feb 2020 23:37:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200222014038.180923-1-saravanak@google.com> <20200222014038.180923-4-saravanak@google.com>
+In-Reply-To: <20200222014038.180923-4-saravanak@google.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Sat, 22 Feb 2020 08:37:31 +0100
+X-Gmail-Original-Message-ID: <CAKv+Gu8GtHQpFGM5U61uH86dnesnaVCkvqrPA6Y8wv4qRc8V4A@mail.gmail.com>
+Message-ID: <CAKv+Gu8GtHQpFGM5U61uH86dnesnaVCkvqrPA6Y8wv4qRc8V4A@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] efi/arm: Start using fw_devlink_get_flags()
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 22 Feb 2020 08:16:44 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+On Sat, 22 Feb 2020 at 02:40, Saravana Kannan <saravanak@google.com> wrote:
+>
+> The fw_devlink_get_flags() provides the right flags to use when creating
+> mandatory device links derived from information provided by the
+> firmware. So, use that.
+>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
 
-> Hi Tim,
-> 
-> Em Fri, 21 Feb 2020 22:15:36 +0000
-> "Bird, Tim" <Tim.Bird@sony.com> escreveu:
-> 
-> > (Resend: Sorry for the dup.  I forgot to include the maintainers, and I had the LKML
-> > address wrong.) 
-> > 
-> > I was trying to set up my machine to do some documentation work, 
-> > and I had some problems with the sphinx install.  I figured out how to work
-> > around the issue, but I have a question about how to add the information
-> > to scripts/sphinx-pre-install (or whether it should go somewhere else).
-> > 
-> > Detailed messages below, but the TLl;DR is that I got the message:
-> > -------
-> > You should run:
-> > 
-> >     sudo apt-get install dvipng fonts-noto-cjk latexmk librsvg2-bin texlive-xetex
-> >     /usr/bin/virtualenv sphinx_1.7.9
-> >     . sphinx_1.7.9/bin/activate
-> >     pip install -r ./Documentation/sphinx/requirements.txt
-> >     ...
-> > ------
-> > 
-> > The pip install step didn't work, and I found that I needed to have everything
-> > based on python3 instead.  When I replaced:
-> >     /usr/bin/virtualenv sphinx_1.7.9
-> > with
-> >     /usr/bin/virtualenv -p python3 sphinx_1.7.9
-> > everything worked.
-> > 
-> > This message is coming from scripts/sphinx-pre-install (I believe on line 708).
-> > 
-> > Should I go ahead and submit a patch to add '-p python3' to that line?
-> > 
-> > Are there any downsides to enforcing that the virtualenv used for the
-> > documentation build use python3 only?
-> 
-> Actually, the script tries to detect if python3 is installed. Currently, it
-> does it by seeking for a python3 variant of virtualenv. If it finds, it
-> changes the recommendation accordingly. The actual code with does that is
-> this one:
-> 
-> 	my $virtualenv = findprog("virtualenv-3");
-> 	$virtualenv = findprog("virtualenv-3.5") if (!$virtualenv);
-> 	$virtualenv = findprog("virtualenv") if (!$virtualenv);
-> 	$virtualenv = "virtualenv" if (!$virtualenv);
-> 
-> This works fine on older Fedora distros (and probably CentOS/RHEL), where
-> there is a python3 variant of virtualenv. On Ubuntu (and Fedora 31), it
-> will just use virtualenv.
-> 
-> So, perhaps if we add something like this (untested):
-> 
-> 	my $python = findprog("python3");
-> 
-> 	if ($python)
-> 		$virtualenv = "$virtualenv -p $python";
-> 
-> it would make the trick. Please notice, however, that this could cause
-> troubles with some distros that might have a version of virtualenv that
-> won't work with the above. So, perhaps we should add something like the
-> above inside give_debian_hints(), and either ensure that other Debian and 
-> Ubuntu LTS versions will work with such change, or add some checks for the
-> Ubuntu/Debian versions where we know this works.
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-Indeed it seems that, with some versions of python, virtualenv -p python3
-don't work:
-
-	https://stackoverflow.com/questions/23842713/using-python-3-in-virtualenv
-
-This could well be something already solved on most distros, but I think it
-would be safer if we only add "-p python3" if it is Ubuntu 16.04 or upper
-(and doing a similar test for Debian).
-
-> 
-> Note: the version of the distribution (and its name) is already stored
-> at the global var $system_release.
-> 
-> Cheers,
-> Mauro
-
-
-
-
-Cheers,
-Mauro
+>  drivers/firmware/efi/arm-init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/firmware/efi/arm-init.c b/drivers/firmware/efi/arm-init.c
+> index d99f5b0c8a09..6703bedfa9e1 100644
+> --- a/drivers/firmware/efi/arm-init.c
+> +++ b/drivers/firmware/efi/arm-init.c
+> @@ -349,7 +349,7 @@ static int efifb_add_links(const struct fwnode_handle *fwnode,
+>          * If this fails, retrying this function at a later point won't
+>          * change anything. So, don't return an error after this.
+>          */
+> -       if (!device_link_add(dev, sup_dev, 0))
+> +       if (!device_link_add(dev, sup_dev, fw_devlink_get_flags()))
+>                 dev_warn(dev, "device_link_add() failed\n");
+>
+>         put_device(sup_dev);
+> --
+> 2.25.0.265.gbab2e86ba0-goog
+>
