@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA3D4C35670
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 01:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C1CC35641
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 01:40:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B1AC9207FD
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 01:40:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DC9220722
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 01:40:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vPVdBWrp"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tiWAct/l"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbgBVBkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Feb 2020 20:40:51 -0500
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:44762 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727935AbgBVBku (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 20:40:50 -0500
-Received: by mail-pg1-f201.google.com with SMTP id o2so2119792pgj.11
-        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 17:40:49 -0800 (PST)
+        id S1727934AbgBVBkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Feb 2020 20:40:53 -0500
+Received: from mail-pl1-f202.google.com ([209.85.214.202]:43990 "EHLO
+        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727957AbgBVBkx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Feb 2020 20:40:53 -0500
+Received: by mail-pl1-f202.google.com with SMTP id d9so2151526plo.10
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2020 17:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=On3eRiTUnDa5BtXq5RoayDWDf1ZPcj84ltPeiblPUMk=;
-        b=vPVdBWrpXeFBwDzA5UrONBEBUuLscK8+OhywnT5ys4wGN35JJJwulswpUcPpYhqgK1
-         m50/tOnt9RKLC2CDy1u57pKZq6LvoiBghI1GhMnyrgRkYCQ09XTbH5UbmTXGKlNWbuXQ
-         J3yEVs2TUYmfQDwog+NbQIKm5eJ9aYIVY/QkapqWh4uUSlngOAWp12+cTIlG5o3vOPN2
-         +awo8m7Idn6jacZxli1lQRoCqwPlXpk4w99usheYI6920vzDSttPbRIKRyN5a+UHZeOi
-         IeuX7ehPEmlkLhMAz2fRsHA3Tok+GPP1xMC6bUPf2tkLmvFdE1m5ArcijHdbPJaf50Lj
-         d1JA==
+        bh=KcPp0gP7GELHPbQmhvOuNvrhkif2qUrzumcvFBDOK9U=;
+        b=tiWAct/lW1qWhKwT1NraZmKOl/hogEF7BkErGRXVit1viyco6ajvbC9mz3kiFMua6i
+         TXNq2t+i0wPehD/a08VL1JQQH9Rnr9VR2NEKeEmZ8FLJhmSFDZ0rVirUFv3+tELLG6Gp
+         1Odhw8Q7qlUlkq1pZqeqAMwP3dTqnrHwG/aPULh9Zktd5pHO30UGcf0fGZWZPZ85s0Y6
+         g5vruuy+o5NmhnAq1Bi7z5UhTM9KxLDhHYWDSFQ31yZ5D0g/dNjltCGyIjGVEk50kOv0
+         /sABPtof6x7ACZaNTuqAWywFBrRPUIP1zVHm1SpMLSbhEsUJQJhGbghszJjbeEqYP4d+
+         zPkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=On3eRiTUnDa5BtXq5RoayDWDf1ZPcj84ltPeiblPUMk=;
-        b=hgjx4OFJl84h+0Z3jx77wZpxdslznLAbNhA7wZk9+SxNYKtqm1+URY9cr7c6UCU84s
-         y4pCvZNXcd15ku2CFkcHJU8gXNTmagtVPBDwKKzm1DIgS5JE3eKjuRyWhVaCSP50Y4ky
-         mcAvB3uNGdGA+YXHHXmj3nCanfGx0iPNQR+PMGlqPvuOkHYwLgVlmSuBV17R1mAQuXy7
-         NbYLLtRZlxYfK7Csy6bbOE6dkXxb6x5Fmm9nverrplL7ImdgC9FqBDfwUq+ppDsG6uUR
-         ksJwcqDnCyWyUp4fQgzS6X6mJsTyeDhtR0l0JpGemtJwjJ8JNf+4T5Ii/C+hIpM63HGP
-         4A5w==
-X-Gm-Message-State: APjAAAWGZ9KMsIk8LctvEXXKoWwDEiTUBcHuUC7UaYDrN6C8ThGQ/ciH
-        OpQAI4wlJKjDUMCoIBaRqssvaPuz87g2OLE=
-X-Google-Smtp-Source: APXvYqxcK8NEEB7SEtnQp1SzN8VYXqvTOUc2SeP/yCk74iurh+KqopNGx+3yHKNbMZyq5ledAISRoddCngOncis=
-X-Received: by 2002:a63:4a47:: with SMTP id j7mr40867151pgl.196.1582335649047;
- Fri, 21 Feb 2020 17:40:49 -0800 (PST)
-Date:   Fri, 21 Feb 2020 17:40:35 -0800
+        bh=KcPp0gP7GELHPbQmhvOuNvrhkif2qUrzumcvFBDOK9U=;
+        b=L/hz5JwtD4EWc/HJSPuynG/SnfIv4ikDUKeYLTqM6A5Yae8NjRDrvQechI7xBxDrod
+         W0juZl7OJvOso5iaLui1C4dskogRw+ZOu57yh7oQ5aPkEXEgHGbs4kXieHZolntwfKYn
+         rtNKK190zm/2DA3V2KqQTXDSJIwG4R2KqeuAQyyJhkRyoGBrFWokZ5rIsuuZiTQ9rldW
+         Uq8+LsSjA8l0YtPRCSxKd+CxJp5/MfvC4dX6oc+I5aoeN1preMoSc97YNzqt83WqrsL2
+         WCKvYrhEwELfPp6oPRyLQpqDDmypd9rtEaF3YjPrQqySofNoEdxC0YJmbZv7WXydTkE9
+         apOg==
+X-Gm-Message-State: APjAAAXFGsKZz6QvsxxACDumVBzwoGOcEK8Xw5tVoqdif8e44PfCHnT/
+        3lolb/wexx7X35IHy4t3N4ivsV+Tryc3dBM=
+X-Google-Smtp-Source: APXvYqzPdWRjgeOkhSTiaxyK4n8nsnHWWk0aEfT3lTbN5PVbLfvLNibYxGOnd/zAFy69mSlFb3/Z8610AQaog60=
+X-Received: by 2002:a63:ec49:: with SMTP id r9mr41310425pgj.445.1582335652146;
+ Fri, 21 Feb 2020 17:40:52 -0800 (PST)
+Date:   Fri, 21 Feb 2020 17:40:36 -0800
 In-Reply-To: <20200222014038.180923-1-saravanak@google.com>
-Message-Id: <20200222014038.180923-3-saravanak@google.com>
+Message-Id: <20200222014038.180923-4-saravanak@google.com>
 Mime-Version: 1.0
 References: <20200222014038.180923-1-saravanak@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v1 2/5] driver core: Add fw_devlink kernel commandline option
+Subject: [PATCH v1 3/5] efi/arm: Start using fw_devlink_get_flags()
 From:   Saravana Kannan <saravanak@google.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -75,112 +75,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-fwnode_operations.add_links allows creating device links from
-information provided by firmware.
-
-fwnode_operations.add_links is currently implemented only by
-OF/devicetree code and a specific case of efi. However, there's nothing
-preventing ACPI or other firmware types from implementing it.
-
-The OF implementation is currently controlled by a kernel commandline
-parameter called of_devlink.
-
-Since this feature is generic isn't limited to OF, add a generic
-fw_devlink kernel commandline parameter to control this feature across
-firmware types.
+The fw_devlink_get_flags() provides the right flags to use when creating
+mandatory device links derived from information provided by the
+firmware. So, use that.
 
 Signed-off-by: Saravana Kannan <saravanak@google.com>
 ---
- .../admin-guide/kernel-parameters.txt         | 18 +++++++++++++
- drivers/base/core.c                           | 27 ++++++++++++++++++-
- include/linux/fwnode.h                        |  2 ++
- 3 files changed, 46 insertions(+), 1 deletion(-)
+ drivers/firmware/efi/arm-init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index dbc22d684627..29985152b66d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1350,6 +1350,24 @@
- 			can be changed at run time by the max_graph_depth file
- 			in the tracefs tracing directory. default: 0 (no limit)
- 
-+	fw_devlink=	[KNL] Create device links between consumer and supplier
-+			devices by scanning the firmware to infer the
-+			consumer/supplier relationships. This feature is
-+			especially useful when drivers are loaded as modules as
-+			it ensures proper ordering of tasks like device probing
-+			(suppliers first, then consumers), supplier boot state
-+			clean up (only after all consumers have probed),
-+			suspend/resume & runtime PM (consumers first, then
-+			suppliers).
-+			Format: { off | permissive | on | rpm }
-+			off --	Don't create device links from firmware info.
-+			permissive -- Create device links from firmware info
-+				but use it only for ordering boot state clean
-+				up (sync_state() calls).
-+			on -- 	Create device links from firmware info and use it
-+				to enforce probe and suspend/resume ordering.
-+			rpm --	Like "on", but also use to order runtime PM.
-+
- 	gamecon.map[2|3]=
- 			[HW,JOY] Multisystem joystick and NES/SNES/PSX pad
- 			support via parallel port (up to 5 devices per port)
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index d32a3aefff32..aeaca8a3aad9 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2345,6 +2345,31 @@ static int device_private_init(struct device *dev)
- 	return 0;
- }
- 
-+u32 fw_devlink_flags;
-+static int __init fw_devlink_setup(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (strcmp(arg, "off") == 0) {
-+		fw_devlink_flags = 0;
-+	} else if (strcmp(arg, "permissive") == 0) {
-+		fw_devlink_flags = DL_FLAG_SYNC_STATE_ONLY;
-+	} else if (strcmp(arg, "on") == 0) {
-+		fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-+	} else if (strcmp(arg, "rpm") == 0) {
-+		fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER |
-+				   DL_FLAG_PM_RUNTIME;
-+	}
-+	return 0;
-+}
-+early_param("fw_devlink", fw_devlink_setup);
-+
-+u32 fw_devlink_get_flags(void)
-+{
-+	return fw_devlink_flags;
-+}
-+
- /**
-  * device_add - add device to device hierarchy.
-  * @dev: device.
-@@ -2493,7 +2518,7 @@ int device_add(struct device *dev)
+diff --git a/drivers/firmware/efi/arm-init.c b/drivers/firmware/efi/arm-init.c
+index d99f5b0c8a09..6703bedfa9e1 100644
+--- a/drivers/firmware/efi/arm-init.c
++++ b/drivers/firmware/efi/arm-init.c
+@@ -349,7 +349,7 @@ static int efifb_add_links(const struct fwnode_handle *fwnode,
+ 	 * If this fails, retrying this function at a later point won't
+ 	 * change anything. So, don't return an error after this.
  	 */
- 	device_link_add_missing_supplier_links();
+-	if (!device_link_add(dev, sup_dev, 0))
++	if (!device_link_add(dev, sup_dev, fw_devlink_get_flags()))
+ 		dev_warn(dev, "device_link_add() failed\n");
  
--	if (fwnode_has_op(dev->fwnode, add_links)) {
-+	if (fw_devlink_flags && fwnode_has_op(dev->fwnode, add_links)) {
- 		fw_ret = fwnode_call_int_op(dev->fwnode, add_links, dev);
- 		if (fw_ret == -ENODEV)
- 			device_link_wait_for_mandatory_supplier(dev);
-diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-index 8feeb94b8acc..e0abafbb17f8 100644
---- a/include/linux/fwnode.h
-+++ b/include/linux/fwnode.h
-@@ -170,4 +170,6 @@ struct fwnode_operations {
- 	} while (false)
- #define get_dev_from_fwnode(fwnode)	get_device((fwnode)->dev)
- 
-+extern u32 fw_devlink_get_flags(void);
-+
- #endif
+ 	put_device(sup_dev);
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
